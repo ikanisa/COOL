@@ -55,6 +55,33 @@ def json_ld_types_for(html)
   [scripts, types, parse_error]
 end
 
+def tag_text(html, tag)
+  html[%r{<#{tag}\b[^>]*>(.*?)</#{tag}>}m, 1].to_s.gsub(/<[^>]+>/, " ").gsub(/\s+/, " ").strip
+end
+
+def css_hex_vars(stylesheet)
+  stylesheet.scan(/--([a-z0-9-]+):\s*(#[0-9a-fA-F]{6})/).to_h
+end
+
+def normalize_hex(value)
+  value.to_s.upcase
+end
+
+def srgb(value)
+  value /= 255.0
+  value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055)**2.4
+end
+
+def luminance(hex)
+  red, green, blue = hex.delete("#").scan(/../).map { |pair| pair.to_i(16) }
+  0.2126 * srgb(red) + 0.7152 * srgb(green) + 0.0722 * srgb(blue)
+end
+
+def contrast_ratio(foreground, background)
+  lighter, darker = [luminance(foreground), luminance(background)].sort.reverse
+  ((lighter + 0.05) / (darker + 0.05)).round(2)
+end
+
 headers_path = File.join(build_dir, "_headers")
 headers = read(headers_path)
 root_index = route_index(build_dir, "/")
@@ -63,6 +90,13 @@ robots_path = File.join(build_dir, "robots.txt")
 robots = read(robots_path)
 sitemap_path = File.join(build_dir, "sitemap.xml")
 sitemap = read(sitemap_path)
+stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
+brand_color_contract_path = File.join(Dir.pwd, "docs", "design", "collect_runtime_tokens", "collect_primary_colors_2026-06-30.json")
+brand_color_contract = JSON.parse(read(brand_color_contract_path))
+brand_primary_colors = brand_color_contract.fetch("primary")
+brand_black = brand_color_contract.fetch("black")
+brand_ink = brand_color_contract.fetch("ink")
+brand_surface_white = brand_color_contract.fetch("surface_white")
 
 check(
   checks,
@@ -458,7 +492,107 @@ check(
   trust_page_ok ? "Trust route is a standalone trust center, not a Privacy Policy duplicate." : "Trust route still duplicates numbered Privacy Policy sections or lacks trust-center content."
 )
 
+trust_sidebar_removed_ok = trust_text.include?('class="legal-layout no-sidebar"') &&
+  !trust_text.include?('class="legal-sidebar"') &&
+  !trust_text.include?('class="legal-toc"') &&
+  !trust_text.include?("On this page") &&
+  stylesheet.include?(".legal-layout.no-sidebar")
+check(
+  checks,
+  "trust_sidebar_removed",
+  pass_if(trust_sidebar_removed_ok),
+  trust_sidebar_removed_ok ? "Trust route omits the legal sidebar/table-of-contents requested for deletion." : "Trust route still exposes the legal sidebar/table-of-contents or lacks the no-sidebar layout.",
+  "has_no_sidebar_class" => trust_text.include?('class="legal-layout no-sidebar"'),
+  "has_legal_sidebar" => trust_text.include?('class="legal-sidebar"'),
+  "has_legal_toc" => trust_text.include?('class="legal-toc"')
+)
+
+privacy_text = read(route_index(build_dir, "/privacy/"))
+privacy_sidebar_removed_ok = privacy_text.include?('class="legal-layout no-sidebar"') &&
+  !privacy_text.include?('class="legal-sidebar"') &&
+  !privacy_text.include?('class="legal-toc"') &&
+  !privacy_text.include?("On this page") &&
+  stylesheet.include?(".legal-layout.no-sidebar")
+check(
+  checks,
+  "privacy_sidebar_removed",
+  pass_if(privacy_sidebar_removed_ok),
+  privacy_sidebar_removed_ok ? "Privacy route omits the legal sidebar/table-of-contents requested for deletion." : "Privacy route still exposes the legal sidebar/table-of-contents or lacks the no-sidebar layout.",
+  "has_no_sidebar_class" => privacy_text.include?('class="legal-layout no-sidebar"'),
+  "has_legal_sidebar" => privacy_text.include?('class="legal-sidebar"'),
+  "has_legal_toc" => privacy_text.include?('class="legal-toc"')
+)
+
+terms_text = read(route_index(build_dir, "/terms/"))
+terms_sidebar_removed_ok = terms_text.include?('class="legal-layout no-sidebar"') &&
+  !terms_text.include?('class="legal-sidebar"') &&
+  !terms_text.include?('class="legal-toc"') &&
+  !terms_text.include?("On this page") &&
+  stylesheet.include?(".legal-layout.no-sidebar")
+check(
+  checks,
+  "terms_sidebar_removed",
+  pass_if(terms_sidebar_removed_ok),
+  terms_sidebar_removed_ok ? "Terms route omits the legal sidebar/table-of-contents requested for deletion." : "Terms route still exposes the legal sidebar/table-of-contents or lacks the no-sidebar layout.",
+  "has_no_sidebar_class" => terms_text.include?('class="legal-layout no-sidebar"'),
+  "has_legal_sidebar" => terms_text.include?('class="legal-sidebar"'),
+  "has_legal_toc" => terms_text.include?('class="legal-toc"')
+)
+
 partners_text = read(route_index(build_dir, "/our-partners/"))
+deleted_partner_phrases = [
+  "Mobile app and USSD access",
+  "Member and group accounts",
+  "Purpose-based savings",
+  "Automated ledger reconciliation",
+  "National community mobilisation",
+  "Monthly repayment structures often do not match informal-sector cash flow",
+  "Automated split between repayment and savings",
+  "Reduced branch and collection-agent dependence",
+  "Up to 365 repayment data points per borrower annually",
+  "More accurate portfolio monitoring",
+  "regulated country partner bank",
+  "Daily repayment visibility",
+  "Contribution history",
+  "Group accountability",
+  "The addressable Rwandan diaspora market is 300,000+ people",
+  "Initial eligibility and requirement mapping",
+  "Business-document and financial-record checklist",
+  "Contribution, savings and repayment-history packaging",
+  "Gap closure before formal bank review",
+  "Cleaner applicant summary for credit teams",
+  "Less rework between customer, adviser and bank",
+  "Statements and contribution records",
+  "Group savings collateral workflow",
+  "Loan application preparation",
+  "Savings mobilisation support",
+  "Transaction reconciliation",
+  "Collections and recovery",
+  "Final loan approval",
+  "Regulatory reporting",
+  "Collateral documentation",
+  "Account and product approval",
+  "Green and productive-asset finance",
+  "Net interest income",
+  "Lower application rework",
+  "Insurance-premium financing",
+  "Purpose-controlled loan disbursement",
+]
+deleted_partner_phrase_hits = deleted_partner_phrases.select { |phrase| partners_text.include?(phrase) }
+partner_specific_content_removed_ok = deleted_partner_phrase_hits.empty? &&
+  partners_text.include?("Growth Engines for Banks") &&
+  partners_text.include?("What each side brings") &&
+  partners_text.include?("partner-market-section") &&
+  partners_text.include?("partner-operating-section") &&
+  !partners_text.include?("content-grid content-grid-our-partners")
+check(
+  checks,
+  "partners_specific_content_removed",
+  pass_if(partner_specific_content_removed_ok),
+  partner_specific_content_removed_ok ? "Partners sections are restored and the copied phrases are absent." : "Partners sections are missing or still render copied phrases marked for deletion.",
+  "hits" => deleted_partner_phrase_hits
+)
+
 cta_hierarchy_ok = partners_text.include?("Get the App") &&
   partners_text.include?("Create Group Saving") &&
   partners_text.include?("Get in Touch") &&
@@ -471,6 +605,9 @@ footer_trust_ok = root_html.include?("IKANISA Ltd. is a registered technology co
   root_html.include?("Savings, credit and insurance products are provided by licensed partner institutions") &&
   root_html.include?("Support:") &&
   root_html.include?("info@ikanisa.com") &&
+  root_html.match?(/<a class="whatsapp-contact" href="https:\/\/wa\.me\/250795588248\?text=[^"]+">/) &&
+  root_html.include?("whatsapp-mark") &&
+  !root_html.include?("· WhatsApp") &&
   root_html.include?("©")
 check(
   checks,
@@ -488,6 +625,7 @@ cta_failures = cta_routes.reject do |route|
     html.scan(">Get the App<").length >= 2 &&
     html.scan(">Create Group Saving<").length >= 2 &&
     html.scan(">Get in Touch<").length >= 2 &&
+    html.scan(%r{class="[^"]*cta-group[^"]*" href="#{Regexp.escape(app_download_url)}"}).length >= 2 &&
     !html.include?("faq-section") &&
     !html.include?("Questions visitors ask") &&
     !html.include?("What Collect can prove publicly") &&
@@ -499,6 +637,185 @@ check(
   pass_if(cta_failures.empty?),
   cta_failures.empty? ? "CTA trio is consistent and FAQ/proof/availability sections are absent." : "CTA trio, FAQ removal, proof removal, or availability-label removal is incomplete.",
   "failures" => cta_failures
+)
+
+css_vars = css_hex_vars(stylesheet)
+published_brand_color_contract = begin
+  JSON.parse(read(File.join(build_dir, "brand-primary-colors.json")))
+rescue JSON::ParserError
+  {}
+end
+theme_source = read(File.join(Dir.pwd, "lib", "app", "theme", "collect_colors.dart"))
+design_system_source = read(File.join(Dir.pwd, "docs", "design", "DESIGN_SYSTEM.md"))
+expected_css_vars = {
+  "periwinkle" => brand_primary_colors.fetch("periwinkle"),
+  "mint" => brand_primary_colors.fetch("mint"),
+  "rose" => brand_primary_colors.fetch("rose"),
+  "orange" => brand_primary_colors.fetch("orange"),
+  "g1" => brand_primary_colors.fetch("periwinkle"),
+  "g2" => brand_primary_colors.fetch("mint"),
+  "g3" => brand_primary_colors.fetch("rose"),
+  "g4" => brand_primary_colors.fetch("orange"),
+  "black" => brand_black,
+  "ink" => brand_ink,
+  "white" => brand_surface_white,
+}
+css_color_failures = expected_css_vars.reject do |name, expected|
+  normalize_hex(css_vars[name]) == normalize_hex(expected)
+end
+flutter_color_failures = brand_primary_colors.values.reject do |hex|
+  theme_source.include?(hex) && theme_source.include?("0xFF#{hex.delete("#").upcase}")
+end
+design_doc_color_failures = brand_primary_colors.values.reject do |hex|
+  design_system_source.include?(hex)
+end
+old_public_color_tokens = %w[
+  #5f5ce6 #168447 #a7465c #5f67e8 #35d071 #0a8f5b
+  #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
+]
+old_public_color_hits = old_public_color_tokens.select { |hex| stylesheet.downcase.include?(hex) }
+brand_color_contract_ok = published_brand_color_contract == brand_color_contract &&
+  css_color_failures.empty? &&
+  flutter_color_failures.empty? &&
+  design_doc_color_failures.empty? &&
+  old_public_color_hits.empty? &&
+  !stylesheet.include?("--cta-mint") &&
+  !stylesheet.include?("--cta-rose")
+check(
+  checks,
+  "shared_primary_color_contract",
+  pass_if(brand_color_contract_ok),
+  brand_color_contract_ok ? "Public site, published brand asset, design docs and app theme agree on the four primary colors." : "Primary color contract drift or old one-off public colors remain.",
+  "contract_path" => brand_color_contract_path,
+  "expected_primary" => brand_primary_colors,
+  "css_color_failures" => css_color_failures,
+  "flutter_color_failures" => flutter_color_failures,
+  "design_doc_color_failures" => design_doc_color_failures,
+  "old_public_color_hits" => old_public_color_hits
+)
+
+cta_contrast = {
+  "cta-app" => contrast_ratio("#ffffff", css_vars.fetch("black", "#000000")),
+  "cta-group" => contrast_ratio("#ffffff", css_vars.fetch("black", "#000000")),
+  "cta-touch" => contrast_ratio("#ffffff", css_vars.fetch("black", "#000000")),
+}
+cta_contrast_ok = cta_contrast.values.all? { |ratio| ratio >= 4.5 } &&
+  stylesheet.include?(".button.cta-app,.button.cta-group,.button.cta-touch{background:var(--black);color:#fff;border-color:var(--black)")
+check(
+  checks,
+  "cta_white_label_contrast",
+  pass_if(cta_contrast_ok),
+  cta_contrast_ok ? "Approved white CTA labels meet AA contrast against CTA button fills." : "One or more white CTA labels does not meet AA contrast against its button fill.",
+  "ratios" => cta_contrast
+)
+
+legal_layout_routes = ["/privacy/", "/terms/", "/account-deletion/", "/data-deletion/"]
+legal_layout_failures = legal_layout_routes.reject do |route|
+  html = read(route_index(build_dir, route))
+  has_layout = html.match?(/class="legal-layout(?: no-sidebar)?"/)
+  sidebar_required = [].include?(route)
+  sidebar_ok = sidebar_required ? html.include?('class="legal-sidebar"') : true
+  toc_ok = sidebar_required ? html.include?('class="legal-toc"') : true
+  File.file?(route_index(build_dir, route)) &&
+    has_layout &&
+    sidebar_ok &&
+    html.include?('class="legal-main"') &&
+    html.include?('class="legal-priority"') &&
+    toc_ok
+end
+legal_css_ok = stylesheet.include?(".legal-layout") &&
+  stylesheet.include?(".legal-toc") &&
+  stylesheet.include?(".legal-priority") &&
+  stylesheet.include?(".legal-hero") &&
+  stylesheet.include?(".legal-start-section")
+check(
+  checks,
+  "legal_task_first_layout",
+  pass_if(legal_layout_failures.empty? && legal_css_ok),
+  legal_layout_failures.empty? && legal_css_ok ? "Legal and deletion routes use a calmer task-first layout with navigation aids where sections exist." : "Legal/deletion task-first layout or CSS is missing.",
+  "failures" => legal_layout_failures,
+  "legal_css_ok" => legal_css_ok
+)
+
+routes_for_duplicate_check = sitemap.scan(%r{<loc>https://collect\.ikanisa\.com([^<]*)</loc>}).flatten
+route_identity = routes_for_duplicate_check.map do |route|
+  route = "/" if route.empty?
+  html = read(route_index(build_dir, route))
+  {
+    "route" => route,
+    "title" => tag_text(html, "title"),
+    "h1" => tag_text(html, "h1"),
+  }
+end
+duplicate_titles = route_identity.group_by { |item| item["title"] }.select { |title, items| !title.empty? && items.length > 1 }
+duplicate_h1s = route_identity.group_by { |item| item["h1"] }.select { |h1, items| !h1.empty? && items.length > 1 }
+alias_identity_ok = duplicate_titles.empty? && duplicate_h1s.empty? &&
+  read(route_index(build_dir, "/protection/")).include?("Protection support for daily earners.") &&
+  read(route_index(build_dir, "/credit-readiness/")).include?("Credit-readiness support for bank-ready files.") &&
+  read(route_index(build_dir, "/partners/")).include?("Partner operating model for Collect.") &&
+  read(route_index(build_dir, "/security/")).include?("Security, privacy and trust controls.")
+check(
+  checks,
+  "alias_route_identity",
+  pass_if(alias_identity_ok),
+  alias_identity_ok ? "Alias routes have deliberate unique title/H1 identities." : "Alias routes still duplicate title/H1 identity or lack explicit differentiation.",
+  "duplicate_titles" => duplicate_titles.transform_values { |items| items.map { |item| item["route"] } },
+  "duplicate_h1s" => duplicate_h1s.transform_values { |items| items.map { |item| item["route"] } }
+)
+
+mobile_hero_css_ok = stylesheet.match?(/max-height:306px/) &&
+  stylesheet.match?(/scale\(\.49\)/) &&
+  stylesheet.match?(/route-craas \.hero-device[^}]*max-height:356px/) &&
+  stylesheet.match?(/route-community-groups \.hero-device[^}]*max-height:356px/) &&
+  stylesheet.match?(/route-craas \.phone-shell[^}]*scale\(\.56\)/) &&
+  stylesheet.include?(".legal-page .hero-actions .button") &&
+  stylesheet.match?(/\.site-footer a\{[^}]*min-height:40px/) &&
+  stylesheet.match?(/\.site-footer a\{[^}]*min-height:44px[^}]*background:rgba\(250,248,245,\.06\)/)
+route_class_ok = route_identity.all? do |item|
+  read(route_index(build_dir, item["route"])).include?(%(<body class="route-))
+end
+route_variation_ok = root_html.include?('class="route-home"') &&
+  read(route_index(build_dir, "/diaspora/")).include?("content-grid-diaspora") &&
+  read(route_index(build_dir, "/craas/")).include?("content-grid-craas") &&
+  read(route_index(build_dir, "/community-groups/")).include?("content-grid-community-groups") &&
+  stylesheet.include?(".content-grid-diaspora") &&
+  stylesheet.include?(".content-grid-craas") &&
+  stylesheet.include?(".content-grid-insurance") &&
+  stylesheet.include?(".content-grid-community-groups")
+compact_card_css_ok = stylesheet.match?(/\.use-case-grid\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
+  stylesheet.match?(/\.problem-list\.compact\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
+  stylesheet.match?(/\.supported-groups-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
+  stylesheet.include?(".supported-group-index") &&
+  stylesheet.include?(".supported-group-card p") &&
+  stylesheet.match?(/\.story-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
+  stylesheet.match?(/\.partner-engine-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
+  stylesheet.match?(/\.problem-list\.compact,.use-case-grid,.craas-service-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
+  stylesheet.include?(".problem-list.compact article:nth-child(5n+1)") &&
+  stylesheet.include?(".use-case-grid article:nth-child(5n+5)") &&
+  stylesheet.include?(".craas-service-grid article:nth-child(5n+5)") &&
+  stylesheet.include?(".infographic-step:nth-child(4n+1)") &&
+  stylesheet.include?(".story-grid article:nth-child(4n+4)") &&
+  stylesheet.include?(".content-grid .section-card:nth-of-type(4n+1)") &&
+  stylesheet.include?(".journey-rail article:nth-child(5n+5)") &&
+  stylesheet.include?(".insurance-step-grid article:nth-child(5n+5)") &&
+  stylesheet.include?(".partner-engine-grid article:nth-child(4n+4)") &&
+  stylesheet.include?("background:var(--black)") &&
+  stylesheet.match?(/\.content-grid,.infographic-grid,.supported-groups-grid,.story-grid,.story-grid\.four,.story-grid\.five,.story-grid\.six,.story-grid\.problem-grid,.journey-rail,.journey-rail\.group-journey,.insurance-step-grid,.partner-metric-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
+  stylesheet.match?(/\.supported-groups-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
+  stylesheet.match?(/\.partner-engine-grid,.partner-market-grid,.partner-operating-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
+  !stylesheet.include?("var(--g5)") &&
+  !stylesheet.include?("var(--g6)") &&
+  stylesheet.include?("box-shadow:0 16px 34px rgba(37,32,68,.14)") &&
+  stylesheet.include?("color:var(--white)")
+check(
+  checks,
+  "responsive_layout_and_route_variation",
+  pass_if(mobile_hero_css_ok && route_class_ok && route_variation_ok && compact_card_css_ok),
+  mobile_hero_css_ok && route_class_ok && route_variation_ok && compact_card_css_ok ? "Mobile hero, footer tap targets, compact colorful card grids, and route-specific classes are present for responsive layout refinement." : "Responsive layout, compact card grid, or route-variation implementation is incomplete.",
+  "mobile_hero_css_ok" => mobile_hero_css_ok,
+  "route_class_ok" => route_class_ok,
+  "route_variation_ok" => route_variation_ok,
+  "compact_card_css_ok" => compact_card_css_ok
 )
 
 credit_readiness_ok = root_html.downcase.include?("credit-readiness") &&
@@ -521,6 +838,17 @@ check(
   "source_backed_market_context",
   pass_if(source_backed_market_context_ok),
   source_backed_market_context_ok ? "Home market figures are present." : "Home market figures are missing."
+)
+
+craas_text = read(route_index(build_dir, "/craas/"))
+craas_bank_benefit_cleanup_ok = !craas_text.include?("Cleaner application pipeline") &&
+  craas_text.include?("Less administrative rework") &&
+  craas_text.include?("More consistent files")
+check(
+  checks,
+  "craas_bank_benefit_cleanup",
+  pass_if(craas_bank_benefit_cleanup_ok),
+  craas_bank_benefit_cleanup_ok ? "CRaaS bank-benefit list no longer includes the deleted first bullet." : "CRaaS bank-benefit list still includes the deleted bullet or lost adjacent benefits."
 )
 
 legal_route_prefixes = %w[

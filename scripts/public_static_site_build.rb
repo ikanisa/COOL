@@ -10,7 +10,7 @@ require "yaml"
 ROOT = File.expand_path("..", __dir__)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
 PUBLIC_URL = "https://collect.ikanisa.com"
-ASSET_VERSION = "20260623-mobile-fix"
+ASSET_VERSION = "20260630-ui-dev-audit-5"
 APP_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
 WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
@@ -29,6 +29,13 @@ LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_
 LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
+BRAND_COLOR_CONTRACT_PATH = File.join(ROOT, "docs", "design", "collect_runtime_tokens", "collect_primary_colors_2026-06-30.json")
+BRAND_COLOR_CONTRACT = JSON.parse(File.read(BRAND_COLOR_CONTRACT_PATH))
+BRAND_PRIMARY_COLORS = BRAND_COLOR_CONTRACT.fetch("primary")
+BRAND_BLACK = BRAND_COLOR_CONTRACT.fetch("black")
+BRAND_PAPER = BRAND_COLOR_CONTRACT.fetch("paper")
+BRAND_INK = BRAND_COLOR_CONTRACT.fetch("ink")
+BRAND_SURFACE_WHITE = BRAND_COLOR_CONTRACT.fetch("surface_white")
 
 
 PUBLIC_FAQS = {
@@ -294,17 +301,12 @@ PAGES = [
       body: "Convert existing savings discipline into formal deposits, reliable data and bankable credit relationships.",
       steps: [
         ["Mobilise deposits", "Bring daily and group savings into clearer bank-linked records."],
-        ["Build data", "Turn contribution history into repayment and credit-readiness signals."],
+        ["Build data", "Turn organised group records into repayment and credit-readiness signals."],
         ["Prepare credit", "Package MSME and group-backed files for formal bank review."],
         ["Grow relationships", "Support deposits, lending and diaspora banking under bank approval."]
       ]
     },
-    sections: [
-      ["Low-cost deposit mobilisation", "Reach millions of informal savers through existing ibimina, cooperatives and community networks.", ["Mobile app and USSD access", "Member and group accounts", "Purpose-based savings", "Automated ledger reconciliation"]],
-      ["Daily-income lending and repayment", "Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.", ["Daily or periodic micro-repayments", "Up to 365 repayment data points per borrower annually", "Earlier visibility of repayment stress", "More accurate portfolio monitoring"]],
-      ["Group-backed and diaspora lending", "Verified group savings can provide an additional risk-control layer for eligible lending, including diaspora savings-to-credit models subject to bank policy and approval.", ["Bank-held savings collateral", "Group accountability", "Contribution history", "Purpose-controlled disbursement"]],
-      ["Stronger MSME credit origination", "Collect Credit Readiness-as-a-Service prepares applicants before formal bank review so credit teams receive more complete, structured and decision-ready MSME files.", ["Requirement mapping", "Business-document checklist", "Gap closure before bank review", "Cleaner applicant summary"]]
-    ]
+    sections: []
   },
   {
     path: "/trust/",
@@ -387,6 +389,41 @@ PAGES = [
   }
 ].freeze
 
+ALIAS_PAGE_OVERRIDES = {
+  "/protection/" => {
+    title: "Protection | Collect by IKANISA",
+    description: "Protection support pages for Collect users and groups.",
+    h1: "Protection support for daily earners.",
+    nav_label: "Protection"
+  },
+  "/credit-readiness/" => {
+    title: "Credit Readiness | Collect by IKANISA",
+    description: "Credit-readiness support for preparing complete, bank-review-ready files.",
+    h1: "Credit-readiness support for bank-ready files.",
+    nav_label: "Credit Readiness",
+    sections_heading: "How credit readiness works"
+  },
+  "/partners/" => {
+    title: "Partners | Collect by IKANISA",
+    description: "A partner operating model for institutions working with Collect.",
+    h1: "Partner operating model for Collect.",
+    nav_label: "Partners"
+  },
+  "/security/" => {
+    title: "Security | Collect by IKANISA",
+    description: "Security, privacy, and trust controls for Collect customers and partners.",
+    h1: "Security, privacy and trust controls.",
+    nav_label: "Security"
+  }
+}.freeze
+
+def alias_page_for(page, alias_path)
+  page.merge(ALIAS_PAGE_OVERRIDES.fetch(alias_path, {})).merge(
+    path: alias_path,
+    canonical_path: page[:path]
+  )
+end
+
 PRIMARY_NAV = [
   ["Group Savings", "/group-savings/"],
   ["Diaspora", "/diaspora/"],
@@ -442,14 +479,25 @@ def policy_path?(page)
   page[:legal_key]
 end
 
+def slug_for_path(path)
+  normalized = path == "/" ? "home" : path.delete_prefix("/").delete_suffix("/").tr("/", "-")
+  normalized.empty? ? "home" : normalized
+end
+
+def page_classes(page, current_path)
+  classes = ["route-#{slug_for_path(current_path)}"]
+  classes << "legal-page" if policy_path?(page)
+  classes << "alias-page" if page[:canonical_path]
+  classes.join(" ")
+end
+
 def cta_links_html(_current_path, _page, surface:)
-  group_message = "Hello IKANISA, I want to talk about starting a Collect group."
   touch_message = "Hello IKANISA, I have a question about Collect."
   app_class = surface == :header ? "button secondary cta-app" : "button primary cta-app"
   secondary_class = surface == :start ? "button ghost on-light" : "button ghost"
   items = [
     %(<a class="#{app_class}" href="#{APP_DOWNLOAD_URL}">Get the App</a>),
-    %(<a class="#{secondary_class} cta-group" href="#{whatsapp_url(group_message)}">Create Group Saving</a>),
+    %(<a class="#{secondary_class} cta-group" href="#{APP_DOWNLOAD_URL}">Create Group Saving</a>),
     %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
   ]
 
@@ -466,9 +514,11 @@ end
 
 def content_grid_html(page, current_path)
   return "" if current_path == "/" || current_path == "/group-savings/" || page[:legal_key]
+  return "" if Array(page[:sections]).empty?
 
+  grid_class = ["content-grid", "content-grid-#{slug_for_path(current_path)}"].join(" ")
   <<~HTML
-    <section class="content-grid" aria-label="#{esc(page[:sections_heading] || "Page sections")}">
+    <section class="#{grid_class}" aria-label="#{esc(page[:sections_heading] || "Page sections")}">
       #{page[:sections_heading] ? %(<h2 class="content-grid-heading">#{esc(page[:sections_heading])}</h2>) : ""}
       #{sections_html(page[:sections])}
     </section>
@@ -483,14 +533,24 @@ def faq_section_html(_current_path)
   ""
 end
 
+def whatsapp_mark_svg
+  <<~SVG.strip
+    <svg class="whatsapp-mark" viewBox="0 0 32 32" role="img" aria-label="WhatsApp">
+      <path d="M16 3.2c-7 0-12.7 5.6-12.7 12.5 0 2.4.7 4.7 1.9 6.6l-1.3 6.5 6.7-1.6c1.7.8 3.5 1.2 5.4 1.2 7 0 12.7-5.6 12.7-12.5S23 3.2 16 3.2Z" fill="#25D366"/>
+      <path d="M22.9 19.2c-.4-.2-2.2-1.1-2.6-1.2-.3-.1-.6-.2-.9.2-.3.4-1 1.2-1.2 1.5-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3-1.8-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.2-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.8-.3-.7-.6-.6-.9-.6h-.7c-.3 0-.7.1-1 .5-.3.4-1.3 1.3-1.3 3.1s1.4 3.6 1.6 3.8c.2.3 2.7 4 6.5 5.6.9.4 1.6.6 2.2.8.9.3 1.7.2 2.3.1.7-.1 2.2-.9 2.5-1.7.3-.8.3-1.6.2-1.7-.1-.2-.4-.3-.8-.5Z" fill="#fff"/>
+    </svg>
+  SVG
+end
+
 def site_footer_html
+  footer_whatsapp_message = "Hello IKANISA, I am contacting you from the Collect website."
   <<~HTML
     <footer class="site-footer">
       <div class="footer-identity">
         <strong>Collect by IKANISA</strong>
         <p>#{esc(REGISTERED_ENTITY)}</p>
         <p>#{esc(REGULATORY_FOOTER_NOTE)}</p>
-        <p>Support: <a href="#{mailto_url("Collect support")}">#{esc(SUPPORT_EMAIL)}</a> · WhatsApp #{esc(DISPLAY_PHONE)}</p>
+        <p class="footer-support">Support: <a href="#{mailto_url("Collect support")}">#{esc(SUPPORT_EMAIL)}</a> <span aria-hidden="true">·</span> <a class="whatsapp-contact" href="#{whatsapp_url(footer_whatsapp_message)}">#{whatsapp_mark_svg}<span class="sr-only">WhatsApp</span><span>#{esc(DISPLAY_PHONE)}</span></a></p>
         <p>© #{Time.now.utc.year} #{esc(REGISTERED_ENTITY)}. All rights reserved.</p>
       </div>
       <nav aria-label="Footer navigation">
@@ -792,6 +852,8 @@ def legal_section_html(section)
   return "" unless section.is_a?(Hash)
 
   heading = section["heading"] || section["title"] || legal_label(section["id"])
+  anchor = section["id"].to_s.strip
+  anchor = heading.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/\A-|-+\z/, "") if anchor.empty?
   body = section.reject { |key, _| %w[id heading title].include?(key.to_s) }
   seen_contact_values = {}
   body = body.reject do |key, value|
@@ -803,10 +865,30 @@ def legal_section_html(section)
     duplicate
   end
   <<~HTML
-    <article class="legal-section">
+    <article class="legal-section" id="#{esc(anchor)}">
       <h2>#{esc(heading)}</h2>
       #{body.map { |key, value| legal_named_value_html(key, value) }.join}
     </article>
+  HTML
+end
+
+def legal_toc_html(content, page: nil)
+  return "" if page && [:privacy, :terms, :trust].include?(page[:legal_key])
+
+  sections = Array(content["sections"]).select { |section| section.is_a?(Hash) }
+  links = sections.first(14).map do |section|
+    heading = section["heading"] || section["title"] || legal_label(section["id"])
+    anchor = section["id"].to_s.strip
+    anchor = heading.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/\A-|-+\z/, "") if anchor.empty?
+    %(<a href="##{esc(anchor)}">#{esc(heading)}</a>)
+  end
+  return "" if links.empty?
+
+  <<~HTML
+    <nav class="legal-toc" aria-label="#{esc(content["title"] || "Legal page")} sections">
+      <strong>On this page</strong>
+      #{links.join}
+    </nav>
   HTML
 end
 
@@ -818,11 +900,23 @@ def legal_page_html(page)
   meta << "Effective date: #{content["effective_date"]}" if content["effective_date"]
   meta << "Last updated: #{content["last_updated"]}" if content["last_updated"]
   top_keys = content.reject { |key, _| %w[id slug seo hero title sections].include?(key.to_s) || legal_internal_key?(key) }
+  toc = legal_toc_html(content, page: page)
+  no_sidebar = page && [:privacy, :terms, :trust].include?(page[:legal_key])
+  sidebar = no_sidebar ? "" : [
+    meta.empty? ? "" : %(<p class="legal-meta">#{esc(meta.join(" · "))}</p>),
+    toc
+  ].reject(&:empty?).join
+  layout_class = ["legal-layout", sidebar.empty? ? "no-sidebar" : nil].compact.join(" ")
   <<~HTML
     <section class="legal-content" aria-label="#{esc(content["title"] || page[:h1])}">
-      #{meta.empty? ? "" : %(<p class="legal-meta">#{esc(meta.join(" · "))}</p>)}
-      #{top_keys.map { |key, value| legal_named_value_html(key, value) }.join}
-      #{Array(content["sections"]).map { |section| legal_section_html(section) }.join}
+      <div class="#{layout_class}">
+        #{sidebar.empty? ? "" : %(<aside class="legal-sidebar">#{sidebar}</aside>)}
+        <div class="legal-main">
+          #{no_sidebar && !meta.empty? ? %(<p class="legal-meta">#{esc(meta.join(" · "))}</p>) : ""}
+          #{top_keys.empty? ? "" : %(<div class="legal-priority">#{top_keys.map { |key, value| legal_named_value_html(key, value) }.join}</div>)}
+          #{Array(content["sections"]).map { |section| legal_section_html(section) }.join}
+        </div>
+      </div>
     </section>
   HTML
 end
@@ -833,12 +927,23 @@ def supported_groups_html(page)
 
   cards = groups.each_with_index.map do |group, index|
     tone = (index % 4) + 1
-    %(<article class="supported-group-card supported-group-card-#{tone}"><strong>#{esc(group)}</strong></article>)
+    label, body = group.split(":", 2).map { |part| part.to_s.strip }
+    body = label if body.to_s.empty?
+    label = "Group type" if label.to_s.empty?
+    %(
+      <article class="supported-group-card supported-group-card-#{tone}">
+        <span class="supported-group-index">#{format("%02d", index + 1)}</span>
+        <strong>#{esc(label)}</strong>
+        <p>#{esc(body)}</p>
+      </article>
+    )
   end.join
 
   <<~HTML
     <section class="supported-groups-section" aria-labelledby="supported-groups-heading">
-      <h2 id="supported-groups-heading">#{esc(page[:supported_groups_heading] || "Collect supports community groups")}</h2>
+      <div class="supported-groups-copy">
+        <h2 id="supported-groups-heading">#{esc(page[:supported_groups_heading] || "Collect supports community groups")}</h2>
+      </div>
       <div class="supported-groups-grid">
         #{cards}
       </div>
@@ -1145,7 +1250,6 @@ def craas_page_html
   ]
 
   bank_benefits = [
-    "Cleaner application pipeline",
     "Less administrative rework",
     "More consistent files",
     "Faster pre-credit preparation",
@@ -1203,80 +1307,46 @@ def partner_page_html
     ["94,000", "Savings groups nationwide"],
     ["90.4%", "Employment operating informally"]
   ]
+  list_html = lambda do |items|
+    return "" if Array(items).empty?
+
+    %(<ul>#{Array(items).map { |item| %(<li>#{esc(item)}</li>) }.join}</ul>)
+  end
 
   deposit_mobilisation = [
-    "Daily and periodic microsavings",
-    "Mobile app and USSD access",
-    "Member and group accounts",
-    "Purpose-based savings",
-    "Automated ledger reconciliation",
-    "National community mobilisation"
+    "Daily and periodic microsavings"
   ]
 
   daily_income_lending = [
     "Daily or periodic micro-repayments",
-    "Up to 365 repayment data points per borrower annually",
-    "Automated split between repayment and savings",
-    "Reduced branch and collection-agent dependence",
-    "Earlier visibility of repayment stress",
-    "More accurate portfolio monitoring"
+    "Earlier visibility of repayment stress"
   ]
 
   group_diaspora_lending = [
     "Bank-held savings collateral",
-    "Group accountability",
-    "Contribution history",
-    "Purpose-controlled disbursement",
-    "Daily repayment visibility",
     "Credit-life or income-protection cover"
   ]
 
-  msme_origination = [
-    "Initial eligibility and requirement mapping",
-    "Business-document and financial-record checklist",
-    "Contribution, savings and repayment-history packaging",
-    "Gap closure before formal bank review",
-    "Cleaner applicant summary for credit teams",
-    "Less rework between customer, adviser and bank"
-  ]
-
   collect_provides = [
-    "USSD-enabled microsavings",
     "Group creation and administration",
     "Member and group ledgers",
-    "Transaction reconciliation",
-    "Statements and contribution records",
-    "Savings mobilisation support",
-    "Loan application preparation",
     "Credit Readiness guide and support",
     "Daily loan micro-repayment",
-    "Group savings collateral workflow",
     "Diaspora group-savings infrastructure"
   ]
 
   bank_provides = [
     "Regulated savings accounts and account operations",
     "KYC, KYB and AML/CFT controls",
-    "Account and product approval",
-    "Collateral documentation",
     "Credit assessment and pricing",
-    "Final loan approval",
-    "Loan disbursement",
-    "Collections and recovery",
-    "Regulatory reporting"
+    "Loan disbursement"
   ]
 
   bank_value = [
     "Growth in low-cost deposits",
     "New retail and MSME customers",
     "Increased loan origination",
-    "Net interest income",
     "Reduced pre-credit administration",
-    "Lower application rework",
-    "Daily repayment visibility",
-    "Insurance-premium financing",
-    "Green and productive-asset finance",
-    "Purpose-controlled loan disbursement",
     "Stronger customer retention",
     "New diaspora banking relationships"
   ]
@@ -1299,31 +1369,21 @@ def partner_page_html
         <article>
           <strong>Low-cost deposit mobilisation</strong>
           <p>Reach millions of informal savers through existing ibimina, cooperatives and community networks.</p>
-          <ul>
-            #{deposit_mobilisation.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
+          #{list_html.call(deposit_mobilisation)}
         </article>
         <article>
           <strong>Daily-income lending and repayment</strong>
-          <p>Monthly repayment structures often do not match informal-sector cash flow. Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.</p>
-          <ul>
-            #{daily_income_lending.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
+          <p>Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.</p>
+          #{list_html.call(daily_income_lending)}
         </article>
         <article>
           <strong>Group-backed and diaspora lending</strong>
-          <p>Verified group savings can provide an additional risk-control layer for eligible lending. For diaspora banking, group savings can remain with the regulated country partner bank, with an agreed portion pledged for loans to eligible members subject to the bank's credit policy and approval.</p>
-          <ul>
-            #{group_diaspora_lending.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
-          <p>The addressable Rwandan diaspora market is 300,000+ people across Europe, the United Kingdom, North America and other corridors. Collect's diaspora proposition is a regulated-country-bank savings and secured-credit model.</p>
+          <p>Verified group savings can provide an additional risk-control layer for eligible lending.</p>
+          #{list_html.call(group_diaspora_lending)}
         </article>
         <article>
           <strong>Stronger MSME credit origination</strong>
           <p>Collect's Credit Readiness-as-a-Service prepares applicants before formal bank review, helping credit teams receive more complete, structured and decision-ready MSME files.</p>
-          <ul>
-            #{msme_origination.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
         </article>
       </div>
     </section>
@@ -1335,22 +1395,16 @@ def partner_page_html
       <div class="partner-operating-grid">
         <article>
           <h3>What Collect Provides</h3>
-          <ul>
-            #{collect_provides.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
+          #{list_html.call(collect_provides)}
         </article>
         <article>
           <h3>What the Partner Bank Provides</h3>
-          <ul>
-            #{bank_provides.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
+          #{list_html.call(bank_provides)}
         </article>
         <article>
           <h3>The Commercial Value to Banks</h3>
           <p>Partner banks can generate value through:</p>
-          <ul>
-            #{bank_value.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
+          #{list_html.call(bank_value)}
         </article>
       </div>
     </section>
@@ -1537,7 +1591,7 @@ def hero_visual_html(page)
             <div class="workflow-stack" aria-label="Partner workflow preview">
               <div><i class="app-dot ready"></i><span><strong>Groups</strong><small>Use Collect to organize records</small></span></div>
               <b></b>
-              <div><i class="app-dot"></i><span><strong>Records</strong><small>Contribution history and request notes</small></span></div>
+              <div><i class="app-dot"></i><span><strong>Records</strong><small>Group records and request notes</small></span></div>
               <b></b>
               <div><i class="app-dot support"></i><span><strong>Providers</strong><small>Review and decide under their own rules</small></span></div>
             </div>
@@ -1718,7 +1772,7 @@ def page_html(page, current_path: page[:path])
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>#{esc(page[:title])}</title>
       <meta name="description" content="#{esc(page[:description])}">
-      <meta name="theme-color" content="#8885F0">
+      <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
       <link rel="canonical" href="#{page_url(current_path)}">
       #{alternate_links(current_path)}
       <link rel="icon" href="/icons/collect.png" type="image/png">
@@ -1736,7 +1790,7 @@ def page_html(page, current_path: page[:path])
       <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
       <script type="application/ld+json">#{json_ld(page)}</script>
     </head>
-    <body>
+    <body class="#{esc(page_classes(page, current_path))}">
       <a class="skip-link" href="#content">Skip to content</a>
       <header class="site-header">
         <a class="brand" href="/">
@@ -1754,7 +1808,7 @@ def page_html(page, current_path: page[:path])
       </header>
 
       <main id="content">
-        <section class="hero">
+        <section class="hero #{page[:legal_key] ? "legal-hero" : ""}">
           <div class="hero-copy">
             #{page[:eyebrow] ? %(<p class="hero-eyebrow">#{esc(page[:eyebrow])}</p>) : ""}
             <h1>#{esc(page[:h1])}</h1>
@@ -1794,7 +1848,7 @@ def page_html(page, current_path: page[:path])
 
         #{faq_section_html(current_path)}
 
-        <section id="start" class="start-section" aria-labelledby="start-heading">
+        <section id="start" class="start-section #{page[:legal_key] ? "legal-start-section" : ""}" aria-labelledby="start-heading">
           <div>
             <h2 id="start-heading">#{page[:start_heading] ? esc(page[:start_heading]) : "Download <span class=\"brand-word\">Collect</span> or Get in Touch"}</h2>
             <div class="start-actions">
@@ -1817,17 +1871,23 @@ def stylesheet
   <<~CSS
     :root {
       color-scheme: dark light;
-      --paper: #faf8f5;
-      --ink: #252044;
+      --paper: #{BRAND_PAPER};
+      --ink: #{BRAND_INK};
       --muted: #5f5a76;
-      --night: #050510;
+      --night: #{BRAND_BLACK};
       --panel: #12111c;
       --line: rgba(250, 248, 245, .14);
-      --periwinkle: #5f5ce6;
-      --mint: #3cd070;
-      --rose: #d38b96;
-      --urgent: #ff5e43;
-      --white: #fffdfb;
+      --periwinkle: #{BRAND_PRIMARY_COLORS.fetch("periwinkle")};
+      --mint: #{BRAND_PRIMARY_COLORS.fetch("mint")};
+      --rose: #{BRAND_PRIMARY_COLORS.fetch("rose")};
+      --orange: #{BRAND_PRIMARY_COLORS.fetch("orange")};
+      --g1: #{BRAND_PRIMARY_COLORS.fetch("periwinkle")};
+      --g2: #{BRAND_PRIMARY_COLORS.fetch("mint")};
+      --g3: #{BRAND_PRIMARY_COLORS.fetch("rose")};
+      --g4: #{BRAND_PRIMARY_COLORS.fetch("orange")};
+      --black: #{BRAND_BLACK};
+      --urgent: #{BRAND_PRIMARY_COLORS.fetch("orange")};
+      --white: #{BRAND_SURFACE_WHITE};
       --focus: #a7a2ff;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -1836,6 +1896,7 @@ def stylesheet
     body { margin: 0; background: var(--night); color: var(--paper); letter-spacing: 0; }
     a { color: inherit; }
     a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .skip-link { position: absolute; left: 16px; top: -80px; z-index: 10; background: var(--paper); color: var(--ink); padding: 10px 12px; border-radius: 8px; }
     .skip-link:focus { top: 16px; }
     .site-header { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 18px clamp(20px, 4vw, 48px); position: sticky; top: 0; z-index: 5; background: rgba(5, 5, 16, .86); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(250,248,245,.08); }
@@ -1855,13 +1916,14 @@ def stylesheet
     .button, button { min-height: 44px; border: 1px solid rgba(250,248,245,.18); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; text-decoration: none; font-size: 14px; font-weight: 900; cursor: pointer; }
     .button { white-space: nowrap; }
     .header-actions .button { padding: 11px 14px; font-size: 13px; }
-    .button.primary, .button.secondary { background: var(--periwinkle); color: white; border-color: var(--periwinkle); box-shadow: 0 14px 34px rgba(136,133,240,.24); }
+    .button.primary, .button.secondary { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
     .button.ghost { background: transparent; color: var(--paper); }
-    .button.cta-app { background: var(--periwinkle); color: #fff; border-color: var(--periwinkle); box-shadow: 0 14px 34px rgba(136,133,240,.28); }
-    .button.cta-group { background: var(--mint); color: #fff; border-color: var(--mint); box-shadow: 0 14px 34px rgba(60,208,112,.22); }
-    .button.cta-touch { background: var(--rose); color: #fff; border-color: var(--rose); box-shadow: 0 14px 34px rgba(211,139,150,.22); }
+    .button.cta-app, .button.cta-group, .button.cta-touch { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
     .menu-button { display: none; background: rgba(250,248,245,.08); color: var(--paper); }
     .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(136,133,240,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(60,208,112,.16), transparent 32%), #050510; }
+    .legal-hero { min-height: auto; grid-template-columns: minmax(0, .92fr) minmax(260px, .58fr); padding-top: clamp(36px, 6vw, 72px); padding-bottom: clamp(36px, 6vw, 72px); }
+    .legal-page .hero-actions .button { min-height: 40px; padding: 9px 13px; font-size: 13px; }
+    .legal-page .hero-intro { max-width: 660px; }
     .section-kicker { color: var(--mint); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 18px; }
     .hero-eyebrow { color: var(--mint); font-size: 13px; font-weight: 950; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 18px; }
     section { scroll-margin-top: 96px; }
@@ -1923,7 +1985,7 @@ def stylesheet
     .policy-card, .terms-card, .deletion-card, .data-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; box-shadow: 0 18px 36px rgba(23,20,44,.18); }
     .policy-card { background: linear-gradient(145deg, #17324b, #2f9ec8 58%, #6976f0); }
     .terms-card { background: linear-gradient(145deg, #211b43, #6976f0 58%, #28b86b); }
-    .deletion-card { background: linear-gradient(145deg, #331a2d, #b04b7a 58%, #6976f0); }
+    .deletion-card { background: linear-gradient(145deg, var(--black), var(--rose) 58%, var(--periwinkle)); }
     .data-card { background: linear-gradient(145deg, #172d35, #23895b 58%, #2f9ec8); }
     .policy-card span, .policy-card small, .terms-card span, .terms-card small, .deletion-card span, .deletion-card small, .data-card span, .data-card small { display: block; color: rgba(255,255,255,.78); font-weight: 850; }
     .policy-card strong, .terms-card strong, .deletion-card strong, .data-card strong { display: block; margin-top: 8px; font-size: 24px; line-height: 1.05; }
@@ -2041,8 +2103,14 @@ def stylesheet
     .infographic-band p { color: var(--muted); line-height: 1.55; }
     .infographic-band { display: grid; gap: 28px; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #f2f4ff; color: var(--ink); }
     .infographic-copy { max-width: 860px; }
-    .infographic-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .infographic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .infographic-step { min-height: 150px; border: 1px solid #e1d9f0; border-radius: 18px; padding: 18px; background: rgba(255,253,251,.86); box-shadow: 0 14px 34px rgba(37,32,68,.06); }
+    .infographic-step:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); }
+    .infographic-step:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
+    .infographic-step:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
+    .infographic-step:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
+    .infographic-step:nth-child(4n+4) { background: #fff6e8; border-top-color: var(--g4); }
+    .infographic-step:nth-child(n) p, .infographic-step:nth-child(n) ul { color: var(--muted); }
     .infographic-step h3 { margin: 16px 0 8px; font-size: 19px; line-height: 1.12; }
     .infographic-step p { margin: 0; font-size: 14px; }
     .infographic-step ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.45; font-size: 14px; }
@@ -2057,9 +2125,13 @@ def stylesheet
     .source-note a { color: #2f3db9; font-weight: 850; }
     .market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid #e5deef; border-radius: 20px; overflow: hidden; background: #fffdfb; }
     .market-grid article { min-height: 154px; padding: 24px; border-right: 1px solid #e5deef; border-bottom: 1px solid #e5deef; display: grid; align-content: end; }
+    .market-grid article:nth-child(1) { background: #f2f4ff; }
+    .market-grid article:nth-child(2) { background: #ecfbf1; }
+    .market-grid article:nth-child(3) { background: #fff3f3; }
+    .market-grid article:nth-child(4) { background: #fff6e8; }
     .market-grid article:nth-child(2n) { border-right: 0; }
     .market-grid article:nth-last-child(-n+2) { border-bottom: 0; }
-    .market-grid strong { display: block; font-size: clamp(42px, 5vw, 62px); line-height: .9; color: #23306f; }
+    .market-grid strong { display: block; font-size: clamp(42px, 5vw, 62px); line-height: .9; color: var(--g1); }
     .market-grid span { display: block; margin-top: 12px; color: var(--muted); font-weight: 850; line-height: 1.3; }
     .step-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
     .step-list li, .section-card { border: 1px solid #e5deef; border-radius: 16px; padding: 18px; background: #fffdfb; }
@@ -2067,8 +2139,29 @@ def stylesheet
     .step-list span { color: var(--muted); margin-top: 4px; line-height: 1.45; }
     .content-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
     .content-grid-heading { grid-column: 1 / -1; margin: 0 0 10px; font-size: clamp(42px, 6vw, 72px); line-height: .95; letter-spacing: 0; max-width: 920px; }
+    .content-grid-diaspora { grid-template-columns: repeat(3, minmax(0, 1fr)); background: #f7f8ff; }
+    .content-grid-craas, .content-grid-credit-readiness { grid-template-columns: repeat(3, minmax(0, 1fr)); background: #fffdfb; }
+    .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-column: auto; border-top: 4px solid var(--periwinkle); }
+    .content-grid-insurance, .content-grid-protection { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .content-grid-insurance .section-card, .content-grid-protection .section-card { min-height: 184px; align-content: start; }
+    .content-grid-community-groups { background: #ecfbf1; }
+    .content-grid-community-groups .section-card { min-height: 180px; display: grid; align-content: end; }
+    .content-grid .section-card { box-shadow: 0 14px 34px rgba(37,32,68,.08); }
+    .content-grid .section-card:nth-of-type(4n+1) { background: #f2f4ff; }
+    .content-grid .section-card:nth-of-type(4n+2) { background: #ecfbf1; }
+    .content-grid .section-card:nth-of-type(4n+3) { background: #fff3f3; }
+    .content-grid .section-card:nth-of-type(4n+4) { background: #fff6e8; }
     .legal-content { display: grid; gap: 18px; padding: clamp(48px, 7vw, 86px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
-    .legal-meta { margin: 0; color: var(--muted); font-weight: 900; }
+    .legal-layout { display: grid; grid-template-columns: minmax(220px, .32fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 64px); align-items: start; }
+    .legal-layout.no-sidebar { grid-template-columns: 1fr; }
+    .legal-sidebar { position: sticky; top: 100px; display: grid; gap: 16px; }
+    .legal-meta { margin: 0; color: var(--muted); font-weight: 900; line-height: 1.35; }
+    .legal-toc { display: grid; gap: 8px; border: 1px solid #e5deef; border-radius: 14px; padding: 16px; background: #ffffff; box-shadow: 0 14px 34px rgba(37,32,68,.05); }
+    .legal-toc strong { color: var(--ink); font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
+    .legal-toc a { min-height: 36px; display: flex; align-items: center; color: var(--muted); text-decoration: none; font-weight: 850; line-height: 1.25; border-radius: 9px; padding: 7px 9px; }
+    .legal-toc a:hover, .legal-toc a:focus-visible { color: var(--ink); background: #f2f4ff; }
+    .legal-main { display: grid; gap: 18px; min-width: 0; }
+    .legal-priority { display: grid; gap: 14px; border: 1px solid #d9d3ea; border-radius: 18px; padding: clamp(18px, 3vw, 28px); background: linear-gradient(135deg, #ffffff, #f7f8ff); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
     .legal-section, .legal-card { border: 1px solid #e5deef; border-radius: 16px; padding: clamp(20px, 3vw, 30px); background: rgba(255,255,255,.82); box-shadow: 0 18px 48px rgba(37,32,68,.05); }
     .legal-section h2, .legal-card h3 { margin: 0 0 12px; line-height: 1.08; color: var(--ink); }
     .legal-section h2 { font-size: clamp(26px, 3vw, 40px); }
@@ -2080,15 +2173,22 @@ def stylesheet
     .legal-details dt { color: var(--ink); font-weight: 950; }
     .legal-details dd { margin: 0; overflow-wrap: anywhere; }
     .legal-path { display: inline-flex; padding: 8px 10px; border-radius: 10px; background: #f2f4ff; color: var(--ink); font-weight: 900; }
-    .supported-groups-section { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(24px, 5vw, 72px); align-items: start; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
-    .supported-groups-section h2 { margin: 0; max-width: 620px; font-size: clamp(42px, 6vw, 72px); line-height: .96; letter-spacing: 0; }
-    .supported-groups-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .supported-group-card { min-height: 118px; border-radius: 18px; padding: 22px; display: flex; align-items: flex-start; color: #fff; box-shadow: 0 18px 40px rgba(20, 22, 45, .12); }
-    .supported-group-card strong { color: #fff; font-size: clamp(18px, 2vw, 24px); line-height: 1.05; font-weight: 950; letter-spacing: 0; }
-    .supported-group-card-1 { background: linear-gradient(135deg, #8885f0, #5f67e8); }
-    .supported-group-card-2 { background: linear-gradient(135deg, #35d071, #0a8f5b); }
-    .supported-group-card-3 { background: linear-gradient(135deg, #ff6148, #d63b2e); }
-    .supported-group-card-4 { background: linear-gradient(135deg, #f59bb3, #b4576d); }
+    .supported-groups-section { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: clamp(24px, 5vw, 72px); align-items: start; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
+    .supported-groups-copy { position: sticky; top: 104px; }
+    .supported-groups-section h2 { margin: 0; max-width: 560px; font-size: clamp(38px, 5.6vw, 66px); line-height: .96; letter-spacing: 0; }
+    .supported-groups-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+    .supported-group-card { min-height: 176px; border: 1px solid rgba(37,32,68,.12); border-top: 6px solid var(--g1); border-radius: 18px; padding: 18px; display: grid; align-content: start; gap: 12px; color: var(--ink); background: linear-gradient(180deg, #ffffff, #f7f8ff); box-shadow: 0 18px 42px rgba(37,32,68,.08); overflow: hidden; }
+    .supported-group-card strong, .supported-group-card p, .supported-group-index { position: relative; z-index: 1; }
+    .supported-group-card strong { color: var(--ink); font-size: clamp(18px, 1.9vw, 23px); line-height: 1.04; font-weight: 950; letter-spacing: 0; }
+    .supported-group-card p { margin: 0; color: rgba(37,32,68,.72); font-size: 15px; line-height: 1.34; font-weight: 780; }
+    .supported-group-index { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: rgba(136,133,240,.16); color: var(--ink); font-size: 12px; font-weight: 950; }
+    .supported-group-card-1 { border-top-color: var(--g1); background: linear-gradient(180deg, rgba(136,133,240,.2), #ffffff 58%); }
+    .supported-group-card-2 { border-top-color: var(--g2); background: linear-gradient(180deg, rgba(60,208,112,.2), #ffffff 58%); }
+    .supported-group-card-3 { border-top-color: var(--g4); background: linear-gradient(180deg, rgba(255,94,67,.18), #ffffff 58%); }
+    .supported-group-card-4 { border-top-color: var(--g3); background: linear-gradient(180deg, rgba(211,139,150,.2), #ffffff 58%); }
+    .supported-group-card-2 .supported-group-index { background: rgba(60,208,112,.18); }
+    .supported-group-card-3 .supported-group-index { background: rgba(255,94,67,.16); }
+    .supported-group-card-4 .supported-group-index { background: rgba(211,139,150,.18); }
     .section-number { color: var(--periwinkle); font-weight: 950; }
     .section-card h2 { margin: 18px 0 10px; font-size: 24px; line-height: 1.12; }
     .section-card p, .start-section p { color: var(--muted); line-height: 1.55; }
@@ -2115,13 +2215,18 @@ def stylesheet
     .original-story h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
     .original-story p { color: color-mix(in srgb, currentColor 72%, transparent); line-height: 1.55; }
     .story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .story-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .story-grid.home-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .story-grid.problem-grid { grid-template-columns: 1fr; }
-    .story-grid.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .story-grid.four { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .story-grid.home-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .story-grid.problem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .story-grid.five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .story-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .story-grid article { min-height: 142px; border: 1px solid rgba(136,133,240,.2); border-radius: 16px; padding: 18px; background: rgba(255,255,255,.72); color: var(--ink); }
     .original-story:not(.light):not(.mint):not(.danger):not(.info) .story-grid article { background: rgba(250,248,245,.08); color: var(--paper); border-color: rgba(250,248,245,.14); }
+    .story-grid article:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); box-shadow: 0 16px 34px rgba(37,32,68,.1); }
+    .story-grid article:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
+    .story-grid article:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
+    .story-grid article:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
+    .story-grid article:nth-child(4n+4) { background: #fff6e8; border-top-color: var(--g4); }
     .story-grid strong, .story-grid span { display: block; }
     .story-grid strong { font-size: 18px; font-weight: 950; line-height: 1.05; }
     .story-grid span { margin-top: 10px; color: color-mix(in srgb, currentColor 68%, transparent); line-height: 1.35; }
@@ -2136,31 +2241,47 @@ def stylesheet
     .group-problem-section p, .group-accumulation-section p { color: var(--muted); line-height: 1.55; font-size: 18px; }
     .problem-list { display: grid; gap: 12px; }
     .problem-list article, .use-case-grid article { border: 1px solid #e5deef; border-radius: 16px; padding: 18px; background: rgba(255,255,255,.78); color: var(--ink); font-weight: 900; line-height: 1.2; }
-    .problem-list.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .problem-list.compact article, .use-case-grid article { min-height: 112px; display: grid; align-items: center; color: var(--ink); border-color: transparent; box-shadow: 0 16px 34px rgba(37,32,68,.14); }
+    .problem-list.compact article:nth-child(5n+1), .use-case-grid article:nth-child(5n+1) { background: var(--g1); }
+    .problem-list.compact article:nth-child(5n+2), .use-case-grid article:nth-child(5n+2) { background: var(--g2); }
+    .problem-list.compact article:nth-child(5n+3), .use-case-grid article:nth-child(5n+3) { background: var(--g3); }
+    .problem-list.compact article:nth-child(5n+4), .use-case-grid article:nth-child(5n+4) { background: var(--g4); }
+    .problem-list.compact article:nth-child(5n+5), .use-case-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
+    .problem-list.compact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .group-journey { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .group-journey article { min-height: 210px; }
     .group-journey article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
     .group-journey article:nth-child(4n) { border-right: 0; }
     .group-journey article:nth-last-child(-n+4) { border-bottom: 0; }
-    .group-feature-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .group-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .accumulation-panel { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
     .accumulation-panel p { margin-top: 0; }
     .accumulation-panel strong, .accumulation-panel span { display: block; }
     .accumulation-panel strong { color: #164a2b; font-size: 24px; line-height: 1.1; }
     .accumulation-panel span { margin-top: 8px; color: var(--muted); line-height: 1.45; }
-    .use-case-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .use-case-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
     .journey-rail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid rgba(250,248,245,.16); border-radius: 22px; overflow: hidden; background: rgba(250,248,245,.06); }
     .journey-rail article { min-height: 190px; padding: 22px; border-right: 1px solid rgba(250,248,245,.14); border-bottom: 1px solid rgba(250,248,245,.14); display: grid; align-content: end; }
+    .journey-rail article:nth-child(5n+1), .insurance-step-grid article:nth-child(5n+1) { background: var(--g1); }
+    .journey-rail article:nth-child(5n+2), .insurance-step-grid article:nth-child(5n+2) { background: var(--g2); }
+    .journey-rail article:nth-child(5n+3), .insurance-step-grid article:nth-child(5n+3) { background: var(--g3); }
+    .journey-rail article:nth-child(5n+4), .insurance-step-grid article:nth-child(5n+4) { background: var(--g4); }
+    .journey-rail article:nth-child(5n+1), .journey-rail article:nth-child(5n+2), .journey-rail article:nth-child(5n+3), .journey-rail article:nth-child(5n+4), .insurance-step-grid article:nth-child(5n+1), .insurance-step-grid article:nth-child(5n+2), .insurance-step-grid article:nth-child(5n+3), .insurance-step-grid article:nth-child(5n+4) { color: var(--ink); }
+    .journey-rail article:nth-child(5n+5), .insurance-step-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
     .journey-rail article:nth-child(3n) { border-right: 0; }
     .journey-rail article:nth-last-child(-n+3) { border-bottom: 0; }
-    .journey-rail span { color: var(--mint); font-size: 13px; font-weight: 950; }
+    .journey-rail span { color: rgba(37,32,68,.72); font-size: 13px; font-weight: 950; }
     .journey-rail strong { display: block; margin-top: 42px; font-size: clamp(22px, 2.1vw, 30px); line-height: 1; }
-    .journey-rail p { margin: 14px 0 0; color: rgba(250,248,245,.72); line-height: 1.38; }
-    .journey-rail.group-journey { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .journey-rail p { margin: 14px 0 0; color: rgba(37,32,68,.78); line-height: 1.38; }
+    .journey-rail article:nth-child(5n+5) span, .insurance-step-grid article:nth-child(5n+5) span { color: var(--mint); }
+    .journey-rail article:nth-child(5n+5) p, .insurance-step-grid article:nth-child(5n+5) p { color: rgba(250,248,245,.72); }
+    .journey-rail.group-journey { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .journey-rail.group-journey article { min-height: 210px; }
     .journey-rail.group-journey article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
-    .journey-rail.group-journey article:nth-child(4n) { border-right: 0; }
-    .journey-rail.group-journey article:nth-last-child(-n+4) { border-bottom: 0; }
+    .journey-rail.group-journey article:nth-child(4n) { border-right: 1px solid rgba(250,248,245,.14); }
+    .journey-rail.group-journey article:nth-child(3n) { border-right: 0; }
+    .journey-rail.group-journey article:nth-last-child(-n+4) { border-bottom: 1px solid rgba(250,248,245,.14); }
+    .journey-rail.group-journey article:nth-last-child(-n+3) { border-bottom: 0; }
     .diaspora-change-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #11101a; color: var(--paper); }
     .diaspora-change-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
     .change-compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
@@ -2176,8 +2297,8 @@ def stylesheet
     .insurance-work-section h2, .insurance-finance-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
     .insurance-step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .insurance-step-grid article { min-height: 190px; border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: 24px; background: rgba(250,248,245,.07); display: grid; align-content: end; }
-    .insurance-step-grid span { color: var(--mint); font-size: 13px; font-weight: 950; }
-    .insurance-step-grid p { margin: 42px 0 0; color: rgba(250,248,245,.78); line-height: 1.38; font-size: clamp(18px, 1.6vw, 22px); font-weight: 750; }
+    .insurance-step-grid span { color: rgba(37,32,68,.72); font-size: 13px; font-weight: 950; }
+    .insurance-step-grid p { margin: 42px 0 0; color: rgba(37,32,68,.78); line-height: 1.38; font-size: clamp(18px, 1.6vw, 22px); font-weight: 750; }
     .premium-finance-panel { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(136,133,240,.14)); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
     .premium-finance-panel p { margin: 0; color: var(--muted); line-height: 1.55; font-size: clamp(20px, 2vw, 28px); font-weight: 800; }
     .craas-specialist-section, .craas-bank-section, .craas-benefits-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
@@ -2185,12 +2306,13 @@ def stylesheet
     .craas-bank-section { background: #fffdfb; color: var(--ink); }
     .craas-benefits-section { background: #ecfbf1; color: var(--ink); }
     .craas-specialist-section h2, .craas-bank-section h2, .craas-benefits-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
-    .craas-service-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .craas-service-grid article { min-height: 132px; border-radius: 20px; padding: 22px; color: #fffdfb; box-shadow: 0 18px 42px rgba(0,0,0,.18); display: grid; align-content: end; }
-    .craas-service-grid article:nth-child(4n+1) { background: linear-gradient(135deg, #8885f0, #5f6fe9); }
-    .craas-service-grid article:nth-child(4n+2) { background: linear-gradient(135deg, #39cd74, #11875d); }
-    .craas-service-grid article:nth-child(4n+3) { background: linear-gradient(135deg, #ff644a, #db2f25); }
-    .craas-service-grid article:nth-child(4n+4) { background: linear-gradient(135deg, #ef8fa4, #8e5369); }
+    .craas-service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .craas-service-grid article { min-height: 132px; border-radius: 20px; padding: 22px; color: var(--ink); box-shadow: 0 18px 42px rgba(0,0,0,.18); display: grid; align-content: end; }
+    .craas-service-grid article:nth-child(5n+1) { background: var(--g1); }
+    .craas-service-grid article:nth-child(5n+2) { background: var(--g2); }
+    .craas-service-grid article:nth-child(5n+3) { background: var(--g3); }
+    .craas-service-grid article:nth-child(5n+4) { background: var(--g4); }
+    .craas-service-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
     .craas-service-grid strong { font-size: clamp(18px, 2vw, 28px); line-height: 1.05; font-weight: 950; }
     .craas-list-panel, .craas-benefit-grid article { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
     .craas-list-panel ul, .craas-benefit-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
@@ -2205,57 +2327,71 @@ def stylesheet
     .partner-market-section { background: #f2f4ff; color: var(--ink); }
     .partner-operating-section { background: #11101a; color: var(--paper); }
     .partner-opportunity-section h2, .partner-market-section h2, .partner-operating-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
-    .partner-metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .partner-metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .partner-metric-grid article { min-height: 150px; border-radius: 22px; padding: 24px; background: #11101a; color: var(--paper); display: grid; align-content: end; box-shadow: 0 18px 42px rgba(37,32,68,.12); }
-    .partner-metric-grid article:nth-child(2) { background: linear-gradient(135deg, #39cd74, #11875d); }
-    .partner-metric-grid article:nth-child(3) { background: linear-gradient(135deg, #8885f0, #5f6fe9); }
-    .partner-metric-grid article:nth-child(4) { background: linear-gradient(135deg, #ff644a, #db2f25); }
+    .partner-metric-grid article:nth-child(1) { background: var(--black); }
+    .partner-metric-grid article:nth-child(2) { background: var(--g2); }
+    .partner-metric-grid article:nth-child(3) { background: var(--g1); }
+    .partner-metric-grid article:nth-child(4) { background: var(--g4); }
+    .partner-metric-grid article:nth-child(2), .partner-metric-grid article:nth-child(3), .partner-metric-grid article:nth-child(4) { color: var(--ink); }
     .partner-metric-grid strong, .partner-metric-grid span { display: block; }
     .partner-metric-grid strong { font-size: clamp(32px, 4vw, 54px); line-height: .95; font-weight: 950; }
     .partner-metric-grid span { margin-top: 12px; color: rgba(255,253,251,.82); line-height: 1.25; font-weight: 850; }
-    .partner-engine-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .partner-engine-grid article { border: 1px solid rgba(37,32,68,.12); border-radius: 22px; padding: 24px; background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
-    .partner-engine-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.18), rgba(255,255,255,.82)); }
-    .partner-engine-grid article:nth-child(3) { background: linear-gradient(135deg, rgba(136,133,240,.18), rgba(255,255,255,.82)); }
-    .partner-engine-grid article:nth-child(4) { background: linear-gradient(135deg, rgba(255,100,74,.15), rgba(255,255,255,.82)); }
-    .partner-engine-grid strong { display: block; font-size: clamp(22px, 2.2vw, 32px); line-height: 1.04; font-weight: 950; }
-    .partner-engine-grid p { margin: 16px 0 0; color: var(--muted); line-height: 1.45; font-weight: 760; }
-    .partner-engine-grid ul { display: grid; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
-    .partner-engine-grid li { position: relative; padding-left: 22px; color: var(--muted); line-height: 1.32; font-weight: 760; }
-    .partner-engine-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
-    .partner-market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .partner-market-grid article { min-height: 226px; border-radius: 22px; padding: 24px; color: #fffdfb; box-shadow: 0 18px 42px rgba(37,32,68,.12); display: grid; align-content: start; }
-    .partner-market-grid article:nth-child(1) { background: linear-gradient(135deg, #8885f0, #5f6fe9); }
-    .partner-market-grid article:nth-child(2) { background: linear-gradient(135deg, #39cd74, #11875d); }
-    .partner-market-grid article:nth-child(3) { background: linear-gradient(135deg, #ff644a, #db2f25); }
-    .partner-market-grid article:nth-child(4) { background: linear-gradient(135deg, #ef8fa4, #8e5369); }
-    .partner-market-grid article:nth-child(5) { grid-column: 1 / -1; background: linear-gradient(135deg, #39cd74, #8885f0 52%, #ff644a); }
+    .partner-metric-grid article:nth-child(2) span, .partner-metric-grid article:nth-child(3) span, .partner-metric-grid article:nth-child(4) span { color: rgba(37,32,68,.78); }
+    .partner-engine-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .partner-engine-grid article { border: 1px solid transparent; border-top: 5px solid var(--g1); border-radius: 18px; padding: 16px; background: #f2f4ff; box-shadow: 0 16px 34px rgba(37,32,68,.08); }
+    .partner-engine-grid article:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
+    .partner-engine-grid article:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
+    .partner-engine-grid article:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
+    .partner-engine-grid article:nth-child(4n+4) { background: #fff6e8; border-top-color: var(--g4); }
+    .partner-engine-grid strong { display: block; font-size: clamp(18px, 1.8vw, 24px); line-height: 1.06; font-weight: 950; }
+    .partner-engine-grid p { margin: 10px 0 0; color: var(--muted); line-height: 1.26; font-size: 14px; font-weight: 760; }
+    .partner-engine-grid ul { display: grid; grid-template-columns: 1fr; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .partner-engine-grid li { position: relative; padding-left: 15px; color: var(--muted); line-height: 1.18; font-size: 12px; font-weight: 760; }
+    .partner-engine-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 7px; height: 7px; border-radius: 999px; background: var(--g2); }
+    .partner-market-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .partner-market-grid article { min-height: 226px; border-radius: 22px; padding: 24px; color: var(--ink); box-shadow: 0 18px 42px rgba(37,32,68,.12); display: grid; align-content: start; }
+    .partner-market-grid article:nth-child(1) { background: var(--g1); }
+    .partner-market-grid article:nth-child(2) { background: var(--g2); }
+    .partner-market-grid article:nth-child(3) { background: var(--g4); }
+    .partner-market-grid article:nth-child(4) { background: var(--g3); }
+    .partner-market-grid article:nth-child(5) { grid-column: auto; background: var(--black); color: var(--white); }
     .partner-market-grid strong, .partner-market-grid span, .partner-market-grid p { display: block; }
     .partner-market-grid strong { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.02; font-weight: 950; }
-    .partner-market-grid span { margin-top: 14px; color: rgba(255,253,251,.82); font-size: 15px; line-height: 1.25; font-weight: 950; }
-    .partner-market-grid p { margin: 20px 0 0; color: rgba(255,253,251,.82); line-height: 1.4; font-size: 16px; font-weight: 760; }
+    .partner-market-grid span { margin-top: 14px; color: rgba(37,32,68,.78); font-size: 15px; line-height: 1.25; font-weight: 950; }
+    .partner-market-grid p { margin: 20px 0 0; color: rgba(37,32,68,.78); line-height: 1.4; font-size: 16px; font-weight: 760; }
+    .partner-market-grid article:nth-child(5) span, .partner-market-grid article:nth-child(5) p { color: rgba(255,253,251,.82); }
     .partner-operating-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-    .partner-operating-grid article { min-height: 520px; border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: 24px; background: rgba(250,248,245,.07); }
-    .partner-operating-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(250,248,245,.06)); }
-    .partner-operating-grid article:nth-child(3) { background: linear-gradient(135deg, rgba(255,100,74,.18), rgba(136,133,240,.15)); }
-    .partner-operating-grid h3 { margin: 0 0 18px; font-size: clamp(22px, 2vw, 30px); line-height: 1.05; }
-    .partner-operating-grid p { margin: 0 0 16px; color: rgba(250,248,245,.72); line-height: 1.45; font-weight: 760; }
-    .partner-operating-grid ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-    .partner-operating-grid li { position: relative; padding-left: 22px; color: rgba(250,248,245,.78); line-height: 1.3; font-weight: 760; }
+    .partner-operating-grid article { min-height: 0; border: 1px solid rgba(250,248,245,.14); border-top: 5px solid var(--g1); border-radius: 22px; padding: 20px; background: rgba(250,248,245,.07); }
+    .partner-operating-grid article:nth-child(2) { border-top-color: var(--g2); background: rgba(250,248,245,.09); }
+    .partner-operating-grid article:nth-child(3) { border-top-color: var(--g4); background: rgba(250,248,245,.09); }
+    .partner-operating-grid h3 { margin: 0 0 14px; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.05; }
+    .partner-operating-grid p { margin: 0 0 12px; color: rgba(250,248,245,.72); line-height: 1.28; font-size: 14px; font-weight: 760; }
+    .partner-operating-grid ul { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .partner-operating-grid li { position: relative; padding-left: 16px; color: rgba(250,248,245,.78); line-height: 1.18; font-size: 12px; font-weight: 760; }
     .partner-operating-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
     .start-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .legal-start-section { padding-top: clamp(34px, 5vw, 58px); padding-bottom: clamp(34px, 5vw, 58px); }
+    .legal-start-section h2 { max-width: 780px; }
+    .legal-start-section .button { min-height: 40px; padding: 10px 14px; font-size: 13px; }
     .button.on-light:not(.cta-app):not(.cta-group):not(.cta-touch) { color: var(--ink); border-color: #ded8ea; }
     .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 28px; padding: 36px clamp(20px, 5vw, 64px); border-top: 1px solid rgba(250,248,245,.12); background: #050510; }
     .footer-identity { max-width: 760px; }
     .footer-identity p { margin: 8px 0 0; color: rgba(250,248,245,.68); font-size: .88rem; line-height: 1.55; }
-    .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 12px 18px; }
-    .site-footer a { color: rgba(250,248,245,.82); font-weight: 800; }
+    .footer-support { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .whatsapp-contact { min-height: 28px; display: inline-flex; align-items: center; gap: 7px; color: rgba(250,248,245,.78); font-weight: 800; text-decoration: none; border-radius: 9px; }
+    .whatsapp-contact:hover, .whatsapp-contact:focus-visible { color: var(--paper); background: rgba(250,248,245,.08); }
+    .whatsapp-mark { width: 19px; height: 19px; flex: 0 0 auto; display: inline-block; vertical-align: -4px; }
+    .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 10px; }
+    .site-footer a { min-height: 40px; display: inline-flex; align-items: center; color: rgba(250,248,245,.82); font-weight: 800; border-radius: 9px; padding: 8px 10px; }
+    .site-footer a:hover, .site-footer a:focus-visible { background: rgba(250,248,245,.08); color: var(--paper); }
     @media (max-width: 1120px) and (min-width: 981px) {
       .site-header { flex-wrap: nowrap; }
       .menu-button { display: inline-flex; margin-left: auto; }
       .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(250,248,245,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
       .site-nav.open { display: flex; }
       .header-actions { display: none; }
+      .content-grid-diaspora { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 980px) {
       .site-header { flex-wrap: nowrap; }
@@ -2264,14 +2400,25 @@ def stylesheet
       .site-nav.open { display: flex; }
       .header-actions { display: none; }
       .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 40px; }
+      .legal-hero { grid-template-columns: 1fr; padding-top: 32px; padding-bottom: 32px; }
       .hero-device { min-height: 360px; }
       .hero-widget { width: min(100%, 390px); min-height: 350px; }
       .phone-widget { width: min(100%, 366px); min-height: 650px; }
       .content-grid, .infographic-grid { grid-template-columns: 1fr 1fr; }
+      .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-column: auto; }
       .explain-band, .start-section, .market-context, .proof-section, .faq-section, .original-story, .supported-groups-section { grid-template-columns: 1fr; }
+      .supported-groups-copy { position: static; }
+      .supported-groups-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; }
       .problem-list.compact, .use-case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .partner-engine-grid, .partner-operating-grid { grid-template-columns: 1fr; }
+      .partner-engine-grid, .partner-operating-grid, .partner-market-grid, .partner-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .partner-engine-grid strong { font-size: clamp(20px, 4vw, 24px); }
+      .partner-engine-grid p { margin-top: 10px; font-size: 14px; line-height: 1.3; }
+      .partner-engine-grid ul { grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+      .partner-engine-grid li { font-size: 12px; line-height: 1.22; padding-left: 14px; }
+      .partner-engine-grid li::before { width: 6px; height: 6px; }
+      .legal-layout { grid-template-columns: 1fr; }
+      .legal-sidebar { position: static; }
       .craas-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr 1fr; }
       .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2285,16 +2432,21 @@ def stylesheet
     @media (max-width: 560px) {
       .site-header { padding: 14px 20px; gap: 12px; }
       .brand strong { font-size: 18px; }
-      .hero { padding: 20px 20px 24px; gap: 12px; }
-      h1 { font-size: clamp(30px, 9vw, 38px); line-height: 1; }
-      .hero-intro { font-size: 15px; line-height: 1.32; margin: 14px 0 16px; }
+      .hero { padding: 22px 20px 30px; gap: 16px; }
+      .legal-hero { grid-template-columns: 1fr; padding-top: 20px; padding-bottom: 24px; }
+      h1 { font-size: clamp(30px, 8.6vw, 38px); line-height: 1; }
+      .hero-intro { font-size: 15px; line-height: 1.36; margin: 14px 0 16px; }
       .hero-actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
       .button { width: 100%; }
       .hero-actions .button { min-height: 42px; padding: 10px 14px; }
-      .hero-device { min-height: 160px; max-height: 160px; overflow: hidden; align-items: start; }
+      .legal-page .hero-actions .button { min-height: 38px; }
+      .hero-device { min-height: 306px; max-height: 306px; overflow: visible; align-items: center; }
       .hero-widget { width: 100%; min-height: 300px; border-radius: 24px; padding: 20px; }
-      .phone-widget { width: min(100%, 340px); height: 160px; min-height: 160px; padding: 0; border-radius: 38px; overflow: hidden; }
-      .phone-shell { width: 340px; max-width: 100%; height: 620px; min-height: 620px; border-radius: 48px; transform: scale(.42); transform-origin: top center; margin: 0 auto; }
+      .phone-widget { width: min(100%, 350px); height: 306px; min-height: 306px; padding: 0; border-radius: 40px; overflow: visible; }
+      .phone-shell { width: 350px; max-width: 100%; height: 620px; min-height: 620px; border-radius: 48px; transform: scale(.49); transform-origin: top center; margin: 0 auto; }
+      .route-craas .hero-device, .route-credit-readiness .hero-device, .route-community-groups .hero-device { min-height: 356px; max-height: 356px; align-items: center; overflow: visible; }
+      .route-craas .phone-widget, .route-credit-readiness .phone-widget, .route-community-groups .phone-widget { height: 356px; min-height: 356px; max-height: 356px; overflow: visible; }
+      .route-craas .phone-shell, .route-credit-readiness .phone-shell, .route-community-groups .phone-shell { transform: scale(.56); }
       .phone-screen { height: 600px; min-height: 600px; border-radius: 38px; padding: 16px 14px 12px; }
       .ledger-summary { grid-template-columns: 1fr; }
       .statement-head, .ledger-widget .ledger-row { grid-template-columns: minmax(92px, 1fr) auto; }
@@ -2306,26 +2458,43 @@ def stylesheet
       .member-ring { width: 128px; height: 128px; justify-self: center; }
       .home-flow { grid-template-columns: 1fr; }
       .home-flow i { height: 18px; width: 2px; justify-self: center; }
-      .content-grid, .infographic-grid, .supported-groups-grid { grid-template-columns: 1fr; }
-      .legal-card-grid, .legal-details { grid-template-columns: 1fr; }
-      .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr; }
+      .content-grid, .infographic-grid, .supported-groups-grid, .story-grid, .story-grid.four, .story-grid.five, .story-grid.six, .story-grid.problem-grid, .journey-rail, .journey-rail.group-journey, .insurance-step-grid, .partner-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content-grid .section-card, .infographic-step, .story-grid article, .journey-rail article, .insurance-step-grid article, .partner-metric-grid article { min-height: 120px; padding: 14px; border-radius: 14px; }
+      .infographic-step h3, .story-grid strong { font-size: clamp(15px, 4vw, 17px); line-height: 1.06; }
+      .infographic-step p, .story-grid span, .journey-rail p, .insurance-step-grid p { font-size: 13px; line-height: 1.24; }
+      .journey-rail strong { margin-top: 16px; font-size: clamp(17px, 4.4vw, 20px); }
+      .journey-rail p, .insurance-step-grid p { margin-top: 10px; }
+      .content-grid-diaspora .section-card:first-of-type, .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-row: auto; grid-column: auto; }
+      .legal-card-grid, .legal-details, .legal-layout { grid-template-columns: 1fr; }
       .language-switcher { display: none; }
       .localized-nav { display: flex; position: static; padding: 0; background: transparent; border-bottom: 0; box-shadow: none; }
       .proof-grid { grid-template-columns: 1fr; }
       .explain-band, .start-section, .market-context, .proof-section, .faq-section, .content-grid, .supported-groups-section { padding: 48px 20px; }
+      .supported-groups-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .supported-group-card { min-height: 154px; padding: 14px; border-radius: 14px; gap: 9px; }
+      .supported-group-index { width: 32px; height: 32px; border-radius: 10px; font-size: 11px; }
+      .supported-group-card strong { font-size: clamp(15px, 4.2vw, 17px); line-height: 1.05; }
+      .supported-group-card p { font-size: clamp(12px, 3.35vw, 14px); line-height: 1.25; }
       .legal-content { padding: 48px 20px; }
       .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; padding: 48px 20px; }
-      .problem-list.compact, .use-case-grid, .journey-rail.group-journey, .change-compare-grid, .insurance-step-grid, .craas-service-grid, .craas-list-panel ul, .craas-benefit-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid { grid-template-columns: 1fr; }
+      .infographic-band h2, .explain-band h2, .start-section h2, .market-context h2, .original-story h2, .group-problem-section h2, .group-workflow-section h2, .group-feature-section h2, .group-accumulation-section h2, .group-use-section h2, .diaspora-change-section h2, .insurance-work-section h2, .insurance-finance-section h2, .craas-specialist-section h2, .craas-bank-section h2, .craas-benefits-section h2, .partner-opportunity-section h2, .partner-market-section h2, .partner-operating-section h2, .content-grid-heading, .supported-groups-section h2 { font-size: clamp(29px, 8vw, 34px); line-height: 1.02; }
+      .problem-list.compact, .use-case-grid, .craas-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .problem-list.compact article, .use-case-grid article, .craas-service-grid article { min-height: 96px; padding: 14px; border-radius: 14px; font-size: clamp(13px, 3.45vw, 15px); line-height: 1.16; }
+      .change-compare-grid, .craas-list-panel ul, .craas-benefit-grid { grid-template-columns: 1fr; }
+      .partner-engine-grid, .partner-market-grid, .partner-operating-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .partner-engine-grid strong { font-size: clamp(20px, 5.8vw, 24px); }
       .partner-market-grid article:nth-child(5) { grid-column: auto; }
       .market-grid { grid-template-columns: 1fr; }
       .market-grid article { min-height: 128px; border-right: 0; }
       .market-grid article:nth-last-child(2) { border-bottom: 1px solid #e5deef; }
       .original-story { padding: 48px 20px; }
-      .journey-rail { grid-template-columns: 1fr; }
-      .journey-rail article { min-height: 180px; border-right: 0; border-bottom: 1px solid rgba(250,248,245,.14); }
-      .journey-rail article:last-child { border-bottom: 0; }
+      .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .journey-rail article { min-height: 120px; border-right: 1px solid rgba(250,248,245,.14); border-bottom: 1px solid rgba(250,248,245,.14); }
+      .journey-rail article:nth-child(2n) { border-right: 0; }
+      .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
       .site-footer { grid-template-columns: 1fr; }
-      .site-footer nav { justify-content: flex-start; }
+      .site-footer nav { justify-content: flex-start; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .site-footer a { justify-content: center; min-height: 44px; background: rgba(250,248,245,.06); }
     }
     @media (max-width: 1180px) and (min-width: 981px) {
       .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2352,28 +2521,61 @@ end
 
 def split_stylesheets(css)
   section_prefixes = %w[
-    content-grid infographic supported-groups section-card bullet-list legal-
+    content-grid infographic infographic-step supported-groups section-card bullet-list legal-
     group-problem group-workflow group-feature group-accumulation group-use
-    problem-list use-case-grid group-journey accumulation-panel
+    problem-list use-case-grid group-journey journey-rail accumulation-panel
     diaspora-change change-compare insurance-work insurance-finance
     insurance-step premium-finance craas- partner- story-grid.five story-grid.six
+    story-grid market-grid source-note home-flow section-number localized-
     diaspora-card protection-card readiness-card community-card partner-card
     trust-card policy-card terms-card deletion-card data-card
   ]
   sections_css = []
-  core_css = css.gsub(/^\s*([^@{}][^{}]*)\{([^{}]*)\}\n?/m) do |rule|
-    selector = Regexp.last_match(1)
+  core_lines = []
+  media_stack = []
+
+  css.each_line do |line|
+    stripped = line.strip
+    if stripped.start_with?("@media") && stripped.end_with?("{")
+      media_stack << { line: line, core_open: false, section_open: false }
+      next
+    end
+
+    if media_stack.any? && stripped == "}"
+      frame = media_stack.pop
+      core_lines << "}\n" if frame[:core_open]
+      sections_css << "}\n" if frame[:section_open]
+      next
+    end
+
+    selector = stripped.split("{", 2).first.to_s
     section_rule = section_prefixes.any? do |prefix|
       selector.include?(".#{prefix}") || selector.include?(prefix)
     end
-    if section_rule
-      sections_css << rule
-      ""
+
+    if media_stack.any?
+      frame = media_stack.last
+      if section_rule
+        unless frame[:section_open]
+          sections_css << frame[:line]
+          frame[:section_open] = true
+        end
+        sections_css << line
+      else
+        unless frame[:core_open]
+          core_lines << frame[:line]
+          frame[:core_open] = true
+        end
+        core_lines << line
+      end
+    elsif section_rule
+      sections_css << line
     else
-      rule
+      core_lines << line
     end
   end
-  [minify_css(core_css), minify_css(sections_css.join("\n"))]
+
+  [minify_css(core_lines.join), minify_css(sections_css.join)]
 end
 
 def site_js
@@ -2420,6 +2622,9 @@ def headers
       Cache-Control: public, max-age=31536000, immutable
 
     /manifest.json
+      Cache-Control: public, max-age=3600, must-revalidate
+
+    /brand-primary-colors.json
       Cache-Control: public, max-age=3600, must-revalidate
 
     /assets/*
@@ -2482,8 +2687,8 @@ manifest = {
   "description" => "Microsavings and group savings for daily earners.",
   "start_url" => "/",
   "display" => "standalone",
-  "background_color" => "#050510",
-  "theme_color" => "#8885F0",
+  "background_color" => BRAND_BLACK,
+  "theme_color" => BRAND_PRIMARY_COLORS.fetch("periwinkle"),
   "icons" => [
     {
       "src" => "/icons/collect.png",
@@ -2494,6 +2699,7 @@ manifest = {
   ]
 }
 write_file(File.join(BUILD_DIR, "manifest.json"), JSON.pretty_generate(manifest) + "\n")
+write_file(File.join(BUILD_DIR, "brand-primary-colors.json"), JSON.pretty_generate(BRAND_COLOR_CONTRACT) + "\n")
 
 all_paths = []
 PAGES.each do |page|
@@ -2501,7 +2707,7 @@ PAGES.each do |page|
   write_file(route_file(page[:path]), html)
   all_paths << page[:path]
   Array(page[:aliases]).each do |alias_path|
-    alias_page = page.merge(path: alias_path)
+    alias_page = alias_page_for(page, alias_path)
     write_file(route_file(alias_path), page_html(alias_page, current_path: alias_path))
     all_paths << alias_path
   end

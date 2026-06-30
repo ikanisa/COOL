@@ -57,7 +57,7 @@ required_routes = {
   "/account-deletion/" => ["Delete Your Collect Account", "Delete your Collect account."],
   "/data-deletion/" => ["Data Deletion", "Data deletion and retention"],
   "/trust/" => ["Trust", "Security and trust"],
-  "/security/" => ["Trust", "Security and trust"],
+  "/security/" => ["Security | Collect by IKANISA", "Security, privacy and trust controls."],
   "/sitemap.xml" => ["credit-readiness", "privacy", "trust"],
   "/robots.txt" => ["Allow: /", "Sitemap:"],
 }

@@ -1,0 +1,20 @@
+{
+  "name": "Collect Primary Color Contract",
+  "version": "2026-06-30",
+  "primary": {
+    "periwinkle": "#8885F0",
+    "mint": "#3CD070",
+    "rose": "#D38B96",
+    "orange": "#FF5E43"
+  },
+  "black": "#050510",
+  "paper": "#FAF8F5",
+  "ink": "#252044",
+  "surface_white": "#FFFDFB",
+  "usage": {
+    "primary_surface_foreground": "#252044",
+    "black_surface_foreground": "#FFFDFB",
+    "white_label_cta_fill": "#050510",
+    "rule": "Strong public-site brand fills must use one of the four primary colors or black. White CTA labels use black for accessible contrast."
+  }
+}

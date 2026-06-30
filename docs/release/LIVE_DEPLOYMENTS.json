@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T20:34:04Z",
+  "generated_at": "2026-06-30T08:50:21Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,9 +7,9 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "dba702af-6c94-4bb1-957d-17c3e64c2493",
+      "version_id": "07f9925a-1be0-4076-8adf-843972dafcf1",
       "live_gate_status": "pass",
-      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-23 --message \"Version mobile layout assets\"; Current Version ID dba702af-6c94-4bb1-957d-17c3e64c2493. scripts/public_website_quality_gate.sh --json passed 34/34 locally. PUBLIC_WEBSITE_QA_URL=http://127.0.0.1:4177 PUBLIC_WEBSITE_QA_OUT=/tmp/collect_public_website_visual_qa_mobile_cachefix node scripts/public_website_playwright_visual_qa.js passed across mobile_390x844, mobile_430x932, tablet_768x1024 and desktop_1440x1000. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com scripts/public_website_live_gate.sh --json passed 26/26 against the custom domain. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com PUBLIC_WEBSITE_EVIDENCE_DIR=output/public_website_evidence scripts/public_website_audit_evidence.sh passed. Live /privacy/ HTML now references /styles.css?v=20260623-mobile-fix and /sections.css?v=20260623-mobile-fix. Focused in-app mobile browser verification at 390x844 on https://collect.ikanisa.com/privacy/ confirmed no horizontal overflow, heroHeight 625px, legalContentTop 698px, and no console errors. Live metrics recorded root HTML 13426 bytes, critical CSS 27634 bytes, JS 377 bytes, critical first-party bytes 201100, and valid JSON-LD types Organization and SoftwareApplication."
+      "evidence": "ruby scripts/public_static_site_build.rb generated build/public_web with asset version 20260630-ui-dev-audit-5; scripts/public_website_quality_gate.sh --json passed 48/48 locally. Local rendered screenshot QA passed with 48 screenshots and no failures after normalizing mobile hero phone previews. wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-30 --message \"Normalize mobile hero phone previews\" deployed Current Version ID 07f9925a-1be0-4076-8adf-843972dafcf1. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com scripts/public_website_live_gate.sh --json passed 27/27 at 2026-06-30T08:50:21Z. PUBLIC_WEBSITE_QA_URL=https://collect.ikanisa.com/ PUBLIC_WEBSITE_QA_OUT=output/public_website_route_rendered_qa_live_final2 PUBLIC_BUILD_DIR=build/public_web node scripts/public_website_route_rendered_qa.js passed with 48 live screenshots and no failures. The final live pass covers the public routes page by page, including CRaaS and Community Groups, and confirms no horizontal overflow, consistent CTAs, no Privacy/Terms/Trust TOC/sidebar, and complete mobile phone previews using styles.css?v=20260630-ui-dev-audit-5."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",
