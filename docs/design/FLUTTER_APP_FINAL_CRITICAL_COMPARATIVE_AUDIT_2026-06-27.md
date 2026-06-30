@@ -43,7 +43,7 @@ After explicit build approval on 2026-06-29, the production APK, production AAB,
 | `flutter test test/admin_pwa_test.dart` | Pass | Admin routing, auth, permission gating, paging, masked evidence, workflow checks, current-page CSV export, persisted SLA rendering, operator-note action flow, collection support-status actions, and feature-flag toggles. |
 | `flutter test test/supabase_contract_test.dart` | Pass | Supabase contract checks include audited operator notes, persisted queue SLA policy, collection support-status writes, feature-flag toggles, scoped function grants, and warning inventory. |
 | `flutter test --no-pub test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart test/supabase_contract_test.dart` | Pass | Focused post-token follow-up regression suite; 113 tests passed on 2026-06-27. |
-| `scripts/product_design_mobile_audit_artifact_gate.sh --json` | Pass | Release screenshot artifact gate passed for 48 documented screenshots. |
+| `scripts/product_design_mobile_audit_artifact_gate.sh --json` | Pass | Release screenshot artifact gate passed for 44 documented screenshots. |
 | `scripts/release_secret_scan.sh` | Pass | Fallback tracked-file secret scan passed because `gitleaks` is not installed locally. |
 | `scripts/collect_product_boundary_scan.sh --json` | Pass | Product-boundary scan passed across 156 source/docs files with zero hits. |
 | `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Fresh structural TalkBack capture passed in `.cache/android_accessibility_pixel4a/20260629T053724Z/summary.json`. Human listening checklist captured in `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md`. |
@@ -110,12 +110,10 @@ After explicit build approval on 2026-06-29, the production APK, production AAB,
 | `camera-denied` | `/permissions/camera-denied` | Good | Same recovery pattern as notifications. |
 | `home` | `/home` | Strong | Best Revolut-like match: top chrome, hero amount, action row, carousel cards, floating dock. Featured carousel clips offscreen by design but needs clear scroll affordance. |
 | `groups` | `/groups` | Good | Strong top chrome and rows; post-fix targeted evidence shows shortened metric labels and more resilient compact rows. |
-| `groups-search` | `/groups/search` | Good | Search-first route is clear, with useful empty and result states. |
 | `group-create` | `/groups/create` | Good | Calm and clean, now with compact review-before-sharing reassurance above the form. |
 | `group-scan` | `/groups/scan` | Good | Scanner frame is clear and now includes safe-QR context before the viewport. |
 | `iphone-create-unavailable` | `/platform/iphone-create-unavailable` | Good | Clear platform limitation and alternative actions. |
 | `group-detail` | `/groups/col-church` | Strong | Strong group finance hierarchy, compact rail, action strip, activity surface. |
-| `group-created` | `/groups/col-church/created` | Good | Success state is clear and action is calm. |
 | `group-joined` | `/groups/col-church/joined` | Good | Success state is concise and aligned. |
 | `owner-redirect` | `/groups/col-church/owner` | Good | Redirects cleanly to manage route. |
 | `owner-sms-health-redirect` | `/groups/col-church/owner/sms-health` | Good | Redirect/recovery path stable. |

@@ -53,7 +53,7 @@ class _PaymentIntentStatusScreenState
         onRefresh: _refreshStatus,
         persistentPill: CollectTopChrome(
           avatarLabel: appState.currentProfile?.publicId,
-          searchLabel: 'Payment status',
+          titleLabel: 'Payment status',
           onAvatarTap: () => context.go('/settings/profile'),
           actions: [
             CollectTopChromeAction(
@@ -81,7 +81,7 @@ class _PaymentIntentStatusScreenState
         onRefresh: _refreshStatus,
         persistentPill: CollectTopChrome(
           avatarLabel: appState.currentProfile?.publicId,
-          searchLabel: 'Payment status',
+          titleLabel: 'Payment status',
           onAvatarTap: () => context.go('/settings/profile'),
           actions: [
             CollectTopChromeAction(
@@ -131,7 +131,7 @@ class _PaymentIntentStatusScreenState
             (state) => state.currentProfile?.publicId,
           ),
         ),
-        searchLabel: collection.title,
+        titleLabel: collection.title,
         onAvatarTap: () => context.go('/settings/profile'),
         actions: [
           CollectTopChromeAction(

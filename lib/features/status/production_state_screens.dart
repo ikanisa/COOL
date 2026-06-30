@@ -15,48 +15,6 @@ export 'device_privacy_screens.dart';
 export 'account_legal_screens.dart';
 export 'group_members_screen.dart';
 
-class GroupCreatedSuccessScreen extends ConsumerWidget {
-  const GroupCreatedSuccessScreen({required this.collectionId, super.key});
-
-  final String collectionId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final collection = _safeCollection(ref, collectionId);
-    return ScreenScaffold(
-      title: 'Group created',
-      children: [
-        CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _StateHero(
-                icon: CollectIcons.check,
-                title: collection?.title ?? 'Group created.',
-                tone: CollectStatusTone.success,
-              ),
-              CollectSpacing.gap16,
-              CollectButton(
-                label: 'Open group',
-                icon: CollectIcons.collections,
-                onPressed: () => context.go('/groups/$collectionId'),
-                expand: true,
-              ),
-              CollectButton(
-                label: 'Share group',
-                icon: CollectIcons.share,
-                variant: CollectButtonVariant.secondary,
-                onPressed: () => context.go('/groups/$collectionId/share'),
-                expand: true,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class JoinGroupConfirmationScreen extends ConsumerWidget {
   const JoinGroupConfirmationScreen({required this.collectionId, super.key});
 

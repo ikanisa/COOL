@@ -87,7 +87,6 @@ void main() {
         '/groups/scan',
         '/groups/create',
         '/groups/:collectionId',
-        '/groups/:collectionId/created',
         '/groups/:collectionId/joined',
         '/groups/:collectionId/members',
         '/groups/:collectionId/owner',
@@ -287,7 +286,7 @@ void main() {
     expect(designAudit, contains('revolut_100_percent_claim_guard'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
     expect(designAudit, contains('theme_mode_visual_parity_gate'));
-    expect(designAudit, contains('revolut_top_chrome_search_contract'));
+    expect(designAudit, contains('no_redundant_top_search_chrome_contract'));
     expect(designAudit, contains('mobile_brand_asset_contract'));
     expect(designAudit, contains('no_raw_ui_colors_outside_tokens'));
     expect(designAudit, contains('share_domain_contract'));
@@ -384,7 +383,7 @@ void main() {
     expect(topChromePart, contains('class CollectBrandMark'));
     expect(topChromePart, contains('CollectRuntimeAssets.wordmarkAssetPath'));
     expect(topChromePart, contains('CollectRuntimeAssets.appIconAssetPath'));
-    expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
+    expect(runtimeAssets, contains('wordmarkAssetPath = sourceWordmarkPath'));
     expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
     expect(
       runtimeAssets,
@@ -439,7 +438,7 @@ void main() {
     },
   );
 
-  test('home and groups keep Revolut-style searchable top chrome', () {
+  test('primary mobile screens delete redundant top search chrome', () {
     final home = [
       'lib/features/home/home_screen.dart',
       'lib/features/home/home_action_strip.dart',
@@ -464,29 +463,25 @@ void main() {
       'lib/shared/widgets/collect_scaffold_chrome.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
 
-    expect(home, contains('CollectTopChrome('));
-    expect(home, contains("searchLabel: 'Search'"));
-    expect(home, contains("onSearchTap: () => context.go('/groups/search')"));
-    expect(home, contains("tooltip: 'Notifications'"));
-    expect(home, contains("tooltip: 'Scan QR code'"));
+    expect(home, isNot(contains('CollectTopChrome(')));
+    expect(home, isNot(contains("context.go('/groups/search')")));
     expect(home, isNot(contains("label: 'Join'")));
     expect(home, isNot(contains("context.go('/groups/join')")));
     expect(home, contains("label: 'Scan QR'"));
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
-    expect(groups, contains('CollectTopChrome('));
-    expect(groups, contains('persistentPill: groupsTopChrome'));
-    expect(groups, contains("'Search groups'"));
-    expect(groups, contains("tooltip: 'Scan QR code'"));
-    expect(groups, contains("tooltip: 'Create group'"));
-    expect(settings, contains('CollectTopChrome('));
-    expect(settings, contains("'Search settings'"));
-    expect(settings, contains("tooltip: 'Notifications'"));
-    expect(settings, contains("tooltip: 'Account'"));
+    expect(groups, isNot(contains('CollectTopChrome(')));
+    expect(groups, isNot(contains("'Search groups'")));
+    expect(settings, isNot(contains('CollectTopChrome(')));
+    expect(settings, isNot(contains("'Search settings'")));
     expect(groupDetail, isNot(contains('CollectTopChrome')));
     expect(groupDetail, isNot(contains('persistentPill')));
     expect(sharedBarrel, contains("export 'collect_chrome.dart';"));
     expect(sharedBarrel, isNot(contains('class CollectTopChrome')));
     expect(chromeModule, contains('class CollectTopChrome'));
+    expect(chromeModule, isNot(contains('searchLabel')));
+    expect(chromeModule, isNot(contains('onSearchTap')));
+    expect(chromeModule, isNot(contains('onSearchChanged')));
+    expect(chromeModule, isNot(contains('CollectIcons.search')));
     expect(chromeModule, contains('class ScreenHeader'));
   });
 
@@ -566,8 +561,8 @@ void main() {
         createGroup,
         contains("CollectPlainPageHeader(title: 'Create group')"),
       );
-      expect(createGroup, contains('subtitle: _createStepSubtitle(_step)'));
-      expect(createGroup, contains('String _createStepSubtitle(int step)'));
+      expect(createGroup, isNot(contains('_createStepSubtitle')));
+      expect(createGroup, isNot(contains('subtitle: _createStepSubtitle')));
       expect(scanner, contains("CollectPlainPageHeader(title: 'Scan QR')"));
       expect(scanner, isNot(contains('analyzeImage')));
       expect(scanner, isNot(contains("'Gallery'")));

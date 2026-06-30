@@ -52,11 +52,6 @@ end
 
 required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "People earn daily. Finance still works monthly."],
-  "/rw/" => ["Ibimina", "Collect"],
-  "/rw/group-savings/" => ["Itsinda ryanyu rifite icyizere", "Collect"],
-  "/rw/community-groups/" => ["Imari ikora neza", "Collect"],
-  "/fr/diaspora/" => ["Une epargne de groupe", "Collect"],
-  "/fr/our-partners/" => ["opportunite bancaire", "Collect"],
   "/privacy/" => ["Privacy Policy", "Your data. Your choice. Your financial journey."],
   "/terms/" => ["Terms of Use", "Clear rules for using Collect."],
   "/account-deletion/" => ["Delete Your Collect Account", "Delete your Collect account."],
@@ -245,8 +240,9 @@ check(
   root_body.scan(/https:\/\/wa\.me\//).length >= 3 &&
     root_body.include?("https://play.google.com/store/apps/details?id=app.cool.mobile") &&
     root_body.include?("Get the App") &&
-    root_body.include?("Talk to us about starting a group") &&
+    root_body.include?("Create Group Saving") &&
     root_body.include?("Get in Touch") &&
+    !root_body.include?("Available on Android") &&
     !root_body.include?("WhatsApp support options") &&
     !root_body.include?("Partner Inquiry") &&
     !root_body.include?("Privacy or Deletion") &&
@@ -361,29 +357,30 @@ localized_live_markers = {
   "root_hreflang_rw" => root_text.include?('hreflang="rw"'),
   "root_hreflang_fr" => root_text.include?('hreflang="fr"'),
 }
-localized_live_ok = root_text.include?('<html lang="en">') &&
+english_only_ok = root_text.include?('<html lang="en">') &&
   root_text.include?('property="og:locale" content="en_US"') &&
-  localized_live_markers.values.all?
+  localized_live_markers.values.none?
 check(
   checks,
-  "localized_public_routes",
-  localized_live_ok,
-  "Live public site advertises and serves localized Kinyarwanda and French routes.",
+  "english_only_public_site",
+  english_only_ok,
+  "Live public site is English-only until approved localized copy exists.",
   { "localized_live_markers" => localized_live_markers.select { |_key, value| value } },
 )
 
 check(
   checks,
-  "faq_help_and_public_proof",
-  root_text.include?("Questions visitors ask") &&
-    root_text.include?("section-kicker") &&
-    root_text.include?("Verified public proof") &&
-    root_text.include?("app.cool.mobile") &&
-    root_text.include?("5+ downloads") &&
-    root_text.include?("raw HTML") &&
+  "consistent_ctas_no_faq_or_proof",
+  root_body.scan(">Get the App<").length >= 2 &&
+    root_body.scan(">Create Group Saving<").length >= 2 &&
+    root_body.scan(">Get in Touch<").length >= 2 &&
+    !root_text.include?("Questions visitors ask") &&
+    !root_body.include?("faq-section") &&
+    !root_text.include?("What Collect can prove publicly") &&
+    !root_text.include?("Available on Android") &&
     !root_text.include?("thousands of users") &&
     !root_text.include?("approved partner names"),
-  "Live root includes FAQ/help content and conservative public proof without unsupported traction claims.",
+  "Live root uses the consistent CTA trio and omits FAQ, proof and availability labels.",
 )
 
 mobile_css_ok = styles_text.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) &&

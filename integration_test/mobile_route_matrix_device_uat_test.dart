@@ -84,7 +84,6 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('camera-denied', '/permissions/camera-denied'),
   _RouteSpec('home', '/home'),
   _RouteSpec('groups', '/groups'),
-  _RouteSpec('groups-search', '/groups/search'),
   _RouteSpec('group-create', '/groups/create'),
   _RouteSpec('group-scan', '/groups/scan'),
   _RouteSpec(
@@ -92,7 +91,6 @@ const _routeSpecs = <_RouteSpec>[
     '/platform/iphone-create-unavailable',
   ),
   _RouteSpec('group-detail', '/groups/col-church'),
-  _RouteSpec('group-created', '/groups/col-church/created'),
   _RouteSpec('group-joined', '/groups/col-church/joined'),
   _RouteSpec('owner-redirect', '/groups/col-church/owner'),
   _RouteSpec(

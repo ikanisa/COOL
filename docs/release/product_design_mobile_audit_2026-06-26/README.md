@@ -9,7 +9,7 @@ Manifest: `docs/release/product_design_mobile_audit_2026-06-26/screenshot_manife
 
 ## Current Follow-Up Evidence
 
-The audit screenshots in this folder are the 48-screen pre-fix product-design
+The audit screenshots in this folder are the 44-screen current product-design
 audit evidence. Current post-fix route evidence for the premium frontend pass
 was captured separately with Flutter test rendering because local Chrome
 headless/CDP capture hung before DevTools readiness in this session.
@@ -63,7 +63,7 @@ Top priorities:
 
 ## Evidence Summary
 
-Captured screens: 48
+Captured screens: 44
 
 Console errors during capture: 0
 
@@ -237,7 +237,6 @@ Recommendations:
 Screens:
 
 - `09-groups-list.png`
-- `10-groups-search.png`
 
 Health: Good structure, needs stronger search affordance.
 
@@ -255,7 +254,6 @@ Issues:
 Recommendations:
 
 - Make the Groups route a true management/discovery space: tabs for My groups, Invites, Discover, Recent.
-- Use a clear search placeholder such as "Search groups or Collect ID".
 - Include a visible empty state and recent searches for first-time users.
 
 ## Journey 5: Group Creation
@@ -292,7 +290,6 @@ Screens:
 - `12-group-scan.png`
 - `13-join-portal.png`
 - `14-shared-group-link.png`
-- `16-group-created.png`
 - `17-group-joined.png`
 - `46-share-invalid.png`
 - `47-share-expired.png`
@@ -502,13 +499,11 @@ Recommendations:
 | 7 | `07-profile-readiness.png` | `/settings/readiness` | Needs review | Readiness should become a checklist, not an abstract status. |
 | 8 | `08-home.png` | `/home` | Strong with risk | Excellent product entry; dense top area and clipped cards. |
 | 9 | `09-groups-list.png` | `/groups` | Good | Familiar card pattern; needs clearer group management hierarchy. |
-| 10 | `10-groups-search.png` | `/groups/search` | Needs review | Search affordance and empty states need verification. |
 | 11 | `11-group-create.png` | `/groups/create` | Needs improvement | Minimal form, too little guidance, bottom CTA/navigation conflict. |
 | 12 | `12-group-scan.png` | `/groups/scan` | Needs device test | Camera route exists; web screenshot cannot prove native scan behavior. |
 | 13 | `13-join-portal.png` | `/groups/join` | Good with risk | Join route exists; fallback and manual entry need prominence. |
 | 14 | `14-shared-group-link.png` | `/c/st-michel-building-fund` | Good with risk | Link state exists; full group identity and privacy copy matter. |
 | 15 | `15-group-detail.png` | `/groups/col-church` | Strong with risk | Strong group summary; group name and action meanings need clearer labels. |
-| 16 | `16-group-created.png` | `/groups/col-church/created` | Good | Confirmation route exists; verify next best action. |
 | 17 | `17-group-joined.png` | `/groups/col-church/joined` | Good | Confirmation route exists; verify group detail transition. |
 | 18 | `18-share-group.png` | `/groups/col-church/share` | Good with risk | QR is clear; modal position and title truncation need refinement. |
 | 19 | `19-contribution.png` | `/groups/col-church/contribute` | Needs review | Contribution entry needs amount guidance and error states. |

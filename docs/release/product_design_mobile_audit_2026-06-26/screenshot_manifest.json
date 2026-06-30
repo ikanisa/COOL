@@ -67,15 +67,6 @@
       "consoleErrors": []
     },
     {
-      "step": "10-groups-search",
-      "route": "/groups/search",
-      "url": "http://127.0.0.1:57124/#/groups/search",
-      "title": "Collect",
-      "file": "/Volumes/PRO-G40/COOL/docs/release/product_design_mobile_audit_2026-06-26/screenshots/10-groups-search.png",
-      "bytes": 122892,
-      "consoleErrors": []
-    },
-    {
       "step": "11-group-create",
       "route": "/groups/create",
       "url": "http://127.0.0.1:57124/#/groups/create",
@@ -118,15 +109,6 @@
       "title": "Collect",
       "file": "/Volumes/PRO-G40/COOL/docs/release/product_design_mobile_audit_2026-06-26/screenshots/15-group-detail.png",
       "bytes": 180974,
-      "consoleErrors": []
-    },
-    {
-      "step": "16-group-created",
-      "route": "/groups/col-church/created",
-      "url": "http://127.0.0.1:57124/#/groups/col-church/created",
-      "title": "Collect",
-      "file": "/Volumes/PRO-G40/COOL/docs/release/product_design_mobile_audit_2026-06-26/screenshots/16-group-created.png",
-      "bytes": 88890,
       "consoleErrors": []
     },
     {

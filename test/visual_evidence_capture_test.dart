@@ -574,13 +574,9 @@ Widget _mobileRouteScreen(String route) {
     '/platform/iphone-create-unavailable' =>
       const IphoneCreateUnavailableScreen(),
     '/groups' => const CollectionsScreen(),
-    '/groups/search' => const GroupsSearchScreen(),
     '/groups/scan' => const GroupQrScannerScreen(),
     '/groups/create' => const CollectionCreateScreen(),
     '/groups/$collectionId' => const CollectionDetailScreen(
-      collectionId: collectionId,
-    ),
-    '/groups/$collectionId/created' => const GroupCreatedSuccessScreen(
       collectionId: collectionId,
     ),
     '/groups/$collectionId/joined' => const JoinGroupConfirmationScreen(

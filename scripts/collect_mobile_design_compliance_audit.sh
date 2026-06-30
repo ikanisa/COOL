@@ -374,7 +374,7 @@ runtime_app_icon_path = File.join(root, "assets/brand/collect_runtime/app_icons/
 runtime_splash_mark_path = File.join(root, "assets/brand/collect_runtime/splash/splash_mark.png")
 runtime_web_icon_path = File.join(root, "assets/brand/collect_runtime/app_icons/collect-web-512.png")
 runtime_share_preview_path = File.join(root, "assets/brand/collect_runtime/media/share-preview.png")
-switchpoint_failures << "Collect runtime wordmark is installed but CollectRuntimeAssets.wordmarkAssetPath still uses the fallback." if File.file?(runtime_wordmark_path) && !runtime_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+switchpoint_failures << "Collect transparent source wordmark is available but CollectRuntimeAssets.wordmarkAssetPath is not using it." if File.file?(File.join(root, "assets/brand/source_variants/collect_wordmark_transparent_4096.png")) && !runtime_assets.match?(/wordmarkAssetPath\s*=\s*sourceWordmarkPath/)
 switchpoint_failures << "Collect runtime app icon is installed but CollectRuntimeAssets.appIconAssetPath still uses the fallback." if File.file?(runtime_app_icon_path) && !runtime_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
 switchpoint_failures << "Collect runtime splash mark is installed but CollectRuntimeAssets.splashMarkAssetPath still uses the fallback." if File.file?(runtime_splash_mark_path) && !runtime_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
 if File.file?(runtime_web_icon_path)
@@ -646,19 +646,32 @@ checks << {
   ]
 }
 
-top_chrome_failures = []
-top_chrome_failures << "Home top chrome must keep the Revolut-style search slot visible." unless home_screen.include?("searchLabel: 'Search'") && home_screen.include?("onSearchTap: () => context.go('/groups/search')")
-top_chrome_failures << "Home top chrome must expose two compact action circles." unless home_screen.include?("tooltip: 'Notifications'") && home_screen.include?("tooltip: 'Scan QR code'")
-top_chrome_failures << "Groups top chrome must bind the search controller." unless collections_screen.scan("searchController: _search").length >= 2
-top_chrome_failures << "Groups top chrome must update the visible search query." unless collections_screen.scan("onSearchChanged: (value) => setState(() => _query = value)").length >= 2
-top_chrome_failures << "Groups top chrome must not suppress search." if collections_screen.include?("showSearch: false")
+top_search_failures = []
+top_search_screens = {
+  "Home" => home_screen,
+  "Groups" => collections_screen,
+  "Settings" => native_primary_screens.fetch("lib/features/settings/settings_screen.dart")
+}
+top_search_screens.each do |screen_name, source|
+  top_search_failures << "#{screen_name} must not use noisy top search chrome." if source.include?("CollectTopChrome(")
+  top_search_failures << "#{screen_name} must not define a top search label." if source.match?(/searchLabel:\s*['"]Search/)
+  top_search_failures << "#{screen_name} must not wire a top search controller." if source.include?("searchController:")
+  top_search_failures << "#{screen_name} must not wire top search change handlers." if source.include?("onSearchChanged:")
+end
+top_search_failures << "CollectTopChrome must not expose searchLabel." if chrome.include?("searchLabel")
+top_search_failures << "CollectTopChrome must not expose onSearchTap." if chrome.include?("onSearchTap")
+top_search_failures << "CollectTopChrome must not expose onSearchChanged." if chrome.include?("onSearchChanged")
+top_search_failures << "CollectTopChrome must not render a search icon." if chrome.include?("CollectIcons.search")
+top_search_failures << "Router must not register the deleted groups search route." if router_source.include?("/groups/search")
 checks << {
-  "id" => "revolut_top_chrome_search_contract",
-  "status" => status_for(top_chrome_failures),
-  "failures" => top_chrome_failures,
+  "id" => "no_redundant_top_search_chrome_contract",
+  "status" => status_for(top_search_failures),
+  "failures" => top_search_failures,
   "evidence" => [
     "lib/features/home/home_screen.dart",
-    "lib/features/collections/collections_screen.dart"
+    "lib/features/collections/collections_screen.dart",
+    "lib/features/settings/settings_screen.dart",
+    "lib/app/router.dart"
   ]
 }
 
@@ -670,7 +683,7 @@ asset_failures << "Collect runtime wordmark asset is missing." unless File.file?
 asset_failures << "Collect runtime app icon asset is missing." unless File.file?(app_icon_path)
 asset_failures << "Collect runtime splash mark asset is missing." unless File.file?(splash_mark_path)
 asset_failures << "CollectBrandMark must use the stable runtime asset registry." unless chrome.include?("CollectRuntimeAssets.wordmarkAssetPath")
-asset_failures << "Runtime asset registry must use expectedWordmarkPath once the kit is installed." unless runtime_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+asset_failures << "Runtime asset registry must use sourceWordmarkPath for the transparent Collect wordmark." unless runtime_assets.match?(/wordmarkAssetPath\s*=\s*sourceWordmarkPath/)
 asset_failures << "Runtime asset registry must use expectedAppIconPath once the kit is installed." unless runtime_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
 asset_failures << "Runtime asset registry must use expectedSplashMarkPath once the kit is installed." unless runtime_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
 asset_failures << "DESIGN_SYSTEM.md must name the runtime wordmark intake target." unless design_system.include?("assets/brand/collect_runtime/logos/wordmark.png")

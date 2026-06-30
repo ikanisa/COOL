@@ -43,11 +43,9 @@ const collectRoutePaths = <String>[
   '/permissions/camera-denied',
   '/platform/iphone-create-unavailable',
   '/groups',
-  '/groups/search',
   '/groups/scan',
   '/groups/create',
   '/groups/:collectionId',
-  '/groups/:collectionId/created',
   '/groups/:collectionId/joined',
   '/groups/:collectionId/members',
   '/groups/:collectionId/owner',
@@ -205,14 +203,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                 redirect: (context, state) => '/groups/scan',
               ),
               GoRoute(
-                path: 'search',
-                pageBuilder: (context, state) => _collectPage(
-                  state,
-                  const GroupsSearchScreen(),
-                  transition: _CollectRouteTransition.detail,
-                ),
-              ),
-              GoRoute(
                 path: 'scan',
                 pageBuilder: (context, state) => _collectPage(
                   state,
@@ -238,16 +228,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   transition: _CollectRouteTransition.detail,
                 ),
                 routes: [
-                  GoRoute(
-                    path: 'created',
-                    pageBuilder: (context, state) => _collectPage(
-                      state,
-                      GroupCreatedSuccessScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
-                      transition: _CollectRouteTransition.confirmation,
-                    ),
-                  ),
                   GoRoute(
                     path: 'joined',
                     pageBuilder: (context, state) => _collectPage(

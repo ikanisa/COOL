@@ -156,15 +156,10 @@ class _GroupsMomentumPanel extends StatelessWidget {
 }
 
 class _GroupsCardGrid extends StatelessWidget {
-  const _GroupsCardGrid({
-    required this.collections,
-    required this.summaries,
-    this.visualCards = false,
-  });
+  const _GroupsCardGrid({required this.collections, required this.summaries});
 
   final List<CollectCollection> collections;
   final Map<String, CollectionSummary> summaries;
-  final bool visualCards;
 
   @override
   Widget build(BuildContext context) {
@@ -220,9 +215,7 @@ class _GroupsCardGrid extends StatelessWidget {
                     amountRaisedRwf: 0,
                     supporterCount: 0,
                   ),
-              variant: visualCards
-                  ? GroupCardVariant.visual
-                  : GroupCardVariant.compact,
+              variant: GroupCardVariant.compact,
               onTap: () => context.go('/groups/${collection.id}'),
             );
           },

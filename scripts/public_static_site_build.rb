@@ -30,12 +30,6 @@ LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_pol
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
 
-GOOGLE_PLAY_PROOF = [
-  ["Google Play listing", "Collect is publicly listed on Google Play under package app.cool.mobile by IKANISA in the Finance category."],
-  ["Public app signal", "The listing showed 5+ downloads and a June 21, 2026 update when this page was prepared on June 29, 2026."],
-  ["Data-safety signal", "The listing presents data-safety and deletion-request information, matching the public Privacy and Account Deletion routes."],
-  ["Crawl-ready web proof", "This public site ships raw HTML, canonical URLs, robots.txt, sitemap.xml, structured data, security headers and static assets without a Flutter critical path."]
-].freeze
 
 PUBLIC_FAQS = {
   "/" => [
@@ -87,119 +81,6 @@ PUBLIC_FAQS = {
     ["Why does limited retention exist?", "Ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention."]
   ]
 }.freeze
-
-LOCALIZED_PAGES = [
-  {
-    path: "/rw/",
-    lang: "rw",
-    title: "Collect mu Kinyarwanda | Ibimina n'ubwizigame bwa buri munsi",
-    description: "Collect ifasha ibimina n'abinjiza amafaranga ya buri munsi kugira inyandiko zisobanutse, kwizigamira no kwitegura dosiye ishobora gusuzumwa n'abatanga serivisi.",
-    h1: "Ibimina n'ubwizigame bwa buri munsi bifite inyandiko zisobanutse",
-    intro: "Collect yongerera amatsinda uburyo bwo kubika inyandiko, kureba imisanzu no gutegura amakuru asabwa mbere y'isuzuma ry'umufatanyabikorwa wemerewe.",
-    cta: "Bona app",
-    secondary_cta: "Vugana natwe ku gutangiza itsinda",
-    sections: [
-      ["Icyo Collect ikora", "Ifasha amatsinda kubika imisanzu, amategeko y'itsinda, inshingano z'abayobozi n'amateka y'ubwizigame mu buryo busomeka."],
-      ["Uburyo bwo gutangira", "Itsinda rishobora kuvugana na IKANISA, gushyiraho intego n'amategeko, hanyuma rikoresha app cyangwa inzira zifashijwe."],
-      ["Icyitonderwa ku nguzanyo", "Collect itegura inyandiko n'amakuru. Banki cyangwa umufatanyabikorwa wemerewe ni we ufata icyemezo cya nyuma."]
-    ],
-    faqs: [
-      ["Collect isimbura ubuyobozi bw'itsinda?", "Oya. Itsinda rikomeza amategeko n'ubuyobozi bwaryo; Collect yongeraho inyandiko n'uburyo bwo gukurikirana."],
-      ["Abadafite smartphone bazakoresha iki?", "Uburyo bwa USSD n'inzira zifashijwe ziri mu cyerekezo cya serivisi kugira ngo abantu badafite smartphone batavamo."],
-      ["Collect isezeranya inguzanyo?", "Oya. Itanga inyandiko zifasha kwitegura; umutanga serivisi ni we usuzuma kandi agafata icyemezo."]
-    ]
-  },
-  {
-    path: "/rw/group-savings/",
-    lang: "rw",
-    title: "Ibimina | Collect mu Kinyarwanda",
-    description: "Collect ifasha ibimina n'amatsinda yo kwizigamira kugira amategeko, imisanzu, inyandiko n'amateka y'ubwizigame bisobanutse.",
-    h1: "Itsinda ryanyu rifite icyizere. Collect yongeraho imiterere.",
-    intro: "Buri musanzu ubikwa, buri munyamuryango akabona ishusho y'uruhare rwe, kandi amateka y'itsinda akagira inyandiko ishobora gusomwa.",
-    cta: "Bona app",
-    secondary_cta: "Vugana natwe ku gutangiza itsinda",
-    sections: [
-      ["Icyizere gisanzwe", "Collect ntikuraho umuco w'ibimina. Yongeraho uburyo bwo kwandika, gukurikirana no gusobanurira abanyamuryango ibyabaye."],
-      ["Uruhare rw'abanyamuryango", "Abanyamuryango bashobora kubona imisanzu, intego n'amategeko y'itsinda aho bishoboka."],
-      ["Inyandiko zishobora gufasha ejo", "Amateka y'ubwizigame ashobora gufasha mu kiganiro n'abafatanyabikorwa, ariko icyemezo cya nyuma kiguma kuri bo."]
-    ],
-    faqs: [
-      ["Itsinda rishobora kuguma ku buryo busanzwe?", "Yego. Collect ifasha itsinda kongera imiterere aho rishaka, itabahatira guhindura umuco wabo."],
-      ["Amafaranga abikwa na Collect?", "Oya. Aho serivisi z'imari zigenzurwa zikoreshwa, zicungwa n'abafatanyabikorwa babifitiye uburenganzira."],
-      ["Tangira ute?", "Vugana na IKANISA kugira ngo hasuzumwe intego, amategeko n'uburyo bukwiriye itsinda."]
-    ]
-  },
-  {
-    path: "/rw/community-groups/",
-    lang: "rw",
-    title: "Amatsinda y'abaturage | Collect mu Kinyarwanda",
-    description: "Collect yongerera amatsinda y'abaturage ibikoresho bya digitale ataretse imiyoborere n'icyizere asanzwe afite.",
-    h1: "Imari ikora neza iyo abaturage bayiyoboye.",
-    intro: "Amatsinda akomeza imiyoborere, amategeko n'umubano wayo. Collect yongeraho inyandiko zisobanutse, intego n'uburyo bwo gukurikirana.",
-    cta: "Bona app",
-    secondary_cta: "Vugana natwe ku itsinda",
-    sections: [
-      ["Ku bayobozi b'amatsinda", "Gushyiraho itsinda, amategeko, inshingano, gukurikirana imisanzu no gutanga ishusho isobanutse."],
-      ["Ku banyamuryango", "Gutanga umusanzu, kubona gihamya, gusobanukirwa amategeko n'iterambere ry'itsinda."],
-      ["Amatsinda akenerwa", "Ibimina, amatsinda y'imiryango, amadini, amakoperative, urubyiruko, abagore n'amatsinda ya diaspora."]
-    ],
-    faqs: [
-      ["Ni ayahe matsinda akwiye Collect?", "Ibimina, amakoperative, amatsinda y'imiryango, ay'urubyiruko, ay'abagore, ay'abahinzi n'aya diaspora."],
-      ["Collect ihindura abayobozi?", "Oya. Ifasha abayobozi n'abanyamuryango kubona inyandiko n'imiterere myiza."],
-      ["Intego zishobora gutandukana?", "Yego. Ishuri, ubuhinzi, ubwishingizi, ubucuruzi, ibikoresho cyangwa ikigega cyihutirwa bishobora gukurikiranwa."]
-    ]
-  },
-  {
-    path: "/fr/diaspora/",
-    lang: "fr",
-    title: "Epargne diaspora | Collect par IKANISA",
-    description: "Collect aide les groupes de la diaspora rwandaise a organiser leur epargne, leurs preuves de contribution et leurs discussions bancaires.",
-    h1: "Une epargne de groupe qui renforce l'acces au credit bancaire.",
-    intro: "Les groupes de la diaspora peuvent conserver des traces claires de contribution, definir des regles de garantie et preparer des projets d'investissement au Rwanda pour revue bancaire.",
-    cta: "Parler a l'equipe",
-    secondary_cta: "Voir l'app Android",
-    sections: [
-      ["Pour qui", "La page s'adresse aux groupes de la diaspora rwandaise en Europe, au Royaume-Uni, en Amerique du Nord et dans d'autres corridors."],
-      ["Ce que Collect clarifie", "Historique de contribution, regles de groupe, epargne detenue par le partenaire bancaire et documents utiles a la revue."],
-      ["Limite importante", "Collect ne prend pas la decision de credit. La banque partenaire applique ses propres regles de risque, KYC, prix et approbation."]
-    ],
-    faqs: [
-      ["Collect accorde-t-il le pret?", "Non. La decision finale appartient a la banque ou au preteur partenaire."],
-      ["Pourquoi l'epargne de groupe compte?", "Elle rend visible la discipline d'epargne et les regles du groupe avant la revue bancaire."],
-      ["Le contenu francais remplace-t-il les documents legaux?", "Non. Les pages juridiques anglaises restent la reference publique jusqu'a validation juridique traduite."]
-    ]
-  },
-  {
-    path: "/fr/our-partners/",
-    lang: "fr",
-    title: "Partenaires bancaires | Collect par IKANISA",
-    description: "Collect aide les institutions financieres a transformer une discipline d'epargne informelle en dossiers, depots et relations bancaires plus lisibles.",
-    h1: "L'opportunite bancaire dans l'economie informelle rwandaise.",
-    intro: "Collect aide les banques et assureurs a lire les flux d'epargne existants, sans transferer leurs obligations reglementaires ou decisions finales a Collect.",
-    cta: "Parler a l'equipe",
-    secondary_cta: "Voir l'app Android",
-    sections: [
-      ["Ce que Collect apporte", "Mobilisation d'epargne, dossiers de groupe, historique de contribution, preparation de dossiers et support client."],
-      ["Ce que le partenaire conserve", "KYC, AML/CFT, eligibilite, prix, approbation, decaissement, recouvrement, sinistres et reporting reglementaire."],
-      ["Preuves publiques actuelles", "Application Android publique, routes de confidentialite et suppression, sitemap, robots.txt et donnees structurees deployees."]
-    ],
-    faqs: [
-      ["Les chiffres de marche sont-ils la traction de Collect?", "Non. Ils decrivent le marche. Les preuves propres a Collect sont presentees separement."],
-      ["Collect remplace-t-il le credit scoring bancaire?", "Non. Collect prepare les dossiers; le partenaire decide."],
-      ["Comment commencer?", "La premiere etape est une discussion avec IKANISA sur le perimetre, les responsabilites et les controles."]
-    ]
-  }
-].freeze
-
-PRIMARY_NAV = [
-  ["Group Savings", "/group-savings/"],
-  ["Diaspora", "/diaspora/"],
-  ["Insurance", "/insurance/"],
-  ["CRaaS", "/craas/"],
-  ["Community Groups", "/community-groups/"],
-  ["Our Partners", "/our-partners/"],
-  ["Trust & Security", "/trust/"]
-].freeze
 
 PAGES = [
   {
@@ -506,6 +387,16 @@ PAGES = [
   }
 ].freeze
 
+PRIMARY_NAV = [
+  ["Group Savings", "/group-savings/"],
+  ["Diaspora", "/diaspora/"],
+  ["Insurance", "/insurance/"],
+  ["CRaaS", "/craas/"],
+  ["Community Groups", "/community-groups/"],
+  ["Our Partners", "/our-partners/"],
+  ["Trust & Security", "/trust/"]
+].freeze
+
 def esc(value)
   CGI.escapeHTML(value.to_s)
 end
@@ -551,68 +442,26 @@ def policy_path?(page)
   page[:legal_key]
 end
 
-def primary_cta_label(current_path, page)
-  return "Talk to our team" if institutional_path?(current_path)
-  return "Get Support" if policy_path?(page)
-
-  "Get the App"
-end
-
-def primary_cta_href(current_path, page)
-  if institutional_path?(current_path)
-    return whatsapp_url("Hello IKANISA, I want to talk to your team about Collect.")
-  end
-
-  if policy_path?(page)
-    return whatsapp_url("Hello IKANISA, I need support with Collect.")
-  end
-
-  APP_DOWNLOAD_URL
-end
-
-def primary_cta_class(current_path, page, surface:)
-  classes = ["button"]
-  classes << (surface == :header ? "secondary" : "primary")
-  classes << (institutional_path?(current_path) ? "cta-touch" : "cta-app")
-  classes.join(" ")
-end
-
-def cta_links_html(current_path, page, surface:)
+def cta_links_html(_current_path, _page, surface:)
   group_message = "Hello IKANISA, I want to talk about starting a Collect group."
   touch_message = "Hello IKANISA, I have a question about Collect."
+  app_class = surface == :header ? "button secondary cta-app" : "button primary cta-app"
   secondary_class = surface == :start ? "button ghost on-light" : "button ghost"
   items = [
-    %(<a class="#{primary_cta_class(current_path, page, surface: surface)}" href="#{primary_cta_href(current_path, page)}">#{primary_cta_label(current_path, page)}</a>)
+    %(<a class="#{app_class}" href="#{APP_DOWNLOAD_URL}">Get the App</a>),
+    %(<a class="#{secondary_class} cta-group" href="#{whatsapp_url(group_message)}">Create Group Saving</a>),
+    %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
   ]
-
-  unless policy_path?(page) || institutional_path?(current_path)
-    items << %(<a class="#{secondary_class} cta-group" href="#{whatsapp_url(group_message)}">Talk to us about starting a group</a>)
-  end
-
-  unless institutional_path?(current_path)
-    items << %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
-  end
-
-  if institutional_path?(current_path)
-    items << %(<a class="#{secondary_class} cta-app" href="#{APP_DOWNLOAD_URL}">Get the App</a>)
-  end
 
   items.join("\n")
 end
 
-def app_availability_note_html(current_path, page)
-  return "" if institutional_path?(current_path) || policy_path?(page)
-
-  %(<p class="app-availability">Available on Android now. iOS roadmap is being scoped.</p>)
+def app_availability_note_html(_current_path, _page)
+  ""
 end
 
-def language_switcher_html(current_path)
-  links = [
-    ["EN", "/"],
-    ["RW", current_path.start_with?("/group-savings") ? "/rw/group-savings/" : "/rw/"],
-    ["FR", current_path.start_with?("/our-partners") || current_path.start_with?("/partners") ? "/fr/our-partners/" : "/fr/diaspora/"]
-  ]
-  %(<nav class="language-switcher" aria-label="Language selector">#{links.map { |label, href| %(<a href="#{href}">#{label}</a>) }.join}</nav>)
+def language_switcher_html(_current_path)
+  ""
 end
 
 def content_grid_html(page, current_path)
@@ -626,158 +475,12 @@ def content_grid_html(page, current_path)
   HTML
 end
 
-def proof_section_html(current_path)
-  return "" unless ["/", "/our-partners/", "/partners/", "/trust/", "/security/"].include?(current_path)
-
-  cards = GOOGLE_PLAY_PROOF.map do |title, body|
-    %(<article><strong>#{esc(title)}</strong><span>#{esc(body)}</span></article>)
-  end.join
-  <<~HTML
-    <section class="proof-section" aria-labelledby="proof-heading">
-      <div class="story-copy">
-        <p class="section-kicker">Verified public proof</p>
-        <h2 id="proof-heading">What Collect can prove publicly today.</h2>
-        <p>These are current public signals, not inflated traction claims. Market-size figures elsewhere describe the opportunity, while this section describes Collect-specific proof points available for a reviewer to verify.</p>
-      </div>
-      <div class="proof-grid">
-        #{cards}
-      </div>
-    </section>
-  HTML
+def proof_section_html(_current_path)
+  ""
 end
 
-def faq_section_html(current_path)
-  faqs = PUBLIC_FAQS.fetch(current_path, nil)
-  faqs ||= PUBLIC_FAQS.fetch("/craas/") if current_path == "/credit-readiness/"
-  faqs ||= PUBLIC_FAQS.fetch("/insurance/") if current_path == "/protection/"
-  faqs ||= PUBLIC_FAQS.fetch("/our-partners/") if current_path == "/partners/"
-  faqs ||= PUBLIC_FAQS.fetch("/trust/") if current_path == "/security/"
-  return "" unless faqs
-
-  items = faqs.map do |question, answer|
-    <<~HTML
-      <details>
-        <summary>#{esc(question)}</summary>
-        <p>#{esc(answer)}</p>
-      </details>
-    HTML
-  end.join
-
-  <<~HTML
-    <section class="faq-section" aria-labelledby="faq-heading">
-      <div class="story-copy">
-        <p class="section-kicker">FAQ</p>
-        <h2 id="faq-heading">Questions visitors ask before taking the next step.</h2>
-      </div>
-      <div class="faq-list">
-        #{items}
-      </div>
-    </section>
-  HTML
-end
-
-def localized_route_file(path)
-  File.join(BUILD_DIR, path.delete_prefix("/").delete_suffix("/"), "index.html")
-end
-
-def localized_page_url(path)
-  "#{PUBLIC_URL}#{path}"
-end
-
-def localized_nav_html(lang)
-  if lang == "rw"
-    [
-      ["Ahabanza", "/rw/"],
-      ["Ibimina", "/rw/group-savings/"],
-      ["Amatsinda", "/rw/community-groups/"],
-      ["English", "/"]
-    ]
-  else
-    [
-      ["Diaspora", "/fr/diaspora/"],
-      ["Partenaires", "/fr/our-partners/"],
-      ["English", "/"]
-    ]
-  end.map { |label, href| %(<a class="nav-link" href="#{href}">#{esc(label)}</a>) }.join
-end
-
-def localized_page_html(page)
-  sections = Array(page[:sections]).map do |title, body|
-    %(<article class="section-card"><h2>#{esc(title)}</h2><p>#{esc(body)}</p></article>)
-  end.join
-  faqs = Array(page[:faqs]).map do |question, answer|
-    %(<details><summary>#{esc(question)}</summary><p>#{esc(answer)}</p></details>)
-  end.join
-  alternate_en = page[:path].include?("group-savings") ? "/group-savings/" : (page[:path].include?("our-partners") ? "/our-partners/" : "/")
-  <<~HTML
-    <!doctype html>
-    <html lang="#{esc(page[:lang])}">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>#{esc(page[:title])}</title>
-      <meta name="description" content="#{esc(page[:description])}">
-      <meta name="theme-color" content="#8885F0">
-      <link rel="canonical" href="#{localized_page_url(page[:path])}">
-      <link rel="alternate" hreflang="en" href="#{page_url(alternate_en)}">
-      <link rel="alternate" hreflang="#{esc(page[:lang])}" href="#{localized_page_url(page[:path])}">
-      <meta property="og:title" content="#{esc(page[:title])}">
-      <meta property="og:description" content="#{esc(page[:description])}">
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="#{localized_page_url(page[:path])}">
-      <meta property="og:image" content="#{PUBLIC_URL}/icons/collect.png">
-      <meta property="og:locale" content="#{page[:lang] == "rw" ? "rw_RW" : "fr_FR"}">
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="#{esc(page[:title])}">
-      <meta name="twitter:description" content="#{esc(page[:description])}">
-      <link rel="icon" href="/icons/collect.png" type="image/png">
-      <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
-      <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
-      <script type="application/ld+json">#{json_ld({ title: page[:title], description: page[:description], path: page[:path] })}</script>
-    </head>
-    <body>
-      <a class="skip-link" href="#content">Skip to content</a>
-      <header class="site-header">
-        <a class="brand" href="/">
-          <img src="/icons/collect.png" alt="" width="42" height="42">
-          <span><strong>Collect</strong><small>by IKANISA</small></span>
-        </a>
-        <nav class="site-nav localized-nav" aria-label="Localized navigation">
-          #{localized_nav_html(page[:lang])}
-        </nav>
-      </header>
-      <main id="content">
-        <section class="hero localized-hero">
-          <div class="hero-copy">
-            <h1>#{esc(page[:h1])}</h1>
-            <p class="hero-intro">#{esc(page[:intro])}</p>
-            <div class="hero-actions">
-              <a class="button primary" href="#{page[:lang] == "fr" ? whatsapp_url("Hello IKANISA, I want to talk to your team about Collect.") : APP_DOWNLOAD_URL}">#{esc(page[:cta])}</a>
-              <a class="button ghost" href="#{page[:lang] == "fr" ? APP_DOWNLOAD_URL : whatsapp_url("Hello IKANISA, I want to talk about starting a Collect group.")}">#{esc(page[:secondary_cta])}</a>
-            </div>
-          </div>
-          <div class="hero-device">
-            #{hero_visual_html(path: page[:path])}
-          </div>
-        </section>
-        <section class="content-grid localized-content" aria-label="Localized sections">
-          #{sections}
-        </section>
-        <section class="faq-section localized-faq" aria-labelledby="localized-faq-heading">
-          <div class="story-copy">
-            <p class="section-kicker">FAQ</p>
-            <h2 id="localized-faq-heading">#{page[:lang] == "rw" ? "Ibibazo bikunze kubazwa" : "Questions frequentes"}</h2>
-          </div>
-          <div class="faq-list">
-            #{faqs}
-          </div>
-        </section>
-      </main>
-      #{site_footer_html}
-      <script src="/site.js?v=#{ASSET_VERSION}" defer></script>
-    </body>
-    </html>
-  HTML
+def faq_section_html(_current_path)
+  ""
 end
 
 def site_footer_html
@@ -796,26 +499,13 @@ def site_footer_html
         <a href="/account-deletion/">Account deletion</a>
         <a href="/data-deletion/">Data deletion</a>
         <a href="/trust/">Trust</a>
-        <a href="/rw/">Kinyarwanda</a>
-        <a href="/fr/diaspora/">Francais</a>
       </nav>
     </footer>
   HTML
 end
 
-def alternate_links(current_path)
-  links = [%(<link rel="alternate" hreflang="x-default" href="#{page_url("/")}">)]
-  if current_path == "/"
-    links << %(<link rel="alternate" hreflang="rw" href="#{localized_page_url("/rw/")}">)
-    links << %(<link rel="alternate" hreflang="fr" href="#{localized_page_url("/fr/diaspora/")}">)
-  elsif current_path == "/group-savings/"
-    links << %(<link rel="alternate" hreflang="rw" href="#{localized_page_url("/rw/group-savings/")}">)
-  elsif current_path == "/diaspora/"
-    links << %(<link rel="alternate" hreflang="fr" href="#{localized_page_url("/fr/diaspora/")}">)
-  elsif current_path == "/our-partners/"
-    links << %(<link rel="alternate" hreflang="fr" href="#{localized_page_url("/fr/our-partners/")}">)
-  end
-  links.join("\n")
+def alternate_links(_current_path)
+  %(<link rel="alternate" hreflang="x-default" href="#{page_url("/")}">)
 end
 
 def json_ld(page)
@@ -2101,7 +1791,6 @@ def page_html(page, current_path: page[:path])
 
         #{current_path == "/" ? original_home_sections_html : ""}
 
-        #{proof_section_html(current_path)}
 
         #{faq_section_html(current_path)}
 
@@ -2168,9 +1857,9 @@ def stylesheet
     .header-actions .button { padding: 11px 14px; font-size: 13px; }
     .button.primary, .button.secondary { background: var(--periwinkle); color: white; border-color: var(--periwinkle); box-shadow: 0 14px 34px rgba(136,133,240,.24); }
     .button.ghost { background: transparent; color: var(--paper); }
-    .button.cta-app { background: var(--periwinkle); color: #fffdfb; border-color: var(--periwinkle); box-shadow: 0 14px 34px rgba(136,133,240,.28); }
-    .button.cta-group { background: var(--mint); color: #050510; border-color: var(--mint); box-shadow: 0 14px 34px rgba(60,208,112,.22); }
-    .button.cta-touch { background: var(--rose); color: var(--night); border-color: var(--rose); box-shadow: 0 14px 34px rgba(211,139,150,.22); }
+    .button.cta-app { background: var(--periwinkle); color: #fff; border-color: var(--periwinkle); box-shadow: 0 14px 34px rgba(136,133,240,.28); }
+    .button.cta-group { background: var(--mint); color: #fff; border-color: var(--mint); box-shadow: 0 14px 34px rgba(60,208,112,.22); }
+    .button.cta-touch { background: var(--rose); color: #fff; border-color: var(--rose); box-shadow: 0 14px 34px rgba(211,139,150,.22); }
     .menu-button { display: none; background: rgba(250,248,245,.08); color: var(--paper); }
     .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(136,133,240,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(60,208,112,.16), transparent 32%), #050510; }
     .section-kicker { color: var(--mint); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 18px; }
@@ -2818,10 +2507,6 @@ PAGES.each do |page|
   end
 end
 
-LOCALIZED_PAGES.each do |page|
-  write_file(localized_route_file(page[:path]), localized_page_html(page))
-  all_paths << page[:path]
-end
 
 sitemap_urls = all_paths.uniq.sort.map do |path|
   "  <url><loc>#{page_url(path)}</loc><lastmod>#{build_lastmod}</lastmod></url>"

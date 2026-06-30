@@ -469,12 +469,10 @@ required_mobile_routes = %w[
   /permissions/camera-denied
   /home
   /groups
-  /groups/search
   /groups/create
   /groups/scan
   /platform/iphone-create-unavailable
   /groups/col-church
-  /groups/col-church/created
   /groups/col-church/joined
   /groups/col-church/share
   /share/invalid

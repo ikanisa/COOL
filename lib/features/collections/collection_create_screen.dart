@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/security/phone_normalizer.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -89,7 +90,6 @@ class _CollectionCreateScreenState
     }
     return ScreenScaffold(
       title: 'Create group',
-      subtitle: _createStepSubtitle(_step),
       showHeader: false,
       bottomAction: BottomActionSurface(
         children: [
@@ -102,11 +102,9 @@ class _CollectionCreateScreenState
             icon: _step == _lastStep
                 ? CollectIcons.check
                 : CollectIcons.arrowForward,
-            onPressed: _creating
+            onPressed: _creating || !_canUsePrimaryAction
                 ? null
-                : () {
-                    _primaryAction();
-                  },
+                : _primaryAction,
             variant: CollectButtonVariant.primary,
             expand: true,
           ),
@@ -219,18 +217,20 @@ class _CollectionCreateScreenState
         .color;
   }
 
-  void _refreshPreview() {
-    if (mounted) setState(() {});
+  bool get _canUsePrimaryAction {
+    if (_creating) return false;
+    return switch (_step) {
+      0 => _title.text.trim().isNotEmpty,
+      1 => true,
+      2 => _normalizedReceiverValue().isNotEmpty,
+      3 => true,
+      _ =>
+        _title.text.trim().isNotEmpty && _normalizedReceiverValue().isNotEmpty,
+    };
   }
 
-  String _createStepSubtitle(int step) {
-    return switch (step) {
-      0 => 'Name and describe the group',
-      1 => 'Choose the group type',
-      2 => 'Set the MoMo receiver',
-      3 => 'Choose the group look',
-      _ => 'Review and create',
-    };
+  void _refreshPreview() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _pickGroupImage() async {
@@ -329,7 +329,7 @@ class _CollectionCreateScreenState
             imageUrl: _selectedImageDataUri(),
           );
       if (!mounted) return;
-      context.go('/groups/${collection.id}/created');
+      context.go('/groups/${collection.id}');
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -363,7 +363,7 @@ class _CollectionCreateScreenState
   String get _receiverErrorMessage {
     return _receiverMode == CollectMomoReceiverMode.momoPayCode
         ? 'Use a 5 or 6 digit MoMo code.'
-        : 'MoMo number required.';
+        : 'Use an MTN MoMo number.';
   }
 
   String get _receiverPreviewLabel {
@@ -381,7 +381,7 @@ class _CollectionCreateScreenState
       final digits = value.replaceAll(RegExp(r'\D'), '');
       return digits.length >= 5 && digits.length <= 6 ? digits : '';
     }
-    return value;
+    return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) ?? '';
   }
 
   String? _selectedImageDataUri() {

@@ -878,7 +878,7 @@ Current decision: **GO after signed review**
 
     expect(script, contains('screenshot_manifest.json'));
     expect(script, contains('png_header'));
-    expect(script, contains('route_count_must_be_46'));
+    expect(script, contains('route_count_must_be_44'));
     expect(script, contains('viewport_must_be_390x844'));
     expect(script, contains('manifest_bytes_stale'));
     expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
@@ -904,11 +904,11 @@ Current decision: **GO after signed review**
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['status'], 'pass');
     expect(decoded['viewport'], '390x844');
-    expect(decoded['route_count'], 46);
+    expect(decoded['route_count'], 44);
     expect(decoded['secret_handling'], contains('does not inspect secrets'));
     final items = (decoded['items'] as List<dynamic>)
         .cast<Map<String, dynamic>>();
-    expect(items, hasLength(46));
+    expect(items, hasLength(44));
     expect(items.every((item) => item['png_valid'] == true), isTrue);
     expect(items.every((item) => item['width'] == 390), isTrue);
     expect(items.every((item) => item['height'] == 844), isTrue);

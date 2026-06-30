@@ -231,7 +231,6 @@ void main() {
         tester,
         CollectTopChrome(
           avatarLabel: '038491',
-          showSearch: false,
           actions: [
             CollectTopChromeAction(
               icon: CollectIcons.pending,
@@ -291,8 +290,8 @@ void main() {
       'assets/brand/collect_runtime/splash/splash_mark.png',
     );
     expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
-      width: 1024,
-      height: 299,
+      width: 4096,
+      height: 1387,
     ));
     expect(_pngSize(CollectRuntimeAssets.appIconAssetPath), (
       width: 512,
@@ -1086,7 +1085,7 @@ void main() {
     expect(find.byIcon(CollectIcons.copy), findsOneWidget);
   });
 
-  testWidgets('top chrome exposes avatar search and circular actions', (
+  testWidgets('top chrome exposes avatar title and circular actions', (
     tester,
   ) async {
     await _pumpCollect(
@@ -1094,8 +1093,7 @@ void main() {
       CollectTopChrome(
         avatarLabel: '038491',
         hasUnread: true,
-        searchLabel: 'Search groups',
-        onSearchTap: () {},
+        titleLabel: 'Payment status',
         actions: [
           CollectTopChromeAction(
             icon: CollectIcons.qr,
@@ -1113,7 +1111,8 @@ void main() {
 
     expect(find.bySemanticsLabel('Open profile for 038491'), findsOneWidget);
     expect(find.text('91'), findsNothing);
-    expect(find.text('Search groups'), findsOneWidget);
+    expect(find.text('Payment status'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.search), findsNothing);
     expect(find.byIcon(CollectIcons.qr), findsOneWidget);
     expect(find.byIcon(CollectIcons.settings), findsOneWidget);
   });

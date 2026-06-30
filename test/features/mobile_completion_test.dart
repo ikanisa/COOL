@@ -54,6 +54,21 @@ void main() {
     await tester.pump();
   }
 
+  Finder textFieldWithLabel(String label) {
+    return find.byWidgetPredicate(
+      (widget) => widget is TextField && widget.decoration?.labelText == label,
+    );
+  }
+
+  Future<void> pressFilledButton(WidgetTester tester, String label) async {
+    final button = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, label),
+    );
+    expect(button.onPressed, isNotNull, reason: '$label should be enabled');
+    button.onPressed!();
+    await tester.pumpAndSettle();
+  }
+
   testWidgets('new mobile completion routes render', (tester) async {
     const routes = [
       '/onboarding/legal',
@@ -281,29 +296,22 @@ void main() {
       expect(find.text('Profile setup'), findsNothing);
       expect(repository.state.currentProfile?.momoNumber, isNull);
 
-      await tester.enterText(find.byType(TextField).first, 'Parish support');
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
+      await tester.enterText(
+        textFieldWithLabel('Group name'),
+        'Parish support',
+      );
+      await tester.pumpAndSettle();
+      await pressFilledButton(tester, 'Continue');
+      await pressFilledButton(tester, 'Continue');
 
       expect(find.text('Receiver MoMo'), findsOneWidget);
       expect(find.text('0788123456'), findsNothing);
+      final emptyReceiverButton = tester.widget<FilledButton>(
+        find.widgetWithText(FilledButton, 'Continue'),
+      );
+      expect(emptyReceiverButton.onPressed, isNull);
     },
   );
-
-  testWidgets('home search opens dedicated group search screen', (
-    tester,
-  ) async {
-    await pumpRoute(tester, '/home', legalConsentAccepted: true);
-
-    await tester.tap(find.text('Search'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Find a group.'), findsOneWidget);
-    expect(find.text('Search groups'), findsOneWidget);
-    expect(find.text('No groups yet'), findsNothing);
-  });
 
   testWidgets('home keeps scan as the only join entry', (tester) async {
     await pumpRoute(tester, '/home', legalConsentAccepted: true);
@@ -457,24 +465,26 @@ void main() {
       expect(find.text('Create group'), findsWidgets);
       expect(find.text('Group name'), findsOneWidget);
       expect(find.text('Description, optional'), findsOneWidget);
-      await tester.enterText(find.byType(TextField).first, 'Parish support');
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
+      await tester.enterText(
+        textFieldWithLabel('Group name'),
+        'Parish support',
+      );
+      await tester.pumpAndSettle();
+      await pressFilledButton(tester, 'Continue');
 
       expect(find.text('Collection type'), findsNothing);
       expect(find.text('Ikimina'), findsOneWidget);
       expect(find.textContaining('Savings cycles'), findsNothing);
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
+      await pressFilledButton(tester, 'Continue');
 
       expect(find.text('Receiver MoMo'), findsOneWidget);
       expect(find.text('Receiver privacy'), findsNothing);
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
+      await tester.enterText(textFieldWithLabel('Receiver MoMo'), '0789123456');
+      await tester.pumpAndSettle();
+      await pressFilledButton(tester, 'Continue');
 
       expect(find.text('Group color'), findsOneWidget);
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
+      await pressFilledButton(tester, 'Continue');
 
       expect(find.text('SMS readiness check.'), findsNothing);
       expect(find.text('Review group'), findsOneWidget);

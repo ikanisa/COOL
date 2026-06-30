@@ -19,28 +19,21 @@ class CollectTopChrome extends StatelessWidget {
     this.avatarLabel,
     this.onAvatarTap,
     this.hasUnread = false,
-    this.searchLabel = 'Search',
-    this.searchController,
-    this.onSearchChanged,
-    this.onSearchTap,
+    this.titleLabel,
     this.actions = const [],
-    this.showSearch = true,
     super.key,
   });
 
   final String? avatarLabel;
   final VoidCallback? onAvatarTap;
   final bool hasUnread;
-  final String searchLabel;
-  final TextEditingController? searchController;
-  final ValueChanged<String>? onSearchChanged;
-  final VoidCallback? onSearchTap;
+  final String? titleLabel;
   final List<CollectTopChromeAction> actions;
-  final bool showSearch;
 
   @override
   Widget build(BuildContext context) {
     final visibleActions = actions.take(2).toList();
+    final label = titleLabel;
     return Semantics(
       container: true,
       label: 'Primary screen actions',
@@ -53,20 +46,9 @@ class CollectTopChrome extends StatelessWidget {
               hasUnread: hasUnread,
               onTap: onAvatarTap,
             ),
-            if (showSearch) ...[
+            if (label != null && label.isNotEmpty) ...[
               CollectSpacing.gapW12,
-              Expanded(
-                child: searchController == null
-                    ? _TopChromeSearchButton(
-                        label: searchLabel,
-                        onTap: onSearchTap,
-                      )
-                    : _TopChromeSearchField(
-                        controller: searchController!,
-                        label: searchLabel,
-                        onChanged: onSearchChanged,
-                      ),
-              ),
+              Expanded(child: _TopChromeTitlePill(label: label)),
             ] else
               const Spacer(),
             if (visibleActions.isNotEmpty) CollectSpacing.gapW12,
@@ -164,129 +146,47 @@ class _TopChromeAvatar extends StatelessWidget {
   }
 }
 
-class _TopChromeSearchButton extends StatelessWidget {
-  const _TopChromeSearchButton({required this.label, this.onTap});
+class _TopChromeTitlePill extends StatelessWidget {
+  const _TopChromeTitlePill({required this.label});
 
   final String label;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     return Semantics(
-      button: true,
       label: label,
       child: Material(
         color: CollectRuntimeTokens.chromeControl(colors),
         borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: onTap == null
-              ? null
-              : () {
-                  CollectHaptics.selection();
-                  onTap!();
-                },
-          child: SizedBox(
-            height: 58,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: CollectRadius.pillBorder,
-                border: Border.all(
-                  color: CollectRuntimeTokens.chromeControlBorder(colors),
-                  width: 1.25,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: CollectSpacing.x4,
-                ),
-                child: Row(
-                  children: [
-                    Icon(CollectIcons.search, color: foreground, size: 30),
-                    CollectSpacing.gapW12,
-                    Expanded(
-                      child: Text(
-                        label,
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: foreground,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+        child: SizedBox(
+          height: 58,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: CollectRadius.pillBorder,
+              border: Border.all(
+                color: CollectRuntimeTokens.chromeControlBorder(colors),
+                width: 1.25,
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _TopChromeSearchField extends StatelessWidget {
-  const _TopChromeSearchField({
-    required this.controller,
-    required this.label,
-    this.onChanged,
-  });
-
-  final TextEditingController controller;
-  final String label;
-  final ValueChanged<String>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = CollectRuntimeTokens.chromeForeground(colors);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: CollectRuntimeTokens.chromeControl(colors),
-        borderRadius: CollectRadius.pillBorder,
-        border: Border.all(
-          color: CollectRuntimeTokens.chromeControlBorder(colors),
-          width: 1.25,
-        ),
-      ),
-      child: SizedBox(
-        height: 58,
-        child: TextField(
-          controller: controller,
-          onChanged: onChanged,
-          minLines: 1,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: foreground,
-            fontWeight: FontWeight.w700,
-          ),
-          textInputAction: TextInputAction.search,
-          decoration: InputDecoration(
-            hintText: label,
-            hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: CollectRuntimeTokens.chromeMutedForeground(colors),
-              fontWeight: FontWeight.w700,
-            ),
-            prefixIcon: Icon(CollectIcons.search, color: foreground, size: 30),
-            suffixIcon: controller.text.isEmpty
-                ? null
-                : IconButton(
-                    tooltip: 'Clear search',
-                    icon: Icon(Icons.close_rounded, color: foreground),
-                    onPressed: () {
-                      controller.clear();
-                      onChanged?.call('');
-                    },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0,
                   ),
-            border: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x3,
-              vertical: CollectSpacing.x3,
+                ),
+              ),
             ),
           ),
         ),

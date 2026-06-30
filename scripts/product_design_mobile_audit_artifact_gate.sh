@@ -54,7 +54,7 @@ audit_root = File.expand_path(audit_dir)
 
 failures << "screenshot_manifest_missing_or_invalid" unless manifest
 failures << "viewport_must_be_390x844" unless viewport == "390x844"
-failures << "route_count_must_be_46" unless routes.count == 46
+failures << "route_count_must_be_44" unless routes.count == 44
 
 items = routes.map do |route|
   file = route["file"].to_s
