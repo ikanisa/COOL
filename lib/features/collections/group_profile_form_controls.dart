@@ -28,6 +28,68 @@ class _GroupProfileEditSection extends StatelessWidget {
   }
 }
 
+class _GroupProfileCardTextField extends StatelessWidget {
+  const _GroupProfileCardTextField({
+    required this.controller,
+    required this.label,
+    this.maxLines = 1,
+    this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = false,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final int maxLines;
+  final TextCapitalization textCapitalization;
+  final bool autocorrect;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.cardBorder,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x4,
+          vertical: CollectSpacing.x3,
+        ),
+        child: TextField(
+          controller: controller,
+          keyboardType: maxLines > 1 ? TextInputType.multiline : null,
+          textInputAction: maxLines > 1
+              ? TextInputAction.newline
+              : TextInputAction.next,
+          maxLines: maxLines,
+          textCapitalization: textCapitalization,
+          autocorrect: autocorrect,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: colors.textPrimary,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0,
+          ),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: colors.textSecondary,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _RecurringCadenceControl extends StatelessWidget {
   const _RecurringCadenceControl({
     required this.enabled,

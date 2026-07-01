@@ -99,13 +99,13 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         _GroupProfileEditSection(
           errorMessage: _error,
           children: [
-            CollectTextInput(
+            _GroupProfileCardTextField(
               controller: _name,
               label: 'Group name',
               textCapitalization: TextCapitalization.words,
               autocorrect: true,
             ),
-            CollectTextInput(
+            _GroupProfileCardTextField(
               controller: _description,
               label: 'Description',
               maxLines: 3,
