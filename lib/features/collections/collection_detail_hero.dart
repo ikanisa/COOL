@@ -101,12 +101,6 @@ class _GroupHero extends StatelessWidget {
                               softWrap: false,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            CollectSpacing.gap8,
-                            CollectionTypeBadge(
-                              type: collection.collectionType,
-                              compact: true,
-                              iconOnly: true,
-                            ),
                           ],
                         ),
                       ),

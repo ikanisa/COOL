@@ -83,9 +83,6 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('share', '/groups/col-church/share', 'workflow'),
   _RouteSpec('invite', '/groups/col-church/invite', 'compatibility'),
   _RouteSpec('shared-group-link', '/c/st-michel-building-fund', 'entry'),
-  _RouteSpec('share-invalid', '/share/invalid', 'recovery'),
-  _RouteSpec('share-expired', '/share/expired', 'recovery'),
-  _RouteSpec('share-expired-request', '/share/expired/request', 'recovery'),
   _RouteSpec('app-share-entry', '/app', 'compatibility'),
   _RouteSpec('app-invite-link', '/invite/038491', 'compatibility'),
   _RouteSpec('contribution', '/groups/col-church/contribute', 'workflow'),
@@ -96,12 +93,8 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('settings', '/settings', 'primary'),
   _RouteSpec('account', '/settings/account', 'utility'),
   _RouteSpec('account-delete', '/settings/account/delete', 'utility'),
-  _RouteSpec('privacy', '/settings/privacy', 'utility'),
   _RouteSpec('legal-privacy', '/settings/legal/privacy', 'utility'),
   _RouteSpec('legal-terms', '/settings/legal/terms', 'utility'),
-  _RouteSpec('help', '/settings/help', 'utility'),
-  _RouteSpec('offline', '/offline', 'recovery'),
-  _RouteSpec('sync', '/sync', 'utility'),
 ];
 
 class _RouteSpec {

@@ -18,9 +18,9 @@ class _GroupActionStrip extends ConsumerWidget {
         onTap: () => context.go('/groups/$collectionId/contribute'),
       ),
       _GroupActionButton(
-        icon: CollectIcons.ledger,
-        label: 'Activity',
-        onTap: () => context.go('/groups/$collectionId/ledger'),
+        icon: CollectIcons.people,
+        label: 'Members',
+        onTap: () => context.go('/groups/$collectionId/members'),
       ),
       _GroupActionButton(
         icon: CollectIcons.qr,
@@ -126,62 +126,6 @@ class _GroupActionButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _GroupMomentumRail extends StatelessWidget {
-  const _GroupMomentumRail({
-    required this.collection,
-    required this.summary,
-    required this.visibleContributionCount,
-  });
-
-  final CollectCollection collection;
-  final CollectionSummary summary;
-  final int visibleContributionCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final cadence = collection.recurringCadence.trim().isEmpty
-        ? 'monthly'
-        : collection.recurringCadence;
-    final receiverReady =
-        collection.receiverMomoNumber?.trim().isNotEmpty == true;
-    return CollectBentoGrid(
-      dense: true,
-      primary: BentoMetricCell(
-        label: 'Collected',
-        value: formatRwf(summary.amountRaisedRwf),
-        detail:
-            collection.purposeLabel ?? collection.collectionType.shortPurpose,
-        icon: CollectIcons.money,
-        tone: CollectStatusTone.success,
-        emphasis: true,
-        iconOnly: true,
-        semanticLabel: 'Collected ${formatRwf(summary.amountRaisedRwf)}',
-      ),
-      top: BentoMetricCell(
-        label: 'Cadence',
-        value: cadence,
-        detail: null,
-        icon: CollectIcons.pending,
-        tone: CollectStatusTone.info,
-        iconOnly: true,
-        semanticLabel: '$cadence cadence, ${summary.supporterCount} members',
-      ),
-      bottom: BentoMetricCell(
-        label: receiverReady ? 'Receiver ready' : 'Receiver pending',
-        value: '$visibleContributionCount',
-        detail: null,
-        icon: collection.isPublic ? CollectIcons.public : CollectIcons.privacy,
-        tone: receiverReady
-            ? CollectStatusTone.success
-            : CollectStatusTone.warning,
-        iconOnly: true,
-        semanticLabel:
-            '${visibleContributionCount == 1 ? '1 activity' : '$visibleContributionCount activities'}, ${collection.isPublic ? 'public' : 'private'}, ${receiverReady ? 'receiver ready' : 'receiver pending'}',
       ),
     );
   }

@@ -362,23 +362,11 @@ class _IdentityTitle extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       );
     }
-    return Row(
-      children: [
-        Icon(
-          CollectIcons.profile,
-          size: 18,
-          color: context.collectColors.textSecondary,
-        ),
-        CollectSpacing.gapW8,
-        Expanded(
-          child: Text(
-            cleaned,
-            style: Theme.of(context).textTheme.titleSmall,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
+    return Text(
+      cleaned,
+      style: Theme.of(context).textTheme.titleSmall,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

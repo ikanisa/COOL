@@ -28,7 +28,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   final _name = TextEditingController();
   final _description = TextEditingController();
   final _receiver = TextEditingController();
-  final _adminPublicId = TextEditingController();
   final _imagePicker = ImagePicker();
 
   Uint8List? _imageBytes;
@@ -42,16 +41,13 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   bool _recurringEnabled = true;
   bool _loaded = false;
   bool _saving = false;
-  bool _addingAdmin = false;
   String? _error;
-  String? _adminMessage;
 
   @override
   void dispose() {
     _name.dispose();
     _description.dispose();
     _receiver.dispose();
-    _adminPublicId.dispose();
     super.dispose();
   }
 
@@ -78,7 +74,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       children: [
         const CollectPlainPageHeader(title: 'Group profile'),
         CollectCard(
-          emphasis: CollectCardEmphasis.flat,
+          emphasis: CollectCardEmphasis.glow,
           child: _GroupProfileMediaRow(
             title: _name.text.trim().isEmpty ? collection.title : _name.text,
             subtitle:
@@ -103,7 +99,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           ),
         ),
         _GroupProfileEditSection(
-          title: 'Details',
+          title: 'Identity',
           errorMessage: _error,
           children: [
             CollectTextInput(
@@ -119,6 +115,11 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
             ),
+          ],
+        ),
+        _GroupProfileEditSection(
+          title: 'Rules',
+          children: [
             _ProfileCollectionTypePicker(
               selected: _collectionType,
               onChanged: (value) => setState(() => _collectionType = value),
@@ -139,35 +140,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
                   setState(() => _recurringEnabled = value),
               onCadenceChanged: (value) => setState(() => _cadence = value),
             ),
-            _ProfileColorPalette(
-              selectedHex: _accentColorHex,
-              onChanged: (value) => setState(() => _accentColorHex = value),
-            ),
-          ],
-        ),
-        _GroupProfileEditSection(
-          title: 'Admins',
-          children: [
-            CollectTextInput(
-              controller: _adminPublicId,
-              label: 'Collect ID',
-              helper: 'Enter a 6 digit Collect ID to invite as admin.',
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
-            ),
-            CollectButton(
-              label: _addingAdmin ? 'Adding admin' : 'Add admin',
-              icon: CollectIcons.people,
-              onPressed: _addingAdmin ? null : () => _addAdmin(collection),
-              variant: CollectButtonVariant.secondary,
-              expand: true,
-            ),
-            if (_adminMessage != null)
-              InfoSecurityBanner(
-                title: 'Admin invite',
-                message: _adminMessage!,
-                tone: CollectStatusTone.info,
-              ),
           ],
         ),
         _GroupProfileEditSection(
@@ -179,6 +151,15 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.done,
               autofillHints: const [AutofillHints.telephoneNumber],
+            ),
+          ],
+        ),
+        _GroupProfileEditSection(
+          title: 'Appearance',
+          children: [
+            _ProfileColorPalette(
+              selectedHex: _accentColorHex,
+              onChanged: (value) => setState(() => _accentColorHex = value),
             ),
           ],
         ),
@@ -266,31 +247,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         _saving = false;
         _error = error.toString();
       });
-    }
-  }
-
-  Future<void> _addAdmin(CollectCollection collection) async {
-    setState(() {
-      _addingAdmin = true;
-      _adminMessage = null;
-    });
-    try {
-      await ref
-          .read(collectRepositoryProvider.notifier)
-          .inviteCollectionAdmin(
-            collectionId: collection.id,
-            publicId: _adminPublicId.text,
-          );
-      if (!mounted) return;
-      setState(() {
-        _adminPublicId.clear();
-        _adminMessage = 'Admin invite created.';
-      });
-    } catch (error) {
-      if (!mounted) return;
-      setState(() => _adminMessage = error.toString());
-    } finally {
-      if (mounted) setState(() => _addingAdmin = false);
     }
   }
 

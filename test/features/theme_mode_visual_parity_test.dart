@@ -54,8 +54,8 @@ void main() {
       '/groups/create',
       '/groups/col-church/contribute',
       '/groups/col-church/share',
-      '/settings/help',
-      '/offline',
+      '/settings',
+      '/settings/legal/privacy',
     ]) {
       expect(
         _gradientColors(light.screenGradientForPath(route)),

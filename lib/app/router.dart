@@ -30,8 +30,6 @@ const collectRoutePaths = <String>[
   '/',
   '/auth',
   '/home',
-  '/offline',
-  '/sync',
   '/groups',
   '/groups/scan',
   '/groups/create',
@@ -44,17 +42,12 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
   '/c/:slug',
-  '/share/invalid',
-  '/share/expired',
-  '/share/expired/request',
   '/app',
   '/invite/:publicId',
   '/settings',
   '/settings/profile',
   '/settings/account',
   '/settings/account/delete',
-  '/settings/privacy',
-  '/settings/help',
   '/settings/legal/terms',
   '/settings/legal/privacy',
   if (kDebugMode) '/dev/design-system',
@@ -91,22 +84,8 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               transition: _CollectRouteTransition.primary,
             ),
           ),
-          GoRoute(
-            path: '/offline',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const OfflineStateScreen(),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
-          GoRoute(
-            path: '/sync',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const SyncStatusScreen(),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
+          GoRoute(path: '/offline', redirect: (context, state) => '/groups'),
+          GoRoute(path: '/sync', redirect: (context, state) => '/groups'),
           GoRoute(
             path: '/groups',
             pageBuilder: (context, state) => _collectPage(
@@ -218,29 +197,15 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/share/invalid',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const SharedLinkProblemScreen(expired: false),
-              transition: _CollectRouteTransition.utility,
-            ),
+            redirect: (context, state) => '/groups',
           ),
           GoRoute(
             path: '/share/expired',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const SharedLinkProblemScreen(expired: true),
-              transition: _CollectRouteTransition.utility,
-            ),
+            redirect: (context, state) => '/groups',
           ),
           GoRoute(
             path: '/share/expired/request',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              FreshLinkRequestScreen(
-                slug: state.uri.queryParameters['slug'] ?? '',
-              ),
-              transition: _CollectRouteTransition.modal,
-            ),
+            redirect: (context, state) => '/groups',
           ),
           GoRoute(
             path: '/c/:slug',
@@ -289,19 +254,11 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/settings/privacy',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const PrivacyDataScreen(),
-              transition: _CollectRouteTransition.detail,
-            ),
+            redirect: (context, state) => '/settings/legal/privacy',
           ),
           GoRoute(
             path: '/settings/help',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const HelpSupportScreen(),
-              transition: _CollectRouteTransition.detail,
-            ),
+            redirect: (context, state) => '/settings',
           ),
           GoRoute(
             path: '/settings/legal/terms',

@@ -2007,7 +2007,10 @@ checking Edge Function secret names
     );
     expect(evidenceIndex, contains('/groups/col-church/manage'));
     expect(evidenceIndex, contains('/groups/col-church/members'));
-    expect(evidenceIndex, contains('/share/expired/request'));
+    expect(evidenceIndex, isNot(contains('/share/expired/request')));
+    expect(evidenceIndex, isNot(contains('/share/invalid')));
+    expect(evidenceIndex, isNot(contains('/offline')));
+    expect(evidenceIndex, isNot(contains('/sync')));
     expect(evidenceIndex, contains('/settings/account/delete'));
     expect(evidenceIndex, contains('/settings/legal/privacy'));
     expect(evidenceIndex, contains('non_background_pixels'));

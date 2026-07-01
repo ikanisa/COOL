@@ -275,9 +275,6 @@ JSON
     "share|/groups/col-church/share"
     "invite|/groups/col-church/invite"
     "shared-group-link|/c/st-michel-building-fund"
-    "share-invalid|/share/invalid"
-    "share-expired|/share/expired"
-    "share-expired-request|/share/expired/request"
     "app-share-entry|/app"
     "app-invite-link|/invite/038491"
     "contribution|/groups/col-church/contribute"
@@ -288,12 +285,8 @@ JSON
     "settings|/settings"
     "account|/settings/account"
     "account-delete|/settings/account/delete"
-    "privacy|/settings/privacy"
     "legal-privacy|/settings/legal/privacy"
     "legal-terms|/settings/legal/terms"
-    "help|/settings/help"
-    "offline|/offline"
-    "sync|/sync"
   )
   : > "$bundle_dir/mobile_route_render_smoke/captures.jsonl"
   for spec in "${mobile_routes[@]}"; do

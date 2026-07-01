@@ -73,7 +73,6 @@ void main() {
 
   testWidgets('new mobile completion routes render', (tester) async {
     const routes = [
-      '/share/expired/request',
       '/groups/col-church/contribute',
       '/groups/col-church/manage',
       '/groups/col-church/profile',
@@ -514,12 +513,13 @@ void main() {
     }
   });
 
-  testWidgets('fresh link recovery submits safely', (tester) async {
+  testWidgets('fresh link recovery route is removed from the mobile surface', (
+    tester,
+  ) async {
     await pumpRoute(tester, '/share/expired/request');
-    expect(find.text('Fresh link'), findsOneWidget);
-    await tester.tap(find.widgetWithText(FilledButton, 'Request fresh link'));
-    await tester.pump();
-    expect(find.text('Request sent.'), findsWidgets);
+    expect(find.text('Fresh link'), findsNothing);
+    expect(find.text('Request a fresh link.'), findsNothing);
+    expect(find.text('Groups'), findsWidgets);
   });
 }
 

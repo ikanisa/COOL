@@ -469,9 +469,6 @@ required_mobile_routes = %w[
   /groups/col-church/share
   /groups/col-church/invite
   /c/st-michel-building-fund
-  /share/invalid
-  /share/expired
-  /share/expired/request
   /groups/col-church/contribute
   /groups/col-church/ledger
   /groups/col-church/manage
@@ -480,12 +477,8 @@ required_mobile_routes = %w[
   /settings
   /settings/account
   /settings/account/delete
-  /settings/privacy
   /settings/legal/privacy
   /settings/legal/terms
-  /settings/help
-  /offline
-  /sync
 ]
 mobile_route_summary_ok =
   mobile_route_render_summary["status"] == "pass" &&

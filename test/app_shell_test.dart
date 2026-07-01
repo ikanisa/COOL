@@ -19,7 +19,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('Collect'), findsOneWidget);
-      expect(find.text('Groups. MoMo. Done.'), findsOneWidget);
+      expect(find.text('Groups. MoMo. Done.'), findsNothing);
       expect(find.byTooltip('Open profile'), findsNothing);
       expect(find.text('TOTAL COLLECTED'), findsNothing);
       expect(find.text('Home'), findsNothing);
@@ -72,8 +72,6 @@ void main() {
         '/',
         '/auth',
         '/home',
-        '/offline',
-        '/sync',
         '/groups',
         '/groups/scan',
         '/groups/create',
@@ -86,17 +84,12 @@ void main() {
         '/groups/:collectionId/invite',
         '/groups/:collectionId/ledger',
         '/c/:slug',
-        '/share/invalid',
-        '/share/expired',
-        '/share/expired/request',
         '/app',
         '/invite/:publicId',
         '/settings',
         '/settings/profile',
         '/settings/account',
         '/settings/account/delete',
-        '/settings/privacy',
-        '/settings/help',
         '/settings/legal/terms',
         '/settings/legal/privacy',
         if (kDebugMode) '/dev/design-system',
@@ -525,11 +518,26 @@ void main() {
         'lib/features/status/production_state_screens.dart',
       ).readAsStringSync();
       final devicePrivacyScreens = [
-        'lib/features/status/device_privacy_screens.dart',
-        'lib/features/status/device_privacy_data_screen.dart',
         'lib/features/status/native_permission_sheets.dart',
-        'lib/features/status/device_support_screen.dart',
       ].map((path) => File(path).readAsStringSync()).join('\n');
+      expect(
+        File('lib/features/status/device_privacy_screens.dart').existsSync(),
+        isFalse,
+      );
+      expect(
+        File(
+          'lib/features/status/device_privacy_data_screen.dart',
+        ).existsSync(),
+        isFalse,
+      );
+      expect(
+        File('lib/features/status/device_support_screen.dart').existsSync(),
+        isFalse,
+      );
+      expect(
+        File('lib/features/status/access_state_screens.dart').existsSync(),
+        isFalse,
+      );
       final settings = File(
         'lib/features/settings/settings_screen.dart',
       ).readAsStringSync();
@@ -557,7 +565,12 @@ void main() {
         contains("CollectPlainPageHeader(title: 'Edit profile')"),
       );
       expect(settings, isNot(contains('Ready for group activity')));
-      expect(statusScreens, contains("export 'device_privacy_screens.dart';"));
+      expect(
+        statusScreens,
+        isNot(contains("export 'device_privacy_screens.dart';")),
+      );
+      expect(statusScreens, isNot(contains('SharedLinkProblemScreen')));
+      expect(statusScreens, isNot(contains('FreshLinkRequestScreen')));
       expect(devicePrivacyScreens, contains('Open app settings'));
       expect(devicePrivacyScreens, contains('openAppSettings()'));
       expect(
@@ -566,7 +579,12 @@ void main() {
       );
       expect(createGroup, isNot(contains('_createStepSubtitle')));
       expect(createGroup, isNot(contains('subtitle: _createStepSubtitle')));
-      expect(scanner, contains("CollectPlainPageHeader(title: 'Scan QR')"));
+      expect(
+        scanner,
+        isNot(contains("CollectPlainPageHeader(title: 'Scan QR')")),
+      );
+      expect(scanner, contains('MobileScanner('));
+      expect(scanner, contains("label: 'Close scanner'"));
       expect(scanner, isNot(contains('analyzeImage')));
       expect(scanner, isNot(contains("'Gallery'")));
       expect(scanner, isNot(contains("label: 'Enter link'")));

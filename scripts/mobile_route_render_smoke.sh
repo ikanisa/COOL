@@ -127,9 +127,6 @@ route_specs=(
   "share|/groups/col-church/share|workflow"
   "invite|/groups/col-church/invite|compatibility"
   "shared-group-link|/c/st-michel-building-fund|entry"
-  "share-invalid|/share/invalid|recovery"
-  "share-expired|/share/expired|recovery"
-  "share-expired-request|/share/expired/request|recovery"
   "app-share-entry|/app|compatibility"
   "app-invite-link|/invite/038491|compatibility"
   "contribution|/groups/col-church/contribute|workflow"
@@ -140,12 +137,8 @@ route_specs=(
   "settings|/settings|primary"
   "account|/settings/account|utility"
   "account-delete|/settings/account/delete|utility"
-  "privacy|/settings/privacy|utility"
   "legal-privacy|/settings/legal/privacy|utility"
   "legal-terms|/settings/legal/terms|utility"
-  "help|/settings/help|utility"
-  "offline|/offline|recovery"
-  "sync|/sync|utility"
 )
 
 captures_json="$EVIDENCE_DIR/captures.jsonl"

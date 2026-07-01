@@ -48,7 +48,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       const _SettingsEntry(
         child: _SettingsTile(
           leading: CollectIcons.support,
-          title: 'Help',
+          title: 'Support',
           onTap: openCollectWhatsAppSupport,
         ),
       ),

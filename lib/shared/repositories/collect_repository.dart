@@ -823,6 +823,66 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
   }
 
+  Future<void> archiveCollection(String collectionId) async {
+    final collection = collectionById(collectionId);
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'archive_group',
+        params: {'collection': collectionId},
+      );
+      await loadInitial();
+      return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before archiving a group.');
+    }
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == collection.id)
+            item.copyWith(moderationStatus: 'archived', isPublic: false)
+          else
+            item,
+      ],
+    );
+  }
+
+  Future<void> transferCollectionOwnership({
+    required String collectionId,
+    required String publicId,
+  }) async {
+    final cleanPublicId = publicId.replaceAll(RegExp(r'\D'), '');
+    if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
+      throw const FormatException('Enter a 6 digit Collect ID.');
+    }
+    final collection = collectionById(collectionId);
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'transfer_group_ownership',
+        params: {
+          'collection': collectionId,
+          'new_owner_public_id': cleanPublicId,
+        },
+      );
+      await loadInitial();
+      return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before transferring ownership.');
+    }
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == collection.id)
+            item.copyWith(creatorUserId: 'collect-id-$cleanPublicId')
+          else
+            item,
+      ],
+    );
+  }
+
   Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {
     final collection = collectionById(collectionId);
     final supabase = _supabase;

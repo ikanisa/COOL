@@ -120,22 +120,6 @@ void main() {
     await tapVisible(tester, find.text(label));
   }
 
-  Finder findSheetOption(String label) {
-    return find.byWidgetPredicate(
-      (widget) =>
-          widget is Semantics &&
-          widget.properties.label == 'Filter option $label',
-      description: 'sheet option $label',
-    );
-  }
-
-  Future<void> selectLedgerFilter(WidgetTester tester, String label) async {
-    await tapVisible(tester, find.text('STATUS').first);
-    await tester.pumpAndSettle();
-    await tapVisible(tester, findSheetOption(label));
-    await tester.pumpAndSettle();
-  }
-
   void expectNoGlobalSecrets() {
     expect(find.textContaining('service_role'), findsNothing);
     expect(find.textContaining('OPENAI_API_KEY'), findsNothing);
@@ -150,7 +134,7 @@ void main() {
     await pumpLaunchFrames(tester);
 
     expect(find.text('Collect'), findsOneWidget);
-    expect(find.text('Groups. MoMo. Done.'), findsOneWidget);
+    expect(find.text('Groups. MoMo. Done.'), findsNothing);
     expect(find.text('TOTAL COLLECTED'), findsNothing);
     expect(find.text('038491'), findsNothing);
     expect(find.text('St Michel building fund'), findsNothing);
@@ -290,9 +274,10 @@ void main() {
   testWidgets('creator share routes preserve group boundaries', (tester) async {
     await pumpMainAppAt(tester, '/groups/col-church/share');
 
-    expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('Share'), findsWidgets);
-    expect(find.text('Save'), findsWidgets);
+    expect(find.text('Group QR'), findsWidgets);
+    expect(find.text('St Michel building fund'), findsNothing);
+    expect(find.text('Share'), findsOneWidget);
+    expect(find.text('Save'), findsOneWidget);
     expect(find.text('Group sharing'), findsNothing);
     expect(find.text('Private receiver'), findsNothing);
     expect(
@@ -305,9 +290,10 @@ void main() {
     router.go('/groups/col-church/invite');
     await tester.pumpAndSettle();
 
-    expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('Share'), findsWidgets);
-    expect(find.text('Save'), findsWidgets);
+    expect(find.text('Group QR'), findsWidgets);
+    expect(find.text('St Michel building fund'), findsNothing);
+    expect(find.text('Share'), findsOneWidget);
+    expect(find.text('Save'), findsOneWidget);
     expect(find.text('SMS'), findsNothing);
     expect(find.text('WhatsApp'), findsNothing);
     expect(find.text('Copy deep link'), findsNothing);
@@ -317,34 +303,28 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('invalid shared links offer privacy-safe recovery', (
+  testWidgets('invalid shared links return to groups', (
     tester,
   ) async {
     await pumpMainAppAt(tester, '/share/invalid');
 
-    expect(find.text('Link unavailable'), findsWidgets);
-    expect(find.text('Receiver privacy'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Scan QR'));
-    expect(find.text('Scan QR'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Open groups'));
-    expect(find.text('Open groups'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Get help'));
-    expect(find.text('Get help'), findsOneWidget);
+    expect(find.text('Groups'), findsWidgets);
+    expect(find.text('Link unavailable'), findsNothing);
+    expect(find.text('Receiver privacy'), findsNothing);
     expect(find.textContaining('receiver MoMo details'), findsNothing);
     expect(find.textContaining('+250788'), findsNothing);
     expectNoGlobalSecrets();
   });
 
-  testWidgets('expired shared links keep join recovery actionable', (
+  testWidgets('expired shared links return to groups', (
     tester,
   ) async {
     await pumpMainAppAt(tester, '/share/expired');
 
-    expect(find.text('Link expired'), findsWidgets);
+    expect(find.text('Groups'), findsWidgets);
+    expect(find.text('Link expired'), findsNothing);
     expect(find.textContaining('fresh private link'), findsNothing);
-    await scrollToVisible(tester, find.text('Scan QR'));
-    expect(find.text('Scan QR'), findsOneWidget);
-    expect(find.text('Receiver privacy'), findsOneWidget);
+    expect(find.text('Receiver privacy'), findsNothing);
     expect(find.textContaining('+250788'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -365,7 +345,8 @@ void main() {
   ) async {
     await pumpMainAppAt(tester, '/groups/scan');
 
-    expect(find.text('Scan QR'), findsWidgets);
+    expect(find.text('Scan QR'), findsNothing);
+    expect(find.bySemanticsLabel('Close scanner'), findsOneWidget);
     expect(find.text('Join with a code.'), findsNothing);
     expect(find.text('Group code'), findsNothing);
     expect(find.text('Group code or link'), findsNothing);
@@ -651,8 +632,8 @@ void main() {
       repository: repository,
     );
 
-    expect(find.text('Ledger'), findsOneWidget);
-    expect(find.text('Confirmed ledger'), findsOneWidget);
+    expect(find.text('Ledger'), findsWidgets);
+    expect(find.text('Confirmed ledger'), findsNothing);
     expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('MTN12345'), findsOneWidget);
 
@@ -736,25 +717,16 @@ void main() {
     }
   });
 
-  testWidgets('privacy and terms routes have useful copy', (tester) async {
+  testWidgets('privacy route redirects to legal privacy copy', (tester) async {
     await pumpMainAppAt(tester, '/settings/privacy');
 
-    expect(find.text('Privacy and data'), findsWidgets);
-    final router = GoRouter.of(
-      tester.element(find.text('Privacy and data').first),
-    );
-    expect(find.text('Private by default'), findsOneWidget);
-    expect(find.text('ID first.'), findsOneWidget);
+    expect(find.text('Privacy Policy'), findsWidgets);
+    expect(find.text('Privacy and data'), findsNothing);
     expect(find.textContaining('No names, no phone numbers'), findsNothing);
     expect(find.text('What SMS messages are read'), findsNothing);
     expect(find.text('What is parsed locally'), findsNothing);
     expect(find.text('What is sent to Supabase'), findsNothing);
     expect(find.text('Retention and audit boundary'), findsNothing);
-
-    router.go('/settings/legal/privacy');
-    await pumpLaunchFrames(tester);
-
-    expect(find.text('Privacy Policy'), findsWidgets);
     expect(find.text('Data boundary'), findsNothing);
     await scrollToVisible(tester, find.text('Data we collect'));
     expect(find.text('Data we collect'), findsOneWidget);
@@ -765,13 +737,13 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('offline route explains safe retry behavior', (tester) async {
+  testWidgets('offline route returns to groups', (tester) async {
     await pumpMainAppAt(tester, '/offline');
 
-    expect(find.text('Connection issue'), findsWidgets);
-    expect(find.text('Offline-safe behavior'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Retry sync'));
-    expect(find.text('Retry sync'), findsOneWidget);
+    expect(find.text('Groups'), findsWidgets);
+    expect(find.text('Connection issue'), findsNothing);
+    expect(find.text('Offline-safe behavior'), findsNothing);
+    expect(find.text('Retry sync'), findsNothing);
     expect(find.textContaining('New contributions'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -820,6 +792,12 @@ void main() {
 
     expect(find.text('Close group'), findsNothing);
     expect(find.textContaining('Use share, ledger, and support'), findsNothing);
+    await scrollToVisible(tester, find.text('Archive group'));
+    expect(find.text('Archive group'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Transfer ownership'));
+    expect(find.text('Transfer ownership'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Add admin'));
+    expect(find.text('Add admin'), findsOneWidget);
     await scrollToVisible(tester, find.text('Support'));
     expect(
       find.text('Request help with closing or receiver changes.'),
@@ -840,7 +818,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('ledger filters confirmed and mine activity only', (
+  testWidgets('ledger shows validated activity without status controls', (
     tester,
   ) async {
     await pumpMainAppAt(
@@ -849,7 +827,7 @@ void main() {
       repository: _LedgerScenarioRepository(),
     );
 
-    expect(find.text('Ledger'), findsOneWidget);
+    expect(find.text('Ledger'), findsWidgets);
     expect(find.text('038491'), findsWidgets);
     expect(find.text('Pending'), findsNothing);
     expect(find.text('Needs review'), findsNothing);
@@ -866,25 +844,22 @@ void main() {
     expect(find.textContaining('intent-review'), findsNothing);
     expect(find.textContaining('intent-pending'), findsNothing);
 
-    await selectLedgerFilter(tester, 'Confirmed');
     expect(find.textContaining('MTN12345'), findsWidgets);
+    expect(find.text('STATUS'), findsNothing);
+    expect(find.text('GROUP'), findsOneWidget);
     expect(find.textContaining('intent-pending'), findsNothing);
-
-    await selectLedgerFilter(tester, 'Mine');
-    expect(find.text('038491'), findsWidgets);
     expectNoGlobalSecrets();
   });
 
-  testWidgets('help route opens WhatsApp support fallback', (tester) async {
+  testWidgets('help route returns to settings without support screen', (tester) async {
     await pumpMainAppAt(tester, '/settings/help');
 
-    expect(find.text('WhatsApp support'), findsOneWidget);
-    expect(find.text('Support without secrets'), findsOneWidget);
+    expect(find.text('Settings'), findsWidgets);
+    expect(find.text('WhatsApp support'), findsNothing);
+    expect(find.text('Support without secrets'), findsNothing);
     expect(find.text('Contact support on WhatsApp.'), findsNothing);
-    expect(find.text('Support'), findsOneWidget);
     expect(find.text('+250795588248'), findsNothing);
-    await scrollToVisible(tester, find.text('Open WhatsApp'));
-    expect(find.text('Open WhatsApp'), findsOneWidget);
+    expect(find.text('Open WhatsApp'), findsNothing);
     expect(find.text('Subject'), findsNothing);
     expect(find.text('Message'), findsNothing);
     expectNoGlobalSecrets();
@@ -946,10 +921,7 @@ void main() {
         '/groups/col-church/profile',
         '/groups/col-church/members',
         '/settings',
-        '/settings/privacy',
-        '/settings/help',
-        '/offline',
-        '/sync',
+        '/settings/legal/privacy',
       ];
 
       for (final route in routes) {

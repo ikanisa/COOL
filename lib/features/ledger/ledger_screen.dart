@@ -20,7 +20,6 @@ class LedgerScreen extends ConsumerStatefulWidget {
 class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   final _search = TextEditingController();
   String _query = '';
-  _LedgerFilter _filter = _LedgerFilter.all;
   _LedgerSort _sort = _LedgerSort.newest;
 
   @override
@@ -32,22 +31,13 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
-    final profile = state.currentProfile;
+    final repo = ref.read(collectRepositoryProvider.notifier);
+    final collection = repo.maybeCollectionById(widget.collectionId);
     final contributions = ref.watch(
       contributionsForCollectionProvider(widget.collectionId),
     );
     final isInitialLoading = state.isLoading && contributions.isEmpty;
-    final filteredContributions = switch (_filter) {
-      _LedgerFilter.all || _LedgerFilter.confirmed => contributions,
-      _LedgerFilter.mine => [
-        for (final item in contributions)
-          if (profile != null &&
-              (item.supporterLabel.contains(profile.publicId) ||
-                  item.supporterLabel == profile.safeAlias))
-            item,
-      ],
-    };
-    final visible = filteredContributions.where((item) {
+    final visible = contributions.where((item) {
       final query = _query.trim().toLowerCase();
       if (query.isEmpty) return true;
       return item.supporterLabel.toLowerCase().contains(query) ||
@@ -76,7 +66,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           : [
               MoneyHeroCard(
                 amount: total,
-                label: 'Confirmed ledger',
+                label: 'Ledger',
                 detail: '${contributions.length} entries',
               ),
               SearchWithClearField(
@@ -85,9 +75,9 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                 onChanged: (value) => setState(() => _query = value),
               ),
               _LedgerControlDock(
-                filterLabel: _ledgerFilterLabel(_filter),
+                groupLabel: collection?.title ?? 'Group',
                 sortLabel: _ledgerSortLabel(_sort),
-                onFilterTap: _showFilterSheet,
+                onGroupTap: () => _showGroupSheet(state.collections),
                 onSortTap: _showSortSheet,
               ),
               const SectionHeader(title: 'Activity'),
@@ -106,12 +96,11 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                 )
               else if (!hasVisibleLedgerActivity)
                 EmptySearchState(
-                  title: _emptyTitleForFilter(_filter),
-                  message: _emptyMessageForFilter(_filter),
+                  title: _emptyTitleForFilter(),
+                  message: _emptyMessageForFilter(),
                   onClear: () => setState(() {
                     _search.clear();
                     _query = '';
-                    _filter = _LedgerFilter.all;
                   }),
                 )
               else
@@ -136,7 +125,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     );
   }
 
-  void _showFilterSheet() {
+  void _showGroupSheet(List<CollectCollection> collections) {
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
@@ -144,14 +133,19 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
-          child: _LedgerOptionSheet<_LedgerFilter>(
-            title: 'Filter ledger',
-            values: _LedgerFilter.values,
-            selected: _filter,
-            labelFor: _ledgerFilterLabel,
-            onSelected: (filter) {
-              setState(() => _filter = filter);
+          child: _LedgerOptionSheet<CollectCollection>(
+            title: 'Filter by group',
+            values: collections,
+            selected: collections.firstWhere(
+              (item) => item.id == widget.collectionId,
+              orElse: () => collections.first,
+            ),
+            labelFor: (collection) => collection.title,
+            onSelected: (collection) {
               Navigator.of(context).pop();
+              if (collection.id != widget.collectionId) {
+                context.go('/groups/${collection.id}/ledger');
+              }
             },
           ),
         );
@@ -185,15 +179,15 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
 
 class _LedgerControlDock extends StatelessWidget {
   const _LedgerControlDock({
-    required this.filterLabel,
+    required this.groupLabel,
     required this.sortLabel,
-    required this.onFilterTap,
+    required this.onGroupTap,
     required this.onSortTap,
   });
 
-  final String filterLabel;
+  final String groupLabel;
   final String sortLabel;
-  final VoidCallback onFilterTap;
+  final VoidCallback onGroupTap;
   final VoidCallback onSortTap;
 
   @override
@@ -202,10 +196,10 @@ class _LedgerControlDock extends StatelessWidget {
       children: [
         Expanded(
           child: _LedgerControlButton(
-            icon: CollectIcons.filter,
-            title: 'Status',
-            value: filterLabel,
-            onTap: onFilterTap,
+            icon: CollectIcons.collections,
+            title: 'Group',
+            value: groupLabel,
+            onTap: onGroupTap,
           ),
         ),
         CollectSpacing.gapW12,
@@ -401,17 +395,7 @@ class _LedgerSheetPill<T> extends StatelessWidget {
   }
 }
 
-enum _LedgerFilter { all, confirmed, mine }
-
 enum _LedgerSort { newest, oldest, highest, lowest }
-
-String _ledgerFilterLabel(_LedgerFilter filter) {
-  return switch (filter) {
-    _LedgerFilter.all => 'All',
-    _LedgerFilter.confirmed => 'Confirmed',
-    _LedgerFilter.mine => 'Mine',
-  };
-}
 
 String _ledgerSortLabel(_LedgerSort sort) {
   return switch (sort) {
@@ -435,18 +419,7 @@ int _compareContributions(
   };
 }
 
-String _emptyTitleForFilter(_LedgerFilter filter) {
-  return switch (filter) {
-    _LedgerFilter.mine => 'No matching contributions',
-    _ => 'No transactions found',
-  };
-}
+String _emptyTitleForFilter() => 'No transactions found';
 
-String _emptyMessageForFilter(_LedgerFilter filter) {
-  return switch (filter) {
-    _LedgerFilter.mine =>
-      'No contribution from your Collect ID matches the current search.',
-    _ =>
-      'No confirmed contribution matches that Collect ID or transaction reference.',
-  };
-}
+String _emptyMessageForFilter() =>
+    'No contribution matches that Collect ID or transaction reference.';

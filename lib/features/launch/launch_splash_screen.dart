@@ -102,17 +102,6 @@ class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
                       letterSpacing: 0,
                     ),
                   ),
-                  CollectSpacing.gap16,
-                  Text(
-                    'Groups. MoMo. Done.',
-                    style: textTheme.titleMedium?.copyWith(
-                      color: foreground.withValues(alpha: 0.76),
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
                   const Spacer(),
                   SizedBox(
                     width: 54,

@@ -9,8 +9,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../app/env/app_env.dart';
-import '../../core/utils/money_format.dart';
-import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import 'group_empty_state.dart';
@@ -28,118 +26,80 @@ class ShareScreen extends ConsumerWidget {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(collectionId);
     if (collection == null) return const MissingGroupStateScreen();
-    final summary = repo.summaryFor(collectionId);
     final link = groupDeepLinkFor(env, collection);
     final filename = '${collection.slug}-qr';
     final shareText = groupShareMessageFor(env, collection);
 
-    return CollectGradientBackground(
-      child: SafeArea(
+    return Scaffold(
+      backgroundColor: Colors.black.withValues(alpha: 0.46),
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            CollectSpacing.x5,
-            CollectSpacing.x4,
-            CollectSpacing.x5,
-            CollectSpacing.x5,
-          ),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final showPreview = constraints.maxHeight >= 700;
-              return Column(
-                children: [
-                  if (showPreview) ...[
-                    Semantics(
-                      button: true,
-                      label: 'Return to ${collection.title}',
-                      hint: 'Closes the share sheet and opens the group page',
-                      child: Material(
-                        color: colors.transparent,
-                        child: InkWell(
-                          onTap: () => context.go('/groups/$collectionId'),
-                          borderRadius: CollectRadius.cardLargeBorder,
-                          child: _SharePreviewCard(
-                            collection: collection,
-                            summary: summary,
-                          ),
-                        ),
+          padding: const EdgeInsets.all(CollectSpacing.x4),
+          child: Column(
+            children: [
+              const Spacer(),
+              CollectBottomSheet(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.glassBorder,
+                        borderRadius: CollectRadius.pillBorder,
                       ),
+                      child: const SizedBox(width: 44, height: 4),
                     ),
                     CollectSpacing.gap16,
-                    const Spacer(),
-                  ] else
-                    const Spacer(),
-                  CollectBottomSheet(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                    Row(
                       children: [
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: colors.glassBorder,
-                            borderRadius: CollectRadius.pillBorder,
+                        Expanded(
+                          child: Text(
+                            'Group QR',
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w900),
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          child: const SizedBox(width: 44, height: 4),
                         ),
-                        CollectSpacing.gap16,
-                        Row(
-                          children: [
-                            const _ShareBrandMark(),
-                            CollectSpacing.gapW16,
-                            Expanded(
-                              child: Text(
-                                collection.title,
-                                style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.w900),
-                                maxLines: 1,
-                                softWrap: false,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            CollectSpacing.gapW12,
-                            IconButton.filledTonal(
-                              tooltip: 'Close',
-                              onPressed: () =>
-                                  context.go('/groups/$collectionId'),
-                              icon: const Icon(Icons.close_rounded),
-                            ),
-                          ],
-                        ),
-                        CollectSpacing.gap20,
-                        _BrandedQrCard(data: link),
-                        CollectSpacing.gap20,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CollectButton(
-                                label: 'Share',
-                                icon: CollectIcons.share,
-                                onPressed: () => _shareQr(
-                                  context,
-                                  link,
-                                  filename,
-                                  shareText,
-                                ),
-                                expand: true,
-                              ),
-                            ),
-                            CollectSpacing.gapW12,
-                            Expanded(
-                              child: CollectButton(
-                                label: 'Save',
-                                icon: CollectIcons.download,
-                                onPressed: () =>
-                                    _saveQr(context, link, filename),
-                                variant: CollectButtonVariant.secondary,
-                                expand: true,
-                              ),
-                            ),
-                          ],
+                        CollectSpacing.gapW12,
+                        IconButton.filledTonal(
+                          tooltip: 'Close',
+                          onPressed: () => context.go('/groups/$collectionId'),
+                          icon: const Icon(Icons.close_rounded),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              );
-            },
+                    CollectSpacing.gap20,
+                    _BrandedQrCard(data: link),
+                    CollectSpacing.gap20,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CollectButton(
+                            label: 'Share',
+                            icon: CollectIcons.share,
+                            onPressed: () =>
+                                _shareQr(context, link, filename, shareText),
+                            expand: true,
+                          ),
+                        ),
+                        CollectSpacing.gapW12,
+                        Expanded(
+                          child: CollectButton(
+                            label: 'Save',
+                            icon: CollectIcons.download,
+                            onPressed: () => _saveQr(context, link, filename),
+                            variant: CollectButtonVariant.secondary,
+                            expand: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -196,131 +156,6 @@ class ShareScreen extends ConsumerWidget {
         context,
       ).showSnackBar(const SnackBar(content: Text('Could not save QR.')));
     }
-  }
-}
-
-class _SharePreviewCard extends StatelessWidget {
-  const _SharePreviewCard({required this.collection, required this.summary});
-
-  final CollectCollection collection;
-  final CollectionSummary summary;
-
-  @override
-  Widget build(BuildContext context) {
-    return CollectCard(
-      emphasis: CollectCardEmphasis.glow,
-      padding: CollectSpacing.cardPaddingComfortable,
-      backgroundGradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          CollectColors.referencePaymentsPurpleDeep,
-          CollectColors.referenceRewardsViolet,
-          CollectColors.referenceContentDark,
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CollectToneIcon(
-                icon: collection.isPublic
-                    ? CollectIcons.share
-                    : CollectIcons.lock,
-                tone: CollectStatusTone.privacy,
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Text(
-                  collection.title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: context.collectColors.onImagePrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          CollectSpacing.gap16,
-          Row(
-            children: [
-              Expanded(
-                child: _SharePreviewMetric(
-                  label: 'Raised',
-                  value: formatRwf(summary.amountRaisedRwf),
-                  icon: CollectSemanticIcons.forKeyword('amount'),
-                ),
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: _SharePreviewMetric(
-                  label: 'Members',
-                  value: '${summary.supporterCount}',
-                  icon: CollectSemanticIcons.forKeyword('members'),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SharePreviewMetric extends StatelessWidget {
-  const _SharePreviewMetric({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
-
-  final String label;
-  final String value;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final foreground = context.collectColors.onImagePrimary;
-    return Semantics(
-      label: '$label $value',
-      child: ExcludeSemantics(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: foreground.withValues(alpha: 0.10),
-            borderRadius: CollectRadius.panelBorder,
-            border: Border.all(color: foreground.withValues(alpha: 0.16)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x3),
-            child: Row(
-              children: [
-                Icon(icon, color: foreground.withValues(alpha: 0.78), size: 18),
-                CollectSpacing.gapW8,
-                Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      value,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: foreground,
-                        fontWeight: FontWeight.w900,
-                      ),
-                      maxLines: 1,
-                      softWrap: false,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 
@@ -443,38 +278,6 @@ class _BrandedQrCard extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ShareBrandMark extends StatelessWidget {
-  const _ShareBrandMark();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      label: 'Collect',
-      image: true,
-      child: ExcludeSemantics(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.onImagePrimary.withValues(alpha: 0.10),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: colors.onImagePrimary.withValues(alpha: 0.16),
-            ),
-          ),
-          child: SizedBox.square(
-            dimension: 44,
-            child: Icon(
-              CollectSemanticIcons.forKeyword('qr'),
-              color: colors.onImagePrimary,
-              size: 22,
             ),
           ),
         ),

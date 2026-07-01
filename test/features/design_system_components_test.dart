@@ -174,15 +174,16 @@ void main() {
         Color(0xFF081820),
       ],
     );
+    expect(_gradientColors(light.screenGradientForPath('/settings')), const [
+      Color(0xFF9838F0),
+      Color(0xFF7050E8),
+      Color(0xFF302878),
+      Color(0xFF100820),
+    ]);
     expect(
-      _gradientColors(light.screenGradientForPath('/settings/help')),
+      _gradientColors(light.screenGradientForPath('/settings/legal/privacy')),
       const [Color(0xFF303020), Color(0xFF181038), Color(0xFF101018)],
     );
-    expect(_gradientColors(light.screenGradientForPath('/offline')), const [
-      Color(0xFF202828),
-      Color(0xFF102028),
-      Color(0xFF001010),
-    ]);
   });
 
   testWidgets('top chrome profile control is visible and links to profile', (
@@ -956,7 +957,9 @@ void main() {
     expect(collectionsScreen, contains('class _GroupsMetricPill'));
     expect(collectionsScreen, contains('Group activity'));
     expect(collectionsScreen, contains('Total collected'));
-    expect(detailActions, contains('iconOnly: true'));
+    expect(detailActions, contains("label: 'Members'"));
+    expect(detailActions, contains('/groups/\$collectionId/members'));
+    expect(detailActions, isNot(contains('class _GroupMomentumRail')));
     expect(detailHero, contains('maxLines: 1'));
     expect(detailHero, contains('softWrap: false'));
     expect(shareScreen, contains('maxLines: 1'));

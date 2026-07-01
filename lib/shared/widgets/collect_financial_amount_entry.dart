@@ -89,7 +89,7 @@ class AmountEntryPanel extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                inputFormatters: const [_RwfAmountInputFormatter()],
                 style: amountStyle,
                 maxLines: 1,
                 decoration: InputDecoration(
@@ -171,4 +171,40 @@ String _compactAmount(int amount) {
     return '${amount ~/ 1000}k';
   }
   return formatRwf(amount);
+}
+
+class _RwfAmountInputFormatter extends TextInputFormatter {
+  const _RwfAmountInputFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    if (digits.isEmpty) {
+      return const TextEditingValue(
+        selection: TextSelection.collapsed(offset: 0),
+      );
+    }
+    final value = int.tryParse(digits);
+    if (value == null) return oldValue;
+    final formatted = _formatPlainNumber(value);
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
+
+String _formatPlainNumber(int value) {
+  final raw = value.toString();
+  final buffer = StringBuffer();
+  for (var index = 0; index < raw.length; index += 1) {
+    if (index > 0 && (raw.length - index) % 3 == 0) {
+      buffer.write(',');
+    }
+    buffer.write(raw[index]);
+  }
+  return buffer.toString();
 }

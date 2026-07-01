@@ -6,7 +6,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
-import '../../shared/widgets/screen_scaffold.dart';
 import '../status/native_permission_sheets.dart';
 import 'group_link_screen.dart';
 
@@ -31,6 +30,12 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   String? _error;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startScanning());
+  }
+
+  @override
   void dispose() {
     _scanner.dispose();
     super.dispose();
@@ -38,47 +43,62 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenScaffold(
-      title: 'Scan QR',
-      showHeader: false,
-      bottomAction: BottomActionSurface(
+    final colors = context.collectColors;
+    return Scaffold(
+      backgroundColor: CollectColors.inkPrimary,
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          CollectButton(
-            label: _joining
-                ? 'Opening'
-                : _starting
-                ? 'Starting'
-                : _scanning
-                ? 'Stop'
-                : 'Scan',
-            icon: _scanning ? Icons.stop_rounded : CollectIcons.qr,
-            onPressed: _joining || _starting
-                ? null
-                : _scanning
-                ? _stopScanning
-                : _startScanning,
-            expand: true,
+          _ScannerViewport(
+            controller: _scanner,
+            joining: _joining,
+            scanning: _scanning,
+            starting: _starting,
+            onDetect: _onDetect,
           ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(CollectSpacing.x4),
+              child: Row(
+                children: [
+                  _ScannerIconButton(
+                    icon: Icons.close_rounded,
+                    label: 'Close scanner',
+                    onTap: () => context.go('/groups'),
+                  ),
+                  const Spacer(),
+                  _ScannerIconButton(
+                    icon: Icons.flashlight_on_rounded,
+                    label: 'Torch',
+                    onTap: _toggleTorch,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (_error != null)
+            Positioned(
+              left: CollectSpacing.x4,
+              right: CollectSpacing.x4,
+              bottom: MediaQuery.paddingOf(context).bottom + CollectSpacing.x4,
+              child: Material(
+                color: colors.danger.withValues(alpha: 0.92),
+                borderRadius: CollectRadius.panelBorder,
+                child: Padding(
+                  padding: const EdgeInsets.all(CollectSpacing.x3),
+                  child: Text(
+                    _error!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.onAccent,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
-      children: [
-        const CollectPlainPageHeader(title: 'Scan QR'),
-        _ScannerViewport(
-          controller: _scanner,
-          joining: _joining,
-          scanning: _scanning,
-          starting: _starting,
-          onDetect: _onDetect,
-          onTorch: _toggleTorch,
-          onSwitchCamera: _switchCamera,
-        ),
-        if (_error != null)
-          InfoSecurityBanner(
-            title: 'QR code failed',
-            message: _error!,
-            tone: CollectStatusTone.danger,
-          ),
-      ],
     );
   }
 
@@ -106,27 +126,12 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
     }
   }
 
-  Future<void> _stopScanning() async {
-    await _scanner.stop();
-    if (!mounted) return;
-    setState(() => _scanning = false);
-  }
-
   Future<void> _toggleTorch() async {
     try {
       await _scanner.toggleTorch();
     } catch (_) {
       if (!mounted) return;
       setState(() => _error = 'Torch unavailable.');
-    }
-  }
-
-  Future<void> _switchCamera() async {
-    try {
-      await _scanner.switchCamera();
-    } catch (_) {
-      if (!mounted) return;
-      setState(() => _error = 'Camera switch unavailable.');
     }
   }
 
@@ -182,8 +187,6 @@ class _ScannerViewport extends StatelessWidget {
     required this.scanning,
     required this.starting,
     required this.onDetect,
-    required this.onTorch,
-    required this.onSwitchCamera,
   });
 
   final MobileScannerController controller;
@@ -191,95 +194,45 @@ class _ScannerViewport extends StatelessWidget {
   final bool scanning;
   final bool starting;
   final void Function(BarcodeCapture capture) onDetect;
-  final VoidCallback onTorch;
-  final VoidCallback onSwitchCamera;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final borderColor = colors.onImagePrimary.withValues(alpha: 0.12);
     return Semantics(
       container: true,
       label: 'QR scanner',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: CollectRadius.cardLargeBorder,
-          border: Border.all(color: borderColor),
-          boxShadow: [
-            BoxShadow(
-              color: CollectColors.inkPrimary.withValues(alpha: 0.22),
-              blurRadius: 28,
-              offset: const Offset(0, 18),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: CollectRadius.cardLargeBorder,
-          child: AspectRatio(
-            aspectRatio: 0.86,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                const ColoredBox(color: CollectColors.inkPrimary),
-                MobileScanner(
-                  controller: controller,
-                  fit: BoxFit.cover,
-                  tapToFocus: true,
-                  onDetect: onDetect,
-                  errorBuilder: (context, error) =>
-                      _ScannerUnavailable(error: error.errorDetails?.message),
-                ),
-                const _ScannerScrim(),
-                const _ScanGuide(),
-                if (!scanning && !starting && !joining)
-                  const _ScannerIdleOverlay(),
-                Positioned(
-                  top: CollectSpacing.x3,
-                  right: CollectSpacing.x3,
-                  child: Row(
-                    children: [
-                      _ScannerIconButton(
-                        icon: Icons.flashlight_on_rounded,
-                        label: 'Torch',
-                        onTap: onTorch,
-                      ),
-                      CollectSpacing.gapW8,
-                      _ScannerIconButton(
-                        icon: Icons.cameraswitch_rounded,
-                        label: 'Switch camera',
-                        onTap: onSwitchCamera,
-                      ),
-                    ],
-                  ),
-                ),
-                if (starting)
-                  ColoredBox(
-                    color: colors.cameraScrim,
-                    child: const Center(
-                      child: LoadingStatePanel(
-                        title: 'Starting',
-                        message: '',
-                        icon: CollectIcons.qr,
-                        lines: 1,
-                      ),
-                    ),
-                  ),
-                if (joining)
-                  ColoredBox(
-                    color: colors.cameraScrim,
-                    child: const Center(
-                      child: LoadingStatePanel(
-                        title: 'Opening',
-                        message: '',
-                        icon: CollectIcons.qr,
-                        lines: 1,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const ColoredBox(color: CollectColors.inkPrimary),
+          MobileScanner(
+            controller: controller,
+            fit: BoxFit.cover,
+            tapToFocus: true,
+            onDetect: onDetect,
+            errorBuilder: (context, error) =>
+                _ScannerUnavailable(error: error.errorDetails?.message),
           ),
-        ),
+          const _ScannerScrim(),
+          const _ScanGuide(),
+          if (starting)
+            ColoredBox(
+              color: context.collectColors.cameraScrim,
+              child: const Center(
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: CollectColors.brandPaper,
+                ),
+              ),
+            ),
+          if (joining)
+            ColoredBox(
+              color: context.collectColors.cameraScrim,
+              child: const Center(
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: CollectColors.brandPaper,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -320,30 +273,6 @@ class _ScannerIconButton extends StatelessWidget {
               child: Icon(icon, color: colors.onImagePrimary, size: 21),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ScannerIdleOverlay extends StatelessWidget {
-  const _ScannerIdleOverlay();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Center(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.glassPanelStrong.withValues(alpha: 0.55),
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: colors.onImagePrimary.withValues(alpha: 0.14),
-          ),
-        ),
-        child: SizedBox.square(
-          dimension: 86,
-          child: Icon(CollectIcons.qr, color: colors.onImagePrimary, size: 42),
         ),
       ),
     );

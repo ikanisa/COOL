@@ -52,7 +52,7 @@ class _ContributionFlowScreenState
         .maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    final amount = int.tryParse(_amount.text) ?? 0;
+    final amount = _amountValue;
     if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
       return ScreenScaffold(
         title: 'Profile required',
@@ -133,7 +133,7 @@ class _ContributionFlowScreenState
             amount: amount,
             quickAmounts: const [],
             error: _error,
-            showCurrencyChip: false,
+            showCurrencyChip: true,
             showQuickAmounts: false,
             onQuickAmount: (_) {},
           ),
@@ -153,7 +153,7 @@ class _ContributionFlowScreenState
   }
 
   Future<void> _createIntent() async {
-    final amount = int.tryParse(_amount.text) ?? 0;
+    final amount = _amountValue;
     if (amount <= 0) {
       setState(() {
         _reviewing = false;
@@ -209,6 +209,9 @@ class _ContributionFlowScreenState
     }
     return null;
   }
+
+  int get _amountValue =>
+      int.tryParse(_amount.text.replaceAll(RegExp(r'\D'), '')) ?? 0;
 }
 
 class _ContributionHeader extends StatelessWidget {

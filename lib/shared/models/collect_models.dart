@@ -192,6 +192,7 @@ class CollectCollection {
   }
 
   CollectCollection copyWith({
+    String? creatorUserId,
     String? title,
     String? description,
     CollectionType? collectionType,
@@ -211,7 +212,7 @@ class CollectCollection {
     return CollectCollection(
       id: id,
       slug: slug,
-      creatorUserId: creatorUserId,
+      creatorUserId: creatorUserId ?? this.creatorUserId,
       title: title ?? this.title,
       description: description ?? this.description,
       collectionType: collectionType ?? this.collectionType,

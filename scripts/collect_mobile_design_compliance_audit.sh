@@ -544,8 +544,8 @@ end
   /groups/create
   /groups/col-church/contribute
   /groups/col-church/share
-  /settings/help
-  /offline
+  /settings
+  /settings/legal/privacy
 ].each do |route|
   theme_parity_failures << "Theme visual parity test must cover route #{route}." unless theme_parity_test.include?(route)
 end
