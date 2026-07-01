@@ -157,6 +157,8 @@ class AuthPhoneEntry extends StatelessWidget {
     final foreground = colors.onImagePrimary;
     final digits = controller.text.replaceAll(RegExp(r'\D'), '');
     final ready = digits.length >= 9 || controller.text.trim().startsWith('+');
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final selectorWidth = screenWidth < 360 ? 86.0 : 94.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -175,35 +177,42 @@ class AuthPhoneEntry extends StatelessWidget {
               ),
               child: SizedBox(
                 height: 58,
-                width: 108,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AuthCountryFlag(
-                      countryCode: countryCode,
-                      countryFlag: countryFlag,
-                    ),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        countryCode,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: foreground,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 0,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                width: selectorWidth,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AuthCountryFlag(
+                            countryCode: countryCode,
+                            countryFlag: countryFlag,
+                            size: 18,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            countryCode,
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  color: foreground,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 0,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.visible,
+                          ),
+                          const SizedBox(width: 3),
+                          Icon(
+                            CollectIcons.chevronDown,
+                            color: foreground.withValues(alpha: 0.72),
+                            size: 14,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      CollectIcons.chevronDown,
-                      color: foreground.withValues(alpha: 0.72),
-                      size: 18,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

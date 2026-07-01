@@ -138,31 +138,6 @@ class _GroupsMomentumPanel extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  CollectToneIcon(
-                    icon: showContributedOnly
-                        ? CollectIcons.check
-                        : CollectIcons.collections,
-                    tone: CollectStatusTone.success,
-                  ),
-                  CollectSpacing.gapW12,
-                  Expanded(
-                    child: Text(
-                      showContributedOnly
-                          ? 'Supported activity'
-                          : 'Group activity',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              CollectSpacing.gap16,
               FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
@@ -223,43 +198,43 @@ class _GroupsMetricPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.textPrimary.withValues(alpha: 0.07),
-        borderRadius: CollectRadius.mdBorder,
-        border: Border.all(color: colors.textPrimary.withValues(alpha: 0.10)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: CollectSpacing.x2,
-          vertical: CollectSpacing.x2,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: colors.textSecondary, size: 17),
-            CollectSpacing.gap4,
-            Text(
-              value,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+    return Semantics(
+      label: '$label $value',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.textPrimary.withValues(alpha: 0.07),
+            borderRadius: CollectRadius.mdBorder,
+            border: Border.all(
+              color: colors.textPrimary.withValues(alpha: 0.10),
             ),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: colors.textSecondary,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 0,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x2,
+              vertical: CollectSpacing.x2,
             ),
-          ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, color: colors.textSecondary, size: 17),
+                const SizedBox(width: 6),
+                Flexible(
+                  child: Text(
+                    value,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

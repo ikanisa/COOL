@@ -955,7 +955,8 @@ void main() {
     expect(groupCards, contains('iconOnly: true'));
     expect(groupCards, isNot(contains('supporters\',')));
     expect(collectionsScreen, contains('class _GroupsMetricPill'));
-    expect(collectionsScreen, contains('Group activity'));
+    expect(collectionsScreen, isNot(contains('Group activity')));
+    expect(collectionsScreen, isNot(contains('Supported activity')));
     expect(collectionsScreen, contains('Total collected'));
     expect(detailActions, contains("label: 'Members'"));
     expect(detailActions, contains('/groups/\$collectionId/members'));
