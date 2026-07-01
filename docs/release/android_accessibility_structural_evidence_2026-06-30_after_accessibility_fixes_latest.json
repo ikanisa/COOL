@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-06-30T19:50:06Z",
+  "status": "pass",
+  "package": "app.cool.mobile",
+  "talkback_service": "com.google.android.marvin.talkback/.TalkBackService",
+  "captures": [
+    {
+      "name": "launch_onboarding",
+      "screenshot": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/launch_onboarding.png",
+      "xml": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/launch_onboarding.xml",
+      "window": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/launch_onboarding_window.txt",
+      "active_package_match": true,
+      "node_label_count": 6,
+      "sample_labels": [
+        "Collect logo",
+        "Sign in\nUse your WhatsApp number.",
+        "WhatsApp",
+        "WhatsApp",
+        "Rwanda\n+250",
+        "WhatsApp\nSend WhatsApp code"
+      ]
+    },
+    {
+      "name": "deeplink_onboarding_guard",
+      "screenshot": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/deeplink_onboarding_guard.png",
+      "xml": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/deeplink_onboarding_guard.xml",
+      "window": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/deeplink_onboarding_guard_window.txt",
+      "active_package_match": true,
+      "node_label_count": 6,
+      "sample_labels": [
+        "Collect logo",
+        "Sign in\nUse your WhatsApp number.",
+        "WhatsApp",
+        "WhatsApp",
+        "Rwanda\n+250",
+        "WhatsApp\nSend WhatsApp code"
+      ]
+    },
+    {
+      "name": "launch_onboarding_200_text",
+      "screenshot": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/launch_onboarding_200_text.png",
+      "xml": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/launch_onboarding_200_text.xml",
+      "window": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/launch_onboarding_200_text_window.txt",
+      "active_package_match": true,
+      "node_label_count": 6,
+      "sample_labels": [
+        "Collect logo",
+        "Sign in\nUse your WhatsApp number.",
+        "WhatsApp",
+        "WhatsApp",
+        "Rwanda\n+250",
+        "WhatsApp\nSend WhatsApp code"
+      ]
+    }
+  ],
+  "device": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/device.txt",
+  "settings_before": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/device_settings_before.txt",
+  "settings_after": ".cache/android_accessibility_pixel4a/20260630T_auth_semantics_latest/device_settings_after.txt",
+  "device_settings_restored": true,
+  "failures": [
+
+  ],
+  "remaining_human_review": "This structural capture verifies exposed Android accessibility labels with TalkBack enabled, but it does not certify human auditory narration order, pronunciation, or comprehension.",
+  "secret_handling": "Captured node labels and screenshots are local evidence and must not include raw SMS bodies, OTPs, phone/MoMo numbers, signing keys, provider tokens, or production customer data."
+}

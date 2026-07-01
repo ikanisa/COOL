@@ -1,0 +1,2 @@
+[android-device-uat] adb=/Users/jeanbosco/.cargo/bin/adb device=13111JEC215558 flavor=production target=integration_test/app_uat_smoke_test.dart runner=drive evidence=.cache/android_device_uat/20260630T162322Z_upload_key_debug timeout_seconds=900
+[android-device-uat] status=pass evidence=.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json log=.cache/android_device_uat/20260630T162322Z_upload_key_debug/android_device_uat.txt

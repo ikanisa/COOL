@@ -1,0 +1,44 @@
+name: CodeQL
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - '.github/workflows/codeql.yml'
+      - 'supabase/functions/**/*.ts'
+      - 'supabase/functions/**/*.js'
+  pull_request:
+    paths:
+      - '.github/workflows/codeql.yml'
+      - 'supabase/functions/**/*.ts'
+      - 'supabase/functions/**/*.js'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze Supabase functions
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:javascript-typescript

@@ -1,0 +1,1 @@
+[admin-pwa-gate] pass build_dir=/Volumes/PRO-G40/COOL/build/web

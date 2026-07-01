@@ -16,8 +16,13 @@ String readAdminRuntimeLibrary() {
   return [
     'lib/admin/core/admin_runtime.dart',
     'lib/admin/core/admin_login_runtime.dart',
+    'lib/admin/core/admin_list_specs.dart',
+    'lib/admin/core/admin_list_export.dart',
+    'lib/admin/core/admin_list_workflow.dart',
     'lib/admin/core/admin_list_runtime.dart',
+    'lib/admin/core/admin_detail_specs.dart',
     'lib/admin/core/admin_detail_runtime.dart',
+    'lib/admin/core/admin_detail_formatters.dart',
   ].map((path) => File(path).readAsStringSync()).join('\n');
 }
 

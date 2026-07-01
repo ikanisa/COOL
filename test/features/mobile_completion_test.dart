@@ -168,6 +168,30 @@ void main() {
     expect(find.text('Verify WhatsApp'), findsNothing);
   });
 
+  testWidgets('auth screen avoids duplicate decorative WhatsApp semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await pumpRoute(tester, '/auth', legalConsentAccepted: true);
+
+      expect(find.text('Sign in'), findsOneWidget);
+      expect(find.text('Use your WhatsApp number.'), findsOneWidget);
+      expect(find.bySemanticsLabel('Send WhatsApp code'), findsOneWidget);
+      expect(find.bySemanticsLabel('WhatsApp'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('auth_country_code_picker')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const ValueKey('auth_whatsapp_phone_input')),
+        findsOneWidget,
+      );
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   testWidgets('app review OTP signs in with configured static code', (
     tester,
   ) async {

@@ -1163,6 +1163,9 @@ void main() {
     expect(readiness, contains('check_db_lint'));
     expect(readiness, contains('check_migration_history'));
     expect(readiness, contains('SUPABASE_READY_REQUIRE_POOLER_COMMANDS'));
+    expect(readiness, contains('SUPABASE_READY_DEFER_STRIPE'));
+    expect(readiness, contains('STRIPE_REQUIRED_SECRETS'));
+    expect(readiness, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
     expect(readiness, contains('scripts/supabase_schema_inventory.sh'));
     expect(readiness, contains('send-notification'));
     expect(

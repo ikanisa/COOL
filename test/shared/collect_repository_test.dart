@@ -51,6 +51,27 @@ void main() {
     expect(collection.moderationStatus, 'approved');
   });
 
+  test(
+    'collection model accepts public visibility and string region aliases',
+    () {
+      final collection = CollectCollection.fromJson(const {
+        'id': 'col-diaspora',
+        'slug': 'diaspora-building-fund',
+        'creator_user_id': 'owner',
+        'title': 'Diaspora building fund',
+        'description': 'Public donor support',
+        'collection_type': 'church',
+        'diaspora_regions': 'eu',
+        'visibility': 'public_approved',
+        'created_at': '2026-06-22T08:00:00Z',
+      });
+
+      expect(collection.isPublic, isTrue);
+      expect(collection.diasporaRegions, ['eu']);
+      expect(collection.collectionType, CollectionType.church);
+    },
+  );
+
   test('group creation accepts MoMo Pay code receiver mode', () async {
     final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
@@ -64,6 +85,21 @@ void main() {
 
     expect(collection.receiverMomoNumber, '12345');
     expect(collection.receiverDisplayLabel, 'MoMo code');
+  });
+
+  test('group creation rejects invalid MoMo Pay receiver codes', () async {
+    final repo = CollectRepository.fixture(seeded: false);
+    await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
+
+    expect(
+      repo.createCollection(
+        title: 'Merchant group',
+        description: 'MoMo Pay collections',
+        receiverMomoNumber: '12',
+        receiverIsMomoPayCode: true,
+      ),
+      throwsA(isA<FormatException>()),
+    );
   });
 
   test(

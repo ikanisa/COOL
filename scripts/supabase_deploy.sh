@@ -13,6 +13,16 @@ EXPECTED_FUNCTIONS=(
   ingest-payment-sms
   parse-payment-sms
   send-notification
+  stripe-create-customer
+  stripe-create-setup-intent
+  stripe-create-diaspora-contribution
+  stripe-webhook
+  verify-play-integrity
+)
+
+NO_VERIFY_JWT_FUNCTIONS=(
+  auth-send-whatsapp-otp
+  stripe-webhook
 )
 
 if [[ -f .env ]]; then
@@ -35,7 +45,7 @@ SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db push -p "$SUPABAS
 
 for function_name in "${EXPECTED_FUNCTIONS[@]}"; do
   log "deploying Edge Function: $function_name"
-  if [[ "$function_name" == "auth-send-whatsapp-otp" ]]; then
+  if printf '%s\n' "${NO_VERIFY_JWT_FUNCTIONS[@]}" | grep -qx "$function_name"; then
     SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli functions deploy "$function_name" --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt
   else
     SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli functions deploy "$function_name" --project-ref "$SUPABASE_PROJECT_REF"

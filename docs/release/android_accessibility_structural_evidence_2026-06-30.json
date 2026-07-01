@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-06-30T16:23:07Z",
+  "status": "pass",
+  "package": "app.cool.mobile",
+  "talkback_service": "com.google.android.marvin.talkback/.TalkBackService",
+  "captures": [
+    {
+      "name": "launch_onboarding",
+      "screenshot": ".cache/android_accessibility_pixel4a/20260630T162233Z/launch_onboarding.png",
+      "xml": ".cache/android_accessibility_pixel4a/20260630T162233Z/launch_onboarding.xml",
+      "window": ".cache/android_accessibility_pixel4a/20260630T162233Z/launch_onboarding_window.txt",
+      "active_package_match": true,
+      "node_label_count": 18,
+      "sample_labels": [
+        "St Michel building fund\nSt Michel building fund",
+        "Back",
+        "St Michel building fund\nChurch collection\nRWF 35,000",
+        "Group settings",
+        "Open group members\n2",
+        "Collected RWF 35,000",
+        "monthly cadence, 2 members",
+        "2 activities, public, receiver ready",
+        "Contribute\nContribute",
+        "Activity\nActivity"
+      ]
+    },
+    {
+      "name": "deeplink_onboarding_guard",
+      "screenshot": ".cache/android_accessibility_pixel4a/20260630T162233Z/deeplink_onboarding_guard.png",
+      "xml": ".cache/android_accessibility_pixel4a/20260630T162233Z/deeplink_onboarding_guard.xml",
+      "window": ".cache/android_accessibility_pixel4a/20260630T162233Z/deeplink_onboarding_guard_window.txt",
+      "active_package_match": true,
+      "node_label_count": 18,
+      "sample_labels": [
+        "St Michel building fund\nSt Michel building fund",
+        "Back",
+        "St Michel building fund\nChurch collection\nRWF 35,000",
+        "Group settings",
+        "Open group members\n2",
+        "Collected RWF 35,000",
+        "monthly cadence, 2 members",
+        "2 activities, public, receiver ready",
+        "Contribute\nContribute",
+        "Activity\nActivity"
+      ]
+    }
+  ],
+  "device": ".cache/android_accessibility_pixel4a/20260630T162233Z/device.txt",
+  "settings_before": ".cache/android_accessibility_pixel4a/20260630T162233Z/device_settings_before.txt",
+  "settings_after": ".cache/android_accessibility_pixel4a/20260630T162233Z/device_settings_after.txt",
+  "device_settings_restored": true,
+  "failures": [
+
+  ],
+  "remaining_human_review": "This structural capture verifies exposed Android accessibility labels with TalkBack enabled, but it does not certify human auditory narration order, pronunciation, or comprehension.",
+  "secret_handling": "Captured node labels and screenshots are local evidence and must not include raw SMS bodies, OTPs, phone/MoMo numbers, signing keys, provider tokens, or production customer data."
+}

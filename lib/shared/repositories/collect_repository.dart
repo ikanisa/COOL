@@ -18,6 +18,7 @@ part 'collect_repository_providers.dart';
 part 'collect_repository_state.dart';
 part 'collect_repository_fixture.dart';
 part 'collect_repository_live_reader.dart';
+part 'collect_repository_helpers.dart';
 
 class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
@@ -428,12 +429,6 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
     state = state.copyWith(collections: [...state.collections, collection]);
     return collection;
-  }
-
-  String _normalizeMomoPayCode(String value) {
-    final digits = value.replaceAll(RegExp(r'\D'), '');
-    if (digits.length >= 5 && digits.length <= 6) return digits;
-    throw const FormatException('Use a 5 or 6 digit MoMo code.');
   }
 
   Future<CollectCollection> updateCollectionReceiver({
@@ -893,23 +888,5 @@ class CollectRepository extends StateNotifier<CollectState> {
     final profile = state.currentProfile;
     if (profile == null) throw StateError('Sign in first');
     return profile;
-  }
-
-  static String _slug(String title) {
-    final slug = title
-        .toLowerCase()
-        .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
-        .replaceAll(RegExp(r'^-|-$'), '');
-    return slug.isEmpty ? 'group' : slug;
-  }
-
-  static Map<String, dynamic> _singleRpcRow(dynamic response) {
-    if (response is List && response.isNotEmpty) {
-      return Map<String, dynamic>.from(response.first as Map);
-    }
-    if (response is Map) {
-      return Map<String, dynamic>.from(response);
-    }
-    throw StateError('Expected one RPC result row');
   }
 }

@@ -21,6 +21,36 @@ void main() {
     expect(compactCollectIdLabel('Collect member'), 'Collect member');
   });
 
+  testWidgets('amount entry panel compacts quick amounts and emits selection', (
+    tester,
+  ) async {
+    final controller = TextEditingController(text: '5000');
+    addTearDown(controller.dispose);
+    var selectedAmount = 5000;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: AmountEntryPanel(
+            controller: controller,
+            amount: selectedAmount,
+            quickAmounts: const [5000, 10000, 1000000],
+            onQuickAmount: (amount) => selectedAmount = amount,
+            detail: 'Choose a contribution amount.',
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('5k'), findsOneWidget);
+    expect(find.text('10k'), findsOneWidget);
+    expect(find.text('1M'), findsOneWidget);
+    expect(find.text('RWF'), findsOneWidget);
+
+    await tester.tap(find.text('10k'));
+    expect(selectedAmount, 10000);
+  });
+
   testWidgets('group card renders SMS-first details', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -119,7 +149,7 @@ void main() {
     );
 
     expect(
-      File('lib/shared/widgets/collect_group_cards.dart').readAsStringSync(),
+      _readGroupCardLibrary(),
       contains("CollectSemanticIcons.forKeyword('public')"),
     );
     expect(find.byIcon(Icons.lock_rounded), findsNothing);
@@ -166,7 +196,7 @@ void main() {
     expect(find.byType(Image), findsNothing);
     expect(find.text('Public'), findsNothing);
     expect(
-      File('lib/shared/widgets/collect_group_cards.dart').readAsStringSync(),
+      _readGroupCardLibrary(),
       contains("CollectSemanticIcons.forKeyword('public')"),
     );
     expect(tester.widget<Text>(find.text(title)).maxLines, 1);
@@ -244,4 +274,12 @@ void main() {
     expect(find.text('Pay with MOMO'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
+}
+
+String _readGroupCardLibrary() {
+  return [
+    'lib/shared/widgets/collect_group_cards.dart',
+    'lib/shared/widgets/collect_group_card_media.dart',
+    'lib/shared/widgets/collect_group_card_metrics.dart',
+  ].map((path) => File(path).readAsStringSync()).join('\n');
 }

@@ -320,21 +320,25 @@ class AuthPhoneAnchor extends StatelessWidget {
 }
 
 class AuthWhatsAppMark extends StatelessWidget {
-  const AuthWhatsAppMark({this.size = 22, super.key});
+  const AuthWhatsAppMark({this.size = 22, this.semanticLabel, super.key});
 
   final double size;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: 'WhatsApp',
-      image: true,
-      child: SvgPicture.asset(
-        'assets/brand/collect_runtime/icons/whatsapp.svg',
-        width: size,
-        height: size,
-      ),
+    final label = semanticLabel?.trim();
+    final icon = SvgPicture.asset(
+      'assets/brand/collect_runtime/icons/whatsapp.svg',
+      width: size,
+      height: size,
+      excludeFromSemantics: label == null || label.isEmpty,
+      semanticsLabel: label == null || label.isEmpty ? null : label,
     );
+    if (label == null || label.isEmpty) {
+      return ExcludeSemantics(child: icon);
+    }
+    return Semantics(label: label, image: true, child: icon);
   }
 }
 
@@ -377,6 +381,7 @@ class AuthCountryFlag extends StatelessWidget {
           countryFlag,
           style: TextStyle(fontSize: size * 0.82, height: 1),
           textAlign: TextAlign.center,
+          semanticsLabel: countryCode,
         ),
       ),
     );

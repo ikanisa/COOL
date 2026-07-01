@@ -1,0 +1,59 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: ci
+      include: scope
+    labels:
+      - dependencies
+      - github-actions
+
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:30"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps
+      include: scope
+    labels:
+      - dependencies
+      - flutter
+    groups:
+      flutter-runtime:
+        patterns:
+          - app_links
+          - go_router
+          - flutter_riverpod
+          - supabase_flutter
+          - permission_handler
+          - mobile_scanner
+          - image_picker
+          - share_plus
+      flutter-test-tooling:
+        dependency-type: development
+
+  - package-ecosystem: gradle
+    directory: /android
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps
+      include: scope
+    labels:
+      - dependencies
+      - android

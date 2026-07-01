@@ -666,6 +666,28 @@ void main() {
     }
   });
 
+  testWidgets('payment pipeline marks confirmed payments complete', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const PaymentPipelineIndicator(status: 'confirmed'),
+      );
+
+      expect(
+        find.bySemanticsLabel('Payment progress: Confirmed'),
+        findsOneWidget,
+      );
+      expect(find.bySemanticsLabel('Start step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Check step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Done step complete'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   testWidgets('Collect ID card renders identity without hash prefix', (
     tester,
   ) async {
@@ -868,6 +890,9 @@ void main() {
         groupCards +
         File(
           'lib/shared/widgets/collect_group_card_media.dart',
+        ).readAsStringSync() +
+        File(
+          'lib/shared/widgets/collect_group_card_metrics.dart',
         ).readAsStringSync();
     final collectionsScreen = File(
       'lib/features/collections/collections_screen.dart',
@@ -892,6 +917,7 @@ void main() {
     ).readAsStringSync();
     final runtimeSources = [
       groupCards,
+      collectionCards,
       collectionsScreen,
       manageScreen,
       detailActions,

@@ -26,8 +26,13 @@ import 'admin_error_boundary.dart';
 import 'admin_repository_base.dart';
 
 part 'admin_login_runtime.dart';
+part 'admin_list_specs.dart';
+part 'admin_list_export.dart';
+part 'admin_list_workflow.dart';
 part 'admin_list_runtime.dart';
+part 'admin_detail_specs.dart';
 part 'admin_detail_runtime.dart';
+part 'admin_detail_formatters.dart';
 
 final adminRepositoryProvider = Provider<AdminRepositoryBase>((ref) {
   return AdminRepository(ref.watch(supabaseClientProvider));

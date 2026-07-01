@@ -1,0 +1,18 @@
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+[supabase-ready][WARN] Supabase db lint requires the direct pooler path and is unavailable from this runner; running local migration validation and linked schema/advisor gates instead.
+No issues found
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+No issues found
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+[supabase-ready][FAIL] Missing Edge Function secrets: STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON

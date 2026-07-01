@@ -19,5 +19,7 @@ import 'collect_state_panels.dart';
 import 'collect_tone_icon.dart';
 
 part 'collect_financial_money.dart';
+part 'collect_financial_amount_entry.dart';
 part 'collect_financial_payments.dart';
+part 'collect_financial_payment_pipeline.dart';
 part 'collect_financial_ledger.dart';

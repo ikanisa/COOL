@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-30T16:22:25Z",
+  "status": "pass",
+  "mode": "profile",
+  "device_id": "13111JEC215558",
+  "flavor": "production",
+  "target": "integration_test/app_uat_smoke_test.dart",
+  "driver": "test_driver/integration_test.dart",
+  "timeout_seconds": 1200,
+  "artifacts": {
+    "evidence_dir": ".cache/mobile_native_performance_profile/20260630T161826Z",
+    "log": ".cache/mobile_native_performance_profile/20260630T161826Z/mobile_native_performance_profile.txt",
+    "runner_result": ".cache/mobile_native_performance_profile/20260630T161826Z/runner_result.json",
+    "trace": ".cache/mobile_native_performance_profile/20260630T161826Z/timeline.binpb",
+    "screenshots": ".cache/mobile_native_performance_profile/20260630T161826Z/screenshots"
+  },
+  "metrics": {
+    "trace_bytes": 8477686,
+    "log_bytes": 3436,
+    "runner_exit_code": 0,
+    "timed_out": false,
+    "scenario_seconds": 11,
+    "max_skipped_frames_logcat": 82,
+    "screenshot_count": 1,
+    "gfxinfo_total_frames": 2,
+    "gfxinfo_janky_frames": 1,
+    "gfxinfo_janky_percent": 50.0,
+    "gfxinfo_90th_percentile_ms": 46,
+    "gfxinfo_95th_percentile_ms": 46,
+    "gfxinfo_99th_percentile_ms": 46
+  },
+  "checks": [
+    {
+      "id": "profile_mode_runner",
+      "status": "pass",
+      "evidence": [
+        ".cache/mobile_native_performance_profile/20260630T161826Z/mobile_native_performance_profile.txt",
+        ".cache/mobile_native_performance_profile/20260630T161826Z/runner_result.json"
+      ]
+    },
+    {
+      "id": "perfetto_timeline_trace",
+      "status": "pass",
+      "evidence": [
+        ".cache/mobile_native_performance_profile/20260630T161826Z/timeline.binpb"
+      ]
+    },
+    {
+      "id": "android_gfxinfo_frame_metrics",
+      "status": "pass",
+      "evidence": [
+        ".cache/mobile_native_performance_profile/20260630T161826Z/gfxinfo.txt"
+      ]
+    }
+  ],
+  "failures": [
+
+  ],
+  "secret_handling": "The profile script stores tool logs, screenshots, and timeline metadata only. It must not print OTPs, raw SMS, PINs, signing secrets, or private receiver data."
+}

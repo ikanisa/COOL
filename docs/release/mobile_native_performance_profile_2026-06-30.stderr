@@ -1,0 +1,1 @@
+[mobile-native-performance] adb=/Users/jeanbosco/.cargo/bin/adb device=13111JEC215558 flavor=production target=integration_test/app_uat_smoke_test.dart evidence=.cache/mobile_native_performance_profile/20260630T161826Z timeout_seconds=1200

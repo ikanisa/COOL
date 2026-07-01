@@ -490,6 +490,7 @@ void main() {
     final groupCards = [
       'lib/shared/widgets/collect_group_cards.dart',
       'lib/shared/widgets/collect_group_card_media.dart',
+      'lib/shared/widgets/collect_group_card_metrics.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
     final home = File('lib/features/home/home_screen.dart').readAsStringSync();
     final groups = File(
@@ -531,6 +532,7 @@ void main() {
       final groupCards = [
         'lib/shared/widgets/collect_group_cards.dart',
         'lib/shared/widgets/collect_group_card_media.dart',
+        'lib/shared/widgets/collect_group_card_metrics.dart',
       ].map((path) => File(path).readAsStringSync()).join('\n');
       final createGroup = File(
         'lib/features/collections/collection_create_screen.dart',

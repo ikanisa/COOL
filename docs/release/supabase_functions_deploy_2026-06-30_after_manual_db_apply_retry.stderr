@@ -1,0 +1,67 @@
+WARNING: Docker is not running
+Uploading asset (allocate-payment): supabase/functions/allocate-payment/index.ts
+Uploading asset (allocate-payment): supabase/functions/_shared/supabase.ts
+Uploading asset (allocate-payment): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (auth-send-whatsapp-otp): supabase/functions/auth-send-whatsapp-otp/index.ts
+Uploading asset (auth-send-whatsapp-otp): supabase/functions/_shared/hash.ts
+Uploading asset (auth-send-whatsapp-otp): supabase/functions/_shared/supabase.ts
+Uploading asset (auth-send-whatsapp-otp): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (ingest-payment-sms): supabase/functions/ingest-payment-sms/index.ts
+Uploading asset (ingest-payment-sms): supabase/functions/_shared/hash.ts
+Uploading asset (ingest-payment-sms): supabase/functions/_shared/supabase.ts
+Uploading asset (ingest-payment-sms): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (parse-payment-sms): supabase/functions/parse-payment-sms/index.ts
+Uploading asset (parse-payment-sms): supabase/functions/_shared/sms_schema.ts
+Uploading asset (parse-payment-sms): supabase/functions/_shared/hash.ts
+Uploading asset (parse-payment-sms): supabase/functions/_shared/supabase.ts
+Uploading asset (parse-payment-sms): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (send-notification): supabase/functions/send-notification/index.ts
+Uploading asset (send-notification): supabase/functions/_shared/supabase.ts
+Uploading asset (send-notification): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (stripe-create-customer): supabase/functions/stripe-create-customer/index.ts
+Uploading asset (stripe-create-customer): supabase/functions/_shared/stripe.ts
+Uploading asset (stripe-create-customer): supabase/functions/_shared/supabase.ts
+Uploading asset (stripe-create-customer): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (stripe-create-setup-intent): supabase/functions/stripe-create-setup-intent/index.ts
+Uploading asset (stripe-create-setup-intent): supabase/functions/_shared/stripe.ts
+Uploading asset (stripe-create-setup-intent): supabase/functions/_shared/supabase.ts
+Uploading asset (stripe-create-setup-intent): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (stripe-create-diaspora-contribution): supabase/functions/stripe-create-diaspora-contribution/index.ts
+Uploading asset (stripe-create-diaspora-contribution): supabase/functions/_shared/stripe.ts
+Uploading asset (stripe-create-diaspora-contribution): supabase/functions/_shared/supabase.ts
+Uploading asset (stripe-create-diaspora-contribution): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (stripe-webhook): supabase/functions/stripe-webhook/index.ts
+Uploading asset (stripe-webhook): supabase/functions/_shared/supabase.ts
+Uploading asset (stripe-webhook): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+WARNING: Docker is not running
+Uploading asset (verify-play-integrity): supabase/functions/verify-play-integrity/index.ts
+Uploading asset (verify-play-integrity): supabase/functions/_shared/supabase.ts
+Uploading asset (verify-play-integrity): supabase/functions/_shared/cors.ts
+A new version of Supabase CLI is available: v2.109.0 (currently installed v2.90.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli

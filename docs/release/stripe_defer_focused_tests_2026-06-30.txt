@@ -1,0 +1,2 @@
+00:00 +0: loading /Volumes/PRO-G40/COOL/test/supabase_contract_test.dart
+No tests ran.

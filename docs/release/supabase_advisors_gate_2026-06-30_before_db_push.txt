@@ -1,0 +1,3 @@
+[supabase-advisors] checking linked security advisors at level=error fail-on=error
+[supabase-advisors] checking linked performance advisors at level=error fail-on=error
+[supabase-advisors] linked advisor gate passed

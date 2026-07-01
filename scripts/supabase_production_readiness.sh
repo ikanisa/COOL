@@ -13,6 +13,11 @@ EXPECTED_FUNCTIONS=(
   ingest-payment-sms
   parse-payment-sms
   send-notification
+  stripe-create-customer
+  stripe-create-setup-intent
+  stripe-create-diaspora-contribution
+  stripe-webhook
+  verify-play-integrity
 )
 
 REQUIRED_SECRETS=(
@@ -24,6 +29,12 @@ REQUIRED_SECRETS=(
   SEND_SMS_HOOK_SECRET
   INTERNAL_FUNCTION_SECRET
   SMS_INGEST_HMAC_SECRET
+  PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON
+)
+
+STRIPE_REQUIRED_SECRETS=(
+  STRIPE_SECRET_KEY
+  STRIPE_WEBHOOK_SECRET
 )
 
 PLATFORM_ISSUES=()
@@ -509,12 +520,18 @@ expected = {
   "parse-payment-sms" => :internal,
   "ingest-payment-sms" => :user,
   "send-notification" => :internal,
+  "stripe-create-customer" => :user,
+  "stripe-create-setup-intent" => :user,
+  "stripe-create-diaspora-contribution" => :user,
+  "stripe-webhook" => :stripe_webhook,
+  "verify-play-integrity" => :user,
 }
 
 issues = []
 config = File.read("supabase/config.toml")
 disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*=\s*false/m).flatten.sort
-issues << "JWT verification disabled for unexpected functions: #{(disabled - ["auth-send-whatsapp-otp"]).join(", ")}" unless (disabled - ["auth-send-whatsapp-otp"]).empty?
+no_verify_functions = ["auth-send-whatsapp-otp", "stripe-webhook"]
+issues << "JWT verification disabled for unexpected functions: #{(disabled - no_verify_functions).join(", ")}" unless (disabled - no_verify_functions).empty?
 issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
 
 expected.each do |name, mode|
@@ -524,15 +541,24 @@ expected.each do |name, mode|
   when :webhook
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
     issues << "#{name} must verify Standard Webhooks signatures" unless source.include?("standardwebhooks") && source.include?("Webhook")
+  when :stripe_webhook
+    issues << "#{name} must verify STRIPE_WEBHOOK_SECRET" unless source.include?("STRIPE_WEBHOOK_SECRET")
+    issues << "#{name} must verify the stripe-signature header" unless source.include?("stripe-signature")
+    issues << "#{name} must write webhook events through the service client" unless source.include?("stripe_webhook_events") && source.include?("serviceClient()")
+    issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
   when :internal
     issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
   when :user
     issues << "#{name} must require an authenticated user" unless source.include?("requireUser(")
+    user_auth_401 =
+      (source.include?('message === "Authentication required"') && source.include?("401")) ||
+      (source.include?("authErrorStatus") && source.include?("authStatus"))
+    issues << "#{name} must return 401 for missing user auth" unless user_auth_401
   end
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-issues << "deploy script must deploy only auth-send-whatsapp-otp with --no-verify-jwt" unless deploy.include?('if [[ "$function_name" == "auth-send-whatsapp-otp" ]]') && deploy.include?("--no-verify-jwt")
+issues << "deploy script must deploy auth-send-whatsapp-otp and stripe-webhook with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
 
 if issues.any?
   warn issues.join("\n")
@@ -590,6 +616,13 @@ check_functions() {
 
 check_secrets() {
   log "checking Edge Function secret names"
+  local expected_secrets=("${REQUIRED_SECRETS[@]}")
+  if [[ "${SUPABASE_READY_DEFER_STRIPE:-1}" == "1" ]]; then
+    warn "Stripe Edge Function secrets are deferred by current release scope; set SUPABASE_READY_DEFER_STRIPE=0 to require them."
+  else
+    expected_secrets+=("${STRIPE_REQUIRED_SECRETS[@]}")
+  fi
+
   local secret_inventory
   if secret_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli secrets list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
     local missing
@@ -597,12 +630,12 @@ check_secrets() {
         expected = ARGV
         names = JSON.parse(STDIN.read).map { |item| item["name"] || item["Name"] }.compact
         puts(expected - names)
-      ' "${REQUIRED_SECRETS[@]}" <<< "$secret_inventory")"
+      ' "${expected_secrets[@]}" <<< "$secret_inventory")"
     [[ -z "$missing" ]] || fail "Missing Edge Function secrets: $missing"
   else
     platform_issue "Supabase Management API denied Function Secret inventory; using local env presence plus live function probes."
     local name
-    for name in "${REQUIRED_SECRETS[@]}" SUPABASE_SERVICE_ROLE_KEY; do
+    for name in "${expected_secrets[@]}" SUPABASE_SERVICE_ROLE_KEY; do
       [[ -n "${!name:-}" ]] || fail "Required local env var is missing for readiness probe: $name"
     done
   fi

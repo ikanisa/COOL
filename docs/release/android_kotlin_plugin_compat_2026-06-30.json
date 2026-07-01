@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-06-30T16:32:10Z",
+  "status": "warning",
+  "plugin_count": 12,
+  "direct_kotlin_plugin_count": 5,
+  "direct_kotlin_plugins": [
+    {
+      "name": "file_saver",
+      "markers": [
+        "apply plugin: 'kotlin-android'",
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    },
+    {
+      "name": "image_picker_android",
+      "markers": [
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    },
+    {
+      "name": "mobile_scanner",
+      "markers": [
+        "apply plugin: 'kotlin-android'",
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    },
+    {
+      "name": "share_plus",
+      "markers": [
+        "apply plugin: 'kotlin-android'",
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    },
+    {
+      "name": "shared_preferences_android",
+      "markers": [
+        "id(\"kotlin-android\")",
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    }
+  ],
+  "failures": [
+
+  ],
+  "secret_handling": "This gate reports plugin names and Gradle marker strings only; it does not read or print signing or environment secrets."
+}

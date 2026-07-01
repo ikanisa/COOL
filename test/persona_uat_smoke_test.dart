@@ -70,13 +70,18 @@ void main() {
     final scrollables = verticalScrollable.evaluate().toList().reversed;
     for (final element in scrollables) {
       try {
-        await tester.scrollUntilVisible(
-          finder,
-          delta,
-          scrollable: find.byWidget(element.widget),
-          maxScrolls: 12,
-          continuous: true,
-        );
+        final scrollable = element.widget as Scrollable;
+        final scrollableFinder = find.byWidget(element.widget);
+        final moveStep = switch (scrollable.axisDirection) {
+          AxisDirection.up => Offset(0, delta),
+          AxisDirection.down => Offset(0, -delta),
+          AxisDirection.left => Offset(delta, 0),
+          AxisDirection.right => Offset(-delta, 0),
+        };
+        for (var i = 0; i < 12 && finder.evaluate().isEmpty; i += 1) {
+          await tester.drag(scrollableFinder, moveStep, warnIfMissed: false);
+          await tester.pump(const Duration(milliseconds: 50));
+        }
         if (finder.evaluate().isNotEmpty) break;
       } catch (_) {
         continue;

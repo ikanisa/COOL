@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "message": "Configured Android upload signing material is present; upload certificate pinning is not configured.",
+  "store_file_configured": true,
+  "store_file_exists": true,
+  "key_alias_configured": true,
+  "store_password_configured": true,
+  "key_password_configured": true,
+  "configured_certificate_sha256": "9EE12172C78A8A487906D9159BFDD17B4D78ABA3541F17B410659E6D60DDCC10",
+  "expected_upload_signing_sha256": null,
+  "matches_expected_upload_certificate": true,
+  "expected_play_signing_sha256": "451738E69ADF1B4D3FAA7A659020282E027B47862671C9FC3245AF822B4D2A92",
+  "matches_expected_play_signing_certificate": false,
+  "play_app_signing_certificate_note": "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
+  "secret_handling": "This preflight reports certificate fingerprints and boolean configuration state only; it does not print keystore passwords or key aliases.",
+  "gradle_exit_code": 0
+}

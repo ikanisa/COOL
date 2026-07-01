@@ -1,0 +1,4 @@
+Failed to change install names in LocalFile: '/Volumes/PRO-G40/COOL/build/native_assets/macos/objective_c.dylib':
+id -> /Volumes/PRO-G40/COOL/build/native_assets/macos/objective_c.dylib
+dependencies -> /Volumes/PRO-G40/COOL/build/native_assets/macos/objective_c.dylib
+error: /Volumes/PRO-G40/Apps/SDKs/Apple/Xcode/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/install_name_tool: can't open file: /Volumes/PRO-G40/COOL/build/native_assets/macos/objective_c.dylib (No such file or directory)

@@ -32,9 +32,9 @@ usage() {
 usage: scripts/android_accessibility_structural_evidence.sh [--json]
 
 Captures Pixel Android accessibility node trees for representative Collect
-production flows with TalkBack enabled, then restores the original device
-accessibility settings. This is structural evidence only; it does not replace
-human auditory TalkBack review.
+production flows with TalkBack enabled, including a 200 percent font-scale
+launch capture, then restores the original device accessibility settings. This
+is structural evidence only; it does not replace human auditory TalkBack review.
 
 Environment:
   ADB
@@ -163,6 +163,10 @@ capture launch_onboarding \
   "$ADB_BIN" -s "$DEVICE_ID" shell am start -W -n "$PACKAGE/.MainActivity"
 capture deeplink_onboarding_guard \
   "$ADB_BIN" -s "$DEVICE_ID" shell am start -W -a android.intent.action.VIEW -d "https://collect.ikanisa.com/c/st-michel-building-fund" "$PACKAGE"
+put_setting system font_scale 2.0
+sleep 1
+capture launch_onboarding_200_text \
+  "$ADB_BIN" -s "$DEVICE_ID" shell am start -W -n "$PACKAGE/.MainActivity"
 
 restore_settings
 trap - EXIT
@@ -192,7 +196,11 @@ ruby -r json -r rexml/document <<'RUBY' >"$SUMMARY_FILE"
 include REXML
 
 root = ENV.fetch("ANDROID_ACCESSIBILITY_EVIDENCE_DIR")
-captures = %w[launch_onboarding deeplink_onboarding_guard].map do |name|
+captures = %w[
+  launch_onboarding
+  deeplink_onboarding_guard
+  launch_onboarding_200_text
+].map do |name|
   xml_path = File.join(root, "#{name}.xml")
   labels = []
   if File.exist?(xml_path)
