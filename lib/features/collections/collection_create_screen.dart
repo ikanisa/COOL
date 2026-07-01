@@ -114,14 +114,6 @@ class _CollectionCreateScreenState
       ),
       children: [
         const CollectPlainPageHeader(title: 'Create group'),
-        _CreateGroupStepHeader(
-          step: _step,
-          lastStep: _lastStep,
-          title: _stepTitle,
-          subtitle: _stepSubtitle,
-          icon: _stepIcon,
-          accentColor: _selectedAccentColor,
-        ),
         if (_step == 0) ...[
           _MobileCreatePanel(
             error: _error,
@@ -222,40 +214,6 @@ class _CollectionCreateScreenState
           orElse: () => CollectColors.brandPrimaryOptions.first,
         )
         .color;
-  }
-
-  String get _stepTitle {
-    return switch (_step) {
-      0 => 'Basics',
-      1 => 'Type',
-      2 => 'Receiver',
-      3 => 'Look',
-      _ => 'Review',
-    };
-  }
-
-  String get _stepSubtitle {
-    return switch (_step) {
-      0 => 'Name and context',
-      1 => _collectionType.label,
-      2 =>
-        _receiverMode == CollectMomoReceiverMode.momoPayCode
-            ? 'MoMo code'
-            : 'MoMo number',
-      3 => 'Color and photo',
-      _ =>
-        _receiverPreviewLabel.isEmpty ? 'Ready check' : _receiverPreviewLabel,
-    };
-  }
-
-  IconData get _stepIcon {
-    return switch (_step) {
-      0 => CollectIcons.collections,
-      1 => collectionTypeIcon(_collectionType),
-      2 => CollectIcons.momo,
-      3 => CollectIcons.photo,
-      _ => CollectIcons.check,
-    };
   }
 
   bool get _canUsePrimaryAction {

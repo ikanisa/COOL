@@ -107,7 +107,7 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.admin,
               title: 'Add admin',
-              subtitle: 'Grant group settings access',
+              subtitle: 'more group admin',
               onTap: _working ? null : _showAddAdminSheet,
             ),
             _ManageTile(
