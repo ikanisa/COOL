@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../core/security/phone_normalizer.dart';
+
 part 'collect_model_json_helpers.dart';
 
 const _unsetProfileField = Object();
@@ -75,7 +77,7 @@ class CollectProfile {
       id: json['id'] as String,
       publicId: json['public_id'] as String,
       whatsappPhone: (json['whatsapp_phone'] as String?) ?? '',
-      momoNumber: json['momo_number'] as String?,
+      momoNumber: _localMomoNumber(json['momo_number'] as String?),
       momoPayCode: json['momo_pay_code'] as String?,
     );
   }
@@ -150,6 +152,10 @@ class CollectCollection {
     if (receivers is List && receivers.isNotEmpty) {
       receiver = Map<String, dynamic>.from(receivers.first as Map);
     }
+    final receiverDisplayLabel =
+        (receiver?['label'] as String?) ??
+        (json['receiver_display_label'] as String?) ??
+        'Primary MoMo receiver';
     return CollectCollection(
       id: json['id'] as String,
       slug: json['slug'] as String,
@@ -161,13 +167,12 @@ class CollectCollection {
       ),
       categorySubtype: json['category_subtype'] as String?,
       purposeLabel: json['purpose_label'] as String?,
-      receiverMomoNumber:
-          (receiver?['momo_number'] as String?) ??
-          json['receiver_momo_number'] as String?,
-      receiverDisplayLabel:
-          (receiver?['label'] as String?) ??
-          (json['receiver_display_label'] as String?) ??
-          'Primary MoMo receiver',
+      receiverMomoNumber: _localMomoUnlessCode(
+        (receiver?['momo_number'] as String?) ??
+            json['receiver_momo_number'] as String?,
+        receiverDisplayLabel,
+      ),
+      receiverDisplayLabel: receiverDisplayLabel,
       imageUrl:
           (json['image_url'] as String?) ??
           (json['cover_image_url'] as String?) ??
@@ -271,15 +276,20 @@ class PaymentIntentModel {
   final DateTime expiresAt;
 
   factory PaymentIntentModel.fromJson(Map<String, dynamic> json) {
+    final receiverLabel =
+        (json['receiver_label'] as String?) ?? 'Primary MoMo receiver';
     return PaymentIntentModel(
       id: json['id'] as String,
       collectionId: json['collection_id'] as String,
       expectedAmountRwf: (json['expected_amount_rwf'] as num?)?.toInt() ?? 0,
       receiverMomoNumber:
-          (json['receiver_momo_number'] as String?) ??
-          (json['receiver_momo_number_hash'] as String? ?? ''),
-      receiverLabel:
-          (json['receiver_label'] as String?) ?? 'Primary MoMo receiver',
+          _localMomoUnlessCode(
+            (json['receiver_momo_number'] as String?) ??
+                (json['receiver_momo_number_hash'] as String? ?? ''),
+            receiverLabel,
+          ) ??
+          '',
+      receiverLabel: receiverLabel,
       network: (json['network'] as String?) ?? 'unknown',
       senderPhoneHash: json['sender_phone_hash'] as String?,
       status: (json['status'] as String?) ?? 'pending',
@@ -287,6 +297,17 @@ class PaymentIntentModel {
       expiresAt: _dateTime(json['expires_at']),
     );
   }
+}
+
+String? _localMomoUnlessCode(String? value, String label) {
+  if (value == null || value.trim().isEmpty) return value;
+  if (label.trim().toLowerCase().contains('code')) return value.trim();
+  return _localMomoNumber(value);
+}
+
+String? _localMomoNumber(String? value) {
+  if (value == null || value.trim().isEmpty) return value;
+  return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) ?? value.trim();
 }
 
 @immutable

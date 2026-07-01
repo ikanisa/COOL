@@ -19,11 +19,11 @@ void main() {
     final collection = await repo.createCollection(
       title: 'Family group',
       description: 'Family support',
-      receiverMomoNumber: '+250788123456',
+      receiverMomoNumber: '0788123456',
       collectionType: CollectionType.wedding,
     );
 
-    expect(collection.receiverMomoNumber, '+250788123456');
+    expect(collection.receiverMomoNumber, '0788123456');
     expect(collection.collectionType, CollectionType.wedding);
   });
 
@@ -39,7 +39,7 @@ void main() {
 
     expect(repo.state.currentProfile, isNull);
     expect(collection.creatorUserId, 'local-group-owner');
-    expect(collection.receiverMomoNumber, '+250789123456');
+    expect(collection.receiverMomoNumber, '0789123456');
     expect(collection.collectionType, CollectionType.church);
   });
 
@@ -163,7 +163,7 @@ void main() {
     expect(intent.collectionId, 'col-church');
     expect(intent.expectedAmountRwf, 15000);
     expect(intent.receiverLabel, 'St Michel treasury');
-    expect(intent.receiverMomoNumber, '+250788123456');
+    expect(intent.receiverMomoNumber, '0788123456');
     expect(intent.senderPhoneHash, HashUtils.phoneHash('0788123456'));
     expect(intent.status, 'pending');
     expect(intent.expiresAt.isAfter(DateTime.now()), isTrue);
@@ -310,7 +310,7 @@ void main() {
       );
 
       expect(intent.expectedAmountRwf, 7500);
-      expect(intent.receiverMomoNumber, '+250788123456');
+      expect(intent.receiverMomoNumber, '0788123456');
       expect(intent.receiverLabel, 'St Michel treasury');
       expect(intent.senderPhoneHash, HashUtils.phoneHash('0788123456'));
     },
@@ -330,7 +330,36 @@ void main() {
       'expires_at': '2026-06-02T12:00:00Z',
     });
 
+    expect(intent.receiverMomoNumber, '0788123456');
     expect(intent.senderPhoneHash, 'sender-hash');
+  });
+
+  test('collection model localizes Supabase receiver MoMo rows', () {
+    final collection = CollectCollection.fromJson(const {
+      'id': 'col-1',
+      'slug': 'parish-support',
+      'creator_user_id': 'owner',
+      'title': 'Parish support',
+      'description': 'Support',
+      'collection_receivers': [
+        {'momo_number': '+250789123456', 'label': 'Treasury'},
+      ],
+      'created_at': '2026-06-01T12:00:00Z',
+    });
+
+    expect(collection.receiverMomoNumber, '0789123456');
+  });
+
+  test('profile model localizes Supabase MoMo number rows', () {
+    final profile = CollectProfile.fromJson(const {
+      'id': 'user-1',
+      'public_id': '123456',
+      'whatsapp_phone': '+250789123456',
+      'momo_number': '+250789123456',
+    });
+
+    expect(profile.momoNumber, '0789123456');
+    expect(profile.whatsappPhone, '+250789123456');
   });
 
   test('MTN WhatsApp sign-in autofills local profile MoMo', () async {
@@ -339,7 +368,7 @@ void main() {
     final collection = await repo.createCollection(
       title: 'Family group',
       description: 'Family support',
-      receiverMomoNumber: '+250788123456',
+      receiverMomoNumber: '0788123456',
     );
     final container = ProviderContainer(
       overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
@@ -509,10 +538,10 @@ void main() {
 
     final collection = await repo.updateCollectionReceiver(
       collectionId: 'col-team',
-      receiverMomoNumber: '+250788000111',
+      receiverMomoNumber: '0788000111',
       receiverLabel: 'Team treasurer',
     );
-    expect(collection.receiverMomoNumber, '+250788000111');
+    expect(collection.receiverMomoNumber, '0788000111');
     expect(collection.receiverDisplayLabel, 'Team treasurer');
 
     await repo.signOut();

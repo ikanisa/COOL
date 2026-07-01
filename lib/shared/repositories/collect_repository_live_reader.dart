@@ -125,13 +125,28 @@ class _CollectLiveReader {
     return [
       for (final collection in collections)
         if (receiversByCollection[collection.id] case final receiver?)
-          collection.copyWith(
-            receiverMomoNumber: receiver['momo_number'] as String?,
-            receiverDisplayLabel: receiver['label'] as String?,
-          )
+          _collectionWithAuthorizedReceiver(collection, receiver)
         else
           collection,
     ];
+  }
+
+  CollectCollection _collectionWithAuthorizedReceiver(
+    CollectCollection collection,
+    Map<String, dynamic> receiver,
+  ) {
+    final label =
+        (receiver['label'] as String?) ?? collection.receiverDisplayLabel;
+    final value = receiver['momo_number'] as String?;
+    final normalizedValue = label.trim().toLowerCase().contains('code')
+        ? value?.trim()
+        : value == null
+        ? null
+        : PhoneNormalizer.tryNormalizeMtnMomoLocal(value) ?? value.trim();
+    return collection.copyWith(
+      receiverMomoNumber: normalizedValue,
+      receiverDisplayLabel: label,
+    );
   }
 
   Future<List<PaymentIntentModel>> fetchPaymentIntents() async {

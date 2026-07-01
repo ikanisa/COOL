@@ -370,7 +370,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) async {
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
-        : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
+        : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
     final normalizedLabel = receiverLabel.trim().isEmpty
         ? receiverIsMomoPayCode
               ? 'MoMo code'
@@ -443,7 +443,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) async {
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
-        : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
+        : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
     final cleanReceiverLabel = receiverLabel.trim().isEmpty
         ? receiverIsMomoPayCode
               ? 'MoMo code'
@@ -497,7 +497,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) async {
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
-        : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
+        : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
     final cleanTitle = title.trim();
     if (cleanTitle.isEmpty) {
       throw const FormatException('Group name is required.');

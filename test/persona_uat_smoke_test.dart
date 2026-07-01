@@ -193,7 +193,7 @@ void main() {
       await repository.createCollection(
         title: 'Private family support',
         description: 'Family group',
-        receiverMomoNumber: '+250789123456',
+        receiverMomoNumber: '0789123456',
       );
 
       await pumpMainAppAt(tester, '/groups', repository: repository);
@@ -569,7 +569,8 @@ void main() {
     expect(find.text('Review contribution'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('St Michel treasury'), findsNothing);
-    expect(find.text('+250788123456'), findsOneWidget);
+    expect(find.text('+250788123456'), findsNothing);
+    expect(find.text('0788123456'), findsOneWidget);
     expect(find.text('078***3456'), findsNothing);
     expect(find.text('038491'), findsNothing);
 
@@ -596,7 +597,7 @@ void main() {
       final collection = await repository.createCollection(
         title: 'Family group',
         description: 'Family support',
-        receiverMomoNumber: '+250789123456',
+        receiverMomoNumber: '0789123456',
       );
 
       await pumpMainAppAt(
@@ -1083,7 +1084,7 @@ class _LedgerScenarioRepository extends CollectRepository {
           id: 'intent-pending',
           collectionId: 'col-church',
           expectedAmountRwf: 7500,
-          receiverMomoNumber: '+250789123456',
+          receiverMomoNumber: '0789123456',
           receiverLabel: 'St Michel treasury',
           status: 'pending',
           createdAt: now.subtract(const Duration(minutes: 15)),
@@ -1093,7 +1094,7 @@ class _LedgerScenarioRepository extends CollectRepository {
           id: 'intent-review',
           collectionId: 'col-church',
           expectedAmountRwf: 12500,
-          receiverMomoNumber: '+250789123456',
+          receiverMomoNumber: '0789123456',
           receiverLabel: 'St Michel treasury',
           status: 'needs_review',
           createdAt: now.subtract(const Duration(minutes: 30)),

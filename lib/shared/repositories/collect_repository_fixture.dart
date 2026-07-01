@@ -27,7 +27,7 @@ CollectState _fixtureCollectState() {
     collectionType: CollectionType.church,
     categorySubtype: 'building_fund',
     purposeLabel: 'Building fund',
-    receiverMomoNumber: '+250788123456',
+    receiverMomoNumber: '0788123456',
     receiverDisplayLabel: 'St Michel treasury',
     isPublic: true,
     createdAt: now.subtract(const Duration(days: 3)),
@@ -42,7 +42,7 @@ CollectState _fixtureCollectState() {
     collectionType: CollectionType.sport,
     categorySubtype: 'fan_club',
     purposeLabel: 'Away kit support',
-    receiverMomoNumber: '+250788123456',
+    receiverMomoNumber: '0788123456',
     isPublic: true,
     createdAt: now.subtract(const Duration(days: 1)),
   );

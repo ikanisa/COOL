@@ -112,7 +112,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
             creatorUserId: 'local-user',
             title: 'St Michel group',
             description: 'Demo group card',
-            receiverMomoNumber: '+250788123456',
+            receiverMomoNumber: '0788123456',
             createdAt: now,
           ),
           summary: const CollectionSummary(
@@ -127,7 +127,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
             creatorUserId: 'local-user',
             title: 'Kigali Lions away kit',
             description: 'Fans are helping fund away jerseys and travel.',
-            receiverMomoNumber: '+250788123456',
+            receiverMomoNumber: '0788123456',
             createdAt: now,
           ),
           summary: const CollectionSummary(
@@ -145,7 +145,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         const PaymentIntentStatusCard(
           amountRwf: 5000,
           receiverLabel: 'St Michel treasury',
-          receiverMomoNumber: '+250788123456',
+          receiverMomoNumber: '0788123456',
           status: 'pending',
         ),
         ReceiverConsentCard(

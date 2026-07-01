@@ -609,7 +609,7 @@ void main() {
       const PaymentIntentStatusCard(
         amountRwf: 5000,
         receiverLabel: 'St Michel treasury',
-        receiverMomoNumber: '+250788123456',
+        receiverMomoNumber: '0788123456',
         status: 'pending',
       ),
     );

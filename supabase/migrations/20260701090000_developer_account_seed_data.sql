@@ -8,7 +8,6 @@ declare
   allowed_phone constant text := '+250788767816';
   allowed_digits constant text := '250788767816';
   developer_momo constant text := '0788767816';
-  developer_momo_e164 constant text := '+250788767816';
   current_digits text;
   profile_row profiles%rowtype;
   collection_church constant uuid := '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001';
@@ -17,7 +16,7 @@ declare
   payment_two constant uuid := '8db1f114-4f2b-4a6a-aec9-a0e33a1f2002';
   ledger_one constant uuid := '8db1f114-4f2b-4a6a-aec9-a0e33a1f3001';
   ledger_two constant uuid := '8db1f114-4f2b-4a6a-aec9-a0e33a1f3002';
-  receiver_hash text := encode(digest(developer_momo_e164, 'sha256'), 'hex');
+  receiver_hash text := encode(digest(allowed_phone, 'sha256'), 'hex');
 begin
   if auth.uid() is null then
     return false;
