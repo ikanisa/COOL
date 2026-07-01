@@ -23,7 +23,7 @@ class MissingGroupStateScreen extends StatelessWidget {
             expand: true,
           ),
           CollectButton(
-            label: 'Profile',
+            label: 'Edit profile',
             icon: CollectIcons.profile,
             onPressed: () => context.go('/settings/profile'),
             variant: CollectButtonVariant.secondary,

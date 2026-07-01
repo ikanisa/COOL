@@ -512,7 +512,7 @@ void main() {
         'lib/features/collections/collections_screen.dart',
       ).readAsStringSync();
       final profile = File(
-        'lib/features/profile/profile_setup_screen.dart',
+        'lib/features/profile/profile_edit_screen.dart',
       ).readAsStringSync();
       final statusScreens = File(
         'lib/features/status/production_state_screens.dart',
@@ -547,7 +547,7 @@ void main() {
       expect(profile, isNot(contains("label: 'Device permissions'")));
       expect(
         profile,
-        contains("CollectPlainPageHeader(title: 'Profile setup')"),
+        contains("CollectPlainPageHeader(title: 'Edit profile')"),
       );
       expect(settings, isNot(contains('Ready for group activity')));
       expect(statusScreens, contains("export 'device_privacy_screens.dart';"));

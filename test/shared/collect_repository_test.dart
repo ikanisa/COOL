@@ -27,6 +27,22 @@ void main() {
     expect(collection.collectionType, CollectionType.wedding);
   });
 
+  test('group creation accepts receiver MoMo without profile setup', () async {
+    final repo = CollectRepository();
+
+    final collection = await repo.createCollection(
+      title: 'Parish support',
+      description: 'Community support',
+      receiverMomoNumber: '0789123456',
+      collectionType: CollectionType.church,
+    );
+
+    expect(repo.state.currentProfile, isNull);
+    expect(collection.creatorUserId, 'local-group-owner');
+    expect(collection.receiverMomoNumber, '+250789123456');
+    expect(collection.collectionType, CollectionType.church);
+  });
+
   test('collection type model maps approved market categories', () {
     final collection = CollectCollection.fromJson(const {
       'id': 'col-sport',

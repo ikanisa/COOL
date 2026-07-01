@@ -9,14 +9,14 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-class ProfileSetupScreen extends ConsumerStatefulWidget {
-  const ProfileSetupScreen({super.key});
+class ProfileEditScreen extends ConsumerStatefulWidget {
+  const ProfileEditScreen({super.key});
 
   @override
-  ConsumerState<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
+  ConsumerState<ProfileEditScreen> createState() => _ProfileEditScreenState();
 }
 
-class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
+class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _momoNumber = TextEditingController();
   final _momoPayCode = TextEditingController();
   CollectMomoReceiverMode _momoMode = CollectMomoReceiverMode.momoNumber;
@@ -72,11 +72,11 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       _synced = true;
     }
     return ScreenScaffold(
-      title: 'Profile setup',
+      title: 'Edit profile',
       showHeader: false,
       bottomAction: _bottomAction(context, profile),
       children: [
-        const CollectPlainPageHeader(title: 'Profile setup'),
+        const CollectPlainPageHeader(title: 'Edit profile'),
         if (profile == null)
           const MinimalStatePanel(
             icon: CollectIcons.profile,
@@ -92,7 +92,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
               message: 'Your MoMo details are saved.',
               tone: CollectStatusTone.success,
             ),
-          _ProfileSetupPanel(
+          _ProfileEditPanel(
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [
@@ -231,8 +231,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   }
 }
 
-class _ProfileSetupPanel extends StatelessWidget {
-  const _ProfileSetupPanel({
+class _ProfileEditPanel extends StatelessWidget {
+  const _ProfileEditPanel({
     required this.children,
     this.errorTitle,
     this.errorMessage,

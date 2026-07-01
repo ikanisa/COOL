@@ -7,13 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/security/phone_normalizer.dart';
-import '../../shared/providers/collect_app_state.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
-import '../profile/profile_setup_screen.dart';
-import '../status/native_permission_sheets.dart';
 import 'group_creation_platform.dart';
 
 part 'collection_create_widgets.dart';
@@ -75,13 +72,10 @@ class _CollectionCreateScreenState
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    if (profile == null) {
-      return const ProfileSetupScreen();
-    }
     if (!_syncedProfileMomo &&
         _receiverNumber.text.trim().isEmpty &&
-        profile.momoNumber?.trim().isNotEmpty == true) {
-      _receiverNumber.text = profile.momoNumber!;
+        profile?.momoNumber?.trim().isNotEmpty == true) {
+      _receiverNumber.text = profile!.momoNumber!;
       _syncedProfileMomo = true;
     }
     final canCreate = canCreateGroupsOnThisPlatform();
@@ -307,8 +301,6 @@ class _CollectionCreateScreenState
       return;
     }
     try {
-      final hasSmsAccess = await _ensureSmsAccessForGroupCreation();
-      if (!hasSmsAccess || !mounted) return;
       setState(() {
         _creating = true;
         _error = null;
@@ -337,21 +329,6 @@ class _CollectionCreateScreenState
         _error = error.toString();
       });
     }
-  }
-
-  Future<bool> _ensureSmsAccessForGroupCreation() async {
-    final status = ref.read(smsPermissionStatusProvider);
-    if (status == SmsPermissionStatus.granted ||
-        status == SmsPermissionStatus.unavailable) {
-      return true;
-    }
-    final granted = await ref
-        .read(collectRepositoryProvider.notifier)
-        .setSmsAccess(true);
-    if (!mounted) return false;
-    if (granted) return true;
-    await showSmsAccessSheet(context, onRetry: _create);
-    return false;
   }
 
   String get _receiverDisplayLabel {

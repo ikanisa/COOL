@@ -20,7 +20,7 @@ void main() {
     expect(PhoneNormalizer.normalizeMtnMomoLocal('0791234567'), '0791234567');
   });
 
-  test('rejects non-MTN Rwanda numbers for MoMo profile setup', () {
+  test('rejects non-MTN Rwanda numbers for MoMo profile edit', () {
     expect(
       () => PhoneNormalizer.normalizeMtnMomoLocal('0722123456'),
       throwsFormatException,

@@ -74,7 +74,7 @@ void main() {
 const _routeSpecs = <_RouteSpec>[
   _RouteSpec('root-redirect', '/', 'entry'),
   _RouteSpec('auth', '/auth', 'workflow'),
-  _RouteSpec('profile', '/settings/profile', 'workflow'),
+  _RouteSpec('profile-edit', '/settings/profile', 'workflow'),
   _RouteSpec('home', '/home', 'primary'),
   _RouteSpec('groups', '/groups', 'primary'),
   _RouteSpec('group-create', '/groups/create', 'workflow'),

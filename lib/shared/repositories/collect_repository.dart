@@ -364,7 +364,6 @@ class CollectRepository extends StateNotifier<CollectState> {
     String? accentColorHex,
     String? imageUrl,
   }) async {
-    final profile = _requireProfile();
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
         : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
@@ -402,15 +401,16 @@ class CollectRepository extends StateNotifier<CollectState> {
       }
       return hydratedCollection;
     }
-    if (!_allowLocalWrites) {
-      throw StateError('Sign in before creating a group.');
+    if (!_allowLocalWrites && supabase != null) {
+      throw StateError('Unable to create group on this device right now.');
     }
 
+    final creatorUserId = state.currentProfile?.id ?? 'local-group-owner';
     final slug = _slug(title);
     final collection = CollectCollection(
       id: _uuid.v4(),
       slug: '$slug-${DateTime.now().millisecondsSinceEpoch}',
-      creatorUserId: profile.id,
+      creatorUserId: creatorUserId,
       title: title.trim(),
       description: description.trim(),
       collectionType: collectionType,

@@ -404,7 +404,7 @@ void main() {
     }
   });
 
-  testWidgets('Android SMS denial opens native app access recovery sheet', (
+  testWidgets('Android group creation does not require SMS access approval', (
     tester,
   ) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
@@ -445,16 +445,17 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('SMS access'), findsWidgets);
-      expect(find.text('Open app settings'), findsOneWidget);
-      expect(find.text('Retry'), findsOneWidget);
+      expect(find.text('Parish support'), findsWidgets);
+      expect(find.text('SMS access'), findsNothing);
+      expect(find.text('Open app settings'), findsNothing);
+      expect(find.text('Retry'), findsNothing);
       expectNoGlobalSecrets();
     } finally {
       debugDefaultTargetPlatformOverride = null;
     }
   });
 
-  testWidgets('new profile does not prefill a sample MoMo number', (
+  testWidgets('unsigned profile edit does not prefill a sample MoMo number', (
     tester,
   ) async {
     await pumpMainAppAt(
@@ -463,7 +464,7 @@ void main() {
       repository: CollectRepository(),
     );
 
-    expect(find.text('Profile setup'), findsWidgets);
+    expect(find.text('Edit profile'), findsWidgets);
     expect(find.text('Sign in first.'), findsOneWidget);
     expect(find.textContaining('+250789123456'), findsNothing);
     expect(find.text('MoMo number'), findsNothing);
@@ -498,16 +499,14 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('profile setup walks Collect ID, MoMo, and device readiness', (
-    tester,
-  ) async {
+  testWidgets('profile edit walks Collect ID and MoMo fields', (tester) async {
     await pumpMainAppAt(
       tester,
       '/settings/profile',
       repository: CollectRepository.fixture(),
     );
 
-    expect(find.text('Profile setup'), findsWidgets);
+    expect(find.text('Edit profile'), findsWidgets);
     await scrollToVisible(tester, find.text('COLLECT ID'));
     expect(find.text('COLLECT ID'), findsOneWidget);
     expect(find.text('038491'), findsOneWidget);
@@ -688,12 +687,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Account'), findsWidgets);
-    expect(find.text('Profile and MoMo'), findsOneWidget);
+    expect(find.text('Edit profile'), findsOneWidget);
     expect(find.text('Linked MoMo'), findsNothing);
-    await tapVisible(tester, find.text('Profile and MoMo'));
+    await tapVisible(tester, find.text('Edit profile'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Profile setup'), findsWidgets);
+    expect(find.text('Edit profile'), findsWidgets);
     expect(find.text('MoMo number'), findsOneWidget);
     expectNoGlobalSecrets();
   });

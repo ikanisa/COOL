@@ -19,7 +19,7 @@ import '../features/home/home_screen.dart';
 import '../features/launch/launch_splash_screen.dart';
 import '../features/ledger/ledger_screen.dart';
 import '../features/payments/contribution_flow_screen.dart';
-import '../features/profile/profile_setup_screen.dart';
+import '../features/profile/profile_edit_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/widgets/collect_components.dart';
@@ -267,7 +267,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
             path: '/settings/profile',
             pageBuilder: (context, state) => _collectPage(
               state,
-              const ProfileSetupScreen(),
+              const ProfileEditScreen(),
               transition: _CollectRouteTransition.detail,
             ),
           ),

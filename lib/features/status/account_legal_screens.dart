@@ -219,7 +219,7 @@ class AccountSessionScreen extends ConsumerWidget {
             children: [
               CollectListTile(
                 leading: CollectIcons.profile,
-                title: 'Profile and MoMo',
+                title: 'Edit profile',
                 subtitle: maskedMomo,
                 onTap: () => context.go('/settings/profile'),
               ),

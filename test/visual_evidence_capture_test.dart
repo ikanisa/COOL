@@ -22,7 +22,7 @@ import 'package:collect_app/features/collections/share_screen.dart';
 import 'package:collect_app/features/home/home_screen.dart';
 import 'package:collect_app/features/ledger/ledger_screen.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
-import 'package:collect_app/features/profile/profile_setup_screen.dart';
+import 'package:collect_app/features/profile/profile_edit_screen.dart';
 import 'package:collect_app/features/settings/settings_screen.dart';
 import 'package:collect_app/features/status/production_state_screens.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -632,7 +632,7 @@ Widget _mobileRouteScreen(String route) {
     '/share/expired' => const SharedLinkProblemScreen(expired: true),
     '/share/expired/request' => const FreshLinkRequestScreen(slug: ''),
     '/settings' => const SettingsScreen(),
-    '/settings/profile' => const ProfileSetupScreen(),
+    '/settings/profile' => const ProfileEditScreen(),
     '/settings/account' => const AccountSessionScreen(),
     '/settings/account/delete' => const DeleteAccountRequestScreen(),
     '/settings/privacy' => const PrivacyDataScreen(),

@@ -21,7 +21,7 @@ The product route inventory is now intentionally small. Native OS prompts or app
 | --- | --- | --- |
 | root | `/` | App entry/splash. |
 | auth | `/auth` | OTP/auth entry. |
-| profile | `/settings/profile` | Profile and MoMo receiver setup. |
+| profile-edit | `/settings/profile` | Edit profile and MoMo receiver details. |
 | home | `/home` | Primary overview. |
 | groups | `/groups` | Primary group list and actions. |
 | group-create | `/groups/create` | Android owner group creation only; iPhone create action is hidden. |

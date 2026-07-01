@@ -1120,7 +1120,7 @@ void main() {
           CollectPermissionRecoveryPanel(
             icon: CollectIcons.warning,
             title: 'SMS access required.',
-            message: 'Enable SMS access before creating groups.',
+            message: 'Enable SMS access to automate MoMo SMS capture.',
             settingsMessage: 'Open app settings if Android keeps blocking SMS.',
           ),
         ],

@@ -322,6 +322,42 @@ void main() {
     },
   );
 
+  testWidgets('group creation without profile only requires receiver MoMo', (
+    tester,
+  ) async {
+    final repository = CollectRepository();
+
+    await pumpRoute(
+      tester,
+      '/groups/create',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
+
+    expect(find.text('Create group'), findsWidgets);
+    expect(find.text('Sign in required'), findsNothing);
+    expect(find.text('Sign in first.'), findsNothing);
+    expect(repository.state.currentProfile, isNull);
+
+    await tester.enterText(textFieldWithLabel('Group name'), 'Parish support');
+    await tester.pumpAndSettle();
+    await pressFilledButton(tester, 'Continue');
+    await pressFilledButton(tester, 'Continue');
+
+    expect(find.text('Receiver MoMo'), findsOneWidget);
+    final emptyReceiverButton = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Continue'),
+    );
+    expect(emptyReceiverButton.onPressed, isNull);
+
+    await tester.enterText(textFieldWithLabel('Receiver MoMo'), '0789123456');
+    await tester.pumpAndSettle();
+    final filledReceiverButton = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Continue'),
+    );
+    expect(filledReceiverButton.onPressed, isNotNull);
+  });
+
   testWidgets('home keeps scan as the only join entry', (tester) async {
     await pumpRoute(tester, '/home', legalConsentAccepted: true);
 
@@ -363,7 +399,7 @@ void main() {
     expect(find.text('St Michel building fund'), findsWidgets);
   });
 
-  testWidgets('profile setup supports 200 percent text scale', (tester) async {
+  testWidgets('profile edit supports 200 percent text scale', (tester) async {
     final router = createAppRouter(initialLocation: '/settings/profile');
     addTearDown(router.dispose);
     await tester.pumpWidget(
@@ -382,7 +418,7 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Profile setup'), findsOneWidget);
+    expect(find.text('Edit profile'), findsOneWidget);
     expect(find.text('Save MoMo number'), findsOneWidget);
     expect(find.text('MoMo number'), findsOneWidget);
   });
