@@ -3,7 +3,6 @@ part of 'group_profile_screen.dart';
 class _GroupProfileMediaRow extends StatelessWidget {
   const _GroupProfileMediaRow({
     required this.title,
-    required this.subtitle,
     required this.accentColor,
     required this.onPick,
     this.onRemove,
@@ -12,7 +11,6 @@ class _GroupProfileMediaRow extends StatelessWidget {
   });
 
   final String title;
-  final String subtitle;
   final Color accentColor;
   final Uint8List? imageBytes;
   final String? imageUrl;
@@ -105,16 +103,6 @@ class _GroupProfileMediaRow extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  CollectSpacing.gap4,
-                  Text(
-                    subtitle,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: colors.textSecondary,
-                      fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

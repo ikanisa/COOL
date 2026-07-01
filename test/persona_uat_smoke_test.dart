@@ -405,14 +405,7 @@ void main() {
       await pumpLaunchFrames(tester);
       await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
       await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
-      await tester.enterText(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is TextField &&
-              widget.decoration?.labelText == 'Receiver MoMo',
-        ),
-        '0789123456',
-      );
+      await tester.enterText(find.byType(TextField).last, '0789123456');
       await pumpLaunchFrames(tester);
       await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
       await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
@@ -489,12 +482,15 @@ void main() {
     expect(find.text('038491'), findsOneWidget);
 
     expect(find.text('Linked MoMo'), findsNothing);
-    expect(find.text('MoMo number'), findsOneWidget);
+    expect(find.text('MoMo number'), findsNothing);
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Code'), findsOneWidget);
     expect(find.text('MoMo Pay code'), findsNothing);
     expect(find.textContaining('public share links'), findsNothing);
     expect(find.textContaining('Rwanda format'), findsNothing);
 
-    expect(find.text('MoMo Code'), findsOneWidget);
+    expect(find.text('MoMo Code'), findsNothing);
+    expect(find.byTooltip('MoMo code'), findsOneWidget);
     expect(find.text('Save MoMo number'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).first, '0789123456');
@@ -670,7 +666,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Edit profile'), findsWidgets);
-    expect(find.text('MoMo number'), findsOneWidget);
+    expect(find.text('MoMo number'), findsNothing);
+    expect(find.text('Number'), findsOneWidget);
     expectNoGlobalSecrets();
   });
 
@@ -807,8 +804,9 @@ void main() {
     expect(find.text('Group profile'), findsWidgets);
     await scrollToVisible(tester, find.text('Recurring contribution'));
     expect(find.text('Recurring contribution'), findsWidgets);
-    await scrollToVisible(tester, find.text('Receiver MoMo'));
-    expect(find.text('Receiver MoMo'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Number'));
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Code'), findsOneWidget);
     expect(find.text('Receiver name'), findsNothing);
     expect(find.text('St Michel treasury'), findsNothing);
     expectNoGlobalSecrets();

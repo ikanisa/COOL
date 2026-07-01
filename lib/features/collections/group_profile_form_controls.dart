@@ -104,26 +104,7 @@ class _ProfileCollectionTypePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Collection type', style: Theme.of(context).textTheme.labelLarge),
-        CollectSpacing.gap8,
-        Wrap(
-          spacing: CollectSpacing.x2,
-          runSpacing: CollectSpacing.x2,
-          children: [
-            for (final type in CollectionType.values)
-              ChoiceChip(
-                avatar: Icon(collectionTypeIcon(type), size: 18),
-                label: Text(type.label),
-                selected: selected == type,
-                onSelected: (_) => onChanged(type),
-              ),
-          ],
-        ),
-      ],
-    );
+    return CollectionTypeIconSelector(selected: selected, onChanged: onChanged);
   }
 }
 

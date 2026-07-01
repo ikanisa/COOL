@@ -78,7 +78,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         const CollectPlainPageHeader(title: 'Group profile'),
         _GroupProfileMediaRow(
           title: _name.text.trim().isEmpty ? collection.title : _name.text,
-          subtitle: _collectionType.label,
           accentColor: _selectedColor,
           imageBytes: _imageBytes,
           imageUrl: _imageBytes == null && !_removeExistingImage

@@ -4,6 +4,7 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -313,7 +314,8 @@ void main() {
       await pressFilledButton(tester, 'Continue');
       await pressFilledButton(tester, 'Continue');
 
-      expect(find.text('Receiver MoMo'), findsOneWidget);
+      expect(find.text('Number'), findsOneWidget);
+      expect(find.text('Code'), findsOneWidget);
       expect(find.text('0788123456'), findsNothing);
       final emptyReceiverButton = tester.widget<FilledButton>(
         find.widgetWithText(FilledButton, 'Continue'),
@@ -344,13 +346,14 @@ void main() {
     await pressFilledButton(tester, 'Continue');
     await pressFilledButton(tester, 'Continue');
 
-    expect(find.text('Receiver MoMo'), findsOneWidget);
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Code'), findsOneWidget);
     final emptyReceiverButton = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Continue'),
     );
     expect(emptyReceiverButton.onPressed, isNull);
 
-    await tester.enterText(textFieldWithLabel('Receiver MoMo'), '0789123456');
+    await tester.enterText(find.byType(TextField).last, '0789123456');
     await tester.pumpAndSettle();
     final filledReceiverButton = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Continue'),
@@ -420,7 +423,7 @@ void main() {
 
     expect(find.text('Edit profile'), findsOneWidget);
     expect(find.text('Save MoMo number'), findsOneWidget);
-    expect(find.text('MoMo number'), findsOneWidget);
+    expect(find.text('Number'), findsOneWidget);
   });
 
   testWidgets('home groups and activity sections support large text', (
@@ -493,13 +496,15 @@ void main() {
       await pressFilledButton(tester, 'Continue');
 
       expect(find.text('Collection type'), findsNothing);
-      expect(find.text('Ikimina'), findsWidgets);
+      expect(find.text('Ikimina'), findsNothing);
+      expect(find.byIcon(CollectIcons.savings), findsOneWidget);
       expect(find.textContaining('Savings cycles'), findsNothing);
       await pressFilledButton(tester, 'Continue');
 
-      expect(find.text('Receiver MoMo'), findsOneWidget);
+      expect(find.text('Number'), findsOneWidget);
+      expect(find.text('Code'), findsOneWidget);
       expect(find.text('Receiver privacy'), findsNothing);
-      await tester.enterText(textFieldWithLabel('Receiver MoMo'), '0789123456');
+      await tester.enterText(find.byType(TextField).last, '0789123456');
       await tester.pumpAndSettle();
       await pressFilledButton(tester, 'Continue');
 

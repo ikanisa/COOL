@@ -177,6 +177,83 @@ class CollectionTypeBadge extends StatelessWidget {
   }
 }
 
+class CollectionTypeIconSelector extends StatelessWidget {
+  const CollectionTypeIconSelector({
+    required this.selected,
+    required this.onChanged,
+    super.key,
+  });
+
+  final CollectionType selected;
+  final ValueChanged<CollectionType> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: CollectSpacing.x3,
+      runSpacing: CollectSpacing.x3,
+      children: [
+        for (final type in CollectionType.values)
+          _CollectionTypeIconChoice(
+            type: type,
+            selected: selected == type,
+            onTap: () => onChanged(type),
+          ),
+      ],
+    );
+  }
+}
+
+class _CollectionTypeIconChoice extends StatelessWidget {
+  const _CollectionTypeIconChoice({
+    required this.type,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final CollectionType type;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = selected ? colors.onAccent : colors.textSecondary;
+    final border = selected ? colors.actionColor : colors.glassBorder;
+    final fill = selected ? colors.actionColor : colors.glassControl;
+    return Tooltip(
+      message: type.label,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: '${type.label} collection type',
+        child: ExcludeSemantics(
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: CollectRadius.controlBorder,
+            child: AnimatedContainer(
+              duration: CollectMotion.duration(context, CollectMotion.fast),
+              curve: CollectMotion.standard,
+              width: 54,
+              height: 54,
+              decoration: BoxDecoration(
+                color: fill,
+                borderRadius: CollectRadius.controlBorder,
+                border: Border.all(color: border, width: selected ? 0 : 1),
+              ),
+              child: Icon(
+                collectionTypeIcon(type),
+                color: foreground,
+                size: 23,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CollectCard extends StatelessWidget {
   const CollectCard({
     required this.child,
