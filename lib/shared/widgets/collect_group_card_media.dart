@@ -183,7 +183,7 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
                   collection.title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: foreground,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     fontSize: compact ? 15 : 18,
                     height: 1.0,
                     letterSpacing: 0,

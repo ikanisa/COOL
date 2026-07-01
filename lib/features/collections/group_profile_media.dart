@@ -80,7 +80,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(
                                 color: colors.onImagePrimary,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w700,
                               ),
                         ),
                       ),
@@ -98,7 +98,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                   titleText,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

@@ -93,7 +93,7 @@ class _GroupHero extends StatelessWidget {
                                   ?.copyWith(
                                     color: colors.onImagePrimary,
                                     fontSize: titleSize,
-                                    fontWeight: FontWeight.w900,
+                                    fontWeight: FontWeight.w700,
                                     height: 1.05,
                                     letterSpacing: 0,
                                   ),

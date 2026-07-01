@@ -63,7 +63,7 @@ class CollectionDetailScreen extends ConsumerWidget {
               expand: true,
             ),
       children: [
-        CollectPlainPageHeader(title: collection.title),
+        const CollectPlainPageHeader(title: 'Group'),
         _GroupHero(
           collectionId: collectionId,
           collection: collection,
