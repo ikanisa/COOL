@@ -381,7 +381,7 @@ void main() {
     expect(topChromePart, contains('class CollectBrandMark'));
     expect(topChromePart, contains('CollectRuntimeAssets.wordmarkAssetPath'));
     expect(topChromePart, contains('CollectRuntimeAssets.appIconAssetPath'));
-    expect(runtimeAssets, contains('wordmarkAssetPath = sourceWordmarkPath'));
+    expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
     expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
     expect(
       runtimeAssets,
@@ -429,9 +429,16 @@ void main() {
 
       expect(main, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
       expect(main, contains('CollectRepository.fixture()'));
+      expect(main, contains('CollectRepository.appReviewDemo()'));
       expect(
         smokeScript,
         contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
+      );
+      expect(
+        File(
+          'lib/shared/repositories/collect_repository.dart',
+        ).readAsStringSync(),
+        contains('_emptyCollectState(),\n         true'),
       );
     },
   );

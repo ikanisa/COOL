@@ -127,36 +127,140 @@ class _GroupsMomentumPanel extends StatelessWidget {
     final publicCount = collections
         .where((collection) => collection.isPublic)
         .length;
-    return CollectBentoGrid(
-      dense: true,
-      primary: BentoMetricCell(
-        label: showContributedOnly ? 'Supported' : 'Groups',
-        value: formatRwf(totalRaised),
-        detail: '${collections.length} active',
-        icon: CollectIcons.money,
-        tone: CollectStatusTone.success,
-        emphasis: true,
-        iconOnly: true,
-        semanticLabel:
-            'Total collected ${formatRwf(totalRaised)} across ${collections.length} groups',
+    return Semantics(
+      container: true,
+      label:
+          'Total collected ${formatRwf(totalRaised)}, ${collections.length} groups, $members members, $publicCount public groups',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.glow,
+        padding: const EdgeInsets.all(CollectSpacing.x4),
+        child: ExcludeSemantics(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CollectToneIcon(
+                    icon: showContributedOnly
+                        ? CollectIcons.check
+                        : CollectIcons.collections,
+                    tone: CollectStatusTone.success,
+                  ),
+                  CollectSpacing.gapW12,
+                  Expanded(
+                    child: Text(
+                      showContributedOnly
+                          ? 'Supported activity'
+                          : 'Group activity',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              CollectSpacing.gap16,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  formatRwf(totalRaised),
+                  style: CollectTypography.amountLarge(
+                    context.collectColors.textPrimary,
+                  ).copyWith(height: 0.98),
+                ),
+              ),
+              CollectSpacing.gap16,
+              Row(
+                children: [
+                  Expanded(
+                    child: _GroupsMetricPill(
+                      icon: CollectIcons.collections,
+                      label: showContributedOnly ? 'Supported' : 'Groups',
+                      value: '${collections.length}',
+                    ),
+                  ),
+                  CollectSpacing.gapW8,
+                  Expanded(
+                    child: _GroupsMetricPill(
+                      icon: CollectIcons.people,
+                      label: 'Members',
+                      value: '$members',
+                    ),
+                  ),
+                  CollectSpacing.gapW8,
+                  Expanded(
+                    child: _GroupsMetricPill(
+                      icon: CollectIcons.public,
+                      label: 'Public',
+                      value: '$publicCount',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
-      top: BentoMetricCell(
-        label: 'Members',
-        value: '$members',
-        detail: null,
-        icon: CollectIcons.people,
-        tone: CollectStatusTone.info,
-        iconOnly: true,
-        semanticLabel: '$members group members',
+    );
+  }
+}
+
+class _GroupsMetricPill extends StatelessWidget {
+  const _GroupsMetricPill({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.textPrimary.withValues(alpha: 0.07),
+        borderRadius: CollectRadius.mdBorder,
+        border: Border.all(color: colors.textPrimary.withValues(alpha: 0.10)),
       ),
-      bottom: BentoMetricCell(
-        label: 'Public',
-        value: '$publicCount',
-        detail: null,
-        icon: CollectIcons.public,
-        tone: CollectStatusTone.privacy,
-        iconOnly: true,
-        semanticLabel: '$publicCount public groups',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x2,
+          vertical: CollectSpacing.x2,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: colors.textSecondary, size: 17),
+            CollectSpacing.gap4,
+            Text(
+              value,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: colors.textSecondary,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

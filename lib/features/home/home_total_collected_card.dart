@@ -83,12 +83,7 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const CollectBrandMark(
-                        compact: true,
-                        framed: false,
-                        width: 104,
-                        height: 30,
-                      ),
+                      _HomeCollectLockup(foreground: foreground),
                       const Spacer(),
                       if (publicId != null)
                         DecoratedBox(
@@ -193,6 +188,45 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeCollectLockup extends StatelessWidget {
+  const _HomeCollectLockup({required this.foreground});
+
+  final Color foreground;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      image: true,
+      label: 'Collect',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipOval(
+              child: Image.asset(
+                CollectBrandMark.appIconAssetPath,
+                width: 28,
+                height: 28,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+            CollectSpacing.gapW8,
+            Text(
+              'Collect',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0,
               ),
             ),
           ],

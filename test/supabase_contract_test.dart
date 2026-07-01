@@ -106,6 +106,9 @@ void main() {
   final adminFeatureFlagToggleRpc = File(
     'supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql',
   ).readAsStringSync();
+  final developerAccountSeedData = File(
+    'supabase/migrations/20260701090000_developer_account_seed_data.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -683,6 +686,21 @@ void main() {
       );
 
       expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
+      expect(developerAccountSeedData, contains("'+250788767816'"));
+      expect(
+        developerAccountSeedData,
+        contains('create or replace function ensure_developer_account_data()'),
+      );
+      expect(developerAccountSeedData, contains('auth.uid()'));
+      expect(developerAccountSeedData, contains('from auth.users u'));
+      expect(developerAccountSeedData, contains('developer-parish-support'));
+      expect(developerAccountSeedData, contains('developer-ikimina-savings'));
+      expect(
+        developerAccountSeedData,
+        contains(
+          'grant execute on function ensure_developer_account_data() to authenticated',
+        ),
+      );
       expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
       expect(
         disabledBrowserAdminBootstrap,

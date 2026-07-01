@@ -1,5 +1,122 @@
 part of 'collection_create_screen.dart';
 
+class _CreateGroupStepHeader extends StatelessWidget {
+  const _CreateGroupStepHeader({
+    required this.step,
+    required this.lastStep,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.accentColor,
+  });
+
+  final int step;
+  final int lastStep;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.tonal,
+      padding: const EdgeInsets.all(CollectSpacing.x4),
+      accentColor: accentColor,
+      child: Row(
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: accentColor.withValues(alpha: 0.18),
+              shape: BoxShape.circle,
+              border: Border.all(color: accentColor.withValues(alpha: 0.32)),
+            ),
+            child: SizedBox.square(
+              dimension: 48,
+              child: Icon(icon, color: colors.textPrimary, size: 24),
+            ),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                CollectSpacing.gap4,
+                Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          CollectSpacing.gapW12,
+          _CreateStepDots(step: step, lastStep: lastStep, color: accentColor),
+        ],
+      ),
+    );
+  }
+}
+
+class _CreateStepDots extends StatelessWidget {
+  const _CreateStepDots({
+    required this.step,
+    required this.lastStep,
+    required this.color,
+  });
+
+  final int step;
+  final int lastStep;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      label: 'Step ${step + 1} of ${lastStep + 1}',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var index = 0; index <= lastStep; index += 1) ...[
+              AnimatedContainer(
+                duration: CollectMotion.duration(context, CollectMotion.fast),
+                curve: CollectMotion.standard,
+                width: index == step ? 18 : 7,
+                height: 7,
+                decoration: BoxDecoration(
+                  color: index <= step
+                      ? color
+                      : colors.textPrimary.withValues(alpha: 0.16),
+                  borderRadius: CollectRadius.pillBorder,
+                ),
+              ),
+              if (index != lastStep) CollectSpacing.gapW4,
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _CreateGroupReview extends StatelessWidget {
   const _CreateGroupReview({
     required this.title,
@@ -235,8 +352,9 @@ class _CreateGroupPhotoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final displayTitle = title.isEmpty ? 'Group image' : title;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.all(CollectSpacing.x3),
       child: Row(
         children: [
           ClipRRect(
@@ -325,8 +443,9 @@ class _MobileCreatePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.all(CollectSpacing.x4),
       child: Column(
         children: [
           for (var index = 0; index < children.length; index += 1) ...[

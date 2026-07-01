@@ -9,20 +9,6 @@ CollectState _emptyCollectState() {
   );
 }
 
-CollectState _appReviewCollectState() {
-  final fixture = _fixtureCollectState();
-  return CollectState(
-    currentProfile: null,
-    collections: fixture.collections,
-    paymentIntents: fixture.paymentIntents,
-    contributions: fixture.contributions,
-    notificationEvents: fixture.notificationEvents,
-    notificationPreferences: fixture.notificationPreferences,
-    smsAccessEnabled: fixture.smsAccessEnabled,
-    smsAccessDenied: fixture.smsAccessDenied,
-  );
-}
-
 CollectState _fixtureCollectState() {
   final now = DateTime.now();
   const user = CollectProfile(

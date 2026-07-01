@@ -53,7 +53,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) : this._(
          supabase,
          smsAccessChannel,
-         _appReviewCollectState(),
+         _emptyCollectState(),
          true,
          offlineCache ?? const CollectOfflineCache(),
        );
@@ -85,7 +85,9 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     state = state.copyWith(isLoading: true, usingStaleCache: false);
     try {
-      final profile = await _liveReader.fetchProfile(user.id);
+      var profile = await _liveReader.fetchProfile(user.id);
+      await _liveReader.ensureDeveloperAccountDataIfAvailable();
+      profile = await _liveReader.fetchProfile(user.id) ?? profile;
       final collections = await _liveReader.fetchCollections();
       final paymentIntents = await _liveReader.fetchPaymentIntents();
       final contributions = await _liveReader.fetchContributions();
@@ -157,7 +159,9 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase != null && user != null) {
-      final profile = await _liveReader.ensureLiveProfile(user.id, normalized);
+      var profile = await _liveReader.ensureLiveProfile(user.id, normalized);
+      await _liveReader.ensureDeveloperAccountDataIfAvailable();
+      profile = await _liveReader.fetchProfile(user.id) ?? profile;
       state = state.copyWith(currentProfile: profile);
       unawaited(loadInitial());
       return profile;

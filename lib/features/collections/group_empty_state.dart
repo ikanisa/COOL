@@ -36,7 +36,7 @@ class MissingGroupStateScreen extends StatelessWidget {
           icon: CollectIcons.collectionsOutline,
           title: 'Group is not available.',
           message:
-              'The group may not be joined on this device, may require sign-in, or may have been removed.',
+              'The group may not be joined on this device, the link may have expired, or the group may have been removed.',
           tone: CollectStatusTone.warning,
         ),
       ],

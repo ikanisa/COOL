@@ -248,7 +248,8 @@ void main() {
     expect(find.text('WhatsApp verified.'), findsNothing);
     expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
     expect(repository.state.currentProfile?.momoNumber, isNull);
-    expect(repository.state.collections, isNotEmpty);
+    expect(repository.state.collections, isEmpty);
+    expect(repository.state.contributions, isEmpty);
   });
 
   testWidgets('auth country code chip opens all-country picker', (
@@ -493,7 +494,7 @@ void main() {
       await pressFilledButton(tester, 'Continue');
 
       expect(find.text('Collection type'), findsNothing);
-      expect(find.text('Ikimina'), findsOneWidget);
+      expect(find.text('Ikimina'), findsWidgets);
       expect(find.textContaining('Savings cycles'), findsNothing);
       await pressFilledButton(tester, 'Continue');
 

@@ -20,7 +20,7 @@ class CollectRuntimeAssets {
   static const sourceWordmarkPath =
       '$fallbackBrandRoot/source_variants/collect_wordmark_transparent_4096.png';
 
-  static const wordmarkAssetPath = sourceWordmarkPath;
+  static const wordmarkAssetPath = expectedWordmarkPath;
   static const appIconAssetPath = expectedAppIconPath;
   static const splashMarkAssetPath = expectedSplashMarkPath;
 

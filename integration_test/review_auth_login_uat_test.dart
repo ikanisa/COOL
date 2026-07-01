@@ -80,7 +80,7 @@ void main() {
       expect(find.text('TOTAL COLLECTED'), findsOneWidget);
       expect(find.text('WhatsApp verified.'), findsNothing);
       expect(repository.state.currentProfile?.whatsappPhone, reviewPhone);
-      expect(repository.state.collections, isNotEmpty);
+      expect(repository.state.collections, isEmpty);
     },
     timeout: const Timeout(Duration(minutes: 3)),
   );

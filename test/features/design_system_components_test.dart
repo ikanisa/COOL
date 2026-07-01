@@ -253,8 +253,8 @@ void main() {
       'assets/brand/collect_runtime/splash/splash_mark.png',
     );
     expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
-      width: 4096,
-      height: 1387,
+      width: 1024,
+      height: 299,
     ));
     expect(_pngSize(CollectRuntimeAssets.appIconAssetPath), (
       width: 512,
@@ -953,7 +953,9 @@ void main() {
     expect(collectionCards, contains('softWrap: false'));
     expect(groupCards, contains('iconOnly: true'));
     expect(groupCards, isNot(contains('supporters\',')));
-    expect(collectionsScreen, contains('iconOnly: true'));
+    expect(collectionsScreen, contains('class _GroupsMetricPill'));
+    expect(collectionsScreen, contains('Group activity'));
+    expect(collectionsScreen, contains('Total collected'));
     expect(detailActions, contains('iconOnly: true'));
     expect(detailHero, contains('maxLines: 1'));
     expect(detailHero, contains('softWrap: false'));
