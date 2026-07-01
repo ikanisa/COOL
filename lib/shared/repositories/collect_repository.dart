@@ -439,10 +439,16 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String collectionId,
     required String receiverMomoNumber,
     String receiverLabel = 'Primary MoMo receiver',
+    bool receiverIsMomoPayCode = false,
   }) async {
-    final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
-      receiverMomoNumber,
-    );
+    final normalizedReceiver = receiverIsMomoPayCode
+        ? _normalizeMomoPayCode(receiverMomoNumber)
+        : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
+    final cleanReceiverLabel = receiverLabel.trim().isEmpty
+        ? receiverIsMomoPayCode
+              ? 'MoMo code'
+              : 'Primary MoMo receiver'
+        : receiverLabel.trim();
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -452,9 +458,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'collection': collectionId,
           'receiver_momo_number': normalizedReceiver,
           'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
-          'receiver_label': receiverLabel.trim().isEmpty
-              ? 'Primary MoMo receiver'
-              : receiverLabel.trim(),
+          'receiver_label': cleanReceiverLabel,
         },
       );
       final collection = await _liveReader.fetchCollection(collectionId);
@@ -470,9 +474,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (index == -1) throw StateError('Group not found');
     collections[index] = collections[index].copyWith(
       receiverMomoNumber: normalizedReceiver,
-      receiverDisplayLabel: receiverLabel.trim().isEmpty
-          ? 'Primary MoMo receiver'
-          : receiverLabel.trim(),
+      receiverDisplayLabel: cleanReceiverLabel,
     );
     state = state.copyWith(collections: collections);
     return collections[index];
@@ -491,16 +493,19 @@ class CollectRepository extends StateNotifier<CollectState> {
     String? accentColorHex,
     String? imageUrl,
     required bool isPublic,
+    bool receiverIsMomoPayCode = false,
   }) async {
-    final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
-      receiverMomoNumber,
-    );
+    final normalizedReceiver = receiverIsMomoPayCode
+        ? _normalizeMomoPayCode(receiverMomoNumber)
+        : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
     final cleanTitle = title.trim();
     if (cleanTitle.isEmpty) {
       throw const FormatException('Group name is required.');
     }
     final cleanReceiverLabel = receiverLabel.trim().isEmpty
-        ? 'Primary MoMo receiver'
+        ? receiverIsMomoPayCode
+              ? 'MoMo code'
+              : 'Primary MoMo receiver'
         : receiverLabel.trim();
     final cadence = recurringCadence.trim().isEmpty
         ? 'monthly'
@@ -527,6 +532,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         collectionId: collectionId,
         receiverMomoNumber: normalizedReceiver,
         receiverLabel: cleanReceiverLabel,
+        receiverIsMomoPayCode: receiverIsMomoPayCode,
       );
       final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();

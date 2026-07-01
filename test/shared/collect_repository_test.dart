@@ -519,6 +519,29 @@ void main() {
     expect(repo.state.currentProfile, isNull);
     expect(repo.state.collections, isEmpty);
   });
+
+  test('local group profile update accepts MoMo code receivers', () async {
+    final repo = CollectRepository.fixture();
+
+    final collection = await repo.updateCollectionProfile(
+      collectionId: 'col-team',
+      title: 'Team savings',
+      description: 'Team monthly support',
+      receiverMomoNumber: '123456',
+      receiverLabel: 'MoMo code',
+      recurringCadence: 'weekly',
+      collectionType: CollectionType.ikimina,
+      categorySubtype: 'group_savings',
+      purposeLabel: 'Save together',
+      isPublic: true,
+      receiverIsMomoPayCode: true,
+    );
+
+    expect(collection.receiverMomoNumber, '123456');
+    expect(collection.receiverDisplayLabel, 'MoMo code');
+    expect(collection.recurringCadence, 'weekly');
+    expect(collection.isPublic, isTrue);
+  });
 }
 
 class _FakeSmsAccessChannel extends SmsAccessChannel {

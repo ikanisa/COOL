@@ -1,46 +1,29 @@
 part of 'group_profile_screen.dart';
 
 class _GroupProfileEditSection extends StatelessWidget {
-  const _GroupProfileEditSection({
-    required this.children,
-    this.title,
-    this.errorMessage,
-  });
+  const _GroupProfileEditSection({required this.children, this.errorMessage});
 
-  final String? title;
   final String? errorMessage;
   final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
-    return CollectCard(
-      emphasis: CollectCardEmphasis.flat,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title != null) ...[
-            Text(
-              title!,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
-            ),
-            CollectSpacing.gap12,
-          ],
-          for (var index = 0; index < children.length; index += 1) ...[
-            children[index],
-            if (index != children.length - 1) CollectSpacing.gap16,
-          ],
-          if (errorMessage != null) ...[
-            CollectSpacing.gap12,
-            InfoSecurityBanner(
-              title: 'Profile not saved',
-              message: errorMessage!,
-              tone: CollectStatusTone.danger,
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var index = 0; index < children.length; index += 1) ...[
+          children[index],
+          if (index != children.length - 1) CollectSpacing.gap16,
         ],
-      ),
+        if (errorMessage != null) ...[
+          CollectSpacing.gap12,
+          InfoSecurityBanner(
+            title: 'Profile not saved',
+            message: errorMessage!,
+            tone: CollectStatusTone.danger,
+          ),
+        ],
+      ],
     );
   }
 }
@@ -89,33 +72,23 @@ class _CadencePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Recurring contribution',
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        CollectSpacing.gap8,
-        Wrap(
-          spacing: CollectSpacing.x2,
-          runSpacing: CollectSpacing.x2,
-          children:
-              const [
-                    _CadenceOption(value: 'daily', label: 'Daily'),
-                    _CadenceOption(value: 'weekly', label: 'Weekly'),
-                    _CadenceOption(value: 'monthly', label: 'Monthly'),
-                  ]
-                  .map(
-                    (option) => ChoiceChip(
-                      label: Text(option.label),
-                      selected: selected == option.value,
-                      onSelected: (_) => onChanged(option.value),
-                    ),
-                  )
-                  .toList(),
-        ),
-      ],
+    return Wrap(
+      spacing: CollectSpacing.x2,
+      runSpacing: CollectSpacing.x2,
+      children:
+          const [
+                _CadenceOption(value: 'daily', label: 'Daily'),
+                _CadenceOption(value: 'weekly', label: 'Weekly'),
+                _CadenceOption(value: 'monthly', label: 'Monthly'),
+              ]
+              .map(
+                (option) => ChoiceChip(
+                  label: Text(option.label),
+                  selected: selected == option.value,
+                  onSelected: (_) => onChanged(option.value),
+                ),
+              )
+              .toList(),
     );
   }
 }

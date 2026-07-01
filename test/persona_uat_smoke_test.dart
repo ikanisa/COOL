@@ -303,9 +303,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('invalid shared links return to groups', (
-    tester,
-  ) async {
+  testWidgets('invalid shared links return to groups', (tester) async {
     await pumpMainAppAt(tester, '/share/invalid');
 
     expect(find.text('Groups'), findsWidgets);
@@ -316,9 +314,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('expired shared links return to groups', (
-    tester,
-  ) async {
+  testWidgets('expired shared links return to groups', (tester) async {
     await pumpMainAppAt(tester, '/share/expired');
 
     expect(find.text('Groups'), findsWidgets);
@@ -498,7 +494,7 @@ void main() {
     expect(find.textContaining('public share links'), findsNothing);
     expect(find.textContaining('Rwanda format'), findsNothing);
 
-    expect(find.text('MoMo code'), findsOneWidget);
+    expect(find.text('MoMo Code'), findsOneWidget);
     expect(find.text('Save MoMo number'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).first, '0789123456');
@@ -851,7 +847,9 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('help route returns to settings without support screen', (tester) async {
+  testWidgets('help route returns to settings without support screen', (
+    tester,
+  ) async {
     await pumpMainAppAt(tester, '/settings/help');
 
     expect(find.text('Settings'), findsWidgets);

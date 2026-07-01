@@ -28,6 +28,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   final _name = TextEditingController();
   final _description = TextEditingController();
   final _receiver = TextEditingController();
+  final _receiverPayCode = TextEditingController();
   final _imagePicker = ImagePicker();
 
   Uint8List? _imageBytes;
@@ -37,6 +38,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   String _cadence = 'monthly';
   CollectionType _collectionType = CollectionType.ikimina;
+  CollectMomoReceiverMode _receiverMode = CollectMomoReceiverMode.momoNumber;
   bool _isPublic = false;
   bool _recurringEnabled = true;
   bool _loaded = false;
@@ -48,6 +50,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _name.dispose();
     _description.dispose();
     _receiver.dispose();
+    _receiverPayCode.dispose();
     super.dispose();
   }
 
@@ -73,33 +76,28 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       ),
       children: [
         const CollectPlainPageHeader(title: 'Group profile'),
-        CollectCard(
-          emphasis: CollectCardEmphasis.glow,
-          child: _GroupProfileMediaRow(
-            title: _name.text.trim().isEmpty ? collection.title : _name.text,
-            subtitle:
-                '${_collectionType.label} · ${_isPublic ? 'Public group' : 'Private group'}',
-            accentColor: _selectedColor,
-            imageBytes: _imageBytes,
-            imageUrl: _imageBytes == null && !_removeExistingImage
-                ? collection.imageUrl
-                : null,
-            onPick: _pickImage,
-            onRemove:
-                _imageBytes != null ||
-                    (!_removeExistingImage &&
-                        _imageProviderUrl(collection.imageUrl) != null)
-                ? () => setState(() {
-                    _imageBytes = null;
-                    _imageName = null;
-                    _imageMimeType = null;
-                    _removeExistingImage = true;
-                  })
-                : null,
-          ),
+        _GroupProfileMediaRow(
+          title: _name.text.trim().isEmpty ? collection.title : _name.text,
+          subtitle: _collectionType.label,
+          accentColor: _selectedColor,
+          imageBytes: _imageBytes,
+          imageUrl: _imageBytes == null && !_removeExistingImage
+              ? collection.imageUrl
+              : null,
+          onPick: _pickImage,
+          onRemove:
+              _imageBytes != null ||
+                  (!_removeExistingImage &&
+                      _imageProviderUrl(collection.imageUrl) != null)
+              ? () => setState(() {
+                  _imageBytes = null;
+                  _imageName = null;
+                  _imageMimeType = null;
+                  _removeExistingImage = true;
+                })
+              : null,
         ),
         _GroupProfileEditSection(
-          title: 'Identity',
           errorMessage: _error,
           children: [
             CollectTextInput(
@@ -118,7 +116,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           ],
         ),
         _GroupProfileEditSection(
-          title: 'Rules',
           children: [
             _ProfileCollectionTypePicker(
               selected: _collectionType,
@@ -143,19 +140,21 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           ],
         ),
         _GroupProfileEditSection(
-          title: 'Receiver MoMo',
           children: [
-            CollectTextInput(
-              controller: _receiver,
-              label: 'MoMo number',
-              keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.done,
-              autofillHints: const [AutofillHints.telephoneNumber],
+            CollectMomoReceiverCard(
+              mode: _receiverMode,
+              onChanged: (mode) => setState(() {
+                _receiverMode = mode;
+                _error = null;
+              }),
+              numberController: _receiver,
+              codeController: _receiverPayCode,
+              numberInputLabel: 'Receiver MoMo',
+              codeInputLabel: 'MoMo code',
             ),
           ],
         ),
         _GroupProfileEditSection(
-          title: 'Appearance',
           children: [
             _ProfileColorPalette(
               selectedHex: _accentColorHex,
@@ -181,7 +180,16 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _loaded = true;
     _name.text = collection.title;
     _description.text = collection.description;
-    _receiver.text = collection.receiverMomoNumber ?? '';
+    final receiverValue = collection.receiverMomoNumber ?? '';
+    if (_isMomoPayCodeLabel(collection.receiverDisplayLabel)) {
+      _receiverMode = CollectMomoReceiverMode.momoPayCode;
+      _receiverPayCode.text = receiverValue;
+      _receiver.clear();
+    } else {
+      _receiverMode = CollectMomoReceiverMode.momoNumber;
+      _receiver.text = receiverValue;
+      _receiverPayCode.clear();
+    }
     _accentColorHex =
         collection.accentColorHex ??
         CollectColors.brandPrimaryOptions.first.hex;
@@ -223,14 +231,20 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       final imageUrl = _removeExistingImage
           ? null
           : _selectedImageDataUri() ?? collection.imageUrl;
+      final receiverIsMomoPayCode =
+          _receiverMode == CollectMomoReceiverMode.momoPayCode;
       await ref
           .read(collectRepositoryProvider.notifier)
           .updateCollectionProfile(
             collectionId: collection.id,
             title: _name.text,
             description: _description.text,
-            receiverMomoNumber: _receiver.text,
-            receiverLabel: collection.receiverDisplayLabel,
+            receiverMomoNumber: receiverIsMomoPayCode
+                ? _receiverPayCode.text
+                : _receiver.text,
+            receiverLabel: receiverIsMomoPayCode
+                ? 'MoMo code'
+                : 'Primary MoMo receiver',
             recurringCadence: _recurringEnabled ? _cadence : 'monthly',
             collectionType: _collectionType,
             categorySubtype: _defaultProfileCategorySubtype(_collectionType),
@@ -238,6 +252,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             accentColorHex: _accentColorHex,
             imageUrl: imageUrl,
             isPublic: _isPublic,
+            receiverIsMomoPayCode: receiverIsMomoPayCode,
           );
       if (!mounted) return;
       context.go('/groups/${collection.id}/manage');
@@ -257,4 +272,8 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         _imageMimeType ?? _mimeTypeFromName(_imageName ?? '') ?? 'image/jpeg';
     return 'data:$mimeType;base64,${base64Encode(bytes)}';
   }
+}
+
+bool _isMomoPayCodeLabel(String label) {
+  return label.trim().toLowerCase().contains('code');
 }
