@@ -48,7 +48,12 @@ summary =
       "message" => "Unable to read Android signing preflight status from Gradle.",
       "gradle_exit_code" => gradle_rc,
       "gradle_output_tail" => gradle_output.lines.last(20).join,
-      "secret_handling" => "Gradle output tail is included for diagnostics; signing passwords and key aliases must not be printed by the Gradle task."
+      "expected_upload_signing_sha256" => nil,
+      "matches_expected_upload_certificate" => false,
+      "expected_play_signing_sha256" => nil,
+      "matches_expected_play_signing_certificate" => false,
+      "play_app_signing_certificate_note" => "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
+      "secret_handling" => "Gradle output tail is included for diagnostics; the Gradle task does not print signing passwords or key aliases."
     }
   end
 

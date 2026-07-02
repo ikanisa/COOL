@@ -48,7 +48,6 @@ flutter:
     - assets/brand/collect_runtime/splash/
     - assets/brand/collect_runtime/icons/
     - assets/brand/collect_runtime/media/
-    - assets/brand/source_variants/
   fonts:
     - family: Collect Runtime
       fonts:

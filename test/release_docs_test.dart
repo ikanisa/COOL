@@ -309,9 +309,6 @@ Date/time: 2026-06-01T12:30:00Z
       'checklist': File(
         'docs/release/PRODUCTION_READINESS_CHECKLIST.md',
       ).readAsStringSync(),
-      'design_matrix': File(
-        'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
-      ).readAsStringSync(),
       'qa': File('docs/release/QA_TEST_REPORT.md').readAsStringSync(),
       'uat': File('docs/release/UAT_EXECUTION_REPORT.md').readAsStringSync(),
       'uat_plan': File('docs/release/UAT_TEST_PLAN.md').readAsStringSync(),
@@ -418,7 +415,6 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['qa'], contains('collect_product_boundary_scan.sh'));
     expect(docs['qa'], contains('zero forbidden'));
     expect(docs['checklist'], contains('Collect product-boundary scan'));
-    expect(docs['design_matrix'], contains('collect_product_boundary_scan.sh'));
     expect(docs['qa'], contains('Re-run on final tree'));
     expect(docs['qa'], contains('exact final release branch'));
     expect(docs['checklist'], contains('Re-run on final tree'));
@@ -450,79 +446,57 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
-  test(
-    'MOBI/Revolut alignment matrix is the current design parity contract',
-    () {
-      final matrix = File(
-        'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
-      ).readAsStringSync();
+  test('Universal DESIGN.md is the single current design contract', () {
+    final design = File('DESIGN.md').readAsStringSync();
 
-      expect(matrix, contains('100% MOBI/Revolut experiential parity'));
-      expect(matrix, contains('## Non-Negotiable Target'));
-      expect(matrix, contains('## Revolut Reference Route Mapping'));
-      expect(matrix, contains('## MOBI Comparator Matrix'));
-      expect(matrix, contains('## Current Gap Table'));
-      expect(matrix, contains('## Required Current Evidence'));
-      expect(matrix, contains('## Deletion Register'));
-      expect(matrix, contains('External filings'));
-      expect(matrix, contains('IMG_2739.PNG'));
-      expect(matrix, contains('IMG_2755.PNG'));
-      expect(matrix, contains('StatefulShellRoute.indexedStack'));
-      expect(matrix, contains('ConnectivityOverlay'));
-      expect(matrix, contains('CollectAsyncStateView'));
-      expect(matrix, contains('## Comparative Implementation Table'));
-      expect(matrix, contains('MOBI evidence'));
-      expect(matrix, contains('Revolut reference behavior'));
-      expect(matrix, contains('Collect implementation files'));
-      expect(matrix, contains('Contradiction handling'));
-      expect(matrix, contains('Active Deletion Decision'));
-      expect(
-        matrix,
-        contains('scripts/product_design_mobile_audit_artifact_gate.sh'),
-      );
-    },
-  );
+    expect(design, contains('Universal Mobile App Design Standard 2026'));
+    expect(design, contains('Any production mobile app'));
+    expect(design, contains('Screen Archetypes'));
+    expect(design, contains('Universal Token Model'));
+    expect(design, contains('Universal Component Library'));
+    expect(design, contains('State Requirements'));
+    expect(design, contains('Responsive And Adaptive Standard'));
+    expect(design, contains('Accessibility Standard'));
+    expect(design, contains('Visual QA Standard'));
+    expect(design, contains('Flutter Implementation Standard'));
+    expect(design, contains('Quality Gates'));
+    expect(Directory('docs/design').existsSync(), isFalse);
+  });
 
-  test('MOBI/Revolut alignment gate passes current matrix', () {
-    final result = Process.runSync('./scripts/revolut_parity_signoff_gate.sh', [
-      '--json',
-    ]);
+  test('universal design gate passes current contract', () {
+    final result = Process.runSync(
+      './scripts/universal_design_contract_gate.sh',
+      ['--json'],
+    );
 
     expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['status'], 'pass');
     expect(decoded['decision'], 'GO');
-    expect(
-      decoded['matrix'],
-      'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
-    );
-    expect(decoded.containsKey('repo_table'), isFalse);
+    expect(decoded['design_contract'], 'DESIGN.md');
     expect(decoded['blockers'], isEmpty);
     expect(decoded['checks'], isA<Map<String, dynamic>>());
   });
 
-  test('MOBI/Revolut alignment gate blocks an incomplete matrix', () {
+  test('universal design gate blocks an incomplete contract', () {
     final tempDir = Directory.systemTemp.createTempSync(
-      'cool_mobi_revolut_alignment_',
+      'cool_universal_design_contract_',
     );
     try {
-      final matrix = File('${tempDir.path}/incomplete_matrix.md')
+      final contract = File('${tempDir.path}/incomplete_design.md')
         ..writeAsStringSync('# Incomplete\n');
       final result = Process.runSync(
-        './scripts/revolut_parity_signoff_gate.sh',
+        './scripts/universal_design_contract_gate.sh',
         ['--json'],
-        environment: {'MOBI_REVOLUT_ALIGNMENT_MATRIX': matrix.path},
+        environment: {'UNIVERSAL_DESIGN_CONTRACT': contract.path},
       );
 
-      expect(result.exitCode, 99);
+      expect(result.exitCode, 1);
       final decoded =
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
       expect(decoded['status'], 'blocked');
       expect(decoded['decision'], 'NO-GO');
-      expect(
-        decoded['blocker_keys'],
-        contains('mobi_revolut_alignment_matrix'),
-      );
+      expect(decoded['blocker_keys'], contains('universal_design_contract'));
       expect(decoded['blockers'], isNotEmpty);
     } finally {
       tempDir.deleteSync(recursive: true);
@@ -1020,10 +994,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   });
 
   test(
-    'Product design mobile audit gate validates current route screenshots',
+    'legacy mobile route audit command delegates to universal design gate',
     () {
       final script = File(
-        'scripts/product_design_mobile_audit_artifact_gate.sh',
+        'scripts/mobile_route_artifact_gate.sh',
       ).readAsStringSync();
       final makefile = File('Makefile').readAsStringSync();
       final repoWide = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
@@ -1031,48 +1005,38 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         'scripts/release_evidence_index.sh',
       ).readAsStringSync();
 
-      expect(script, contains('MOBILE_ROUTE_RENDER_SUMMARY'));
-      expect(script, contains('mobile_route_render_smoke'));
-      expect(script, contains('png_header'));
-      expect(script, contains('route_count_must_be_at_least_30'));
-      expect(script, contains('product_screen_count_must_be_at_least_27'));
-      expect(script, contains('viewport_must_be_390x844'));
-      expect(script, contains('pixel_check_failed'));
-      expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
-      expect(
-        makefile,
-        contains('product-design-mobile-audit-artifact-gate-json:'),
-      );
-      expect(repoWide, contains('product_design_mobile_audit_artifact_gate'));
-      expect(
-        repoWide,
-        contains('product_design_mobile_audit_artifact_gate.json'),
-      );
-      expect(
-        evidenceIndex,
-        contains('product_design_mobile_audit_artifact_gate'),
-      );
+      expect(script, contains('collect_mobile_design_compliance_audit.sh'));
+      expect(script, contains('DESIGN.md'));
+      expect(script, contains('design_contract'));
+      expect(makefile, contains('mobile-route-artifact-gate:'));
+      expect(makefile, contains('mobile-route-artifact-gate-json:'));
+      expect(repoWide, contains('mobile_route_artifact_gate'));
+      expect(repoWide, contains('mobile_route_artifact_gate.json'));
+      expect(evidenceIndex, contains('mobile_route_artifact_gate'));
 
       final result = Process.runSync(
-        './scripts/product_design_mobile_audit_artifact_gate.sh',
+        './scripts/mobile_route_artifact_gate.sh',
         ['--json'],
       );
       expect(result.exitCode, 0);
       final decoded =
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
       expect(decoded['status'], 'pass');
-      expect(decoded['evidence_source'], 'mobile_route_render_smoke');
-      expect(decoded['viewport'], '390x844');
-      expect(decoded['route_count'], greaterThanOrEqualTo(30));
-      expect(decoded['product_screen_count'], greaterThanOrEqualTo(27));
+      expect(decoded['evidence_source'], 'DESIGN.md');
+      expect(decoded['design_contract'], 'DESIGN.md');
       expect(decoded['secret_handling'], contains('does not inspect secrets'));
-      final items = (decoded['items'] as List<dynamic>)
+      final checks = (decoded['checks'] as List<dynamic>)
           .cast<Map<String, dynamic>>();
-      expect(items.length, greaterThanOrEqualTo(30));
-      expect(items.every((item) => item['png_valid'] == true), isTrue);
-      expect(items.every((item) => item['width'] == 390), isTrue);
-      expect(items.every((item) => item['height'] == 844), isTrue);
-      expect(items.every((item) => item['console_error_count'] == 0), isTrue);
+      expect(
+        checks.any(
+          (check) => check['id'] == 'single_universal_design_contract',
+        ),
+        isTrue,
+      );
+      expect(
+        checks.any((check) => check['id'] == 'no_secondary_design_authority'),
+        isTrue,
+      );
     },
   );
 
@@ -1386,8 +1350,7 @@ checking Edge Function secret names
           'flutter_test': 'flutter_test.txt',
           'release_secret_scan': 'release_secret_scan.txt',
           'collect_product_boundary_scan': 'collect_product_boundary_scan.json',
-          'product_design_mobile_audit_artifact_gate':
-              'product_design_mobile_audit_artifact_gate.json',
+          'mobile_route_artifact_gate': 'mobile_route_artifact_gate.json',
           'android_release_signing_preflight':
               'android_release_signing_preflight.json',
           'android_kotlin_plugin_compat': 'android_kotlin_plugin_compat.json',
@@ -1520,8 +1483,7 @@ checking Edge Function secret names
         'flutter_test': 'flutter_test.txt',
         'release_secret_scan': 'release_secret_scan.txt',
         'collect_product_boundary_scan': 'collect_product_boundary_scan.json',
-        'product_design_mobile_audit_artifact_gate':
-            'product_design_mobile_audit_artifact_gate.json',
+        'mobile_route_artifact_gate': 'mobile_route_artifact_gate.json',
         'android_release_signing_preflight':
             'android_release_signing_preflight.json',
         'android_kotlin_plugin_compat': 'android_kotlin_plugin_compat.json',
@@ -1867,11 +1829,8 @@ checking Edge Function secret names
     expect(repoWide, contains('mobile_route_render_smoke'));
     expect(repoWide, contains('collect_product_boundary_scan'));
     expect(repoWide, contains('collect_product_boundary_scan.json'));
-    expect(repoWide, contains('product_design_mobile_audit_artifact_gate'));
-    expect(
-      repoWide,
-      contains('product_design_mobile_audit_artifact_gate.json'),
-    );
+    expect(repoWide, contains('mobile_route_artifact_gate'));
+    expect(repoWide, contains('mobile_route_artifact_gate.json'));
     expect(repoWide, contains('android_release_signing_preflight'));
     expect(repoWide, contains('android_release_signing_preflight.json'));
     expect(repoWide, contains('android_kotlin_plugin_compat'));
@@ -1885,7 +1844,7 @@ checking Edge Function secret names
     expect(
       repoWide,
       contains(
-        'record_fixture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json"',
+        'record_fixture "mobile_route_artifact_gate" "mobile_route_artifact_gate.json"',
       ),
     );
     expect(
@@ -1911,10 +1870,7 @@ checking Edge Function secret names
     expect(evidenceIndex, isNot(contains('/permissions/notifications-denied')));
     expect(evidenceIndex, isNot(contains('/permissions/camera-denied')));
     expect(evidenceIndex, contains('collect_product_boundary_scan'));
-    expect(
-      evidenceIndex,
-      contains('product_design_mobile_audit_artifact_gate'),
-    );
+    expect(evidenceIndex, contains('mobile_route_artifact_gate'));
     expect(evidenceIndex, contains('android_release_signing_preflight'));
     expect(evidenceIndex, contains('android_kotlin_plugin_compat'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));

@@ -157,11 +157,4 @@ ruby -r json -r time -e '
     ) + "\n"
   )
 ' "$EVIDENCE_DIR" "$BUILD_DIR" "$BASE_URL" "$captures_json"
-
-python3 "$ROOT_DIR/scripts/generate_visual_evidence_contact_sheets.py" \
-  --reference-dir /Users/jeanbosco/Downloads/Revolut10 \
-  --mobile-dir "$ROOT_DIR/.cache/mobile_route_render_smoke/20260615T_member_cdp_parity" \
-  --admin-dir "$EVIDENCE_DIR" \
-  --output-dir "$EVIDENCE_DIR/contact_sheets" >"$EVIDENCE_DIR/contact_sheets.json"
-
 printf '[admin-pwa-auth-render] pass evidence=%s\n' "$EVIDENCE_DIR"

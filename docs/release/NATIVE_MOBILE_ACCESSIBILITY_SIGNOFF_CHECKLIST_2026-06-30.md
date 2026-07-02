@@ -2,15 +2,14 @@
 
 Date: 2026-06-30
 Scope: Collect Flutter mobile app native accessibility responsibility for the
-current MOBI/Revolut parity target in
-`docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`.
+current universal mobile design parity target in
+`DESIGN.md`.
 Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**
 
 ## Evidence Packet
 
 - Offline/cache tests: `test/shared/collect_repository_test.dart`, `test/features/mobile_completion_test.dart`
-- Visual matrix: `.cache/mobile_visual_evidence_matrix/20260630T_critical_routes/summary.json`
-- Android profile evidence: `.cache/mobile_native_performance_profile/20260630T_device_profile_gfxinfo/summary.json`
+- - Android profile evidence: `.cache/mobile_native_performance_profile/20260630T_device_profile_gfxinfo/summary.json`
 - Android structural accessibility: `.cache/android_accessibility_pixel4a/20260630T_connected_app_refresh/summary.json`
 - iOS simulator smoke: `.cache/ios_simulator_smoke/20260630T_current/summary.json`
 - Current route screenshots: `.cache/mobile_route_render_smoke/20260702T131433Z/summary.json`

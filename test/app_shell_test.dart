@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
@@ -7,7 +6,6 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_motion.dart';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -121,7 +119,6 @@ void main() {
         '/settings/account/delete',
         '/settings/legal/terms',
         '/settings/legal/privacy',
-        if (kDebugMode) '/dev/design-system',
       ]),
     );
     expect(
@@ -314,7 +311,6 @@ void main() {
         r'"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
       ).allMatches(script).map((match) => match.group(1)!).toSet();
       final productionScreenRoutes = collectRoutePaths
-          .where((route) => route != '/dev/design-system')
           .map(_materializeRouteForSmoke)
           .toSet();
 
@@ -322,35 +318,25 @@ void main() {
     },
   );
 
-  test('checked-in mobile visual baseline routes stay in route smoke matrix', () {
-    final baseline =
-        jsonDecode(
-              File(
-                'docs/design/collect_mobile_visual_baseline_routes_2026-07-01.json',
-              ).readAsStringSync(),
-            )
-            as Map<String, Object?>;
-    final baselineRoutes = (baseline['routes']! as List<Object?>)
-        .cast<Map<String, Object?>>()
-        .map((item) => item['route']! as String)
-        .toSet();
-    final smokeScript = File(
-      'scripts/mobile_route_render_smoke.sh',
-    ).readAsStringSync();
-    final smokeRouteBlock = smokeScript.substring(
-      smokeScript.indexOf('route_specs=('),
-      smokeScript.indexOf('\n)\n\ncaptures_json='),
-    );
-    final smokeRoutes = RegExp(
-      r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
-      multiLine: true,
-    ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
+  test(
+    'DESIGN.md requires route screenshot coverage without legacy baseline files',
+    () {
+      final design = File('DESIGN.md').readAsStringSync();
+      final smokeScript = File(
+        'scripts/mobile_route_render_smoke.sh',
+      ).readAsStringSync();
+      final smokeRouteBlock = _routeSpecsBlock(smokeScript);
+      final smokeRoutes = RegExp(
+        r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
+        multiLine: true,
+      ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
 
-    expect(baseline['evidence_script'], 'scripts/mobile_route_render_smoke.sh');
-    expect(baseline['viewport'], '390x844');
-    expect(baselineRoutes, hasLength(greaterThanOrEqualTo(10)));
-    expect(smokeRoutes, containsAll(baselineRoutes));
-  });
+      expect(design, contains('route screenshot coverage'));
+      expect(design, contains('golden or snapshot tests'));
+      expect(smokeRoutes, hasLength(greaterThanOrEqualTo(10)));
+      expect(Directory('docs/design').existsSync(), isFalse);
+    },
+  );
 
   test(
     'physical-device route matrix covers mobile screenshot smoke routes',
@@ -361,10 +347,7 @@ void main() {
       final deviceTest = File(
         'integration_test/mobile_route_matrix_device_uat_test.dart',
       ).readAsStringSync();
-      final smokeRouteBlock = smokeScript.substring(
-        smokeScript.indexOf('route_specs=('),
-        smokeScript.indexOf('\n)\n\ncaptures_json='),
-      );
+      final smokeRouteBlock = _routeSpecsBlock(smokeScript);
       final smokeRoutes = RegExp(
         r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
         multiLine: true,
@@ -399,63 +382,25 @@ void main() {
 
     expect(qaRunner, contains('collect_mobile_design_compliance_audit'));
     expect(qaRunner, contains('mobile_design_compliance'));
-    expect(designAudit, contains('four_primary_color_distinction_contract'));
-    expect(designAudit, contains('collect_runtime_alignment_contract'));
-    expect(designAudit, contains('collect_font_installed_or_blocked'));
-    expect(
-      designAudit,
-      contains('collect_runtime_assets_installed_or_blocked'),
-    );
-    expect(designAudit, contains('collect_runtime_asset_switchpoints'));
-    expect(
-      designAudit,
-      contains('collect_runtime_component_token_switchpoints'),
-    );
-    expect(designAudit, contains('native_mobile_interaction_contract'));
-    expect(designAudit, contains('revolut_100_percent_claim_guard'));
-    expect(designAudit, contains('gradient_glass_screen_contract'));
-    expect(designAudit, contains('theme_mode_visual_parity_gate'));
-    expect(designAudit, contains('no_redundant_top_search_chrome_contract'));
-    expect(designAudit, contains('mobile_brand_asset_contract'));
-    expect(designAudit, contains('no_raw_ui_colors_outside_tokens'));
-    expect(designAudit, contains('share_domain_contract'));
-    expect(designAudit, contains('all_production_routes_rendered'));
-    expect(designAudit, contains('android_device_uat_evidence'));
+    expect(designAudit, contains('single_universal_design_contract'));
+    expect(designAudit, contains('no_secondary_design_authority'));
+    expect(designAudit, contains('universal_component_state_contract'));
+    expect(designAudit, contains('responsive_adaptive_contract'));
+    expect(designAudit, contains('route_screenshot_evidence_optional'));
+    expect(designAudit, contains('android_device_uat_evidence_optional'));
   });
 
-  test('Collect runtime alignment docs enforce MOBI/Revolut matrix', () {
-    final matrix = File(
-      'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
-    ).readAsStringSync();
+  test('single DESIGN.md enforces universal mobile design standard', () {
     final design = File('DESIGN.md').readAsStringSync();
-    final designSystem = File(
-      'docs/design/DESIGN_SYSTEM.md',
-    ).readAsStringSync();
 
-    expect(matrix, contains('100% MOBI/Revolut experiential parity'));
-    expect(design, contains('100% MOBI/Revolut experiential parity'));
-    expect(designSystem, contains('100% MOBI/Revolut experiential parity'));
-    expect(matrix, contains('## MOBI Comparator Matrix'));
-    expect(matrix, contains('## Deletion Register'));
-    expect(matrix, contains('StatefulShellRoute.indexedStack'));
-    expect(matrix, contains('ConnectivityOverlay'));
-    expect(matrix, contains('CollectAsyncStateView'));
-    expect(matrix, contains('External filings'));
-    for (final screenshot in <String>[
-      'IMG_2739.PNG',
-      'IMG_2740.PNG',
-      'IMG_2741.PNG',
-      'IMG_2742.PNG',
-      'IMG_2747.PNG',
-      'IMG_2748.PNG',
-      'IMG_2749.PNG',
-      'IMG_2750.PNG',
-      'IMG_2751.PNG',
-      'IMG_2752.PNG',
-      'IMG_2755.PNG',
-    ]) {
-      expect(matrix, contains(screenshot));
-    }
+    expect(design, contains('Universal Mobile App Design Standard 2026'));
+    expect(design, contains('Universal Token Model'));
+    expect(design, contains('Universal Component Library'));
+    expect(design, contains('Visual QA Standard'));
+    expect(design, contains('Flutter Implementation Standard'));
+    expect(design, contains('route screenshot coverage'));
+    expect(design, contains('golden or snapshot tests'));
+    expect(Directory('docs/design').existsSync(), isFalse);
   });
 
   test('orange is reserved away from routine CTA and decorative surfaces', () {
@@ -490,48 +435,19 @@ void main() {
     expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
   });
 
-  test('design compliance audit reads refactored chrome part files', () {
+  test('design compliance audit reads only the universal contract', () {
     final designAudit = File(
       'scripts/collect_mobile_design_compliance_audit.sh',
-    ).readAsStringSync();
-    final chromeLibrary = File(
-      'lib/shared/widgets/collect_chrome.dart',
-    ).readAsStringSync();
-    final topChromePart = File(
-      'lib/shared/widgets/collect_top_chrome.dart',
     ).readAsStringSync();
     final runtimeAssets = File(
       'lib/app/theme/collect_runtime_assets.dart',
     ).readAsStringSync();
-    final scaffoldPart = File(
-      'lib/shared/widgets/collect_scaffold_chrome.dart',
-    ).readAsStringSync();
 
-    expect(chromeLibrary, contains("part 'collect_top_chrome.dart';"));
-    expect(chromeLibrary, contains("part 'collect_scaffold_chrome.dart';"));
-    expect(topChromePart, contains('class CollectBrandMark'));
-    expect(topChromePart, contains('CollectRuntimeAssets.wordmarkAssetPath'));
-    expect(topChromePart, contains('CollectRuntimeAssets.appIconAssetPath'));
-    expect(runtimeAssets, contains('wordmarkAssetPath = sourceWordmarkPath'));
+    expect(designAudit, contains('DESIGN.md'));
+    expect(designAudit, contains('Universal Mobile App Design Standard 2026'));
+    expect(designAudit, contains('no_secondary_design_authority'));
+    expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
     expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
-    expect(
-      runtimeAssets,
-      contains('splashMarkAssetPath = expectedSplashMarkPath'),
-    );
-    expect(scaffoldPart, contains('class PremiumScaffold'));
-    expect(scaffoldPart, contains('CollectGradientBackground'));
-    expect(designAudit, contains('def read_dart_library'));
-    expect(
-      designAudit,
-      contains(
-        'chrome = read_dart_library(root, "lib/shared/widgets/collect_chrome.dart")',
-      ),
-    );
-  });
-
-  test('design system catalog route is debug-only', () {
-    expect(kDebugMode, isTrue);
-    expect(collectRoutePaths, contains('/dev/design-system'));
   });
 
   test('theme loads', () {
@@ -775,4 +691,17 @@ String _materializeRouteForSmoke(String route) {
       .replaceAll(':state', 'pending')
       .replaceAll(':publicId', '038491')
       .replaceAll(':slug', 'st-michel-building-fund');
+}
+
+String _routeSpecsBlock(String script) {
+  final start = script.indexOf('route_specs=(');
+  if (start < 0) {
+    throw StateError('route_specs block not found');
+  }
+  final tail = script.substring(start);
+  final terminator = RegExp(r'^\)$', multiLine: true).firstMatch(tail);
+  if (terminator == null) {
+    throw StateError('route_specs block terminator not found');
+  }
+  return script.substring(start, start + terminator.end);
 }

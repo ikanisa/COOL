@@ -106,7 +106,7 @@ Required destination when regenerated:
 
 ## Visual QA Evidence
 
-Fresh screenshot evidence is still open after the full original-content
+Fresh route evidence is still open after the full original-content
 restore. In-app browser and Playwright screenshot automation timed out in this
 environment, so no current post-restore screenshot set is claimed.
 
@@ -127,8 +127,8 @@ Reviewer must confirm:
 - no duplicate CTA clutter in the first viewport;
 - product visual appears in the first viewport on mobile and desktop;
 - trust/security/policy surfaces are easy to find;
-- the visual system follows the borrowed Revolut alignment target,
-  Wise, M-Pesa, Tala, or MoMo.
+- the visual system is checked against root `DESIGN.md` and does not copy
+  third-party brands such as Wise, M-Pesa, Tala, or MoMo.
 
 ## Sign-Off
 

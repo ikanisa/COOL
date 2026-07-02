@@ -40,7 +40,7 @@ Generated local evidence files:
 - Flutter debug keystores: `4D:FD:5D:24:A2:BE:94:8E:39:C2:3D:D1:84:B3:E6:A1:BD:93:F2:D6:31:A1:C9:6A:1F:F2:D7:05:32:7C:06:0F`
 - Local debug APK outputs: `5F:22:F9:CE:04:4F:C8:7C:35:46:D7:58:9B:EE:0C:8F:CC:D7:EF:97:20:B7:2B:6A:87:1A:94:CE:E0:C5:CE:88`
 - `/Users/jeanbosco/Desktop/gikundiro_upload_certificate.pem`: `18:0C:F8:B8:D4:F0:A5:A3:8D:51:D9:C9:E2:FF:51:23:FB:49:CD:CE:6D:93:BD:01:08:E1:D1:29:86:97:D5:10`
-- Other readable project keystores on `PRO-G40` also did not match, including BioPay, DINEIN, FANZONE, GASLINE, KANDA, LIKA, MEMORIES, MOBI, and ibimina-derived stores.
+- Other readable project keystores on `PRO-G40` also did not match, including several legacy app stores and ibimina-derived stores.
 
 The expanded search tested 53 Android-signing-relevant candidate files, 4 `key.properties` files, 3 readable keystore fingerprints, 7 readable Android artifact fingerprints, and 13 public certificate fingerprints. None matched the Play-installed package fingerprint.
 

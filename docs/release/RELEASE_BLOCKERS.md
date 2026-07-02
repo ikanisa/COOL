@@ -8,10 +8,9 @@ Android/iOS release scope. The linked sender-hash preservation migration has
 now been applied through the linked Supabase query path and linked contribution
 UAT passes.
 
-Update 2026-06-07: mobile screen/popup/wizard completion is now governed by
-`docs/archive/2026-06/design/COLLECT_MOBILE_100_PERCENT_COMPLETION_GOALBOOK_2026-06-07.md`.
-Any evidence below predates that 100% completion goal unless rerun on the final
-current worktree.
+Update 2026-07-02: mobile screen, popup, wizard, and state completion is now
+governed only by root `DESIGN.md`. Any evidence below predates the universal
+design contract unless rerun on the final current worktree.
 
 This file intentionally does not carry forward older unverified Supabase
 platform blockers from the previous product definition. Platform blockers must

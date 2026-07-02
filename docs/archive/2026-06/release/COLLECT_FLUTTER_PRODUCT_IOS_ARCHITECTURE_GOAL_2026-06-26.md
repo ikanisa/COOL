@@ -110,7 +110,7 @@ Commands run on 2026-06-26 from `/Volumes/PRO-G40/COOL`:
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass, no
   issues found.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub`: pass, `261`
-  tests passed, `1` visual evidence test intentionally skipped because
+  tests passed, `1` route evidence test intentionally skipped because
   `COLLECT_VISUAL_EVIDENCE_DIR` was not set.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `./scripts/release_secret_scan.sh`: pass with tracked-file fallback scanner.
@@ -228,20 +228,20 @@ Commands run on 2026-06-26 from `/Volumes/PRO-G40/COOL`:
   artifacts, Supabase, and release evidence blocked/non-production; the new
   `android_kotlin_plugin_compat` command was present with exit `0`, JSON
   evidence was written, and the repo-wide surface reported `warning`.
-- `docs/release/product_design_mobile_audit_2026-06-26/`: existing mobile
-  product-design audit evidence contains a manifest for `48` routes at
+- `docs/release/mobile_route_artifacts_2026-06-26/`: existing mobile
+  mobile route audit evidence contains a manifest for `48` routes at
   `390x844` with no console errors recorded in the route capture entries.
   Screenshot files were converted from mislabeled JPEG data to real PNG files
   while preserving the manifest paths.
-- `scripts/product_design_mobile_audit_artifact_gate.sh`: added a product-design
+- `scripts/mobile_route_artifact_gate.sh`: added a mobile route
   route screenshot artifact gate that validates manifest shape, route count,
   viewport, file containment, PNG headers, dimensions, byte counts, and
   console-error counts.
 - `Makefile`, `scripts/repo_wide_qa_uat.sh`, and
   `scripts/release_evidence_index.sh`: now expose, capture, and index
-  `product_design_mobile_audit_artifact_gate` so screenshot artifact integrity
+  `mobile_route_artifact_gate` so screenshot artifact integrity
   is part of normal release evidence.
-- `./scripts/product_design_mobile_audit_artifact_gate.sh --json`: pass,
+- `./scripts/mobile_route_artifact_gate.sh --json`: pass,
   `48` routes at `390x844`.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub
   test/release_docs_test.dart`: pass, `54` tests passed.
@@ -249,7 +249,7 @@ Commands run on 2026-06-26 from `/Volumes/PRO-G40/COOL`:
   scripts/release_artifact_manifest.sh scripts/flutter_mobile_release_gate.sh
   scripts/android_kotlin_plugin_compat_gate.sh
   scripts/android_release_signing_preflight.sh
-  scripts/product_design_mobile_audit_artifact_gate.sh`: pass.
+  scripts/mobile_route_artifact_gate.sh`: pass.
 - `git status --short`: contains this goal's modified files and new report /
   script; generated folders remain ignored.
 - Generated folders `build/`, `.dart_tool/`, `.cache/`, and `output/` are
@@ -316,7 +316,7 @@ pass.
 ## Current Verdict
 
 Code-owned Flutter source health is green for this pass. Fresh Flutter-test
-visual evidence now covers all `56` mobile route-smoke routes at `390x844` in
+route evidence now covers all `56` mobile route-smoke routes at `390x844` in
 `.cache/flutter_visual_evidence_premium_frontend/mobile/summary.json`, and
 `scripts/collect_mobile_design_compliance_audit.sh --json` passes when paired
 with the real Android UAT pass summary. Release remains `NO-GO` because

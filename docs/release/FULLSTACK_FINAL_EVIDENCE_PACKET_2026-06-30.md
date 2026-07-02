@@ -28,7 +28,7 @@ complete because native accessibility signoff remains approval-gated.
 | Architecture map | `docs/release/FULLSTACK_ARCHITECTURE_MAP_AND_REMEDIATION_PLAN_2026-06-30.md` | Pass | Current architecture/remediation map |
 | Formatting | `/Volumes/PRO-G40/flutter_3_44/bin/dart format --set-exit-if-changed .` | Pass | 181 files checked, 0 changed |
 | Analyzer | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` | Pass | No issues found |
-| Full tests | `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub` | Pass | 293 tests passed; 1 expected opt-in visual evidence skip |
+| Full tests | `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub` | Pass | 293 tests passed; 1 expected opt-in route evidence skip |
 | Whitespace | `git diff --check` | Pass | No whitespace errors |
 | Secret scan | `scripts/release_secret_scan.sh` | Pass | Fallback tracked-file scan passed; `gitleaks` not installed |
 | YAML governance | `ruby -e 'require "yaml"; ... YAML.load_file(...)'` | Pass | Workflows and Dependabot config parse locally |
@@ -47,7 +47,7 @@ complete because native accessibility signoff remains approval-gated.
 | Supabase evidence bundle | `SUPABASE_EVIDENCE_BUNDLE_DIR=.cache/supabase_go_live_evidence/20260630T_after_db_push scripts/supabase_go_live_evidence_bundle.sh` | Blocked | `.cache/supabase_go_live_evidence/20260630T_after_db_push/summary.json` |
 | Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass | `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json` |
 | Android device UAT | `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false scripts/android_device_uat.sh` | Pass | `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json` |
-| Mobile design compliance | `scripts/collect_mobile_design_compliance_audit.sh --json` with fresh route/UAT summaries | Pass | Current gate plus `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`; stale dated JSON removed |
+| Mobile design compliance | `scripts/collect_mobile_design_compliance_audit.sh --json` with fresh route/UAT summaries | Pass | Current gate plus `DESIGN.md`; stale dated JSON removed |
 | Android structural accessibility | `scripts/android_accessibility_structural_evidence.sh --json` | Pass | `docs/release/android_accessibility_structural_evidence_2026-06-30.json` |
 | Native performance | `scripts/mobile_native_performance_profile.sh --json` | Pass | `docs/release/mobile_native_performance_profile_2026-06-30.json` |
 | Native accessibility signoff | `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | `docs/release/native_mobile_accessibility_signoff_gate_2026-06-30.json` |

@@ -23,7 +23,7 @@ evidence documentation for Collect.
 
 ## Archive Rule
 
-Dated goalbooks, implementation reports, manual audits, and screenshot evidence
+Dated goalbooks, implementation reports, manual audits, and route evidence
 belong under `docs/archive/` or an external evidence pack once their current
 facts have been merged into the files above.
 

@@ -73,7 +73,6 @@ Run the relevant subset after each batch, and the full set before claiming the g
 
 ```bash
 /Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub
-/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/features/mobile_completion_test.dart test/visual_evidence_capture_test.dart
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart
 bash scripts/public_landing_prepare_build.sh

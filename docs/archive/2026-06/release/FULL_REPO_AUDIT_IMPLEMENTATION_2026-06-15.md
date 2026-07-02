@@ -138,7 +138,7 @@ Result:
   screenshots at `.cache/mobile_route_render_smoke/20260615T130336Z`.
 - `scripts/collect_mobile_design_compliance_audit.sh --json` now passes.
 - `scripts/admin_pwa_render_smoke.sh` passed with current Admin PWA runtime and
-  desktop/mobile screenshot evidence at
+  desktop/mobile route evidence at
   `.cache/admin_pwa_render_smoke/20260615T131201Z`.
 
 ### Release Artifact Refresh

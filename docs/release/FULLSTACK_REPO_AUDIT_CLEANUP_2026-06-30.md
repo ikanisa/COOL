@@ -75,7 +75,7 @@ Mobile quality and performance evidence refresh:
 | --- | --- | --- |
 | `scripts/mobile_route_render_smoke.sh` | Pass | Fresh evidence at `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json`; 30/30 screenshots and checks passed |
 | `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false scripts/android_device_uat.sh` | Pass | Fresh evidence at `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json`; default production-debug run failed only on Play app-signing certificate semantics |
-| `MOBILE_ROUTE_RENDER_SUMMARY=.cache/mobile_route_render_smoke/20260630T160720Z/summary.json ANDROID_DEVICE_UAT_SUMMARY=.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json scripts/collect_mobile_design_compliance_audit.sh --json` | Pass | Current evidence must be regenerated from the gate and checked against `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`; stale dated JSON removed |
+| `MOBILE_ROUTE_RENDER_SUMMARY=.cache/mobile_route_render_smoke/20260630T160720Z/summary.json ANDROID_DEVICE_UAT_SUMMARY=.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json scripts/collect_mobile_design_compliance_audit.sh --json` | Pass | Current evidence must be regenerated from the gate and checked against `DESIGN.md`; stale dated JSON removed |
 | `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Saved JSON at `docs/release/android_accessibility_structural_evidence_2026-06-30.json`; onboarding and guarded deeplink captures each exposed 18 labels and kept `app.cool.mobile` focused |
 | `scripts/mobile_native_performance_profile.sh --json` | Pass | Saved JSON at `docs/release/mobile_native_performance_profile_2026-06-30.json`; profile runner, Perfetto trace, and gfxinfo checks passed |
 | `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Verify current Codex responsibility rows and keep the human TalkBack, VoiceOver, and final signoff blocker open |
@@ -270,7 +270,7 @@ Financial payment-pipeline split verification:
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart
 ```
 
-Result: formatter gate passed and focused design-system suite passed 34/34.
+Result: formatter gate passed and focused component suite passed 34/34.
 
 Latest full-suite verification after the payment-pipeline split:
 
@@ -425,7 +425,7 @@ launch scope is deferred.
 | `lib/shared/widgets/collect_financial_money.dart` | Money display cards, financial list rows, Collect ID card, money hero, identity title formatting | 411 lines | Keep display/read-only money surfaces here; avoid adding input/payment flow widgets back into this part |
 | `lib/shared/widgets/collect_financial_amount_entry.dart` | Contribution amount input panel, currency chip, quick amount chips, compact amount labels | 174 lines | Stable amount-entry part; keep digit filtering and quick selection covered by widget tests |
 | `lib/shared/widgets/collect_financial_payments.dart` | Payment review, status card, verified ring, consent card, payment status labels and masking helpers | 322 lines | Keep payment status/review/consent panels here |
-| `lib/shared/widgets/collect_financial_payment_pipeline.dart` | Payment progress indicator, pipeline stages, pipeline line, step mapping | 139 lines | Stable progress UI part; keep semantics covered by design-system tests |
+| `lib/shared/widgets/collect_financial_payment_pipeline.dart` | Payment progress indicator, pipeline stages, pipeline line, step mapping | 139 lines | Stable progress UI part; keep semantics covered by component tests |
 | `lib/shared/widgets/collect_financial_ledger.dart` | Contribution ledger row/timeline surfaces | 130 lines | Keep ledger display separate from payment intent entry |
 
 ## Collect Model Boundary Map

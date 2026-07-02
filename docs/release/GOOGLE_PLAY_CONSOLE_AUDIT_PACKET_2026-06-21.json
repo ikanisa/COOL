@@ -42,7 +42,6 @@
         "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
         "exported_count": 5,
         "recommended_sources": [
-          ".cache/android_route_visual_evidence",
           ".cache/mobile_route_render_smoke"
         ]
       }

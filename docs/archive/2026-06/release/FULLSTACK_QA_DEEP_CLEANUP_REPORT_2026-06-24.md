@@ -28,7 +28,7 @@ The remaining hard blockers are not dead-code findings. They are release-signing
 
 - `bash scripts/full_repo_audit_inventory.sh`: pass. Current inventory: 153 library Dart files, 17 Dart tests, 75 scripts, 77 docs, 126 native/platform files, 14 Supabase functions, and 42 Supabase migrations.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass.
-- Focused Flutter QA batch: pass, 132 tests passed, 1 visual evidence test intentionally skipped because `COLLECT_VISUAL_EVIDENCE_DIR` was not set.
+- Focused Flutter QA batch: pass, 132 tests passed, 1 route evidence test intentionally skipped because `COLLECT_VISUAL_EVIDENCE_DIR` was not set.
 - Post-toolchain alignment focused Flutter QA batch: pass, 59 tests passed across `test/features/mobile_completion_test.dart`, `test/app_shell_test.dart`, `test/security_hygiene_test.dart`, and `test/shared/collect_repository_test.dart`.
 - `bash scripts/public_landing_prepare_build.sh`: pass.
 - `./scripts/public_website_quality_gate.sh --json`: pass, 34/34 checks passed. Routes, metadata, sitemap, JS budget, security headers, and public claim guard all passed.

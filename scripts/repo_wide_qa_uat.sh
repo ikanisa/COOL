@@ -131,7 +131,7 @@ if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
     record_fixture "$name" "$name.txt" 0 "[repo-wide-qa-uat][fixture] $name passed"
   done
   record_fixture "collect_product_boundary_scan" "collect_product_boundary_scan.json" 0 "[repo-wide-qa-uat][fixture] collect_product_boundary_scan passed"
-  cat > "$bundle_dir/product_design_mobile_audit_artifact_gate.json" <<'JSON'
+  cat > "$bundle_dir/mobile_route_artifact_gate.json" <<'JSON'
 {
   "status": "pass",
   "evidence_source": "mobile_route_render_smoke",
@@ -144,7 +144,7 @@ if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
   "secret_handling": "Fixture reports current route-render screenshot paths, dimensions, byte counts, pixel checks, and console-error counts only."
 }
 JSON
-  record_fixture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json" 0 "$(cat "$bundle_dir/product_design_mobile_audit_artifact_gate.json")"
+  record_fixture "mobile_route_artifact_gate" "mobile_route_artifact_gate.json" 0 "$(cat "$bundle_dir/mobile_route_artifact_gate.json")"
   cat > "$bundle_dir/android_release_signing_preflight.json" <<'JSON'
 {
   "status": "pass",
@@ -348,39 +348,19 @@ RUBY
   "route_count": 48,
   "checks": [
     {
-      "id": "four_primary_color_distinction_contract",
+      "id": "single_universal_design_contract",
       "status": "pass"
     },
     {
-      "id": "collect_runtime_alignment_contract",
+      "id": "no_secondary_design_authority",
       "status": "pass"
     },
     {
-      "id": "collect_font_installed_or_blocked",
+      "id": "universal_component_state_contract",
       "status": "pass"
     },
     {
-      "id": "collect_runtime_assets_installed_or_blocked",
-      "status": "pass"
-    },
-    {
-      "id": "collect_runtime_asset_switchpoints",
-      "status": "pass"
-    },
-    {
-      "id": "collect_runtime_component_token_switchpoints",
-      "status": "pass"
-    },
-    {
-      "id": "revolut_100_percent_claim_guard",
-      "status": "pass"
-    },
-    {
-      "id": "no_raw_ui_colors_outside_tokens",
-      "status": "pass"
-    },
-    {
-      "id": "share_domain_contract",
+      "id": "responsive_adaptive_contract",
       "status": "pass"
     },
     {
@@ -555,7 +535,7 @@ else
   run_capture "flutter_test" "flutter_test.txt" "$FLUTTER" test --no-pub --concurrency=1
   run_capture "release_secret_scan" "release_secret_scan.txt" "$ROOT_DIR/scripts/release_secret_scan.sh"
   run_capture "collect_product_boundary_scan" "collect_product_boundary_scan.json" "$ROOT_DIR/scripts/collect_product_boundary_scan.sh" --json
-  run_capture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json" "$ROOT_DIR/scripts/product_design_mobile_audit_artifact_gate.sh" --json
+  run_capture "mobile_route_artifact_gate" "mobile_route_artifact_gate.json" "$ROOT_DIR/scripts/mobile_route_artifact_gate.sh" --json
   run_capture "android_release_signing_preflight" "android_release_signing_preflight.json" "$ROOT_DIR/scripts/android_release_signing_preflight.sh" --json
   run_capture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json" "$ROOT_DIR/scripts/android_kotlin_plugin_compat_gate.sh" --json
   run_capture "release_worktree_review" "worktree_review.json" "$ROOT_DIR/scripts/release_worktree_review_gate.sh" --json
@@ -676,7 +656,7 @@ artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.j
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
 design_compliance = read_json(File.join(bundle_dir, "collect_mobile_design_compliance", "summary.json"))
-product_design_mobile_audit_artifact = read_json(File.join(bundle_dir, "product_design_mobile_audit_artifact_gate.json"))
+mobile_route_artifact = read_json(File.join(bundle_dir, "mobile_route_artifact_gate.json"))
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 android_kotlin_plugin_compat = read_json(File.join(bundle_dir, "android_kotlin_plugin_compat.json"))
 
@@ -817,9 +797,9 @@ android_release_signing_preflight_surface =
     "fail"
   end
 
-product_design_mobile_audit_surface =
-  if command_ok?(commands, "product_design_mobile_audit_artifact_gate") &&
-      product_design_mobile_audit_artifact["status"].to_s == "pass"
+mobile_route_artifact_surface =
+  if command_ok?(commands, "mobile_route_artifact_gate") &&
+      mobile_route_artifact["status"].to_s == "pass"
     "pass"
   else
     "fail"
@@ -842,7 +822,7 @@ surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
-  "product_design_mobile_audit_artifacts" => product_design_mobile_audit_surface,
+  "mobile_route_artifacts" => mobile_route_artifact_surface,
   "mobile_design_compliance" => mobile_design_surface,
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
@@ -899,7 +879,7 @@ blocker_keys = (
       artifact_manifest,
       admin_hosting,
       evidence_index,
-      product_design_mobile_audit_artifact,
+      mobile_route_artifact,
       android_release_signing_preflight
     ],
     %w[blocker_keys failure_keys missing_artifacts]
@@ -935,7 +915,7 @@ summary = {
     "acceptance_matrix" => supabase_summary["acceptance_matrix"] || {}
   },
   "release_evidence_index" => evidence_index,
-  "product_design_mobile_audit_artifacts" => product_design_mobile_audit_artifact,
+  "mobile_route_artifacts" => mobile_route_artifact,
   "android_release_signing_preflight" => android_release_signing_preflight,
   "android_kotlin_plugin_compat" => android_kotlin_plugin_compat,
   "commands" => commands,
@@ -968,8 +948,8 @@ File.write(
     - `admin_pwa_hosting_gate.json`: static hosting headers, cache, CSP, and robots gate
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
-    - `product_design_mobile_audit_artifact_gate.json`: product-design route screenshot manifest, PNG header, dimension, and console-error gate
-    - `collect_mobile_design_compliance/`: DESIGN.md four-primary color, route screenshot, product-domain, and Android UAT compliance gate
+    - `mobile_route_artifact_gate.json`: DESIGN.md-backed mobile route evidence delegation gate
+    - `collect_mobile_design_compliance/`: universal DESIGN.md authority, component-state, responsive, and optional evidence gate
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `android_release_signing_preflight.json`: redacted Android Play signing certificate preflight

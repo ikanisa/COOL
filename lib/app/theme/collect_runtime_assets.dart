@@ -7,8 +7,6 @@ class CollectRuntimeAssets {
   static const splashAssetRoot = '$collectAssetRoot/splash';
   static const iconAssetRoot = '$collectAssetRoot/icons';
   static const mediaAssetRoot = '$collectAssetRoot/media';
-  static const fallbackBrandRoot = 'assets/brand';
-
   static const expectedWordmarkPath = '$logoAssetRoot/wordmark.png';
   static const expectedAppIconPath = '$appIconAssetRoot/app_icon.png';
   static const expectedSplashMarkPath = '$splashAssetRoot/splash_mark.png';
@@ -17,10 +15,7 @@ class CollectRuntimeAssets {
   static const expectedWebManifestIconPath =
       '$appIconAssetRoot/collect-web-512.png';
   static const expectedSharePreviewPath = '$mediaAssetRoot/share-preview.png';
-  static const sourceWordmarkPath =
-      '$fallbackBrandRoot/source_variants/collect_wordmark_transparent_4096.png';
-
-  static const wordmarkAssetPath = sourceWordmarkPath;
+  static const wordmarkAssetPath = expectedWordmarkPath;
   static const appIconAssetPath = expectedAppIconPath;
   static const splashMarkAssetPath = expectedSplashMarkPath;
 

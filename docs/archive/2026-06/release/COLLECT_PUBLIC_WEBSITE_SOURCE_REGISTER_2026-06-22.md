@@ -18,7 +18,7 @@ Purpose: control what can appear on the public Collect website. Public pages mus
 | Deck-only item | Public status |
 | --- | --- |
 | RWF 50-150B, RWF 35B+, 300K+ profiles, 100K+ policies, near-zero NPL, 3-5x credit capacity | Internal only |
-| Revolut partnership, Malta bank discussions, Rwanda bank interest | Internal only |
+| Unapproved partner discussions or institution-interest claims | Internal only |
 | Host-bank custody, collateralized credit, insurance underwriting, partner lending | Internal only |
 | Android/iOS live, Stripe fallback, backup payment coverage | Internal only unless independently evidenced and approved |
 | Market-size or impact figures without public source URL, source owner, date, exact figure and approved wording | Do not publish |

@@ -203,7 +203,7 @@ required_commands = %w[
   flutter_test
   release_secret_scan
   collect_product_boundary_scan
-  product_design_mobile_audit_artifact_gate
+  mobile_route_artifact_gate
   android_release_signing_preflight
   android_kotlin_plugin_compat
   admin_pwa_build
@@ -596,7 +596,7 @@ bundle_files = [
   file_item(File.join(bundle_dir, "uat_evidence_gate.json"), required: false),
   file_item(File.join(bundle_dir, "uat_signoff_gate.json"), required: false),
   file_item(File.join(bundle_dir, "mobile_release_gate.json"), required: false),
-  file_item(File.join(bundle_dir, "product_design_mobile_audit_artifact_gate.json"), required: false),
+  file_item(File.join(bundle_dir, "mobile_route_artifact_gate.json"), required: false),
   file_item(File.join(bundle_dir, "android_release_signing_preflight.json"), required: false),
   file_item(File.join(bundle_dir, "android_kotlin_plugin_compat.json"), required: false),
   file_item(File.join(bundle_dir, "admin_pwa_hosting_gate.json"), required: false),

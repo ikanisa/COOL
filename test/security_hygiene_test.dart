@@ -264,7 +264,6 @@ void main() {
       final text = file.readAsStringSync();
       final path = file.path;
       if (path.contains('/shared/repositories/collect_repository')) continue;
-      if (path.contains('/features/dev/')) continue;
       if (path.endsWith('lib/main.dart')) {
         expect(text, contains("'COLLECT_MOBILE_EVIDENCE_MODE'"), reason: path);
         expect(text, contains('if (mobileEvidenceMode)'), reason: path);

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -66,14 +65,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           onTap: () => context.go('/settings/legal/privacy'),
         ),
       ),
-      if (kDebugMode)
-        _SettingsEntry(
-          child: _SettingsTile(
-            leading: CollectIcons.palette,
-            title: 'Design system',
-            onTap: () => context.go('/dev/design-system'),
-          ),
-        ),
     ];
     return ScreenScaffold(
       title: 'Settings',

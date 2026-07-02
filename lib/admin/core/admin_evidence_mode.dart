@@ -51,7 +51,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     Map<String, dynamic> params,
   ) async {
     if (rpcName == 'admin_reveal_raw_sms') {
-      return {'message': 'Raw message hidden in visual evidence.'};
+      return {'message': 'Raw message hidden in route evidence.'};
     }
     return {'status': 'queued'};
   }

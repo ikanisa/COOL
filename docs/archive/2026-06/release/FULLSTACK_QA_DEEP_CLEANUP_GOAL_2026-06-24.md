@@ -42,7 +42,7 @@ Bring the COOL repository to a defensible fullstack QA and cleanup state: active
 ### 5. Performance and Premium Quality
 
 - Verify public website JS budget, security headers, sitemap, metadata, no Flutter/CanvasKit critical-path files, and public claim guard.
-- Verify mobile visual contracts: Collect-owned color tokens, gradient/glass surfaces, brand wordmark, launch splash resources, top chrome, and route screenshot evidence.
+- Verify mobile visual contracts: Collect-owned color tokens, gradient/glass surfaces, brand wordmark, launch splash resources, top chrome, and route route evidence.
 - Keep Collect product copy and visual assets distinct from reference-product trademarks.
 
 ### 6. Security, Privacy, and Compliance

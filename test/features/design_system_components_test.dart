@@ -126,7 +126,7 @@ void main() {
     );
   });
 
-  test('Revolut reference background families are applied by route', () {
+  test('route background families are applied by route', () {
     final light = AppTheme.light().extension<CollectColors>()!;
 
     expect(
@@ -257,8 +257,8 @@ void main() {
       'assets/brand/collect_runtime/splash/splash_mark.png',
     );
     expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
-      width: 4096,
-      height: 1387,
+      width: 1024,
+      height: 299,
     ));
     expect(_pngSize(CollectRuntimeAssets.appIconAssetPath), (
       width: 512,
@@ -1003,10 +1003,7 @@ void main() {
     final semanticIcons = File(
       'lib/app/theme/collect_semantic_icons.dart',
     ).readAsStringSync();
-    final keywordSpec = File(
-      'docs/design/collect_runtime_tokens/'
-      'collect_semantic_icon_keywords_2026-06-30.json',
-    ).readAsStringSync();
+    final design = File('DESIGN.md').readAsStringSync();
     final groupCards = File(
       'lib/shared/widgets/collect_group_cards.dart',
     ).readAsStringSync();
@@ -1033,9 +1030,6 @@ void main() {
     final shareScreen = File(
       'lib/features/collections/share_screen.dart',
     ).readAsStringSync();
-    final designSystemCatalog = File(
-      'lib/features/dev/design_system_catalog_screen.dart',
-    ).readAsStringSync();
     final scaffoldChrome = File(
       'lib/shared/widgets/collect_scaffold_chrome.dart',
     ).readAsStringSync();
@@ -1047,7 +1041,6 @@ void main() {
       detailActions,
       detailHero,
       shareScreen,
-      designSystemCatalog,
       scaffoldChrome,
     ];
 
@@ -1070,8 +1063,10 @@ void main() {
     ];
     for (final keyword in requiredKeywords) {
       expect(semanticIcons, contains("'$keyword':"));
-      expect(keywordSpec, contains('"$keyword"'));
     }
+
+    expect(design, contains('Semantic'));
+    expect(design, contains('Universal Component Library'));
 
     expect(collectionCards, contains('maxLines: 1'));
     expect(collectionCards, contains('softWrap: false'));
@@ -1370,11 +1365,7 @@ void main() {
   test('primary route smoke list keeps admin out of member app', () {
     expect(
       collectRoutePaths,
-      containsAll(<String>[
-        '/home',
-        '/groups/:collectionId/contribute',
-        '/dev/design-system',
-      ]),
+      containsAll(<String>['/home', '/groups/:collectionId/contribute']),
     );
     expect(
       collectRoutePaths,

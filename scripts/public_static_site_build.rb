@@ -29,13 +29,11 @@ LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_
 LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
-BRAND_COLOR_CONTRACT_PATH = File.join(ROOT, "docs", "design", "collect_runtime_tokens", "collect_primary_colors_2026-06-30.json")
-BRAND_COLOR_CONTRACT = JSON.parse(File.read(BRAND_COLOR_CONTRACT_PATH))
-BRAND_PRIMARY_COLORS = BRAND_COLOR_CONTRACT.fetch("primary")
-BRAND_BLACK = BRAND_COLOR_CONTRACT.fetch("black")
-BRAND_PAPER = BRAND_COLOR_CONTRACT.fetch("paper")
-BRAND_INK = BRAND_COLOR_CONTRACT.fetch("ink")
-BRAND_SURFACE_WHITE = BRAND_COLOR_CONTRACT.fetch("surface_white")
+BRAND_PRIMARY_COLORS = ["#8885F0", "#3CD070", "#D38B96", "#FF5E43"].freeze
+BRAND_BLACK = "#0B0A12"
+BRAND_PAPER = "#FAF8F5"
+BRAND_INK = "#252044"
+BRAND_SURFACE_WHITE = "#FFFDFB"
 
 
 PUBLIC_FAQS = {

@@ -20,7 +20,7 @@ The code-owned brand, artifact, admin web, live Admin PWA, and physical Android 
 - Android release APK SHA-256: `12b585bfa74f90c9136b5e30efe585e440523c5d7443d193c1f3afdd346db968`.
 - Android release AAB: `build/app/outputs/bundle/productionRelease/app-production-release.aab`.
 - Android release AAB SHA-256: `abe249bbd0ea72f5a8f7b3e9160142adeef09966aee7e7928c46e2f5c25222d3`.
-- Brand physical-device QA evidence: `docs/release/BRAND_DEVICE_QA_2026-06-07.md`.
+- Physical-device route evidence: `.cache/android_device_uat/20260607Tpost-patch/android_device_uat.txt`.
 
 ## Test Fix
 

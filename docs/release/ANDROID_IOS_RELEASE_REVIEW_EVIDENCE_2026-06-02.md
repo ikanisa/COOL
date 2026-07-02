@@ -18,8 +18,8 @@ Additional evidence:
 
 - `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-08.sha256` was refreshed
   after rebuilding the production APK, AAB, and Admin PWA artifacts.
-- `docs/archive/2026-06/release/BRAND_DEVICE_QA_2026-06-07.md` records the signed production
-  APK installed and visually checked on physical Pixel `13111JEC215558`.
+- `.cache/android_device_uat/20260607Tpost-patch/android_device_uat.txt` records the signed
+  production APK installed and checked on physical Pixel `13111JEC215558`.
 - `docs/archive/2026-06/release/RELEASE_GATE_EVIDENCE_2026-06-07.md` records the latest
   physical-device UAT pass and live Admin PWA gate pass.
 - `.cache/mobile_release_gate/20260602T050529Z/summary.json` records

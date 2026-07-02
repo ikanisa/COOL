@@ -37,7 +37,7 @@ Repo-wide release verdict remains **NO-GO** for non-admin blockers: product sign
 
 ## Implementation Addendum On 2026-06-27
 
-The Admin PWA received a targeted workflow/security follow-up for the Revolut-alignment findings:
+The Admin PWA received a targeted workflow/security follow-up for operator usability findings:
 
 - Generic list queues now expose route-specific operator signals and workflow steps for groups, members, payment intents, SMS parsing, allocations, exceptions, ledger, receivers, SMS metadata, audit logs, settings, feature flags, and admin users.
 - Detail pages now include operator next-step panels for group, member, payment, payment-event, receiver, SMS metadata, and system-health records while keeping the payment-event reparse action above the guidance panel.
@@ -51,19 +51,18 @@ Current focused validation after this addendum:
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/admin_pwa_test.dart test/supabase_contract_test.dart` passed.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart test/supabase_contract_test.dart` passed with 113 focused regression tests after the final tokenized modal-sheet color change.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/supabase_contract_test.dart` passed after live Supabase migration application.
-- Fresh follow-up visual evidence passed at `.cache/flutter_visual_evidence_revolut_followup_20260627/admin/summary.json`, covering admin login, overview, payment events, and SMS detail at mobile and desktop sizes.
+- Fresh follow-up route evidence passed at `.cache/flutter_visual_evidence_followup_20260627/admin/summary.json`, covering admin login, overview, payment events, and SMS detail at mobile and desktop sizes.
 - `scripts/release_secret_scan.sh` passed using the fallback tracked-file scanner because `gitleaks` is not installed locally.
 - `scripts/collect_product_boundary_scan.sh --json` passed with zero hits across 156 scanned files.
 - `scripts/admin_pwa_release_build.sh` now restamps an existing generated `collect-admin-<hash>` service-worker cache name and replaces any inherited favicon link with `icons/collect-admin.png`; the Admin PWA build, manifest gate, and hosting gate passed after this fix.
 
-## Design-Parity Addendum On 2026-06-15
+## UI Evidence Addendum On 2026-06-15
 
-The Admin PWA received a design-parity pass for the Revolut-reference goal without changing the admin security model:
+The Admin PWA received a UI evidence pass without changing the admin security model:
 
 - Mobile login clipping was fixed by sizing the login card from actual compact horizontal padding.
-- The login screen no longer visibly pre-fills the registered admin phone number, which prevents visual evidence from exposing a real/private phone number.
+- The login screen no longer visibly pre-fills the registered admin phone number, which prevents route evidence from exposing a real/private phone number.
 - Login, page headers, and table/list surfaces now use stronger Collect gradient, glass, border, shadow, and dense operations styling.
-- Contact-sheet evidence can be generated with `scripts/collect_visual_evidence_capture.sh`; the latest June 15 combined contact-sheet run is at `.cache/collect_visual_evidence/20260615T163054Z` and uses fresh physical Android member screenshots plus existing Admin PWA evidence.
 - Fresh Admin PWA render-smoke evidence passed at `.cache/admin_pwa_render_smoke/20260615T164756Z`, including desktop 1440x900 and mobile 390x844 screenshots from rebuilt `build/web`.
 
 This is not a final Admin PWA 100 percent visual signoff. Authenticated operator list/detail browser review and stable repeat browser evidence are still required; a later rerun at `.cache/admin_pwa_render_smoke/20260615T165941Z` failed in the local Chrome/DevTools runtime step even though the local HTTP server served the app assets.

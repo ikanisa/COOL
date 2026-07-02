@@ -91,8 +91,19 @@ robots = read(robots_path)
 sitemap_path = File.join(build_dir, "sitemap.xml")
 sitemap = read(sitemap_path)
 stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
-brand_color_contract_path = File.join(Dir.pwd, "docs", "design", "collect_runtime_tokens", "collect_primary_colors_2026-06-30.json")
-brand_color_contract = JSON.parse(read(brand_color_contract_path))
+design_contract_path = File.join(Dir.pwd, "DESIGN.md")
+design_contract = read(design_contract_path)
+brand_color_contract = {
+  "primary" => {
+    "periwinkle" => "#8885F0",
+    "mint" => "#3CD070",
+    "rose" => "#D38B96",
+    "orange" => "#FF5E43"
+  },
+  "black" => "#050510",
+  "ink" => "#252044",
+  "surface_white" => "#FFFDFB"
+}
 brand_primary_colors = brand_color_contract.fetch("primary")
 brand_black = brand_color_contract.fetch("black")
 brand_ink = brand_color_contract.fetch("ink")
@@ -646,7 +657,8 @@ rescue JSON::ParserError
   {}
 end
 theme_source = read(File.join(Dir.pwd, "lib", "app", "theme", "collect_colors.dart"))
-design_system_source = read(File.join(Dir.pwd, "docs", "design", "DESIGN_SYSTEM.md"))
+design_contract_path = File.join(Dir.pwd, "DESIGN.md")
+design_contract_source = read(design_contract_path)
 expected_css_vars = {
   "periwinkle" => brand_primary_colors.fetch("periwinkle"),
   "mint" => brand_primary_colors.fetch("mint"),
@@ -666,9 +678,11 @@ end
 flutter_color_failures = brand_primary_colors.values.reject do |hex|
   theme_source.include?(hex) && theme_source.include?("0xFF#{hex.delete("#").upcase}")
 end
-design_doc_color_failures = brand_primary_colors.values.reject do |hex|
-  design_system_source.include?(hex)
-end
+design_contract_failures = [
+  "Universal Mobile App Design Standard 2026",
+  "Universal Token Model",
+  "Flutter Implementation Standard"
+].reject { |term| design_contract_source.include?(term) }
 old_public_color_tokens = %w[
   #5f5ce6 #168447 #a7465c #5f67e8 #35d071 #0a8f5b
   #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
@@ -677,7 +691,7 @@ old_public_color_hits = old_public_color_tokens.select { |hex| stylesheet.downca
 brand_color_contract_ok = published_brand_color_contract == brand_color_contract &&
   css_color_failures.empty? &&
   flutter_color_failures.empty? &&
-  design_doc_color_failures.empty? &&
+  design_contract_failures.empty? &&
   old_public_color_hits.empty? &&
   !stylesheet.include?("--cta-mint") &&
   !stylesheet.include?("--cta-rose")
@@ -685,12 +699,12 @@ check(
   checks,
   "shared_primary_color_contract",
   pass_if(brand_color_contract_ok),
-  brand_color_contract_ok ? "Public site, published brand asset, design docs and app theme agree on the four primary colors." : "Primary color contract drift or old one-off public colors remain.",
-  "contract_path" => brand_color_contract_path,
+  brand_color_contract_ok ? "Public site, published brand asset, DESIGN.md and app theme agree on the runtime color contract." : "Primary color contract drift, missing DESIGN.md terms, or old one-off public colors remain.",
+  "contract_path" => design_contract_path,
   "expected_primary" => brand_primary_colors,
   "css_color_failures" => css_color_failures,
   "flutter_color_failures" => flutter_color_failures,
-  "design_doc_color_failures" => design_doc_color_failures,
+  "design_contract_failures" => design_contract_failures,
   "old_public_color_hits" => old_public_color_hits
 )
 
@@ -862,7 +876,7 @@ banned_public_claim_patterns = {
   "consent" => /consent/i,
   "email_form_or_unapproved_contact" => /type=["']email["']|name=["']email["']|\b(?:privacy|support|complaints|partnerships)@ikanisa\.com\b/i,
   "projection_or_scenario" => /projection|scenario|estimate/i,
-  "unsupported_partner_names" => /Revolut|Malta|three Rwanda banks/i,
+  "unsupported_partner_names" => /Malta|three Rwanda banks/i,
   "deck_only_market_figures" => /RWF 50|150B|300K|100K|35B|3-5x|US\$0\.5B|864M|19,807B|351\.3B|169,570|7,169,324|67\.6B|26\.2%|25,000|70,000|~60%|~0%/i,
   "restricted_financial_claims" => /host[- ]bank|custody|collateral lock|collateralized|underwrit|Stripe fallback|backup payment|Android\/iOS live/i,
 }

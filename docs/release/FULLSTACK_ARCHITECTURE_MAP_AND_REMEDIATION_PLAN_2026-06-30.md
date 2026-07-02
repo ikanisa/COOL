@@ -57,7 +57,7 @@ Mobile route contract currently has 31 entries:
 | Groups | `/groups`, `/groups/scan`, `/groups/create`, `/groups/:collectionId`, `/groups/:collectionId/members`, `/groups/:collectionId/manage`, `/groups/:collectionId/profile`, `/groups/:collectionId/contribute`, `/groups/:collectionId/share`, `/groups/:collectionId/invite`, `/groups/:collectionId/ledger` | Broadest mobile flow; next audit target for screen/repository boundary and route smoke evidence |
 | Public/share | `/c/:slug`, `/share/invalid`, `/share/expired`, `/share/expired/request`, `/app`, `/invite/:publicId` | Compatibility routes are intentional; stale route removal requires route smoke and share/deep-link tests |
 | Settings/legal | `/settings`, `/settings/profile`, `/settings/account`, `/settings/account/delete`, `/settings/privacy`, `/settings/help`, `/settings/legal/terms`, `/settings/legal/privacy` | Account deletion/privacy readiness is present at route level; needs final mobile quality evidence |
-| Dev | `/dev/design-system` | Debug-only design catalog; keep route gating explicit |
+| Dev | `DESIGN.md` | Universal design contract; keep implementation aligned to DESIGN.md |
 
 Admin route contract currently has 23 entries and remains separate from the
 mobile app:
@@ -204,7 +204,7 @@ Backend/Supabase status after the latest gate pass:
 | --- | --- | --- |
 | Route render smoke | Route compatibility and text/layout regressions are high-risk | Passed at `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json` |
 | Android device UAT | Native route flow must be runnable on device | Passed at `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json`; local QA uses `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false` |
-| Design compliance | Existing design gate is part of release docs | Regenerate with `scripts/collect_mobile_design_compliance_audit.sh --json` and compare against `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md` |
+| Design compliance | Existing design gate is part of release docs | Regenerate with `scripts/collect_mobile_design_compliance_audit.sh --json` and compare against `DESIGN.md` |
 | Structural accessibility | Needed before Codex accessibility responsibility acceptance | Passed and saved at `docs/release/android_accessibility_structural_evidence_2026-06-30.json` |
 | Native accessibility signoff | Human-gated release requirement | `scripts/native_mobile_accessibility_signoff_gate.sh --json`; remains blocked until TalkBack, VoiceOver or scoped waiver, and final accessibility decision are signed |
 | Native performance profile | Catch release-build perf regressions | Passed and saved at `docs/release/mobile_native_performance_profile_2026-06-30.json` |

@@ -46,7 +46,7 @@ class CollectThemeModeController extends StateNotifier<ThemeMode> {
         await preferences.setString(storageKey, mode.name);
       }
     } catch (_) {
-      // Dark mode is the Revolut-reference default when persistence is unavailable.
+      // Dark mode keeps the first launch calm when persistence is unavailable.
     }
   }
 

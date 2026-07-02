@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +13,6 @@ import '../features/collections/group_profile_screen.dart';
 import '../features/collections/group_link_screen.dart';
 import '../features/collections/group_qr_scanner_screen.dart';
 import '../features/collections/share_screen.dart';
-import '../features/dev/design_system_catalog_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/launch/launch_splash_screen.dart';
 import '../features/ledger/ledger_screen.dart';
@@ -57,7 +55,6 @@ const collectRoutePaths = <String>[
   '/settings/help',
   '/settings/legal/terms',
   '/settings/legal/privacy',
-  if (kDebugMode) '/dev/design-system',
 ];
 
 GoRouter createAppRouter({String initialLocation = '/'}) {
@@ -308,15 +305,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           transition: _CollectRouteTransition.detail,
         ),
       ),
-      if (kDebugMode)
-        GoRoute(
-          path: '/dev/design-system',
-          pageBuilder: (context, state) => _collectPage(
-            state,
-            const DesignSystemCatalogScreen(),
-            transition: _CollectRouteTransition.utility,
-          ),
-        ),
     ],
     errorBuilder: (context, state) => const _RouteNotFoundScreen(),
   );

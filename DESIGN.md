@@ -1,221 +1,254 @@
----
-name: Collect
-updated: 2026-06-29
-scope: Flutter mobile member app and Flutter web surfaces that share the Collect theme
-reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 and /Volumes/PRO-G40/MOBI/mobi_app are the active UI/UX implementation benchmark. Collect targets 100% MOBI/Revolut experiential parity: typography rhythm, gradients, glass chrome, compact finance hierarchy, media-rich cards, thumb-first navigation, loading/state behavior, connectivity recovery, and route evidence, adapted only where Collect's real group-collection product facts require it.
-brand-assets:
-  launcher-icon: assets/brand/collect_app_icon_static.png
-  app-icon-rule: assets/brand/collect_runtime/app_icons/app-icon-rule.png
-  mobile-wordmark: assets/brand/collect_runtime/logos/wordmark.png
-  visual-momo-signal: assets/brand/collect_runtime/media/mobile-money-ussd-signal.png
-  visual-group-momentum: assets/brand/collect_runtime/media/group-momentum.png
-  visual-qr-share: assets/brand/collect_runtime/media/qr-share.png
-  source-wordmark: assets/brand/source_variants/collect_wordmark_transparent_4096.png
-  source-mark: assets/brand/source_variants/collect_mark_transparent_4096.png
-  source-gradient-logo: assets/brand/source_variants/collect_logo_gradient_4096.png
-  source-preview: assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png
-canvas:
-  paper: '#FAF8F5'
-primary-colors:
-  periwinkle: '#8885F0'
-  mint-green: '#3CD070'
-  dusty-rose: '#D38B96'
-  orange-red: '#FF5E43'
-secondary-support-colors:
-  ink-primary: '#252044'
-  ink-secondary: '#4B4664'
-  ink-muted: '#5F5A76'
-  surface-readable: '#FFFDFB'
-  surface-muted: '#F1ECF7'
-  border-soft: '#DED8EA'
-  border-accent: '#CDC7F5'
-  focus-ring: '#6F67E8'
-  success-foreground: '#137A3F'
-  info-foreground: '#514DD2'
-  warning-foreground: '#B9472E'
-  danger-foreground: '#B3261E'
-  success-container: '#E7F8ED'
-  info-container: '#ECEBFF'
-  warning-container: '#FFE9E3'
-  danger-container: '#FFE5DF'
-  neutral-container: '#F1ECF7'
-tokens:
-  flutter-theme-extension: lib/app/theme/collect_colors.dart
-  flutter-theme: lib/app/theme/collect_theme.dart
-  shell: lib/core/widgets/collect_shell.dart
-  shared-components: lib/shared/widgets/collect_components.dart
-  compliance-audit: scripts/collect_mobile_design_compliance_audit.sh
----
+# Universal Mobile App Design Standard 2026
 
-# Collect Mobile Design System
+This document is the single design authority for this repository. Any production mobile app, Flutter-first but adaptable to native iOS, Android, React Native, web, or embedded app surfaces, must use this file as its design contract. No secondary design folder, screenshot parity matrix, token JSON, design-system markdown, source-variant asset folder, provenance note, or archived design report may override this standard.
 
-Collect must align with the Revolut screenshots and MOBI Flutter app as the implementation benchmark. They are not loose inspiration; they are the route-by-route quality contract for typography rhythm, logo treatment quality, color behavior, background families, first-viewport hierarchy, translucent cards, black glass chrome, compact top controls, rounded bottom navigation, visual density, loading/error states, offline recovery, and finance-grade trust. Runtime logos, icons, splash imagery, social previews, and product media use Collect-owned or otherwise approved assets; this preserves lawful runtime identity while still requiring the product to look and feel like the benchmark.
+## Universal Design Goal
 
-The implementation target is 100% MOBI/Revolut experiential parity. For code-owned work, the app can be treated as complete only when every supplied screenshot and MOBI comparator pattern is mapped into implementation rules, runtime assets are documented, every production member route has fresh visual evidence, dark and light modes pass automated review, and the design compliance audit is green. External filings, app-store submissions, legal notices, regulatory reports, and public claims still require explicit human approval, but they do not dilute the internal UI/UX target.
+Build a world-class mobile product that feels calm, fast, premium, trustworthy, and task-focused. The interface should combine modern fintech-grade polish with universal product patterns: compact hierarchy, confident typography, thumb-first actions, resilient state handling, motion that clarifies changes, inclusive accessibility, and adaptive layouts that scale from small phones to tablets, foldables, desktop shells, and landscape modes.
 
-## Non-Negotiables
+The standard is intentionally universal. Product teams must replace domain examples with their own truthful product data, but must keep the system principles, token model, component contracts, state requirements, quality gates, and Flutter implementation rules.
 
-- Every member-facing production route must render on a gradient background using the exact Revolut reference screen-background colors or a Revolut-like background-token replacement. The four primary colors remain Collect's required distinct brand colors for components, actions, brand accents, chips, and illustrations.
-- Light and dark modes must be visually distinct like a premium fintech app: light mode uses bright readable glass surfaces over the reference gradients; dark mode uses dark surfaces, pale text, darker borders, and stronger night chrome over the same route-specific reference gradient families.
-- Reference gradients are vertical mobile atmospheres. Do not replace them with local diagonal feature gradients on page canvases.
-- The first viewport of every primary route must have a dominant financial state, group state, QR/share state, or account/profile state. Empty explanatory cards are not acceptable first-viewport content.
-- Top chrome must use a compact profile control, optional black pill search, and circular action buttons. Profile controls must be visible, tappable, and route to profile.
-- Bottom navigation must match the Revolut floating black glass dock as closely as the live product scope allows: anchored, rounded, bordered, selected capsule, one-line labels, stable touch targets, and Revolut-like destination treatment.
-- Collect preserves exactly four primary colors as the only deliberate brand distinction: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
-- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color. Native Android launch uses Collect Periwinkle `#8885F0` unless a Revolut-like launch treatment explicitly preserves the four-primary distinction.
-- Ink `#252044` is the high-contrast text/chrome anchor. It is a support token, not a primary color.
-- Secondary/support colors are allowed only as named UI tokens for readable surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary colors.
-- Use the clean Collect runtime brand kit for `CollectBrandMark`, launcher/platform icons, web metadata, share previews, splash assets, and in-app wordmarks. The stable `CollectRuntimeAssets` switchpoint name remains a compatibility layer, but its current sources are Collect-owned assets.
-- Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
-- Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
-- Visible page chrome uses glass tokens: `glassPanel`, `glassPanelStrong`, `glassControl`, and `glassBorder`.
-- Secondary-route headers use a plain finance-grade row: back arrow, one-line title, optional one-line subtitle, and tokenized action circles. Utility, legal, permission, profile, create, and scanner routes must not use decorative brand header cards.
-- Visible labels must stay compact: use one line with ellipsis for section headers, chips, tiles, status labels, table cells, card titles, and explanatory helper copy. Do not add verbose instructional text inside the app when an icon, state, or concise command can carry the meaning.
-- Primary mobile destinations must match the MOBI/Revolut navigation feel: floating black glass dock, selected capsule, stable labels, tactile press feedback, and branch-preserving mental model where the product depth requires it. Any benchmark destination that cannot be backed by current Collect behavior must receive a truthful Collect equivalent, not generic navigation.
-- Identity remains privacy-safe: Collect ID only. Do not expose raw phone numbers, raw receiver MoMo numbers, raw SMS, PINs, OTPs, MoMo transaction IDs, or public member names. Payment-state surfaces that must show receiver context use masked MoMo display such as `+250***3456`.
-- Admin surfaces may stay dense and operational, but member-facing mobile screens must not revert to generic Material blue, legacy color shells, crypto/wallet branding, or admin-style dashboards.
+## Reference Screenshot Lessons
 
-## Reference Translation
+Reference screenshots from premium mobile apps may inspire density, hierarchy, motion, contrast, and interaction polish. They must not become a copied brand, copied content system, copied iconography, or copied regulated product promise. Use references only to extract durable UI lessons:
 
-Use the screenshots for these patterns:
+- Put the primary user value in the first viewport.
+- Use compact top chrome with clear account, search, and action affordances.
+- Prefer icon-led metadata, concise labels, and readable numbers over verbose instruction blocks.
+- Use cards for repeated items and framed tools, not for every page section.
+- Keep navigation stable, thumb-accessible, and branch-preserving where depth requires it.
+- Make empty, loading, offline, error, disabled, selected, pressed, focused, and permission states feel designed rather than bolted on.
+- Use background, elevation, blur, and tonal contrast to separate zones without visual noise.
+- Make every screen feel production-ready in both light and dark mode.
 
-- Gradient canvas: every screen starts with a full-height gradient field built from the extracted reference background families: account navy `#000840`, payments purple `#181038`, asset navy `#101830`, rewards violet `#302878`, wealth teal `#102028`, and stock teal-black `#001010`.
-- Top chrome: brand/search/action areas read as compact floating pills or glass controls, not flat app bars.
-- Bottom navigation: rounded, translucent, fixed, thumb-first, and visually separated from the gradient.
-- Finance hierarchy: the main amount, state, group, or payment action is obvious within the first viewport.
-- Cards: content sits on translucent glass surfaces with subtle borders and blur; cards should not fully hide the gradient.
-- Rich product surfaces: where the reference uses media, marketplace, rewards, or content cards, Collect must use Collect-owned media or Revolut-quality equivalents through shared components such as `CollectVisualFeatureCard`, image-backed `GroupCard` covers, and the Home Momentum feed. Utility routes should stay plain and scannable when review notes call for headers plus back navigation only.
-- CTAs: buttons are large, pill-like, reachable, and high-contrast.
-- Lists: rows stay compact and scannable, with clear leading icons/avatars and right-aligned amounts/status where relevant.
-- Copy density: labels, helper text, and admin table/status copy are concise, one-line, and ellipsized when constrained.
+## Screen Archetypes
 
-Use the MOBI repo as the implementation benchmark for app-shell and interaction architecture. MOBI's stronger Revolut work is the contract shape: route matrix, shared shell, shared gradient background, shared glass cards, bottom-nav primitive, async-state renderer, connectivity overlay, preview/golden coverage, and current evidence reports. COOL must follow that discipline with Revolut-quality routes, approved runtime assets, and Collect product facts.
+Every app must define and implement these Screen Archetypes before feature work is considered complete:
 
-Runtime reference inputs:
+- Home or dashboard: a compact overview with the user's next best action and current state.
+- Detail screen: a focused object view with clear status, metadata, history, and primary actions.
+- List or feed: scan-friendly rows or cards with filtering, sorting, pagination or lazy loading, and empty states.
+- Create or edit flow: progressive fields, validation, save states, draft safety, and cancellation handling.
+- Search and discovery: query input, recent items, filters, loading, empty, and no-results states.
+- Transaction or checkout flow: amount, counterparty, review, confirmation, failure recovery, and receipt.
+- Profile and settings: identity, preferences, privacy, security, notifications, support, and legal links.
+- Permissions and onboarding: minimal steps, clear value, deny/retry paths, and no dark patterns.
+- Notifications and inbox: grouped events, read/unread states, actions, and deep links.
+- Help and support: self-serve answers, contact options, incident states, and escalation.
+- Offline and recovery: cached data, retry affordances, sync status, and conflict handling.
+- Admin or operator screens, if present: dense, accessible, auditable, and visually separate from consumer mobile surfaces.
 
-- Revolut screenshots, typography rhythm, tab density, component colors, card ordering, account terminology, and visual hierarchy are valid quality references.
-- MOBI Flutter shell, bottom nav, command bar, async state, loading skeleton, state banner, connectivity overlay, deferred-route strategy, and route evidence workflow are valid implementation references.
-- Runtime assets must be sourced from the Collect-owned kit under `assets/brand/` and documented in `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, and the implementation plan.
-- If a future approved third-party kit is supplied, document every source, destination path, and approval status before replacing the Collect-owned runtime assets.
+## Design Principles
 
-## Color And Gradient Tokens
+- Clarity first: a user should understand the screen's purpose in three seconds.
+- Compact but breathable: use dense information hierarchy without cramping touch targets.
+- One primary action per screen state: secondary actions may exist, but the main path must be obvious.
+- Real data over decoration: imagery, icons, and motion must clarify product state or emotion.
+- Trust through restraint: use consistent tokens, predictable patterns, and strong feedback.
+- Local-first respect: design for language length, currency, region, network reliability, and device class.
+- Privacy by default: mask sensitive values and avoid exposing private identifiers in UI, logs, screenshots, and analytics.
+- Accessibility is structural: accessible text, focus, contrast, semantics, and reduced motion are built into components.
+- Performance is a design feature: loading, animation, scroll, and input latency must feel immediate.
+- The app must work before it explains itself: do not add visible instructional copy when state, layout, or action labels can carry the meaning.
 
-`CollectColors` is the source of truth.
+## Universal Token Model
 
-- `brandPrimaryColors` and `brandPrimaryHexes` lock the four approved primary colors in reference order.
-- `screenBase`, `screenGradient`, and `adminScreenGradient` own the page background using the extracted Revolut reference screen-background colors, not Collect primary colors.
-- `screenGradientForPath()` applies the extracted background families by route, so screenshots do not collapse into one generic dark canvas.
-- `CollectColors.light` and `CollectColors.dark` must stay distinct for surfaces, text, borders, semantic containers, and glass panels; `AppTheme` must expose both and app shells must use the persisted `collectThemeModeProvider` with a dark-first default.
-- `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, and `glassPanelGradient` own translucent surfaces and chrome.
-- `surfaceReadable`, `surfaceMuted`, `borderSoft`, `borderAccent`, `focusRing`, and the `semantic*` token constants provide the secondary/support palette.
-- `actionColor` remains Orange Red for primary action fills; `success`, `warning`, `danger`, `info`, and status helpers resolve to contrast-safe semantic foregrounds and containers.
+The Universal Token Model is the only approved way to express visual style. Product code must consume semantic tokens rather than hardcoded colors, radii, shadows, text styles, durations, or spacing.
 
-Screens should not build page gradients locally. Feature-specific gradients are allowed only for cards, QR assets, cover media, and accent treatments, and they must use Collect tokens.
+### Color Tokens
 
-### Reference Background Route Map
+- `color.background.canvas`: base app canvas.
+- `color.background.elevated`: elevated surfaces.
+- `color.background.overlay`: modal, sheet, and scrim overlays.
+- `color.surface.default`: cards, panels, list containers.
+- `color.surface.strong`: stronger grouped surfaces.
+- `color.surface.glass`: translucent surfaces when supported.
+- `color.text.primary`: main readable text.
+- `color.text.secondary`: supporting text.
+- `color.text.muted`: low-emphasis text that still passes contrast.
+- `color.text.inverse`: text over dark or accent fills.
+- `color.border.subtle`: dividers and quiet outlines.
+- `color.border.strong`: selected, focused, or emphasized outlines.
+- `color.action.primary`: main action.
+- `color.action.secondary`: secondary action.
+- `color.action.destructive`: destructive action.
+- `color.status.success`, `warning`, `danger`, `info`, `neutral`: semantic status roles.
+- `color.focus.ring`: visible focus outline.
 
-| Reference screenshots | Extracted background family | Collect routes |
-| --- | --- | --- |
-| `IMG_2739.PNG` | Account blue/navy: `#0818A0`, `#0F198E`, `#000838`, `#000030` | `/home`, onboarding, auth |
-| `IMG_2741.PNG`, `IMG_2747.PNG`, `IMG_2750.PNG` | Payments purple: `#302848`, `#181038`, `#100820` | `/groups`, `/groups/:id`, `/groups/:id/members`, `/c/:slug` |
-| `IMG_2742.PNG`, `IMG_2748.PNG` | Asset navy: `#303870`, `#202858`, `#101830`, `#000818` | contribution, payment, payment-state, support-payment, and ledger routes |
-| `IMG_2749.PNG` | Rewards violet: `#9838F0`, `#7050E8`, `#302878`, `#100820` | group share/invite routes, public share states, `/settings` |
-| `IMG_2740.PNG` | Wealth teal: `#204050`, `#183848`, `#102028`, `#081820` | group creation, profile/readiness, SMS/device/camera/notification permission routes, iPhone create-unavailable route |
-| `IMG_2751.PNG`, `IMG_2752.PNG` | Content dark: `#303020`, `#181038`, `#101018` | settings account, privacy, help, legal routes |
-| `IMG_2755.PNG` | Invest teal-black: `#202828`, `#102028`, `#001010` | offline and sync routes |
+Each token must have Light mode and Dark mode values. High contrast mode should increase contrast without changing product meaning.
 
-The app shell passes the active route through `CollectBackgroundRouteScope` in `lib/core/widgets/collect_shell.dart`; `CollectGradientBackground` consumes it in `lib/shared/widgets/collect_components.dart`.
+### Typography Tokens
 
-## Asset Contract
+- `type.display`: only for true hero or high-value first-viewport moments.
+- `type.title.lg`, `type.title.md`, `type.title.sm`: screen and section hierarchy.
+- `type.body.lg`, `type.body.md`, `type.body.sm`: readable content.
+- `type.label.lg`, `type.label.md`, `type.label.sm`: controls, chips, tabs, badges.
+- `type.number.lg`, `type.number.md`, `type.number.sm`: financial, metric, timer, count, and score values.
+- Letter spacing is `0` unless a platform text style requires otherwise.
+- Do not scale font size with viewport width. Use responsive layout, wrapping, truncation, or alternate component density.
 
-- `assets/brand/collect_app_icon_static.png`: launcher/app icon source.
-- `assets/brand/collect_runtime/app_icons/app-icon-rule.png`: icon rule reference retained from the approved Collect kit.
-- `assets/brand/collect_runtime/logos/wordmark.png`: in-app mobile wordmark used by `CollectBrandMark`.
-- `assets/brand/collect_runtime/media/mobile-money-ussd-signal.png`: Collect-owned rich product visual for MoMo verification and payment-state surfaces.
-- `assets/brand/collect_runtime/media/group-momentum.png`: Collect-owned rich product visual for group momentum and public-support surfaces.
-- `assets/brand/collect_runtime/media/qr-share.png`: Collect-owned rich product visual for QR sharing and invite surfaces.
-- `assets/brand/source_variants/collect_wordmark_transparent_4096.png`: corrected transparent wordmark source.
-- `assets/brand/source_variants/collect_mark_transparent_4096.png`: corrected transparent launcher/app mark source.
-- `assets/brand/source_variants/collect_logo_gradient_4096.png`: corrected gradient logo source for reference.
-- `assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png`: supplied preview image retained only as source evidence, not as a runtime logo.
-- No live SVG launcher fallback.
-- Runtime brand assets must remain PNG unless a platform-specific build pipeline requires another checked-in format.
+### Spacing And Shape Tokens
 
-## Component Contract
+- Base spacing step is 4 dp; common values are 4, 8, 12, 16, 20, 24, 32, 40, 48.
+- Icon buttons are at least 44 x 44 dp; primary touch targets are at least 48 x 48 dp.
+- Cards use 8 dp radius or less unless a platform-native component requires a larger shape.
+- Large decorative rounded rectangles must not become the default layout language.
+- Use aspect ratio, min/max constraints, and stable dimensions for boards, grids, counters, tiles, and toolbars.
 
-Use these shared primitives first:
+### Elevation, Blur, And Motion Tokens
 
-- Page canvas: `CollectGradientBackground`, `PremiumScaffold`, `ScreenScaffold`, `ScreenScaffoldLayout`.
-- Brand: `CollectBrandMark`.
-- Cards: `CollectCard` with glass opacity, `CollectVisualFeatureCard`, `CollectBentoGrid`, `BentoMetricCell`, `GroupCard`. Image-less group cards must fall back to Collect-owned generated media, not blank blocks.
-- Controls: `CollectButton`, `SearchWithClearField`, `PremiumSegmentedFilter`, icon buttons styled with `colors.glassControl`.
-- Headers: `ScreenHeader` and `CollectPlainPageHeader` provide the shared plain secondary header with back navigation and one-line title text.
-- Bottom surfaces: `CollectBottomSheet`, `BottomActionSurface`.
-- State: `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
-- Payments: `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
-- Scanner: QR joining is camera-first with a dark live-preview overlay, corner guides, torch and camera-switch controls, gallery QR decode where the platform supports file analysis, and a compact link/code entry fallback. Scanner copy must not imply manual payment proof or SMS paste workflows.
+- Elevation must reflect interaction depth, not decoration.
+- Blur is allowed only where readability and performance are proven.
+- Motion durations: `fast` 120-180 ms, `standard` 200-280 ms, `slow` 320-420 ms.
+- Motion easing should be platform-native or cubic standard; avoid bounce effects in serious workflows.
+- Reduced motion replaces spatial transitions with fades, opacity, and instant layout changes.
 
-Feature screens may add local layout, but not local design language. If a feature needs a new visual pattern, add it to shared components or tokens first.
+## App Shell Standard
 
-## Route Coverage
+- The app opens directly into the usable product experience, not a marketing landing page.
+- Top chrome is compact: account/profile, title or search, and one or two contextual actions.
+- Bottom navigation is stable for primary destinations; nested flows preserve branch state where possible.
+- Use tabs, segmented controls, menus, toggles, sliders, steppers, and icon buttons according to familiar mobile patterns.
+- Avoid visible in-app text that describes UI features, keyboard shortcuts, visual styling, or how to use the app.
+- Skeletons and optimistic updates must preserve layout stability.
+- Sheets, dialogs, snackbars, toasts, and banners must have clear severity and recovery behavior.
+- Destructive or irreversible actions require review, confirmation, or undo according to risk.
 
-The production member route list in `lib/app/router.dart` is the design scope. The route-render smoke must cover every registered production route, including onboarding, auth, home, groups, share, payment states, settings, privacy, permissions, offline, notifications, and sync.
+## Universal Component Library
 
-Camera preview overlays use tokenized Periwinkle scrims because they sit on top of live camera pixels. Their visible instructional controls still use Collect glass tokens.
+The Universal Component Library is the minimum component inventory for any production app:
 
-Permission routes are recovery/status surfaces only. Native SMS, camera, and notification prompts are triggered by the related action flow: group creation, QR scanning/gallery access, or notification enablement.
+- App shell: top bar, bottom nav, side rail for large screens, safe-area wrapper, keyboard-aware scaffold.
+- Buttons: primary, secondary, tertiary, destructive, icon-only, split, loading, disabled.
+- Inputs: text, number, money, phone, email, password, date, time, search, multiline, OTP, file/media picker.
+- Selection: checkbox, radio, switch, segmented control, chips, tabs, menus.
+- Feedback: banner, snackbar, toast, inline validation, progress indicator, skeleton, empty state, error state.
+- Data display: list row, card, table row, metric, avatar, badge, timeline, receipt, activity item.
+- Navigation: list item, breadcrumb for large screens, back button, deep-link recovery, route transition.
+- Overlays: dialog, bottom sheet, popover, action sheet, command menu.
+- Media: image, video thumbnail, document preview, avatar, icon, QR or barcode surface if relevant.
+- Security and privacy: masked value, reveal control, session timeout, permission prompt, consent review.
+- Semantic icons: every repeated metadata concept must use one stable semantic icon role, not one-off artwork.
 
-## Accessibility And Responsive Rules
+Each component must define default, hover where applicable, focused, pressed, selected, disabled, loading, success, warning, error, empty, offline, permission denied, and skeleton states.
 
-- Minimum touch targets: 48x48 logical pixels on Android and 44x44 on iOS.
-- Text must survive 200% scaling without clipping critical actions. Rich Home surfaces, including the visual story rail and Momentum feed, must expose semantics that summarize amount/progress context without leaking private receiver data.
-- Status must never be color-only; pair color with text and iconography.
-- Icon-only controls require tooltips/semantics.
-- Motion uses `CollectMotion` and respects reduced-motion settings.
-- Screens must render at 390x844 mobile viewport and adapt to compact phones, tall phones, landscape, tablets, and foldables.
+## State Requirements
+
+Every screen and reusable component must cover these State Requirements:
+
+- Loading: skeleton or progress that preserves layout and labels the pending action for assistive tech.
+- Empty: clear zero-data state with one useful next action.
+- Error: human-readable cause, retry, support, and technical trace only where safe.
+- Offline: cached content where possible, sync status, retry, and clear disabled network actions.
+- Permission denied: explain consequence, provide settings path, and keep alternate routes usable.
+- Disabled: visible, semantic, and accompanied by context when the reason is not obvious.
+- Focused: visible focus ring for keyboard, switch, screen reader, and desktop modes.
+- Pressed: immediate tactile visual feedback.
+- Selected: persistent state with semantic selection labels.
+- Large text: layouts survive at least 200 percent text scale without overlap.
+- Reduced motion: all motion-heavy transitions have a reduced alternative.
+- Dark mode: intentional token values, not inverted light mode.
+- Light mode: complete parity with dark mode.
+- Syncing: nonblocking progress for background refresh.
+- Conflict: explicit resolution UI for stale or conflicting data.
+- Security timeout: predictable locked or re-auth state.
+
+## Responsive And Adaptive Standard
+
+The responsive contract covers these viewport bands:
+
+- 320-374 dp: compact phones. Single-column layout, shorter labels, no text overlap, no horizontal scrolling except intentional carousels.
+- 375-430 dp: standard phones. Primary optimized design target.
+- 431-599 dp: large phones. Add breathing room without stretching controls.
+- 600-719 dp: small tablets and foldable half-screen. Consider two-pane layouts only when hierarchy improves.
+- 720+ dp: tablets, foldables, desktop shells. Use adaptive columns, side rails, persistent secondary panes, and larger hit areas.
+- Landscape: preserve primary task flow, keyboard safety, and top/bottom chrome stability.
+- Foldables: avoid hinge-obscured content, support posture changes, and preserve route state.
+- Keyboard open: inputs remain visible with error text and submit controls reachable.
+
+No text, icon, media, chip, badge, or button label may overlap or overflow its parent in these bands.
+
+## Accessibility Standard
+
+- Meet WCAG 2.2 AA contrast for text and meaningful UI controls.
+- Support screen readers with meaningful labels, roles, values, hints, and traversal order.
+- Every icon-only button has a semantic label and tooltip where applicable.
+- Focus order follows visual and task order.
+- Touch targets are at least 48 dp, with 44 dp as the minimum only for dense icon controls.
+- Dynamic type must preserve layout at 200 percent text scale.
+- Color is never the only way to convey state.
+- Error messages are programmatically associated with fields.
+- Motion respects reduced motion settings.
+- Haptics must not be required to understand state.
+- Forms support autofill, platform keyboards, input masks, and validation timing appropriate to field risk.
+
+## Visual QA Standard
+
+Visual QA Standard gates must include:
+
+- route screenshot coverage for every production route and critical modal/sheet state.
+- golden or snapshot tests for shared components and design tokens.
+- light and dark screenshots for all primary screen archetypes.
+- small phone, standard phone, large phone, tablet, landscape, and keyboard-open screenshots.
+- loading, empty, error, offline, disabled, focused, selected, and permission-denied states.
+- pixel checks for blank screens, clipped text, overlapping controls, missing images, and wrong theme mode.
+- accessibility scans for contrast, semantics, focus order, and touch targets.
+- performance checks for first frame, animation jank, scroll stability, and memory pressure.
+
+Visual evidence must use sanitized data. Screenshots must not expose secrets, raw phone numbers, OTPs, private customer data, production tokens, or private account identifiers.
+
+## Flutter Implementation Standard
+
+Flutter apps must implement this standard with a typed theme and component architecture:
+
+- Use `ThemeData` plus one or more `ThemeExtension` classes for semantic tokens.
+- Put design tokens under app/theme or an equivalent shared design package.
+- Avoid raw `Color(...)`, hardcoded radii, one-off text styles, and magic spacing in feature screens.
+- Use reusable scaffolds for safe area, navigation, keyboard behavior, backgrounds, and route transitions.
+- Use responsive constraints through `LayoutBuilder`, `MediaQuery`, `Sliver` patterns, and adaptive breakpoints.
+- Use `Semantics`, tooltips, focus nodes, and shortcuts/actions where needed.
+- Use platform-aware input types, autofill hints, validation, and error semantics.
+- Keep animations interruptible, testable, and disabled or simplified under reduced motion.
+- Images must declare stable dimensions, placeholders, error states, and cache behavior.
+- Lists must be virtualized, paged, or otherwise bounded for performance.
+- State management must expose loading, data, empty, error, offline, and refreshing distinctly.
+- Navigation must support deep links, back behavior, restoration where needed, and protected routes.
+- Testing must cover widgets, golden/snapshot surfaces, navigation smoke, accessibility, and route screenshot coverage.
+
+Recommended Flutter package boundaries:
+
+- `app/theme`: tokens, typography, colors, elevations, motion, icons.
+- `app/router`: routes, deep links, guards, transitions.
+- `shared/widgets`: reusable components and screen scaffolds.
+- `shared/state`: async state wrappers, offline/sync state, permission state.
+- `features/<feature>`: product logic and feature-specific screens only.
+- `test/goldens` or equivalent: component and route visual baselines.
 
 ## Quality Gates
 
-Before claiming design parity:
+A product is not design-complete until all Quality Gates pass:
 
-- Format touched Dart files with `/Volumes/PRO-G40/flutter_3_44/bin/dart format`.
-- Run `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`.
-- Run focused widget tests for theme tokens, brand mark, shared components, shell, and touched routes.
-- Run dark and light mode checks for shared shell/card/top chrome states.
-- Run `test/features/theme_mode_visual_parity_test.dart` to enforce strong
-  luminance separation between light and dark glass surfaces while preserving
-  the same Revolut-derived route background families.
-- Run `scripts/mobile_route_render_smoke.sh` for all production routes.
-- Run `scripts/android_route_visual_evidence.sh` for physical-device mobile route PNG evidence when Android device proof is required or browser route capture is unstable.
-- Run `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser screenshots using masked evidence-mode data.
-- Run `scripts/collect_mobile_design_compliance_audit.sh --json` when route smoke evidence exists.
-- Keep code-owned UI proof separate from Android device, Play, Supabase, signing, or production approval blockers.
+- Single design authority: this `DESIGN.md` is present and no secondary design authority exists.
+- Token compliance: runtime UI uses semantic tokens and typed theme APIs.
+- Component completeness: Universal Component Library components exist or are intentionally not applicable.
+- State completeness: all State Requirements are implemented for screens and components.
+- Responsive coverage: 320-374, 375-430, 431-599, 600-719, 720+, Landscape, Foldables, and Keyboard open are verified.
+- Accessibility coverage: contrast, semantics, focus, touch targets, text scale, and reduced motion are verified.
+- Visual coverage: route screenshot coverage and golden or snapshot tests exist for critical paths.
+- Performance coverage: first frame, scroll, animation, and memory behavior are acceptable on representative devices.
+- Privacy coverage: screenshots, logs, analytics, and UI mask sensitive data.
+- Platform coverage: Android and iOS platform conventions, permissions, status bars, navigation, haptics, and safe areas are respected.
 
-## Current 10/10 Goal Status
+## Universal App Generation Prompt
 
-Status: code-owned implementation complete for the current mobile design pass.
+When generating or rebuilding an app, use this instruction:
 
-Owned completion evidence:
+Create a production mobile app using the Universal Mobile App Design Standard 2026. Use this `DESIGN.md` as the only design authority. Build the actual usable first screen, not a landing page. Implement a typed token model, app shell, Universal Component Library, all State Requirements, responsive bands from 320 dp through tablet/foldable/landscape, accessibility support, route screenshot coverage, and golden or snapshot tests. Use domain-specific truthful content, sanitize private data, avoid copied brands, and keep Flutter implementation aligned with semantic tokens and reusable components.
 
-- All production member routes have fresh Flutter-rendered PNG evidence.
-- Design compliance audit passes against the current route evidence.
-- Dark/light parity, shared component semantics, analyzer, and focused widget
-  tests pass.
-- Public release, store submission, legal marketing copy, and final external
-  approval remain separate governance actions, not code blockers.
+## Governance
 
-Regression blockers to prevent from re-entering:
-
-- Any page whose background does not match its mapped Revolut reference family.
-- Any visible verbose helper copy that can be replaced by a concise label, icon,
-  state, or one-line ellipsis.
-- Any profile/avatar/action icon that is too dark, hidden, unclickable, or not
-  semantically named.
-- Any card that reads as a generic Material utility card instead of a
-  finance-grade glass/media surface.
-- Any member route with no fresh route screenshot evidence.
-- Any admin mobile or desktop screen with clipped content, generic operational
-  tables, or weak hierarchy.
-- Any failed dark/light contrast or large-text route evidence.
-
-The mirrored long-form design documentation is `docs/design/DESIGN_SYSTEM.md`.
+- This file replaces all old design folders, screenshots-as-authority matrices, token JSON authority files, and provenance markdown.
+- Runtime assets needed by the app may remain in the app asset tree, but their design meaning must be documented here or in code comments only where unavoidable.
+- Historical release evidence may mention old work, but must not instruct current implementation to use old design authorities.
+- Any new design rule must be added to this file first, then implemented in tokens, components, tests, and gates.
+- External submissions, regulated claims, app-store assets, public legal notices, and customer-facing professional claims require explicit human approval.
