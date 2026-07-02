@@ -242,6 +242,11 @@ async function evaluateRuntime(cdp) {
   return response.result.value;
 }
 
+function isIgnorableBrowserRequest(entry) {
+  const text = `${entry.text || ''} ${entry.url || ''}`;
+  return /favicon\.ico/i.test(text);
+}
+
 const chrome = findChrome();
 if (!chrome) {
   console.error('[admin-pwa-runtime][FAIL] Chrome/Chromium is required for Admin PWA runtime smoke.');
@@ -301,7 +306,9 @@ try {
     await sleep(500);
   }
 
-  const errors = cdp.logs.filter((entry) => ['error', 'assert'].includes(entry.level));
+  const errors = cdp.logs.filter(
+    (entry) => ['error', 'assert'].includes(entry.level) && !isIgnorableBrowserRequest(entry),
+  );
   const warnings = cdp.logs.filter((entry) => ['warning', 'warn'].includes(entry.level));
 
   summary = {
@@ -319,7 +326,11 @@ try {
     url: targetUrl,
     error: error.message,
     console: {
-      errors: cdp ? cdp.logs.filter((entry) => ['error', 'assert'].includes(entry.level)) : [],
+      errors: cdp
+        ? cdp.logs.filter(
+          (entry) => ['error', 'assert'].includes(entry.level) && !isIgnorableBrowserRequest(entry),
+        )
+        : [],
       warnings: cdp ? cdp.logs.filter((entry) => ['warning', 'warn'].includes(entry.level)) : [],
     },
   };

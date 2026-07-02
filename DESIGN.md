@@ -14,7 +14,7 @@ The standard is intentionally universal. Product teams must replace domain examp
 
 This file is grounded in these evidence inputs:
 
-- Local reference screenshots: `/Volumes/PRO-G40/MEMORIES/tmp/revolut10-contact-sheet.png`, a contact sheet of Revolut reference captures that shows account, invest, payments, crypto, rewards, analytics, contact detail, and profile surfaces.
+- Local reference screenshots: `/Users/jeanbosco/Downloads/Revolut10/`, 10 Revolut reference captures at `1170 x 2532` that show account, invest, payments, crypto, rewards, contact detail, and profile surfaces.
 - Local implementation evidence: `/Volumes/PRO-G40/COOL/DESIGN.md`, COOL route/admin screenshots under `.cache/repo_wide_qa_uat/`, and COOL token seeds in `lib/app/theme/collect_colors.dart`.
 - Prior comparative audits: MOBI Revolut comparison docs under `/Volumes/PRO-G40/MOBI/mobi_app/docs/product/`, especially the reference-gap and Flutter/admin audit reports.
 - Current platform guidance checked on 2026-07-02: Flutter adaptive/responsive design, Flutter accessibility, Flutter focus and shortcuts, Apple Human Interface Guidelines, Apple tvOS HIG, Android TV design/navigation, Material 3 adaptive navigation, and WCAG 2.2.
@@ -30,7 +30,35 @@ Authoritative external references:
 - Android TV design: https://developer.android.com/design/ui/tv
 - Android TV navigation: https://developer.android.com/training/tv/get-started/navigation
 - Material 3 navigation rail: https://m3.material.io/components/navigation-rail/overview
+- Apple Design Awards 2026: https://developer.apple.com/design/awards/
+- Revolut App Store accessibility and platform listing: https://apps.apple.com/us/app/revolut-send-spend-and-save/id932493382
+- Revolut mobile banking product page: https://www.revolut.com/en-GR/ways-to-bank/mobile-banking/
+- Uber App Store listing: https://apps.apple.com/us/app/uber-request-a-ride/id368677368
+- Airbnb App Store listing: https://apps.apple.com/us/app/airbnb/id401626263
+- Spotify App Store listing: https://apps.apple.com/us/app/spotify-music-and-podcasts/id324684580
+- Microsoft Fluent 2 design tokens: https://fluent2.microsoft.design/design-tokens
+- IBM Carbon data table: https://carbondesignsystem.com/components/data-table/usage/
+- Shopify Polaris tables: https://polaris-react.shopify.com/components/tables
+- Atlassian empty state: https://atlassian.design/components/empty-state/
 - WCAG 2.2: https://www.w3.org/TR/WCAG22/
+
+## World-Class Benchmark Synthesis
+
+The standard is not based on taste alone. The following benchmarks convert observed leading-product behavior and official design-system guidance into enforceable product rules:
+
+| Evidence | What It Proves | Rule For This System |
+| --- | --- | --- |
+| Revolut local screenshots and current public listing | A premium financial app can use a dark immersive shell, black command chrome, large numeric hero, circular actions, low-copy rows, and accessibility claims including VoiceOver, larger text, dark interface, contrast, non-color-only state, and reduced motion. | Mobile surfaces must combine high trust with low friction: first-viewport value, compact commands, semantic state colors, no color-only meaning, and large-text/dark/reduced-motion coverage. |
+| Revolut mobile banking product page | A broad financial product succeeds by putting budgeting, security, support, identity verification, transfers, and account control into one mobile app without losing the central money-management job. | Complex products need a stable app shell and a clear primary value per screen; breadth belongs in navigation and secondary panels, not in the first viewport. |
+| Apple Design Awards 2026 | Apple rewards apps for delight, inclusivity, innovation, interaction, social impact, and visuals, with examples emphasizing simple scanning, no-reading interactions, accessibility options, full-screen data, and strong platform integration. | World-class design must include interaction quality, inclusive defaults, platform-native behavior, and polished visual execution, not only attractive screens. |
+| Uber public listing | High-scale mobility products foreground fast task completion, upfront pricing, location, safety, reliability, localization, and frequent performance fixes. | Transactional mobile flows must show destination, cost or consequence, status, safety/recovery actions, and live reliability states before ornamental content. |
+| Airbnb public listing | Travel products combine discovery, personalized recommendations, booking detail, messaging, offline trip information, and host/operator tooling in one app. | Multi-sided products need role-specific information architecture, trip/task continuity, offline-readable critical details, and separate operator workflows. |
+| Spotify public listing | Media products scale through search, personalization, library management, offline access, and dense content discovery. | Discovery surfaces need fast search, personal relevance, saved/recent states, media placeholders, and scalable list/grid performance. |
+| Flutter, Material 3, Apple HIG, and Android TV guidance | Production apps must adapt to device class, input mode, platform convention, safe area, focus, accessibility, and testing constraints. | Flutter implementation must treat responsiveness, focus, keyboard, D-pad, semantics, and platform adaptation as first-order architecture. |
+| Fluent 2 tokens | Large product suites separate raw/global values from semantic alias tokens so teams share a language and avoid hardcoded styling. | This system must use semantic Flutter `ThemeExtension` tokens for every color, spacing, radius, shadow, motion, density, focus, and surface role. |
+| Carbon, Polaris, and Atlassian admin guidance | Admin surfaces need tables, sorting, filtering, selection, batch actions, pagination, keyboard operation, clear empty states, and next actions. | Admin design must be dense but auditable: table/list modes, filters, detail panels, bulk-review flows, empty/error states, and keyboard/screen-reader coverage are mandatory. |
+
+World-class benchmark conclusion: the target is not "make it look like one app." The target is to combine Revolut-level premium shell quality, Apple-level inclusive interaction polish, Material/Flutter adaptive engineering, Android TV focus discipline, and enterprise-grade admin data handling into one coherent system.
 
 ## Reference Screenshot Lessons
 
@@ -153,6 +181,27 @@ These seed colors define the default premium reference family. Teams may adapt h
 
 Implementation rule: code must expose these as semantic roles such as `color.chrome.default`, `color.hero.gradientStart`, `color.hero.gradientEnd`, `color.surface.glass`, `color.action.pill`, `color.tv.focus`, and `color.admin.rail`, not as feature-screen hardcoded literals.
 
+### Secondary Color Usage Matrix
+
+Secondary colors are required, but only as semantic support for meaning, hierarchy, and state. They must never become random feature decoration or compete with the primary dark shell.
+
+| Role | Default Seed | Allowed Uses | Not Allowed |
+| --- | --- | --- | --- |
+| Success | Mint `#3CD070` | Paid, verified, synced, healthy, completed, approved, available. | Page-wide success backgrounds, decorative icons, financial gain claims without data. |
+| Warning | Orange-red `#FF5E43` or warmer amber derivative | Pending, delayed, expiring, partial failure, risk, attention required. | Using warning as a brand accent or for normal secondary buttons. |
+| Danger | Orange-red deepened for contrast | Failed, blocked, rejected, destructive, fraud risk, permission revoked. | Low-contrast red text, destructive actions without confirmation, color-only errors. |
+| Info | Periwinkle `#8885F0` or wealth teal `#204050` | Neutral guidance, sync notices, tips, scheduled states, support messages. | Replacing primary action color or turning every helper panel blue. |
+| Accent | Violet `#7050E8`, hot violet `#9838F0`, dusty rose `#D38B96` | Product-owned highlight, upgrade, reward, featured item, chart series with legend. | Copying reference rewards/crypto meanings when the product does not support them. |
+| Neutral | Paper, ink, muted border, glass surface | Disabled states, secondary text, dividers, chips, skeletons, table chrome. | Making disabled controls look active or hiding unavailable reasons. |
+| Focus | High-contrast ring derived from periwinkle or paper | Keyboard, D-pad, screen reader, TV remote, and admin table focus. | Focus indicated by color alone, hover-only focus, or focus rings hidden for aesthetics. |
+
+Secondary color gates:
+
+- Every secondary color must have a semantic token name, light value, dark value, high-contrast value, and minimum contrast proof.
+- State colors must be paired with icon, label, shape, or text; color alone is never enough.
+- Charts may use expanded categorical colors only when every series has a legend, pattern or marker fallback, and accessible contrast.
+- Feature teams may request a new secondary color only through the Design Exceptions Register.
+
 ### Typography Tokens
 
 - `type.display`: only for true hero or high-value first-viewport moments.
@@ -178,6 +227,33 @@ Implementation rule: code must expose these as semantic roles such as `color.chr
 - Motion durations: `fast` 120-180 ms, `standard` 200-280 ms, `slow` 320-420 ms.
 - Motion easing should be platform-native or cubic standard; avoid bounce effects in serious workflows.
 - Reduced motion replaces spatial transitions with fades, opacity, and instant layout changes.
+
+### Motion And Transition Rules
+
+Motion must explain state, preserve orientation, and prove performance:
+
+- Route transitions use short fades, shared-axis movement, or platform-native transitions. Do not use decorative motion that delays task completion.
+- Bottom sheets rise from the task origin where possible and return focus to the trigger on dismiss.
+- Admin drawers and detail panels slide predictably from the side related to the selected row or action.
+- TV focus movement may use scale, glow, or elevation, but the focused item must remain within its layout slot and never push neighboring items into overlap.
+- Loading motion uses skeleton shimmer or progress only when it does not harm readability, reduced-motion settings, or battery/performance.
+- Optimistic updates must animate into final state and provide undo or retry when network confirmation fails.
+- Destructive, payment, identity, permission, and admin-bulk flows must slow down only at review/confirmation points.
+- Every motion-heavy surface needs a reduced-motion equivalent and a performance check on representative low-end hardware.
+
+## Content And Copywriting Rules
+
+The Revolut reference screenshots and Apple Design Award examples both show that world-class interfaces reduce reading burden. Copy must be concise, stateful, and useful:
+
+- Lead with value, amount, object, status, or action. Put explanation second.
+- Use short labels for circular actions, chips, tabs, table columns, and TV tiles.
+- Prefer numbers, icons, badges, and state labels over paragraphs.
+- Empty states must say what happened and provide the next useful action.
+- Error states must explain recovery, not expose raw backend traces unless the user is an operator on an admin surface.
+- Admin copy may be denser, but it must still be scannable: table titles, column labels, filters, row summaries, and action labels should be precise.
+- TV copy must be readable at a distance and should avoid multi-line helper text.
+- Avoid visible text that explains the UI itself, keyboard shortcuts, visual design, or obvious gestures.
+- Do not copy reference-app product claims, regulated finance language, rewards language, crypto labels, or brand terms unless the product legally and functionally supports them.
 
 ## App Shell Standard
 
@@ -207,6 +283,23 @@ The Universal Component Library is the minimum component inventory for any produ
 - Semantic icons: every repeated metadata concept must use one stable semantic icon role, not one-off artwork.
 
 Each component must define default, hover where applicable, focused, pressed, selected, disabled, loading, success, warning, error, empty, offline, permission denied, and skeleton states.
+
+## Surface Component Matrix
+
+Components must share tokens and semantics while adapting to input mode and density:
+
+| Component | Flutter Mobile | Flutter TV | Admin Panel |
+| --- | --- | --- | --- |
+| Shell | Safe-area scaffold, compact top chrome, bottom nav, branch state. | Overscan-safe scaffold, persistent focus rail, large content rows, back handling. | Sidebar or rail, top command bar, workspace grid, guarded routes. |
+| Navigation | Bottom nav for primary tabs, back for depth, sheets for transient choices. | D-pad reachable rails, tabs, carousels, remembered row focus. | Sidebar, breadcrumbs where useful, tabs, tables, detail drawers. |
+| Search | Search pill, recent queries, filters, empty/no-result states. | Voice/remote-friendly search, suggestions, mobile handoff where possible. | Global command search plus scoped table search and filters. |
+| Cards and panels | Full-width translucent panels, repeated cards, clear tap target. | Large focusable tiles with stable aspect ratio and focus scale. | Dense cards, metrics, list cards below tablet width, no card-inside-card nesting. |
+| Tables and lists | Lists, grouped rows, chips, no dense desktop tables. | Lists only when large and focus-safe; avoid spreadsheets. | Sortable, filterable, paginated or virtualized tables with selectable rows. |
+| Forms | Progressive fields, mobile keyboards, validation, draft safety. | Avoid long text entry; use choices, voice, QR, mobile handoff. | Dense forms with sections, inline validation, permissions, audit review. |
+| Dialogs and sheets | Bottom sheets for choices, dialogs for high-risk confirmation. | Full-screen or side overlays reachable by remote. | Drawers, modals, review dialogs, confirmation and undo flows. |
+| Empty states | One clear next action and concise reason. | One large recovery action and focus default. | Explain data scope, filters, permissions, and next operator action. |
+| Focus | Visible keyboard/screen-reader focus; touch remains primary. | Focus is the primary interaction model and must be obvious at all times. | Keyboard focus, row focus, table control focus, command palette focus. |
+| Feedback | Snackbar, banner, inline validation, optimistic update recovery. | Large toast/banner, nonblocking playback/state feedback. | Audit-safe banners, status chips, queue freshness, bulk action summaries. |
 
 ## State Requirements
 
@@ -425,6 +518,44 @@ Completion requires all of the following:
 - Run accessibility checks for contrast, semantics, focus order, target size, large text, reduced motion, keyboard, and D-pad.
 - Run performance checks for first frame, scroll, animation, memory pressure, remote repeat input, and large admin datasets.
 - Publish a design-compliance report that maps every route to screenshot evidence, state evidence, accessibility evidence, and remaining exceptions.
+
+## Design Exceptions Register
+
+Any deviation from this standard must be explicitly recorded. Exceptions are allowed only when they protect product truth, platform conventions, accessibility, performance, privacy, legal obligations, or operational safety.
+
+Each exception must include:
+
+- `surface`: mobile, TV, admin, web, native platform, or shared component.
+- `route_or_component`: exact route, screen, modal, sheet, or component.
+- `standard_rule`: the rule being varied.
+- `reason`: why the standard cannot be followed.
+- `approved_alternative`: the token, layout, interaction, or copy pattern that replaces it.
+- `risk`: accessibility, security, privacy, performance, consistency, legal, or user-confusion risk.
+- `evidence_required`: screenshots, tests, accessibility output, performance trace, or approval note.
+- `expiry_or_review`: date or release when the exception must be revalidated.
+
+Default rule: undocumented deviations fail the design gate.
+
+## Route Evidence Matrix Template
+
+Every production route must have evidence. Use this template in release docs, QA scripts, or generated JSON:
+
+| Field | Required Evidence |
+| --- | --- |
+| Route ID | Canonical route path or route name. |
+| Surface | Mobile, TV, admin, web, shared, modal, or sheet. |
+| Role Boundary | Consumer, owner, operator, admin, guest, unauthenticated, or not applicable. |
+| Default Screenshot | Primary screenshot at the target viewport. |
+| Responsive Screenshots | Compact phone, standard phone, large phone, tablet, landscape, TV 720p/1080p, admin desktop/tablet as applicable. |
+| State Screenshots | Loading, empty, error, offline, permission denied, disabled, selected, focused, success, warning, danger. |
+| Accessibility Evidence | Contrast, semantics labels, focus order, target size, 200 percent text, reduced motion, keyboard, D-pad where applicable. |
+| Performance Evidence | First frame, scroll, route transition, image loading, list virtualization, admin table performance, TV remote repeat input. |
+| Privacy Evidence | Screenshots use sanitized data and mask phone numbers, OTPs, tokens, private IDs, and sensitive account details. |
+| Platform Evidence | Android, iOS, TV, web/admin, safe area, keyboard, status/nav bars, back behavior, deep links. |
+| Exceptions | Link to Design Exceptions Register entries or `none`. |
+| Owner And Date | Person or agent, date captured, commit or build identifier. |
+
+Routes with missing evidence are not design-complete, even if they compile and pass basic tests.
 
 ## Quality Gates
 

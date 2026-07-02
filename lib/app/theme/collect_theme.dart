@@ -5,6 +5,7 @@ import 'collect_component_tokens.dart';
 import 'collect_radius.dart';
 import 'collect_spacing.dart';
 import 'collect_typography.dart';
+import 'collect_universal_tokens.dart';
 
 class CollectTheme {
   const CollectTheme._();
@@ -34,13 +35,17 @@ class CollectTheme {
       colors.textPrimary,
       colors.textSecondary,
     );
+    final universalTokens = CollectUniversalTokens.fromColors(
+      colors,
+      brightness,
+    );
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
       scaffoldBackgroundColor: colors.screenBase,
       textTheme: textTheme,
-      extensions: [colors],
+      extensions: [colors, universalTokens],
       visualDensity: VisualDensity.standard,
       splashFactory: InkRipple.splashFactory,
       appBarTheme: AppBarTheme(

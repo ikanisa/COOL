@@ -11,6 +11,7 @@ export '../../app/theme/collect_runtime_assets.dart';
 export '../../app/theme/collect_runtime_tokens.dart';
 export '../../app/theme/collect_runtime_typography.dart';
 export '../../app/theme/collect_semantic_icons.dart';
+export '../../app/theme/collect_universal_tokens.dart';
 export '../utils/collect_haptics.dart';
 export 'collect_action_controls.dart';
 export 'collect_chrome.dart';

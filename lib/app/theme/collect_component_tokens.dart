@@ -4,20 +4,22 @@ import 'collect_colors.dart';
 import 'collect_radius.dart';
 import 'collect_spacing.dart';
 import 'collect_runtime_tokens.dart';
+import 'collect_universal_tokens.dart';
 
 class CollectComponentTokens {
   const CollectComponentTokens._();
 
   static ButtonStyle filledButton(BuildContext context) {
     final colors = context.collectColors;
+    final tokens = context.collectUniversalTokens;
     return FilledButton.styleFrom(
-      minimumSize: const Size(CollectSpacing.target, CollectSpacing.target),
+      minimumSize: Size(tokens.touchTarget, tokens.touchTarget),
       padding: const EdgeInsets.symmetric(
         horizontal: CollectSpacing.x5,
         vertical: CollectSpacing.x3,
       ),
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
-      backgroundColor: colors.actionColor,
+      backgroundColor: tokens.actionPrimary,
       foregroundColor: colors.onAccent,
       disabledBackgroundColor: colors.neutralContainer,
       disabledForegroundColor: colors.textMuted,
@@ -27,8 +29,9 @@ class CollectComponentTokens {
 
   static ButtonStyle outlinedButton(BuildContext context) {
     final colors = context.collectColors;
+    final tokens = context.collectUniversalTokens;
     return OutlinedButton.styleFrom(
-      minimumSize: const Size(CollectSpacing.target, CollectSpacing.target),
+      minimumSize: Size(tokens.touchTarget, tokens.touchTarget),
       padding: const EdgeInsets.symmetric(
         horizontal: CollectSpacing.x5,
         vertical: CollectSpacing.x3,
@@ -49,6 +52,7 @@ class CollectComponentTokens {
     String? prefix,
   }) {
     final colors = context.collectColors;
+    final tokens = context.collectUniversalTokens;
     final border = UnderlineInputBorder(
       borderSide: BorderSide(color: CollectRuntimeTokens.inputBorder(colors)),
     );
@@ -61,7 +65,10 @@ class CollectComponentTokens {
       border: border,
       enabledBorder: border,
       focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.focusRing, width: 2),
+        borderSide: BorderSide(
+          color: tokens.focusRing,
+          width: tokens.focusRingWidth,
+        ),
       ),
     );
   }

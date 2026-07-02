@@ -2,7 +2,6 @@ part of 'collect_components.dart';
 
 class CollectVisualFeatureCard extends StatelessWidget {
   const CollectVisualFeatureCard({
-    required this.asset,
     required this.title,
     required this.message,
     required this.icon,
@@ -11,7 +10,6 @@ class CollectVisualFeatureCard extends StatelessWidget {
     super.key,
   });
 
-  final String asset;
   final String title;
   final String message;
   final IconData icon;
@@ -50,21 +48,28 @@ class CollectVisualFeatureCard extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           );
-    Widget featureImage = Image.asset(
-      asset,
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
-      filterQuality: FilterQuality.high,
-    );
-    if (isDark) {
-      featureImage = ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.46),
-          BlendMode.multiply,
+    final featureVisual = DecoratedBox(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [
+            colors
+                .statusForeground(tone)
+                .withValues(alpha: isDark ? 0.36 : 0.20),
+            colors.mintPaint.withValues(alpha: isDark ? 0.14 : 0.10),
+            Colors.transparent,
+          ],
+          stops: const [0, 0.54, 1],
         ),
-        child: featureImage,
-      );
-    }
+      ),
+      child: Center(
+        child: Icon(
+          icon,
+          size: 64,
+          color: foreground.withValues(alpha: isDark ? 0.34 : 0.20),
+        ),
+      ),
+    );
     return CollectCard(
       onTap: onTap,
       emphasis: CollectCardEmphasis.glow,
@@ -83,7 +88,7 @@ class CollectVisualFeatureCard extends StatelessWidget {
                   child: FractionallySizedBox(
                     widthFactor: 0.48,
                     heightFactor: 1,
-                    child: featureImage,
+                    child: featureVisual,
                   ),
                 ),
               ),

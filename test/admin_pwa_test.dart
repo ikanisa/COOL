@@ -96,6 +96,20 @@ void main() {
     expect(evidenceMode, isNot(contains('MOMO body redacted for test')));
   });
 
+  test(
+    'admin PWA runtime smoke ignores browser-default favicon noise only',
+    () {
+      final script = File(
+        'scripts/admin_pwa_runtime_smoke.mjs',
+      ).readAsStringSync();
+
+      expect(script, contains('function isIgnorableBrowserRequest(entry)'));
+      expect(script, contains('/favicon\\.ico/i'));
+      expect(script, contains('!isIgnorableBrowserRequest(entry)'));
+      expect(script, contains("['error', 'assert'].includes(entry.level)"));
+    },
+  );
+
   test('admin evidence overrides stay disabled by default', () {
     expect(adminPwaEvidenceMode, isFalse);
     expect(adminEvidenceOverrides(), isEmpty);

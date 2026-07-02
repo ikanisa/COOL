@@ -238,6 +238,12 @@ void main() {
     final runtimeAssets = File(
       'lib/app/theme/collect_runtime_assets.dart',
     ).readAsStringSync();
+    final libSources = Directory('lib')
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((file) => file.path.endsWith('.dart'))
+        .map((file) => file.readAsStringSync())
+        .join('\n');
 
     expect(CollectRuntimeAssets.usesRepoVisualAssets, isFalse);
     expect(CollectRuntimeAssets.requiredBlockerKeys, ['universal_contract']);
@@ -251,6 +257,44 @@ void main() {
     expect(pubspec, isNot(contains('Collect Display')));
     expect(launch, contains('SizedBox.expand'));
     expect(launch, isNot(contains('Image.asset')));
+    expect(libSources, isNot(contains('Image.asset')));
+    expect(libSources, isNot(contains('AssetImage')));
+    expect(libSources, isNot(contains('SvgPicture')));
+  });
+
+  test('universal semantic token extension covers mobile and admin roles', () {
+    final lightTheme = AppTheme.light();
+    final darkTheme = AppTheme.dark();
+    final light = lightTheme.extension<CollectUniversalTokens>();
+    final dark = darkTheme.extension<CollectUniversalTokens>();
+
+    expect(light, isNotNull);
+    expect(dark, isNotNull);
+    expect(light!.chromeDefault, CollectColors.referenceChromeBlack);
+    expect(light.adminRail, CollectColors.referenceChromeBlack);
+    expect(light.actionPrimary, CollectColors.light.actionColor);
+    expect(light.actionDestructive, CollectColors.light.dangerForeground);
+    expect(light.surfaceGlass, CollectColors.light.glassPanel);
+    expect(light.touchTarget, greaterThanOrEqualTo(48));
+    expect(light.iconTarget, greaterThanOrEqualTo(44));
+    expect(light.spacingStep, 4);
+    expect(light.cardRadius, lessThanOrEqualTo(8));
+    expect(light.motionFast.inMilliseconds, inInclusiveRange(120, 180));
+    expect(light.motionStandard.inMilliseconds, inInclusiveRange(200, 280));
+    expect(light.motionSlow.inMilliseconds, inInclusiveRange(320, 420));
+
+    expect(dark!.surfaceGlass, CollectColors.dark.glassPanel);
+    expect(dark.focusRing, CollectColors.dark.focusRing);
+    expect(dark.adminWorkspace, CollectColors.referenceAssetNavy);
+    expect(
+      CollectUniversalTokens.highContrastDark().focusRing,
+      CollectColors.brandPaper,
+    );
+    expect(CollectUniversalTokens.highContrastDark().highContrast, isTrue);
+    expect(
+      CollectUniversalTokens.highContrastDark().focusRingWidth,
+      greaterThan(dark.focusRingWidth),
+    );
   });
 
   test('native Android launch uses token background without bitmap assets', () {
