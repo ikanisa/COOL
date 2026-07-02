@@ -52,6 +52,6 @@
   "failures": [
 
   ],
-  "remaining_human_review": "This structural capture verifies exposed Android accessibility labels with TalkBack enabled, but it does not certify human auditory narration order, pronunciation, or comprehension.",
+  "codex_accessibility_responsibility": "This structural capture verifies exposed Android accessibility labels with TalkBack enabled as part of Codex-owned structural accessibility responsibility. Human auditory TalkBack and VoiceOver signoff remains separate.",
   "secret_handling": "Captured node labels and screenshots are local evidence and must not include raw SMS bodies, OTPs, phone/MoMo numbers, signing keys, provider tokens, or production customer data."
 }

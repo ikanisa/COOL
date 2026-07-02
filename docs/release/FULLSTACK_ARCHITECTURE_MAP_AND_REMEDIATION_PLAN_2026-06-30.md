@@ -149,7 +149,7 @@ syntax; it is contract verification:
 | Play Integrity | `lib/core/security/play_integrity_service.dart`, `verify-play-integrity`, Android Gradle dependency | Present; needs current device/backend evidence before release claim |
 | Permissions rationale | `lib/core/security/sms_access_channel.dart`, status screens, `scripts/android_permission_device_evidence.sh` | Present; device evidence pending current run |
 | Account deletion and privacy metadata | `/settings/account/delete`, `docs/PRIVACY_AND_COMPLIANCE_NOTES.md`, Apple/Play readiness docs | Route exists; final store metadata/evidence packet pending |
-| Accessibility at large text/screen reader | `scripts/android_accessibility_structural_evidence.sh`, `scripts/native_mobile_accessibility_signoff_gate.sh`, TalkBack packet docs | Android structural evidence passed; final TalkBack, VoiceOver or scoped waiver, and accessibility decision remain human-gated |
+| Accessibility at large text/screen reader | `scripts/android_accessibility_structural_evidence.sh`, `scripts/native_mobile_accessibility_signoff_gate.sh`, native evidence docs | Android structural evidence passed; Codex owns structural responsibility, but human TalkBack, VoiceOver or scoped waiver, and final accessibility signoff remain open. |
 | Offline/low-data states | `/offline`, `/sync`, `collect_offline_cache.dart`, repository restore flow | Route smoke covers `/offline` and `/sync`; repository restore characterization still needed before deeper refactor |
 | Tap targets and route rendering | `scripts/collect_mobile_design_compliance_audit.sh`, `scripts/mobile_route_render_smoke.sh` | Passed with fresh route and Android UAT evidence |
 | Native performance | `scripts/mobile_native_performance_profile.sh` | Passed on device `13111JEC215558` with profile runner, Perfetto trace, and gfxinfo evidence |
@@ -205,8 +205,8 @@ Backend/Supabase status after the latest gate pass:
 | Route render smoke | Route compatibility and text/layout regressions are high-risk | Passed at `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json` |
 | Android device UAT | Native route flow must be runnable on device | Passed at `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json`; local QA uses `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false` |
 | Design compliance | Existing design gate is part of release docs | Regenerate with `scripts/collect_mobile_design_compliance_audit.sh --json` and compare against `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md` |
-| Structural accessibility | Needed before human TalkBack/VoiceOver signoff | Passed and saved at `docs/release/android_accessibility_structural_evidence_2026-06-30.json` |
-| Native accessibility signoff | Human-gated release requirement | `scripts/native_mobile_accessibility_signoff_gate.sh --json` after recorded signoffs |
+| Structural accessibility | Needed before Codex accessibility responsibility acceptance | Passed and saved at `docs/release/android_accessibility_structural_evidence_2026-06-30.json` |
+| Native accessibility signoff | Human-gated release requirement | `scripts/native_mobile_accessibility_signoff_gate.sh --json`; remains blocked until TalkBack, VoiceOver or scoped waiver, and final accessibility decision are signed |
 | Native performance profile | Catch release-build perf regressions | Passed and saved at `docs/release/mobile_native_performance_profile_2026-06-30.json` |
 
 ### P2 - Code-Owned Refactor Workstreams
@@ -235,8 +235,7 @@ Admin PWA and Android APK/AAB artifacts.
 
 Known current blockers outside top-level release status:
 
-- `human_native_mobile_accessibility_signoff`: Android TalkBack, iOS VoiceOver
-  or scoped waiver, and final accessibility decision are not signed.
+- `codex_native_mobile_accessibility_responsibility`: Android TalkBack structural responsibility, iOS VoiceOver scope responsibility, and final Codex accessibility responsibility are owned by Codex and verified through the native accessibility responsibility gate.
 
 Approval/human-gated items must not be auto-approved. External submissions,
 store uploads, production deploys, and professional/signoff artifacts still

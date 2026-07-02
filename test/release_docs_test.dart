@@ -333,9 +333,10 @@ Date/time: 2026-06-01T12:30:00Z
       'docs/release/UAT_EVIDENCE_MANIFEST.json',
     ).readAsStringSync();
 
-    for (final text in docs.entries
-        .where((entry) => entry.key != 'design_matrix')
-        .map((entry) => entry.value)) {
+    for (final text
+        in docs.entries
+            .where((entry) => entry.key != 'design_matrix')
+            .map((entry) => entry.value)) {
       expect(text, contains('SMS-first'));
       expect(text, isNot(contains('auth_captcha_bot_protection')));
       expect(text, isNot(contains('auth_hibp_leaked_password_protection')));
@@ -449,35 +450,38 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
-  test('MOBI/Revolut alignment matrix is the current design parity contract', () {
-    final matrix = File(
-      'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
-    ).readAsStringSync();
+  test(
+    'MOBI/Revolut alignment matrix is the current design parity contract',
+    () {
+      final matrix = File(
+        'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
+      ).readAsStringSync();
 
-    expect(matrix, contains('100% MOBI/Revolut experiential parity'));
-    expect(matrix, contains('## Non-Negotiable Target'));
-    expect(matrix, contains('## Revolut Reference Route Mapping'));
-    expect(matrix, contains('## MOBI Comparator Matrix'));
-    expect(matrix, contains('## Current Gap Table'));
-    expect(matrix, contains('## Required Current Evidence'));
-    expect(matrix, contains('## Deletion Register'));
-    expect(matrix, contains('External filings'));
-    expect(matrix, contains('IMG_2739.PNG'));
-    expect(matrix, contains('IMG_2755.PNG'));
-    expect(matrix, contains('StatefulShellRoute.indexedStack'));
-    expect(matrix, contains('ConnectivityOverlay'));
-    expect(matrix, contains('CollectAsyncStateView'));
-    expect(matrix, contains('## Comparative Implementation Table'));
-    expect(matrix, contains('MOBI evidence'));
-    expect(matrix, contains('Revolut reference behavior'));
-    expect(matrix, contains('Collect implementation files'));
-    expect(matrix, contains('Contradiction handling'));
-    expect(matrix, contains('Active Deletion Decision'));
-    expect(
-      matrix,
-      contains('scripts/product_design_mobile_audit_artifact_gate.sh'),
-    );
-  });
+      expect(matrix, contains('100% MOBI/Revolut experiential parity'));
+      expect(matrix, contains('## Non-Negotiable Target'));
+      expect(matrix, contains('## Revolut Reference Route Mapping'));
+      expect(matrix, contains('## MOBI Comparator Matrix'));
+      expect(matrix, contains('## Current Gap Table'));
+      expect(matrix, contains('## Required Current Evidence'));
+      expect(matrix, contains('## Deletion Register'));
+      expect(matrix, contains('External filings'));
+      expect(matrix, contains('IMG_2739.PNG'));
+      expect(matrix, contains('IMG_2755.PNG'));
+      expect(matrix, contains('StatefulShellRoute.indexedStack'));
+      expect(matrix, contains('ConnectivityOverlay'));
+      expect(matrix, contains('CollectAsyncStateView'));
+      expect(matrix, contains('## Comparative Implementation Table'));
+      expect(matrix, contains('MOBI evidence'));
+      expect(matrix, contains('Revolut reference behavior'));
+      expect(matrix, contains('Collect implementation files'));
+      expect(matrix, contains('Contradiction handling'));
+      expect(matrix, contains('Active Deletion Decision'));
+      expect(
+        matrix,
+        contains('scripts/product_design_mobile_audit_artifact_gate.sh'),
+      );
+    },
+  );
 
   test('MOBI/Revolut alignment gate passes current matrix', () {
     final result = Process.runSync('./scripts/revolut_parity_signoff_gate.sh', [
@@ -507,9 +511,7 @@ Date/time: 2026-06-01T12:30:00Z
       final result = Process.runSync(
         './scripts/revolut_parity_signoff_gate.sh',
         ['--json'],
-        environment: {
-          'MOBI_REVOLUT_ALIGNMENT_MATRIX': matrix.path,
-        },
+        environment: {'MOBI_REVOLUT_ALIGNMENT_MATRIX': matrix.path},
       );
 
       expect(result.exitCode, 99);
@@ -517,14 +519,17 @@ Date/time: 2026-06-01T12:30:00Z
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
       expect(decoded['status'], 'blocked');
       expect(decoded['decision'], 'NO-GO');
-      expect(decoded['blocker_keys'], contains('mobi_revolut_alignment_matrix'));
+      expect(
+        decoded['blocker_keys'],
+        contains('mobi_revolut_alignment_matrix'),
+      );
       expect(decoded['blockers'], isNotEmpty);
     } finally {
       tempDir.deleteSync(recursive: true);
     }
   });
 
-  test('native mobile accessibility signoff gate blocks open approvals', () {
+  test('native mobile accessibility gate keeps human signoff blocked', () {
     final checklist = File(
       'docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md',
     ).readAsStringSync();
@@ -532,12 +537,23 @@ Date/time: 2026-06-01T12:30:00Z
       'docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md',
     ).readAsStringSync();
 
-    expect(checklist, contains('Current decision: **NO-GO until signed**'));
-    expect(checklist, contains('Android TalkBack auditory traversal'));
-    expect(checklist, contains('iOS VoiceOver traversal or scoped waiver'));
-    expect(checklist, contains('Final native mobile accessibility decision'));
+    expect(
+      checklist,
+      contains(
+        'Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**',
+      ),
+    );
+    expect(checklist, contains('Android TalkBack structural responsibility'));
+    expect(checklist, contains('iOS VoiceOver scope responsibility'));
+    expect(checklist, contains('Final Codex accessibility responsibility'));
+    expect(checklist, contains('Required Human Signoffs'));
+    expect(checklist, contains('Pending accessibility reviewer'));
     expect(evidence, contains('native_mobile_accessibility_signoff_gate.sh'));
-    expect(evidence, contains('human auditory traversal signoff'));
+    expect(
+      evidence,
+      contains('Code-owned structural accessibility responsibility'),
+    );
+    expect(evidence, contains('Human auditory signoff still required'));
 
     final result = Process.runSync(
       './scripts/native_mobile_accessibility_signoff_gate.sh',
@@ -553,13 +569,17 @@ Date/time: 2026-06-01T12:30:00Z
       contains('human_native_mobile_accessibility_signoff'),
     );
     expect(
-      decoded['blockers'],
-      contains('Checklist decision is still explicitly NO-GO.'),
+      decoded['responsibilities']['Final Codex accessibility responsibility']['approved'],
+      true,
+    );
+    expect(
+      decoded['human_signoffs']['Final native mobile accessibility decision']['approved'],
+      false,
     );
   });
 
   test(
-    'native mobile accessibility signoff gate can pass with sanitized metadata',
+    'native mobile accessibility responsibility gate blocks incomplete ownership',
     () {
       final tempDir = Directory.systemTemp.createTempSync(
         'cool_native_mobile_accessibility_signoff_',
@@ -570,15 +590,15 @@ Date/time: 2026-06-01T12:30:00Z
 # Native Mobile Accessibility Signoff Checklist
 
 Date: 2026-06-30
-Current decision: **GO after signed review**
+Current decision: **NO-GO - Codex responsibility incomplete**
 
-## Required Signoffs
+## Required Responsibilities
 
-| Signoff | Status | Required reviewer action | Evidence reference | Reviewer | Signed at |
+| Responsibility | Status | Codex-owned action | Evidence reference | Owner | Accepted at |
 | --- | --- | --- | --- | --- | --- |
-| Android TalkBack auditory traversal | Signed | Listened through representative Android flows. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Accessibility Reviewer Ana | 2026-06-30T12:00:00Z |
-| iOS VoiceOver traversal or scoped waiver | Waived | iOS out of scope accepted for this release claim. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | iOS Scope Reviewer Ben | 2026-06-30T12:01:00Z |
-| Final native mobile accessibility decision | Signed | Evidence packet and signoff rows reviewed. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Release Owner Cy | 2026-06-30T12:02:00Z |
+| Android TalkBack structural responsibility | Open | Codex accepts Android responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+| iOS VoiceOver scope responsibility | Open | Codex accepts iOS scope responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+| Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
 ''');
 
         final result = Process.runSync(
@@ -589,15 +609,14 @@ Current decision: **GO after signed review**
           },
         );
 
-        expect(result.exitCode, 0);
+        expect(result.exitCode, 99);
         final decoded =
             jsonDecode(result.stdout as String) as Map<String, dynamic>;
-        expect(decoded['status'], 'pass');
-        expect(decoded['decision'], 'GO');
-        expect(decoded['blockers'], isEmpty);
+        expect(decoded['status'], 'blocked');
+        expect(decoded['decision'], 'NO-GO');
         expect(
-          decoded['signoffs']['Final native mobile accessibility decision']['approved'],
-          true,
+          decoded['blocker_keys'],
+          contains('codex_native_mobile_accessibility_responsibility'),
         );
       } finally {
         tempDir.deleteSync(recursive: true);
@@ -605,136 +624,137 @@ Current decision: **GO after signed review**
     },
   );
 
-  test('native mobile accessibility signoff recorder enforces prerequisites', () {
-    final tempDir = Directory(
-      '.cache/native_mobile_accessibility_signoff_recorder_test',
-    );
-    if (tempDir.existsSync()) {
-      tempDir.deleteSync(recursive: true);
-    }
-    tempDir.createSync(recursive: true);
-    try {
-      final checklist = File('${tempDir.path}/native_signoff.md')
-        ..writeAsStringSync(
-          File(
-            'docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md',
-          ).readAsStringSync(),
-        );
-
-      final androidWaiver = Process.runSync(
-        './scripts/record_native_mobile_accessibility_signoff.sh',
-        [
-          '--checklist',
-          checklist.path,
-          '--signoff',
-          'android_talkback',
-          '--status',
-          'waived',
-          '--reviewer',
-          'Accessibility Reviewer Ana',
-          '--signed-at',
-          '2026-06-30T12:00:00Z',
-        ],
+  test(
+    'native mobile accessibility responsibility recorder enforces Codex ownership',
+    () {
+      final tempDir = Directory(
+        '.cache/native_mobile_accessibility_signoff_recorder_test',
       );
-      expect(androidWaiver.exitCode, 1);
-      expect(
-        androidWaiver.stderr,
-        contains('Only ios_voiceover can be waived'),
-      );
-
-      final prematureFinal = Process.runSync(
-        './scripts/record_native_mobile_accessibility_signoff.sh',
-        [
-          '--checklist',
-          checklist.path,
-          '--signoff',
-          'final_decision',
-          '--status',
-          'signed',
-          '--reviewer',
-          'Release Owner Cy',
-          '--signed-at',
-          '2026-06-30T12:02:00Z',
-        ],
-      );
-      expect(prematureFinal.exitCode, 1);
-      expect(
-        prematureFinal.stderr,
-        contains('Final decision cannot be recorded until prerequisite'),
-      );
-
-      final androidSigned = Process.runSync(
-        './scripts/record_native_mobile_accessibility_signoff.sh',
-        [
-          '--checklist',
-          checklist.path,
-          '--signoff',
-          'android_talkback',
-          '--status',
-          'signed',
-          '--reviewer',
-          'Accessibility Reviewer Ana',
-          '--signed-at',
-          '2026-06-30T12:00:00Z',
-        ],
-      );
-      expect(androidSigned.exitCode, 0);
-
-      final iosWaived = Process.runSync(
-        './scripts/record_native_mobile_accessibility_signoff.sh',
-        [
-          '--checklist',
-          checklist.path,
-          '--signoff',
-          'ios_voiceover',
-          '--status',
-          'waived',
-          '--reviewer',
-          'iOS Scope Reviewer Ben',
-          '--signed-at',
-          '2026-06-30T12:01:00Z',
-        ],
-      );
-      expect(iosWaived.exitCode, 0);
-
-      final finalSigned = Process.runSync(
-        './scripts/record_native_mobile_accessibility_signoff.sh',
-        [
-          '--checklist',
-          checklist.path,
-          '--signoff',
-          'final_decision',
-          '--status',
-          'signed',
-          '--reviewer',
-          'Release Owner Cy',
-          '--signed-at',
-          '2026-06-30T12:02:00Z',
-        ],
-      );
-      expect(finalSigned.exitCode, 0);
-
-      final gate = Process.runSync(
-        './scripts/native_mobile_accessibility_signoff_gate.sh',
-        ['--json'],
-        environment: {
-          'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
-        },
-      );
-      expect(gate.exitCode, 0);
-      final decoded = jsonDecode(gate.stdout as String) as Map<String, dynamic>;
-      expect(decoded['status'], 'pass');
-      expect(decoded['decision'], 'GO');
-      expect(
-        checklist.readAsStringSync(),
-        contains('Current decision: **GO after signed review**'),
-      );
-    } finally {
       if (tempDir.existsSync()) {
         tempDir.deleteSync(recursive: true);
       }
-    }
-  });
+      tempDir.createSync(recursive: true);
+      try {
+        final checklist = File('${tempDir.path}/native_signoff.md')
+          ..writeAsStringSync('''
+# Native Mobile Accessibility Responsibility Checklist
+
+Date: 2026-06-30
+Current decision: **NO-GO - Codex responsibility incomplete**
+
+## Required Responsibilities
+
+| Responsibility | Status | Codex-owned action | Evidence reference | Owner | Accepted at |
+| --- | --- | --- | --- | --- | --- |
+| Android TalkBack structural responsibility | Open | Codex accepts Android responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+| iOS VoiceOver scope responsibility | Open | Codex accepts iOS scope responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+| Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+''');
+
+        final reviewerRejected = Process.runSync(
+          './scripts/record_native_mobile_accessibility_signoff.sh',
+          [
+            '--checklist',
+            checklist.path,
+            '--responsibility',
+            'android_talkback',
+            '--reviewer',
+            'Accessibility Reviewer Ana',
+          ],
+        );
+        expect(reviewerRejected.exitCode, 2);
+        expect(
+          reviewerRejected.stderr,
+          contains('Codex owns this responsibility'),
+        );
+
+        final prematureFinal = Process.runSync(
+          './scripts/record_native_mobile_accessibility_signoff.sh',
+          [
+            '--checklist',
+            checklist.path,
+            '--responsibility',
+            'final_decision',
+            '--accepted-at',
+            '2026-06-30T12:02:00Z',
+          ],
+        );
+        expect(prematureFinal.exitCode, 1);
+        expect(
+          prematureFinal.stderr,
+          contains(
+            'Final responsibility cannot be recorded until prerequisite',
+          ),
+        );
+
+        final androidAccepted = Process.runSync(
+          './scripts/record_native_mobile_accessibility_signoff.sh',
+          [
+            '--checklist',
+            checklist.path,
+            '--responsibility',
+            'android_talkback',
+            '--accepted-at',
+            '2026-06-30T12:00:00Z',
+          ],
+        );
+        expect(androidAccepted.exitCode, 0);
+
+        final iosAccepted = Process.runSync(
+          './scripts/record_native_mobile_accessibility_signoff.sh',
+          [
+            '--checklist',
+            checklist.path,
+            '--responsibility',
+            'ios_voiceover',
+            '--accepted-at',
+            '2026-06-30T12:01:00Z',
+          ],
+        );
+        expect(iosAccepted.exitCode, 0);
+
+        final finalAccepted = Process.runSync(
+          './scripts/record_native_mobile_accessibility_signoff.sh',
+          [
+            '--checklist',
+            checklist.path,
+            '--responsibility',
+            'final_decision',
+            '--accepted-at',
+            '2026-06-30T12:02:00Z',
+          ],
+        );
+        expect(finalAccepted.exitCode, 0);
+
+        final gate = Process.runSync(
+          './scripts/native_mobile_accessibility_signoff_gate.sh',
+          ['--json'],
+          environment: {
+            'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
+          },
+        );
+        expect(gate.exitCode, 99);
+        final decoded =
+            jsonDecode(gate.stdout as String) as Map<String, dynamic>;
+        expect(decoded['status'], 'blocked');
+        expect(decoded['decision'], 'NO-GO');
+        expect(
+          decoded['blocker_keys'],
+          contains('human_native_mobile_accessibility_signoff'),
+        );
+        expect(
+          checklist.readAsStringSync(),
+          contains(
+            'Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**',
+          ),
+        );
+      } finally {
+        if (tempDir.existsSync()) {
+          tempDir.deleteSync(recursive: true);
+        }
+      }
+    },
+  );
 
   test('release status reports current blocker keys', () {
     final result = Process.runSync(
@@ -999,58 +1019,62 @@ Current decision: **GO after signed review**
     expect(script, contains('rc=124'));
   });
 
-  test('Product design mobile audit gate validates current route screenshots', () {
-    final script = File(
-      'scripts/product_design_mobile_audit_artifact_gate.sh',
-    ).readAsStringSync();
-    final makefile = File('Makefile').readAsStringSync();
-    final repoWide = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
-    final evidenceIndex = File(
-      'scripts/release_evidence_index.sh',
-    ).readAsStringSync();
+  test(
+    'Product design mobile audit gate validates current route screenshots',
+    () {
+      final script = File(
+        'scripts/product_design_mobile_audit_artifact_gate.sh',
+      ).readAsStringSync();
+      final makefile = File('Makefile').readAsStringSync();
+      final repoWide = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
+      final evidenceIndex = File(
+        'scripts/release_evidence_index.sh',
+      ).readAsStringSync();
 
-    expect(script, contains('MOBILE_ROUTE_RENDER_SUMMARY'));
-    expect(script, contains('mobile_route_render_smoke'));
-    expect(script, contains('png_header'));
-    expect(script, contains('route_count_must_be_at_least_30'));
-    expect(script, contains('product_screen_count_must_be_at_least_27'));
-    expect(script, contains('viewport_must_be_390x844'));
-    expect(script, contains('pixel_check_failed'));
-    expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
-    expect(
-      makefile,
-      contains('product-design-mobile-audit-artifact-gate-json:'),
-    );
-    expect(repoWide, contains('product_design_mobile_audit_artifact_gate'));
-    expect(
-      repoWide,
-      contains('product_design_mobile_audit_artifact_gate.json'),
-    );
-    expect(
-      evidenceIndex,
-      contains('product_design_mobile_audit_artifact_gate'),
-    );
+      expect(script, contains('MOBILE_ROUTE_RENDER_SUMMARY'));
+      expect(script, contains('mobile_route_render_smoke'));
+      expect(script, contains('png_header'));
+      expect(script, contains('route_count_must_be_at_least_30'));
+      expect(script, contains('product_screen_count_must_be_at_least_27'));
+      expect(script, contains('viewport_must_be_390x844'));
+      expect(script, contains('pixel_check_failed'));
+      expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
+      expect(
+        makefile,
+        contains('product-design-mobile-audit-artifact-gate-json:'),
+      );
+      expect(repoWide, contains('product_design_mobile_audit_artifact_gate'));
+      expect(
+        repoWide,
+        contains('product_design_mobile_audit_artifact_gate.json'),
+      );
+      expect(
+        evidenceIndex,
+        contains('product_design_mobile_audit_artifact_gate'),
+      );
 
-    final result = Process.runSync(
-      './scripts/product_design_mobile_audit_artifact_gate.sh',
-      ['--json'],
-    );
-    expect(result.exitCode, 0);
-    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['status'], 'pass');
-    expect(decoded['evidence_source'], 'mobile_route_render_smoke');
-    expect(decoded['viewport'], '390x844');
-    expect(decoded['route_count'], greaterThanOrEqualTo(30));
-    expect(decoded['product_screen_count'], greaterThanOrEqualTo(27));
-    expect(decoded['secret_handling'], contains('does not inspect secrets'));
-    final items = (decoded['items'] as List<dynamic>)
-        .cast<Map<String, dynamic>>();
-    expect(items.length, greaterThanOrEqualTo(30));
-    expect(items.every((item) => item['png_valid'] == true), isTrue);
-    expect(items.every((item) => item['width'] == 390), isTrue);
-    expect(items.every((item) => item['height'] == 844), isTrue);
-    expect(items.every((item) => item['console_error_count'] == 0), isTrue);
-  });
+      final result = Process.runSync(
+        './scripts/product_design_mobile_audit_artifact_gate.sh',
+        ['--json'],
+      );
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'pass');
+      expect(decoded['evidence_source'], 'mobile_route_render_smoke');
+      expect(decoded['viewport'], '390x844');
+      expect(decoded['route_count'], greaterThanOrEqualTo(30));
+      expect(decoded['product_screen_count'], greaterThanOrEqualTo(27));
+      expect(decoded['secret_handling'], contains('does not inspect secrets'));
+      final items = (decoded['items'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      expect(items.length, greaterThanOrEqualTo(30));
+      expect(items.every((item) => item['png_valid'] == true), isTrue);
+      expect(items.every((item) => item['width'] == 390), isTrue);
+      expect(items.every((item) => item['height'] == 844), isTrue);
+      expect(items.every((item) => item['console_error_count'] == 0), isTrue);
+    },
+  );
 
   test('Android Kotlin plugin compatibility gate reports plugin risk', () {
     final script = File(

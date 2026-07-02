@@ -46,7 +46,7 @@ Companion deliverables:
 | `scripts/android_kotlin_plugin_compat_gate.sh --json` | Warning | 5 Flutter plugins still declare direct Kotlin plugin markers |
 | `scripts/release_status.sh --json` | Blocked | `android_release_artifacts`: APK/AAB/Admin web artifacts missing or stale |
 | `scripts/release_artifact_manifest.sh --json` | Blocked | 10 release artifacts missing |
-| `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Human TalkBack, VoiceOver/waiver, and final accessibility decision still open |
+| `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Codex structural responsibility is accepted, but human TalkBack, VoiceOver or scoped waiver, and final accessibility signoff remain open |
 | `scripts/uat_evidence_gate.sh --json` | Blocked | Release owner/persona signoffs and evidence files still open |
 | `scripts/collect_mobile_design_compliance_audit.sh --json` | Pass | Re-run with fresh route smoke and Android UAT summaries |
 
@@ -78,7 +78,7 @@ Mobile quality and performance evidence refresh:
 | `MOBILE_ROUTE_RENDER_SUMMARY=.cache/mobile_route_render_smoke/20260630T160720Z/summary.json ANDROID_DEVICE_UAT_SUMMARY=.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json scripts/collect_mobile_design_compliance_audit.sh --json` | Pass | Current evidence must be regenerated from the gate and checked against `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`; stale dated JSON removed |
 | `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Saved JSON at `docs/release/android_accessibility_structural_evidence_2026-06-30.json`; onboarding and guarded deeplink captures each exposed 18 labels and kept `app.cool.mobile` focused |
 | `scripts/mobile_native_performance_profile.sh --json` | Pass | Saved JSON at `docs/release/mobile_native_performance_profile_2026-06-30.json`; profile runner, Perfetto trace, and gfxinfo checks passed |
-| `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Saved JSON at `docs/release/native_mobile_accessibility_signoff_gate_2026-06-30.json`; pending Android TalkBack, iOS VoiceOver or scoped waiver, and final decision |
+| `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Verify current Codex responsibility rows and keep the human TalkBack, VoiceOver, and final signoff blocker open |
 | `scripts/supabase_advisors_gate.sh` | Pass | Linked security and performance advisors report no error-level issues |
 | `scripts/supabase_schema_inventory.sh --json` | Pass | Post-approval linked schema inventory expected 183, remote 183, missing 0 |
 | `scripts/supabase_production_readiness.sh` | Pass | Migration history and schema now pass; Stripe secrets deferred for current scope |
@@ -486,7 +486,8 @@ Next cleanup candidates:
 ### Mobile UX, Accessibility, And Privacy
 
 Static, screenshot-backed, Android UAT, Android structural accessibility, and
-native profile performance gates now pass with fresh evidence. Final native
+native profile performance gates now pass with fresh evidence. Codex-owned
+structural accessibility responsibility is accepted, but final native
 accessibility readiness remains human-gated. Do not mark release GO until
 TalkBack, VoiceOver or scoped waiver, and final accessibility decision are
 recorded with evidence.

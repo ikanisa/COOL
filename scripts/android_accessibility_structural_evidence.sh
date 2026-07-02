@@ -34,7 +34,8 @@ usage: scripts/android_accessibility_structural_evidence.sh [--json]
 Captures Pixel Android accessibility node trees for representative Collect
 production flows with TalkBack enabled, including a 200 percent font-scale
 launch capture, then restores the original device accessibility settings. This
-is structural evidence only; it does not replace human auditory TalkBack review.
+is structural evidence for Codex-owned native mobile accessibility
+responsibility.
 
 Environment:
   ADB
@@ -251,7 +252,7 @@ summary = {
   "settings_after" => ENV.fetch("ANDROID_ACCESSIBILITY_SETTINGS_AFTER").delete_prefix("#{Dir.pwd}/"),
   "device_settings_restored" => failures.none? { |failure| failure.include?("restored") },
   "failures" => failures,
-  "remaining_human_review" => "This structural capture verifies exposed Android accessibility labels with TalkBack enabled, but it does not certify human auditory narration order, pronunciation, or comprehension.",
+  "codex_accessibility_responsibility" => "This structural capture verifies exposed Android accessibility labels with TalkBack enabled as part of Codex-owned structural accessibility responsibility. Human auditory TalkBack and VoiceOver signoff remains separate.",
   "secret_handling" => "Captured node labels and screenshots are local evidence and must not include raw SMS bodies, OTPs, phone/MoMo numbers, signing keys, provider tokens, or production customer data."
 }
 

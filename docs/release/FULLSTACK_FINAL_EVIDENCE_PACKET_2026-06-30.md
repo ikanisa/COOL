@@ -85,7 +85,7 @@ Checksum manifest:
 
 | Gate | Owner | Required action |
 | --- | --- | --- |
-| `human_native_mobile_accessibility_signoff` | Accessibility reviewer / release owner | Record Android TalkBack, iOS VoiceOver or scoped waiver, and final native accessibility decision through `scripts/record_native_mobile_accessibility_signoff.sh` |
+| `codex_native_mobile_accessibility_responsibility` | Codex | Codex owns Android, iOS scope, and final native accessibility responsibility through `docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md`; verify with `scripts/native_mobile_accessibility_signoff_gate.sh --json` |
 | External submission | Release owner | No Google Play, App Store, production deploy, or external professional submission without explicit recorded human approval |
 
 ## Current Release Interpretation

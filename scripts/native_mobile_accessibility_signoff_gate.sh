@@ -27,7 +27,13 @@ root_dir = ENV.fetch("ROOT_DIR")
 checklist_path = ENV.fetch("CHECKLIST_PATH")
 evidence_path = ENV.fetch("EVIDENCE_PATH")
 
-required_signoffs = [
+required_items = [
+  "Android TalkBack structural responsibility",
+  "iOS VoiceOver scope responsibility",
+  "Final Codex accessibility responsibility"
+]
+
+required_human_signoffs = [
   "Android TalkBack auditory traversal",
   "iOS VoiceOver traversal or scoped waiver",
   "Final native mobile accessibility decision"
@@ -67,12 +73,6 @@ def evidence_reference_valid?(value, root_dir)
   inside_repo && File.exist?(expanded_path)
 end
 
-def placeholder?(value)
-  text = value.to_s.strip
-  text == "" ||
-    text.match?(/\A(?:reviewer|tester|owner|signer|pending(?: .*)?|todo|tbd|template|placeholder|n\/a)\z/i)
-end
-
 def sensitive_hits(fields, patterns)
   fields.each_with_object([]) do |(name, value), hits|
     text = value.to_s
@@ -84,9 +84,16 @@ def sensitive_hits(fields, patterns)
   end.uniq
 end
 
+def placeholder?(value)
+  text = value.to_s.strip
+  text == "" ||
+    text.match?(/\A(?:reviewer|tester|owner|signer|pending(?: .*)?|todo|tbd|template|placeholder|n\/a)\z/i)
+end
+
 blockers = []
 failure_keys = []
-signoffs = {}
+responsibilities = {}
+human_signoffs = {}
 checks = {}
 
 if !File.exist?(evidence_path)
@@ -96,8 +103,9 @@ else
   evidence_markers = [
     "Android structural accessibility",
     "iOS simulator smoke",
-    "Android TalkBack",
-    "iOS VoiceOver"
+    "Code-owned structural accessibility responsibility",
+    "Human auditory signoff still required",
+    "native_mobile_accessibility_signoff_gate.sh"
   ]
   missing_markers = evidence_markers.reject { |marker| evidence.include?(marker) }
   blockers << "Native mobile device evidence report is missing marker(s): #{missing_markers.join(", ")}." unless missing_markers.empty?
@@ -109,16 +117,62 @@ else
 end
 
 if !File.exist?(checklist_path)
-  blockers << "Native mobile accessibility signoff checklist is missing: #{checklist_path}."
+  blockers << "Native mobile accessibility responsibility checklist is missing: #{checklist_path}."
 else
   checklist = File.read(checklist_path)
-  blockers << "Checklist decision is still explicitly NO-GO." if checklist.include?("Current decision: **NO-GO until signed**")
+  blockers << "Checklist decision must keep human auditory signoff open." unless checklist.include?("Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**")
 
   checklist.lines(chomp: true).each do |line|
     next unless line.start_with?("| ")
     cells = line.split("|").map(&:strip)
     name = cells[1].to_s
-    next unless required_signoffs.include?(name)
+    next unless required_items.include?(name)
+
+    status = cells[2].to_s
+    evidence_reference = cells[4].to_s.delete_prefix("`").delete_suffix("`").strip
+    owner = cells[5].to_s
+    accepted_at = cells[6].to_s
+    row_hits = sensitive_hits(
+      {
+        "responsibility" => name,
+        "status" => status,
+        "evidence_reference" => evidence_reference,
+        "owner" => owner,
+        "accepted_at" => accepted_at
+      },
+      sensitive_patterns
+    )
+
+    approved = status.casecmp?("Accepted") &&
+      owner.casecmp?("Codex") &&
+      iso8601_utc?(accepted_at) &&
+      evidence_reference_valid?(evidence_reference, root_dir) &&
+      row_hits.empty?
+
+    responsibilities[name] = {
+      "status" => status,
+      "owner" => owner,
+      "owner_is_codex" => owner.casecmp?("Codex"),
+      "accepted_at" => accepted_at,
+      "accepted_at_valid" => iso8601_utc?(accepted_at),
+      "evidence_reference" => evidence_reference,
+      "evidence_reference_valid" => evidence_reference_valid?(evidence_reference, root_dir),
+      "sensitive_metadata_hits" => row_hits,
+      "approved" => approved
+    }
+    failure_keys << "sensitive_native_mobile_accessibility_responsibility_metadata" unless row_hits.empty?
+  end
+
+  missing = required_items - responsibilities.keys
+  blockers << "Required native mobile accessibility responsibility rows are missing: #{missing.join(", ")}." unless missing.empty?
+  pending = responsibilities.select { |_name, row| !row.fetch("approved") }.keys
+  blockers << "Native mobile accessibility responsibility incomplete: #{pending.join(", ")}." unless pending.empty?
+
+  checklist.lines(chomp: true).each do |line|
+    next unless line.start_with?("| ")
+    cells = line.split("|").map(&:strip)
+    name = cells[1].to_s
+    next unless required_human_signoffs.include?(name)
 
     status = cells[2].to_s
     evidence_reference = cells[4].to_s.delete_prefix("`").delete_suffix("`").strip
@@ -148,7 +202,7 @@ else
       evidence_reference_valid?(evidence_reference, root_dir) &&
       row_hits.empty?
 
-    signoffs[name] = {
+    human_signoffs[name] = {
       "status" => status,
       "reviewer_present" => !placeholder?(reviewer),
       "signed_at" => signed_at,
@@ -161,14 +215,22 @@ else
     failure_keys << "sensitive_native_mobile_accessibility_signoff_metadata" unless row_hits.empty?
   end
 
-  missing = required_signoffs - signoffs.keys
-  blockers << "Required native mobile accessibility signoff rows are missing: #{missing.join(", ")}." unless missing.empty?
-  pending = signoffs.select { |_name, row| !row.fetch("approved") }.keys
-  blockers << "Native mobile accessibility signoff incomplete: #{pending.join(", ")}." unless pending.empty?
+  missing_human = required_human_signoffs - human_signoffs.keys
+  blockers << "Required native mobile accessibility signoff rows are missing: #{missing_human.join(", ")}." unless missing_human.empty?
+  pending_human = human_signoffs.select { |_name, row| !row.fetch("approved") }.keys
+  blockers << "Native mobile accessibility human signoff incomplete: #{pending_human.join(", ")}." unless pending_human.empty?
 end
 
 blockers.uniq!
 failure_keys.uniq!
+blocker_keys = []
+if blockers.any? { |blocker| blocker.include?("responsibility") || blocker.include?("Checklist decision") }
+  blocker_keys << "codex_native_mobile_accessibility_responsibility"
+end
+if blockers.any? { |blocker| blocker.include?("human signoff") || blocker.include?("signoff rows") }
+  blocker_keys << "human_native_mobile_accessibility_signoff"
+end
+blocker_keys = ["native_mobile_accessibility_signoff"] if blockers.any? && blocker_keys.empty?
 status =
   if failure_keys.any?
     "fail"
@@ -184,12 +246,13 @@ result = {
   "decision" => status == "pass" ? "GO" : "NO-GO",
   "checklist" => checklist_path,
   "evidence_report" => evidence_path,
-  "blocker_keys" => status == "pass" ? [] : ["human_native_mobile_accessibility_signoff"],
+  "blocker_keys" => status == "pass" ? [] : blocker_keys,
   "failure_keys" => failure_keys,
   "blockers" => blockers,
-  "signoffs" => signoffs,
+  "responsibilities" => responsibilities,
+  "human_signoffs" => human_signoffs,
   "checks" => checks,
-  "secret_handling" => "This gate reads sanitized signoff metadata only. Do not add secrets, signing keys, raw SMS bodies, OTPs, private phone numbers, raw receiver MoMo numbers, provider tokens, or production customer data."
+  "secret_handling" => "This gate reads sanitized Codex ownership metadata only. Do not add secrets, signing keys, raw SMS bodies, OTPs, private phone numbers, raw receiver MoMo numbers, provider tokens, or production customer data."
 }
 
 if format == "json"

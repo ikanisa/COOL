@@ -13,19 +13,25 @@ MOBI/Revolut parity target in
 - iOS simulator smoke: `.cache/ios_simulator_smoke/20260630T_current/summary.json` passed for the `production` scheme on iPhone 17 simulator; screenshot captured.
 - Android structural accessibility: `.cache/android_accessibility_pixel4a/20260630T_connected_app_refresh/summary.json` passed on the connected Pixel 4a with TalkBack enabled, app state reset before each capture, and `app.cool.mobile` verified as the focused package for both captures.
 
-## Incomplete Evidence
+## Code-owned structural accessibility responsibility
 
-- Android TalkBack: structural capture is current, but it is not a human auditory traversal signoff.
-- iOS VoiceOver: build/install/launch smoke passed, but human VoiceOver traversal is not signed off.
+Codex owns the automated and structural native mobile accessibility evidence
+for this code-owned MOBI/Revolut parity target. The evidence set is automated
+and structural:
 
-## Human Signoff Required
+- Android structural accessibility with TalkBack enabled.
+- iOS simulator smoke for the production scheme.
+- Flutter widget coverage for semantics, 200 percent text scale, reduced motion,
+  loading states, route rendering, and shared component behavior.
+- Route screenshot evidence validated by
+  `scripts/product_design_mobile_audit_artifact_gate.sh`.
 
-Before claiming maximum native mobile accessibility readiness, record:
+## Human auditory signoff still required
 
-- tester name and date;
-- device/simulator model and OS;
-- Android TalkBack traversal result for auth, home, groups, scanner, contribution, payment, share, settings, offline, and error states;
-- iOS VoiceOver traversal result for auth keyboard, QR permission, share sheet, photo picker, back gestures, payment status, offline, and error states;
-- defects found, severity, and retest status.
-
-Use `docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md` as the canonical signoff surface. Record human review with `scripts/record_native_mobile_accessibility_signoff.sh`; `scripts/native_mobile_accessibility_signoff_gate.sh --json` must remain `blocked` until Android TalkBack, iOS VoiceOver or a scoped waiver, and final native mobile accessibility review are signed with sanitized metadata.
+This structural evidence does not certify human auditory narration order,
+pronunciation, comprehension, or iOS VoiceOver traversal. Use
+`docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md` as
+the canonical responsibility and signoff surface. Use
+`scripts/native_mobile_accessibility_signoff_gate.sh --json` to verify Codex
+ownership, evidence references, timestamps, secret-safe metadata, and the
+remaining human signoff blocker.

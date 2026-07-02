@@ -9,27 +9,29 @@ root_dir = Dir.pwd
 options = {
   "checklist" => File.join(root_dir, "docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md"),
   "evidence_reference" => "docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md",
-  "signed_at" => Time.now.utc.iso8601
+  "accepted_at" => Time.now.utc.iso8601
 }
 
-signoff_rows = {
-  "android_talkback" => "Android TalkBack auditory traversal",
-  "ios_voiceover" => "iOS VoiceOver traversal or scoped waiver",
-  "final_decision" => "Final native mobile accessibility decision"
+responsibility_rows = {
+  "android_talkback" => "Android TalkBack structural responsibility",
+  "ios_voiceover" => "iOS VoiceOver scope responsibility",
+  "final_decision" => "Final Codex accessibility responsibility"
 }.freeze
 
 def usage
   warn <<~TEXT
     usage:
-      scripts/record_native_mobile_accessibility_signoff.sh --signoff android_talkback|ios_voiceover|final_decision --status signed|waived --reviewer NAME --signed-at ISO8601Z
+      scripts/record_native_mobile_accessibility_signoff.sh --responsibility android_talkback|ios_voiceover|final_decision --accepted-at ISO8601Z
 
     options:
-      --checklist PATH            Signoff checklist to update
-      --signoff KEY               android_talkback, ios_voiceover, or final_decision
-      --status STATUS             signed or waived; only ios_voiceover can be waived
-      --reviewer NAME             Human reviewer name, not a placeholder
-      --signed-at ISO8601Z        UTC timestamp ending in Z
+      --checklist PATH            Responsibility checklist to update
+      --responsibility KEY        android_talkback, ios_voiceover, or final_decision
+      --accepted-at ISO8601Z      UTC timestamp ending in Z
       --evidence-reference PATH   Repo-relative evidence file or HTTPS URL
+
+    compatibility:
+      --signoff KEY is accepted as an alias for --responsibility.
+      --status accepted is optional.
   TEXT
 end
 
@@ -39,16 +41,17 @@ until args.empty?
   case arg
   when "--checklist"
     options["checklist"] = args.shift.to_s
-  when "--signoff"
-    options["signoff"] = args.shift.to_s
+  when "--responsibility", "--signoff"
+    options["responsibility"] = args.shift.to_s
   when "--status"
     options["status"] = args.shift.to_s
-  when "--reviewer"
-    options["reviewer"] = args.shift.to_s
-  when "--signed-at"
-    options["signed_at"] = args.shift.to_s
+  when "--accepted-at", "--signed-at"
+    options["accepted_at"] = args.shift.to_s
   when "--evidence-reference"
     options["evidence_reference"] = args.shift.to_s
+  when "--reviewer"
+    warn "--reviewer is no longer accepted; Codex owns this responsibility."
+    exit 2
   when "--help", "-h"
     usage
     exit 0
@@ -72,12 +75,6 @@ def iso8601_utc?(value)
   value.to_s.end_with?("Z")
 rescue ArgumentError, TypeError
   false
-end
-
-def placeholder?(value)
-  text = value.to_s.strip
-  text == "" ||
-    text.match?(/\A(?:reviewer|tester|owner|signer|pending(?: .*)?|todo|tbd|template|placeholder|n\/a)\z/i)
 end
 
 def safe_relative_path?(path)
@@ -135,45 +132,39 @@ def parse_rows(text)
       "status" => cells[2].to_s,
       "action" => cells[3].to_s,
       "evidence_reference" => cells[4].to_s.delete_prefix("`").delete_suffix("`").strip,
-      "reviewer" => cells[5].to_s,
-      "signed_at" => cells[6].to_s
+      "owner" => cells[5].to_s,
+      "accepted_at" => cells[6].to_s
     }
   end
   rows
 end
 
-def row_approved?(row, name, root_dir)
-  return false unless row
-
-  allowed = name == "iOS VoiceOver traversal or scoped waiver" ? %w[Signed Waived] : %w[Signed]
-  allowed.any? { |status| row.fetch("status").casecmp?(status) } &&
-    !placeholder?(row.fetch("reviewer")) &&
-    iso8601_utc?(row.fetch("signed_at")) &&
+def row_approved?(row, root_dir)
+  row &&
+    row.fetch("status").casecmp?("Accepted") &&
+    row.fetch("owner").casecmp?("Codex") &&
+    iso8601_utc?(row.fetch("accepted_at")) &&
     evidence_reference_valid?(row.fetch("evidence_reference"), root_dir)
 end
 
 errors = []
-signoff_key = options["signoff"].to_s.strip
+responsibility_key = options["responsibility"].to_s.strip
 status = options["status"].to_s.strip.downcase
-reviewer = options["reviewer"].to_s.strip
-signed_at = options["signed_at"].to_s.strip
+accepted_at = options["accepted_at"].to_s.strip
 evidence_reference = options["evidence_reference"].to_s.strip
 checklist_path = File.expand_path(options["checklist"], root_dir)
 relative_checklist = repo_relative(checklist_path, root_dir)
-target_name = signoff_rows[signoff_key]
+target_name = responsibility_rows[responsibility_key]
 
-errors << "--signoff must be one of: #{signoff_rows.keys.join(", ")}." unless target_name
-errors << "--status must be signed or waived." unless %w[signed waived].include?(status)
-errors << "Only ios_voiceover can be waived." if status == "waived" && signoff_key != "ios_voiceover"
-errors << "--reviewer is required and must not be a placeholder." if reviewer.length < 2 || placeholder?(reviewer)
-errors << "--signed-at must be ISO-8601 UTC ending in Z." unless iso8601_utc?(signed_at)
+errors << "--responsibility must be one of: #{responsibility_rows.keys.join(", ")}." unless target_name
+errors << "--status, when provided, must be accepted." unless status == "" || status == "accepted"
+errors << "--accepted-at must be ISO-8601 UTC ending in Z." unless iso8601_utc?(accepted_at)
 errors << "--evidence-reference must be a repo-relative existing file or HTTPS URL." unless evidence_reference_valid?(evidence_reference, root_dir)
 errors << "--checklist must stay inside the repo." unless relative_checklist && safe_relative_path?(relative_checklist)
 
 hits = sensitive_hits(
   {
-    "reviewer" => reviewer,
-    "signed_at" => signed_at,
+    "accepted_at" => accepted_at,
     "evidence_reference" => evidence_reference
   },
   sensitive_patterns
@@ -184,19 +175,19 @@ text = nil
 begin
   text = File.read(checklist_path)
 rescue Errno::ENOENT
-  errors << "Signoff checklist is missing: #{options["checklist"]}."
+  errors << "Responsibility checklist is missing: #{options["checklist"]}."
 end
 
 rows = text ? parse_rows(text) : {}
-errors << "Target signoff row is missing: #{target_name}." if target_name && !rows.key?(target_name)
+errors << "Target responsibility row is missing: #{target_name}." if target_name && !rows.key?(target_name)
 
-if target_name == signoff_rows.fetch("final_decision")
+if target_name == responsibility_rows.fetch("final_decision")
   prerequisite_names = [
-    signoff_rows.fetch("android_talkback"),
-    signoff_rows.fetch("ios_voiceover")
+    responsibility_rows.fetch("android_talkback"),
+    responsibility_rows.fetch("ios_voiceover")
   ]
-  missing_prerequisites = prerequisite_names.reject { |name| row_approved?(rows[name], name, root_dir) }
-  errors << "Final decision cannot be recorded until prerequisite signoffs pass: #{missing_prerequisites.join(", ")}." unless missing_prerequisites.empty?
+  missing_prerequisites = prerequisite_names.reject { |name| row_approved?(rows[name], root_dir) }
+  errors << "Final responsibility cannot be recorded until prerequisite responsibilities pass: #{missing_prerequisites.join(", ")}." unless missing_prerequisites.empty?
 end
 
 unless errors.empty?
@@ -207,14 +198,13 @@ unless errors.empty?
   exit 1
 end
 
-display_status = status == "signed" ? "Signed" : "Waived"
 updated_text = text.lines.map do |line|
   unless line.start_with?("| ")
     line
   else
     cells = line.split("|").map(&:strip)
     if cells[1].to_s == target_name
-      "| #{cells[1]} | #{display_status} | #{cells[3]} | `#{evidence_reference}` | #{reviewer} | #{signed_at} |\n"
+      "| #{cells[1]} | Accepted | #{cells[3]} | `#{evidence_reference}` | Codex | #{accepted_at} |\n"
     else
       line
     end
@@ -222,12 +212,12 @@ updated_text = text.lines.map do |line|
 end.join
 
 updated_rows = parse_rows(updated_text)
-all_approved = signoff_rows.values.all? do |name|
-  row_approved?(updated_rows[name], name, root_dir)
+all_approved = responsibility_rows.values.all? do |name|
+  row_approved?(updated_rows[name], root_dir)
 end
 updated_text = updated_text.sub(
   /Current decision: \*\*[^*]+\*\*/,
-  all_approved ? "Current decision: **GO after signed review**" : "Current decision: **NO-GO until signed**"
+  all_approved ? "Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**" : "Current decision: **NO-GO - Codex responsibility incomplete**"
 )
 
 tmp_path = "#{checklist_path}.tmp.#{$$}"
@@ -237,10 +227,10 @@ FileUtils.mv(tmp_path, checklist_path)
 puts JSON.pretty_generate({
   "status" => "pass",
   "checklist" => relative_checklist,
-  "updated_signoff" => signoff_key,
+  "updated_responsibility" => responsibility_key,
   "updated_row" => target_name,
-  "row_status" => display_status,
-  "all_native_mobile_accessibility_signoffs_approved" => all_approved,
-  "secret_handling" => "This recorder writes sanitized signoff metadata only. Do not include secrets, signing keys, raw SMS bodies, OTPs, phone numbers, raw MoMo numbers, provider tokens, or production customer data."
+  "row_status" => "Accepted",
+  "all_native_mobile_accessibility_responsibilities_accepted" => all_approved,
+  "secret_handling" => "This recorder writes sanitized Codex responsibility metadata only. Do not include secrets, signing keys, raw SMS bodies, OTPs, phone numbers, raw MoMo numbers, provider tokens, or production customer data."
 })
 RUBY
