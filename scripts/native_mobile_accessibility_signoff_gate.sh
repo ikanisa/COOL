@@ -14,8 +14,8 @@ case "${1:-}" in
     ;;
 esac
 
-checklist_path="${NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST:-docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md}"
-evidence_path="${NATIVE_MOBILE_DEVICE_EVIDENCE_FILE:-docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md}"
+checklist_path="${NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST:-.cache/native_mobile_accessibility/current_checklist.md}"
+evidence_path="${NATIVE_MOBILE_DEVICE_EVIDENCE_FILE:-.cache/native_mobile_accessibility/current_evidence.md}"
 
 OUTPUT_FORMAT="$output_format" \
 ROOT_DIR="$ROOT_DIR" \

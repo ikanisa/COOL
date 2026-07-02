@@ -387,6 +387,7 @@ void main() {
     expect(qaRunner, contains('mobile_contract_compliance'));
     expect(designAudit, contains('single_universal_contract'));
     expect(designAudit, contains('no_secondary_contract_sources'));
+    expect(designAudit, contains('tracked_design_source_paths'));
     expect(designAudit, contains('universal_component_state_contract'));
     expect(designAudit, contains('responsive_adaptive_contract'));
     expect(designAudit, contains('route_screenshot_evidence_optional'));
@@ -452,6 +453,7 @@ void main() {
     expect(designAudit, contains('DESIGN.md'));
     expect(designAudit, contains('Universal Mobile App Design Standard 2026'));
     expect(designAudit, contains('no_secondary_contract_sources'));
+    expect(designAudit, contains('tracked_design_source_paths'));
     expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
     expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
   });

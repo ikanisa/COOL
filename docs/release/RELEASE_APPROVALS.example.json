@@ -34,7 +34,7 @@
       "decision": "GO",
       "reviewer": "Android Release Reviewer",
       "signed_at": "2026-06-01T00:00:00Z",
-      "evidence_reference": "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,

@@ -124,13 +124,13 @@ approval_evidence_patterns = {
     %r{\A\.cache/repo_wide_qa_uat/[^/]+/uat_evidence_gate\.json\z}
   ],
   "android_release_signing_review" => [
-    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/RELEASE_STATUS\.md\z},
     %r{\Aoutput/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_[0-9-]+\.sha256\z},
     %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z},
     %r{\A\.cache/android_install/[^/]+/final_release_summary\.json\z}
   ],
   "ios_release_scope" => [
-    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/RELEASE_STATUS\.md\z},
     %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z},
     %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z}
   ],

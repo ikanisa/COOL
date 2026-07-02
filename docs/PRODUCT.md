@@ -72,6 +72,6 @@ RPCs, role tables, and audit logs enforce authorization.
 - `README.md`: route and command overview.
 - `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`: historical product
   definition record and detailed journey notes.
-- `docs/release/COLLECT_MARKET_EXPANSION_STRIPE_DIASPORA_GOAL_2026-06-21.md`:
+- `docs/PRODUCT.md`:
   detailed expansion goal and governance constraints.
 - `docs/release/RELEASE_STATUS.md`: current release/governance status.

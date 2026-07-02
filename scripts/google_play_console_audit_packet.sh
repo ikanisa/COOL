@@ -12,7 +12,7 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-PACKET_PATH="${GOOGLE_PLAY_CONSOLE_AUDIT_PACKET:-docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET_2026-06-21.json}"
+PACKET_PATH="${GOOGLE_PLAY_CONSOLE_AUDIT_PACKET:-docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json}"
 OUTPUT_PATH="${OUTPUT_PATH:-.cache/google_play_optimization/google_play_console_audit_packet.json}"
 
 ROOT_DIR="$ROOT_DIR" PACKET_PATH="$PACKET_PATH" OUTPUT_PATH="$OUTPUT_PATH" OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r json -r net/http -r uri -r time -r fileutils <<'RUBY'

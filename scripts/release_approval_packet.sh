@@ -223,7 +223,7 @@ approval_records = [
     "owner" => "mobile/release",
     "decision_needed" => "Approve the current production APK/AAB outputs and Play App Signing configuration without exposing signing keys.",
     "evidence_to_review" => [
-      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      "docs/release/RELEASE_STATUS.md",
       latest_checksum_manifest,
       latest_mobile_release_gate_summary,
       latest_android_install_summary,
@@ -241,11 +241,11 @@ approval_records = [
     "suggested_evidence_reference" => suggested_evidence_reference(
       suggested_evidence_references,
       "android_release_signing_review",
-      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"
+      "docs/release/RELEASE_STATUS.md"
     ),
     "record_command" => record_command(
       key: "android_release_signing_review",
-      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<APK/AAB and Play App Signing review summary>",
       extra_args: "--no-signing-keys-exposed"
     ),
@@ -259,7 +259,7 @@ approval_records = [
     "owner" => "mobile/release",
     "decision_needed" => "Either approve iOS contributor-only release evidence or explicitly scope iOS out of this go-live.",
     "evidence_to_review" => [
-      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      "docs/release/RELEASE_STATUS.md",
       "ios/Runner/Info.plist",
       "ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme",
       "ios/Flutter/Release-production.xcconfig",
@@ -276,16 +276,16 @@ approval_records = [
     "suggested_evidence_reference" => suggested_evidence_reference(
       suggested_evidence_references,
       "ios_release_scope",
-      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"
+      "docs/release/RELEASE_STATUS.md"
     ),
     "record_command" => record_command(
       key: "ios_release_scope",
-      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<iOS contributor-scope review summary>"
     ),
     "record_out_of_scope_command" => record_command(
       key: "ios_release_scope --out-of-scope",
-      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<Android-only go-live scope rationale>"
     ),
     "verify_command" => "Run record_command or record_out_of_scope_command for ios_release_scope, then ./scripts/flutter_mobile_release_gate.sh --json"
@@ -301,7 +301,7 @@ approval_records = [
       latest_summary,
       latest_android_device_summary,
       latest_supabase_evidence_summary,
-      "docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md",
+      "docs/release/RELEASE_APPROVAL_PACKET.md",
       "docs/release/GO_NO_GO_DECISION.md",
       "docs/release/RELEASE_BLOCKERS.md",
       bundle_dir && File.join(bundle_dir, "evidence_index.json"),
@@ -349,7 +349,7 @@ packet = {
     latest_supabase_evidence_summary && file_item(root_dir, latest_supabase_evidence_summary),
     latest_mobile_release_gate_summary && file_item(root_dir, latest_mobile_release_gate_summary),
     latest_android_install_summary && file_item(root_dir, latest_android_install_summary),
-    file_item(root_dir, "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"),
+    file_item(root_dir, "docs/release/RELEASE_STATUS.md"),
     latest_checksum_manifest && file_item(root_dir, latest_checksum_manifest),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md"),
     file_item(root_dir, "scripts/collect_product_boundary_scan.sh")

@@ -1,3 +1,0 @@
-Running Gradle task 'bundleProductionRelease'...
-Running Gradle task 'bundleProductionRelease'...                   78.0s
-✓ Built build/app/outputs/bundle/productionRelease/app-production-release.aab (78.1MB)

@@ -84,6 +84,19 @@ secondary_sources = {
 }
 existing_secondary = secondary_sources.select { |_label, path| File.exist?(File.join(root, path)) }.keys
 add_check.call("no_secondary_contract_sources", existing_secondary.empty?, existing_secondary.map { |label| "Secondary contract source still exists: #{label}." }, ["DESIGN.md"])
+tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.map(&:strip)
+forbidden_tracked_paths = tracked_paths.reject do |path|
+  path == "DESIGN.md" ||
+    !path.match?(
+      %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand}i
+    )
+end
+add_check.call(
+  "tracked_design_source_paths",
+  forbidden_tracked_paths.empty?,
+  forbidden_tracked_paths.map { |path| "Forbidden tracked design source path remains: #{path}." },
+  ["DESIGN.md"]
+)
 state_terms = ["Loading", "Empty", "Error", "Offline", "Permission denied", "Disabled", "Focused", "Pressed", "Selected", "Large text", "Reduced motion", "Dark mode", "Light mode"]
 missing_states = state_terms.reject { |term| design.include?(term) }
 add_check.call("universal_component_state_contract", missing_states.empty?, missing_states.map { |term| "DESIGN.md state contract is missing #{term}." }, ["DESIGN.md"])

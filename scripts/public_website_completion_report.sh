@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 EVIDENCE_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-output/public_website_evidence}"
-OUT_PATH="${PUBLIC_WEBSITE_COMPLETION_REPORT:-docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md}"
+OUT_PATH="${PUBLIC_WEBSITE_COMPLETION_REPORT:-.cache/public_website_completion_report/REPORT.md}"
 
 mkdir -p "$EVIDENCE_DIR" "$(dirname "$OUT_PATH")"
 
@@ -47,7 +47,7 @@ rows = [
 ]
 
 lines = []
-lines << "# Collect Public Website Completion Audit"
+lines << "# Collect Public Website Completion Report"
 lines << ""
 lines << "Generated: #{Time.now.utc.iso8601}"
 lines << ""

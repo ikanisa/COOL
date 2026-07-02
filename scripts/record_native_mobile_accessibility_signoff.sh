@@ -7,8 +7,8 @@ cd "$ROOT_DIR"
 ruby -r json -r time -r fileutils -r uri - "$@" <<'RUBY'
 root_dir = Dir.pwd
 options = {
-  "checklist" => File.join(root_dir, "docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md"),
-  "evidence_reference" => "docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md",
+  "checklist" => File.join(root_dir, ".cache/native_mobile_accessibility/current_checklist.md"),
+  "evidence_reference" => ".cache/native_mobile_accessibility/current_evidence.md",
   "accepted_at" => Time.now.utc.iso8601
 }
 

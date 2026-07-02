@@ -1,1 +1,0 @@
-[supabase-deploy] pushing database migrations

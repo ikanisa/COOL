@@ -12,7 +12,7 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-PACKET_PATH="${GOOGLE_PLAY_CONSOLE_AUDIT_PACKET:-docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET_2026-06-21.json}"
+PACKET_PATH="${GOOGLE_PLAY_CONSOLE_AUDIT_PACKET:-docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json}"
 METADATA_DIR="${GOOGLE_PLAY_METADATA_DIR:-fastlane/metadata/android}"
 OUTPUT_PATH="${OUTPUT_PATH:-.cache/google_play_optimization/google_play_metadata_export.json}"
 

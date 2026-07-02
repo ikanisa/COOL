@@ -1,2 +1,0 @@
-[admin-pwa-runtime] pass evidence=/Volumes/PRO-G40/COOL/.cache/admin_pwa_render_smoke/20260630T164238Z/pwa-runtime.json
-[admin-pwa-render] pass evidence=/Volumes/PRO-G40/COOL/.cache/admin_pwa_render_smoke/20260630T164238Z

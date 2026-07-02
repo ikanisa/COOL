@@ -71,6 +71,20 @@ secondary_sources.each do |label, path|
   checks["secondary_absent: #{label}"] = { "status" => absent ? "pass" : "blocked" }
   blockers << "Secondary contract source still exists: #{label}." unless absent
 end
+tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.map(&:strip)
+forbidden_tracked_paths = tracked_paths.reject do |path|
+  path == "DESIGN.md" ||
+    !path.match?(
+      %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand}i
+    )
+end
+checks["tracked_design_source_paths"] = {
+  "status" => forbidden_tracked_paths.empty? ? "pass" : "blocked",
+  "paths" => forbidden_tracked_paths
+}
+forbidden_tracked_paths.each do |path|
+  blockers << "Forbidden tracked design source path remains: #{path}."
+end
 blockers.uniq!
 status = blockers.any? ? "blocked" : "pass"
 result = {

@@ -4,7 +4,7 @@ Status date: 2026-06-27
 
 Use this file as the concise Play readiness index. Store metadata lives under
 `fastlane/metadata/android/en-US/`, and structured Play Console evidence lives
-in `docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET_2026-06-21.json` while
+in `docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json` while
 scripts still consume that packet.
 
 Current boundaries:

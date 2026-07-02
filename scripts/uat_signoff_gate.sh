@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-SIGNOFF_FILE="${UAT_SIGNOFF_FILE:-docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md}"
+SIGNOFF_FILE="${UAT_SIGNOFF_FILE:-.cache/uat_signoff/CHECKLIST.md}"
 EVIDENCE_MANIFEST="${UAT_EVIDENCE_MANIFEST:-docs/release/UAT_EVIDENCE_MANIFEST.json}"
 output_format="text"
 

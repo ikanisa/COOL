@@ -170,16 +170,13 @@ required_docs = {
   "production_readiness_checklist" => ["docs/release/PRODUCTION_READINESS_CHECKLIST.md", ["Current Readiness", "Production Blockers"]],
   "qa_test_report" => ["docs/release/QA_TEST_REPORT.md", ["Admin PWA", "linked Supabase"]],
   "uat_execution_report" => ["docs/release/UAT_EXECUTION_REPORT.md", ["UAT-01", "UAT-10"]],
-  "uat_go_live_packet" => ["docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md", ["Device And Browser Matrix", "Test Data Ledger", "Risk Register", "Final GO Criteria"]],
   "go_no_go_decision" => ["docs/release/GO_NO_GO_DECISION.md", ["NO-GO", "SMS-first"]],
   "release_blockers" => ["docs/release/RELEASE_BLOCKERS.md", ["P0-004", "SMS-first"]],
-  "uat_signoff_checklist" => ["docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md", ["PENDING SIGNOFF", "Release Owner Decision"]],
-  "completion_audit" => ["docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md", ["Requirement Audit", "Current Blocking Keys"]],
-  "google_play_optimization_goal" => ["docs/release/GOOGLE_PLAY_OPTIMIZATION_GOAL_2026-06-21.md", ["Official Source Map", "Current Blockers"]],
-  "google_play_production_submission" => ["docs/release/GOOGLE_PLAY_PRODUCTION_SUBMISSION_2026-06-21.md", ["Target Release", "Blocked Upload Attempts"]],
-  "google_play_optimization_surface_matrix" => ["docs/release/GOOGLE_PLAY_OPTIMIZATION_SURFACE_MATRIX_2026-06-21.md", ["Audit Matrix", "Immediate Submission Commands"]],
-  "google_play_console_audit_packet" => ["docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET_2026-06-21.json", ["store_listing", "app_content", "play_console_surfaces"]],
-  "google_play_operational_readiness" => ["docs/release/GOOGLE_PLAY_OPERATIONAL_READINESS_2026-06-21.md", ["Play Integrity Strategy", "Vitals And Reporting Strategy", "Testing Tracks"]]
+  "release_status" => ["docs/release/RELEASE_STATUS.md", ["Current Summary", "Current Required Checks"]],
+  "release_approval_packet" => ["docs/release/RELEASE_APPROVAL_PACKET.md", ["Release Approval Packet", "Required approval gates"]],
+  "uat_evidence_manifest" => ["docs/release/UAT_EVIDENCE_MANIFEST.json", ["personas", "release_owner"]],
+  "google_play_console_audit_packet" => ["docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json", ["store_listing", "app_content", "play_console_surfaces"]],
+  "play_store_readiness" => ["docs/release/PLAY_STORE_READINESS.md", ["Play Store Readiness", "Current boundaries"]]
 }
 
 doc_items = required_docs.map do |name, (relative_path, markers)|

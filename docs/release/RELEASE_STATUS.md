@@ -45,14 +45,13 @@ ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make supabase-go-live-gate-
 
 ## Retained Governance Files
 
-Keep these in active docs until scripts/tests are migrated:
+Keep these durable governance files in active docs:
 
 - `docs/release/RELEASE_APPROVAL_PACKET.md`
 - `docs/release/RELEASE_APPROVALS.json`
 - `docs/release/RELEASE_APPROVALS.example.json`
 - `docs/release/UAT_EVIDENCE_MANIFEST.json`
 - `docs/release/UAT_EVIDENCE_MANIFEST.example.json`
-- `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
 
 ## Current Human Approval Boundary
 

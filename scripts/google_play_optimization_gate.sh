@@ -86,7 +86,7 @@ manifest = read(File.join(root, "android/app/src/main/AndroidManifest.xml"))
 receiver_manifest = read(File.join(root, "android/app/src/internal_receiver/AndroidManifest.xml"))
 assetlinks_source = read(File.join(root, "web/.well-known/assetlinks.json"))
 live_deployments = JSON.parse(read(File.join(root, "docs/release/LIVE_DEPLOYMENTS.json"))) rescue {}
-console_audit_packet_path = File.join(root, "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET_2026-06-21.json")
+console_audit_packet_path = File.join(root, "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json")
 console_audit_packet = JSON.parse(read(console_audit_packet_path)) rescue {}
 
 apk = artifact(root, "build/app/outputs/flutter-apk/app-production-release.apk")
@@ -297,7 +297,7 @@ integrity_sources = {
   "main_activity" => "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
   "flutter_service" => "lib/core/security/play_integrity_service.dart",
   "supabase_function" => "supabase/functions/verify-play-integrity/index.ts",
-  "operational_readiness" => "docs/release/GOOGLE_PLAY_OPERATIONAL_READINESS_2026-06-21.md"
+  "operational_readiness" => "docs/release/PLAY_STORE_READINESS.md"
 }
 integrity_items = integrity_sources.transform_values do |relative|
   path = File.join(root, relative)

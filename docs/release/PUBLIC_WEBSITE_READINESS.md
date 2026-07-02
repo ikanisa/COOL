@@ -22,5 +22,5 @@ Open governance boundaries:
   status, partnerships, app-store availability, or provider coverage require
   explicit recorded approval.
 
-Dated public website audits and owner signoff packs are archive material once
-their open actions are represented here.
+Dated public website audits and owner signoff packs were removed from active
+source once their open actions were represented here.

@@ -1,3 +1,0 @@
-Connecting to remote database...
-failed to connect to postgres: failed to connect to `host=aws-1-us-east-2.pooler.supabase.com user=postgres.lhbowpbcpwoiparwnwgt database=postgres`: server error (FATAL: (EADDRNOTALLOWED) address not in tenant allow_list: {129, 222, 149, 252} (SQLSTATE XX000))
-Try rerunning the command with --debug to troubleshoot the error.

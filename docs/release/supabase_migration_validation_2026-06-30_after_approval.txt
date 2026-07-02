@@ -1,1 +1,0 @@
-Supabase migration validation passed

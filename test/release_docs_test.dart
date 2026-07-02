@@ -314,7 +314,7 @@ Date/time: 2026-06-01T12:30:00Z
       'uat_plan': File('docs/release/UAT_TEST_PLAN.md').readAsStringSync(),
       'audit': File('docs/release/GO_LIVE_AUDIT_REPORT.md').readAsStringSync(),
       'packet': File(
-        'docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md',
+        'docs/release/RELEASE_APPROVAL_PACKET.md',
       ).readAsStringSync(),
       'security': File(
         'docs/release/SECURITY_PRIVACY_REVIEW.md',
@@ -322,18 +322,13 @@ Date/time: 2026-06-01T12:30:00Z
       'approval': File(
         'docs/release/RELEASE_APPROVAL_PACKET.md',
       ).readAsStringSync(),
-      'signoff': File(
-        'docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md',
-      ).readAsStringSync(),
     };
     final uatManifest = File(
       'docs/release/UAT_EVIDENCE_MANIFEST.json',
     ).readAsStringSync();
+    final uatManifestJson = jsonDecode(uatManifest) as Map<String, dynamic>;
 
-    for (final text
-        in docs.entries
-            .where((entry) => entry.key != 'design_matrix')
-            .map((entry) => entry.value)) {
+    for (final text in docs.values) {
       expect(text, contains('SMS-first'));
       expect(text, isNot(contains('auth_captcha_bot_protection')));
       expect(text, isNot(contains('auth_hibp_leaked_password_protection')));
@@ -362,7 +357,6 @@ Date/time: 2026-06-01T12:30:00Z
       'qa',
       'uat',
       'uat_plan',
-      'packet',
     ]) {
       expect(docs[key], contains('NO-GO'));
     }
@@ -375,7 +369,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['blockers'], contains('https://cool-admin-212.pages.dev'));
     expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('101'));
-    expect(docs['packet'], contains('Final GO Criteria'));
+    expect(docs['packet'], contains('Required Final Commands'));
     expect(docs['approval'], contains('RELEASE_APPROVAL_PACKET'));
     expect(docs['approval'], contains('product_signoff'));
     expect(docs['approval'], contains('collect_product_boundary_scan.sh'));
@@ -386,10 +380,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('android_release_signing_review'));
     expect(docs['approval'], contains('ios_release_scope'));
     expect(docs['approval'], contains('release_owner_signoff'));
-    expect(
-      docs['approval'],
-      contains('ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md'),
-    );
+    expect(docs['approval'], contains('RELEASE_STATUS.md'));
     expect(docs['approval'], contains('20260602T050529Z'));
     expect(docs['approval'], contains('final_release_summary.json'));
     expect(docs['approval'], contains('mobile_route_render_smoke'));
@@ -399,10 +390,11 @@ Date/time: 2026-06-01T12:30:00Z
       contains('docs/release/UAT_EVIDENCE_MANIFEST.json'),
     );
     expect(docs['blockers'], contains('20260602T081408Z'));
-    expect(docs['signoff'], contains('20260601T205424Z'));
-    expect(docs['signoff'], contains('20260602T050529Z'));
-    expect(docs['signoff'], contains('human signoff fields'));
-    expect(docs['signoff'], contains('record-android-sms-uat-evidence'));
+    expect(uatManifestJson['status'], 'pending-human-signoff');
+    expect(uatManifestJson['staging_only'], false);
+    expect(uatManifestJson['release_owner'], isA<Map<String, dynamic>>());
+    expect(uatManifestJson['personas'], isA<List<dynamic>>());
+    expect((uatManifestJson['personas'] as List<dynamic>), hasLength(10));
     expect(uatManifest, contains('output/uat_evidence'));
     expect(uatManifest, contains('"evidence_files": []'));
     expect(uatManifest, isNot(contains('20260601T205424Z')));
@@ -419,8 +411,8 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['qa'], contains('exact final release branch'));
     expect(docs['checklist'], contains('Re-run on final tree'));
     expect(docs['audit'], contains('Re-run on final tree'));
-    expect(docs['packet'], contains('exact final release branch'));
-    expect(docs['packet'], contains('Release branch sync'));
+    expect(docs['packet'], contains('release_owner_signoff'));
+    expect(docs['packet'], contains('release-approval-evidence-gate-json'));
     expect(docs['uat'], isNot(contains('| Partial |')));
     expect(docs['uat'], contains('Automated/backend pass'));
     expect(docs['uat'], contains('Device scenario approval pending'));
@@ -506,61 +498,97 @@ Date/time: 2026-06-01T12:30:00Z
   });
 
   test('native mobile accessibility gate keeps human signoff blocked', () {
-    final checklist = File(
-      'docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md',
-    ).readAsStringSync();
-    final evidence = File(
-      'docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md',
-    ).readAsStringSync();
+    final tempDir = Directory(
+      '.cache/native_mobile_accessibility_current_test',
+    );
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
+    tempDir.createSync(recursive: true);
+    try {
+      final evidence = File('${tempDir.path}/current_evidence.md')
+        ..writeAsStringSync('''
+# Native Mobile Device Evidence
 
-    expect(
-      checklist,
-      contains(
-        'Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**',
-      ),
-    );
-    expect(checklist, contains('Android TalkBack structural responsibility'));
-    expect(checklist, contains('iOS VoiceOver scope responsibility'));
-    expect(checklist, contains('Final Codex accessibility responsibility'));
-    expect(checklist, contains('Required Human Signoffs'));
-    expect(checklist, contains('Pending accessibility reviewer'));
-    expect(evidence, contains('native_mobile_accessibility_signoff_gate.sh'));
-    expect(
-      evidence,
-      contains('Code-owned structural accessibility responsibility'),
-    );
-    expect(evidence, contains('Human auditory signoff still required'));
+Android structural accessibility passed.
+iOS simulator smoke passed.
+Code-owned structural accessibility responsibility is accepted.
+Human auditory signoff still required.
+Verify with native_mobile_accessibility_signoff_gate.sh.
+''');
+      final checklist = File('${tempDir.path}/current_checklist.md')
+        ..writeAsStringSync('''
+# Native Mobile Accessibility Signoff Checklist
 
-    final result = Process.runSync(
-      './scripts/native_mobile_accessibility_signoff_gate.sh',
-      ['--json'],
-    );
+Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**
 
-    expect(result.exitCode, 99);
-    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['status'], 'blocked');
-    expect(decoded['decision'], 'NO-GO');
-    expect(
-      decoded['blocker_keys'],
-      contains('human_native_mobile_accessibility_signoff'),
-    );
-    expect(
-      decoded['responsibilities']['Final Codex accessibility responsibility']['approved'],
-      true,
-    );
-    expect(
-      decoded['human_signoffs']['Final native mobile accessibility decision']['approved'],
-      false,
-    );
+## Required Responsibilities
+
+| Responsibility | Status | Codex-owned action | Evidence reference | Owner | Accepted at |
+| --- | --- | --- | --- | --- | --- |
+| Android TalkBack structural responsibility | Accepted | Codex accepts Android responsibility. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
+| iOS VoiceOver scope responsibility | Accepted | Codex accepts iOS scope responsibility. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
+| Final Codex accessibility responsibility | Accepted | Codex owns final accessibility decision. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
+
+## Required Human Signoffs
+
+| Signoff | Status | Required action | Evidence reference | Reviewer | Signed at |
+| --- | --- | --- | --- | --- | --- |
+| Android TalkBack auditory traversal | Open | Listen through critical flows. | `${evidence.path}` | Pending accessibility reviewer | Pending |
+| iOS VoiceOver traversal or scoped waiver | Open | Listen through iOS flows or approve waiver. | `${evidence.path}` | Pending iOS reviewer | Pending |
+| Final native mobile accessibility decision | Open | Review automated and human evidence. | `${evidence.path}` | Pending release owner | Pending |
+''');
+
+      final result = Process.runSync(
+        './scripts/native_mobile_accessibility_signoff_gate.sh',
+        ['--json'],
+        environment: {
+          'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
+          'NATIVE_MOBILE_DEVICE_EVIDENCE_FILE': evidence.path,
+        },
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(decoded['decision'], 'NO-GO');
+      expect(
+        decoded['blocker_keys'],
+        contains('human_native_mobile_accessibility_signoff'),
+      );
+      expect(
+        decoded['responsibilities']['Final Codex accessibility responsibility']['approved'],
+        true,
+      );
+      expect(
+        decoded['human_signoffs']['Final native mobile accessibility decision']['approved'],
+        false,
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
   });
 
   test(
     'native mobile accessibility responsibility gate blocks incomplete ownership',
     () {
-      final tempDir = Directory.systemTemp.createTempSync(
-        'cool_native_mobile_accessibility_signoff_',
+      final tempDir = Directory(
+        '.cache/native_mobile_accessibility_incomplete_test',
       );
+      if (tempDir.existsSync()) {
+        tempDir.deleteSync(recursive: true);
+      }
+      tempDir.createSync(recursive: true);
       try {
+        final evidence = File('${tempDir.path}/current_evidence.md')
+          ..writeAsStringSync('''
+Android structural accessibility
+iOS simulator smoke
+Code-owned structural accessibility responsibility
+Human auditory signoff still required
+native_mobile_accessibility_signoff_gate.sh
+''');
         final checklist = File('${tempDir.path}/native_signoff.md')
           ..writeAsStringSync('''
 # Native Mobile Accessibility Signoff Checklist
@@ -572,9 +600,9 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
 | Responsibility | Status | Codex-owned action | Evidence reference | Owner | Accepted at |
 | --- | --- | --- | --- | --- | --- |
-| Android TalkBack structural responsibility | Open | Codex accepts Android responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
-| iOS VoiceOver scope responsibility | Open | Codex accepts iOS scope responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
-| Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+| Android TalkBack structural responsibility | Open | Codex accepts Android responsibility. | `${evidence.path}` | Pending | Pending |
+| iOS VoiceOver scope responsibility | Open | Codex accepts iOS scope responsibility. | `${evidence.path}` | Pending | Pending |
+| Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `${evidence.path}` | Pending | Pending |
 ''');
 
         final result = Process.runSync(
@@ -582,6 +610,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           ['--json'],
           environment: {
             'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
+            'NATIVE_MOBILE_DEVICE_EVIDENCE_FILE': evidence.path,
           },
         );
 
@@ -611,6 +640,14 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       }
       tempDir.createSync(recursive: true);
       try {
+        final evidence = File('${tempDir.path}/current_evidence.md')
+          ..writeAsStringSync('''
+Android structural accessibility
+iOS simulator smoke
+Code-owned structural accessibility responsibility
+Human auditory signoff still required
+native_mobile_accessibility_signoff_gate.sh
+''');
         final checklist = File('${tempDir.path}/native_signoff.md')
           ..writeAsStringSync('''
 # Native Mobile Accessibility Responsibility Checklist
@@ -622,9 +659,9 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
 | Responsibility | Status | Codex-owned action | Evidence reference | Owner | Accepted at |
 | --- | --- | --- | --- | --- | --- |
-| Android TalkBack structural responsibility | Open | Codex accepts Android responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
-| iOS VoiceOver scope responsibility | Open | Codex accepts iOS scope responsibility. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
-| Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `docs/release/NATIVE_MOBILE_DEVICE_EVIDENCE_2026-06-30.md` | Pending | Pending |
+| Android TalkBack structural responsibility | Open | Codex accepts Android responsibility. | `${evidence.path}` | Pending | Pending |
+| iOS VoiceOver scope responsibility | Open | Codex accepts iOS scope responsibility. | `${evidence.path}` | Pending | Pending |
+| Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `${evidence.path}` | Pending | Pending |
 ''');
 
         final reviewerRejected = Process.runSync(
@@ -653,6 +690,8 @@ Current decision: **NO-GO - Codex responsibility incomplete**
             'final_decision',
             '--accepted-at',
             '2026-06-30T12:02:00Z',
+            '--evidence-reference',
+            evidence.path,
           ],
         );
         expect(prematureFinal.exitCode, 1);
@@ -672,6 +711,8 @@ Current decision: **NO-GO - Codex responsibility incomplete**
             'android_talkback',
             '--accepted-at',
             '2026-06-30T12:00:00Z',
+            '--evidence-reference',
+            evidence.path,
           ],
         );
         expect(androidAccepted.exitCode, 0);
@@ -685,6 +726,8 @@ Current decision: **NO-GO - Codex responsibility incomplete**
             'ios_voiceover',
             '--accepted-at',
             '2026-06-30T12:01:00Z',
+            '--evidence-reference',
+            evidence.path,
           ],
         );
         expect(iosAccepted.exitCode, 0);
@@ -698,6 +741,8 @@ Current decision: **NO-GO - Codex responsibility incomplete**
             'final_decision',
             '--accepted-at',
             '2026-06-30T12:02:00Z',
+            '--evidence-reference',
+            evidence.path,
           ],
         );
         expect(finalAccepted.exitCode, 0);
@@ -707,6 +752,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           ['--json'],
           environment: {
             'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
+            'NATIVE_MOBILE_DEVICE_EVIDENCE_FILE': evidence.path,
           },
         );
         expect(gate.exitCode, 99);
@@ -863,8 +909,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         'ANDROID_RELEASE_SIGNING_NOTE': 'Current release signing reviewed.',
         'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
         'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
-        'ANDROID_RELEASE_SIGNING_EVIDENCE':
-            'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+        'ANDROID_RELEASE_SIGNING_EVIDENCE': 'docs/release/RELEASE_STATUS.md',
         'IOS_RELEASE_OUT_OF_SCOPE': '1',
         'IOS_RELEASE_SCOPE_NOTE': 'Android-only scope for this go-live.',
         'IOS_RELEASE_SCOPE_REVIEWER': 'Release Reviewer',
@@ -1035,6 +1080,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         checks.any((check) => check['id'] == 'no_secondary_contract_sources'),
+        isTrue,
+      );
+      expect(
+        checks.any((check) => check['id'] == 'tracked_design_source_paths'),
         isTrue,
       );
     },
@@ -1760,7 +1809,7 @@ checking Edge Function secret names
     );
     expect(
       androidSigning['suggested_evidence_reference'],
-      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+      'docs/release/RELEASE_STATUS.md',
     );
     expect(
       androidSigning['record_command'],
@@ -1771,7 +1820,7 @@ checking Edge Function secret names
     );
     expect(
       iosScope['suggested_evidence_reference'],
-      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+      'docs/release/RELEASE_STATUS.md',
     );
     expect(iosScope['record_out_of_scope_command'], contains('--out-of-scope'));
     final releaseOwner = records.cast<Map<String, dynamic>>().firstWhere(
@@ -1796,12 +1845,7 @@ checking Edge Function secret names
     expect(jsonEncode(decoded), contains('supabase/summary.json'));
     expect(jsonEncode(decoded), contains('.cache/repo_wide_qa_uat/'));
     expect(jsonEncode(decoded), contains('mobile_release_gate.json'));
-    expect(
-      jsonEncode(decoded),
-      contains(
-        'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
-      ),
-    );
+    expect(jsonEncode(decoded), contains('docs/release/RELEASE_STATUS.md'));
     expect(jsonEncode(decoded), isNot(contains('SUPABASE_SERVICE_ROLE_KEY')));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
 
@@ -1956,11 +2000,11 @@ checking Edge Function secret names
       );
       expect(
         approvals['android_release_signing_review']['suggested_evidence_reference'],
-        'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+        'docs/release/RELEASE_STATUS.md',
       );
       expect(
         approvals['ios_release_scope']['suggested_evidence_reference'],
-        'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+        'docs/release/RELEASE_STATUS.md',
       );
       expect(
         approvals['release_owner_signoff']['suggested_evidence_reference'],

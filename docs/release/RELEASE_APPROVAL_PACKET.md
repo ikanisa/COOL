@@ -79,11 +79,11 @@
 - Required now: `false`
 - Owner: mobile/release
 - Decision needed: Approve the current production APK/AAB outputs and Play App Signing configuration without exposing signing keys.
-- Suggested evidence reference: `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
-- Record: `make record-release-approval ARGS="--key android_release_signing_review --reviewer '<name>' --evidence-reference docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md --notes '<APK/AAB and Play App Signing review summary>' --sanitized-evidence --no-production-customer-data --no-signing-keys-exposed"`
+- Suggested evidence reference: `docs/release/RELEASE_STATUS.md`
+- Record: `make record-release-approval ARGS="--key android_release_signing_review --reviewer '<name>' --evidence-reference docs/release/RELEASE_STATUS.md --notes '<APK/AAB and Play App Signing review summary>' --sanitized-evidence --no-production-customer-data --no-signing-keys-exposed"`
 - Verify: `Run the record_command for android_release_signing_review, then ./scripts/flutter_mobile_release_gate.sh --json`
 - Evidence to review:
-  - `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
+  - `docs/release/RELEASE_STATUS.md`
   - `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-19.sha256`
   - `.cache/mobile_release_gate/20260602T050529Z/summary.json`
   - `.cache/android_install/20260619T131004Z/final_release_summary.json`
@@ -104,12 +104,12 @@
 - Required now: `false`
 - Owner: mobile/release
 - Decision needed: Either approve iOS contributor-only release evidence or explicitly scope iOS out of this go-live.
-- Suggested evidence reference: `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
-- Record: `make record-release-approval ARGS="--key ios_release_scope --reviewer '<name>' --evidence-reference docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md --notes '<iOS contributor-scope review summary>' --sanitized-evidence --no-production-customer-data"`
-- Record Android-only scope: `make record-release-approval ARGS="--key ios_release_scope --out-of-scope --reviewer '<name>' --evidence-reference docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md --notes '<Android-only go-live scope rationale>' --sanitized-evidence --no-production-customer-data"`
+- Suggested evidence reference: `docs/release/RELEASE_STATUS.md`
+- Record: `make record-release-approval ARGS="--key ios_release_scope --reviewer '<name>' --evidence-reference docs/release/RELEASE_STATUS.md --notes '<iOS contributor-scope review summary>' --sanitized-evidence --no-production-customer-data"`
+- Record Android-only scope: `make record-release-approval ARGS="--key ios_release_scope --out-of-scope --reviewer '<name>' --evidence-reference docs/release/RELEASE_STATUS.md --notes '<Android-only go-live scope rationale>' --sanitized-evidence --no-production-customer-data"`
 - Verify: `Run record_command or record_out_of_scope_command for ios_release_scope, then ./scripts/flutter_mobile_release_gate.sh --json`
 - Evidence to review:
-  - `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
+  - `docs/release/RELEASE_STATUS.md`
   - `ios/Runner/Info.plist`
   - `ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme`
   - `ios/Flutter/Release-production.xcconfig`
@@ -138,7 +138,7 @@
   - `.cache/mobile_route_render_smoke/20260602T210133Z/summary.json`
   - `.cache/android_device_uat/20260611T082249Z/summary.json`
   - `.cache/supabase_go_live_evidence/20260611T124742Z/summary.json`
-  - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`
+  - `docs/release/RELEASE_APPROVAL_PACKET.md`
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`

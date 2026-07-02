@@ -3,8 +3,8 @@
 Status date: 2026-06-27
 
 Current active iOS/App Store readiness should be read from the latest build,
-signing, screenshot, App Privacy, and App Store Connect checks. The dated
-readiness reports under `docs/archive/` are historical after consolidation.
+signing, screenshot, App Privacy, and App Store Connect checks. Dated readiness
+reports were removed from active source after consolidation.
 
 Known current boundaries:
 

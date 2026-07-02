@@ -107,7 +107,7 @@ steps = [
     required_when: blockers.include?("android_release_signing_review"),
     record_command: record_command(
       key: "android_release_signing_review",
-      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<APK/AAB and Play App Signing review summary>",
       extra_args: "--no-signing-keys-exposed"
     ),
@@ -119,12 +119,12 @@ steps = [
     required_when: blockers.include?("ios_release_scope"),
     record_command: record_command(
       key: "ios_release_scope",
-      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<iOS contributor-scope review summary>"
     ),
     record_out_of_scope_command: record_command(
       key: "ios_release_scope --out-of-scope",
-      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<Android-only go-live scope rationale>"
     ),
     verify: "Run record_command or record_out_of_scope_command for ios_release_scope, then ./scripts/flutter_mobile_release_gate.sh --json"
