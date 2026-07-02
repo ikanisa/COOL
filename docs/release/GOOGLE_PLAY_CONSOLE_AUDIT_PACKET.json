@@ -29,12 +29,11 @@
       "phone": "+250795588248"
     },
     "assets": {
-      "launcher_icon": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
-      "brand_icon_source": "assets/runtime/collect_app_icon_static.png",
+      "launcher_icon": "none_repo_visual_assets_retired",
+      "brand_icon_source": "DESIGN.md",
       "feature_graphic": {
-        "status": "exported",
-        "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",
-        "required_size": "1024x500"
+        "status": "retired_repo_visual_asset",
+        "source": "DESIGN.md"
       },
       "phone_screenshots": {
         "status": "exported",

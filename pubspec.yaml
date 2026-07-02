@@ -29,7 +29,6 @@ dependencies:
   flutter_local_notifications: ^22.0.0
   shared_preferences: ^2.5.5
   country_picker: ^2.0.28
-  flutter_svg: ^2.3.0
 
 dev_dependencies:
   integration_test:
@@ -40,36 +39,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/runtime/collect_app_icon_static.png
-    - assets/runtime/collect_runtime/
-    - assets/runtime/collect_runtime/logos/
-    - assets/runtime/collect_runtime/app_icons/
-    - assets/runtime/collect_runtime/splash/
-    - assets/runtime/collect_runtime/icons/
-    - assets/runtime/collect_runtime/media/
-  fonts:
-    - family: Collect Runtime
-      fonts:
-        - asset: assets/fonts/collect/CollectRuntime-Regular.otf
-          weight: 400
-        - asset: assets/fonts/collect/CollectRuntime-Medium.otf
-          weight: 500
-        - asset: assets/fonts/collect/CollectRuntime-SemiBold.otf
-          weight: 600
-        - asset: assets/fonts/collect/CollectRuntime-Bold.otf
-          weight: 700
-        - asset: assets/fonts/collect/CollectRuntime-ExtraBold.otf
-          weight: 800
-    - family: Collect Display
-      fonts:
-        - asset: assets/fonts/collect/CollectDisplay-Regular.otf
-          weight: 400
-        - asset: assets/fonts/collect/CollectDisplay-Medium.otf
-          weight: 500
-        - asset: assets/fonts/collect/CollectDisplay-SemiBold.otf
-          weight: 600
-        - asset: assets/fonts/collect/CollectDisplay-Bold.otf
-          weight: 700
-        - asset: assets/fonts/collect/CollectDisplay-ExtraBold.otf
-          weight: 800

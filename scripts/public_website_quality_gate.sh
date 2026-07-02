@@ -225,7 +225,6 @@ check(
 
 og_ok = root_html.include?('property="og:title"') &&
   root_html.include?('property="og:description"') &&
-  root_html.include?('property="og:image"') &&
   root_html.include?('name="twitter:card"')
 check(
   checks,
@@ -651,11 +650,6 @@ check(
 )
 
 css_vars = css_hex_vars(stylesheet)
-published_brand_color_contract = begin
-  JSON.parse(read(File.join(build_dir, "brand-primary-colors.json")))
-rescue JSON::ParserError
-  {}
-end
 theme_source = read(File.join(Dir.pwd, "lib", "app", "theme", "collect_colors.dart"))
 design_contract_path = File.join(Dir.pwd, "DESIGN.md")
 design_contract_source = read(design_contract_path)
@@ -679,8 +673,10 @@ flutter_color_failures = brand_primary_colors.values.reject do |hex|
   theme_source.include?(hex) && theme_source.include?("0xFF#{hex.delete("#").upcase}")
 end
 design_contract_failures = [
-  "Universal Mobile App Design Standard 2026",
+  "Universal App Design Standard 2026",
   "Universal Token Model",
+  "Admin Panel Standard",
+  "Flutter TV Standard",
   "Flutter Implementation Standard"
 ].reject { |term| design_contract_source.include?(term) }
 old_public_color_tokens = %w[
@@ -688,8 +684,7 @@ old_public_color_tokens = %w[
   #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
 ]
 old_public_color_hits = old_public_color_tokens.select { |hex| stylesheet.downcase.include?(hex) }
-brand_color_contract_ok = published_brand_color_contract == brand_color_contract &&
-  css_color_failures.empty? &&
+brand_color_contract_ok = css_color_failures.empty? &&
   flutter_color_failures.empty? &&
   design_contract_failures.empty? &&
   old_public_color_hits.empty? &&
@@ -699,7 +694,7 @@ check(
   checks,
   "shared_primary_color_contract",
   pass_if(brand_color_contract_ok),
-  brand_color_contract_ok ? "Public site, published brand asset, DESIGN.md and app theme agree on the runtime color contract." : "Primary color contract drift, missing DESIGN.md terms, or old one-off public colors remain.",
+  brand_color_contract_ok ? "Public site CSS, DESIGN.md and app theme agree on the runtime color contract without generated token JSON." : "Primary color contract drift, missing DESIGN.md terms, or old one-off public colors remain.",
   "contract_path" => design_contract_path,
   "expected_primary" => brand_primary_colors,
   "css_color_failures" => css_color_failures,

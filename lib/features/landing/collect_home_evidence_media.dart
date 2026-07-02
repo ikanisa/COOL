@@ -16,32 +16,71 @@ class _MediaProofVisual extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final compact = constraints.maxWidth < 620;
-            final image = ClipRRect(
+            final media = ClipRRect(
               borderRadius: BorderRadius.circular(22),
-              child: Image.asset(
-                'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png',
-                height: compact ? 220 : 330,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const SizedBox.shrink(),
-              ),
+              child: _TokenPaymentVisual(compact: compact),
             );
             const proof = _EvidenceStack();
             if (compact) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [image, const SizedBox(height: 18), proof],
+                children: [media, const SizedBox(height: 18), proof],
               );
             }
             return Row(
               children: [
-                Expanded(flex: 6, child: image),
+                Expanded(flex: 6, child: media),
                 const SizedBox(width: 18),
                 const Expanded(flex: 5, child: proof),
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _TokenPaymentVisual extends StatelessWidget {
+  const _TokenPaymentVisual({required this.compact});
+
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            CollectColors.referencePaymentsPurple,
+            CollectColors.referenceAssetNavy,
+            CollectColors.referenceChromeBlack,
+          ],
+        ),
+      ),
+      child: SizedBox(
+        height: compact ? 220 : 330,
+        width: double.infinity,
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: CollectColors.brandPaper.withValues(alpha: 0.10),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: CollectColors.brandPaper.withValues(alpha: 0.18),
+              ),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(32),
+              child: Icon(
+                Icons.payments_outlined,
+                color: CollectColors.brandPaper,
+                size: 96,
+              ),
+            ),
+          ),
         ),
       ),
     );

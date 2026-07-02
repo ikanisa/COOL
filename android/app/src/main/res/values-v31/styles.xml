@@ -3,7 +3,7 @@
     <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:forceDarkAllowed">false</item>
         <item name="android:windowSplashScreenBackground">@color/collect_launch_background</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/collect_launcher_icon</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/transparent</item>
         <item name="android:statusBarColor">@color/collect_launch_background</item>
         <item name="android:navigationBarColor">@color/collect_launch_background</item>
         <item name="android:windowLightStatusBar">false</item>

@@ -54,7 +54,7 @@ Current focused validation after this addendum:
 - Fresh follow-up route evidence passed at `.cache/flutter_route_evidence_followup_20260627/admin/summary.json`, covering admin login, overview, payment events, and SMS detail at mobile and desktop sizes.
 - `scripts/release_secret_scan.sh` passed using the fallback tracked-file scanner because `gitleaks` is not installed locally.
 - `scripts/collect_product_boundary_scan.sh --json` passed with zero hits across 156 scanned files.
-- `scripts/admin_pwa_release_build.sh` now restamps an existing generated `collect-admin-<hash>` service-worker cache name and replaces any inherited favicon link with `icons/collect-admin.png`; the Admin PWA build, manifest gate, and hosting gate passed after this fix.
+- `scripts/admin_pwa_release_build.sh` now restamps an existing generated `collect-admin-<hash>` service-worker cache name and strips file-backed favicon links; the Admin PWA build, manifest gate, and hosting gate passed after this fix.
 
 ## UI Evidence Addendum On 2026-06-15
 

@@ -45,19 +45,11 @@ expected.each do |key, value|
 end
 
 icons = Array(manifest["icons"])
-failures << "manifest icons must include at least one icon" if icons.empty?
-icons.each do |icon|
-  src = icon["src"].to_s
-  failures << "manifest icon is missing src" if src.empty?
-  next if src.empty?
-
-  icon_path = File.expand_path(src, build_dir)
-  failures << "manifest icon #{src} is missing from build/web" unless icon_path.start_with?(File.expand_path(build_dir)) && File.exist?(icon_path)
-end
+failures << "manifest icons must be empty while repo visual assets are retired" unless icons.empty?
 
 failures << "index title must identify Collect Admin" unless index.include?("<title>Collect Admin</title>")
 failures << "index description must identify the admin console" unless index.include?("Collect platform operations console.")
-failures << "index must define the Collect Admin favicon" unless index.include?('rel="icon" href="icons/collect-admin.png"')
+failures << "index must not define a file-backed favicon" if index.match?(/<link\s+rel="icon"/i)
 failures << "index must load flutter_bootstrap.js" unless index.include?("flutter_bootstrap.js")
 failures << "index must not register the service worker inline under strict CSP" if index.include?("navigator.serviceWorker.register")
 failures << "flutter_bootstrap.js must register the Admin PWA service worker" unless bootstrap.include?("navigator.serviceWorker.register('custom-sw.js?v=collect-admin-")
@@ -80,8 +72,7 @@ service_worker_required = {
   "Admin PWA shell" => "./index.html",
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
   "Admin PWA bundle" => "./main.dart.js",
-  "Admin PWA manifest" => "./manifest.json",
-  "Admin PWA icon" => "./icons/collect-admin.png"
+  "Admin PWA manifest" => "./manifest.json"
 }
 service_worker_required.each do |label, marker|
   failures << "custom-sw.js must include #{label}" unless service_worker.include?(marker)

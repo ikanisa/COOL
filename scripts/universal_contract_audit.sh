@@ -51,16 +51,22 @@ add_check = lambda do |id, pass, failures = [], evidence = []|
   checks << { "id" => id, "status" => pass ? "pass" : "fail", "failures" => failures, "evidence" => evidence.compact }
 end
 required_terms = [
-  "Universal Mobile App Design Standard 2026",
+  "Universal App Design Standard 2026",
   "Any production mobile app",
+  "Flutter TV app",
+  "admin panel",
+  "Cross-Surface Product Architecture",
   "Screen Archetypes",
   "Universal Token Model",
   "Universal Component Library",
   "State Requirements",
   "Responsive And Adaptive Standard",
+  "Flutter TV Standard",
+  "Admin Panel Standard",
   "Accessibility Standard",
   "Visual QA Standard",
   "Flutter Implementation Standard",
+  "Robust Implementation Goal",
   "Quality Gates",
   "Universal App Generation Prompt"
 ]
@@ -88,7 +94,7 @@ tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.ma
 forbidden_tracked_paths = tracked_paths.reject do |path|
   path == "DESIGN.md" ||
     !path.match?(
-      %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand}i
+      %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand|^assets/fonts/|^assets/runtime/|^web/icons/|^ios/Runner/Assets\.xcassets/.*\.(png|jpg|jpeg|webp)$|^android/app/src/main/res/.*/.*\.(png|webp)$|brand-primary-colors}i
     )
 end
 add_check.call(
@@ -112,7 +118,7 @@ add_check.call("android_device_uat_evidence_optional", android_failures.empty?, 
 failed_checks = checks.select { |check| check.fetch("status") != "pass" }
 summary = { "generated_at" => Time.now.utc.iso8601, "status" => failed_checks.empty? ? "pass" : "fail", "design_contract" => "DESIGN.md", "checks" => checks, "secret_handling" => "This audit reads local contract text and generated evidence metadata only; it must not print secrets, raw SMS, OTPs, PINs, private phone numbers, provider tokens, or production customer data." }
 File.write(File.join(evidence_dir, "summary.json"), JSON.pretty_generate(summary) + "\n")
-report = +"# Universal Mobile Design Compliance Audit\n\n"
+report = +"# Universal App Design Compliance Audit\n\n"
 report << "- Generated: `#{summary.fetch("generated_at")}`\n"
 report << "- Status: `#{summary.fetch("status")}`\n"
 report << "- Design contract: `DESIGN.md`\n\n"

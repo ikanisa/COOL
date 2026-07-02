@@ -394,12 +394,14 @@ void main() {
     expect(designAudit, contains('android_device_uat_evidence_optional'));
   });
 
-  test('single DESIGN.md enforces universal mobile design standard', () {
+  test('single DESIGN.md enforces universal app design standard', () {
     final design = File('DESIGN.md').readAsStringSync();
 
-    expect(design, contains('Universal Mobile App Design Standard 2026'));
+    expect(design, contains('Universal App Design Standard 2026'));
     expect(design, contains('Universal Token Model'));
     expect(design, contains('Universal Component Library'));
+    expect(design, contains('Flutter TV Standard'));
+    expect(design, contains('Admin Panel Standard'));
     expect(design, contains('Visual QA Standard'));
     expect(design, contains('Flutter Implementation Standard'));
     expect(design, contains('route screenshot coverage'));
@@ -451,11 +453,12 @@ void main() {
     ).readAsStringSync();
 
     expect(designAudit, contains('DESIGN.md'));
-    expect(designAudit, contains('Universal Mobile App Design Standard 2026'));
+    expect(designAudit, contains('Universal App Design Standard 2026'));
     expect(designAudit, contains('no_secondary_contract_sources'));
     expect(designAudit, contains('tracked_design_source_paths'));
-    expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
-    expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
+    expect(runtimeAssets, contains('usesRepoVisualAssets = false'));
+    expect(runtimeAssets, isNot(contains('assets/runtime')));
+    expect(runtimeAssets, isNot(contains('assets/fonts')));
   });
 
   test('theme loads', () {

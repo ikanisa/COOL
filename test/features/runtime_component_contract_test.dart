@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -231,76 +230,35 @@ void main() {
     expect(decoration.color!.a, greaterThan(0.80));
   });
 
-  test('Collect runtime asset switchpoints use installed runtime inputs', () {
-    expect(_pngSize('assets/runtime/collect_app_icon_static.png'), (
-      width: 512,
-      height: 512,
-    ));
-    expect(
-      _pngSize('assets/runtime/collect_runtime/app_icons/app-icon-rule.png'),
-      (width: 512, height: 512),
-    );
-    expect(_pngSize('assets/runtime/collect_runtime/logos/wordmark.png'), (
-      width: 1024,
-      height: 299,
-    ));
-    expect(_pngSize('assets/runtime/collect_runtime/splash/splash_mark.png'), (
-      width: 512,
-      height: 512,
-    ));
-    expect(
-      File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
-      contains('CollectRuntimeAssets.splashMarkAssetPath'),
-    );
-    expect(
-      CollectRuntimeAssets.splashMarkAssetPath,
-      'assets/runtime/collect_runtime/splash/splash_mark.png',
-    );
-    expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
-      width: 1024,
-      height: 299,
-    ));
-    expect(_pngSize(CollectRuntimeAssets.appIconAssetPath), (
-      width: 512,
-      height: 512,
-    ));
-    expect(_pngSize(CollectRuntimeAssets.splashMarkAssetPath), (
-      width: 512,
-      height: 512,
-    ));
-    expect(
-      CollectRuntimeAssets.expectedWordmarkPath,
-      'assets/runtime/collect_runtime/logos/wordmark.png',
-    );
-    expect(
-      CollectRuntimeAssets.expectedAppIconPath,
-      'assets/runtime/collect_runtime/app_icons/app_icon.png',
-    );
-    expect(
-      CollectRuntimeAssets.expectedSplashMarkPath,
-      'assets/runtime/collect_runtime/splash/splash_mark.png',
-    );
-    expect(
-      File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
-      contains('SizedBox.expand'),
-    );
-    expect(Directory('assets/runtime/generated').existsSync(), isFalse);
-    expect(_pngSize('web/icons/collect-web-512.png'), (
-      width: 512,
-      height: 512,
-    ));
-    expect(File('web/icons/collect-admin.svg').existsSync(), isFalse);
-    expect(
-      File('android/app/src/main/res/drawable/ic_launcher.xml').existsSync(),
-      isFalse,
-    );
+  test('Collect runtime visual assets are retired from repo sources', () {
+    final pubspec = File('pubspec.yaml').readAsStringSync();
+    final launch = File(
+      'lib/features/launch/launch_splash_screen.dart',
+    ).readAsStringSync();
+    final runtimeAssets = File(
+      'lib/app/theme/collect_runtime_assets.dart',
+    ).readAsStringSync();
+
+    expect(CollectRuntimeAssets.usesRepoVisualAssets, isFalse);
+    expect(CollectRuntimeAssets.requiredBlockerKeys, ['universal_contract']);
+    expect(runtimeAssets, contains('DESIGN.md is the only design authority'));
+    expect(Directory('assets/runtime').existsSync(), isFalse);
+    expect(Directory('assets/fonts').existsSync(), isFalse);
+    expect(Directory('web/icons').existsSync(), isFalse);
+    expect(pubspec, isNot(contains('assets/runtime')));
+    expect(pubspec, isNot(contains('assets/fonts')));
+    expect(pubspec, isNot(contains('Collect Runtime')));
+    expect(pubspec, isNot(contains('Collect Display')));
+    expect(launch, contains('SizedBox.expand'));
+    expect(launch, isNot(contains('Image.asset')));
   });
 
-  test('native Android launch splash uses Collect brand resources', () {
+  test('native Android launch uses token background without bitmap assets', () {
     final manifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
     expect(manifest, contains('android:theme="@style/LaunchTheme"'));
+    expect(manifest, isNot(contains('@mipmap/ic_launcher')));
     expect(
       manifest,
       contains('android:name="io.flutter.embedding.android.NormalTheme"'),
@@ -387,7 +345,7 @@ void main() {
         text,
         contains(
           '<item name="android:windowSplashScreenAnimatedIcon">'
-          '@drawable/collect_launcher_icon</item>',
+          '@drawable/transparent</item>',
         ),
         reason: path,
       );
@@ -436,65 +394,29 @@ void main() {
       final text = File(path).readAsStringSync();
       expect(text, contains('@color/collect_launch_background'), reason: path);
       expect(text, isNot(contains('@color/collect_paper')), reason: path);
-      expect(text, contains('@drawable/collect_splash_logo'), reason: path);
+      expect(text, isNot(contains('<bitmap')), reason: path);
+      expect(
+        text,
+        isNot(contains('@drawable/collect_splash_logo')),
+        reason: path,
+      );
     }
 
-    final expectedSplashSizes = <String, ({int width, int height})>{
-      'android/app/src/main/res/drawable/collect_splash_logo.png': (
-        width: 280,
-        height: 82,
-      ),
-      'android/app/src/main/res/drawable-mdpi/collect_splash_logo.png': (
-        width: 280,
-        height: 82,
-      ),
-      'android/app/src/main/res/drawable-hdpi/collect_splash_logo.png': (
-        width: 420,
-        height: 123,
-      ),
-      'android/app/src/main/res/drawable-xhdpi/collect_splash_logo.png': (
-        width: 560,
-        height: 163,
-      ),
-      'android/app/src/main/res/drawable-xxhdpi/collect_splash_logo.png': (
-        width: 840,
-        height: 245,
-      ),
-      'android/app/src/main/res/drawable-xxxhdpi/collect_splash_logo.png': (
-        width: 1120,
-        height: 327,
-      ),
-      'android/app/src/main/res/drawable-night/collect_splash_logo.png': (
-        width: 280,
-        height: 82,
-      ),
-      'android/app/src/main/res/drawable-night-mdpi/collect_splash_logo.png': (
-        width: 280,
-        height: 82,
-      ),
-      'android/app/src/main/res/drawable-night-hdpi/collect_splash_logo.png': (
-        width: 420,
-        height: 123,
-      ),
-      'android/app/src/main/res/drawable-night-xhdpi/collect_splash_logo.png': (
-        width: 560,
-        height: 163,
-      ),
-      'android/app/src/main/res/drawable-night-xxhdpi/collect_splash_logo.png':
-          (width: 840, height: 245),
-      'android/app/src/main/res/drawable-night-xxxhdpi/collect_splash_logo.png':
-          (width: 1120, height: 327),
-      'android/app/src/main/res/drawable/collect_launcher_icon.png': (
-        width: 512,
-        height: 512,
-      ),
-    };
-    for (final entry in expectedSplashSizes.entries) {
-      expect(_pngSize(entry.key), entry.value, reason: entry.key);
+    for (final path in <String>[
+      'android/app/src/main/res/values-v31/styles.xml',
+      'android/app/src/main/res/values-night-v31/styles.xml',
+    ]) {
+      final text = File(path).readAsStringSync();
+      expect(text, contains('@drawable/transparent'), reason: path);
+      expect(
+        text,
+        isNot(contains('@drawable/collect_launcher_icon')),
+        reason: path,
+      );
     }
   });
 
-  testWidgets('brand mark uses the Collect runtime asset switchpoint', (
+  testWidgets('brand mark is token-rendered without image assets', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
@@ -502,13 +424,9 @@ void main() {
       await _pumpCollect(tester, const CollectBrandMark());
 
       expect(find.bySemanticsLabel('Collect logo'), findsOneWidget);
-      final image = tester.widget<Image>(find.byType(Image));
-      expect(image.image, isA<AssetImage>());
-      expect((image.image as AssetImage).assetName, CollectBrandMark.assetPath);
-      expect(
-        CollectBrandMark.assetPath,
-        CollectRuntimeAssets.wordmarkAssetPath,
-      );
+      expect(find.byType(Image), findsNothing);
+      expect(find.text('Collect'), findsOneWidget);
+      expect(find.byIcon(CollectIcons.savings), findsOneWidget);
     } finally {
       semantics.dispose();
     }
@@ -576,7 +494,7 @@ void main() {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
 
     expect(formatRwf(1250000), 'RWF 1,250,000');
-    expect(style.fontFamily, CollectRuntimeTypography.displayFontFamily);
+    expect(style.fontFamily, isNull);
     expect(style.fontFeatures, contains(const FontFeature.tabularFigures()));
   });
 
@@ -1392,14 +1310,6 @@ Future<void> _pumpCollect(WidgetTester tester, Widget child) async {
     ),
   );
   await tester.pump();
-}
-
-({int width, int height}) _pngSize(String path) {
-  final bytes = File(path).readAsBytesSync();
-  expect(bytes.length, greaterThanOrEqualTo(24), reason: path);
-  expect(bytes.sublist(0, 8), <int>[137, 80, 78, 71, 13, 10, 26, 10]);
-  final data = ByteData.sublistView(Uint8List.fromList(bytes));
-  return (width: data.getUint32(16), height: data.getUint32(20));
 }
 
 double _contrastRatio(Color foreground, Color background) {

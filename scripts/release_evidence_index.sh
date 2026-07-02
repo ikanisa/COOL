@@ -287,7 +287,6 @@ artifact_paths = [
   "build/web/main.dart.js",
   "build/web/manifest.json",
   "build/web/custom-sw.js",
-  "build/web/icons/collect-admin.png",
   "build/web/_headers",
   "build/web/robots.txt"
 ]
@@ -331,8 +330,7 @@ admin_runtime_required_cache = [
   "./index.html",
   "./flutter_bootstrap.js",
   "./main.dart.js",
-  "./manifest.json",
-  "./icons/collect-admin.png"
+  "./manifest.json"
 ]
 admin_screenshot_specs = {
   "desktop-1440x900.png" => [1440, 900],

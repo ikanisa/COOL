@@ -83,15 +83,21 @@ class _LandingNav extends StatelessWidget {
         final brand = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/runtime/collect_runtime/app_icons/app-icon-rule.png',
-              width: compact ? 38 : 42,
-              height: compact ? 38 : 42,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.account_balance_wallet_outlined,
-                color: CollectColors.brandPaper,
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: CollectColors.brandPaper.withValues(alpha: 0.10),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: CollectColors.brandPaper.withValues(alpha: 0.18),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(compact ? 8 : 9),
+                child: Icon(
+                  Icons.account_balance_wallet_outlined,
+                  size: compact ? 22 : 24,
+                  color: CollectColors.brandPaper,
+                ),
               ),
             ),
             const SizedBox(width: 10),
@@ -514,14 +520,23 @@ class _HeroProductVisual extends StatelessWidget {
               top: 88,
               child: Opacity(
                 opacity: 0.46,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(34),
-                  child: Image.asset(
-                    'assets/runtime/collect_runtime/media/group-momentum.png',
-                    height: 360,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const SizedBox.shrink(),
+                child: SizedBox(
+                  height: 360,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(34),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          CollectColors.brandPeriwinkle.withValues(alpha: 0.42),
+                          CollectColors.brandMintGreen.withValues(alpha: 0.18),
+                          CollectColors.referenceChromeBlack.withValues(
+                            alpha: 0.24,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -133,13 +133,7 @@ class _PublicPageMedia extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(24),
-              child: Image.asset(
-                data.imageAsset,
-                height: 300,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const SizedBox(height: 300),
-              ),
+              child: _PublicSemanticMedia(role: data.mediaRole),
             ),
             const SizedBox(height: 16),
             Row(
@@ -160,6 +154,86 @@ class _PublicPageMedia extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PublicSemanticMedia extends StatelessWidget {
+  const _PublicSemanticMedia({required this.role});
+
+  final CollectPublicMediaRole role;
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = switch (role) {
+      CollectPublicMediaRole.group => Icons.groups_2_outlined,
+      CollectPublicMediaRole.payment => Icons.payments_outlined,
+      CollectPublicMediaRole.share => Icons.qr_code_2_outlined,
+    };
+    final label = switch (role) {
+      CollectPublicMediaRole.group => 'Group records',
+      CollectPublicMediaRole.payment => 'Mobile money flow',
+      CollectPublicMediaRole.share => 'Share and verify',
+    };
+    return Semantics(
+      image: true,
+      label: label,
+      child: ExcludeSemantics(
+        child: SizedBox(
+          height: 300,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  CollectColors.referencePaymentsPurple,
+                  CollectColors.referenceAssetNavy,
+                  CollectColors.referenceChromeBlack,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: CollectColors.publicWhite.withValues(alpha: 0.12),
+              ),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  right: -24,
+                  top: -18,
+                  child: Icon(
+                    icon,
+                    size: 190,
+                    color: CollectColors.publicWhite.withValues(alpha: 0.08),
+                  ),
+                ),
+                Center(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: CollectColors.publicWhite.withValues(alpha: 0.10),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: CollectColors.publicWhite.withValues(
+                          alpha: 0.18,
+                        ),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28),
+                      child: Icon(
+                        icon,
+                        size: 86,
+                        color: CollectColors.brandPaper,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

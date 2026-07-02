@@ -55,8 +55,6 @@ fi
 "$FLUTTER" build web -t lib/main_admin.dart "${BUILD_ARGS[@]}"
 
 touch build/web/main.dart.js
-mkdir -p build/web/icons
-cp web/icons/collect-admin.png build/web/icons/collect-admin.png
 cp web/_headers build/web/_headers
 cp web/robots.txt build/web/robots.txt
 
@@ -75,14 +73,7 @@ manifest["start_url"] = "."
 manifest["background_color"] = "#FAF8F5"
 manifest["theme_color"] = "#8885F0"
 manifest["orientation"] = "any"
-manifest["icons"] = [
-  {
-    "src" => "icons/collect-admin.png",
-    "sizes" => "512x512",
-    "type" => "image/png",
-    "purpose" => "any maskable"
-  }
-]
+manifest["icons"] = []
 File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
 
 index = File.read(index_path)
@@ -95,12 +86,6 @@ index = index.gsub(
   %r{\n\s*<link\s+rel="icon"[^>]*>}i,
   ""
 )
-unless index.include?('rel="icon" href="icons/collect-admin.png"')
-  index = index.sub(
-    %r{</head>}m,
-    '  <link rel="icon" href="icons/collect-admin.png" type="image/png">' + "\n</head>"
-  )
-end
 File.write(index_path, index)
 
 cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)

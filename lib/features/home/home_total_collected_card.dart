@@ -211,13 +211,15 @@ class _HomeCollectLockup extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipOval(
-              child: Image.asset(
-                CollectBrandMark.appIconAssetPath,
-                width: 28,
-                height: 28,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: foreground.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+                border: Border.all(color: foreground.withValues(alpha: 0.18)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Icon(CollectIcons.savings, color: foreground, size: 16),
               ),
             ),
             CollectSpacing.gapW8,

@@ -27,7 +27,7 @@ class CollectPublicPageData {
     required this.navLabel,
     required this.title,
     required this.intro,
-    required this.imageAsset,
+    required this.mediaRole,
     required this.metricA,
     required this.metricALabel,
     required this.metricB,
@@ -39,7 +39,7 @@ class CollectPublicPageData {
   final String navLabel;
   final String title;
   final String intro;
-  final String imageAsset;
+  final CollectPublicMediaRole mediaRole;
   final String metricA;
   final String metricALabel;
   final String metricB;
@@ -48,6 +48,8 @@ class CollectPublicPageData {
 
   bool get isPolicy => path == '/privacy' || path == '/terms';
 }
+
+enum CollectPublicMediaRole { group, payment, share }
 
 class CollectPublicSectionData {
   const CollectPublicSectionData({

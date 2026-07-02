@@ -26,7 +26,6 @@ required_artifacts = [
   "build/web/main.dart.js",
   "build/web/manifest.json",
   "build/web/custom-sw.js",
-  "build/web/icons/collect-admin.png",
   "build/web/_headers",
   "build/web/robots.txt"
 ]

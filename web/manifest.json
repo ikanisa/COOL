@@ -7,12 +7,5 @@
   "theme_color": "#8885F0",
   "description": "SMS-first MoMo group contribution app.",
   "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "icons/collect-web-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "icons": []
 }

@@ -84,7 +84,7 @@ required_routes.each do |route, required_text|
   )
 end
 
-["/styles.css", "/site.js", "/assets/runtime/collect_runtime/media/group-momentum.png", "/icons/collect.png"].each do |route|
+["/styles.css", "/site.js"].each do |route|
   url = "#{base_url}#{route}"
   response, elapsed = fetch(url)
   responses[route] = {
@@ -316,8 +316,6 @@ first_party_asset_bytes = [
   root,
   styles,
   site_js,
-  responses.fetch("/assets/runtime/collect_runtime/media/group-momentum.png"),
-  responses.fetch("/icons/collect.png"),
 ].sum { |item| item.fetch(:body).bytesize }
 check(
   checks,

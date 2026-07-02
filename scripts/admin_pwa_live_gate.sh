@@ -235,11 +235,7 @@ else
     failures << "manifest #{name} must be #{expected.inspect}." unless manifest[name] == expected
   end
   icons = Array(manifest["icons"])
-  failures << "manifest icons must include icons/collect-admin.png." unless icons.any? do |icon|
-    icon.is_a?(Hash) &&
-      icon["src"].to_s == "icons/collect-admin.png" &&
-      icon["type"].to_s == "image/png"
-  end
+  failures << "manifest icons must be empty while repo visual assets are retired." unless icons.empty?
 end
 service_worker_required = {
   "versioned Collect Admin cache" => "CACHE_NAME",
@@ -252,8 +248,7 @@ service_worker_required = {
   "Admin PWA shell" => "./index.html",
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
   "Admin PWA bundle" => "./main.dart.js",
-  "Admin PWA manifest" => "./manifest.json",
-  "Admin PWA icon" => "./icons/collect-admin.png"
+  "Admin PWA manifest" => "./manifest.json"
 }
 service_worker_required.each do |label, marker|
   failures << "custom-sw.js must include #{label}." unless sw_body.include?(marker)

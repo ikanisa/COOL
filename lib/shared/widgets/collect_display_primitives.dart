@@ -5,7 +5,6 @@ import '../../app/theme/collect_icons.dart';
 import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
-import 'collect_chrome.dart';
 import 'collect_foundation.dart';
 import 'collect_tone_icon.dart';
 
@@ -139,19 +138,10 @@ class CollectAvatar extends StatelessWidget {
       backgroundImage: hasImage ? NetworkImage(imageUrl!) : null,
       child: hasImage
           ? null
-          : ClipOval(
-              child: Image.asset(
-                CollectBrandMark.appIconAssetPath,
-                width: (size * 0.72).clamp(24, 42).toDouble(),
-                height: (size * 0.72).clamp(24, 42).toDouble(),
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-                errorBuilder: (context, error, stackTrace) => Icon(
-                  CollectIcons.people,
-                  color: colors.periwinklePaint,
-                  size: (size * 0.68).clamp(22, 38).toDouble(),
-                ),
-              ),
+          : Icon(
+              CollectIcons.people,
+              color: colors.periwinklePaint,
+              size: (size * 0.68).clamp(22, 38).toDouble(),
             ),
     );
   }

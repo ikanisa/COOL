@@ -27,30 +27,32 @@ class MinimalStatePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final asset = _minimalStateAsset(icon, tone);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final foreground = isDark ? colors.onImagePrimary : colors.surfaceReadable;
     final scrimBase = isDark
         ? CollectColors.referencePaymentsPurpleDeep
         : colors.textPrimary;
-    Widget stateImage = Image.asset(
-      asset,
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
-      filterQuality: FilterQuality.medium,
-      errorBuilder: (context, error, stackTrace) => DecoratedBox(
-        decoration: BoxDecoration(gradient: colors.screenGradient),
+    final stateImage = DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          center: Alignment.topRight,
+          radius: 1.1,
+          colors: [
+            colors.statusForeground(tone).withValues(alpha: 0.58),
+            colors.periwinklePaint.withValues(alpha: 0.28),
+            scrimBase.withValues(alpha: 0.10),
+          ],
+        ),
+      ),
+      child: Align(
+        alignment: Alignment.center,
+        child: Icon(
+          icon,
+          color: foreground.withValues(alpha: isDark ? 0.18 : 0.14),
+          size: 92,
+        ),
       ),
     );
-    if (isDark) {
-      stateImage = ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          scrimBase.withValues(alpha: 0.44),
-          BlendMode.multiply,
-        ),
-        child: stateImage,
-      );
-    }
     return CollectCard(
       emphasis: CollectCardEmphasis.glow,
       accentColor: colors.statusForeground(tone),
@@ -156,24 +158,6 @@ class MinimalStatePanel extends StatelessWidget {
       ),
     );
   }
-}
-
-String _minimalStateAsset(IconData icon, CollectStatusTone tone) {
-  if (icon == CollectIcons.qr ||
-      icon == CollectIcons.public ||
-      icon == CollectIcons.share ||
-      icon == CollectIcons.search) {
-    return 'assets/runtime/collect_runtime/media/qr-share.png';
-  }
-  if (icon == CollectIcons.sms ||
-      icon == CollectIcons.momo ||
-      icon == CollectIcons.money ||
-      icon == CollectIcons.shield ||
-      tone == CollectStatusTone.warning ||
-      tone == CollectStatusTone.danger) {
-    return 'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png';
-  }
-  return 'assets/runtime/collect_runtime/media/group-momentum.png';
 }
 
 class EmptySearchState extends StatelessWidget {

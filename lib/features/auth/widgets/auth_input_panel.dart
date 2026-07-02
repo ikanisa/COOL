@@ -337,12 +337,10 @@ class AuthWhatsAppMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = semanticLabel?.trim();
-    final icon = SvgPicture.asset(
-      'assets/runtime/collect_runtime/icons/whatsapp.svg',
-      width: size,
-      height: size,
-      excludeFromSemantics: label == null || label.isEmpty,
-      semanticsLabel: label == null || label.isEmpty ? null : label,
+    final icon = Icon(
+      CollectIcons.support,
+      size: size,
+      color: CollectColors.brandMintGreen,
     );
     if (label == null || label.isEmpty) {
       return ExcludeSemantics(child: icon);
@@ -370,13 +368,27 @@ class AuthCountryFlag extends StatelessWidget {
       return Semantics(
         label: 'Rwanda',
         image: true,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(size * 0.18),
-          child: SvgPicture.asset(
-            'assets/runtime/collect_runtime/icons/flag_rw.svg',
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: CollectColors.brandPeriwinkle.withValues(alpha: 0.14),
+            borderRadius: BorderRadius.circular(size * 0.18),
+            border: Border.all(
+              color: CollectColors.brandPaper.withValues(alpha: 0.30),
+            ),
+          ),
+          child: SizedBox(
             width: size * 1.36,
             height: size,
-            fit: BoxFit.cover,
+            child: Center(
+              child: Text(
+                'RW',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: CollectColors.brandPaper,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0,
+                ),
+              ),
+            ),
           ),
         ),
       );

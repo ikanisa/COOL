@@ -13,8 +13,6 @@ class LaunchSplashScreen extends StatefulWidget {
 }
 
 class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
-  static const _splashMarkAssetPath = CollectRuntimeAssets.splashMarkAssetPath;
-
   Timer? _timer;
   var _scheduled = false;
 
@@ -74,19 +72,10 @@ class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(CollectSpacing.x4),
-                          child: Image.asset(
-                            _splashMarkAssetPath,
-                            width: 88,
-                            height: 88,
-                            fit: BoxFit.contain,
-                            filterQuality: FilterQuality.high,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const CollectBrandMark(
-                                  framed: false,
-                                  compact: false,
-                                  width: 96,
-                                  height: 40,
-                                ),
+                          child: Icon(
+                            CollectIcons.savings,
+                            color: foreground,
+                            size: 70,
                           ),
                         ),
                       ),

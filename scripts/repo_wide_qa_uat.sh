@@ -214,8 +214,7 @@ JSON
       "./index.html": true,
       "./flutter_bootstrap.js": true,
       "./main.dart.js": true,
-      "./manifest.json": true,
-      "./icons/collect-admin.png": true
+      "./manifest.json": true
     }
   },
   "console": {

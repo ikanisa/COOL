@@ -31,16 +31,22 @@ if !File.exist?(design_path)
 else
   design = File.read(design_path)
   required_terms = [
-    "Universal Mobile App Design Standard 2026",
+    "Universal App Design Standard 2026",
     "Any production mobile app",
+    "Flutter TV app",
+    "admin panel",
+    "Cross-Surface Product Architecture",
     "Screen Archetypes",
     "Universal Token Model",
     "Universal Component Library",
     "State Requirements",
     "Responsive And Adaptive Standard",
+    "Flutter TV Standard",
+    "Admin Panel Standard",
     "Accessibility Standard",
     "Visual QA Standard",
     "Flutter Implementation Standard",
+    "Robust Implementation Goal",
     "Quality Gates",
     "Universal App Generation Prompt"
   ]
@@ -75,7 +81,7 @@ tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.ma
 forbidden_tracked_paths = tracked_paths.reject do |path|
   path == "DESIGN.md" ||
     !path.match?(
-      %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand}i
+      %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand|^assets/fonts/|^assets/runtime/|^web/icons/|^ios/Runner/Assets\.xcassets/.*\.(png|jpg|jpeg|webp)$|^android/app/src/main/res/.*/.*\.(png|webp)$|brand-primary-colors}i
     )
 end
 checks["tracked_design_source_paths"] = {

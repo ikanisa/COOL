@@ -18,10 +18,9 @@ USSD_CODE = "*182*8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
-BRAND_ASSET = "assets/runtime/collect_runtime/media/group-momentum.png"
-MOMO_ASSET = "assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png"
-QR_ASSET = "assets/runtime/collect_runtime/media/qr-share.png"
-ICON_ASSET = "assets/runtime/collect_runtime/app_icons/app-icon-rule.png"
+MEDIA_GROUP = "group"
+MEDIA_PAYMENT = "payment"
+MEDIA_SHARE = "share"
 INDEXNOW_KEY = ENV.fetch("PUBLIC_INDEXNOW_KEY", "").strip
 INDEXNOW_KEY_PATTERN = /\A[A-Za-z0-9-]{8,128}\z/
 LEGAL_CONTENT_DIR = File.join(ROOT, "content/legal")
@@ -29,8 +28,13 @@ LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_
 LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
-BRAND_PRIMARY_COLORS = ["#8885F0", "#3CD070", "#D38B96", "#FF5E43"].freeze
-BRAND_BLACK = "#0B0A12"
+BRAND_PRIMARY_COLORS = {
+  "periwinkle" => "#8885F0",
+  "mint" => "#3CD070",
+  "rose" => "#D38B96",
+  "orange" => "#FF5E43"
+}.freeze
+BRAND_BLACK = "#050510"
 BRAND_PAPER = "#FAF8F5"
 BRAND_INK = "#252044"
 BRAND_SURFACE_WHITE = "#FFFDFB"
@@ -94,7 +98,7 @@ PAGES = [
     description: "Collect helps daily earners and savings groups organize microsavings, daily savings, ledgers, credit-readiness support, and provider-review files through a public app and supported USSD journeys.",
     h1: "Microsavings and group savings for daily earners",
     intro: "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
-    asset: BRAND_ASSET,
+    media: MEDIA_GROUP,
     metrics: [
       ["96%", "Rwandan adults financially included"],
       ["85%", "Adults saved formally or informally"],
@@ -116,7 +120,7 @@ PAGES = [
     h1: "Your group already has trust. Collect adds structure.",
     intro: "Every contribution is recorded, every member has a statement, and your group's savings discipline becomes something a bank can understand.",
     start_heading: "Give every contribution a clear purpose and a trusted record.",
-    asset: BRAND_ASSET,
+    media: MEDIA_GROUP,
     nav_label: "Group Savings",
     sections: []
   },
@@ -126,7 +130,7 @@ PAGES = [
     description: "Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.",
     h1: "Group savings that strengthen access to bank credit.",
     intro: "Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.",
-    asset: QR_ASSET,
+    media: MEDIA_SHARE,
     nav_label: "Diaspora",
     summary_label: "Diaspora group records",
     metrics: [
@@ -160,7 +164,7 @@ PAGES = [
     description: "Collect can help organize insurance-related records where approved providers are involved.",
     h1: "Protection that fits how people earn.",
     intro: "Collect works with licensed insurers to design simple protection products, flexible premium micro-payments and transparent claims journeys for informal and variable-income communities.",
-    asset: MOMO_ASSET,
+    media: MEDIA_PAYMENT,
     nav_label: "Insurance",
     summary_label: "Insurance support records",
     metrics: [
@@ -194,7 +198,7 @@ PAGES = [
     description: "CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.",
     h1: "From loan inquiry to bank-ready file.",
     intro: "CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.",
-    asset: MOMO_ASSET,
+    media: MEDIA_PAYMENT,
     nav_label: "CRaaS",
     summary_label: "Credit-readiness service",
     metrics: [
@@ -237,7 +241,7 @@ PAGES = [
     description: "Collect equips trusted groups with digital tools while preserving the relationships, leadership and governance that already make them work.",
     h1: "Finance works better when communities lead.",
     intro: "Collect adds digital tools without changing how your group already leads itself - same relationships, same governance, same rules.",
-    asset: BRAND_ASSET,
+    media: MEDIA_GROUP,
     nav_label: "Community Groups",
     summary_label: "Mobile group operations",
     metrics: [
@@ -287,7 +291,7 @@ PAGES = [
     description: "Collect helps banks convert existing informal savings discipline into formal deposits, reliable data and bankable credit relationships.",
     h1: "The banking opportunity in Rwanda's informal economy.",
     intro: "These customers already earn, save, and borrow - just outside the formal system. Collect turns that existing discipline into deposits, data, and bankable credit relationships.",
-    asset: MOMO_ASSET,
+    media: MEDIA_PAYMENT,
     nav_label: "Our Partners",
     summary_label: "Banking opportunity",
     metrics: [
@@ -313,7 +317,7 @@ PAGES = [
     description: "How Collect protects personal data, supports privacy rights, and explains data, AI, partner and deletion boundaries.",
     h1: "Security and trust",
     intro: "Collect uses safeguards designed to protect personal data and gives customers clear routes to access, correct and delete eligible data.",
-    asset: QR_ASSET,
+    media: MEDIA_SHARE,
     legal_key: :trust,
     sections: []
   },
@@ -324,7 +328,7 @@ PAGES = [
     eyebrow: LEGAL_PRIVACY.dig("hero", "eyebrow"),
     h1: LEGAL_PRIVACY.dig("hero", "headline"),
     intro: LEGAL_PRIVACY.dig("hero", "supporting_copy"),
-    asset: QR_ASSET,
+    media: MEDIA_SHARE,
     nav_label: LEGAL_PRIVACY.fetch("title"),
     summary_label: "Customer information",
     metrics: [
@@ -341,7 +345,7 @@ PAGES = [
     eyebrow: LEGAL_TERMS.dig("hero", "eyebrow"),
     h1: LEGAL_TERMS.dig("hero", "headline"),
     intro: LEGAL_TERMS.dig("hero", "supporting_copy"),
-    asset: BRAND_ASSET,
+    media: MEDIA_GROUP,
     nav_label: LEGAL_TERMS.fetch("title"),
     summary_label: "Service terms",
     metrics: [
@@ -358,7 +362,7 @@ PAGES = [
     eyebrow: LEGAL_DELETE_ACCOUNT.dig("hero", "eyebrow"),
     h1: LEGAL_DELETE_ACCOUNT.dig("hero", "headline"),
     intro: LEGAL_DELETE_ACCOUNT.dig("hero", "supporting_copy"),
-    asset: QR_ASSET,
+    media: MEDIA_SHARE,
     nav_label: "Account deletion",
     summary_label: "Account deletion",
     metrics: [
@@ -375,7 +379,7 @@ PAGES = [
     eyebrow: "ACCOUNT AND DATA DELETION",
     h1: "Data deletion and retention",
     intro: "You may request deletion of eligible personal data. Some records may be retained where required by law or necessary for security, fraud prevention, disputes, regulatory compliance, or ledger integrity.",
-    asset: BRAND_ASSET,
+    media: MEDIA_GROUP,
     nav_label: "Data Deletion",
     summary_label: "Data deletion",
     metrics: [
@@ -1773,14 +1777,12 @@ def page_html(page, current_path: page[:path])
       <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
       <link rel="canonical" href="#{page_url(current_path)}">
       #{alternate_links(current_path)}
-      <link rel="icon" href="/icons/collect.png" type="image/png">
       <link rel="manifest" href="/manifest.json">
       <meta property="og:type" content="website">
       <meta property="og:locale" content="en_US">
       <meta property="og:url" content="#{page_url(current_path)}">
       <meta property="og:title" content="#{esc(page[:title])}">
       <meta property="og:description" content="#{esc(page[:description])}">
-      <meta property="og:image" content="#{PUBLIC_URL}/assets/runtime/collect_runtime/media/group-momentum.png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">
@@ -1792,7 +1794,7 @@ def page_html(page, current_path: page[:path])
       <a class="skip-link" href="#content">Skip to content</a>
       <header class="site-header">
         <a class="brand" href="/">
-          <img src="/icons/collect.png" alt="" width="42" height="42">
+          <span class="brand-mark" aria-hidden="true">C</span>
           <span><strong>Collect</strong><small>by IKANISA</small></span>
         </a>
         <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">Menu</button>
@@ -1899,7 +1901,7 @@ def stylesheet
     .skip-link:focus { top: 16px; }
     .site-header { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 18px clamp(20px, 4vw, 48px); position: sticky; top: 0; z-index: 5; background: rgba(5, 5, 16, .86); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(250,248,245,.08); }
     .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: max-content; }
-    .brand img { border-radius: 10px; }
+    .brand-mark { width: 42px; height: 42px; border-radius: 50%; display: inline-grid; place-items: center; background: rgba(250,248,245,.10); border: 1px solid rgba(250,248,245,.18); color: var(--paper); font-weight: 950; }
     .brand strong, .brand small { display: block; line-height: 1; }
     .brand strong { font-size: 19px; font-weight: 900; }
     .brand small { color: rgba(250,248,245,.7); font-weight: 800; margin-top: 3px; }
@@ -2622,14 +2624,6 @@ def headers
     /manifest.json
       Cache-Control: public, max-age=3600, must-revalidate
 
-    /brand-primary-colors.json
-      Cache-Control: public, max-age=3600, must-revalidate
-
-    /assets/*
-      Cache-Control: public, max-age=31536000, immutable
-
-    /icons/*
-      Cache-Control: public, max-age=31536000, immutable
   HEADERS
 end
 
@@ -2648,24 +2642,6 @@ write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
 write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
-
-assets = [
-  BRAND_ASSET,
-  MOMO_ASSET,
-  QR_ASSET,
-  ICON_ASSET
-]
-assets.each do |asset|
-  source = File.join(ROOT, asset)
-  next unless File.file?(source)
-
-  target = File.join(BUILD_DIR, asset)
-  FileUtils.mkdir_p(File.dirname(target))
-  FileUtils.cp(source, target)
-end
-
-FileUtils.mkdir_p(File.join(BUILD_DIR, "icons"))
-FileUtils.cp(File.join(ROOT, ICON_ASSET), File.join(BUILD_DIR, "icons", "collect.png"))
 
 well_known_source = File.join(ROOT, "web", ".well-known")
 if Dir.exist?(well_known_source)
@@ -2687,17 +2663,9 @@ manifest = {
   "display" => "standalone",
   "background_color" => BRAND_BLACK,
   "theme_color" => BRAND_PRIMARY_COLORS.fetch("periwinkle"),
-  "icons" => [
-    {
-      "src" => "/icons/collect.png",
-      "sizes" => "512x512",
-      "type" => "image/png",
-      "purpose" => "any maskable"
-    }
-  ]
+  "icons" => []
 }
 write_file(File.join(BUILD_DIR, "manifest.json"), JSON.pretty_generate(manifest) + "\n")
-write_file(File.join(BUILD_DIR, "brand-primary-colors.json"), JSON.pretty_generate(BRAND_COLOR_CONTRACT) + "\n")
 
 all_paths = []
 PAGES.each do |page|

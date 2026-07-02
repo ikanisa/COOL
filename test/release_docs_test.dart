@@ -351,13 +351,7 @@ Date/time: 2026-06-01T12:30:00Z
       expect(text, isNot(contains('commit `5eea474`')));
     }
 
-    for (final key in [
-      'decision',
-      'blockers',
-      'qa',
-      'uat',
-      'uat_plan',
-    ]) {
+    for (final key in ['decision', 'blockers', 'qa', 'uat', 'uat_plan']) {
       expect(docs[key], contains('NO-GO'));
     }
 
@@ -441,8 +435,11 @@ Date/time: 2026-06-01T12:30:00Z
   test('Universal DESIGN.md is the single current contract', () {
     final design = File('DESIGN.md').readAsStringSync();
 
-    expect(design, contains('Universal Mobile App Design Standard 2026'));
+    expect(design, contains('Universal App Design Standard 2026'));
     expect(design, contains('Any production mobile app'));
+    expect(design, contains('Flutter TV app'));
+    expect(design, contains('Admin Panel Standard'));
+    expect(design, contains('Robust Implementation Goal'));
     expect(design, contains('Screen Archetypes'));
     expect(design, contains('Universal Token Model'));
     expect(design, contains('Universal Component Library'));

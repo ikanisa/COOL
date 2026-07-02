@@ -52,7 +52,7 @@ class CollectNotificationService {
   Future<void> _initialize() async {
     if (kIsWeb) return;
     try {
-      const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const android = AndroidInitializationSettings('@drawable/transparent');
       const ios = DarwinInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,

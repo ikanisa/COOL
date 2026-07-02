@@ -242,8 +242,7 @@ metadata_files = {
   "title" => "fastlane/metadata/android/en-US/title.txt",
   "short_description" => "fastlane/metadata/android/en-US/short_description.txt",
   "full_description" => "fastlane/metadata/android/en-US/full_description.txt",
-  "changelog_9" => "fastlane/metadata/android/en-US/changelogs/9.txt",
-  "feature_graphic" => "fastlane/metadata/android/en-US/images/featureGraphic.png"
+  "changelog_9" => "fastlane/metadata/android/en-US/changelogs/9.txt"
 }
 metadata_items = metadata_files.transform_values do |relative|
   path = File.join(root, relative)

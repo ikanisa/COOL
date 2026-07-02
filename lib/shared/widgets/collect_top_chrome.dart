@@ -108,19 +108,10 @@ class _TopChromeAvatar extends StatelessWidget {
                 child: SizedBox.square(
                   dimension: 58,
                   child: Center(
-                    child: ClipOval(
-                      child: Image.asset(
-                        CollectBrandMark.appIconAssetPath,
-                        width: 42,
-                        height: 42,
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.high,
-                        errorBuilder: (context, error, stackTrace) => Icon(
-                          CollectIcons.people,
-                          color: foreground,
-                          size: 30,
-                        ),
-                      ),
+                    child: Icon(
+                      CollectIcons.people,
+                      color: foreground,
+                      size: 30,
                     ),
                   ),
                 ),
@@ -256,9 +247,6 @@ class CollectBrandMark extends StatelessWidget {
     super.key,
   });
 
-  static const assetPath = CollectRuntimeAssets.wordmarkAssetPath;
-  static const appIconAssetPath = CollectRuntimeAssets.appIconAssetPath;
-
   final bool compact;
   final bool framed;
   final double? width;
@@ -271,13 +259,35 @@ class CollectBrandMark extends StatelessWidget {
     final tokenBorder = CollectRuntimeTokens.inputBorder(colors);
     final markWidth = width ?? (compact ? 108.0 : 132.0);
     final markHeight = height ?? (compact ? 32.0 : 38.0);
-    final wordmark = Image.asset(
-      assetPath,
+    final mark = SizedBox(
       width: markWidth,
       height: markHeight,
-      fit: BoxFit.contain,
-      alignment: Alignment.center,
-      filterQuality: FilterQuality.high,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            CollectIcons.savings,
+            color: colors.textPrimary,
+            size: (markHeight * 0.62).clamp(18, 26).toDouble(),
+          ),
+          if (showWordmark) ...[
+            CollectSpacing.gapW8,
+            Flexible(
+              child: Text(
+                CollectRuntimeAssets.brandLabel,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ],
+      ),
     );
     return Semantics(
       label: 'Collect logo',
@@ -291,20 +301,12 @@ class CollectBrandMark extends StatelessWidget {
                   border: Border.all(color: tokenBorder),
                   boxShadow: CollectShadows.soft(),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(markHeight * 0.46),
-                  child: wordmark,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: mark,
                 ),
               )
-            : SizedBox(
-                width: markWidth,
-                height: markHeight,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  alignment: Alignment.centerLeft,
-                  child: wordmark,
-                ),
-              ),
+            : SizedBox(width: markWidth, height: markHeight, child: mark),
       ),
     );
   }
