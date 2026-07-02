@@ -47,7 +47,7 @@ complete because native accessibility signoff remains approval-gated.
 | Supabase evidence bundle | `SUPABASE_EVIDENCE_BUNDLE_DIR=.cache/supabase_go_live_evidence/20260630T_after_db_push scripts/supabase_go_live_evidence_bundle.sh` | Blocked | `.cache/supabase_go_live_evidence/20260630T_after_db_push/summary.json` |
 | Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass | `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json` |
 | Android device UAT | `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false scripts/android_device_uat.sh` | Pass | `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json` |
-| Mobile design compliance | `scripts/collect_mobile_design_compliance_audit.sh --json` with fresh route/UAT summaries | Pass | `docs/release/mobile_design_compliance_audit_2026-06-30.json` |
+| Mobile design compliance | `scripts/collect_mobile_design_compliance_audit.sh --json` with fresh route/UAT summaries | Pass | Current gate plus `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`; stale dated JSON removed |
 | Android structural accessibility | `scripts/android_accessibility_structural_evidence.sh --json` | Pass | `docs/release/android_accessibility_structural_evidence_2026-06-30.json` |
 | Native performance | `scripts/mobile_native_performance_profile.sh --json` | Pass | `docs/release/mobile_native_performance_profile_2026-06-30.json` |
 | Native accessibility signoff | `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | `docs/release/native_mobile_accessibility_signoff_gate_2026-06-30.json` |

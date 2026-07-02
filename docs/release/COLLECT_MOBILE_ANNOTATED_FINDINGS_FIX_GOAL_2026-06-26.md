@@ -10,8 +10,8 @@ with focused Flutter analysis and tests.
 
 Status: complete in the code-owned Flutter mobile/web review surface.
 
-Detailed completion report:
-`docs/release/COLLECT_PREMIUM_MOBILE_FRONTEND_COMPLETION_REPORT_2026-06-27.md`
+Current completion authority:
+`docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`.
 
 ## Annotated Findings Checklist
 

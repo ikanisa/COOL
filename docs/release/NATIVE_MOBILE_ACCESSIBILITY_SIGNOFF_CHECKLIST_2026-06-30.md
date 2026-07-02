@@ -1,7 +1,9 @@
 # Native Mobile Accessibility Signoff Checklist
 
 Date: 2026-06-30
-Scope: Collect Flutter mobile app native accessibility follow-up for `docs/release/CRITICAL_NATIVE_MOBILE_EXPERIENCE_AUDIT_2026-06-29.md`.
+Scope: Collect Flutter mobile app native accessibility signoff for the current
+MOBI/Revolut parity target in
+`docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`.
 Current decision: **NO-GO until signed**
 
 ## Evidence Packet

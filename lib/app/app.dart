@@ -7,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/notifications/collect_notification_service.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
+import '../shared/widgets/collect_components.dart';
 import 'env/app_env.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
-import 'theme/collect_colors.dart';
 import 'theme/collect_theme_controller.dart';
 
 class CollectApp extends ConsumerWidget {
@@ -38,8 +38,56 @@ class CollectApp extends ConsumerWidget {
           darkTheme: AppTheme.dark(),
           themeMode: themeMode,
           routerConfig: router,
+          builder: (context, child) {
+            return _CollectConnectivityOverlay(
+              child: child ?? const SizedBox.shrink(),
+            );
+          },
         ),
       ),
+    );
+  }
+}
+
+class _CollectConnectivityOverlay extends ConsumerWidget {
+  const _CollectConnectivityOverlay({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(connectivityStatusProvider);
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        child,
+        IgnorePointer(
+          child: SafeArea(
+            bottom: false,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  CollectSpacing.x4,
+                  CollectSpacing.x2,
+                  CollectSpacing.x4,
+                  0,
+                ),
+                child: AnimatedSwitcher(
+                  duration: CollectMotion.duration(
+                    context,
+                    CollectMotion.medium,
+                  ),
+                  child: CollectConnectivityBanner(
+                    key: ValueKey<ConnectivityStatus>(status),
+                    status: status,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

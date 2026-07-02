@@ -88,6 +88,14 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           summaries: summaries,
           showContributedOnly: showContributedOnly,
         ),
+        if (visibleCollections.length < 3)
+          _GroupsDiscoveryStrip(
+            showCreate: showCreate,
+            showContributedOnly: showContributedOnly,
+            onScan: () => context.go('/groups/scan'),
+            onCreate: () => context.go('/groups/create'),
+            onSupported: () => context.go('/groups?filter=contributed'),
+          ),
         if (visibleCollections.isNotEmpty)
           _GroupsCardGrid(collections: visibleCollections, summaries: summaries)
         else if (!showContributedOnly)
@@ -156,6 +164,7 @@ class _GroupsMomentumPanel extends StatelessWidget {
                       icon: CollectIcons.collections,
                       label: showContributedOnly ? 'Supported' : 'Groups',
                       value: '${collections.length}',
+                      iconOnly: true,
                     ),
                   ),
                   CollectSpacing.gapW8,
@@ -164,6 +173,7 @@ class _GroupsMomentumPanel extends StatelessWidget {
                       icon: CollectIcons.people,
                       label: 'Members',
                       value: '$members',
+                      iconOnly: true,
                     ),
                   ),
                   CollectSpacing.gapW8,
@@ -172,6 +182,7 @@ class _GroupsMomentumPanel extends StatelessWidget {
                       icon: CollectIcons.public,
                       label: 'Public',
                       value: '$publicCount',
+                      iconOnly: true,
                     ),
                   ),
                 ],
@@ -189,11 +200,13 @@ class _GroupsMetricPill extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    this.iconOnly = false,
   });
 
   final IconData icon;
   final String label;
   final String value;
+  final bool iconOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +235,7 @@ class _GroupsMetricPill extends StatelessWidget {
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
-                    value,
+                    iconOnly ? value : '$label $value',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: FontWeight.w900,
@@ -234,6 +247,118 @@ class _GroupsMetricPill extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupsDiscoveryStrip extends StatelessWidget {
+  const _GroupsDiscoveryStrip({
+    required this.showCreate,
+    required this.showContributedOnly,
+    required this.onScan,
+    required this.onCreate,
+    required this.onSupported,
+  });
+
+  final bool showCreate;
+  final bool showContributedOnly;
+  final VoidCallback onScan;
+  final VoidCallback onCreate;
+  final VoidCallback onSupported;
+
+  @override
+  Widget build(BuildContext context) {
+    final actions = [
+      _GroupsDiscoveryAction(
+        icon: CollectIcons.qr,
+        label: 'Scan',
+        tone: CollectStatusTone.info,
+        onTap: onScan,
+      ),
+      if (showCreate)
+        _GroupsDiscoveryAction(
+          icon: CollectIcons.add,
+          label: 'Create',
+          tone: CollectStatusTone.success,
+          onTap: onCreate,
+        ),
+      if (!showContributedOnly)
+        _GroupsDiscoveryAction(
+          icon: CollectIcons.people,
+          label: 'Supported',
+          tone: CollectStatusTone.neutral,
+          onTap: onSupported,
+        ),
+    ];
+    return Semantics(
+      container: true,
+      label: 'Groups quick actions',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.compact,
+        padding: const EdgeInsets.all(CollectSpacing.x2),
+        child: Row(
+          children: [
+            for (var index = 0; index < actions.length; index += 1) ...[
+              Expanded(child: actions[index]),
+              if (index != actions.length - 1) CollectSpacing.gapW8,
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupsDiscoveryAction extends StatelessWidget {
+  const _GroupsDiscoveryAction({
+    required this.icon,
+    required this.label,
+    required this.tone,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final CollectStatusTone tone;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: true,
+      label: label,
+      child: InkWell(
+        borderRadius: CollectRadius.mdBorder,
+        onTap: () {
+          CollectHaptics.selection();
+          onTap();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x2,
+            vertical: CollectSpacing.x2,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CollectToneIcon(icon: icon, tone: tone),
+              CollectSpacing.gap4,
+              Text(
+                label,
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0,
+                ),
+              ),
+            ],
           ),
         ),
       ),

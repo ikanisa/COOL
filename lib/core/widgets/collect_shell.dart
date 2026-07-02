@@ -7,13 +7,18 @@ import '../../shared/widgets/collect_components.dart';
 
 class CollectShell extends StatelessWidget {
   const CollectShell({
-    required this.child,
+    this.child,
+    this.navigationShell,
     this.currentPath,
     this.onNavigate,
     super.key,
-  });
+  }) : assert(
+         child != null || navigationShell != null,
+         'CollectShell requires either a child or a navigationShell.',
+       );
 
-  final Widget child;
+  final Widget? child;
+  final StatefulNavigationShell? navigationShell;
   final String? currentPath;
   final ValueChanged<String>? onNavigate;
 
@@ -22,6 +27,10 @@ class CollectShell extends StatelessWidget {
     final colors = context.collectColors;
     final path = currentPath ?? GoRouterState.of(context).uri.path;
     final showNav = !_isStandalone(path);
+    final useRail = showNav && MediaQuery.sizeOf(context).width >= 720;
+    final selectedIndex =
+        navigationShell?.currentIndex ?? _selectedIndexForPath(path);
+    final body = navigationShell ?? child!;
     return CollectBackgroundRouteScope(
       routePath: path,
       child: CollectGradientBackground(
@@ -29,8 +38,18 @@ class CollectShell extends StatelessWidget {
         child: Scaffold(
           backgroundColor: colors.transparent,
           extendBody: true,
-          body: child,
-          bottomNavigationBar: showNav
+          body: useRail
+              ? Row(
+                  children: [
+                    _CollectNavigationRail(
+                      selectedIndex: selectedIndex,
+                      onDestinationSelected: _navigateToIndex,
+                    ),
+                    Expanded(child: body),
+                  ],
+                )
+              : body,
+          bottomNavigationBar: showNav && !useRail
               ? SafeArea(
                   top: false,
                   child: Padding(
@@ -73,17 +92,8 @@ class CollectShell extends StatelessWidget {
                             ],
                           ),
                           child: _CollectBottomNav(
-                            selectedIndex: _selectedIndexForPath(path),
-                            onDestinationSelected: (index) {
-                              final destination = _paths[index];
-                              CollectHaptics.selection();
-                              final handler = onNavigate;
-                              if (handler != null) {
-                                handler(destination);
-                                return;
-                              }
-                              context.go(destination);
-                            },
+                            selectedIndex: selectedIndex,
+                            onDestinationSelected: _navigateToIndex,
                           ),
                         ),
                       ),
@@ -97,6 +107,25 @@ class CollectShell extends StatelessWidget {
   }
 
   static const _paths = <String>['/home', '/groups', '/settings'];
+
+  void _navigateToIndex(BuildContext context, int index) {
+    final destination = _paths[index];
+    CollectHaptics.selection();
+    final handler = onNavigate;
+    if (handler != null) {
+      handler(destination);
+      return;
+    }
+    final statefulShell = navigationShell;
+    if (statefulShell != null) {
+      statefulShell.goBranch(
+        index,
+        initialLocation: index == statefulShell.currentIndex,
+      );
+      return;
+    }
+    context.go(destination);
+  }
 
   bool _isStandalone(String path) {
     return path == '/' ||
@@ -128,25 +157,7 @@ class _CollectBottomNav extends StatelessWidget {
   });
 
   final int selectedIndex;
-  final ValueChanged<int> onDestinationSelected;
-
-  static const _destinations = <_CollectNavDestination>[
-    _CollectNavDestination(
-      label: 'Home',
-      icon: CollectIcons.homeOutline,
-      selectedIcon: CollectIcons.home,
-    ),
-    _CollectNavDestination(
-      label: 'Groups',
-      icon: CollectIcons.people,
-      selectedIcon: CollectIcons.people,
-    ),
-    _CollectNavDestination(
-      label: 'Settings',
-      icon: CollectIcons.settingsOutline,
-      selectedIcon: CollectIcons.settings,
-    ),
-  ];
+  final void Function(BuildContext context, int index) onDestinationSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -160,16 +171,120 @@ class _CollectBottomNav extends StatelessWidget {
         height: height,
         child: Row(
           children: [
-            for (var index = 0; index < _destinations.length; index += 1)
+            for (
+              var index = 0;
+              index < _collectNavDestinations.length;
+              index += 1
+            )
               Expanded(
                 child: _CollectBottomNavItem(
-                  destination: _destinations[index],
+                  destination: _collectNavDestinations[index],
                   selected: selectedIndex == index,
                   showLabel: showLabels,
-                  onTap: () => onDestinationSelected(index),
+                  onTap: () => onDestinationSelected(context, index),
                 ),
               ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CollectNavigationRail extends StatelessWidget {
+  const _CollectNavigationRail({
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+
+  final int selectedIndex;
+  final void Function(BuildContext context, int index) onDestinationSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return SafeArea(
+      right: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(34),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: CollectColors.referenceChromeBlack.withValues(
+                  alpha: 0.94,
+                ),
+                border: Border.all(
+                  color: colors.onImagePrimary.withValues(alpha: 0.34),
+                ),
+                borderRadius: BorderRadius.circular(34),
+                boxShadow: [
+                  BoxShadow(
+                    color: CollectColors.inkPrimary.withValues(alpha: 0.30),
+                    blurRadius: 32,
+                    offset: const Offset(14, 18),
+                  ),
+                ],
+              ),
+              child: Semantics(
+                container: true,
+                label: 'Primary navigation rail',
+                child: NavigationRail(
+                  backgroundColor: colors.transparent,
+                  selectedIndex: selectedIndex,
+                  minWidth: 88,
+                  minExtendedWidth: 128,
+                  labelType: NavigationRailLabelType.all,
+                  useIndicator: true,
+                  indicatorColor: colors.periwinklePaint.withValues(
+                    alpha: 0.30,
+                  ),
+                  selectedIconTheme: IconThemeData(
+                    color: colors.onImagePrimary,
+                    size: 24,
+                  ),
+                  unselectedIconTheme: IconThemeData(
+                    color: colors.onImagePrimary.withValues(alpha: 0.68),
+                    size: 22,
+                  ),
+                  selectedLabelTextStyle: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(
+                        color: colors.onImagePrimary,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0,
+                      ),
+                  unselectedLabelTextStyle: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(
+                        color: colors.onImagePrimary.withValues(alpha: 0.68),
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0,
+                      ),
+                  onDestinationSelected: (index) =>
+                      onDestinationSelected(context, index),
+                  destinations: [
+                    for (final destination in _collectNavDestinations)
+                      NavigationRailDestination(
+                        icon: Tooltip(
+                          message: destination.label,
+                          child: Icon(destination.icon),
+                        ),
+                        selectedIcon: Tooltip(
+                          message: destination.label,
+                          child: Icon(destination.selectedIcon),
+                        ),
+                        label: Text(destination.label),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -268,6 +383,24 @@ class _CollectBottomNavItem extends StatelessWidget {
     );
   }
 }
+
+const _collectNavDestinations = <_CollectNavDestination>[
+  _CollectNavDestination(
+    label: 'Home',
+    icon: CollectIcons.homeOutline,
+    selectedIcon: CollectIcons.home,
+  ),
+  _CollectNavDestination(
+    label: 'Groups',
+    icon: CollectIcons.people,
+    selectedIcon: CollectIcons.people,
+  ),
+  _CollectNavDestination(
+    label: 'Settings',
+    icon: CollectIcons.settingsOutline,
+    selectedIcon: CollectIcons.settings,
+  ),
+];
 
 class _CollectNavDestination {
   const _CollectNavDestination({

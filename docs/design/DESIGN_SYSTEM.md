@@ -4,9 +4,9 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 ## Design Direction
 
-The 11 Revolut screenshots in `/Users/jeanbosco/Downloads/Revolut10` are the active mobile UI/UX benchmark for interaction quality, hierarchy, vertical gradient page canvases, floating black glass controls, compact account/payment hierarchy, rounded bottom navigation, media-rich cards, and translucent content panels. Runtime brand assets remain Collect-owned. Collect applies the benchmark patterns to its required product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
+The 11 Revolut screenshots in `/Users/jeanbosco/Downloads/Revolut10` and the MOBI Flutter app in `/Volumes/PRO-G40/MOBI/mobi_app` are the active mobile UI/UX implementation benchmark. Collect targets 100% MOBI/Revolut experiential parity for interaction quality, hierarchy, vertical gradient page canvases, floating black glass controls, compact account/payment hierarchy, rounded bottom navigation, media-rich cards, translucent content panels, route transitions, loading states, offline recovery, and route evidence. Runtime brand assets remain Collect-owned or otherwise approved. Collect applies the benchmark patterns to its required product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
 
-Revolut references remain a quality and interaction benchmark, but shipped runtime branding uses Collect-owned assets. Runtime app, web, splash, wordmark, and product-media assets live under `assets/brand/collect_runtime/`; source-only high-resolution variants live under `assets/brand/source_variants/`. The deleted `assets/brand/collect_runtime/` path must not be reintroduced as a runtime dependency. The four primary colors remain required: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
+Revolut/MOBI references are the current quality and interaction target. Shipped runtime branding uses Collect-owned or otherwise approved assets so the app can match the benchmark feel without inventing product facts or leaking private data. Runtime app, web, splash, wordmark, and product-media assets live under `assets/brand/collect_runtime/`; source-only high-resolution variants live under `assets/brand/source_variants/`. The four primary colors remain required runtime accents: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
 
 ## Principles
 
@@ -27,7 +27,7 @@ Revolut references remain a quality and interaction benchmark, but shipped runti
 - Operational surfaces must not use visible explanatory, descriptive, or guide labels where an icon, value, concise command, or accessibility-only semantics can carry the meaning. Required legal, consent, privacy, error-recovery, and form-field labels are the explicit exceptions.
 - Warm precision: user screens feel premium and human; admin/risk screens stay dense and exact.
 - Token-only implementation: screens compose centralized tokens and shared components rather than raw colors, spacing, radii, or font sizes.
-- MOBI benchmark: use `/Volumes/PRO-G40/MOBI/mobi_app` as the process reference for route matrices, shared shell primitives, route visual coverage, and current evidence gates. Do not paste MOBI UI code or product concepts into Collect.
+- MOBI benchmark: use `/Volumes/PRO-G40/MOBI/mobi_app` as the app-shell and interaction reference for route matrices, shared shell primitives, responsive rail, bottom nav, command bar, async-state renderer, loading skeletons, connectivity overlay, route visual coverage, and current evidence gates. Translate these patterns into Collect's product; do not import mobility product concepts.
 
 ## Token Map
 
@@ -96,6 +96,7 @@ Use the shared primitives before local UI:
 - QR scanner surfaces use the shared plain header plus a camera-first preview with dark overlay, corner guides, torch and camera-switch icon controls, gallery QR decoding where supported, and compact link/code entry fallback. Fallback copy must stay about group links/codes, not payment proof.
 - `CollectBottomSheet`, `BottomActionSurface`.
 - `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
+- `CollectAsyncStateView`, `CollectScreenLoadingState`, and shape-specific `LoadingSkeleton` variants must be the default route startup/error/empty pattern.
 - `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
 
 Feature-level widgets may control content density and order, but not introduce a separate visual language.
@@ -138,17 +139,21 @@ Feature-level widgets may control content density and order, but not introduce a
   It builds with sanitized fixture evidence mode through
   `COLLECT_MOBILE_EVIDENCE_MODE=true`, so screenshots show realistic Collect
   groups, balances, payment states, and activity without using production data.
+- `docs/design/collect_mobile_visual_baseline_routes_2026-07-01.json` defines
+  the checked-in critical-route visual baseline subset. Every listed route must
+  remain present in `scripts/mobile_route_render_smoke.sh`; the generated
+  screenshots remain evidence artifacts under `.cache/mobile_route_render_smoke/`.
 - `scripts/android_route_visual_evidence.sh` for physical Android route PNG evidence and route contact sheets when device proof is required or local Chromium/CDP is unavailable.
 - `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser PNG evidence with masked evidence-mode data.
 - `COLLECT_VISUAL_EVIDENCE_FRESH=1 scripts/collect_visual_evidence_capture.sh` for non-Chrome member-shell PNG/contact-sheet evidence when local Chromium/CDP is unavailable.
 - `scripts/collect_mobile_design_compliance_audit.sh --json` to verify the palette, docs, shared gradient ownership, dark/light theme parity gate, route screenshot coverage, and Android evidence when available.
+- `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md` is the detailed comparative table and the deletion register for contradictory design guidance.
 
 ## 10/10 Parity Ownership
 
-The current mobile design pass is code-owned complete when the implementation
+The current mobile design pass is code-owned complete only when the implementation
 passes analyzer, focused widget/accessibility checks, visual route evidence, and
-the design compliance audit. External release approval, store submission, or
-public marketing claims remain governance actions, not engineering blockers.
+the design compliance audit, while satisfying the MOBI/Revolut matrix. External release approval, store submission, legal notices, regulatory reports, or public marketing claims remain governance actions, not engineering blockers.
 
 Keep these as regression blockers so they do not re-enter:
 

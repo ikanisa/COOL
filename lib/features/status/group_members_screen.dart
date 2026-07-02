@@ -53,8 +53,16 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
           label: 'Search Collect ID',
           onChanged: (value) => setState(() => _query = value),
         ),
-        members.when(
-          data: (items) {
+        CollectAsyncStateView<List<CollectMember>>(
+          value: members,
+          loadingTitle: 'Loading members',
+          loadingMessage: 'Fetching group members and Collect ID roles.',
+          loadingIcon: CollectIcons.people,
+          errorTitle: 'Could not load members',
+          errorMessage: 'Try again when the connection is stable.',
+          onRetry: () =>
+              ref.invalidate(groupMembersProvider(widget.collectionId)),
+          data: (context, items) {
             final query = _query.trim().toLowerCase();
             final visible = query.isEmpty
                 ? items
@@ -128,16 +136,6 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
               ],
             );
           },
-          loading: () => const LoadingStatePanel(
-            title: 'Loading members',
-            message: 'Fetching group members and Collect ID roles.',
-            icon: CollectIcons.people,
-            lines: 4,
-          ),
-          error: (error, _) => CollectErrorState(
-            title: 'Could not load members',
-            message: error.toString(),
-          ),
         ),
       ],
     );

@@ -42,4 +42,4 @@ These are the active Collect brand colors.
   paths stable unless the app registry is renamed in a dedicated refactor.
 - Runtime images must be Collect-owned generated/source artwork. Do not use
   third-party screenshots as shipped runtime assets.
-- Missing required inputs must be recorded in `docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md`.
+- Missing required inputs must be recorded in `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md`.

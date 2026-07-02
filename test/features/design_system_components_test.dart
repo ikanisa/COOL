@@ -4,9 +4,12 @@ import 'dart:typed_data';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/utils/money_format.dart';
+import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -254,8 +257,8 @@ void main() {
       'assets/brand/collect_runtime/splash/splash_mark.png',
     );
     expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
-      width: 1024,
-      height: 299,
+      width: 4096,
+      height: 1387,
     ));
     expect(_pngSize(CollectRuntimeAssets.appIconAssetPath), (
       width: 512,
@@ -809,6 +812,126 @@ void main() {
     }
   });
 
+  testWidgets('shape-specific Collect skeletons expose stable semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const SingleChildScrollView(
+          child: Column(
+            children: [
+              LoadingSkeleton.heroAmount(semanticsLabel: 'Loading amount card'),
+              CollectSpacing.gap12,
+              LoadingSkeleton.groupCard(semanticsLabel: 'Loading group card'),
+              CollectSpacing.gap12,
+              LoadingSkeleton.ledgerRow(semanticsLabel: 'Loading ledger row'),
+              CollectSpacing.gap12,
+              LoadingSkeleton.bottomSheet(
+                semanticsLabel: 'Loading action sheet',
+              ),
+            ],
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Loading amount card'), findsOneWidget);
+      expect(find.bySemanticsLabel('Loading group card'), findsOneWidget);
+      expect(find.bySemanticsLabel('Loading ledger row'), findsOneWidget);
+      expect(find.bySemanticsLabel('Loading action sheet'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('Collect async state view renders loading error retry and data', (
+    tester,
+  ) async {
+    var retryCount = 0;
+
+    await _pumpCollect(
+      tester,
+      CollectAsyncStateView<int>(
+        value: const AsyncLoading<int>(),
+        data: (context, value) => Text('$value loaded'),
+        loadingTitle: 'Loading members',
+        loadingMessage: 'Fetching group members.',
+      ),
+    );
+    expect(find.text('Loading members'), findsOneWidget);
+
+    await _pumpCollect(
+      tester,
+      CollectAsyncStateView<int>(
+        value: AsyncError<int>(StateError('private failure'), StackTrace.empty),
+        data: (context, value) => Text('$value loaded'),
+        errorTitle: 'Could not load members',
+        errorMessage: 'Try again when the connection is stable.',
+        onRetry: () => retryCount += 1,
+      ),
+    );
+    expect(find.text('Could not load members'), findsOneWidget);
+    expect(find.text('private failure'), findsNothing);
+    await tester.tap(find.text('Try again'));
+    expect(retryCount, 1);
+
+    await _pumpCollect(
+      tester,
+      CollectAsyncStateView<int>(
+        value: const AsyncData<int>(7),
+        data: (context, value) => Text('$value loaded'),
+      ),
+    );
+    expect(find.text('7 loaded'), findsOneWidget);
+  });
+
+  testWidgets('connectivity banner distinguishes offline status copy', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const Column(
+          children: [
+            CollectConnectivityBanner(status: ConnectivityStatus.online),
+            CollectConnectivityBanner(status: ConnectivityStatus.degraded),
+            CollectConnectivityBanner(status: ConnectivityStatus.offline),
+            CollectConnectivityBanner(status: ConnectivityStatus.offlineStale),
+          ],
+        ),
+      );
+
+      expect(find.text('Connection needs attention'), findsOneWidget);
+      expect(find.text('No connection'), findsOneWidget);
+      expect(find.text('Showing saved data'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('permission education sheet explains the native prompt', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const CollectPermissionEducationSheet(
+        icon: CollectIcons.qr,
+        title: 'Camera access',
+        message: 'Use native phone settings.',
+        education: 'Camera access lets Collect scan group QR codes.',
+      ),
+    );
+
+    expect(find.text('Camera access'), findsOneWidget);
+    expect(find.text('Before you continue'), findsOneWidget);
+    expect(
+      find.text('Camera access lets Collect scan group QR codes.'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('bento metrics adapt for text scaling without losing content', (
     tester,
   ) async {
@@ -963,8 +1086,15 @@ void main() {
     expect(detailActions, isNot(contains('class _GroupMomentumRail')));
     expect(detailHero, contains('maxLines: 1'));
     expect(detailHero, contains('softWrap: false'));
-    expect(shareScreen, contains('maxLines: 1'));
-    expect(shareScreen, contains('softWrap: false'));
+    expect(shareScreen, contains("'Group QR'"));
+    expect(shareScreen, contains("label: 'Share'"));
+    expect(shareScreen, contains("label: 'Save'"));
+    expect(
+      shareScreen,
+      isNot(
+        contains('Text(\n                                  collection.title'),
+      ),
+    );
     expect(scaffoldChrome, contains('maxLines: 1'));
     expect(scaffoldChrome, contains('TextOverflow.ellipsis'));
     expect(collectionsScreen, isNot(contains("'Supporters'")));

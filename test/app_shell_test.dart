@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
@@ -65,6 +66,34 @@ void main() {
     }
   });
 
+  testWidgets('offline and sync routes render recovery states', (tester) async {
+    for (final route in <String>['/offline', '/sync']) {
+      final router = createAppRouter(initialLocation: route);
+      addTearDown(router.dispose);
+
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp.router(
+            theme: AppTheme.light(),
+            routerConfig: router,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      if (route == '/offline') {
+        expect(find.text('Offline mode'), findsOneWidget);
+        expect(find.text('Showing saved collection data'), findsOneWidget);
+        expect(find.text('Saved'), findsOneWidget);
+      } else {
+        expect(find.text('Sync status'), findsOneWidget);
+        expect(find.text('Sync needs attention'), findsOneWidget);
+        expect(find.text('Queued updates'), findsOneWidget);
+      }
+      expect(find.text('Home'), findsWidgets);
+    }
+  });
+
   test('main Collect routes are registered', () {
     expect(
       collectRoutePaths,
@@ -113,8 +142,36 @@ void main() {
     expect(router.configuration.routes, isNotEmpty);
   });
 
+  testWidgets('large-width shell uses three-destination navigation rail', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(820, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final router = createAppRouter(initialLocation: '/home');
+    addTearDown(router.dispose);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [appRouterProvider.overrideWithValue(router)],
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Groups'), findsOneWidget);
+    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Admin'), findsNothing);
+  });
+
   test('main mobile routes use the shared transition page helper', () {
     final routerSource = File('lib/app/router.dart').readAsStringSync();
+    final shellSource = File(
+      'lib/core/widgets/collect_shell.dart',
+    ).readAsStringSync();
 
     expect(routerSource, contains('CustomTransitionPage<void>'));
     expect(routerSource, contains('pageBuilder:'));
@@ -130,6 +187,47 @@ void main() {
       routerSource,
       isNot(contains('builder: (context, state) => const CollectionsScreen()')),
     );
+    expect(
+      routerSource,
+      isNot(contains("GoRoute(path: '/offline', redirect:")),
+    );
+    expect(routerSource, contains('const OfflineRecoveryScreen()'));
+    expect(routerSource, contains('const SyncRecoveryScreen()'));
+    expect(routerSource, contains('StatefulShellRoute.indexedStack'));
+    expect(routerSource, contains('StatefulShellBranch'));
+    expect(routerSource, contains("initialLocation: '/home'"));
+    expect(routerSource, contains("initialLocation: '/groups'"));
+    expect(routerSource, contains("initialLocation: '/settings'"));
+    expect(
+      routerSource,
+      contains('CollectShell(navigationShell: navigationShell)'),
+    );
+    expect(routerSource, isNot(contains('ShellRoute(')));
+    expect(shellSource, contains('StatefulNavigationShell? navigationShell'));
+    expect(shellSource, contains('navigationShell?.currentIndex'));
+    expect(shellSource, contains('statefulShell.goBranch('));
+    expect(
+      shellSource,
+      contains('initialLocation: index == statefulShell.currentIndex'),
+    );
+
+    final recoveryScreens = File(
+      'lib/features/status/connection_recovery_screens.dart',
+    ).readAsStringSync();
+    expect(recoveryScreens, contains('CollectConnectivityBanner'));
+    expect(recoveryScreens, contains('ConnectivityStatus.offlineStale'));
+    expect(recoveryScreens, contains('ConnectivityStatus.degraded'));
+    expect(recoveryScreens, contains('Privacy stays on'));
+    expect(recoveryScreens, contains('receiver MoMo numbers'));
+    expect(recoveryScreens, contains("primaryLabel: 'Review groups'"));
+    expect(recoveryScreens, contains("primaryLabel: 'Refresh groups'"));
+
+    final shareScreen = File(
+      'lib/features/collections/share_screen.dart',
+    ).readAsStringSync();
+    expect(shareScreen, isNot(contains('const Spacer()')));
+    expect(shareScreen, contains('Privacy-safe link'));
+    expect(shareScreen, contains('summaryFor(collectionId)'));
   });
 
   test('mobile chrome exposes native refresh and haptic affordances', () {
@@ -224,6 +322,36 @@ void main() {
     },
   );
 
+  test('checked-in mobile visual baseline routes stay in route smoke matrix', () {
+    final baseline =
+        jsonDecode(
+              File(
+                'docs/design/collect_mobile_visual_baseline_routes_2026-07-01.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, Object?>;
+    final baselineRoutes = (baseline['routes']! as List<Object?>)
+        .cast<Map<String, Object?>>()
+        .map((item) => item['route']! as String)
+        .toSet();
+    final smokeScript = File(
+      'scripts/mobile_route_render_smoke.sh',
+    ).readAsStringSync();
+    final smokeRouteBlock = smokeScript.substring(
+      smokeScript.indexOf('route_specs=('),
+      smokeScript.indexOf('\n)\n\ncaptures_json='),
+    );
+    final smokeRoutes = RegExp(
+      r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
+      multiLine: true,
+    ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
+
+    expect(baseline['evidence_script'], 'scripts/mobile_route_render_smoke.sh');
+    expect(baseline['viewport'], '390x844');
+    expect(baselineRoutes, hasLength(greaterThanOrEqualTo(10)));
+    expect(smokeRoutes, containsAll(baselineRoutes));
+  });
+
   test(
     'physical-device route matrix covers mobile screenshot smoke routes',
     () {
@@ -249,6 +377,19 @@ void main() {
       expect(deviceRoutes, containsAll(smokeRoutes));
     },
   );
+
+  test('Android UAT records early device blockers as summary evidence', () {
+    final script = File('scripts/android_device_uat.sh').readAsStringSync();
+
+    expect(script, contains('write_early_failure_summary'));
+    expect(script, contains('"runner" => "not_started"'));
+    expect(
+      script,
+      contains('"device_id" => ENV.fetch("ANDROID_UAT_DEVICE_ID")'),
+    );
+    expect(script, contains('is not connected and authorized over ADB'));
+    expect(script, contains('Unlock it and keep it awake'));
+  });
 
   test('repo-wide QA includes the mobile design compliance gate', () {
     final qaRunner = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
@@ -282,27 +423,24 @@ void main() {
     expect(designAudit, contains('android_device_uat_evidence'));
   });
 
-  test('Collect runtime alignment docs preserve Collect nav contract', () {
-    final currentStatus = File(
-      'docs/design/FLUTTER_MOBILE_CURRENT_STATUS_AND_GAP_REGISTER_2026-06-27.md',
+  test('Collect runtime alignment docs enforce MOBI/Revolut matrix', () {
+    final matrix = File(
+      'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
     ).readAsStringSync();
-    final blockerRegister = File(
-      'docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md',
-    ).readAsStringSync();
-    final reviewMatrix = File(
-      'docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md',
+    final design = File('DESIGN.md').readAsStringSync();
+    final designSystem = File(
+      'docs/design/DESIGN_SYSTEM.md',
     ).readAsStringSync();
 
-    expect(currentStatus, contains('`Home`, `Groups`, and `Settings`'));
-    expect(reviewMatrix, contains('`Home`, `Groups`, and `Settings`'));
-    final rewardsDestinationLabel = ['Rev', 'Points'].join();
-    expect(currentStatus, isNot(contains('`Payments`')));
-    expect(currentStatus, isNot(contains('`Crypto`')));
-    expect(currentStatus, isNot(contains('`$rewardsDestinationLabel`')));
-    expect(currentStatus, contains('Use Periwinkle, not Orange'));
-    expect(blockerRegister, contains('| collect_route_reference_matrix |'));
-    expect(blockerRegister, contains('Source mapped and reviewed'));
-    expect(blockerRegister, contains('android_device_uat_current_source'));
+    expect(matrix, contains('100% MOBI/Revolut experiential parity'));
+    expect(design, contains('100% MOBI/Revolut experiential parity'));
+    expect(designSystem, contains('100% MOBI/Revolut experiential parity'));
+    expect(matrix, contains('## MOBI Comparator Matrix'));
+    expect(matrix, contains('## Deletion Register'));
+    expect(matrix, contains('StatefulShellRoute.indexedStack'));
+    expect(matrix, contains('ConnectivityOverlay'));
+    expect(matrix, contains('CollectAsyncStateView'));
+    expect(matrix, contains('External filings'));
     for (final screenshot in <String>[
       'IMG_2739.PNG',
       'IMG_2740.PNG',
@@ -316,7 +454,7 @@ void main() {
       'IMG_2752.PNG',
       'IMG_2755.PNG',
     ]) {
-      expect(reviewMatrix, contains(screenshot));
+      expect(matrix, contains(screenshot));
     }
   });
 
@@ -374,7 +512,7 @@ void main() {
     expect(topChromePart, contains('class CollectBrandMark'));
     expect(topChromePart, contains('CollectRuntimeAssets.wordmarkAssetPath'));
     expect(topChromePart, contains('CollectRuntimeAssets.appIconAssetPath'));
-    expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
+    expect(runtimeAssets, contains('wordmarkAssetPath = sourceWordmarkPath'));
     expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
     expect(
       runtimeAssets,

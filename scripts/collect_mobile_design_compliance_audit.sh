@@ -117,9 +117,9 @@ end
 
 design = read(File.join(root, "DESIGN.md"))
 design_system = read(File.join(root, "docs/design/DESIGN_SYSTEM.md"))
-revolut_alignment_plan = read(File.join(root, "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md"))
+alignment_matrix_path = "docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md"
+alignment_matrix = read(File.join(root, alignment_matrix_path))
 runtime_asset_intake = read(File.join(root, "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md"))
-revolut_blocker_register = read(File.join(root, "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"))
 pubspec = read(File.join(root, "pubspec.yaml"))
 router_source = read(File.join(root, "lib/app/router.dart"))
 colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
@@ -137,6 +137,8 @@ shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 screen_scaffold = read(File.join(root, "lib/shared/widgets/screen_scaffold.dart"))
 scaffold_chrome = read(File.join(root, "lib/shared/widgets/collect_scaffold_chrome.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
+group_link_screen = read(File.join(root, "lib/features/collections/group_link_screen.dart"))
+connection_recovery_screens = read(File.join(root, "lib/features/status/connection_recovery_screens.dart"))
 home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))
 collections_screen = read(File.join(root, "lib/features/collections/collections_screen.dart"))
 collection_manage_screen = read(File.join(root, "lib/features/collections/collection_manage_screen.dart"))
@@ -180,7 +182,7 @@ runtime_asset_roots = %w[
   assets/brand/collect_runtime/media/
 ]
 blocker_recorded = lambda do |key|
-  revolut_blocker_register.match?(/\|\s*#{Regexp.escape(key)}\s*\|[^|\n]*\|\s*Blocked\s*\|/i)
+  alignment_matrix.match?(/\|\s*#{Regexp.escape(key)}\s*\|[^|\n]*\|\s*Blocked\s*\|/i)
 end
 
 primary_color_block = design[/primary-colors:\n(.*?)secondary-support-colors:/m, 1] || ""
@@ -273,15 +275,18 @@ checks << {
 }
 
 reference_failures = []
-%w[Revolut gradient glass CollectGradientBackground].each do |term|
+%w[Revolut MOBI gradient glass CollectGradientBackground].each do |term|
   reference_failures << "DESIGN.md must include #{term} reference contract." unless design.include?(term)
   reference_failures << "docs/design/DESIGN_SYSTEM.md must include #{term} implementation contract." unless design_system.include?(term)
 end
+reference_failures << "DESIGN.md must define the 100% MOBI/Revolut experiential parity target." unless design.match?(/100% MOBI\/Revolut experiential parity/i)
+reference_failures << "DESIGN_SYSTEM.md must define the 100% MOBI/Revolut experiential parity target." unless design_system.match?(/100% MOBI\/Revolut experiential parity/i)
+reference_failures << "Alignment matrix must define the 100% MOBI/Revolut experiential parity target." unless alignment_matrix.match?(/100% MOBI\/Revolut experiential parity/i)
+reference_failures << "Alignment matrix must contain the MOBI comparator matrix." unless alignment_matrix.include?("## MOBI Comparator Matrix")
+reference_failures << "Alignment matrix must contain the deletion register." unless alignment_matrix.include?("## Deletion Register")
 reference_failures << "DESIGN.md must define runtime reference inputs." unless design.match?(/Runtime reference inputs/i)
-reference_failures << "DESIGN_SYSTEM.md must define Collect-owned runtime branding with Revolut as a quality benchmark." unless design_system.match?(/Revolut references remain a quality and interaction benchmark/i) && design_system.match?(/shipped runtime branding uses Collect-owned assets/i)
-reference_failures << "The Revolut-quality alignment plan must define the 100 percent alignment target." unless revolut_alignment_plan.match?(/100 percent Revolut-quality alignment/i)
+reference_failures << "DESIGN_SYSTEM.md must define approved runtime branding with Revolut/MOBI as the target." unless design_system.match?(/Revolut\/MOBI references are the current quality and interaction target/i)
 reference_failures << "The runtime asset intake must define intake paths." unless runtime_asset_intake.match?(/assets\/fonts\/collect/) && runtime_asset_intake.match?(/assets\/brand\/collect_runtime/)
-reference_failures << "The Revolut alignment blocker register must state a blocked or code-owned pass decision." unless revolut_blocker_register.match?(/Current decision:\s+\*\*(BLOCKED|CODE-OWNED MOBILE ALIGNMENT PASS)/i)
 checks << {
   "id" => "collect_runtime_alignment_contract",
   "status" => status_for(reference_failures),
@@ -289,9 +294,8 @@ checks << {
   "evidence" => [
     "DESIGN.md",
     "docs/design/DESIGN_SYSTEM.md",
-    "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md",
-    "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md",
-    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+    alignment_matrix_path,
+    "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md"
   ]
 }
 
@@ -325,7 +329,7 @@ checks << {
   "evidence" => [
     "pubspec.yaml",
     "assets/fonts/collect/",
-    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+    alignment_matrix_path
   ]
 }
 
@@ -343,7 +347,7 @@ installed_runtime_inputs = {
     File.file?(File.join(root, "assets/brand/collect_runtime/icons/icon-mapping.json")),
   "collect_component_tokens" => !runtime_token_spec_files.empty?,
   "collect_route_reference_matrix" =>
-    File.file?(File.join(root, "docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md")),
+    File.file?(File.join(root, alignment_matrix_path)),
   "collect_public_web_assets" =>
     File.file?(File.join(root, "assets/brand/collect_runtime/media/share-preview.png"))
 }
@@ -374,7 +378,7 @@ checks << {
   "evidence" => [
     "assets/brand/collect_runtime/",
     "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md",
-    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+    alignment_matrix_path
   ]
 }
 
@@ -488,18 +492,15 @@ checks << {
 }
 
 claim_guard_failures = []
-if revolut_blocker_register.match?(/Current decision:\s+\*\*BLOCKED\*\*/i)
-  claim_guard_failures << "Blocker register must explicitly prohibit 100 percent alignment claims while rows are blocked." unless revolut_blocker_register.match?(/Do not claim 100 percent (Collect runtime|Revolut-quality) alignment/i)
-end
-claim_guard_failures << "Alignment plan must require approved runtime fonts before final claim." unless revolut_alignment_plan.match?(/Approved runtime fonts are bundled/i)
-claim_guard_failures << "Alignment plan must preserve the four primary colors." unless revolut_alignment_plan.match?(/#8885F0/) && revolut_alignment_plan.match?(/#3CD070/) && revolut_alignment_plan.match?(/#D38B96/) && revolut_alignment_plan.match?(/#FF5E43/)
+claim_guard_failures << "Alignment matrix must define required evidence before code-owned alignment is claimed." unless alignment_matrix.include?("## Required Current Evidence")
+claim_guard_failures << "Alignment matrix must preserve the four primary colors." unless alignment_matrix.match?(/#8885F0/) && alignment_matrix.match?(/#3CD070/) && alignment_matrix.match?(/#D38B96/) && alignment_matrix.match?(/#FF5E43/)
+claim_guard_failures << "Alignment matrix must require explicit human approval for external submissions and public claims." unless alignment_matrix.match?(/External filings.*human approval/i)
 checks << {
   "id" => "revolut_100_percent_claim_guard",
   "status" => status_for(claim_guard_failures),
   "failures" => claim_guard_failures,
   "evidence" => [
-    "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md",
-    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+    alignment_matrix_path
   ]
 }
 
@@ -510,6 +511,8 @@ end
 gradient_failures << "CollectShell must wrap the member app in CollectGradientBackground." unless shell.include?("CollectGradientBackground")
 gradient_failures << "PremiumScaffold must render CollectGradientBackground." unless chrome[/class PremiumScaffold.*?CollectGradientBackground/m]
 gradient_failures << "Standalone ShareScreen must render CollectGradientBackground." unless share_screen.include?("CollectGradientBackground")
+gradient_failures << "ShareScreen must keep QR content in the first viewport without spacer-only vertical blank space." if share_screen.include?("const Spacer()")
+gradient_failures << "ShareScreen must include privacy-safe QR context." unless share_screen.include?("Privacy-safe link") && share_screen.include?("summaryFor(collectionId)")
 checks << {
   "id" => "gradient_glass_screen_contract",
   "status" => status_for(gradient_failures),
@@ -519,6 +522,36 @@ checks << {
     "lib/core/widgets/collect_shell.dart",
     "lib/shared/widgets/collect_chrome.dart",
     "lib/features/collections/share_screen.dart"
+  ]
+}
+
+branch_shell_failures = []
+{
+  "StatefulShellRoute.indexedStack" => "Router must use branch-preserving StatefulShellRoute.indexedStack.",
+  "StatefulShellBranch" => "Router must declare explicit tab branches.",
+  "initialLocation: '/home'" => "Home branch must declare its initial location.",
+  "initialLocation: '/groups'" => "Groups branch must declare its initial location.",
+  "initialLocation: '/settings'" => "Settings branch must declare its initial location.",
+  "CollectShell(navigationShell: navigationShell)" => "Stateful navigation shell must be passed into CollectShell."
+}.each do |needle, failure|
+  branch_shell_failures << failure unless router_source.include?(needle)
+end
+branch_shell_failures << "Router must not keep the old flat ShellRoute wrapper." if router_source.match?(/^\s*ShellRoute\s*\(/)
+{
+  "StatefulNavigationShell? navigationShell" => "CollectShell must accept StatefulNavigationShell.",
+  "navigationShell?.currentIndex" => "CollectShell must select tabs from the active branch index.",
+  "statefulShell.goBranch(" => "CollectShell must switch tabs through goBranch.",
+  "initialLocation: index == statefulShell.currentIndex" => "Repeated tab taps must reset to the branch initial route."
+}.each do |needle, failure|
+  branch_shell_failures << failure unless shell.include?(needle)
+end
+checks << {
+  "id" => "member_branch_preserving_shell_contract",
+  "status" => status_for(branch_shell_failures),
+  "failures" => branch_shell_failures,
+  "evidence" => [
+    "lib/app/router.dart",
+    "lib/core/widgets/collect_shell.dart"
   ]
 }
 
@@ -639,6 +672,14 @@ end
 end
 native_interaction_failures << "Primary data screens must refresh through the Collect repository." unless native_primary_screens.values.join("\n").scan("collectRepositoryProvider.notifier").length >= 4
 native_interaction_failures << "Settings must use native notification settings sheets, not a notification center route." unless native_primary_screens.fetch("lib/features/settings/settings_screen.dart").include?("showNotificationSettingsSheet")
+native_interaction_failures << "Groups screen must keep low-data states dense with a discovery/action strip." unless collections_screen.include?("_GroupsDiscoveryStrip") && collections_screen.include?("visibleCollections.length < 3") && collections_screen.include?("Groups quick actions")
+native_interaction_failures << "Group deep-link recovery must use CollectAsyncStateView instead of a one-off loading/error surface." unless group_link_screen.include?("CollectAsyncStateView<void>") && group_link_screen.include?("_groupLinkSnapshotValue")
+native_interaction_failures << "Offline route must render an explicit recovery screen, not redirect to groups." if router_source.match?(/path:\s*'\/offline'.{0,120}redirect:/m)
+native_interaction_failures << "Sync route must render an explicit recovery screen, not redirect to groups." if router_source.match?(/path:\s*'\/sync'.{0,120}redirect:/m)
+native_interaction_failures << "Router must mount OfflineRecoveryScreen." unless router_source.include?("const OfflineRecoveryScreen()")
+native_interaction_failures << "Router must mount SyncRecoveryScreen." unless router_source.include?("const SyncRecoveryScreen()")
+native_interaction_failures << "Connection recovery screens must use the shared connectivity banner." unless connection_recovery_screens.include?("CollectConnectivityBanner") && connection_recovery_screens.include?("ConnectivityStatus.offlineStale") && connection_recovery_screens.include?("ConnectivityStatus.degraded")
+native_interaction_failures << "Connection recovery screens must preserve privacy-safe recovery copy." unless connection_recovery_screens.include?("Privacy stays on") && connection_recovery_screens.include?("receiver MoMo numbers")
 
 checks << {
   "id" => "native_mobile_interaction_contract",
@@ -655,6 +696,8 @@ checks << {
     "lib/features/home/home_screen.dart",
     "lib/features/collections/collections_screen.dart",
     "lib/features/collections/collection_detail_screen.dart",
+    "lib/features/collections/group_link_screen.dart",
+    "lib/features/status/connection_recovery_screens.dart",
     "lib/features/ledger/ledger_screen.dart",
     "lib/features/settings/settings_screen.dart"
   ]
@@ -717,7 +760,8 @@ icon_first_failures << "Compact group cards must use icon-first metadata." unles
 icon_first_failures << "Group summaries must hide visible metadata labels." unless collections_screen.scan("iconOnly: true").length >= 3
 icon_first_failures << "Group detail momentum must hide visible metadata labels." unless collection_detail_actions.scan("iconOnly: true").length >= 3
 icon_first_failures << "Group detail hero must keep group name one-line with ellipsis." unless collection_detail_hero.include?("maxLines: 1") && collection_detail_hero.include?("softWrap: false")
-icon_first_failures << "Share screen group titles must keep one-line ellipsis." unless share_screen.scan("maxLines: 1").length >= 2 && share_screen.include?("softWrap: false")
+icon_first_failures << "Share screen QR sheet must stay generic." unless share_screen.include?("'Group QR'") && share_screen.include?("label: 'Share'") && share_screen.include?("label: 'Save'")
+icon_first_failures << "Share screen must not render visible group titles." if share_screen.match?(/Text\(\s*collection\.title/m)
 icon_first_failures << "Plain route headers must keep title and subtitle one-line with ellipsis." unless scaffold_chrome.scan("maxLines: 1").length >= 2 && scaffold_chrome.scan("TextOverflow.ellipsis").length >= 2
 icon_first_sources = [
   collections_screen,

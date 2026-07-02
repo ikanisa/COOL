@@ -15,21 +15,25 @@ class _GroupActionStrip extends ConsumerWidget {
       _GroupActionButton(
         icon: CollectIcons.donate,
         label: 'Contribute',
+        iconOnly: true,
         onTap: () => context.go('/groups/$collectionId/contribute'),
       ),
       _GroupActionButton(
         icon: CollectIcons.people,
         label: 'Members',
+        iconOnly: true,
         onTap: () => context.go('/groups/$collectionId/members'),
       ),
       _GroupActionButton(
         icon: CollectIcons.qr,
         label: 'Group QR',
+        iconOnly: true,
         onTap: () => context.go('/groups/$collectionId/share'),
       ),
       _GroupActionButton(
         icon: CollectIcons.share,
         label: 'Share',
+        iconOnly: true,
         onTap: () => shareGroupDeepLink(
           context: context,
           ref: ref,
@@ -55,11 +59,13 @@ class _GroupActionButton extends StatelessWidget {
   const _GroupActionButton({
     required this.icon,
     required this.label,
+    this.iconOnly = false,
     required this.onTap,
   });
 
   final IconData icon;
   final String label;
+  final bool iconOnly;
   final VoidCallback onTap;
 
   @override
@@ -109,19 +115,21 @@ class _GroupActionButton extends StatelessWidget {
                     ),
                   ),
                 ),
-                CollectSpacing.gap8,
-                Text(
-                  label,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: foreground.withValues(alpha: 0.92),
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0,
+                if (!iconOnly) ...[
+                  CollectSpacing.gap8,
+                  Text(
+                    label,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: foreground.withValues(alpha: 0.92),
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

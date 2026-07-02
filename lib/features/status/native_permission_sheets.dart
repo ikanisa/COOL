@@ -15,6 +15,8 @@ Future<void> showSmsAccessSheet(
     context,
     icon: CollectIcons.sms,
     title: 'SMS access',
+    message:
+        'Collect uses Android SMS access only for owner-side MoMo payment matching when this internal build enables it.',
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
@@ -39,6 +41,8 @@ Future<void> showCameraAccessSheet(
     context,
     icon: CollectIcons.qr,
     title: 'Camera access',
+    message:
+        'Camera access lets Collect scan group QR codes without storing photos or gallery images.',
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
@@ -63,6 +67,8 @@ Future<void> showNotificationSettingsSheet(
     context,
     icon: CollectIcons.pending,
     title: 'Notifications',
+    message:
+        'Notifications keep payment reminders, group updates, and security notices visible when the app is closed.',
     tone: CollectStatusTone.info,
     primaryLabel: 'Enable',
     primaryIcon: CollectIcons.pending,
@@ -102,6 +108,7 @@ Future<void> _showNativeSettingsSheet(
   BuildContext context, {
   required IconData icon,
   required String title,
+  required String message,
   required CollectStatusTone tone,
   required String primaryLabel,
   required IconData primaryIcon,
@@ -123,12 +130,12 @@ Future<void> _showNativeSettingsSheet(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                MinimalStatePanel(
+                CollectPermissionEducationSheet(
                   icon: icon,
                   title: title,
                   message: 'Use native phone settings.',
+                  education: message,
                   tone: tone,
-                  messageMaxLines: 1,
                 ),
                 CollectSpacing.gap16,
                 CollectButton(
@@ -151,4 +158,44 @@ Future<void> _showNativeSettingsSheet(
       );
     },
   );
+}
+
+class CollectPermissionEducationSheet extends StatelessWidget {
+  const CollectPermissionEducationSheet({
+    required this.icon,
+    required this.title,
+    required this.message,
+    required this.education,
+    this.tone = CollectStatusTone.warning,
+    super.key,
+  });
+
+  final IconData icon;
+  final String title;
+  final String message;
+  final String education;
+  final CollectStatusTone tone;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MinimalStatePanel(
+          icon: icon,
+          title: title,
+          message: message,
+          tone: tone,
+          messageMaxLines: 2,
+        ),
+        CollectSpacing.gap12,
+        InfoSecurityBanner(
+          title: 'Before you continue',
+          message: education,
+          tone: CollectStatusTone.info,
+          messageMaxLines: 4,
+        ),
+      ],
+    );
+  }
 }

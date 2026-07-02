@@ -2,7 +2,7 @@
 name: Collect
 updated: 2026-06-29
 scope: Flutter mobile member app and Flutter web surfaces that share the Collect theme
-reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 are the active UI/UX quality benchmark for typography rhythm, gradients, glass chrome, compact finance hierarchy, media-rich cards, and thumb-first navigation adapted to Collect group collections. Shipped runtime assets remain Collect-owned and documented.
+reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 and /Volumes/PRO-G40/MOBI/mobi_app are the active UI/UX implementation benchmark. Collect targets 100% MOBI/Revolut experiential parity: typography rhythm, gradients, glass chrome, compact finance hierarchy, media-rich cards, thumb-first navigation, loading/state behavior, connectivity recovery, and route evidence, adapted only where Collect's real group-collection product facts require it.
 brand-assets:
   launcher-icon: assets/brand/collect_app_icon_static.png
   app-icon-rule: assets/brand/collect_runtime/app_icons/app-icon-rule.png
@@ -49,9 +49,9 @@ tokens:
 
 # Collect Mobile Design System
 
-Collect must align with the Revolut screenshots as a product-quality benchmark while keeping a clean Collect-owned runtime brand kit. The Revolut screenshots are not moodboard inspiration; they are a route-by-route quality contract for typography rhythm, logo treatment quality, color behavior, background families, first-viewport hierarchy, translucent cards, black glass chrome, compact top controls, rounded bottom navigation, visual density, and finance-grade trust. Runtime logos, icons, splash imagery, social previews, and product media use the current Collect-owned assets unless a separately approved replacement kit is supplied. Collect keeps the product-specific flows that are genuinely required for Rwanda group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
+Collect must align with the Revolut screenshots and MOBI Flutter app as the implementation benchmark. They are not loose inspiration; they are the route-by-route quality contract for typography rhythm, logo treatment quality, color behavior, background families, first-viewport hierarchy, translucent cards, black glass chrome, compact top controls, rounded bottom navigation, visual density, loading/error states, offline recovery, and finance-grade trust. Runtime logos, icons, splash imagery, social previews, and product media use Collect-owned or otherwise approved assets; this preserves lawful runtime identity while still requiring the product to look and feel like the benchmark.
 
-The implementation target is 10/10 Revolut-quality alignment, not copied third-party branding. For code-owned work, the app can be treated as complete only when every supplied screenshot is mapped into implementation rules, Collect-owned runtime assets are documented, every production member route has fresh visual evidence, dark and light modes pass automated review, and the design compliance audit is green. External release or public marketing claims still require explicit approval, but they are not engineering blockers.
+The implementation target is 100% MOBI/Revolut experiential parity. For code-owned work, the app can be treated as complete only when every supplied screenshot and MOBI comparator pattern is mapped into implementation rules, runtime assets are documented, every production member route has fresh visual evidence, dark and light modes pass automated review, and the design compliance audit is green. External filings, app-store submissions, legal notices, regulatory reports, and public claims still require explicit human approval, but they do not dilute the internal UI/UX target.
 
 ## Non-Negotiables
 
@@ -71,7 +71,7 @@ The implementation target is 10/10 Revolut-quality alignment, not copied third-p
 - Visible page chrome uses glass tokens: `glassPanel`, `glassPanelStrong`, `glassControl`, and `glassBorder`.
 - Secondary-route headers use a plain finance-grade row: back arrow, one-line title, optional one-line subtitle, and tokenized action circles. Utility, legal, permission, profile, create, and scanner routes must not use decorative brand header cards.
 - Visible labels must stay compact: use one line with ellipsis for section headers, chips, tiles, status labels, table cells, card titles, and explanatory helper copy. Do not add verbose instructional text inside the app when an icon, state, or concise command can carry the meaning.
-- Primary mobile destinations should match the Revolut navigation model as closely as the live Collect product scope allows. Any Revolut destination that cannot be backed by current product behavior must still receive a visually faithful placeholder or Revolut-like equivalent rather than defaulting to generic Collect navigation.
+- Primary mobile destinations must match the MOBI/Revolut navigation feel: floating black glass dock, selected capsule, stable labels, tactile press feedback, and branch-preserving mental model where the product depth requires it. Any benchmark destination that cannot be backed by current Collect behavior must receive a truthful Collect equivalent, not generic navigation.
 - Identity remains privacy-safe: Collect ID only. Do not expose raw phone numbers, raw receiver MoMo numbers, raw SMS, PINs, OTPs, MoMo transaction IDs, or public member names. Payment-state surfaces that must show receiver context use masked MoMo display such as `+250***3456`.
 - Admin surfaces may stay dense and operational, but member-facing mobile screens must not revert to generic Material blue, legacy color shells, crypto/wallet branding, or admin-style dashboards.
 
@@ -89,11 +89,12 @@ Use the screenshots for these patterns:
 - Lists: rows stay compact and scannable, with clear leading icons/avatars and right-aligned amounts/status where relevant.
 - Copy density: labels, helper text, and admin table/status copy are concise, one-line, and ellipsized when constrained.
 
-Use the MOBI repo as the implementation benchmark for process, not as code to paste. MOBI's stronger Revolut work is the contract shape: route matrix, shared shell, shared gradient background, shared glass cards, bottom-nav primitive, preview/golden coverage, and current evidence reports. COOL must follow that discipline with Revolut-quality routes, Collect-owned assets, and brand tokens.
+Use the MOBI repo as the implementation benchmark for app-shell and interaction architecture. MOBI's stronger Revolut work is the contract shape: route matrix, shared shell, shared gradient background, shared glass cards, bottom-nav primitive, async-state renderer, connectivity overlay, preview/golden coverage, and current evidence reports. COOL must follow that discipline with Revolut-quality routes, approved runtime assets, and Collect product facts.
 
 Runtime reference inputs:
 
 - Revolut screenshots, typography rhythm, tab density, component colors, card ordering, account terminology, and visual hierarchy are valid quality references.
+- MOBI Flutter shell, bottom nav, command bar, async state, loading skeleton, state banner, connectivity overlay, deferred-route strategy, and route evidence workflow are valid implementation references.
 - Runtime assets must be sourced from the Collect-owned kit under `assets/brand/` and documented in `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, and the implementation plan.
 - If a future approved third-party kit is supplied, document every source, destination path, and approval status before replacing the Collect-owned runtime assets.
 

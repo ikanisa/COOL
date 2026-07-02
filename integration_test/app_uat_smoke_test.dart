@@ -26,7 +26,7 @@ void main() {
     final router = createAppRouter(initialLocation: initialLocation);
     addTearDown(router.dispose);
     debugPrint('[uat-smoke] pumpMainAppAt app pump start $initialLocation');
-    runApp(
+    await tester.pumpWidget(
       ProviderScope(
         overrides: [
           appRouterProvider.overrideWithValue(router),
@@ -117,8 +117,10 @@ void main() {
         repository: CollectRepository.fixture(),
       );
 
+      expect(find.text('Group QR'), findsWidgets);
       expect(find.text('Share'), findsWidgets);
       expect(find.text('Share group'), findsNothing);
+      expect(find.text('St Michel building fund'), findsNothing);
       expect(
         find.textContaining('does not include phone numbers'),
         findsNothing,
@@ -129,8 +131,9 @@ void main() {
       router.go('/groups/col-church/invite');
       await pumpLaunchFrames(tester);
 
+      expect(find.text('Group QR'), findsWidgets);
       expect(find.text('Share group'), findsNothing);
-      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(find.text('St Michel building fund'), findsNothing);
       expect(find.text('Share'), findsWidgets);
       expect(find.text('Save'), findsWidgets);
       expect(find.text('SMS'), findsNothing);

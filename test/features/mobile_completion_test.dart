@@ -371,6 +371,17 @@ void main() {
     expect(find.text('Group code or link'), findsNothing);
   });
 
+  testWidgets('groups low-data route shows compact discovery actions', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/groups', legalConsentAccepted: true);
+
+    expect(find.bySemanticsLabel('Groups quick actions'), findsOneWidget);
+    expect(find.text('Scan'), findsOneWidget);
+    expect(find.text('Supported'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsWidgets);
+  });
+
   testWidgets('home labels restored cache as offline saved data', (
     tester,
   ) async {

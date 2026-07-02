@@ -134,12 +134,14 @@ if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
   cat > "$bundle_dir/product_design_mobile_audit_artifact_gate.json" <<'JSON'
 {
   "status": "pass",
-  "audit_dir": "docs/release/product_design_mobile_audit_2026-06-26",
-  "manifest": "docs/release/product_design_mobile_audit_2026-06-26/screenshot_manifest.json",
+  "evidence_source": "mobile_route_render_smoke",
+  "summary": ".cache/mobile_route_render_smoke/fixture/summary.json",
+  "evidence_dir": ".cache/mobile_route_render_smoke/fixture",
   "viewport": "390x844",
-  "route_count": 48,
+  "route_count": 30,
+  "product_screen_count": 27,
   "failures": [],
-  "secret_handling": "Fixture reports screenshot paths, dimensions, byte counts, and console-error counts only."
+  "secret_handling": "Fixture reports current route-render screenshot paths, dimensions, byte counts, pixel checks, and console-error counts only."
 }
 JSON
   record_fixture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json" 0 "$(cat "$bundle_dir/product_design_mobile_audit_artifact_gate.json")"

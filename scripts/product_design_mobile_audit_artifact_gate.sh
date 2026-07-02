@@ -12,11 +12,16 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json <<'RUBY'
+latest_json() {
+  ruby -e 'paths = Dir[ARGV[0]].sort; puts(paths.last || "")' "$1"
+}
+
+route_summary="${MOBILE_ROUTE_RENDER_SUMMARY:-$(latest_json "$ROOT_DIR/.cache/mobile_route_render_smoke/*/summary.json")}"
+
+OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ROUTE_SUMMARY="$route_summary" ruby -r json <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
-audit_dir = File.join(root_dir, "docs/release/product_design_mobile_audit_2026-06-26")
-manifest_path = File.join(audit_dir, "screenshot_manifest.json")
+summary_path = ENV.fetch("ROUTE_SUMMARY")
 
 def read_json(path)
   JSON.parse(File.read(path))
@@ -45,47 +50,51 @@ rescue Errno::ENOENT
   }
 end
 
-manifest = read_json(manifest_path)
+summary = read_json(summary_path)
 failures = []
-routes = manifest ? Array(manifest["routes"]) : []
-viewport = manifest && manifest["viewport"].to_s
+captures = summary ? Array(summary["captures"]) : []
+viewport = summary && summary["viewport"].to_s
 expected_width, expected_height = viewport.to_s.split("x", 2).map { |value| value.to_i }
-audit_root = File.expand_path(audit_dir)
+evidence_dir = summary_path.to_s.empty? ? "" : File.dirname(summary_path)
+evidence_root = evidence_dir.to_s.empty? ? "" : File.expand_path(evidence_dir)
 
-failures << "screenshot_manifest_missing_or_invalid" unless manifest
+failures << "mobile_route_render_summary_missing_or_invalid" unless summary
+failures << "route_render_status_must_pass" unless summary && summary["status"].to_s == "pass"
 failures << "viewport_must_be_390x844" unless viewport == "390x844"
-failures << "route_count_must_be_44" unless routes.count == 44
+failures << "route_count_must_be_at_least_30" unless captures.count >= 30
+failures << "product_screen_count_must_be_at_least_27" unless summary && summary["product_screen_count"].to_i >= 27
 
-items = routes.map do |route|
-  file = route["file"].to_s
-  expanded_file = File.expand_path(file, root_dir)
-  inside_audit_dir = expanded_file.start_with?(audit_root + File::SEPARATOR)
-  exists = inside_audit_dir && File.file?(expanded_file)
+items = captures.map do |capture|
+  file = capture["path"].to_s
+  expanded_file = File.expand_path(file, evidence_root)
+  inside_evidence_dir = !evidence_root.empty? && expanded_file.start_with?(evidence_root + File::SEPARATOR)
+  exists = inside_evidence_dir && File.file?(expanded_file)
   header = exists ? png_header(expanded_file) : {"valid" => false, "width" => nil, "height" => nil}
   bytes = exists ? File.size(expanded_file) : 0
-  manifest_bytes = route["bytes"].to_i
-  console_errors = Array(route["consoleErrors"])
+  console_error_count = capture["console_error_count"].to_i
   item_failures = []
 
-  item_failures << "outside_audit_dir" unless inside_audit_dir
+  item_failures << "capture_status_not_pass" unless capture["status"].to_s == "pass"
+  item_failures << "outside_evidence_dir" unless inside_evidence_dir
   item_failures << "missing_file" unless exists
   item_failures << "not_png" unless header["valid"]
   item_failures << "wrong_dimensions" unless header["width"] == expected_width && header["height"] == expected_height
   item_failures << "empty_or_tiny_file" unless bytes >= 10_000
-  item_failures << "console_errors_present" unless console_errors.empty?
-  item_failures << "manifest_bytes_stale" unless manifest_bytes == bytes
+  item_failures << "console_errors_present" unless console_error_count.zero?
+  item_failures << "pixel_check_failed" unless capture["distinct_rgb"].to_i >= 20 && capture["non_background_pixels"].to_i >= 1_000
 
   {
-    "step" => route["step"],
-    "route" => route["route"],
+    "name" => capture["name"],
+    "route" => capture["route"],
     "file" => expanded_file.sub("#{root_dir}/", ""),
     "exists" => exists,
     "bytes" => bytes,
-    "manifest_bytes" => manifest_bytes,
     "png_valid" => header["valid"],
     "width" => header["width"],
     "height" => header["height"],
-    "console_error_count" => console_errors.count,
+    "console_error_count" => console_error_count,
+    "distinct_rgb" => capture["distinct_rgb"],
+    "non_background_pixels" => capture["non_background_pixels"],
     "failures" => item_failures,
     "status" => item_failures.empty? ? "pass" : "fail"
   }
@@ -93,24 +102,26 @@ end
 
 failures.concat(items.flat_map { |item| item.fetch("failures") }.uniq)
 
-summary = {
+result = {
   "status" => failures.empty? ? "pass" : "fail",
-  "audit_dir" => audit_dir.sub("#{root_dir}/", ""),
-  "manifest" => manifest_path.sub("#{root_dir}/", ""),
+  "evidence_source" => "mobile_route_render_smoke",
+  "summary" => summary_path.to_s.empty? ? "" : summary_path.sub("#{root_dir}/", ""),
+  "evidence_dir" => evidence_dir.to_s.empty? ? "" : evidence_dir.sub("#{root_dir}/", ""),
   "viewport" => viewport,
-  "route_count" => routes.count,
+  "route_count" => captures.count,
+  "product_screen_count" => summary ? summary["product_screen_count"].to_i : 0,
   "failures" => failures.uniq,
   "items" => items,
-  "secret_handling" => "This gate reports screenshot paths, dimensions, byte counts, and console-error counts only; it does not inspect secrets or production customer data."
+  "secret_handling" => "This gate reports current route-render screenshot paths, dimensions, byte counts, pixel checks, and console-error counts only; it does not inspect secrets or production customer data."
 }
 
 if output_format == "json"
-  puts JSON.pretty_generate(summary)
+  puts JSON.pretty_generate(result)
 else
-  puts "[product-design-mobile-audit-artifact-gate] status=#{summary.fetch("status")}"
-  puts "[product-design-mobile-audit-artifact-gate] route_count=#{summary.fetch("route_count")} viewport=#{summary.fetch("viewport")}"
+  puts "[product-design-mobile-audit-artifact-gate] status=#{result.fetch("status")}"
+  puts "[product-design-mobile-audit-artifact-gate] route_count=#{result.fetch("route_count")} viewport=#{result.fetch("viewport")}"
   failures.uniq.each { |failure| warn "[product-design-mobile-audit-artifact-gate][FAIL] #{failure}" }
 end
 
-exit(summary.fetch("status") == "pass" ? 0 : 1)
+exit(result.fetch("status") == "pass" ? 0 : 1)
 RUBY

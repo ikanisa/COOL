@@ -46,80 +46,65 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_shouldOpenStoreFallback()) {
+      return ScreenScaffold(
+        title: 'Install Collect',
+        subtitle: widget.slug,
+        children: [
+          CollectBottomSheet(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const MinimalStatePanel(
+                  icon: CollectIcons.download,
+                  title: 'Install Collect to join.',
+                  message:
+                      'After installing, open this group link again to finish onboarding and join.',
+                  tone: CollectStatusTone.info,
+                ),
+                CollectSpacing.gap16,
+                CollectButton(
+                  label: 'Open store',
+                  icon: CollectIcons.download,
+                  onPressed: () => launchUrl(
+                    _storeFallbackUri(),
+                    mode: LaunchMode.externalApplication,
+                  ),
+                  expand: true,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     return FutureBuilder<void>(
       future: _openGroup,
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return ScreenScaffold(
-            title: 'Group link',
-            subtitle: widget.slug,
-            children: [
-              CollectBottomSheet(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InfoSecurityBanner(
-                      title: 'Link failed',
-                      message: snapshot.error.toString(),
-                      tone: CollectStatusTone.danger,
-                    ),
-                    CollectSpacing.gap16,
-                    CollectButton(
-                      label: 'Groups',
-                      icon: CollectIcons.collections,
-                      onPressed: () => context.go('/groups'),
-                      expand: true,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-
-        if (_shouldOpenStoreFallback()) {
-          return ScreenScaffold(
-            title: 'Install Collect',
-            subtitle: widget.slug,
-            children: [
-              CollectBottomSheet(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const MinimalStatePanel(
-                      icon: CollectIcons.download,
-                      title: 'Install Collect to join.',
-                      message:
-                          'After installing, open this group link again to finish onboarding and join.',
-                      tone: CollectStatusTone.info,
-                    ),
-                    CollectSpacing.gap16,
-                    CollectButton(
-                      label: 'Open store',
-                      icon: CollectIcons.download,
-                      onPressed: () => launchUrl(
-                        _storeFallbackUri(),
-                        mode: LaunchMode.externalApplication,
-                      ),
-                      expand: true,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-
+        final value = _groupLinkSnapshotValue(snapshot);
+        final hasError = snapshot.hasError;
         return ScreenScaffold(
-          title: 'Opening group',
+          title: hasError ? 'Group link' : 'Opening group',
           subtitle: widget.slug,
-          children: const [
+          children: [
             CollectBottomSheet(
-              child: LoadingStatePanel(
-                title: 'Opening group',
-                message: 'Joining the group.',
-                icon: CollectIcons.qr,
-                lines: 1,
+              child: CollectAsyncStateView<void>(
+                value: value,
+                loadingTitle: 'Opening group',
+                loadingMessage: 'Joining the group.',
+                loadingIcon: CollectIcons.qr,
+                errorTitle: 'Link failed',
+                errorMessage:
+                    snapshot.error?.toString() ??
+                    'Try again from Groups when the connection is stable.',
+                onRetry: () => context.go('/groups'),
+                data: (context, _) => const MinimalStatePanel(
+                  icon: CollectIcons.qr,
+                  title: 'Opening group',
+                  message: 'Taking you to the group.',
+                  tone: CollectStatusTone.info,
+                ),
               ),
             ),
           ],
@@ -127,6 +112,19 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
       },
     );
   }
+}
+
+AsyncValue<void> _groupLinkSnapshotValue(AsyncSnapshot<void> snapshot) {
+  if (snapshot.connectionState != ConnectionState.done) {
+    return const AsyncLoading<void>();
+  }
+  if (snapshot.hasError) {
+    return AsyncError<void>(
+      snapshot.error!,
+      snapshot.stackTrace ?? StackTrace.current,
+    );
+  }
+  return const AsyncData<void>(null);
 }
 
 bool _shouldOpenStoreFallback() {

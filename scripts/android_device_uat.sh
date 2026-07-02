@@ -45,6 +45,45 @@ fail() {
   exit 1
 }
 
+write_early_failure_summary() {
+  local reason="$1"
+  local generated_at
+  local log_sha256
+  generated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  mkdir -p "$EVIDENCE_DIR"
+  printf '[android-device-uat][FAIL] %s\n' "$reason" >"$LOG_FILE"
+  log_sha256="$(shasum -a 256 "$LOG_FILE" | awk '{print $1}')"
+  ANDROID_UAT_GENERATED_AT="$generated_at" \
+  ANDROID_UAT_REASON="$reason" \
+  ANDROID_UAT_DEVICE_ID="$DEVICE_ID" \
+  ANDROID_UAT_FLAVOR="$FLAVOR" \
+  ANDROID_UAT_TARGET="$TEST_TARGET" \
+  ANDROID_UAT_LOG="${LOG_FILE#$ROOT_DIR/}" \
+  ANDROID_UAT_LOG_SHA256="$log_sha256" \
+  ANDROID_UAT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
+  ruby -r json <<'RUBY' >"$SUMMARY_FILE"
+puts JSON.pretty_generate(
+  {
+    "generated_at" => ENV.fetch("ANDROID_UAT_GENERATED_AT"),
+    "status" => "fail",
+    "exit_code" => 1,
+    "reason" => ENV.fetch("ANDROID_UAT_REASON"),
+    "device" => ENV.fetch("ANDROID_UAT_DEVICE_ID"),
+    "device_id" => ENV.fetch("ANDROID_UAT_DEVICE_ID"),
+    "device_model" => nil,
+    "flavor" => ENV.fetch("ANDROID_UAT_FLAVOR"),
+    "target" => ENV.fetch("ANDROID_UAT_TARGET"),
+    "runner" => "not_started",
+    "log" => ENV.fetch("ANDROID_UAT_LOG"),
+    "log_sha256" => ENV.fetch("ANDROID_UAT_LOG_SHA256"),
+    "timed_out" => false,
+    "timeout_seconds" => ENV.fetch("ANDROID_UAT_TIMEOUT_SECONDS").to_i,
+    "secret_handling" => "Device smoke output is retained locally and must not contain raw SMS bodies, phone/MoMo numbers, signing keys, service-role keys, provider tokens, or production customer data."
+  }
+)
+RUBY
+}
+
 case "${1:-}" in
   "")
     ;;
@@ -60,7 +99,9 @@ case "${1:-}" in
 esac
 
 if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } END { exit(found ? 0 : 1) }' id="$DEVICE_ID"; then
-  fail "Android device $DEVICE_ID is not connected and authorized over ADB."
+  reason="Android device $DEVICE_ID is not connected and authorized over ADB."
+  write_early_failure_summary "$reason"
+  fail "$reason"
 fi
 
 "$ADB" -s "$DEVICE_ID" shell svc power stayon true >/dev/null 2>&1 || true
@@ -72,7 +113,9 @@ if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
   grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen)' <<<"$window_state"; then
   printf '%s\n' "$window_state" |
     rg 'mCurrentFocus|mFocusedApp|mDreamingLockscreen|mKeyguardShowing' >&2 || true
-  fail "Android device $DEVICE_ID is locked. Unlock it and keep it awake before running Android UAT."
+  reason="Android device $DEVICE_ID is locked. Unlock it and keep it awake before running Android UAT."
+  write_early_failure_summary "$reason"
+  fail "$reason"
 fi
 
 mkdir -p "$EVIDENCE_DIR"
@@ -226,6 +269,8 @@ puts JSON.pretty_generate(
     "status" => ENV.fetch("ANDROID_UAT_STATUS"),
     "exit_code" => ENV.fetch("ANDROID_UAT_RC").to_i,
     "device" => ENV.fetch("ANDROID_UAT_DEVICE_ID"),
+    "device_id" => ENV.fetch("ANDROID_UAT_DEVICE_ID"),
+    "device_model" => nil,
     "flavor" => ENV.fetch("ANDROID_UAT_FLAVOR"),
     "target" => ENV.fetch("ANDROID_UAT_TARGET"),
     "runner" => ENV.fetch("ANDROID_UAT_RUNNER"),

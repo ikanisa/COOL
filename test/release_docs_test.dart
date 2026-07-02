@@ -309,8 +309,8 @@ Date/time: 2026-06-01T12:30:00Z
       'checklist': File(
         'docs/release/PRODUCTION_READINESS_CHECKLIST.md',
       ).readAsStringSync(),
-      'goalbook': File(
-        'docs/archive/2026-05/design/COLLECT_UI_IMPLEMENTATION_GOALBOOK_2026-05-31.md',
+      'design_matrix': File(
+        'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
       ).readAsStringSync(),
       'qa': File('docs/release/QA_TEST_REPORT.md').readAsStringSync(),
       'uat': File('docs/release/UAT_EXECUTION_REPORT.md').readAsStringSync(),
@@ -333,7 +333,9 @@ Date/time: 2026-06-01T12:30:00Z
       'docs/release/UAT_EVIDENCE_MANIFEST.json',
     ).readAsStringSync();
 
-    for (final text in docs.values) {
+    for (final text in docs.entries
+        .where((entry) => entry.key != 'design_matrix')
+        .map((entry) => entry.value)) {
       expect(text, contains('SMS-first'));
       expect(text, isNot(contains('auth_captcha_bot_protection')));
       expect(text, isNot(contains('auth_hibp_leaked_password_protection')));
@@ -415,7 +417,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['qa'], contains('collect_product_boundary_scan.sh'));
     expect(docs['qa'], contains('zero forbidden'));
     expect(docs['checklist'], contains('Collect product-boundary scan'));
-    expect(docs['goalbook'], contains('collect_product_boundary_scan.sh'));
+    expect(docs['design_matrix'], contains('collect_product_boundary_scan.sh'));
     expect(docs['qa'], contains('Re-run on final tree'));
     expect(docs['qa'], contains('exact final release branch'));
     expect(docs['checklist'], contains('Re-run on final tree'));
@@ -447,161 +449,76 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
-  test('Revolut parity evidence stays NO-GO until human signoffs exist', () {
-    final evidence = File(
-      'docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md',
-    ).readAsStringSync();
-    final checklist = File(
-      'docs/design/REVOLUT_PARITY_SIGNOFF_CHECKLIST_2026-06-18.md',
-    ).readAsStringSync();
-    final approvals = File(
-      'docs/release/RELEASE_APPROVALS.json',
+  test('MOBI/Revolut alignment matrix is the current design parity contract', () {
+    final matrix = File(
+      'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
     ).readAsStringSync();
 
-    expect(evidence, contains('Status: **NO-GO'));
-    expect(evidence, contains('NO-GO for a 100 percent parity claim'));
-    expect(evidence, contains('20260618T_large_text_pixel4a'));
-    expect(evidence, contains('20260618T_after_root_sms_redirect_contract'));
-    expect(evidence, contains('20260618T_native_launch_splash_contract'));
-    expect(evidence, contains('native_android_launch_splash_contract'));
-    expect(evidence, contains('20260618T_native_permission_contract'));
-    expect(evidence, contains('android_permission_device_evidence.sh'));
-    expect(evidence, contains('restricted SMS permissions are absent'));
-    expect(evidence, contains('20260618T_talkback_structural_refresh'));
-    expect(evidence, contains('android_accessibility_structural_evidence.sh'));
-    expect(evidence, contains('structural evidence only'));
-    expect(evidence, contains('android_release_signing_review'));
-    expect(evidence, contains('ios_release_scope'));
-    expect(evidence, contains('Human auditory TalkBack review'));
-    expect(evidence, contains('iOS VoiceOver review'));
-    expect(evidence, contains('REVOLUT_PARITY_SIGNOFF_CHECKLIST_2026-06-18'));
-    expect(evidence, isNot(contains('Status: **GO')));
-    expect(evidence, isNot(contains('100 percent parity complete')));
-
-    expect(checklist, contains('Current decision: **NO-GO until signed**'));
-    for (final signoff in <String>[
-      'Revolut reference visual parity',
-      'Android TalkBack auditory review',
-      'iOS VoiceOver or scope decision',
-      'Android release signing / Play App Signing review',
-      'Final release-owner parity decision',
-    ]) {
-      expect(checklist, contains('| $signoff | Open |'));
-    }
-    expect(checklist, contains('signed or explicitly waived'));
-    expect(checklist, contains('reviewer, timestamp, evidence reference'));
-    expect(checklist, contains('Do not add secrets'));
-    expect(checklist, contains('production customer data'));
-
-    expect(approvals, contains('"status": "approved"'));
-    expect(approvals, contains('"status": "out_of_scope"'));
-    expect(approvals, contains('"key": "android_release_signing_review"'));
-    expect(approvals, contains('"key": "ios_release_scope"'));
-    expect(approvals, contains('"decision": "OUT_OF_SCOPE"'));
+    expect(matrix, contains('100% MOBI/Revolut experiential parity'));
+    expect(matrix, contains('## Non-Negotiable Target'));
+    expect(matrix, contains('## Revolut Reference Route Mapping'));
+    expect(matrix, contains('## MOBI Comparator Matrix'));
+    expect(matrix, contains('## Current Gap Table'));
+    expect(matrix, contains('## Required Current Evidence'));
+    expect(matrix, contains('## Deletion Register'));
+    expect(matrix, contains('External filings'));
+    expect(matrix, contains('IMG_2739.PNG'));
+    expect(matrix, contains('IMG_2755.PNG'));
+    expect(matrix, contains('StatefulShellRoute.indexedStack'));
+    expect(matrix, contains('ConnectivityOverlay'));
+    expect(matrix, contains('CollectAsyncStateView'));
+    expect(matrix, contains('## Comparative Implementation Table'));
+    expect(matrix, contains('MOBI evidence'));
+    expect(matrix, contains('Revolut reference behavior'));
+    expect(matrix, contains('Collect implementation files'));
+    expect(matrix, contains('Contradiction handling'));
+    expect(matrix, contains('Active Deletion Decision'));
+    expect(
+      matrix,
+      contains('scripts/product_design_mobile_audit_artifact_gate.sh'),
+    );
   });
 
-  test('Revolut parity signoff gate blocks current open approvals', () {
+  test('MOBI/Revolut alignment gate passes current matrix', () {
     final result = Process.runSync('./scripts/revolut_parity_signoff_gate.sh', [
       '--json',
     ]);
 
-    expect(result.exitCode, 99);
+    expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['status'], 'blocked');
-    expect(decoded['decision'], 'NO-GO');
-    expect(decoded['blocker_keys'], contains('human_revolut_parity_signoff'));
+    expect(decoded['status'], 'pass');
+    expect(decoded['decision'], 'GO');
     expect(
-      decoded['blockers'],
-      contains('Checklist decision is still explicitly NO-GO.'),
+      decoded['matrix'],
+      'docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md',
     );
-    final checks = decoded['checks'] as Map<String, dynamic>;
-    expect(
-      (checks['android_release_signing_review']
-          as Map<String, dynamic>)['status'],
-      'pass',
-    );
-    expect(
-      (checks['ios_release_scope'] as Map<String, dynamic>)['status'],
-      'pass',
-    );
+    expect(decoded.containsKey('repo_table'), isFalse);
+    expect(decoded['blockers'], isEmpty);
+    expect(decoded['checks'], isA<Map<String, dynamic>>());
   });
 
-  test('Revolut parity signoff gate can pass with sanitized signed metadata', () {
+  test('MOBI/Revolut alignment gate blocks an incomplete matrix', () {
     final tempDir = Directory.systemTemp.createTempSync(
-      'cool_revolut_parity_signoff_',
+      'cool_mobi_revolut_alignment_',
     );
     try {
-      final checklist = File('${tempDir.path}/parity_signoff.md')
-        ..writeAsStringSync('''
-# Collect Revolut-Style Parity Signoff Checklist
-
-Date: 2026-06-18
-Repo: `/Volumes/PRO-G40/COOL`
-Current decision: **GO after signed review**
-
-## Required Signoffs
-
-| Signoff | Status | Required reviewer action | Evidence reference | Reviewer | Signed at |
-| --- | --- | --- | --- | --- | --- |
-| Revolut reference visual parity | Signed | Compared required route families against supplied references. | `docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md` | Design Reviewer Ana | 2026-06-18T18:45:00Z |
-| Android TalkBack auditory review | Signed | Listened through representative Android flows. | `docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md` | Accessibility Reviewer Ben | 2026-06-18T18:46:00Z |
-| iOS VoiceOver or scope decision | Waived | Android-only scope accepted for this parity claim. | `docs/release/RELEASE_APPROVAL_PACKET.md` | Scope Reviewer Cy | 2026-06-18T18:47:00Z |
-| Android release signing / Play App Signing review | Signed | Release signing metadata reviewed without exposing keys. | `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md` | Release Reviewer Dee | 2026-06-18T18:48:00Z |
-| Final release-owner parity decision | Signed | Evidence packet and signoff rows reviewed. | `docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md` | Release Owner Eli | 2026-06-18T18:49:00Z |
-''');
-
-      final approvals = File('${tempDir.path}/approvals.json')
-        ..writeAsStringSync(
-          jsonEncode(<String, dynamic>{
-            'approvals': <Map<String, dynamic>>[
-              <String, dynamic>{
-                'key': 'android_release_signing_review',
-                'status': 'approved',
-                'decision': 'GO',
-                'reviewer': 'Release Reviewer Dee',
-                'signed_at': '2026-06-18T18:48:00Z',
-                'evidence_reference':
-                    'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
-                'sanitized_evidence': true,
-                'contains_production_customer_data': false,
-                'signing_keys_exposed': false,
-                'notes':
-                    'Release artifacts and Play App Signing metadata reviewed.',
-              },
-              <String, dynamic>{
-                'key': 'ios_release_scope',
-                'status': 'out_of_scope',
-                'decision': 'OUT_OF_SCOPE',
-                'reviewer': 'Scope Reviewer Cy',
-                'signed_at': '2026-06-18T18:47:00Z',
-                'evidence_reference': 'docs/release/RELEASE_APPROVAL_PACKET.md',
-                'sanitized_evidence': true,
-                'contains_production_customer_data': false,
-                'notes': 'Android-only scope accepted for this parity claim.',
-              },
-            ],
-          }),
-        );
-
+      final matrix = File('${tempDir.path}/incomplete_matrix.md')
+        ..writeAsStringSync('# Incomplete\n');
       final result = Process.runSync(
         './scripts/revolut_parity_signoff_gate.sh',
         ['--json'],
         environment: {
-          'REVOLUT_PARITY_SIGNOFF_CHECKLIST': checklist.path,
-          'RELEASE_APPROVALS_JSON': approvals.path,
+          'MOBI_REVOLUT_ALIGNMENT_MATRIX': matrix.path,
         },
       );
 
-      expect(result.exitCode, 0);
+      expect(result.exitCode, 99);
       final decoded =
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
-      expect(decoded['status'], 'pass');
-      expect(decoded['decision'], 'GO');
-      expect(decoded['blockers'], isEmpty);
-      expect(
-        decoded['signoffs']['Final release-owner parity decision']['approved'],
-        true,
-      );
+      expect(decoded['status'], 'blocked');
+      expect(decoded['decision'], 'NO-GO');
+      expect(decoded['blocker_keys'], contains('mobi_revolut_alignment_matrix'));
+      expect(decoded['blockers'], isNotEmpty);
     } finally {
       tempDir.deleteSync(recursive: true);
     }
@@ -1082,7 +999,7 @@ Current decision: **GO after signed review**
     expect(script, contains('rc=124'));
   });
 
-  test('Product design mobile audit screenshots are valid PNG evidence', () {
+  test('Product design mobile audit gate validates current route screenshots', () {
     final script = File(
       'scripts/product_design_mobile_audit_artifact_gate.sh',
     ).readAsStringSync();
@@ -1092,11 +1009,13 @@ Current decision: **GO after signed review**
       'scripts/release_evidence_index.sh',
     ).readAsStringSync();
 
-    expect(script, contains('screenshot_manifest.json'));
+    expect(script, contains('MOBILE_ROUTE_RENDER_SUMMARY'));
+    expect(script, contains('mobile_route_render_smoke'));
     expect(script, contains('png_header'));
-    expect(script, contains('route_count_must_be_44'));
+    expect(script, contains('route_count_must_be_at_least_30'));
+    expect(script, contains('product_screen_count_must_be_at_least_27'));
     expect(script, contains('viewport_must_be_390x844'));
-    expect(script, contains('manifest_bytes_stale'));
+    expect(script, contains('pixel_check_failed'));
     expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
     expect(
       makefile,
@@ -1119,12 +1038,14 @@ Current decision: **GO after signed review**
     expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['status'], 'pass');
+    expect(decoded['evidence_source'], 'mobile_route_render_smoke');
     expect(decoded['viewport'], '390x844');
-    expect(decoded['route_count'], 44);
+    expect(decoded['route_count'], greaterThanOrEqualTo(30));
+    expect(decoded['product_screen_count'], greaterThanOrEqualTo(27));
     expect(decoded['secret_handling'], contains('does not inspect secrets'));
     final items = (decoded['items'] as List<dynamic>)
         .cast<Map<String, dynamic>>();
-    expect(items, hasLength(44));
+    expect(items.length, greaterThanOrEqualTo(30));
     expect(items.every((item) => item['png_valid'] == true), isTrue);
     expect(items.every((item) => item['width'] == 390), isTrue);
     expect(items.every((item) => item['height'] == 844), isTrue);

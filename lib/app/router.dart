@@ -30,6 +30,8 @@ const collectRoutePaths = <String>[
   '/',
   '/auth',
   '/home',
+  '/offline',
+  '/sync',
   '/groups',
   '/groups/scan',
   '/groups/create',
@@ -42,12 +44,17 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
   '/c/:slug',
+  '/share/invalid',
+  '/share/expired',
+  '/share/expired/request',
   '/app',
   '/invite/:publicId',
   '/settings',
   '/settings/profile',
   '/settings/account',
   '/settings/account/delete',
+  '/settings/privacy',
+  '/settings/help',
   '/settings/legal/terms',
   '/settings/legal/privacy',
   if (kDebugMode) '/dev/design-system',
@@ -57,137 +64,225 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
-      ShellRoute(
-        builder: (context, state, child) => CollectShell(child: child),
-        routes: [
-          GoRoute(
-            path: '/',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const LaunchSplashScreen(),
-              transition: _CollectRouteTransition.fade,
-            ),
-          ),
-          GoRoute(
-            path: '/auth',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const AuthScreen(),
-              transition: _CollectRouteTransition.forward,
-            ),
-          ),
-          GoRoute(
-            path: '/home',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const HomeScreen(),
-              transition: _CollectRouteTransition.primary,
-            ),
-          ),
-          GoRoute(path: '/offline', redirect: (context, state) => '/groups'),
-          GoRoute(path: '/sync', redirect: (context, state) => '/groups'),
-          GoRoute(
-            path: '/groups',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const CollectionsScreen(),
-              transition: _CollectRouteTransition.primary,
-            ),
+      GoRoute(
+        path: '/',
+        pageBuilder: (context, state) => _collectPage(
+          state,
+          const LaunchSplashScreen(),
+          transition: _CollectRouteTransition.fade,
+        ),
+      ),
+      GoRoute(
+        path: '/auth',
+        pageBuilder: (context, state) => _collectPage(
+          state,
+          const AuthScreen(),
+          transition: _CollectRouteTransition.forward,
+        ),
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            CollectShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            initialLocation: '/home',
             routes: [
               GoRoute(
-                path: 'join',
-                redirect: (context, state) => '/groups/scan',
-              ),
-              GoRoute(
-                path: 'scan',
+                path: '/home',
                 pageBuilder: (context, state) => _collectPage(
                   state,
-                  const GroupQrScannerScreen(),
-                  transition: _CollectRouteTransition.modal,
+                  const HomeScreen(),
+                  transition: _CollectRouteTransition.primary,
                 ),
               ),
               GoRoute(
-                path: 'create',
-                redirect: (context, state) =>
-                    canCreateGroupsOnThisPlatform() ? null : '/groups',
+                path: '/offline',
                 pageBuilder: (context, state) => _collectPage(
                   state,
-                  const CollectionCreateScreen(),
-                  transition: _CollectRouteTransition.modal,
+                  const OfflineRecoveryScreen(),
+                  transition: _CollectRouteTransition.utility,
                 ),
               ),
               GoRoute(
-                path: ':collectionId',
+                path: '/sync',
                 pageBuilder: (context, state) => _collectPage(
                   state,
-                  CollectionDetailScreen(
-                    collectionId: state.pathParameters['collectionId']!,
-                  ),
-                  transition: _CollectRouteTransition.detail,
+                  const SyncRecoveryScreen(),
+                  transition: _CollectRouteTransition.utility,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/groups',
+            routes: [
+              GoRoute(
+                path: '/groups',
+                pageBuilder: (context, state) => _collectPage(
+                  state,
+                  const CollectionsScreen(),
+                  transition: _CollectRouteTransition.primary,
                 ),
                 routes: [
                   GoRoute(
-                    path: 'members',
+                    path: 'join',
+                    redirect: (context, state) => '/groups/scan',
+                  ),
+                  GoRoute(
+                    path: 'scan',
                     pageBuilder: (context, state) => _collectPage(
                       state,
-                      GroupMembersScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
-                      transition: _CollectRouteTransition.detail,
+                      const GroupQrScannerScreen(),
+                      transition: _CollectRouteTransition.modal,
                     ),
                   ),
                   GoRoute(
-                    path: 'manage',
+                    path: 'create',
+                    redirect: (context, state) =>
+                        canCreateGroupsOnThisPlatform() ? null : '/groups',
                     pageBuilder: (context, state) => _collectPage(
                       state,
-                      CollectionManageScreen(
+                      const CollectionCreateScreen(),
+                      transition: _CollectRouteTransition.modal,
+                    ),
+                  ),
+                  GoRoute(
+                    path: ':collectionId',
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      CollectionDetailScreen(
                         collectionId: state.pathParameters['collectionId']!,
                       ),
                       transition: _CollectRouteTransition.detail,
                     ),
+                    routes: [
+                      GoRoute(
+                        path: 'members',
+                        pageBuilder: (context, state) => _collectPage(
+                          state,
+                          GroupMembersScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'manage',
+                        pageBuilder: (context, state) => _collectPage(
+                          state,
+                          CollectionManageScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'profile',
+                        pageBuilder: (context, state) => _collectPage(
+                          state,
+                          GroupProfileScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'contribute',
+                        pageBuilder: (context, state) => _collectPage(
+                          state,
+                          ContributionFlowScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.modal,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'share',
+                        pageBuilder: (context, state) => _collectPage(
+                          state,
+                          ShareScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.modal,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'invite',
+                        redirect: (context, state) =>
+                            '/groups/${state.pathParameters['collectionId']}/share',
+                      ),
+                      GoRoute(
+                        path: 'ledger',
+                        pageBuilder: (context, state) => _collectPage(
+                          state,
+                          LedgerScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                    ],
                   ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/settings',
+            routes: [
+              GoRoute(
+                path: '/settings',
+                pageBuilder: (context, state) => _collectPage(
+                  state,
+                  const SettingsScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+                routes: [
                   GoRoute(
                     path: 'profile',
                     pageBuilder: (context, state) => _collectPage(
                       state,
-                      GroupProfileScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
+                      const ProfileEditScreen(),
                       transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
-                    path: 'contribute',
+                    path: 'account',
                     pageBuilder: (context, state) => _collectPage(
                       state,
-                      ContributionFlowScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
+                      const AccountSessionScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'account/delete',
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      const DeleteAccountRequestScreen(),
                       transition: _CollectRouteTransition.modal,
                     ),
                   ),
                   GoRoute(
-                    path: 'share',
+                    path: 'privacy',
+                    redirect: (context, state) => '/settings/legal/privacy',
+                  ),
+                  GoRoute(
+                    path: 'help',
+                    redirect: (context, state) => '/settings',
+                  ),
+                  GoRoute(
+                    path: 'legal/terms',
                     pageBuilder: (context, state) => _collectPage(
                       state,
-                      ShareScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
-                      transition: _CollectRouteTransition.modal,
+                      const LegalScreen(kind: 'terms'),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
-                    path: 'invite',
-                    redirect: (context, state) =>
-                        '/groups/${state.pathParameters['collectionId']}/share',
-                  ),
-                  GoRoute(
-                    path: 'ledger',
+                    path: 'legal/privacy',
                     pageBuilder: (context, state) => _collectPage(
                       state,
-                      LedgerScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
+                      const LegalScreen(kind: 'privacy'),
                       transition: _CollectRouteTransition.detail,
                     ),
                   ),
@@ -195,98 +290,33 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               ),
             ],
           ),
-          GoRoute(
-            path: '/share/invalid',
-            redirect: (context, state) => '/groups',
-          ),
-          GoRoute(
-            path: '/share/expired',
-            redirect: (context, state) => '/groups',
-          ),
-          GoRoute(
-            path: '/share/expired/request',
-            redirect: (context, state) => '/groups',
-          ),
-          GoRoute(
-            path: '/c/:slug',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              GroupLinkScreen(slug: state.pathParameters['slug']!),
-              transition: _CollectRouteTransition.detail,
-            ),
-          ),
-          GoRoute(path: '/app', redirect: (context, state) => '/home'),
-          GoRoute(
-            path: '/invite/:publicId',
-            redirect: (context, state) => '/home',
-          ),
-          GoRoute(
-            path: '/settings',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const SettingsScreen(),
-              transition: _CollectRouteTransition.primary,
-            ),
-          ),
-          GoRoute(
-            path: '/settings/profile',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const ProfileEditScreen(),
-              transition: _CollectRouteTransition.detail,
-            ),
-          ),
-          GoRoute(
-            path: '/settings/account',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const AccountSessionScreen(),
-              transition: _CollectRouteTransition.detail,
-            ),
-          ),
-          GoRoute(
-            path: '/settings/account/delete',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const DeleteAccountRequestScreen(),
-              transition: _CollectRouteTransition.modal,
-            ),
-          ),
-          GoRoute(
-            path: '/settings/privacy',
-            redirect: (context, state) => '/settings/legal/privacy',
-          ),
-          GoRoute(
-            path: '/settings/help',
-            redirect: (context, state) => '/settings',
-          ),
-          GoRoute(
-            path: '/settings/legal/terms',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const LegalScreen(kind: 'terms'),
-              transition: _CollectRouteTransition.detail,
-            ),
-          ),
-          GoRoute(
-            path: '/settings/legal/privacy',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const LegalScreen(kind: 'privacy'),
-              transition: _CollectRouteTransition.detail,
-            ),
-          ),
-          if (kDebugMode)
-            GoRoute(
-              path: '/dev/design-system',
-              pageBuilder: (context, state) => _collectPage(
-                state,
-                const DesignSystemCatalogScreen(),
-                transition: _CollectRouteTransition.utility,
-              ),
-            ),
         ],
       ),
+      GoRoute(path: '/app', redirect: (context, state) => '/home'),
+      GoRoute(path: '/invite/:publicId', redirect: (context, state) => '/home'),
+      GoRoute(path: '/share/invalid', redirect: (context, state) => '/groups'),
+      GoRoute(path: '/share/expired', redirect: (context, state) => '/groups'),
+      GoRoute(
+        path: '/share/expired/request',
+        redirect: (context, state) => '/groups',
+      ),
+      GoRoute(
+        path: '/c/:slug',
+        pageBuilder: (context, state) => _collectPage(
+          state,
+          GroupLinkScreen(slug: state.pathParameters['slug']!),
+          transition: _CollectRouteTransition.detail,
+        ),
+      ),
+      if (kDebugMode)
+        GoRoute(
+          path: '/dev/design-system',
+          pageBuilder: (context, state) => _collectPage(
+            state,
+            const DesignSystemCatalogScreen(),
+            transition: _CollectRouteTransition.utility,
+          ),
+        ),
     ],
     errorBuilder: (context, state) => const _RouteNotFoundScreen(),
   );
@@ -343,7 +373,7 @@ Page<void> _collectPage(
         _CollectRouteTransition.forward ||
         _CollectRouteTransition.detail => SlideTransition(
           position: Tween<Offset>(
-            begin: const Offset(0.08, 0),
+            begin: const Offset(0.035, 0.012),
             end: Offset.zero,
           ).animate(curved),
           child: FadeTransition(opacity: curved, child: child),

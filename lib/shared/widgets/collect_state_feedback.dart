@@ -271,3 +271,98 @@ class InfoSecurityBanner extends StatelessWidget {
     );
   }
 }
+
+class CollectConnectivityBanner extends StatelessWidget {
+  const CollectConnectivityBanner({required this.status, super.key});
+
+  final ConnectivityStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final details = _ConnectivityBannerDetails.fromStatus(status);
+    if (details == null) return const SizedBox.shrink();
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: details.semanticLabel,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Color.alphaBlend(
+            colors.statusForeground(details.tone).withValues(alpha: 0.24),
+            CollectColors.referenceChromeBlack.withValues(alpha: 0.94),
+          ),
+          borderRadius: CollectRadius.pillBorder,
+          border: Border.all(
+            color: colors.onImagePrimary.withValues(alpha: 0.28),
+          ),
+          boxShadow: CollectShadows.card(),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x3,
+            vertical: CollectSpacing.x2,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(details.icon, color: colors.onImagePrimary, size: 18),
+              CollectSpacing.gapW8,
+              Flexible(
+                child: Text(
+                  details.label,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: colors.onImagePrimary,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ConnectivityBannerDetails {
+  const _ConnectivityBannerDetails({
+    required this.label,
+    required this.semanticLabel,
+    required this.icon,
+    required this.tone,
+  });
+
+  final String label;
+  final String semanticLabel;
+  final IconData icon;
+  final CollectStatusTone tone;
+
+  static _ConnectivityBannerDetails? fromStatus(ConnectivityStatus status) {
+    return switch (status) {
+      ConnectivityStatus.online => null,
+      ConnectivityStatus.degraded => const _ConnectivityBannerDetails(
+        label: 'Connection needs attention',
+        semanticLabel: 'Connection needs attention',
+        icon: CollectIcons.pending,
+        tone: CollectStatusTone.warning,
+      ),
+      ConnectivityStatus.offline => const _ConnectivityBannerDetails(
+        label: 'No connection',
+        semanticLabel: 'No connection',
+        icon: CollectIcons.sync,
+        tone: CollectStatusTone.danger,
+      ),
+      ConnectivityStatus.offlineStale => const _ConnectivityBannerDetails(
+        label: 'Showing saved data',
+        semanticLabel: 'Offline. Showing saved data.',
+        icon: CollectIcons.sync,
+        tone: CollectStatusTone.warning,
+      ),
+    };
+  }
+}

@@ -204,7 +204,7 @@ Backend/Supabase status after the latest gate pass:
 | --- | --- | --- |
 | Route render smoke | Route compatibility and text/layout regressions are high-risk | Passed at `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json` |
 | Android device UAT | Native route flow must be runnable on device | Passed at `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json`; local QA uses `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false` |
-| Design compliance | Existing design gate is part of release docs | Passed and saved at `docs/release/mobile_design_compliance_audit_2026-06-30.json` |
+| Design compliance | Existing design gate is part of release docs | Regenerate with `scripts/collect_mobile_design_compliance_audit.sh --json` and compare against `docs/design/MOBI_REVOLUT_100_PERCENT_ALIGNMENT_MATRIX.md` |
 | Structural accessibility | Needed before human TalkBack/VoiceOver signoff | Passed and saved at `docs/release/android_accessibility_structural_evidence_2026-06-30.json` |
 | Native accessibility signoff | Human-gated release requirement | `scripts/native_mobile_accessibility_signoff_gate.sh --json` after recorded signoffs |
 | Native performance profile | Catch release-build perf regressions | Passed and saved at `docs/release/mobile_native_performance_profile_2026-06-30.json` |
