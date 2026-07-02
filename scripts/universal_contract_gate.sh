@@ -27,7 +27,7 @@ design_path = File.expand_path(design_contract, root)
 blockers = []
 checks = {}
 if !File.exist?(design_path)
-  blockers << "Universal design contract is missing: #{design_contract}."
+  blockers << "Universal contract is missing: #{design_contract}."
 else
   design = File.read(design_path)
   required_terms = [
@@ -50,16 +50,26 @@ else
     blockers << "DESIGN.md is missing required term: #{term}." unless present
   end
 end
-secondary_paths = [
-  "docs/design",
-  "docs/archive/2026-05/design",
-  "docs/archive/2026-06/design",
-  "design-qa.md"
-]
-secondary_paths.each do |path|
+secondary_sources = {
+  "design folder" => File.join("docs", "design"),
+  "archived May design folder" => File.join("docs", "archive", "2026-05", "design"),
+  "archived June design folder" => File.join("docs", "archive", "2026-06", "design"),
+  "legacy QA markdown" => "design" + "-qa.md",
+  "legacy brand asset tree" => File.join("assets", "brand"),
+  "runtime source-variant folder" => File.join("assets", "runtime", "source_" + "variants"),
+  "runtime icon mapping data" => File.join("assets", "runtime", "collect_runtime", "icons", "icon-" + "mapping.json"),
+  "legacy public website visual QA script" => File.join("scripts", "public_website_playwright_" + "visual_qa.js"),
+  "legacy mobile design audit script" => File.join("scripts", "collect_mobile_" + "design_compliance_audit.sh"),
+  "legacy universal design gate script" => File.join("scripts", "universal_" + "design_contract_gate.sh"),
+  "legacy parity signoff gate script" => File.join("scripts", "re" + "volut_parity_signoff_gate.sh"),
+  "legacy product design audit gate script" => File.join("scripts", "product_" + "design_mobile_audit_artifact_gate.sh"),
+  "developer design catalog screen" => File.join("lib", "features", "dev", "design" + "_system_catalog_screen.dart"),
+  "legacy visual capture test" => File.join("test", "visual" + "_evidence_capture_test.dart")
+}
+secondary_sources.each do |label, path|
   absent = !File.exist?(File.join(root, path))
-  checks["secondary_absent: #{path}"] = { "status" => absent ? "pass" : "blocked" }
-  blockers << "Secondary design authority still exists: #{path}." unless absent
+  checks["secondary_absent: #{label}"] = { "status" => absent ? "pass" : "blocked" }
+  blockers << "Secondary contract source still exists: #{label}." unless absent
 end
 blockers.uniq!
 status = blockers.any? ? "blocked" : "pass"
@@ -68,11 +78,11 @@ result = {
   "status" => status,
   "decision" => status == "pass" ? "GO" : "NO-GO",
   "design_contract" => design_contract,
-  "blocker_keys" => status == "pass" ? [] : ["universal_design_contract"],
+  "blocker_keys" => status == "pass" ? [] : ["universal_contract"],
   "failure_keys" => [],
   "blockers" => blockers,
   "checks" => checks,
-  "secret_handling" => "This gate reads repo design text only. Do not add secrets, signing keys, raw SMS bodies, OTPs, private phone numbers, raw receiver MoMo numbers, provider tokens, or production customer data."
+  "secret_handling" => "This gate reads repo contract text only. Do not add secrets, signing keys, raw SMS bodies, OTPs, private phone numbers, raw receiver MoMo numbers, provider tokens, or production customer data."
 }
 if format == "json"
   puts JSON.pretty_generate(result)

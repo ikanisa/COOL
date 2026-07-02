@@ -221,7 +221,7 @@ capture_route() {
       printf '[attempt %s]\n' "$attempt" >>"$stdout_log"
       printf '[attempt %s]\n' "$attempt" >>"$stderr_log"
       set +e
-      "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+      "$NODE" "$ROOT_DIR/scripts/chrome_cdp_capture.mjs" \
         --chrome "$CHROME" \
         --url "$url" \
         --output "$png" \

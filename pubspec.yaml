@@ -41,13 +41,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/brand/collect_app_icon_static.png
-    - assets/brand/collect_runtime/
-    - assets/brand/collect_runtime/logos/
-    - assets/brand/collect_runtime/app_icons/
-    - assets/brand/collect_runtime/splash/
-    - assets/brand/collect_runtime/icons/
-    - assets/brand/collect_runtime/media/
+    - assets/runtime/collect_app_icon_static.png
+    - assets/runtime/collect_runtime/
+    - assets/runtime/collect_runtime/logos/
+    - assets/runtime/collect_runtime/app_icons/
+    - assets/runtime/collect_runtime/splash/
+    - assets/runtime/collect_runtime/icons/
+    - assets/runtime/collect_runtime/media/
   fonts:
     - family: Collect Runtime
       fonts:

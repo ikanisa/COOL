@@ -18,10 +18,10 @@ USSD_CODE = "*182*8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
-BRAND_ASSET = "assets/brand/collect_runtime/media/group-momentum.png"
-MOMO_ASSET = "assets/brand/collect_runtime/media/mobile-money-ussd-signal.png"
-QR_ASSET = "assets/brand/collect_runtime/media/qr-share.png"
-ICON_ASSET = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
+BRAND_ASSET = "assets/runtime/collect_runtime/media/group-momentum.png"
+MOMO_ASSET = "assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png"
+QR_ASSET = "assets/runtime/collect_runtime/media/qr-share.png"
+ICON_ASSET = "assets/runtime/collect_runtime/app_icons/app-icon-rule.png"
 INDEXNOW_KEY = ENV.fetch("PUBLIC_INDEXNOW_KEY", "").strip
 INDEXNOW_KEY_PATTERN = /\A[A-Za-z0-9-]{8,128}\z/
 LEGAL_CONTENT_DIR = File.join(ROOT, "content/legal")
@@ -1780,7 +1780,7 @@ def page_html(page, current_path: page[:path])
       <meta property="og:url" content="#{page_url(current_path)}">
       <meta property="og:title" content="#{esc(page[:title])}">
       <meta property="og:description" content="#{esc(page[:description])}">
-      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/collect_runtime/media/group-momentum.png">
+      <meta property="og:image" content="#{PUBLIC_URL}/assets/runtime/collect_runtime/media/group-momentum.png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">

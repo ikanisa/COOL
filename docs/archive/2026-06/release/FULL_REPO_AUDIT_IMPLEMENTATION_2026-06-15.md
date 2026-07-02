@@ -125,7 +125,7 @@ become ready under `--headless=new` in this environment.
 
 Changed:
 
-- `scripts/chrome_cdp_screenshot.mjs`
+- `scripts/chrome_cdp_capture.mjs`
 - `scripts/chrome_cdp_route_matrix.mjs`
 
 Both CDP helpers now default to legacy `--headless`, which is the mode that
@@ -136,7 +136,7 @@ Result:
 
 - `scripts/mobile_route_render_smoke.sh` passed and refreshed 54 route
   screenshots at `.cache/mobile_route_render_smoke/20260615T130336Z`.
-- `scripts/collect_mobile_design_compliance_audit.sh --json` now passes.
+- `scripts/universal_contract_audit.sh --json` now passes.
 - `scripts/admin_pwa_render_smoke.sh` passed with current Admin PWA runtime and
   desktop/mobile route evidence at
   `.cache/admin_pwa_render_smoke/20260615T131201Z`.
@@ -176,7 +176,7 @@ Passed:
 
 ```sh
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/admin_pwa_test.dart test/supabase_contract_test.dart
-/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/features/design_system_components_test.dart
+/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/features/runtime_component_contract_test.dart
 /Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/widgets_test.dart test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart
@@ -191,7 +191,7 @@ JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home /Volume
 ./scripts/release_artifact_manifest.sh --json
 ./scripts/flutter_mobile_release_gate.sh --json
 ./scripts/mobile_route_render_smoke.sh
-./scripts/collect_mobile_design_compliance_audit.sh --json
+./scripts/universal_contract_audit.sh --json
 ./scripts/admin_pwa_render_smoke.sh
 ./scripts/collect_product_boundary_scan.sh --json
 ./scripts/supabase_production_readiness.sh

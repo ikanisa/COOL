@@ -22,7 +22,7 @@ part 'collect_home_footer.dart';
 part 'collect_home_interactions.dart';
 part 'collect_home_offer_sections.dart';
 part 'collect_home_product_media.dart';
-part 'collect_home_phone_mockup.dart';
+part 'collect_home_phone_preview.dart';
 part 'collect_home_evidence_media.dart';
 part 'collect_home_sections.dart';
 part 'collect_landing_primitives.dart';

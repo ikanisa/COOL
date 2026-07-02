@@ -338,7 +338,7 @@ class AuthWhatsAppMark extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = semanticLabel?.trim();
     final icon = SvgPicture.asset(
-      'assets/brand/collect_runtime/icons/whatsapp.svg',
+      'assets/runtime/collect_runtime/icons/whatsapp.svg',
       width: size,
       height: size,
       excludeFromSemantics: label == null || label.isEmpty,
@@ -373,7 +373,7 @@ class AuthCountryFlag extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(size * 0.18),
           child: SvgPicture.asset(
-            'assets/brand/collect_runtime/icons/flag_rw.svg',
+            'assets/runtime/collect_runtime/icons/flag_rw.svg',
             width: size * 1.36,
             height: size,
             fit: BoxFit.cover,

@@ -25,7 +25,7 @@ const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
 if (!chrome || !url || !output || !profile) {
   console.error(
-    'usage: chrome_cdp_screenshot.mjs --chrome PATH --url URL --output PNG --profile DIR [--viewport 390x844] [--wait-ms 9000]',
+    'usage: chrome_cdp_capture.mjs --chrome PATH --url URL --output PNG --profile DIR [--viewport 390x844] [--wait-ms 9000]',
   );
   process.exit(2);
 }
@@ -131,7 +131,7 @@ const hardExit = (message) => {
   }, 1000).unref?.();
 };
 const processDeadline = setTimeout(() => {
-  hardExit(`chrome_cdp_screenshot exceeded process timeout ${processTimeoutMs}ms for ${url}`);
+  hardExit(`chrome_cdp_capture exceeded process timeout ${processTimeoutMs}ms for ${url}`);
 }, processTimeoutMs);
 processDeadline.unref?.();
 

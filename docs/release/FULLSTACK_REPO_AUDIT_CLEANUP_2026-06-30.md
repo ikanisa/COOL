@@ -48,7 +48,7 @@ Companion deliverables:
 | `scripts/release_artifact_manifest.sh --json` | Blocked | 10 release artifacts missing |
 | `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Codex structural responsibility is accepted, but human TalkBack, VoiceOver or scoped waiver, and final accessibility signoff remain open |
 | `scripts/uat_evidence_gate.sh --json` | Blocked | Release owner/persona signoffs and evidence files still open |
-| `scripts/collect_mobile_design_compliance_audit.sh --json` | Pass | Re-run with fresh route smoke and Android UAT summaries |
+| `scripts/universal_contract_audit.sh --json` | Pass | Re-run with fresh route smoke and Android UAT summaries |
 
 Evidence refresh after the architecture map:
 
@@ -75,7 +75,7 @@ Mobile quality and performance evidence refresh:
 | --- | --- | --- |
 | `scripts/mobile_route_render_smoke.sh` | Pass | Fresh evidence at `.cache/mobile_route_render_smoke/20260630T160720Z/summary.json`; 30/30 screenshots and checks passed |
 | `COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false scripts/android_device_uat.sh` | Pass | Fresh evidence at `.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json`; default production-debug run failed only on Play app-signing certificate semantics |
-| `MOBILE_ROUTE_RENDER_SUMMARY=.cache/mobile_route_render_smoke/20260630T160720Z/summary.json ANDROID_DEVICE_UAT_SUMMARY=.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json scripts/collect_mobile_design_compliance_audit.sh --json` | Pass | Current evidence must be regenerated from the gate and checked against `DESIGN.md`; stale dated JSON removed |
+| `MOBILE_ROUTE_RENDER_SUMMARY=.cache/mobile_route_render_smoke/20260630T160720Z/summary.json ANDROID_DEVICE_UAT_SUMMARY=.cache/android_device_uat/20260630T162322Z_upload_key_debug/summary.json scripts/universal_contract_audit.sh --json` | Pass | Current evidence must be regenerated from the gate and checked against `DESIGN.md`; stale dated JSON removed |
 | `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Saved JSON at `docs/release/android_accessibility_structural_evidence_2026-06-30.json`; onboarding and guarded deeplink captures each exposed 18 labels and kept `app.cool.mobile` focused |
 | `scripts/mobile_native_performance_profile.sh --json` | Pass | Saved JSON at `docs/release/mobile_native_performance_profile_2026-06-30.json`; profile runner, Perfetto trace, and gfxinfo checks passed |
 | `scripts/native_mobile_accessibility_signoff_gate.sh --json` | Blocked | Verify current Codex responsibility rows and keep the human TalkBack, VoiceOver, and final signoff blocker open |
@@ -123,7 +123,7 @@ Dependency, CI, Admin PWA, and release-artifact refresh:
 | `test/shared/collect_repository_test.dart` | Added invalid MoMo Pay receiver-code coverage | Locks the extracted normalization behavior through the public repository API |
 | `lib/shared/widgets/collect_group_card_metrics.dart` | Extracted group-card gradients, footer chrome, metric widgets, and compact metadata icons from `collect_group_cards.dart` into a private widget part | Separates repeated card support widgets from card variant layout code |
 | `lib/shared/widgets/collect_group_cards.dart` | Registered the metrics part and kept card variant composition as the file's primary role | Reduces the main group-card surface while preserving the existing public import |
-| `test/features/widgets_test.dart`, `test/features/design_system_components_test.dart`, `test/app_shell_test.dart` | Updated source-contract assertions to read the complete private group-card library | Keeps design and source checks aligned with the split library |
+| `test/features/widgets_test.dart`, `test/features/runtime_component_contract_test.dart`, `test/app_shell_test.dart` | Updated source-contract assertions to read the complete private group-card library | Keeps design and source checks aligned with the split library |
 | `lib/shared/widgets/collect_financial_amount_entry.dart` | Extracted `AmountEntryPanel` and quick-amount chip formatting from `collect_financial_money.dart` into a private financial widget part | Separates contribution amount-entry UI from financial display cards and list rows |
 | `lib/shared/widgets/collect_financial_components.dart` | Registered the new amount-entry part | Preserves the existing public financial-components import surface |
 | `test/features/widgets_test.dart` | Added direct amount-entry quick-chip coverage | Locks compact amount labels and selection callbacks through widget behavior |
@@ -132,7 +132,7 @@ Dependency, CI, Admin PWA, and release-artifact refresh:
 | `test/shared/collect_repository_test.dart` | Added coverage for string diaspora-region aliases and public visibility aliases | Locks collection JSON compatibility through public model parsing |
 | `lib/shared/widgets/collect_financial_payment_pipeline.dart` | Extracted `PaymentPipelineIndicator` and private progress-stage widgets from `collect_financial_payments.dart` | Separates payment progress UI from payment review/status/consent panels |
 | `lib/shared/widgets/collect_financial_components.dart` | Registered the payment-pipeline part | Preserves the existing public financial-components import surface |
-| `test/features/design_system_components_test.dart` | Added confirmed-payment pipeline semantics coverage | Locks complete-state semantics after the split |
+| `test/features/runtime_component_contract_test.dart` | Added confirmed-payment pipeline semantics coverage | Locks complete-state semantics after the split |
 | `lib/admin/core/admin_list_workflow.dart` | Extracted queue summary signals, workflow step chips, SLA fallback copy, and SLA chips from `admin_list_runtime.dart` | Separates static operator workflow/SLA presentation from list paging, export, and row actions |
 | `lib/admin/core/admin_runtime.dart` | Registered the admin list workflow part | Preserves the existing admin runtime `part` architecture |
 | `test/admin_pwa_test.dart` | Added the workflow part to `readAdminRuntimeLibrary()` | Keeps Admin PWA source assertions scanning the complete runtime surface |
@@ -207,8 +207,8 @@ Result: 290 tests passed with 1 opt-in visual-evidence skip.
 Group-card composition split verification:
 
 ```bash
-/Volumes/PRO-G40/flutter_3_44/bin/dart format --set-exit-if-changed lib/shared/widgets/collect_group_cards.dart lib/shared/widgets/collect_group_card_metrics.dart test/features/widgets_test.dart test/features/design_system_components_test.dart test/app_shell_test.dart
-/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/widgets_test.dart test/features/design_system_components_test.dart test/app_shell_test.dart
+/Volumes/PRO-G40/flutter_3_44/bin/dart format --set-exit-if-changed lib/shared/widgets/collect_group_cards.dart lib/shared/widgets/collect_group_card_metrics.dart test/features/widgets_test.dart test/features/runtime_component_contract_test.dart test/app_shell_test.dart
+/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/widgets_test.dart test/features/runtime_component_contract_test.dart test/app_shell_test.dart
 ```
 
 Result: formatter gate passed and focused widget/design/app-shell suites passed
@@ -266,8 +266,8 @@ visual-evidence skip.
 Financial payment-pipeline split verification:
 
 ```bash
-/Volumes/PRO-G40/flutter_3_44/bin/dart format --set-exit-if-changed lib/shared/widgets/collect_financial_components.dart lib/shared/widgets/collect_financial_payments.dart lib/shared/widgets/collect_financial_payment_pipeline.dart test/features/design_system_components_test.dart
-/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart
+/Volumes/PRO-G40/flutter_3_44/bin/dart format --set-exit-if-changed lib/shared/widgets/collect_financial_components.dart lib/shared/widgets/collect_financial_payments.dart lib/shared/widgets/collect_financial_payment_pipeline.dart test/features/runtime_component_contract_test.dart
+/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart
 ```
 
 Result: formatter gate passed and focused component suite passed 34/34.

@@ -9,9 +9,8 @@ on:
       - 'scripts/public_*.sh'
       - 'scripts/public_*.rb'
       - 'scripts/public_*.js'
-      - 'assets/brand/generated/**'
+      - 'assets/runtime/generated/**'
       - 'web/.well-known/**'
-      - 'docs/design/COLLECT_PUBLIC_WEBSITE_*.md'
       - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
       - 'output/public_website_evidence/**'
   pull_request:
@@ -20,9 +19,8 @@ on:
       - 'scripts/public_*.sh'
       - 'scripts/public_*.rb'
       - 'scripts/public_*.js'
-      - 'assets/brand/generated/**'
+      - 'assets/runtime/generated/**'
       - 'web/.well-known/**'
-      - 'docs/design/COLLECT_PUBLIC_WEBSITE_*.md'
       - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
       - 'output/public_website_evidence/**'
   workflow_dispatch:

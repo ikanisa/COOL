@@ -163,7 +163,7 @@ String _minimalStateAsset(IconData icon, CollectStatusTone tone) {
       icon == CollectIcons.public ||
       icon == CollectIcons.share ||
       icon == CollectIcons.search) {
-    return 'assets/brand/collect_runtime/media/qr-share.png';
+    return 'assets/runtime/collect_runtime/media/qr-share.png';
   }
   if (icon == CollectIcons.sms ||
       icon == CollectIcons.momo ||
@@ -171,9 +171,9 @@ String _minimalStateAsset(IconData icon, CollectStatusTone tone) {
       icon == CollectIcons.shield ||
       tone == CollectStatusTone.warning ||
       tone == CollectStatusTone.danger) {
-    return 'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png';
+    return 'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png';
   }
-  return 'assets/brand/collect_runtime/media/group-momentum.png';
+  return 'assets/runtime/collect_runtime/media/group-momentum.png';
 }
 
 class EmptySearchState extends StatelessWidget {

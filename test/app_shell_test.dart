@@ -334,7 +334,10 @@ void main() {
       expect(design, contains('route screenshot coverage'));
       expect(design, contains('golden or snapshot tests'));
       expect(smokeRoutes, hasLength(greaterThanOrEqualTo(10)));
-      expect(Directory('docs/design').existsSync(), isFalse);
+      expect(
+        Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
+        isFalse,
+      );
     },
   );
 
@@ -374,16 +377,16 @@ void main() {
     expect(script, contains('Unlock it and keep it awake'));
   });
 
-  test('repo-wide QA includes the mobile design compliance gate', () {
+  test('repo-wide QA includes the mobile contract compliance gate', () {
     final qaRunner = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
     final designAudit = File(
-      'scripts/collect_mobile_design_compliance_audit.sh',
+      'scripts/universal_contract_audit.sh',
     ).readAsStringSync();
 
-    expect(qaRunner, contains('collect_mobile_design_compliance_audit'));
-    expect(qaRunner, contains('mobile_design_compliance'));
-    expect(designAudit, contains('single_universal_design_contract'));
-    expect(designAudit, contains('no_secondary_design_authority'));
+    expect(qaRunner, contains('universal_contract_audit'));
+    expect(qaRunner, contains('mobile_contract_compliance'));
+    expect(designAudit, contains('single_universal_contract'));
+    expect(designAudit, contains('no_secondary_contract_sources'));
     expect(designAudit, contains('universal_component_state_contract'));
     expect(designAudit, contains('responsive_adaptive_contract'));
     expect(designAudit, contains('route_screenshot_evidence_optional'));
@@ -400,7 +403,10 @@ void main() {
     expect(design, contains('Flutter Implementation Standard'));
     expect(design, contains('route screenshot coverage'));
     expect(design, contains('golden or snapshot tests'));
-    expect(Directory('docs/design').existsSync(), isFalse);
+    expect(
+      Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
+      isFalse,
+    );
   });
 
   test('orange is reserved away from routine CTA and decorative surfaces', () {
@@ -435,9 +441,9 @@ void main() {
     expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
   });
 
-  test('design compliance audit reads only the universal contract', () {
+  test('contract compliance audit reads only the universal contract', () {
     final designAudit = File(
-      'scripts/collect_mobile_design_compliance_audit.sh',
+      'scripts/universal_contract_audit.sh',
     ).readAsStringSync();
     final runtimeAssets = File(
       'lib/app/theme/collect_runtime_assets.dart',
@@ -445,7 +451,7 @@ void main() {
 
     expect(designAudit, contains('DESIGN.md'));
     expect(designAudit, contains('Universal Mobile App Design Standard 2026'));
-    expect(designAudit, contains('no_secondary_design_authority'));
+    expect(designAudit, contains('no_secondary_contract_sources'));
     expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
     expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
   });

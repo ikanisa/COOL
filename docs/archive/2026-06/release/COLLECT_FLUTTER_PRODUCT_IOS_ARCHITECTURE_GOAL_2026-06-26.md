@@ -40,15 +40,14 @@ from the available workspace and account context.
 
 ## Architecture And Module Map
 
-- `lib/app/`: app shell, router, environment, and Collect theme.
-- `lib/app/theme/`: source-controlled design tokens for color, spacing,
-  typography, radius, shadows, icons, motion, and component tokens.
+- `lib/app/`: app shell, router, environment, and runtime theme implementation.
+- `lib/app/theme/`: runtime implementation for color, spacing, typography,
+  radius, shadows, icons, and motion. `DESIGN.md` is the sole design source.
 - `lib/core/`: security, Supabase, notifications, logging, and utility
   primitives.
 - `lib/shared/`: models, repository, providers, and reusable Collect widgets.
 - `lib/features/`: user-facing mobile features split by auth, launch, home,
-  collections, payments, ledger, profile, settings, landing, status, and dev
-  design-system catalog.
+  collections, payments, ledger, profile, settings, landing, and status.
 - `lib/admin/`: separate admin app shell, router, runtime, guards, repository
   abstractions, and shared admin components.
 - `supabase/functions/`: Edge Function layer for OTP, SMS ingestion/parsing,
@@ -70,13 +69,13 @@ feature-to-feature internal imports.
 - Keep semantic labels on non-text controls and avoid color-only status
   communication.
 - Keep reduced-motion expectations in shared motion/component primitives.
-- Treat the development design-system catalog route as a validation aid only:
+- Treat the development runtime component catalog route as a validation aid only:
   production route contracts must not depend on debug-only screens.
 
 Current source evidence supports this posture:
 
-- `collect_mobile_design_compliance_audit` passes in the current gate surface.
-- `flutter test --no-pub` passes with design-system, mobile-completion,
+- `universal_contract_audit` passes in the current gate surface.
+- `flutter test --no-pub` passes with runtime component, mobile-completion,
   app-shell, landing, security, release-docs, repository, and persona tests.
 
 ## Backend, Privacy, And Payment Boundaries
@@ -317,8 +316,8 @@ pass.
 
 Code-owned Flutter source health is green for this pass. Fresh Flutter-test
 route evidence now covers all `56` mobile route-smoke routes at `390x844` in
-`.cache/flutter_visual_evidence_premium_frontend/mobile/summary.json`, and
-`scripts/collect_mobile_design_compliance_audit.sh --json` passes when paired
+`.cache/flutter_route_evidence_premium_frontend/mobile/summary.json`, and
+`scripts/universal_contract_audit.sh --json` passes when paired
 with the real Android UAT pass summary. Release remains `NO-GO` because
 production Android APK/AAB artifacts cannot be produced with the currently
 configured local signing key and because iOS/App Store upload still

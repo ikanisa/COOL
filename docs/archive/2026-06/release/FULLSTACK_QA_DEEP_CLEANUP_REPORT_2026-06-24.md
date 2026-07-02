@@ -20,8 +20,8 @@ The remaining hard blockers are not dead-code findings. They are release-signing
 
 ## Findings Fixed In This Pass
 
-- Fixed Dart formatter drift in `test/features/design_system_components_test.dart`.
-- Fixed `scripts/collect_mobile_design_compliance_audit.sh` so the design audit reads `collect_chrome.dart` plus declared Dart part files. The previous audit only read the barrel file, so it falsely reported that `PremiumScaffold` and `CollectBrandMark` were missing after the recent refactor moved them into `collect_scaffold_chrome.dart` and `collect_top_chrome.dart`.
+- Fixed Dart formatter drift in `test/features/runtime_component_contract_test.dart`.
+- Fixed `scripts/universal_contract_audit.sh` so the contract audit reads `collect_chrome.dart` plus declared Dart part files. The previous audit only read the barrel file, so it falsely reported that `PremiumScaffold` and `CollectBrandMark` were missing after the recent refactor moved them into `collect_scaffold_chrome.dart` and `collect_top_chrome.dart`.
 - Aligned the local pinned Flutter checkout at `/Volumes/PRO-G40/flutter_3_44` with `.fvmrc`: Flutter `3.44.3`, Dart `3.12.2`. The checkout is intentionally detached at the exact `3.44.3` release tag for reproducible validation.
 
 ## QA Evidence
@@ -38,7 +38,7 @@ The remaining hard blockers are not dead-code findings. They are release-signing
 - `./scripts/repo_wide_qa_uat.sh --json`: fail as expected from release gates. Passing surfaces included Flutter tests, secret scan, product-boundary scan, Admin PWA build/manifest/hosting/live/render smoke, and mobile route render smoke.
 - Mobile route render smoke: pass, 58 compact-viewport route screenshots generated and validated.
 - Admin PWA live deployment gate: pass.
-- Post-fix design compliance rerun: all source/design checks pass, including gradient/glass, brand asset, semantic palette, route screenshots, and raw UI color checks. The only remaining design compliance failure is `android_device_uat_evidence`, inherited from the Android signing guard failure.
+- Post-fix contract compliance rerun: all source/design checks pass, including gradient/glass, brand asset, semantic palette, route screenshots, and raw UI color checks. The only remaining contract compliance failure is `android_device_uat_evidence`, inherited from the Android signing guard failure.
 - Android APK/AAB release builds: fail at signing fingerprint guard.
 - Android device UAT: fail at the same signing fingerprint guard.
 - Release status and go-live gates: `NO-GO`, blocker key `android_release_artifacts`.

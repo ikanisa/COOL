@@ -232,19 +232,19 @@ void main() {
   });
 
   test('Collect runtime asset switchpoints use installed runtime inputs', () {
-    expect(_pngSize('assets/brand/collect_app_icon_static.png'), (
+    expect(_pngSize('assets/runtime/collect_app_icon_static.png'), (
       width: 512,
       height: 512,
     ));
     expect(
-      _pngSize('assets/brand/collect_runtime/app_icons/app-icon-rule.png'),
+      _pngSize('assets/runtime/collect_runtime/app_icons/app-icon-rule.png'),
       (width: 512, height: 512),
     );
-    expect(_pngSize('assets/brand/collect_runtime/logos/wordmark.png'), (
+    expect(_pngSize('assets/runtime/collect_runtime/logos/wordmark.png'), (
       width: 1024,
       height: 299,
     ));
-    expect(_pngSize('assets/brand/collect_runtime/splash/splash_mark.png'), (
+    expect(_pngSize('assets/runtime/collect_runtime/splash/splash_mark.png'), (
       width: 512,
       height: 512,
     ));
@@ -254,7 +254,7 @@ void main() {
     );
     expect(
       CollectRuntimeAssets.splashMarkAssetPath,
-      'assets/brand/collect_runtime/splash/splash_mark.png',
+      'assets/runtime/collect_runtime/splash/splash_mark.png',
     );
     expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
       width: 1024,
@@ -270,21 +270,21 @@ void main() {
     ));
     expect(
       CollectRuntimeAssets.expectedWordmarkPath,
-      'assets/brand/collect_runtime/logos/wordmark.png',
+      'assets/runtime/collect_runtime/logos/wordmark.png',
     );
     expect(
       CollectRuntimeAssets.expectedAppIconPath,
-      'assets/brand/collect_runtime/app_icons/app_icon.png',
+      'assets/runtime/collect_runtime/app_icons/app_icon.png',
     );
     expect(
       CollectRuntimeAssets.expectedSplashMarkPath,
-      'assets/brand/collect_runtime/splash/splash_mark.png',
+      'assets/runtime/collect_runtime/splash/splash_mark.png',
     );
     expect(
       File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
       contains('SizedBox.expand'),
     );
-    expect(Directory('assets/brand/generated').existsSync(), isFalse);
+    expect(Directory('assets/runtime/generated').existsSync(), isFalse);
     expect(_pngSize('web/icons/collect-web-512.png'), (
       width: 512,
       height: 512,

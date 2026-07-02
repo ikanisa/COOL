@@ -15,6 +15,6 @@ import 'collect_display_primitives.dart';
 import 'collect_foundation.dart';
 import 'collect_tone_icon.dart';
 
-part 'collect_state_visuals.dart';
+part 'collect_state_illustrations.dart';
 part 'collect_state_feedback.dart';
 part 'collect_loading_surfaces.dart';

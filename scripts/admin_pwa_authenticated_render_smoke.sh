@@ -105,7 +105,7 @@ capture_route() {
   local profile="$EVIDENCE_DIR/${name}-profile"
   local url="$BASE_URL/#$route"
 
-  "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+  "$NODE" "$ROOT_DIR/scripts/chrome_cdp_capture.mjs" \
     --chrome "$CHROME" \
     --url "$url" \
     --output "$png" \

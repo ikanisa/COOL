@@ -14,7 +14,7 @@ case "${1:-}" in
     ;;
 esac
 
-summary_json="$(./scripts/collect_mobile_design_compliance_audit.sh --json)"
+summary_json="$(./scripts/universal_contract_audit.sh --json)"
 
 OUTPUT_FORMAT="$output_format" SUMMARY_JSON="$summary_json" ruby -r json <<'INNER_RUBY'
 summary = JSON.parse(ENV.fetch("SUMMARY_JSON"))

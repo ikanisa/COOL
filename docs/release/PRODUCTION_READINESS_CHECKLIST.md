@@ -59,7 +59,7 @@ TMPDIR=/Volumes/PRO-G40/tmp/cool-flutter-test /Volumes/PRO-G40/flutter_3_44/bin/
   test/admin_pwa_test.dart \
   test/app_shell_test.dart \
   test/core/phone_and_public_id_test.dart \
-  test/features/design_system_components_test.dart \
+  test/features/runtime_component_contract_test.dart \
   test/features/widgets_test.dart \
   test/persona_uat_smoke_test.dart \
   test/shared/collect_repository_test.dart \

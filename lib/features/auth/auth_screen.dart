@@ -104,7 +104,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     CollectSpacing.x5,
                   ),
                   children: [
-                    const AuthBrandHeader(),
+                    const AuthIdentityHeader(),
                     SizedBox(
                       height:
                           MediaQuery.sizeOf(context).height *

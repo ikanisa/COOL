@@ -70,7 +70,7 @@ Bring the COOL repository to a defensible fullstack QA and cleanup state: active
 ## Success Criteria
 
 - Formatter and analyzer pass.
-- Focused app shell, design-system, accessibility/responsiveness, and security tests pass.
+- Focused app shell, runtime component, accessibility/responsiveness, and security tests pass.
 - Public website quality gate passes.
 - Mobile route render smoke passes for all production routes.
 - Admin PWA build, hosting, live, and render gates pass.
@@ -83,7 +83,7 @@ The first implementation pass is documented in `docs/release/FULLSTACK_QA_DEEP_C
 
 Code-owned fixes completed:
 
-- Formatter drift removed from `test/features/design_system_components_test.dart`.
+- Formatter drift removed from `test/features/runtime_component_contract_test.dart`.
 - Design compliance audit updated to read Dart part files for the refactored `collect_chrome.dart` library.
 - Local pinned Flutter checkout aligned to `.fvmrc`: `/Volumes/PRO-G40/flutter_3_44` now reports Flutter `3.44.3` and Dart `3.12.2`.
 

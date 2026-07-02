@@ -25,7 +25,7 @@ evidence_dir = ENV.fetch("PUBLIC_WEBSITE_EVIDENCE_DIR", "output/public_website_e
 
 status = completion.fetch("status") == "pass" ? "GO" : "NO-GO"
 missing = completion.fetch("missing_external")
-visual_evidence = missing.key?("visual_approval") ?
+route_evidence = missing.key?("visual_approval") ?
   "Requires owner visual approval or exact-dimension screenshot set." :
   "Exact-dimension screenshots and browser QA evidence are recorded under #{evidence_dir}/screenshots/ and #{evidence_dir}/browser_visual_qa.json."
 lighthouse_evidence = missing.key?("lighthouse_mobile") || missing.key?("lighthouse_desktop") ?
@@ -41,7 +41,7 @@ rows = [
   ["U-2 Collect-specific proof", missing.key?("collect_product_proof") ? "NO-GO" : "PASS", "Requires owner-approved Collect-specific proof or explicit deferral."],
   ["U-3 credit-readiness explanation", "PASS", "Live gate verifies the near-top explainer and provider-decision language."],
   ["U-4 localization", "PASS", "Owner direction is English-only for the public website; no `/rw/` or `/fr/` routes or translation approval gate is required."],
-  ["U-5 visual quality", missing.key?("visual_approval") ? "NO-GO" : "PASS", visual_evidence],
+  ["U-5 visual quality", missing.key?("visual_approval") ? "NO-GO" : "PASS", route_evidence],
   ["Lighthouse/Core Web Vitals", missing.key?("lighthouse_mobile") || missing.key?("lighthouse_desktop") ? "NO-GO" : "PASS", lighthouse_evidence],
   ["Play Console action boundary", missing.key?("play_console_approval") ? "NO-GO" : "PASS", missing.key?("play_console_approval") ? "Requires Play Console update proof or explicit release-owner deferral; Play Console action is delegated to Codex when account access and source-of-truth metadata are available." : "Accepted Play Console privacy/account/data deletion URL evidence is recorded under #{evidence_dir}/play-console/."],
 ]
@@ -123,7 +123,7 @@ lines << "```bash"
 lines << "scripts/public_website_quality_gate.sh --json"
 lines << "scripts/public_website_live_gate.sh --json"
 lines << "scripts/public_website_audit_evidence.sh"
-lines << "node scripts/public_website_playwright_visual_qa.js"
+lines << "node scripts/public_website_browser_qa.js"
 lines << "scripts/public_website_completion_gate.sh --json"
 lines << "scripts/public_website_external_evidence_audit.sh"
 lines << "```"

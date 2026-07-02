@@ -51,7 +51,7 @@ Current focused validation after this addendum:
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/admin_pwa_test.dart test/supabase_contract_test.dart` passed.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart test/supabase_contract_test.dart` passed with 113 focused regression tests after the final tokenized modal-sheet color change.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/supabase_contract_test.dart` passed after live Supabase migration application.
-- Fresh follow-up route evidence passed at `.cache/flutter_visual_evidence_followup_20260627/admin/summary.json`, covering admin login, overview, payment events, and SMS detail at mobile and desktop sizes.
+- Fresh follow-up route evidence passed at `.cache/flutter_route_evidence_followup_20260627/admin/summary.json`, covering admin login, overview, payment events, and SMS detail at mobile and desktop sizes.
 - `scripts/release_secret_scan.sh` passed using the fallback tracked-file scanner because `gitleaks` is not installed locally.
 - `scripts/collect_product_boundary_scan.sh --json` passed with zero hits across 156 scanned files.
 - `scripts/admin_pwa_release_build.sh` now restamps an existing generated `collect-admin-<hash>` service-worker cache name and replaces any inherited favicon link with `icons/collect-admin.png`; the Admin PWA build, manifest gate, and hosting gate passed after this fix.

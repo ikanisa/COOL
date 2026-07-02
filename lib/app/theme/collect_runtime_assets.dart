@@ -1,7 +1,7 @@
 class CollectRuntimeAssets {
   const CollectRuntimeAssets._();
 
-  static const collectAssetRoot = 'assets/brand/collect_runtime';
+  static const collectAssetRoot = 'assets/runtime/collect_runtime';
   static const logoAssetRoot = '$collectAssetRoot/logos';
   static const appIconAssetRoot = '$collectAssetRoot/app_icons';
   static const splashAssetRoot = '$collectAssetRoot/splash';
@@ -30,12 +30,10 @@ class CollectRuntimeAssets {
       'ios/Runner/Assets.xcassets/LaunchImage.imageset';
 
   static const requiredBlockerKeys = <String>[
-    'collect_logo_wordmark_assets',
-    'collect_platform_icon_assets',
-    'collect_splash_launch_assets',
-    'collect_icon_set_mapping',
-    'collect_component_tokens',
-    'collect_route_reference_matrix',
-    'collect_public_web_assets',
+    'runtime_wordmark_asset',
+    'runtime_platform_icon_asset',
+    'runtime_splash_launch_asset',
+    'runtime_public_web_asset',
+    'universal_contract',
   ];
 }

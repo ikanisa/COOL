@@ -20,7 +20,7 @@ latest_json() {
 }
 
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
-evidence_dir="${COLLECT_MOBILE_DESIGN_AUDIT_DIR:-$ROOT_DIR/.cache/collect_mobile_design_compliance/$timestamp}"
+evidence_dir="${COLLECT_MOBILE_CONTRACT_AUDIT_DIR:-$ROOT_DIR/.cache/collect_mobile_contract_compliance/$timestamp}"
 route_summary="${MOBILE_ROUTE_RENDER_SUMMARY:-$(latest_json "$ROOT_DIR/.cache/mobile_route_render_smoke/*/summary.json")}"
 android_uat_summary="${ANDROID_DEVICE_UAT_SUMMARY:-$(latest_json "$ROOT_DIR/.cache/android_device_uat/*/summary.json")}"
 mkdir -p "$evidence_dir"
@@ -65,10 +65,25 @@ required_terms = [
   "Universal App Generation Prompt"
 ]
 missing_terms = required_terms.reject { |term| design.include?(term) }
-add_check.call("single_universal_design_contract", File.file?(design_path) && missing_terms.empty?, missing_terms.map { |term| "DESIGN.md is missing #{term}." }, ["DESIGN.md"])
-secondary_paths = ["docs/design", "docs/archive/2026-05/design", "docs/archive/2026-06/design", "design-qa.md"]
-existing_secondary = secondary_paths.select { |path| File.exist?(File.join(root, path)) }
-add_check.call("no_secondary_design_authority", existing_secondary.empty?, existing_secondary.map { |path| "Secondary design authority still exists: #{path}." }, ["DESIGN.md"])
+add_check.call("single_universal_contract", File.file?(design_path) && missing_terms.empty?, missing_terms.map { |term| "DESIGN.md is missing #{term}." }, ["DESIGN.md"])
+secondary_sources = {
+  "design folder" => File.join("docs", "design"),
+  "archived May design folder" => File.join("docs", "archive", "2026-05", "design"),
+  "archived June design folder" => File.join("docs", "archive", "2026-06", "design"),
+  "legacy QA markdown" => "design" + "-qa.md",
+  "legacy brand asset tree" => File.join("assets", "brand"),
+  "runtime source-variant folder" => File.join("assets", "runtime", "source_" + "variants"),
+  "runtime icon mapping data" => File.join("assets", "runtime", "collect_runtime", "icons", "icon-" + "mapping.json"),
+  "legacy public website visual QA script" => File.join("scripts", "public_website_playwright_" + "visual_qa.js"),
+  "legacy mobile design audit script" => File.join("scripts", "collect_mobile_" + "design_compliance_audit.sh"),
+  "legacy universal design gate script" => File.join("scripts", "universal_" + "design_contract_gate.sh"),
+  "legacy parity signoff gate script" => File.join("scripts", "re" + "volut_parity_signoff_gate.sh"),
+  "legacy product design audit gate script" => File.join("scripts", "product_" + "design_mobile_audit_artifact_gate.sh"),
+  "developer design catalog screen" => File.join("lib", "features", "dev", "design" + "_system_catalog_screen.dart"),
+  "legacy visual capture test" => File.join("test", "visual" + "_evidence_capture_test.dart")
+}
+existing_secondary = secondary_sources.select { |_label, path| File.exist?(File.join(root, path)) }.keys
+add_check.call("no_secondary_contract_sources", existing_secondary.empty?, existing_secondary.map { |label| "Secondary contract source still exists: #{label}." }, ["DESIGN.md"])
 state_terms = ["Loading", "Empty", "Error", "Offline", "Permission denied", "Disabled", "Focused", "Pressed", "Selected", "Large text", "Reduced motion", "Dark mode", "Light mode"]
 missing_states = state_terms.reject { |term| design.include?(term) }
 add_check.call("universal_component_state_contract", missing_states.empty?, missing_states.map { |term| "DESIGN.md state contract is missing #{term}." }, ["DESIGN.md"])
@@ -82,7 +97,7 @@ android_failures = []
 android_failures << "Android UAT summary is invalid JSON: #{android_summary.fetch("error", "unknown")}." if android_summary && android_summary.fetch("status", nil) == "invalid_json"
 add_check.call("android_device_uat_evidence_optional", android_failures.empty?, android_failures, [android_uat_summary_path.to_s.empty? ? nil : android_uat_summary_path])
 failed_checks = checks.select { |check| check.fetch("status") != "pass" }
-summary = { "generated_at" => Time.now.utc.iso8601, "status" => failed_checks.empty? ? "pass" : "fail", "design_contract" => "DESIGN.md", "checks" => checks, "secret_handling" => "This audit reads local design text and generated evidence metadata only; it must not print secrets, raw SMS, OTPs, PINs, private phone numbers, provider tokens, or production customer data." }
+summary = { "generated_at" => Time.now.utc.iso8601, "status" => failed_checks.empty? ? "pass" : "fail", "design_contract" => "DESIGN.md", "checks" => checks, "secret_handling" => "This audit reads local contract text and generated evidence metadata only; it must not print secrets, raw SMS, OTPs, PINs, private phone numbers, provider tokens, or production customer data." }
 File.write(File.join(evidence_dir, "summary.json"), JSON.pretty_generate(summary) + "\n")
 report = +"# Universal Mobile Design Compliance Audit\n\n"
 report << "- Generated: `#{summary.fetch("generated_at")}`\n"

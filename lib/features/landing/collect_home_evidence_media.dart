@@ -19,7 +19,7 @@ class _MediaProofVisual extends StatelessWidget {
             final image = ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Image.asset(
-                'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+                'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png',
                 height: compact ? 220 : 330,
                 width: double.infinity,
                 fit: BoxFit.cover,

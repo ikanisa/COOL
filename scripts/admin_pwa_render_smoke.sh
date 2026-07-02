@@ -94,7 +94,7 @@ capture() {
   mkdir -p "$profile"
 
   if [[ "$name" == mobile-* ]]; then
-    ADMIN_PWA_CHROME="$CHROME" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+    ADMIN_PWA_CHROME="$CHROME" "$ROOT_DIR/scripts/chrome_cdp_capture.mjs" \
       --chrome "$CHROME" \
       --url "$BASE_URL/" \
       --output "$png" \

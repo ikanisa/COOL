@@ -446,7 +446,7 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
-  test('Universal DESIGN.md is the single current design contract', () {
+  test('Universal DESIGN.md is the single current contract', () {
     final design = File('DESIGN.md').readAsStringSync();
 
     expect(design, contains('Universal Mobile App Design Standard 2026'));
@@ -460,14 +460,16 @@ Date/time: 2026-06-01T12:30:00Z
     expect(design, contains('Visual QA Standard'));
     expect(design, contains('Flutter Implementation Standard'));
     expect(design, contains('Quality Gates'));
-    expect(Directory('docs/design').existsSync(), isFalse);
+    expect(
+      Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
+      isFalse,
+    );
   });
 
-  test('universal design gate passes current contract', () {
-    final result = Process.runSync(
-      './scripts/universal_design_contract_gate.sh',
-      ['--json'],
-    );
+  test('universal contract gate passes current contract', () {
+    final result = Process.runSync('./scripts/universal_contract_gate.sh', [
+      '--json',
+    ]);
 
     expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
@@ -478,15 +480,15 @@ Date/time: 2026-06-01T12:30:00Z
     expect(decoded['checks'], isA<Map<String, dynamic>>());
   });
 
-  test('universal design gate blocks an incomplete contract', () {
+  test('universal contract gate blocks an incomplete contract', () {
     final tempDir = Directory.systemTemp.createTempSync(
-      'cool_universal_design_contract_',
+      'cool_universal_contract_',
     );
     try {
       final contract = File('${tempDir.path}/incomplete_design.md')
         ..writeAsStringSync('# Incomplete\n');
       final result = Process.runSync(
-        './scripts/universal_design_contract_gate.sh',
+        './scripts/universal_contract_gate.sh',
         ['--json'],
         environment: {'UNIVERSAL_DESIGN_CONTRACT': contract.path},
       );
@@ -496,7 +498,7 @@ Date/time: 2026-06-01T12:30:00Z
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
       expect(decoded['status'], 'blocked');
       expect(decoded['decision'], 'NO-GO');
-      expect(decoded['blocker_keys'], contains('universal_design_contract'));
+      expect(decoded['blocker_keys'], contains('universal_contract'));
       expect(decoded['blockers'], isNotEmpty);
     } finally {
       tempDir.deleteSync(recursive: true);
@@ -994,7 +996,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   });
 
   test(
-    'legacy mobile route audit command delegates to universal design gate',
+    'legacy mobile route audit command delegates to universal contract gate',
     () {
       final script = File(
         'scripts/mobile_route_artifact_gate.sh',
@@ -1005,7 +1007,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         'scripts/release_evidence_index.sh',
       ).readAsStringSync();
 
-      expect(script, contains('collect_mobile_design_compliance_audit.sh'));
+      expect(script, contains('universal_contract_audit.sh'));
       expect(script, contains('DESIGN.md'));
       expect(script, contains('design_contract'));
       expect(makefile, contains('mobile-route-artifact-gate:'));
@@ -1028,13 +1030,11 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       final checks = (decoded['checks'] as List<dynamic>)
           .cast<Map<String, dynamic>>();
       expect(
-        checks.any(
-          (check) => check['id'] == 'single_universal_design_contract',
-        ),
+        checks.any((check) => check['id'] == 'single_universal_contract'),
         isTrue,
       );
       expect(
-        checks.any((check) => check['id'] == 'no_secondary_design_authority'),
+        checks.any((check) => check['id'] == 'no_secondary_contract_sources'),
         isTrue,
       );
     },

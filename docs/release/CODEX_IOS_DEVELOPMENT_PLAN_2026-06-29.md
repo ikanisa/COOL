@@ -77,7 +77,7 @@ and preserves the repo's existing release approval boundaries.
   `test/`,
   `integration_test/`,
   `scripts/mobile_route_render_smoke.sh`,
-  `scripts/collect_mobile_design_compliance_audit.sh`,
+  `scripts/universal_contract_audit.sh`,
   `scripts/flutter_mobile_release_gate.sh`,
   `scripts/repo_wide_qa_uat.sh`.
 
@@ -105,7 +105,7 @@ and preserves the repo's existing release approval boundaries.
   - `./scripts/flutter_mobile_release_gate.sh --json`
   - `./scripts/release_status.sh --json`
   - `./scripts/repo_wide_qa_uat.sh --json`
-  - `./scripts/collect_mobile_design_compliance_audit.sh --json`
+  - `./scripts/universal_contract_audit.sh --json`
   - `./scripts/release_secret_scan.sh`
 - Skills to use when relevant:
   - `build-ios-apps:ios-simulator-browser` for mirrored simulator proof.

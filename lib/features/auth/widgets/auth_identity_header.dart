@@ -1,7 +1,7 @@
 part of 'auth_screen_widgets.dart';
 
-class AuthBrandHeader extends StatelessWidget {
-  const AuthBrandHeader({super.key});
+class AuthIdentityHeader extends StatelessWidget {
+  const AuthIdentityHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

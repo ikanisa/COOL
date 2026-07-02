@@ -15,7 +15,7 @@
 - Flutter data-layer guidance treats repositories as the source of truth and services as stateless wrappers around external APIs or platform plugins.
 - Flutter accessibility guidance makes accessibility a release criterion, not a late polish step.
 - Flutter performance guidance prioritizes controlling build cost, minimizing opacity/clipping and intrinsic layout passes, efficient lists, and measuring frame work before claiming performance readiness.
-- Material 3 remains the design-system reference, but Collect-specific semantic tokens and components should remain the source of truth in code.
+- Material 3 remains the runtime component reference, but Collect-specific semantic tokens and components should remain the source of truth in code.
 
 ## Cleanup Already Landed In Baseline
 
@@ -70,7 +70,7 @@
   - Moved `MinimalStatePanel`, `EmptySearchState`, `CollectWizardProgress`, `FormSectionCard`, `CollectPermissionRecoveryPanel`, `NotificationUpdateRow`, `CollectEmptyState`, `CollectErrorState`, `LoadingSkeleton`, `LoadingStatePanel`, `CollectBottomSheet`, and `InfoSecurityBanner`.
   - `collect_components.dart` re-exports `collect_state_panels.dart` so existing route imports remain stable.
 - Split shared state, feedback, loading, and sheet surfaces from `lib/shared/widgets/collect_state_panels.dart` into focused library parts.
-  - Moved minimal/empty visual state panels and generated state asset selection into `lib/shared/widgets/collect_state_visuals.dart`.
+  - Moved minimal/empty visual state panels and generated state asset selection into `lib/shared/widgets/collect_state_illustrations.dart`.
   - Moved wizard progress, form section cards, permission recovery, notification rows, and safety banners into `lib/shared/widgets/collect_state_feedback.dart`.
   - Moved empty/error full-screen states, loading skeletons, loading panels, and bottom sheets into `lib/shared/widgets/collect_loading_surfaces.dart`.
   - Kept `collect_state_panels.dart` as the public library shell exported by `collect_components.dart`.
@@ -78,7 +78,7 @@
   - Moved visual feature cards, compact list tiles, compact data-subtitle selection, and empty illustration states into `lib/shared/widgets/collect_feature_surfaces.dart`.
   - Moved bento grids, bento metric cells, quick-action buttons/rails, and insight cards into `lib/shared/widgets/collect_bento_actions.dart`.
   - Moved segmented filters and clipboard snack-bar helper into `lib/shared/widgets/collect_selection_controls.dart`.
-  - Kept `collect_components.dart` as the stable public barrel exported and imported by active route, admin, design-system, and test surfaces.
+  - Kept `collect_components.dart` as the stable public barrel exported and imported by active route, admin, runtime component, and test surfaces.
 - Extracted financial, payment, and ledger components from `lib/shared/widgets/collect_components.dart` into `lib/shared/widgets/collect_financial_components.dart`.
   - Moved `MoneyCard`, `AmountHero`, `FinancialListRow`, `AmountEntryPanel`, `PaymentReviewSummary`, `PaymentIntentStatusCard`, `PaymentPipelineIndicator`, `PaymentVerifiedRing`, `LedgerRow`, `ReceiverConsentCard`, `MoneyHeroCard`, `ActivityFeedItem`, payment status label/tone helpers, Collect ID label compaction, and MoMo number masking together.
   - `collect_components.dart` re-exports `collect_financial_components.dart` so payment, ledger, design-catalog, and status screens keep their existing imports.
@@ -108,7 +108,7 @@
   - Moved featured/public group layout and contribution action button into `lib/features/home/home_public_groups_section.dart`.
   - Kept `home_screen.dart` focused on Riverpod state selection, route chrome, route-level section ordering, my-groups rendering, and activity rendering.
 - Split auth presentation widgets from `lib/features/auth/widgets/auth_screen_widgets.dart` into focused library parts.
-  - Moved brand mark and auth headline rendering into `lib/features/auth/widgets/auth_brand_header.dart`.
+  - Moved brand mark and auth headline rendering into `lib/features/auth/widgets/auth_identity_header.dart`.
   - Moved the auth input panel, WhatsApp phone entry, phone anchor, and authentication notice into `lib/features/auth/widgets/auth_input_panel.dart`.
   - Moved the six-digit OTP entry state machine into `lib/features/auth/widgets/auth_otp_entry.dart`.
   - Moved submit, change-number, and resend dock actions into `lib/features/auth/widgets/auth_action_dock.dart`.
@@ -184,7 +184,7 @@
   - Kept shared landing primitives such as `_SectionBand`, `_SectionIntro`, navigation, and route assembly in `collect_landing_page.dart` because multiple remaining homepage and public sections still use them.
   - Used a Dart `part` file to preserve private helper access without route/import churn.
 - Split homepage product-media internals from `lib/features/landing/collect_home_product_media.dart` into focused landing parts.
-  - Moved the reusable phone mockup, card, readiness, navigation, ledger, discipline, and floating-panel widgets into `lib/features/landing/collect_home_phone_mockup.dart`.
+  - Moved the reusable phone mockup, card, readiness, navigation, ledger, discipline, and floating-panel widgets into `lib/features/landing/collect_home_phone_preview.dart`.
   - Moved product evidence image, evidence stack rows, and evidence item model into `lib/features/landing/collect_home_evidence_media.dart`.
   - Kept `collect_home_product_media.dart` focused on the public-white product media section composition.
 - Split lower homepage sections and public CTA/footer rendering from `lib/features/landing/collect_landing_page.dart`.
@@ -308,7 +308,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
    - Preserve Riverpod as the DI/state pattern; do not add another state framework.
    - Keep `CollectRepository` as the existing data source first, then split only by proven domain seams such as collections, payments, profile, notifications, and admin.
 
-4. Consolidate design-system ownership.
+4. Consolidate runtime component ownership.
    - Treat `lib/app/theme/*` plus `lib/shared/widgets/*` as the source of truth.
    - Replace one-off repeated styling inside feature screens with named tokens/components.
    - Keep dark mode, large text, reduced motion, and minimum target size checks in widget tests or render smoke where practical.
@@ -319,7 +319,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 
 6. Reduce tracked documentation noise.
    - Keep current docs: README, architecture, environment, database, Supabase operations, privacy/compliance, current release decision, current Play/public website goals.
-   - Move historical evidence reports and dated design audits out of the production repo or into a separately approved archive folder.
+   - Move historical evidence reports and dated contract audits out of the production repo or into a separately approved archive folder.
 
 7. Performance and UI/UX proof.
    - Add route-level journey matrices for mobile, admin, and public website.
@@ -349,8 +349,8 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format ...`: pass.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/landing_page_test.dart test/features/widgets_test.dart test/features/design_system_components_test.dart test/security_hygiene_test.dart`: pass, 73 tests.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart`: pass, 41 tests after dead component removal.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/landing_page_test.dart test/features/widgets_test.dart test/features/runtime_component_contract_test.dart test/security_hygiene_test.dart`: pass, 73 tests.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart`: pass, 41 tests after dead component removal.
 - `bash scripts/public_landing_prepare_build.sh && ./scripts/public_website_quality_gate.sh --json`: pass, 34/34 static public website checks after regenerating `build/public_web`.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after release/evidence cleanup.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/features/status/device_privacy_screens.dart lib/features/status/device_permission_screens.dart lib/features/status/device_privacy_data_screen.dart lib/features/status/device_notification_center.dart lib/features/status/device_support_screen.dart test/app_shell_test.dart`: pass after device/privacy route split.
@@ -366,7 +366,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `bash scripts/public_landing_prepare_build.sh && ./scripts/public_website_quality_gate.sh --json`: pass, 34/34 static public website checks after public page content split.
 - Ruby Dart import/export/part reachability scan: pass, 142 of 143 `lib/**/*.dart` files reachable from app entrypoints, with only `lib/core/security/play_integrity_service.dart` intentionally retained outside direct Dart entrypoint reachability.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after public page content split and audit update.
-- `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/features/landing/collect_landing_page.dart lib/features/landing/collect_home_product_media.dart lib/features/landing/collect_home_phone_mockup.dart lib/features/landing/collect_home_evidence_media.dart`: pass after homepage product-media internals split.
+- `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/features/landing/collect_landing_page.dart lib/features/landing/collect_home_product_media.dart lib/features/landing/collect_home_phone_preview.dart lib/features/landing/collect_home_evidence_media.dart`: pass after homepage product-media internals split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for homepage product-media internals split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after homepage product-media internals split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/landing_page_test.dart`: pass, 7 tests after homepage product-media internals split.
@@ -390,16 +390,16 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - Ruby Dart import/export/part reachability scan: pass, 152 of 153 `lib/**/*.dart` files reachable from app entrypoints, with only `lib/core/security/play_integrity_service.dart` intentionally retained outside direct Dart entrypoint reachability.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after collection detail presentation split and audit update.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after final cleanup edits.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart`: pass, 41 tests after tone-icon and state/loading panel extraction.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart`: pass, 41 tests after tone-icon and state/loading panel extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after tone-icon and state/loading panel extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after tone-icon and state/loading panel extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_components.dart lib/shared/widgets/collect_feature_surfaces.dart lib/shared/widgets/collect_bento_actions.dart lib/shared/widgets/collect_selection_controls.dart`: pass after remaining shared component split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for remaining shared component split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after remaining shared component split.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart test/features/mobile_completion_test.dart test/app_shell_test.dart`: pass, 73 tests after remaining shared component split.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart test/features/mobile_completion_test.dart test/app_shell_test.dart`: pass, 73 tests after remaining shared component split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after remaining shared component split.
 - Ruby Dart import/export/part reachability scan: pass, 123 of 124 `lib/**/*.dart` files reachable from app entrypoints, with only `lib/core/security/play_integrity_service.dart` intentionally retained outside direct Dart entrypoint reachability.
-- `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/features/auth/widgets/auth_screen_widgets.dart lib/features/auth/widgets/auth_brand_header.dart lib/features/auth/widgets/auth_input_panel.dart lib/features/auth/widgets/auth_otp_entry.dart lib/features/auth/widgets/auth_action_dock.dart`: pass after auth widget split.
+- `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/features/auth/widgets/auth_screen_widgets.dart lib/features/auth/widgets/auth_identity_header.dart lib/features/auth/widgets/auth_input_panel.dart lib/features/auth/widgets/auth_otp_entry.dart lib/features/auth/widgets/auth_action_dock.dart`: pass after auth widget split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for auth widget split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after auth widget split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/mobile_completion_test.dart test/app_shell_test.dart`: pass, 32 tests after auth widget split.
@@ -422,7 +422,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for financial component extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_components.dart lib/shared/widgets/collect_financial_components.dart`: pass after financial component extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after financial component extraction.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart`: pass, 41 tests after financial component extraction.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart`: pass, 41 tests after financial component extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after financial component extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for group-card media extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_group_cards.dart lib/shared/widgets/collect_group_card_media.dart test/app_shell_test.dart`: pass after group-card media extraction.
@@ -436,7 +436,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for financial part split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_financial_components.dart lib/shared/widgets/collect_financial_money.dart lib/shared/widgets/collect_financial_payments.dart lib/shared/widgets/collect_financial_ledger.dart`: pass after financial part split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after financial part split.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart test/features/mobile_completion_test.dart`: pass, 57 tests after financial part split.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart test/features/mobile_completion_test.dart`: pass, 57 tests after financial part split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after financial part split.
 - Ruby Dart import/export/part reachability scan: pass, 110 of 111 `lib/**/*.dart` files reachable from app entrypoints, with only `lib/core/security/play_integrity_service.dart` intentionally retained outside direct Dart entrypoint reachability.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for public content part split.
@@ -449,7 +449,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_chrome.dart lib/shared/widgets/collect_top_chrome.dart lib/shared/widgets/collect_scaffold_chrome.dart test/app_shell_test.dart`: pass after shared chrome/scaffold split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for shared chrome/scaffold split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after shared chrome/scaffold split.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/features/design_system_components_test.dart test/features/mobile_completion_test.dart`: pass, 62 tests after shared chrome/scaffold split.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/app_shell_test.dart test/features/runtime_component_contract_test.dart test/features/mobile_completion_test.dart`: pass, 62 tests after shared chrome/scaffold split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after shared chrome/scaffold split.
 - Ruby Dart import/export/part reachability scan: pass, 114 of 115 `lib/**/*.dart` files reachable from app entrypoints, with only `lib/core/security/play_integrity_service.dart` intentionally retained outside direct Dart entrypoint reachability.
 - `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/features/status/payment_status_screens.dart lib/features/status/payment_return_state_screens.dart lib/features/status/payment_support_recovery_screens.dart lib/features/status/payment_status_helpers.dart`: pass after payment status route split.
@@ -457,7 +457,7 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after payment status route split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after payment status route split.
 - Ruby Dart import/export/part reachability scan: pass, 117 of 118 `lib/**/*.dart` files reachable from app entrypoints, with only `lib/core/security/play_integrity_service.dart` intentionally retained outside direct Dart entrypoint reachability.
-- `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_state_panels.dart lib/shared/widgets/collect_state_visuals.dart lib/shared/widgets/collect_state_feedback.dart lib/shared/widgets/collect_loading_surfaces.dart`: pass after shared state-panel split.
+- `/Volumes/PRO-G40/flutter_3_44/bin/dart format lib/shared/widgets/collect_state_panels.dart lib/shared/widgets/collect_state_illustrations.dart lib/shared/widgets/collect_state_feedback.dart lib/shared/widgets/collect_loading_surfaces.dart`: pass after shared state-panel split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get`: pass before validation after generated package resolution cleanup for shared state-panel split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after shared state-panel split.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after shared state-panel split.
@@ -498,9 +498,9 @@ This is a staged migration target, not a one-shot move. The repo should keep cur
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after access/trust and primitive extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after payment-status extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after shared foundation/action-control extraction.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart`: pass, 41 tests after shared foundation/action-control extraction.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart`: pass, 41 tests after shared foundation/action-control extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after shared foundation/action-control extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after shared display primitive extraction.
-- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart`: pass, 41 tests after shared display primitive extraction.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/runtime_component_contract_test.dart test/features/widgets_test.dart`: pass, 41 tests after shared display primitive extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/release_docs_test.dart test/security_hygiene_test.dart`: pass, 59 tests after shared display primitive extraction.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`: pass after tone-icon and state/loading panel extraction.

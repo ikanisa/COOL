@@ -10,7 +10,7 @@ UAT passes.
 
 Update 2026-07-02: mobile screen, popup, wizard, and state completion is now
 governed only by root `DESIGN.md`. Any evidence below predates the universal
-design contract unless rerun on the final current worktree.
+contract unless rerun on the final current worktree.
 
 This file intentionally does not carry forward older unverified Supabase
 platform blockers from the previous product definition. Platform blockers must
@@ -41,7 +41,7 @@ refactor is deployed or tested against the linked project.
   - `test/admin_pwa_test.dart`
   - `test/app_shell_test.dart`
   - `test/core/phone_and_public_id_test.dart`
-  - `test/features/design_system_components_test.dart`
+  - `test/features/runtime_component_contract_test.dart`
   - `test/features/widgets_test.dart`
   - `test/persona_uat_smoke_test.dart`
   - `test/shared/collect_repository_test.dart`

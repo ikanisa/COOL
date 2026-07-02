@@ -7,7 +7,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
     title: 'Your group already has trust. Collect adds structure.',
     intro:
         "Every contribution is recorded, every member has a statement, and your group's savings discipline becomes something a bank can understand.",
-    imageAsset: 'assets/brand/collect_runtime/media/group-momentum.png',
+    imageAsset: 'assets/runtime/collect_runtime/media/group-momentum.png',
     metricA: 'Setup',
     metricALabel: 'Group rules',
     metricB: 'Statements',
@@ -83,7 +83,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
     title: 'Group savings that strengthen access to bank credit.',
     intro:
         'Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.',
-    imageAsset: 'assets/brand/collect_runtime/media/qr-share.png',
+    imageAsset: 'assets/runtime/collect_runtime/media/qr-share.png',
     metricA: 'Group records',
     metricALabel: 'Member contributions',
     metricB: 'Preparation',
@@ -144,7 +144,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
     intro:
         'Collect works with licensed insurers on simple protection products, flexible micro-payments, and transparent claims - built for informal and variable-income earners.',
     imageAsset:
-        'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+        'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png',
     metricA: 'Records',
     metricALabel: 'Customer support',
     metricB: 'Providers',
@@ -204,7 +204,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
     intro:
         'CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.',
     imageAsset:
-        'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+        'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png',
     metricA: 'Readiness',
     metricALabel: 'File support',
     metricB: 'Provider',
@@ -264,7 +264,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
     title: 'Finance works better when communities lead.',
     intro:
         'Collect adds digital tools without changing how your group already leads itself - same relationships, same governance, same rules.',
-    imageAsset: 'assets/brand/collect_runtime/media/group-momentum.png',
+    imageAsset: 'assets/runtime/collect_runtime/media/group-momentum.png',
     metricA: 'Group',
     metricALabel: 'Member records',
     metricB: 'Mobile app',
@@ -325,7 +325,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
     intro:
         'These customers already earn, save, and borrow - just outside the formal system. Collect turns that existing discipline into deposits, data, and bankable credit relationships.',
     imageAsset:
-        'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+        'assets/runtime/collect_runtime/media/mobile-money-ussd-signal.png',
     metricA: 'RWF 288B+',
     metricALabel: 'Annual ibimina savings flow',
     metricB: '4.8M',

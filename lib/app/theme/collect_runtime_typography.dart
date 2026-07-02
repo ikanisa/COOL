@@ -14,8 +14,8 @@ class CollectRuntimeTypography {
   static const monoFallbackFamilies = <String>['JetBrains Mono', 'Roboto Mono'];
 
   static const requiredBlockerKeys = <String>[
-    'collect_font_files',
-    'collect_font_license_metadata',
+    'runtime_font_files',
+    'universal_contract',
   ];
 
   static const collectFontAssetRoot = 'assets/fonts/collect/';

@@ -125,7 +125,7 @@ Accepted evidence paths:
 scripts/public_website_quality_gate.sh --json
 scripts/public_website_live_gate.sh --json
 scripts/public_website_audit_evidence.sh
-node scripts/public_website_playwright_visual_qa.js
+node scripts/public_website_browser_qa.js
 scripts/public_website_completion_gate.sh --json
 scripts/public_website_external_evidence_audit.sh
 ```

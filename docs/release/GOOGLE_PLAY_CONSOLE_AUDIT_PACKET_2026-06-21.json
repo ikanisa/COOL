@@ -30,7 +30,7 @@
     },
     "assets": {
       "launcher_icon": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
-      "brand_icon_source": "assets/brand/collect_app_icon_static.png",
+      "brand_icon_source": "assets/runtime/collect_app_icon_static.png",
       "feature_graphic": {
         "status": "exported",
         "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",

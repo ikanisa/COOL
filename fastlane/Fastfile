@@ -74,8 +74,8 @@ platform :ios do
     iphone_sources = Dir["../output/app_store/ios_screenshots/final/iphone65/*.png"].sort
     ipad_sources = Dir["../output/app_store/ios_screenshots/final/ipadPro129/*.png"].sort
 
-    UI.user_error!("No iPhone 6.5-inch screenshots found. Run scripts/app_store_ios_screenshot_assets.sh first.") if iphone_sources.empty?
-    UI.user_error!("No 13-inch iPad screenshots found. Run scripts/app_store_ios_screenshot_assets.sh first.") if ipad_sources.empty?
+    UI.user_error!("No iPhone 6.5-inch screenshots found. Run scripts/app_store_ios_capture_assets.sh first.") if iphone_sources.empty?
+    UI.user_error!("No 13-inch iPad screenshots found. Run scripts/app_store_ios_capture_assets.sh first.") if ipad_sources.empty?
 
     iphone_sources.each do |source|
       basename = File.basename(source)

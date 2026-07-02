@@ -331,8 +331,8 @@ File.write(
   ) + "\n"
 )
 RUBY
-  mkdir -p "$bundle_dir/collect_mobile_design_compliance"
-  cat > "$bundle_dir/collect_mobile_design_compliance/summary.json" <<'JSON'
+  mkdir -p "$bundle_dir/collect_mobile_contract_compliance"
+  cat > "$bundle_dir/collect_mobile_contract_compliance/summary.json" <<'JSON'
 {
   "status": "pass",
   "design_contract": "DESIGN.md",
@@ -348,11 +348,11 @@ RUBY
   "route_count": 48,
   "checks": [
     {
-      "id": "single_universal_design_contract",
+      "id": "single_universal_contract",
       "status": "pass"
     },
     {
-      "id": "no_secondary_design_authority",
+      "id": "no_secondary_contract_sources",
       "status": "pass"
     },
     {
@@ -382,7 +382,7 @@ RUBY
   ]
 }
 JSON
-  record_fixture "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" 0 "$(cat "$bundle_dir/collect_mobile_design_compliance/summary.json")"
+  record_fixture "universal_contract_audit" "collect_mobile_contract_compliance.txt" 0 "$(cat "$bundle_dir/collect_mobile_contract_compliance/summary.json")"
   cat > "$bundle_dir/worktree_review.json" <<'JSON'
 {
   "status": "blocked",
@@ -575,11 +575,11 @@ else
   fi
 
   if command_ok_recorded "mobile_route_render_smoke" && command_ok_recorded "android_device_uat"; then
-    run_capture "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_DESIGN_AUDIT_DIR="$bundle_dir/collect_mobile_design_compliance" "$ROOT_DIR/scripts/collect_mobile_design_compliance_audit.sh" --json
+    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
   elif command_blocked_recorded "mobile_route_render_smoke" || command_blocked_recorded "android_device_uat"; then
-    record_blocked "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" "Collect mobile design compliance audit skipped because route screenshots or Android device UAT are blocked."
+    record_blocked "universal_contract_audit" "collect_mobile_contract_compliance.txt" "Collect mobile contract compliance audit skipped because route screenshots or Android device UAT are blocked."
   else
-    run_capture "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_DESIGN_AUDIT_DIR="$bundle_dir/collect_mobile_design_compliance" "$ROOT_DIR/scripts/collect_mobile_design_compliance_audit.sh" --json
+    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
   fi
 
   run_capture "release_status_json" "release_status.json" "$ROOT_DIR/scripts/release_status.sh" --json
@@ -655,7 +655,7 @@ worktree_review = read_json(File.join(bundle_dir, "worktree_review.json"))
 artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.json"))
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
-design_compliance = read_json(File.join(bundle_dir, "collect_mobile_design_compliance", "summary.json"))
+design_compliance = read_json(File.join(bundle_dir, "collect_mobile_contract_compliance", "summary.json"))
 mobile_route_artifact = read_json(File.join(bundle_dir, "mobile_route_artifact_gate.json"))
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 android_kotlin_plugin_compat = read_json(File.join(bundle_dir, "android_kotlin_plugin_compat.json"))
@@ -720,10 +720,10 @@ mobile_route_render_surface =
     "fail"
   end
 
-mobile_design_surface =
-  if command_ok?(commands, "collect_mobile_design_compliance_audit") && design_compliance["status"] == "pass"
+mobile_contract_surface =
+  if command_ok?(commands, "universal_contract_audit") && design_compliance["status"] == "pass"
     "pass"
-  elsif command_blocked?(commands, "collect_mobile_design_compliance_audit")
+  elsif command_blocked?(commands, "universal_contract_audit")
     "blocked"
   else
     "fail"
@@ -823,7 +823,7 @@ surfaces = {
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
   "mobile_route_artifacts" => mobile_route_artifact_surface,
-  "mobile_design_compliance" => mobile_design_surface,
+  "mobile_contract_compliance" => mobile_contract_surface,
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
   "android_release_signing_preflight" => android_release_signing_preflight_surface,
@@ -949,7 +949,7 @@ File.write(
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
     - `mobile_route_artifact_gate.json`: DESIGN.md-backed mobile route evidence delegation gate
-    - `collect_mobile_design_compliance/`: universal DESIGN.md authority, component-state, responsive, and optional evidence gate
+    - `collect_mobile_contract_compliance/`: universal DESIGN.md authority, component-state, responsive, and optional evidence gate
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `android_release_signing_preflight.json`: redacted Android Play signing certificate preflight
