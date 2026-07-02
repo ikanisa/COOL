@@ -148,6 +148,22 @@ route_specs=(
   "legal-terms|/settings/legal/terms|utility"
 )
 
+if [[ -n "${MOBILE_ROUTE_RENDER_ROUTE_FILTER:-}" ]]; then
+  IFS=',' read -r -a route_filter_names <<<"$MOBILE_ROUTE_RENDER_ROUTE_FILTER"
+  filtered_route_specs=()
+  for spec in "${route_specs[@]}"; do
+    IFS='|' read -r name _route _route_class <<<"$spec"
+    for filter_name in "${route_filter_names[@]}"; do
+      if [[ "$name" == "$filter_name" ]]; then
+        filtered_route_specs+=("$spec")
+        break
+      fi
+    done
+  done
+  route_specs=("${filtered_route_specs[@]}")
+  [[ "${#route_specs[@]}" -gt 0 ]] || fail "MOBILE_ROUTE_RENDER_ROUTE_FILTER did not match any route specs."
+fi
+
 captures_json="$EVIDENCE_DIR/captures.jsonl"
 : >"$captures_json"
 

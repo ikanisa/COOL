@@ -70,15 +70,25 @@ platform :ios do
   lane :prepare_app_store_assets do
     sh("rm -rf screenshots/en-GB")
     sh("mkdir -p screenshots/en-GB")
-    Dir["../output/app_store/ios_screenshots/final/*.png"].sort.each do |source|
-      basename = File.basename(source).sub(/-1242x2688\.png\z/, ".png")
+
+    iphone_sources = Dir["../output/app_store/ios_screenshots/final/iphone65/*.png"].sort
+    ipad_sources = Dir["../output/app_store/ios_screenshots/final/ipadPro129/*.png"].sort
+
+    UI.user_error!("No iPhone 6.5-inch screenshots found. Run scripts/app_store_ios_screenshot_assets.sh first.") if iphone_sources.empty?
+    UI.user_error!("No 13-inch iPad screenshots found. Run scripts/app_store_ios_screenshot_assets.sh first.") if ipad_sources.empty?
+
+    iphone_sources.each do |source|
+      basename = File.basename(source)
       iphone_target = "screenshots/en-GB/iphone65-#{basename}"
-      ipad_target = "screenshots/en-GB/ipadPro129-#{basename}"
 
       sh("cp #{source.shellescape} #{iphone_target.shellescape}")
+    end
+
+    ipad_sources.each do |source|
+      basename = File.basename(source)
+      ipad_target = "screenshots/en-GB/ipadPro129-#{basename}"
+
       sh("cp #{source.shellescape} #{ipad_target.shellescape}")
-      sh("sips --resampleHeight 2732 #{ipad_target.shellescape} >/dev/null")
-      sh("sips --padToHeightWidth 2732 2048 --padColor FFFFFF #{ipad_target.shellescape} >/dev/null")
     end
     sh("sips -g pixelWidth -g pixelHeight screenshots/en-GB/*.png >/dev/null")
   end
