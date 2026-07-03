@@ -27,26 +27,6 @@ class CollectRuntimeTokens {
     'neutralContainer': CollectColors.semanticNeutralContainer,
   };
 
-  static const secondaryColorHexes = <String>[
-    '#252044',
-    '#4B4664',
-    '#5F5A76',
-    '#FFFDFB',
-    '#F1ECF7',
-    '#DED8EA',
-    '#CDC7F5',
-    '#6F67E8',
-    '#137A3F',
-    '#514DD2',
-    '#B9472E',
-    '#B3261E',
-    '#E7F8ED',
-    '#ECEBFF',
-    '#FFE9E3',
-    '#FFE5DF',
-    '#F1ECF7',
-  ];
-
   static Color chromeForeground(CollectColors colors) => colors.onImagePrimary;
 
   static Color chromeMutedForeground(CollectColors colors) {

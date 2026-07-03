@@ -72,7 +72,8 @@ secondary_sources = {
   "legacy product design audit gate script" => File.join("scripts", "product_" + "design_mobile_audit_artifact_gate.sh"),
   "developer design catalog screen" => File.join("lib", "features", "dev", "design" + "_system_catalog_screen.dart"),
   "legacy visual capture test" => File.join("test", "visual" + "_evidence_capture_test.dart"),
-  "legacy scope applicability record" => File.join("docs", "release", "UNIVERSAL_SCOPE_APPLICABILITY.json")
+  "legacy scope applicability record" => File.join("docs", "release", "UNIVERSAL_SCOPE_APPLICABILITY.json"),
+  "legacy COOL surface scope evidence" => File.join("docs", "release", "COOL_SURFACE_SCOPE_EVIDENCE.json")
 }
 secondary_sources.each do |label, path|
   absent = !File.exist?(File.join(root, path))

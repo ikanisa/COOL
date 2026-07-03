@@ -63,6 +63,12 @@ manifest_path = "build/web/manifest.json"
 index_path = "build/web/index.html"
 service_worker_path = "build/web/custom-sw.js"
 bootstrap_path = "build/web/flutter_bootstrap.js"
+color_source = File.read("lib/app/theme/collect_colors.dart")
+collect_color_hex = lambda do |name|
+  match = color_source.match(/static const #{Regexp.escape(name)} = Color\(0xFF([0-9A-Fa-f]{6})\);/)
+  abort("Collect color token #{name} not found") unless match
+  "##{match[1].upcase}"
+end
 
 manifest = JSON.parse(File.read(manifest_path))
 manifest["name"] = "Collect Admin"
@@ -70,8 +76,8 @@ manifest["short_name"] = "Collect Admin"
 manifest["description"] = "Collect platform operations console."
 manifest["display"] = "standalone"
 manifest["start_url"] = "."
-manifest["background_color"] = "#FAF8F5"
-manifest["theme_color"] = "#8885F0"
+manifest["background_color"] = collect_color_hex.call("brandPaper")
+manifest["theme_color"] = collect_color_hex.call("brandPeriwinkle")
 manifest["orientation"] = "any"
 manifest["icons"] = []
 File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")

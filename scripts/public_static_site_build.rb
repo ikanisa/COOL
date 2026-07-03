@@ -28,16 +28,25 @@ LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_
 LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
+COLLECT_COLOR_SOURCE = File.read(File.join(ROOT, "lib/app/theme/collect_colors.dart"))
+
+def collect_color_hex(name)
+  match = COLLECT_COLOR_SOURCE.match(/static const #{Regexp.escape(name)} = Color\(0xFF([0-9A-Fa-f]{6})\);/)
+  raise "Collect color token #{name} not found" unless match
+
+  "##{match[1].upcase}"
+end
+
 BRAND_PRIMARY_COLORS = {
-  "periwinkle" => "#8885F0",
-  "mint" => "#3CD070",
-  "rose" => "#D38B96",
-  "orange" => "#FF5E43"
+  "periwinkle" => collect_color_hex("brandPeriwinkle"),
+  "mint" => collect_color_hex("brandMintGreen"),
+  "rose" => collect_color_hex("brandDustyRose"),
+  "orange" => collect_color_hex("brandOrangeRed")
 }.freeze
-BRAND_BLACK = "#050510"
-BRAND_PAPER = "#FAF8F5"
-BRAND_INK = "#252044"
-BRAND_SURFACE_WHITE = "#FFFDFB"
+BRAND_BLACK = collect_color_hex("referenceChromeBlack")
+BRAND_PAPER = collect_color_hex("brandPaper")
+BRAND_INK = collect_color_hex("inkPrimary")
+BRAND_SURFACE_WHITE = collect_color_hex("secondarySurfaceReadable")
 
 
 PUBLIC_FAQS = {

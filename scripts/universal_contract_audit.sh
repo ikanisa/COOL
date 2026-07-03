@@ -88,7 +88,8 @@ secondary_sources = {
   "legacy product design audit gate script" => File.join("scripts", "product_" + "design_mobile_audit_artifact_gate.sh"),
   "developer design catalog screen" => File.join("lib", "features", "dev", "design" + "_system_catalog_screen.dart"),
   "legacy visual capture test" => File.join("test", "visual" + "_evidence_capture_test.dart"),
-  "legacy scope applicability record" => File.join("docs", "release", "UNIVERSAL_SCOPE_APPLICABILITY.json")
+  "legacy scope applicability record" => File.join("docs", "release", "UNIVERSAL_SCOPE_APPLICABILITY.json"),
+  "legacy COOL surface scope evidence" => File.join("docs", "release", "COOL_SURFACE_SCOPE_EVIDENCE.json")
 }
 existing_secondary = secondary_sources.select { |_label, path| File.exist?(File.join(root, path)) }.keys
 add_check.call("no_secondary_contract_sources", existing_secondary.empty?, existing_secondary.map { |label| "Secondary contract source still exists: #{label}." }, ["DESIGN.md"])

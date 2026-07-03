@@ -50,11 +50,11 @@ void main() {
     () {
       expect(CollectColors.brandPrimaryColors, hasLength(4));
       expect(CollectColors.brandPrimaryColors.toSet(), hasLength(4));
-      expect(CollectColors.brandPrimaryHexes, hasLength(4));
-      expect(
-        CollectColors.brandPrimaryHexes,
-        everyElement(matches(RegExp(r'^#[0-9A-F]{6}$'))),
-      );
+      final paletteHexes = CollectColors.brandPrimaryOptions
+          .map((option) => option.hex)
+          .toList(growable: false);
+      expect(paletteHexes, hasLength(CollectColors.brandPrimaryColors.length));
+      expect(paletteHexes, everyElement(matches(RegExp(r'^#[0-9A-F]{6}$'))));
       expect(
         CollectColors.brandPrimaryColors,
         isNot(contains(CollectColors.brandPaper)),
@@ -68,14 +68,6 @@ void main() {
 
   test('Collect runtime token layer preserves structured secondary colors', () {
     expect(CollectRuntimeTokens.secondaryColorRoles, hasLength(17));
-    expect(
-      CollectRuntimeTokens.secondaryColorHexes,
-      hasLength(CollectRuntimeTokens.secondaryColorRoles.length),
-    );
-    expect(
-      CollectRuntimeTokens.secondaryColorHexes,
-      everyElement(matches(RegExp(r'^#[0-9A-F]{6}$'))),
-    );
     expect(
       CollectRuntimeTokens.secondaryColorRoles.values.toSet().intersection(
         CollectColors.brandPrimaryColors.toSet(),

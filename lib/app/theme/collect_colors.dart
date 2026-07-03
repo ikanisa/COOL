@@ -130,13 +130,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
     brandDustyRose,
     brandOrangeRed,
   ];
-  static const brandPrimaryHexes = <String>[
-    '#8885F0',
-    '#3CD070',
-    '#D38B96',
-    '#FF5E43',
-  ];
-
   static const light = CollectColors(
     periwinklePaint: brandPeriwinkle,
     mintPaint: brandMintGreen,
@@ -231,10 +224,10 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get statusBlocked => dangerForeground;
 
   static const brandPrimaryOptions = <CollectPaletteOption>[
-    CollectPaletteOption('#8885F0', brandPeriwinkle),
-    CollectPaletteOption('#3CD070', brandMintGreen),
-    CollectPaletteOption('#D38B96', brandDustyRose),
-    CollectPaletteOption('#FF5E43', brandOrangeRed),
+    CollectPaletteOption(brandPeriwinkle),
+    CollectPaletteOption(brandMintGreen),
+    CollectPaletteOption(brandDustyRose),
+    CollectPaletteOption(brandOrangeRed),
   ];
 
   Color get screenBase => referencePaymentsPurple;
@@ -551,10 +544,14 @@ class CollectColors extends ThemeExtension<CollectColors> {
 enum CollectStatusTone { neutral, success, warning, danger, info, privacy }
 
 class CollectPaletteOption {
-  const CollectPaletteOption(this.hex, this.color);
+  const CollectPaletteOption(this.color);
 
-  final String hex;
   final Color color;
+
+  String get hex {
+    final rgb = color.toARGB32() & 0x00FFFFFF;
+    return '#${rgb.toRadixString(16).padLeft(6, '0').toUpperCase()}';
+  }
 }
 
 extension CollectColorsTheme on BuildContext {

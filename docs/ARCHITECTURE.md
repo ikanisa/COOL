@@ -20,7 +20,7 @@ Core boundaries:
 Flutter structure:
 
 - `app/router.dart`: mobile route map for Home, Groups, Settings.
-- `app/theme`: Collect design tokens.
+- `app/theme`: Collect UI theme implementation.
 - `core/security`: phone normalization, hashing, public ID helpers, Android SMS
   receiver channel.
 - `features/auth`: WhatsApp OTP.
