@@ -36,13 +36,11 @@
         "source": "DESIGN.md"
       },
       "phone_screenshots": {
-        "status": "exported",
-        "minimum_required": 2,
-        "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
-        "exported_count": 5,
-        "recommended_sources": [
-          ".cache/mobile_route_render_smoke"
-        ]
+        "status": "retired_repo_visual_asset",
+        "minimum_required": 0,
+        "path": "",
+        "exported_count": 0,
+        "source": "DESIGN.md"
       }
     },
     "growth_surfaces": {

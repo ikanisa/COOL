@@ -92,9 +92,7 @@ checks["store_listing_lengths"] =
 
 artifact_paths = {
   "aab" => dig_value(packet, ["target_release", "aab_path"]),
-  "launcher_icon" => dig_value(packet, ["store_listing", "assets", "launcher_icon"]),
-  "brand_icon_source" => dig_value(packet, ["store_listing", "assets", "brand_icon_source"]),
-  "feature_graphic" => dig_value(packet, ["store_listing", "assets", "feature_graphic", "path"])
+  "brand_icon_source" => dig_value(packet, ["store_listing", "assets", "brand_icon_source"])
 }
 artifact_items = artifact_paths.transform_values do |relative|
   path = relative.to_s.empty? ? "" : File.join(root, relative.to_s)
@@ -107,24 +105,37 @@ end
 missing_artifacts = artifact_items.select { |_name, item| item["exists"] != true }.keys
 checks["required_artifacts"] =
   if missing_artifacts.empty?
-    check("pass", "Required local Play listing/release artifacts exist.", "artifacts" => artifact_items)
+    check("pass", "Required non-visual Play release artifacts exist and visual assets are governed separately.", "artifacts" => artifact_items)
   else
-    check("fail", "Required local Play listing/release artifacts are missing.", "missing_artifacts" => missing_artifacts, "artifacts" => artifact_items)
+    check("fail", "Required non-visual Play release artifacts are missing.", "missing_artifacts" => missing_artifacts, "artifacts" => artifact_items)
   end
 
-screenshots_dir = File.join(root, dig_value(packet, ["store_listing", "assets", "phone_screenshots", "path"]).to_s)
-phone_screenshots = Dir.glob(File.join(screenshots_dir, "*.png")).sort.map do |path|
+assets = dig_value(packet, ["store_listing", "assets"]) || {}
+feature_graphic = assets.fetch("feature_graphic", {})
+phone_screenshot_policy = assets.fetch("phone_screenshots", {})
+visual_assets_retired =
+  assets["launcher_icon"] == "none_repo_visual_assets_retired" &&
+  feature_graphic["status"] == "retired_repo_visual_asset" &&
+  feature_graphic["source"] == "DESIGN.md" &&
+  phone_screenshot_policy["status"] == "retired_repo_visual_asset" &&
+  phone_screenshot_policy["source"] == "DESIGN.md" &&
+  phone_screenshot_policy["minimum_required"].to_i == 0
+screenshots_path = phone_screenshot_policy["path"].to_s
+screenshots_dir = screenshots_path.empty? ? "" : File.join(root, screenshots_path)
+phone_screenshots = screenshots_dir.empty? ? [] : Dir.glob(File.join(screenshots_dir, "*.png")).sort.map do |path|
   {
     "path" => path.sub(%r{\A#{Regexp.escape(root)}/?}, ""),
     "bytes" => File.size(path)
   }
 end
-minimum_screenshots = dig_value(packet, ["store_listing", "assets", "phone_screenshots", "minimum_required"]).to_i
+minimum_screenshots = phone_screenshot_policy["minimum_required"].to_i
 checks["store_graphics"] =
-  if File.file?(File.join(root, dig_value(packet, ["store_listing", "assets", "feature_graphic", "path"]).to_s)) && phone_screenshots.length >= minimum_screenshots
-    check("pass", "Play feature graphic and minimum phone screenshots are exported.", "phone_screenshot_count" => phone_screenshots.length, "phone_screenshots" => phone_screenshots)
+  if visual_assets_retired && phone_screenshots.empty?
+    check("pass", "Repo-owned Play visual assets are retired and DESIGN.md is the only visual source.", "phone_screenshot_count" => phone_screenshots.length, "minimum_required" => minimum_screenshots)
+  elsif phone_screenshots.length >= minimum_screenshots
+    check("pass", "Play screenshot export policy is satisfied.", "phone_screenshot_count" => phone_screenshots.length, "phone_screenshots" => phone_screenshots)
   else
-    check("blocked", "Play feature graphic or minimum phone screenshots are missing.", "phone_screenshot_count" => phone_screenshots.length, "minimum_required" => minimum_screenshots)
+    check("blocked", "Play visual asset policy is inconsistent with the universal design migration.", "phone_screenshot_count" => phone_screenshots.length, "minimum_required" => minimum_screenshots)
   end
 
 urls = [
