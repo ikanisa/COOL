@@ -50,6 +50,55 @@ checks = []
 add_check = lambda do |id, pass, failures = [], evidence = []|
   checks << { "id" => id, "status" => pass ? "pass" : "fail", "failures" => failures, "evidence" => evidence.compact }
 end
+
+def repo_source_paths(root)
+  raw = IO.popen(
+    ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+    chdir: root,
+    &:read
+  ).to_s
+  raw.split("\0").reject(&:empty?).uniq
+end
+
+def source_text_file?(root, path)
+  return false if path == "DESIGN.md"
+  return false if path.start_with?(".git/", ".dart_tool/", ".cache/", "build/", "ios/Pods/")
+  return false if ["scripts/universal_contract_gate.sh", "scripts/universal_contract_audit.sh"].include?(path)
+  absolute = File.join(root, path)
+  return false unless File.file?(absolute)
+
+  sample = File.open(absolute, "rb") { |file| file.read(8192).to_s }
+  !sample.include?("\x00")
+rescue Errno::ENOENT, Errno::EACCES
+  false
+end
+
+def forbidden_design_content_hits(root)
+  forbidden_patterns = {
+    "legacy surface scope evidence id" => /COOL_SURFACE_SCOPE_EVIDENCE/,
+    "legacy strict audit artifact id" => /COOL_UNIVERSAL_DESIGN_STRICT_AUDIT/,
+    "legacy surface scope lowercase id" => /surface_scope_evidence|cool_surface_scope/,
+    "legacy applicability escape hatch" => /cool_tv_not_applicable|not_applicable_entries|route_evidence_map/,
+    "secondary release-doc authority wording" => /DESIGN\.md\s+and\s+docs\/release/i,
+    "legacy token source list names" => /brandPrimaryHexes|secondaryColorHexes|required_css_vars|brand_color_contract|shared_primary_color_contract/,
+    "old mobile-only design contract" => /Universal Mobile App Design Standard 2026/
+  }
+  hits = []
+  repo_source_paths(root).each do |path|
+    next unless source_text_file?(root, path)
+
+    content = File.read(File.join(root, path), mode: "rb")
+    forbidden_patterns.each do |label, pattern|
+      next unless content.match?(pattern)
+
+      hits << { "path" => path, "pattern" => label }
+    end
+  rescue Errno::ENOENT, Errno::EACCES, ArgumentError
+    next
+  end
+  hits
+end
+
 required_terms = [
   "Universal App Design Standard 2026",
   "Any production mobile app",
@@ -104,6 +153,13 @@ add_check.call(
   "tracked_design_source_paths",
   forbidden_tracked_paths.empty?,
   forbidden_tracked_paths.map { |path| "Forbidden tracked design source path remains: #{path}." },
+  ["DESIGN.md"]
+)
+forbidden_content_hits = forbidden_design_content_hits(root)
+add_check.call(
+  "forbidden_design_content_patterns",
+  forbidden_content_hits.empty?,
+  forbidden_content_hits.map { |hit| "Forbidden legacy design authority content remains in #{hit.fetch("path")}: #{hit.fetch("pattern")}." },
   ["DESIGN.md"]
 )
 state_terms = ["Loading", "Empty", "Error", "Offline", "Permission denied", "Disabled", "Focused", "Pressed", "Selected", "Large text", "Reduced motion", "Dark mode", "Light mode"]
