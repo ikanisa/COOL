@@ -57,6 +57,8 @@ def forbidden_design_content_hits(root)
     "legacy applicability escape hatch" => /cool_tv_not_applicable|not_applicable_entries|route_evidence_map/,
     "secondary release-doc authority wording" => /DESIGN\.md\s+and\s+docs\/release/i,
     "legacy token source list names" => /brandPrimaryHexes|secondaryColorHexes|required_css_vars|brand_color_contract|shared_primary_color_contract/,
+    "legacy generated runtime asset path" => %r{assets/runtime/generated},
+    "legacy Play screenshot export path" => %r{fastlane/metadata/android/en-US/images/phoneScreenshots},
     "old mobile-only design contract" => /Universal Mobile App Design Standard 2026/
   }
   hits = []

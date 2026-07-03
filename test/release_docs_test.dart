@@ -1049,7 +1049,15 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       'scripts/google_play_optimization_gate.sh',
     ).readAsStringSync();
 
-    expect(workflow, isNot(contains('assets/runtime/generated')));
+    expect(
+      workflow,
+      isNot(
+        contains(
+          'assets/runtime'
+          '/generated',
+        ),
+      ),
+    );
     expect(script, contains('visual_assets_retired'));
     expect(script, contains('none_repo_visual_assets_retired'));
     expect(
