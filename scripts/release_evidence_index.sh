@@ -257,6 +257,14 @@ command_items = required_commands.map do |name|
         go_live_gate["approval_status"].to_s == "blocked"
       )
     "blocked"
+  elsif name == "supabase_go_live_evidence" &&
+      (
+        supabase_summary["status"].to_s == "blocked" ||
+        Array(supabase_summary["blocker_keys"]).any? ||
+        Array(supabase_summary["blocked_reasons"]).any? ||
+        Array(supabase_summary["blocked_commands"]).any?
+      )
+    "blocked"
   elsif row.fetch("exit_code") == 0
     "pass"
   elsif row.fetch("exit_code") == 99 ||

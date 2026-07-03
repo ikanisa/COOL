@@ -381,7 +381,7 @@ else
   end
 end
 puts
-puts "## Pending Approval Records"
+puts "## Required approval gates"
 approval_records.each do |record|
   puts
   puts "### #{record.fetch("title")}"

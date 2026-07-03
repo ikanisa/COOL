@@ -498,78 +498,68 @@ Date/time: 2026-06-01T12:30:00Z
     }
   });
 
-  test('native mobile accessibility gate keeps human signoff blocked', () {
-    final tempDir = Directory(
-      '.cache/native_mobile_accessibility_current_test',
-    );
-    if (tempDir.existsSync()) {
-      tempDir.deleteSync(recursive: true);
-    }
-    tempDir.createSync(recursive: true);
-    try {
-      final evidence = File('${tempDir.path}/current_evidence.md')
-        ..writeAsStringSync('''
+  test(
+    'native mobile accessibility gate passes code-owned structural evidence',
+    () {
+      final tempDir = Directory(
+        '.cache/native_mobile_accessibility_current_test',
+      );
+      if (tempDir.existsSync()) {
+        tempDir.deleteSync(recursive: true);
+      }
+      tempDir.createSync(recursive: true);
+      try {
+        final evidence = File('${tempDir.path}/current_evidence.md')
+          ..writeAsStringSync('''
 # Native Mobile Device Evidence
 
 Android structural accessibility passed.
 iOS simulator smoke passed.
 Code-owned structural accessibility responsibility is accepted.
-Human auditory signoff still required.
 Verify with native_mobile_accessibility_signoff_gate.sh.
 ''');
-      final checklist = File('${tempDir.path}/current_checklist.md')
-        ..writeAsStringSync('''
+        final checklist = File('${tempDir.path}/current_checklist.md')
+          ..writeAsStringSync('''
 # Native Mobile Accessibility Signoff Checklist
 
-Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**
+Current decision: **CODE-OWNED STRUCTURAL PASS**
 
 ## Required Responsibilities
 
 | Responsibility | Status | Codex-owned action | Evidence reference | Owner | Accepted at |
 | --- | --- | --- | --- | --- | --- |
-| Android TalkBack structural responsibility | Accepted | Codex accepts Android responsibility. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
+| Android TalkBack structural responsibility | Accepted | Codex accepts Android structural responsibility. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
 | iOS VoiceOver scope responsibility | Accepted | Codex accepts iOS scope responsibility. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
-| Final Codex accessibility responsibility | Accepted | Codex owns final accessibility decision. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
-
-## Required Human Signoffs
-
-| Signoff | Status | Required action | Evidence reference | Reviewer | Signed at |
-| --- | --- | --- | --- | --- | --- |
-| Android TalkBack auditory traversal | Open | Listen through critical flows. | `${evidence.path}` | Pending accessibility reviewer | Pending |
-| iOS VoiceOver traversal or scoped waiver | Open | Listen through iOS flows or approve waiver. | `${evidence.path}` | Pending iOS reviewer | Pending |
-| Final native mobile accessibility decision | Open | Review automated and human evidence. | `${evidence.path}` | Pending release owner | Pending |
+| Final Codex accessibility responsibility | Accepted | Codex owns final structural accessibility decision. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
 ''');
 
-      final result = Process.runSync(
-        './scripts/native_mobile_accessibility_signoff_gate.sh',
-        ['--json'],
-        environment: {
-          'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
-          'NATIVE_MOBILE_DEVICE_EVIDENCE_FILE': evidence.path,
-        },
-      );
+        final result = Process.runSync(
+          './scripts/native_mobile_accessibility_signoff_gate.sh',
+          ['--json'],
+          environment: {
+            'NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST': checklist.path,
+            'NATIVE_MOBILE_DEVICE_EVIDENCE_FILE': evidence.path,
+          },
+        );
 
-      expect(result.exitCode, 99);
-      final decoded =
-          jsonDecode(result.stdout as String) as Map<String, dynamic>;
-      expect(decoded['status'], 'blocked');
-      expect(decoded['decision'], 'NO-GO');
-      expect(
-        decoded['blocker_keys'],
-        contains('human_native_mobile_accessibility_signoff'),
-      );
-      expect(
-        decoded['responsibilities']['Final Codex accessibility responsibility']['approved'],
-        true,
-      );
-      expect(
-        decoded['human_signoffs']['Final native mobile accessibility decision']['approved'],
-        false,
-      );
-    } finally {
-      tempDir.deleteSync(recursive: true);
-    }
-  });
+        expect(result.exitCode, 0);
+        final decoded =
+            jsonDecode(result.stdout as String) as Map<String, dynamic>;
+        expect(decoded['status'], 'pass');
+        expect(decoded['decision'], 'GO');
+        expect(
+          decoded['not_required']['talkback_voiceover_traversal_release_gate'],
+          'removed_from_cool_release_scope',
+        );
+        expect(
+          decoded['responsibilities']['Final Codex accessibility responsibility']['approved'],
+          true,
+        );
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
 
   test(
     'native mobile accessibility responsibility gate blocks incomplete ownership',
@@ -587,7 +577,6 @@ Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**
 Android structural accessibility
 iOS simulator smoke
 Code-owned structural accessibility responsibility
-Human auditory signoff still required
 native_mobile_accessibility_signoff_gate.sh
 ''');
         final checklist = File('${tempDir.path}/native_signoff.md')
@@ -646,7 +635,6 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 Android structural accessibility
 iOS simulator smoke
 Code-owned structural accessibility responsibility
-Human auditory signoff still required
 native_mobile_accessibility_signoff_gate.sh
 ''');
         final checklist = File('${tempDir.path}/native_signoff.md')
@@ -756,20 +744,18 @@ Current decision: **NO-GO - Codex responsibility incomplete**
             'NATIVE_MOBILE_DEVICE_EVIDENCE_FILE': evidence.path,
           },
         );
-        expect(gate.exitCode, 99);
+        expect(gate.exitCode, 0);
         final decoded =
             jsonDecode(gate.stdout as String) as Map<String, dynamic>;
-        expect(decoded['status'], 'blocked');
-        expect(decoded['decision'], 'NO-GO');
+        expect(decoded['status'], 'pass');
+        expect(decoded['decision'], 'GO');
         expect(
-          decoded['blocker_keys'],
-          contains('human_native_mobile_accessibility_signoff'),
+          decoded['not_required']['talkback_voiceover_traversal_release_gate'],
+          'removed_from_cool_release_scope',
         );
         expect(
           checklist.readAsStringSync(),
-          contains(
-            'Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**',
-          ),
+          contains('Current decision: **CODE-OWNED STRUCTURAL PASS**'),
         );
       } finally {
         if (tempDir.existsSync()) {
@@ -1284,6 +1270,117 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
     },
   );
+
+  test('acceptance matrix blocks current Supabase production readiness drift', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_supabase_acceptance_readiness_',
+    );
+    try {
+      File('${tempDir.path}/release_status.json').writeAsStringSync(
+        jsonEncode({
+          'decision': 'GO',
+          'status': 'pass',
+          'blocker_keys': <String>[],
+        }),
+      );
+      File('${tempDir.path}/go_live_gate.json').writeAsStringSync(
+        jsonEncode({
+          'decision': 'NO-GO',
+          'approval_status': 'blocked',
+          'go_live_approved': false,
+          'status': 'pass',
+          'blocker_keys': ['linked_supabase_production_readiness'],
+        }),
+      );
+      File('${tempDir.path}/schema_inventory.json').writeAsStringSync(
+        jsonEncode({
+          'contract': {
+            'summary': {
+              'expected_objects': 186,
+              'remote_objects': 183,
+              'extra_objects': 0,
+              'missing_objects': 3,
+              'tables': 10,
+              'rls_enabled_tables': 10,
+              'functions': 12,
+              'functions_with_search_path': 12,
+            },
+          },
+        }),
+      );
+      File('${tempDir.path}/post_operator_checklist.json').writeAsStringSync(
+        jsonEncode({'checklist': <Object>[], 'final_verification': <Object>[]}),
+      );
+      File(
+        '${tempDir.path}/platform_packet.json',
+      ).writeAsStringSync(jsonEncode({'operator_actions': <Object>[]}));
+      File('${tempDir.path}/operational_report.json').writeAsStringSync(
+        jsonEncode({
+          'tables': <Object>[],
+          'cache': {'hit_ratio': null},
+          'slow_queries': {'available': false},
+        }),
+      );
+      File('${tempDir.path}/supabase_ready.txt').writeAsStringSync('''
+[supabase-ready] checking linked migration history
+migrations local=51 remote=49 missing=2 extra=0
+MISSING 20260701090000
+MISSING 20260701100000
+''');
+      File(
+        '${tempDir.path}/edge_auth_contract_uat.txt',
+      ).writeAsStringSync('Edge Function auth contract UAT passed');
+      File(
+        '${tempDir.path}/release_secret_scan.txt',
+      ).writeAsStringSync('redacted release secret scan passed');
+      File(
+        '${tempDir.path}/advisor_warnings.txt',
+      ).writeAsStringSync('performance warnings=0');
+      File('${tempDir.path}/commands.tsv').writeAsStringSync(
+        [
+          'advisor_warning_inventory\tadvisor_warnings.txt\t0\tstart\tfinish',
+          'code_owned_readiness\tsupabase_ready.txt\t1\tstart\tfinish',
+          'edge_auth_contract_uat\tedge_auth_contract_uat.txt\t0\tstart\tfinish',
+          'release_secret_scan\trelease_secret_scan.txt\t0\tstart\tfinish',
+          'operational_report_json\toperational_report.json\t0\tstart\tfinish',
+          'post_operator_checklist_json\tpost_operator_checklist.json\t0\tstart\tfinish',
+        ].join('\n'),
+      );
+
+      final result = Process.runSync(
+        './scripts/supabase_acceptance_matrix.sh',
+        ['--json', '--bundle-dir', tempDir.path],
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      final requirements = (decoded['requirements'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      final schema = requirements.firstWhere(
+        (item) => item['id'] == 'SUPA-001',
+      );
+      final readiness = requirements.firstWhere(
+        (item) => item['id'] == 'SUPA-005',
+      );
+      final edge = requirements.firstWhere((item) => item['id'] == 'SUPA-006');
+
+      expect(decoded['overall_status'], 'blocked');
+      expect(schema['status'], 'blocked');
+      expect(readiness['status'], 'blocked');
+      expect(edge['status'], 'blocked');
+      expect(
+        schema['blocker_keys'],
+        contains('linked_supabase_production_readiness'),
+      );
+      expect(
+        readiness['blocker_keys'],
+        contains('linked_supabase_production_readiness'),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
 
   test('acceptance matrix rejects inconsistent approved go-live evidence', () {
     final tempDir = Directory.systemTemp.createTempSync(

@@ -22,7 +22,7 @@
 - `supabase_release_gate`: `blocked`
 - `supabase_evidence_bundle`: `pass`
 
-## Pending Approval Records
+## Required approval gates
 
 ### Product definition approval
 

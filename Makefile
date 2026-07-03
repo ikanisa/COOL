@@ -72,7 +72,11 @@ analyze:
 	$(FLUTTER) analyze
 
 test:
-	$(FLUTTER) test
+	@set -euo pipefail; \
+	while IFS= read -r test_file; do \
+		echo "[flutter-test] $$test_file"; \
+		$(FLUTTER) test --no-pub --concurrency=1 "$$test_file"; \
+	done < <(find test -name '*_test.dart' -print | sort)
 
 admin-web-build:
 	@./scripts/admin_pwa_release_build.sh

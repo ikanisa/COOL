@@ -190,12 +190,21 @@ schema_summary = schema_inventory.dig("contract", "summary") || {}
 release_blocker_keys = Array(release_status["blocker_keys"])
 go_live_blocker_keys = Array(go_live_gate["blocker_keys"])
 acceptance_status = acceptance_matrix["overall_status"].to_s
-blocked_command_names = commands.select { |command| command.fetch(:exit_code) == 99 }.map { |command| command.fetch(:name) }
+production_readiness_blocked =
+  (release_blocker_keys + go_live_blocker_keys).include?("linked_supabase_production_readiness")
+production_readiness_commands = %w[schema_inventory_json code_owned_readiness]
+blocked_command_names = commands.select do |command|
+  exit_code = command.fetch(:exit_code)
+  name = command.fetch(:name)
+  exit_code == 99 ||
+    (production_readiness_blocked && exit_code == 1 && production_readiness_commands.include?(name))
+end.map { |command| command.fetch(:name) }
 hard_failed_command_names = commands.reject do |command|
   exit_code = command.fetch(:exit_code)
   name = command.fetch(:name)
   exit_code == 0 ||
     exit_code == 99 ||
+    (production_readiness_blocked && exit_code == 1 && production_readiness_commands.include?(name)) ||
     (name == "go_live_gate_json" && exit_code == 1 && go_live_gate["go_live_approved"] == false)
 end.map { |command| command.fetch(:name) }
 blocked_reasons = []

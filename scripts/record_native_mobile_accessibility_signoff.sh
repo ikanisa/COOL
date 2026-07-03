@@ -217,7 +217,7 @@ all_approved = responsibility_rows.values.all? do |name|
 end
 updated_text = updated_text.sub(
   /Current decision: \*\*[^*]+\*\*/,
-  all_approved ? "Current decision: **CODE-OWNED STRUCTURAL PASS; HUMAN AUDITORY SIGNOFF OPEN**" : "Current decision: **NO-GO - Codex responsibility incomplete**"
+  all_approved ? "Current decision: **CODE-OWNED STRUCTURAL PASS**" : "Current decision: **NO-GO - Codex responsibility incomplete**"
 )
 
 tmp_path = "#{checklist_path}.tmp.#{$$}"

@@ -175,6 +175,7 @@ class _GroupStatsCard extends StatelessWidget {
             flex: 3,
             child: _GroupStatMetric(
               value: formatRwf(totalRaised),
+              semanticLabel: '${formatRwf(totalRaised)} raised',
               icon: CollectIcons.money,
               tone: CollectStatusTone.success,
               primary: true,
@@ -192,6 +193,7 @@ class _GroupStatsCard extends StatelessWidget {
             flex: 2,
             child: _GroupStatMetric(
               value: '$participants',
+              semanticLabel: 'Open group members, $participants members',
               icon: CollectIcons.people,
               tone: CollectStatusTone.info,
               onTap: () => context.go('/groups/$collectionId/members'),
@@ -206,6 +208,7 @@ class _GroupStatsCard extends StatelessWidget {
 class _GroupStatMetric extends StatelessWidget {
   const _GroupStatMetric({
     required this.value,
+    required this.semanticLabel,
     required this.icon,
     required this.tone,
     this.primary = false,
@@ -213,6 +216,7 @@ class _GroupStatMetric extends StatelessWidget {
   });
 
   final String value;
+  final String semanticLabel;
   final IconData icon;
   final CollectStatusTone tone;
   final bool primary;
@@ -260,12 +264,20 @@ class _GroupStatMetric extends StatelessWidget {
         ),
       ],
     );
-    if (onTap == null) return metric;
+    if (onTap == null) {
+      return Semantics(
+        container: true,
+        excludeSemantics: true,
+        label: semanticLabel,
+        child: metric,
+      );
+    }
     return Tooltip(
       message: 'Open group members',
       child: Semantics(
         button: true,
-        label: 'Open group members',
+        excludeSemantics: true,
+        label: semanticLabel,
         child: InkWell(
           borderRadius: CollectRadius.mdBorder,
           onTap: onTap,

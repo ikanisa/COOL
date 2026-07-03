@@ -84,6 +84,7 @@ schema = schema_inventory.dig("contract", "summary") || {}
 current_release_keys = %w[
   product_signoff
   linked_supabase_sms_first_migration
+  linked_supabase_production_readiness
   android_sms_access_uat
   android_release_signing_review
   ios_release_scope
@@ -96,7 +97,17 @@ go_live_blocker_keys = Array(go_live_gate["blocker_keys"]) & supported_blocker_k
 connectivity_blocked = blocker_keys.include?("database_connectivity")
 linked_migration_blocked =
   blocker_keys.include?("linked_supabase_sms_first_migration") ||
-  ready_text.include?("MISSING 202605270001")
+  go_live_blocker_keys.include?("linked_supabase_sms_first_migration") ||
+  blocker_keys.include?("linked_supabase_production_readiness") ||
+  go_live_blocker_keys.include?("linked_supabase_production_readiness") ||
+  ready_text.include?("MISSING ")
+linked_readiness_key =
+  if blocker_keys.include?("linked_supabase_production_readiness") ||
+      go_live_blocker_keys.include?("linked_supabase_production_readiness")
+    "linked_supabase_production_readiness"
+  else
+    "linked_supabase_sms_first_migration"
+  end
 
 requirements = []
 add = lambda do |id:, area:, requirement:, status:, evidence:, blocker_keys: [], next_action: nil|
@@ -130,7 +141,7 @@ add.call(
   requirement: "Remote public schema contains only repo-owned required objects.",
   status: schema_status,
   evidence: "schema_inventory.json contract.summary expected=#{schema["expected_objects"]} remote=#{schema["remote_objects"]} extra=#{schema["extra_objects"]} missing=#{schema["missing_objects"]}",
-  blocker_keys: linked_migration_blocked && !schema_exact ? ["linked_supabase_sms_first_migration"] : [],
+  blocker_keys: linked_migration_blocked && !schema_exact ? [linked_readiness_key] : [],
   next_action: if schema_exact
     nil
   elsif linked_migration_blocked
@@ -188,7 +199,7 @@ add.call(
   status: readiness_status,
   evidence: ready_ok ? "supabase_ready.txt exit=0" : "supabase_ready.txt exit=#{command_exit(commands, "code_owned_readiness")}",
   blocker_keys: if readiness_status == "blocked" && linked_migration_blocked
-    ["linked_supabase_sms_first_migration"]
+    [linked_readiness_key]
   elsif readiness_status == "blocked"
     ["database_connectivity"]
   else
@@ -197,7 +208,7 @@ add.call(
   next_action: if ready_ok
     nil
   elsif linked_migration_blocked
-    "Apply the SMS-first migration, then rerun code-owned readiness."
+    "Apply missing linked migrations or backend fixes through an approved production-change path, then rerun code-owned readiness."
   elsif readiness_status == "blocked"
     "Restore trusted or allow-listed database connectivity and rerun code-owned readiness."
   else
@@ -230,7 +241,7 @@ add.call(
   blocker_keys: if edge_remote_ready
     []
   elsif linked_migration_blocked
-    ["linked_supabase_sms_first_migration"]
+    [linked_readiness_key]
   elsif connectivity_blocked
     ["database_connectivity"]
   else

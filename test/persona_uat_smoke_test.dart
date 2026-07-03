@@ -212,14 +212,28 @@ void main() {
   testWidgets('group detail keeps hero compact and labels untruncated', (
     tester,
   ) async {
-    await pumpMainAppAt(tester, '/groups/col-church');
+    final semantics = tester.ensureSemantics();
+    try {
+      await pumpMainAppAt(tester, '/groups/col-church');
 
-    expect(find.byTooltip('Back'), findsOneWidget);
-    expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.textContaining('Transparent support'), findsNothing);
-    expect(find.text('MEMBERS'), findsNothing);
-    expect(find.textContaining('PARTICIP'), findsNothing);
-    expectNoGlobalSecrets();
+      expect(find.byTooltip('Back'), findsOneWidget);
+      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(find.bySemanticsLabel('RWF 35,000 raised'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel('Open group members, 2 members'),
+        findsWidgets,
+      );
+      expect(
+        find.bySemanticsLabel(RegExp(r'Contribution 038491, RWF 10,000, .*')),
+        findsOneWidget,
+      );
+      expect(find.textContaining('Transparent support'), findsNothing);
+      expect(find.text('MEMBERS'), findsNothing);
+      expect(find.textContaining('PARTICIP'), findsNothing);
+      expectNoGlobalSecrets();
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets('contributor launches MoMo and returns to group', (tester) async {

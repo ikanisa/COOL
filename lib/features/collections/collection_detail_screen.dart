@@ -71,7 +71,12 @@ class CollectionDetailScreen extends ConsumerWidget {
           canManage: isAdmin,
         ),
         _GroupActionStrip(collectionId: collectionId, collection: collection),
-        const SectionHeader(title: 'Activity'),
+        Semantics(
+          container: true,
+          header: true,
+          label: 'Activity',
+          child: const SectionHeader(title: 'Activity'),
+        ),
         if (visibleContributions.isEmpty)
           const EmptyIllustrationState(
             icon: CollectIcons.activity,

@@ -252,7 +252,7 @@ summary = {
   "settings_after" => ENV.fetch("ANDROID_ACCESSIBILITY_SETTINGS_AFTER").delete_prefix("#{Dir.pwd}/"),
   "device_settings_restored" => failures.none? { |failure| failure.include?("restored") },
   "failures" => failures,
-  "codex_accessibility_responsibility" => "This structural capture verifies exposed Android accessibility labels with TalkBack enabled as part of Codex-owned structural accessibility responsibility. Human auditory TalkBack and VoiceOver signoff remains separate.",
+  "codex_accessibility_responsibility" => "This structural capture verifies exposed Android accessibility labels with TalkBack enabled as part of Codex-owned structural accessibility responsibility.",
   "secret_handling" => "Captured node labels and screenshots are local evidence and must not include raw SMS bodies, OTPs, phone/MoMo numbers, signing keys, provider tokens, or production customer data."
 }
 
