@@ -13,7 +13,24 @@ elif [[ "${1:-}" != "" ]]; then
 fi
 
 if [[ -z "${RELEASE_EVIDENCE_BUNDLE_DIR:-}" ]]; then
-  latest_bundle="$(find "$ROOT_DIR/.cache/repo_wide_qa_uat" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort | tail -n 1 || true)"
+  latest_bundle="$(
+    while IFS= read -r candidate; do
+      if ! grep -IRFqs \
+        -e '[repo-wide-qa-uat][fixture]' \
+        -e '"fixture": true' \
+        -e '"fixture_mode": true' \
+        -e 'Fixture mode' \
+        -e 'admin_pwa_live_fixture_not_production' \
+        -e '"branch": "fixture"' \
+        "$candidate"; then
+        printf '%s\n' "$candidate"
+      fi
+    done < <(find "$ROOT_DIR/.cache/repo_wide_qa_uat" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
+  )"
+  latest_bundle="$(printf '%s\n' "$latest_bundle" | sed '/^$/d' | tail -n 1)"
+  if [[ -z "$latest_bundle" ]]; then
+    latest_bundle="$(find "$ROOT_DIR/.cache/repo_wide_qa_uat" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort | tail -n 1 || true)"
+  fi
   RELEASE_EVIDENCE_BUNDLE_DIR="$latest_bundle"
 fi
 

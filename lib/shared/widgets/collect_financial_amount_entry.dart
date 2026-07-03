@@ -27,137 +27,172 @@ class AmountEntryPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final effectiveLabel = label?.trim().isNotEmpty == true
+        ? label!.trim()
+        : 'Amount';
+    final amountSemanticValue = amount > 0
+        ? formatRwf(amount)
+        : 'No amount entered';
     final amountStyle = CollectTypography.amountDisplay(
       colors.textPrimary,
     ).copyWith(fontSize: 44, height: 1.05);
     final prefixStyle = amountStyle.copyWith(color: colors.textSecondary);
-    return CollectCard(
-      emphasis: CollectCardEmphasis.compact,
-      padding: CollectSpacing.cardPaddingComfortable,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  (label?.trim().isNotEmpty == true ? label! : 'Amount'),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: FontWeight.w800,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (showCurrencyChip)
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: CollectRuntimeTokens.chipBackground(colors),
-                    borderRadius: CollectRadius.pillBorder,
-                    border: Border.all(
-                      color: CollectRuntimeTokens.inputBorder(colors),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: CollectSpacing.x3,
-                      vertical: CollectSpacing.x1,
-                    ),
-                    child: Text(
-                      'RWF',
-                      style: CollectTypography.eyebrowLabel(colors.textMuted),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          CollectSpacing.gap16,
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: CollectRuntimeTokens.inputFill(colors),
-              borderRadius: CollectRadius.panelBorder,
-              border: Border.all(
-                color: CollectRuntimeTokens.inputBorder(colors),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x4,
-                vertical: CollectSpacing.x3,
-              ),
-              child: TextField(
-                controller: controller,
-                keyboardType: TextInputType.number,
-                inputFormatters: const [_RwfAmountInputFormatter()],
-                style: amountStyle,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  hintText: '0',
-                  prefixText: 'RWF ',
-                  prefixStyle: prefixStyle,
-                  hintStyle: amountStyle.copyWith(color: colors.textMuted),
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  isCollapsed: true,
-                  contentPadding: EdgeInsets.zero,
-                ),
-              ),
-            ),
-          ),
-          if (detail != null) ...[
-            CollectSpacing.gap8,
-            Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
-          ],
-          if (showQuickAmounts && quickAmounts.isNotEmpty) ...[
-            CollectSpacing.gap16,
-            Wrap(
-              spacing: CollectSpacing.x2,
-              runSpacing: CollectSpacing.x2,
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: '$effectiveLabel entry',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.compact,
+        padding: CollectSpacing.cardPaddingComfortable,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                for (final option in quickAmounts)
-                  ChoiceChip(
-                    label: Text(_compactAmount(option)),
-                    selected: amount == option,
-                    selectedColor: CollectRuntimeTokens.chipSelectedBackground(
-                      colors,
-                    ),
-                    backgroundColor: CollectRuntimeTokens.chipBackground(
-                      colors,
-                    ),
-                    showCheckmark: false,
-                    side: BorderSide(
-                      color: CollectRuntimeTokens.chipBorder(
-                        colors,
-                        selected: amount == option,
+                Expanded(
+                  child: Semantics(
+                    header: true,
+                    label: effectiveLabel,
+                    child: ExcludeSemantics(
+                      child: Text(
+                        effectiveLabel,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: colors.textSecondary,
+                              fontWeight: FontWeight.w800,
+                            ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      width: amount == option ? 1.5 : 1,
                     ),
-                    labelStyle: Theme.of(context).textTheme.labelLarge
-                        ?.copyWith(
-                          color: amount == option
-                              ? colors.selectedOnAccent
-                              : colors.textPrimary,
-                          fontWeight: FontWeight.w900,
+                  ),
+                ),
+                if (showCurrencyChip)
+                  Semantics(
+                    label: 'Currency RWF',
+                    child: ExcludeSemantics(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: CollectRuntimeTokens.chipBackground(colors),
+                          borderRadius: CollectRadius.pillBorder,
+                          border: Border.all(
+                            color: CollectRuntimeTokens.inputBorder(colors),
+                          ),
                         ),
-                    onSelected: (_) => onQuickAmount(option),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: CollectSpacing.x3,
+                            vertical: CollectSpacing.x1,
+                          ),
+                          child: Text(
+                            'RWF',
+                            style: CollectTypography.eyebrowLabel(
+                              colors.textMuted,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
               ],
             ),
-          ],
-          if (error != null) ...[
-            CollectSpacing.gap12,
-            Text(
-              error!,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: colors.danger),
+            CollectSpacing.gap16,
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: CollectRuntimeTokens.inputFill(colors),
+                borderRadius: CollectRadius.panelBorder,
+                border: Border.all(
+                  color: CollectRuntimeTokens.inputBorder(colors),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: CollectSpacing.x4,
+                  vertical: CollectSpacing.x3,
+                ),
+                child: Semantics(
+                  container: true,
+                  textField: true,
+                  label: '$effectiveLabel field',
+                  value: amountSemanticValue,
+                  hint: 'Enter amount in Rwandan francs',
+                  child: TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: const [_RwfAmountInputFormatter()],
+                    style: amountStyle,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: '0',
+                      prefixText: 'RWF ',
+                      prefixStyle: prefixStyle,
+                      hintStyle: amountStyle.copyWith(color: colors.textMuted),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      focusedErrorBorder: InputBorder.none,
+                      isCollapsed: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ),
+                ),
+              ),
             ),
+            if (detail != null) ...[
+              CollectSpacing.gap8,
+              Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
+            ],
+            if (showQuickAmounts && quickAmounts.isNotEmpty) ...[
+              CollectSpacing.gap16,
+              Wrap(
+                spacing: CollectSpacing.x2,
+                runSpacing: CollectSpacing.x2,
+                children: [
+                  for (final option in quickAmounts)
+                    ChoiceChip(
+                      label: Text(_compactAmount(option)),
+                      selected: amount == option,
+                      selectedColor:
+                          CollectRuntimeTokens.chipSelectedBackground(colors),
+                      backgroundColor: CollectRuntimeTokens.chipBackground(
+                        colors,
+                      ),
+                      showCheckmark: false,
+                      side: BorderSide(
+                        color: CollectRuntimeTokens.chipBorder(
+                          colors,
+                          selected: amount == option,
+                        ),
+                        width: amount == option ? 1.5 : 1,
+                      ),
+                      labelStyle: Theme.of(context).textTheme.labelLarge
+                          ?.copyWith(
+                            color: amount == option
+                                ? colors.selectedOnAccent
+                                : colors.textPrimary,
+                            fontWeight: FontWeight.w900,
+                          ),
+                      onSelected: (_) => onQuickAmount(option),
+                    ),
+                ],
+              ),
+            ],
+            if (error != null) ...[
+              CollectSpacing.gap12,
+              Semantics(
+                liveRegion: true,
+                label: error!,
+                child: Text(
+                  error!,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: colors.danger),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

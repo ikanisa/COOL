@@ -109,6 +109,9 @@ void main() {
   final developerAccountSeedData = File(
     'supabase/migrations/20260701090000_developer_account_seed_data.sql',
   ).readAsStringSync();
+  final hardenedDeveloperAndGroupRpcs = File(
+    'supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -667,58 +670,72 @@ void main() {
     );
   });
 
-  test(
-    'admin WhatsApp OTP login does not bootstrap platform owner in browser',
-    () {
-      final adminRuntime = File(
-        'lib/admin/core/admin_runtime.dart',
-      ).readAsStringSync();
+  test('admin WhatsApp OTP login does not bootstrap platform owner in browser', () {
+    final adminRuntime = File(
+      'lib/admin/core/admin_runtime.dart',
+    ).readAsStringSync();
 
-      expect(adminRuntime, contains("'+250788767816'"));
-      expect(adminRuntime, contains('OtpChannel.whatsapp'));
-      expect(
-        adminRuntime,
-        isNot(contains('admin_bootstrap_whatsapp_operator')),
-      );
-      expect(
-        adminRuntime,
-        contains('Use the registered admin WhatsApp number.'),
-      );
+    expect(adminRuntime, contains("'+250788767816'"));
+    expect(adminRuntime, contains('OtpChannel.whatsapp'));
+    expect(adminRuntime, isNot(contains('admin_bootstrap_whatsapp_operator')));
+    expect(adminRuntime, contains('Use the registered admin WhatsApp number.'));
 
-      expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
-      expect(developerAccountSeedData, contains("'+250788767816'"));
-      expect(
-        developerAccountSeedData,
-        contains('create or replace function ensure_developer_account_data()'),
-      );
-      expect(developerAccountSeedData, contains('auth.uid()'));
-      expect(developerAccountSeedData, contains('from auth.users u'));
-      expect(developerAccountSeedData, contains('developer-parish-support'));
-      expect(developerAccountSeedData, contains('developer-ikimina-savings'));
-      expect(
-        developerAccountSeedData,
-        contains(
-          'grant execute on function ensure_developer_account_data() to authenticated',
-        ),
-      );
-      expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
-      expect(
-        disabledBrowserAdminBootstrap,
-        contains(
-          'create or replace function admin_bootstrap_whatsapp_operator()',
-        ),
-      );
-      expect(
-        disabledBrowserAdminBootstrap,
-        contains('from public, anon, authenticated'),
-      );
-      expect(disabledBrowserAdminBootstrap, contains('to service_role'));
-      expect(
-        disabledBrowserAdminBootstrap,
-        contains('admin_bootstrap_whatsapp_operator is disabled'),
-      );
-    },
-  );
+    expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
+    expect(developerAccountSeedData, contains("'+250788767816'"));
+    expect(
+      developerAccountSeedData,
+      contains('create or replace function ensure_developer_account_data()'),
+    );
+    expect(developerAccountSeedData, contains('auth.uid()'));
+    expect(developerAccountSeedData, contains('from auth.users u'));
+    expect(developerAccountSeedData, contains('developer-parish-support'));
+    expect(developerAccountSeedData, contains('developer-ikimina-savings'));
+    expect(
+      hardenedDeveloperAndGroupRpcs,
+      contains(
+        "collection_church constant uuid := '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001'::uuid",
+      ),
+    );
+    expect(
+      hardenedDeveloperAndGroupRpcs,
+      contains('on conflict (id) do nothing'),
+    );
+    expect(
+      hardenedDeveloperAndGroupRpcs,
+      isNot(contains('payment_id = excluded.payment_id')),
+    );
+    expect(
+      hardenedDeveloperAndGroupRpcs,
+      contains('create or replace function archive_group(collection uuid)'),
+    );
+    expect(hardenedDeveloperAndGroupRpcs, contains('security invoker'));
+    expect(
+      hardenedDeveloperAndGroupRpcs,
+      contains('create or replace function transfer_group_ownership('),
+    );
+    expect(
+      developerAccountSeedData,
+      contains(
+        'grant execute on function ensure_developer_account_data() to authenticated',
+      ),
+    );
+    expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
+    expect(
+      disabledBrowserAdminBootstrap,
+      contains(
+        'create or replace function admin_bootstrap_whatsapp_operator()',
+      ),
+    );
+    expect(
+      disabledBrowserAdminBootstrap,
+      contains('from public, anon, authenticated'),
+    );
+    expect(disabledBrowserAdminBootstrap, contains('to service_role'));
+    expect(
+      disabledBrowserAdminBootstrap,
+      contains('admin_bootstrap_whatsapp_operator is disabled'),
+    );
+  });
 
   test('WhatsApp OTP auth can pass CAPTCHA tokens when enabled', () {
     final authScreen = File(
@@ -1208,6 +1225,18 @@ void main() {
         "('authenticated', 'admin_update_collection_support_status', 'EXECUTE')",
       ),
     );
+    expect(
+      readiness,
+      contains("('authenticated', 'archive_group', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'ensure_developer_account_data', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'transfer_group_ownership', 'EXECUTE')"),
+    );
     expect(readiness, contains('information_schema.column_privileges'));
     expect(readiness, contains('missing column grant:'));
     expect(advisorGate, contains('supabase_cli db advisors'));
@@ -1218,8 +1247,9 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 50'),
+      contains('"authenticated_security_definer_function_executable" => 51'),
     );
+    expect(warningInventory, contains('ensure_developer_account_data()'));
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));
     expect(schemaInventory, contains('information_schema.role_table_grants'));
