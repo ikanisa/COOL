@@ -128,6 +128,103 @@ These should normally stay out of dynamic production tables:
    - Add indexes for published lookup keys and admin listing filters.
    - Add realtime invalidation only where clients need live refresh.
 
+## Implementation Status
+
+### 2026-07-04 P0 Public Runtime Config
+
+Implemented locally:
+
+- Added `supabase/migrations/20260704100000_public_runtime_config.sql`.
+- Added `brand_entities`, `support_channels`, and `payment_entrypoints`.
+- Enabled RLS on all three tables.
+- Added active-row public read policies and authenticated admin manage policies.
+- Added explicit Data API grants for `anon` and `authenticated`.
+- Added `get_public_runtime_config()` for client-safe public config reads.
+- Added audit and realtime invalidation triggers for runtime config changes.
+- Seeded current Collect brand, WhatsApp, email, and Rwanda MoMo USSD values.
+- Added `CollectRuntimeConfig`, `collectPublicRuntimeConfigProvider`, and
+  `collectRuntimeConfigProvider`.
+- Updated landing-page WhatsApp/email/USSD usage and mobile settings support to
+  consume runtime config with offline defaults.
+
+### 2026-07-04 P0 Admin Runtime Metadata
+
+Implemented locally:
+
+- Added `supabase/migrations/20260704110000_admin_runtime_metadata.sql`.
+- Added `admin_navigation_items`, `admin_queue_specs`,
+  `admin_queue_filter_options`, and `admin_queue_signals`.
+- Enabled RLS on all four tables.
+- Added authenticated read/manage policies scoped through admin permissions.
+- Added explicit Data API grants for authenticated admin clients.
+- Added `admin_runtime_config()` for permission-filtered Admin PWA metadata.
+- Added audit and realtime invalidation triggers for Admin metadata changes.
+- Seeded current Admin navigation, queue titles/subtitles, status filters, sort
+  filters, priority signals, and workflow steps from the prior Flutter
+  constants.
+- Added `AdminRuntimeConfig`, `AdminNavigationItemConfig`,
+  `AdminQueueSpecConfig`, filter-option DTOs, and queue-signal DTOs.
+- Added `adminRuntimeConfigProvider` and a repository RPC call with backward
+  fallback when the migration is not present.
+- Updated Admin PWA navigation and queue list specs to prefer Supabase metadata
+  while retaining compile-time route and permission fallbacks.
+- Added Supabase contract coverage proving the tables, RLS, grants, RPC,
+  permission filtering, audit trigger, realtime trigger, seed coverage, and
+  Flutter consumption points.
+
+### 2026-07-04 P1 Policy Documents And Account Request Reasons
+
+Implemented locally:
+
+- Added `supabase/migrations/20260704120000_policy_documents_account_reasons.sql`.
+- Added `policy_documents`, `policy_document_sections`,
+  `policy_acceptance_events`, and `account_request_reason_options`.
+- Enabled RLS on all four tables.
+- Added public published-read policies for policy documents, sections, and
+  enabled account request reasons.
+- Added authenticated user-owned read/insert policies for policy acceptance
+  events.
+- Added authenticated admin manage policies for policy documents, sections, and
+  reason options.
+- Added explicit Data API grants for public reads, authenticated acceptance
+  writes, and authenticated admin-managed metadata writes.
+- Added `get_active_policy_document(kind, locale)`,
+  `list_account_request_reasons(request_type, locale)`, and
+  `record_policy_acceptance(policy_kind, policy_version, locale, source)`.
+- Added audit and realtime invalidation triggers for policy/reason metadata
+  changes.
+- Seeded the current in-app privacy, terms, and account deletion reason copy as
+  versioned published Supabase data.
+- Added `CollectPolicyDocument`, `CollectPolicySection`, and
+  `AccountRequestReasonOption` models with local fallback defaults.
+- Added `collectPolicyDocumentProvider` and
+  `collectAccountDeletionReasonsProvider`.
+- Updated mobile legal and account deletion request screens to consume
+  Supabase-backed policy/reason data with safe offline fallbacks.
+- Updated the Supabase advisor warning inventory to account for the intentional
+  public policy/reason metadata RPCs and authenticated acceptance RPC.
+- Added Supabase contract coverage for tables, RLS, grants, RPCs, audit,
+  realtime, seed data, provider wiring, and removal of in-screen deletion reason
+  constants.
+
+Linked deployment status:
+
+- Local migration validation passes.
+- Focused Supabase/Admin Flutter tests pass.
+- Linked advisor error gates passed before these local-only migrations.
+- `supabase_schema_inventory.sh --json` reports the new migration objects as
+  missing remotely until migrations `20260704100000`, `20260704110000`, and
+  `20260704120000` are pushed.
+- `supabase db push --dry-run` is blocked from this runner by Supabase network
+  restrictions: the current address is not in the tenant allow list.
+
+Remaining phases:
+
+- P1 collection type/subtype catalog with server-side RPC validation.
+- P1 payment workflow/status metadata and notification templates.
+- Public website CMS tables and static-site build integration after the runtime
+  config migration is deployed.
+
 ## Repeatable Scan
 
 Run this command after new product work to catch fresh candidates:

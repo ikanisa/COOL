@@ -18,6 +18,77 @@ const collectDefaultWhatsAppSupportDisplay = '+250 795 588 248';
 const collectDefaultSupportEmail = 'info@ikanisa.com';
 const collectDefaultUssdCode = '*182*8*1*41258*2000#';
 
+const collectDefaultPrivacyPolicySections = [
+  CollectPolicySection(
+    title: 'Data we collect',
+    body:
+        'Collect stores your Collect ID, WhatsApp sign-in phone, optional MoMo account, group memberships, group profile details, payment requests, contribution records, and permission status. Group owners may allow Collect to process MoMo SMS evidence for payment matching.',
+  ),
+  CollectPolicySection(
+    title: 'How we use data',
+    body:
+        'We use this data to create and join groups, verify contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain audit records for payment disputes.',
+  ),
+  CollectPolicySection(
+    title: 'What stays private',
+    body:
+        'Receiver MoMo numbers, private confirmation text, sign-in phones, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe payment status.',
+  ),
+  CollectPolicySection(
+    title: 'Sharing',
+    body:
+        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or payment verification. We do not sell personal data.',
+  ),
+  CollectPolicySection(
+    title: 'Choices and retention',
+    body:
+        'You can update your MoMo account, request account deletion, leave groups where supported, and contact support for correction requests. Ledger records may be retained where needed for audit, security, dispute, and legal reasons.',
+  ),
+];
+
+const collectDefaultTermsSections = [
+  CollectPolicySection(
+    title: 'Using Collect',
+    body:
+        'Collect helps groups organize contributions, create payment requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, and payment information.',
+  ),
+  CollectPolicySection(
+    title: 'MoMo payments',
+    body:
+        'Payments are approved outside Collect through MoMo or the mobile money flow shown on your device. Collect does not ask for payment credentials or sign-in secrets.',
+  ),
+  CollectPolicySection(
+    title: 'Group ownership',
+    body:
+        'Group owners are responsible for group profile details, receiver setup, recurring settings, member management, and permission readiness. Android SMS access may be required for owner-side payment verification.',
+  ),
+  CollectPolicySection(
+    title: 'Disputes and corrections',
+    body:
+        'If a payment is missing, duplicated, incorrect, or needs review, contact support. Collect may use payment status, transaction references, SMS evidence, and audit logs to investigate.',
+  ),
+  CollectPolicySection(
+    title: 'Acceptable use',
+    body:
+        'Do not create misleading groups, impersonate another person, abuse QR links, submit false payment claims, or use Collect to request illegal or unauthorized payments.',
+  ),
+];
+
+const collectDefaultAccountDeletionReasons = [
+  AccountRequestReasonOption(
+    key: 'no_longer_use_collect',
+    label: 'I no longer use Collect',
+  ),
+  AccountRequestReasonOption(
+    key: 'joined_by_mistake',
+    label: 'I joined by mistake',
+  ),
+  AccountRequestReasonOption(
+    key: 'prefer_not_to_keep_data',
+    label: 'I prefer not to keep my data',
+  ),
+];
+
 enum CollectionType {
   ikimina,
   sport,
@@ -152,6 +223,85 @@ class CollectRuntimeConfig {
         ussd['display_code'],
         _nonEmpty(ussd['code'], defaults.ussdDisplayCode),
       ),
+    );
+  }
+}
+
+@immutable
+class CollectPolicyDocument {
+  const CollectPolicyDocument({
+    required this.kind,
+    required this.title,
+    required this.version,
+    required this.locale,
+    required this.sections,
+  });
+
+  final String kind;
+  final String title;
+  final String version;
+  final String locale;
+  final List<CollectPolicySection> sections;
+
+  factory CollectPolicyDocument.defaults(String kind) {
+    final normalized = kind.trim().toLowerCase();
+    final isPrivacy = normalized == 'privacy';
+    return CollectPolicyDocument(
+      kind: isPrivacy ? 'privacy' : 'terms',
+      title: isPrivacy ? 'Privacy Policy' : 'Terms & Conditions',
+      version: 'local-fallback',
+      locale: 'en',
+      sections: isPrivacy
+          ? collectDefaultPrivacyPolicySections
+          : collectDefaultTermsSections,
+    );
+  }
+
+  factory CollectPolicyDocument.fromJson(
+    Map<String, dynamic> json, {
+    required String fallbackKind,
+  }) {
+    final fallback = CollectPolicyDocument.defaults(fallbackKind);
+    final sections = [
+      for (final item in _mapList(json['sections']))
+        CollectPolicySection.fromJson(item),
+    ];
+    return CollectPolicyDocument(
+      kind: _nonEmpty(json['kind'], fallback.kind),
+      title: _nonEmpty(json['title'], fallback.title),
+      version: _nonEmpty(json['version'], fallback.version),
+      locale: _nonEmpty(json['locale'], fallback.locale),
+      sections: sections.isEmpty ? fallback.sections : sections,
+    );
+  }
+}
+
+@immutable
+class CollectPolicySection {
+  const CollectPolicySection({required this.title, required this.body});
+
+  final String title;
+  final String body;
+
+  factory CollectPolicySection.fromJson(Map<String, dynamic> json) {
+    return CollectPolicySection(
+      title: _nonEmpty(json['title'], 'Policy'),
+      body: _nonEmpty(json['body'], ''),
+    );
+  }
+}
+
+@immutable
+class AccountRequestReasonOption {
+  const AccountRequestReasonOption({required this.key, required this.label});
+
+  final String key;
+  final String label;
+
+  factory AccountRequestReasonOption.fromJson(Map<String, dynamic> json) {
+    return AccountRequestReasonOption(
+      key: _nonEmpty(json['key'], ''),
+      label: _nonEmpty(json['label'], 'Other'),
     );
   }
 }

@@ -32,9 +32,16 @@ class AdminShell extends ConsumerWidget {
           data: (value) {
             if (value == null) return const AdminDeniedPage();
             ref.watch(adminRealtimeSubscriptionProvider);
-            final destinations = _adminNavDestinationsFor(value);
-            final requiredPermission = adminRequiredPermissionForPath(location);
-            final page = adminCanOpenPath(value, location)
+            final runtimeConfig = ref
+                .watch(adminRuntimeConfigProvider)
+                .valueOrNull;
+            final destinations = _adminNavDestinationsFor(value, runtimeConfig);
+            final requiredPermission = adminRequiredPermissionForPath(
+              location,
+              runtimeConfig: runtimeConfig,
+            );
+            final page =
+                adminCanOpenPath(value, location, runtimeConfig: runtimeConfig)
                 ? child
                 : AdminDeniedPage(requiredPermission: requiredPermission);
             final content = Semantics(
@@ -183,6 +190,15 @@ class _AdminNavDestination {
   final IconData icon;
   final String path;
   final String requiredPermission;
+
+  factory _AdminNavDestination.fromConfig(AdminNavigationItemConfig config) {
+    return _AdminNavDestination(
+      config.label,
+      _adminIconForKey(config.iconKey),
+      config.path,
+      config.requiredPermission,
+    );
+  }
 }
 
 class _AdminSidebar extends StatelessWidget {
@@ -497,16 +513,32 @@ class AdminPageError extends StatelessWidget {
   }
 }
 
-List<_AdminNavDestination> _adminNavDestinationsFor(AdminIdentity identity) {
+List<_AdminNavDestination> _adminNavDestinationsFor(
+  AdminIdentity identity, [
+  AdminRuntimeConfig? runtimeConfig,
+]) {
+  final configuredDestinations = runtimeConfig?.navigationItems
+      .map(_AdminNavDestination.fromConfig)
+      .toList();
+  final source = configuredDestinations?.isEmpty == false
+      ? configuredDestinations!
+      : _adminNavDestinations;
   return [
-    for (final destination in _adminNavDestinations)
+    for (final destination in source)
       if (adminIdentityAllows(identity, destination.requiredPermission))
         destination,
   ];
 }
 
-bool adminCanOpenPath(AdminIdentity identity, String path) {
-  final permission = adminRequiredPermissionForPath(path);
+bool adminCanOpenPath(
+  AdminIdentity identity,
+  String path, {
+  AdminRuntimeConfig? runtimeConfig,
+}) {
+  final permission = adminRequiredPermissionForPath(
+    path,
+    runtimeConfig: runtimeConfig,
+  );
   return permission == null || adminIdentityAllows(identity, permission);
 }
 
@@ -514,11 +546,46 @@ bool adminIdentityAllows(AdminIdentity identity, String permission) {
   return identity.permissions.contains(permission);
 }
 
-String? adminRequiredPermissionForPath(String path) {
+String? adminRequiredPermissionForPath(
+  String path, {
+  AdminRuntimeConfig? runtimeConfig,
+}) {
+  final configuredDestinations = runtimeConfig?.navigationItems
+      .map(_AdminNavDestination.fromConfig)
+      .toList();
+  if (configuredDestinations?.isEmpty == false) {
+    for (final destination in configuredDestinations!.reversed) {
+      if (_isSelected(destination.path, path)) {
+        return destination.requiredPermission;
+      }
+    }
+  }
   for (final destination in _adminNavDestinations.reversed) {
     if (_isSelected(destination.path, path)) {
       return destination.requiredPermission;
     }
   }
   return null;
+}
+
+IconData _adminIconForKey(String iconKey) {
+  return switch (iconKey.trim().toLowerCase()) {
+    'dashboard' || 'dashboard_outlined' => Icons.dashboard_outlined,
+    'groups' || 'folder_copy' => Icons.folder_copy_outlined,
+    'members' || 'people' => Icons.people_outline,
+    'payments' || 'payment_intents' => Icons.payments_outlined,
+    'sms_parsing' || 'receipt_long' => Icons.receipt_long_outlined,
+    'allocations' || 'account_tree' => Icons.account_tree_outlined,
+    'exceptions' || 'call_split' => Icons.call_split_outlined,
+    'ledger' || 'account_balance' => Icons.account_balance_outlined,
+    'receivers' || 'settings_phone' => Icons.settings_phone_outlined,
+    'sms' => Icons.sms_outlined,
+    'audit' || 'policy' => Icons.policy_outlined,
+    'settings' || 'tune' => Icons.tune_outlined,
+    'feature_flags' || 'flag' => Icons.flag_outlined,
+    'system_health' || 'monitor_heart' => Icons.monitor_heart_outlined,
+    'admin_users' ||
+    'admin_panel_settings' => Icons.admin_panel_settings_outlined,
+    _ => Icons.admin_panel_settings_outlined,
+  };
 }

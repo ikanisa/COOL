@@ -59,11 +59,17 @@ end
 allowed_security_max = {
   "pg_graphql_anon_table_exposed" => 9,
   "pg_graphql_authenticated_table_exposed" => 18,
-  "anon_security_definer_function_executable" => 2,
-  # The one post-20260703 increase is ensure_developer_account_data(), which
-  # remains security definer because it seeds protected developer-owned data
-  # after verifying the signed-in developer phone number.
-  "authenticated_security_definer_function_executable" => 51,
+  # get_active_policy_document() and list_account_request_reasons() are public
+  # read-only metadata RPCs and intentionally run with a pinned search path.
+  "anon_security_definer_function_executable" => 4,
+  # The post-20260703 increases are ensure_developer_account_data(), which
+  # seeds protected developer-owned data after verifying the signed-in
+  # developer phone number; admin_runtime_config(), which filters metadata rows
+  # through the signed-in admin's permissions; get_active_policy_document() and
+  # list_account_request_reasons(), which return published policy content and
+  # enabled request reasons; and record_policy_acceptance(), which writes the
+  # signed-in user's policy acceptance event.
+  "authenticated_security_definer_function_executable" => 55,
   "auth_leaked_password_protection" => 1
 }
 

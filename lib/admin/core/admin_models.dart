@@ -116,6 +116,127 @@ class AdminQueueSla {
   }
 }
 
+class AdminRuntimeConfig {
+  const AdminRuntimeConfig({
+    required this.navigationItems,
+    required this.queueSpecs,
+  });
+
+  final List<AdminNavigationItemConfig> navigationItems;
+  final List<AdminQueueSpecConfig> queueSpecs;
+
+  factory AdminRuntimeConfig.fromJson(Map<String, dynamic> json) {
+    return AdminRuntimeConfig(
+      navigationItems: [
+        for (final item in _mapList(json['navigation_items']))
+          AdminNavigationItemConfig.fromJson(item),
+      ],
+      queueSpecs: [
+        for (final item in _mapList(json['queue_specs']))
+          AdminQueueSpecConfig.fromJson(item),
+      ],
+    );
+  }
+}
+
+class AdminNavigationItemConfig {
+  const AdminNavigationItemConfig({
+    required this.label,
+    required this.iconKey,
+    required this.path,
+    required this.requiredPermission,
+  });
+
+  final String label;
+  final String iconKey;
+  final String path;
+  final String requiredPermission;
+
+  factory AdminNavigationItemConfig.fromJson(Map<String, dynamic> json) {
+    return AdminNavigationItemConfig(
+      label: _nonEmpty(json['label'], 'Admin'),
+      iconKey: _nonEmpty(json['icon_key'], 'admin_panel_settings'),
+      path: _nonEmpty(json['route_path'], '/admin'),
+      requiredPermission: _nonEmpty(
+        json['required_permission'],
+        'overview.read',
+      ),
+    );
+  }
+}
+
+class AdminQueueSpecConfig {
+  const AdminQueueSpecConfig({
+    required this.rpcName,
+    required this.title,
+    required this.subtitle,
+    required this.statusOptions,
+    required this.sortOptions,
+    required this.prioritySignals,
+    required this.workflowSteps,
+  });
+
+  final String rpcName;
+  final String title;
+  final String subtitle;
+  final List<AdminFilterOptionConfig> statusOptions;
+  final List<AdminFilterOptionConfig> sortOptions;
+  final List<AdminQueueSignalConfig> prioritySignals;
+  final List<AdminQueueSignalConfig> workflowSteps;
+
+  factory AdminQueueSpecConfig.fromJson(Map<String, dynamic> json) {
+    return AdminQueueSpecConfig(
+      rpcName: _nonEmpty(json['rpc_name'], ''),
+      title: _nonEmpty(json['title'], 'Admin queue'),
+      subtitle: _nonEmpty(json['subtitle'], 'Review records.'),
+      statusOptions: [
+        for (final item in _mapList(json['status_options']))
+          AdminFilterOptionConfig.fromJson(item),
+      ],
+      sortOptions: [
+        for (final item in _mapList(json['sort_options']))
+          AdminFilterOptionConfig.fromJson(item),
+      ],
+      prioritySignals: [
+        for (final item in _mapList(json['priority_signals']))
+          AdminQueueSignalConfig.fromJson(item),
+      ],
+      workflowSteps: [
+        for (final item in _mapList(json['workflow_steps']))
+          AdminQueueSignalConfig.fromJson(item),
+      ],
+    );
+  }
+}
+
+class AdminFilterOptionConfig {
+  const AdminFilterOptionConfig({required this.value, required this.label});
+
+  final String value;
+  final String label;
+
+  factory AdminFilterOptionConfig.fromJson(Map<String, dynamic> json) {
+    return AdminFilterOptionConfig(
+      value: (json['value'] as String?) ?? '',
+      label: _nonEmpty(json['label'], 'All'),
+    );
+  }
+}
+
+class AdminQueueSignalConfig {
+  const AdminQueueSignalConfig({required this.iconKey, required this.label});
+
+  final String iconKey;
+  final String label;
+
+  factory AdminQueueSignalConfig.fromJson(Map<String, dynamic> json) {
+    return AdminQueueSignalConfig(
+      iconKey: _nonEmpty(json['icon_key'], 'info'),
+      label: _nonEmpty(json['label'], 'Review'),
+    );
+  }
+}
+
 const _tableFieldNames = {
   'id',
   'title',
@@ -141,4 +262,17 @@ int? _intOrNull(Object? value) {
   if (value is num) return value.toInt();
   if (value is String) return int.tryParse(value);
   return null;
+}
+
+List<Map<String, dynamic>> _mapList(Object? value) {
+  if (value is! List) return const [];
+  return [
+    for (final item in value)
+      if (item is Map) Map<String, dynamic>.from(item),
+  ];
+}
+
+String _nonEmpty(Object? value, String fallback) {
+  final text = value?.toString().trim();
+  return text == null || text.isEmpty ? fallback : text;
 }

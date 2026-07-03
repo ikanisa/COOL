@@ -29,7 +29,45 @@ class _AdminListSpec {
     AdminFilterOption(value: 'created_at_asc', label: 'Oldest'),
   ];
 
-  factory _AdminListSpec.forRpc(String rpcName) {
+  factory _AdminListSpec.fromConfig(AdminQueueSpecConfig config) {
+    return _AdminListSpec(
+      title: config.title,
+      subtitle: config.subtitle,
+      statusOptions: [
+        for (final option in config.statusOptions)
+          AdminFilterOption(value: option.value, label: option.label),
+      ],
+      sortOptions: [
+        for (final option in config.sortOptions)
+          AdminFilterOption(value: option.value, label: option.label),
+      ],
+      prioritySignals: [
+        for (final signal in config.prioritySignals)
+          _AdminQueueSignal(
+            _adminQueueIconForKey(signal.iconKey),
+            signal.label,
+          ),
+      ],
+      workflowSteps: [
+        for (final signal in config.workflowSteps)
+          _AdminQueueSignal(
+            _adminQueueIconForKey(signal.iconKey),
+            signal.label,
+          ),
+      ],
+    );
+  }
+
+  factory _AdminListSpec.forRpc(
+    String rpcName, {
+    AdminRuntimeConfig? runtimeConfig,
+  }) {
+    final configured = runtimeConfig?.queueSpecs.where(
+      (spec) => spec.rpcName == rpcName,
+    );
+    if (configured != null && configured.isNotEmpty) {
+      return _AdminListSpec.fromConfig(configured.first);
+    }
     return switch (rpcName) {
       'admin_list_payment_events' => const _AdminListSpec(
         title: 'SMS parsing',
@@ -339,6 +377,56 @@ class _AdminListSpec {
       ),
     };
   }
+}
+
+IconData _adminQueueIconForKey(String iconKey) {
+  return switch (iconKey.trim().toLowerCase()) {
+    'account_balance' => Icons.account_balance_outlined,
+    'account_balance_wallet' => Icons.account_balance_wallet_outlined,
+    'account_tree' => Icons.account_tree_outlined,
+    'admin_panel_settings' => Icons.admin_panel_settings_outlined,
+    'badge' => Icons.badge_outlined,
+    'block' => Icons.block_outlined,
+    'call_split' => Icons.call_split_outlined,
+    'compare_arrows' => Icons.compare_arrows_outlined,
+    'dashboard' => Icons.dashboard_outlined,
+    'escalator_warning' => Icons.escalator_warning_outlined,
+    'fact_check' => Icons.fact_check_outlined,
+    'filter_alt' => Icons.filter_alt_outlined,
+    'filter_list' => Icons.filter_list_outlined,
+    'flag' => Icons.flag_outlined,
+    'folder_copy' => Icons.folder_copy_outlined,
+    'group' => Icons.group_outlined,
+    'groups' => Icons.groups_outlined,
+    'history' => Icons.history_outlined,
+    'lock' => Icons.lock_outline,
+    'monitor_heart' => Icons.monitor_heart_outlined,
+    'note_alt' => Icons.note_alt_outlined,
+    'notes' => Icons.notes_outlined,
+    'open_in_new' => Icons.open_in_new_outlined,
+    'payments' => Icons.payments_outlined,
+    'person_search' => Icons.person_search_outlined,
+    'phone_android' => Icons.phone_android_outlined,
+    'policy' => Icons.policy_outlined,
+    'privacy_tip' => Icons.privacy_tip_outlined,
+    'priority_high' => Icons.priority_high_outlined,
+    'receipt_long' => Icons.receipt_long_outlined,
+    'replay' => Icons.replay_outlined,
+    'report' => Icons.report_outlined,
+    'rule' => Icons.rule_outlined,
+    'rule_folder' => Icons.rule_folder_outlined,
+    'search' => Icons.search_outlined,
+    'security' => Icons.security_outlined,
+    'settings_phone' => Icons.settings_phone_outlined,
+    'sms' => Icons.sms_outlined,
+    'support_agent' => Icons.support_agent_outlined,
+    'tune' => Icons.tune_outlined,
+    'undo' => Icons.undo_outlined,
+    'verified' => Icons.verified_outlined,
+    'verified_user' => Icons.verified_user_outlined,
+    'visibility_off' => Icons.visibility_off_outlined,
+    _ => Icons.info_outline,
+  };
 }
 
 class _AdminQueueSignal {

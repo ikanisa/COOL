@@ -32,6 +32,8 @@ abstract class AdminRepositoryBase {
 
   Future<AdminQueueSla?> queueSla(String queueKey) async => null;
 
+  Future<AdminRuntimeConfig?> runtimeConfig() async => null;
+
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,

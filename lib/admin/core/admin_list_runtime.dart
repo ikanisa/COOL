@@ -29,8 +29,6 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   late Future<AdminQueueSla?> _slaFuture;
   var _lastRealtimeTick = 0;
 
-  _AdminListSpec get _spec => _AdminListSpec.forRpc(widget.rpcName);
-
   @override
   void initState() {
     super.initState();
@@ -53,9 +51,14 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
         if (mounted) _refresh();
       });
     }
+    final runtimeConfig = ref.watch(adminRuntimeConfigProvider).valueOrNull;
+    final spec = _AdminListSpec.forRpc(
+      widget.rpcName,
+      runtimeConfig: runtimeConfig,
+    );
     return AdminPage(
       title: widget.title,
-      subtitle: _spec.subtitle,
+      subtitle: spec.subtitle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,8 +66,8 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             searchController: _search,
             status: _status,
             sortBy: _sortBy,
-            statusOptions: _spec.statusOptions,
-            sortOptions: _spec.sortOptions,
+            statusOptions: spec.statusOptions,
+            sortOptions: spec.sortOptions,
             onStatusChanged: (value) => setState(() {
               _status = value;
               _page = 0;
@@ -78,7 +81,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             onRefresh: () => _refresh(resetPage: true),
           ),
           const SizedBox(height: 16),
-          _AdminQueueSummary(spec: _spec),
+          _AdminQueueSummary(spec: spec),
           const SizedBox(height: 16),
           FutureBuilder<AdminListResult>(
             future: _future,
@@ -122,7 +125,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                           ),
                   ),
                   const SizedBox(height: 12),
-                  _AdminQueueExportBar(spec: _spec, rows: rows),
+                  _AdminQueueExportBar(spec: spec, rows: rows),
                   const SizedBox(height: 12),
                   _AdminPaginationBar(
                     start: start + 1,
@@ -140,9 +143,9 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                     }),
                   ),
                   const SizedBox(height: 16),
-                  _AdminWorkflowSteps(spec: _spec),
+                  _AdminWorkflowSteps(spec: spec),
                   const SizedBox(height: 16),
-                  _AdminSlaPanel(spec: _spec, future: _slaFuture),
+                  _AdminSlaPanel(spec: spec, future: _slaFuture),
                 ],
               );
             },

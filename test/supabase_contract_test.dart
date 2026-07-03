@@ -115,6 +115,12 @@ void main() {
   final publicRuntimeConfig = File(
     'supabase/migrations/20260704100000_public_runtime_config.sql',
   ).readAsStringSync();
+  final adminRuntimeMetadata = File(
+    'supabase/migrations/20260704110000_admin_runtime_metadata.sql',
+  ).readAsStringSync();
+  final policyDocumentsAccountReasons = File(
+    'supabase/migrations/20260704120000_policy_documents_account_reasons.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -519,6 +525,198 @@ void main() {
       publicRuntimeConfig,
       isNot(contains('COLLECT_ADMIN_WHATSAPP_PHONE')),
     );
+  });
+
+  test('admin runtime metadata is table-backed and permission-scoped', () {
+    final adminShell = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final adminRuntime = File(
+      'lib/admin/core/admin_runtime.dart',
+    ).readAsStringSync();
+    final adminListRuntime = File(
+      'lib/admin/core/admin_list_runtime.dart',
+    ).readAsStringSync();
+    final adminListSpecs = File(
+      'lib/admin/core/admin_list_specs.dart',
+    ).readAsStringSync();
+    final adminModels = File(
+      'lib/admin/core/admin_models.dart',
+    ).readAsStringSync();
+
+    for (final table in [
+      'admin_navigation_items',
+      'admin_queue_specs',
+      'admin_queue_filter_options',
+      'admin_queue_signals',
+    ]) {
+      expect(
+        adminRuntimeMetadata,
+        contains('create table if not exists $table'),
+      );
+      expect(
+        adminRuntimeMetadata,
+        contains('alter table $table enable row level security'),
+      );
+      expect(
+        adminRuntimeMetadata,
+        contains('grant select, insert, update, delete on $table'),
+      );
+    }
+    expect(
+      adminRuntimeMetadata,
+      contains('create or replace function admin_runtime_config()'),
+    );
+    expect(adminRuntimeMetadata, contains('security definer'));
+    expect(
+      adminRuntimeMetadata,
+      contains(
+        'public.has_admin_permission(n.required_permission, auth.uid())',
+      ),
+    );
+    expect(
+      adminRuntimeMetadata,
+      contains(
+        'public.has_admin_permission(q.required_permission, auth.uid())',
+      ),
+    );
+    expect(
+      adminRuntimeMetadata,
+      contains('revoke execute on function admin_runtime_config()'),
+    );
+    expect(
+      adminRuntimeMetadata,
+      contains(
+        'grant execute on function admin_runtime_config() to authenticated',
+      ),
+    );
+    expect(
+      adminRuntimeMetadata,
+      contains(
+        'create or replace function audit_admin_runtime_metadata_change()',
+      ),
+    );
+    expect(
+      adminRuntimeMetadata,
+      contains("execute function emit_app_realtime_event('settings')"),
+    );
+    expect(adminRuntimeMetadata, contains("'admin_list_payment_events'"));
+    expect(adminRuntimeMetadata, contains("'feature_flags', 'Feature flags'"));
+
+    expect(adminModels, contains('class AdminRuntimeConfig'));
+    expect(adminModels, contains('class AdminNavigationItemConfig'));
+    expect(adminModels, contains('class AdminQueueSpecConfig'));
+    expect(adminRuntime, contains('adminRuntimeConfigProvider'));
+    expect(adminRuntime, contains("rpcMap('admin_runtime_config')"));
+    expect(adminRuntime, contains('_isMissingRuntimeConfigError'));
+    expect(adminShell, contains('runtimeConfig: runtimeConfig'));
+    expect(adminShell, contains('_AdminNavDestination.fromConfig'));
+    expect(adminListRuntime, contains('adminRuntimeConfigProvider'));
+    expect(adminListSpecs, contains('_AdminListSpec.fromConfig'));
+  });
+
+  test('policy documents and account reasons are dynamic and versioned', () {
+    final accountLegalScreens = File(
+      'lib/features/status/account_legal_screens.dart',
+    ).readAsStringSync();
+    final repositoryProviders = File(
+      'lib/shared/repositories/collect_repository_providers.dart',
+    ).readAsStringSync();
+    final collectModels = File(
+      'lib/shared/models/collect_models.dart',
+    ).readAsStringSync();
+
+    for (final table in [
+      'policy_documents',
+      'policy_document_sections',
+      'policy_acceptance_events',
+      'account_request_reason_options',
+    ]) {
+      expect(
+        policyDocumentsAccountReasons,
+        contains('create table if not exists $table'),
+      );
+      expect(
+        policyDocumentsAccountReasons,
+        contains('alter table $table enable row level security'),
+      );
+    }
+    expect(
+      policyDocumentsAccountReasons,
+      contains('create or replace function get_active_policy_document'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('create or replace function list_account_request_reasons'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('create or replace function record_policy_acceptance'),
+    );
+    expect(policyDocumentsAccountReasons, contains('security definer'));
+    expect(
+      policyDocumentsAccountReasons,
+      contains('grant execute on function get_active_policy_document'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('grant execute on function list_account_request_reasons'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('grant execute on function record_policy_acceptance'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('grant select on policy_documents to anon, authenticated'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains(
+        'grant select, insert on policy_acceptance_events to authenticated',
+      ),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('policy documents public published read'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('policy acceptance own insert'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('account request reasons public enabled read'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains('create or replace function audit_policy_runtime_change()'),
+    );
+    expect(
+      policyDocumentsAccountReasons,
+      contains("execute function emit_app_realtime_event('settings')"),
+    );
+    expect(policyDocumentsAccountReasons, contains("'Privacy Policy'"));
+    expect(policyDocumentsAccountReasons, contains("'Terms & Conditions'"));
+    expect(
+      policyDocumentsAccountReasons,
+      contains("'I no longer use Collect'"),
+    );
+
+    expect(collectModels, contains('class CollectPolicyDocument'));
+    expect(collectModels, contains('class CollectPolicySection'));
+    expect(collectModels, contains('class AccountRequestReasonOption'));
+    expect(repositoryProviders, contains('collectPolicyDocumentProvider'));
+    expect(repositoryProviders, contains("'get_active_policy_document'"));
+    expect(
+      repositoryProviders,
+      contains('collectAccountDeletionReasonsProvider'),
+    );
+    expect(repositoryProviders, contains("'list_account_request_reasons'"));
+    expect(accountLegalScreens, contains('CollectPolicyDocument.defaults'));
+    expect(
+      accountLegalScreens,
+      contains('collectAccountDeletionReasonsProvider'),
+    );
+    expect(accountLegalScreens, isNot(contains('static const _reasonOptions')));
   });
 
   test('stripe functions use current bank-debit-first APIs', () {
@@ -1271,16 +1469,40 @@ void main() {
       contains("('authenticated', 'app_realtime_events', 'SELECT')"),
     );
     for (final table in [
+      'account_request_reason_options',
+      'admin_navigation_items',
+      'admin_queue_filter_options',
+      'admin_queue_signals',
+      'admin_queue_specs',
       'brand_entities',
       'payment_entrypoints',
+      'policy_document_sections',
+      'policy_documents',
       'support_channels',
     ]) {
-      expect(readiness, contains("('anon', '$table', 'SELECT')"));
       expect(readiness, contains("('authenticated', '$table', 'SELECT')"));
       expect(readiness, contains("('authenticated', '$table', 'INSERT')"));
       expect(readiness, contains("('authenticated', '$table', 'UPDATE')"));
       expect(readiness, contains("('authenticated', '$table', 'DELETE')"));
     }
+    for (final table in [
+      'account_request_reason_options',
+      'brand_entities',
+      'payment_entrypoints',
+      'policy_document_sections',
+      'policy_documents',
+      'support_channels',
+    ]) {
+      expect(readiness, contains("('anon', '$table', 'SELECT')"));
+    }
+    expect(
+      readiness,
+      contains("('authenticated', 'policy_acceptance_events', 'SELECT')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'policy_acceptance_events', 'INSERT')"),
+    );
     expect(
       readiness,
       contains("('authenticated', 'admin_get_queue_sla', 'EXECUTE')"),
@@ -1301,6 +1523,10 @@ void main() {
     );
     expect(
       readiness,
+      contains("('authenticated', 'admin_runtime_config', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
       contains("('authenticated', 'archive_group', 'EXECUTE')"),
     );
     expect(
@@ -1317,7 +1543,27 @@ void main() {
     );
     expect(
       readiness,
+      contains("('anon', 'get_active_policy_document', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('anon', 'list_account_request_reasons', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
       contains("('authenticated', 'get_public_runtime_config', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'get_active_policy_document', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'list_account_request_reasons', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'record_policy_acceptance', 'EXECUTE')"),
     );
     expect(readiness, contains('information_schema.column_privileges'));
     expect(readiness, contains('missing column grant:'));
@@ -1329,9 +1575,16 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 51'),
+      contains('"anon_security_definer_function_executable" => 4'),
+    );
+    expect(
+      warningInventory,
+      contains('"authenticated_security_definer_function_executable" => 55'),
     );
     expect(warningInventory, contains('ensure_developer_account_data()'));
+    expect(warningInventory, contains('admin_runtime_config()'));
+    expect(warningInventory, contains('get_active_policy_document()'));
+    expect(warningInventory, contains('record_policy_acceptance'));
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));
     expect(schemaInventory, contains('information_schema.role_table_grants'));

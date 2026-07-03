@@ -31,6 +31,53 @@ final collectRuntimeConfigProvider = Provider<CollectRuntimeConfig>((ref) {
       CollectRuntimeConfig.defaults;
 });
 
+final collectPolicyDocumentProvider =
+    FutureProvider.family<CollectPolicyDocument, String>((ref, kind) async {
+      final fallback = CollectPolicyDocument.defaults(kind);
+      final supabase = ref.watch(supabaseClientProvider);
+      if (supabase == null) return fallback;
+      try {
+        final payload = await supabase.rpc<dynamic>(
+          'get_active_policy_document',
+          params: {'p_kind': fallback.kind, 'p_locale': fallback.locale},
+        );
+        if (payload is Map) {
+          return CollectPolicyDocument.fromJson(
+            Map<String, dynamic>.from(payload),
+            fallbackKind: fallback.kind,
+          );
+        }
+      } catch (_) {
+        return fallback;
+      }
+      return fallback;
+    });
+
+final collectAccountDeletionReasonsProvider =
+    FutureProvider<List<AccountRequestReasonOption>>((ref) async {
+      final supabase = ref.watch(supabaseClientProvider);
+      if (supabase == null) return collectDefaultAccountDeletionReasons;
+      try {
+        final payload = await supabase.rpc<dynamic>(
+          'list_account_request_reasons',
+          params: {'p_request_type': 'account_deletion', 'p_locale': 'en'},
+        );
+        if (payload is List) {
+          final reasons = [
+            for (final item in payload)
+              if (item is Map)
+                AccountRequestReasonOption.fromJson(
+                  Map<String, dynamic>.from(item),
+                ),
+          ].where((item) => item.key.isNotEmpty).toList(growable: false);
+          if (reasons.isNotEmpty) return reasons;
+        }
+      } catch (_) {
+        return collectDefaultAccountDeletionReasons;
+      }
+      return collectDefaultAccountDeletionReasons;
+    });
+
 final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
   ref,
 ) {

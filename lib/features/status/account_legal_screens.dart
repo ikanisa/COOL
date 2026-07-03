@@ -2,30 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-class LegalScreen extends StatelessWidget {
+class LegalScreen extends ConsumerWidget {
   const LegalScreen({required this.kind, super.key});
 
   final String kind;
 
   @override
-  Widget build(BuildContext context) {
-    final isPrivacy = kind == 'privacy';
-    final sections = isPrivacy ? _privacyPolicySections : _termsSections;
-    final title = isPrivacy ? 'Privacy Policy' : 'Terms & Conditions';
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fallback = CollectPolicyDocument.defaults(kind);
+    final document =
+        ref.watch(collectPolicyDocumentProvider(fallback.kind)).valueOrNull ??
+        fallback;
+    final isPrivacy = document.kind == 'privacy';
     return ScreenScaffold(
-      title: title,
+      title: document.title,
       showHeader: false,
       children: [
-        _LegalPageHeader(title: title),
+        _LegalPageHeader(title: document.title),
         CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [for (final section in sections) _LegalText(section)],
+            children: [
+              for (final section in document.sections) _LegalText(section),
+            ],
           ),
         ),
         InfoSecurityBanner(
@@ -91,17 +96,10 @@ class _LegalPageHeader extends StatelessWidget {
   }
 }
 
-class _LegalSection {
-  const _LegalSection({required this.title, required this.body});
-
-  final String title;
-  final String body;
-}
-
 class _LegalText extends StatelessWidget {
   const _LegalText(this.section);
 
-  final _LegalSection section;
+  final CollectPolicySection section;
 
   @override
   Widget build(BuildContext context) {
@@ -138,62 +136,6 @@ class _LegalText extends StatelessWidget {
     );
   }
 }
-
-const _privacyPolicySections = [
-  _LegalSection(
-    title: 'Data we collect',
-    body:
-        'Collect stores your Collect ID, WhatsApp sign-in phone, optional MoMo account, group memberships, group profile details, payment requests, contribution records, and permission status. Group owners may allow Collect to process MoMo SMS evidence for payment matching.',
-  ),
-  _LegalSection(
-    title: 'How we use data',
-    body:
-        'We use this data to create and join groups, verify contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain audit records for payment disputes.',
-  ),
-  _LegalSection(
-    title: 'What stays private',
-    body:
-        'Receiver MoMo numbers, private confirmation text, sign-in phones, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe payment status.',
-  ),
-  _LegalSection(
-    title: 'Sharing',
-    body:
-        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or payment verification. We do not sell personal data.',
-  ),
-  _LegalSection(
-    title: 'Choices and retention',
-    body:
-        'You can update your MoMo account, request account deletion, leave groups where supported, and contact support for correction requests. Ledger records may be retained where needed for audit, security, dispute, and legal reasons.',
-  ),
-];
-
-const _termsSections = [
-  _LegalSection(
-    title: 'Using Collect',
-    body:
-        'Collect helps groups organize contributions, create payment requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, and payment information.',
-  ),
-  _LegalSection(
-    title: 'MoMo payments',
-    body:
-        'Payments are approved outside Collect through MoMo or the mobile money flow shown on your device. Collect does not ask for payment credentials or sign-in secrets.',
-  ),
-  _LegalSection(
-    title: 'Group ownership',
-    body:
-        'Group owners are responsible for group profile details, receiver setup, recurring settings, member management, and permission readiness. Android SMS access may be required for owner-side payment verification.',
-  ),
-  _LegalSection(
-    title: 'Disputes and corrections',
-    body:
-        'If a payment is missing, duplicated, incorrect, or needs review, contact support. Collect may use payment status, transaction references, SMS evidence, and audit logs to investigate.',
-  ),
-  _LegalSection(
-    title: 'Acceptable use',
-    body:
-        'Do not create misleading groups, impersonate another person, abuse QR links, submit false payment claims, or use Collect to request illegal or unauthorized payments.',
-  ),
-];
 
 class AccountSessionScreen extends ConsumerWidget {
   const AccountSessionScreen({super.key});
@@ -267,12 +209,6 @@ class DeleteAccountRequestScreen extends ConsumerStatefulWidget {
 
 class _DeleteAccountRequestScreenState
     extends ConsumerState<DeleteAccountRequestScreen> {
-  static const _reasonOptions = [
-    'I no longer use Collect',
-    'I joined by mistake',
-    'I prefer not to keep my data',
-  ];
-
   final Set<String> _selectedReasons = {};
   bool _submitted = false;
   bool _submitting = false;
@@ -280,6 +216,9 @@ class _DeleteAccountRequestScreenState
 
   @override
   Widget build(BuildContext context) {
+    final reasonOptions =
+        ref.watch(collectAccountDeletionReasonsProvider).valueOrNull ??
+        collectDefaultAccountDeletionReasons;
     return ScreenScaffold(
       title: 'Delete request',
       children: [
@@ -300,7 +239,7 @@ class _DeleteAccountRequestScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                for (final reason in _reasonOptions)
+                for (final reason in reasonOptions.map((item) => item.label))
                   _DeleteReasonOption(
                     label: reason,
                     selected: _selectedReasons.contains(reason),

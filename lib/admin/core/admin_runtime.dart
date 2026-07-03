@@ -49,6 +49,11 @@ final _adminOverviewProvider = FutureProvider<List<AdminMetric>>((ref) {
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
 
+final adminRuntimeConfigProvider = FutureProvider<AdminRuntimeConfig?>((ref) {
+  ref.watch(adminRealtimeTickProvider);
+  return ref.watch(adminRepositoryProvider).runtimeConfig();
+});
+
 const _collectAdminWhatsAppPhone = String.fromEnvironment(
   'COLLECT_ADMIN_WHATSAPP_PHONE',
 );
@@ -198,6 +203,19 @@ class AdminRepository extends AdminRepositoryBase {
   }
 
   @override
+  Future<AdminRuntimeConfig?> runtimeConfig() async {
+    if (_supabase == null) return null;
+    try {
+      final row = await rpcMap('admin_runtime_config');
+      if (row.isEmpty) return null;
+      return AdminRuntimeConfig.fromJson(row);
+    } on PostgrestException catch (error) {
+      if (!_isMissingRuntimeConfigError(error)) rethrow;
+      return null;
+    }
+  }
+
+  @override
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,
@@ -255,6 +273,16 @@ class AdminRepository extends AdminRepositoryBase {
     return message.contains('p_queue_key') ||
         message.contains('admin_get_queue_sla') ||
         message.contains('function') && message.contains('not found') ||
+        error.code == 'PGRST202';
+  }
+
+  bool _isMissingRuntimeConfigError(PostgrestException error) {
+    final message =
+        '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
+            .toLowerCase();
+    return message.contains('admin_runtime_config') ||
+        message.contains('function') && message.contains('not found') ||
+        error.code == '42883' ||
         error.code == 'PGRST202';
   }
 }
