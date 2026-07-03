@@ -2052,6 +2052,10 @@ checking Edge Function secret names
     expect(evidenceIndex, contains('mobile_route_artifact_gate'));
     expect(evidenceIndex, contains('android_release_signing_preflight'));
     expect(evidenceIndex, contains('android_kotlin_plugin_compat'));
+    expect(evidenceIndex, contains('RELEASE_EVIDENCE_BUNDLE_EXPLICIT'));
+    expect(evidenceIndex, contains('checksum_manifest_source'));
+    expect(evidenceIndex, contains('summary_source'));
+    expect(evidenceIndex, contains('latest_direct'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
     expect(evidenceIndex, isNot(contains('/auth/success')));

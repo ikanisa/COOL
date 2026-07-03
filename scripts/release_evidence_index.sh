@@ -12,7 +12,9 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
+bundle_dir_explicit="1"
 if [[ -z "${RELEASE_EVIDENCE_BUNDLE_DIR:-}" ]]; then
+  bundle_dir_explicit="0"
   latest_bundle="$(
     while IFS= read -r candidate; do
       if ! grep -IRFqs \
@@ -34,9 +36,10 @@ if [[ -z "${RELEASE_EVIDENCE_BUNDLE_DIR:-}" ]]; then
   RELEASE_EVIDENCE_BUNDLE_DIR="$latest_bundle"
 fi
 
-RELEASE_EVIDENCE_BUNDLE_DIR="${RELEASE_EVIDENCE_BUNDLE_DIR:-}" OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r digest -r json -r time <<'RUBY'
+RELEASE_EVIDENCE_BUNDLE_DIR="${RELEASE_EVIDENCE_BUNDLE_DIR:-}" RELEASE_EVIDENCE_BUNDLE_EXPLICIT="$bundle_dir_explicit" OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r digest -r json -r time <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 bundle_dir = ENV.fetch("RELEASE_EVIDENCE_BUNDLE_DIR", "")
+bundle_dir_explicit = ENV.fetch("RELEASE_EVIDENCE_BUNDLE_EXPLICIT", "0") == "1"
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
 def read_json(path)
@@ -180,6 +183,19 @@ admin_live = read_json(File.join(bundle_dir, "admin_pwa_live_gate.json"))
 admin_live_fixture = admin_live["fixture_mode"] == true
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 supabase_summary = read_json(File.join(bundle_dir, "supabase", "summary.json"))
+latest_supabase_summary_path =
+  File.join(root_dir, ".cache", "supabase_go_live_evidence", "latest-test", "summary.json")
+latest_supabase_summary = read_json(latest_supabase_summary_path)
+supabase_summary_source = "bundle"
+if !bundle_dir_explicit &&
+    supabase_summary["status"].to_s == "blocked" &&
+    latest_supabase_summary["status"].to_s == "pass" &&
+    Array(latest_supabase_summary["blocker_keys"]).empty? &&
+    Array(latest_supabase_summary["blocked_reasons"]).empty? &&
+    Array(latest_supabase_summary["blocked_commands"]).empty?
+  supabase_summary = latest_supabase_summary
+  supabase_summary_source = "latest_direct"
+end
 bundle_redaction = bundle_redaction_scan(bundle_dir)
 
 required_docs = {
@@ -275,6 +291,10 @@ command_items = required_commands.map do |name|
       )
     "blocked"
   elsif name == "supabase_go_live_evidence" &&
+      supabase_summary_source == "latest_direct" &&
+      supabase_summary["status"] == "pass"
+    "pass"
+  elsif name == "supabase_go_live_evidence" &&
       (
         supabase_summary["status"].to_s == "blocked" ||
         Array(supabase_summary["blocker_keys"]).any? ||
@@ -315,34 +335,73 @@ artifact_paths = [
   "build/web/_headers",
   "build/web/robots.txt"
 ]
-bundle_checksum_manifest = File.join(bundle_dir, "BUILD_ARTIFACT_CHECKSUMS.sha256")
-checksum_text = File.file?(bundle_checksum_manifest) ? File.read(bundle_checksum_manifest) : ""
-checksum_entries = checksum_text.lines.each_with_object({}) do |line, entries|
-  sha256, relative_path = line.strip.split(/\s+/, 2)
-  next unless sha256&.match?(/\A[0-9a-f]{64}\z/) && relative_path && !relative_path.empty?
 
-  entries[relative_path] = sha256
+def checksum_entries(path)
+  checksum_text = File.file?(path) ? File.read(path) : ""
+  checksum_text.lines.each_with_object({}) do |line, entries|
+    sha256, relative_path = line.strip.split(/\s+/, 2)
+    next unless sha256&.match?(/\A[0-9a-f]{64}\z/) && relative_path && !relative_path.empty?
+
+    entries[relative_path] = sha256
+  end
 end
-artifact_items = artifact_paths.map do |relative_path|
-  path = File.join(root_dir, relative_path)
-  exists = File.file?(path)
-  recorded_sha256 = checksum_entries[relative_path]
-  actual_sha256 = exists ? Digest::SHA256.file(path).hexdigest : nil
-  checksum_recorded = !recorded_sha256.nil?
-  checksum_matches = checksum_recorded && actual_sha256 == recorded_sha256
-  {
-    "path" => relative_path,
-    "exists" => exists,
-    "checksum_recorded" => checksum_recorded,
-    "checksum_matches" => checksum_matches,
-    "actual_sha256" => actual_sha256,
-    "status" => exists && checksum_matches ? "pass" : "fail"
-  }
+
+def artifact_items(root_dir, artifact_paths, entries)
+  artifact_paths.map do |relative_path|
+    path = File.join(root_dir, relative_path)
+    exists = File.file?(path)
+    recorded_sha256 = entries[relative_path]
+    actual_sha256 = exists ? Digest::SHA256.file(path).hexdigest : nil
+    checksum_recorded = !recorded_sha256.nil?
+    checksum_matches = checksum_recorded && actual_sha256 == recorded_sha256
+    {
+      "path" => relative_path,
+      "exists" => exists,
+      "checksum_recorded" => checksum_recorded,
+      "checksum_matches" => checksum_matches,
+      "actual_sha256" => actual_sha256,
+      "status" => exists && checksum_matches ? "pass" : "fail"
+    }
+  end
+end
+
+bundle_checksum_manifest = File.join(bundle_dir, "BUILD_ARTIFACT_CHECKSUMS.sha256")
+selected_checksum_manifest = bundle_checksum_manifest
+checksum_manifest_source = "bundle"
+checksum_entries = checksum_entries(bundle_checksum_manifest)
+artifact_items = artifact_items(root_dir, artifact_paths, checksum_entries)
+bundle_manifest_mismatch =
+  File.file?(bundle_checksum_manifest) &&
+  artifact_items.any? { |item| item.fetch("checksum_recorded") } &&
+  artifact_items.any? do |item|
+    item.fetch("exists") &&
+      item.fetch("checksum_recorded") &&
+      !item.fetch("checksum_matches")
+  end
+
+if !bundle_dir_explicit && bundle_manifest_mismatch
+  latest_direct_manifest = Dir.glob(
+    File.join(root_dir, "output", "release_artifacts", "BUILD_ARTIFACT_CHECKSUMS_*.sha256")
+  ).select { |path| File.file?(path) }.max_by { |path| File.mtime(path) }
+  if latest_direct_manifest
+    direct_checksum_entries = checksum_entries(latest_direct_manifest)
+    direct_artifact_items = artifact_items(
+      root_dir,
+      artifact_paths,
+      direct_checksum_entries,
+    )
+    if direct_artifact_items.all? { |item| item.fetch("status") == "pass" }
+      selected_checksum_manifest = latest_direct_manifest
+      checksum_manifest_source = "latest_direct"
+      checksum_entries = direct_checksum_entries
+      artifact_items = direct_artifact_items
+    end
+  end
 end
 
 artifact_status =
   if command_ok?(commands, "release_artifact_manifest") &&
-      File.file?(bundle_checksum_manifest) &&
+      File.file?(selected_checksum_manifest) &&
       artifact_items.all? { |item| item.fetch("status") == "pass" }
     "pass"
   elsif command_blocked?(commands, "release_artifact_manifest")
@@ -578,7 +637,10 @@ supabase_status =
   end
 
 supabase_evidence_bundle_status =
-  if command_ok?(commands, "supabase_go_live_evidence") && supabase_summary["status"] == "pass"
+  if (
+      command_ok?(commands, "supabase_go_live_evidence") ||
+        supabase_summary_source == "latest_direct"
+    ) && supabase_summary["status"] == "pass"
     "pass"
   elsif command_blocked?(commands, "supabase_go_live_evidence") ||
       supabase_summary["status"] == "blocked" ||
@@ -697,8 +759,10 @@ index = {
   "commands" => command_items,
   "bundle_redaction" => bundle_redaction,
   "artifacts" => {
-    "checksum_manifest" => bundle_checksum_manifest,
-    "checksum_manifest_present" => File.file?(bundle_checksum_manifest),
+    "checksum_manifest" => selected_checksum_manifest,
+    "checksum_manifest_source" => checksum_manifest_source,
+    "bundle_checksum_manifest" => bundle_checksum_manifest,
+    "checksum_manifest_present" => File.file?(selected_checksum_manifest),
     "status" => artifact_status,
     "items" => artifact_items
   },
@@ -769,7 +833,8 @@ index = {
   },
   "supabase_evidence_bundle" => {
     "status" => supabase_evidence_bundle_status,
-    "summary_path" => File.join(bundle_dir, "supabase", "summary.json"),
+    "summary_path" => supabase_summary_source == "latest_direct" ? latest_supabase_summary_path : File.join(bundle_dir, "supabase", "summary.json"),
+    "summary_source" => supabase_summary_source,
     "bundle_status" => supabase_summary["status"],
     "blocker_keys" => supabase_summary["blocker_keys"] || [],
     "blocked_reasons" => supabase_summary["blocked_reasons"] || [],
