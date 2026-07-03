@@ -125,6 +125,12 @@ Shared rules:
 - Admin surfaces may be denser than mobile, but they must still use the same premium dark shell grammar, concise copy, stable navigation, tokenized panels, and designed states.
 - A feature is not design-complete until its mobile, TV where applicable, and admin/operator implications are either implemented or explicitly marked not applicable in this file or the product source of truth.
 
+## COOL Surface Applicability
+
+For the COOL repository release covered by this contract, the in-scope product surfaces are consumer Flutter mobile, Flutter-first public/web shell where present, and Admin PWA/operator surfaces. The Native Flutter TV Standard remains part of the universal design standard for products that have a TV surface, but TV is `not_applicable_for_cool` in this release because COOL has no TV product surface in this release.
+
+The following TV requirements are `not_applicable_for_cool`: Flutter TV routes, native TV packaging, D-pad traversal, TV remote shortcuts, TV focus screenshots, native TV screenshots, TV screenshot baselines, and TV route evidence. Universal gates must not block COOL on missing TV routes, D-pad behavior, TV screenshots, or native TV packaging evidence when this applicability record is present. Mobile, public/web shell, and Admin PWA requirements remain fully enforced.
+
 ## Design Principles
 
 - Clarity first: a user should understand the screen's purpose in three seconds.

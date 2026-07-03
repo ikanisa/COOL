@@ -111,6 +111,8 @@ required_terms = [
   "State Requirements",
   "Responsive And Adaptive Standard",
   "Native Flutter TV Standard",
+  "not_applicable_for_cool",
+  "COOL has no TV product surface in this release",
   "Admin Panel Standard",
   "Accessibility Standard",
   "Visual QA Standard",

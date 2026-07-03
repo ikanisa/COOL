@@ -438,6 +438,9 @@ Date/time: 2026-06-01T12:30:00Z
     expect(design, contains('Universal App Design Standard 2026'));
     expect(design, contains('Any production mobile app'));
     expect(design, contains('native Flutter TV app'));
+    expect(design, contains('not_applicable_for_cool'));
+    expect(design, contains('COOL has no TV product surface in this release'));
+    expect(design, contains('Universal gates must not block COOL'));
     expect(design, contains('Admin Panel Standard'));
     expect(design, contains('Robust Implementation Goal'));
     expect(design, contains('Screen Archetypes'));

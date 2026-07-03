@@ -401,6 +401,8 @@ void main() {
     expect(design, contains('Universal Token Model'));
     expect(design, contains('Universal Component Library'));
     expect(design, contains('Native Flutter TV Standard'));
+    expect(design, contains('not_applicable_for_cool'));
+    expect(design, contains('COOL has no TV product surface in this release'));
     expect(design, contains('Admin Panel Standard'));
     expect(design, contains('Visual QA Standard'));
     expect(design, contains('Flutter Implementation Standard'));
