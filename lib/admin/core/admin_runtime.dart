@@ -49,7 +49,9 @@ final _adminOverviewProvider = FutureProvider<List<AdminMetric>>((ref) {
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
 
-const _collectAdminWhatsAppPhone = '+250788767816';
+const _collectAdminWhatsAppPhone = String.fromEnvironment(
+  'COLLECT_ADMIN_WHATSAPP_PHONE',
+);
 
 final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
   final client = ref.watch(supabaseClientProvider);
@@ -226,6 +228,9 @@ class AdminRepository extends AdminRepositoryBase {
 
   String _normalizeAdminPhone(String phone) {
     final normalized = PhoneNormalizer.normalizeInternational(phone);
+    if (_collectAdminWhatsAppPhone.trim().isEmpty) {
+      throw const FormatException('Admin WhatsApp phone is not configured.');
+    }
     if (normalized != _collectAdminWhatsAppPhone) {
       throw const FormatException('Use the registered admin WhatsApp number.');
     }

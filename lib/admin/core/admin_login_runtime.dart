@@ -252,6 +252,9 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     if (message.contains('registered admin whatsapp number')) {
       return 'Use the registered admin WhatsApp number.';
     }
+    if (message.contains('admin whatsapp phone is not configured')) {
+      return 'Admin WhatsApp phone is not configured.';
+    }
     if (message.contains('not authorized') ||
         message.contains('overview.read') ||
         message.contains('platform admin')) {

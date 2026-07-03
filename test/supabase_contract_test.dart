@@ -675,9 +675,14 @@ void main() {
       'lib/admin/core/admin_runtime.dart',
     ).readAsStringSync();
 
-    expect(adminRuntime, contains("'+250788767816'"));
+    expect(
+      adminRuntime,
+      contains("String.fromEnvironment(\n  'COLLECT_ADMIN_WHATSAPP_PHONE',"),
+    );
+    expect(adminRuntime, isNot(contains("'+250788767816'")));
     expect(adminRuntime, contains('OtpChannel.whatsapp'));
     expect(adminRuntime, isNot(contains('admin_bootstrap_whatsapp_operator')));
+    expect(adminRuntime, contains('Admin WhatsApp phone is not configured.'));
     expect(adminRuntime, contains('Use the registered admin WhatsApp number.'));
 
     expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
