@@ -112,6 +112,9 @@ void main() {
   final hardenedDeveloperAndGroupRpcs = File(
     'supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql',
   ).readAsStringSync();
+  final publicRuntimeConfig = File(
+    'supabase/migrations/20260704100000_public_runtime_config.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -460,6 +463,61 @@ void main() {
       contains(
         'grant execute on function admin_set_feature_flag(text, boolean, text)',
       ),
+    );
+  });
+
+  test('public runtime config is readable but admin-managed', () {
+    for (final table in [
+      'brand_entities',
+      'support_channels',
+      'payment_entrypoints',
+    ]) {
+      expect(
+        publicRuntimeConfig,
+        contains('create table if not exists $table'),
+      );
+      expect(
+        publicRuntimeConfig,
+        contains('alter table $table enable row level security'),
+      );
+      expect(
+        publicRuntimeConfig,
+        contains('grant select on $table to anon, authenticated'),
+      );
+      expect(
+        publicRuntimeConfig,
+        contains('grant insert, update, delete on $table to authenticated'),
+      );
+      expect(
+        publicRuntimeConfig,
+        contains("public.has_admin_permission('settings.manage'"),
+      );
+    }
+    expect(
+      publicRuntimeConfig,
+      contains('create or replace function get_public_runtime_config()'),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains('returns jsonb\nlanguage sql\nstable\nset search_path = public'),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains(
+        'revoke execute on function get_public_runtime_config() from public',
+      ),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains(
+        'grant execute on function get_public_runtime_config() to anon, authenticated',
+      ),
+    );
+    expect(publicRuntimeConfig, contains("'support.whatsapp'"));
+    expect(publicRuntimeConfig, contains("'rw.mtn_momo.ussd.collect_2000'"));
+    expect(
+      publicRuntimeConfig,
+      isNot(contains('COLLECT_ADMIN_WHATSAPP_PHONE')),
     );
   });
 
@@ -1212,6 +1270,17 @@ void main() {
       readiness,
       contains("('authenticated', 'app_realtime_events', 'SELECT')"),
     );
+    for (final table in [
+      'brand_entities',
+      'payment_entrypoints',
+      'support_channels',
+    ]) {
+      expect(readiness, contains("('anon', '$table', 'SELECT')"));
+      expect(readiness, contains("('authenticated', '$table', 'SELECT')"));
+      expect(readiness, contains("('authenticated', '$table', 'INSERT')"));
+      expect(readiness, contains("('authenticated', '$table', 'UPDATE')"));
+      expect(readiness, contains("('authenticated', '$table', 'DELETE')"));
+    }
     expect(
       readiness,
       contains("('authenticated', 'admin_get_queue_sla', 'EXECUTE')"),
@@ -1241,6 +1310,14 @@ void main() {
     expect(
       readiness,
       contains("('authenticated', 'transfer_group_ownership', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('anon', 'get_public_runtime_config', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'get_public_runtime_config', 'EXECUTE')"),
     );
     expect(readiness, contains('information_schema.column_privileges'));
     expect(readiness, contains('missing column grant:'));
@@ -2015,5 +2092,75 @@ void main() {
     );
     expect(mobileProductionStateSupport, isNot(contains('raw_body')));
     expect(mobileProductionStateSupport, isNot(contains('display_name')));
+  });
+
+  test('public runtime config is table-backed and client-safe', () {
+    final repository = readCollectRepositoryLibrary();
+    final landingSources = [
+      'lib/features/landing/collect_landing_page.dart',
+      'lib/features/landing/collect_home_interactions.dart',
+      'lib/features/landing/collect_home_footer.dart',
+      'lib/features/landing/collect_home_access_trust.dart',
+      'lib/features/landing/collect_home_customer_action.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
+    final supportContact = File(
+      'lib/shared/utils/support_contact.dart',
+    ).readAsStringSync();
+
+    for (final table in [
+      'brand_entities',
+      'support_channels',
+      'payment_entrypoints',
+    ]) {
+      expect(
+        publicRuntimeConfig,
+        contains('create table if not exists $table'),
+      );
+      expect(
+        publicRuntimeConfig,
+        contains('alter table $table enable row level security'),
+      );
+      expect(publicRuntimeConfig, contains('grant select on $table'));
+    }
+    expect(
+      publicRuntimeConfig,
+      contains('create or replace function get_public_runtime_config()'),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains('revoke execute on function get_public_runtime_config()'),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains(
+        'grant execute on function get_public_runtime_config() to anon, authenticated',
+      ),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains(
+        'create or replace function audit_public_runtime_config_change()',
+      ),
+    );
+    expect(
+      publicRuntimeConfig,
+      contains("execute function emit_app_realtime_event('settings')"),
+    );
+    expect(publicRuntimeConfig, contains("'support.whatsapp'"));
+    expect(publicRuntimeConfig, contains("'rw.mtn_momo.ussd.collect_2000'"));
+
+    expect(repository, contains('collectPublicRuntimeConfigProvider'));
+    expect(repository, contains("rpc<dynamic>('get_public_runtime_config')"));
+    expect(repository, contains('collectRuntimeConfigProvider'));
+    expect(landingSources, contains('collectRuntimeConfigProvider'));
+    expect(landingSources, contains('_runtimeConfigFor'));
+    expect(landingSources, isNot(contains('const _collectUssdCode')));
+    expect(landingSources, isNot(contains('const _collectWhatsAppNumber')));
+    expect(landingSources, isNot(contains('const _collectContactEmail')));
+    expect(supportContact, contains('collectDefaultWhatsAppSupportPhone'));
+    expect(
+      supportContact,
+      isNot(contains('const collectWhatsAppSupportPhone')),
+    );
   });
 }

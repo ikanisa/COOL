@@ -2,19 +2,22 @@ import 'dart:async';
 
 import 'package:url_launcher/url_launcher.dart';
 
-const collectWhatsAppSupportPhone = '250795588248';
+import '../models/collect_models.dart';
 
-Uri collectWhatsAppSupportUri() =>
-    Uri.https('wa.me', '/$collectWhatsAppSupportPhone');
+Uri collectWhatsAppSupportUri({
+  String phone = collectDefaultWhatsAppSupportPhone,
+}) => Uri.https('wa.me', '/$phone');
 
-void openCollectWhatsAppSupport() {
-  unawaited(_openCollectWhatsAppSupport());
+void openCollectWhatsAppSupport({
+  String phone = collectDefaultWhatsAppSupportPhone,
+}) {
+  unawaited(_openCollectWhatsAppSupport(phone: phone));
 }
 
-Future<void> _openCollectWhatsAppSupport() async {
+Future<void> _openCollectWhatsAppSupport({required String phone}) async {
   try {
     await launchUrl(
-      collectWhatsAppSupportUri(),
+      collectWhatsAppSupportUri(phone: phone),
       mode: LaunchMode.externalApplication,
     );
   } catch (_) {

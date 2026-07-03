@@ -130,6 +130,7 @@ class _LandingNav extends StatelessWidget {
             _LandingButton(
               label: 'Get the App',
               onPressed: () async => _openWhatsApp(
+                context,
                 'Hello IKANISA, I want to get the Collect app.',
               ),
             ),
@@ -137,6 +138,7 @@ class _LandingNav extends StatelessWidget {
               label: 'Create Group',
               outlined: true,
               onPressed: () async => _openWhatsApp(
+                context,
                 'Hello IKANISA, I want to create a Collect group.',
               ),
             ),
@@ -363,6 +365,7 @@ class _HeroCopy extends StatelessWidget {
             _LandingButton(
               label: 'Get the App',
               onPressed: () async => _openWhatsApp(
+                context,
                 'Hello IKANISA, I want to get the Collect app.',
               ),
             ),
@@ -370,6 +373,7 @@ class _HeroCopy extends StatelessWidget {
               label: 'Create Group',
               outlined: true,
               onPressed: () async => _openWhatsApp(
+                context,
                 'Hello IKANISA, I want to create a Collect group.',
               ),
             ),

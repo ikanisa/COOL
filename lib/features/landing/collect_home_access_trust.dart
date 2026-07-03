@@ -104,6 +104,7 @@ class _AppAccessSection extends StatelessWidget {
                     label: 'Get the App',
                     onLight: true,
                     onPressed: () async => _openWhatsApp(
+                      context,
                       'Hello IKANISA, I want to get the Collect app.',
                     ),
                   ),
@@ -112,6 +113,7 @@ class _AppAccessSection extends StatelessWidget {
                     outlined: true,
                     onLight: true,
                     onPressed: () async => _openWhatsApp(
+                      context,
                       'Hello IKANISA, I want to create a Collect group.',
                     ),
                   ),
@@ -145,6 +147,7 @@ class _UssdCommandVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final config = _runtimeConfigFor(context);
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
@@ -250,7 +253,7 @@ class _UssdCommandVisual extends StatelessWidget {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                _collectUssdCode,
+                                config.ussdDisplayCode,
                                 maxLines: 1,
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(
@@ -316,7 +319,7 @@ class _UssdCommandVisual extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Example: dial $_collectUssdCode to save RWF 2,000 into Collect.',
+                  'Example: dial ${config.ussdDisplayCode} to save RWF 2,000 into Collect.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: CollectColors.brandPaper.withValues(alpha: 0.68),

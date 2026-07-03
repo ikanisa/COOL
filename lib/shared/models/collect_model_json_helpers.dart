@@ -12,6 +12,32 @@ List<String> _stringList(Object? value) {
   return const [];
 }
 
+Map<String, dynamic> _mapValue(Object? value) {
+  if (value is Map<String, dynamic>) return value;
+  if (value is Map) return Map<String, dynamic>.from(value);
+  return const <String, dynamic>{};
+}
+
+List<Map<String, dynamic>> _mapList(Object? value) {
+  if (value is! List) return const [];
+  return [
+    for (final item in value)
+      if (item is Map) Map<String, dynamic>.from(item),
+  ];
+}
+
+Map<String, dynamic> _firstByKey(List<Map<String, dynamic>> rows, String key) {
+  return rows.firstWhere(
+    (item) => item['key'] == key,
+    orElse: () => const <String, dynamic>{},
+  );
+}
+
+String _nonEmpty(Object? value, String fallback) {
+  final text = value?.toString().trim();
+  return text == null || text.isEmpty ? fallback : text;
+}
+
 bool _collectionIsPublic(Map<String, dynamic> json) {
   final explicit =
       json['is_public'] ??

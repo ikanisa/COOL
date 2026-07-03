@@ -22,6 +22,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
+    final runtimeConfig = ref.watch(collectRuntimeConfigProvider);
     final profile = state.currentProfile;
     final isInitialLoading = state.isLoading && profile == null;
     final systemEntries = [
@@ -44,11 +45,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
     ];
     final supportEntries = [
-      const _SettingsEntry(
+      _SettingsEntry(
         child: _SettingsTile(
           leading: CollectIcons.support,
           title: 'Support',
-          onTap: openCollectWhatsAppSupport,
+          onTap: () => openCollectWhatsAppSupport(
+            phone: runtimeConfig.whatsAppSupportPhone,
+          ),
         ),
       ),
       _SettingsEntry(

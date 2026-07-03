@@ -5,6 +5,18 @@ import '../../core/security/phone_normalizer.dart';
 part 'collect_model_json_helpers.dart';
 
 const _unsetProfileField = Object();
+const collectDefaultBrandDisplayName = 'Collect by IKANISA';
+const collectDefaultLegalName = 'IKANISA Ltd.';
+const collectDefaultPublicUrl = 'https://collect.ikanisa.com';
+const collectDefaultAdminUrl = 'https://admin.collect.ikanisa.com';
+const collectDefaultAppDownloadUrl =
+    'https://play.google.com/store/apps/details?id=app.cool.mobile';
+const collectDefaultRegulatoryFooterNote =
+    'IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply.';
+const collectDefaultWhatsAppSupportPhone = '250795588248';
+const collectDefaultWhatsAppSupportDisplay = '+250 795 588 248';
+const collectDefaultSupportEmail = 'info@ikanisa.com';
+const collectDefaultUssdCode = '*182*8*1*41258*2000#';
 
 enum CollectionType {
   ikimina,
@@ -54,6 +66,94 @@ enum CollectionType {
     CollectionType.wedding => 'Wedding contributions',
     CollectionType.other => 'Custom collection',
   };
+}
+
+@immutable
+class CollectRuntimeConfig {
+  const CollectRuntimeConfig({
+    required this.brandDisplayName,
+    required this.legalName,
+    required this.publicUrl,
+    required this.adminUrl,
+    required this.appDownloadUrl,
+    required this.regulatoryFooterNote,
+    required this.whatsAppSupportPhone,
+    required this.whatsAppSupportDisplay,
+    required this.supportEmail,
+    required this.ussdCode,
+    required this.ussdDisplayCode,
+  });
+
+  static const defaults = CollectRuntimeConfig(
+    brandDisplayName: collectDefaultBrandDisplayName,
+    legalName: collectDefaultLegalName,
+    publicUrl: collectDefaultPublicUrl,
+    adminUrl: collectDefaultAdminUrl,
+    appDownloadUrl: collectDefaultAppDownloadUrl,
+    regulatoryFooterNote: collectDefaultRegulatoryFooterNote,
+    whatsAppSupportPhone: collectDefaultWhatsAppSupportPhone,
+    whatsAppSupportDisplay: collectDefaultWhatsAppSupportDisplay,
+    supportEmail: collectDefaultSupportEmail,
+    ussdCode: collectDefaultUssdCode,
+    ussdDisplayCode: collectDefaultUssdCode,
+  );
+
+  final String brandDisplayName;
+  final String legalName;
+  final String publicUrl;
+  final String adminUrl;
+  final String appDownloadUrl;
+  final String regulatoryFooterNote;
+  final String whatsAppSupportPhone;
+  final String whatsAppSupportDisplay;
+  final String supportEmail;
+  final String ussdCode;
+  final String ussdDisplayCode;
+
+  factory CollectRuntimeConfig.fromJson(Map<String, dynamic> json) {
+    final brand = _mapValue(json['brand']);
+    final supportChannels = _mapList(json['support_channels']);
+    final paymentEntrypoints = _mapList(json['payment_entrypoints']);
+    final whatsApp = _firstByKey(supportChannels, 'support.whatsapp');
+    final email = _firstByKey(supportChannels, 'support.email');
+    final ussd = paymentEntrypoints.firstWhere(
+      (item) => item['key'] == 'rw.mtn_momo.ussd.collect_2000',
+      orElse: () => const <String, dynamic>{},
+    );
+    const defaults = CollectRuntimeConfig.defaults;
+
+    return CollectRuntimeConfig(
+      brandDisplayName: _nonEmpty(
+        brand['display_name'],
+        defaults.brandDisplayName,
+      ),
+      legalName: _nonEmpty(brand['legal_name'], defaults.legalName),
+      publicUrl: _nonEmpty(brand['public_url'], defaults.publicUrl),
+      adminUrl: _nonEmpty(brand['admin_url'], defaults.adminUrl),
+      appDownloadUrl: _nonEmpty(
+        brand['app_download_url'],
+        defaults.appDownloadUrl,
+      ),
+      regulatoryFooterNote: _nonEmpty(
+        brand['regulatory_footer_note'],
+        defaults.regulatoryFooterNote,
+      ),
+      whatsAppSupportPhone: _nonEmpty(
+        whatsApp['value'],
+        defaults.whatsAppSupportPhone,
+      ),
+      whatsAppSupportDisplay: _nonEmpty(
+        whatsApp['display_value'],
+        defaults.whatsAppSupportDisplay,
+      ),
+      supportEmail: _nonEmpty(email['value'], defaults.supportEmail),
+      ussdCode: _nonEmpty(ussd['code'], defaults.ussdCode),
+      ussdDisplayCode: _nonEmpty(
+        ussd['display_code'],
+        _nonEmpty(ussd['code'], defaults.ussdDisplayCode),
+      ),
+    );
+  }
 }
 
 @immutable

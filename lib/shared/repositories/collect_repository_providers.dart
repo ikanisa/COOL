@@ -8,6 +8,29 @@ final collectRepositoryProvider =
       return repository;
     });
 
+final collectPublicRuntimeConfigProvider = FutureProvider<CollectRuntimeConfig>(
+  (ref) async {
+    final supabase = ref.watch(supabaseClientProvider);
+    if (supabase == null) return CollectRuntimeConfig.defaults;
+    try {
+      final payload = await supabase.rpc<dynamic>('get_public_runtime_config');
+      if (payload is Map) {
+        return CollectRuntimeConfig.fromJson(
+          Map<String, dynamic>.from(payload),
+        );
+      }
+    } catch (_) {
+      return CollectRuntimeConfig.defaults;
+    }
+    return CollectRuntimeConfig.defaults;
+  },
+);
+
+final collectRuntimeConfigProvider = Provider<CollectRuntimeConfig>((ref) {
+  return ref.watch(collectPublicRuntimeConfigProvider).valueOrNull ??
+      CollectRuntimeConfig.defaults;
+});
+
 final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
   ref,
 ) {

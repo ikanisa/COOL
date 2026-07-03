@@ -8,6 +8,7 @@ import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/utils/support_contact.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +66,45 @@ void main() {
     expect(collection.diasporaEnabled, isTrue);
     expect(collection.diasporaRegions, ['eu', 'us']);
     expect(collection.moderationStatus, 'approved');
+  });
+
+  test('runtime config maps public backend settings with defaults', () {
+    final config = CollectRuntimeConfig.fromJson(const {
+      'brand': {
+        'display_name': 'Collect Rwanda',
+        'legal_name': 'IKANISA Rwanda Ltd.',
+        'public_url': 'https://collect.example',
+        'admin_url': '',
+      },
+      'support_channels': [
+        {
+          'key': 'support.whatsapp',
+          'value': '250700000001',
+          'display_value': '+250 700 000 001',
+        },
+        {'key': 'support.email', 'value': 'support@example.com'},
+      ],
+      'payment_entrypoints': [
+        {
+          'key': 'rw.mtn_momo.ussd.collect_2000',
+          'code': '*182*8*1*00000*2000#',
+          'display_code': '*182*8*1*00000*2000#',
+        },
+      ],
+    });
+
+    expect(config.brandDisplayName, 'Collect Rwanda');
+    expect(config.legalName, 'IKANISA Rwanda Ltd.');
+    expect(config.publicUrl, 'https://collect.example');
+    expect(config.adminUrl, collectDefaultAdminUrl);
+    expect(config.whatsAppSupportPhone, '250700000001');
+    expect(config.whatsAppSupportDisplay, '+250 700 000 001');
+    expect(config.supportEmail, 'support@example.com');
+    expect(config.ussdDisplayCode, '*182*8*1*00000*2000#');
+    expect(
+      collectWhatsAppSupportUri(phone: config.whatsAppSupportPhone).toString(),
+      'https://wa.me/250700000001',
+    );
   });
 
   test(

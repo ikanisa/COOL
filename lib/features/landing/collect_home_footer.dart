@@ -1,10 +1,11 @@
 part of 'collect_landing_page.dart';
 
-class _LandingFooter extends StatelessWidget {
+class _LandingFooter extends ConsumerWidget {
   const _LandingFooter();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(collectRuntimeConfigProvider);
     return ColoredBox(
       color: CollectColors.referenceChromeBlack,
       child: Padding(
@@ -62,12 +63,13 @@ class _LandingFooter extends StatelessWidget {
                   onPressed: () => context.go('/terms'),
                 ),
                 _FooterLink(
-                  label: _collectContactEmail,
-                  onPressed: () async => _openEmail(),
+                  label: config.supportEmail,
+                  onPressed: () async => _openEmail(context),
                 ),
                 _FooterLink(
-                  label: '+250 795 588 248',
+                  label: config.whatsAppSupportDisplay,
                   onPressed: () async => _openWhatsApp(
+                    context,
                     'Hello IKANISA, I need support with Collect.',
                   ),
                 ),

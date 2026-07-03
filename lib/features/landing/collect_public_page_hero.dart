@@ -70,6 +70,7 @@ class _PublicPageHero extends StatelessWidget {
                               _LandingButton(
                                 label: 'Get the App',
                                 onPressed: () async => _openWhatsApp(
+                                  context,
                                   'Hello IKANISA, I want to get the Collect app.',
                                 ),
                               ),
@@ -77,6 +78,7 @@ class _PublicPageHero extends StatelessWidget {
                                 label: 'Create Group',
                                 outlined: true,
                                 onPressed: () async => _openWhatsApp(
+                                  context,
                                   'Hello IKANISA, I want to create a Collect group.',
                                 ),
                               ),

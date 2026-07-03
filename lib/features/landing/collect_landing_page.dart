@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_typography.dart';
+import '../../shared/models/collect_models.dart';
+import '../../shared/repositories/collect_repository.dart';
 import 'public_content.dart';
 
 export 'public_content.dart';
@@ -28,9 +31,6 @@ part 'collect_home_sections.dart';
 part 'collect_landing_primitives.dart';
 
 const _customerCtaKey = ValueKey<String>('collect-customer-action');
-const _collectUssdCode = '*182*8*1*41258*2000#';
-const _collectWhatsAppNumber = '250795588248';
-const _collectContactEmail = 'info@ikanisa.com';
 
 class CollectLandingPage extends StatelessWidget {
   const CollectLandingPage({super.key});

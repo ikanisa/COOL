@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'app/theme/app_theme.dart';
@@ -7,7 +8,7 @@ import 'features/landing/collect_landing_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const CollectPublicWebsiteApp());
+  runApp(const ProviderScope(child: CollectPublicWebsiteApp()));
 }
 
 class CollectPublicWebsiteApp extends StatelessWidget {

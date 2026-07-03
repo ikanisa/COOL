@@ -326,16 +326,31 @@ check_sql_privileges() {
   violations="$(db_query "
     with allowed_table_grants(grantee, table_name, privilege_type) as (
       values
+        ('anon', 'brand_entities', 'SELECT'),
+        ('anon', 'payment_entrypoints', 'SELECT'),
         ('anon', 'public_contributions_view', 'SELECT'),
         ('anon', 'public_profiles_view', 'SELECT'),
+        ('anon', 'support_channels', 'SELECT'),
         ('authenticated', 'app_realtime_events', 'SELECT'),
+        ('authenticated', 'brand_entities', 'DELETE'),
+        ('authenticated', 'brand_entities', 'INSERT'),
+        ('authenticated', 'brand_entities', 'SELECT'),
+        ('authenticated', 'brand_entities', 'UPDATE'),
         ('authenticated', 'collection_receivers', 'SELECT'),
         ('authenticated', 'member_collections_view', 'SELECT'),
         ('authenticated', 'member_collection_summary_view', 'SELECT'),
         ('authenticated', 'member_contributions_view', 'SELECT'),
+        ('authenticated', 'payment_entrypoints', 'DELETE'),
+        ('authenticated', 'payment_entrypoints', 'INSERT'),
+        ('authenticated', 'payment_entrypoints', 'SELECT'),
+        ('authenticated', 'payment_entrypoints', 'UPDATE'),
         ('authenticated', 'payment_intents', 'SELECT'),
         ('authenticated', 'public_contributions_view', 'SELECT'),
-        ('authenticated', 'public_profiles_view', 'SELECT')
+        ('authenticated', 'public_profiles_view', 'SELECT'),
+        ('authenticated', 'support_channels', 'DELETE'),
+        ('authenticated', 'support_channels', 'INSERT'),
+        ('authenticated', 'support_channels', 'SELECT'),
+        ('authenticated', 'support_channels', 'UPDATE')
     ),
     actual_table_grants as (
       select grantee, table_name, privilege_type
@@ -359,6 +374,7 @@ check_sql_privileges() {
     ),
     allowed_function_grants(grantee, routine_name, privilege_type) as (
       values
+        ('anon', 'get_public_runtime_config', 'EXECUTE'),
         ('anon', 'user_can_read_collection', 'EXECUTE'),
         ('anon', 'user_is_collection_admin', 'EXECUTE'),
         ('authenticated', 'admin_current_user', 'EXECUTE'),
@@ -401,6 +417,7 @@ check_sql_privileges() {
         ('authenticated', 'ensure_current_profile', 'EXECUTE'),
         ('authenticated', 'get_owner_group_health', 'EXECUTE'),
         ('authenticated', 'get_current_profile', 'EXECUTE'),
+        ('authenticated', 'get_public_runtime_config', 'EXECUTE'),
         ('authenticated', 'has_admin_permission', 'EXECUTE'),
         ('authenticated', 'is_platform_admin', 'EXECUTE'),
         ('authenticated', 'list_collection_collect_ids', 'EXECUTE'),

@@ -52,6 +52,7 @@ class _CustomerActionSection extends StatelessWidget {
                       _LandingButton(
                         label: 'Get the App',
                         onPressed: () async => _openWhatsApp(
+                          context,
                           'Hello IKANISA, I want to get the Collect app.',
                         ),
                       ),
@@ -60,6 +61,7 @@ class _CustomerActionSection extends StatelessWidget {
                         outlined: true,
                         onLight: true,
                         onPressed: () async => _openWhatsApp(
+                          context,
                           'Hello IKANISA, I want to create a Collect group.',
                         ),
                       ),
@@ -93,11 +95,12 @@ class _CustomerActionSection extends StatelessWidget {
   }
 }
 
-class _ContactSummaryCard extends StatelessWidget {
+class _ContactSummaryCard extends ConsumerWidget {
   const _ContactSummaryCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(collectRuntimeConfigProvider);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: CollectColors.brandPaper,
@@ -118,7 +121,7 @@ class _ContactSummaryCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'WhatsApp +250 795 588 248',
+              'WhatsApp ${config.whatsAppSupportDisplay}',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: CollectColors.referenceChromeBlack,
                 fontWeight: FontWeight.w800,
@@ -126,7 +129,7 @@ class _ContactSummaryCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              _collectContactEmail,
+              config.supportEmail,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: CollectColors.referenceChromeBlack,
                 fontWeight: FontWeight.w800,

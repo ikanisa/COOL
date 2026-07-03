@@ -19,15 +19,30 @@ void _scrollToCustomerAction(BuildContext context) {
   );
 }
 
-Future<void> _openWhatsApp(String message) async {
-  final url = Uri.https('wa.me', '/$_collectWhatsAppNumber', {'text': message});
+CollectRuntimeConfig _runtimeConfigFor(BuildContext context) {
+  try {
+    return ProviderScope.containerOf(
+      context,
+      listen: false,
+    ).read(collectRuntimeConfigProvider);
+  } catch (_) {
+    return CollectRuntimeConfig.defaults;
+  }
+}
+
+Future<void> _openWhatsApp(BuildContext context, String message) async {
+  final config = _runtimeConfigFor(context);
+  final url = Uri.https('wa.me', '/${config.whatsAppSupportPhone}', {
+    'text': message,
+  });
   await launchUrl(url, mode: LaunchMode.externalApplication);
 }
 
-Future<void> _openEmail() async {
+Future<void> _openEmail(BuildContext context) async {
+  final config = _runtimeConfigFor(context);
   final url = Uri(
     scheme: 'mailto',
-    path: _collectContactEmail,
+    path: config.supportEmail,
     queryParameters: {'subject': 'Collect support'},
   );
   await launchUrl(url, mode: LaunchMode.externalApplication);

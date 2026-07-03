@@ -1,6 +1,13 @@
 import 'package:collect_app/features/landing/collect_landing_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+Widget publicHarness(Widget child, {Key? key}) {
+  return ProviderScope(
+    child: MaterialApp(key: key, home: child),
+  );
+}
 
 void main() {
   testWidgets('Collect landing page explains the full business model', (
@@ -11,7 +18,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(const MaterialApp(home: CollectLandingPage()));
+    await tester.pumpWidget(publicHarness(const CollectLandingPage()));
     final verticalScrollable = find.byWidgetPredicate(
       (widget) =>
           widget is Scrollable && widget.axisDirection == AxisDirection.down,
@@ -101,10 +108,7 @@ void main() {
     ]) {
       final page = publicPageForPath(path);
       await tester.pumpWidget(
-        MaterialApp(
-          key: ValueKey(path),
-          home: CollectPublicPage(data: page),
-        ),
+        publicHarness(CollectPublicPage(data: page), key: ValueKey(path)),
       );
       final verticalScrollable = find.byWidgetPredicate(
         (widget) =>
@@ -133,7 +137,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      MaterialApp(home: CollectPublicPage(data: publicPageForPath('/privacy'))),
+      publicHarness(CollectPublicPage(data: publicPageForPath('/privacy'))),
     );
 
     final verticalScrollable = find.byWidgetPredicate(
@@ -167,7 +171,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(const MaterialApp(home: CollectLandingPage()));
+    await tester.pumpWidget(publicHarness(const CollectLandingPage()));
 
     final visibleText = find
         .byType(Text)
@@ -208,8 +212,8 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: CollectPublicPage(data: publicPageForPath('/group-savings')),
+      publicHarness(
+        CollectPublicPage(data: publicPageForPath('/group-savings')),
       ),
     );
 
@@ -253,9 +257,9 @@ void main() {
 
     for (final path in publicWebsitePaths.where((path) => path != '/')) {
       await tester.pumpWidget(
-        MaterialApp(
+        publicHarness(
+          CollectPublicPage(data: publicPageForPath(path)),
           key: ValueKey('copy-$path'),
-          home: CollectPublicPage(data: publicPageForPath(path)),
         ),
       );
 
@@ -312,9 +316,9 @@ void main() {
 
     for (final path in const ['/our-partners']) {
       await tester.pumpWidget(
-        MaterialApp(
+        publicHarness(
+          CollectPublicPage(data: publicPageForPath(path)),
           key: ValueKey('numbers-$path'),
-          home: CollectPublicPage(data: publicPageForPath(path)),
         ),
       );
 
