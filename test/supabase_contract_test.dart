@@ -124,6 +124,9 @@ void main() {
   final collectionTypeCatalogRuntime = File(
     'supabase/migrations/20260703224559_collection_type_catalog_runtime.sql',
   ).readAsStringSync();
+  final notificationTemplatesRuntime = File(
+    'supabase/migrations/20260703225455_notification_templates_runtime.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -386,6 +389,81 @@ void main() {
     expect(notificationPreferenceGatedEnqueue, contains('to service_role'));
     expect(sendNotificationFunction, contains('skipped: data === null'));
     expect(sendNotificationFunction, contains('notification_event_id: data'));
+  });
+
+  test('notification templates are dynamic and service-enqueued', () {
+    for (final table in [
+      'notification_channels',
+      'notification_event_types',
+      'notification_templates',
+      'notification_template_versions',
+    ]) {
+      expect(
+        notificationTemplatesRuntime,
+        contains('create table if not exists $table'),
+      );
+      expect(
+        notificationTemplatesRuntime,
+        contains('alter table $table enable row level security'),
+      );
+    }
+    expect(
+      notificationTemplatesRuntime,
+      contains('create or replace function get_notification_runtime_config'),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains(
+        'create or replace function enqueue_notification_template_event',
+      ),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains('create or replace function render_notification_template'),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains('grant execute on function get_notification_runtime_config'),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains('grant execute on function enqueue_notification_template_event'),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains('grant select on notification_channels to anon, authenticated'),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains('grant insert, update, delete on notification_templates'),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains(
+        'create or replace function audit_notification_runtime_change()',
+      ),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains("execute function emit_app_realtime_event('settings')"),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains("'contribution.confirmed.default'"),
+    );
+    expect(
+      notificationTemplatesRuntime,
+      contains("'payment.reminder.default'"),
+    );
+    expect(notificationTemplatesRuntime, contains('notification_preferences'));
+    expect(notificationTemplatesRuntime, contains('return null'));
+    expect(sendNotificationFunction, contains('template_key?: string'));
+    expect(
+      sendNotificationFunction,
+      contains('"enqueue_notification_template_event"'),
+    );
+    expect(sendNotificationFunction, contains('p_template_key: templateKey'));
+    expect(sendNotificationFunction, contains('payload.context ?? {}'));
   });
 
   test(

@@ -240,6 +240,37 @@ Implemented locally:
 - Added Supabase contract coverage for tables, RLS, grants, RPCs, server
   validation, audit, realtime, seed data, and Flutter consumption points.
 
+### 2026-07-04 P1 Notification Catalog And Templates
+
+Implemented locally:
+
+- Added `supabase/migrations/20260703225455_notification_templates_runtime.sql`
+  through the Supabase CLI migration generator.
+- Added `notification_channels`, `notification_event_types`,
+  `notification_templates`, and `notification_template_versions`.
+- Enabled RLS on all four tables.
+- Added public enabled/published-read policies and authenticated admin manage
+  policies.
+- Added explicit Data API grants for public reads and authenticated admin
+  metadata writes.
+- Added `get_notification_runtime_config(locale)` for client-safe notification
+  channel and event-type metadata.
+- Added `render_notification_template(template, context)` and
+  `enqueue_notification_template_event(user_id, template_key, context,
+  collection_id, deep_link, locale)`.
+- Preserved the existing service-only `enqueue_notification_event(...)` RPC for
+  compatibility while adding the template-key path for most new events.
+- Updated `supabase/functions/send-notification/index.ts` to prefer
+  `template_key` plus `context`, with the old `type` / `title` / `body` payload
+  retained as a fallback.
+- Added audit and realtime invalidation triggers for notification metadata
+  changes.
+- Seeded the existing Collect notification channel, four existing event types,
+  and default published templates for contribution confirmations, payment
+  reminders, group updates, and security notices.
+- Updated production-readiness grant expectations and Supabase contract coverage
+  for the new notification metadata tables/RPCs and Edge Function template path.
+
 Linked deployment status:
 
 - Local migration validation passes.
@@ -247,13 +278,13 @@ Linked deployment status:
 - Linked advisor error gates passed before these local-only migrations.
 - `supabase_schema_inventory.sh --json` reports the new migration objects as
   missing remotely until migrations `20260704100000`, `20260704110000`,
-  `20260704120000`, and `20260703224559` are pushed.
+  `20260704120000`, `20260703224559`, and `20260703225455` are pushed.
 - `supabase db push --dry-run` is blocked from this runner by Supabase network
   restrictions: the current address is not in the tenant allow list.
 
 Remaining phases:
 
-- P1 payment workflow/status metadata and notification templates.
+- P1 payment workflow/status metadata.
 - Public website CMS tables and static-site build integration after the runtime
   config migration is deployed.
 

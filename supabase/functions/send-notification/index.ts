@@ -11,8 +11,11 @@ type NotificationRequest = {
   type?: string;
   title?: string;
   body?: string;
+  template_key?: string;
+  context?: Record<string, string | number | boolean | null>;
   collection_id?: string | null;
   deep_link?: string | null;
+  locale?: string;
 };
 
 Deno.serve(async (req) => {
@@ -26,10 +29,33 @@ Deno.serve(async (req) => {
     requireInternalRequest(req);
     const payload = await req.json() as NotificationRequest;
     const userId = payload.user_id?.trim();
+    if (!userId) {
+      return jsonResponse({ error: "Missing notification user" }, 400);
+    }
     const title = payload.title?.trim();
     const body = payload.body?.trim();
     const type = payload.type?.trim();
-    if (!userId || !title || !body || !type) {
+    const templateKey = payload.template_key?.trim();
+    if (templateKey) {
+      const { data, error } = await serviceClient().rpc(
+        "enqueue_notification_template_event",
+        {
+          p_user_id: userId,
+          p_template_key: templateKey,
+          p_context: payload.context ?? {},
+          p_collection_id: payload.collection_id ?? null,
+          p_deep_link: payload.deep_link ?? null,
+          p_locale: payload.locale?.trim() || "en",
+        },
+      );
+      if (error) throw error;
+      return jsonResponse({
+        ok: data !== null,
+        skipped: data === null,
+        notification_event_id: data,
+      });
+    }
+    if (!title || !body || !type) {
       return jsonResponse({ error: "Missing notification fields" }, 400);
     }
     const { data, error } = await serviceClient().rpc(
