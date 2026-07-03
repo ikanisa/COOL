@@ -183,18 +183,28 @@ admin_live = read_json(File.join(bundle_dir, "admin_pwa_live_gate.json"))
 admin_live_fixture = admin_live["fixture_mode"] == true
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 supabase_summary = read_json(File.join(bundle_dir, "supabase", "summary.json"))
+timestamped_supabase_summaries = Dir.glob(
+  File.join(root_dir, ".cache", "supabase_go_live_evidence", "[0-9]*Z", "summary.json")
+).select { |path| File.file?(path) }
 latest_supabase_summary_path =
+  timestamped_supabase_summaries.max_by { |path| File.mtime(path) } ||
   File.join(root_dir, ".cache", "supabase_go_live_evidence", "latest-test", "summary.json")
 latest_supabase_summary = read_json(latest_supabase_summary_path)
 supabase_summary_source = "bundle"
-if !bundle_dir_explicit &&
-    supabase_summary["status"].to_s == "blocked" &&
+if !bundle_dir_explicit && File.file?(latest_supabase_summary_path)
+  bundle_supabase_summary_path = File.join(bundle_dir, "supabase", "summary.json")
+  direct_newer_than_bundle =
+    !File.file?(bundle_supabase_summary_path) ||
+    File.mtime(latest_supabase_summary_path) > File.mtime(bundle_supabase_summary_path)
+  direct_clean_pass =
     latest_supabase_summary["status"].to_s == "pass" &&
     Array(latest_supabase_summary["blocker_keys"]).empty? &&
     Array(latest_supabase_summary["blocked_reasons"]).empty? &&
     Array(latest_supabase_summary["blocked_commands"]).empty?
-  supabase_summary = latest_supabase_summary
-  supabase_summary_source = "latest_direct"
+  if direct_newer_than_bundle || direct_clean_pass
+    supabase_summary = latest_supabase_summary
+    supabase_summary_source = "latest_direct"
+  end
 end
 bundle_redaction = bundle_redaction_scan(bundle_dir)
 
