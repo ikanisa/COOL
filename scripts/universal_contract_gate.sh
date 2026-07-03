@@ -33,7 +33,7 @@ else
   required_terms = [
     "Universal App Design Standard 2026",
     "Any production mobile app",
-    "Flutter TV app",
+    "native Flutter TV app",
     "admin panel",
     "Cross-Surface Product Architecture",
     "Screen Archetypes",
@@ -41,14 +41,15 @@ else
     "Universal Component Library",
     "State Requirements",
     "Responsive And Adaptive Standard",
-    "Flutter TV Standard",
+    "Native Flutter TV Standard",
     "Admin Panel Standard",
     "Accessibility Standard",
     "Visual QA Standard",
     "Flutter Implementation Standard",
     "Robust Implementation Goal",
     "Quality Gates",
-    "Universal App Generation Prompt"
+    "Universal App Generation Prompt",
+    "native TV packaging"
   ]
   required_terms.each do |term|
     present = design.include?(term)

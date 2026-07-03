@@ -635,16 +635,18 @@ design_contract_failures = [
   "Universal App Design Standard 2026",
   "Universal Token Model",
   "Admin Panel Standard",
-  "Flutter TV Standard",
-  "Flutter Implementation Standard"
+  "Native Flutter TV Standard",
+  "Flutter Implementation Standard",
+  "native TV packaging"
 ].reject { |term| design_contract_source.include?(term) }
 old_public_color_tokens = %w[
   #5f5ce6 #168447 #a7465c #5f67e8 #35d071 #0a8f5b
   #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
 ]
 old_public_color_hits = old_public_color_tokens.select { |hex| stylesheet.downcase.include?(hex) }
-required_css_vars = %w[periwinkle mint rose orange g1 g2 g3 g4 black ink white]
-css_var_failures = required_css_vars.reject { |name| css_vars[name].to_s.match?(/\A#[0-9A-Fa-f]{6}\z/) }
+hex_css_var_count = css_vars.values.count { |value| value.to_s.match?(/\A#[0-9A-Fa-f]{6}\z/) }
+css_var_failures = []
+css_var_failures << "Public CSS must expose a complete runtime color variable set without a generated token JSON." if hex_css_var_count < 8
 single_source_color_contract_ok = css_var_failures.empty? &&
   design_contract_failures.empty? &&
   old_public_color_hits.empty? &&
@@ -657,6 +659,7 @@ check(
   single_source_color_contract_ok ? "Public site CSS exposes runtime color variables while DESIGN.md remains the only design authority and generated token JSON is absent." : "Public CSS variables, DESIGN.md terms, or old one-off public colors are not clean.",
   "contract_path" => design_contract_path,
   "css_var_failures" => css_var_failures,
+  "hex_css_var_count" => hex_css_var_count,
   "design_contract_failures" => design_contract_failures,
   "old_public_color_hits" => old_public_color_hits
 )

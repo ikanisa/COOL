@@ -437,7 +437,7 @@ Date/time: 2026-06-01T12:30:00Z
 
     expect(design, contains('Universal App Design Standard 2026'));
     expect(design, contains('Any production mobile app'));
-    expect(design, contains('Flutter TV app'));
+    expect(design, contains('native Flutter TV app'));
     expect(design, contains('Admin Panel Standard'));
     expect(design, contains('Robust Implementation Goal'));
     expect(design, contains('Screen Archetypes'));
@@ -445,6 +445,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(design, contains('Universal Component Library'));
     expect(design, contains('State Requirements'));
     expect(design, contains('Responsive And Adaptive Standard'));
+    expect(design, contains('native TV packaging'));
     expect(design, contains('Accessibility Standard'));
     expect(design, contains('Visual QA Standard'));
     expect(design, contains('Flutter Implementation Standard'));

@@ -400,7 +400,7 @@ void main() {
     expect(design, contains('Universal App Design Standard 2026'));
     expect(design, contains('Universal Token Model'));
     expect(design, contains('Universal Component Library'));
-    expect(design, contains('Flutter TV Standard'));
+    expect(design, contains('Native Flutter TV Standard'));
     expect(design, contains('Admin Panel Standard'));
     expect(design, contains('Visual QA Standard'));
     expect(design, contains('Flutter Implementation Standard'));

@@ -53,7 +53,7 @@ end
 required_terms = [
   "Universal App Design Standard 2026",
   "Any production mobile app",
-  "Flutter TV app",
+  "native Flutter TV app",
   "admin panel",
   "Cross-Surface Product Architecture",
   "Screen Archetypes",
@@ -61,14 +61,15 @@ required_terms = [
   "Universal Component Library",
   "State Requirements",
   "Responsive And Adaptive Standard",
-  "Flutter TV Standard",
+  "Native Flutter TV Standard",
   "Admin Panel Standard",
   "Accessibility Standard",
   "Visual QA Standard",
   "Flutter Implementation Standard",
   "Robust Implementation Goal",
   "Quality Gates",
-  "Universal App Generation Prompt"
+  "Universal App Generation Prompt",
+  "native TV packaging"
 ]
 missing_terms = required_terms.reject { |term| design.include?(term) }
 add_check.call("single_universal_contract", File.file?(design_path) && missing_terms.empty?, missing_terms.map { |term| "DESIGN.md is missing #{term}." }, ["DESIGN.md"])

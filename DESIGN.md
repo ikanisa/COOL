@@ -1,6 +1,6 @@
 # Universal App Design Standard 2026
 
-This document is the single design authority for this repository. Any production mobile app, Flutter TV app, admin panel, Flutter-first web shell, native iOS or Android app, React Native app, or embedded app surface must use this file as its design contract. No secondary design folder, screenshot parity matrix, token JSON, design-system markdown, source-variant asset folder, provenance note, or archived design report may override this standard.
+This document is the single design authority for this repository. Any production mobile app, native Flutter TV app, admin panel, Flutter-first web shell, native iOS or Android app, React Native app, or embedded app surface must use this file as its design contract. No secondary design folder, screenshot parity matrix, token JSON, design-system markdown, source-variant asset folder, provenance note, or archived design report may override this standard.
 
 This standard is built from current platform guidance, local implementation evidence, and the supplied Revolut reference screenshot grammar. The screenshot base is mandatory as a quality and interaction target: dark immersive shells, compact command chrome, large first-viewport value, circular quick actions, restrained copy, translucent panels, stable navigation, and premium state handling. Product teams must adapt those lessons to their truthful domain, roles, data, permissions, and compliance boundaries.
 
@@ -115,7 +115,7 @@ Every app must define and implement these Screen Archetypes before feature work 
 Mobile, TV, and admin must share one semantic design system while serving different jobs:
 
 - Flutter mobile app: consumer or field-user experience. Prioritize thumb reach, compact command chrome, first-viewport value, quick actions, protected routes, offline/retry states, and native Android/iOS behavior.
-- Flutter TV app: living-room or shared-screen experience. Prioritize D-pad focus, 10-foot readability, large focus states, remote shortcuts, horizontal content rows, safe overscan margins, and minimal text entry.
+- Native Flutter TV app: living-room or shared-screen experience delivered as a native TV runtime, not as a web app in a TV browser. Prioritize D-pad focus, 10-foot readability, large focus states, remote shortcuts, horizontal content rows, safe overscan margins, platform TV back/menu behavior, and minimal text entry.
 - Admin panel or Admin PWA: operator experience. Prioritize density, scanning, filtering, auditability, permission clarity, bulk action safety, keyboard support, and desktop/tablet responsiveness.
 
 Shared rules:
@@ -288,7 +288,7 @@ Each component must define default, hover where applicable, focused, pressed, se
 
 Components must share tokens and semantics while adapting to input mode and density:
 
-| Component | Flutter Mobile | Flutter TV | Admin Panel |
+| Component | Flutter Mobile | Native Flutter TV | Admin Panel |
 | --- | --- | --- | --- |
 | Shell | Safe-area scaffold, compact top chrome, bottom nav, branch state. | Overscan-safe scaffold, persistent focus rail, large content rows, back handling. | Sidebar or rail, top command bar, workspace grid, guarded routes. |
 | Navigation | Bottom nav for primary tabs, back for depth, sheets for transient choices. | D-pad reachable rails, tabs, carousels, remembered row focus. | Sidebar, breadcrumbs where useful, tabs, tables, detail drawers. |
@@ -337,9 +337,9 @@ The responsive contract covers these viewport bands:
 
 No text, icon, media, chip, badge, or button label may overlap or overflow its parent in these bands.
 
-## Flutter TV Standard
+## Native Flutter TV Standard
 
-Flutter TV surfaces must be designed as 10-foot, remote-first products rather than stretched mobile screens.
+Flutter TV surfaces must be native TV apps, not web apps, browser shells, or responsive desktop pages shown on a television. A TV build must target native TV runtimes such as Android TV/Google TV and tvOS where supported by the product, with native packaging, remote input, focus traversal, platform back/menu behavior, and device or simulator evidence. Web render-smoke evidence can support shared UI validation, but it cannot prove TV readiness.
 
 ### TV Layout
 
@@ -358,6 +358,7 @@ Flutter TV surfaces must be designed as 10-foot, remote-first products rather th
 - Back returns to the previous view or parent surface without losing context.
 - Search and text entry must offer voice input, recent queries, suggestions, QR handoff, or mobile companion entry where possible.
 - Remote shortcuts must be implemented through Flutter focus, `Shortcuts`, and `Actions`, with tests for directional navigation.
+- Touch, mouse, hover, browser viewport resizing, and web keyboard shortcuts are not acceptable substitutes for native TV remote behavior.
 
 ### TV State And Performance
 
@@ -366,6 +367,14 @@ Flutter TV surfaces must be designed as 10-foot, remote-first products rather th
 - Media, images, and previews must have placeholders and error fallbacks.
 - Scrolling must be virtualized for large rows and never jank under remote repeat input.
 - Reduced motion replaces parallax, scale, and spatial transitions with simpler focus outlines and fades.
+
+### Native TV Build And QA
+
+- Android TV builds must be validated as installable native Android packages on an Android TV or Google TV target, emulator, or physical device.
+- tvOS builds, where part of the product scope, must be validated as native tvOS builds in simulator or device workflows, not Safari/web previews.
+- TV screenshots must come from the native TV runtime or a native TV simulator/emulator.
+- TV navigation tests must cover D-pad up, down, left, right, select, back/menu, long lists, row-to-detail transitions, and focus restoration.
+- TV release gates must record package/build identifier, target runtime, viewport, input device, screenshot path, and any unsupported platform capability.
 
 ## Admin Panel Standard
 
@@ -416,7 +425,7 @@ Visual QA Standard gates must include:
 - golden or snapshot tests for shared components and design tokens.
 - light and dark screenshots for all primary screen archetypes.
 - small phone, standard phone, large phone, tablet, landscape, and keyboard-open screenshots.
-- TV screenshots for 720p, 1080p, focused, unfocused, row-scrolled, detail, search, empty, loading, error, and reduced-motion states where a TV surface exists.
+- Native TV screenshots for 720p, 1080p, focused, unfocused, row-scrolled, detail, search, empty, loading, error, and reduced-motion states where a TV surface exists.
 - Admin screenshots for desktop, tablet, compact fallback, dense table, card/list fallback, filter open, detail panel, bulk selection, permission denied, stale data, and high-volume states.
 - loading, empty, error, offline, disabled, focused, selected, and permission-denied states.
 - pixel checks for blank screens, clipped text, overlapping controls, missing images, and wrong theme mode.
@@ -454,27 +463,27 @@ Recommended Flutter package boundaries:
 
 ## Robust Implementation Goal
 
-Goal: build one comprehensive, reference-backed UI/UX system for Flutter mobile, Flutter TV, and admin panel surfaces, using the Revolut screenshot grammar as the baseline for premium interaction quality while preserving product-owned content, role boundaries, accessibility, and platform-native behavior.
+Goal: build one comprehensive, reference-backed UI/UX system for Flutter mobile, native Flutter TV, and admin panel surfaces, using the Revolut screenshot grammar as the baseline for premium interaction quality while preserving product-owned content, role boundaries, accessibility, and platform-native behavior.
 
 Completion requires all of the following:
 
 - One authoritative `DESIGN.md` governs mobile, TV, and admin surfaces.
 - The Revolut screenshot grammar is converted into semantic tokens, app shell rules, component contracts, state requirements, and QA gates.
 - Flutter mobile routes use the shared dark/premium shell, compact command chrome, first-viewport value, circular quick actions, floating navigation, and complete state handling.
-- Flutter TV routes use D-pad focus, 10-foot readability, focus memory, remote shortcuts, large stable tiles, and TV-safe navigation.
+- Native Flutter TV routes use D-pad focus, 10-foot readability, focus memory, remote shortcuts, large stable tiles, TV-safe navigation, and native TV packaging.
 - Admin routes use dense but calm operator layouts: sidebar/rail, dashboards, tables, queues, detail panels, audit logs, filters, bulk action review, and permission-safe states.
 - Consumer mobile and TV apps contain no admin-only routes or affordances.
 - Admin panel exposes no consumer-only shortcuts that bypass permissions, audit trails, or review steps.
 - All components consume semantic tokens rather than hardcoded colors, radii, text styles, shadows, durations, or breakpoints.
 - Accessibility is verified for WCAG 2.2 AA, screen reader semantics, focus order, target size, large text, reduced motion, non-color-only state, and keyboard/remote operation.
-- Visual evidence exists for mobile, TV, and admin breakpoints, including light/dark or dark/high-contrast modes, state variants, and route-level screenshots.
+- Visual evidence exists for mobile, native TV, and admin breakpoints, including light/dark or dark/high-contrast modes, state variants, and route-level screenshots.
 
 ## Robust Implementation Plan
 
 ### Phase 0: Evidence Inventory
 
 - Collect the current Revolut reference screenshots into a stable local evidence folder with filenames, dimensions, and contact sheet.
-- Collect current mobile route screenshots, admin PWA screenshots, and any TV prototype screenshots.
+- Collect current mobile route screenshots, admin PWA screenshots, and native TV screenshots or native TV prototype screenshots.
 - Create a route inventory for mobile, TV, and admin, including hidden, guarded, modal, sheet, and error routes.
 - Mark every route as consumer, TV, admin, shared, or not applicable.
 
@@ -498,11 +507,11 @@ Completion requires all of the following:
 - Verify compact, standard, large phone, tablet, landscape, keyboard-open, large-text, and offline states.
 - Block admin routes and admin affordances from the consumer mobile route tree.
 
-### Phase 4: Flutter TV Upgrade
+### Phase 4: Native Flutter TV Upgrade
 
 - Define the TV route map and not-applicable mobile features.
-- Build TV-specific shell, focus ring, content rows, large tiles, remote shortcut handling, search/text-entry alternatives, and back behavior.
-- Test D-pad traversal, select, back, focus memory, row scrolling, loading placeholders, empty/error states, reduced motion, and overscan-safe layout.
+- Build native TV-specific shell, focus ring, content rows, large tiles, remote shortcut handling, search/text-entry alternatives, and back/menu behavior.
+- Test D-pad traversal, select, back/menu, focus memory, row scrolling, loading placeholders, empty/error states, reduced motion, overscan-safe layout, and native TV packaging.
 
 ### Phase 5: Admin Panel Upgrade
 
@@ -513,7 +522,7 @@ Completion requires all of the following:
 
 ### Phase 6: Evidence And Release Gates
 
-- Generate route screenshots for every mobile, TV, and admin route and critical modal/sheet state.
+- Generate route screenshots for every mobile, native TV, and admin route and critical modal/sheet state.
 - Generate component goldens or snapshots for shared primitives and high-risk states.
 - Run accessibility checks for contrast, semantics, focus order, target size, large text, reduced motion, keyboard, and D-pad.
 - Run performance checks for first frame, scroll, animation, memory pressure, remote repeat input, and large admin datasets.
@@ -543,15 +552,15 @@ Every production route must have evidence. Use this template in release docs, QA
 | Field | Required Evidence |
 | --- | --- |
 | Route ID | Canonical route path or route name. |
-| Surface | Mobile, TV, admin, web, shared, modal, or sheet. |
+| Surface | Mobile, native TV, admin, web, shared, modal, or sheet. |
 | Role Boundary | Consumer, owner, operator, admin, guest, unauthenticated, or not applicable. |
 | Default Screenshot | Primary screenshot at the target viewport. |
-| Responsive Screenshots | Compact phone, standard phone, large phone, tablet, landscape, TV 720p/1080p, admin desktop/tablet as applicable. |
+| Responsive Screenshots | Compact phone, standard phone, large phone, tablet, landscape, native TV 720p/1080p, admin desktop/tablet as applicable. |
 | State Screenshots | Loading, empty, error, offline, permission denied, disabled, selected, focused, success, warning, danger. |
 | Accessibility Evidence | Contrast, semantics labels, focus order, target size, 200 percent text, reduced motion, keyboard, D-pad where applicable. |
 | Performance Evidence | First frame, scroll, route transition, image loading, list virtualization, admin table performance, TV remote repeat input. |
 | Privacy Evidence | Screenshots use sanitized data and mask phone numbers, OTPs, tokens, private IDs, and sensitive account details. |
-| Platform Evidence | Android, iOS, TV, web/admin, safe area, keyboard, status/nav bars, back behavior, deep links. |
+| Platform Evidence | Android, iOS, Android TV, tvOS where scoped, web/admin, safe area, keyboard, status/nav bars, remote input, back/menu behavior, deep links. |
 | Exceptions | Link to Design Exceptions Register entries or `none`. |
 | Owner And Date | Person or agent, date captured, commit or build identifier. |
 
@@ -567,7 +576,7 @@ A product is not design-complete until all Quality Gates pass:
 - Component completeness: Universal Component Library components exist or are intentionally not applicable.
 - State completeness: all State Requirements are implemented for screens and components.
 - Responsive coverage: 320-374, 375-430, 431-599, 600-719, 720+, Landscape, Foldables, and Keyboard open are verified.
-- TV coverage: D-pad focus, remote select/back, focus memory, 720p/1080p layout, safe margins, reduced motion, and large readable type are verified where TV exists.
+- Native TV coverage: native package/build proof, D-pad focus, remote select/back/menu, focus memory, 720p/1080p layout, safe margins, reduced motion, and large readable type are verified where TV exists.
 - Admin coverage: desktop/tablet/compact admin layouts, keyboard operation, tables, filters, detail panels, bulk actions, permission states, and audit trails are verified where admin exists.
 - Accessibility coverage: contrast, semantics, focus, touch targets, text scale, and reduced motion are verified.
 - Visual coverage: route screenshot coverage and golden or snapshot tests exist for critical paths.
@@ -579,7 +588,7 @@ A product is not design-complete until all Quality Gates pass:
 
 When generating or rebuilding an app, use this instruction:
 
-Create a production app using the Universal App Design Standard 2026. Use this `DESIGN.md` as the only design authority. Build the actual usable first screen, not a landing page. Use the Revolut reference screenshot grammar as the premium baseline for shell, hierarchy, command chrome, action rows, panels, navigation, density, and state polish. Implement a typed token model, app shell, Universal Component Library, all State Requirements, mobile responsive bands from 320 dp through tablet/foldable/landscape, Flutter TV focus/remote behavior where applicable, admin panel density and auditability where applicable, accessibility support, route screenshot coverage, and golden or snapshot tests. Use domain-specific truthful content, sanitize private data, avoid unsupported regulated claims, and keep Flutter implementation aligned with semantic tokens and reusable components.
+Create a production app using the Universal App Design Standard 2026. Use this `DESIGN.md` as the only design authority. Build the actual usable first screen, not a landing page. Use the Revolut reference screenshot grammar as the premium baseline for shell, hierarchy, command chrome, action rows, panels, navigation, density, and state polish. Implement a typed token model, app shell, Universal Component Library, all State Requirements, mobile responsive bands from 320 dp through tablet/foldable/landscape, native Flutter TV focus/remote behavior and native package evidence where applicable, admin panel density and auditability where applicable, accessibility support, route screenshot coverage, and golden or snapshot tests. Use domain-specific truthful content, sanitize private data, avoid unsupported regulated claims, and keep Flutter implementation aligned with semantic tokens and reusable components.
 
 ## Governance
 
