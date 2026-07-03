@@ -59,6 +59,9 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
+    final collectionCatalog =
+        ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
+        CollectionTypeCatalogConfig.defaults;
     _loadOnce(collection);
 
     return ScreenScaffold(
@@ -118,6 +121,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           children: [
             _ProfileCollectionTypePicker(
               selected: _collectionType,
+              options: collectionCatalog.types,
               onChanged: (value) => setState(() => _collectionType = value),
             ),
             Material(
@@ -246,8 +250,8 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
                 : 'Primary MoMo receiver',
             recurringCadence: _recurringEnabled ? _cadence : 'monthly',
             collectionType: _collectionType,
-            categorySubtype: _defaultProfileCategorySubtype(_collectionType),
-            purposeLabel: _collectionType.shortPurpose,
+            categorySubtype: _selectedTypeOption.defaultCategorySubtype,
+            purposeLabel: _selectedTypeOption.defaultPurposeLabel,
             accentColorHex: _accentColorHex,
             imageUrl: imageUrl,
             isPublic: _isPublic,
@@ -270,6 +274,12 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     final mimeType =
         _imageMimeType ?? _mimeTypeFromName(_imageName ?? '') ?? 'image/jpeg';
     return 'data:$mimeType;base64,${base64Encode(bytes)}';
+  }
+
+  CollectionTypeCatalogItem get _selectedTypeOption {
+    return (ref.read(collectCollectionTypeCatalogProvider).valueOrNull ??
+            CollectionTypeCatalogConfig.defaults)
+        .optionFor(_collectionType);
   }
 }
 

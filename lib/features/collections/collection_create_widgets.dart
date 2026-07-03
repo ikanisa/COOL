@@ -4,7 +4,7 @@ class _CreateGroupReview extends StatelessWidget {
   const _CreateGroupReview({
     required this.title,
     required this.description,
-    required this.collectionType,
+    required this.collectionTypeOption,
     required this.receiver,
     required this.accentColor,
     required this.hasPhoto,
@@ -13,7 +13,7 @@ class _CreateGroupReview extends StatelessWidget {
 
   final String title;
   final String description;
-  final CollectionType collectionType;
+  final CollectionTypeCatalogItem collectionTypeOption;
   final String receiver;
   final Color accentColor;
   final bool hasPhoto;
@@ -30,9 +30,9 @@ class _CreateGroupReview extends StatelessWidget {
           Text('Review group', style: Theme.of(context).textTheme.titleLarge),
           CollectSpacing.gap12,
           CollectListTile(
-            leading: collectionTypeIcon(collectionType),
-            title: collectionType.label,
-            subtitle: collectionType.shortPurpose,
+            leading: collectionTypeIcon(collectionTypeOption.type),
+            title: collectionTypeOption.label,
+            subtitle: collectionTypeOption.shortPurpose,
           ),
           CollectListTile(
             leading: CollectIcons.collections,
@@ -62,25 +62,24 @@ class _CreateGroupReview extends StatelessWidget {
 }
 
 class _CollectionTypeGrid extends StatelessWidget {
-  const _CollectionTypeGrid({required this.selected, required this.onChanged});
+  const _CollectionTypeGrid({
+    required this.selected,
+    required this.options,
+    required this.onChanged,
+  });
 
   final CollectionType selected;
+  final List<CollectionTypeCatalogItem> options;
   final ValueChanged<CollectionType> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return CollectionTypeIconSelector(selected: selected, onChanged: onChanged);
+    return CollectionTypeIconSelector(
+      selected: selected,
+      options: options,
+      onChanged: onChanged,
+    );
   }
-}
-
-String _defaultCategorySubtype(CollectionType type) {
-  return switch (type) {
-    CollectionType.ikimina => 'group_savings',
-    CollectionType.sport => 'fan_club',
-    CollectionType.church => 'offering',
-    CollectionType.wedding => 'committee',
-    CollectionType.other => 'custom',
-  };
 }
 
 class _GroupColorPalette extends StatelessWidget {

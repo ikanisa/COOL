@@ -181,23 +181,28 @@ class CollectionTypeIconSelector extends StatelessWidget {
   const CollectionTypeIconSelector({
     required this.selected,
     required this.onChanged,
+    this.options,
     super.key,
   });
 
   final CollectionType selected;
   final ValueChanged<CollectionType> onChanged;
+  final List<CollectionTypeCatalogItem>? options;
 
   @override
   Widget build(BuildContext context) {
+    final catalogOptions = options?.isNotEmpty == true
+        ? options!
+        : CollectionTypeCatalogConfig.defaults.types;
     return Wrap(
       spacing: CollectSpacing.x3,
       runSpacing: CollectSpacing.x3,
       children: [
-        for (final type in CollectionType.values)
+        for (final option in catalogOptions)
           _CollectionTypeIconChoice(
-            type: type,
-            selected: selected == type,
-            onTap: () => onChanged(type),
+            option: option,
+            selected: selected == option.type,
+            onTap: () => onChanged(option.type),
           ),
       ],
     );
@@ -206,27 +211,28 @@ class CollectionTypeIconSelector extends StatelessWidget {
 
 class _CollectionTypeIconChoice extends StatelessWidget {
   const _CollectionTypeIconChoice({
-    required this.type,
+    required this.option,
     required this.selected,
     required this.onTap,
   });
 
-  final CollectionType type;
+  final CollectionTypeCatalogItem option;
   final bool selected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final type = option.type;
     final colors = context.collectColors;
     final foreground = selected ? colors.onAccent : colors.textSecondary;
     final border = selected ? colors.actionColor : colors.glassBorder;
     final fill = selected ? colors.actionColor : colors.glassControl;
     return Tooltip(
-      message: type.label,
+      message: option.label,
       child: Semantics(
         button: true,
         selected: selected,
-        label: '${type.label} collection type',
+        label: '${option.label} collection type',
         child: ExcludeSemantics(
           child: InkWell(
             onTap: onTap,

@@ -158,15 +158,21 @@ class _CadencePicker extends StatelessWidget {
 class _ProfileCollectionTypePicker extends StatelessWidget {
   const _ProfileCollectionTypePicker({
     required this.selected,
+    required this.options,
     required this.onChanged,
   });
 
   final CollectionType selected;
+  final List<CollectionTypeCatalogItem> options;
   final ValueChanged<CollectionType> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return CollectionTypeIconSelector(selected: selected, onChanged: onChanged);
+    return CollectionTypeIconSelector(
+      selected: selected,
+      options: options,
+      onChanged: onChanged,
+    );
   }
 }
 
@@ -237,16 +243,6 @@ class _ProfileColorPalette extends StatelessWidget {
       ],
     );
   }
-}
-
-String _defaultProfileCategorySubtype(CollectionType type) {
-  return switch (type) {
-    CollectionType.ikimina => 'group_savings',
-    CollectionType.sport => 'fan_club',
-    CollectionType.church => 'offering',
-    CollectionType.wedding => 'committee',
-    CollectionType.other => 'custom',
-  };
 }
 
 class _CadenceOption {

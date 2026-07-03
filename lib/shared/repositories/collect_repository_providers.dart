@@ -78,6 +78,27 @@ final collectAccountDeletionReasonsProvider =
       return collectDefaultAccountDeletionReasons;
     });
 
+final collectCollectionTypeCatalogProvider =
+    FutureProvider<CollectionTypeCatalogConfig>((ref) async {
+      const fallback = CollectionTypeCatalogConfig.defaults;
+      final supabase = ref.watch(supabaseClientProvider);
+      if (supabase == null) return fallback;
+      try {
+        final payload = await supabase.rpc<dynamic>(
+          'get_collection_type_catalog',
+          params: {'p_country_code': fallback.countryCode, 'p_locale': 'en'},
+        );
+        if (payload is Map) {
+          return CollectionTypeCatalogConfig.fromJson(
+            Map<String, dynamic>.from(payload),
+          );
+        }
+      } catch (_) {
+        return fallback;
+      }
+      return fallback;
+    });
+
 final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
   ref,
 ) {

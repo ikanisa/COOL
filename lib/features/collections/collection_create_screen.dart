@@ -72,6 +72,10 @@ class _CollectionCreateScreenState
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final collectionCatalog =
+        ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
+        CollectionTypeCatalogConfig.defaults;
+    final selectedTypeOption = collectionCatalog.optionFor(_collectionType);
     if (!_syncedProfileMomo &&
         _receiverNumber.text.trim().isEmpty &&
         profile?.momoNumber?.trim().isNotEmpty == true) {
@@ -143,6 +147,7 @@ class _CollectionCreateScreenState
             children: [
               _CollectionTypeGrid(
                 selected: _collectionType,
+                options: collectionCatalog.types,
                 onChanged: (type) => setState(() {
                   _collectionType = type;
                   _error = null;
@@ -196,7 +201,7 @@ class _CollectionCreateScreenState
           _CreateGroupReview(
             title: _title.text.trim(),
             description: _description.text.trim(),
-            collectionType: _collectionType,
+            collectionTypeOption: selectedTypeOption,
             receiver: _receiverPreviewLabel,
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
@@ -316,8 +321,8 @@ class _CollectionCreateScreenState
             title: title,
             description: _description.text,
             collectionType: _collectionType,
-            categorySubtype: _defaultCategorySubtype(_collectionType),
-            purposeLabel: _collectionType.shortPurpose,
+            categorySubtype: _selectedTypeOption.defaultCategorySubtype,
+            purposeLabel: _selectedTypeOption.defaultPurposeLabel,
             receiverMomoNumber: receiver,
             receiverLabel: _receiverDisplayLabel,
             receiverIsMomoPayCode:
@@ -340,6 +345,12 @@ class _CollectionCreateScreenState
     return _receiverMode == CollectMomoReceiverMode.momoPayCode
         ? 'MoMo code'
         : 'Primary MoMo receiver';
+  }
+
+  CollectionTypeCatalogItem get _selectedTypeOption {
+    return (ref.read(collectCollectionTypeCatalogProvider).valueOrNull ??
+            CollectionTypeCatalogConfig.defaults)
+        .optionFor(_collectionType);
   }
 
   String get _receiverErrorMessage {

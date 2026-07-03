@@ -121,6 +121,9 @@ void main() {
   final policyDocumentsAccountReasons = File(
     'supabase/migrations/20260704120000_policy_documents_account_reasons.sql',
   ).readAsStringSync();
+  final collectionTypeCatalogRuntime = File(
+    'supabase/migrations/20260703224559_collection_type_catalog_runtime.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -253,6 +256,119 @@ void main() {
       expect(marketExpansion, isNot(contains('avatar_url')));
     },
   );
+
+  test('collection type catalog is dynamic and server-validated', () {
+    final collectModels = File(
+      'lib/shared/models/collect_models.dart',
+    ).readAsStringSync();
+    final repositoryProviders = File(
+      'lib/shared/repositories/collect_repository_providers.dart',
+    ).readAsStringSync();
+    final createScreen = File(
+      'lib/features/collections/collection_create_screen.dart',
+    ).readAsStringSync();
+    final createWidgets = File(
+      'lib/features/collections/collection_create_widgets.dart',
+    ).readAsStringSync();
+    final profileScreen = File(
+      'lib/features/collections/group_profile_screen.dart',
+    ).readAsStringSync();
+    final profileControls = File(
+      'lib/features/collections/group_profile_form_controls.dart',
+    ).readAsStringSync();
+    final foundation = File(
+      'lib/shared/widgets/collect_foundation.dart',
+    ).readAsStringSync();
+
+    for (final table in [
+      'collection_type_catalog',
+      'collection_category_subtypes',
+      'collection_purpose_templates',
+      'collection_type_country_rules',
+    ]) {
+      expect(
+        collectionTypeCatalogRuntime,
+        contains('create table if not exists $table'),
+      );
+      expect(
+        collectionTypeCatalogRuntime,
+        contains('alter table $table enable row level security'),
+      );
+    }
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('create or replace function get_collection_type_catalog'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('create or replace function resolve_collection_catalog_choice'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('create or replace function create_group_with_owner'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('create or replace function update_collection_profile'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('catalog_choice := resolve_collection_catalog_choice'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains("raise exception 'Unsupported collection subtype'"),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains("raise exception 'Unsupported collection purpose'"),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('grant execute on function get_collection_type_catalog'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains(
+        'grant select on collection_type_catalog to anon, authenticated',
+      ),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('grant insert, update, delete on collection_type_catalog'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains('create or replace function audit_collection_catalog_change()'),
+    );
+    expect(
+      collectionTypeCatalogRuntime,
+      contains("execute function emit_app_realtime_event('settings')"),
+    );
+    expect(collectionTypeCatalogRuntime, contains("'fan_club', 'Fan club'"));
+    expect(
+      collectionTypeCatalogRuntime,
+      contains("'church', 'offering_and_donations'"),
+    );
+
+    expect(collectModels, contains('class CollectionTypeCatalogConfig'));
+    expect(collectModels, contains('class CollectionTypeCatalogItem'));
+    expect(collectModels, contains('class CollectionCatalogOption'));
+    expect(
+      repositoryProviders,
+      contains('collectCollectionTypeCatalogProvider'),
+    );
+    expect(repositoryProviders, contains("'get_collection_type_catalog'"));
+    expect(foundation, contains('List<CollectionTypeCatalogItem>? options'));
+    expect(createWidgets, isNot(contains('_defaultCategorySubtype')));
+    expect(profileControls, isNot(contains('_defaultProfileCategorySubtype')));
+    expect(createScreen, contains('collectCollectionTypeCatalogProvider'));
+    expect(createScreen, contains('defaultCategorySubtype'));
+    expect(createScreen, contains('defaultPurposeLabel'));
+    expect(profileScreen, contains('collectCollectionTypeCatalogProvider'));
+    expect(profileScreen, contains('defaultCategorySubtype'));
+    expect(profileScreen, contains('defaultPurposeLabel'));
+  });
 
   test('notification enqueue respects mobile preference toggles', () {
     expect(

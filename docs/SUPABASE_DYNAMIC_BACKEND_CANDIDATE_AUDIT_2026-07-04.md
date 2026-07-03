@@ -207,20 +207,52 @@ Implemented locally:
   realtime, seed data, provider wiring, and removal of in-screen deletion reason
   constants.
 
+### 2026-07-04 P1 Collection Type Catalog And Server Validation
+
+Implemented locally:
+
+- Added `supabase/migrations/20260703224559_collection_type_catalog_runtime.sql`
+  through the Supabase CLI migration generator.
+- Added `collection_type_catalog`, `collection_category_subtypes`,
+  `collection_purpose_templates`, and `collection_type_country_rules`.
+- Enabled RLS on all four tables.
+- Added public enabled-read policies and authenticated admin manage policies.
+- Added explicit Data API grants for public reads and authenticated admin
+  metadata writes.
+- Added `get_collection_type_catalog(country_code, locale)` for client-safe
+  runtime collection type metadata.
+- Added `resolve_collection_catalog_choice(collection_type, subtype, purpose,
+  country_code)` so server RPCs validate active catalog rows before writing
+  collection profile data.
+- Updated `create_group_with_owner(...)` and `update_collection_profile(...)`
+  to resolve collection type, subtype, and purpose through the catalog instead
+  of only checking hardcoded type values.
+- Added audit and realtime invalidation triggers for collection catalog changes.
+- Seeded current Ikimina, Sport, Church, Wedding, and Other type metadata,
+  default subtypes, purpose templates, and Rwanda country rules.
+- Added `CollectionTypeCatalogConfig`, `CollectionTypeCatalogItem`, and
+  `CollectionCatalogOption` models with local fallback defaults.
+- Added `collectCollectionTypeCatalogProvider`.
+- Updated mobile group creation and group profile editing to consume catalog
+  labels/default subtype/default purpose values with safe fallback defaults.
+- Updated the shared collection type selector to render Supabase-provided
+  options while preserving compiled enum/icon behavior.
+- Added Supabase contract coverage for tables, RLS, grants, RPCs, server
+  validation, audit, realtime, seed data, and Flutter consumption points.
+
 Linked deployment status:
 
 - Local migration validation passes.
 - Focused Supabase/Admin Flutter tests pass.
 - Linked advisor error gates passed before these local-only migrations.
 - `supabase_schema_inventory.sh --json` reports the new migration objects as
-  missing remotely until migrations `20260704100000`, `20260704110000`, and
-  `20260704120000` are pushed.
+  missing remotely until migrations `20260704100000`, `20260704110000`,
+  `20260704120000`, and `20260703224559` are pushed.
 - `supabase db push --dry-run` is blocked from this runner by Supabase network
   restrictions: the current address is not in the tenant allow list.
 
 Remaining phases:
 
-- P1 collection type/subtype catalog with server-side RPC validation.
 - P1 payment workflow/status metadata and notification templates.
 - Public website CMS tables and static-site build integration after the runtime
   config migration is deployed.
