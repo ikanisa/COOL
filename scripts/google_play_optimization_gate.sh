@@ -260,12 +260,31 @@ metadata_length_issues = []
 metadata_length_issues << "title_over_30_chars" if metadata_items.dig("title", "text").to_s.length > 30
 metadata_length_issues << "short_description_over_80_chars" if metadata_items.dig("short_description", "text").to_s.length > 80
 metadata_length_issues << "full_description_over_4000_chars" if metadata_items.dig("full_description", "text").to_s.length > 4000
-phone_screenshot_paths = Dir.glob(File.join(root, "fastlane/metadata/android/en-US/images/phoneScreenshots/*.png")).sort
-checks["play_store_metadata_export"] =
-  if metadata_missing.empty? && metadata_length_issues.empty? && phone_screenshot_paths.length >= 2
-    check("pass", "Fastlane-compatible Play listing metadata, graphics, screenshots, and release notes are exported from the Console audit packet.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length)
+play_assets = console_audit_packet.dig("store_listing", "assets") || {}
+feature_graphic = play_assets.fetch("feature_graphic", {})
+phone_screenshot_policy = play_assets.fetch("phone_screenshots", {})
+phone_screenshot_export_path = phone_screenshot_policy["path"].to_s
+phone_screenshot_paths =
+  if phone_screenshot_export_path.empty?
+    []
   else
-    check("blocked", "Play listing metadata/graphics export is missing or violates Play length limits.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "phone_screenshot_count" => phone_screenshot_paths.length, "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
+    Dir.glob(File.join(root, phone_screenshot_export_path, "*.png")).sort
+  end
+visual_assets_retired =
+  play_assets["launcher_icon"] == "none_repo_visual_assets_retired" &&
+  feature_graphic["status"] == "retired_repo_visual_asset" &&
+  feature_graphic["source"] == "DESIGN.md" &&
+  phone_screenshot_policy["status"] == "retired_repo_visual_asset" &&
+  phone_screenshot_policy["source"] == "DESIGN.md" &&
+  phone_screenshot_policy["minimum_required"].to_i == 0 &&
+  phone_screenshot_paths.empty?
+checks["play_store_metadata_export"] =
+  if metadata_missing.empty? && metadata_length_issues.empty? && visual_assets_retired
+    check("pass", "Fastlane-compatible Play text metadata is exported and repo-owned Play visual assets are retired under DESIGN.md.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length, "visual_assets_retired" => true)
+  elsif metadata_missing.empty? && metadata_length_issues.empty? && phone_screenshot_paths.length >= 2
+    check("pass", "Fastlane-compatible Play listing metadata and screenshots are exported from the Console audit packet.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length, "visual_assets_retired" => false)
+  else
+    check("blocked", "Play listing metadata export is missing, violates Play length limits, or conflicts with the retired visual asset policy.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "phone_screenshot_count" => phone_screenshot_paths.length, "visual_assets_retired" => visual_assets_retired, "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
   end
 
 fastlane_files = {

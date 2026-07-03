@@ -1041,6 +1041,35 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(script, contains('rc=124'));
   });
 
+  test('Google Play optimization gate accepts retired visual assets', () {
+    final workflow = File(
+      '.github/workflows/public-website.yml',
+    ).readAsStringSync();
+    final script = File(
+      'scripts/google_play_optimization_gate.sh',
+    ).readAsStringSync();
+
+    expect(workflow, isNot(contains('assets/runtime/generated')));
+    expect(script, contains('visual_assets_retired'));
+    expect(script, contains('none_repo_visual_assets_retired'));
+    expect(
+      script,
+      contains('repo-owned Play visual assets are retired under DESIGN.md'),
+    );
+    expect(
+      script,
+      contains('phone_screenshot_policy["minimum_required"].to_i == 0'),
+    );
+    expect(
+      script,
+      isNot(
+        contains(
+          'phone_screenshot_paths.length >= 2\n    check("pass", "Fastlane-compatible Play listing metadata, graphics, screenshots',
+        ),
+      ),
+    );
+  });
+
   test(
     'legacy mobile route audit command delegates to universal contract gate',
     () {
