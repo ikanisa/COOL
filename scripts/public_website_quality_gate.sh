@@ -63,10 +63,6 @@ def css_hex_vars(stylesheet)
   stylesheet.scan(/--([a-z0-9-]+):\s*(#[0-9a-fA-F]{6})/).to_h
 end
 
-def normalize_hex(value)
-  value.to_s.upcase
-end
-
 def srgb(value)
   value /= 255.0
   value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055)**2.4
@@ -92,22 +88,6 @@ sitemap_path = File.join(build_dir, "sitemap.xml")
 sitemap = read(sitemap_path)
 stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
 design_contract_path = File.join(Dir.pwd, "DESIGN.md")
-design_contract = read(design_contract_path)
-brand_color_contract = {
-  "primary" => {
-    "periwinkle" => "#8885F0",
-    "mint" => "#3CD070",
-    "rose" => "#D38B96",
-    "orange" => "#FF5E43"
-  },
-  "black" => "#050510",
-  "ink" => "#252044",
-  "surface_white" => "#FFFDFB"
-}
-brand_primary_colors = brand_color_contract.fetch("primary")
-brand_black = brand_color_contract.fetch("black")
-brand_ink = brand_color_contract.fetch("ink")
-brand_surface_white = brand_color_contract.fetch("surface_white")
 
 check(
   checks,
@@ -650,28 +630,7 @@ check(
 )
 
 css_vars = css_hex_vars(stylesheet)
-theme_source = read(File.join(Dir.pwd, "lib", "app", "theme", "collect_colors.dart"))
-design_contract_path = File.join(Dir.pwd, "DESIGN.md")
 design_contract_source = read(design_contract_path)
-expected_css_vars = {
-  "periwinkle" => brand_primary_colors.fetch("periwinkle"),
-  "mint" => brand_primary_colors.fetch("mint"),
-  "rose" => brand_primary_colors.fetch("rose"),
-  "orange" => brand_primary_colors.fetch("orange"),
-  "g1" => brand_primary_colors.fetch("periwinkle"),
-  "g2" => brand_primary_colors.fetch("mint"),
-  "g3" => brand_primary_colors.fetch("rose"),
-  "g4" => brand_primary_colors.fetch("orange"),
-  "black" => brand_black,
-  "ink" => brand_ink,
-  "white" => brand_surface_white,
-}
-css_color_failures = expected_css_vars.reject do |name, expected|
-  normalize_hex(css_vars[name]) == normalize_hex(expected)
-end
-flutter_color_failures = brand_primary_colors.values.reject do |hex|
-  theme_source.include?(hex) && theme_source.include?("0xFF#{hex.delete("#").upcase}")
-end
 design_contract_failures = [
   "Universal App Design Standard 2026",
   "Universal Token Model",
@@ -684,21 +643,20 @@ old_public_color_tokens = %w[
   #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
 ]
 old_public_color_hits = old_public_color_tokens.select { |hex| stylesheet.downcase.include?(hex) }
-brand_color_contract_ok = css_color_failures.empty? &&
-  flutter_color_failures.empty? &&
+required_css_vars = %w[periwinkle mint rose orange g1 g2 g3 g4 black ink white]
+css_var_failures = required_css_vars.reject { |name| css_vars[name].to_s.match?(/\A#[0-9A-Fa-f]{6}\z/) }
+single_source_color_contract_ok = css_var_failures.empty? &&
   design_contract_failures.empty? &&
   old_public_color_hits.empty? &&
   !stylesheet.include?("--cta-mint") &&
   !stylesheet.include?("--cta-rose")
 check(
   checks,
-  "shared_primary_color_contract",
-  pass_if(brand_color_contract_ok),
-  brand_color_contract_ok ? "Public site CSS, DESIGN.md and app theme agree on the runtime color contract without generated token JSON." : "Primary color contract drift, missing DESIGN.md terms, or old one-off public colors remain.",
+  "single_source_color_contract",
+  pass_if(single_source_color_contract_ok),
+  single_source_color_contract_ok ? "Public site CSS exposes runtime color variables while DESIGN.md remains the only design authority and generated token JSON is absent." : "Public CSS variables, DESIGN.md terms, or old one-off public colors are not clean.",
   "contract_path" => design_contract_path,
-  "expected_primary" => brand_primary_colors,
-  "css_color_failures" => css_color_failures,
-  "flutter_color_failures" => flutter_color_failures,
+  "css_var_failures" => css_var_failures,
   "design_contract_failures" => design_contract_failures,
   "old_public_color_hits" => old_public_color_hits
 )

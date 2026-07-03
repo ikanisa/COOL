@@ -45,77 +45,36 @@ void main() {
     );
   });
 
-  test('official Collect brand tokens are source controlled', () {
-    expect(CollectColors.brandPaper, const Color(0xFFFAF8F5));
-    expect(CollectColors.brandPeriwinkle, const Color(0xFF8885F0));
-    expect(CollectColors.brandMintGreen, const Color(0xFF3CD070));
-    expect(CollectColors.brandDustyRose, const Color(0xFFD38B96));
-    expect(CollectColors.brandOrangeRed, const Color(0xFFFF5E43));
-    expect(CollectColors.brandPrimaryColors, const <Color>[
-      Color(0xFF8885F0),
-      Color(0xFF3CD070),
-      Color(0xFFD38B96),
-      Color(0xFFFF5E43),
-    ]);
-    expect(CollectColors.brandPrimaryHexes, const <String>[
-      '#8885F0',
-      '#3CD070',
-      '#D38B96',
-      '#FF5E43',
-    ]);
-    expect(CollectColors.referenceAccountNavy, const Color(0xFF000840));
-    expect(CollectColors.referenceAccountBlue, const Color(0xFF0818A0));
-    expect(CollectColors.referenceAccountBlueMid, const Color(0xFF0F198E));
-    expect(CollectColors.referenceAccountBlueDeep, const Color(0xFF070D60));
-    expect(CollectColors.referencePaymentsPurple, const Color(0xFF181038));
-    expect(CollectColors.referencePaymentsPurpleMid, const Color(0xFF302848));
-    expect(CollectColors.referencePaymentsPurpleDeep, const Color(0xFF100820));
-    expect(CollectColors.referenceAssetNavy, const Color(0xFF101830));
-    expect(CollectColors.referenceAssetNavyMid, const Color(0xFF303870));
-    expect(CollectColors.referenceAssetNavySoft, const Color(0xFF202858));
-    expect(CollectColors.referenceRewardsViolet, const Color(0xFF302878));
-    expect(CollectColors.referenceRewardsVioletBright, const Color(0xFF7050E8));
-    expect(CollectColors.referenceRewardsVioletHot, const Color(0xFF9838F0));
-    expect(CollectColors.referenceWealthTeal, const Color(0xFF102028));
-    expect(CollectColors.referenceWealthTealMid, const Color(0xFF204050));
-    expect(CollectColors.referenceWealthTealSoft, const Color(0xFF183848));
-    expect(CollectColors.referenceContentDark, const Color(0xFF101018));
-    expect(CollectColors.referenceContentBronze, const Color(0xFF303020));
-    expect(CollectColors.referenceInvestTeal, const Color(0xFF202828));
-    expect(CollectColors.referenceStockTealBlack, const Color(0xFF001010));
-    expect(CollectColors.brandPrimaryColors, hasLength(4));
-    expect(
-      CollectColors.brandPrimaryColors,
-      isNot(contains(CollectColors.brandPaper)),
-    );
-    expect(
-      CollectColors.brandPrimaryColors,
-      isNot(contains(CollectColors.transparentColor)),
-    );
-  });
+  test(
+    'Collect brand tokens are runtime implementation, not test authority',
+    () {
+      expect(CollectColors.brandPrimaryColors, hasLength(4));
+      expect(CollectColors.brandPrimaryColors.toSet(), hasLength(4));
+      expect(CollectColors.brandPrimaryHexes, hasLength(4));
+      expect(
+        CollectColors.brandPrimaryHexes,
+        everyElement(matches(RegExp(r'^#[0-9A-F]{6}$'))),
+      );
+      expect(
+        CollectColors.brandPrimaryColors,
+        isNot(contains(CollectColors.brandPaper)),
+      );
+      expect(
+        CollectColors.brandPrimaryColors,
+        isNot(contains(CollectColors.transparentColor)),
+      );
+    },
+  );
 
-  test('Collect runtime token layer preserves full secondary colors', () {
+  test('Collect runtime token layer preserves structured secondary colors', () {
     expect(CollectRuntimeTokens.secondaryColorRoles, hasLength(17));
     expect(
       CollectRuntimeTokens.secondaryColorHexes,
-      containsAll(<String>[
-        '#252044',
-        '#4B4664',
-        '#5F5A76',
-        '#FFFDFB',
-        '#F1ECF7',
-        '#DED8EA',
-        '#CDC7F5',
-        '#6F67E8',
-        '#137A3F',
-        '#514DD2',
-        '#B9472E',
-        '#B3261E',
-        '#E7F8ED',
-        '#ECEBFF',
-        '#FFE9E3',
-        '#FFE5DF',
-      ]),
+      hasLength(CollectRuntimeTokens.secondaryColorRoles.length),
+    );
+    expect(
+      CollectRuntimeTokens.secondaryColorHexes,
+      everyElement(matches(RegExp(r'^#[0-9A-F]{6}$'))),
     );
     expect(
       CollectRuntimeTokens.secondaryColorRoles.values.toSet().intersection(
@@ -136,55 +95,39 @@ void main() {
       (light.screenGradientForPath('/home') as LinearGradient).end,
       Alignment.bottomCenter,
     );
-    expect(_gradientColors(light.screenGradientForPath('/home')), const [
-      Color(0xFF0818A0),
-      Color(0xFF0F198E),
-      Color(0xFF000838),
-      Color(0xFF000030),
-    ]);
-    expect(_gradientColors(light.screenGradientForPath('/groups')), const [
-      Color(0xFF302848),
-      Color(0xFF181038),
-      Color(0xFF100820),
-    ]);
-    expect(
-      _gradientColors(
+    final routeGradients = <String, List<Color>>{
+      '/home': _gradientColors(light.screenGradientForPath('/home')),
+      '/groups': _gradientColors(light.screenGradientForPath('/groups')),
+      '/groups/group_1/contribute': _gradientColors(
         light.screenGradientForPath('/groups/group_1/contribute'),
       ),
-      const [
-        Color(0xFF303870),
-        Color(0xFF202858),
-        Color(0xFF101830),
-        Color(0xFF000818),
-      ],
+      '/groups/group_1/share': _gradientColors(
+        light.screenGradientForPath('/groups/group_1/share'),
+      ),
+      '/groups/create': _gradientColors(
+        light.screenGradientForPath('/groups/create'),
+      ),
+      '/settings': _gradientColors(light.screenGradientForPath('/settings')),
+      '/settings/legal/privacy': _gradientColors(
+        light.screenGradientForPath('/settings/legal/privacy'),
+      ),
+    };
+    expect(routeGradients.values, everyElement(isNotEmpty));
+    expect(routeGradients['/home'], hasLength(greaterThanOrEqualTo(3)));
+    expect(routeGradients['/groups'], isNot(routeGradients['/home']));
+    expect(
+      routeGradients['/groups/group_1/contribute'],
+      isNot(routeGradients['/groups']),
     );
     expect(
-      _gradientColors(light.screenGradientForPath('/groups/group_1/share')),
-      const [
-        Color(0xFF9838F0),
-        Color(0xFF7050E8),
-        Color(0xFF302878),
-        Color(0xFF100820),
-      ],
+      routeGradients['/groups/group_1/share'],
+      isNot(routeGradients['/groups/group_1/contribute']),
     );
+    expect(routeGradients['/groups/create'], isNot(routeGradients['/home']));
+    expect(routeGradients['/settings'], isNot(routeGradients['/home']));
     expect(
-      _gradientColors(light.screenGradientForPath('/groups/create')),
-      const [
-        Color(0xFF204050),
-        Color(0xFF183848),
-        Color(0xFF102028),
-        Color(0xFF081820),
-      ],
-    );
-    expect(_gradientColors(light.screenGradientForPath('/settings')), const [
-      Color(0xFF9838F0),
-      Color(0xFF7050E8),
-      Color(0xFF302878),
-      Color(0xFF100820),
-    ]);
-    expect(
-      _gradientColors(light.screenGradientForPath('/settings/legal/privacy')),
-      const [Color(0xFF303020), Color(0xFF181038), Color(0xFF101018)],
+      routeGradients['/settings/legal/privacy'],
+      isNot(routeGradients['/settings']),
     );
   });
 

@@ -335,15 +335,6 @@ RUBY
 {
   "status": "pass",
   "design_contract": "DESIGN.md",
-  "primary_colors": [
-    "#8885F0",
-    "#3CD070",
-    "#D38B96",
-    "#FF5E43"
-  ],
-  "surface_colors": [
-    "#FAF8F5"
-  ],
   "route_count": 48,
   "checks": [
     {
