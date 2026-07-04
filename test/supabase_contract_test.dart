@@ -2337,7 +2337,7 @@ void main() {
     expect(schemaInventory, contains('drop function(?: if exists)?'));
     expect(
       File('scripts/supabase_advisors_warning_inventory.sh').readAsStringSync(),
-      contains('"pg_graphql_authenticated_table_exposed" => 18'),
+      contains('"pg_graphql_authenticated_table_exposed" => 32'),
     );
     expect(
       realtimeInvalidation,

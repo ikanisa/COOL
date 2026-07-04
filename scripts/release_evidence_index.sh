@@ -183,11 +183,13 @@ admin_live = read_json(File.join(bundle_dir, "admin_pwa_live_gate.json"))
 admin_live_fixture = admin_live["fixture_mode"] == true
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 supabase_summary = read_json(File.join(bundle_dir, "supabase", "summary.json"))
-timestamped_supabase_summaries = Dir.glob(
-  File.join(root_dir, ".cache", "supabase_go_live_evidence", "[0-9]*Z", "summary.json")
-).select { |path| File.file?(path) }
+direct_supabase_summaries = Dir.glob(
+  File.join(root_dir, ".cache", "supabase_go_live_evidence", "*", "summary.json")
+).select do |path|
+  File.file?(path) && File.basename(File.dirname(path)) != "latest-test"
+end
 latest_supabase_summary_path =
-  timestamped_supabase_summaries.max_by { |path| File.mtime(path) } ||
+  direct_supabase_summaries.max_by { |path| File.mtime(path) } ||
   File.join(root_dir, ".cache", "supabase_go_live_evidence", "latest-test", "summary.json")
 latest_supabase_summary = read_json(latest_supabase_summary_path)
 supabase_summary_source = "bundle"

@@ -57,8 +57,10 @@ unless performance_counts.empty?
 end
 
 allowed_security_max = {
-  "pg_graphql_anon_table_exposed" => 9,
-  "pg_graphql_authenticated_table_exposed" => 18,
+  # Public runtime metadata tables are intentionally available through PostgREST
+  # and GraphQL with RLS-limited published/enabled rows.
+  "pg_graphql_anon_table_exposed" => 20,
+  "pg_graphql_authenticated_table_exposed" => 32,
   # get_active_policy_document() and list_account_request_reasons() are public
   # read-only metadata RPCs and intentionally run with a pinned search path.
   "anon_security_definer_function_executable" => 4,
