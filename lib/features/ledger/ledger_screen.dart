@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/utils/date_format.dart';
+import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -52,6 +53,58 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
 
     return ScreenScaffold(
       title: 'Ledger',
+      showHeader: false,
+      compact: true,
+      topChrome: CollectScreenTopChrome(
+        avatarTooltip: 'Back',
+        searchLabel: 'Search ledger',
+        onAvatarTap: () => goBackOrHome(context),
+        actions: [
+          CollectChromeAction(
+            icon: CollectIcons.collections,
+            tooltip: 'Filter by group',
+            onPressed: () => _showGroupSheet(state.collections),
+          ),
+          CollectChromeAction(
+            icon: CollectIcons.filter,
+            tooltip: 'Sort ledger',
+            onPressed: _showSortSheet,
+          ),
+        ],
+      ),
+      hero: isInitialLoading
+          ? null
+          : CollectScreenHero(
+              eyebrow: collection?.title.toUpperCase() ?? 'LEDGER',
+              title: 'Ledger',
+              metric: formatRwf(total),
+              subtitle: '${contributions.length} confirmed entries',
+              icon: CollectIcons.ledger,
+              quickActions: [
+                CollectHeroQuickAction(
+                  icon: CollectIcons.collections,
+                  label: 'Group',
+                  onTap: () => _showGroupSheet(state.collections),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.filter,
+                  label: 'Sort',
+                  onTap: _showSortSheet,
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.donate,
+                  label: 'Pay',
+                  onTap: () =>
+                      context.go('/groups/${widget.collectionId}/contribute'),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.share,
+                  label: 'Share',
+                  onTap: () =>
+                      context.go('/groups/${widget.collectionId}/share'),
+                ),
+              ],
+            ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: isInitialLoading
@@ -64,11 +117,6 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
               ),
             ]
           : [
-              MoneyHeroCard(
-                amount: total,
-                label: 'Ledger',
-                detail: '${contributions.length} entries',
-              ),
               SearchWithClearField(
                 controller: _search,
                 label: 'Search Collect ID or transaction',

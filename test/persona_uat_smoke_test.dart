@@ -203,7 +203,7 @@ void main() {
       expect(find.text('Private family support'), findsWidgets);
       expect(find.text('VISIBILITY'), findsNothing);
       expect(find.text('SORT'), findsNothing);
-      expect(find.text('Search groups'), findsNothing);
+      expect(find.text('Search groups'), findsOneWidget);
       expect(find.byType(TextField), findsNothing);
       expectNoGlobalSecrets();
     },
@@ -218,10 +218,13 @@ void main() {
 
       expect(find.byTooltip('Back'), findsOneWidget);
       expect(find.text('St Michel building fund'), findsWidgets);
-      expect(find.bySemanticsLabel('RWF 35,000 raised'), findsOneWidget);
       expect(
-        find.bySemanticsLabel('Open group members, 2 members'),
-        findsWidgets,
+        find.bySemanticsLabel(RegExp(r'RWF 35,000 raised')),
+        findsOneWidget,
+      );
+      expect(
+        find.bySemanticsLabel(RegExp(r'Open group members, 2 members')),
+        findsOneWidget,
       );
       expect(
         find.bySemanticsLabel(RegExp(r'Contribution 038491, RWF 10,000, .*')),
@@ -280,6 +283,8 @@ void main() {
     expect(find.text('Ledger'), findsWidgets);
     expect(find.text('Private'), findsNothing);
     expect(find.text('Safe ledger'), findsNothing);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -700));
+    await tester.pumpAndSettle();
     expect(find.text('038491'), findsWidgets);
     expect(find.text('RWF 5,000'), findsNothing);
     expectNoGlobalSecrets();
@@ -642,6 +647,8 @@ void main() {
     expect(find.text('Ledger'), findsWidgets);
     expect(find.text('Confirmed ledger'), findsNothing);
     expect(find.text('RWF 35,000'), findsOneWidget);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -700));
+    await tester.pumpAndSettle();
     expect(find.text('MTN12345'), findsOneWidget);
 
     expect(find.text('Pending'), findsNothing);
@@ -837,6 +844,8 @@ void main() {
     );
 
     expect(find.text('Ledger'), findsWidgets);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -700));
+    await tester.pumpAndSettle();
     expect(find.text('038491'), findsWidgets);
     expect(find.text('Pending'), findsNothing);
     expect(find.text('Needs review'), findsNothing);

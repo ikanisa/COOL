@@ -12,9 +12,7 @@ import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_creation_platform.dart';
 import 'app_share_service.dart';
 
-part 'home_action_strip.dart';
 part 'home_public_groups_section.dart';
-part 'home_total_collected_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -40,6 +38,59 @@ class HomeScreen extends ConsumerWidget {
       title: 'Home',
       showHeader: false,
       compact: true,
+      topChrome: CollectScreenTopChrome(
+        avatarLabel: profile?.publicId ?? 'Collect',
+        avatarTooltip: 'Settings',
+        searchLabel: 'Search groups',
+        onAvatarTap: () => context.go('/settings'),
+        onSearchTap: () => context.go('/groups'),
+        actions: [
+          if (showCreate)
+            CollectChromeAction(
+              icon: CollectIcons.add,
+              tooltip: 'Create group',
+              onPressed: () => context.go('/groups/create'),
+            ),
+          CollectChromeAction(
+            icon: CollectIcons.settings,
+            tooltip: 'Settings',
+            onPressed: () => context.go('/settings'),
+          ),
+        ],
+      ),
+      hero: isInitialLoading
+          ? null
+          : CollectScreenHero(
+              eyebrow: 'TOTAL COLLECTED',
+              title: 'Total collected',
+              metric: formatRwf(raisedTotal),
+              subtitle: '$contributedGroupCount supported groups',
+              quickActions: [
+                if (showCreate)
+                  CollectHeroQuickAction(
+                    icon: CollectIcons.add,
+                    label: 'Create',
+                    onTap: () => context.go('/groups/create'),
+                  ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.qr,
+                  label: 'Scan QR',
+                  onTap: () => context.go('/groups/scan'),
+                ),
+                CollectHeroQuickAction(
+                  key: const Key('home_supported_groups_chip'),
+                  icon: CollectIcons.people,
+                  label: 'Supported',
+                  tooltip: 'Supported groups',
+                  onTap: () => context.go('/groups?filter=contributed'),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.share,
+                  label: 'Share',
+                  onTap: () => shareCollectApp(context: context, ref: ref),
+                ),
+              ],
+            ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: isInitialLoading
@@ -52,17 +103,6 @@ class HomeScreen extends ConsumerWidget {
               ),
             ]
           : [
-              _HomeTotalCollectedCard(
-                totalAmount: raisedTotal,
-                contributedGroupCount: contributedGroupCount,
-                publicId: profile?.publicId,
-                onContributedGroupsTap: () =>
-                    context.go('/groups?filter=contributed'),
-              ),
-              _HomeActionStrip(
-                showCreate: showCreate,
-                onCreate: () => context.go('/groups/create'),
-              ),
               _PublicGroupsSection(
                 collections: collections,
                 summaries: summaries,

@@ -73,6 +73,59 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       title: 'Settings',
       showHeader: false,
       compact: true,
+      topChrome: CollectScreenTopChrome(
+        avatarLabel: profile?.publicId ?? 'Collect',
+        avatarTooltip: 'Home',
+        searchLabel: 'Settings',
+        onAvatarTap: () => context.go('/home'),
+        actions: [
+          CollectChromeAction(
+            icon: CollectIcons.pending,
+            tooltip: 'Notifications',
+            onPressed: () => showNotificationSettingsSheet(context, ref),
+          ),
+          CollectChromeAction(
+            icon: CollectIcons.support,
+            tooltip: 'Support',
+            onPressed: () => openCollectWhatsAppSupport(
+              phone: runtimeConfig.whatsAppSupportPhone,
+            ),
+          ),
+        ],
+      ),
+      hero: isInitialLoading
+          ? null
+          : CollectScreenHero(
+              eyebrow: 'ACCOUNT',
+              title: 'Collect profile',
+              metric: profile?.publicId ?? 'Collect',
+              subtitle: 'Privacy, support, and account controls',
+              icon: CollectIcons.profile,
+              quickActions: [
+                CollectHeroQuickAction(
+                  icon: CollectIcons.profile,
+                  label: 'Account',
+                  onTap: () => context.go('/settings/account'),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.pending,
+                  label: 'Alerts',
+                  onTap: () => showNotificationSettingsSheet(context, ref),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.support,
+                  label: 'Help',
+                  onTap: () => openCollectWhatsAppSupport(
+                    phone: runtimeConfig.whatsAppSupportPhone,
+                  ),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.privacy,
+                  label: 'Privacy',
+                  onTap: () => context.go('/settings/legal/privacy'),
+                ),
+              ],
+            ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: isInitialLoading
@@ -84,7 +137,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ]
           : [
-              _SettingsProfileCard(publicId: profile?.publicId ?? ''),
               if (systemEntries.isNotEmpty)
                 _SettingsCluster(
                   tone: CollectStatusTone.privacy,
@@ -110,43 +162,6 @@ class _SettingsEntry {
   const _SettingsEntry({required this.child});
 
   final Widget child;
-}
-
-class _SettingsProfileCard extends StatelessWidget {
-  const _SettingsProfileCard({required this.publicId});
-
-  final String publicId;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final value = publicId.trim().isEmpty ? '------' : publicId.trim();
-    return CollectCard(
-      emphasis: CollectCardEmphasis.glow,
-      padding: const EdgeInsets.symmetric(
-        horizontal: CollectSpacing.x4,
-        vertical: CollectSpacing.x3,
-      ),
-      child: Row(
-        children: [
-          const _SettingsIconBadge(icon: CollectIcons.profile),
-          CollectSpacing.gapW12,
-          Expanded(
-            child: Text(
-              value,
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w900,
-                height: 0.96,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _ThemeModeTile extends ConsumerWidget {

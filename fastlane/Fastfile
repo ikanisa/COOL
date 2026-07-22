@@ -1,6 +1,8 @@
 default_platform(:android)
 
 require "shellwords"
+require "json"
+require "tempfile"
 
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
 COLLECT_IOS_APPLE_ID = "6783960331"
@@ -45,6 +47,20 @@ def collect_app_store_connect_api_key
   end
 
   app_store_connect_api_key(**options)
+end
+
+def collect_unbundled_sh(command)
+  if defined?(Bundler) && Bundler.respond_to?(:with_unbundled_env)
+    Bundler.with_unbundled_env do
+      sh(command)
+    end
+  elsif defined?(Bundler) && Bundler.respond_to?(:with_clean_env)
+    Bundler.with_clean_env do
+      sh(command)
+    end
+  else
+    sh(command)
+  end
 end
 
 platform :android do
@@ -131,23 +147,33 @@ platform :ios do
   lane :build_review_ipa do
     review_phone = collect_review_phone
     review_otp = collect_review_otp
-    sh("cd .. && flutter pub get")
-    sh([
-      "cd .. &&",
-      "flutter build ipa",
-      "--flavor production",
-      "--release",
-      "--export-options-plist=ios/ExportOptionsAppStore.plist",
-      "--dart-define=APP_REVIEW_AUTH_ENABLED=true",
-      "--dart-define=APP_REVIEW_AUTH_PHONE=#{review_phone}",
-      "--dart-define=APP_REVIEW_AUTH_OTP=#{review_otp}"
-    ].join(" "))
+    review_defines = Tempfile.new(["collect-app-review-defines", ".json"])
+    review_defines.write(JSON.generate({
+      "APP_REVIEW_AUTH_ENABLED" => "true",
+      "APP_REVIEW_AUTH_PHONE" => review_phone,
+      "APP_REVIEW_AUTH_OTP" => review_otp
+    }))
+    review_defines.close
+
+    collect_unbundled_sh("cd .. && flutter pub get")
+    begin
+      collect_unbundled_sh([
+        "cd .. &&",
+        "flutter build ipa",
+        "--flavor production",
+        "--release",
+        "--export-options-plist=ios/ExportOptionsAppStore.plist",
+        "--dart-define-from-file=#{review_defines.path.shellescape}"
+      ].join(" "))
+    ensure
+      review_defines.unlink
+    end
   end
 
   desc "Upload the latest signed IPA to TestFlight without submitting for App Review"
   lane :upload_review_build do
     api_key = collect_app_store_connect_api_key
-    ipa_path = Dir["build/ios/ipa/*.ipa"].max_by { |path| File.mtime(path) }
+    ipa_path = Dir[File.expand_path("../build/ios/ipa/**/*.ipa", __dir__)].max_by { |path| File.mtime(path) }
     UI.user_error!("No IPA found under build/ios/ipa. Run fastlane ios build_review_ipa first.") if ipa_path.to_s.empty?
 
     pilot(

@@ -9,6 +9,9 @@ class ScreenScaffold extends ConsumerWidget {
     required this.children,
     this.subtitle,
     this.actions = const [],
+    this.topChrome,
+    this.hero,
+    this.banner,
     this.persistentPill,
     this.bottomAction,
     this.onRefresh,
@@ -20,6 +23,9 @@ class ScreenScaffold extends ConsumerWidget {
   final String title;
   final String? subtitle;
   final List<Widget> actions;
+  final Widget? topChrome;
+  final Widget? hero;
+  final Widget? banner;
   final Widget? persistentPill;
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
@@ -45,6 +51,9 @@ class ScreenScaffold extends ConsumerWidget {
       title: title,
       subtitle: subtitle,
       actions: actions,
+      topChrome: topChrome,
+      hero: hero,
+      banner: banner,
       persistentPill: persistentPill ?? stalePill,
       bottomAction: bottomAction,
       onRefresh: onRefresh,

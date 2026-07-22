@@ -49,7 +49,8 @@ function pemToArrayBuffer(pem: string): ArrayBuffer {
 }
 
 async function serviceAccountAccessToken(): Promise<string> {
-  const raw = requireEnv("PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON");
+  const raw = Deno.env.get("PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON")?.trim() ||
+    requireEnv("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON");
   const account = JSON.parse(raw) as ServiceAccount;
   const now = Math.floor(Date.now() / 1000);
   const header = base64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));

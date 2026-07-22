@@ -11,8 +11,6 @@ import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
 import 'group_share_service.dart';
 
-part 'collection_detail_actions.dart';
-part 'collection_detail_hero.dart';
 part 'collection_detail_timeline.dart';
 
 class CollectionDetailScreen extends ConsumerWidget {
@@ -52,6 +50,67 @@ class CollectionDetailScreen extends ConsumerWidget {
       title: 'Collect',
       subtitle: profile?.publicId,
       showHeader: false,
+      topChrome: CollectScreenTopChrome(
+        avatarLabel: profile?.publicId ?? collection.title,
+        avatarTooltip: 'Back',
+        searchLabel: collection.title,
+        onAvatarTap: () => goBackOrHome(context),
+        onSearchTap: () => context.go('/groups'),
+        actions: [
+          CollectChromeAction(
+            icon: CollectIcons.share,
+            tooltip: 'Share group',
+            onPressed: () => shareGroupDeepLink(
+              context: context,
+              ref: ref,
+              collection: collection,
+            ),
+          ),
+          if (isAdmin)
+            CollectChromeAction(
+              icon: CollectIcons.settings,
+              tooltip: 'Manage group',
+              onPressed: () => context.go('/groups/$collectionId/manage'),
+            ),
+        ],
+      ),
+      hero: CollectScreenHero(
+        eyebrow: collection.collectionType.name.toUpperCase(),
+        title: collection.title,
+        metric: formatRwf(summary.amountRaisedRwf),
+        subtitle: '${summary.supporterCount} supporters',
+        icon: collectionTypeIcon(collection.collectionType),
+        semanticLabel:
+            '${formatRwf(summary.amountRaisedRwf)} raised, Open group members, ${summary.supporterCount} members',
+        quickActions: [
+          CollectHeroQuickAction(
+            icon: CollectIcons.donate,
+            label: 'Pay',
+            onTap: () => context.go('/groups/$collectionId/contribute'),
+          ),
+          CollectHeroQuickAction(
+            icon: CollectIcons.people,
+            label: 'People',
+            onTap: () => context.go('/groups/$collectionId/members'),
+          ),
+          CollectHeroQuickAction(
+            icon: CollectIcons.qr,
+            label: 'QR',
+            onTap: () => context.go('/groups/$collectionId/share'),
+          ),
+          CollectHeroQuickAction(
+            icon: isAdmin ? CollectIcons.settings : CollectIcons.share,
+            label: isAdmin ? 'Manage' : 'Share',
+            onTap: isAdmin
+                ? () => context.go('/groups/$collectionId/manage')
+                : () => shareGroupDeepLink(
+                    context: context,
+                    ref: ref,
+                    collection: collection,
+                  ),
+          ),
+        ],
+      ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       bottomAction: isAdmin
@@ -63,14 +122,6 @@ class CollectionDetailScreen extends ConsumerWidget {
               expand: true,
             ),
       children: [
-        const CollectPlainPageHeader(title: 'Group'),
-        _GroupHero(
-          collectionId: collectionId,
-          collection: collection,
-          summary: summary,
-          canManage: isAdmin,
-        ),
-        _GroupActionStrip(collectionId: collectionId, collection: collection),
         Semantics(
           container: true,
           header: true,

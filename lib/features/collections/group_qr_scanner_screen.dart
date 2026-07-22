@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +31,9 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   bool _scanning = false;
   bool _starting = false;
   String? _error;
+  Timer? _startTimeout;
+
+  bool get _scannerAvailable => !kIsWeb;
 
   @override
   void initState() {
@@ -37,6 +43,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
 
   @override
   void dispose() {
+    _startTimeout?.cancel();
     _scanner.dispose();
     super.dispose();
   }
@@ -54,6 +61,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
             joining: _joining,
             scanning: _scanning,
             starting: _starting,
+            scannerAvailable: _scannerAvailable,
             onDetect: _onDetect,
           ),
           SafeArea(
@@ -103,19 +111,41 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   }
 
   Future<void> _startScanning() async {
+    if (!_scannerAvailable) {
+      setState(() {
+        _starting = false;
+        _scanning = false;
+        _error = null;
+      });
+      return;
+    }
     setState(() {
       _starting = true;
       _error = null;
     });
+    _startTimeout?.cancel();
+    _startTimeout = Timer(const Duration(seconds: 8), () {
+      if (!mounted || !_starting) return;
+      ref.read(cameraPermissionStatusProvider.notifier).state =
+          CollectDevicePermissionStatus.denied;
+      setState(() {
+        _starting = false;
+        _scanning = false;
+        _error =
+            'Camera did not start. Check camera permission or open Collect on your phone.';
+      });
+    });
     try {
       await _scanner.start();
       if (!mounted) return;
+      _startTimeout?.cancel();
       setState(() {
         _starting = false;
         _scanning = true;
       });
     } catch (error) {
       if (!mounted) return;
+      _startTimeout?.cancel();
       ref.read(cameraPermissionStatusProvider.notifier).state =
           CollectDevicePermissionStatus.denied;
       setState(() {
@@ -127,6 +157,10 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   }
 
   Future<void> _toggleTorch() async {
+    if (!_scannerAvailable) {
+      setState(() => _error = 'Torch is available in the mobile app.');
+      return;
+    }
     try {
       await _scanner.toggleTorch();
     } catch (_) {
@@ -186,6 +220,7 @@ class _ScannerViewport extends StatelessWidget {
     required this.joining,
     required this.scanning,
     required this.starting,
+    required this.scannerAvailable,
     required this.onDetect,
   });
 
@@ -193,6 +228,7 @@ class _ScannerViewport extends StatelessWidget {
   final bool joining;
   final bool scanning;
   final bool starting;
+  final bool scannerAvailable;
   final void Function(BarcodeCapture capture) onDetect;
 
   @override
@@ -204,14 +240,21 @@ class _ScannerViewport extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           const ColoredBox(color: CollectColors.inkPrimary),
-          MobileScanner(
-            controller: controller,
-            fit: BoxFit.cover,
-            tapToFocus: true,
-            onDetect: onDetect,
-            errorBuilder: (context, error) =>
-                _ScannerUnavailable(error: error.errorDetails?.message),
-          ),
+          if (scannerAvailable)
+            MobileScanner(
+              controller: controller,
+              fit: BoxFit.cover,
+              tapToFocus: true,
+              onDetect: onDetect,
+              errorBuilder: (context, error) =>
+                  _ScannerUnavailable(error: error.errorDetails?.message),
+            )
+          else
+            const _ScannerUnavailable(
+              error:
+                  'QR scanning is available in the mobile app. Open Collect on your phone or use a group link.',
+              showRecoveryAction: false,
+            ),
           const _ScannerScrim(),
           const _ScanGuide(),
           if (starting)
@@ -398,9 +441,10 @@ Rect _scanWindowRect(Size size) {
 }
 
 class _ScannerUnavailable extends StatelessWidget {
-  const _ScannerUnavailable({this.error});
+  const _ScannerUnavailable({this.error, this.showRecoveryAction = true});
 
   final String? error;
+  final bool showRecoveryAction;
 
   @override
   Widget build(BuildContext context) {
@@ -419,16 +463,18 @@ class _ScannerUnavailable extends StatelessWidget {
                   message: error ?? 'Tap Scan to request camera access.',
                   tone: CollectStatusTone.warning,
                 ),
-                CollectSpacing.gap16,
-                CollectButton(
-                  label: 'Recover camera access',
-                  icon: CollectIcons.qr,
-                  onPressed: () => showCameraAccessSheet(
-                    context,
-                    onRetry: () => context.go('/groups/scan'),
+                if (showRecoveryAction) ...[
+                  CollectSpacing.gap16,
+                  CollectButton(
+                    label: 'Recover camera access',
+                    icon: CollectIcons.qr,
+                    onPressed: () => showCameraAccessSheet(
+                      context,
+                      onRetry: () => context.go('/groups/scan'),
+                    ),
+                    expand: true,
                   ),
-                  expand: true,
-                ),
+                ],
               ],
             ),
           ),

@@ -2,13 +2,15 @@
 set -euo pipefail
 
 BASE_URL="${PUBLIC_WEBSITE_URL:-https://collect.ikanisa.com}"
+CANONICAL_URL="${PUBLIC_WEBSITE_CANONICAL_URL:-$BASE_URL}"
 MODE="${1:-}"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-ruby -r json -r net/http -r uri -r time - "$BASE_URL" "$MODE" <<'RUBY'
+ruby -r json -r net/http -r uri -r time -r cgi -r digest - "$BASE_URL" "$CANONICAL_URL" "$MODE" <<'RUBY'
 base_url = ARGV.fetch(0).delete_suffix("/")
-mode = ARGV.fetch(1)
+canonical_url = ARGV.fetch(1).delete_suffix("/")
+mode = ARGV.fetch(2)
 
 def fetch(url)
   uri = URI(url)
@@ -56,6 +58,7 @@ required_routes = {
   "/terms/" => ["Terms of Use", "Clear rules for using Collect."],
   "/account-deletion/" => ["Delete Your Collect Account", "Delete your Collect account."],
   "/data-deletion/" => ["Data Deletion", "Data deletion and retention"],
+  "/our-partners/" => ["Our Partners", "Growth Engines for Banks"],
   "/trust/" => ["Trust", "Security and trust"],
   "/security/" => ["Security | Collect by IKANISA", "Security, privacy and trust controls."],
   "/sitemap.xml" => ["credit-readiness", "privacy", "trust"],
@@ -84,7 +87,7 @@ required_routes.each do |route, required_text|
   )
 end
 
-["/styles.css", "/site.js"].each do |route|
+["/styles.css", "/site.js", "/favicon.svg", "/manifest.json", "/icons/collect.png", "/assets/brand/collect_runtime/media/group-momentum.png", "/assets/brand/collect_runtime/media/mobile-money-ussd-signal.png", "/assets/brand/collect_runtime/media/qr-share.png"].each do |route|
   url = "#{base_url}#{route}"
   response, elapsed = fetch(url)
   responses[route] = {
@@ -113,6 +116,12 @@ sitemap_routes.each do |route|
     headers: response.each_header.to_h,
     elapsed: elapsed
   }
+end
+
+retired_language_routes = ["/rw/", "/rw/group-savings/", "/rw/community-groups/", "/fr/"]
+retired_language_responses = retired_language_routes.to_h do |route|
+  response, elapsed = fetch("#{base_url}#{route}")
+  [route, { response: response, body: response.body.to_s, elapsed: elapsed }]
 end
 
 sitemap_route_failures = []
@@ -145,6 +154,12 @@ root_headers = root.fetch(:headers)
 styles = responses.fetch("/styles.css")
 styles_text = styles.fetch(:body).dup.force_encoding("UTF-8")
 site_js = responses.fetch("/site.js")
+favicon = responses.fetch("/favicon.svg")
+manifest = responses.fetch("/manifest.json")
+collect_icon = responses.fetch("/icons/collect.png")
+group_momentum = responses.fetch("/assets/brand/collect_runtime/media/group-momentum.png")
+mobile_money = responses.fetch("/assets/brand/collect_runtime/media/mobile-money-ussd-signal.png")
+qr_share = responses.fetch("/assets/brand/collect_runtime/media/qr-share.png")
 privacy = responses.fetch("/privacy/")
 privacy_text = privacy.fetch(:body).dup.force_encoding("UTF-8")
 robots = responses.fetch("/robots.txt")
@@ -199,13 +214,44 @@ check(
   { "json_ld_types" => json_ld_types, "json_ld_parse_error" => json_ld_parse_error },
 )
 
+live_official_asset_hashes = {
+  collect_icon => "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+  group_momentum => "9b6278d46d68ce2c61fabef8c634ac00b8cf299008cc54ccc74bd34d480068b2",
+  mobile_money => "eaa9fc831baaf3b050d6acdf3de95024098361d6cd9043543ffe159b6c1e8f66",
+  qr_share => "9f67af8c93f035738bfb60f3e6964fe69c6908f5e40ae0003bbf1d609c8eafd4",
+}
+live_asset_hash_failures = live_official_asset_hashes.reject do |item, expected_hash|
+  item.fetch(:response).code.to_i == 200 && Digest::SHA256.hexdigest(item.fetch(:body)) == expected_hash
+end
+brand_assets_match_baseline = favicon.fetch(:response).code.to_i == 404 &&
+  live_asset_hash_failures.empty? &&
+  root_body.include?('<link rel="icon" href="/icons/collect.png" type="image/png">') &&
+  root_body.include?('<img src="/icons/collect.png" alt="" width="42" height="42">') &&
+  root_body.include?('<meta property="og:image" content="https://collect.ikanisa.com/assets/brand/collect_runtime/media/group-momentum.png">') &&
+  !root_body.include?('class="brand-mark"') &&
+  manifest.fetch(:response).code.to_i == 200 &&
+  manifest.fetch(:body).include?('"src": "/icons/collect.png"') &&
+  manifest.fetch(:body).include?('"sizes": "512x512"')
+check(
+  checks,
+  "pre_audit_brand_assets",
+  brand_assets_match_baseline,
+  "Live official logo, favicon, manifest icon, and related media match immutable pre-audit deployment hashes.",
+  {
+    "favicon_status" => favicon.fetch(:response).code.to_i,
+    "favicon_bytes" => favicon.fetch(:body).bytesize,
+    "manifest_status" => manifest.fetch(:response).code.to_i,
+    "asset_hash_failures" => live_asset_hash_failures.values,
+  },
+)
+
 html_routes = sitemap_routes.reject { |route| route.end_with?(".xml") || route.end_with?(".txt") }
 metadata_failures = []
 html_routes.each do |route|
   html = responses.fetch(route).fetch(:body)
   headers = responses.fetch(route).fetch(:headers)
   scripts, types, parse_error = json_ld_types_for(html)
-  expected_canonical = "#{base_url}#{route}"
+  expected_canonical = "#{canonical_url}#{route}"
   route_ok = !headers.fetch("x-robots-tag", "").downcase.include?("noindex") &&
     !html.downcase.include?("noindex") &&
     html.include?(%(<link rel="canonical" href="#{expected_canonical}">)) &&
@@ -239,10 +285,10 @@ check(
   "public_app_and_whatsapp_support_conversion",
   root_body.scan(/https:\/\/wa\.me\//).length >= 3 &&
     root_body.include?("https://play.google.com/store/apps/details?id=app.cool.mobile") &&
-    root_body.include?("Get the App") &&
-    root_body.include?("Create Group Saving") &&
-    root_body.include?("Get in Touch") &&
-    !root_body.include?("Available on Android") &&
+  root_body.include?("Get the App") &&
+  root_body.include?("Create Group Saving") &&
+  root_body.include?("Get in Touch") &&
+  root_body.include?('aria-label="Get Collect by IKANISA for Android on Google Play"') &&
     !root_body.include?("WhatsApp support options") &&
     !root_body.include?("Partner Inquiry") &&
     !root_body.include?("Privacy or Deletion") &&
@@ -284,13 +330,34 @@ check(
   "Live privacy route contains deletion and support contact content.",
 )
 
+privacy_semantic_links = {
+  "/subprocessors/" => ["/subprocessors", "View subprocessor information"],
+  "/privacy-request/" => ["/privacy-request", "Submit a privacy request"],
+  "/account-deletion/" => ["/account-deletion", "Open the account-deletion page"],
+  "/cookies/" => ["/cookies", "Read the cookie and website technology notice"],
+}
+semantic_privacy_links_ok = privacy_semantic_links.all? do |href, (visible_text, accessible_label)|
+  privacy_text.match?(%r{<a[^>]+href="#{Regexp.escape(href)}"[^>]+aria-label="#{Regexp.escape(accessible_label)}"[^>]*>#{Regexp.escape(visible_text)}</a>})
+end
+check(
+  checks,
+  "privacy_semantic_links",
+  semantic_privacy_links_ok,
+  "Live privacy policy preserves baseline visible copy while exposing accessible destination links.",
+)
+
 check(
   checks,
   "robots_and_sitemap",
   robots.fetch(:body).include?("Allow: /") &&
-    sitemap.fetch(:body).include?("#{base_url}/credit-readiness") &&
-    sitemap.fetch(:body).include?("#{base_url}/privacy") &&
-    sitemap.fetch(:body).include?("#{base_url}/trust"),
+    sitemap.fetch(:body).include?("#{canonical_url}/credit-readiness") &&
+    sitemap.fetch(:body).include?("#{canonical_url}/privacy") &&
+    sitemap.fetch(:body).include?("#{canonical_url}/trust") &&
+    !sitemap.fetch(:body).include?("#{canonical_url}/subprocessors") &&
+    !sitemap.fetch(:body).include?("#{canonical_url}/privacy-request") &&
+    !sitemap.fetch(:body).include?("#{canonical_url}/cookies") &&
+    !sitemap.fetch(:body).include?("#{canonical_url}/rw/") &&
+    !sitemap.fetch(:body).include?("#{canonical_url}/fr/"),
   "Live robots and sitemap expose required crawl routes.",
 )
 
@@ -349,36 +416,111 @@ check(
   "Live root has required static accessibility signals.",
 )
 
-localized_live_markers = {
-  "sitemap_rw" => sitemap.fetch(:body).include?("#{base_url}/rw/"),
-  "sitemap_fr" => sitemap.fetch(:body).include?("#{base_url}/fr/diaspora/"),
-  "root_hreflang_rw" => root_text.include?('hreflang="rw"'),
-  "root_hreflang_fr" => root_text.include?('hreflang="fr"'),
-}
-english_only_ok = root_text.include?('<html lang="en">') &&
+retired_language_failures = retired_language_responses.each_with_object([]) do |(route, item), failures|
+  status = item.fetch(:response).code.to_i
+  failures << { "route" => route, "status" => status } unless status == 404
+end
+english_only_decision_ok = retired_language_failures.empty? &&
+  root_text.include?('<html lang="en">') &&
   root_text.include?('property="og:locale" content="en_US"') &&
-  localized_live_markers.values.none?
+  root_text.include?('hreflang="x-default"') &&
+  root_text.include?('hreflang="en"') &&
+  !root_text.include?('hreflang="rw"') &&
+  !root_text.include?('hreflang="fr"') &&
+  !root_text.include?('class="language-switcher"') &&
+  !sitemap.fetch(:body).include?("#{canonical_url}/fr/") &&
+  !sitemap.fetch(:body).include?("#{canonical_url}/rw/")
 check(
   checks,
-  "english_only_public_site",
-  english_only_ok,
-  "Live public site is English-only until approved localized copy exists.",
-  { "localized_live_markers" => localized_live_markers.select { |_key, value| value } },
+  "english_only_language_decision",
+  english_only_decision_ok,
+  "Live site publishes English only and does not offer Kinyarwanda or French routes.",
+  { "retired_language_failures" => retired_language_failures },
+)
+
+baseline_content_hashes = {
+  "/" => "b2169213424406487a483b3f63f4da7eea0fab02b84c2bfe83ff38f16394f777",
+  "/account-deletion/" => "babea5394605a96828fb360183a451844391688f9d3a6076d2bc0fa33e9c7c20",
+  "/community-groups/" => "6d03734da650cb4eb6fd8c61a137f510325c6a0c423adf3549cd4a8c2141faec",
+  "/craas/" => "4c76feb5743537083aa26fcf1aed8aad09a41132d8d2861d213041c666bf51ae",
+  "/credit-readiness/" => "2e1115e55a8b88d08ffe1b0ab4f363141e45150452ab877001988045ba05d29a",
+  "/data-deletion/" => "111a293fbfe484ff5b60492f767a346fd122b248ae47f75a36324f7992181468",
+  "/diaspora/" => "b9701015bcedb88f3e01763be03eb5810621351f30b563cfbaca93874f5c8572",
+  "/group-savings/" => "39ba203d22c98296280dc2b18881d0925cfa000f7697ba3e0880887a1517e069",
+  "/insurance/" => "45f3c5ff49d1c55f6176edd12a98239461b8f04945efbd4027c8820b17a8938f",
+  "/our-partners/" => "71847e2f5bcbdf9c417538d28affcbf2abfa26b63da6a259008928d550c73a37",
+  "/partners/" => "1e4e27420078ae877ab173a9030403fb50af55fc2c8d575dd16d3c04bbd3c0bd",
+  "/privacy/" => "f2f3adea4445cd718dd333bb48c55d1bf1bf2b8dc20aceac352ba783b1bba362",
+  "/protection/" => "2ff3af315af909e6a654fe58151f2ece90b9fdc3cfcaeaf2005be1ced46ec306",
+  "/security/" => "75386bfd0766d5ad2ec4bc19f635a5eba2605d3513e5ec76fd0c6597c2bff8fa",
+  "/terms/" => "0789ed2e6df4d5cbb333840ef9468a7cfa3f25ba8cf01c30ad75aefc8927065c",
+  "/trust/" => "5f6b11b13e3464a9d73b44a43864e0e25c04e9a62dda9b5f1cbb6e202821472a",
+}
+content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
+  html = responses.fetch(route).fetch(:body).dup.force_encoding("UTF-8").gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
+  visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")
+  actual_hash = Digest::SHA256.hexdigest(visible_text)
+  failures << { "route" => route, "expected" => expected_hash, "actual" => actual_hash } unless actual_hash == expected_hash
+end
+audit_added_routes = ["/subprocessors/", "/privacy-request/", "/cookies/"]
+audit_added_route_statuses = audit_added_routes.to_h do |route|
+  response, = fetch("#{base_url}#{route}")
+  [route, response.code.to_i]
+end
+pre_audit_content_ok = sitemap_routes.sort == baseline_content_hashes.keys.sort && content_hash_failures.empty? && audit_added_route_statuses.values.all? { |status| status == 404 }
+check(
+  checks,
+  "pre_audit_content_parity",
+  pre_audit_content_ok,
+  "All live routes match the pre-audit visible-content baseline and audit-added routes are absent.",
+  { "hash_failures" => content_hash_failures, "sitemap_routes" => sitemap_routes.sort, "audit_added_route_statuses" => audit_added_route_statuses },
 )
 
 check(
   checks,
-  "consistent_ctas_no_faq_or_proof",
+  "consistent_ctas_without_disclaimer_labels",
   root_body.scan(">Get the App<").length >= 2 &&
     root_body.scan(">Create Group Saving<").length >= 2 &&
     root_body.scan(">Get in Touch<").length >= 2 &&
     !root_text.include?("Questions visitors ask") &&
     !root_body.include?("faq-section") &&
-    !root_text.include?("What Collect can prove publicly") &&
-    !root_text.include?("Available on Android") &&
     !root_text.include?("thousands of users") &&
     !root_text.include?("approved partner names"),
-  "Live root uses the consistent CTA trio and omits FAQ, proof and availability labels.",
+  "Live root uses the consistent CTA trio without redundant availability labels.",
+)
+
+partners_text = responses.fetch("/our-partners/").fetch(:body).dup.force_encoding("UTF-8")
+check(
+  checks,
+  "partner_status_disclaimer_absent",
+  !partners_text.include?("Current public status") &&
+    !partners_text.include?("No institution is presented here as a live Collect partner yet.") &&
+    !partners_text.include?("No financial institution is presented on this website as a live Collect partner yet.") &&
+    !partners_text.include?("Partner names, regulators, and licence references will be published only after") &&
+    !partners_text.include?("It is not presented here as a bank, deposit taker, lender or insurer") &&
+    !root_text.include?("No financial institution is presented on this website as a live Collect partner until"),
+  "Live routes omit the removed internal partner-status disclaimer.",
+)
+check(
+  checks,
+  "redundant_disclaimer_blocks_absent",
+  !root_text.include?("Currently available for Android through the official Collect by IKANISA Google Play listing") &&
+    !root_text.include?("iOS availability is not currently advertised") &&
+    !root_text.include?("This website is published in English only") &&
+    !root_text.include?("Fee clarity") &&
+    !root_text.include?("How Collect makes money") &&
+    !root_text.include?("Evidence boundary") &&
+    !root_text.include?("Public evidence and market context") &&
+    !root_text.include?("No financial institution is presented on this website as a live Collect partner until") &&
+    !partners_text.include?("Current public status") &&
+    !partners_text.include?("Public evidence and market context"),
+  "Live routes omit the removed availability, language, fee, and evidence disclaimer labels.",
+)
+check(
+  checks,
+  "platform_neutral_mockup",
+  styles_text.include?(".phone-notch,.phone-status{display:none}"),
+  "Live CSS hides iOS-specific status chrome from decorative device mockups.",
 )
 
 mobile_css_ok = styles_text.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) &&
@@ -397,6 +539,7 @@ failed = checks.count { |item| item.fetch("status") == "fail" }
 payload = {
   "status" => failed.zero? ? "pass" : "fail",
   "base_url" => base_url,
+  "canonical_url" => canonical_url,
   "checked_at_utc" => Time.now.utc.iso8601,
   "summary" => {
     "total" => checks.length,

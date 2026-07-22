@@ -503,12 +503,10 @@ void main() {
     },
   );
 
-  test('primary mobile screens delete redundant top search chrome', () {
+  test('primary mobile screens use shared hero chrome', () {
     final home = [
       'lib/features/home/home_screen.dart',
-      'lib/features/home/home_action_strip.dart',
       'lib/features/home/home_public_groups_section.dart',
-      'lib/features/home/home_total_collected_card.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
     final groups = File(
       'lib/features/collections/collections_screen.dart',
@@ -528,25 +526,25 @@ void main() {
       'lib/shared/widgets/collect_scaffold_chrome.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
 
-    expect(home, isNot(contains('CollectTopChrome(')));
+    expect(home, contains('CollectScreenTopChrome('));
     expect(home, isNot(contains("context.go('/groups/search')")));
     expect(home, isNot(contains("label: 'Join'")));
     expect(home, isNot(contains("context.go('/groups/join')")));
     expect(home, contains("label: 'Scan QR'"));
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
-    expect(groups, isNot(contains('CollectTopChrome(')));
-    expect(groups, isNot(contains("'Search groups'")));
-    expect(settings, isNot(contains('CollectTopChrome(')));
+    expect(groups, contains('CollectScreenTopChrome('));
+    expect(groups, contains("'Search groups'"));
+    expect(settings, contains('CollectScreenTopChrome('));
     expect(settings, isNot(contains("'Search settings'")));
-    expect(groupDetail, isNot(contains('CollectTopChrome')));
+    expect(groupDetail, contains('CollectScreenTopChrome'));
     expect(groupDetail, isNot(contains('persistentPill')));
     expect(sharedBarrel, contains("export 'collect_chrome.dart';"));
-    expect(sharedBarrel, isNot(contains('class CollectTopChrome')));
-    expect(chromeModule, contains('class CollectTopChrome'));
-    expect(chromeModule, isNot(contains('searchLabel')));
-    expect(chromeModule, isNot(contains('onSearchTap')));
+    expect(sharedBarrel, isNot(contains('class CollectScreenTopChrome')));
+    expect(chromeModule, contains('class CollectScreenTopChrome'));
+    expect(chromeModule, contains('searchLabel'));
+    expect(chromeModule, contains('onSearchTap'));
     expect(chromeModule, isNot(contains('onSearchChanged')));
-    expect(chromeModule, isNot(contains('CollectIcons.search')));
+    expect(chromeModule, contains('CollectIcons.search'));
     expect(chromeModule, contains('class ScreenHeader'));
   });
 

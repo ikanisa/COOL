@@ -57,6 +57,8 @@ class _CollectConnectivityOverlay extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final status = ref.watch(connectivityStatusProvider);
+    final compactWidth = MediaQuery.sizeOf(context).width < 600;
+    final topPadding = compactWidth ? 64.0 : CollectSpacing.x2;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -67,9 +69,9 @@ class _CollectConnectivityOverlay extends ConsumerWidget {
             child: Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(
+                padding: EdgeInsets.fromLTRB(
                   CollectSpacing.x4,
-                  CollectSpacing.x2,
+                  topPadding,
                   CollectSpacing.x4,
                   0,
                 ),

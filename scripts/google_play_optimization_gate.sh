@@ -115,7 +115,9 @@ if aab["exists"]
 end
 
 policy_urls = %w[
-  https://collect.ikanisa.com/#/privacy
+  https://collect.ikanisa.com/privacy/
+  https://collect.ikanisa.com/account-deletion/
+  https://collect.ikanisa.com/data-deletion/
   https://collect.ikanisa.com/.well-known/assetlinks.json
   https://admin.collect.ikanisa.com/custom-sw.js
   https://admin.collect.ikanisa.com/main.dart.js
@@ -186,11 +188,17 @@ checks["android_app_links"] =
   end
 
 policy_status = %w[
-  https://collect.ikanisa.com/#/privacy
+  https://collect.ikanisa.com/privacy/
+  https://collect.ikanisa.com/account-deletion/
+  https://collect.ikanisa.com/data-deletion/
 ].all? { |url| http.dig(url, "status_code") == 200 }
 checks["play_policy_urls"] =
   if policy_status
-    check("pass", "Play privacy, account deletion, and data deletion URL is live.", "urls" => http.select { |url, _| url.include?("privacy") })
+    check(
+      "pass",
+      "Play privacy, account deletion, and data deletion URLs are live.",
+      "urls" => http.select { |url, _| url.match?(%r{/(privacy|account-deletion|data-deletion)/}) },
+    )
   else
     check("blocked", "Play policy URLs must return HTTP 200.", "urls" => http)
   end
@@ -228,9 +236,9 @@ checks["play_console_readiness_packet"] =
       console_audit_packet["package_name"] == "app.cool.mobile" &&
       console_audit_packet.dig("target_release", "version_code").to_i == package["version_code"].to_i &&
       console_audit_packet.dig("store_listing", "app_name").to_s != "" &&
-      console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/#/privacy" &&
-      console_audit_packet.dig("app_content", "account_deletion_url").to_s == "https://collect.ikanisa.com/#/privacy" &&
-      console_audit_packet.dig("app_content", "data_deletion_url").to_s == "https://collect.ikanisa.com/#/privacy" &&
+      console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/privacy/" &&
+      console_audit_packet.dig("app_content", "account_deletion_url").to_s == "https://collect.ikanisa.com/account-deletion/" &&
+      console_audit_packet.dig("app_content", "data_deletion_url").to_s == "https://collect.ikanisa.com/data-deletion/" &&
       console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == false &&
       packet_surface_missing.empty?
     check("pass", "Repo-owned Play Console audit packet is complete for listing, app content, policy, release, and account-controlled audit prompts.", "packet_path" => console_audit_packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "console_completion_status" => console_audit_packet["console_completion_status"])

@@ -1100,9 +1100,29 @@ void main() {
     expect(otp, contains('console.error("WhatsApp OTP hook failed"'));
     expect(otp, isNot(contains('error: safeErrorMessage(error)')));
     expect(otp, contains('defaultWhatsAppGraphApiVersion = "v25.0"'));
+    expect(otp, contains('defaultWhatsAppTemplateLanguage = "en_US"'));
     expect(otp, contains('WHATSAPP_GRAPH_API_VERSION'));
+    expect(otp, contains('WHATSAPP_CLOUD_API_VERSION'));
+    expect(otp, contains('WHATSAPP_AUTH_TEMPLATE_LANGUAGE'));
+    expect(otp, contains('WHATSAPP_CLOUD_TEMPLATE_LANGUAGE_CODE'));
+    expect(otp, contains('WHATSAPP_CLOUD_DRY_RUN'));
+    expect(otp, contains('WHATSAPP_CLOUD_OTP_AUTH_BUTTON'));
+    expect(otp, contains('WHATSAPP_CLOUD_OTP_BUTTON_SUB_TYPE'));
+    expect(otp, contains('WHATSAPP_CLOUD_ACCESS_TOKEN'));
+    expect(otp, contains('WHATSAPP_CLOUD_PHONE_NUMBER_ID'));
+    expect(otp, contains('WHATSAPP_CLOUD_OTP_TEMPLATE_NAME'));
+    expect(otp, contains('WABA_ACCESS_TOKEN'));
+    expect(otp, contains('WABA_PHONE_NUMBER_ID'));
+    expect(otp, contains('WABA_OTP_TEMPLATE_NAME'));
+    expect(otp, contains('WHATSAPP_ACCESS_TOKEN'));
+    expect(otp, contains('includeButton: false'));
+    expect(otp, contains('buttonSetting === null'));
+    expect(otp, contains('graph_api_error: responseBody.slice(0, 1000)'));
     expect(otp, isNot(contains('graph.facebook.com/v19.0')));
-    expect(otp, contains('sub_type: "url"'));
+    expect(
+      otp,
+      contains('sub_type: envValue("WHATSAPP_CLOUD_OTP_BUTTON_SUB_TYPE")'),
+    );
     expect(otp, contains('index: "0"'));
     expect(config, contains('[functions.auth-send-whatsapp-otp]'));
     expect(config, contains('verify_jwt = false'));
@@ -2290,6 +2310,7 @@ void main() {
     expect(flutterService, contains('verify-play-integrity'));
     expect(flutterService, contains('buildRequestHash'));
     expect(edgeFunction, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
+    expect(edgeFunction, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
     expect(edgeFunction, contains('decodeIntegrityToken'));
     expect(
       edgeFunction,

@@ -139,6 +139,393 @@ class CollectPlainPageHeader extends StatelessWidget {
   }
 }
 
+class CollectChromeAction {
+  const CollectChromeAction({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+}
+
+class CollectScreenTopChrome extends StatelessWidget {
+  const CollectScreenTopChrome({
+    this.avatarLabel = 'C',
+    this.avatarTooltip = 'Profile',
+    this.searchLabel = 'Search',
+    this.onAvatarTap,
+    this.onSearchTap,
+    this.actions = const [],
+    super.key,
+  });
+
+  final String avatarLabel;
+  final String avatarTooltip;
+  final String searchLabel;
+  final VoidCallback? onAvatarTap;
+  final VoidCallback? onSearchTap;
+  final List<CollectChromeAction> actions;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
+    final control = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
+    final trimmedAvatar = avatarLabel.trim();
+    final initial = trimmedAvatar.isEmpty
+        ? 'C'
+        : String.fromCharCode(trimmedAvatar.runes.first).toUpperCase();
+    return Semantics(
+      container: true,
+      label: 'Screen actions',
+      child: Row(
+        children: [
+          Tooltip(
+            message: avatarTooltip,
+            child: Material(
+              color: control,
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: onAvatarTap == null
+                    ? null
+                    : () {
+                        CollectHaptics.selection();
+                        onAvatarTap!();
+                      },
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: border),
+                  ),
+                  child: SizedBox.square(
+                    dimension: 44,
+                    child: Center(
+                      child: Text(
+                        initial,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: foreground,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Tooltip(
+              message: searchLabel,
+              child: Material(
+                color: control,
+                borderRadius: CollectRadius.pillBorder,
+                child: InkWell(
+                  borderRadius: CollectRadius.pillBorder,
+                  onTap: onSearchTap == null
+                      ? null
+                      : () {
+                          CollectHaptics.selection();
+                          onSearchTap!();
+                        },
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: CollectRadius.pillBorder,
+                      border: Border.all(color: border),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: CollectSpacing.x3,
+                        vertical: 11,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(CollectIcons.search, color: muted, size: 20),
+                          CollectSpacing.gapW8,
+                          Expanded(
+                            child: Text(
+                              searchLabel,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: muted,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          for (final action in actions.take(2)) ...[
+            CollectSpacing.gapW8,
+            Tooltip(
+              message: action.tooltip,
+              child: IconButton(
+                onPressed: () {
+                  CollectHaptics.selection();
+                  action.onPressed();
+                },
+                icon: Icon(action.icon),
+                color: foreground,
+                style: IconButton.styleFrom(
+                  fixedSize: const Size(44, 44),
+                  minimumSize: const Size(44, 44),
+                  padding: EdgeInsets.zero,
+                  backgroundColor: control,
+                  side: BorderSide(color: border),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class CollectHeroQuickAction {
+  const CollectHeroQuickAction({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.key,
+    this.tooltip,
+  });
+
+  final Key? key;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final String? tooltip;
+}
+
+class CollectScreenHero extends StatelessWidget {
+  const CollectScreenHero({
+    required this.title,
+    this.eyebrow,
+    this.subtitle,
+    this.metric,
+    this.primaryAction,
+    this.quickActions = const [],
+    this.icon,
+    this.semanticLabel,
+    this.centerGap = CollectSpacing.x8,
+    super.key,
+  });
+
+  final String title;
+  final String? eyebrow;
+  final String? subtitle;
+  final String? metric;
+  final Widget? primaryAction;
+  final List<CollectHeroQuickAction> quickActions;
+  final IconData? icon;
+  final String? semanticLabel;
+  final double centerGap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final headlineSize = textScale > 1.3 ? 42.0 : 52.0;
+    return Semantics(
+      container: true,
+      header: true,
+      label:
+          semanticLabel ??
+          [
+            if (eyebrow != null) eyebrow,
+            metric ?? title,
+            if (subtitle != null) subtitle,
+          ].whereType<String>().join(', '),
+      child: ExcludeSemantics(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: centerGap),
+            if (icon != null) ...[
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: foreground.withValues(alpha: 0.10),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: foreground.withValues(alpha: 0.16)),
+                ),
+                child: SizedBox.square(
+                  dimension: 58,
+                  child: Icon(icon, color: foreground, size: 28),
+                ),
+              ),
+              CollectSpacing.gap16,
+            ],
+            if (eyebrow != null) ...[
+              Text(
+                eyebrow!,
+                textAlign: TextAlign.center,
+                style: CollectTypography.eyebrowLabel(muted),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              CollectSpacing.gap8,
+            ],
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                metric ?? title,
+                textAlign: TextAlign.center,
+                style:
+                    (metric == null
+                            ? Theme.of(context).textTheme.displaySmall
+                            : CollectTypography.amountDisplay(foreground))
+                        ?.copyWith(
+                          color: foreground,
+                          fontSize: metric == null ? 40 : headlineSize,
+                          fontWeight: FontWeight.w900,
+                          height: 0.96,
+                          letterSpacing: 0,
+                        ),
+                maxLines: 1,
+                softWrap: false,
+              ),
+            ),
+            if (metric != null) ...[
+              CollectSpacing.gap8,
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: foreground,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+            if (subtitle != null) ...[
+              CollectSpacing.gap8,
+              Text(
+                subtitle!,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: muted,
+                  fontWeight: FontWeight.w700,
+                  height: 1.25,
+                  letterSpacing: 0,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+            if (primaryAction != null) ...[
+              CollectSpacing.gap20,
+              primaryAction!,
+            ],
+            if (quickActions.isNotEmpty) ...[
+              CollectSpacing.gap32,
+              CollectHeroQuickActionRow(actions: quickActions),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CollectHeroQuickActionRow extends StatelessWidget {
+  const CollectHeroQuickActionRow({required this.actions, super.key});
+
+  final List<CollectHeroQuickAction> actions;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var index = 0; index < actions.length; index += 1) ...[
+          Expanded(
+            child: _CollectHeroQuickActionButton(action: actions[index]),
+          ),
+          if (index != actions.length - 1) CollectSpacing.gapW8,
+        ],
+      ],
+    );
+  }
+}
+
+class _CollectHeroQuickActionButton extends StatelessWidget {
+  const _CollectHeroQuickActionButton({required this.action});
+
+  final CollectHeroQuickAction action;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final fill = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
+    return Semantics(
+      key: action.key,
+      button: true,
+      label: action.label,
+      child: Tooltip(
+        message: action.tooltip ?? action.label,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: () {
+            CollectHaptics.selection();
+            action.onTap();
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: fill,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: border),
+                ),
+                child: SizedBox.square(
+                  dimension: 54,
+                  child: Icon(action.icon, color: foreground, size: 24),
+                ),
+              ),
+              CollectSpacing.gap8,
+              Text(
+                action.label,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: foreground,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CollectGradientBackground extends StatelessWidget {
   const CollectGradientBackground({
     required this.child,
@@ -196,6 +583,8 @@ class PremiumScaffold extends StatelessWidget {
     required this.children,
     this.subtitle,
     this.actions = const [],
+    this.topChrome,
+    this.hero,
     this.banner,
     this.persistentPill,
     this.bottomAction,
@@ -208,6 +597,8 @@ class PremiumScaffold extends StatelessWidget {
   final String title;
   final String? subtitle;
   final List<Widget> actions;
+  final Widget? topChrome;
+  final Widget? hero;
   final Widget? banner;
   final Widget? persistentPill;
   final Widget? bottomAction;
@@ -236,6 +627,14 @@ class PremiumScaffold extends StatelessWidget {
         ],
         if (showHeader)
           ScreenHeader(title: title, subtitle: subtitle, actions: actions),
+        if (topChrome != null) ...[
+          if (showHeader) CollectSpacing.gap20,
+          topChrome!,
+        ],
+        if (hero != null) ...[
+          compact ? CollectSpacing.gap20 : CollectSpacing.gap24,
+          hero!,
+        ],
         if (banner != null) ...[CollectSpacing.gap20, banner!],
         compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
         ..._withGaps(
@@ -290,6 +689,8 @@ class ScreenScaffoldLayout extends StatelessWidget {
     required this.children,
     this.subtitle,
     this.actions = const [],
+    this.topChrome,
+    this.hero,
     this.banner,
     this.persistentPill,
     this.bottomAction,
@@ -302,6 +703,8 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final String title;
   final String? subtitle;
   final List<Widget> actions;
+  final Widget? topChrome;
+  final Widget? hero;
   final Widget? banner;
   final Widget? persistentPill;
   final Widget? bottomAction;
@@ -316,6 +719,8 @@ class ScreenScaffoldLayout extends StatelessWidget {
       title: title,
       subtitle: subtitle,
       actions: actions,
+      topChrome: topChrome,
+      hero: hero,
       banner: banner,
       persistentPill: persistentPill,
       bottomAction: bottomAction,

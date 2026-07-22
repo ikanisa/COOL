@@ -54,8 +54,9 @@ async function auditRoute(page, route, viewport) {
   const consoleMessages = [];
   const pageErrors = [];
   page.on("console", (message) => {
-    if (["error", "warning"].includes(message.type()) && !/favicon/i.test(message.text())) {
-      consoleMessages.push({ type: message.type(), text: message.text() });
+    const sourceUrl = message.location().url || "";
+    if (["error", "warning"].includes(message.type()) && !/favicon/i.test(`${message.text()} ${sourceUrl}`)) {
+      consoleMessages.push({ type: message.type(), text: message.text(), url: sourceUrl });
     }
   });
   page.on("pageerror", (error) => pageErrors.push(error.message));
@@ -116,6 +117,7 @@ async function auditRoute(page, route, viewport) {
       });
     const bodyText = document.body.innerText;
     return {
+      locale: document.documentElement.lang || "en",
       title: document.title,
       h1: document.querySelector("h1")?.innerText.trim() || "",
       bodyClass: document.body.className,
@@ -141,10 +143,21 @@ async function auditRoute(page, route, viewport) {
         getApp: linkTextCount("Get the App"),
         createGroupSaving: linkTextCount("Create Group Saving"),
         getInTouch: linkTextCount("Get in Touch"),
+        rwGetApp: linkTextCount("Shyira porogaramu kuri telefoni"),
+        rwCreateGroup: linkTextCount("Tangiza itsinda ryo kuzigama"),
+        rwGetInTouch: linkTextCount("Tuvugishe"),
       },
-      bannedSectionsAbsent: !bodyText.includes("Questions visitors ask") &&
-        !bodyText.includes("What Collect can prove publicly") &&
-        !bodyText.includes("Available on Android"),
+      retiredSectionsAbsent: !bodyText.includes("Questions visitors ask") &&
+        !bodyText.includes("thousands of users") &&
+        !bodyText.includes("approved partner names"),
+      disclaimerLabelsAbsent: !bodyText.includes("Currently available for Android through the official Collect by IKANISA Google Play listing") &&
+        !bodyText.includes("iOS availability is not currently advertised") &&
+        !bodyText.includes("This website is published in English only") &&
+        !bodyText.includes("How Collect makes money") &&
+        !bodyText.includes("Public evidence and market context") &&
+        !bodyText.includes("Current public status") &&
+        !bodyText.includes("No institution is presented here as a live Collect partner yet.") &&
+        !bodyText.includes("No financial institution is presented on this website as a live Collect partner"),
       footerRects,
       compactCardGrids: [
         ".problem-list.compact",
@@ -197,8 +210,11 @@ async function auditRoute(page, route, viewport) {
     noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
     noHorizontalOverflow: Math.max(metrics.bodyScrollWidth, metrics.documentScrollWidth) <= metrics.viewportWidth + 1,
     hasTitleAndH1: metrics.title.length > 0 && metrics.h1.length > 0,
-    ctaTrioPresent: metrics.ctaCounts.getApp >= 2 && metrics.ctaCounts.createGroupSaving >= 2 && metrics.ctaCounts.getInTouch >= 2,
-    bannedSectionsAbsent: metrics.bannedSectionsAbsent,
+    ctaTrioPresent: metrics.locale === "rw"
+      ? metrics.ctaCounts.rwGetApp >= 2 && metrics.ctaCounts.rwCreateGroup >= 2 && metrics.ctaCounts.rwGetInTouch >= 2
+      : metrics.ctaCounts.getApp >= 2 && metrics.ctaCounts.createGroupSaving >= 2 && metrics.ctaCounts.getInTouch >= 2,
+    retiredSectionsAbsent: metrics.retiredSectionsAbsent,
+    disclaimerLabelsAbsent: metrics.disclaimerLabelsAbsent,
     routeClassPresent: metrics.bodyClass.includes(`route-${route === "/" ? "home" : routeName(route).replace(/_/g, "-")}`),
     mobileMenuOpens: !viewport.isMobile || mobileMenuOpen,
     mobileProductPreviewUsable: !viewport.isMobile || (metrics.heroDevice && metrics.heroDevice.height >= 220 && metrics.heroDevice.top < viewport.height),
@@ -212,7 +228,7 @@ async function auditRoute(page, route, viewport) {
     }),
     legalLayoutPresent: !metrics.isLegalRoute || metrics.legalLayoutPresent,
     footerTapTargets: !viewport.isMobile || metrics.footerRects.every((box) => box.height >= 40),
-    keyboardTraversal: keyboardFocus.filter(Boolean).length >= 5 && keyboardFocus.some((item) => item && item.text === "Skip to content"),
+    keyboardTraversal: keyboardFocus.filter(Boolean).length >= 5 && keyboardFocus.some((item) => item && ["Skip to content", "Jya ku bikubiyemo"].includes(item.text)),
     screenReaderSmoke: metrics.landmarkCounts.header === 1 &&
       metrics.landmarkCounts.main === 1 &&
       metrics.landmarkCounts.footer === 1 &&

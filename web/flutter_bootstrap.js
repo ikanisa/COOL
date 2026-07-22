@@ -2,8 +2,13 @@
 {{flutter_build_config}}
 
 window.addEventListener('load', function () {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('custom-sw.js?v=__COLLECT_ADMIN_SW_VERSION__').catch(function (error) {
+  var adminServiceWorkerVersion = '__COLLECT_ADMIN_SW_VERSION__';
+  if (
+    'serviceWorker' in navigator &&
+    adminServiceWorkerVersion &&
+    adminServiceWorkerVersion.indexOf('__') !== 0
+  ) {
+    navigator.serviceWorker.register('custom-sw.js?v=' + adminServiceWorkerVersion).catch(function (error) {
       console.warn('Collect Admin service worker registration failed:', error);
     });
   }

@@ -371,15 +371,36 @@ void main() {
     expect(find.text('Group code or link'), findsNothing);
   });
 
-  testWidgets('groups low-data route shows compact discovery actions', (
-    tester,
-  ) async {
+  testWidgets('groups low-data route keeps actions in chrome', (tester) async {
     await pumpRoute(tester, '/groups', legalConsentAccepted: true);
 
-    expect(find.bySemanticsLabel('Groups quick actions'), findsOneWidget);
-    expect(find.text('Scan'), findsOneWidget);
-    expect(find.text('Supported'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel(
+        'GROUPS, RWF 35,000, 2 members moving money together',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Scan'), findsNothing);
+    expect(find.text('Supported'), findsNothing);
+    expect(find.text('Home'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
+  });
+
+  testWidgets('groups empty state does not show home hero actions', (
+    tester,
+  ) async {
+    await pumpRoute(
+      tester,
+      '/groups',
+      legalConsentAccepted: true,
+      repository: CollectRepository(),
+    );
+
+    expect(find.text('No groups yet'), findsOneWidget);
+    expect(find.text('Scan'), findsNothing);
+    expect(find.text('Supported'), findsNothing);
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.byTooltip('Create group'), findsWidgets);
   });
 
   testWidgets('home labels restored cache as offline saved data', (

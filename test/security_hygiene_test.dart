@@ -163,6 +163,7 @@ void main() {
       expect(mainActivity, contains('play_integrity_not_configured'));
       expect(service, contains('MissingPluginException'));
       expect(edgeFunction, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
+      expect(edgeFunction, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
       expect(edgeFunction, isNot(contains('-----BEGIN PRIVATE KEY-----')));
       expect(edgeFunction, isNot(contains('console.log')));
       expect(edgeFunction, isNot(contains('console.error')));

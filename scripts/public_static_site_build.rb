@@ -18,6 +18,10 @@ USSD_CODE = "*182*8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
+BRAND_ASSET = "assets/brand/collect_runtime/media/group-momentum.png"
+MOMO_ASSET = "assets/brand/collect_runtime/media/mobile-money-ussd-signal.png"
+QR_ASSET = "assets/brand/collect_runtime/media/qr-share.png"
+ICON_ASSET = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
 MEDIA_GROUP = "group"
 MEDIA_PAYMENT = "payment"
 MEDIA_SHARE = "share"
@@ -502,25 +506,17 @@ def page_classes(page, current_path)
   classes.join(" ")
 end
 
-def cta_links_html(_current_path, _page, surface:)
+def cta_links_html(_current_path, page, surface:)
   touch_message = "Hello IKANISA, I have a question about Collect."
   app_class = surface == :header ? "button secondary cta-app" : "button primary cta-app"
   secondary_class = surface == :start ? "button ghost on-light" : "button ghost"
   items = [
-    %(<a class="#{app_class}" href="#{APP_DOWNLOAD_URL}">Get the App</a>),
-    %(<a class="#{secondary_class} cta-group" href="#{APP_DOWNLOAD_URL}">Create Group Saving</a>),
+    %(<a class="#{app_class}" href="#{APP_DOWNLOAD_URL}" aria-label="Get Collect by IKANISA for Android on Google Play">Get the App</a>),
+    %(<a class="#{secondary_class} cta-group" href="#{APP_DOWNLOAD_URL}" aria-label="Create a Collect group using the Android app">Create Group Saving</a>),
     %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
   ]
 
   items.join("\n")
-end
-
-def app_availability_note_html(_current_path, _page)
-  ""
-end
-
-def language_switcher_html(_current_path)
-  ""
 end
 
 def content_grid_html(page, current_path)
@@ -534,10 +530,6 @@ def content_grid_html(page, current_path)
       #{sections_html(page[:sections])}
     </section>
   HTML
-end
-
-def proof_section_html(_current_path)
-  ""
 end
 
 def faq_section_html(_current_path)
@@ -575,8 +567,11 @@ def site_footer_html
   HTML
 end
 
-def alternate_links(_current_path)
-  %(<link rel="alternate" hreflang="x-default" href="#{page_url("/")}">)
+def alternate_links(current_path)
+  [
+    %(<link rel="alternate" hreflang="x-default" href="#{page_url(current_path)}">),
+    %(<link rel="alternate" hreflang="en" href="#{page_url(current_path)}">),
+  ].join("\n")
 end
 
 def json_ld(page)
@@ -772,7 +767,9 @@ def legal_details_html(details)
     next if seen[dedupe_key]
 
     seen[dedupe_key] = true
-    %(<dt>#{esc(label)}</dt><dd>#{esc(value)}</dd>)
+    href = %w[subprocessor_link form link cookie_policy_link].include?(key.to_s) ? normalized_legal_href(value) : nil
+    content = href ? %(<a class="legal-inline-link" href="#{esc(href)}" aria-label="#{esc(legal_inline_link_label(key, href))}">#{esc(value)}</a>) : esc(value)
+    %(<dt>#{esc(label)}</dt><dd>#{content}</dd>)
   end.compact
   return "" if rows.empty?
 
@@ -813,6 +810,10 @@ def legal_named_value_html(key, value)
     Array(value).map { |section| legal_section_html(section) }.join
   when "links"
     legal_links_html(value)
+  when "subprocessor_link", "link", "cookie_policy_link"
+    legal_inline_link_html(key, value)
+  when "form"
+    value.is_a?(Hash) ? %(<h3>#{esc(legal_label(key))}</h3>#{legal_hash_html(value)}) : legal_inline_link_html(key, value)
   when "path"
     %(<p><span class="legal-path">#{esc(value)}</span></p>)
   when "fields"
@@ -828,16 +829,50 @@ def legal_named_value_html(key, value)
   end
 end
 
+def normalized_legal_href(value)
+  href = value.to_s.strip
+  return nil unless href.start_with?("/") && !href.start_with?("//")
+
+  path, fragment = href.split("#", 2)
+  path = "/account-deletion/" if path == "/delete-account"
+  path = "#{path}/" unless path.end_with?("/")
+  fragment ? "#{path}##{fragment}" : path
+end
+
+def legal_inline_link_html(key, value)
+  href = normalized_legal_href(value)
+  return %(<p><strong>#{esc(legal_label(key))}:</strong> #{esc(value)}</p>) unless href
+
+  label = legal_inline_link_label(key, href)
+  %(<p><strong>#{esc(legal_label(key))}:</strong> <a class="legal-inline-link" href="#{esc(href)}" aria-label="#{esc(label)}">#{esc(value)}</a></p>)
+end
+
+def legal_inline_link_label(key, href)
+  case key.to_s
+  when "subprocessor_link" then "View subprocessor information"
+  when "form" then "Submit a privacy request"
+  when "cookie_policy_link" then "Read the cookie and website technology notice"
+  when "link"
+    if href.start_with?("/account-deletion/")
+      "Open the account-deletion page"
+    elsif href.start_with?("/cookies/")
+      "Read the cookie and website technology notice"
+    else
+      "Open the referenced page"
+    end
+  else
+    "Open the referenced page"
+  end
+end
+
 def legal_internal_key?(key)
   %w[id slug seo hero legal_review_note must_be_finalised_for].include?(key.to_s)
 end
 
 def legal_links_html(links)
   items = links.map do |label, href|
-    normalized = href.to_s == "/delete-account" ? "/account-deletion/" : href.to_s
-    linkable = ["/privacy", "/privacy/", "/terms", "/terms/", "/account-deletion", "/account-deletion/", "/data-deletion", "/data-deletion/", "/trust", "/trust/"].include?(normalized)
-    href_display = normalized.end_with?("/") ? normalized : "#{normalized}/"
-    content = linkable ? %(<a href="#{href_display}">#{esc(legal_label(label))}</a>) : esc(legal_label(label))
+    href_display = normalized_legal_href(href)
+    content = href_display ? %(<a href="#{esc(href_display)}">#{esc(legal_label(label))}</a>) : esc(legal_label(label))
     %(<li>#{content}</li>)
   end
   %(<ul class="bullet-list">#{items.join}</ul>)
@@ -1786,12 +1821,14 @@ def page_html(page, current_path: page[:path])
       <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
       <link rel="canonical" href="#{page_url(current_path)}">
       #{alternate_links(current_path)}
+      <link rel="icon" href="/icons/collect.png" type="image/png">
       <link rel="manifest" href="/manifest.json">
       <meta property="og:type" content="website">
       <meta property="og:locale" content="en_US">
       <meta property="og:url" content="#{page_url(current_path)}">
       <meta property="og:title" content="#{esc(page[:title])}">
       <meta property="og:description" content="#{esc(page[:description])}">
+      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/collect_runtime/media/group-momentum.png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">
@@ -1803,14 +1840,13 @@ def page_html(page, current_path: page[:path])
       <a class="skip-link" href="#content">Skip to content</a>
       <header class="site-header">
         <a class="brand" href="/">
-          <span class="brand-mark" aria-hidden="true">C</span>
+          <img src="/icons/collect.png" alt="" width="42" height="42">
           <span><strong>Collect</strong><small>by IKANISA</small></span>
         </a>
         <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">Menu</button>
         <nav id="site-nav" class="site-nav" data-site-nav aria-label="Main navigation">
           #{nav_html(current_path)}
         </nav>
-        #{language_switcher_html(current_path)}
         <div class="header-actions">
           #{cta_links_html(current_path, page, surface: :header)}
         </div>
@@ -1825,7 +1861,6 @@ def page_html(page, current_path: page[:path])
             <div class="hero-actions">
               #{cta_links_html(current_path, page, surface: :hero)}
             </div>
-            #{app_availability_note_html(current_path, page)}
           </div>
           <div class="hero-device">
             #{hero_visual_html(page)}
@@ -1854,7 +1889,6 @@ def page_html(page, current_path: page[:path])
 
         #{current_path == "/" ? original_home_sections_html : ""}
 
-
         #{faq_section_html(current_path)}
 
         <section id="start" class="start-section #{page[:legal_key] ? "legal-start-section" : ""}" aria-labelledby="start-heading">
@@ -1863,7 +1897,6 @@ def page_html(page, current_path: page[:path])
             <div class="start-actions">
               #{cta_links_html(current_path, page, surface: :start)}
             </div>
-            #{app_availability_note_html(current_path, page)}
           </div>
         </section>
 
@@ -1910,16 +1943,13 @@ def stylesheet
     .skip-link:focus { top: 16px; }
     .site-header { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 18px clamp(20px, 4vw, 48px); position: sticky; top: 0; z-index: 5; background: rgba(5, 5, 16, .86); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(250,248,245,.08); }
     .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: max-content; }
-    .brand-mark { width: 42px; height: 42px; border-radius: 50%; display: inline-grid; place-items: center; background: rgba(250,248,245,.10); border: 1px solid rgba(250,248,245,.18); color: var(--paper); font-weight: 950; }
+    .brand img { border-radius: 10px; }
     .brand strong, .brand small { display: block; line-height: 1; }
     .brand strong { font-size: 19px; font-weight: 900; }
     .brand small { color: rgba(250,248,245,.7); font-weight: 800; margin-top: 3px; }
     .site-nav { display: flex; gap: 2px; align-items: center; flex: 1; justify-content: center; min-width: 0; }
     .nav-link { text-decoration: none; font-size: 12px; font-weight: 850; color: rgba(250,248,245,.72); padding: 10px 8px; border-radius: 10px; white-space: nowrap; }
     .nav-link:hover, .nav-link.active { color: var(--paper); background: rgba(250,248,245,.09); }
-    .language-switcher { display: inline-flex; align-items: center; gap: 4px; padding: 4px; border: 1px solid rgba(250,248,245,.14); border-radius: 12px; background: rgba(250,248,245,.06); }
-    .language-switcher a { min-width: 34px; min-height: 34px; display: inline-grid; place-items: center; border-radius: 9px; text-decoration: none; color: rgba(250,248,245,.78); font-size: 12px; font-weight: 950; }
-    .language-switcher a:hover { background: rgba(250,248,245,.12); color: var(--paper); }
     .header-actions, .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .header-actions { flex: 0 0 auto; flex-wrap: nowrap; gap: 8px; }
     .button, button { min-height: 44px; border: 1px solid rgba(250,248,245,.18); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; text-decoration: none; font-size: 14px; font-weight: 900; cursor: pointer; }
@@ -1938,7 +1968,6 @@ def stylesheet
     section { scroll-margin-top: 96px; }
     h1 { font-size: clamp(44px, 8vw, 96px); line-height: .94; margin: 0; max-width: 920px; font-weight: 950; }
     .hero-intro { color: rgba(250,248,245,.74); font-size: clamp(19px, 2.1vw, 25px); line-height: 1.38; max-width: 760px; margin: 26px 0 30px; }
-    .app-availability { margin: 14px 0 0; color: rgba(250,248,245,.68); font-size: .88rem; font-weight: 800; line-height: 1.35; }
     .hero-device { position: relative; min-height: 520px; display: grid; place-items: center; }
     .hero-widget { width: min(94%, 450px); min-height: 430px; border-radius: 34px; padding: 28px; color: var(--paper); border: 1px solid rgba(250,248,245,.18); background: linear-gradient(145deg, rgba(250,248,245,.11), rgba(136,133,240,.16)); box-shadow: 0 34px 90px rgba(0,0,0,.42); display: grid; gap: 16px; align-content: center; overflow: hidden; }
     .hero-widget strong, .hero-widget span, .hero-widget em, .hero-widget small { overflow-wrap: anywhere; }
@@ -1948,13 +1977,10 @@ def stylesheet
     .phone-widget { width: min(94%, 366px); min-height: 650px; border: 0; border-radius: 52px; padding: 0; background: transparent; box-shadow: none; display: block; overflow: visible; }
     .phone-shell { position: relative; width: 100%; height: 650px; min-height: 650px; border-radius: 52px; padding: 10px; background: linear-gradient(145deg, #060811, #171923); border: 1px solid rgba(250,248,245,.16); box-shadow: 0 38px 96px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.05); }
     .phone-shell::before { content: ""; position: absolute; right: -4px; top: 124px; width: 4px; height: 66px; border-radius: 0 4px 4px 0; background: #272936; }
-    .phone-notch { position: absolute; z-index: 2; top: 18px; left: 50%; width: 92px; height: 25px; transform: translateX(-50%); border-radius: 999px; background: #050510; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+    .phone-notch, .phone-status { display: none; }
     .phone-screen { height: 630px; min-height: 630px; border-radius: 42px; overflow: hidden; background: #f5f7fb; color: #17142c; display: flex; flex-direction: column; padding: 18px 16px 14px; border: 1px solid rgba(255,255,255,.08); }
-    .phone-status { display: flex; align-items: center; justify-content: space-between; min-height: 24px; color: #18162c; font-size: 12px; font-weight: 950; padding: 0 4px; }
-    .phone-status i { width: 52px; height: 5px; border-radius: 999px; background: transparent; }
-    .phone-status b { width: 18px; height: 9px; border-radius: 3px; border: 1.5px solid #18162c; position: relative; }
-    .phone-status b::after { content: ""; position: absolute; right: -4px; top: 2px; width: 2px; height: 3px; border-radius: 1px; background: #18162c; }
     .app-bar { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; align-items: center; gap: 10px; min-height: 48px; margin-top: 8px; }
+    .legal-inline-link { display: inline-flex; min-height: 44px; align-items: center; color: #4a3fd6; font-weight: 900; text-decoration-thickness: 2px; text-underline-offset: 4px; }
     .app-bar strong { text-align: center; font-size: 16px; line-height: 1; color: #17142c; }
     .back-button, .download-button, .chat-button { width: 38px; min-height: 38px; height: 38px; padding: 0; border-radius: 14px; background: white; border: 1px solid #e5e8f0; box-shadow: 0 8px 18px rgba(23,20,44,.08); }
     .back-button i, .download-button i, .chat-button i { display: block; width: 18px; height: 18px; margin: auto; position: relative; }
@@ -2201,7 +2227,6 @@ def stylesheet
     .section-number { color: var(--periwinkle); font-weight: 950; }
     .section-card h2 { margin: 18px 0 10px; font-size: 24px; line-height: 1.12; }
     .section-card p, .start-section p { color: var(--muted); line-height: 1.55; }
-    .start-section .app-availability { color: rgba(37,32,68,.68); }
     .proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
     .proof-grid article { min-height: 158px; padding: 20px; border-radius: 18px; border: 1px solid rgba(250,248,245,.14); background: rgba(250,248,245,.08); }
     .proof-grid strong, .proof-grid span { display: block; }
@@ -2475,7 +2500,6 @@ def stylesheet
       .journey-rail p, .insurance-step-grid p { margin-top: 10px; }
       .content-grid-diaspora .section-card:first-of-type, .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-row: auto; grid-column: auto; }
       .legal-card-grid, .legal-details, .legal-layout { grid-template-columns: 1fr; }
-      .language-switcher { display: none; }
       .localized-nav { display: flex; position: static; padding: 0; background: transparent; border-bottom: 0; box-shadow: none; }
       .proof-grid { grid-template-columns: 1fr; }
       .explain-band, .start-section, .market-context, .proof-section, .faq-section, .content-grid, .supported-groups-section { padding: 48px 20px; }
@@ -2633,6 +2657,12 @@ def headers
     /manifest.json
       Cache-Control: public, max-age=3600, must-revalidate
 
+    /assets/*
+      Cache-Control: public, max-age=31536000, immutable
+
+    /icons/*
+      Cache-Control: public, max-age=31536000, immutable
+
   HEADERS
 end
 
@@ -2651,6 +2681,24 @@ write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
 write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
+
+assets = [
+  BRAND_ASSET,
+  MOMO_ASSET,
+  QR_ASSET,
+  ICON_ASSET
+]
+assets.each do |asset|
+  source = File.join(ROOT, asset)
+  next unless File.file?(source)
+
+  target = File.join(BUILD_DIR, asset)
+  FileUtils.mkdir_p(File.dirname(target))
+  FileUtils.cp(source, target)
+end
+
+FileUtils.mkdir_p(File.join(BUILD_DIR, "icons"))
+FileUtils.cp(File.join(ROOT, ICON_ASSET), File.join(BUILD_DIR, "icons", "collect.png"))
 
 well_known_source = File.join(ROOT, "web", ".well-known")
 if Dir.exist?(well_known_source)
@@ -2672,7 +2720,14 @@ manifest = {
   "display" => "standalone",
   "background_color" => BRAND_BLACK,
   "theme_color" => BRAND_PRIMARY_COLORS.fetch("periwinkle"),
-  "icons" => []
+  "icons" => [
+    {
+      "src" => "/icons/collect.png",
+      "sizes" => "512x512",
+      "type" => "image/png",
+      "purpose" => "any maskable"
+    }
+  ]
 }
 write_file(File.join(BUILD_DIR, "manifest.json"), JSON.pretty_generate(manifest) + "\n")
 

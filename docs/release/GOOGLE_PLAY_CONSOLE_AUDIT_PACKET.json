@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-21T00:00:00Z",
+  "generated_at": "2026-07-18T14:03:00Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
-    "version_code": 9,
+    "version_code": 10,
     "track": "production",
-    "release_name": "Collect 1.2.2 (9)",
+    "release_name": "Collect 1.2.2 (10)",
     "release_notes": {
       "en-US": "Adds verified app links and refreshed Play policy readiness for Collect."
     },
@@ -69,9 +69,9 @@
     }
   },
   "app_content": {
-    "privacy_policy_url": "https://collect.ikanisa.com/#/privacy",
-    "account_deletion_url": "https://collect.ikanisa.com/#/privacy",
-    "data_deletion_url": "https://collect.ikanisa.com/#/privacy",
+    "privacy_policy_url": "https://collect.ikanisa.com/privacy/",
+    "account_deletion_url": "https://collect.ikanisa.com/account-deletion/",
+    "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
     "app_access": {
       "reviewer_access_required": "confirm_in_console",
       "notes": "If Play reviewers cannot access post-login group workflows, add reviewer instructions or a test account through App access."
@@ -212,6 +212,6 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "privacy_and_data_safety_urls_submitted_to_google_play_review",
+  "console_completion_status": "canonical_privacy_url_submitted_to_google_play_review_2026_07_18",
   "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
 }

@@ -6,9 +6,15 @@ cd "$ROOT_DIR"
 
 BUILD_DIR="${PUBLIC_BUILD_DIR:-build/public_web}"
 PUBLIC_URL="${PUBLIC_WEBSITE_URL:-https://collect.ikanisa.com}"
+KEY_SOURCE="${PUBLIC_INDEXNOW_KEY_SOURCE:-content/public_website_indexnow_key.txt}"
 MODE="${1:-}"
 
-ruby -r json -r uri -r rexml/document -r time - "$BUILD_DIR" "$PUBLIC_URL" "$MODE" <<'RUBY'
+KEY="${PUBLIC_INDEXNOW_KEY:-}"
+if [[ -z "$KEY" && -f "$KEY_SOURCE" ]]; then
+  KEY="$(tr -d '[:space:]' < "$KEY_SOURCE")"
+fi
+
+PUBLIC_INDEXNOW_KEY="$KEY" ruby -r json -r uri -r rexml/document -r time - "$BUILD_DIR" "$PUBLIC_URL" "$MODE" <<'RUBY'
 build_dir = ARGV.fetch(0)
 public_url = ARGV.fetch(1).delete_suffix("/")
 mode = ARGV.fetch(2)
@@ -46,7 +52,7 @@ payload = {
   "same_host_urls" => same_host_urls,
   "sample_urls" => urls.first(5),
   "not_submitted_by_codex" => true,
-  "submission_boundary" => "Do not submit IndexNow URLs without explicit recorded owner approval.",
+  "submission_boundary" => "Readiness only; URL submission is performed by scripts/public_website_indexnow_submit.sh during an authorized release.",
 }
 
 if mode == "--json"

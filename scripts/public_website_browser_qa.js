@@ -113,7 +113,10 @@ class CdpClient {
     }
     if (message.method === "Log.entryAdded") {
       const entry = message.params.entry;
-      if (!/favicon/i.test(entry.text || "")) this.consoleMessages.push({ type: entry.level, text: entry.text });
+      const sourceUrl = entry.url || "";
+      if (!/favicon/i.test(`${entry.text || ""} ${sourceUrl}`)) {
+        this.consoleMessages.push({ type: entry.level, text: entry.text, url: sourceUrl });
+      }
     }
     const waiters = this.waiters.get(message.method);
     if (waiters) {
@@ -171,6 +174,7 @@ async function launchChrome() {
       "--headless=new",
       "--force-device-scale-factor=1",
       "--disable-gpu",
+      "--disable-quic",
       "--disable-background-networking",
       "--disable-component-update",
       "--disable-sync",
@@ -238,6 +242,14 @@ async function screenshot(cdp, outputPath) {
   fs.writeFileSync(outputPath, Buffer.from(result.data, "base64"));
 }
 
+function pngDimensions(outputPath) {
+  const png = fs.readFileSync(outputPath);
+  if (png.length < 24 || png.toString("ascii", 12, 16) !== "IHDR") {
+    throw new Error(`Invalid PNG screenshot: ${outputPath}`);
+  }
+  return { width: png.readUInt32BE(16), height: png.readUInt32BE(20) };
+}
+
 function summarize(results) {
   return {
     status: results.some((result) => result.failures.length > 0) ? "fail" : "pass",
@@ -280,6 +292,7 @@ function summarize(results) {
         await sleep(200);
         const screenshotPath = path.join(screenshotDir, `${viewport.name}.png`);
         await screenshot(cdp, screenshotPath);
+        const capturedPixels = pngDimensions(screenshotPath);
 
         let menuScreenshot = null;
         let mobileMenuOpen = viewport.width >= 800;
@@ -322,9 +335,16 @@ function summarize(results) {
             productVisual: rect(".hero-device"),
             whatsappLinkCount: document.querySelectorAll("a[href^='https://wa.me/']").length,
             appDownloadLinkPresent: Boolean(document.querySelector("a[href='https://play.google.com/store/apps/details?id=app.cool.mobile']")),
-            emailSupportPresent: Boolean(document.querySelector("input[type='email'], a[href^='mailto:']")),
-            supportFileExplainer: bodyText.includes("prepare better support files for financial-service review"),
-            providerDecisionBoundary: bodyText.includes("final credit decisions remain with the provider"),
+            emailFormPresent: Boolean(document.querySelector("input[type='email'], form input[name='email']")),
+            creditReadinessExplainer: bodyText.includes("payments work. financial progress still does not.") && bodyText.includes("credit-readiness gap") && bodyText.includes("bank-ready loan files"),
+            disclaimerLabelsAbsent: !bodyText.includes("currently available for android through the official collect by ikanisa google play listing") &&
+              !bodyText.includes("ios availability is not currently advertised") &&
+              !bodyText.includes("this website is published in english only") &&
+              !bodyText.includes("how collect makes money") &&
+              !bodyText.includes("public evidence and market context") &&
+              !bodyText.includes("current public status") &&
+              !bodyText.includes("no institution is presented here as a live collect partner yet") &&
+              !bodyText.includes("no financial institution is presented on this website as a live collect partner"),
             missingAltCount: [...document.images].filter((image) => !image.hasAttribute("alt")).length,
             unnamedButtons: [...document.querySelectorAll("button")].filter((button) => !accessibleName(button)).length,
             unnamedLinksCount: [...document.querySelectorAll("a")].filter((link) => !accessibleName(link)).length,
@@ -337,17 +357,20 @@ function summarize(results) {
           http200: true,
           noConsoleErrors: cdp.consoleMessages.filter((message) => ["error", "warning"].includes(message.type)).length === 0 && cdp.pageErrors.length === 0,
           noHorizontalOverflow: !metrics.overflowX,
-          hasH1: /Clearer records for savings groups/.test(metrics.h1),
+          hasH1: /Microsavings and group savings for daily earners/.test(metrics.h1),
           ctaInFirstViewport: metrics.primaryCta && metrics.primaryCta.top >= 0 && metrics.primaryCta.bottom <= viewport.height,
           productSignalInFirstViewport: metrics.productVisual && metrics.productVisual.top < viewport.height,
           mobileMenuOpens: mobileMenuOpen,
-          hasPublicAppAndWhatsAppCtas: metrics.appDownloadLinkPresent && metrics.whatsappLinkCount >= 3 && !metrics.emailSupportPresent,
-          hasCreditExplainer: metrics.supportFileExplainer && metrics.providerDecisionBoundary,
+          hasPublicAppAndWhatsAppCtas: metrics.appDownloadLinkPresent && metrics.whatsappLinkCount >= 3 && !metrics.emailFormPresent,
+          hasCreditExplainer: metrics.creditReadinessExplainer,
+          disclaimerLabelsAbsent: metrics.disclaimerLabelsAbsent,
           accessibleNames: metrics.missingAltCount === 0 && metrics.unnamedButtons === 0 && metrics.unnamedLinksCount === 0 && metrics.unlabeledInputs === 0,
           localLoadUnder1500ms: wallMs <= 1500 || (metrics.timing && metrics.timing.loadMs <= 1500),
         };
         results.push({
           viewport,
+          requested_viewport: { width: viewport.width, height: viewport.height },
+          captured_pixels: capturedPixels,
           screenshot: screenshotPath,
           menuScreenshot,
           checks,
@@ -364,9 +387,9 @@ function summarize(results) {
   } finally {
     await closeChrome(browserWsUrl, chrome, profile);
   }
-  const report = { checkedAt: new Date().toISOString(), baseUrl, results };
-  fs.writeFileSync(path.join(outDir, "browser_visual_qa.json"), JSON.stringify(report, null, 2));
   const summary = summarize(results);
+  const report = { status: summary.status, checkedAt: new Date().toISOString(), baseUrl, results };
+  fs.writeFileSync(path.join(outDir, "browser_visual_qa.json"), JSON.stringify(report, null, 2));
   console.log(JSON.stringify(summary, null, 2));
   process.exit(summary.status === "pass" ? 0 : 1);
 })().catch((error) => {

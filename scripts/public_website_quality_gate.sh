@@ -7,7 +7,7 @@ cd "$ROOT_DIR"
 BUILD_DIR="${PUBLIC_BUILD_DIR:-build/public_web}"
 MODE="${1:-}"
 
-ruby -r json -r uri -r time - "$BUILD_DIR" "$MODE" <<'RUBY'
+ruby -r json -r uri -r time -r cgi -r digest - "$BUILD_DIR" "$MODE" <<'RUBY'
 build_dir = ARGV.fetch(0)
 mode = ARGV.fetch(1)
 
@@ -86,6 +86,13 @@ robots_path = File.join(build_dir, "robots.txt")
 robots = read(robots_path)
 sitemap_path = File.join(build_dir, "sitemap.xml")
 sitemap = read(sitemap_path)
+manifest_path = File.join(build_dir, "manifest.json")
+manifest_text = read(manifest_path)
+favicon_path = File.join(build_dir, "favicon.svg")
+collect_icon_path = File.join(build_dir, "icons", "collect.png")
+group_momentum_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "group-momentum.png")
+mobile_money_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "mobile-money-ussd-signal.png")
+qr_share_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "qr-share.png")
 stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
 design_contract_path = File.join(Dir.pwd, "DESIGN.md")
 
@@ -129,7 +136,7 @@ required_routes.each do |route, required_text|
   )
 end
 
-retired_routes = ["/impact/"]
+retired_routes = ["/impact/", "/rw/", "/rw/group-savings/", "/rw/community-groups/", "/subprocessors/", "/privacy-request/", "/cookies/"]
 retired_route_files = retired_routes.select { |route| File.exist?(route_index(build_dir, route)) }
 check(
   checks,
@@ -154,21 +161,24 @@ alternative_routes.each do |id, options|
   )
 end
 
-localized_routes = ["/rw/", "/rw/group-savings/", "/rw/community-groups/", "/fr/diaspora/", "/fr/our-partners/"]
-localized_route_files = localized_routes.select { |route| File.file?(route_index(build_dir, route)) }
-localized_markers = ["hreflang=\"rw\"", "hreflang=\"fr\"", "property=\"og:locale\" content=\"rw_RW\"", "property=\"og:locale\" content=\"fr_FR\""]
-localized_metadata = localized_markers.select { |marker| root_html.include?(marker) || sitemap.include?(marker) }
-english_only_ok = localized_route_files.empty? &&
-  localized_metadata.empty? &&
+rw_route_files = Dir.glob(File.join(build_dir, "rw", "**", "index.html"))
+french_route_files = Dir.glob(File.join(build_dir, "fr", "**", "index.html"))
+english_only_decision_ok = rw_route_files.empty? &&
+  french_route_files.empty? &&
   root_html.include?('<html lang="en">') &&
-  root_html.include?('property="og:locale" content="en_US"')
+  root_html.include?('property="og:locale" content="en_US"') &&
+  root_html.include?('hreflang="x-default"') &&
+  root_html.include?('hreflang="en"') &&
+  !root_html.include?('hreflang="rw"') &&
+  !root_html.include?('hreflang="fr"') &&
+  !root_html.include?('class="language-switcher"')
 check(
   checks,
-  "english_only_public_site",
-  pass_if(english_only_ok),
-  english_only_ok ? "Public site is English-only until approved localized copy exists." : "Public site exposes unapproved localized route or metadata output.",
-  "localized_route_files" => localized_route_files,
-  "localized_metadata" => localized_metadata
+  "english_only_language_decision",
+  pass_if(english_only_decision_ok),
+  english_only_decision_ok ? "English is the only published language; no unsupported language route or switcher is emitted." : "The English-only product decision is incomplete or an unsupported language route/switcher remains.",
+  "rw_route_files" => rw_route_files,
+  "french_route_files" => french_route_files
 )
 
 raw_html_ok = root_html.include?("<main") &&
@@ -238,6 +248,34 @@ check(
   "parse_error" => json_ld_parse_error
 )
 
+official_asset_hashes = {
+  collect_icon_path => "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+  group_momentum_path => "9b6278d46d68ce2c61fabef8c634ac00b8cf299008cc54ccc74bd34d480068b2",
+  mobile_money_path => "eaa9fc831baaf3b050d6acdf3de95024098361d6cd9043543ffe159b6c1e8f66",
+  qr_share_path => "9f67af8c93f035738bfb60f3e6964fe69c6908f5e40ae0003bbf1d609c8eafd4",
+}
+official_asset_hash_failures = official_asset_hashes.reject do |path, expected_hash|
+  File.file?(path) && Digest::SHA256.file(path).hexdigest == expected_hash
+end
+brand_assets_match_baseline = !File.exist?(favicon_path) &&
+  official_asset_hash_failures.empty? &&
+  root_html.include?('<link rel="icon" href="/icons/collect.png" type="image/png">') &&
+  root_html.include?('<img src="/icons/collect.png" alt="" width="42" height="42">') &&
+  root_html.include?('<meta property="og:image" content="https://collect.ikanisa.com/assets/brand/collect_runtime/media/group-momentum.png">') &&
+  !root_html.include?('class="brand-mark"') &&
+  manifest_text.include?('"src": "/icons/collect.png"') &&
+  manifest_text.include?('"sizes": "512x512"') &&
+  manifest_text.include?('"type": "image/png"')
+check(
+  checks,
+  "pre_audit_brand_assets",
+  pass_if(brand_assets_match_baseline),
+  brand_assets_match_baseline ? "Official header logo, favicon, manifest icon, and related media match the immutable pre-audit deployment hashes." : "A website brand asset differs from the immutable pre-audit deployment.",
+  "path" => favicon_path,
+  "bytes" => file_size(favicon_path),
+  "hash_failures" => official_asset_hash_failures
+)
+
 robots_ok = robots.include?("User-agent: *") &&
   robots.include?("Allow: /") &&
   !robots.include?("Disallow: /")
@@ -251,7 +289,7 @@ check(
 
 required_sitemap_paths = ["/", "/group-savings", "/diaspora", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
 missing_sitemap = required_sitemap_paths.reject { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
-retired_sitemap_paths = ["/impact"]
+retired_sitemap_paths = ["/impact", "/rw/", "/rw/group-savings", "/rw/community-groups", "/subprocessors", "/privacy-request", "/cookies"]
 retired_sitemap = retired_sitemap_paths.select { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
 check(
   checks,
@@ -439,7 +477,7 @@ public_app_and_whatsapp_support = whatsapp_links >= 3 &&
   root_html.include?("Get the App") &&
   root_html.include?("Create Group Saving") &&
   root_html.include?("Get in Touch") &&
-  !root_html.include?("Available on Android") &&
+  root_html.include?('aria-label="Get Collect by IKANISA for Android on Google Play"') &&
   !root_html.include?("WhatsApp support options") &&
   !root_html.include?("Partner Inquiry") &&
   !root_html.include?("Privacy or Deletion") &&
@@ -455,6 +493,24 @@ check(
   "whatsapp_link_count" => whatsapp_links
 )
 
+privacy_semantic_links = {
+  "/subprocessors/" => ["/subprocessors", "View subprocessor information"],
+  "/privacy-request/" => ["/privacy-request", "Submit a privacy request"],
+  "/account-deletion/" => ["/account-deletion", "Open the account-deletion page"],
+  "/cookies/" => ["/cookies", "Read the cookie and website technology notice"],
+}
+missing_privacy_links = privacy_semantic_links.reject do |href, (visible_text, accessible_label)|
+  privacy_text.match?(%r{<a[^>]+href="#{Regexp.escape(href)}"[^>]+aria-label="#{Regexp.escape(accessible_label)}"[^>]*>#{Regexp.escape(visible_text)}</a>})
+end
+semantic_privacy_links_ok = missing_privacy_links.empty?
+check(
+  checks,
+  "privacy_semantic_links",
+  pass_if(semantic_privacy_links_ok),
+  semantic_privacy_links_ok ? "Privacy policy preserves baseline visible copy while exposing accessible destination links." : "Privacy policy changed baseline reference copy or is missing an accessible destination link.",
+  "missing_links" => missing_privacy_links
+)
+
 all_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }
 stray_brace_files = all_html_paths.select do |path|
   read(path).lines.any? { |line| line.match?(/\A\s*}\s*\z/) }
@@ -465,6 +521,45 @@ check(
   pass_if(stray_brace_files.empty?),
   stray_brace_files.empty? ? "Generated public HTML has no visible standalone template brace." : "Generated public HTML contains standalone template brace text.",
   "files" => stray_brace_files.map { |path| path.delete_prefix(build_dir + "/") }
+)
+
+baseline_content_hashes = {
+  "/" => "b2169213424406487a483b3f63f4da7eea0fab02b84c2bfe83ff38f16394f777",
+  "/account-deletion/" => "babea5394605a96828fb360183a451844391688f9d3a6076d2bc0fa33e9c7c20",
+  "/community-groups/" => "6d03734da650cb4eb6fd8c61a137f510325c6a0c423adf3549cd4a8c2141faec",
+  "/craas/" => "4c76feb5743537083aa26fcf1aed8aad09a41132d8d2861d213041c666bf51ae",
+  "/credit-readiness/" => "2e1115e55a8b88d08ffe1b0ab4f363141e45150452ab877001988045ba05d29a",
+  "/data-deletion/" => "111a293fbfe484ff5b60492f767a346fd122b248ae47f75a36324f7992181468",
+  "/diaspora/" => "b9701015bcedb88f3e01763be03eb5810621351f30b563cfbaca93874f5c8572",
+  "/group-savings/" => "39ba203d22c98296280dc2b18881d0925cfa000f7697ba3e0880887a1517e069",
+  "/insurance/" => "45f3c5ff49d1c55f6176edd12a98239461b8f04945efbd4027c8820b17a8938f",
+  "/our-partners/" => "71847e2f5bcbdf9c417538d28affcbf2abfa26b63da6a259008928d550c73a37",
+  "/partners/" => "1e4e27420078ae877ab173a9030403fb50af55fc2c8d575dd16d3c04bbd3c0bd",
+  "/privacy/" => "f2f3adea4445cd718dd333bb48c55d1bf1bf2b8dc20aceac352ba783b1bba362",
+  "/protection/" => "2ff3af315af909e6a654fe58151f2ece90b9fdc3cfcaeaf2005be1ced46ec306",
+  "/security/" => "75386bfd0766d5ad2ec4bc19f635a5eba2605d3513e5ec76fd0c6597c2bff8fa",
+  "/terms/" => "0789ed2e6df4d5cbb333840ef9468a7cfa3f25ba8cf01c30ad75aefc8927065c",
+  "/trust/" => "5f6b11b13e3464a9d73b44a43864e0e25c04e9a62dda9b5f1cbb6e202821472a",
+}
+generated_routes = all_html_paths.map do |path|
+  relative = path.delete_prefix(build_dir).delete_suffix("index.html")
+  relative.empty? ? "/" : relative
+end.sort
+content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
+  html = read(route_index(build_dir, route)).gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
+  visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")
+  actual_hash = Digest::SHA256.hexdigest(visible_text)
+  failures << { "route" => route, "expected" => expected_hash, "actual" => actual_hash } unless actual_hash == expected_hash
+end
+baseline_content_ok = generated_routes == baseline_content_hashes.keys.sort && content_hash_failures.empty?
+check(
+  checks,
+  "pre_audit_content_parity",
+  pass_if(baseline_content_ok),
+  baseline_content_ok ? "All 16 routes match the pre-audit visible-content baseline exactly." : "Public route content differs from the pre-audit baseline.",
+  "expected_routes" => baseline_content_hashes.keys.sort,
+  "generated_routes" => generated_routes,
+  "hash_failures" => content_hash_failures
 )
 
 trust_text = read(route_index(build_dir, "/trust/"))
@@ -591,13 +686,14 @@ cta_hierarchy_ok = partners_text.include?("Get the App") &&
   partners_text.include?("Get the App") &&
   !partners_text.include?("Talk to us about starting a group") &&
   !partners_text.include?(">Create Group<")
-footer_trust_ok = root_html.include?("IKANISA Ltd. is a registered technology company") &&
-  root_html.include?("Savings, credit and insurance products are provided by licensed partner institutions") &&
+footer_trust_ok = root_html.include?("<strong>Collect by IKANISA</strong>") &&
+  root_html.include?("IKANISA Ltd.") &&
   root_html.include?("Support:") &&
   root_html.include?("info@ikanisa.com") &&
   root_html.match?(/<a class="whatsapp-contact" href="https:\/\/wa\.me\/250795588248\?text=[^"]+">/) &&
   root_html.include?("whatsapp-mark") &&
   !root_html.include?("· WhatsApp") &&
+  !root_html.include?("No financial institution is presented on this website as a live Collect partner") &&
   root_html.include?("©")
 check(
   checks,
@@ -617,17 +713,35 @@ cta_failures = cta_routes.reject do |route|
     html.scan(">Get in Touch<").length >= 2 &&
     html.scan(%r{class="[^"]*cta-group[^"]*" href="#{Regexp.escape(app_download_url)}"}).length >= 2 &&
     !html.include?("faq-section") &&
-    !html.include?("Questions visitors ask") &&
-    !html.include?("What Collect can prove publicly") &&
-    !html.include?("Available on Android")
+    !html.include?("Questions visitors ask")
 end
 check(
   checks,
-  "consistent_ctas_no_faq_or_proof",
+  "consistent_ctas_without_disclaimer_labels",
   pass_if(cta_failures.empty?),
-  cta_failures.empty? ? "CTA trio is consistent and FAQ/proof/availability sections are absent." : "CTA trio, FAQ removal, proof removal, or availability-label removal is incomplete.",
+  cta_failures.empty? ? "CTA trio is consistent without redundant availability labels." : "CTA trio is incomplete on one or more routes.",
   "failures" => cta_failures
 )
+
+partner_status_disclaimer_absent = !partners_text.include?("Current public status") &&
+  !partners_text.include?("No institution is presented here as a live Collect partner yet.") &&
+  !partners_text.include?("No financial institution is presented on this website as a live Collect partner yet.") &&
+  !partners_text.include?("Partner names, regulators, and licence references will be published only after") &&
+  !partners_text.include?("It is not presented here as a bank, deposit taker, lender or insurer") &&
+  !root_html.include?("No financial institution is presented on this website as a live Collect partner until")
+public_evidence_disclaimer_absent = [root_html, partners_text].all? do |html|
+  !html.include?("Evidence boundary") &&
+    !html.include?("Public evidence and market context") &&
+    !html.include?("Collect-specific traction figures and named institutional partnerships are not yet published")
+end
+fee_disclaimer_absent = !root_html.include?("Fee clarity") &&
+  !root_html.include?("How Collect makes money") &&
+  !root_html.include?("When Collect describes microsavings as zero-fee")
+platform_neutral_mockup_ok = stylesheet.include?(".phone-notch,.phone-status{display:none}")
+check(checks, "partner_status_disclaimer_absent", pass_if(partner_status_disclaimer_absent), partner_status_disclaimer_absent ? "The internal partner-status disclaimer is absent from public routes." : "The removed partner-status disclaimer is still present.")
+check(checks, "public_evidence_disclaimer_absent", pass_if(public_evidence_disclaimer_absent), public_evidence_disclaimer_absent ? "The redundant public-evidence disclaimer block is absent." : "The removed public-evidence disclaimer block is still present.")
+check(checks, "fee_disclaimer_absent", pass_if(fee_disclaimer_absent), fee_disclaimer_absent ? "The redundant fee disclaimer block is absent." : "The removed fee disclaimer block is still present.")
+check(checks, "platform_neutral_mockup", pass_if(platform_neutral_mockup_ok), platform_neutral_mockup_ok ? "Decorative device UI no longer presents iOS-specific status chrome." : "Device mockups still present iOS-specific status chrome.")
 
 css_vars = css_hex_vars(stylesheet)
 design_contract_source = read(design_contract_path)
@@ -822,7 +936,7 @@ check(
 )
 
 legal_route_prefixes = %w[
-  privacy terms account-deletion data-deletion trust security
+  privacy terms account-deletion data-deletion trust security subprocessors privacy-request cookies
 ]
 public_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }.reject do |path|
   relative = path.delete_prefix(build_dir + "/")
