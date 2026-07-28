@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../app/theme/collect_motion.dart';
+
 class AdminConfirmDialog extends StatelessWidget {
   const AdminConfirmDialog({required this.title, super.key});
 
@@ -19,6 +21,7 @@ Future<String?> showAdminReasonDialog(
   final controller = TextEditingController();
   return showDialog<String>(
     context: context,
+    animationStyle: CollectMotion.animationStyle(context),
     builder: (context) {
       return AlertDialog(
         title: Text(title),

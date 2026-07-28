@@ -27,6 +27,7 @@ Future<void> showAndroidGroupCreationOnlyDialog(BuildContext context) {
     useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,
+    sheetAnimationStyle: CollectMotion.animationStyle(context),
     builder: (context) => CollectBottomSheet(
       child: Column(
         mainAxisSize: MainAxisSize.min,

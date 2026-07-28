@@ -59,6 +59,12 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
+    if (collection.isArchived) {
+      return ArchivedGroupStateScreen(
+        collectionId: widget.collectionId,
+        groupTitle: collection.title,
+      );
+    }
     final collectionCatalog =
         ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
         CollectionTypeCatalogConfig.defaults;

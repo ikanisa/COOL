@@ -140,9 +140,9 @@ class AuthOtpEntryState extends State<AuthOtpEntry> {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: foreground,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: CollectTypography.weightBold,
                         fontFeatures: const [FontFeature.tabularFigures()],
-                        letterSpacing: 0,
+                        letterSpacing: CollectTypography.trackingDefault,
                       ),
                       decoration: const InputDecoration(
                         counterText: '',

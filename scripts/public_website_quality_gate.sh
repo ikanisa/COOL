@@ -88,7 +88,6 @@ sitemap_path = File.join(build_dir, "sitemap.xml")
 sitemap = read(sitemap_path)
 manifest_path = File.join(build_dir, "manifest.json")
 manifest_text = read(manifest_path)
-favicon_path = File.join(build_dir, "favicon.svg")
 collect_icon_path = File.join(build_dir, "icons", "collect.png")
 group_momentum_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "group-momentum.png")
 mobile_money_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "mobile-money-ussd-signal.png")
@@ -257,8 +256,7 @@ official_asset_hashes = {
 official_asset_hash_failures = official_asset_hashes.reject do |path, expected_hash|
   File.file?(path) && Digest::SHA256.file(path).hexdigest == expected_hash
 end
-brand_assets_match_baseline = !File.exist?(favicon_path) &&
-  official_asset_hash_failures.empty? &&
+brand_assets_match_baseline = official_asset_hash_failures.empty? &&
   root_html.include?('<link rel="icon" href="/icons/collect.png" type="image/png">') &&
   root_html.include?('<img src="/icons/collect.png" alt="" width="42" height="42">') &&
   root_html.include?('<meta property="og:image" content="https://collect.ikanisa.com/assets/brand/collect_runtime/media/group-momentum.png">') &&
@@ -270,9 +268,9 @@ check(
   checks,
   "pre_audit_brand_assets",
   pass_if(brand_assets_match_baseline),
-  brand_assets_match_baseline ? "Official header logo, favicon, manifest icon, and related media match the immutable pre-audit deployment hashes." : "A website brand asset differs from the immutable pre-audit deployment.",
-  "path" => favicon_path,
-  "bytes" => file_size(favicon_path),
+  brand_assets_match_baseline ? "Official header logo, PNG favicon, manifest icon, and related media match the immutable pre-audit deployment hashes." : "A website brand asset differs from the immutable pre-audit deployment.",
+  "path" => collect_icon_path,
+  "bytes" => file_size(collect_icon_path),
   "hash_failures" => official_asset_hash_failures
 )
 
@@ -691,7 +689,8 @@ footer_trust_ok = root_html.include?("<strong>Collect by IKANISA</strong>") &&
   root_html.include?("Support:") &&
   root_html.include?("info@ikanisa.com") &&
   root_html.match?(/<a class="whatsapp-contact" href="https:\/\/wa\.me\/250795588248\?text=[^"]+">/) &&
-  root_html.include?("whatsapp-mark") &&
+  root_html.include?('<span class="sr-only">WhatsApp</span>') &&
+  !root_html.include?("whatsapp-mark") &&
   !root_html.include?("· WhatsApp") &&
   !root_html.include?("No financial institution is presented on this website as a live Collect partner") &&
   root_html.include?("©")

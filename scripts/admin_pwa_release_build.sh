@@ -85,7 +85,14 @@ manifest["start_url"] = "."
 manifest["background_color"] = collect_color_hex.call("brandPaper")
 manifest["theme_color"] = collect_color_hex.call("brandPeriwinkle")
 manifest["orientation"] = "any"
-manifest["icons"] = []
+manifest["icons"] = [
+  {
+    "src" => "icons/collect-web-512.png",
+    "sizes" => "512x512",
+    "type" => "image/png",
+    "purpose" => "any maskable"
+  }
+]
 File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
 
 index = File.read(index_path)
@@ -93,10 +100,6 @@ index = index.sub(%r{<title>.*?</title>}m, "<title>Collect Admin</title>")
 index = index.sub(
   %r{<meta name="description" content=".*?">}m,
   '<meta name="description" content="Collect platform operations console.">'
-)
-index = index.gsub(
-  %r{\n\s*<link\s+rel="icon"[^>]*>}i,
-  ""
 )
 File.write(index_path, index)
 
@@ -194,5 +197,5 @@ File.write(
 )
 RUBY
 
-"$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
-"$ROOT_DIR/scripts/admin_pwa_hosting_gate.sh"
+/bin/bash "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
+/bin/bash "$ROOT_DIR/scripts/admin_pwa_hosting_gate.sh"

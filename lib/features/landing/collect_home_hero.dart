@@ -5,6 +5,7 @@ class _LandingHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compactViewport = MediaQuery.sizeOf(context).width < 600;
     return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: RadialGradient(
@@ -21,7 +22,12 @@ class _LandingHero extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 22, 40, 0),
+          padding: EdgeInsets.fromLTRB(
+            compactViewport ? 20 : 40,
+            compactViewport ? 18 : 22,
+            compactViewport ? 20 : 40,
+            0,
+          ),
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1280),
@@ -101,25 +107,31 @@ class _LandingNav extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Collect',
-                  style: textTheme.titleLarge?.copyWith(
-                    color: CollectColors.brandPaper,
-                    fontWeight: FontWeight.w900,
-                    height: 1,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Collect',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.titleLarge?.copyWith(
+                      color: CollectColors.brandPaper,
+                      fontWeight: CollectTypography.weightBold,
+                      height: CollectTypography.leadingSolid,
+                    ),
                   ),
-                ),
-                Text(
-                  'By IKANISA',
-                  style: textTheme.labelSmall?.copyWith(
-                    color: CollectColors.brandPaper.withValues(alpha: 0.72),
-                    fontWeight: FontWeight.w800,
+                  Text(
+                    'By IKANISA',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.labelSmall?.copyWith(
+                      color: CollectColors.brandPaper.withValues(alpha: 0.72),
+                      fontWeight: CollectTypography.weightBold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         );
@@ -207,11 +219,11 @@ class _NavLinks extends StatelessWidget {
                   foregroundColor: CollectColors.brandPaper.withValues(
                     alpha: 0.84,
                   ),
-                  textStyle: Theme.of(
-                    context,
-                  ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w800),
+                  textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontWeight: CollectTypography.weightBold,
+                  ),
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  minimumSize: const Size(0, 40),
+                  minimumSize: const Size(0, CollectSpacing.target),
                 ),
                 child: Text(link.$1),
               ),
@@ -260,10 +272,10 @@ class _CompactPublicLinks extends StatelessWidget {
                     horizontal: 14,
                     vertical: 10,
                   ),
-                  minimumSize: const Size(0, 40),
-                  textStyle: Theme.of(
-                    context,
-                  ).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w900),
+                  minimumSize: const Size(0, CollectSpacing.target),
+                  textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: CollectTypography.weightBold,
+                  ),
                 ),
                 child: Text(link.$1),
               ),
@@ -292,8 +304,8 @@ class _LandingButton extends StatelessWidget {
     final foreground = outlined && onLight
         ? CollectColors.inkPrimary
         : CollectColors.brandPaper;
-    return SizedBox(
-      height: 44,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: CollectSpacing.target),
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: outlined
@@ -312,10 +324,10 @@ class _LandingButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(11),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          textStyle: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w800),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontWeight: CollectTypography.weightBold,
+          ),
         ),
         onPressed: onPressed,
         child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -339,9 +351,11 @@ class _HeroCopy extends StatelessWidget {
           "Credit-ready saving for Rwanda's daily economy",
           style: textTheme.displaySmall?.copyWith(
             color: CollectColors.brandPaper,
-            fontSize: compact ? 42 : 72,
-            height: 1.02,
-            fontWeight: FontWeight.w900,
+            fontSize: compact
+                ? CollectTypography.sizeHeroCompact
+                : CollectTypography.sizeMarketingHero,
+            height: CollectTypography.leadingDisplay,
+            fontWeight: CollectTypography.weightBold,
           ),
         ),
         const SizedBox(height: 26),
@@ -351,9 +365,9 @@ class _HeroCopy extends StatelessWidget {
             'From payment inclusion to credit conversion: Collect turns local ibimina and diaspora savings into verified ledgers, credit-ready files, collateral rules and insured repayment capacity.',
             style: textTheme.titleMedium?.copyWith(
               color: CollectColors.brandPaper.withValues(alpha: 0.76),
-              fontSize: 21,
-              height: 1.42,
-              fontWeight: FontWeight.w500,
+              fontSize: CollectTypography.sizeLead,
+              height: CollectTypography.leadingResponsiveBody,
+              fontWeight: CollectTypography.weightMedium,
             ),
           ),
         ),
@@ -479,7 +493,7 @@ class _HeroFlowItem extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: CollectColors.brandPaper,
-              fontWeight: FontWeight.w900,
+              fontWeight: CollectTypography.weightBold,
             ),
           ),
         ],
@@ -495,8 +509,12 @@ class _HeroProductVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final phonePreview = MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+      child: const _PhoneMockup(),
+    );
     if (compact) {
-      return const SizedBox(
+      return SizedBox(
         height: 520,
         child: FittedBox(
           alignment: Alignment.topCenter,
@@ -505,7 +523,7 @@ class _HeroProductVisual extends StatelessWidget {
             height: 690,
             child: Stack(
               alignment: Alignment.topCenter,
-              children: [_PhoneMockup()],
+              children: [phonePreview],
             ),
           ),
         ),
@@ -547,7 +565,7 @@ class _HeroProductVisual extends StatelessWidget {
             ),
             const Positioned(right: -12, top: 70, child: _LedgerPanel()),
             const Positioned(right: 14, bottom: 40, child: _DisciplinePanel()),
-            const _PhoneMockup(),
+            phonePreview,
           ],
         ),
       ),

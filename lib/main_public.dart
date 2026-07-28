@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'app/theme/app_theme.dart';
 import 'app/theme/collect_colors.dart';
+import 'app/theme/collect_typography.dart';
 import 'features/landing/collect_landing_page.dart';
 
 void main() {
@@ -91,7 +92,7 @@ class _PublicNotFoundPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: CollectColors.referenceChromeBlack,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -100,7 +101,7 @@ class _PublicNotFoundPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: CollectColors.inkSecondary,
-                    height: 1.45,
+                    height: CollectTypography.leadingBody,
                   ),
                 ),
                 const SizedBox(height: 24),

@@ -16,7 +16,7 @@ class _PublicPageSections extends StatelessWidget {
             data.isPolicy ? 'Details' : 'How it works',
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               color: CollectColors.referenceChromeBlack,
-              fontWeight: FontWeight.w900,
+              fontWeight: CollectTypography.weightBold,
             ),
           ),
           const SizedBox(height: 28),
@@ -69,8 +69,8 @@ class _PublicContentSection extends StatelessWidget {
                   section.title,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: CollectColors.referenceChromeBlack,
-                    fontWeight: FontWeight.w900,
-                    height: 1.08,
+                    fontWeight: CollectTypography.weightBold,
+                    height: CollectTypography.leadingTitle,
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -78,7 +78,7 @@ class _PublicContentSection extends StatelessWidget {
                   section.body,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: CollectColors.inkSecondary,
-                    height: 1.45,
+                    height: CollectTypography.leadingBody,
                   ),
                 ),
               ],
@@ -126,7 +126,7 @@ class _SectionNumber extends StatelessWidget {
           '0${index + 1}',
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
             color: CollectColors.brandPaper,
-            fontWeight: FontWeight.w900,
+            fontWeight: CollectTypography.weightBold,
           ),
         ),
       ),
@@ -163,8 +163,8 @@ class _BulletList extends StatelessWidget {
                     item,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: CollectColors.referenceChromeBlack,
-                      height: 1.35,
-                      fontWeight: FontWeight.w700,
+                      height: CollectTypography.leadingSupporting,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ),

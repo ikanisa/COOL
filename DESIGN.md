@@ -210,6 +210,13 @@ Secondary color gates:
 
 ### Typography Tokens
 
+- The only approved runtime type family is bundled `Inter`, used as the
+  license-safe substitute for the legacy proprietary reference family. The
+  source files are `assets/typefaces/Inter-Variable.ttf` and
+  `assets/typefaces/OFL-Inter.txt`.
+- Flutter must resolve display, body, label, financial, admin, and fallback text through `CollectTypography` and `CollectRuntimeTypography`; direct `TextStyle`, `FontWeight`, numeric `fontSize`, numeric `height`, numeric `letterSpacing`, platform-default fonts, and legacy font-family fallbacks are forbidden outside those central typography authorities.
+- Public-site CSS must use the bundled Inter file and central `--type-*` custom properties. Feature selectors must not declare raw font sizes, weights, line heights, tracking, or another font family.
+- The supported Inter weight range is 400-700. Use only regular 400, medium 500, semibold 600, and bold 700; synthetic 750-950 weights are forbidden.
 - `type.display`: only for true hero or high-value first-viewport moments.
 - `type.title.lg`, `type.title.md`, `type.title.sm`: screen and section hierarchy.
 - `type.body.lg`, `type.body.md`, `type.body.sm`: readable content.
@@ -217,6 +224,15 @@ Secondary color gates:
 - `type.number.lg`, `type.number.md`, `type.number.sm`: financial, metric, timer, count, and score values.
 - Letter spacing is `0` unless a platform text style requires otherwise.
 - Do not scale font size with viewport width. Use responsive layout, wrapping, truncation, or alternate component density.
+
+### Official Visual Asset Contract
+
+- The canonical Collect logo is the immutable pre-audit PNG at `assets/brand/collect_runtime/app_icons/app-icon-rule.png`, SHA-256 `c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209`.
+- The only approved source media under `assets/brand/collect_runtime/` are that logo plus `media/group-momentum.png`, `media/mobile-money-ussd-signal.png`, and `media/qr-share.png`.
+- Flutter launch, in-app brand marks, Android launcher/splash resources, iOS AppIcon resources, public-web favicon, and PWA manifests must use exact official PNG derivatives from that source history. Platform derivatives may resize or flatten the official source for packaging, but must not redraw or reinterpret it.
+- Handcrafted or generated brand substitutes are forbidden. This includes an invented letter `C`, CSS art, text art, emoji, inline or file-backed SVG logos, fabricated wordmarks, placeholder logos, and semantic UI icons presented as the Collect brand.
+- Material or Cupertino icon libraries may be used only for truthful semantic interface actions and states, never as the Collect logo.
+- No tracked SVG or SVGZ artwork is permitted in the product asset graph. A new visual asset requires verified product-owner provenance and an explicit addition to this contract before implementation.
 
 ### Spacing And Shape Tokens
 

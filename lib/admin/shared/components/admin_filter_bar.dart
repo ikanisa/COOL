@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_runtime_tokens.dart';
 
 class AdminFilterBar extends StatelessWidget {
   const AdminFilterBar({
@@ -79,7 +80,9 @@ class AdminFilterBar extends StatelessWidget {
                   selectedBackgroundColor: colors.textPrimary,
                   selectedForegroundColor: colors.surfaceReadable,
                   foregroundColor: colors.textPrimary,
-                  side: BorderSide(color: colors.borderAccent),
+                  side: BorderSide(
+                    color: CollectRuntimeTokens.controlBorder(colors),
+                  ),
                 ),
                 segments: [
                   for (final option in statusOptions)

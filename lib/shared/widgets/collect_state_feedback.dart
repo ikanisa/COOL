@@ -316,8 +316,8 @@ class CollectConnectivityBanner extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: colors.onImagePrimary,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0,
+                    fontWeight: CollectTypography.weightBold,
+                    letterSpacing: CollectTypography.trackingDefault,
                   ),
                 ),
               ),

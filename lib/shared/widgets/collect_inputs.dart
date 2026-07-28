@@ -90,12 +90,14 @@ class SearchWithClearField extends StatelessWidget {
     required this.controller,
     required this.label,
     required this.onChanged,
+    this.focusNode,
     super.key,
   });
 
   final TextEditingController controller;
   final String label;
   final ValueChanged<String> onChanged;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +117,7 @@ class SearchWithClearField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        focusNode: focusNode,
         onChanged: onChanged,
         minLines: 1,
         textInputAction: TextInputAction.search,

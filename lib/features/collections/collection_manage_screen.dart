@@ -24,7 +24,6 @@ class _CollectionManageScreenState
     extends ConsumerState<CollectionManageScreen> {
   final _adminPublicId = TextEditingController();
   final _ownerPublicId = TextEditingController();
-  bool _working = false;
 
   @override
   void dispose() {
@@ -39,6 +38,12 @@ class _CollectionManageScreenState
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
+    if (collection.isArchived) {
+      return ArchivedGroupStateScreen(
+        collectionId: widget.collectionId,
+        groupTitle: collection.title,
+      );
+    }
     final summary = repo.summaryFor(widget.collectionId);
     final profile = state.currentProfile;
     final isOwner = profile != null && collection.creatorUserId == profile.id;
@@ -51,7 +56,8 @@ class _CollectionManageScreenState
           const MinimalStatePanel(
             icon: CollectIcons.lock,
             title: 'Owner only',
-            message: '',
+            message:
+                'Only the current group owner can change group details, invite admins, transfer ownership, or archive this group.',
             tone: CollectStatusTone.privacy,
           ),
           CollectButton(
@@ -107,8 +113,8 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.admin,
               title: 'Add admin',
-              subtitle: 'more group admin',
-              onTap: _working ? null : _showAddAdminSheet,
+              subtitle: 'Invite another member to help manage the group',
+              onTap: _showAddAdminSheet,
             ),
             _ManageTile(
               icon: CollectIcons.ledger,
@@ -125,13 +131,13 @@ class _CollectionManageScreenState
               icon: Icons.switch_account_rounded,
               title: 'Transfer ownership',
               subtitle: 'Move owner rights to another Collect ID',
-              onTap: _working ? null : _showTransferSheet,
+              onTap: _showTransferSheet,
             ),
             _ManageTile(
               icon: Icons.archive_rounded,
               title: 'Archive group',
               subtitle: 'Hide the group from active use',
-              onTap: _working ? null : _showArchiveSheet,
+              onTap: _showArchiveSheet,
             ),
             const _ManageTile(
               icon: CollectIcons.support,
@@ -149,6 +155,9 @@ class _CollectionManageScreenState
       title: 'Add admin',
       controller: _adminPublicId,
       actionLabel: 'Add admin',
+      supportingText:
+          'Enter the six-digit Collect ID of the member you want to invite as an admin.',
+      successMessage: 'Admin invitation created.',
       onSubmit: (publicId) async {
         await ref
             .read(collectRepositoryProvider.notifier)
@@ -164,8 +173,12 @@ class _CollectionManageScreenState
     return _showPublicIdSheet(
       title: 'Transfer ownership',
       controller: _ownerPublicId,
-      actionLabel: 'Transfer',
+      actionLabel: 'Transfer ownership',
+      supportingText:
+          'This removes your owner controls. The new owner must use a different six-digit Collect ID.',
       destructive: true,
+      successMessage: 'Group ownership transferred.',
+      onSuccess: () => context.go('/groups/${widget.collectionId}'),
       onSubmit: (publicId) async {
         await ref
             .read(collectRepositoryProvider.notifier)
@@ -181,67 +194,189 @@ class _CollectionManageScreenState
     required String title,
     required TextEditingController controller,
     required String actionLabel,
+    required String supportingText,
     required Future<void> Function(String publicId) onSubmit,
+    String? successMessage,
+    VoidCallback? onSuccess,
     bool destructive = false,
   }) {
     controller.clear();
     String? error;
+    var working = false;
     return showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: context.collectColors.transparent,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (sheetContext) {
         return StatefulBuilder(
           builder: (context, setSheetState) {
+            Future<void> submit() async {
+              if (working) return;
+              setSheetState(() {
+                working = true;
+                error = null;
+              });
+              try {
+                await onSubmit(controller.text);
+                if (!sheetContext.mounted || !mounted) return;
+                Navigator.of(sheetContext).pop();
+                onSuccess?.call();
+                if (successMessage != null) {
+                  _showSuccessMessage(successMessage);
+                }
+              } catch (exception) {
+                if (!sheetContext.mounted) return;
+                setSheetState(() {
+                  error = _safeGroupActionError(
+                    exception,
+                    fallbackAction: title.toLowerCase(),
+                  );
+                });
+              } finally {
+                if (sheetContext.mounted) {
+                  setSheetState(() => working = false);
+                }
+              }
+            }
+
+            return AnimatedPadding(
+              duration: CollectMotion.duration(context, CollectMotion.fast),
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.viewInsetsOf(context).bottom,
+              ),
+              child: CollectBottomSheet(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.titleLarge),
+                    CollectSpacing.gap8,
+                    Text(
+                      supportingText,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: context.collectColors.textSecondary,
+                      ),
+                    ),
+                    CollectSpacing.gap16,
+                    CollectTextInput(
+                      controller: controller,
+                      label: 'Collect ID',
+                      helper: 'Six digits',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) => submit(),
+                    ),
+                    if (error != null) ...[
+                      CollectSpacing.gap12,
+                      Semantics(
+                        liveRegion: true,
+                        label: error,
+                        child: Text(
+                          error!,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: context.collectColors.danger),
+                        ),
+                      ),
+                    ],
+                    CollectSpacing.gap20,
+                    CollectButton(
+                      label: working ? 'Saving' : actionLabel,
+                      icon: destructive
+                          ? Icons.switch_account_rounded
+                          : CollectIcons.check,
+                      variant: destructive
+                          ? CollectButtonVariant.danger
+                          : CollectButtonVariant.primary,
+                      onPressed: working ? null : submit,
+                      expand: true,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _showArchiveSheet() {
+    String? error;
+    var working = false;
+    return showModalBottomSheet<void>(
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.collectColors.transparent,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            Future<void> archive() async {
+              if (working) return;
+              setSheetState(() {
+                working = true;
+                error = null;
+              });
+              try {
+                await ref
+                    .read(collectRepositoryProvider.notifier)
+                    .archiveCollection(widget.collectionId);
+                if (!sheetContext.mounted || !mounted) return;
+                Navigator.of(sheetContext).pop();
+                context.go('/groups');
+                _showSuccessMessage(
+                  'Group archived. Ledger records were kept.',
+                );
+              } catch (exception) {
+                if (!sheetContext.mounted) return;
+                setSheetState(() {
+                  error = _safeGroupActionError(
+                    exception,
+                    fallbackAction: 'archive the group',
+                  );
+                });
+              } finally {
+                if (sheetContext.mounted) {
+                  setSheetState(() => working = false);
+                }
+              }
+            }
+
             return CollectBottomSheet(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: Theme.of(context).textTheme.titleLarge),
-                  CollectSpacing.gap16,
-                  CollectTextInput(
-                    controller: controller,
-                    label: 'Collect ID',
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.done,
+                  Text(
+                    'Archive group',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  CollectSpacing.gap12,
+                  Text(
+                    'The group leaves Home, Groups, Contribute, sharing, and invitations. Existing confirmed ledger records stay available.',
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   if (error != null) ...[
                     CollectSpacing.gap12,
-                    Text(
-                      error!,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: context.collectColors.danger,
+                    Semantics(
+                      liveRegion: true,
+                      label: error,
+                      child: Text(
+                        error!,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: context.collectColors.danger,
+                        ),
                       ),
                     ),
                   ],
                   CollectSpacing.gap20,
                   CollectButton(
-                    label: _working ? 'Saving' : actionLabel,
-                    icon: destructive
-                        ? Icons.switch_account_rounded
-                        : CollectIcons.check,
-                    variant: destructive
-                        ? CollectButtonVariant.secondary
-                        : CollectButtonVariant.primary,
-                    onPressed: _working
-                        ? null
-                        : () async {
-                            final navigator = Navigator.of(sheetContext);
-                            setState(() => _working = true);
-                            setSheetState(() => error = null);
-                            try {
-                              await onSubmit(controller.text);
-                              if (!sheetContext.mounted) return;
-                              navigator.pop();
-                            } catch (exception) {
-                              if (!mounted) return;
-                              setSheetState(() => error = exception.toString());
-                            } finally {
-                              if (mounted) setState(() => _working = false);
-                            }
-                          },
+                    label: working ? 'Archiving' : 'Archive group',
+                    icon: Icons.archive_rounded,
+                    variant: CollectButtonVariant.danger,
+                    onPressed: working ? null : archive,
                     expand: true,
                   ),
                 ],
@@ -253,54 +388,24 @@ class _CollectionManageScreenState
     );
   }
 
-  Future<void> _showArchiveSheet() {
-    return showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: context.collectColors.transparent,
-      builder: (sheetContext) {
-        return CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Archive group',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              CollectSpacing.gap12,
-              Text(
-                'The group leaves active lists. Existing ledger records stay in the system.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              CollectSpacing.gap20,
-              CollectButton(
-                label: _working ? 'Archiving' : 'Archive group',
-                icon: Icons.archive_rounded,
-                variant: CollectButtonVariant.secondary,
-                onPressed: _working
-                    ? null
-                    : () async {
-                        final navigator = Navigator.of(sheetContext);
-                        setState(() => _working = true);
-                        try {
-                          await ref
-                              .read(collectRepositoryProvider.notifier)
-                              .archiveCollection(widget.collectionId);
-                          if (!sheetContext.mounted || !mounted) return;
-                          navigator.pop();
-                          context.go('/groups');
-                        } finally {
-                          if (mounted) setState(() => _working = false);
-                        }
-                      },
-                expand: true,
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  void _showSuccessMessage(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  String _safeGroupActionError(
+    Object exception, {
+    required String fallbackAction,
+  }) {
+    if (exception is FormatException) {
+      return exception.message.toString();
+    }
+    if (exception is StateError) {
+      return exception.message.toString();
+    }
+    return 'Could not $fallbackAction. Check your connection and try again.';
   }
 }
 

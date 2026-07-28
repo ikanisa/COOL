@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app/theme/collect_typography.dart';
+
 class AdminErrorBoundary extends StatelessWidget {
   const AdminErrorBoundary({required this.child, super.key});
 
@@ -39,7 +41,7 @@ class AdminSafeErrorPanel extends StatelessWidget {
                       adminSafeErrorMessage(error),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onErrorContainer,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: CollectTypography.weightBold,
                       ),
                     ),
                     const SizedBox(height: 6),

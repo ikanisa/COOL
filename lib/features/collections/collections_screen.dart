@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -21,10 +20,10 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
-    final collections = state.collections;
+    final collections = ref.watch(activeCollectionsProvider);
     final isInitialLoading =
         state.isLoading &&
-        state.collections.isEmpty &&
+        collections.isEmpty &&
         state.contributions.isEmpty &&
         state.paymentIntents.isEmpty;
     final summaries = ref.watch(collectionSummariesProvider);
@@ -42,16 +41,6 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
     final pageTitle = showContributedOnly ? 'Supported groups' : 'Groups';
-    final totalRaised = visibleCollections.fold<int>(
-      0,
-      (total, collection) =>
-          total + (summaries[collection.id]?.amountRaisedRwf ?? 0),
-    );
-    final memberCount = visibleCollections.fold<int>(
-      0,
-      (total, collection) =>
-          total + (summaries[collection.id]?.supporterCount ?? 0),
-    );
     if (isInitialLoading) {
       return ScreenScaffold(
         title: 'Groups',
@@ -134,19 +123,21 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ),
         ],
       ),
-      hero: CollectScreenHero(
-        eyebrow: pageTitle.toUpperCase(),
-        title: '${visibleCollections.length} groups',
-        metric: formatRwf(totalRaised),
-        subtitle: '$memberCount members moving money together',
-      ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: [
         SectionHeader(title: pageTitle),
         if (visibleCollections.isNotEmpty)
           _GroupsCardGrid(collections: visibleCollections, summaries: summaries)
-        else if (!showContributedOnly)
+        else if (showContributedOnly)
+          EmptySearchState(
+            title: 'No supported groups yet',
+            message:
+                'Confirmed contributions will place active groups in this view.',
+            onClear: () => context.go('/groups'),
+            clearLabel: 'Show all groups',
+          )
+        else
           const EmptyIllustrationState(
             icon: CollectIcons.collections,
             title: 'No groups yet',
@@ -168,28 +159,10 @@ class _GroupsCardGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 640) {
-          return Column(
-            children: [
-              for (var index = 0; index < collections.length; index += 1)
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: index == collections.length - 1
-                        ? 0
-                        : CollectSpacing.x3,
-                  ),
-                  child: GroupCard(
-                    collection: collections[index],
-                    summary:
-                        summaries[collections[index].id] ??
-                        const CollectionSummary(
-                          amountRaisedRwf: 0,
-                          supporterCount: 0,
-                        ),
-                    variant: GroupCardVariant.compact,
-                    onTap: () => context.go('/groups/${collections[index].id}'),
-                  ),
-                ),
-            ],
+          return GroupListPanel(
+            collections: collections,
+            summaries: summaries,
+            onGroupTap: (collection) => context.go('/groups/${collection.id}'),
           );
         }
         final columns = constraints.maxWidth >= 640 ? 2 : 1;

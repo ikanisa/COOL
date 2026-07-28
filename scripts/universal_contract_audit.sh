@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -130,8 +130,6 @@ secondary_sources = {
   "design folder" => File.join("docs", "design"),
   "archived May design folder" => File.join("docs", "archive", "2026-05", "design"),
   "archived June design folder" => File.join("docs", "archive", "2026-06", "design"),
-  "legacy QA markdown" => "design" + "-qa.md",
-  "legacy brand asset tree" => File.join("assets", "brand"),
   "runtime source-variant folder" => File.join("assets", "runtime", "source_" + "variants"),
   "runtime icon mapping data" => File.join("assets", "runtime", "collect_runtime", "icons", "icon-" + "mapping.json"),
   "legacy public website visual QA script" => File.join("scripts", "public_website_playwright_" + "visual_qa.js"),
@@ -149,6 +147,13 @@ add_check.call("no_secondary_contract_sources", existing_secondary.empty?, exist
 tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.map(&:strip)
 forbidden_tracked_paths = tracked_paths.reject do |path|
   path == "DESIGN.md" ||
+    path == "design-qa.md" ||
+    path.start_with?("docs/revolut-parity-goal/") ||
+    path.start_with?("assets/brand/collect_runtime/") ||
+    path.start_with?("ios/Runner/Assets.xcassets/AppIcon.appiconset/") ||
+    path == "web/icons/collect-web-512.png" ||
+    path == "android/app/src/main/res/drawable/collect_launcher_icon.png" ||
+    path.match?(%r{\Aandroid/app/src/main/res/mipmap-(?:mdpi|hdpi|xhdpi|xxhdpi|xxxhdpi)/ic_launcher\.png\z}) ||
     !path.match?(
       %r{(^|/)(design)(/|\.|-|_)|design[_-]|[_-]design|DESIGN_SYSTEM|design-system|figma|wireframe|prototype|visual_qa|collect_mobile_design|product_design|revolut_parity|baseline_routes|icon-mapping|source_variants|assets/brand|^assets/fonts/|^assets/runtime/|^web/icons/|^ios/Runner/Assets\.xcassets/.*\.(png|jpg|jpeg|webp)$|^android/app/src/main/res/.*/.*\.(png|webp)$|brand-primary-colors}i
     )

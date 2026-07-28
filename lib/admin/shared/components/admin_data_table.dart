@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_typography.dart';
 import '../../core/admin_models.dart';
 import 'admin_status_chip.dart';
 
@@ -19,63 +20,81 @@ class AdminDataTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceReadable.withValues(alpha: 0.96),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: colors.borderAccent),
-        boxShadow: [
-          BoxShadow(
-            color: colors.textPrimary.withValues(alpha: 0.14),
-            blurRadius: 28,
-            offset: const Offset(0, 16),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            headingRowColor: WidgetStatePropertyAll(
-              colors.textPrimary.withValues(alpha: 0.94),
+    final textScale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
+    final extraHeight = (textScale - 1) * 40;
+    return Semantics(
+      container: true,
+      label: 'Admin records table, ${rows.length} rows',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceReadable.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: colors.borderAccent),
+          boxShadow: [
+            BoxShadow(
+              color: colors.textPrimary.withValues(alpha: 0.14),
+              blurRadius: 28,
+              offset: const Offset(0, 16),
             ),
-            headingTextStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: colors.surfaceReadable,
-              fontWeight: FontWeight.w900,
-            ),
-            dataTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: colors.textPrimary,
-              fontWeight: FontWeight.w700,
-            ),
-            headingRowHeight: 46,
-            dataRowMinHeight: 52,
-            dataRowMaxHeight: 64,
-            columnSpacing: 28,
-            columns: [
-              if (trailingBuilder != null)
-                const DataColumn(label: Text('Actions')),
-              const DataColumn(label: Text('Record')),
-              const DataColumn(label: Text('Status')),
-              const DataColumn(label: Text('Amount')),
-              const DataColumn(label: Text('Created')),
-            ],
-            rows: [
-              for (final row in rows)
-                DataRow(
-                  cells: [
-                    if (trailingBuilder != null)
-                      DataCell(trailingBuilder!(row)),
-                    DataCell(
-                      _RecordCell(row: row),
-                      onTap: onOpen == null ? null : () => onOpen!(row),
-                    ),
-                    DataCell(AdminStatusChip(label: row.status)),
-                    DataCell(Text(row.amount.isEmpty ? '-' : row.amount)),
-                    DataCell(Text(_date(row.createdAt))),
-                  ],
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: Scrollbar(
+            scrollbarOrientation: ScrollbarOrientation.bottom,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                headingRowColor: WidgetStatePropertyAll(
+                  colors.textPrimary.withValues(alpha: 0.94),
                 ),
-            ],
+                headingTextStyle: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(
+                      color: colors.surfaceReadable,
+                      fontWeight: CollectTypography.weightBold,
+                    ),
+                dataTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
+                ),
+                headingRowHeight: 46 + ((textScale - 1) * 24),
+                dataRowMinHeight: 52 + extraHeight,
+                dataRowMaxHeight: 64 + extraHeight,
+                columnSpacing: 28,
+                columns: [
+                  if (trailingBuilder != null)
+                    const DataColumn(label: Text('Actions')),
+                  const DataColumn(label: Text('Record')),
+                  const DataColumn(label: Text('Status')),
+                  const DataColumn(label: Text('Amount')),
+                  const DataColumn(label: Text('Created')),
+                ],
+                rows: [
+                  for (final row in rows)
+                    DataRow(
+                      cells: [
+                        if (trailingBuilder != null)
+                          DataCell(trailingBuilder!(row)),
+                        DataCell(
+                          Semantics(
+                            button: onOpen != null,
+                            label: onOpen == null
+                                ? row.title
+                                : 'Open ${row.title}',
+                            child: ExcludeSemantics(
+                              child: _RecordCell(row: row),
+                            ),
+                          ),
+                          onTap: onOpen == null ? null : () => onOpen!(row),
+                        ),
+                        DataCell(AdminStatusChip(label: row.status)),
+                        DataCell(Text(row.amount.isEmpty ? '-' : row.amount)),
+                        DataCell(Text(_date(row.createdAt))),
+                      ],
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

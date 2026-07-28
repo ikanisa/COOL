@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "agent": "flutter",
+  "task": "Collect full-app Revolut-parity implementation and testing",
+  "goal": "Implement and verify every remaining visual, interaction, accessibility, responsive, security, testing, and release-hardening task in the approved full-app parity programme.",
+  "client_or_entity": "IKANISA Ltd",
+  "product": "Collect",
+  "matter_or_period": "2026 full-app visual parity and release hardening",
+  "jurisdiction": "Rwanda",
+  "deadline": null,
+  "authority_status": "Local implementation and testing authorized; production mutation, payment execution, public deployment, signing, and store submission not authorized.",
+  "stakeholders": [
+    "Product owner",
+    "Flutter engineering",
+    "Product Design",
+    "Admin operations",
+    "Release reviewer"
+  ],
+  "repository": "/Volumes/PRO-G40/COOL",
+  "created_at": "2026-07-24",
+  "human_review_required": true,
+  "external_mutation_authorized": false,
+  "status": "active"
+}
+

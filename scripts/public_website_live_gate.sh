@@ -87,7 +87,7 @@ required_routes.each do |route, required_text|
   )
 end
 
-["/styles.css", "/site.js", "/favicon.svg", "/manifest.json", "/icons/collect.png", "/assets/brand/collect_runtime/media/group-momentum.png", "/assets/brand/collect_runtime/media/mobile-money-ussd-signal.png", "/assets/brand/collect_runtime/media/qr-share.png"].each do |route|
+["/styles.css", "/site.js", "/manifest.json", "/icons/collect.png", "/assets/brand/collect_runtime/media/group-momentum.png", "/assets/brand/collect_runtime/media/mobile-money-ussd-signal.png", "/assets/brand/collect_runtime/media/qr-share.png"].each do |route|
   url = "#{base_url}#{route}"
   response, elapsed = fetch(url)
   responses[route] = {
@@ -154,7 +154,6 @@ root_headers = root.fetch(:headers)
 styles = responses.fetch("/styles.css")
 styles_text = styles.fetch(:body).dup.force_encoding("UTF-8")
 site_js = responses.fetch("/site.js")
-favicon = responses.fetch("/favicon.svg")
 manifest = responses.fetch("/manifest.json")
 collect_icon = responses.fetch("/icons/collect.png")
 group_momentum = responses.fetch("/assets/brand/collect_runtime/media/group-momentum.png")
@@ -223,8 +222,7 @@ live_official_asset_hashes = {
 live_asset_hash_failures = live_official_asset_hashes.reject do |item, expected_hash|
   item.fetch(:response).code.to_i == 200 && Digest::SHA256.hexdigest(item.fetch(:body)) == expected_hash
 end
-brand_assets_match_baseline = favicon.fetch(:response).code.to_i == 404 &&
-  live_asset_hash_failures.empty? &&
+brand_assets_match_baseline = live_asset_hash_failures.empty? &&
   root_body.include?('<link rel="icon" href="/icons/collect.png" type="image/png">') &&
   root_body.include?('<img src="/icons/collect.png" alt="" width="42" height="42">') &&
   root_body.include?('<meta property="og:image" content="https://collect.ikanisa.com/assets/brand/collect_runtime/media/group-momentum.png">') &&
@@ -236,10 +234,10 @@ check(
   checks,
   "pre_audit_brand_assets",
   brand_assets_match_baseline,
-  "Live official logo, favicon, manifest icon, and related media match immutable pre-audit deployment hashes.",
+  "Live official logo, PNG favicon, manifest icon, and related media match immutable pre-audit deployment hashes.",
   {
-    "favicon_status" => favicon.fetch(:response).code.to_i,
-    "favicon_bytes" => favicon.fetch(:body).bytesize,
+    "favicon_status" => collect_icon.fetch(:response).code.to_i,
+    "favicon_bytes" => collect_icon.fetch(:body).bytesize,
     "manifest_status" => manifest.fetch(:response).code.to_i,
     "asset_hash_failures" => live_asset_hash_failures.values,
   },

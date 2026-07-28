@@ -22,7 +22,7 @@ if [[ -z "${ADMIN_PWA_LIVE_URL:-}" && -f "$ROOT_DIR/docs/release/LIVE_DEPLOYMENT
   )"
 fi
 
-ADMIN_PWA_LIVE_URL="${ADMIN_PWA_LIVE_URL:-}" ADMIN_PWA_LIVE_FIXTURE="${ADMIN_PWA_LIVE_FIXTURE:-0}" OUTPUT_FORMAT="$output_format" ruby -r json -r net/http -r uri -r time <<'RUBY'
+ADMIN_PWA_LIVE_URL="${ADMIN_PWA_LIVE_URL:-}" ADMIN_PWA_LIVE_FIXTURE="${ADMIN_PWA_LIVE_FIXTURE:-0}" OUTPUT_FORMAT="$output_format" ruby -r digest -r json -r net/http -r uri -r time <<'RUBY'
 target = ENV.fetch("ADMIN_PWA_LIVE_URL", "").strip
 fixture_mode = ENV.fetch("ADMIN_PWA_LIVE_FIXTURE", "0") == "1"
 output_format = ENV.fetch("OUTPUT_FORMAT")
@@ -128,15 +128,21 @@ def header_includes?(headers, name, expected)
   headers.fetch(name, "").downcase.include?(expected.downcase)
 end
 
-{
+request_paths = {
   "index" => "/",
   "flutter_bootstrap" => "/flutter_bootstrap.js",
   "manifest" => "/manifest.json",
+  "official_icon" => "/icons/collect-web-512.png",
   "service_worker" => "/custom-sw.js",
   "main_bundle" => "/main.dart.js",
   "robots" => "/robots.txt"
-}.each do |name, path|
-  requests[name] = fetch(join_uri(base, path))
+}
+
+request_paths.map do |name, path|
+  Thread.new { [name, fetch(join_uri(base, path))] }
+end.each do |thread|
+  name, result = thread.value
+  requests[name] = result
 end
 
 requests.each do |name, item|
@@ -151,6 +157,7 @@ index_headers = requests.dig("index", "headers") || {}
 index_body = requests.dig("index", "body").to_s
 bootstrap_body = requests.dig("flutter_bootstrap", "body").to_s
 manifest_body = requests.dig("manifest", "body").to_s
+official_icon_body = requests.dig("official_icon", "body").to_s
 manifest = parse_json(manifest_body)
 sw_body = requests.dig("service_worker", "body").to_s
 robots_body = requests.dig("robots", "body").to_s
@@ -158,6 +165,7 @@ bundle_headers = requests.dig("main_bundle", "headers") || {}
 bootstrap_headers = requests.dig("flutter_bootstrap", "headers") || {}
 sw_headers = requests.dig("service_worker", "headers") || {}
 manifest_headers = requests.dig("manifest", "headers") || {}
+official_icon_headers = requests.dig("official_icon", "headers") || {}
 robots_headers = requests.dig("robots", "headers") || {}
 
 required_index_headers = {
@@ -175,6 +183,7 @@ content_type_expectations = {
   "index" => [index_headers, "text/html"],
   "flutter_bootstrap.js" => [bootstrap_headers, "javascript"],
   "manifest.json" => [manifest_headers, "json"],
+  "official Collect icon" => [official_icon_headers, "image/png"],
   "custom-sw.js" => [sw_headers, "javascript"],
   "main.dart.js" => [bundle_headers, "javascript"],
   "robots.txt" => [robots_headers, "text/plain"]
@@ -213,9 +222,14 @@ unless bundle_cache.include?("max-age=31536000") && bundle_cache.include?("immut
 end
 
 failures << "index body must identify Collect Admin." unless index_body.include?("Collect Admin")
+failures << "index body must use the official Collect PNG favicon." unless index_body.include?('<link rel="icon" href="icons/collect-web-512.png" type="image/png">')
+failures << "official Collect PNG icon hash differs from the approved platform derivative." unless Digest::SHA256.hexdigest(official_icon_body) == "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9"
 failures << "index body must load flutter_bootstrap.js." unless index_body.include?("flutter_bootstrap.js")
 failures << "index body must not register the service worker inline under strict CSP." if index_body.include?("navigator.serviceWorker.register")
-failures << "flutter_bootstrap.js must register custom-sw.js." unless bootstrap_body.include?("navigator.serviceWorker.register('custom-sw.js?v=collect-admin-")
+bootstrap_registers_admin_worker =
+  bootstrap_body.include?("var adminServiceWorkerVersion = 'collect-admin-") &&
+  bootstrap_body.include?("navigator.serviceWorker.register('custom-sw.js?v=' + adminServiceWorkerVersion)")
+failures << "flutter_bootstrap.js must register custom-sw.js." unless bootstrap_registers_admin_worker
 failures << "flutter_bootstrap.js must not contain an unreplaced Admin PWA service-worker placeholder." if bootstrap_body.include?("__COLLECT_ADMIN_SW_VERSION__")
 bootstrap_invocation = bootstrap_body.split("_flutter.buildConfig", 2).last || bootstrap_body
 if bootstrap_invocation.include?("_coolServiceWorkerVersion") || bootstrap_invocation.include?("serviceWorkerUrl:") || bootstrap_invocation.include?("flutter_service_worker.js?v=")
@@ -235,7 +249,13 @@ else
     failures << "manifest #{name} must be #{expected.inspect}." unless manifest[name] == expected
   end
   icons = Array(manifest["icons"])
-  failures << "manifest icons must be empty while repo visual assets are retired." unless icons.empty?
+  expected_icon = {
+    "src" => "icons/collect-web-512.png",
+    "sizes" => "512x512",
+    "type" => "image/png",
+    "purpose" => "any maskable"
+  }
+  failures << "manifest must use exactly the official Collect PNG icon." unless icons == [expected_icon]
 end
 service_worker_required = {
   "versioned Collect Admin cache" => "CACHE_NAME",

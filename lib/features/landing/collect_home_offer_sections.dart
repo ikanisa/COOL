@@ -199,14 +199,14 @@ class _ProductCard extends StatelessWidget {
                 data.title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: CollectColors.referenceChromeBlack,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               Text(
                 data.subtitle,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: CollectColors.referenceChromeBlack,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 8),
@@ -214,7 +214,7 @@ class _ProductCard extends StatelessWidget {
                 data.body,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: CollectColors.inkSecondary,
-                  height: 1.4,
+                  height: CollectTypography.leadingCard,
                 ),
               ),
             ],
@@ -251,7 +251,7 @@ class _SmallStakeholder extends StatelessWidget {
               data.title,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: CollectColors.referenceChromeBlack,
-                fontWeight: FontWeight.w900,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
             const SizedBox(height: 4),
@@ -259,7 +259,7 @@ class _SmallStakeholder extends StatelessWidget {
               data.body,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: CollectColors.inkSecondary,
-                height: 1.34,
+                height: CollectTypography.leadingFine,
               ),
             ),
           ],

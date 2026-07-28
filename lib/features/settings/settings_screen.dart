@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/theme/collect_theme_controller.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -25,107 +22,54 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final runtimeConfig = ref.watch(collectRuntimeConfigProvider);
     final profile = state.currentProfile;
     final isInitialLoading = state.isLoading && profile == null;
-    final systemEntries = [
-      _SettingsEntry(
-        child: _SettingsTile(
-          leading: CollectIcons.pending,
-          title: 'Notifications',
-          onTap: () => showNotificationSettingsSheet(context, ref),
-        ),
+    final settingsEntries = <Widget>[
+      _SettingsTile(
+        leading: CollectIcons.profile,
+        title: 'Account details',
+        onTap: () => context.go('/settings/account'),
       ),
-      const _SettingsEntry(child: _ThemeModeTile()),
-    ];
-    final accountEntries = [
-      _SettingsEntry(
-        child: _SettingsTile(
-          leading: CollectIcons.profile,
-          title: 'Account',
-          onTap: () => context.go('/settings/account'),
-        ),
+      _SettingsTile(
+        leading: CollectIcons.pending,
+        title: 'Notifications',
+        onTap: () => context.go('/settings/notifications'),
       ),
-    ];
-    final supportEntries = [
-      _SettingsEntry(
-        child: _SettingsTile(
-          leading: CollectIcons.support,
-          title: 'Support',
-          onTap: () => openCollectWhatsAppSupport(
-            phone: runtimeConfig.whatsAppSupportPhone,
-          ),
-        ),
+      _SettingsTile(
+        leading: CollectIcons.palette,
+        title: 'Appearance',
+        onTap: () => context.go('/settings/appearance'),
       ),
-      _SettingsEntry(
-        child: _SettingsTile(
-          leading: CollectIcons.info,
-          title: 'Terms',
-          onTap: () => context.go('/settings/legal/terms'),
-        ),
+      _SettingsTile(
+        leading: CollectIcons.shield,
+        title: 'Security',
+        onTap: () => context.go('/settings/security'),
       ),
-      _SettingsEntry(
-        child: _SettingsTile(
-          leading: CollectIcons.privacy,
-          title: 'Privacy policy',
-          onTap: () => context.go('/settings/legal/privacy'),
-        ),
+      _SettingsTile(
+        leading: CollectIcons.privacy,
+        title: 'Privacy policy',
+        onTap: () => context.go('/settings/legal/privacy'),
+      ),
+      _SettingsTile(
+        leading: CollectIcons.info,
+        title: 'Terms',
+        onTap: () => context.go('/settings/legal/terms'),
+      ),
+      _SettingsTile(
+        leading: CollectIcons.support,
+        title: 'Help',
+        onTap: () => context.go('/settings/help'),
       ),
     ];
     return ScreenScaffold(
       title: 'Settings',
       showHeader: false,
       compact: true,
-      topChrome: CollectScreenTopChrome(
-        avatarLabel: profile?.publicId ?? 'Collect',
-        avatarTooltip: 'Home',
-        searchLabel: 'Settings',
-        onAvatarTap: () => context.go('/home'),
-        actions: [
-          CollectChromeAction(
-            icon: CollectIcons.pending,
-            tooltip: 'Notifications',
-            onPressed: () => showNotificationSettingsSheet(context, ref),
-          ),
-          CollectChromeAction(
-            icon: CollectIcons.support,
-            tooltip: 'Support',
-            onPressed: () => openCollectWhatsAppSupport(
-              phone: runtimeConfig.whatsAppSupportPhone,
-            ),
-          ),
-        ],
+      topChrome: _SettingsTopBar(
+        onHomeTap: () => context.go('/home'),
+        onNotificationsTap: () => showNotificationSettingsSheet(context, ref),
+        onHelpTap: () => openCollectWhatsAppSupport(
+          phone: runtimeConfig.whatsAppSupportPhone,
+        ),
       ),
-      hero: isInitialLoading
-          ? null
-          : CollectScreenHero(
-              eyebrow: 'ACCOUNT',
-              title: 'Collect profile',
-              metric: profile?.publicId ?? 'Collect',
-              subtitle: 'Privacy, support, and account controls',
-              icon: CollectIcons.profile,
-              quickActions: [
-                CollectHeroQuickAction(
-                  icon: CollectIcons.profile,
-                  label: 'Account',
-                  onTap: () => context.go('/settings/account'),
-                ),
-                CollectHeroQuickAction(
-                  icon: CollectIcons.pending,
-                  label: 'Alerts',
-                  onTap: () => showNotificationSettingsSheet(context, ref),
-                ),
-                CollectHeroQuickAction(
-                  icon: CollectIcons.support,
-                  label: 'Help',
-                  onTap: () => openCollectWhatsAppSupport(
-                    phone: runtimeConfig.whatsAppSupportPhone,
-                  ),
-                ),
-                CollectHeroQuickAction(
-                  icon: CollectIcons.privacy,
-                  label: 'Privacy',
-                  onTap: () => context.go('/settings/legal/privacy'),
-                ),
-              ],
-            ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: isInitialLoading
@@ -137,50 +81,133 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ]
           : [
-              if (systemEntries.isNotEmpty)
-                _SettingsCluster(
-                  tone: CollectStatusTone.privacy,
-                  children: systemEntries.map((entry) => entry.child).toList(),
-                ),
-              if (accountEntries.isNotEmpty)
-                _SettingsCluster(
-                  tone: CollectStatusTone.info,
-                  children: accountEntries.map((entry) => entry.child).toList(),
-                ),
-              if (supportEntries.isNotEmpty)
-                _SettingsCluster(
-                  tone: CollectStatusTone.success,
-                  children: supportEntries.map((entry) => entry.child).toList(),
-                ),
+              _ProfileIdentityHeader(
+                publicId: profile?.publicId ?? 'Collect',
+                onTap: () => context.go('/settings/profile'),
+              ),
+              _SettingsCluster(children: settingsEntries),
               const SizedBox(height: 18),
             ],
     );
   }
 }
 
-class _SettingsEntry {
-  const _SettingsEntry({required this.child});
+class _SettingsTopBar extends StatelessWidget {
+  const _SettingsTopBar({
+    required this.onHomeTap,
+    required this.onNotificationsTap,
+    required this.onHelpTap,
+  });
 
-  final Widget child;
-}
-
-class _ThemeModeTile extends ConsumerWidget {
-  const _ThemeModeTile();
+  final VoidCallback onHomeTap;
+  final VoidCallback onNotificationsTap;
+  final VoidCallback onHelpTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(collectThemeModeProvider);
-    final isDark = themeMode == ThemeMode.dark;
-    return _SettingsTile(
-      leading: CollectIcons.palette,
-      title: 'Dark mode',
-      onTap: () => unawaited(
-        ref.read(collectThemeModeProvider.notifier).setDarkMode(!isDark),
-      ),
-      trailing: Switch.adaptive(
-        value: isDark,
-        onChanged: (value) => unawaited(
-          ref.read(collectThemeModeProvider.notifier).setDarkMode(value),
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final background = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
+    Widget action({
+      required IconData icon,
+      required String tooltip,
+      required VoidCallback onPressed,
+    }) {
+      return IconButton(
+        tooltip: tooltip,
+        onPressed: onPressed,
+        icon: Icon(icon),
+        style: IconButton.styleFrom(
+          fixedSize: const Size(44, 44),
+          minimumSize: const Size(44, 44),
+          backgroundColor: background,
+          foregroundColor: foreground,
+          side: BorderSide(color: border),
+        ),
+      );
+    }
+
+    return Row(
+      children: [
+        action(icon: CollectIcons.home, tooltip: 'Home', onPressed: onHomeTap),
+        const Spacer(),
+        action(
+          icon: CollectIcons.pending,
+          tooltip: 'Notifications',
+          onPressed: onNotificationsTap,
+        ),
+        CollectSpacing.gapW8,
+        action(
+          icon: CollectIcons.support,
+          tooltip: 'Help',
+          onPressed: onHelpTap,
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileIdentityHeader extends StatelessWidget {
+  const _ProfileIdentityHeader({required this.publicId, required this.onTap});
+
+  final String publicId;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
+    return Semantics(
+      button: true,
+      label: 'Edit profile $publicId',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: CollectRadius.cardLargeBorder,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
+          child: Column(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: foreground.withValues(alpha: 0.10),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: foreground.withValues(alpha: 0.18)),
+                ),
+                child: SizedBox.square(
+                  dimension: 76,
+                  child: Icon(
+                    CollectIcons.profile,
+                    color: foreground,
+                    size: 32,
+                  ),
+                ),
+              ),
+              CollectSpacing.gap16,
+              Text(
+                publicId,
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  color: foreground,
+                  fontSize: CollectTypography.sizeMetric,
+                  fontWeight: CollectTypography.weightBold,
+                  height: CollectTypography.leadingTitle,
+                  letterSpacing: CollectTypography.trackingDefault,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              CollectSpacing.gap8,
+              Text(
+                'Collect profile',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: muted,
+                  fontWeight: CollectTypography.weightMedium,
+                  letterSpacing: CollectTypography.trackingDefault,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -188,16 +215,10 @@ class _ThemeModeTile extends ConsumerWidget {
 }
 
 class _SettingsTile extends StatelessWidget {
-  const _SettingsTile({
-    required this.leading,
-    required this.title,
-    this.trailing,
-    this.onTap,
-  });
+  const _SettingsTile({required this.leading, required this.title, this.onTap});
 
   final IconData leading;
   final String title;
-  final Widget? trailing;
   final VoidCallback? onTap;
 
   @override
@@ -224,17 +245,16 @@ class _SettingsTile extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightSemibold,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 CollectSpacing.gapW8,
-                trailing ??
-                    (onTap == null
-                        ? const SizedBox.shrink()
-                        : Icon(CollectIcons.chevron, color: colors.textMuted)),
+                onTap == null
+                    ? const SizedBox.shrink()
+                    : Icon(CollectIcons.chevron, color: colors.textMuted),
               ],
             ),
           ),
@@ -252,40 +272,46 @@ class _SettingsIconBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.glassControl,
-        shape: BoxShape.circle,
-        border: Border.all(color: colors.glassBorder),
-      ),
-      child: SizedBox.square(
-        dimension: 44,
-        child: Icon(icon, color: colors.textSecondary, size: 22),
-      ),
+    return SizedBox.square(
+      dimension: 28,
+      child: Icon(icon, color: colors.textSecondary, size: 21),
     );
   }
 }
 
 class _SettingsCluster extends StatelessWidget {
-  const _SettingsCluster({required this.children, required this.tone});
+  const _SettingsCluster({required this.children});
 
   final List<Widget> children;
-  final CollectStatusTone tone;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final accent = colors.statusForeground(tone);
     return CollectCard(
-      emphasis: CollectCardEmphasis.tonal,
-      accentColor: accent,
+      emphasis: CollectCardEmphasis.normal,
+      backgroundGradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [colors.surfaceReadable, colors.surfaceRaised],
+      ),
       padding: const EdgeInsets.symmetric(
         horizontal: CollectSpacing.x3,
-        vertical: CollectSpacing.x2,
+        vertical: CollectSpacing.x1,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
+        children: [
+          for (var index = 0; index < children.length; index += 1) ...[
+            children[index],
+            if (index != children.length - 1)
+              Divider(
+                height: 1,
+                thickness: 1,
+                indent: 40,
+                color: colors.border.withValues(alpha: 0.46),
+              ),
+          ],
+        ],
       ),
     );
   }

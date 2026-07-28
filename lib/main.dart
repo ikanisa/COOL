@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
 import 'app/env/app_env.dart';
+import 'app/router.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
 import 'shared/repositories/collect_repository.dart';
@@ -35,6 +36,10 @@ Future<void> main() async {
     ProviderScope(
       overrides: [
         appEnvProvider.overrideWithValue(env),
+        if (mobileEvidenceMode)
+          appRouterProvider.overrideWithValue(
+            createAppRouter(initialLocation: '/home'),
+          ),
         if (mobileEvidenceMode)
           collectRepositoryProvider.overrideWith(
             (ref) => CollectRepository.fixture(),

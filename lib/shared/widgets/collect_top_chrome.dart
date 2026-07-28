@@ -36,6 +36,7 @@ class CollectTopChrome extends StatelessWidget {
     final label = titleLabel;
     return Semantics(
       container: true,
+      explicitChildNodes: true,
       label: 'Primary screen actions',
       child: SizedBox(
         height: 66,
@@ -108,10 +109,14 @@ class _TopChromeAvatar extends StatelessWidget {
                 child: SizedBox.square(
                   dimension: 58,
                   child: Center(
-                    child: Icon(
-                      CollectIcons.people,
-                      color: foreground,
-                      size: 30,
+                    child: SizedBox.square(
+                      dimension: 30,
+                      child: Image.asset(
+                        CollectRuntimeAssets.officialLogo,
+                        fit: BoxFit.contain,
+                        filterQuality: FilterQuality.high,
+                        excludeFromSemantics: true,
+                      ),
                     ),
                   ),
                 ),
@@ -173,8 +178,8 @@ class _TopChromeTitlePill extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: foreground,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0,
+                    fontWeight: CollectTypography.weightBold,
+                    letterSpacing: CollectTypography.trackingDefault,
                   ),
                 ),
               ),
@@ -266,10 +271,14 @@ class CollectBrandMark extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            CollectIcons.savings,
-            color: colors.textPrimary,
-            size: (markHeight * 0.62).clamp(18, 26).toDouble(),
+          SizedBox.square(
+            dimension: (markHeight * 0.82).clamp(24, 32).toDouble(),
+            child: Image.asset(
+              CollectRuntimeAssets.officialLogo,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+              excludeFromSemantics: true,
+            ),
           ),
           if (showWordmark) ...[
             CollectSpacing.gapW8,
@@ -278,8 +287,8 @@ class CollectBrandMark extends StatelessWidget {
                 CollectRuntimeAssets.brandLabel,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: colors.textPrimary,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0,
+                  fontWeight: CollectTypography.weightBold,
+                  letterSpacing: CollectTypography.trackingDefault,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

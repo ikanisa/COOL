@@ -76,6 +76,11 @@ def file_item(root_dir, path)
   }
 end
 
+pubspec = File.read(File.join(root_dir, "pubspec.yaml")) rescue ""
+current_artifact_version =
+  pubspec[/^version:\s*([0-9]+\.[0-9]+\.[0-9]+\+[0-9]+)\s*$/, 1] ||
+  "<current-pubspec-version>"
+
 def record_command(key:, evidence_reference:, notes:, extra_args: "")
   args = [
     "--key #{key}",
@@ -247,7 +252,7 @@ approval_records = [
       key: "android_release_signing_review",
       evidence_reference: "docs/release/RELEASE_STATUS.md",
       notes: "<APK/AAB and Play App Signing review summary>",
-      extra_args: "--no-signing-keys-exposed"
+      extra_args: "--artifact-version #{current_artifact_version} --no-signing-keys-exposed"
     ),
     "verify_command" => "Run the record_command for android_release_signing_review, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
@@ -321,7 +326,8 @@ approval_records = [
     "record_command" => record_command(
       key: "release_owner_signoff",
       evidence_reference: "docs/release/RELEASE_APPROVAL_PACKET.md",
-      notes: "<final release-owner decision summary>"
+      notes: "<final release-owner decision summary>",
+      extra_args: "--artifact-version #{current_artifact_version}"
     ),
     "verify_command" => "Run the record_command for release_owner_signoff, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   }

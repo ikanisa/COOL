@@ -100,7 +100,7 @@ class CollectStatusChip extends StatelessWidget {
                     label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: foreground,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -170,8 +170,8 @@ class SectionHeader extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: foreground,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 0,
+              fontWeight: CollectTypography.weightBold,
+              letterSpacing: CollectTypography.trackingDefault,
             ),
             maxLines: 1,
             softWrap: false,
@@ -187,9 +187,10 @@ class SectionHeader extends StatelessWidget {
                 horizontal: CollectSpacing.x2,
                 vertical: CollectSpacing.x1,
               ),
+              minimumSize: const Size(0, CollectSpacing.target),
               textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0,
+                fontWeight: CollectTypography.weightBold,
+                letterSpacing: CollectTypography.trackingDefault,
               ),
             ),
             child: Text(

@@ -84,7 +84,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(
                                   color: colors.onImagePrimary,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: CollectTypography.weightSemibold,
                                 ),
                           ),
                         ),
@@ -102,7 +102,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                     titleText,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.textPrimary,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: CollectTypography.weightSemibold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -118,7 +118,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
               style: IconButton.styleFrom(
                 backgroundColor: colors.glassPanel,
                 foregroundColor: colors.textPrimary,
-                fixedSize: const Size.square(42),
+                fixedSize: const Size.square(CollectSpacing.iconTarget),
               ),
             ),
             if (onRemove != null) ...[
@@ -130,7 +130,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                 style: IconButton.styleFrom(
                   backgroundColor: colors.glassPanel,
                   foregroundColor: colors.textPrimary,
-                  fixedSize: const Size.square(42),
+                  fixedSize: const Size.square(CollectSpacing.iconTarget),
                 ),
               ),
             ],

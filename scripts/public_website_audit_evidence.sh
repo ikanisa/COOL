@@ -40,7 +40,6 @@ routes = [
   "/robots.txt",
   "/styles.css",
   "/site.js",
-  "/favicon.svg",
   "/manifest.json",
   "/icons/collect.png",
   "/assets/brand/collect_runtime/media/group-momentum.png",
@@ -54,7 +53,6 @@ root = responses.fetch("/")
 root_body = root.fetch("body").dup.force_encoding("UTF-8")
 styles_body = responses.fetch("/styles.css").fetch("body").dup.force_encoding("UTF-8")
 site_js = responses.fetch("/site.js")
-favicon = responses.fetch("/favicon.svg")
 manifest = responses.fetch("/manifest.json")
 collect_icon = responses.fetch("/icons/collect.png")
 group_momentum = responses.fetch("/assets/brand/collect_runtime/media/group-momentum.png")
@@ -84,12 +82,11 @@ first_party_critical_bytes = [
 ].sum { |item| item.fetch("body").bytesize }
 
 checks = {
-  "http_all_required_routes_200" => responses.reject { |route, _item| ["/styles.css", "/site.js", "/favicon.svg"].include?(route) }.all? { |_route, item| item.fetch("status") == 200 },
+  "http_all_required_routes_200" => responses.reject { |route, _item| ["/styles.css", "/site.js"].include?(route) }.all? { |_route, item| item.fetch("status") == 200 },
   "root_cacheable_no_noindex" => root.dig("headers", "cache-control").to_s.include?("public") && !root.dig("headers", "x-robots-tag").to_s.downcase.include?("noindex"),
   "valid_structured_data" => json_ld_parse_error.nil? && json_ld_types.include?("Organization") && json_ld_types.include?("SoftwareApplication"),
   "seo_metadata" => root_body.include?('rel="canonical"') && root_body.include?('property="og:title"') && root_body.include?('name="twitter:card"'),
-  "pre_audit_brand_assets" => favicon.fetch("status") == 404 &&
-    collect_icon.fetch("status") == 200 && Digest::SHA256.hexdigest(collect_icon.fetch("body")) == "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209" &&
+  "pre_audit_brand_assets" => collect_icon.fetch("status") == 200 && Digest::SHA256.hexdigest(collect_icon.fetch("body")) == "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209" &&
     group_momentum.fetch("status") == 200 && Digest::SHA256.hexdigest(group_momentum.fetch("body")) == "9b6278d46d68ce2c61fabef8c634ac00b8cf299008cc54ccc74bd34d480068b2" &&
     mobile_money.fetch("status") == 200 && Digest::SHA256.hexdigest(mobile_money.fetch("body")) == "eaa9fc831baaf3b050d6acdf3de95024098361d6cd9043543ffe159b6c1e8f66" &&
     qr_share.fetch("status") == 200 && Digest::SHA256.hexdigest(qr_share.fetch("body")) == "9f67af8c93f035738bfb60f3e6964fe69c6908f5e40ae0003bbf1d609c8eafd4" &&

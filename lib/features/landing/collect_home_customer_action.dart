@@ -33,7 +33,7 @@ class _CustomerActionSection extends StatelessWidget {
                     'Start with Collect',
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       color: CollectColors.referenceChromeBlack,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -41,7 +41,7 @@ class _CustomerActionSection extends StatelessWidget {
                     'For group savings setup, app access or customer support, contact IKANISA.',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: CollectColors.inkSecondary,
-                      height: 1.45,
+                      height: CollectTypography.leadingBody,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -116,7 +116,7 @@ class _ContactSummaryCard extends ConsumerWidget {
               'Contact IKANISA',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: CollectColors.referenceChromeBlack,
-                fontWeight: FontWeight.w900,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
             const SizedBox(height: 12),
@@ -124,7 +124,7 @@ class _ContactSummaryCard extends ConsumerWidget {
               'WhatsApp ${config.whatsAppSupportDisplay}',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: CollectColors.referenceChromeBlack,
-                fontWeight: FontWeight.w800,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
             const SizedBox(height: 6),
@@ -132,7 +132,7 @@ class _ContactSummaryCard extends ConsumerWidget {
               config.supportEmail,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: CollectColors.referenceChromeBlack,
-                fontWeight: FontWeight.w800,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
           ],

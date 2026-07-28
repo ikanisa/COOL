@@ -9,6 +9,7 @@ import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_runtime_tokens.dart';
+import '../../app/theme/collect_typography.dart';
 import '../models/collect_models.dart';
 import '../utils/collect_haptics.dart';
 
@@ -43,9 +44,9 @@ class CollectButton extends StatelessWidget {
         foregroundColor: colors.textPrimary,
         shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
       ),
-      CollectButtonVariant.danger => CollectComponentTokens.filledButton(
+      CollectButtonVariant.danger => CollectComponentTokens.dangerButton(
         context,
-      ).copyWith(backgroundColor: WidgetStatePropertyAll(colors.danger)),
+      ),
     };
     final child = icon == null
         ? Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)
@@ -162,7 +163,7 @@ class CollectionTypeBadge extends StatelessWidget {
                     type.label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: foreground,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -268,6 +269,7 @@ class CollectCard extends StatelessWidget {
     this.emphasis = CollectCardEmphasis.normal,
     this.backgroundGradient,
     this.accentColor,
+    this.blurBackground = true,
     super.key,
   });
 
@@ -277,6 +279,7 @@ class CollectCard extends StatelessWidget {
   final CollectCardEmphasis emphasis;
   final Gradient? backgroundGradient;
   final Color? accentColor;
+  final bool blurBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -324,6 +327,7 @@ class CollectCard extends StatelessWidget {
       borderRadius: radius,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        enabled: blurBackground,
         child: container,
       ),
     );

@@ -245,6 +245,13 @@ def release_approval_valid?(records, key, root_dir, allow_out_of_scope: false)
     (key != "android_release_signing_review" || record["signing_keys_exposed"] != true)
 end
 
+def approved_artifact_version(record)
+  explicit = record["artifact_version"].to_s.strip
+  return explicit unless explicit == ""
+
+  record["notes"].to_s[/\b[0-9]+\.[0-9]+\.[0-9]+\+[0-9]+\b/]
+end
+
 pubspec = read(File.join(root_dir, "pubspec.yaml"))
 gradle = read(File.join(root_dir, "android/app/build.gradle.kts"))
 main_manifest = read(File.join(root_dir, "android/app/src/main/AndroidManifest.xml"))
@@ -389,8 +396,15 @@ checks["android_release_artifact_signatures"] =
 android_signing_record = release_approvals["android_release_signing_review"] || {}
 android_signing_reviewed_from_manifest =
   release_approval_valid?(release_approvals, "android_release_signing_review", root_dir)
+current_artifact_version = version_match && version_match[1]
+approved_android_artifact_version = approved_artifact_version(android_signing_record)
+android_signing_version_current =
+  current_artifact_version &&
+  approved_android_artifact_version == current_artifact_version
 
-android_signing_reviewed = android_signing_reviewed_from_manifest
+android_signing_reviewed =
+  android_signing_reviewed_from_manifest &&
+  android_signing_version_current
 
 checks["android_release_signing_review"] =
   if android_signing_reviewed
@@ -401,12 +415,17 @@ checks["android_release_signing_review"] =
       "review_note" => android_signing_record["notes"],
       "reviewer" => android_signing_record["reviewer"],
       "reviewed_at" => android_signing_record["signed_at"],
-      "evidence_reference" => android_signing_record["evidence_reference"]
+      "evidence_reference" => android_signing_record["evidence_reference"],
+      "artifact_version" => approved_android_artifact_version
     )
   else
     check(
       "blocked",
-      "Android release signing / Play App Signing review must be explicitly recorded in docs/release/RELEASE_APPROVALS.json."
+      "Android release signing / Play App Signing review must be explicitly recorded for the current artifact version in docs/release/RELEASE_APPROVALS.json.",
+      "current_artifact_version" => current_artifact_version,
+      "approved_artifact_version" => approved_android_artifact_version,
+      "approval_record_valid" => android_signing_reviewed_from_manifest,
+      "approval_version_current" => android_signing_version_current
     )
   end
 

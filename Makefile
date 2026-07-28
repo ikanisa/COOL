@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Volumes/PRO-G40/flutter_3_44/bin/flutter
 DART ?= /Volumes/PRO-G40/flutter_3_44/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -34,6 +34,9 @@ help:
 	@echo "  make record-release-approval ARGS='...' Safely record one signed release approval"
 	@echo "  make release-worktree-review Validate release branch/worktree review status"
 	@echo "  make collect-product-boundary-scan Validate Collect app product-boundary copy"
+	@echo "  make revolut-parity-source-hygiene Validate exclusive Inter, official assets, fixture isolation, product boundaries, and secret hygiene"
+	@echo "  make revolut-parity-evidence-consistency Validate task/evidence registers and fail-closed audit boundaries"
+	@echo "  make revolut-parity-evidence-consistency-full Also verify current coverage and release artifact hashes"
 	@echo "  make repo-wide-qa-uat  Run strict repo-wide QA/UAT production-readiness gate"
 	@echo "  make verify            Run format check, analyzer, and tests"
 	@echo "  make release-status    Summarize strict release status without printing secrets"
@@ -191,6 +194,24 @@ collect-product-boundary-scan:
 
 collect-product-boundary-scan-json:
 	@./scripts/collect_product_boundary_scan.sh --json
+
+revolut-parity-source-hygiene:
+	@./scripts/revolut_parity_source_hygiene_gate.sh
+
+revolut-parity-source-hygiene-json:
+	@./scripts/revolut_parity_source_hygiene_gate.sh --json
+
+revolut-parity-evidence-consistency:
+	@./scripts/revolut_parity_evidence_consistency_gate.sh --source-only
+
+revolut-parity-evidence-consistency-json:
+	@./scripts/revolut_parity_evidence_consistency_gate.sh --source-only --json
+
+revolut-parity-evidence-consistency-full:
+	@./scripts/revolut_parity_evidence_consistency_gate.sh --full
+
+revolut-parity-evidence-consistency-full-json:
+	@./scripts/revolut_parity_evidence_consistency_gate.sh --full --json
 
 repo-wide-qa-uat:
 	@./scripts/repo_wide_qa_uat.sh

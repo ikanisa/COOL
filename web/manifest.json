@@ -5,5 +5,12 @@
   "display": "standalone",
   "description": "SMS-first MoMo group contribution app.",
   "orientation": "portrait-primary",
-  "icons": []
+  "icons": [
+    {
+      "src": "icons/collect-web-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }

@@ -65,7 +65,7 @@ class AuthActionDock extends StatelessWidget {
                         ? 'Verify and continue'
                         : 'Send WhatsApp code',
                     icon: otpSent ? CollectIcons.shield : null,
-                    leading: otpSent ? null : const AuthWhatsAppMark(size: 20),
+                    leading: otpSent ? null : const AuthSupportIcon(size: 20),
                     onPressed: canSubmit ? onSubmit : null,
                   ),
                   if (otpSent) ...[
@@ -137,12 +137,22 @@ class _AuthNativeActionButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: isPrimary ? 56 : 48,
-      child: CupertinoButton(
-        minimumSize: Size.fromHeight(isPrimary ? 56 : 48),
-        borderRadius: BorderRadius.circular(isPrimary ? 16 : 14),
-        color: background,
-        disabledColor: background,
-        padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x4),
+      child: TextButton(
+        style: ButtonStyle(
+          minimumSize: WidgetStatePropertyAll(
+            Size.fromHeight(isPrimary ? 56 : 48),
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(isPrimary ? 16 : 14),
+            ),
+          ),
+          backgroundColor: WidgetStatePropertyAll(background),
+          foregroundColor: WidgetStatePropertyAll(foreground),
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(horizontal: CollectSpacing.x4),
+          ),
+        ),
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -167,8 +177,8 @@ class _AuthNativeActionButton extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: foreground,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0,
+                  fontWeight: CollectTypography.weightBold,
+                  letterSpacing: CollectTypography.trackingDefault,
                 ),
               ),
             ),

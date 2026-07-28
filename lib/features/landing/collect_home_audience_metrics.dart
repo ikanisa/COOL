@@ -33,8 +33,8 @@ class _AudienceCard extends StatelessWidget {
               data.title,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: CollectColors.referenceChromeBlack,
-                fontWeight: FontWeight.w900,
-                height: 1.05,
+                fontWeight: CollectTypography.weightBold,
+                height: CollectTypography.leadingDisplayRelaxed,
               ),
             ),
             const SizedBox(height: 10),
@@ -42,7 +42,7 @@ class _AudienceCard extends StatelessWidget {
               data.body,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: CollectColors.inkSecondary,
-                height: 1.42,
+                height: CollectTypography.leadingResponsiveBody,
               ),
             ),
             const SizedBox(height: 22),
@@ -52,9 +52,9 @@ class _AudienceCard extends StatelessWidget {
               label: Text(data.action),
               style: TextButton.styleFrom(
                 foregroundColor: CollectColors.referenceChromeBlack,
-                textStyle: Theme.of(
-                  context,
-                ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w900),
+                textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: CollectTypography.weightBold,
+                ),
               ),
             ),
           ],
@@ -113,8 +113,8 @@ class _ProofMetric extends StatelessWidget {
                 label,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: CollectColors.brandPaper.withValues(alpha: 0.68),
-                  fontWeight: FontWeight.w800,
-                  height: 1.25,
+                  fontWeight: CollectTypography.weightBold,
+                  height: CollectTypography.leadingLabel,
                 ),
               ),
             ],

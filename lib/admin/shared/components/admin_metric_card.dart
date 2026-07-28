@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_typography.dart';
 import '../../core/admin_models.dart';
 import 'admin_status_chip.dart';
 
@@ -72,7 +73,7 @@ class AdminMetricCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colors.surfaceReadable.withValues(alpha: 0.72),
-                  fontWeight: FontWeight.w700,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 8),
@@ -82,7 +83,7 @@ class AdminMetricCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.surfaceReadable,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
             ],

@@ -70,6 +70,15 @@ class ActivityFeedItem extends StatelessWidget {
     final colors = context.collectColors;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final amountColor = isDark ? colors.onImagePrimary : colors.textPrimary;
+    final stackAmount =
+        MediaQuery.sizeOf(context).width < 340 ||
+        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final amountText = Text(
+      formatRwf(amount),
+      style: CollectTypography.amountCompact(amountColor),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
     return Material(
       color: colors.transparent,
       child: InkWell(
@@ -96,7 +105,7 @@ class ActivityFeedItem extends StatelessWidget {
                       meta,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: CollectTypography.weightBold,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -110,17 +119,16 @@ class ActivityFeedItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
+                    if (stackAmount) ...[CollectSpacing.gap8, amountText],
                   ],
                 ),
               ),
-              CollectSpacing.gapW12,
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  formatRwf(amount),
-                  style: CollectTypography.amountCompact(amountColor),
+              if (!stackAmount) ...[
+                CollectSpacing.gapW12,
+                Flexible(
+                  child: FittedBox(fit: BoxFit.scaleDown, child: amountText),
                 ),
-              ),
+              ],
             ],
           ),
         ),

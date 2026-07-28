@@ -147,6 +147,7 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
       useRootNavigator: true,
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (context) {
         return CollectBottomSheet(
           child: _MemberOptionSheet<_MemberSort>(
@@ -170,6 +171,7 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
       useRootNavigator: true,
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (context) {
         return CollectBottomSheet(
           child: _MemberOptionSheet<_MemberFilter>(
@@ -223,9 +225,9 @@ class _MembersPageHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: foreground,
-                fontWeight: FontWeight.w900,
-                height: 1,
-                letterSpacing: 0,
+                fontWeight: CollectTypography.weightBold,
+                height: CollectTypography.leadingSolid,
+                letterSpacing: CollectTypography.trackingDefault,
               ),
             ),
           ),
@@ -331,7 +333,7 @@ class _MemberControlButton extends StatelessWidget {
                           style: Theme.of(context).textTheme.labelLarge
                               ?.copyWith(
                                 color: colors.textPrimary,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: CollectTypography.weightBold,
                               ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -441,7 +443,7 @@ class _MemberSheetPill<T> extends StatelessWidget {
                     color: selected
                         ? colors.selectedOnAccent
                         : colors.textPrimary,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ],

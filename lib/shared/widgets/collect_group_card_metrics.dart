@@ -85,11 +85,11 @@ class _GroupIconMetric extends StatelessWidget {
     final textStyle = compactLargeText
         ? Theme.of(context).textTheme.labelMedium?.copyWith(
             color: metricColor,
-            fontWeight: FontWeight.w700,
+            fontWeight: CollectTypography.weightBold,
           )
         : Theme.of(context).textTheme.titleSmall?.copyWith(
             color: metricColor,
-            fontWeight: FontWeight.w700,
+            fontWeight: CollectTypography.weightBold,
           );
     return Semantics(
       label: semanticLabel,
@@ -145,7 +145,7 @@ class _GroupMetaIconRow extends StatelessWidget {
               '${summary.supporterCount}',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: colors.textSecondary,
-                fontWeight: FontWeight.w600,
+                fontWeight: CollectTypography.weightSemibold,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

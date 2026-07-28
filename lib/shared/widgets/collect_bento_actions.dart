@@ -142,7 +142,7 @@ class BentoMetricCell extends StatelessWidget {
                       style: emphasis
                           ? CollectTypography.amountLarge(colors.textPrimary)
                           : Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w900,
+                              fontWeight: CollectTypography.weightBold,
                             ),
                     ),
                   ),
@@ -196,7 +196,7 @@ class IconMetricStrip extends StatelessWidget {
                       item.value!,
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: colors.textSecondary,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: CollectTypography.weightBold,
                       ),
                       maxLines: 1,
                       softWrap: false,

@@ -35,7 +35,7 @@ class _PhoneMockup extends StatelessWidget {
                     'collect',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: CollectColors.publicWhite,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                   const Spacer(),
@@ -58,7 +58,7 @@ class _PhoneMockup extends StatelessWidget {
                 '250,000 RWF',
                 style: CollectTypography.amountDisplay(
                   CollectColors.publicWhite,
-                ).copyWith(fontSize: 32),
+                ).copyWith(fontSize: CollectTypography.sizePreviewAmount),
               ),
               const SizedBox(height: 22),
               const _PhoneCard(
@@ -131,7 +131,7 @@ class _PhoneCard extends StatelessWidget {
               title,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: CollectColors.publicWhite,
-                fontWeight: FontWeight.w800,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
             const SizedBox(height: 7),
@@ -139,7 +139,7 @@ class _PhoneCard extends StatelessWidget {
               value,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: CollectColors.publicWhite,
-                fontWeight: FontWeight.w900,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
             const SizedBox(height: 10),
@@ -200,7 +200,7 @@ class _ReadinessScore extends StatelessWidget {
                     '78',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: CollectColors.publicWhite,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ),
@@ -215,7 +215,7 @@ class _ReadinessScore extends StatelessWidget {
                     'Good',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: CollectColors.brandMintGreen,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                   Text(
@@ -258,8 +258,8 @@ class _PhoneNav extends StatelessWidget {
           label,
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: color,
-            fontSize: 9,
-            letterSpacing: 0,
+            fontSize: CollectTypography.sizeMicro,
+            letterSpacing: CollectTypography.trackingDefault,
           ),
         ),
       ],
@@ -281,7 +281,7 @@ class _LedgerPanel extends StatelessWidget {
             'Group ledger',
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
               color: CollectColors.publicWhite,
-              fontWeight: FontWeight.w900,
+              fontWeight: CollectTypography.weightBold,
             ),
           ),
           const SizedBox(height: 4),
@@ -308,7 +308,7 @@ class _LedgerPanel extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: CollectColors.publicWhite,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ),
@@ -317,7 +317,7 @@ class _LedgerPanel extends StatelessWidget {
                 '+12%',
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: CollectColors.brandMintGreen,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
             ],
@@ -375,7 +375,7 @@ class _DisciplinePanel extends StatelessWidget {
                   'Strong discipline',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     color: CollectColors.brandMintGreen,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
                 Text(

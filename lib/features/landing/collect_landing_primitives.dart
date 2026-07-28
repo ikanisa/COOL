@@ -12,10 +12,14 @@ class _SectionBand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 600;
     return ColoredBox(
       color: background,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 56),
+        padding: EdgeInsets.symmetric(
+          horizontal: compact ? 20 : 40,
+          vertical: compact ? 40 : 56,
+        ),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 1280),
@@ -79,8 +83,8 @@ class _SectionIntro extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
             color: CollectColors.referenceChromeBlack,
-            fontWeight: FontWeight.w900,
-            height: 1.05,
+            fontWeight: CollectTypography.weightBold,
+            height: CollectTypography.leadingDisplayRelaxed,
           ),
         ),
         const SizedBox(height: 18),
@@ -88,7 +92,7 @@ class _SectionIntro extends StatelessWidget {
           body,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: CollectColors.inkSecondary,
-            height: 1.45,
+            height: CollectTypography.leadingBody,
           ),
         ),
       ],
@@ -150,7 +154,7 @@ class _StepTile extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
               color: CollectColors.referenceChromeBlack,
-              fontWeight: FontWeight.w900,
+              fontWeight: CollectTypography.weightBold,
             ),
           ),
           const SizedBox(height: 6),
@@ -159,7 +163,7 @@ class _StepTile extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: CollectColors.inkSecondary,
-              height: 1.34,
+              height: CollectTypography.leadingFine,
             ),
           ),
         ],

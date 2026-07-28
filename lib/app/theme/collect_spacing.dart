@@ -14,11 +14,12 @@ class CollectSpacing {
   static const double x10 = 40;
   static const double x12 = 48;
 
-  static const double screenCompact = x5;
-  static const double screen = x6;
+  static const double screenCompact = x4;
+  static const double screen = x5;
   static const double cardCompact = x4;
   static const double card = x6;
-  static const double target = 50;
+  static const double iconTarget = 44;
+  static const double target = 48;
   static const double metricCardWidth = 220;
 
   static const gap4 = SizedBox(height: x1);

@@ -12,24 +12,43 @@ class CollectTheme {
 
   static ThemeData light() => _build(CollectColors.light, Brightness.light);
   static ThemeData dark() => _build(CollectColors.dark, Brightness.dark);
+  static ThemeData highContrastLight() =>
+      _build(CollectColors.light, Brightness.light, highContrast: true);
+  static ThemeData highContrastDark() =>
+      _build(CollectColors.dark, Brightness.dark, highContrast: true);
 
-  static ThemeData _build(CollectColors colors, Brightness brightness) {
+  static ThemeData _build(
+    CollectColors colors,
+    Brightness brightness, {
+    bool highContrast = false,
+  }) {
+    final contrastOutline = brightness == Brightness.dark
+        ? CollectColors.brandPaper
+        : CollectColors.publicBlack;
     final scheme = ColorScheme(
       brightness: brightness,
       primary: colors.brandPrimary,
       onPrimary: colors.onAccent,
+      primaryContainer: colors.infoContainer,
+      onPrimaryContainer: colors.infoForeground,
       secondary: colors.brandSecondary,
       onSecondary: colors.onAccent,
+      secondaryContainer: colors.neutralContainer,
+      onSecondaryContainer: colors.textSecondary,
       error: colors.danger,
       onError: colors.surfaceReadable,
+      errorContainer: colors.dangerContainer,
+      onErrorContainer: colors.dangerForeground,
       surface: colors.surfaceReadable,
       onSurface: colors.textPrimary,
       surfaceContainerHighest: colors.surfaceMuted,
       onSurfaceVariant: colors.textSecondary,
-      outline: colors.borderSoft,
-      outlineVariant: colors.borderAccent,
+      outline: highContrast ? contrastOutline : colors.controlBorder,
+      outlineVariant: highContrast ? contrastOutline : colors.borderAccent,
       tertiary: colors.success,
       onTertiary: colors.surfaceReadable,
+      tertiaryContainer: colors.successContainer,
+      onTertiaryContainer: colors.successForeground,
     );
     final textTheme = CollectTypography.textTheme(
       colors.textPrimary,
@@ -38,15 +57,18 @@ class CollectTheme {
     final universalTokens = CollectUniversalTokens.fromColors(
       colors,
       brightness,
+      highContrast: highContrast,
     );
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
+      fontFamily: CollectTypography.fontFamily,
       scaffoldBackgroundColor: colors.screenBase,
       textTheme: textTheme,
       extensions: [colors, universalTokens],
       visualDensity: VisualDensity.standard,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
       splashFactory: InkRipple.splashFactory,
       appBarTheme: AppBarTheme(
         centerTitle: false,
@@ -58,7 +80,12 @@ class CollectTheme {
       cardTheme: CardThemeData(
         elevation: 0,
         color: colors.surfaceRaised,
-        shape: RoundedRectangleBorder(borderRadius: CollectRadius.cardBorder),
+        shape: RoundedRectangleBorder(
+          borderRadius: CollectRadius.cardBorder,
+          side: highContrast
+              ? BorderSide(color: contrastOutline, width: 2)
+              : BorderSide.none,
+        ),
       ),
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
@@ -94,16 +121,46 @@ class CollectTheme {
           ),
         ),
       ),
+      textButtonTheme: const TextButtonThemeData(
+        style: ButtonStyle(
+          minimumSize: WidgetStatePropertyAll(
+            Size(CollectSpacing.target, CollectSpacing.target),
+          ),
+        ),
+      ),
+      elevatedButtonTheme: const ElevatedButtonThemeData(
+        style: ButtonStyle(
+          minimumSize: WidgetStatePropertyAll(
+            Size(CollectSpacing.target, CollectSpacing.target),
+          ),
+        ),
+      ),
+      iconButtonTheme: const IconButtonThemeData(
+        style: ButtonStyle(
+          minimumSize: WidgetStatePropertyAll(
+            Size.square(CollectSpacing.iconTarget),
+          ),
+        ),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: false,
         border: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.borderSoft),
+          borderSide: BorderSide(
+            color: highContrast ? contrastOutline : colors.controlBorder,
+            width: highContrast ? 2 : 1,
+          ),
         ),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.borderSoft),
+          borderSide: BorderSide(
+            color: highContrast ? contrastOutline : colors.controlBorder,
+            width: highContrast ? 2 : 1,
+          ),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.focusRing, width: 2),
+          borderSide: BorderSide(
+            color: highContrast ? contrastOutline : colors.focusRing,
+            width: highContrast ? 3 : 2,
+          ),
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(

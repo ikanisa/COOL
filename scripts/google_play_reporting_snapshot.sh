@@ -31,12 +31,16 @@ def token_from_command(command)
   stdout, stderr, status = Open3.capture3(command)
   return [stdout.strip, "custom_command"] if status.success? && !stdout.strip.empty?
   [nil, "custom_command_failed: #{stderr.lines.first.to_s.strip}"]
+rescue Errno::ENOENT => e
+  [nil, "custom_command_unavailable: #{e.message.lines.first.to_s.strip}"]
 end
 
 def token_from_gcloud(*cmd)
   stdout, stderr, status = Open3.capture3(*cmd)
   return [stdout.strip, cmd.join(" ")] if status.success? && !stdout.strip.empty?
   [nil, "#{cmd.join(" ")} failed: #{stderr.lines.first.to_s.strip}"]
+rescue Errno::ENOENT
+  [nil, "#{cmd.first} unavailable"]
 end
 
 def acquire_token

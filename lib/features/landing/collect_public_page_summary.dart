@@ -19,7 +19,7 @@ class _PublicPageSummary extends StatelessWidget {
                 publicSummaryLabel(data),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: CollectColors.brandPeriwinkle,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 12),
@@ -27,7 +27,7 @@ class _PublicPageSummary extends StatelessWidget {
                 data.navLabel,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: CollectColors.referenceChromeBlack,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 12),
@@ -35,7 +35,7 @@ class _PublicPageSummary extends StatelessWidget {
                 data.intro,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: CollectColors.inkSecondary,
-                  height: 1.45,
+                  height: CollectTypography.leadingBody,
                 ),
               ),
             ],
@@ -93,7 +93,7 @@ class _PublicProofTile extends StatelessWidget {
                 value,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: CollectColors.referenceChromeBlack,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 6),
@@ -101,8 +101,8 @@ class _PublicProofTile extends StatelessWidget {
                 label,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: CollectColors.inkSecondary,
-                  height: 1.25,
-                  fontWeight: FontWeight.w800,
+                  height: CollectTypography.leadingLabel,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
             ],

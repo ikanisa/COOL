@@ -38,6 +38,12 @@ class CollectionDetailScreen extends ConsumerWidget {
       );
     }
     if (collection == null) return const MissingGroupStateScreen();
+    if (collection.isArchived) {
+      return ArchivedGroupStateScreen(
+        collectionId: collectionId,
+        groupTitle: collection.title,
+      );
+    }
     final summary = repo.summaryFor(collectionId);
     final visibleContributions = repo
         .contributionsFor(collectionId)
@@ -50,8 +56,9 @@ class CollectionDetailScreen extends ConsumerWidget {
       title: 'Collect',
       subtitle: profile?.publicId,
       showHeader: false,
+      compact: true,
       topChrome: CollectScreenTopChrome(
-        avatarLabel: profile?.publicId ?? collection.title,
+        avatarIcon: CollectIcons.back,
         avatarTooltip: 'Back',
         searchLabel: collection.title,
         onAvatarTap: () => goBackOrHome(context),

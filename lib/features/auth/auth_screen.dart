@@ -329,17 +329,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         flagSize: 24,
         textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
           color: foreground,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 0,
+          fontWeight: CollectTypography.weightBold,
+          letterSpacing: CollectTypography.trackingDefault,
         ),
         searchTextStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
           color: foreground,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 0,
+          fontWeight: CollectTypography.weightBold,
+          letterSpacing: CollectTypography.trackingDefault,
         ),
         inputDecoration: InputDecoration(
           hintText: 'Search country',
-          hintStyle: TextStyle(color: foreground.withValues(alpha: 0.48)),
+          hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: foreground.withValues(alpha: 0.48),
+          ),
           prefixIcon: Icon(
             CollectIcons.search,
             color: foreground.withValues(alpha: 0.72),

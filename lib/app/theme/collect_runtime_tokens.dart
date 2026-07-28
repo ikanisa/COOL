@@ -30,7 +30,7 @@ class CollectRuntimeTokens {
   static Color chromeForeground(CollectColors colors) => colors.onImagePrimary;
 
   static Color chromeMutedForeground(CollectColors colors) {
-    return colors.onImagePrimary.withValues(alpha: 0.76);
+    return colors.onImagePrimary.withValues(alpha: 0.97);
   }
 
   static Color chromeControl(CollectColors colors) {
@@ -66,7 +66,9 @@ class CollectRuntimeTokens {
 
   static Color inputFill(CollectColors colors) => colors.glassControl;
 
-  static Color inputBorder(CollectColors colors) => colors.glassBorder;
+  static Color controlBorder(CollectColors colors) => colors.controlBorder;
+
+  static Color inputBorder(CollectColors colors) => controlBorder(colors);
 
   static Color inputShadow(CollectColors colors) {
     return colors.periwinklePaint.withValues(alpha: 0.18);

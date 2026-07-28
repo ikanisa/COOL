@@ -96,8 +96,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                               'Collect admin login',
                               style: textTheme.headlineSmall?.copyWith(
                                 color: colors.textPrimary,
-                                fontWeight: FontWeight.w800,
-                                height: 1.05,
+                                fontWeight: CollectTypography.weightBold,
+                                height: CollectTypography.leadingDisplayRelaxed,
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -107,7 +107,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                               overflow: TextOverflow.ellipsis,
                               style: textTheme.bodyLarge?.copyWith(
                                 color: colors.textSecondary,
-                                height: 1.45,
+                                height: CollectTypography.leadingBody,
                               ),
                             ),
                             const SizedBox(height: 28),
@@ -115,7 +115,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                               'WhatsApp phone',
                               style: textTheme.labelLarge?.copyWith(
                                 color: colors.textPrimary,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: CollectTypography.weightBold,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -126,7 +126,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 'OTP code',
                                 style: textTheme.labelLarge?.copyWith(
                                   color: colors.textPrimary,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: CollectTypography.weightBold,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -161,7 +161,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                     ),
                                   ),
                                   textStyle: textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: CollectTypography.weightBold,
                                   ),
                                 ),
                                 icon: _isBusy
@@ -280,7 +280,7 @@ class _AdminPhoneInput extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.surfaceMuted,
           borderRadius: BorderRadius.circular(CollectRadius.md),
-          border: Border.all(color: colors.borderSoft),
+          border: Border.all(color: colors.controlBorder),
         ),
         child: Row(
           children: [
@@ -288,17 +288,17 @@ class _AdminPhoneInput extends StatelessWidget {
               height: 58,
               padding: const EdgeInsets.symmetric(horizontal: 14),
               decoration: BoxDecoration(
-                border: Border(right: BorderSide(color: colors.borderSoft)),
+                border: Border(right: BorderSide(color: colors.controlBorder)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'RW',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       color: colors.textPrimary,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0,
+                      fontWeight: CollectTypography.weightBold,
+                      letterSpacing: CollectTypography.trackingDefault,
                     ),
                   ),
                   const SizedBox(width: 6),
@@ -317,7 +317,7 @@ class _AdminPhoneInput extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: colors.textPrimary,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: CollectTypography.weightBold,
                 ),
                 decoration: const InputDecoration(
                   hintText: '+250 7XX XXX XXX',
@@ -343,6 +343,7 @@ class _AdminOtpInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final tokens = context.collectUniversalTokens;
     return Semantics(
       textField: true,
       label: 'OTP code',
@@ -353,7 +354,7 @@ class _AdminOtpInput extends StatelessWidget {
         textInputAction: TextInputAction.done,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
           color: colors.textPrimary,
-          fontWeight: FontWeight.w700,
+          fontWeight: CollectTypography.weightBold,
         ),
         decoration: InputDecoration(
           hintText: '6-digit code',
@@ -365,17 +366,17 @@ class _AdminOtpInput extends StatelessWidget {
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(CollectRadius.md),
-            borderSide: BorderSide(color: colors.borderSoft),
+            borderSide: BorderSide(color: colors.controlBorder),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(CollectRadius.md),
-            borderSide: BorderSide(color: colors.borderSoft),
+            borderSide: BorderSide(color: colors.controlBorder),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(CollectRadius.md),
-            borderSide: const BorderSide(
-              color: CollectColors.inkPrimary,
-              width: 2,
+            borderSide: BorderSide(
+              color: tokens.focusRing,
+              width: tokens.focusRingWidth,
             ),
           ),
         ),
@@ -411,7 +412,7 @@ class _AdminLoginStatusChip extends StatelessWidget {
                 'Secure',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: colors.success,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
             ],
@@ -428,9 +429,10 @@ class _AdminLoginAssuranceRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final style = Theme.of(
-      context,
-    ).textTheme.bodySmall?.copyWith(color: colors.textMuted, height: 1.35);
+    final style = Theme.of(context).textTheme.bodySmall?.copyWith(
+      color: colors.textMuted,
+      height: CollectTypography.leadingSupporting,
+    );
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -477,7 +479,7 @@ class _AdminLoginError extends StatelessWidget {
                   message,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: colors.danger,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ),

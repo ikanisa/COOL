@@ -179,7 +179,7 @@ class _CreateGroupPhotoRow extends StatelessWidget {
                   displayTitle,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

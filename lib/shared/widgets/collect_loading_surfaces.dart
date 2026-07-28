@@ -623,9 +623,12 @@ class CollectBottomSheet extends StatelessWidget {
             ),
             boxShadow: CollectShadows.card(),
           ),
-          child: Padding(
-            padding: CollectSpacing.cardPaddingComfortable,
-            child: child,
+          child: Material(
+            type: MaterialType.transparency,
+            child: Padding(
+              padding: CollectSpacing.cardPaddingComfortable,
+              child: child,
+            ),
           ),
         ),
       ),

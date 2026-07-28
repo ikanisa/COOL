@@ -6,10 +6,10 @@ class CollectRadius {
   static const double sm = 4;
   static const double md = 8;
   static const double control = 999;
-  static const double panel = 28;
-  static const double card = 32;
-  static const double cardLarge = 36;
-  static const double bottomSheet = 36;
+  static const double panel = 20;
+  static const double card = 16;
+  static const double cardLarge = 20;
+  static const double bottomSheet = 24;
   static const double pill = 999;
 
   static BorderRadius get smBorder => BorderRadius.circular(sm);

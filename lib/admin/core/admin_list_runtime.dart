@@ -213,7 +213,7 @@ class _AdminQueueExportBar extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: colors.textSecondary,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
             ),
@@ -285,7 +285,7 @@ class _AdminPaginationBar extends StatelessWidget {
                 'Showing $start-$end of $total',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: colors.textSecondary,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
             ),
@@ -364,7 +364,7 @@ class _AdminOverviewSignalCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: colors.textPrimary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 8),

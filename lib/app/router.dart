@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/widgets/collect_shell.dart';
+import '../features/activity/activity_screen.dart';
 import '../features/auth/auth_screen.dart';
 import '../features/collections/collection_create_screen.dart';
 import '../features/collections/collection_detail_screen.dart';
@@ -17,8 +18,10 @@ import '../features/home/home_screen.dart';
 import '../features/launch/launch_splash_screen.dart';
 import '../features/ledger/ledger_screen.dart';
 import '../features/payments/contribution_flow_screen.dart';
+import '../features/payments/contribute_entry_screen.dart';
 import '../features/profile/profile_edit_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/settings/settings_subscreens.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/widgets/collect_components.dart';
 
@@ -41,6 +44,8 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/share',
   '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
+  '/contribute',
+  '/activity',
   '/c/:slug',
   '/share/invalid',
   '/share/expired',
@@ -49,6 +54,9 @@ const collectRoutePaths = <String>[
   '/invite/:publicId',
   '/settings',
   '/settings/profile',
+  '/settings/notifications',
+  '/settings/appearance',
+  '/settings/security',
   '/settings/account',
   '/settings/account/delete',
   '/settings/privacy',
@@ -64,6 +72,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
       GoRoute(
         path: '/',
         pageBuilder: (context, state) => _collectPage(
+          context,
           state,
           const LaunchSplashScreen(),
           transition: _CollectRouteTransition.fade,
@@ -72,6 +81,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
       GoRoute(
         path: '/auth',
         pageBuilder: (context, state) => _collectPage(
+          context,
           state,
           const AuthScreen(),
           transition: _CollectRouteTransition.forward,
@@ -87,6 +97,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               GoRoute(
                 path: '/home',
                 pageBuilder: (context, state) => _collectPage(
+                  context,
                   state,
                   const HomeScreen(),
                   transition: _CollectRouteTransition.primary,
@@ -95,6 +106,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               GoRoute(
                 path: '/offline',
                 pageBuilder: (context, state) => _collectPage(
+                  context,
                   state,
                   const OfflineRecoveryScreen(),
                   transition: _CollectRouteTransition.utility,
@@ -103,6 +115,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               GoRoute(
                 path: '/sync',
                 pageBuilder: (context, state) => _collectPage(
+                  context,
                   state,
                   const SyncRecoveryScreen(),
                   transition: _CollectRouteTransition.utility,
@@ -116,6 +129,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               GoRoute(
                 path: '/groups',
                 pageBuilder: (context, state) => _collectPage(
+                  context,
                   state,
                   const CollectionsScreen(),
                   transition: _CollectRouteTransition.primary,
@@ -128,6 +142,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   GoRoute(
                     path: 'scan',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const GroupQrScannerScreen(),
                       transition: _CollectRouteTransition.modal,
@@ -138,6 +153,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                     redirect: (context, state) =>
                         canCreateGroupsOnThisPlatform() ? null : '/groups',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const CollectionCreateScreen(),
                       transition: _CollectRouteTransition.modal,
@@ -146,6 +162,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   GoRoute(
                     path: ':collectionId',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       CollectionDetailScreen(
                         collectionId: state.pathParameters['collectionId']!,
@@ -156,6 +173,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       GoRoute(
                         path: 'members',
                         pageBuilder: (context, state) => _collectPage(
+                          context,
                           state,
                           GroupMembersScreen(
                             collectionId: state.pathParameters['collectionId']!,
@@ -166,6 +184,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       GoRoute(
                         path: 'manage',
                         pageBuilder: (context, state) => _collectPage(
+                          context,
                           state,
                           CollectionManageScreen(
                             collectionId: state.pathParameters['collectionId']!,
@@ -176,6 +195,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       GoRoute(
                         path: 'profile',
                         pageBuilder: (context, state) => _collectPage(
+                          context,
                           state,
                           GroupProfileScreen(
                             collectionId: state.pathParameters['collectionId']!,
@@ -186,6 +206,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       GoRoute(
                         path: 'contribute',
                         pageBuilder: (context, state) => _collectPage(
+                          context,
                           state,
                           ContributionFlowScreen(
                             collectionId: state.pathParameters['collectionId']!,
@@ -196,6 +217,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       GoRoute(
                         path: 'share',
                         pageBuilder: (context, state) => _collectPage(
+                          context,
                           state,
                           ShareScreen(
                             collectionId: state.pathParameters['collectionId']!,
@@ -211,6 +233,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       GoRoute(
                         path: 'ledger',
                         pageBuilder: (context, state) => _collectPage(
+                          context,
                           state,
                           LedgerScreen(
                             collectionId: state.pathParameters['collectionId']!,
@@ -225,11 +248,40 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
             ],
           ),
           StatefulShellBranch(
+            initialLocation: '/contribute',
+            routes: [
+              GoRoute(
+                path: '/contribute',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const ContributeEntryScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/activity',
+            routes: [
+              GoRoute(
+                path: '/activity',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const ActivityScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
             initialLocation: '/settings',
             routes: [
               GoRoute(
                 path: '/settings',
                 pageBuilder: (context, state) => _collectPage(
+                  context,
                   state,
                   const SettingsScreen(),
                   transition: _CollectRouteTransition.primary,
@@ -238,6 +290,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   GoRoute(
                     path: 'profile',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const ProfileEditScreen(),
                       transition: _CollectRouteTransition.detail,
@@ -246,14 +299,43 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   GoRoute(
                     path: 'account',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const AccountSessionScreen(),
                       transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
+                    path: 'notifications',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const NotificationSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'appearance',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const AppearanceSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'security',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const SecuritySettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
                     path: 'account/delete',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const DeleteAccountRequestScreen(),
                       transition: _CollectRouteTransition.modal,
@@ -265,11 +347,17 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   ),
                   GoRoute(
                     path: 'help',
-                    redirect: (context, state) => '/settings',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const HelpSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
                   ),
                   GoRoute(
                     path: 'legal/terms',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const LegalScreen(kind: 'terms'),
                       transition: _CollectRouteTransition.detail,
@@ -278,6 +366,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   GoRoute(
                     path: 'legal/privacy',
                     pageBuilder: (context, state) => _collectPage(
+                      context,
                       state,
                       const LegalScreen(kind: 'privacy'),
                       transition: _CollectRouteTransition.detail,
@@ -300,6 +389,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
       GoRoute(
         path: '/c/:slug',
         pageBuilder: (context, state) => _collectPage(
+          context,
           state,
           GroupLinkScreen(slug: state.pathParameters['slug']!),
           transition: _CollectRouteTransition.detail,
@@ -321,15 +411,16 @@ enum _CollectRouteTransition {
 }
 
 Page<void> _collectPage(
+  BuildContext context,
   GoRouterState state,
   Widget child, {
   _CollectRouteTransition transition = _CollectRouteTransition.detail,
 }) {
-  final duration = switch (transition) {
+  final duration = CollectMotion.duration(context, switch (transition) {
     _CollectRouteTransition.utility => CollectMotion.fast,
     _CollectRouteTransition.confirmation => CollectMotion.slow,
     _ => CollectMotion.medium,
-  };
+  });
   return CustomTransitionPage<void>(
     key: state.pageKey,
     name: state.name,

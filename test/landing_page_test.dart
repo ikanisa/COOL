@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget publicHarness(Widget child, {Key? key}) {
+Widget publicHarness(Widget child, {Key? key, double textScale = 1}) {
   return ProviderScope(
-    child: MaterialApp(key: key, home: child),
+    child: MaterialApp(
+      key: key,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(
+          context,
+        ).copyWith(textScaler: TextScaler.linear(textScale)),
+        child: child!,
+      ),
+      home: child,
+    ),
   );
 }
 
@@ -426,5 +435,55 @@ void main() {
         ),
       );
     }
+  });
+
+  testWidgets('public landing remains usable at 320 px and 200% text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      publicHarness(const CollectLandingPage(), textScale: 2),
+    );
+    await tester.pump();
+
+    expect(find.text('Collect'), findsOneWidget);
+    expect(find.text('Get the App'), findsWidgets);
+    expect(find.text('Create Group'), findsWidgets);
+    expect(tester.takeException(), isNull);
+
+    final verticalScrollable = find.byWidgetPredicate(
+      (widget) =>
+          widget is Scrollable && widget.axisDirection == AxisDirection.down,
+    );
+    await tester.scrollUntilVisible(
+      find.text('Built for the missing middle of financial inclusion'),
+      500,
+      scrollable: verticalScrollable,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('public policy page remains usable at 320 px and 200% text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      publicHarness(
+        CollectPublicPage(data: publicPageForPath('/privacy')),
+        textScale: 2,
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Privacy Policy and Data Deletion'), findsWidgets);
+    expect(tester.takeException(), isNull);
   });
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../app/env/app_env.dart';
 import '../app/theme/collect_colors.dart';
+import '../app/theme/collect_typography.dart';
 import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
 import 'shared/components/admin_loading_state.dart';
@@ -256,7 +257,7 @@ class _AdminSidebar extends StatelessWidget {
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
                                     color: colors.onImagePrimary,
-                                    fontWeight: FontWeight.w900,
+                                    fontWeight: CollectTypography.weightBold,
                                   ),
                             ),
                             Text(
@@ -268,7 +269,7 @@ class _AdminSidebar extends StatelessWidget {
                                     color: colors.onImagePrimary.withValues(
                                       alpha: 0.62,
                                     ),
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: CollectTypography.weightBold,
                                   ),
                             ),
                           ],
@@ -297,6 +298,8 @@ class _AdminMobileNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final textScale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
+    final navHeight = 64 + ((textScale - 1) * 20);
     return Semantics(
       container: true,
       label: 'Collect admin mobile navigation',
@@ -305,10 +308,10 @@ class _AdminMobileNav extends StatelessWidget {
         child: SafeArea(
           bottom: false,
           child: SizedBox(
-            height: 64,
+            height: navHeight,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               itemCount: destinations.length,
               separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
@@ -330,7 +333,6 @@ class _AdminMobileNav extends StatelessWidget {
                       side: BorderSide(
                         color: colors.onImagePrimary.withValues(alpha: 0.16),
                       ),
-                      visualDensity: VisualDensity.compact,
                     ),
                     onPressed: () => context.go(destination.path),
                     icon: Icon(destination.icon, size: 18),
@@ -377,7 +379,12 @@ class _NavItem extends StatelessWidget {
             destination.label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontWeight: selected ? FontWeight.w900 : null),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: foreground,
+              fontWeight: selected
+                  ? CollectTypography.weightBold
+                  : CollectTypography.weightMedium,
+            ),
           ),
           dense: true,
           shape: RoundedRectangleBorder(
@@ -408,6 +415,8 @@ class _AdminTopbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final textScale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
+    final topbarHeight = 68 + ((textScale - 1) * 20);
     return Semantics(
       container: true,
       label:
@@ -417,8 +426,8 @@ class _AdminTopbar extends StatelessWidget {
         child: SafeArea(
           bottom: false,
           child: Container(
-            height: 68,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: topbarHeight,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
@@ -455,7 +464,7 @@ class _AdminTopbar extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.onImagePrimary,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ),
@@ -480,7 +489,7 @@ class _AdminTopbar extends StatelessWidget {
                       textAlign: TextAlign.end,
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: colors.onImagePrimary,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: CollectTypography.weightBold,
                       ),
                     ),
                   ),
@@ -506,7 +515,9 @@ class AdminPageError extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Text(
           message,
-          style: TextStyle(color: Theme.of(context).colorScheme.error),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.error,
+          ),
         ),
       ),
     );

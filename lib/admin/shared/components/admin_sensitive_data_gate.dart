@@ -82,7 +82,9 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
                 const SizedBox(height: 12),
                 Text(
                   _error!,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
               ],
               if (_revealed != null) ...[

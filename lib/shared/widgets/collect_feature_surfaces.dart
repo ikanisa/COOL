@@ -128,8 +128,8 @@ class CollectVisualFeatureCard extends StatelessWidget {
                         title,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: foreground,
-                          fontWeight: FontWeight.w900,
-                          height: 1.08,
+                          fontWeight: CollectTypography.weightBold,
+                          height: CollectTypography.leadingTitle,
                         ),
                         maxLines: 2,
                         softWrap: true,
@@ -140,7 +140,7 @@ class CollectVisualFeatureCard extends StatelessWidget {
                         message,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: foreground.withValues(alpha: 0.76),
-                          height: 1.25,
+                          height: CollectTypography.leadingLabel,
                         ),
                         maxLines: 2,
                         softWrap: true,
@@ -180,46 +180,54 @@ class CollectListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final visibleSubtitle = _visibleSubtitle(subtitle);
-    return InkWell(
-      borderRadius: CollectRadius.mdBorder,
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
-        child: Row(
-          children: [
-            if (leading != null) ...[
-              CollectToneIcon(icon: leading!, tone: CollectStatusTone.info),
-              CollectSpacing.gapW12,
-            ],
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (visibleSubtitle != null) ...[
-                    CollectSpacing.gap4,
-                    Text(
-                      visibleSubtitle,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.textSecondary,
-                      ),
-                      maxLines: subtitleMaxLines,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+    return Semantics(
+      container: true,
+      button: onTap != null,
+      enabled: onTap != null,
+      label: visibleSubtitle == null ? title : '$title, $visibleSubtitle',
+      child: ExcludeSemantics(
+        child: InkWell(
+          borderRadius: CollectRadius.mdBorder,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
+            child: Row(
+              children: [
+                if (leading != null) ...[
+                  CollectToneIcon(icon: leading!, tone: CollectStatusTone.info),
+                  CollectSpacing.gapW12,
                 ],
-              ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleSmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (visibleSubtitle != null) ...[
+                        CollectSpacing.gap4,
+                        Text(
+                          visibleSubtitle,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: colors.textSecondary),
+                          maxLines: subtitleMaxLines,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                if (trailing != null || onTap != null) ...[
+                  CollectSpacing.gapW12,
+                  trailing ??
+                      Icon(CollectIcons.chevron, color: colors.textMuted),
+                ],
+              ],
             ),
-            if (trailing != null || onTap != null) ...[
-              CollectSpacing.gapW12,
-              trailing ?? Icon(CollectIcons.chevron, color: colors.textMuted),
-            ],
-          ],
+          ),
         ),
       ),
     );

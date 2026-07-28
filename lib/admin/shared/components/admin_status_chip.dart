@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_typography.dart';
 
 class AdminStatusChip extends StatelessWidget {
   const AdminStatusChip({required this.label, super.key});
@@ -11,28 +12,29 @@ class AdminStatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final normalized = label.toLowerCase();
-    final accent =
+    final tone =
         normalized.contains('review') ||
             normalized.contains('pending') ||
             normalized.contains('open')
-        ? colors.warningForeground
+        ? CollectStatusTone.warning
         : normalized.contains('failed') ||
               normalized.contains('blocked') ||
               normalized.contains('expired')
-        ? colors.dangerForeground
+        ? CollectStatusTone.danger
         : normalized.contains('active') ||
               normalized.contains('allocated') ||
               normalized.contains('confirmed')
-        ? colors.successForeground
-        : colors.infoForeground;
+        ? CollectStatusTone.success
+        : CollectStatusTone.info;
+    final foreground = colors.statusForeground(tone);
     return Semantics(
       label: 'Status $label',
       child: ExcludeSemantics(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: accent.withValues(alpha: 0.12),
+            color: colors.statusBackground(tone),
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: accent.withValues(alpha: 0.26)),
+            border: Border.all(color: foreground.withValues(alpha: 0.26)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -41,8 +43,8 @@ class AdminStatusChip extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: accent,
-                fontWeight: FontWeight.w900,
+                color: foreground,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
           ),

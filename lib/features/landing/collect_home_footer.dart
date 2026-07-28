@@ -25,7 +25,7 @@ class _LandingFooter extends ConsumerWidget {
                     'Collect by IKANISA',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: CollectColors.brandPaper,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ),
@@ -80,7 +80,7 @@ class _LandingFooter extends ConsumerWidget {
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: CollectColors.brandPaper.withValues(alpha: 0.66),
-                      fontWeight: FontWeight.w700,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ),
@@ -105,9 +105,9 @@ class _FooterLink extends StatelessWidget {
       onPressed: onPressed ?? () => _scrollToCustomerAction(context),
       style: TextButton.styleFrom(
         foregroundColor: CollectColors.brandPaper.withValues(alpha: 0.78),
-        textStyle: Theme.of(
-          context,
-        ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w800),
+        textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+          fontWeight: CollectTypography.weightBold,
+        ),
       ),
       child: Text(label),
     );

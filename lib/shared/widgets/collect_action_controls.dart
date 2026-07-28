@@ -6,6 +6,7 @@ import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_shadows.dart';
 import '../../app/theme/collect_spacing.dart';
+import '../../app/theme/collect_typography.dart';
 
 class BottomActionSurface extends StatelessWidget {
   const BottomActionSurface({required this.children, super.key});
@@ -209,9 +210,9 @@ class CollectMomoReceiverCard extends StatelessWidget {
                   ],
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: colors.textPrimary,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0,
+                    fontSize: CollectTypography.sizeAction,
+                    fontWeight: CollectTypography.weightBold,
+                    letterSpacing: CollectTypography.trackingDefault,
                   ),
                   decoration: InputDecoration(
                     hintText: activeHint,
@@ -279,8 +280,10 @@ class _MomoModeTab extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: foreground,
-                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                  letterSpacing: 0,
+                  fontWeight: selected
+                      ? CollectTypography.weightBold
+                      : CollectTypography.weightMedium,
+                  letterSpacing: CollectTypography.trackingDefault,
                 ),
               ),
             ),

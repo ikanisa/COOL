@@ -116,7 +116,7 @@ class _EvidenceStack extends StatelessWidget {
           'An application-ready evidence pack',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: CollectColors.referenceChromeBlack,
-            fontWeight: FontWeight.w900,
+            fontWeight: CollectTypography.weightBold,
           ),
         ),
         const SizedBox(height: 18),
@@ -161,7 +161,7 @@ class _EvidenceRow extends StatelessWidget {
                   item.title,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     color: CollectColors.referenceChromeBlack,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -169,7 +169,7 @@ class _EvidenceRow extends StatelessWidget {
                   item.body,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: CollectColors.inkSecondary,
-                    height: 1.35,
+                    height: CollectTypography.leadingSupporting,
                   ),
                 ),
               ],

@@ -105,7 +105,7 @@ class _PipelineStage extends StatelessWidget {
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
               color: foreground,
-              fontWeight: FontWeight.w800,
+              fontWeight: CollectTypography.weightBold,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

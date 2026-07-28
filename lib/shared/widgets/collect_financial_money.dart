@@ -132,6 +132,18 @@ class FinancialListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final stackAmount =
+        amountRwf != null &&
+        (MediaQuery.sizeOf(context).width < 340 ||
+            MediaQuery.textScalerOf(context).scale(1) > 1.3);
+    final amount = amountRwf == null
+        ? null
+        : Text(
+            formatRwf(amountRwf!),
+            style: CollectTypography.amountCompact(colors.textPrimary),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          );
     return Material(
       color: colors.transparent,
       child: InkWell(
@@ -175,17 +187,14 @@ class FinancialListRow extends StatelessWidget {
                         ),
                       ),
                     ],
+                    if (stackAmount) ...[CollectSpacing.gap8, amount!],
                   ],
                 ),
               ),
-              if (amountRwf != null) ...[
+              if (amount != null && !stackAmount) ...[
                 CollectSpacing.gapW12,
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    formatRwf(amountRwf!),
-                    style: CollectTypography.amountCompact(colors.textPrimary),
-                  ),
+                Flexible(
+                  child: FittedBox(fit: BoxFit.scaleDown, child: amount),
                 ),
               ],
             ],

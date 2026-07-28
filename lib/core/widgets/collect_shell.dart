@@ -53,11 +53,11 @@ class CollectShell extends StatelessWidget {
               ? SafeArea(
                   top: false,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(40),
+                      borderRadius: BorderRadius.circular(32),
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             color: CollectColors.referenceChromeBlack
@@ -77,17 +77,17 @@ class CollectShell extends StatelessWidget {
                             ),
                             border: Border.all(
                               color: colors.onImagePrimary.withValues(
-                                alpha: 0.44,
+                                alpha: 0.28,
                               ),
-                              width: 1.15,
+                              width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
                                 color: CollectColors.inkPrimary.withValues(
-                                  alpha: 0.32,
+                                  alpha: 0.26,
                                 ),
-                                blurRadius: 34,
-                                offset: const Offset(0, 18),
+                                blurRadius: 24,
+                                offset: const Offset(0, 12),
                               ),
                             ],
                           ),
@@ -106,7 +106,13 @@ class CollectShell extends StatelessWidget {
     );
   }
 
-  static const _paths = <String>['/home', '/groups', '/settings'];
+  static const _paths = <String>[
+    '/home',
+    '/groups',
+    '/contribute',
+    '/activity',
+    '/settings',
+  ];
 
   void _navigateToIndex(BuildContext context, int index) {
     final destination = _paths[index];
@@ -133,8 +139,12 @@ class CollectShell extends StatelessWidget {
         path.startsWith('/auth/') ||
         path == '/groups/create' ||
         path == '/groups/scan' ||
-        path.contains('/contribute') ||
+        (path.startsWith('/groups/') && path.endsWith('/contribute')) ||
         path.contains('/share') ||
+        path == '/settings/notifications' ||
+        path == '/settings/appearance' ||
+        path == '/settings/security' ||
+        path == '/settings/help' ||
         path == '/settings/account/delete' ||
         path.startsWith('/settings/legal/');
   }
@@ -144,7 +154,13 @@ class CollectShell extends StatelessWidget {
       return 1;
     }
     if (path.startsWith('/settings')) {
+      return 4;
+    }
+    if (path.startsWith('/contribute')) {
       return 2;
+    }
+    if (path.startsWith('/activity')) {
+      return 3;
     }
     return 0;
   }
@@ -163,7 +179,7 @@ class _CollectBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final showLabels = textScale <= 1.45;
-    final height = showLabels ? 78.0 : 66.0;
+    final height = showLabels ? 60.0 : 52.0;
     return Semantics(
       container: true,
       label: 'Primary navigation',
@@ -254,16 +270,16 @@ class _CollectNavigationRail extends StatelessWidget {
                       .labelMedium
                       ?.copyWith(
                         color: colors.onImagePrimary,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0,
+                        fontWeight: CollectTypography.weightBold,
+                        letterSpacing: CollectTypography.trackingDefault,
                       ),
                   unselectedLabelTextStyle: Theme.of(context)
                       .textTheme
                       .labelMedium
                       ?.copyWith(
                         color: colors.onImagePrimary.withValues(alpha: 0.68),
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0,
+                        fontWeight: CollectTypography.weightBold,
+                        letterSpacing: CollectTypography.trackingDefault,
                       ),
                   onDestinationSelected: (index) =>
                       onDestinationSelected(context, index),
@@ -323,60 +339,70 @@ class _CollectBottomNavItem extends StatelessWidget {
       button: true,
       selected: selected,
       label: destination.label,
-      child: InkResponse(
-        onTap: onTap,
-        containedInkWell: true,
-        highlightShape: BoxShape.rectangle,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedContainer(
-                duration: CollectMotion.duration(context, CollectMotion.medium),
-                curve: CollectMotion.standard,
-                width: selected ? 74 : 46,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: selected
-                      ? null
-                      : colors.onImagePrimary.withValues(alpha: 0.025),
-                  gradient: selected ? indicator : null,
-                  borderRadius: CollectRadius.pillBorder,
-                  border: Border.all(
-                    color: colors.onImagePrimary.withValues(
-                      alpha: selected ? 0.28 : 0.05,
+      onTap: onTap,
+      child: ExcludeSemantics(
+        child: InkResponse(
+          onTap: onTap,
+          containedInkWell: true,
+          highlightShape: BoxShape.rectangle,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedContainer(
+                  duration: CollectMotion.duration(
+                    context,
+                    CollectMotion.medium,
+                  ),
+                  curve: CollectMotion.standard,
+                  width: selected ? 44 : 38,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? null
+                        : colors.onImagePrimary.withValues(alpha: 0.025),
+                    gradient: selected ? indicator : null,
+                    borderRadius: CollectRadius.pillBorder,
+                    border: Border.all(
+                      color: colors.onImagePrimary.withValues(
+                        alpha: selected ? 0.28 : 0.05,
+                      ),
                     ),
                   ),
-                ),
-                child: Icon(
-                  selected ? destination.selectedIcon : destination.icon,
-                  size: selected ? 23 : 21,
-                  color: foreground,
-                ),
-              ),
-              if (showLabel) ...[
-                const SizedBox(height: 5),
-                SizedBox(
-                  height: 18,
-                  width: double.infinity,
-                  child: Text(
-                    destination.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.clip,
-                    style: textTheme.labelSmall?.copyWith(
-                      color: foreground,
-                      fontSize: selected ? 12.5 : 12,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                      letterSpacing: 0,
-                      height: 1.0,
-                    ),
-                    textAlign: TextAlign.center,
+                  child: Icon(
+                    selected ? destination.selectedIcon : destination.icon,
+                    size: selected ? 21 : 20,
+                    color: foreground,
                   ),
                 ),
+                if (showLabel) ...[
+                  const SizedBox(height: 3),
+                  SizedBox(
+                    height: 14,
+                    width: double.infinity,
+                    child: Text(
+                      destination.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      style: textTheme.labelSmall?.copyWith(
+                        color: foreground,
+                        fontSize: selected
+                            ? CollectTypography.sizeNavigationSelected
+                            : CollectTypography.sizeNavigation,
+                        fontWeight: selected
+                            ? CollectTypography.weightBold
+                            : CollectTypography.weightMedium,
+                        letterSpacing: CollectTypography.trackingDefault,
+                        height: CollectTypography.leadingSolid,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
@@ -396,9 +422,19 @@ const _collectNavDestinations = <_CollectNavDestination>[
     selectedIcon: CollectIcons.people,
   ),
   _CollectNavDestination(
-    label: 'Settings',
+    label: 'Contribute',
+    icon: CollectIcons.donate,
+    selectedIcon: CollectIcons.money,
+  ),
+  _CollectNavDestination(
+    label: 'Activity',
+    icon: CollectIcons.activity,
+    selectedIcon: CollectIcons.ledger,
+  ),
+  _CollectNavDestination(
+    label: 'Profile',
     icon: CollectIcons.settingsOutline,
-    selectedIcon: CollectIcons.settings,
+    selectedIcon: CollectIcons.profile,
   ),
 ];
 

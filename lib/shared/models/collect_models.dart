@@ -625,6 +625,8 @@ class CollectCollection {
   final String moderationStatus;
   final DateTime createdAt;
 
+  bool get isArchived => moderationStatus.trim().toLowerCase() == 'archived';
+
   factory CollectCollection.fromJson(Map<String, dynamic> json) {
     final receivers = json['collection_receivers'];
     Map<String, dynamic>? receiver;

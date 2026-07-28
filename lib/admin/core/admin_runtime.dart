@@ -9,6 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_radius.dart';
+import '../../app/theme/collect_typography.dart';
+import '../../app/theme/collect_universal_tokens.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';

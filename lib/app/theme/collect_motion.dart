@@ -10,9 +10,15 @@ class CollectMotion {
   static const Curve standard = Curves.easeOutCubic;
   static const Curve emphasized = Curves.easeInOutCubic;
 
+  static bool isReduced(BuildContext context) {
+    return MediaQuery.maybeOf(context)?.disableAnimations == true;
+  }
+
   static Duration duration(BuildContext context, Duration value) {
-    return MediaQuery.maybeOf(context)?.disableAnimations == true
-        ? Duration.zero
-        : value;
+    return isReduced(context) ? Duration.zero : value;
+  }
+
+  static AnimationStyle? animationStyle(BuildContext context) {
+    return isReduced(context) ? AnimationStyle.noAnimation : null;
   }
 }

@@ -1,6 +1,6 @@
 # Collect Release Status
 
-Status date: 2026-06-27
+Status date: 2026-07-24
 Canonical machine-readable inputs:
 
 - `docs/release/RELEASE_APPROVALS.json`
@@ -16,17 +16,20 @@ This file is the readable current status; machine gates remain authoritative.
 
 Current evidence is mixed:
 
-- Latest `./scripts/release_status.sh --json` result in this cleanup pass:
-  `NO-GO`, `blocked`, blocker key `android_release_artifacts`, because current
-  Android release APK/AAB artifacts are missing or stale.
-- Android Play release approval metadata is recorded in
-  `docs/release/RELEASE_APPROVALS.json`.
+- Latest `./scripts/release_status.sh --json` result:
+  `NO-GO`, `blocked`, blocker keys `android_release_signing_review` and
+  `release_owner_signoff`.
+- The production APK/AAB are current for `1.2.2+10`, but the durable Android
+  signing and release-owner approvals in `docs/release/RELEASE_APPROVALS.json`
+  identify `1.2.2+9`. Shared gates now reject those stale approvals.
 - iOS is marked out of scope for the Android Google Play go-live in
   `docs/release/RELEASE_APPROVALS.json`.
 - `docs/release/UAT_EVIDENCE_MANIFEST.json` still records persona evidence as
   `pending` and the release owner decision as `NO-GO`.
 - Public and Admin Cloudflare deployments are recorded in
   `docs/release/LIVE_DEPLOYMENTS.json` with live gate status `pass`.
+- Local Play implementation/readiness checks pass except for authorized Play
+  Developer Reporting access and live account-controlled Console surfaces.
 
 Treat any older dated NO-GO/GO report as historical unless a current gate
 reproduces it.

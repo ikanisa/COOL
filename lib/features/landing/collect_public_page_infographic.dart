@@ -17,8 +17,8 @@ class _PublicPageInfographic extends StatelessWidget {
             publicInfographicTitle(data.path),
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               color: CollectColors.referenceChromeBlack,
-              fontWeight: FontWeight.w900,
-              height: 1.05,
+              fontWeight: CollectTypography.weightBold,
+              height: CollectTypography.leadingDisplayRelaxed,
             ),
           ),
           const SizedBox(height: 14),
@@ -28,7 +28,7 @@ class _PublicPageInfographic extends StatelessWidget {
               publicInfographicBody(data.path),
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: CollectColors.inkSecondary,
-                height: 1.45,
+                height: CollectTypography.leadingBody,
               ),
             ),
           ),
@@ -122,7 +122,7 @@ class _InfographicStepCard extends StatelessWidget {
                     (index + 1).toString().padLeft(2, '0'),
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       color: CollectColors.inkSecondary,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ],
@@ -132,8 +132,8 @@ class _InfographicStepCard extends StatelessWidget {
                 data.title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: CollectColors.referenceChromeBlack,
-                  fontWeight: FontWeight.w900,
-                  height: 1.15,
+                  fontWeight: CollectTypography.weightBold,
+                  height: CollectTypography.leadingTitleRelaxed,
                 ),
               ),
               const SizedBox(height: 8),
@@ -141,8 +141,8 @@ class _InfographicStepCard extends StatelessWidget {
                 data.body,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: CollectColors.inkSecondary,
-                  height: 1.38,
-                  fontWeight: FontWeight.w600,
+                  height: CollectTypography.leadingSupportingRelaxed,
+                  fontWeight: CollectTypography.weightSemibold,
                 ),
               ),
             ],

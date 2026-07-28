@@ -20,6 +20,7 @@ OUTPUT_FORMAT="$output_format" MANIFEST_PATH="$manifest_path" ROOT_DIR="$ROOT_DI
 format = ENV.fetch("OUTPUT_FORMAT")
 manifest_path = ENV.fetch("MANIFEST_PATH")
 root_dir = ENV.fetch("ROOT_DIR")
+pubspec_path = File.join(root_dir, "pubspec.yaml")
 
 required_keys = %w[
   product_signoff
@@ -150,10 +151,34 @@ def sensitive_metadata_hits(record)
   end.uniq
 end
 
+def approved_artifact_version(record)
+  explicit = record["artifact_version"].to_s.strip
+  return explicit unless explicit == ""
+
+  record["notes"].to_s[/\b[0-9]+\.[0-9]+\.[0-9]+\+[0-9]+\b/]
+end
+
 failure_keys = []
 blocker_keys = []
 checks = {}
 manifest = {}
+pubspec = File.read(pubspec_path) rescue ""
+version_match = pubspec.match(/^version:\s*([0-9]+\.[0-9]+\.[0-9]+\+[0-9]+)\s*$/)
+current_artifact_version = version_match && version_match[1]
+
+if current_artifact_version
+  checks["artifact_version"] = check(
+    "pass",
+    "Current release artifact version was read from pubspec.yaml.",
+    "current_artifact_version" => current_artifact_version
+  )
+else
+  failure_keys << "pubspec_artifact_version"
+  checks["artifact_version"] = check(
+    "fail",
+    "pubspec.yaml must define the current release artifact version as MAJOR.MINOR.PATCH+BUILD."
+  )
+end
 
 begin
   manifest = JSON.parse(File.read(manifest_path))
@@ -230,6 +255,17 @@ required_keys.each do |key|
     evidence_reference_valid?(suggested_evidence_reference, root_dir)
   placeholder_blockers = placeholder_approval_blockers(record)
   sensitive_hits = sensitive_metadata_hits(record)
+  approved_artifact_version = approved_artifact_version(record)
+  version_bound = %w[
+    android_release_signing_review
+    release_owner_signoff
+  ].include?(key)
+  artifact_version_current =
+    !version_bound ||
+    (
+      current_artifact_version &&
+      approved_artifact_version == current_artifact_version
+    )
 
   acceptable_status =
     if key == "ios_release_scope"
@@ -249,6 +285,8 @@ required_keys.each do |key|
   blockers << "sanitized_evidence" unless sanitized
   blockers << "production_customer_data" if contains_production_data
   blockers << "signing_keys_exposed" if key == "android_release_signing_review" && signing_keys_exposed
+  blockers << "artifact_version" if version_bound && approved_artifact_version.to_s.strip == ""
+  blockers << "stale_artifact_version" if version_bound && approved_artifact_version.to_s.strip != "" && !artifact_version_current
   blockers.concat(placeholder_blockers)
   blockers << "sensitive_metadata" unless sensitive_hits.empty?
   failure_keys << "release_approvals_sensitive_metadata" unless sensitive_hits.empty?
@@ -267,6 +305,9 @@ required_keys.each do |key|
     "evidence_reference_in_scope" => evidence_reference.length >= 3 ? evidence_reference_in_scope?(key, evidence_reference) : nil,
     "suggested_evidence_reference" => suggested_evidence_reference == "" ? nil : suggested_evidence_reference,
     "suggested_evidence_reference_valid" => suggested_evidence_reference == "" ? nil : suggested_evidence_reference_valid,
+    "current_artifact_version" => version_bound ? current_artifact_version : nil,
+    "approved_artifact_version" => version_bound ? approved_artifact_version : nil,
+    "artifact_version_current" => version_bound ? artifact_version_current : nil,
     "sensitive_metadata_hits" => sensitive_hits,
     "blockers" => blockers
   }

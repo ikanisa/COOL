@@ -20,12 +20,15 @@ class LedgerScreen extends ConsumerStatefulWidget {
 
 class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   final _search = TextEditingController();
+  final _searchFocus = FocusNode();
   String _query = '';
   _LedgerSort _sort = _LedgerSort.newest;
+  bool _searching = false;
 
   @override
   void dispose() {
     _search.dispose();
+    _searchFocus.dispose();
     super.dispose();
   }
 
@@ -56,9 +59,11 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       showHeader: false,
       compact: true,
       topChrome: CollectScreenTopChrome(
+        avatarIcon: CollectIcons.back,
         avatarTooltip: 'Back',
-        searchLabel: 'Search ledger',
+        searchLabel: 'Search',
         onAvatarTap: () => goBackOrHome(context),
+        onSearchTap: _beginSearch,
         actions: [
           CollectChromeAction(
             icon: CollectIcons.collections,
@@ -72,39 +77,6 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           ),
         ],
       ),
-      hero: isInitialLoading
-          ? null
-          : CollectScreenHero(
-              eyebrow: collection?.title.toUpperCase() ?? 'LEDGER',
-              title: 'Ledger',
-              metric: formatRwf(total),
-              subtitle: '${contributions.length} confirmed entries',
-              icon: CollectIcons.ledger,
-              quickActions: [
-                CollectHeroQuickAction(
-                  icon: CollectIcons.collections,
-                  label: 'Group',
-                  onTap: () => _showGroupSheet(state.collections),
-                ),
-                CollectHeroQuickAction(
-                  icon: CollectIcons.filter,
-                  label: 'Sort',
-                  onTap: _showSortSheet,
-                ),
-                CollectHeroQuickAction(
-                  icon: CollectIcons.donate,
-                  label: 'Pay',
-                  onTap: () =>
-                      context.go('/groups/${widget.collectionId}/contribute'),
-                ),
-                CollectHeroQuickAction(
-                  icon: CollectIcons.share,
-                  label: 'Share',
-                  onTap: () =>
-                      context.go('/groups/${widget.collectionId}/share'),
-                ),
-              ],
-            ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: isInitialLoading
@@ -117,18 +89,18 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
               ),
             ]
           : [
-              SearchWithClearField(
-                controller: _search,
-                label: 'Search Collect ID or transaction',
-                onChanged: (value) => setState(() => _query = value),
-              ),
-              _LedgerControlDock(
+              _LedgerTitleRow(
                 groupLabel: collection?.title ?? 'Group',
-                sortLabel: _ledgerSortLabel(_sort),
-                onGroupTap: () => _showGroupSheet(state.collections),
-                onSortTap: _showSortSheet,
+                total: total,
+                count: contributions.length,
               ),
-              const SectionHeader(title: 'Activity'),
+              if (_searching)
+                SearchWithClearField(
+                  controller: _search,
+                  focusNode: _searchFocus,
+                  label: 'Search Collect ID or transaction',
+                  onChanged: (value) => setState(() => _query = value),
+                ),
               if (!hasAnyLedgerActivity)
                 EmptyIllustrationState(
                   icon: CollectIcons.ledger,
@@ -179,6 +151,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       useRootNavigator: true,
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (context) {
         return CollectBottomSheet(
           child: _LedgerOptionSheet<CollectCollection>(
@@ -201,12 +174,22 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     );
   }
 
+  void _beginSearch() {
+    if (!_searching) {
+      setState(() => _searching = true);
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _searchFocus.requestFocus();
+    });
+  }
+
   void _showSortSheet() {
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (context) {
         return CollectBottomSheet(
           child: _LedgerOptionSheet<_LedgerSort>(
@@ -225,116 +208,70 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   }
 }
 
-class _LedgerControlDock extends StatelessWidget {
-  const _LedgerControlDock({
+class _LedgerTitleRow extends StatelessWidget {
+  const _LedgerTitleRow({
     required this.groupLabel,
-    required this.sortLabel,
-    required this.onGroupTap,
-    required this.onSortTap,
+    required this.total,
+    required this.count,
   });
 
   final String groupLabel;
-  final String sortLabel;
-  final VoidCallback onGroupTap;
-  final VoidCallback onSortTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _LedgerControlButton(
-            icon: CollectIcons.collections,
-            title: 'Group',
-            value: groupLabel,
-            onTap: onGroupTap,
-          ),
-        ),
-        CollectSpacing.gapW12,
-        Expanded(
-          child: _LedgerControlButton(
-            icon: CollectIcons.activity,
-            title: 'Sort',
-            value: sortLabel,
-            onTap: onSortTap,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _LedgerControlButton extends StatelessWidget {
-  const _LedgerControlButton({
-    required this.icon,
-    required this.title,
-    required this.value,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String title;
-  final String value;
-  final VoidCallback onTap;
+  final int total;
+  final int count;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final stackAmount =
+        MediaQuery.sizeOf(context).width < 390 ||
+        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final title = Text(
+      'Ledger',
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+        color: colors.textPrimary,
+        fontWeight: CollectTypography.weightBold,
+        letterSpacing: CollectTypography.trackingDefault,
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+    final amount = SizedBox(
+      width: double.infinity,
+      child: FittedBox(
+        alignment: Alignment.centerLeft,
+        fit: BoxFit.scaleDown,
+        child: Text(
+          formatRwf(total),
+          style: CollectTypography.amountLarge(colors.textPrimary),
+          maxLines: 1,
+        ),
+      ),
+    );
     return Semantics(
-      button: true,
-      label: '$title $value',
-      child: Material(
-        color: colors.glassControl,
-        borderRadius: CollectRadius.pillBorder,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: colors.glassBorder),
-          ),
-          child: InkWell(
-            borderRadius: CollectRadius.pillBorder,
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x3,
-                vertical: CollectSpacing.x2,
-              ),
-              child: Row(
+      container: true,
+      header: true,
+      label:
+          '$groupLabel ledger, ${formatRwf(total)}, $count confirmed entries',
+      child: ExcludeSemantics(
+        child: stackAmount
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [title, CollectSpacing.gap8, amount],
+              )
+            : Row(
                 children: [
-                  Icon(icon, color: colors.actionColor, size: 20),
-                  CollectSpacing.gapW8,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          title.toUpperCase(),
-                          style: CollectTypography.eyebrowLabel(
-                            colors.textMuted,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          value,
-                          style: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                color: colors.textPrimary,
-                                fontWeight: FontWeight.w900,
-                              ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                  Expanded(child: title),
+                  CollectSpacing.gapW12,
+                  Flexible(
+                    child: Text(
+                      formatRwf(total),
+                      style: CollectTypography.amountLarge(colors.textPrimary),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Icon(CollectIcons.chevron, size: 18),
                 ],
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -431,7 +368,7 @@ class _LedgerSheetPill<T> extends StatelessWidget {
                     color: selected
                         ? colors.selectedOnAccent
                         : colors.textPrimary,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: CollectTypography.weightSemibold,
                   ),
                 ),
               ],

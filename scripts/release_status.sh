@@ -48,7 +48,7 @@ if [[ -z "$admin_pwa_live_url" && -f "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.js
   )"
 fi
 
-if "$ROOT_DIR/scripts/release_approval_evidence_gate.sh" --json >"$approval_gate_json"; then
+if /bin/bash "$ROOT_DIR/scripts/release_approval_evidence_gate.sh" --json >"$approval_gate_json"; then
   :
 else
   approval_gate_exit=$?
@@ -73,7 +73,7 @@ if [[ "$android_sms_uat_approved" != "1" ]]; then
   add_blocker "android_sms_access_uat" "Real Android MoMo SMS ingestion/parser/allocation UAT is not approved."
 fi
 
-if "$ROOT_DIR/scripts/flutter_mobile_release_gate.sh" --json >"$mobile_gate_json"; then
+if /bin/bash "$ROOT_DIR/scripts/flutter_mobile_release_gate.sh" --json >"$mobile_gate_json"; then
   :
 else
   mobile_gate_exit=$?
@@ -98,7 +98,7 @@ admin_pwa_live_status="missing"
 if [[ -z "$admin_pwa_live_url" ]]; then
   add_blocker "admin_pwa_live_url" "Admin PWA live deployment URL is missing."
 else
-  if ADMIN_PWA_LIVE_URL="$admin_pwa_live_url" "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json >"$admin_live_gate_json"; then
+  if ADMIN_PWA_LIVE_URL="$admin_pwa_live_url" /bin/bash "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json >"$admin_live_gate_json"; then
     admin_pwa_live_status="pass"
   else
     admin_live_gate_exit=$?
@@ -113,7 +113,7 @@ fi
 
 linked_sms_first_uat="${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-}"
 if [[ -z "$linked_sms_first_uat" ]]; then
-  if "$ROOT_DIR/scripts/collect_linked_uat.sh" >/dev/null 2>&1; then
+  if /bin/bash "$ROOT_DIR/scripts/collect_linked_uat.sh" >/dev/null 2>&1; then
     linked_sms_first_uat="1"
   else
     linked_sms_first_uat="0"

@@ -15,7 +15,7 @@ fi
 PACKET_PATH="${GOOGLE_PLAY_CONSOLE_AUDIT_PACKET:-docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json}"
 OUTPUT_PATH="${OUTPUT_PATH:-.cache/google_play_optimization/google_play_console_audit_packet.json}"
 
-ROOT_DIR="$ROOT_DIR" PACKET_PATH="$PACKET_PATH" OUTPUT_PATH="$OUTPUT_PATH" OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r json -r net/http -r uri -r time -r fileutils <<'RUBY'
+ROOT_DIR="$ROOT_DIR" PACKET_PATH="$PACKET_PATH" OUTPUT_PATH="$OUTPUT_PATH" OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r digest -r json -r net/http -r uri -r time -r fileutils <<'RUBY'
 root = ENV.fetch("ROOT_DIR")
 packet_path = File.expand_path(ENV.fetch("PACKET_PATH"), root)
 output_path = File.expand_path(ENV.fetch("OUTPUT_PATH"), root)
@@ -92,7 +92,8 @@ checks["store_listing_lengths"] =
 
 artifact_paths = {
   "aab" => dig_value(packet, ["target_release", "aab_path"]),
-  "brand_icon_source" => dig_value(packet, ["store_listing", "assets", "brand_icon_source"])
+  "brand_icon_source" => dig_value(packet, ["store_listing", "assets", "brand_icon_source"]),
+  "launcher_icon" => dig_value(packet, ["store_listing", "assets", "launcher_icon"])
 }
 artifact_items = artifact_paths.transform_values do |relative|
   path = relative.to_s.empty? ? "" : File.join(root, relative.to_s)
@@ -103,23 +104,30 @@ artifact_items = artifact_paths.transform_values do |relative|
   }
 end
 missing_artifacts = artifact_items.select { |_name, item| item["exists"] != true }.keys
+assets = dig_value(packet, ["store_listing", "assets"]) || {}
+expected_asset_hashes = {
+  "brand_icon_source" => assets["brand_icon_sha256"].to_s,
+  "launcher_icon" => assets["launcher_icon_sha256"].to_s
+}
+asset_hash_failures = expected_asset_hashes.each_with_object([]) do |(name, expected), failures|
+  item = artifact_items.fetch(name)
+  path = item["exists"] ? File.join(root, item.fetch("path")) : ""
+  actual = path.empty? ? "" : Digest::SHA256.file(path).hexdigest
+  failures << { "artifact" => name, "expected" => expected, "actual" => actual } if expected.empty? || actual != expected
+end
 checks["required_artifacts"] =
-  if missing_artifacts.empty?
-    check("pass", "Required non-visual Play release artifacts exist and visual assets are governed separately.", "artifacts" => artifact_items)
+  if missing_artifacts.empty? && asset_hash_failures.empty?
+    check("pass", "Required Play release artifacts and official Collect icon hashes are present.", "artifacts" => artifact_items)
   else
-    check("fail", "Required non-visual Play release artifacts are missing.", "missing_artifacts" => missing_artifacts, "artifacts" => artifact_items)
+    check("fail", "Required Play release artifacts are missing or an icon differs from the approved official source.", "missing_artifacts" => missing_artifacts, "asset_hash_failures" => asset_hash_failures, "artifacts" => artifact_items)
   end
 
-assets = dig_value(packet, ["store_listing", "assets"]) || {}
 feature_graphic = assets.fetch("feature_graphic", {})
 phone_screenshot_policy = assets.fetch("phone_screenshots", {})
-visual_assets_retired =
-  assets["launcher_icon"] == "none_repo_visual_assets_retired" &&
-  feature_graphic["status"] == "retired_repo_visual_asset" &&
-  feature_graphic["source"] == "DESIGN.md" &&
-  phone_screenshot_policy["status"] == "retired_repo_visual_asset" &&
-  phone_screenshot_policy["source"] == "DESIGN.md" &&
-  phone_screenshot_policy["minimum_required"].to_i == 0
+official_icon_policy =
+  assets["brand_icon_source"] == "assets/brand/collect_runtime/app_icons/app-icon-rule.png" &&
+  assets["brand_icon_sha256"] == "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209" &&
+  asset_hash_failures.empty?
 screenshots_path = phone_screenshot_policy["path"].to_s
 screenshots_dir = screenshots_path.empty? ? "" : File.join(root, screenshots_path)
 phone_screenshots = screenshots_dir.empty? ? [] : Dir.glob(File.join(screenshots_dir, "*.png")).sort.map do |path|
@@ -129,13 +137,15 @@ phone_screenshots = screenshots_dir.empty? ? [] : Dir.glob(File.join(screenshots
   }
 end
 minimum_screenshots = phone_screenshot_policy["minimum_required"].to_i
+current_screenshots =
+  phone_screenshot_policy["status"] == "current_product_capture" &&
+  phone_screenshot_policy["source"] == "native_product_capture_only"
+official_feature_graphic = feature_graphic["status"] == "approved_official_asset"
 checks["store_graphics"] =
-  if visual_assets_retired && phone_screenshots.empty?
-    check("pass", "Repo-owned Play visual assets are retired and DESIGN.md is the only visual source.", "phone_screenshot_count" => phone_screenshots.length, "minimum_required" => minimum_screenshots)
-  elsif phone_screenshots.length >= minimum_screenshots
-    check("pass", "Play screenshot export policy is satisfied.", "phone_screenshot_count" => phone_screenshots.length, "phone_screenshots" => phone_screenshots)
+  if official_icon_policy && current_screenshots && official_feature_graphic && phone_screenshots.length >= minimum_screenshots
+    check("pass", "Play visual exports use the approved Collect icon and current native product captures.", "phone_screenshot_count" => phone_screenshots.length, "phone_screenshots" => phone_screenshots)
   else
-    check("blocked", "Play visual asset policy is inconsistent with the universal design migration.", "phone_screenshot_count" => phone_screenshots.length, "minimum_required" => minimum_screenshots)
+    check("blocked", "Play visual export awaits an owner-approved feature graphic and refreshed native screenshots; fabricated assets are forbidden.", "official_icon_policy" => official_icon_policy, "feature_graphic_status" => feature_graphic["status"], "phone_screenshot_status" => phone_screenshot_policy["status"], "phone_screenshot_count" => phone_screenshots.length, "minimum_required" => minimum_screenshots)
   end
 
 urls = [

@@ -61,15 +61,15 @@ class AuthInputPanel extends StatelessWidget {
                             color: CollectColors.brandMintGreen,
                             size: 22,
                           )
-                        : const AuthWhatsAppMark(size: 24),
+                        : const AuthSupportIcon(size: 24),
                     CollectSpacing.gapW8,
                     Expanded(
                       child: Text(
                         otpSent ? 'OTP' : 'WhatsApp',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: foreground,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0,
+                          fontWeight: CollectTypography.weightBold,
+                          letterSpacing: CollectTypography.trackingDefault,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -103,7 +103,7 @@ class AuthInputPanel extends StatelessWidget {
                       'Resend in ${resendRemaining}s',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: foreground.withValues(alpha: 0.66),
-                        fontWeight: FontWeight.w700,
+                        fontWeight: CollectTypography.weightBold,
                       ),
                     ),
                   ],
@@ -197,8 +197,9 @@ class AuthPhoneEntry extends StatelessWidget {
                             style: Theme.of(context).textTheme.labelLarge
                                 ?.copyWith(
                                   color: foreground,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0,
+                                  fontWeight: CollectTypography.weightBold,
+                                  letterSpacing:
+                                      CollectTypography.trackingDefault,
                                 ),
                             maxLines: 1,
                             overflow: TextOverflow.visible,
@@ -242,13 +243,15 @@ class AuthPhoneEntry extends StatelessWidget {
               ],
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: foreground,
-                fontWeight: FontWeight.w800,
+                fontWeight: CollectTypography.weightBold,
                 fontFeatures: const [FontFeature.tabularFigures()],
-                letterSpacing: 0,
+                letterSpacing: CollectTypography.trackingDefault,
               ),
               decoration: InputDecoration(
                 hintText: '788 123 456',
-                hintStyle: TextStyle(color: foreground.withValues(alpha: 0.36)),
+                hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: foreground.withValues(alpha: 0.36),
+                ),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -314,8 +317,8 @@ class AuthPhoneAnchor extends StatelessWidget {
                 display,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: foreground,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0,
+                  fontWeight: CollectTypography.weightBold,
+                  letterSpacing: CollectTypography.trackingDefault,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -328,8 +331,8 @@ class AuthPhoneAnchor extends StatelessWidget {
   }
 }
 
-class AuthWhatsAppMark extends StatelessWidget {
-  const AuthWhatsAppMark({this.size = 22, this.semanticLabel, super.key});
+class AuthSupportIcon extends StatelessWidget {
+  const AuthSupportIcon({this.size = 22, this.semanticLabel, super.key});
 
   final double size;
   final String? semanticLabel;
@@ -337,15 +340,12 @@ class AuthWhatsAppMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = semanticLabel?.trim();
-    final icon = Icon(
+    return Icon(
       CollectIcons.support,
       size: size,
       color: CollectColors.brandMintGreen,
+      semanticLabel: label == null || label.isEmpty ? null : label,
     );
-    if (label == null || label.isEmpty) {
-      return ExcludeSemantics(child: icon);
-    }
-    return Semantics(label: label, image: true, child: icon);
   }
 }
 
@@ -384,8 +384,8 @@ class AuthCountryFlag extends StatelessWidget {
                 'RW',
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: CollectColors.brandPaper,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0,
+                  fontWeight: CollectTypography.weightBold,
+                  letterSpacing: CollectTypography.trackingDefault,
                 ),
               ),
             ),
@@ -399,8 +399,11 @@ class AuthCountryFlag extends StatelessWidget {
       height: size,
       child: Center(
         child: Text(
-          countryFlag,
-          style: TextStyle(fontSize: size * 0.82, height: 1),
+          countryCode,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: context.collectColors.textPrimary,
+            fontWeight: CollectTypography.weightBold,
+          ),
           textAlign: TextAlign.center,
           semanticsLabel: countryCode,
         ),
@@ -422,45 +425,52 @@ class AuthStatusNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.danger.withValues(alpha: 0.14),
-        borderRadius: CollectRadius.mdBorder,
-        border: Border.all(color: colors.danger.withValues(alpha: 0.28)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(CollectSpacing.x4),
-        child: Row(
-          children: [
-            Icon(CollectIcons.warning, color: colors.danger, size: 20),
-            CollectSpacing.gapW12,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: colors.danger,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: '$title. $message',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.danger.withValues(alpha: 0.14),
+            borderRadius: CollectRadius.mdBorder,
+            border: Border.all(color: colors.danger.withValues(alpha: 0.28)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(CollectSpacing.x4),
+            child: Row(
+              children: [
+                Icon(CollectIcons.warning, color: colors.danger, size: 20),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: colors.danger,
+                          fontWeight: CollectTypography.weightBold,
+                          letterSpacing: CollectTypography.trackingDefault,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      CollectSpacing.gap4,
+                      Text(
+                        message,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colors.onImagePrimary.withValues(alpha: 0.76),
+                          fontWeight: CollectTypography.weightBold,
+                        ),
+                        maxLines: 4,
+                      ),
+                    ],
                   ),
-                  CollectSpacing.gap4,
-                  Text(
-                    message,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colors.onImagePrimary.withValues(alpha: 0.76),
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 4,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

@@ -23,9 +23,9 @@ refactor is deployed or tested against the linked project.
 | --- | --- | --- | --- | --- |
 | P0-001 | Product contract | Fresh stakeholder approval is still required for the corrected SMS-first Groups definition before production launch. | Legacy mobile/admin/backend paths were removed or revoked and targeted repo validators pass; `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md` is the current source of truth. | Review and sign off the corrected product definition and user journeys. |
 | P0-002 | Android SMS ingestion UAT | Real Android MoMo SMS consent, foreground/background/killed/offline upload, parser, and allocation flow is not approved for the new Groups/payment-intent contract. | Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`, but this is not real MoMo SMS scenario evidence. | Run Android device UAT with real MoMo SMS scenarios and store sanitized evidence. |
-| P0-003 | Android release signing | Android release signing / Play App Signing review is not approved for the current APK/AAB outputs. | `scripts/flutter_mobile_release_gate.sh --json` reports blocker key `android_release_signing_review`; APK/AAB artifacts are current and signatures verify. | Record Android release signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-004 | iOS release scope | iOS release scope is not signed off or explicitly marked out of scope. | `scripts/flutter_mobile_release_gate.sh --json` reports blocker key `ios_release_scope`. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-005 | Release-owner signoff | Release-owner signoff for the current evidence packet is not approved. | `scripts/release_status.sh --json` reports blocker key `release_owner_signoff`. | Review the refreshed evidence packet and record release-owner approval. |
+| P0-003 | Android release signing | Android signing / Play App Signing approval is stale for the current APK/AAB outputs. | Current artifact version is `1.2.2+10`; durable signing approval identifies `1.2.2+9`. `scripts/flutter_mobile_release_gate.sh --json` reports blocker key `android_release_signing_review`; APK/AAB are current and signatures verify. | Review the current hashes, record Android signing approval with `--artifact-version 1.2.2+10`, and rerun the gate. |
+| P0-004 | iOS release scope | iOS is explicitly out of scope for the current Android Google Play go-live, but a future iOS submission still requires compatible Associated Domains provisioning and fresh signed evidence. | The current iOS scope record passes; the unsigned archive passes and the signed archive is provisioning-blocked. | No action for Android-only scope; obtain compatible provisioning and new approval before any iOS release. |
+| P0-005 | Release-owner signoff | Release-owner approval is stale for the current evidence packet. | Current artifact version is `1.2.2+10`; durable owner approval identifies `1.2.2+9`. `scripts/release_status.sh --json` reports blocker key `release_owner_signoff`. | Review the refreshed packet, record owner approval with `--artifact-version 1.2.2+10`, and rerun release status. |
 
 ## P1 Items
 
@@ -47,7 +47,10 @@ refactor is deployed or tested against the linked project.
   - `test/shared/collect_repository_test.dart`
   - `test/supabase_contract_test.dart`
 - `test/release_docs_test.dart`: pass.
-- `scripts/admin_pwa_release_build.sh`: pass.
+- Raw Admin Flutter-web release compilation passes. The complete
+  `scripts/admin_pwa_release_build.sh` wrapper is blocked on the required
+  public `COLLECT_ADMIN_WHATSAPP_PHONE` build setting and must not be described
+  as a complete current PWA artifact.
 - `scripts/admin_pwa_render_smoke.sh`: pass, evidence at `.cache/admin_pwa_render_smoke/20260602T081408Z`.
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
 - `scripts/mobile_route_render_smoke.sh`: pass for 45 representative mobile
@@ -70,8 +73,9 @@ refactor is deployed or tested against the linked project.
   - `supabase/functions/ingest-payment-sms/index.ts`
   - `supabase/functions/allocate-payment/index.ts`
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
-- `scripts/release_artifact_manifest.sh --json`: pass and wrote
-  `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`.
+- The current `scripts/release_artifact_manifest.sh --json` run is blocked
+  until the Admin wrapper regenerates `custom-sw.js`, `manifest.json`,
+  `_headers`, and `robots.txt`.
 - `scripts/flutter_mobile_release_gate.sh --json`: Android APK/AAB freshness
   and signature checks pass; evidence at
   `.cache/mobile_release_gate/20260602T050529Z/summary.json`.
@@ -85,7 +89,9 @@ refactor is deployed or tested against the linked project.
   matrix pass on the current worktree. Production Android APK/AAB artifacts were
   rebuilt and signature-verified. Remaining release gate blockers are human
   approvals only: Android release signing review and iOS release scope.
-- `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
-  signing review and iOS release scope only.
-- `scripts/release_status.sh --json`: blocked on product signoff, Android SMS
-  device UAT, Android signing review, iOS scope, and release-owner signoff.
+- `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android signing
+  review because the durable approval is for `1.2.2+9`, not current
+  `1.2.2+10`; iOS Android-only scope passes.
+- `scripts/release_status.sh --json`: `NO-GO`, blocked on stale Android signing
+  review and stale release-owner approval. Current Android artifacts and other
+  recorded approval flags pass the aggregate gate.

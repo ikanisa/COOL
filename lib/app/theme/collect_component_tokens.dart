@@ -27,6 +27,14 @@ class CollectComponentTokens {
     );
   }
 
+  static ButtonStyle dangerButton(BuildContext context) {
+    final colors = context.collectColors;
+    return filledButton(context).copyWith(
+      backgroundColor: WidgetStatePropertyAll(colors.danger),
+      foregroundColor: WidgetStatePropertyAll(colors.surfaceReadable),
+    );
+  }
+
   static ButtonStyle outlinedButton(BuildContext context) {
     final colors = context.collectColors;
     final tokens = context.collectUniversalTokens;
@@ -38,9 +46,7 @@ class CollectComponentTokens {
       ),
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
       foregroundColor: colors.textPrimary,
-      side: BorderSide(
-        color: CollectRuntimeTokens.chipBorder(colors, selected: false),
-      ),
+      side: BorderSide(color: CollectRuntimeTokens.controlBorder(colors)),
       textStyle: Theme.of(context).textTheme.labelLarge,
     );
   }

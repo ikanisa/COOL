@@ -118,11 +118,11 @@ runtime_lines = permission_lines_after(lines, "runtime permissions")
 
 requested = requested_lines.map { |line| line.split(/\s+/).first }.select { |line| line.match?(/permission/i) }
 install = install_lines.map { |line| line.split(":").first }.select { |line| line.match?(/permission/i) }
-runtime = runtime_lines.filter_map do |line|
+runtime = runtime_lines.each_with_object([]) do |line, values|
   match = line.match(/^\s*([^:]+):\s+granted=(true|false)(?:,\s+flags=\[(.*)\])?/)
   next unless match
 
-  {
+  values << {
     "permission" => match[1],
     "granted" => match[2] == "true",
     "flags" => (match[3] || "").split("|").map(&:strip).reject(&:empty?)

@@ -1,12 +1,12 @@
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,10 +14,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   bool authButtonEnabled(WidgetTester tester, String key) {
-    final button = tester.widget<CupertinoButton>(
+    final button = tester.widget<TextButton>(
       find.descendant(
         of: find.byKey(ValueKey(key)),
-        matching: find.byType(CupertinoButton),
+        matching: find.byType(TextButton),
       ),
     );
     return button.onPressed != null;
@@ -74,6 +74,12 @@ void main() {
 
   testWidgets('new mobile completion routes render', (tester) async {
     const routes = [
+      '/contribute',
+      '/activity',
+      '/settings/notifications',
+      '/settings/appearance',
+      '/settings/security',
+      '/settings/help',
       '/groups/col-church/contribute',
       '/groups/col-church/manage',
       '/groups/col-church/profile',
@@ -85,6 +91,233 @@ void main() {
       expect(find.byType(CollectApp), findsOneWidget, reason: route);
     }
   });
+
+  testWidgets('global Contribute selects a group and reuses payment flow', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/contribute', legalConsentAccepted: true);
+
+    expect(find.text('Choose a group'), findsOneWidget);
+    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Activity'), findsOneWidget);
+
+    await tester.tap(find.text('St Michel building fund').first);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Review contribution'), findsOneWidget);
+    expect(find.text('Choose a group'), findsNothing);
+    expect(find.text('Profile'), findsNothing);
+  });
+
+  testWidgets('global Activity renders confirmed records but not intents', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/activity', legalConsentAccepted: true);
+
+    expect(find.text('Activity'), findsWidgets);
+    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('MTN12345'), findsOneWidget);
+    expect(find.text('MTN12346'), findsOneWidget);
+    expect(find.text('RWF 15,000'), findsNothing);
+    expect(find.textContaining('intent-render'), findsNothing);
+  });
+
+  testWidgets('dense Activity avoids a viewport-spanning backdrop filter', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture(fixtureContributionCount: 80);
+    await pumpRoute(
+      tester,
+      '/activity',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
+
+    expect(
+      tester
+          .widgetList<BackdropFilter>(find.byType(BackdropFilter))
+          .any((filter) => !filter.enabled),
+      isTrue,
+      reason: 'Dense scrolling content must not repaint through glass blur.',
+    );
+    expect(find.byType(RepaintBoundary), findsWidgets);
+  });
+
+  testWidgets('notification settings persist repository preferences', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture();
+    await pumpRoute(
+      tester,
+      '/settings/notifications',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
+
+    expect(
+      repository.state.notificationPreferences.contributionConfirmations,
+      isTrue,
+    );
+    await tester.tap(find.byType(Switch).first);
+    await tester.pump();
+
+    expect(
+      repository.state.notificationPreferences.contributionConfirmations,
+      isFalse,
+    );
+  });
+
+  testWidgets('security is a standalone Collect-specific detail screen', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/settings/security', legalConsentAccepted: true);
+
+    expect(find.text('Security'), findsOneWidget);
+    expect(find.text('Contribution verification'), findsOneWidget);
+    expect(find.text('Receiver privacy'), findsOneWidget);
+    expect(find.text('Report fraud'), findsNothing);
+    expect(find.text('Lost device'), findsNothing);
+    expect(find.text('Profile'), findsNothing);
+  });
+
+  testWidgets('appearance switches the persisted app theme mode', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/settings/appearance', legalConsentAccepted: true);
+
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
+      ThemeMode.dark,
+    );
+    final preview = find.byKey(const ValueKey('appearance-live-preview'));
+    expect(preview, findsOneWidget);
+    final previewLogo = tester.widget<Image>(
+      find.descendant(of: preview, matching: find.byType(Image)),
+    );
+    expect(
+      (previewLogo.image as AssetImage).assetName,
+      CollectRuntimeAssets.officialLogo,
+    );
+    final previewSemantics = tester.widget<Semantics>(
+      find
+          .ancestor(
+            of: preview,
+            matching: find.byWidgetPredicate(
+              (widget) =>
+                  widget is Semantics &&
+                  widget.properties.label == 'Dark Collect home preview',
+            ),
+          )
+          .first,
+    );
+    expect(previewSemantics.properties.image, isTrue);
+
+    await tester.tap(find.text('Light'));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
+      ThemeMode.light,
+    );
+    expect(
+      find.byWidgetPredicate(
+        (widget) =>
+            widget is Semantics &&
+            widget.properties.label == 'Light Collect home preview',
+      ),
+      findsOneWidget,
+    );
+
+    await tester.ensureVisible(find.text('System'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('System'));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
+      ThemeMode.system,
+    );
+    final systemSemantics = tester.widget<Semantics>(
+      find
+          .ancestor(
+            of: find.text('System'),
+            matching: find.byWidgetPredicate(
+              (widget) =>
+                  widget is Semantics &&
+                  widget.properties.label == 'System mode',
+            ),
+          )
+          .first,
+    );
+    expect(systemSemantics.properties.button, isTrue);
+    expect(systemSemantics.properties.selected, isTrue);
+  });
+
+  testWidgets('appearance modes remain usable at 320 px and 200 percent text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 720);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await pumpRoute(
+      tester,
+      '/settings/appearance',
+      legalConsentAccepted: true,
+      textScale: 2,
+    );
+
+    expect(find.text('Dark'), findsOneWidget);
+    expect(find.text('Light'), findsOneWidget);
+    expect(find.text('System'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.ensureVisible(find.text('System'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('System'));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
+      ThemeMode.system,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'appearance mode choices stack at native width and 320 percent text',
+    (tester) async {
+      tester.view.physicalSize = const Size(402, 874);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await pumpRoute(
+        tester,
+        '/settings/appearance',
+        legalConsentAccepted: true,
+        textScale: 3.2,
+      );
+
+      final darkChoice = find.ancestor(
+        of: find.text('Dark'),
+        matching: find.byType(AnimatedContainer),
+      );
+      final lightChoice = find.ancestor(
+        of: find.text('Light'),
+        matching: find.byType(AnimatedContainer),
+      );
+
+      expect(darkChoice, findsOneWidget);
+      expect(lightChoice, findsOneWidget);
+      expect(
+        tester.getTopLeft(lightChoice).dy,
+        greaterThan(tester.getBottomLeft(darkChoice).dy),
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets('missing group deep link renders recovery empty state', (
     tester,
@@ -150,22 +383,222 @@ void main() {
   testWidgets('auth OTP submit does not detour to legal consent', (
     tester,
   ) async {
-    await pumpRoute(tester, '/auth');
+    final semantics = tester.ensureSemantics();
+    try {
+      await pumpRoute(tester, '/auth');
 
-    expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
-    await tester.enterText(find.byType(TextField).first, '+250788123456');
-    await tester.pump();
-    expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
-    await tester.tap(find.text('Send WhatsApp code'));
-    await tester.pump();
+      expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
+      await tester.enterText(find.byType(TextField).first, '+250788123456');
+      await tester.pump();
+      expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
+      await tester.tap(find.text('Send WhatsApp code'));
+      await tester.pump();
 
-    expect(find.text('Before you continue'), findsNothing);
-    expect(find.text('Authentication failed'), findsOneWidget);
-    expect(
-      find.textContaining('WhatsApp sign-in is unavailable'),
-      findsOneWidget,
+      expect(find.text('Before you continue'), findsNothing);
+      expect(find.text('Authentication failed'), findsOneWidget);
+      expect(
+        find.textContaining('WhatsApp sign-in is unavailable'),
+        findsOneWidget,
+      );
+      expect(
+        find.bySemanticsLabel(
+          'Authentication failed. WhatsApp sign-in is unavailable right now. Try again later.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Verify WhatsApp'), findsNothing);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('archived groups leave active surfaces and become read only', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture();
+    await repository.archiveCollection('col-church');
+
+    for (final route in const ['/home', '/groups', '/contribute']) {
+      await pumpRoute(
+        tester,
+        route,
+        legalConsentAccepted: true,
+        repository: repository,
+      );
+      expect(find.text('St Michel building fund'), findsNothing, reason: route);
+      if (route != '/home') {
+        expect(find.text('Kigali Lions away kit'), findsWidgets, reason: route);
+      }
+    }
+
+    for (final route in const [
+      '/groups/col-church',
+      '/groups/col-church/contribute',
+      '/groups/col-church/manage',
+      '/groups/col-church/profile',
+      '/groups/col-church/share',
+    ]) {
+      await pumpRoute(
+        tester,
+        route,
+        legalConsentAccepted: true,
+        repository: repository,
+      );
+      expect(
+        find.text('This group is archived.'),
+        findsOneWidget,
+        reason: route,
+      );
+      expect(find.text('Open ledger'), findsOneWidget, reason: route);
+      expect(find.text('Pay'), findsNothing, reason: route);
+    }
+  });
+
+  testWidgets('supported-groups filter has a clear empty recovery state', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture();
+    await repository.archiveCollection('col-church');
+    await pumpRoute(
+      tester,
+      '/groups?filter=contributed',
+      legalConsentAccepted: true,
+      repository: repository,
     );
-    expect(find.text('Verify WhatsApp'), findsNothing);
+
+    expect(find.text('No supported groups yet'), findsOneWidget);
+    expect(find.text('Show all groups'), findsOneWidget);
+    await tester.tap(find.text('Show all groups'));
+    await tester.pumpAndSettle();
+    expect(find.text('Kigali Lions away kit'), findsOneWidget);
+  });
+
+  testWidgets('group admin sheet validates, announces, and completes safely', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    final repository = CollectRepository.fixture();
+    try {
+      await pumpRoute(
+        tester,
+        '/groups/col-church/manage',
+        legalConsentAccepted: true,
+        repository: repository,
+      );
+
+      await tester.scrollUntilVisible(
+        find.text('Add admin'),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.drag(
+        find.byType(ListView).first,
+        const Offset(0, -80),
+        warnIfMissed: false,
+      );
+      await tester.pump();
+      await tester.tap(find.text('Add admin'));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('six-digit Collect ID'), findsOneWidget);
+      await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
+      await tester.pump();
+      expect(find.text('Enter a 6 digit Collect ID.'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel(RegExp('Enter a 6 digit Collect ID')),
+        findsOneWidget,
+      );
+
+      await tester.enterText(textFieldWithLabel('Collect ID'), '038491');
+      await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
+      await tester.pump();
+      expect(find.textContaining('already own this group'), findsOneWidget);
+
+      await tester.enterText(textFieldWithLabel('Collect ID'), '123456');
+      await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Admin invitation created.'), findsOneWidget);
+      expect(find.text('Collect ID'), findsNothing);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('contribution review exposes duplicate-intent recovery', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture();
+    await pumpRoute(
+      tester,
+      '/groups/col-church/contribute',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
+
+    await tester.enterText(find.byType(TextField).first, '15000');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, 'Review contribution'));
+    await tester.pump();
+
+    expect(find.text('Payment already pending'), findsOneWidget);
+    expect(find.text('Open existing MOMO'), findsOneWidget);
+    expect(repository.state.paymentIntents, hasLength(1));
+  });
+
+  testWidgets('contribution review explains an expired matching request', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    const cache = CollectOfflineCache(
+      preferencesKey: 'collect.offline_snapshot.expired_intent_widget_test',
+    );
+    final seeded = CollectRepository.fixture();
+    final now = DateTime.now();
+    await cache.save(
+      CollectOfflineSnapshot(
+        savedAt: now,
+        currentProfile: seeded.state.currentProfile,
+        collections: seeded.state.collections,
+        paymentIntents: [
+          PaymentIntentModel(
+            id: 'expired-intent',
+            collectionId: 'col-church',
+            expectedAmountRwf: 15000,
+            receiverMomoNumber: '0788123456',
+            receiverLabel: 'St Michel treasury',
+            senderPhoneHash: 'hash-redacted',
+            status: 'pending',
+            createdAt: now.subtract(const Duration(days: 2)),
+            expiresAt: now.subtract(const Duration(days: 1)),
+          ),
+        ],
+        contributions: seeded.state.contributions,
+      ),
+    );
+    final repository = CollectRepository.fixture(
+      seeded: false,
+      offlineCache: cache,
+    );
+    expect(
+      await repository.restoreOfflineSnapshot(reason: 'offline fixture'),
+      isTrue,
+    );
+    await pumpRoute(
+      tester,
+      '/groups/col-church/contribute',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
+
+    await tester.enterText(find.byType(TextField).first, '15000');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, 'Review contribution'));
+    await tester.pump();
+
+    expect(find.text('Previous request expired'), findsOneWidget);
+    expect(find.text('Pay with MOMO'), findsOneWidget);
+    expect(find.text('Payment already pending'), findsNothing);
   });
 
   testWidgets('auth screen avoids duplicate decorative WhatsApp semantics', (
@@ -374,10 +807,9 @@ void main() {
   testWidgets('groups low-data route keeps actions in chrome', (tester) async {
     await pumpRoute(tester, '/groups', legalConsentAccepted: true);
 
+    expect(find.text('Groups'), findsWidgets);
     expect(
-      find.bySemanticsLabel(
-        'GROUPS, RWF 35,000, 2 members moving money together',
-      ),
+      find.bySemanticsLabel('St Michel building fund, RWF 35,000, 2 members'),
       findsOneWidget,
     );
     expect(find.text('Scan'), findsNothing);
@@ -431,6 +863,12 @@ void main() {
     await pumpRoute(tester, '/home', repository: staleRepository);
 
     expect(find.textContaining('Offline saved data'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('My groups'),
+      240,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pump();
     expect(find.text('St Michel building fund'), findsWidgets);
   });
 
@@ -466,6 +904,7 @@ void main() {
       await pumpRoute(tester, '/home', textScale: 2);
 
       expect(tester.takeException(), isNull);
+      expect(find.text('Activity'), findsOneWidget);
       await tester.scrollUntilVisible(
         find.text('My groups'),
         300,
@@ -475,7 +914,6 @@ void main() {
 
       expect(find.text('Momentum'), findsNothing);
       expect(find.text('My groups'), findsOneWidget);
-      expect(find.text('Activity'), findsOneWidget);
     } finally {
       semantics.dispose();
     }

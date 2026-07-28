@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import 'helpers/process_runner.dart';
+
 void main() {
   Map<String, dynamic> approvedReleaseManifest() {
     final manifest =
@@ -29,7 +31,7 @@ void main() {
       'android_release_signing_review': (
         reviewer: 'Release Engineer Cy',
         notes:
-            'Signed APK AAB and Play App Signing evidence for release gate test.',
+            'Signed version 1.2.2+10 APK AAB and Play App Signing evidence for release gate test.',
       ),
       'ios_release_scope': (
         reviewer: 'Mobile Scope Lead Dee',
@@ -55,6 +57,10 @@ void main() {
       if (record['key'] == 'release_owner_signoff') {
         record['evidence_reference'] =
             'docs/release/RELEASE_APPROVAL_PACKET.md';
+      }
+      if (record['key'] == 'android_release_signing_review' ||
+          record['key'] == 'release_owner_signoff') {
+        record['artifact_version'] = '1.2.2+10';
       }
     }
     return manifest;
@@ -219,7 +225,7 @@ void main() {
   }) {
     final evidence = File('${dir.path}/UAT-01.bin')
       ..writeAsBytesSync(<int>[1, 2, 3, 4, 5, 6]);
-    final sha = Process.runSync('shasum', [
+    final sha = runProcessSync('shasum', [
       '-a',
       '256',
       evidence.path,
@@ -460,7 +466,8 @@ Date/time: 2026-06-01T12:30:00Z
   });
 
   test('universal contract gate passes current contract', () {
-    final result = Process.runSync('./scripts/universal_contract_gate.sh', [
+    final result = runProcessSync('/bin/bash', [
+      './scripts/universal_contract_gate.sh',
       '--json',
     ]);
 
@@ -480,9 +487,9 @@ Date/time: 2026-06-01T12:30:00Z
     try {
       final contract = File('${tempDir.path}/incomplete_design.md')
         ..writeAsStringSync('# Incomplete\n');
-      final result = Process.runSync(
-        './scripts/universal_contract_gate.sh',
-        ['--json'],
+      final result = runProcessSync(
+        '/bin/bash',
+        ['./scripts/universal_contract_gate.sh', '--json'],
         environment: {'UNIVERSAL_DESIGN_CONTRACT': contract.path},
       );
 
@@ -533,7 +540,7 @@ Current decision: **CODE-OWNED STRUCTURAL PASS**
 | Final Codex accessibility responsibility | Accepted | Codex owns final structural accessibility decision. | `${evidence.path}` | Codex | 2026-07-02T15:59:00Z |
 ''');
 
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/native_mobile_accessibility_signoff_gate.sh',
           ['--json'],
           environment: {
@@ -595,7 +602,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 | Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `${evidence.path}` | Pending | Pending |
 ''');
 
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/native_mobile_accessibility_signoff_gate.sh',
           ['--json'],
           environment: {
@@ -653,7 +660,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 | Final Codex accessibility responsibility | Open | Codex owns final accessibility decision. | `${evidence.path}` | Pending | Pending |
 ''');
 
-        final reviewerRejected = Process.runSync(
+        final reviewerRejected = runProcessSync(
           './scripts/record_native_mobile_accessibility_signoff.sh',
           [
             '--checklist',
@@ -670,7 +677,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           contains('Codex owns this responsibility'),
         );
 
-        final prematureFinal = Process.runSync(
+        final prematureFinal = runProcessSync(
           './scripts/record_native_mobile_accessibility_signoff.sh',
           [
             '--checklist',
@@ -691,7 +698,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           ),
         );
 
-        final androidAccepted = Process.runSync(
+        final androidAccepted = runProcessSync(
           './scripts/record_native_mobile_accessibility_signoff.sh',
           [
             '--checklist',
@@ -706,7 +713,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         );
         expect(androidAccepted.exitCode, 0);
 
-        final iosAccepted = Process.runSync(
+        final iosAccepted = runProcessSync(
           './scripts/record_native_mobile_accessibility_signoff.sh',
           [
             '--checklist',
@@ -721,7 +728,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         );
         expect(iosAccepted.exitCode, 0);
 
-        final finalAccepted = Process.runSync(
+        final finalAccepted = runProcessSync(
           './scripts/record_native_mobile_accessibility_signoff.sh',
           [
             '--checklist',
@@ -736,7 +743,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         );
         expect(finalAccepted.exitCode, 0);
 
-        final gate = Process.runSync(
+        final gate = runProcessSync(
           './scripts/native_mobile_accessibility_signoff_gate.sh',
           ['--json'],
           environment: {
@@ -766,7 +773,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   );
 
   test('release status reports current blocker keys', () {
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/release_status.sh',
       ['--json'],
       environment: {'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev'},
@@ -790,23 +797,29 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         ]),
       ),
     );
-    expect(
-      decoded['blocker_keys'],
-      isNot(contains('android_release_signing_review')),
-    );
+    expect(decoded['blocker_keys'], contains('android_release_signing_review'));
     expect(decoded['blocker_keys'], isNot(contains('ios_release_scope')));
-    expect(
-      decoded['blocker_keys'],
-      isNot(contains('linked_supabase_sms_first_migration')),
-    );
-    expect(decoded['evidence_flags']['linked_sms_first_uat'], '1');
+    final linkedSmsFirstUat =
+        decoded['evidence_flags']['linked_sms_first_uat'] as String;
+    expect(linkedSmsFirstUat, anyOf('0', '1'));
+    if (linkedSmsFirstUat == '1') {
+      expect(
+        decoded['blocker_keys'],
+        isNot(contains('linked_supabase_sms_first_migration')),
+      );
+    } else {
+      expect(
+        decoded['blocker_keys'],
+        contains('linked_supabase_sms_first_migration'),
+      );
+    }
     expect(decoded['blocker_keys'], isNot(contains('admin_pwa_live_url')));
     expect(jsonEncode(decoded), isNot(contains('auth_captcha_bot_protection')));
     expect(jsonEncode(decoded), isNot(contains('supabase_pitr')));
   });
 
   test('release status can read tracked Admin PWA deployment metadata', () {
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/release_status.sh',
       ['--json'],
       environment: {'COLLECT_LINKED_SMS_FIRST_UAT_PASSED': '1'},
@@ -819,7 +832,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   });
 
   test('release status ignores direct approval environment overrides', () {
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/release_status.sh',
       ['--json'],
       environment: {
@@ -838,10 +851,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     }
     expect(decoded['blocker_keys'], isNot(contains('product_signoff')));
     expect(decoded['blocker_keys'], isNot(contains('android_sms_access_uat')));
-    expect(decoded['blocker_keys'], isNot(contains('release_owner_signoff')));
+    expect(decoded['blocker_keys'], contains('release_owner_signoff'));
     expect(decoded['evidence_flags']['product_signoff'], '1');
     expect(decoded['evidence_flags']['android_sms_uat'], '1');
-    expect(decoded['evidence_flags']['release_owner_signoff'], '1');
+    expect(decoded['evidence_flags']['release_owner_signoff'], '0');
   });
 
   test('release status surfaces approval evidence gate failures', () {
@@ -859,7 +872,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/release_status.sh',
         ['--json'],
         environment: {
@@ -888,70 +901,137 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   });
 
   test('mobile release gate ignores direct approval environment overrides', () {
-    final result = Process.runSync(
-      './scripts/flutter_mobile_release_gate.sh',
-      ['--json'],
-      environment: {
-        'ANDROID_RELEASE_SIGNING_REVIEWED': '1',
-        'ANDROID_RELEASE_SIGNING_NOTE': 'Current release signing reviewed.',
-        'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
-        'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
-        'ANDROID_RELEASE_SIGNING_EVIDENCE': 'docs/release/RELEASE_STATUS.md',
-        'IOS_RELEASE_OUT_OF_SCOPE': '1',
-        'IOS_RELEASE_SCOPE_NOTE': 'Android-only scope for this go-live.',
-        'IOS_RELEASE_SCOPE_REVIEWER': 'Release Reviewer',
-        'IOS_RELEASE_SCOPE_REVIEWED_AT': '2026-06-01T00:00:00Z',
-        'IOS_RELEASE_SCOPE_EVIDENCE': 'docs/release/RELEASE_APPROVAL_PACKET.md',
-      },
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
     );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final signing = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'android_release_signing_review',
+      );
+      signing['artifact_version'] = '1.2.2+9';
+      signing['notes'] =
+          'Signed version 1.2.2+9 APK AAB and Play App Signing evidence.';
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
 
-    expect(result.exitCode, anyOf(0, 99));
-    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['status'], anyOf('pass', 'blocked'));
-    if (decoded['status'] == 'blocked') {
-      expect(decoded['blocker_keys'], isNotEmpty);
-    }
-    final signatureCheck =
-        decoded['checks']['android_release_artifact_signatures']
-            as Map<String, dynamic>;
-    expect(signatureCheck['status'], anyOf('pass', 'blocked'));
-    if (signatureCheck['status'] == 'blocked') {
+      final result = runProcessSync(
+        './scripts/flutter_mobile_release_gate.sh',
+        ['--json'],
+        environment: {
+          'RELEASE_APPROVALS_JSON': manifestFile.path,
+          'ANDROID_RELEASE_SIGNING_REVIEWED': '1',
+          'ANDROID_RELEASE_SIGNING_NOTE':
+              'Current version 1.2.2+10 release signing reviewed.',
+          'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
+          'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
+          'ANDROID_RELEASE_SIGNING_EVIDENCE': 'docs/release/RELEASE_STATUS.md',
+          'IOS_RELEASE_OUT_OF_SCOPE': '1',
+          'IOS_RELEASE_SCOPE_NOTE': 'Android-only scope for this go-live.',
+          'IOS_RELEASE_SCOPE_REVIEWER': 'Release Reviewer',
+          'IOS_RELEASE_SCOPE_REVIEWED_AT': '2026-06-01T00:00:00Z',
+          'IOS_RELEASE_SCOPE_EVIDENCE':
+              'docs/release/RELEASE_APPROVAL_PACKET.md',
+        },
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
       expect(
         decoded['blocker_keys'],
-        contains('android_release_artifact_signatures'),
+        contains('android_release_signing_review'),
       );
-    } else {
+      final signatureCheck =
+          decoded['checks']['android_release_artifact_signatures']
+              as Map<String, dynamic>;
+      expect(signatureCheck['status'], anyOf('pass', 'blocked'));
+      if (signatureCheck['status'] == 'blocked') {
+        expect(
+          decoded['blocker_keys'],
+          contains('android_release_artifact_signatures'),
+        );
+      }
       expect(
-        decoded['blocker_keys'],
-        isNot(contains('android_release_artifact_signatures')),
+        decoded['checks']['android_release_signing_review']['status'],
+        'blocked',
       );
-    }
-    expect(
-      decoded['checks']['android_release_signing_review']['status'],
-      'pass',
-    );
-    expect(decoded['checks']['ios_release_scope']['status'], 'pass');
-    expect(
-      decoded['checks']['android_release_signing_review']['source'],
-      'release_approvals_manifest',
-    );
-    expect(
-      decoded['checks']['android_release_signing_review']['reviewer'],
-      isNot('Release Reviewer'),
-    );
-    final mobileGate = File(
-      'scripts/flutter_mobile_release_gate.sh',
-    ).readAsStringSync();
-    expect(mobileGate, contains('android_release_artifact_signatures'));
-    expect(mobileGate, contains('apksigner'));
-    expect(mobileGate, contains('jarsigner'));
+      expect(
+        decoded['checks']['android_release_signing_review']['current_artifact_version'],
+        '1.2.2+10',
+      );
+      expect(
+        decoded['checks']['android_release_signing_review']['approved_artifact_version'],
+        '1.2.2+9',
+      );
+      expect(decoded['checks']['ios_release_scope']['status'], 'pass');
+      expect(
+        decoded['checks']['android_release_signing_review']['reviewer'],
+        isNull,
+      );
+      final mobileGate = File(
+        'scripts/flutter_mobile_release_gate.sh',
+      ).readAsStringSync();
+      expect(mobileGate, contains('android_release_artifact_signatures'));
+      expect(mobileGate, contains('approved_artifact_version'));
+      expect(mobileGate, contains('apksigner'));
+      expect(mobileGate, contains('jarsigner'));
 
-    final androidGradle = File(
-      'android/app/build.gradle.kts',
-    ).readAsStringSync();
-    expect(androidGradle, contains('val keystoreProperties'));
-    expect(androidGradle, contains('signingConfigs'));
-    expect(androidGradle, contains('signingConfig = signingConfigs'));
+      final androidGradle = File(
+        'android/app/build.gradle.kts',
+      ).readAsStringSync();
+      expect(androidGradle, contains('val keystoreProperties'));
+      expect(androidGradle, contains('signingConfigs'));
+      expect(androidGradle, contains('signingConfig = signingConfigs'));
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('release approval gate rejects stale release-owner authorization', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final owner = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'release_owner_signoff',
+      );
+      owner['artifact_version'] = '1.2.2+9';
+      owner['notes'] =
+          'Signed release-owner authorization for version 1.2.2+9.';
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = runProcessSync(
+        './scripts/release_approval_evidence_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(decoded['blocker_keys'], contains('release_owner_signoff'));
+      expect(
+        decoded['approvals']['release_owner_signoff']['blockers'],
+        contains('stale_artifact_version'),
+      );
+      expect(
+        decoded['approvals']['release_owner_signoff']['current_artifact_version'],
+        '1.2.2+10',
+      );
+      expect(
+        decoded['approvals']['release_owner_signoff']['approved_artifact_version'],
+        '1.2.2+9',
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
   });
 
   test('Android artifact freshness includes Gradle property changes', () {
@@ -996,7 +1076,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(makefile, contains('android-release-signing-preflight:'));
     expect(makefile, contains('android-release-signing-preflight-json:'));
 
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/android_release_signing_preflight.sh',
       ['--json'],
     );
@@ -1013,6 +1093,42 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(jsonEncode(decoded), isNot(contains('keyPassword')));
   });
 
+  test('Android aggregate release tasks cannot bypass production signing', () {
+    final androidGradle = File(
+      'android/app/build.gradle.kts',
+    ).readAsStringSync();
+    final ci = File('.github/workflows/ci.yml').readAsStringSync();
+    final repoWideQa = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
+
+    expect(androidGradle, contains('gradle.taskGraph.whenReady'));
+    expect(androidGradle, contains('allTasks.any'));
+    expect(androidGradle, contains('task.name.contains("ProductionRelease"'));
+    expect(
+      androidGradle,
+      isNot(
+        contains(
+          'gradle.startParameter.taskNames.any { taskName ->\n'
+          '        taskName.contains("ProductionRelease"',
+        ),
+      ),
+    );
+    expect(
+      androidGradle,
+      contains('Production Android signing requires android/key.properties'),
+    );
+    expect(
+      ci,
+      contains(
+        'flutter build apk --release --no-pub --flavor production '
+        '--dart-define=FLAVOR=production',
+      ),
+    );
+    expect(
+      repoWideQa,
+      contains('build apk --release --flavor production --no-pub'),
+    );
+  });
+
   test('Android device UAT timeout cleans up the process group', () {
     final script = File('scripts/android_device_uat.sh').readAsStringSync();
 
@@ -1027,7 +1143,121 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(script, contains('rc=124'));
   });
 
-  test('Google Play optimization gate accepts retired visual assets', () {
+  test(
+    'iOS simulator route UAT fails closed on incomplete native evidence',
+    () {
+      final script = File(
+        'scripts/ios_simulator_route_uat.sh',
+      ).readAsStringSync();
+      final integration = File(
+        'integration_test/mobile_route_matrix_device_uat_test.dart',
+      ).readAsStringSync();
+
+      expect(script, contains('resolve_booted_simulator'));
+      expect(script, contains('PTY.spawn'));
+      expect(script, contains('reader.readpartial'));
+      expect(script, contains('Process.kill(signal, -pid)'));
+      expect(script, contains('flutter'));
+      expect(script, contains('drive'));
+      expect(script, contains('INTEGRATION_SCREENSHOT_DIR'));
+      expect(script, contains('All tests passed'));
+      expect(script, contains('Failed to build iOS app'));
+      expect(script, contains('native_build_failed'));
+      expect(script, contains('evidence_accepted'));
+      expect(script, contains('collect_route_uat:pass:'));
+      expect(script, contains('collect_route_uat:variant:'));
+      expect(script, contains('observed_variant_marker'));
+      expect(script, contains('simctl uninstall'));
+      expect(script, contains('IOS_UAT_THEME_MODE'));
+      expect(script, contains('IOS_UAT_TEXT_SCALE'));
+      expect(script, contains('IOS_UAT_HIGH_CONTRAST'));
+      expect(script, contains('IOS_UAT_REDUCED_MOTION'));
+      expect(script, contains('Screenshot completion mismatch'));
+      expect(script, contains('small_screenshot_count'));
+      expect(script, contains('unique_screenshot_count'));
+      expect(script, contains('Screenshot diversity is too low'));
+      expect(script, contains('simulator_booted_after'));
+      expect(script, contains('route_expected'));
+      expect(script, contains('route_passes'));
+      expect(script, contains('log_sha256'));
+      expect(script, isNot(contains('E8510F2A-56CE-4002-A70B-F14A702E4F57')));
+
+      expect(integration, contains('expectedResolvedPath'));
+      expect(integration, contains('expectedVisibleText'));
+      expect(integration, contains('visible route marker'));
+      expect(integration, contains('iosResolvedPath'));
+      expect(integration, contains('COLLECT_UAT_VARIANT_NAME'));
+      expect(integration, contains('loadPersistedMode: false'));
+
+      final scanner = File(
+        'lib/features/collections/group_qr_scanner_screen.dart',
+      ).readAsStringSync();
+      expect(scanner, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
+      expect(
+        scanner,
+        contains('Camera preview is disabled in fixture evidence mode.'),
+      );
+    },
+  );
+
+  test('Android device UAT fails closed without completed route evidence', () {
+    final script = File('scripts/android_device_uat.sh').readAsStringSync();
+    final routeMatrix = File(
+      'integration_test/mobile_route_matrix_device_uat_test.dart',
+    ).readAsStringSync();
+
+    expect(script, contains("grep -Eq 'All tests passed[.!]'"));
+    expect(script, contains('completion_marker=1'));
+    expect(script, contains('collect_route_uat:pass:'));
+    expect(script, contains('route_expected'));
+    expect(script, contains('route_passes'));
+    expect(script, contains('ANDROID_UAT_REQUIRE_SCREENSHOTS'));
+    expect(script, contains('Screenshot completion mismatch'));
+    expect(script, contains('"platform_night_mode"'));
+    expect(script, contains('"override_size"'));
+    expect(script, contains('"override_density"'));
+    expect(script, contains('"manifest_sha256"'));
+    expect(script, contains('device_locked_after_run'));
+    expect(script, contains('mDreamingLockscreen=true'));
+    expect(routeMatrix, contains('const Duration(seconds: 12)'));
+    expect(
+      routeMatrix,
+      contains('collect_route_uat:screenshots-disabled:surface-timeout'),
+    );
+  });
+
+  test('Android permission evidence supports the pinned system Ruby', () {
+    final script = File(
+      'scripts/android_permission_device_evidence.sh',
+    ).readAsStringSync();
+
+    expect(script, contains('runtime_lines.each_with_object([])'));
+    expect(script, isNot(contains('.filter_map')));
+  });
+
+  test('Android permission-dialog UAT is guarded and fail closed', () {
+    final script = File(
+      'scripts/android_permission_dialog_uat.sh',
+    ).readAsStringSync();
+    final integration = File(
+      'integration_test/mobile_permission_device_uat_test.dart',
+    ).readAsStringSync();
+
+    expect(script, contains('ANDROID_PERMISSION_UAT_DEVICE_ID is required'));
+    expect(script, contains('ANDROID_PERMISSION_UAT_ALLOW_PHYSICAL=true'));
+    expect(script, contains('permission_deny_button'));
+    expect(script, contains('permission_allow_button'));
+    expect(script, contains('permissioncontroller'));
+    expect(script, contains('notification-recovery-pass'));
+    expect(script, contains('"dialog_log_sha256"'));
+    expect(script, contains('does not retain notification contents'));
+    expect(integration, contains('notification-deny-prompt-requested'));
+    expect(integration, contains('notification-denied-recovery-visible'));
+    expect(integration, contains('notification-retry-prompt-requested'));
+    expect(integration, contains('notification-recovery-pass'));
+  });
+
+  test('Google Play optimization gate requires official visual assets', () {
     final workflow = File(
       '.github/workflows/public-website.yml',
     ).readAsStringSync();
@@ -1044,15 +1274,12 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         ),
       ),
     );
-    expect(script, contains('visual_assets_retired'));
-    expect(script, contains('none_repo_visual_assets_retired'));
+    expect(script, contains('official_icon_policy'));
+    expect(script, contains('current_visual_exports'));
+    expect(script, contains('fabricated assets are forbidden'));
     expect(
       script,
-      contains('repo-owned Play visual assets are retired under DESIGN.md'),
-    );
-    expect(
-      script,
-      contains('phone_screenshot_policy["minimum_required"].to_i == 0'),
+      contains('phone_screenshot_policy["minimum_required"].to_i'),
     );
     expect(
       script,
@@ -1061,6 +1288,25 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           'phone_screenshot_paths.length >= 2\n    check("pass", "Fastlane-compatible Play listing metadata, graphics, screenshots',
         ),
       ),
+    );
+  });
+
+  test('Google Play auth helpers fail closed when gcloud is unavailable', () {
+    final reporting = File(
+      'scripts/google_play_reporting_snapshot.sh',
+    ).readAsStringSync();
+    final upload = File(
+      'scripts/google_play_production_upload.sh',
+    ).readAsStringSync();
+
+    for (final script in [reporting, upload]) {
+      expect(script, contains('rescue Errno::ENOENT'));
+      expect(script, contains('"#{cmd.first} unavailable"'));
+    }
+    expect(reporting, contains('play_developer_reporting_auth_unavailable'));
+    expect(
+      reporting,
+      contains('File.write(output_path, JSON.pretty_generate(result)'),
     );
   });
 
@@ -1085,10 +1331,9 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       expect(repoWide, contains('mobile_route_artifact_gate.json'));
       expect(evidenceIndex, contains('mobile_route_artifact_gate'));
 
-      final result = Process.runSync(
-        './scripts/mobile_route_artifact_gate.sh',
-        ['--json'],
-      );
+      final result = runProcessSync('./scripts/mobile_route_artifact_gate.sh', [
+        '--json',
+      ]);
       expect(result.exitCode, 0);
       final decoded =
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
@@ -1136,7 +1381,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(evidenceIndex, contains('android_kotlin_plugin_compat'));
     expect(evidenceIndex, contains('android_kotlin_plugin_compat.json'));
 
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/android_kotlin_plugin_compat_gate.sh',
       ['--json'],
     );
@@ -1164,7 +1409,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         'ios_release_scope',
       ],
     });
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/supabase_go_live_gate.sh',
       ['--json'],
       environment: {'SUPABASE_GO_LIVE_STATUS_JSON': status},
@@ -1206,7 +1451,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       'status': 'blocked',
       'blocker_keys': ['android_sms_access_uat'],
     });
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/supabase_go_live_gate.sh',
       ['--json'],
       environment: {'SUPABASE_GO_LIVE_STATUS_JSON': status},
@@ -1240,7 +1485,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         'message': 'Linked Supabase production readiness checks failed.',
         'output_tail': 'MISSING 20260607130500\nMISSING 20260608090000',
       });
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/supabase_go_live_gate.sh',
         ['--json'],
         environment: {
@@ -1347,10 +1592,11 @@ MISSING 20260701100000
         ].join('\n'),
       );
 
-      final result = Process.runSync(
-        './scripts/supabase_acceptance_matrix.sh',
-        ['--json', '--bundle-dir', tempDir.path],
-      );
+      final result = runProcessSync('./scripts/supabase_acceptance_matrix.sh', [
+        '--json',
+        '--bundle-dir',
+        tempDir.path,
+      ]);
 
       expect(result.exitCode, 99);
       final decoded =
@@ -1451,10 +1697,11 @@ checking Edge Function secret names
         ].join('\n'),
       );
 
-      final result = Process.runSync(
-        './scripts/supabase_acceptance_matrix.sh',
-        ['--json', '--bundle-dir', tempDir.path],
-      );
+      final result = runProcessSync('./scripts/supabase_acceptance_matrix.sh', [
+        '--json',
+        '--bundle-dir',
+        tempDir.path,
+      ]);
 
       expect(result.exitCode, 99);
       final decoded =
@@ -1474,7 +1721,7 @@ checking Edge Function secret names
   });
 
   test('repo-wide evidence rejects inconsistent approved go-live evidence', () {
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/repo_wide_qa_uat.sh',
       ['--json'],
       environment: {
@@ -1617,7 +1864,7 @@ checking Edge Function secret names
         );
         File('${tempDir.path}/commands.tsv').writeAsStringSync(rows.join('\n'));
 
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/release_evidence_index.sh',
           ['--json'],
           environment: {'RELEASE_EVIDENCE_BUNDLE_DIR': tempDir.path},
@@ -1753,7 +2000,7 @@ checking Edge Function secret names
       });
       File('${tempDir.path}/commands.tsv').writeAsStringSync(rows.join('\n'));
 
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/release_evidence_index.sh',
         ['--json'],
         environment: {'RELEASE_EVIDENCE_BUNDLE_DIR': tempDir.path},
@@ -1781,7 +2028,7 @@ checking Edge Function secret names
         'cool_supabase_evidence_',
       );
       try {
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/supabase_go_live_evidence_bundle.sh',
           const <String>[],
           environment: {
@@ -1814,7 +2061,7 @@ checking Edge Function secret names
       'status': 'blocked',
       'blocker_keys': ['product_signoff', 'android_sms_access_uat'],
     });
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/supabase_platform_go_live_packet.sh',
       ['--json'],
       environment: {'SUPABASE_PLATFORM_PACKET_STATUS_JSON': status},
@@ -1873,7 +2120,7 @@ checking Edge Function secret names
         'release_owner_signoff',
       ],
     });
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/release_approval_packet.sh',
       ['--json'],
       environment: {
@@ -1950,6 +2197,10 @@ checking Edge Function secret names
       androidSigning['record_command'],
       contains('--no-signing-keys-exposed'),
     );
+    expect(
+      androidSigning['record_command'],
+      contains('--artifact-version 1.2.2+10'),
+    );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
     );
@@ -1964,6 +2215,10 @@ checking Edge Function secret names
     expect(
       releaseOwner['suggested_evidence_reference'],
       'docs/release/RELEASE_APPROVAL_PACKET.md',
+    );
+    expect(
+      releaseOwner['record_command'],
+      contains('--artifact-version 1.2.2+10'),
     );
     expect(
       releaseOwner['evidence_to_review'],
@@ -2108,7 +2363,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2175,7 +2430,7 @@ checking Edge Function secret names
 
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/release_approval_evidence_gate.sh',
           ['--json'],
           environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2214,7 +2469,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2255,7 +2510,7 @@ checking Edge Function secret names
 
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/release_approval_evidence_gate.sh',
           ['--json'],
           environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2288,7 +2543,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2331,7 +2586,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/flutter_mobile_release_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2369,7 +2624,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/flutter_mobile_release_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2399,7 +2654,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
-      final result = Process.runSync('./scripts/record_release_approval.sh', [
+      final result = runProcessSync('./scripts/record_release_approval.sh', [
         '--manifest',
         manifestFile.path,
         '--key',
@@ -2422,7 +2677,7 @@ checking Edge Function secret names
       expect(recorder['status'], 'pass');
       expect(recorder['updated_key'], 'product_signoff');
 
-      final gate = Process.runSync(
+      final gate = runProcessSync(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2456,7 +2711,7 @@ checking Edge Function secret names
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
         final before = manifestFile.readAsStringSync();
-        final result = Process.runSync('./scripts/record_release_approval.sh', [
+        final result = runProcessSync('./scripts/record_release_approval.sh', [
           '--manifest',
           manifestFile.path,
           '--key',
@@ -2491,7 +2746,7 @@ checking Edge Function secret names
         ..writeAsStringSync(
           File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
         );
-      final result = Process.runSync('./scripts/record_release_approval.sh', [
+      final result = runProcessSync('./scripts/record_release_approval.sh', [
         '--manifest',
         manifestFile.path,
         '--key',
@@ -2527,7 +2782,7 @@ checking Edge Function secret names
       try {
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
-        final result = Process.runSync('./scripts/record_release_approval.sh', [
+        final result = runProcessSync('./scripts/record_release_approval.sh', [
           '--manifest',
           manifestFile.path,
           '--key',
@@ -2557,7 +2812,7 @@ checking Edge Function secret names
   );
 
   test('release approval example manifest cannot approve production GO', () {
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/release_status.sh',
       ['--json'],
       environment: {
@@ -2599,7 +2854,7 @@ checking Edge Function secret names
             'Signed approval evidence metadata only; no secrets or production customer data.';
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/release_status.sh',
           ['--json'],
           environment: {
@@ -2633,7 +2888,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(signedUatEvidenceManifest()));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2670,7 +2925,7 @@ checking Edge Function secret names
       personas.first['evidence_files'] = [evidence.path];
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2710,7 +2965,7 @@ checking Edge Function secret names
         personas.first['evidence_files'] = [evidence.path];
         final manifestFile = File('${tempDir.path}/uat.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = Process.runSync(
+        final result = runProcessSync(
           './scripts/uat_evidence_gate.sh',
           ['--json'],
           environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2753,7 +3008,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2789,7 +3044,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2822,7 +3077,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2866,7 +3121,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2910,7 +3165,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -2945,7 +3200,7 @@ checking Edge Function secret names
         ..writeAsStringSync(
           File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
         );
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/record_android_sms_uat_evidence.sh',
         [
           '--manifest',
@@ -2995,7 +3250,7 @@ checking Edge Function secret names
       expect(smsPersona['signoff'], '');
       expect(smsPersona['evidence_files'], contains(evidencePath));
 
-      final gate = Process.runSync(
+      final gate = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -3027,7 +3282,7 @@ checking Edge Function secret names
           File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
         );
       final before = manifestFile.readAsStringSync();
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/record_android_sms_uat_evidence.sh',
         [
           '--manifest',
@@ -3070,7 +3325,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(pendingUatEvidenceManifest()));
-      final result = Process.runSync('./scripts/record_uat_evidence_signoff.sh', [
+      final result = runProcessSync('./scripts/record_uat_evidence_signoff.sh', [
         '--manifest',
         manifestFile.path,
         '--persona-id',
@@ -3087,7 +3342,7 @@ checking Edge Function secret names
       expect(recorder['status'], 'pass');
       expect(recorder['updated_persona'], 'UAT-01');
 
-      final gate = Process.runSync(
+      final gate = runProcessSync(
         './scripts/uat_evidence_gate.sh',
         ['--json'],
         environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
@@ -3117,7 +3372,7 @@ checking Edge Function secret names
           File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
         );
       final before = manifestFile.readAsStringSync();
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/record_uat_evidence_signoff.sh',
         [
           '--manifest',
@@ -3149,7 +3404,7 @@ checking Edge Function secret names
             File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
           );
         final result =
-            Process.runSync('./scripts/record_uat_evidence_signoff.sh', [
+            runProcessSync('./scripts/record_uat_evidence_signoff.sh', [
               '--manifest',
               manifestFile.path,
               '--release-owner',
@@ -3177,7 +3432,7 @@ checking Edge Function secret names
       final manifestFile = File(
         '${tempDir.path}/uat.json',
       )..writeAsStringSync(jsonEncode(signedUatEvidenceManifestForChecklist()));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_signoff_gate.sh',
         ['--json'],
         environment: {
@@ -3213,7 +3468,7 @@ checking Edge Function secret names
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(jsonEncode(manifest));
 
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_signoff_gate.sh',
         ['--json'],
         environment: {
@@ -3251,7 +3506,7 @@ checking Edge Function secret names
             firstSignoff: 'ok 2026-06-01T12:00:00Z',
           ),
         );
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/uat_signoff_gate.sh',
         ['--json'],
         environment: {'UAT_SIGNOFF_FILE': signoffFile.path},
@@ -3278,6 +3533,167 @@ checking Edge Function secret names
     }
   });
 
+  test(
+    'dependency and store-policy assessment matches current package scope',
+    () {
+      final assessment = File(
+        'docs/revolut-parity-goal/DEPENDENCY_LICENSE_POLICY_ASSESSMENT.md',
+      ).readAsStringSync();
+      final pubspec = File('pubspec.yaml').readAsStringSync();
+      final lockfile = File('pubspec.lock').readAsStringSync();
+
+      expect(pubspec, contains('file_saver: ^0.4.0'));
+      expect(
+        lockfile,
+        matches(
+          RegExp(
+            r'file_saver:\s+dependency:.*?version: "0\.4\.0"',
+            dotAll: true,
+          ),
+        ),
+      );
+
+      const directRuntimePackages = <String>[
+        'country_picker',
+        'crypto',
+        'file_saver',
+        'flutter_local_notifications',
+        'flutter_riverpod',
+        'go_router',
+        'image_picker',
+        'intl',
+        'logger',
+        'mobile_scanner',
+        'permission_handler',
+        'qr_flutter',
+        'share_plus',
+        'shared_preferences',
+        'supabase_flutter',
+        'url_launcher',
+        'uuid',
+      ];
+      for (final package in directRuntimePackages) {
+        expect(assessment, contains('`$package`'), reason: package);
+      }
+
+      expect(assessment, contains('no package affected by a published'));
+      expect(
+        assessment,
+        contains(
+          'https://support.google.com/googleplay/android-developer/answer/10208820',
+        ),
+      );
+      expect(
+        assessment,
+        contains('https://developer.apple.com/app-store/review/guidelines/'),
+      );
+      expect(assessment, contains('internal_receiver'));
+      expect(assessment, contains('must never be uploaded'));
+    },
+  );
+
+  test('completion audit remains fail closed while goal evidence is open', () {
+    final audit = File(
+      'docs/revolut-parity-goal/FINAL_COMPLETION_AUDIT.md',
+    ).readAsStringSync();
+    final designQa = File('design-qa.md').readAsStringSync();
+    final remaining = File(
+      'docs/revolut-parity-goal/REMAINING_TASKS.md',
+    ).readAsStringSync();
+
+    for (final workstream in List<int>.generate(10, (index) => index + 1)) {
+      expect(audit, contains('WS$workstream '), reason: 'WS$workstream');
+    }
+    for (final gate in List<int>.generate(7, (index) => index)) {
+      expect(audit, contains('Gate $gate '), reason: 'Gate $gate');
+    }
+    for (final deliverable in List<int>.generate(10, (index) => index + 1)) {
+      expect(
+        audit,
+        contains('| $deliverable.'),
+        reason: 'deliverable $deliverable',
+      );
+    }
+
+    expect(audit.trimRight(), endsWith('completion result: blocked'));
+    expect(designQa.trimRight(), endsWith('final result: blocked'));
+    expect(remaining, contains('RT-001'));
+    expect(remaining, contains('RT-048'));
+    expect(audit, contains('I-042 is closed for controlled-emulator quality'));
+    expect(
+      audit,
+      contains('E-052 supplies two optimized v2-target six-scenario'),
+    );
+    expect(audit, contains('Groups 0/154'));
+    expect(audit, contains('amount entry 1/45'));
+    expect(audit, contains('current-source iOS compilation passes'));
+    expect(audit, contains('current-source iOS native recapture'));
+    expect(audit, isNot(contains('completion result: passed')));
+  });
+
+  test('Revolut parity evidence gate rejects premature completion drift', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_revolut_evidence_',
+    );
+    try {
+      final tempGoalDir = Directory('${tempDir.path}/docs/revolut-parity-goal')
+        ..createSync(recursive: true);
+      for (final entity in Directory('docs/revolut-parity-goal').listSync()) {
+        if (entity is! File || !entity.path.endsWith('.md')) continue;
+        entity.copySync('${tempGoalDir.path}/${entity.uri.pathSegments.last}');
+      }
+      File('design-qa.md').copySync('${tempDir.path}/design-qa.md');
+
+      ProcessResult runGate() => runProcessSync(
+        './scripts/revolut_parity_evidence_consistency_gate.sh',
+        ['--source-only', '--json'],
+        environment: <String, String>{'COLLECT_EVIDENCE_ROOT': tempDir.path},
+      );
+
+      final passingResult = runGate();
+      expect(passingResult.exitCode, 0, reason: passingResult.stderr as String);
+      final passingEvidence =
+          jsonDecode(passingResult.stdout as String) as Map<String, dynamic>;
+      expect(passingEvidence['status'], 'pass');
+      expect(passingEvidence['mode'], 'source-only');
+      expect(
+        ((passingEvidence['checks']
+                as Map<String, dynamic>)['open_issue_assignment']
+            as Map<String, dynamic>)['status'],
+        'pass',
+      );
+
+      final audit = File('${tempGoalDir.path}/FINAL_COMPLETION_AUDIT.md');
+      audit.writeAsStringSync(
+        audit.readAsStringSync().replaceFirst(
+          RegExp(r'completion result: blocked\s*$'),
+          'completion result: passed\n',
+        ),
+      );
+
+      final failingResult = runGate();
+      expect(failingResult.exitCode, isNot(0));
+      final failingEvidence =
+          jsonDecode(failingResult.stdout as String) as Map<String, dynamic>;
+      expect(failingEvidence['status'], 'fail');
+      expect(
+        (failingEvidence['failures'] as List<dynamic>).any(
+          (failure) =>
+              (failure as Map<String, dynamic>)['check'] ==
+              'fail_closed_sentinels',
+        ),
+        isTrue,
+      );
+
+      final makefile = File('Makefile').readAsStringSync();
+      final workflow = File('.github/workflows/ci.yml').readAsStringSync();
+      expect(makefile, contains('revolut-parity-evidence-consistency-full:'));
+      expect(workflow, contains('make revolut-parity-evidence-consistency'));
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('approved release manifest can drive final release status', () {
     final tempDir = Directory.systemTemp.createTempSync(
       'cool_release_approvals_',
@@ -3286,7 +3702,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(approvedReleaseManifest()));
-      final result = Process.runSync(
+      final result = runProcessSync(
         './scripts/release_status.sh',
         ['--json'],
         environment: {

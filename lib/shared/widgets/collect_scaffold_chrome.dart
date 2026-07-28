@@ -32,15 +32,15 @@ class ScreenHeader extends StatelessWidget {
             child: IconButtonTheme(
               data: IconButtonThemeData(
                 style: IconButton.styleFrom(
-                  fixedSize: const Size(42, 42),
-                  minimumSize: const Size(42, 42),
+                  fixedSize: const Size.square(CollectSpacing.iconTarget),
+                  minimumSize: const Size.square(CollectSpacing.iconTarget),
                   padding: EdgeInsets.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   foregroundColor: foreground,
                 ),
               ),
               child: SizedBox.square(
-                dimension: 42,
+                dimension: CollectSpacing.iconTarget,
                 child: Center(child: action),
               ),
             ),
@@ -62,8 +62,8 @@ class ScreenHeader extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded),
             color: foreground,
             style: IconButton.styleFrom(
-              fixedSize: const Size(44, 44),
-              minimumSize: const Size(44, 44),
+              fixedSize: const Size.square(CollectSpacing.iconTarget),
+              minimumSize: const Size.square(CollectSpacing.iconTarget),
               padding: EdgeInsets.zero,
               backgroundColor: CollectRuntimeTokens.chromeControl(colors),
               side: BorderSide(
@@ -87,9 +87,9 @@ class ScreenHeader extends StatelessWidget {
                       title,
                       style: textTheme.headlineSmall?.copyWith(
                         color: foreground,
-                        fontWeight: FontWeight.w700,
-                        height: 1,
-                        letterSpacing: 0,
+                        fontWeight: CollectTypography.weightBold,
+                        height: CollectTypography.leadingSolid,
+                        letterSpacing: CollectTypography.trackingDefault,
                       ),
                       maxLines: 1,
                       softWrap: false,
@@ -103,8 +103,8 @@ class ScreenHeader extends StatelessWidget {
                     subtitle!,
                     style: textTheme.bodySmall?.copyWith(
                       color: CollectRuntimeTokens.chromeMutedForeground(colors),
-                      height: 1.15,
-                      letterSpacing: 0,
+                      height: CollectTypography.leadingTitleRelaxed,
+                      letterSpacing: CollectTypography.trackingDefault,
                     ),
                     maxLines: 1,
                     softWrap: false,
@@ -153,7 +153,8 @@ class CollectChromeAction {
 
 class CollectScreenTopChrome extends StatelessWidget {
   const CollectScreenTopChrome({
-    this.avatarLabel = 'C',
+    this.avatarLabel,
+    this.avatarIcon,
     this.avatarTooltip = 'Profile',
     this.searchLabel = 'Search',
     this.onAvatarTap,
@@ -162,7 +163,8 @@ class CollectScreenTopChrome extends StatelessWidget {
     super.key,
   });
 
-  final String avatarLabel;
+  final String? avatarLabel;
+  final IconData? avatarIcon;
   final String avatarTooltip;
   final String searchLabel;
   final VoidCallback? onAvatarTap;
@@ -176,44 +178,68 @@ class CollectScreenTopChrome extends StatelessWidget {
     final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
     final control = CollectRuntimeTokens.chromeControl(colors);
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
-    final trimmedAvatar = avatarLabel.trim();
-    final initial = trimmedAvatar.isEmpty
-        ? 'C'
-        : String.fromCharCode(trimmedAvatar.runes.first).toUpperCase();
+    final VoidCallback? handleAvatarTap = onAvatarTap == null
+        ? null
+        : () {
+            CollectHaptics.selection();
+            onAvatarTap!();
+          };
+    final VoidCallback? handleSearchTap = onSearchTap == null
+        ? null
+        : () {
+            CollectHaptics.selection();
+            onSearchTap!();
+          };
     return Semantics(
       container: true,
+      explicitChildNodes: true,
       label: 'Screen actions',
       child: Row(
         children: [
-          Tooltip(
-            message: avatarTooltip,
-            child: Material(
-              color: control,
-              shape: const CircleBorder(),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: onAvatarTap == null
-                    ? null
-                    : () {
-                        CollectHaptics.selection();
-                        onAvatarTap!();
-                      },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: border),
-                  ),
-                  child: SizedBox.square(
-                    dimension: 44,
-                    child: Center(
-                      child: Text(
-                        initial,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: foreground,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 0,
-                            ),
+          Semantics(
+            button: onAvatarTap != null,
+            enabled: onAvatarTap != null,
+            label: avatarTooltip,
+            onTap: handleAvatarTap,
+            child: ExcludeSemantics(
+              child: Tooltip(
+                message: avatarTooltip,
+                child: Material(
+                  color: control,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: handleAvatarTap,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: border),
+                      ),
+                      child: SizedBox.square(
+                        dimension: 44,
+                        child: Center(
+                          child: SizedBox.square(
+                            dimension: 24,
+                            child: avatarIcon != null
+                                ? Icon(
+                                    avatarIcon,
+                                    key: const Key(
+                                      'collect_top_chrome_avatar_icon',
+                                    ),
+                                    color: foreground,
+                                    size: 22,
+                                  )
+                                : Image.asset(
+                                    CollectRuntimeAssets.officialLogo,
+                                    key: const Key(
+                                      'collect_top_chrome_official_logo',
+                                    ),
+                                    fit: BoxFit.contain,
+                                    filterQuality: FilterQuality.high,
+                                    excludeFromSemantics: true,
+                                  ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -223,47 +249,52 @@ class CollectScreenTopChrome extends StatelessWidget {
           ),
           CollectSpacing.gapW12,
           Expanded(
-            child: Tooltip(
-              message: searchLabel,
-              child: Material(
-                color: control,
-                borderRadius: CollectRadius.pillBorder,
-                child: InkWell(
-                  borderRadius: CollectRadius.pillBorder,
-                  onTap: onSearchTap == null
-                      ? null
-                      : () {
-                          CollectHaptics.selection();
-                          onSearchTap!();
-                        },
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
+            child: Semantics(
+              button: onSearchTap != null,
+              enabled: onSearchTap != null,
+              label: searchLabel,
+              onTap: handleSearchTap,
+              child: ExcludeSemantics(
+                child: Tooltip(
+                  message: searchLabel,
+                  child: Material(
+                    color: control,
+                    borderRadius: CollectRadius.pillBorder,
+                    child: InkWell(
                       borderRadius: CollectRadius.pillBorder,
-                      border: Border.all(color: border),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: CollectSpacing.x3,
-                        vertical: 11,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(CollectIcons.search, color: muted, size: 20),
-                          CollectSpacing.gapW8,
-                          Expanded(
-                            child: Text(
-                              searchLabel,
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: muted,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0,
-                                  ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                      onTap: handleSearchTap,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: CollectRadius.pillBorder,
+                          border: Border.all(color: border),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: CollectSpacing.x3,
+                            vertical: 11,
                           ),
-                        ],
+                          child: Row(
+                            children: [
+                              Icon(CollectIcons.search, color: muted, size: 20),
+                              CollectSpacing.gapW8,
+                              Expanded(
+                                child: Text(
+                                  searchLabel,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: muted,
+                                        fontWeight:
+                                            CollectTypography.weightBold,
+                                        letterSpacing:
+                                            CollectTypography.trackingDefault,
+                                      ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -273,21 +304,29 @@ class CollectScreenTopChrome extends StatelessWidget {
           ),
           for (final action in actions.take(2)) ...[
             CollectSpacing.gapW8,
-            Tooltip(
-              message: action.tooltip,
-              child: IconButton(
-                onPressed: () {
-                  CollectHaptics.selection();
-                  action.onPressed();
-                },
-                icon: Icon(action.icon),
-                color: foreground,
-                style: IconButton.styleFrom(
-                  fixedSize: const Size(44, 44),
-                  minimumSize: const Size(44, 44),
-                  padding: EdgeInsets.zero,
-                  backgroundColor: control,
-                  side: BorderSide(color: border),
+            Semantics(
+              button: true,
+              label: action.tooltip,
+              onTap: () {
+                CollectHaptics.selection();
+                action.onPressed();
+              },
+              child: ExcludeSemantics(
+                child: IconButton(
+                  tooltip: action.tooltip,
+                  onPressed: () {
+                    CollectHaptics.selection();
+                    action.onPressed();
+                  },
+                  icon: Icon(action.icon),
+                  color: foreground,
+                  style: IconButton.styleFrom(
+                    fixedSize: const Size.square(CollectSpacing.iconTarget),
+                    minimumSize: const Size.square(CollectSpacing.iconTarget),
+                    padding: EdgeInsets.zero,
+                    backgroundColor: control,
+                    side: BorderSide(color: border),
+                  ),
                 ),
               ),
             ),
@@ -324,7 +363,7 @@ class CollectScreenHero extends StatelessWidget {
     this.quickActions = const [],
     this.icon,
     this.semanticLabel,
-    this.centerGap = CollectSpacing.x8,
+    this.centerGap = CollectSpacing.x5,
     super.key,
   });
 
@@ -344,106 +383,117 @@ class CollectScreenHero extends StatelessWidget {
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
     final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final headlineSize = textScale > 1.3 ? 42.0 : 52.0;
-    return Semantics(
-      container: true,
-      header: true,
-      label:
-          semanticLabel ??
-          [
-            if (eyebrow != null) eyebrow,
-            metric ?? title,
-            if (subtitle != null) subtitle,
-          ].whereType<String>().join(', '),
-      child: ExcludeSemantics(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: centerGap),
-            if (icon != null) ...[
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: foreground.withValues(alpha: 0.10),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: foreground.withValues(alpha: 0.16)),
-                ),
-                child: SizedBox.square(
-                  dimension: 58,
-                  child: Icon(icon, color: foreground, size: 28),
-                ),
-              ),
-              CollectSpacing.gap16,
-            ],
-            if (eyebrow != null) ...[
-              Text(
-                eyebrow!,
-                textAlign: TextAlign.center,
-                style: CollectTypography.eyebrowLabel(muted),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              CollectSpacing.gap8,
-            ],
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
+    final headlineSize = textScale > 1.3
+        ? CollectTypography.sizePageCompact
+        : CollectTypography.sizeHero;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Semantics(
+          container: true,
+          header: true,
+          label:
+              semanticLabel ??
+              [
+                if (eyebrow != null) eyebrow,
                 metric ?? title,
-                textAlign: TextAlign.center,
-                style:
-                    (metric == null
-                            ? Theme.of(context).textTheme.displaySmall
-                            : CollectTypography.amountDisplay(foreground))
-                        ?.copyWith(
-                          color: foreground,
-                          fontSize: metric == null ? 40 : headlineSize,
-                          fontWeight: FontWeight.w900,
-                          height: 0.96,
-                          letterSpacing: 0,
-                        ),
-                maxLines: 1,
-                softWrap: false,
-              ),
+                if (subtitle != null) subtitle,
+              ].whereType<String>().join(', '),
+          child: ExcludeSemantics(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: centerGap),
+                if (icon != null) ...[
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: foreground.withValues(alpha: 0.10),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: foreground.withValues(alpha: 0.16),
+                      ),
+                    ),
+                    child: SizedBox.square(
+                      dimension: 58,
+                      child: Icon(icon, color: foreground, size: 28),
+                    ),
+                  ),
+                  CollectSpacing.gap16,
+                ],
+                if (eyebrow != null) ...[
+                  Text(
+                    eyebrow!,
+                    textAlign: TextAlign.center,
+                    style: CollectTypography.eyebrowLabel(muted),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  CollectSpacing.gap8,
+                ],
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    metric ?? title,
+                    textAlign: TextAlign.center,
+                    style:
+                        (metric == null
+                                ? Theme.of(context).textTheme.displaySmall
+                                : CollectTypography.amountDisplay(foreground))
+                            ?.copyWith(
+                              color: foreground,
+                              fontSize: metric == null
+                                  ? CollectTypography.sizePageCompact
+                                  : headlineSize,
+                              fontWeight: CollectTypography.weightBold,
+                              height: CollectTypography.leadingSolid,
+                              letterSpacing: CollectTypography.trackingDefault,
+                            ),
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
+                if (metric != null) ...[
+                  CollectSpacing.gap8,
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: foreground,
+                      fontWeight: CollectTypography.weightSemibold,
+                      letterSpacing: CollectTypography.trackingDefault,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                if (subtitle != null) ...[
+                  CollectSpacing.gap8,
+                  Text(
+                    subtitle!,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: muted,
+                      fontWeight: CollectTypography.weightMedium,
+                      height: CollectTypography.leadingLabel,
+                      letterSpacing: CollectTypography.trackingDefault,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                if (primaryAction != null) ...[
+                  CollectSpacing.gap20,
+                  primaryAction!,
+                ],
+              ],
             ),
-            if (metric != null) ...[
-              CollectSpacing.gap8,
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: foreground,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-            if (subtitle != null) ...[
-              CollectSpacing.gap8,
-              Text(
-                subtitle!,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: muted,
-                  fontWeight: FontWeight.w700,
-                  height: 1.25,
-                  letterSpacing: 0,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-            if (primaryAction != null) ...[
-              CollectSpacing.gap20,
-              primaryAction!,
-            ],
-            if (quickActions.isNotEmpty) ...[
-              CollectSpacing.gap32,
-              CollectHeroQuickActionRow(actions: quickActions),
-            ],
-          ],
+          ),
         ),
-      ),
+        if (quickActions.isNotEmpty) ...[
+          CollectSpacing.gap24,
+          CollectHeroQuickActionRow(actions: quickActions),
+        ],
+      ],
     );
   }
 }
@@ -502,7 +552,7 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
                   border: Border.all(color: border),
                 ),
                 child: SizedBox.square(
-                  dimension: 54,
+                  dimension: 50,
                   child: Icon(action.icon, color: foreground, size: 24),
                 ),
               ),
@@ -512,8 +562,8 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: foreground,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0,
+                  fontWeight: CollectTypography.weightSemibold,
+                  letterSpacing: CollectTypography.trackingDefault,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

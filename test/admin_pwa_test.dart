@@ -6,6 +6,7 @@ import 'package:collect_app/admin/admin_shell.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
+import 'package:collect_app/admin/shared/components/admin_data_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -330,6 +331,83 @@ void main() {
         findsOne,
       );
       expect(find.semantics.byLabel('Overview admin section'), findsOne);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('admin shell remains usable in compact 200% text mode', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(680, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpAdminShell(
+        tester,
+        identity: _readOnlyFullIdentity,
+        location: '/admin/settings',
+        child: const Text('Read-only settings catalog'),
+        textScale: 2,
+      );
+
+      expect(
+        find.semantics.byLabel('Collect admin mobile navigation'),
+        findsOne,
+      );
+      expect(find.text('Read-only settings catalog'), findsOneWidget);
+      expect(find.text('Overview'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('admin table exposes scroll and record semantics', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        MaterialApp(
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: const TextScaler.linear(2)),
+            child: child!,
+          ),
+          home: Scaffold(
+            body: AdminDataTable(
+              onOpen: (_) {},
+              rows: [
+                AdminTableRowData(
+                  id: 'row-1',
+                  title: 'Contribution exception 0001',
+                  subtitle: 'Manual review required',
+                  status: 'Needs review',
+                  amount: 'RWF 25,000',
+                  createdAt: DateTime.utc(2026, 7, 24),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(Scrollbar), findsOneWidget);
+      expect(find.semantics.byLabel('Admin records table, 1 rows'), findsOne);
+      expect(
+        find.semantics.byLabel('Open Contribution exception 0001'),
+        findsOne,
+      );
+      expect(tester.takeException(), isNull);
     } finally {
       semantics.dispose();
     }
@@ -924,6 +1002,7 @@ Future<void> _pumpAdminShell(
   required AdminIdentity identity,
   required String location,
   required Widget child,
+  double textScale = 1,
 }) async {
   await tester.pumpWidget(const SizedBox.shrink());
   await tester.pump();
@@ -931,6 +1010,12 @@ Future<void> _pumpAdminShell(
     ProviderScope(
       overrides: [adminIdentityProvider.overrideWith((ref) async => identity)],
       child: MaterialApp(
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
         home: AdminShell(location: location, child: child),
       ),
     ),

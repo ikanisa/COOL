@@ -1,6 +1,6 @@
 part of 'collect_financial_components.dart';
 
-class AmountEntryPanel extends StatelessWidget {
+class AmountEntryPanel extends StatefulWidget {
   const AmountEntryPanel({
     required this.controller,
     required this.amount,
@@ -25,17 +25,41 @@ class AmountEntryPanel extends StatelessWidget {
   final bool showQuickAmounts;
 
   @override
+  State<AmountEntryPanel> createState() => _AmountEntryPanelState();
+}
+
+class _AmountEntryPanelState extends State<AmountEntryPanel> {
+  late final FocusNode _amountFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _amountFocusNode = FocusNode()..addListener(_handleFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _amountFocusNode
+      ..removeListener(_handleFocusChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final effectiveLabel = label?.trim().isNotEmpty == true
-        ? label!.trim()
+    final effectiveLabel = widget.label?.trim().isNotEmpty == true
+        ? widget.label!.trim()
         : 'Amount';
-    final amountSemanticValue = amount > 0
-        ? formatRwf(amount)
-        : 'No amount entered';
-    final amountStyle = CollectTypography.amountDisplay(
-      colors.textPrimary,
-    ).copyWith(fontSize: 44, height: 1.05);
+    final amountStyle = CollectTypography.amountDisplay(colors.textPrimary)
+        .copyWith(
+          fontSize: CollectTypography.sizeAmountEntry,
+          height: CollectTypography.leadingDisplayRelaxed,
+        );
     final prefixStyle = amountStyle.copyWith(color: colors.textSecondary);
     return Semantics(
       container: true,
@@ -44,6 +68,7 @@ class AmountEntryPanel extends StatelessWidget {
       child: CollectCard(
         emphasis: CollectCardEmphasis.compact,
         padding: CollectSpacing.cardPaddingComfortable,
+        blurBackground: !_amountFocusNode.hasFocus,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -59,7 +84,7 @@ class AmountEntryPanel extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
                               color: colors.textSecondary,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: CollectTypography.weightSemibold,
                             ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -67,7 +92,7 @@ class AmountEntryPanel extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (showCurrencyChip)
+                if (widget.showCurrencyChip)
                   Semantics(
                     label: 'Currency RWF',
                     child: ExcludeSemantics(
@@ -114,10 +139,10 @@ class AmountEntryPanel extends StatelessWidget {
                   container: true,
                   textField: true,
                   label: '$effectiveLabel field',
-                  value: amountSemanticValue,
                   hint: 'Enter amount in Rwandan francs',
                   child: TextField(
-                    controller: controller,
+                    controller: widget.controller,
+                    focusNode: _amountFocusNode,
                     keyboardType: TextInputType.number,
                     inputFormatters: const [_RwfAmountInputFormatter()],
                     style: amountStyle,
@@ -139,20 +164,23 @@ class AmountEntryPanel extends StatelessWidget {
                 ),
               ),
             ),
-            if (detail != null) ...[
+            if (widget.detail != null) ...[
               CollectSpacing.gap8,
-              Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
+              Text(
+                widget.detail!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ],
-            if (showQuickAmounts && quickAmounts.isNotEmpty) ...[
+            if (widget.showQuickAmounts && widget.quickAmounts.isNotEmpty) ...[
               CollectSpacing.gap16,
               Wrap(
                 spacing: CollectSpacing.x2,
                 runSpacing: CollectSpacing.x2,
                 children: [
-                  for (final option in quickAmounts)
+                  for (final option in widget.quickAmounts)
                     ChoiceChip(
                       label: Text(_compactAmount(option)),
-                      selected: amount == option,
+                      selected: widget.amount == option,
                       selectedColor:
                           CollectRuntimeTokens.chipSelectedBackground(colors),
                       backgroundColor: CollectRuntimeTokens.chipBackground(
@@ -162,29 +190,29 @@ class AmountEntryPanel extends StatelessWidget {
                       side: BorderSide(
                         color: CollectRuntimeTokens.chipBorder(
                           colors,
-                          selected: amount == option,
+                          selected: widget.amount == option,
                         ),
-                        width: amount == option ? 1.5 : 1,
+                        width: widget.amount == option ? 1.5 : 1,
                       ),
                       labelStyle: Theme.of(context).textTheme.labelLarge
                           ?.copyWith(
-                            color: amount == option
+                            color: widget.amount == option
                                 ? colors.selectedOnAccent
                                 : colors.textPrimary,
-                            fontWeight: FontWeight.w900,
+                            fontWeight: CollectTypography.weightSemibold,
                           ),
-                      onSelected: (_) => onQuickAmount(option),
+                      onSelected: (_) => widget.onQuickAmount(option),
                     ),
                 ],
               ),
             ],
-            if (error != null) ...[
+            if (widget.error != null) ...[
               CollectSpacing.gap12,
               Semantics(
                 liveRegion: true,
-                label: error!,
+                label: widget.error!,
                 child: Text(
-                  error!,
+                  widget.error!,
                   style: Theme.of(
                     context,
                   ).textTheme.bodySmall?.copyWith(color: colors.danger),
@@ -211,12 +239,14 @@ String _compactAmount(int amount) {
 class _RwfAmountInputFormatter extends TextInputFormatter {
   const _RwfAmountInputFormatter();
 
+  static final RegExp _nonDigitPattern = RegExp(r'\D');
+
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final digits = newValue.text.replaceAll(_nonDigitPattern, '');
     if (digits.isEmpty) {
       return const TextEditingValue(
         selection: TextSelection.collapsed(offset: 0),

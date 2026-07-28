@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ADMIN_PWA_BUILD_DIR:-$ROOT_DIR/build/web}"
 
-ruby -r json - "$BUILD_DIR" <<'RUBY'
+ruby -r digest -r json - "$BUILD_DIR" <<'RUBY'
 build_dir = ARGV.fetch(0)
 failures = []
 
@@ -13,12 +13,18 @@ index_path = File.join(build_dir, "index.html")
 main_js_path = File.join(build_dir, "main.dart.js")
 service_worker_path = File.join(build_dir, "custom-sw.js")
 bootstrap_path = File.join(build_dir, "flutter_bootstrap.js")
+official_icon_path = File.join(build_dir, "icons", "collect-web-512.png")
 
 failures << "missing build/web/main.dart.js" unless File.exist?(main_js_path)
 failures << "missing build/web/index.html" unless File.exist?(index_path)
 failures << "missing build/web/manifest.json" unless File.exist?(manifest_path)
 failures << "missing build/web/custom-sw.js" unless File.exist?(service_worker_path)
 failures << "missing build/web/flutter_bootstrap.js" unless File.exist?(bootstrap_path)
+failures << "missing official Collect PNG icon" unless File.exist?(official_icon_path)
+if File.exist?(official_icon_path)
+  expected_hash = "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9"
+  failures << "official Collect PNG icon hash differs from the approved platform derivative" unless Digest::SHA256.file(official_icon_path).hexdigest == expected_hash
+end
 
 manifest = {}
 if File.exist?(manifest_path)
@@ -45,14 +51,23 @@ expected.each do |key, value|
 end
 
 icons = Array(manifest["icons"])
-failures << "manifest icons must be empty while repo visual assets are retired" unless icons.empty?
+expected_icon = {
+  "src" => "icons/collect-web-512.png",
+  "sizes" => "512x512",
+  "type" => "image/png",
+  "purpose" => "any maskable"
+}
+failures << "manifest must use exactly the official Collect PNG icon" unless icons == [expected_icon]
 
 failures << "index title must identify Collect Admin" unless index.include?("<title>Collect Admin</title>")
 failures << "index description must identify the admin console" unless index.include?("Collect platform operations console.")
-failures << "index must not define a file-backed favicon" if index.match?(/<link\s+rel="icon"/i)
+failures << "index must use the official Collect PNG favicon" unless index.include?('<link rel="icon" href="icons/collect-web-512.png" type="image/png">')
 failures << "index must load flutter_bootstrap.js" unless index.include?("flutter_bootstrap.js")
 failures << "index must not register the service worker inline under strict CSP" if index.include?("navigator.serviceWorker.register")
-failures << "flutter_bootstrap.js must register the Admin PWA service worker" unless bootstrap.include?("navigator.serviceWorker.register('custom-sw.js?v=collect-admin-")
+bootstrap_registers_admin_worker =
+  bootstrap.include?("var adminServiceWorkerVersion = 'collect-admin-") &&
+  bootstrap.include?("navigator.serviceWorker.register('custom-sw.js?v=' + adminServiceWorkerVersion)")
+failures << "flutter_bootstrap.js must register the Admin PWA service worker" unless bootstrap_registers_admin_worker
 failures << "flutter_bootstrap.js must not contain an unreplaced Admin PWA service-worker placeholder" if bootstrap.include?("__COLLECT_ADMIN_SW_VERSION__")
 if File.exist?(File.join(build_dir, "flutter_bootstrap.js"))
   bootstrap_invocation = bootstrap.split("_flutter.buildConfig", 2).last || bootstrap

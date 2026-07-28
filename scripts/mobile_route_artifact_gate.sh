@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -14,10 +14,24 @@ case "${1:-}" in
     ;;
 esac
 
-summary_json="$(./scripts/universal_contract_audit.sh --json)"
+summary_tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/collect-mobile-route-gate.XXXXXX")"
+summary_path="$summary_tmp_dir/universal-contract-audit.json"
+cleanup() {
+  rm -f "$summary_path"
+  rmdir "$summary_tmp_dir" 2>/dev/null || true
+}
+trap cleanup EXIT
+set -x
+# The system Ruby can be terminated by macOS execution-policy pressure when
+# this nested audit is fully silent. Bash xtrace keeps the local command
+# observable on stderr without contaminating JSON stdout. It exposes only
+# commands and local paths; the audit does not read secrets.
+if ! bash -x ./scripts/universal_contract_audit.sh --json >"$summary_path"; then
+  exit 1
+fi
 
-OUTPUT_FORMAT="$output_format" SUMMARY_JSON="$summary_json" ruby -r json <<'INNER_RUBY'
-summary = JSON.parse(ENV.fetch("SUMMARY_JSON"))
+OUTPUT_FORMAT="$output_format" SUMMARY_JSON_PATH="$summary_path" ruby -r json <<'INNER_RUBY'
+summary = JSON.parse(File.read(ENV.fetch("SUMMARY_JSON_PATH")))
 failed = Array(summary.fetch("checks", [])).select { |check| check.fetch("status") != "pass" }
 result = {
   "status" => failed.empty? ? "pass" : "fail",

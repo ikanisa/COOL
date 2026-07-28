@@ -124,13 +124,18 @@ final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
   };
 });
 
-final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
-  return ref.watch(
-    collectRepositoryProvider.select(
-      (state) =>
-          List<CollectCollection>.unmodifiable(state.collections.take(3)),
-    ),
+final activeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
+  final collections = ref.watch(
+    collectRepositoryProvider.select((state) => state.collections),
   );
+  return List<CollectCollection>.unmodifiable(
+    collections.where((collection) => !collection.isArchived),
+  );
+});
+
+final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
+  final collections = ref.watch(activeCollectionsProvider);
+  return List<CollectCollection>.unmodifiable(collections.take(3));
 });
 
 final pendingPaymentCountProvider = Provider<int>((ref) {
@@ -174,6 +179,19 @@ final contributionsForCollectionProvider =
       );
       return List<Contribution>.unmodifiable(contributions);
     });
+
+final confirmedContributionActivityProvider = Provider<List<Contribution>>((
+  ref,
+) {
+  final contributions = ref.watch(
+    collectRepositoryProvider.select(
+      (state) =>
+          [...state.contributions]
+            ..sort((left, right) => right.createdAt.compareTo(left.createdAt)),
+    ),
+  );
+  return List<Contribution>.unmodifiable(contributions);
+});
 
 bool _contributionBelongsToProfile(
   Contribution contribution,

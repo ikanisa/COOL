@@ -158,7 +158,7 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     spec.heading,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: colors.textPrimary,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                   if (_detailValue(data, const ['status']).isNotEmpty)
@@ -320,7 +320,7 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
                 'Group support status',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: colors.textPrimary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 6),
@@ -328,7 +328,7 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
                 'Reason-gated actions update the group state and audit trail.',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: colors.textSecondary,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               const SizedBox(height: 12),
@@ -448,7 +448,7 @@ class _AdminDetailFieldCard extends StatelessWidget {
                     label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: colors.textSecondary,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -456,7 +456,7 @@ class _AdminDetailFieldCard extends StatelessWidget {
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: colors.textPrimary,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
                 ],
@@ -536,7 +536,7 @@ class _AdminDetailActionChip extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: colors.surfaceReadable,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ),

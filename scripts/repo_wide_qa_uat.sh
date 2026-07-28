@@ -52,9 +52,26 @@ run_capture() {
   shift 2
 
   local started
+  local script_index=0
+  local -a command=("$@")
+  if [[ "${command[0]:-}" == "env" ]]; then
+    script_index=1
+    while [[ "$script_index" -lt "${#command[@]}" &&
+      "${command[$script_index]}" == *=* ]]; do
+      ((script_index += 1))
+    done
+  fi
+  if [[ "$script_index" -lt "${#command[@]}" &&
+    "${command[$script_index]}" == *.sh ]]; then
+    command=(
+      "${command[@]:0:$script_index}"
+      /bin/bash
+      "${command[@]:$script_index}"
+    )
+  fi
   started="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   set +e
-  "$@" > "$bundle_dir/$outfile" 2>&1
+  "${command[@]}" > "$bundle_dir/$outfile" 2>&1
   local rc=$?
   set -e
   local finished
@@ -270,6 +287,8 @@ JSON
     "profile|/settings/profile"
     "home|/home"
     "groups|/groups"
+    "contribute-entry|/contribute"
+    "activity|/activity"
     "group-create|/groups/create"
     "group-scan|/groups/scan"
     "group-detail|/groups/col-church"
@@ -284,6 +303,9 @@ JSON
     "group-profile|/groups/col-church/profile"
     "members|/groups/col-church/members"
     "settings|/settings"
+    "settings-notifications|/settings/notifications"
+    "settings-appearance|/settings/appearance"
+    "settings-security|/settings/security"
     "account|/settings/account"
     "account-delete|/settings/account/delete"
     "legal-privacy|/settings/legal/privacy"
@@ -530,7 +552,7 @@ else
   run_capture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json" "$ROOT_DIR/scripts/android_kotlin_plugin_compat_gate.sh" --json
   run_capture "release_worktree_review" "worktree_review.json" "$ROOT_DIR/scripts/release_worktree_review_gate.sh" --json
   run_capture "admin_pwa_build" "admin_pwa_build.txt" "$ROOT_DIR/scripts/admin_pwa_release_build.sh"
-  run_capture "admin_pwa_manifest_gate" "admin_pwa_manifest_gate.txt" "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
+  run_capture "admin_pwa_manifest_gate" "admin_pwa_manifest_gate.txt" /bin/bash "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
   run_capture "admin_pwa_hosting_gate" "admin_pwa_hosting_gate.json" "$ROOT_DIR/scripts/admin_pwa_hosting_gate.sh" --json
   run_capture "admin_pwa_live_gate" "admin_pwa_live_gate.json" "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json
   run_capture "admin_pwa_render_smoke" "admin_pwa_render_smoke.txt" env ADMIN_PWA_RENDER_EVIDENCE_DIR="$bundle_dir/admin_pwa_render_smoke" "$ROOT_DIR/scripts/admin_pwa_render_smoke.sh"
@@ -565,11 +587,11 @@ else
   fi
 
   if command_ok_recorded "mobile_route_render_smoke" && command_ok_recorded "android_device_uat"; then
-    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
+    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" /bin/bash "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
   elif command_blocked_recorded "mobile_route_render_smoke" || command_blocked_recorded "android_device_uat"; then
     record_blocked "universal_contract_audit" "collect_mobile_contract_compliance.txt" "Collect mobile contract compliance audit skipped because route screenshots or Android device UAT are blocked."
   else
-    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
+    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" /bin/bash "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
   fi
 
   run_capture "release_status_json" "release_status.json" "$ROOT_DIR/scripts/release_status.sh" --json

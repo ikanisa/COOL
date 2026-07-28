@@ -27,6 +27,12 @@ class ShareScreen extends ConsumerWidget {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(collectionId);
     if (collection == null) return const MissingGroupStateScreen();
+    if (collection.isArchived) {
+      return ArchivedGroupStateScreen(
+        collectionId: collectionId,
+        groupTitle: collection.title,
+      );
+    }
     final summary = repo.summaryFor(collectionId);
     final link = groupDeepLinkFor(env, collection);
     final filename = '${collection.slug}-qr';
@@ -71,7 +77,10 @@ class ShareScreen extends ConsumerWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge
-                                        ?.copyWith(fontWeight: FontWeight.w900),
+                                        ?.copyWith(
+                                          fontWeight:
+                                              CollectTypography.weightBold,
+                                        ),
                                     maxLines: 1,
                                     softWrap: false,
                                     overflow: TextOverflow.ellipsis,

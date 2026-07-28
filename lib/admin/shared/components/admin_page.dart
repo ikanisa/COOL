@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_typography.dart';
 
 class AdminPage extends StatelessWidget {
   const AdminPage({required this.title, this.subtitle, this.child, super.key});
@@ -49,25 +50,21 @@ class AdminPage extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.headlineMedium
                             ?.copyWith(
                               color: colors.textPrimary,
-                              fontWeight: FontWeight.w900,
-                              height: 1.02,
+                              fontWeight: CollectTypography.weightBold,
+                              height: CollectTypography.leadingDisplay,
                             ),
                       ),
                       if (subtitle != null) ...[
                         const SizedBox(height: 8),
                         Text(
                           subtitle!,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
                                 color: colors.textSecondary,
-                                height: 1.35,
+                                height: CollectTypography.leadingSupporting,
                               ),
                         ),
                       ],
@@ -88,7 +85,7 @@ class AdminPage extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(
                               color: colors.surfaceReadable,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: CollectTypography.weightBold,
                             ),
                       ),
                     ),
@@ -134,11 +131,9 @@ class AdminPageHeader extends StatelessWidget {
         children: [
           Text(
             title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: colors.textPrimary,
-              fontWeight: FontWeight.w900,
+              fontWeight: CollectTypography.weightBold,
             ),
           ),
           if (subtitle != null) ...[

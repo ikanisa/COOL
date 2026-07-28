@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import 'helpers/process_runner.dart';
+
 String readCollectRepositoryLibrary() {
   return [
     'lib/shared/repositories/collect_repository.dart',
@@ -25,6 +27,21 @@ void main() {
     expect(
       productionManifest,
       isNot(contains('android.permission.RECEIVE_SMS')),
+    );
+    expect(
+      productionManifest,
+      contains('android.permission.READ_EXTERNAL_STORAGE'),
+    );
+    expect(
+      productionManifest,
+      contains('android.permission.WRITE_EXTERNAL_STORAGE'),
+    );
+    expect(
+      RegExp(
+        r'android\.permission\.(READ|WRITE)_EXTERNAL_STORAGE"'
+        r'\s+tools:node="remove"',
+      ).allMatches(productionManifest),
+      hasLength(2),
     );
     expect(internalReceiverManifest, contains('android.permission.READ_SMS'));
     expect(
@@ -110,6 +127,7 @@ void main() {
       'coverage',
       'output',
       'ios/Pods',
+      'vendor/bundle',
       'release-evidence',
       'evidence-packs',
     };
@@ -173,7 +191,7 @@ void main() {
   );
 
   test('Collect product boundary scan rejects forbidden app concepts', () {
-    final result = Process.runSync(
+    final result = runProcessSync(
       './scripts/collect_product_boundary_scan.sh',
       ['--json'],
     );
@@ -188,8 +206,38 @@ void main() {
     expect(makefile, contains('./scripts/collect_product_boundary_scan.sh'));
   });
 
+  test(
+    'Revolut parity source hygiene gate enforces typography and official assets',
+    () {
+      final result = runProcessSync(
+        './scripts/revolut_parity_source_hygiene_gate.sh',
+        ['--json'],
+      );
+      expect(result.exitCode, 0, reason: result.stderr as String);
+
+      final output = result.stdout as String;
+      expect(output, contains('"status": "pass"'));
+      expect(output, contains('"exclusive_inter_typefaces"'));
+      expect(output, contains('"no_prohibited_product_artwork"'));
+      expect(output, contains('"official_logo_identity"'));
+      expect(output, contains('"centralized_feature_typography"'));
+      expect(output, contains('"fixture_isolation"'));
+      expect(output, contains('"secret_scan"'));
+      expect(output, contains('"product_boundary"'));
+
+      final makefile = File('Makefile').readAsStringSync();
+      final workflow = File('.github/workflows/ci.yml').readAsStringSync();
+      expect(makefile, contains('revolut-parity-source-hygiene:'));
+      expect(
+        makefile,
+        contains('./scripts/revolut_parity_source_hygiene_gate.sh'),
+      );
+      expect(workflow, contains('make revolut-parity-source-hygiene'));
+    },
+  );
+
   test('local env files stay ignored and Codex env stays placeholder-only', () {
-    final trackedEnvFiles = Process.runSync('git', [
+    final trackedEnvFiles = runProcessSync('git', [
       'ls-files',
       '.env',
       '.env.local',
@@ -198,7 +246,7 @@ void main() {
     expect(trackedEnvFiles.exitCode, 0);
     expect((trackedEnvFiles.stdout as String).trim(), isEmpty);
 
-    final ignoredEnvFiles = Process.runSync('git', [
+    final ignoredEnvFiles = runProcessSync('git', [
       'check-ignore',
       '.env',
       '.env.local',

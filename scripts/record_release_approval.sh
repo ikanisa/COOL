@@ -31,7 +31,8 @@ options = {
   "sanitized_evidence" => false,
   "contains_production_customer_data" => nil,
   "signing_keys_exposed" => nil,
-  "out_of_scope" => false
+  "out_of_scope" => false,
+  "artifact_version" => nil
 }
 
 def usage
@@ -43,6 +44,7 @@ def usage
       --signed-at ISO8601Z             Signed timestamp (default current UTC)
       --status approved|out_of_scope   Approval status (default approved, or out_of_scope with --out-of-scope)
       --decision GO|OUT_OF_SCOPE       Approval decision (default GO, or OUT_OF_SCOPE with --out-of-scope)
+      --artifact-version VERSION       Required for signing review and release-owner signoff; must match pubspec.yaml
       --out-of-scope                   Shortcut for iOS status=out_of_scope decision=OUT_OF_SCOPE
       --no-signing-keys-exposed        Required for android_release_signing_review
   TEXT
@@ -68,6 +70,8 @@ until args.empty?
     options["status"] = args.shift.to_s
   when "--decision"
     options["decision"] = args.shift.to_s
+  when "--artifact-version"
+    options["artifact_version"] = args.shift.to_s
   when "--sanitized-evidence"
     options["sanitized_evidence"] = true
   when "--no-production-customer-data"
@@ -204,6 +208,18 @@ def approval_record_valid?(record, key, root_dir, patterns)
       status == "approved" && decision == "GO"
     end
 
+  pubspec = File.read(File.join(root_dir, "pubspec.yaml")) rescue ""
+  current_version = pubspec[/^version:\s*([0-9]+\.[0-9]+\.[0-9]+\+[0-9]+)\s*$/, 1]
+  version_bound = %w[android_release_signing_review release_owner_signoff].include?(key)
+  approved_version = record["artifact_version"].to_s.strip
+  version_current =
+    !version_bound ||
+    (
+      current_version &&
+      approved_version != "" &&
+      approved_version == current_version
+    )
+
   acceptable_status &&
     !placeholder_approval_record?(record) &&
     sensitive_metadata_hits(record, patterns).empty? &&
@@ -212,7 +228,8 @@ def approval_record_valid?(record, key, root_dir, patterns)
     evidence_reference_valid?(record["evidence_reference"], root_dir) &&
     record["sanitized_evidence"] == true &&
     record["contains_production_customer_data"] == false &&
-    (key != "android_release_signing_review" || record["signing_keys_exposed"] == false)
+    (key != "android_release_signing_review" || record["signing_keys_exposed"] == false) &&
+    version_current
 end
 
 errors = []
@@ -225,6 +242,19 @@ errors << "--notes is required and must describe the reviewed evidence." if opti
 errors << "--sanitized-evidence must be provided." unless options["sanitized_evidence"] == true
 errors << "--no-production-customer-data must be provided." unless options["contains_production_customer_data"] == false
 errors << "--signed-at must be ISO-8601 UTC ending in Z." unless iso8601_utc?(options["signed_at"])
+
+pubspec = File.read(File.join(root_dir, "pubspec.yaml")) rescue ""
+current_artifact_version = pubspec[/^version:\s*([0-9]+\.[0-9]+\.[0-9]+\+[0-9]+)\s*$/, 1]
+version_bound = %w[android_release_signing_review release_owner_signoff].include?(key)
+if version_bound
+  errors << "--artifact-version is required for #{key}." if options["artifact_version"].to_s.strip == ""
+  if current_artifact_version.nil?
+    errors << "pubspec.yaml must define version as MAJOR.MINOR.PATCH+BUILD."
+  elsif options["artifact_version"].to_s.strip != "" &&
+      options["artifact_version"].to_s.strip != current_artifact_version
+    errors << "--artifact-version must match current pubspec version #{current_artifact_version}."
+  end
+end
 
 if key == "android_release_signing_review" && options["signing_keys_exposed"] != false
   errors << "--no-signing-keys-exposed is required for android_release_signing_review."
@@ -273,6 +303,7 @@ record = {
   "notes" => options["notes"].to_s.strip
 }
 record["signing_keys_exposed"] = false if key == "android_release_signing_review"
+record["artifact_version"] = options["artifact_version"].to_s.strip if version_bound
 
 hits = sensitive_metadata_hits(record, sensitive_patterns)
 errors << "approval metadata contains sensitive marker(s): #{hits.join(", ")}." unless hits.empty?
@@ -337,6 +368,7 @@ puts JSON.pretty_generate({
   "updated_key" => key,
   "approval_status" => record["status"],
   "decision" => record["decision"],
-  "evidence_reference" => record["evidence_reference"]
+  "evidence_reference" => record["evidence_reference"],
+  "artifact_version" => record["artifact_version"]
 })
 RUBY

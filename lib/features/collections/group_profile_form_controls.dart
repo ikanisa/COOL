@@ -68,15 +68,15 @@ class _GroupProfileCardTextField extends StatelessWidget {
           autocorrect: autocorrect,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             color: colors.textPrimary,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0,
+            fontWeight: CollectTypography.weightSemibold,
+            letterSpacing: CollectTypography.trackingDefault,
           ),
           decoration: InputDecoration(
             labelText: label,
             labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: colors.textSecondary,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0,
+              fontWeight: CollectTypography.weightSemibold,
+              letterSpacing: CollectTypography.trackingDefault,
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             border: InputBorder.none,
@@ -224,8 +224,8 @@ class _ProfileColorPalette extends StatelessWidget {
                           ),
                         ),
                         child: SizedBox(
-                          width: 42,
-                          height: 42,
+                          width: CollectSpacing.iconTarget,
+                          height: CollectSpacing.iconTarget,
                           child: selected
                               ? Icon(
                                   Icons.check_rounded,

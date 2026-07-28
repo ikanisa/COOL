@@ -1,10 +1,17 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:collect_app/app/theme/collect_motion.dart';
+import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/app/theme/collect_universal_tokens.dart';
+import 'package:collect_app/core/notifications/collect_notification_service.dart';
+import 'package:collect_app/shared/providers/collect_app_state.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,6 +48,172 @@ void main() {
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.themeMode, ThemeMode.dark);
   });
+
+  testWidgets(
+    'SMS access sync runs after launch and each completed foreground resume',
+    (tester) async {
+      final repository = _LifecycleCollectRepository();
+      final notifications = _LifecycleNotificationService(enabled: true);
+      final router = createAppRouter(initialLocation: '/home');
+      final container = ProviderContainer(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          appEnvProvider.overrideWithValue(_smsAccessEnv),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectNotificationServiceProvider.overrideWithValue(notifications),
+        ],
+      );
+      addTearDown(router.dispose);
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(repository.syncCalls, 1);
+      expect(notifications.initializeCalls, 1);
+      expect(notifications.permissionChecks, 1);
+      expect(
+        container.read(notificationPermissionStatusProvider),
+        CollectDevicePermissionStatus.granted,
+      );
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      await tester.pump();
+      expect(repository.syncCalls, 1);
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      await tester.pump();
+      expect(repository.syncCalls, 2);
+      expect(notifications.initializeCalls, 2);
+      expect(notifications.permissionChecks, 2);
+    },
+  );
+
+  testWidgets('notification permission refresh is independent of SMS access', (
+    tester,
+  ) async {
+    final repository = _LifecycleCollectRepository();
+    final notifications = _LifecycleNotificationService(enabled: true);
+    final router = createAppRouter(initialLocation: '/home');
+    final container = ProviderContainer(
+      overrides: [
+        appRouterProvider.overrideWithValue(router),
+        appEnvProvider.overrideWithValue(_noSmsAccessEnv),
+        collectRepositoryProvider.overrideWith((ref) => repository),
+        collectNotificationServiceProvider.overrideWithValue(notifications),
+      ],
+    );
+    addTearDown(router.dispose);
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(repository.syncCalls, 0);
+    expect(notifications.initializeCalls, 1);
+    expect(notifications.permissionChecks, 1);
+    expect(
+      container.read(notificationPermissionStatusProvider),
+      CollectDevicePermissionStatus.granted,
+    );
+
+    notifications.enabled = false;
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump();
+
+    expect(repository.syncCalls, 0);
+    expect(notifications.initializeCalls, 2);
+    expect(notifications.permissionChecks, 2);
+    expect(
+      container.read(notificationPermissionStatusProvider),
+      CollectDevicePermissionStatus.denied,
+    );
+
+    container.read(notificationPermissionStatusProvider.notifier).state =
+        CollectDevicePermissionStatus.denied;
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump();
+
+    expect(notifications.initializeCalls, 3);
+    expect(notifications.permissionChecks, 3);
+    expect(
+      container.read(notificationPermissionStatusProvider),
+      CollectDevicePermissionStatus.denied,
+    );
+  });
+
+  testWidgets(
+    'SMS access sync coalesces overlapping resumes and retries after failure',
+    (tester) async {
+      final repository = _LifecycleCollectRepository(blockFirstSync: true);
+      final notifications = _LifecycleNotificationService(enabled: false);
+      final router = createAppRouter(initialLocation: '/home');
+      final container = ProviderContainer(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          appEnvProvider.overrideWithValue(_smsAccessEnv),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectNotificationServiceProvider.overrideWithValue(notifications),
+        ],
+      );
+      addTearDown(router.dispose);
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pump();
+      expect(repository.syncCalls, 1);
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      expect(repository.syncCalls, 1);
+
+      repository.releaseFirstSync();
+      await tester.pump();
+      await tester.pump();
+      expect(
+        container.read(notificationPermissionStatusProvider),
+        CollectDevicePermissionStatus.notRequested,
+      );
+
+      notifications.throwOnPermissionCheck = true;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      await tester.pump();
+      expect(repository.syncCalls, 1);
+
+      notifications.throwOnPermissionCheck = false;
+      notifications.enabled = true;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      await tester.pump();
+      expect(repository.syncCalls, 2);
+      expect(
+        container.read(notificationPermissionStatusProvider),
+        CollectDevicePermissionStatus.granted,
+      );
+    },
+  );
 
   testWidgets('unknown routes render branded recovery actions', (tester) async {
     final semantics = tester.ensureSemantics();
@@ -100,6 +273,8 @@ void main() {
         '/auth',
         '/home',
         '/groups',
+        '/contribute',
+        '/activity',
         '/groups/scan',
         '/groups/create',
         '/groups/:collectionId',
@@ -115,6 +290,9 @@ void main() {
         '/invite/:publicId',
         '/settings',
         '/settings/profile',
+        '/settings/notifications',
+        '/settings/appearance',
+        '/settings/security',
         '/settings/account',
         '/settings/account/delete',
         '/settings/legal/terms',
@@ -139,7 +317,7 @@ void main() {
     expect(router.configuration.routes, isNotEmpty);
   });
 
-  testWidgets('large-width shell uses three-destination navigation rail', (
+  testWidgets('large-width shell uses five-destination navigation rail', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(820, 1000);
@@ -160,7 +338,9 @@ void main() {
     expect(find.byType(NavigationRail), findsOneWidget);
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Groups'), findsOneWidget);
-    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Contribute'), findsOneWidget);
+    expect(find.text('Activity'), findsOneWidget);
+    expect(find.text('Profile'), findsOneWidget);
     expect(find.text('Admin'), findsNothing);
   });
 
@@ -194,6 +374,8 @@ void main() {
     expect(routerSource, contains('StatefulShellBranch'));
     expect(routerSource, contains("initialLocation: '/home'"));
     expect(routerSource, contains("initialLocation: '/groups'"));
+    expect(routerSource, contains("initialLocation: '/contribute'"));
+    expect(routerSource, contains("initialLocation: '/activity'"));
     expect(routerSource, contains("initialLocation: '/settings'"));
     expect(
       routerSource,
@@ -285,10 +467,12 @@ void main() {
     expect(profileScript, contains('--profile'));
     expect(profileScript, contains('--trace-startup'));
     expect(profileScript, contains(r'--trace-to-file="$TRACE_FILE"'));
+    expect(profileScript, contains('--keep-app-running'));
     expect(
       profileScript,
       contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
     );
+    expect(profileScript, contains('--dart-define=COLLECT_PERF_RUN_ID='));
     expect(profileScript, contains('timeline.binpb'));
     expect(profileScript, contains('runner_result.json'));
     expect(profileScript, contains('summary.json'));
@@ -297,7 +481,26 @@ void main() {
       profileScript,
       contains('Profile-mode runner did not exit cleanly.'),
     );
+    expect(profileScript, contains('All tests passed completion marker.'));
+    expect(profileScript, contains('completion_marker'));
+    expect(profileScript, contains('device_locked_after_run'));
+    expect(profileScript, contains('NotificationShade'));
+    expect(profileScript, contains('mDreamingLockscreen=true'));
     expect(profileScript, contains('Perfetto timeline trace was not written.'));
+    expect(profileScript, contains('representative rendered-frame sample'));
+    expect(profileScript, contains('total_frames.to_i >= 10'));
+    expect(profileScript, contains('collect_perf_metric:'));
+    expect(profileScript, contains('collect_perf_complete:'));
+    expect(profileScript, contains('collect_perf_target:'));
+    expect(profileScript, contains('flutter_engine_frame_metrics'));
+    expect(profileScript, contains('flutter_engine_representative'));
+    expect(profileScript, contains('"limited"'));
+    expect(
+      profileScript,
+      contains('flutter_total_frames >= flutter_min_frames'),
+    );
+    expect(profileScript, contains(r'shell pidof "$PACKAGE_ID"'));
+    expect(profileScript, contains('cmd package resolve-activity --brief'));
     expect(profileScript, contains('exit 99'));
   });
 
@@ -356,7 +559,7 @@ void main() {
         multiLine: true,
       ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
       final deviceRoutes = RegExp(
-        r"_RouteSpec\(\s*'[^']+',\s*'([^']+)'\s*,?\s*'[^']+'\s*,?\s*\)",
+        r"_RouteSpec\(\s*'[^']+',\s*'([^']+)'",
         multiLine: true,
       ).allMatches(deviceTest).map((match) => match.group(1)!).toSet();
 
@@ -375,6 +578,12 @@ void main() {
     );
     expect(script, contains('is not connected and authorized over ADB'));
     expect(script, contains('Unlock it and keep it awake'));
+    expect(script, contains('ANDROID_UAT_VARIANT_NAME'));
+    expect(script, contains('COLLECT_UAT_THEME_MODE'));
+    expect(script, contains('COLLECT_UAT_TEXT_SCALE'));
+    expect(script, contains('COLLECT_UAT_HIGH_CONTRAST'));
+    expect(script, contains('COLLECT_UAT_REDUCED_MOTION'));
+    expect(script, contains('"variant" => {'));
   });
 
   test('repo-wide QA includes the mobile contract compliance gate', () {
@@ -458,7 +667,8 @@ void main() {
     expect(designAudit, contains('Universal App Design Standard 2026'));
     expect(designAudit, contains('no_secondary_contract_sources'));
     expect(designAudit, contains('tracked_design_source_paths'));
-    expect(runtimeAssets, contains('usesRepoVisualAssets = false'));
+    expect(runtimeAssets, contains('usesRepoVisualAssets = true'));
+    expect(runtimeAssets, contains('officialLogoSha256'));
     expect(runtimeAssets, isNot(contains('assets/runtime')));
     expect(runtimeAssets, isNot(contains('assets/fonts')));
   });
@@ -467,16 +677,85 @@ void main() {
     expect(AppTheme.light(), isA<ThemeData>());
     expect(AppTheme.dark(), isA<ThemeData>());
     expect(AppTheme.dark().brightness, Brightness.dark);
+    expect(
+      AppTheme.highContrastLight()
+          .extension<CollectUniversalTokens>()
+          ?.highContrast,
+      isTrue,
+    );
+    expect(
+      AppTheme.highContrastDark()
+          .extension<CollectUniversalTokens>()
+          ?.highContrast,
+      isTrue,
+    );
+    expect(
+      AppTheme.highContrastDark()
+          .inputDecorationTheme
+          .focusedBorder
+          ?.borderSide
+          .width,
+      3,
+    );
+  });
+
+  test('theme controller supports a deterministic initial mode', () {
+    final controller = CollectThemeModeController(
+      initialMode: ThemeMode.light,
+      loadPersistedMode: false,
+    );
+
+    expect(controller.state, ThemeMode.light);
   });
 
   test('member and admin apps use persisted Collect theme mode', () {
     final memberApp = File('lib/app/app.dart').readAsStringSync();
     final adminApp = File('lib/admin/admin_app.dart').readAsStringSync();
+    final controller = File(
+      'lib/app/theme/collect_theme_controller.dart',
+    ).readAsStringSync();
 
     expect(memberApp, contains('collectThemeModeProvider'));
     expect(adminApp, contains('collectThemeModeProvider'));
+    expect(memberApp, contains('highContrastTheme'));
+    expect(memberApp, contains('highContrastDarkTheme'));
+    expect(adminApp, contains('highContrastTheme'));
+    expect(adminApp, contains('highContrastDarkTheme'));
     expect(memberApp, isNot(contains('themeMode: ThemeMode.system')));
     expect(adminApp, isNot(contains('themeMode: ThemeMode.system')));
+    expect(controller, contains("'system' => ThemeMode.system"));
+    expect(controller, isNot(contains('_concreteMode')));
+  });
+
+  testWidgets('system mode activates the high-contrast runtime theme', (
+    tester,
+  ) async {
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(highContrast: true);
+    tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+    addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+
+    final themeController = CollectThemeModeController();
+    await themeController.setMode(ThemeMode.system);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          collectThemeModeProvider.overrideWith((ref) => themeController),
+        ],
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+
+    final runtimeTheme = Theme.of(tester.element(find.byType(Scaffold).first));
+    expect(runtimeTheme.brightness, Brightness.light);
+    expect(
+      runtimeTheme.extension<CollectUniversalTokens>()?.highContrast,
+      isTrue,
+    );
+    expect(runtimeTheme.colorScheme.outline, CollectColors.publicBlack);
   });
 
   test(
@@ -503,7 +782,7 @@ void main() {
     },
   );
 
-  test('primary mobile screens use shared hero chrome', () {
+  test('primary mobile screens use their reference chrome patterns', () {
     final home = [
       'lib/features/home/home_screen.dart',
       'lib/features/home/home_public_groups_section.dart',
@@ -534,8 +813,9 @@ void main() {
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
     expect(groups, contains('CollectScreenTopChrome('));
     expect(groups, contains("'Search groups'"));
-    expect(settings, contains('CollectScreenTopChrome('));
-    expect(settings, isNot(contains("'Search settings'")));
+    expect(settings, contains('class _SettingsTopBar'));
+    expect(settings, isNot(contains('CollectScreenTopChrome(')));
+    expect(settings, isNot(contains("searchLabel: 'Settings'")));
     expect(groupDetail, contains('CollectScreenTopChrome'));
     expect(groupDetail, isNot(contains('persistentPill')));
     expect(sharedBarrel, contains("export 'collect_chrome.dart';"));
@@ -565,9 +845,12 @@ void main() {
     expect(sharedBarrel, isNot(contains('class GroupCard')));
     expect(sharedBarrel, isNot(contains('_GroupCoverMedia')));
     expect(groupCards, contains('class GroupCard'));
+    expect(groupCards, contains('class GroupListPanel'));
     expect(groupCards, contains('_GroupCoverMedia'));
     expect(home, contains('widgets/collect_group_cards.dart'));
+    expect(home, contains('GroupListPanel('));
     expect(groups, contains('widgets/collect_group_cards.dart'));
+    expect(groups, contains('GroupListPanel('));
   });
 
   test(
@@ -661,6 +944,7 @@ void main() {
 
   testWidgets('reduced motion returns zero animation duration', (tester) async {
     late Duration duration;
+    late AnimationStyle? animationStyle;
     await tester.pumpWidget(
       MaterialApp(
         home: MediaQuery(
@@ -668,6 +952,7 @@ void main() {
           child: Builder(
             builder: (context) {
               duration = CollectMotion.duration(context, CollectMotion.medium);
+              animationStyle = CollectMotion.animationStyle(context);
               return const SizedBox.shrink();
             },
           ),
@@ -676,6 +961,77 @@ void main() {
     );
 
     expect(duration, Duration.zero);
+    expect(animationStyle, AnimationStyle.noAnimation);
+  });
+
+  testWidgets('normal motion preserves declared animation timing', (
+    tester,
+  ) async {
+    late Duration duration;
+    late AnimationStyle? animationStyle;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) {
+            duration = CollectMotion.duration(context, CollectMotion.medium);
+            animationStyle = CollectMotion.animationStyle(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+
+    expect(duration, CollectMotion.medium);
+    expect(animationStyle, isNull);
+  });
+
+  test('all owned modal and route motion uses the reduced-motion policy', () {
+    final modalFiles = Directory('lib')
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((file) => file.path.endsWith('.dart'))
+        .where((file) {
+          final source = file.readAsStringSync();
+          return source.contains('showModalBottomSheet') ||
+              source.contains('showDialog<');
+        })
+        .toList(growable: false);
+
+    var modalSheetCount = 0;
+    var sheetPolicyCount = 0;
+    var dialogCount = 0;
+    var dialogPolicyCount = 0;
+    for (final file in modalFiles) {
+      final source = file.readAsStringSync();
+      modalSheetCount += 'showModalBottomSheet'.allMatches(source).length;
+      sheetPolicyCount +=
+          'sheetAnimationStyle: CollectMotion.animationStyle(context)'
+              .allMatches(source)
+              .length;
+      dialogCount += 'showDialog<'.allMatches(source).length;
+      dialogPolicyCount +=
+          'animationStyle: CollectMotion.animationStyle(context)'
+              .allMatches(source)
+              .length;
+    }
+
+    expect(modalSheetCount, greaterThan(0));
+    expect(sheetPolicyCount, modalSheetCount);
+    expect(dialogCount, greaterThan(0));
+    expect(dialogPolicyCount, dialogCount);
+
+    final router = File('lib/app/router.dart').readAsStringSync();
+    final manage = File(
+      'lib/features/collections/collection_manage_screen.dart',
+    ).readAsStringSync();
+    expect(router, contains('final duration = CollectMotion.duration('));
+    expect(router, contains('transitionDuration: duration'));
+    expect(router, contains('reverseTransitionDuration: duration'));
+    expect(
+      manage,
+      contains('duration: CollectMotion.duration(context, CollectMotion.fast)'),
+    );
+    expect(manage, isNot(contains('Duration(milliseconds: 160)')));
   });
 
   test('environment defaults keep Android SMS access disabled', () {
@@ -715,4 +1071,78 @@ String _routeSpecsBlock(String script) {
     throw StateError('route_specs block terminator not found');
   }
   return script.substring(start, start + terminator.end);
+}
+
+const _smsAccessEnv = AppEnv(
+  supabaseUrl: '',
+  supabaseAnonKey: '',
+  publicUrl: '',
+  adminAppUrl: '',
+  enableSmsReader: false,
+  enableAndroidSmsAccess: true,
+  enableAdminPanel: false,
+  enableAdminDevTools: false,
+  authCaptchaEnabled: false,
+  authCaptchaProvider: '',
+  authCaptchaSiteKey: '',
+);
+
+const _noSmsAccessEnv = AppEnv(
+  supabaseUrl: '',
+  supabaseAnonKey: '',
+  publicUrl: '',
+  adminAppUrl: '',
+  enableSmsReader: false,
+  enableAndroidSmsAccess: false,
+  enableAdminPanel: false,
+  enableAdminDevTools: false,
+  authCaptchaEnabled: false,
+  authCaptchaProvider: '',
+  authCaptchaSiteKey: '',
+);
+
+class _LifecycleCollectRepository extends CollectRepository {
+  _LifecycleCollectRepository({this.blockFirstSync = false}) : super.fixture();
+
+  final bool blockFirstSync;
+  final _firstSyncCompleter = Completer<void>();
+  int syncCalls = 0;
+
+  @override
+  Future<int> syncPendingSmsAccess() async {
+    syncCalls += 1;
+    if (blockFirstSync && syncCalls == 1) {
+      await _firstSyncCompleter.future;
+    }
+    return 0;
+  }
+
+  void releaseFirstSync() {
+    if (!_firstSyncCompleter.isCompleted) {
+      _firstSyncCompleter.complete();
+    }
+  }
+}
+
+class _LifecycleNotificationService extends CollectNotificationService {
+  _LifecycleNotificationService({required this.enabled});
+
+  bool enabled;
+  bool throwOnPermissionCheck = false;
+  int initializeCalls = 0;
+  int permissionChecks = 0;
+
+  @override
+  Future<void> initialize() async {
+    initializeCalls += 1;
+  }
+
+  @override
+  Future<bool> areNotificationsEnabled() async {
+    permissionChecks += 1;
+    if (throwOnPermissionCheck) {
+      throw StateError('permission check unavailable');
+    }
+    return enabled;
+  }
 }

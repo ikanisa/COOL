@@ -200,6 +200,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get actionColor => periwinklePaint;
   Color get priorityColor => periwinklePaint;
   Color get outlineSoft => borderSoft;
+  Color get controlBorder =>
+      Color.alphaBlend(textPrimary.withValues(alpha: 0.52), surfaceReadable);
   Color get successInk => successForeground;
   Color get dangerSoft => dangerForeground;
   Color get brandPrimary => brandPeriwinkle;
@@ -262,7 +264,9 @@ class CollectColors extends ThemeExtension<CollectColors> {
         route.startsWith('/settings/profile')) {
       return referenceWealthGradient;
     }
-    if (route.contains('/contribute') || route.contains('/ledger')) {
+    if (route.contains('/contribute') ||
+        route.contains('/activity') ||
+        route.contains('/ledger')) {
       return referenceAssetGradient;
     }
     if (route.startsWith('/settings/account') ||
@@ -273,9 +277,13 @@ class CollectColors extends ThemeExtension<CollectColors> {
     }
     if (route.startsWith('/share') ||
         route.contains('/share') ||
-        route.contains('/invite') ||
-        route == '/settings') {
+        route.contains('/invite')) {
       return referenceRewardsGradient;
+    }
+    if (route == '/settings' ||
+        route == '/settings/appearance' ||
+        route == '/settings/security') {
+      return referenceProfileGradient;
     }
     if (route == '/offline' || route == '/sync') return referenceInvestGradient;
     if (route.startsWith('/groups') || route.startsWith('/c/')) {
@@ -341,6 +349,13 @@ class CollectColors extends ThemeExtension<CollectColors> {
       referencePaymentsPurpleDeep,
     ],
     stops: [0, 0.32, 0.70, 1],
+  );
+
+  static const Gradient referenceProfileGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFF17171A), Color(0xFF0E0E11), Color(0xFF08080A)],
+    stops: [0, 0.52, 1],
   );
 
   static const Gradient referenceMarketGradient = LinearGradient(

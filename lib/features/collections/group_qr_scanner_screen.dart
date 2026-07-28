@@ -21,6 +21,10 @@ class GroupQrScannerScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
+  static const _mobileEvidenceMode = bool.fromEnvironment(
+    'COLLECT_MOBILE_EVIDENCE_MODE',
+  );
+
   late final MobileScannerController _scanner = MobileScannerController(
     detectionSpeed: DetectionSpeed.noDuplicates,
     formats: const [BarcodeFormat.qrCode],
@@ -33,7 +37,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   String? _error;
   Timer? _startTimeout;
 
-  bool get _scannerAvailable => !kIsWeb;
+  bool get _scannerAvailable => !kIsWeb && !_mobileEvidenceMode;
 
   @override
   void initState() {
@@ -62,6 +66,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
             scanning: _scanning,
             starting: _starting,
             scannerAvailable: _scannerAvailable,
+            evidenceMode: _mobileEvidenceMode,
             onDetect: _onDetect,
           ),
           SafeArea(
@@ -97,8 +102,8 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
                   child: Text(
                     _error!,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colors.onAccent,
-                      fontWeight: FontWeight.w800,
+                      color: colors.surfaceReadable,
+                      fontWeight: CollectTypography.weightBold,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -143,15 +148,33 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
         _starting = false;
         _scanning = true;
       });
-    } catch (error) {
+    } on MobileScannerException catch (error) {
       if (!mounted) return;
       _startTimeout?.cancel();
       ref.read(cameraPermissionStatusProvider.notifier).state =
           CollectDevicePermissionStatus.denied;
+      final permissionDenied =
+          error.errorCode == MobileScannerErrorCode.permissionDenied;
       setState(() {
         _starting = false;
         _scanning = false;
-        _error = error.toString();
+        _error = permissionDenied
+            ? 'Camera permission is off. Allow access to scan a group QR code.'
+            : _scannerErrorMessage(error);
+      });
+      if (permissionDenied && mounted) {
+        await showCameraAccessSheet(
+          context,
+          onRetry: () => unawaited(_startScanning()),
+        );
+      }
+    } catch (_) {
+      if (!mounted) return;
+      _startTimeout?.cancel();
+      setState(() {
+        _starting = false;
+        _scanning = false;
+        _error = 'Camera unavailable. Try again or use a group link.';
       });
     }
   }
@@ -221,6 +244,7 @@ class _ScannerViewport extends StatelessWidget {
     required this.scanning,
     required this.starting,
     required this.scannerAvailable,
+    required this.evidenceMode,
     required this.onDetect,
   });
 
@@ -229,6 +253,7 @@ class _ScannerViewport extends StatelessWidget {
   final bool scanning;
   final bool starting;
   final bool scannerAvailable;
+  final bool evidenceMode;
   final void Function(BarcodeCapture capture) onDetect;
 
   @override
@@ -247,12 +272,13 @@ class _ScannerViewport extends StatelessWidget {
               tapToFocus: true,
               onDetect: onDetect,
               errorBuilder: (context, error) =>
-                  _ScannerUnavailable(error: error.errorDetails?.message),
+                  _ScannerUnavailable(error: _scannerErrorMessage(error)),
             )
           else
-            const _ScannerUnavailable(
-              error:
-                  'QR scanning is available in the mobile app. Open Collect on your phone or use a group link.',
+            _ScannerUnavailable(
+              error: evidenceMode
+                  ? 'Camera preview is disabled in fixture evidence mode.'
+                  : 'QR scanning is available in the mobile app. Open Collect on your phone or use a group link.',
               showRecoveryAction: false,
             ),
           const _ScannerScrim(),
@@ -279,6 +305,18 @@ class _ScannerViewport extends StatelessWidget {
       ),
     );
   }
+}
+
+String _scannerErrorMessage(MobileScannerException error) {
+  return switch (error.errorCode) {
+    MobileScannerErrorCode.permissionDenied =>
+      'Camera permission is off. Allow access to scan a group QR code.',
+    MobileScannerErrorCode.unsupported =>
+      'QR scanning is not supported on this device. Use a group link instead.',
+    MobileScannerErrorCode.controllerInitializing =>
+      'Camera is still starting. Wait a moment and try again.',
+    _ => 'Camera unavailable. Try again or use a group link.',
+  };
 }
 
 class _ScannerIconButton extends StatelessWidget {
@@ -312,7 +350,7 @@ class _ScannerIconButton extends StatelessWidget {
               ),
             ),
             child: SizedBox.square(
-              dimension: 42,
+              dimension: CollectSpacing.iconTarget,
               child: Icon(icon, color: colors.onImagePrimary, size: 21),
             ),
           ),

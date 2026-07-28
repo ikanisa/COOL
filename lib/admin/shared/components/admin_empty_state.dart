@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_typography.dart';
 
 class AdminEmptyState extends StatelessWidget {
   const AdminEmptyState({required this.title, this.message, super.key});
@@ -46,7 +47,7 @@ class AdminEmptyState extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: colors.textPrimary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               if (message != null) ...[

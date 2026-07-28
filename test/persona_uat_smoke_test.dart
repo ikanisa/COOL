@@ -1,12 +1,16 @@
+import 'dart:ui' show SemanticsAction;
+
 import 'package:collect_app/admin/admin_app.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,15 +30,31 @@ void main() {
     CollectRepository? repository,
     bool legalConsentAccepted = false,
     String? pendingSharedGroupSlug,
+    double textScale = 1,
+    bool accessibleNavigation = false,
+    bool disableAnimations = false,
+    bool highContrast = false,
+    bool boldText = false,
+    ThemeMode themeMode = ThemeMode.dark,
   }) async {
     final router = createAppRouter(initialLocation: initialLocation);
     addTearDown(router.dispose);
     await tester.pumpWidget(
       ProviderScope(
+        key: ValueKey(
+          'main-app:$initialLocation:${themeMode.name}:'
+          '$textScale:$highContrast:$disableAnimations',
+        ),
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
             (ref) => repository ?? CollectRepository.fixture(),
+          ),
+          collectThemeModeProvider.overrideWith(
+            (ref) => CollectThemeModeController(
+              initialMode: themeMode,
+              loadPersistedMode: false,
+            ),
           ),
           legalConsentAcceptedProvider.overrideWith(
             (ref) => legalConsentAccepted,
@@ -44,7 +64,16 @@ void main() {
               (ref) => pendingSharedGroupSlug,
             ),
         ],
-        child: const CollectApp(),
+        child: MediaQuery(
+          data: MediaQueryData.fromView(tester.view).copyWith(
+            textScaler: TextScaler.linear(textScale),
+            accessibleNavigation: accessibleNavigation,
+            disableAnimations: disableAnimations,
+            highContrast: highContrast,
+            boldText: boldText,
+          ),
+          child: const CollectApp(),
+        ),
       ),
     );
     await pumpLaunchFrames(tester);
@@ -127,6 +156,17 @@ void main() {
     expect(find.textContaining('SMS_HOOK'), findsNothing);
   }
 
+  void expectNoRouteException(WidgetTester tester, String route) {
+    final exception = tester.takeException();
+    if (exception is FlutterError) {
+      debugPrint('Route matrix failure: $route');
+      for (final diagnostic in exception.diagnostics) {
+        debugPrint(diagnostic.toStringDeep());
+      }
+    }
+    expect(exception, isNull, reason: route);
+  }
+
   testWidgets('main app launches without admin or secret-bearing surface', (
     tester,
   ) async {
@@ -163,7 +203,7 @@ void main() {
   ) async {
     await pumpMainAppAt(tester, '/home');
 
-    expect(find.text('Featured Groups'), findsOneWidget);
+    expect(find.text('Activity'), findsWidgets);
     expect(find.text('Public groups'), findsNothing);
     expect(find.byTooltip('Supported groups'), findsOneWidget);
     final router = GoRouter.of(
@@ -545,18 +585,21 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('settings opens native notification recovery sheet', (
+  testWidgets('settings opens notification preferences and native recovery', (
     tester,
   ) async {
     await pumpMainAppAt(tester, '/settings');
 
-    expect(find.text('Settings'), findsWidgets);
+    expect(find.text('Profile'), findsWidgets);
     expect(find.text('Permission use'), findsNothing);
     expect(find.text('SMS access'), findsNothing);
     expect(find.text('Notifications'), findsWidgets);
     await tapVisible(tester, find.text('Notifications'));
     await tester.pumpAndSettle();
     expect(find.text('Notifications'), findsWidgets);
+    expect(find.text('Contribution confirmations'), findsOneWidget);
+    await tapVisible(tester, find.text('Review phone permission'));
+    await tester.pumpAndSettle();
     expect(find.text('Open app settings'), findsOneWidget);
     expect(find.text('Access boundary'), findsNothing);
     expect(find.text('SMS access details'), findsNothing);
@@ -663,21 +706,21 @@ void main() {
   testWidgets('settings keeps permissions action-triggered', (tester) async {
     await pumpMainAppAt(tester, '/settings');
 
-    expect(find.text('Settings'), findsWidgets);
+    expect(find.text('Profile'), findsWidgets);
     expect(find.text('Account center'), findsNothing);
     expect(find.text('Collect ID'), findsNothing);
     expect(find.text('Action-led'), findsNothing);
     expect(find.text('No secrets'), findsNothing);
     expect(find.text('Ready for group activity'), findsNothing);
     expect(find.text('Device permissions'), findsNothing);
-    expect(find.byTooltip('Profile'), findsNothing);
+    expect(find.byTooltip('Profile'), findsOneWidget);
     expect(find.text('Notifications'), findsWidgets);
     expect(find.text('Readiness'), findsNothing);
     expect(find.text('SMS access'), findsNothing);
     expect(find.text('Linked MoMo'), findsNothing);
     expect(find.textContaining('manual'), findsNothing);
 
-    final router = GoRouter.of(tester.element(find.text('Settings').first));
+    final router = GoRouter.of(tester.element(find.text('Profile').first));
     router.go('/settings/account');
     await tester.pumpAndSettle();
 
@@ -691,6 +734,28 @@ void main() {
     expect(find.text('MoMo number'), findsNothing);
     expect(find.text('Number'), findsOneWidget);
     expectNoGlobalSecrets();
+  });
+
+  testWidgets('settings list surface follows light theme text contrast', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/settings', themeMode: ThemeMode.light);
+
+    final gradients = tester
+        .widgetList<CollectCard>(find.byType(CollectCard))
+        .map((card) => card.backgroundGradient)
+        .whereType<LinearGradient>();
+    expect(
+      gradients.any(
+        (gradient) =>
+            gradient.colors.length == 2 &&
+            gradient.colors.first == CollectColors.light.surfaceReadable &&
+            gradient.colors.last == CollectColors.light.surfaceRaised,
+      ),
+      isTrue,
+    );
+    expect(find.text('Account details'), findsOneWidget);
+    expect(find.text('Notifications'), findsWidgets);
   });
 
   testWidgets('account action sheets expose accessible native-style actions', (
@@ -731,6 +796,100 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     }
   });
+
+  testWidgets(
+    'critical member routes expose stable screen reader labels and actions',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final semantics = tester.ensureSemantics();
+      try {
+        final routeExpectations = <(String, List<(Pattern, bool)>)>[
+          (
+            '/auth',
+            [
+              (RegExp(r'^WhatsApp$'), true),
+              (RegExp(r'^Send WhatsApp code$'), false),
+            ],
+          ),
+          (
+            '/home',
+            [
+              (RegExp(r'^Home$'), true),
+              (RegExp(r'^Groups$'), true),
+              (RegExp(r'^Contribute$'), true),
+              (RegExp(r'^Activity$'), true),
+              (RegExp(r'^Profile$'), true),
+            ],
+          ),
+          (
+            '/groups/col-church',
+            [
+              (RegExp(r'RWF 35,000 raised'), false),
+              (RegExp(r'Open group members, 2 members'), false),
+            ],
+          ),
+          (
+            '/groups/col-church/contribute',
+            [(RegExp(r'^Review contribution$'), false)],
+          ),
+          (
+            '/groups/col-church/ledger',
+            [
+              (RegExp(r'^Filter by group$'), true),
+              (RegExp(r'^Sort ledger$'), true),
+            ],
+          ),
+          (
+            '/settings',
+            [
+              (RegExp(r'^Profile'), true),
+              (RegExp(r'^Notifications'), true),
+              (RegExp(r'^Appearance'), true),
+              (RegExp(r'^Security'), true),
+            ],
+          ),
+          (
+            '/offline',
+            [(RegExp(r'^Review groups$'), true), (RegExp(r'^Home$'), true)],
+          ),
+        ];
+
+        for (final (route, labels) in routeExpectations) {
+          await pumpMainAppAt(
+            tester,
+            route,
+            repository: _LedgerScenarioRepository(),
+          );
+          expectNoRouteException(tester, route);
+          for (final (label, tappable) in labels) {
+            final labeledNode = find.semantics.byLabel(label);
+            expect(
+              labeledNode,
+              findsWidgets,
+              reason: '$route must expose $label to assistive technology.',
+            );
+            if (tappable) {
+              expect(
+                find.semantics.descendant(
+                  of: labeledNode,
+                  matching: find.semantics.byAction(SemanticsAction.tap),
+                  matchRoot: true,
+                ),
+                findsWidgets,
+                reason:
+                    '$route must expose an actionable $label semantics node.',
+              );
+            }
+          }
+        }
+      } finally {
+        semantics.dispose();
+      }
+    },
+  );
 
   testWidgets('privacy route redirects to legal privacy copy', (tester) async {
     await pumpMainAppAt(tester, '/settings/privacy');
@@ -788,7 +947,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('manage route keeps unsupported owner actions bounded', (
+  testWidgets('manage route keeps owner actions and private data bounded', (
     tester,
   ) async {
     await pumpMainAppAt(tester, '/groups/col-church/manage');
@@ -864,18 +1023,18 @@ void main() {
 
     expect(find.textContaining('MTN12345'), findsWidgets);
     expect(find.text('STATUS'), findsNothing);
-    expect(find.text('GROUP'), findsOneWidget);
+    expect(find.text('GROUP'), findsNothing);
+    expect(find.byTooltip('Filter by group'), findsOneWidget);
+    expect(find.byTooltip('Sort ledger'), findsOneWidget);
     expect(find.textContaining('intent-pending'), findsNothing);
     expectNoGlobalSecrets();
   });
 
-  testWidgets('help route returns to settings without support screen', (
-    tester,
-  ) async {
+  testWidgets('help route exposes safe support choices', (tester) async {
     await pumpMainAppAt(tester, '/settings/help');
 
-    expect(find.text('Settings'), findsWidgets);
-    expect(find.text('WhatsApp support'), findsNothing);
+    expect(find.text('Help'), findsWidgets);
+    expect(find.text('WhatsApp support'), findsOneWidget);
     expect(find.text('Support without secrets'), findsNothing);
     expect(find.text('Contact support on WhatsApp.'), findsNothing);
     expect(find.text('+250795588248'), findsNothing);
@@ -950,13 +1109,341 @@ void main() {
           route,
           repository: _LedgerScenarioRepository(),
         );
-        expect(tester.takeException(), isNull, reason: route);
+        expectNoRouteException(tester, route);
         expect(find.byType(CollectApp), findsOneWidget, reason: route);
       }
 
       expectNoGlobalSecrets();
     },
   );
+
+  testWidgets(
+    'complete member route matrix renders at compact 200 percent text with reduced motion',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      for (final route in _completeMemberRouteMatrix) {
+        await pumpMainAppAt(
+          tester,
+          route,
+          repository: _LedgerScenarioRepository(),
+          textScale: 2,
+          accessibleNavigation: true,
+          disableAnimations: true,
+        );
+        expectNoRouteException(tester, route);
+        expect(find.byType(CollectApp), findsOneWidget, reason: route);
+        expect(find.text('Screen not found'), findsNothing, reason: route);
+        expect(
+          find.text('This screen is unavailable.'),
+          findsNothing,
+          reason: route,
+        );
+      }
+
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets(
+    'reduced motion completes detail navigation without transient route frames',
+    (tester) async {
+      await pumpMainAppAt(
+        tester,
+        '/settings',
+        repository: _LedgerScenarioRepository(),
+        accessibleNavigation: true,
+        disableAnimations: true,
+      );
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(CollectApp)),
+      );
+      final router = container.read(appRouterProvider);
+
+      router.go('/settings/appearance');
+      await tester.pump();
+
+      expect(find.text('Appearance'), findsWidgets);
+      await tester.pump(const Duration(milliseconds: 1));
+      expect(tester.binding.transientCallbackCount, 0);
+      expectNoRouteException(tester, '/settings/appearance');
+    },
+  );
+
+  testWidgets(
+    'reduced motion applies list filters without transient sheet frames',
+    (tester) async {
+      await pumpMainAppAt(
+        tester,
+        '/activity',
+        repository: _LedgerScenarioRepository(),
+        accessibleNavigation: true,
+        disableAnimations: true,
+      );
+      final filterButton = tester.widget<IconButton>(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is IconButton && widget.tooltip == 'Filter by group',
+        ),
+      );
+
+      filterButton.onPressed!();
+      await tester.pump();
+
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is RadioListTile<String?> && widget.value == 'col-church',
+        ),
+        findsOneWidget,
+      );
+      final radioGroup = tester.widget<RadioGroup<String?>>(
+        find.byType(RadioGroup<String?>),
+      );
+      radioGroup.onChanged('col-church');
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1));
+
+      expect(find.byType(RadioListTile<String?>), findsNothing);
+      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(tester.binding.transientCallbackCount, 0);
+      expectNoRouteException(tester, '/activity');
+    },
+  );
+
+  testWidgets('normal motion preserves detail route animation', (tester) async {
+    await pumpMainAppAt(
+      tester,
+      '/settings',
+      repository: _LedgerScenarioRepository(),
+    );
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(CollectApp)),
+    );
+    final router = container.read(appRouterProvider);
+
+    router.go('/settings/appearance');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 1));
+
+    expect(find.text('Appearance'), findsWidgets);
+    expect(tester.binding.transientCallbackCount, greaterThan(0));
+    await tester.pumpAndSettle();
+    expectNoRouteException(tester, '/settings/appearance');
+  });
+
+  testWidgets(
+    'complete member route matrix renders on tablet with high contrast',
+    (tester) async {
+      tester.view.physicalSize = const Size(834, 1194);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      for (final route in _completeMemberRouteMatrix) {
+        await pumpMainAppAt(
+          tester,
+          route,
+          repository: _LedgerScenarioRepository(),
+          accessibleNavigation: true,
+          disableAnimations: true,
+          highContrast: true,
+          boldText: true,
+        );
+        expectNoRouteException(tester, route);
+        expect(find.byType(CollectApp), findsOneWidget, reason: route);
+        final routeTheme = Theme.of(
+          tester.element(find.byType(Scaffold).first),
+        );
+        expect(
+          routeTheme.extension<CollectUniversalTokens>()?.highContrast,
+          isTrue,
+          reason: route,
+        );
+        expect(find.text('Screen not found'), findsNothing, reason: route);
+        expect(
+          find.text('This screen is unavailable.'),
+          findsNothing,
+          reason: route,
+        );
+      }
+
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets(
+    'complete member route matrix renders in light dark and both system appearances',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+
+      const variants =
+          <
+            ({
+              ThemeMode mode,
+              Brightness platform,
+              Brightness expected,
+              String name,
+            })
+          >[
+            (
+              mode: ThemeMode.light,
+              platform: Brightness.dark,
+              expected: Brightness.light,
+              name: 'light',
+            ),
+            (
+              mode: ThemeMode.dark,
+              platform: Brightness.light,
+              expected: Brightness.dark,
+              name: 'dark',
+            ),
+            (
+              mode: ThemeMode.system,
+              platform: Brightness.light,
+              expected: Brightness.light,
+              name: 'system-light',
+            ),
+            (
+              mode: ThemeMode.system,
+              platform: Brightness.dark,
+              expected: Brightness.dark,
+              name: 'system-dark',
+            ),
+          ];
+
+      for (final variant in variants) {
+        tester.platformDispatcher.platformBrightnessTestValue =
+            variant.platform;
+        for (final route in _completeMemberRouteMatrix) {
+          await pumpMainAppAt(
+            tester,
+            route,
+            repository: _LedgerScenarioRepository(),
+            disableAnimations: true,
+            themeMode: variant.mode,
+          );
+          final reason = '${variant.name}: $route';
+          expectNoRouteException(tester, reason);
+          expect(find.byType(CollectApp), findsOneWidget, reason: reason);
+          final routeTheme = Theme.of(
+            tester.element(find.byType(Scaffold).first),
+          );
+          expect(routeTheme.brightness, variant.expected, reason: reason);
+          expect(find.text('Screen not found'), findsNothing, reason: reason);
+          expect(
+            find.text('This screen is unavailable.'),
+            findsNothing,
+            reason: reason,
+          );
+        }
+      }
+
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets(
+    'complete member route matrix renders on standard and large phone viewports',
+    (tester) async {
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      for (final size in const [Size(390, 844), Size(430, 932)]) {
+        tester.view.physicalSize = size;
+        for (final route in _completeMemberRouteMatrix) {
+          await pumpMainAppAt(
+            tester,
+            route,
+            repository: _LedgerScenarioRepository(),
+            disableAnimations: true,
+          );
+          expectNoRouteException(tester, '$route at ${size.width.toInt()} px');
+          expect(find.byType(CollectApp), findsOneWidget, reason: route);
+          expect(find.text('Screen not found'), findsNothing, reason: route);
+          expect(
+            find.text('This screen is unavailable.'),
+            findsNothing,
+            reason: route,
+          );
+        }
+      }
+
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets(
+    'activity and ledger preserve totals at maximum accessibility text',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      for (final route in const ['/activity', '/groups/col-church/ledger']) {
+        await pumpMainAppAt(
+          tester,
+          route,
+          repository: _LedgerScenarioRepository(),
+          textScale: 3.2,
+          accessibleNavigation: true,
+          disableAnimations: true,
+          highContrast: true,
+          boldText: true,
+        );
+        expectNoRouteException(tester, route);
+        expect(find.text('RWF 35,000'), findsOneWidget, reason: route);
+        if (route == '/activity') {
+          expect(
+            find.byKey(const Key('collect_top_chrome_official_logo')),
+            findsOneWidget,
+            reason: route,
+          );
+        } else {
+          expect(
+            find.byKey(const Key('collect_top_chrome_official_logo')),
+            findsNothing,
+            reason: route,
+          );
+          expect(find.byIcon(CollectIcons.back), findsOneWidget, reason: route);
+        }
+      }
+    },
+  );
+
+  testWidgets('compact native width keeps the full ledger total visible', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(375, 667);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await pumpMainAppAt(
+      tester,
+      '/groups/col-church/ledger',
+      repository: _LedgerScenarioRepository(),
+      disableAnimations: true,
+    );
+
+    expectNoRouteException(tester, 'compact ledger');
+    final amount = find.text('RWF 35,000');
+    expect(amount, findsOneWidget);
+    expect(
+      find.ancestor(of: amount, matching: find.byType(FittedBox)),
+      findsOneWidget,
+    );
+    expect(tester.widget<Text>(amount).overflow, isNot(TextOverflow.ellipsis));
+  });
 
   testWidgets('admin app opens at login for default non-admin state', (
     tester,
@@ -1072,6 +1559,44 @@ void main() {
     },
   );
 }
+
+const _completeMemberRouteMatrix = <String>[
+  '/',
+  '/auth',
+  '/settings/profile',
+  '/home',
+  '/offline',
+  '/sync',
+  '/groups',
+  '/contribute',
+  '/activity',
+  '/groups/create',
+  '/groups/scan',
+  '/groups/col-church',
+  '/groups/col-church/share',
+  '/groups/col-church/invite',
+  '/c/st-michel-building-fund',
+  '/app',
+  '/invite/038491',
+  '/share/invalid',
+  '/share/expired',
+  '/share/expired/request',
+  '/groups/col-church/contribute',
+  '/groups/col-church/ledger',
+  '/groups/col-church/manage',
+  '/groups/col-church/profile',
+  '/groups/col-church/members',
+  '/settings',
+  '/settings/notifications',
+  '/settings/appearance',
+  '/settings/security',
+  '/settings/account',
+  '/settings/account/delete',
+  '/settings/privacy',
+  '/settings/help',
+  '/settings/legal/privacy',
+  '/settings/legal/terms',
+];
 
 const _platformOwnerIdentity = AdminIdentity(
   userId: '00000000-0000-0000-0000-000000000001',

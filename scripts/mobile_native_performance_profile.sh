@@ -43,6 +43,7 @@ Environment:
   MOBILE_PERF_TEST_TARGET            default: integration_test/app_uat_smoke_test.dart
   MOBILE_PERF_DRIVER                 default: test_driver/integration_test.dart
   MOBILE_PERF_TIMEOUT_SECONDS        default: 1200
+  MOBILE_PERF_FLUTTER_MIN_FRAMES     default: 30
   MOBILE_PERF_EVIDENCE_DIR           default: .cache/mobile_native_performance_profile/<timestamp>
 USAGE
 }
@@ -72,6 +73,7 @@ PACKAGE_ID="${MOBILE_PERF_PACKAGE_ID:-app.cool.mobile}"
 TEST_TARGET="${MOBILE_PERF_TEST_TARGET:-integration_test/app_uat_smoke_test.dart}"
 DRIVER="${MOBILE_PERF_DRIVER:-test_driver/integration_test.dart}"
 TIMEOUT_SECONDS="${MOBILE_PERF_TIMEOUT_SECONDS:-1200}"
+FLUTTER_MIN_FRAMES="${MOBILE_PERF_FLUTTER_MIN_FRAMES:-30}"
 TRACE_DURATION="${MOBILE_PERF_TRACE_DURATION:-10s}"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 EVIDENCE_DIR="${MOBILE_PERF_EVIDENCE_DIR:-$ROOT_DIR/.cache/mobile_native_performance_profile/$timestamp}"
@@ -102,6 +104,8 @@ write_summary() {
   MOBILE_PERF_TRACE_FILE="$TRACE_FILE" \
   MOBILE_PERF_GFXINFO_FILE="$GFXINFO_FILE" \
   MOBILE_PERF_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
+  MOBILE_PERF_FLUTTER_MIN_FRAMES="$FLUTTER_MIN_FRAMES" \
+  MOBILE_PERF_DEVICE_LOCKED_AFTER_RUN="${device_locked_after_run:-0}" \
   ruby -r json -e '
     root = Dir.pwd
     def rel(root, path)
@@ -118,6 +122,58 @@ write_summary() {
     trace_bytes = File.exist?(trace) ? File.size(trace) : 0
     log_bytes = File.exist?(log) ? File.size(log) : 0
     log_body = File.file?(log) ? File.read(log) : ""
+    completion_marker = log_body.match?(/All tests passed[.!]/)
+    flutter_target_id = log_body[/collect_perf_target:([a-zA-Z0-9_-]+)/, 1]
+    expected_flutter_target_id = "mobile_performance_device_uat_v2"
+    flutter_frame_metrics = log_body
+      .scan(/collect_perf_metric:(\{[^\r\n]+\})/)
+      .map do |match|
+        begin
+          JSON.parse(match.first)
+        rescue JSON::ParserError
+          nil
+        end
+      end
+      .compact
+    flutter_completion = log_body
+      .scan(/collect_perf_complete:(\{[^\r\n]+\})/)
+      .map do |match|
+        begin
+          JSON.parse(match.first)
+        rescue JSON::ParserError
+          nil
+        end
+      end
+      .compact
+      .last
+    required_flutter_scenarios = %w[
+      startup_first_usable_route
+      dense_groups_scroll
+      route_transition
+      dense_activity_scroll
+      modal_sheet_open_close
+      amount_entry_rebuild
+    ]
+    flutter_scenarios = flutter_frame_metrics
+      .map { |metric| metric["scenario"].to_s }
+      .uniq
+    flutter_total_frames = flutter_frame_metrics
+      .sum { |metric| metric["frames"].to_i }
+    flutter_min_frames = ENV.fetch("MOBILE_PERF_FLUTTER_MIN_FRAMES").to_i
+    flutter_scenarios_complete =
+      (required_flutter_scenarios - flutter_scenarios).empty?
+    flutter_each_scenario_measurable = flutter_frame_metrics.all? do |metric|
+      metric["frames"].to_i >= 3
+    end
+    flutter_engine_authoritative = !flutter_frame_metrics.empty?
+    flutter_engine_representative =
+      flutter_engine_authoritative &&
+      flutter_target_id == expected_flutter_target_id &&
+      !flutter_completion.nil? &&
+      flutter_total_frames >= flutter_min_frames &&
+      flutter_scenarios_complete &&
+      flutter_each_scenario_measurable
+    device_locked_after_run = ENV.fetch("MOBILE_PERF_DEVICE_LOCKED_AFTER_RUN") == "1"
     gfxinfo_body = File.file?(gfxinfo) ? File.read(gfxinfo) : ""
     skipped_frames = log_body.scan(/Skipped (\d+) frames!/).flatten.map(&:to_i)
     scenario_seconds = log_body.scan(/I\/flutter .*?(\d\d):(\d\d) \+/).map { |minutes, seconds| minutes.to_i * 60 + seconds.to_i }.max
@@ -134,8 +190,20 @@ write_summary() {
     failures << reason unless reason.empty?
     if status == "pass"
       failures << "Profile-mode runner did not exit cleanly." unless runner.fetch("exit_code", 1).to_i == 0
+      failures << "Profile-mode runner did not emit an All tests passed completion marker." unless completion_marker
       failures << "Perfetto timeline trace was not written." unless trace_bytes > 1024
       failures << "Profile run log was not written." unless log_bytes > 0
+      if flutter_engine_authoritative
+        failures << "Flutter performance target identity was absent or unexpected." unless flutter_target_id == expected_flutter_target_id
+        failures << "Flutter engine performance completion marker was not emitted." if flutter_completion.nil?
+        failures << "Flutter engine frame sample was below the representative minimum of #{flutter_min_frames} frames." if flutter_total_frames < flutter_min_frames
+        failures << "Flutter engine performance scenarios were incomplete." unless flutter_scenarios_complete
+        failures << "One or more Flutter engine scenarios emitted fewer than 3 frames." unless flutter_each_scenario_measurable
+      else
+        failures << "Android gfxinfo did not report a representative rendered-frame sample." unless total_frames.to_i >= 10
+        failures << "Android gfxinfo did not report janky-frame metrics." if janky_frames.nil? || janky_percent.nil?
+      end
+      failures << "Android device locked or was covered by the system shade during profiling." if device_locked_after_run
     end
     computed_status =
       if status == "blocked"
@@ -153,6 +221,8 @@ write_summary() {
       "flavor" => ENV.fetch("MOBILE_PERF_FLAVOR"),
       "target" => ENV.fetch("MOBILE_PERF_TEST_TARGET"),
       "driver" => ENV.fetch("MOBILE_PERF_DRIVER"),
+      "frame_metric_authority" =>
+        flutter_engine_authoritative ? "flutter_engine" : "android_gfxinfo",
       "timeout_seconds" => ENV.fetch("MOBILE_PERF_TIMEOUT_SECONDS").to_i,
       "artifacts" => {
         "evidence_dir" => rel(root, ENV.fetch("MOBILE_PERF_EVIDENCE_DIR")),
@@ -166,9 +236,20 @@ write_summary() {
         "log_bytes" => log_bytes,
         "runner_exit_code" => runner["exit_code"],
         "timed_out" => runner["timed_out"],
+        "completion_marker" => completion_marker,
+        "device_locked_after_run" => device_locked_after_run,
         "scenario_seconds" => scenario_seconds,
         "max_skipped_frames_logcat" => skipped_frames.max,
         "screenshot_count" => screenshot_count,
+        "flutter_frame_total" => flutter_total_frames,
+        "flutter_frame_minimum" => flutter_min_frames,
+        "flutter_target_id" => flutter_target_id,
+        "flutter_target_verified" =>
+          flutter_target_id == expected_flutter_target_id,
+        "flutter_scenario_count" => flutter_frame_metrics.length,
+        "flutter_scenarios_complete" => flutter_scenarios_complete,
+        "flutter_completion_marker" => !flutter_completion.nil?,
+        "flutter_frame_metrics" => flutter_frame_metrics,
         "gfxinfo_total_frames" => total_frames,
         "gfxinfo_janky_frames" => janky_frames,
         "gfxinfo_janky_percent" => janky_percent,
@@ -189,8 +270,27 @@ write_summary() {
         },
         {
           "id" => "android_gfxinfo_frame_metrics",
-          "status" => total_frames.to_i > 0 ? "pass" : computed_status,
+          "status" =>
+            if total_frames.to_i >= 10 && !janky_frames.nil? && !janky_percent.nil?
+              "pass"
+            elsif flutter_engine_authoritative
+              "limited"
+            else
+              "fail"
+            end,
           "evidence" => [rel(root, gfxinfo)]
+        },
+        {
+          "id" => "flutter_engine_frame_metrics",
+          "status" =>
+            if flutter_engine_representative
+              "pass"
+            elsif flutter_engine_authoritative
+              "fail"
+            else
+              "not_applicable"
+            end,
+          "evidence" => [rel(root, log)]
         }
       ],
       "failures" => failures,
@@ -211,20 +311,31 @@ capture_fallback_trace() {
   local install_log="$EVIDENCE_DIR/fallback_install.log"
   local trace_log="$EVIDENCE_DIR/fallback_perfetto.log"
   local device_trace="/data/misc/perfetto-traces/collect_${timestamp}.perfetto-trace"
+  local launch_component
+  local running_pid
 
-  set +e
-  "$ADB" -s "$DEVICE_ID" install -r -d "$apk" >"$install_log" 2>&1
-  local install_status=$?
-  if [[ "$install_status" -ne 0 ]]; then
-    "$ADB" -s "$DEVICE_ID" uninstall "$PACKAGE_ID" >>"$install_log" 2>&1
-    "$ADB" -s "$DEVICE_ID" install -r -d "$apk" >>"$install_log" 2>&1
-    install_status=$?
+  running_pid="$("$ADB" -s "$DEVICE_ID" shell pidof "$PACKAGE_ID" 2>/dev/null | tr -d '\r' || true)"
+  if [[ -z "$running_pid" ]]; then
+    set +e
+    "$ADB" -s "$DEVICE_ID" install -r -d "$apk" >"$install_log" 2>&1
+    local install_status=$?
+    if [[ "$install_status" -ne 0 ]]; then
+      "$ADB" -s "$DEVICE_ID" uninstall "$PACKAGE_ID" >>"$install_log" 2>&1
+      "$ADB" -s "$DEVICE_ID" install -r -d "$apk" >>"$install_log" 2>&1
+      install_status=$?
+    fi
+    set -e
+    [[ "$install_status" -eq 0 ]] || return 1
+
+    launch_component="$("$ADB" -s "$DEVICE_ID" shell cmd package resolve-activity --brief "$PACKAGE_ID" 2>>"$trace_log" | tr -d '\r' | tail -n 1)"
+    [[ "$launch_component" == */* ]] || return 1
+    "$ADB" -s "$DEVICE_ID" shell am force-stop "$PACKAGE_ID" >>"$trace_log" 2>&1 || true
+    "$ADB" -s "$DEVICE_ID" shell am start -n "$launch_component" >>"$trace_log" 2>&1
+    sleep 3
+  else
+    printf 'Reusing running profile process %s for %s.\n' "$running_pid" "$PACKAGE_ID" >"$install_log"
   fi
-  set -e
-  [[ "$install_status" -eq 0 ]] || return 1
 
-  "$ADB" -s "$DEVICE_ID" shell monkey -p "$PACKAGE_ID" 1 >>"$trace_log" 2>&1 || true
-  sleep 3
   "$ADB" -s "$DEVICE_ID" exec-out screencap -p >"$SCREENSHOT_DIR/profile_launch.png" 2>>"$trace_log" || true
 
   set +e
@@ -257,7 +368,8 @@ fi
 
 window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
 if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
-  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen)' <<<"$window_state"; then
+  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen|NotificationShade)' <<<"$window_state" ||
+  grep -q 'mDreamingLockscreen=true' <<<"$window_state"; then
   write_summary "blocked" 99 "Android performance device $DEVICE_ID is locked."
   if [[ "$OUTPUT_FORMAT" == "json" ]]; then
     cat "$SUMMARY_FILE"
@@ -277,8 +389,10 @@ cmd=(
   -d "$DEVICE_ID"
   --flavor "$FLAVOR"
   --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
+  --dart-define=COLLECT_PERF_RUN_ID="$timestamp"
   --trace-startup
   --trace-to-file="$TRACE_FILE"
+  --keep-app-running
   --timeout="$TIMEOUT_SECONDS"
 )
 
@@ -367,6 +481,14 @@ ruby -r json -e '
 ' -- "${cmd[@]}"
 run_exit=$?
 set -e
+
+device_locked_after_run=0
+post_window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
+if grep -q 'mKeyguardShowing=true' <<<"$post_window_state" ||
+  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen|NotificationShade)' <<<"$post_window_state" ||
+  grep -q 'mDreamingLockscreen=true' <<<"$post_window_state"; then
+  device_locked_after_run=1
+fi
 
 if [[ "$run_exit" == "0" ]]; then
   capture_fallback_trace || true

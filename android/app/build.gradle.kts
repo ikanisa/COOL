@@ -171,11 +171,11 @@ flutter {
 }
 
 gradle.taskGraph.whenReady {
-    val productionReleaseTaskRequested = gradle.startParameter.taskNames.any { taskName ->
-        taskName.contains("ProductionRelease", ignoreCase = true)
+    val productionReleaseTaskRequested = allTasks.any { task ->
+        task.name.contains("ProductionRelease", ignoreCase = true)
     }
-    val playInstalledOverwriteTaskRequested = gradle.startParameter.taskNames.any { taskName ->
-        signProductionDebugWithPlayKey && taskName.contains("ProductionDebug", ignoreCase = true)
+    val playInstalledOverwriteTaskRequested = allTasks.any { task ->
+        signProductionDebugWithPlayKey && task.name.contains("ProductionDebug", ignoreCase = true)
     }
     if (productionReleaseTaskRequested || playInstalledOverwriteTaskRequested) {
         if (!hasReleaseSigning) {

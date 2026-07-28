@@ -554,6 +554,8 @@ required_mobile_routes = %w[
   /settings/profile
   /home
   /groups
+  /contribute
+  /activity
   /groups/create
   /groups/scan
   /groups/col-church
@@ -566,6 +568,9 @@ required_mobile_routes = %w[
   /groups/col-church/profile
   /groups/col-church/members
   /settings
+  /settings/notifications
+  /settings/appearance
+  /settings/security
   /settings/account
   /settings/account/delete
   /settings/legal/privacy

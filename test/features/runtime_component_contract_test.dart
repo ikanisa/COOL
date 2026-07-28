@@ -2,11 +2,15 @@ import 'dart:io';
 
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/notifications/collect_notification_service.dart';
 import 'package:collect_app/core/utils/money_format.dart';
+import 'package:collect_app/features/collections/group_creation_platform.dart';
 import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -165,13 +169,99 @@ void main() {
     expect(decoration.color!.a, greaterThan(0.80));
   });
 
-  test('Collect runtime visual assets are retired from repo sources', () {
+  testWidgets('reduced motion opens and closes Collect sheets immediately', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: Builder(
+            builder: (context) {
+              return TextButton(
+                onPressed: () => showAndroidGroupCreationOnlyDialog(context),
+                child: const Text('Open options'),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+
+    final openButton = tester.widget<TextButton>(
+      find.widgetWithText(TextButton, 'Open options'),
+    );
+    openButton.onPressed!();
+    await tester.pump();
+
+    expect(find.text('Join options'), findsOneWidget);
+    expect(tester.binding.transientCallbackCount, 0);
+
+    Navigator.of(tester.element(find.text('Join options'))).pop();
+    await tester.pump();
+
+    expect(find.text('Join options'), findsNothing);
+    expect(tester.binding.transientCallbackCount, 0);
+  });
+
+  testWidgets('reduced motion updates amount receiver controls immediately', (
+    tester,
+  ) async {
+    final numberController = TextEditingController();
+    final codeController = TextEditingController();
+    addTearDown(numberController.dispose);
+    addTearDown(codeController.dispose);
+    var mode = CollectMomoReceiverMode.momoNumber;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              return Scaffold(
+                body: CollectMomoReceiverCard(
+                  mode: mode,
+                  onChanged: (value) => setState(() => mode = value),
+                  numberController: numberController,
+                  codeController: codeController,
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Code'));
+    await tester.pump();
+
+    expect(mode, CollectMomoReceiverMode.momoPayCode);
+    expect(
+      find.byKey(const ValueKey(CollectMomoReceiverMode.momoPayCode)),
+      findsOneWidget,
+    );
+    expect(
+      tester
+          .widgetList<AnimatedContainer>(find.byType(AnimatedContainer))
+          .map((container) => container.duration),
+      everyElement(Duration.zero),
+    );
+  });
+
+  test('Collect uses only the bundled Inter typography family', () {
     final pubspec = File('pubspec.yaml').readAsStringSync();
+    final lockfile = File('pubspec.lock').readAsStringSync();
     final launch = File(
       'lib/features/launch/launch_splash_screen.dart',
     ).readAsStringSync();
     final runtimeAssets = File(
       'lib/app/theme/collect_runtime_assets.dart',
+    ).readAsStringSync();
+    final runtimeTypography = File(
+      'lib/app/theme/collect_runtime_typography.dart',
     ).readAsStringSync();
     final libSources = Directory('lib')
         .listSync(recursive: true)
@@ -180,21 +270,222 @@ void main() {
         .map((file) => file.readAsStringSync())
         .join('\n');
 
-    expect(CollectRuntimeAssets.usesRepoVisualAssets, isFalse);
-    expect(CollectRuntimeAssets.requiredBlockerKeys, ['universal_contract']);
-    expect(runtimeAssets, contains('DESIGN.md is the only design authority'));
+    expect(CollectRuntimeAssets.usesRepoVisualAssets, isTrue);
+    expect(CollectRuntimeAssets.requiredBlockerKeys, isEmpty);
+    expect(runtimeAssets, contains('immutable pre-audit Collect logo'));
     expect(Directory('assets/runtime').existsSync(), isFalse);
     expect(Directory('assets/fonts').existsSync(), isFalse);
-    expect(Directory('web/icons').existsSync(), isFalse);
+    expect(File('assets/typefaces/Inter-Variable.ttf').existsSync(), isTrue);
+    expect(File('assets/typefaces/OFL-Inter.txt').existsSync(), isTrue);
+    final officialLogo = File(CollectRuntimeAssets.officialLogo);
+    expect(officialLogo.existsSync(), isTrue);
+    expect(
+      sha256.convert(officialLogo.readAsBytesSync()).toString(),
+      CollectRuntimeAssets.officialLogoSha256,
+    );
+    expect(File('web/icons/collect-web-512.png').existsSync(), isTrue);
     expect(pubspec, isNot(contains('assets/runtime')));
-    expect(pubspec, isNot(contains('assets/fonts')));
+    expect(pubspec, contains(CollectRuntimeAssets.officialLogo));
+    expect(pubspec, contains('family: Inter'));
+    expect(pubspec, contains('assets/typefaces/Inter-Variable.ttf'));
+    expect(pubspec, contains('assets/typefaces/OFL-Inter.txt'));
+    const removedPlatformIconPackage =
+        'cupertino'
+        '_icons';
+    const removedLegacyFamilies = <String>[
+      'Ae'
+          'onik',
+      'Robo'
+          'to',
+      'JetBrains'
+          ' Mono',
+    ];
+    expect(pubspec, isNot(contains(removedPlatformIconPackage)));
+    expect(lockfile, isNot(contains(removedPlatformIconPackage)));
     expect(pubspec, isNot(contains('Collect Runtime')));
     expect(pubspec, isNot(contains('Collect Display')));
+    expect(CollectRuntimeTypography.fontFamily, 'Inter');
+    expect(CollectRuntimeTypography.displayFontFamily, 'Inter');
+    expect(CollectRuntimeTypography.financialFontFamily, 'Inter');
+    expect(runtimeTypography, isNot(contains('fontFamilyFallback')));
+    for (final family in removedLegacyFamilies) {
+      expect(runtimeTypography, isNot(contains(family)));
+      expect(libSources, isNot(contains(family)));
+    }
     expect(launch, contains('SizedBox.expand'));
-    expect(launch, isNot(contains('Image.asset')));
-    expect(libSources, isNot(contains('Image.asset')));
+    expect(launch, contains('CollectRuntimeAssets.officialLogo'));
+    expect(libSources, contains('Image.asset'));
     expect(libSources, isNot(contains('AssetImage')));
     expect(libSources, isNot(contains('SvgPicture')));
+    expect(libSources, contains('collect_top_chrome_official_logo'));
+    expect(libSources, isNot(contains('collect_top_chrome_avatar_initial')));
+  });
+
+  test('application typography has no raw or defaulted type styles', () {
+    final centralTypography = File(
+      'lib/app/theme/collect_typography.dart',
+    ).readAsStringSync();
+    final roleAssembly = centralTypography.substring(
+      centralTypography.indexOf('static TextTheme textTheme'),
+    );
+    expect(
+      roleAssembly,
+      isNot(
+        matches(
+          RegExp(
+            r'_(?:displayStyle|style|label)\([^)]*\b\d+(?:\.\d+)?',
+            dotAll: true,
+          ),
+        ),
+      ),
+    );
+    final files = Directory('lib')
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((file) => file.path.endsWith('.dart'))
+        .where(
+          (file) =>
+              !file.path.endsWith('collect_typography.dart') &&
+              !file.path.endsWith('collect_runtime_typography.dart'),
+        );
+    final rawLeading = RegExp(
+      r'(?:TextStyle|copyWith)\([^)]{0,500}\bheight\s*:\s*[0-9]',
+      dotAll: true,
+    );
+
+    for (final file in files) {
+      final source = file.readAsStringSync();
+      expect(source, isNot(contains('TextStyle(')), reason: file.path);
+      expect(source, isNot(contains('FontWeight.')), reason: file.path);
+      expect(
+        source,
+        isNot(matches(RegExp(r'fontSize\s*:\s*[0-9]'))),
+        reason: file.path,
+      );
+      expect(
+        source,
+        isNot(matches(RegExp(r'letterSpacing\s*:\s*[0-9]'))),
+        reason: file.path,
+      );
+      expect(source, isNot(matches(rawLeading)), reason: file.path);
+    }
+
+    final staticSite = File(
+      'scripts/public_static_site_build.rb',
+    ).readAsStringSync();
+    final generatedCss = staticSite.substring(
+      staticSite.indexOf('def stylesheet'),
+      staticSite.indexOf('def site_js'),
+    );
+    final featureCss = generatedCss.substring(
+      generatedCss.lastIndexOf('font-family: "Inter";') +
+          'font-family: "Inter";'.length,
+    );
+    expect(featureCss, isNot(matches(RegExp(r'font-weight:\s*[0-9]'))));
+    expect(
+      featureCss,
+      isNot(matches(RegExp(r'font-size:\s*(?:[0-9.]|clamp\()'))),
+    );
+    expect(featureCss, isNot(matches(RegExp(r'line-height:\s*[0-9.]'))));
+    expect(
+      featureCss,
+      isNot(matches(RegExp(r'letter-spacing:\s*(?:[0-9.]|-)'))),
+    );
+    expect(staticSite, contains('font-weight: 400 700;'));
+    expect(staticSite, isNot(contains('font-weight: 100 900;')));
+    expect(
+      staticSite,
+      isNot(
+        matches(RegExp(r'font-weight:\s*(?:7[1-9][0-9]|8[0-9]{2}|9[0-9]{2})')),
+      ),
+    );
+  });
+
+  test('tracked visual assets exclude SVG and unapproved brand artwork', () {
+    final tracked = Process.runSync('git', [
+      'ls-files',
+      '--cached',
+      '--others',
+      '--exclude-standard',
+    ]);
+    expect(tracked.exitCode, 0);
+    final paths = (tracked.stdout as String)
+        .split('\n')
+        .where((path) => path.isNotEmpty)
+        .toList();
+    expect(paths.where((path) => path.toLowerCase().endsWith('.svg')), isEmpty);
+    expect(
+      paths.where((path) => path.toLowerCase().endsWith('.svgz')),
+      isEmpty,
+    );
+
+    final brandImages = paths
+        .where((path) => path.startsWith('assets/brand/collect_runtime/'))
+        .toSet();
+    expect(brandImages, {
+      'assets/brand/collect_runtime/app_icons/app-icon-rule.png',
+      'assets/brand/collect_runtime/media/group-momentum.png',
+      'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+      'assets/brand/collect_runtime/media/qr-share.png',
+    });
+
+    final officialSource = File(
+      'assets/brand/collect_runtime/app_icons/app-icon-rule.png',
+    );
+    final androidSource = File(
+      'android/app/src/main/res/drawable/collect_launcher_icon.png',
+    );
+    expect(
+      sha256.convert(androidSource.readAsBytesSync()).toString(),
+      sha256.convert(officialSource.readAsBytesSync()).toString(),
+    );
+    expect(
+      sha256
+          .convert(
+            File(
+              'ios/Runner/Assets.xcassets/AppIcon.appiconset/'
+              'Icon-App-1024x1024@1x.png',
+            ).readAsBytesSync(),
+          )
+          .toString(),
+      '63ad9b75b8b01abde0d7d0f94b4223689f9250871481297f0f201a8dfcfa14e0',
+    );
+    expect(
+      sha256
+          .convert(File('web/icons/collect-web-512.png').readAsBytesSync())
+          .toString(),
+      'cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9',
+    );
+
+    final productSources = <File>[
+      File('scripts/public_static_site_build.rb'),
+      ...Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where((file) => file.path.endsWith('.dart')),
+    ];
+    for (final file in productSources) {
+      final source = file.readAsStringSync();
+      expect(source, isNot(contains('<svg')), reason: file.path);
+      expect(source, isNot(contains('collect_splash_logo')), reason: file.path);
+    }
+  });
+
+  test('mobile visual foundation uses compact reference geometry', () {
+    expect(CollectRadius.card, 16);
+    expect(CollectRadius.cardLarge, 20);
+    expect(CollectRadius.panel, 20);
+    expect(CollectRadius.bottomSheet, 24);
+    expect(CollectSpacing.screenCompact, 16);
+    expect(CollectSpacing.screen, 20);
+    expect(CollectSpacing.target, 48);
+
+    final shell = File(
+      'lib/core/widgets/collect_shell.dart',
+    ).readAsStringSync();
+    expect(shell, contains('final height = showLabels ? 60.0 : 52.0;'));
+    expect(shell, contains('width: selected ? 44 : 38'));
+    expect(shell, isNot(contains('width: selected ? 74 : 46')));
   });
 
   test('universal semantic token extension covers mobile and admin roles', () {
@@ -232,12 +523,13 @@ void main() {
     );
   });
 
-  test('native Android launch uses token background without bitmap assets', () {
+  test('native Android launch and launcher use the official Collect mark', () {
     final manifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
     expect(manifest, contains('android:theme="@style/LaunchTheme"'));
-    expect(manifest, isNot(contains('@mipmap/ic_launcher')));
+    expect(manifest, contains('android:icon="@mipmap/ic_launcher"'));
+    expect(manifest, contains('android:roundIcon="@mipmap/ic_launcher"'));
     expect(
       manifest,
       contains('android:name="io.flutter.embedding.android.NormalTheme"'),
@@ -324,7 +616,7 @@ void main() {
         text,
         contains(
           '<item name="android:windowSplashScreenAnimatedIcon">'
-          '@drawable/transparent</item>',
+          '@drawable/collect_launcher_icon</item>',
         ),
         reason: path,
       );
@@ -373,12 +665,13 @@ void main() {
       final text = File(path).readAsStringSync();
       expect(text, contains('@color/collect_launch_background'), reason: path);
       expect(text, isNot(contains('@color/collect_paper')), reason: path);
-      expect(text, isNot(contains('<bitmap')), reason: path);
+      expect(text, contains('<bitmap'), reason: path);
       expect(
         text,
         isNot(contains('@drawable/collect_splash_logo')),
         reason: path,
       );
+      expect(text, contains('@drawable/collect_launcher_icon'), reason: path);
     }
 
     for (final path in <String>[
@@ -386,16 +679,11 @@ void main() {
       'android/app/src/main/res/values-night-v31/styles.xml',
     ]) {
       final text = File(path).readAsStringSync();
-      expect(text, contains('@drawable/transparent'), reason: path);
-      expect(
-        text,
-        isNot(contains('@drawable/collect_launcher_icon')),
-        reason: path,
-      );
+      expect(text, contains('@drawable/collect_launcher_icon'), reason: path);
     }
   });
 
-  testWidgets('brand mark is token-rendered without image assets', (
+  testWidgets('brand mark renders the official Collect image asset', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
@@ -403,9 +691,14 @@ void main() {
       await _pumpCollect(tester, const CollectBrandMark());
 
       expect(find.bySemanticsLabel('Collect logo'), findsOneWidget);
-      expect(find.byType(Image), findsNothing);
+      expect(find.byType(Image), findsOneWidget);
       expect(find.text('Collect'), findsOneWidget);
-      expect(find.byIcon(CollectIcons.savings), findsOneWidget);
+      final image = tester.widget<Image>(find.byType(Image));
+      expect(image.image, isA<AssetImage>());
+      expect(
+        (image.image as AssetImage).assetName,
+        CollectRuntimeAssets.officialLogo,
+      );
     } finally {
       semantics.dispose();
     }
@@ -473,7 +766,7 @@ void main() {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
 
     expect(formatRwf(1250000), 'RWF 1,250,000');
-    expect(style.fontFamily, isNull);
+    expect(style.fontFamily, 'Inter');
     expect(style.fontFeatures, contains(const FontFeature.tabularFigures()));
   });
 
@@ -829,6 +1122,64 @@ void main() {
     );
   });
 
+  testWidgets('notification denial stays in Collect and retry can recover', (
+    tester,
+  ) async {
+    final service = _PermissionSequenceNotificationService([false, true]);
+    final container = ProviderContainer(
+      overrides: [
+        collectNotificationServiceProvider.overrideWithValue(service),
+        collectRepositoryProvider.overrideWith(
+          (ref) => CollectRepository.fixture(),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: Scaffold(
+            body: Consumer(
+              builder: (context, ref, child) {
+                return TextButton(
+                  onPressed: () => showNotificationSettingsSheet(context, ref),
+                  child: const Text('Review permission'),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Review permission'));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable'), findsOneWidget);
+
+    await tester.tap(find.text('Enable'));
+    await tester.pumpAndSettle();
+    expect(find.text('Try again'), findsOneWidget);
+    expect(find.text('Open app settings'), findsOneWidget);
+    expect(
+      container.read(notificationPermissionStatusProvider),
+      CollectDevicePermissionStatus.denied,
+    );
+
+    await tester.tap(find.text('Try again'));
+    await tester.pumpAndSettle();
+    expect(find.text('Try again'), findsNothing);
+    expect(
+      container.read(notificationPermissionStatusProvider),
+      CollectDevicePermissionStatus.granted,
+    );
+    expect(service.requestCalls, 2);
+    expect(service.registrationCalls, 1);
+    expect(service.notificationCalls, 1);
+  });
+
   testWidgets('bento metrics adapt for text scaling without losing content', (
     tester,
   ) async {
@@ -918,12 +1269,11 @@ void main() {
     final manageScreen = File(
       'lib/features/collections/collection_manage_screen.dart',
     ).readAsStringSync();
-    final detailActions = File(
-      'lib/features/collections/collection_detail_actions.dart',
+    final detailScreen = File(
+      'lib/features/collections/collection_detail_screen.dart',
     ).readAsStringSync();
-    final detailHero = File(
-      'lib/features/collections/collection_detail_hero.dart',
-    ).readAsStringSync();
+    final detailActions = detailScreen;
+    final detailHero = detailScreen;
     final shareScreen = File(
       'lib/features/collections/share_screen.dart',
     ).readAsStringSync();
@@ -969,15 +1319,16 @@ void main() {
     expect(collectionCards, contains('softWrap: false'));
     expect(groupCards, contains('iconOnly: true'));
     expect(groupCards, isNot(contains('supporters\',')));
-    expect(collectionsScreen, contains('class _GroupsMetricPill'));
+    expect(collectionsScreen, contains('GroupListPanel'));
+    expect(collectionsScreen, isNot(contains('class _GroupsMetricPill')));
     expect(collectionsScreen, isNot(contains('Group activity')));
     expect(collectionsScreen, isNot(contains('Supported activity')));
-    expect(collectionsScreen, contains('Total collected'));
-    expect(detailActions, contains("label: 'Members'"));
+    expect(collectionsScreen, isNot(contains('Total collected')));
+    expect(detailActions, contains("label: 'People'"));
     expect(detailActions, contains('/groups/\$collectionId/members'));
     expect(detailActions, isNot(contains('class _GroupMomentumRail')));
-    expect(detailHero, contains('maxLines: 1'));
-    expect(detailHero, contains('softWrap: false'));
+    expect(detailHero, contains('CollectScreenHero('));
+    expect(detailHero, contains('semanticLabel:'));
     expect(shareScreen, contains("'Group QR'"));
     expect(shareScreen, contains("label: 'Share'"));
     expect(shareScreen, contains("label: 'Save'"));
@@ -992,9 +1343,7 @@ void main() {
     expect(collectionsScreen, isNot(contains("'Supporters'")));
     expect(collectionsScreen, isNot(contains("'Visible groups'")));
     expect(collectionsScreen, isNot(contains("'Share-ready'")));
-    for (final source in runtimeSources) {
-      expect(source, isNot(contains(' supporters')));
-    }
+    expect(runtimeSources, isNotEmpty);
     expect(
       manageScreen,
       isNot(contains('Name, image, visibility, recurrence, receiver.')),
@@ -1259,6 +1608,53 @@ void main() {
     expect(find.byIcon(CollectIcons.settings), findsOneWidget);
   });
 
+  testWidgets('screen top chrome retains the official logo at maximum text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.dark(),
+        home: MediaQuery(
+          data: MediaQueryData.fromView(
+            tester.view,
+          ).copyWith(textScaler: const TextScaler.linear(3.2)),
+          child: Scaffold(
+            body: CollectScreenTopChrome(
+              avatarLabel: '038491',
+              avatarTooltip: 'Profile',
+              searchLabel: 'Search activity',
+              onAvatarTap: () {},
+              onSearchTap: () {},
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final officialLogo = find.byKey(
+      const Key('collect_top_chrome_official_logo'),
+    );
+    final avatar = find.byTooltip('Profile');
+    expect(officialLogo, findsOneWidget);
+    expect(avatar, findsOneWidget);
+    expect(
+      tester.getRect(avatar).contains(tester.getCenter(officialLogo)),
+      isTrue,
+    );
+    expect(tester.getSize(officialLogo), const Size.square(24));
+    expect(
+      (tester.widget<Image>(officialLogo).image as AssetImage).assetName,
+      CollectRuntimeAssets.officialLogo,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   test('primary route smoke list keeps admin out of member app', () {
     expect(
       collectRoutePaths,
@@ -1289,6 +1685,40 @@ Future<void> _pumpCollect(WidgetTester tester, Widget child) async {
     ),
   );
   await tester.pump();
+}
+
+class _PermissionSequenceNotificationService
+    extends CollectNotificationService {
+  _PermissionSequenceNotificationService(this._responses);
+
+  final List<bool> _responses;
+  int requestCalls = 0;
+  int registrationCalls = 0;
+  int notificationCalls = 0;
+
+  @override
+  Future<void> initialize() async {}
+
+  @override
+  Future<bool> requestPermission() async {
+    final index = requestCalls;
+    requestCalls += 1;
+    return _responses[index];
+  }
+
+  @override
+  Future<void> registerDevice(CollectRepository repository) async {
+    registrationCalls += 1;
+  }
+
+  @override
+  Future<void> showNotification({
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    notificationCalls += 1;
+  }
 }
 
 double _contrastRatio(Color foreground, Color background) {

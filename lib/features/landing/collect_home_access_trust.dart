@@ -83,8 +83,8 @@ class _AppAccessSection extends StatelessWidget {
                 'Get Collect or create a group savings account',
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   color: CollectColors.referenceChromeBlack,
-                  fontWeight: FontWeight.w900,
-                  height: 1.05,
+                  fontWeight: CollectTypography.weightBold,
+                  height: CollectTypography.leadingDisplayRelaxed,
                 ),
               ),
               const SizedBox(height: 16),
@@ -92,7 +92,7 @@ class _AppAccessSection extends StatelessWidget {
                 'Members can start through the app or WhatsApp. The same entry point works for group treasurers, local savings groups and new savings communities.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: CollectColors.inkSecondary,
-                  height: 1.45,
+                  height: CollectTypography.leadingBody,
                 ),
               ),
               const SizedBox(height: 24),
@@ -200,15 +200,19 @@ class _UssdCommandVisual extends StatelessWidget {
                               size: 18,
                             ),
                             const SizedBox(width: 8),
-                            Text(
-                              'MoMo USSD',
-                              style: Theme.of(context).textTheme.labelLarge
-                                  ?.copyWith(
-                                    color: CollectColors.brandPaper,
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                            Expanded(
+                              child: Text(
+                                'MoMo USSD',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      color: CollectColors.brandPaper,
+                                      fontWeight: CollectTypography.weightBold,
+                                    ),
+                              ),
                             ),
-                            const Spacer(),
+                            const SizedBox(width: 8),
                             Text(
                               'RWF',
                               style: Theme.of(context).textTheme.labelSmall
@@ -216,7 +220,7 @@ class _UssdCommandVisual extends StatelessWidget {
                                     color: CollectColors.brandPaper.withValues(
                                       alpha: 0.58,
                                     ),
-                                    fontWeight: FontWeight.w900,
+                                    fontWeight: CollectTypography.weightBold,
                                   ),
                             ),
                           ],
@@ -229,7 +233,7 @@ class _UssdCommandVisual extends StatelessWidget {
                                 color: CollectColors.brandPaper.withValues(
                                   alpha: 0.64,
                                 ),
-                                fontWeight: FontWeight.w800,
+                                fontWeight: CollectTypography.weightBold,
                               ),
                         ),
                         const SizedBox(height: 8),
@@ -258,8 +262,9 @@ class _UssdCommandVisual extends StatelessWidget {
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(
                                       color: CollectColors.brandPaper,
-                                      fontWeight: FontWeight.w900,
-                                      letterSpacing: 0,
+                                      fontWeight: CollectTypography.weightBold,
+                                      letterSpacing:
+                                          CollectTypography.trackingDefault,
                                     ),
                               ),
                             ),
@@ -288,8 +293,10 @@ class _UssdCommandVisual extends StatelessWidget {
                                   style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(
                                         color: CollectColors.brandPaper,
-                                        fontWeight: FontWeight.w900,
-                                        height: 1.2,
+                                        fontWeight:
+                                            CollectTypography.weightBold,
+                                        height:
+                                            CollectTypography.leadingCompact,
                                       ),
                                 ),
                               ),
@@ -323,8 +330,8 @@ class _UssdCommandVisual extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: CollectColors.brandPaper.withValues(alpha: 0.68),
-                    height: 1.35,
-                    fontWeight: FontWeight.w700,
+                    height: CollectTypography.leadingSupporting,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ],
@@ -358,7 +365,7 @@ class _PhoneKey extends StatelessWidget {
             label,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
               color: CollectColors.brandPaper,
-              fontWeight: FontWeight.w900,
+              fontWeight: CollectTypography.weightBold,
             ),
           ),
         ),
@@ -390,8 +397,8 @@ class _TrustProofSection extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(
                             color: CollectColors.brandPaper,
-                            fontWeight: FontWeight.w900,
-                            height: 1.05,
+                            fontWeight: CollectTypography.weightBold,
+                            height: CollectTypography.leadingDisplayRelaxed,
                           ),
                     ),
                     const SizedBox(height: 16),
@@ -399,7 +406,7 @@ class _TrustProofSection extends StatelessWidget {
                       'Rwanda has broad payment access, but formal credit conversion still needs better records, collateral rules, protection and application-ready files.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: CollectColors.brandPaper.withValues(alpha: 0.72),
-                        height: 1.45,
+                        height: CollectTypography.leadingBody,
                       ),
                     ),
                   ],

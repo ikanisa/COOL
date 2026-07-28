@@ -37,11 +37,20 @@ class CollectRepository extends StateNotifier<CollectState> {
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
     bool seeded = true,
+    DateTime? fixtureNow,
+    int fixtureCollectionCount = 2,
+    int fixtureContributionCount = 2,
     CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
          smsAccessChannel,
-         seeded ? _fixtureCollectState() : _emptyCollectState(),
+         seeded
+             ? _fixtureCollectState(
+                 fixtureNow: fixtureNow,
+                 collectionCount: fixtureCollectionCount,
+                 contributionCount: fixtureContributionCount,
+               )
+             : _emptyCollectState(),
          true,
          offlineCache ?? const CollectOfflineCache(),
        );
@@ -234,13 +243,22 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<void> requestAccountDeletion({required String reason}) async {
     final profile = _requireProfile();
+    final cleanReason = reason.trim();
+    if (cleanReason.isEmpty) {
+      throw const FormatException('Select at least one deletion reason.');
+    }
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
         'request_account_deletion',
-        params: {'request_reason': reason.trim()},
+        params: {'request_reason': cleanReason},
       );
       return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError(
+        'Connect to Collect before submitting an account deletion request.',
+      );
     }
     state = state.copyWith(currentProfile: profile);
   }
@@ -441,6 +459,11 @@ class CollectRepository extends StateNotifier<CollectState> {
     String receiverLabel = 'Primary MoMo receiver',
     bool receiverIsMomoPayCode = false,
   }) async {
+    final collection = _requireActiveCollection(collectionId);
+    _requireCollectionOwner(
+      collection,
+      action: 'update group receiver details',
+    );
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
         : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
@@ -495,6 +518,8 @@ class CollectRepository extends StateNotifier<CollectState> {
     required bool isPublic,
     bool receiverIsMomoPayCode = false,
   }) async {
+    final collection = _requireActiveCollection(collectionId);
+    _requireCollectionOwner(collection, action: 'update group details');
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
         : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
@@ -577,7 +602,16 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (contributorMomoNumber == null || contributorMomoNumber.isEmpty) {
       throw StateError('Link your MoMo number before contributing.');
     }
-    final collection = collectionById(draft.collectionId);
+    final collection = _requireActiveCollection(draft.collectionId);
+    final now = DateTime.now();
+    for (final intent in state.paymentIntents) {
+      if (intent.collectionId == collection.id &&
+          intent.expectedAmountRwf == draft.amountRwf &&
+          intent.status == 'pending' &&
+          now.isBefore(intent.expiresAt)) {
+        return intent;
+      }
+    }
     final senderPhoneHash = HashUtils.phoneHash(contributorMomoNumber);
     final supabase = _supabase;
 
@@ -801,11 +835,20 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String collectionId,
     required String publicId,
   }) async {
+    final collection = _requireActiveCollection(collectionId);
+    final profile = _requireCollectionOwner(
+      collection,
+      action: 'invite an admin',
+    );
     final cleanPublicId = publicId.replaceAll(RegExp(r'\D'), '');
     if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
       throw const FormatException('Enter a 6 digit Collect ID.');
     }
-    final collection = collectionById(collectionId);
+    if (cleanPublicId == profile.publicId) {
+      throw const FormatException(
+        'Enter another member’s Collect ID. You already own this group.',
+      );
+    }
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<dynamic>(
@@ -830,7 +873,8 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   Future<void> archiveCollection(String collectionId) async {
-    final collection = collectionById(collectionId);
+    final collection = _requireActiveCollection(collectionId);
+    _requireCollectionOwner(collection, action: 'archive this group');
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
@@ -858,11 +902,20 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String collectionId,
     required String publicId,
   }) async {
+    final collection = _requireActiveCollection(collectionId);
+    final profile = _requireCollectionOwner(
+      collection,
+      action: 'transfer group ownership',
+    );
     final cleanPublicId = publicId.replaceAll(RegExp(r'\D'), '');
     if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
       throw const FormatException('Enter a 6 digit Collect ID.');
     }
-    final collection = collectionById(collectionId);
+    if (cleanPublicId == profile.publicId) {
+      throw const FormatException(
+        'Enter another member’s Collect ID. You already own this group.',
+      );
+    }
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
@@ -957,6 +1010,27 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectProfile _requireProfile() {
     final profile = state.currentProfile;
     if (profile == null) throw StateError('Sign in first');
+    return profile;
+  }
+
+  CollectCollection _requireActiveCollection(String collectionId) {
+    final collection = collectionById(collectionId);
+    if (collection.isArchived) {
+      throw StateError(
+        'This group is archived. New contributions and group changes are off.',
+      );
+    }
+    return collection;
+  }
+
+  CollectProfile _requireCollectionOwner(
+    CollectCollection collection, {
+    required String action,
+  }) {
+    final profile = _requireProfile();
+    if (collection.creatorUserId != profile.id) {
+      throw StateError('Only the group owner can $action.');
+    }
     return profile;
   }
 }

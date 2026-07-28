@@ -9,7 +9,7 @@ fi
 
 cd "$ROOT_DIR"
 
-OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r json -r net/http -r uri -r open3 -r time <<'RUBY'
+OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r digest -r json -r net/http -r uri -r open3 -r time <<'RUBY'
 root = Dir.pwd
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
@@ -278,21 +278,24 @@ phone_screenshot_paths =
   else
     Dir.glob(File.join(root, phone_screenshot_export_path, "*.png")).sort
   end
-visual_assets_retired =
-  play_assets["launcher_icon"] == "none_repo_visual_assets_retired" &&
-  feature_graphic["status"] == "retired_repo_visual_asset" &&
-  feature_graphic["source"] == "DESIGN.md" &&
-  phone_screenshot_policy["status"] == "retired_repo_visual_asset" &&
-  phone_screenshot_policy["source"] == "DESIGN.md" &&
-  phone_screenshot_policy["minimum_required"].to_i == 0 &&
-  phone_screenshot_paths.empty?
+brand_icon_path = File.join(root, play_assets["brand_icon_source"].to_s)
+launcher_icon_path = File.join(root, play_assets["launcher_icon"].to_s)
+official_icon_policy =
+  play_assets["brand_icon_source"] == "assets/brand/collect_runtime/app_icons/app-icon-rule.png" &&
+  File.file?(brand_icon_path) &&
+  Digest::SHA256.file(brand_icon_path).hexdigest == play_assets["brand_icon_sha256"].to_s &&
+  File.file?(launcher_icon_path) &&
+  Digest::SHA256.file(launcher_icon_path).hexdigest == play_assets["launcher_icon_sha256"].to_s
+current_visual_exports =
+  feature_graphic["status"] == "approved_official_asset" &&
+  phone_screenshot_policy["status"] == "current_product_capture" &&
+  phone_screenshot_policy["source"] == "native_product_capture_only" &&
+  phone_screenshot_paths.length >= phone_screenshot_policy["minimum_required"].to_i
 checks["play_store_metadata_export"] =
-  if metadata_missing.empty? && metadata_length_issues.empty? && visual_assets_retired
-    check("pass", "Fastlane-compatible Play text metadata is exported and repo-owned Play visual assets are retired under DESIGN.md.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length, "visual_assets_retired" => true)
-  elsif metadata_missing.empty? && metadata_length_issues.empty? && phone_screenshot_paths.length >= 2
-    check("pass", "Fastlane-compatible Play listing metadata and screenshots are exported from the Console audit packet.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length, "visual_assets_retired" => false)
+  if metadata_missing.empty? && metadata_length_issues.empty? && official_icon_policy && current_visual_exports
+    check("pass", "Fastlane-compatible Play metadata uses the approved Collect icon and current native screenshots.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length, "official_icon_policy" => true)
   else
-    check("blocked", "Play listing metadata export is missing, violates Play length limits, or conflicts with the retired visual asset policy.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "phone_screenshot_count" => phone_screenshot_paths.length, "visual_assets_retired" => visual_assets_retired, "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
+    check("blocked", "Play listing metadata awaits an owner-approved feature graphic and refreshed native screenshots; fabricated assets are forbidden.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "phone_screenshot_count" => phone_screenshot_paths.length, "official_icon_policy" => official_icon_policy, "feature_graphic_status" => feature_graphic["status"], "phone_screenshot_status" => phone_screenshot_policy["status"], "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
   end
 
 fastlane_files = {

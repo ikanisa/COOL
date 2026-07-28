@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T14:03:00Z",
+  "generated_at": "2026-07-24T17:58:36Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
@@ -10,7 +10,7 @@
       "en-US": "Adds verified app links and refreshed Play policy readiness for Collect."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "a18d5ac50c3483a9c64c169da81a56618d23d223e72a4b9cca326f8aedaf57d0"
+    "aab_sha256": "0fc13d51bc0b751867925a8e8c8d0a283b25303a16a8f6a6d0747348abec4b22"
   },
   "store_listing": {
     "default_language": "en-US",
@@ -29,18 +29,20 @@
       "phone": "+250795588248"
     },
     "assets": {
-      "launcher_icon": "none_repo_visual_assets_retired",
-      "brand_icon_source": "DESIGN.md",
+      "launcher_icon": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "launcher_icon_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265",
+      "brand_icon_source": "assets/brand/collect_runtime/app_icons/app-icon-rule.png",
+      "brand_icon_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
       "feature_graphic": {
-        "status": "retired_repo_visual_asset",
-        "source": "DESIGN.md"
+        "status": "missing_official_asset",
+        "source": "product_owner_approval_required"
       },
       "phone_screenshots": {
-        "status": "retired_repo_visual_asset",
-        "minimum_required": 0,
-        "path": "",
-        "exported_count": 0,
-        "source": "DESIGN.md"
+        "status": "refresh_required_after_current_ui_changes",
+        "minimum_required": 2,
+        "path": "fastlane/screenshots/en-GB",
+        "exported_count": 10,
+        "source": "native_product_capture_only"
       }
     },
     "growth_surfaces": {

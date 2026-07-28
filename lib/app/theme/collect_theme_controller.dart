@@ -10,11 +10,18 @@ final collectThemeModeProvider =
     );
 
 class CollectThemeModeController extends StateNotifier<ThemeMode> {
-  CollectThemeModeController({SharedPreferencesAsync? preferences})
-    : this._(preferences);
+  CollectThemeModeController({
+    SharedPreferencesAsync? preferences,
+    ThemeMode initialMode = ThemeMode.dark,
+    bool loadPersistedMode = true,
+  }) : this._(preferences, initialMode, loadPersistedMode);
 
-  CollectThemeModeController._(this._preferences) : super(ThemeMode.dark) {
-    unawaited(_load());
+  CollectThemeModeController._(
+    this._preferences,
+    ThemeMode initialMode,
+    bool loadPersistedMode,
+  ) : super(initialMode) {
+    if (loadPersistedMode) unawaited(_load());
   }
 
   static const storageKey = 'collect_theme_mode';
@@ -26,10 +33,9 @@ class CollectThemeModeController extends StateNotifier<ThemeMode> {
   Future<void> toggle() => setDarkMode(state != ThemeMode.dark);
 
   Future<void> setMode(ThemeMode mode) async {
-    final concreteMode = _concreteMode(mode);
-    state = concreteMode;
+    state = mode;
     try {
-      await _preferencesClient?.setString(storageKey, concreteMode.name);
+      await _preferencesClient?.setString(storageKey, mode.name);
     } catch (_) {
       // Theme choice remains active in-memory if local preferences are unavailable.
     }
@@ -42,9 +48,6 @@ class CollectThemeModeController extends StateNotifier<ThemeMode> {
       final stored = await preferences.getString(storageKey);
       final mode = _decode(stored);
       if (mounted) state = mode;
-      if (stored == ThemeMode.system.name) {
-        await preferences.setString(storageKey, mode.name);
-      }
     } catch (_) {
       // Dark mode keeps the first launch calm when persistence is unavailable.
     }
@@ -66,11 +69,8 @@ class CollectThemeModeController extends StateNotifier<ThemeMode> {
     return switch (value) {
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
+      'system' => ThemeMode.system,
       _ => ThemeMode.dark,
     };
-  }
-
-  static ThemeMode _concreteMode(ThemeMode mode) {
-    return mode == ThemeMode.light ? ThemeMode.light : ThemeMode.dark;
   }
 }

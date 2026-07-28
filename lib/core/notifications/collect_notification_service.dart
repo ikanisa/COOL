@@ -30,8 +30,9 @@ class CollectNotificationService {
   CollectNotificationService({
     FlutterLocalNotificationsPlugin? plugin,
     SharedPreferencesAsync? preferences,
-  }) : _plugin = plugin ?? FlutterLocalNotificationsPlugin(),
-       _preferences = preferences ?? SharedPreferencesAsync();
+  }) : this._(plugin ?? FlutterLocalNotificationsPlugin(), preferences);
+
+  CollectNotificationService._(this._plugin, this._preferences);
 
   static const _installTokenKey = 'collect.notification.install_token.v1';
   static const _androidChannelId = 'collect_group_updates';
@@ -41,7 +42,7 @@ class CollectNotificationService {
   static const _positiveNotificationIdMask = 2147483647;
 
   final FlutterLocalNotificationsPlugin _plugin;
-  final SharedPreferencesAsync _preferences;
+  final SharedPreferencesAsync? _preferences;
   final _uuid = const Uuid();
   Future<void>? _initializing;
 
@@ -182,10 +183,11 @@ class CollectNotificationService {
   }
 
   Future<String> _installToken() async {
-    final existing = await _preferences.getString(_installTokenKey);
+    final preferences = _preferences ?? SharedPreferencesAsync();
+    final existing = await preferences.getString(_installTokenKey);
     if (existing != null && existing.trim().isNotEmpty) return existing;
     final token = '$_platformName-${_uuid.v4()}';
-    await _preferences.setString(_installTokenKey, token);
+    await preferences.setString(_installTokenKey, token);
     return token;
   }
 

@@ -196,6 +196,18 @@ void main() {
     expect(repo.contributionsFor(collection.id), hasLength(2));
   });
 
+  test('payment intent creation reuses an active matching request', () async {
+    final repo = CollectRepository.fixture();
+    final before = repo.state.paymentIntents.length;
+
+    final intent = await repo.createPaymentIntent(
+      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 15000),
+    );
+
+    expect(intent.id, 'intent-render');
+    expect(repo.state.paymentIntents, hasLength(before));
+  });
+
   test('fixture state includes payment intent for render evidence routes', () {
     final repo = CollectRepository.fixture();
     final intent = repo.intentById('intent-render');
@@ -207,6 +219,46 @@ void main() {
     expect(intent.senderPhoneHash, HashUtils.phoneHash('0788123456'));
     expect(intent.status, 'pending');
     expect(intent.expiresAt.isAfter(DateTime.now()), isTrue);
+  });
+
+  test('fixture evidence clock produces deterministic rendered timestamps', () {
+    final fixtureNow = DateTime.utc(2026, 7, 24, 21);
+    final repo = CollectRepository.fixture(fixtureNow: fixtureNow);
+
+    expect(
+      repo.state.collections.first.createdAt,
+      fixtureNow.subtract(const Duration(days: 3)),
+    );
+    expect(
+      repo.state.paymentIntents.single.createdAt,
+      fixtureNow.subtract(const Duration(minutes: 8)),
+    );
+    expect(
+      repo.state.paymentIntents.single.expiresAt,
+      fixtureNow.add(const Duration(hours: 23)),
+    );
+    expect(repo.state.contributions.map((item) => item.createdAt), [
+      fixtureNow.subtract(const Duration(hours: 5)),
+      fixtureNow.subtract(const Duration(hours: 2)),
+    ]);
+  });
+
+  test('fixture can opt into dense deterministic performance data', () {
+    final fixtureNow = DateTime.utc(2026, 7, 25, 4);
+    final repo = CollectRepository.fixture(
+      fixtureNow: fixtureNow,
+      fixtureCollectionCount: 24,
+      fixtureContributionCount: 80,
+    );
+
+    expect(repo.state.collections, hasLength(24));
+    expect(repo.state.contributions, hasLength(80));
+    expect(repo.state.collections.last.id, 'col-fixture-24');
+    expect(repo.state.contributions.last.id, 'pay-fixture-80');
+    expect(
+      repo.state.contributions.last.createdAt,
+      fixtureNow.subtract(const Duration(minutes: 78 * 7)),
+    );
   });
 
   test(
@@ -611,6 +663,128 @@ void main() {
     expect(collection.recurringCadence, 'weekly');
     expect(collection.isPublic, isTrue);
   });
+
+  test(
+    'archiving removes a group from active providers and blocks new actions',
+    () async {
+      final repo = CollectRepository.fixture();
+      final container = ProviderContainer(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+      );
+      addTearDown(container.dispose);
+
+      expect(
+        container.read(activeCollectionsProvider).map((item) => item.id),
+        contains('col-church'),
+      );
+
+      await repo.archiveCollection('col-church');
+
+      expect(repo.collectionById('col-church').isArchived, isTrue);
+      expect(
+        container.read(activeCollectionsProvider).map((item) => item.id),
+        isNot(contains('col-church')),
+      );
+      expect(
+        container.read(homeCollectionsProvider).map((item) => item.id),
+        isNot(contains('col-church')),
+      );
+      await expectLater(
+        repo.createPaymentIntent(
+          const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
+        ),
+        throwsA(
+          isA<StateError>().having(
+            (error) => error.message,
+            'message',
+            contains('archived'),
+          ),
+        ),
+      );
+      await expectLater(
+        repo.inviteCollectionAdmin(
+          collectionId: 'col-church',
+          publicId: '123456',
+        ),
+        throwsA(isA<StateError>()),
+      );
+      await expectLater(
+        repo.transferCollectionOwnership(
+          collectionId: 'col-church',
+          publicId: '123456',
+        ),
+        throwsA(isA<StateError>()),
+      );
+    },
+  );
+
+  test(
+    'owner actions reject self-targets and enforce the new owner boundary',
+    () async {
+      final repo = CollectRepository.fixture();
+
+      await expectLater(
+        repo.inviteCollectionAdmin(
+          collectionId: 'col-church',
+          publicId: '038491',
+        ),
+        throwsA(
+          isA<FormatException>().having(
+            (error) => error.message,
+            'message',
+            contains('already own'),
+          ),
+        ),
+      );
+      await expectLater(
+        repo.transferCollectionOwnership(
+          collectionId: 'col-church',
+          publicId: '038491',
+        ),
+        throwsA(isA<FormatException>()),
+      );
+
+      await repo.transferCollectionOwnership(
+        collectionId: 'col-church',
+        publicId: '123456',
+      );
+
+      expect(
+        repo.collectionById('col-church').creatorUserId,
+        'collect-id-123456',
+      );
+      await expectLater(
+        repo.archiveCollection('col-church'),
+        throwsA(
+          isA<StateError>().having(
+            (error) => error.message,
+            'message',
+            contains('Only the group owner'),
+          ),
+        ),
+      );
+    },
+  );
+
+  test(
+    'account deletion requires a reason before creating a request',
+    () async {
+      final repo = CollectRepository.fixture();
+
+      await expectLater(
+        repo.requestAccountDeletion(reason: '  '),
+        throwsA(
+          isA<FormatException>().having(
+            (error) => error.message,
+            'message',
+            contains('deletion reason'),
+          ),
+        ),
+      );
+      await repo.requestAccountDeletion(reason: 'No longer needed');
+      expect(repo.state.currentProfile, isNotNull);
+    },
+  );
 }
 
 class _FakeSmsAccessChannel extends SmsAccessChannel {

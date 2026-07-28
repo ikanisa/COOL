@@ -45,67 +45,68 @@ class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
         routePath: '/auth',
         child: SizedBox.expand(
           child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(CollectSpacing.x6),
-              child: Column(
-                children: [
-                  const Spacer(),
-                  Semantics(
-                    label: 'Collect',
-                    image: true,
-                    child: ExcludeSemantics(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: foreground.withValues(alpha: 0.10),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: foreground.withValues(alpha: 0.16),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: CollectColors.referenceChromeBlack
-                                  .withValues(alpha: 0.28),
-                              blurRadius: 42,
-                              offset: const Offset(0, 18),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final textScale = MediaQuery.textScalerOf(context).scale(1);
+                final compact = constraints.maxHeight < 640 || textScale > 1.3;
+                final content = Padding(
+                  padding: EdgeInsets.all(
+                    compact ? CollectSpacing.x4 : CollectSpacing.x6,
+                  ),
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      Semantics(
+                        label: 'Collect official logo',
+                        image: true,
+                        child: ExcludeSemantics(
+                          child: SizedBox.square(
+                            dimension: compact ? 88 : 112,
+                            child: Image.asset(
+                              CollectRuntimeAssets.officialLogo,
+                              fit: BoxFit.contain,
+                              filterQuality: FilterQuality.high,
                             ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(CollectSpacing.x4),
-                          child: Icon(
-                            CollectIcons.savings,
-                            color: foreground,
-                            size: 70,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  CollectSpacing.gap24,
-                  Text(
-                    'Collect',
-                    style: textTheme.displaySmall?.copyWith(
-                      color: foreground,
-                      fontWeight: FontWeight.w900,
-                      height: 1,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 54,
-                    child: LinearProgressIndicator(
-                      minHeight: 4,
-                      borderRadius: CollectRadius.pillBorder,
-                      backgroundColor: foreground.withValues(alpha: 0.12),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        CollectColors.brandMintGreen,
+                      compact ? CollectSpacing.gap16 : CollectSpacing.gap24,
+                      Text(
+                        'Collect',
+                        textAlign: TextAlign.center,
+                        style: textTheme.displaySmall?.copyWith(
+                          color: foreground,
+                          fontWeight: CollectTypography.weightBold,
+                          height: CollectTypography.leadingSolid,
+                          letterSpacing: CollectTypography.trackingDefault,
+                        ),
                       ),
-                    ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 54,
+                        child: LinearProgressIndicator(
+                          minHeight: 4,
+                          borderRadius: CollectRadius.pillBorder,
+                          backgroundColor: foreground.withValues(alpha: 0.12),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            CollectColors.brandMintGreen,
+                          ),
+                        ),
+                      ),
+                      compact ? CollectSpacing.gap16 : CollectSpacing.gap32,
+                    ],
                   ),
-                  CollectSpacing.gap32,
-                ],
-              ),
+                );
+                return SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: IntrinsicHeight(child: content),
+                  ),
+                );
+              },
             ),
           ),
         ),

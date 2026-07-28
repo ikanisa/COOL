@@ -34,9 +34,9 @@ class AuthHeadline extends StatelessWidget {
           otpSent ? 'Verify WhatsApp' : 'Sign in',
           style: textTheme.displaySmall?.copyWith(
             color: foreground,
-            fontWeight: FontWeight.w900,
-            height: 0.98,
-            letterSpacing: 0,
+            fontWeight: CollectTypography.weightBold,
+            height: CollectTypography.leadingDense,
+            letterSpacing: CollectTypography.trackingDefault,
           ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -50,8 +50,8 @@ class AuthHeadline extends StatelessWidget {
               : 'Use your WhatsApp number.',
           style: textTheme.titleMedium?.copyWith(
             color: foreground.withValues(alpha: 0.70),
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0,
+            fontWeight: CollectTypography.weightBold,
+            letterSpacing: CollectTypography.trackingDefault,
           ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,

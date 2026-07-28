@@ -31,18 +31,12 @@ class _ContributionFlowScreenState
   @override
   void initState() {
     super.initState();
-    _amount.addListener(_onAmountChanged);
   }
 
   @override
   void dispose() {
-    _amount.removeListener(_onAmountChanged);
     _amount.dispose();
     super.dispose();
-  }
-
-  void _onAmountChanged() {
-    if (mounted) setState(() {});
   }
 
   @override
@@ -51,8 +45,20 @@ class _ContributionFlowScreenState
         .read(collectRepositoryProvider.notifier)
         .maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
+    if (collection.isArchived) {
+      return ArchivedGroupStateScreen(
+        collectionId: widget.collectionId,
+        groupTitle: collection.title,
+      );
+    }
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    final amount = _amountValue;
+    final amount = _reviewing ? _amountValue : 0;
+    final activeIntent = _reviewing && amount > 0
+        ? _activePendingIntent(amountRwf: amount)
+        : null;
+    final expiredIntent = _reviewing && amount > 0
+        ? _latestExpiredIntent(amountRwf: amount)
+        : null;
     if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
       return ScreenScaffold(
         title: 'Profile required',
@@ -89,7 +95,11 @@ class _ContributionFlowScreenState
         children: _reviewing
             ? [
                 CollectButton(
-                  label: _creating ? 'Opening MOMO' : 'Pay with MOMO',
+                  label: _creating
+                      ? 'Opening MOMO'
+                      : activeIntent == null
+                      ? 'Pay with MOMO'
+                      : 'Open existing MOMO',
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,
@@ -99,7 +109,10 @@ class _ContributionFlowScreenState
                   icon: CollectIcons.tune,
                   onPressed: _creating
                       ? null
-                      : () => setState(() => _reviewing = false),
+                      : () => setState(() {
+                          _reviewing = false;
+                          _error = null;
+                        }),
                   variant: CollectButtonVariant.secondary,
                   expand: true,
                 ),
@@ -109,10 +122,12 @@ class _ContributionFlowScreenState
                   label: 'Review contribution',
                   icon: CollectIcons.arrowForward,
                   onPressed: () {
-                    if (amount <= 0) {
+                    final enteredAmount = _amountValue;
+                    if (enteredAmount <= 0) {
                       setState(() => _error = 'Enter an amount above zero.');
                       return;
                     }
+                    FocusManager.instance.primaryFocus?.unfocus();
                     setState(() {
                       _reviewing = true;
                       _error = null;
@@ -130,7 +145,7 @@ class _ContributionFlowScreenState
         if (!_reviewing) ...[
           AmountEntryPanel(
             controller: _amount,
-            amount: amount,
+            amount: _amountValue,
             quickAmounts: const [],
             error: _error,
             showCurrencyChip: true,
@@ -145,8 +160,31 @@ class _ContributionFlowScreenState
             receiverMomoNumber:
                 collection.receiverMomoNumber ?? 'Not configured',
             showFullReceiverNumber: true,
-            onEdit: () => setState(() => _reviewing = false),
+            onEdit: () => setState(() {
+              _reviewing = false;
+              _error = null;
+            }),
           ),
+          if (activeIntent != null)
+            const InfoSecurityBanner(
+              title: 'Payment already pending',
+              message:
+                  'Collect will reuse the active request for this group and amount instead of creating a duplicate ledger intent.',
+              tone: CollectStatusTone.info,
+            )
+          else if (expiredIntent != null)
+            const InfoSecurityBanner(
+              title: 'Previous request expired',
+              message:
+                  'Continuing creates a fresh payment request. The expired request will not be added to the confirmed ledger.',
+              tone: CollectStatusTone.warning,
+            ),
+          if (_error != null)
+            InfoSecurityBanner(
+              title: 'Could not start payment',
+              message: _error!,
+              tone: CollectStatusTone.warning,
+            ),
         ],
       ],
     );
@@ -185,7 +223,7 @@ class _ContributionFlowScreenState
       if (!mounted) return;
       setState(() {
         _creating = false;
-        _error = error.toString();
+        _error = _safeContributionError(error);
       });
     }
   }
@@ -208,6 +246,29 @@ class _ContributionFlowScreenState
       return intent;
     }
     return null;
+  }
+
+  PaymentIntentModel? _latestExpiredIntent({required int amountRwf}) {
+    PaymentIntentModel? latest;
+    for (final intent in ref.read(collectRepositoryProvider).paymentIntents) {
+      if (intent.collectionId != widget.collectionId) continue;
+      if (intent.expectedAmountRwf != amountRwf) continue;
+      final expired =
+          intent.status == 'expired' ||
+          (intent.status == 'pending' &&
+              !DateTime.now().isBefore(intent.expiresAt));
+      if (!expired) continue;
+      if (latest == null || intent.createdAt.isAfter(latest.createdAt)) {
+        latest = intent;
+      }
+    }
+    return latest;
+  }
+
+  String _safeContributionError(Object error) {
+    if (error is FormatException) return error.message.toString();
+    if (error is StateError) return error.message.toString();
+    return 'Payment setup failed. Check your connection and try again.';
   }
 
   int get _amountValue =>
@@ -248,9 +309,9 @@ class _ContributionHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: foreground,
-              fontWeight: FontWeight.w900,
-              height: 1,
-              letterSpacing: 0,
+              fontWeight: CollectTypography.weightBold,
+              height: CollectTypography.leadingSolid,
+              letterSpacing: CollectTypography.trackingDefault,
             ),
           ),
         ),

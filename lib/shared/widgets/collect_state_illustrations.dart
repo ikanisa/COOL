@@ -119,7 +119,7 @@ class MinimalStatePanel extends StatelessWidget {
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(
                                 color: foreground,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: CollectTypography.weightBold,
                               ),
                           maxLines: titleMaxLines,
                           softWrap: true,
@@ -165,12 +165,14 @@ class EmptySearchState extends StatelessWidget {
     required this.title,
     required this.message,
     this.onClear,
+    this.clearLabel = 'Clear search',
     super.key,
   });
 
   final String title;
   final String message;
   final VoidCallback? onClear;
+  final String clearLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +184,7 @@ class EmptySearchState extends StatelessWidget {
       primaryAction: onClear == null
           ? null
           : CollectButton(
-              label: 'Clear search',
+              label: clearLabel,
               icon: CollectIcons.sync,
               onPressed: onClear,
               expand: true,

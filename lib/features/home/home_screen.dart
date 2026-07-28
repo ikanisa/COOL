@@ -39,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
       showHeader: false,
       compact: true,
       topChrome: CollectScreenTopChrome(
-        avatarLabel: profile?.publicId ?? 'Collect',
+        avatarLabel: profile?.publicId,
         avatarTooltip: 'Settings',
         searchLabel: 'Search groups',
         onAvatarTap: () => context.go('/settings'),
@@ -71,6 +71,12 @@ class HomeScreen extends ConsumerWidget {
                     icon: CollectIcons.add,
                     label: 'Create',
                     onTap: () => context.go('/groups/create'),
+                  )
+                else
+                  CollectHeroQuickAction(
+                    icon: CollectIcons.collections,
+                    label: 'Groups',
+                    onTap: () => context.go('/groups'),
                   ),
                 CollectHeroQuickAction(
                   icon: CollectIcons.qr,
@@ -103,30 +109,6 @@ class HomeScreen extends ConsumerWidget {
               ),
             ]
           : [
-              _PublicGroupsSection(
-                collections: collections,
-                summaries: summaries,
-              ),
-              if (collections.isNotEmpty) ...[
-                const SectionHeader(title: 'My groups'),
-                for (final collection in collections)
-                  GroupCard(
-                    collection: collection,
-                    summary:
-                        summaries[collection.id] ??
-                        const CollectionSummary(
-                          amountRaisedRwf: 0,
-                          supporterCount: 0,
-                        ),
-                    onTap: () => context.go('/groups/${collection.id}'),
-                    variant: GroupCardVariant.visual,
-                    primaryAction: _HomeContributeIconButton(
-                      tooltip: 'Contribute',
-                      onPressed: () =>
-                          context.go('/groups/${collection.id}/contribute'),
-                    ),
-                  ),
-              ],
               if (contributions.isNotEmpty) ...[
                 const SectionHeader(title: 'Activity'),
                 CollectCard(
@@ -147,6 +129,19 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ],
+              if (collections.isNotEmpty) ...[
+                const SectionHeader(title: 'My groups'),
+                GroupListPanel(
+                  collections: collections,
+                  summaries: summaries,
+                  onGroupTap: (collection) =>
+                      context.go('/groups/${collection.id}'),
+                ),
+              ],
+              _PublicGroupsSection(
+                collections: collections,
+                summaries: summaries,
+              ),
             ],
     );
   }

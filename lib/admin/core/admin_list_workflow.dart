@@ -64,7 +64,7 @@ class _AdminQueueSummary extends StatelessWidget {
                               style: Theme.of(context).textTheme.labelLarge
                                   ?.copyWith(
                                     color: colors.surfaceReadable,
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: CollectTypography.weightBold,
                                   ),
                             ),
                           ),
@@ -152,7 +152,7 @@ class _AdminWorkflowStepChip extends StatelessWidget {
                       '$index',
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: colors.surfaceReadable,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: CollectTypography.weightBold,
                       ),
                     ),
                   ),
@@ -168,7 +168,7 @@ class _AdminWorkflowStepChip extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ),
@@ -286,7 +286,7 @@ class _AdminSlaChip extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
               ),

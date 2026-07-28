@@ -7,4 +7,6 @@ class AppTheme {
 
   static ThemeData light() => CollectTheme.light();
   static ThemeData dark() => CollectTheme.dark();
+  static ThemeData highContrastLight() => CollectTheme.highContrastLight();
+  static ThemeData highContrastDark() => CollectTheme.highContrastDark();
 }

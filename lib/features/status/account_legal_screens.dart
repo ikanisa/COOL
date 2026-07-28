@@ -84,9 +84,9 @@ class _LegalPageHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: foreground,
-                fontWeight: FontWeight.w900,
-                height: 1,
-                letterSpacing: 0,
+                fontWeight: CollectTypography.weightBold,
+                height: CollectTypography.leadingSolid,
+                letterSpacing: CollectTypography.trackingDefault,
               ),
             ),
           ),
@@ -116,9 +116,9 @@ class _LegalText extends StatelessWidget {
               softWrap: true,
               overflow: TextOverflow.visible,
               textWidthBasis: TextWidthBasis.parent,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: CollectTypography.weightBold,
+              ),
             ),
             CollectSpacing.gap8,
             Text(
@@ -260,7 +260,7 @@ class _DeleteAccountRequestScreenState
                       : 'Ready to submit.',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: context.collectColors.textSecondary,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: CollectTypography.weightBold,
                   ),
                 ),
                 CollectSpacing.gap8,
@@ -301,11 +301,17 @@ class _DeleteAccountRequestScreenState
           .requestAccountDeletion(reason: _selectedReasons.join('; '));
       if (mounted) setState(() => _submitted = true);
     } catch (error) {
-      if (mounted) setState(() => _error = error.toString());
+      if (mounted) setState(() => _error = _safeAccountRequestError(error));
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
   }
+}
+
+String _safeAccountRequestError(Object error) {
+  if (error is FormatException) return error.message.toString();
+  if (error is StateError) return error.message.toString();
+  return 'The request could not be submitted. Check your connection and try again.';
 }
 
 Future<bool> _showAccountActionSheet({
@@ -322,6 +328,7 @@ Future<bool> _showAccountActionSheet({
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,
     barrierColor: CollectColors.inkPrimary.withValues(alpha: 0.64),
+    sheetAnimationStyle: CollectMotion.animationStyle(context),
     builder: (sheetContext) {
       final colors = sheetContext.collectColors;
       return Padding(
@@ -351,7 +358,9 @@ Future<bool> _showAccountActionSheet({
                         Text(
                           title,
                           style: Theme.of(sheetContext).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.w900),
+                              ?.copyWith(
+                                fontWeight: CollectTypography.weightBold,
+                              ),
                         ),
                         CollectSpacing.gap8,
                         Text(

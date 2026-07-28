@@ -1,20 +1,14 @@
 PODS:
-  - file_saver (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
 
 DEPENDENCIES:
-  - file_saver (from `.symlinks/plugins/file_saver/ios`)
   - Flutter (from `Flutter`)
 
 EXTERNAL SOURCES:
-  file_saver:
-    :path: ".symlinks/plugins/file_saver/ios"
   Flutter:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  file_saver: 503e386464dbe118f630e17b4c2e1190fa0cf808
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
 
 PODFILE CHECKSUM: e031f83114005119108dc2b42e0d80f969d8af7f

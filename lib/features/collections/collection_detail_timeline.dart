@@ -7,11 +7,24 @@ class _ContributionTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (var index = 0; index < contributions.length; index++)
-          _TimelineRow(contribution: contributions[index]),
-      ],
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          for (var index = 0; index < contributions.length; index++) ...[
+            _TimelineRow(contribution: contributions[index]),
+            if (index != contributions.length - 1)
+              Divider(
+                height: 1,
+                thickness: 1,
+                indent: 64,
+                color: colors.glassBorder,
+              ),
+          ],
+        ],
+      ),
     );
   }
 }
@@ -34,106 +47,88 @@ class _TimelineRow extends StatelessWidget {
       container: true,
       excludeSemantics: true,
       label: semanticLabel,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
-              child: CollectCard(
-                padding: const EdgeInsets.all(CollectSpacing.x4),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: colors.statusBackground(
-                                    CollectStatusTone.info,
-                                  ),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: colors
-                                        .statusForeground(
-                                          CollectStatusTone.info,
-                                        )
-                                        .withValues(alpha: 0.24),
-                                  ),
-                                ),
-                                child: SizedBox.square(
-                                  dimension: 40,
-                                  child: Icon(
-                                    CollectIcons.profile,
-                                    size: 21,
-                                    color: colors.statusForeground(
-                                      CollectStatusTone.info,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              CollectSpacing.gapW8,
-                              Expanded(
-                                child: Text(
-                                  supporter,
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleMedium,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                          CollectSpacing.gap4,
-                          Padding(
-                            padding: const EdgeInsets.only(left: 48),
-                            child: Text(
-                              createdAt,
-                              style: Theme.of(context).textTheme.bodySmall,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x4,
+          vertical: CollectSpacing.x3,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.statusBackground(CollectStatusTone.info),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: colors
+                            .statusForeground(CollectStatusTone.info)
+                            .withValues(alpha: 0.24),
                       ),
                     ),
-                    CollectSpacing.gapW8,
-                    SizedBox(
-                      width: 104,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              amount,
-                              style: CollectTypography.amountLarge(
-                                colors.textPrimary,
-                              ),
-                            ),
-                          ),
-                          if (contribution.transactionId != null) ...[
-                            CollectSpacing.gap8,
-                            Icon(
-                              CollectIcons.check,
-                              size: 20,
-                              color: colors.textSecondary,
-                            ),
-                          ],
-                        ],
+                    child: SizedBox.square(
+                      dimension: 40,
+                      child: Icon(
+                        CollectIcons.profile,
+                        size: 21,
+                        color: colors.statusForeground(CollectStatusTone.info),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  CollectSpacing.gapW8,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          supporter,
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        CollectSpacing.gap4,
+                        Text(
+                          createdAt,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            CollectSpacing.gapW8,
+            SizedBox(
+              width: 104,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      amount,
+                      style: CollectTypography.amountLarge(colors.textPrimary),
+                    ),
+                  ),
+                  if (contribution.transactionId != null) ...[
+                    CollectSpacing.gap8,
+                    Icon(
+                      CollectIcons.check,
+                      size: 18,
+                      color: colors.textSecondary,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

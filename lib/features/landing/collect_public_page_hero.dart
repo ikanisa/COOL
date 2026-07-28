@@ -7,6 +7,7 @@ class _PublicPageHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compactViewport = MediaQuery.sizeOf(context).width < 600;
     return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -22,7 +23,12 @@ class _PublicPageHero extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 22, 40, 72),
+          padding: EdgeInsets.fromLTRB(
+            compactViewport ? 20 : 40,
+            compactViewport ? 18 : 22,
+            compactViewport ? 20 : 40,
+            compactViewport ? 48 : 72,
+          ),
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1280),
@@ -43,10 +49,14 @@ class _PublicPageHero extends StatelessWidget {
                                 ?.copyWith(
                                   color: CollectColors.brandPaper,
                                   fontSize: compact
-                                      ? (data.isPolicy ? 38 : 42)
-                                      : (data.isPolicy ? 58 : 68),
-                                  height: 1.02,
-                                  fontWeight: FontWeight.w900,
+                                      ? (data.isPolicy
+                                            ? CollectTypography.sizePageCompact
+                                            : CollectTypography.sizeHeroCompact)
+                                      : (data.isPolicy
+                                            ? CollectTypography.sizePolicyHero
+                                            : CollectTypography.sizePublicHero),
+                                  height: CollectTypography.leadingDisplay,
+                                  fontWeight: CollectTypography.weightBold,
                                 ),
                           ),
                           const SizedBox(height: 24),
@@ -57,9 +67,9 @@ class _PublicPageHero extends StatelessWidget {
                                   color: CollectColors.brandPaper.withValues(
                                     alpha: 0.74,
                                   ),
-                                  fontSize: 20,
-                                  height: 1.44,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: CollectTypography.sizeTitle,
+                                  height: CollectTypography.leadingIntro,
+                                  fontWeight: CollectTypography.weightMedium,
                                 ),
                           ),
                           const SizedBox(height: 30),
@@ -138,22 +148,33 @@ class _PublicPageMedia extends StatelessWidget {
               child: _PublicSemanticMedia(role: data.mediaRole),
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: _DarkMetric(
-                    value: data.metricA,
-                    label: data.metricALabel,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _DarkMetric(
-                    value: data.metricB,
-                    label: data.metricBLabel,
-                  ),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final stackMetrics =
+                    constraints.maxWidth < 360 ||
+                    MediaQuery.textScalerOf(context).scale(1) > 1.3;
+                final first = _DarkMetric(
+                  value: data.metricA,
+                  label: data.metricALabel,
+                );
+                final second = _DarkMetric(
+                  value: data.metricB,
+                  label: data.metricBLabel,
+                );
+                if (stackMetrics) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [first, const SizedBox(height: 12), second],
+                  );
+                }
+                return Row(
+                  children: [
+                    Expanded(child: first),
+                    const SizedBox(width: 12),
+                    Expanded(child: second),
+                  ],
+                );
+              },
             ),
           ],
         ),
@@ -267,7 +288,7 @@ class _DarkMetric extends StatelessWidget {
               value,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: CollectColors.brandPaper,
-                fontWeight: FontWeight.w900,
+                fontWeight: CollectTypography.weightBold,
               ),
             ),
             const SizedBox(height: 4),
@@ -275,8 +296,8 @@ class _DarkMetric extends StatelessWidget {
               label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: CollectColors.brandPaper.withValues(alpha: 0.64),
-                fontWeight: FontWeight.w800,
-                height: 1.25,
+                fontWeight: CollectTypography.weightBold,
+                height: CollectTypography.leadingLabel,
               ),
             ),
           ],

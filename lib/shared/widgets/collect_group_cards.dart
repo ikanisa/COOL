@@ -59,6 +59,175 @@ class GroupCard extends StatelessWidget {
 
 enum GroupCardVariant { owned, publicDiscovery, compact, visual }
 
+const _groupListBackdropLimit = 8;
+
+class GroupListPanel extends StatelessWidget {
+  const GroupListPanel({
+    required this.collections,
+    required this.summaries,
+    this.onGroupTap,
+    super.key,
+  });
+
+  final List<CollectCollection> collections;
+  final Map<String, CollectionSummary> summaries;
+  final ValueChanged<CollectCollection>? onGroupTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final usesBackdropBlur = collections.length <= _groupListBackdropLimit;
+    final panel = CollectCard(
+      padding: EdgeInsets.zero,
+      emphasis: CollectCardEmphasis.normal,
+      blurBackground: usesBackdropBlur,
+      child: Column(
+        children: [
+          for (var index = 0; index < collections.length; index += 1) ...[
+            _GroupListRow(
+              collection: collections[index],
+              summary:
+                  summaries[collections[index].id] ??
+                  const CollectionSummary(
+                    amountRaisedRwf: 0,
+                    supporterCount: 0,
+                  ),
+              onTap: onGroupTap == null
+                  ? null
+                  : () => onGroupTap!(collections[index]),
+            ),
+            if (index != collections.length - 1)
+              Divider(
+                height: 1,
+                thickness: 1,
+                indent: 76,
+                color: colors.border.withValues(alpha: 0.54),
+              ),
+          ],
+        ],
+      ),
+    );
+    return usesBackdropBlur ? panel : RepaintBoundary(child: panel);
+  }
+}
+
+class _GroupListRow extends StatelessWidget {
+  const _GroupListRow({
+    required this.collection,
+    required this.summary,
+    this.onTap,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final accent = _groupAccent(context, collection);
+    final formattedAmount = formatRwf(summary.amountRaisedRwf);
+    final row = Padding(
+      padding: const EdgeInsets.fromLTRB(
+        CollectSpacing.x3,
+        CollectSpacing.x3,
+        CollectSpacing.x3,
+        CollectSpacing.x3,
+      ),
+      child: Row(
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: 0.18),
+              shape: BoxShape.circle,
+              border: Border.all(color: accent.withValues(alpha: 0.22)),
+            ),
+            child: SizedBox.square(
+              dimension: 48,
+              child: Icon(
+                collectionTypeIcon(collection.collectionType),
+                color: colors.textPrimary,
+                size: 23,
+              ),
+            ),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  collection.title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: CollectTypography.weightSemibold,
+                    letterSpacing: CollectTypography.trackingDefault,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                CollectSpacing.gap4,
+                Text(
+                  '${collection.collectionType.label} · '
+                  '${summary.supporterCount} members',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: colors.textSecondary,
+                    fontWeight: CollectTypography.weightRegular,
+                    letterSpacing: CollectTypography.trackingDefault,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          CollectSpacing.gapW8,
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 100),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    formattedAmount,
+                    style: CollectTypography.amountCompact(
+                      colors.textPrimary,
+                    ).copyWith(fontWeight: CollectTypography.weightSemibold),
+                    maxLines: 1,
+                  ),
+                ),
+                CollectSpacing.gap4,
+                Icon(CollectIcons.chevron, size: 18, color: colors.textMuted),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    return Semantics(
+      button: onTap != null,
+      label:
+          '${collection.title}, $formattedAmount, '
+          '${summary.supporterCount} members',
+      child: ExcludeSemantics(
+        child: onTap == null
+            ? row
+            : InkWell(
+                onTap: () {
+                  CollectHaptics.selection();
+                  onTap!();
+                },
+                child: row,
+              ),
+      ),
+    );
+  }
+}
+
 class _OwnedGroupCard extends StatelessWidget {
   const _OwnedGroupCard({
     required this.collection,
@@ -293,8 +462,8 @@ class _CompactGroupCard extends StatelessWidget {
                   collection.title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0,
+                    fontWeight: CollectTypography.weightBold,
+                    letterSpacing: CollectTypography.trackingDefault,
                   ),
                   maxLines: 1,
                   softWrap: false,
@@ -323,8 +492,8 @@ class _CompactGroupCard extends StatelessWidget {
                     formatRwf(summary.amountRaisedRwf),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0,
+                      fontWeight: CollectTypography.weightBold,
+                      letterSpacing: CollectTypography.trackingDefault,
                     ),
                     maxLines: 1,
                   ),

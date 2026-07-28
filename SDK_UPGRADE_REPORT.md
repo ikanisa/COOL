@@ -34,7 +34,8 @@
 
 ## Dependency Changes
 
-- Added `cupertino_icons` so release builds can resolve referenced Cupertino icon fonts instead of warning about a missing package font.
+- Removed the unused platform-icon dependency after the application
+  migrated all owned controls to the central Material semantic-icon layer.
 - `supabase_flutter` resolved to `2.12.4`.
 - Supabase transitive packages were refreshed by `flutter pub get`.
 - `flutter_riverpod` and `go_router` were left on their current major versions because newer releases require intentional migration work outside this SDK compatibility pass.
@@ -59,7 +60,9 @@ All commands below were run with `/Volumes/PRO-G40/flutter_3_44/bin/flutter` or 
 ## Warnings
 
 - Android builds no longer warn that the app module applies the Kotlin Gradle Plugin. They still warn that `shared_preferences_android` applies KGP; this must be resolved by a compatible plugin release or dependency strategy before future Flutter versions make it fatal.
-- The earlier missing `CupertinoIcons` font warning is resolved by declaring `cupertino_icons`; refreshed web and Android release builds now tree-shake `CupertinoIcons.ttf`.
+- A clean dependency resolution contains no legacy platform-icon package. Current
+  release artifacts bundle Inter for product typography and the tree-shaken
+  Material icon font for semantic controls; no Cupertino font is packaged.
 - Supabase DB lint reports warning-level unused parameters in several admin RPCs; `--fail-on error` passes.
 
 ## Production Readiness Impact

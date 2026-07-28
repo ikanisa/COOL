@@ -20,14 +20,14 @@ Future<void> showSmsAccessSheet(
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
-    onPrimary: () {
-      Navigator.of(context).maybePop();
+    onPrimary: (sheetContext) {
+      Navigator.of(sheetContext, rootNavigator: true).maybePop();
       permissions.openAppSettings();
     },
     secondaryLabel: 'Retry',
     secondaryIcon: CollectIcons.sync,
-    onSecondary: () {
-      Navigator.of(context).maybePop();
+    onSecondary: (sheetContext) {
+      Navigator.of(sheetContext, rootNavigator: true).maybePop();
       onRetry();
     },
   );
@@ -46,14 +46,14 @@ Future<void> showCameraAccessSheet(
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
-    onPrimary: () {
-      Navigator.of(context).maybePop();
+    onPrimary: (sheetContext) {
+      Navigator.of(sheetContext, rootNavigator: true).maybePop();
       permissions.openAppSettings();
     },
     secondaryLabel: 'Scan again',
     secondaryIcon: CollectIcons.qr,
-    onSecondary: () {
-      Navigator.of(context).maybePop();
+    onSecondary: (sheetContext) {
+      Navigator.of(sheetContext, rootNavigator: true).maybePop();
       onRetry();
     },
   );
@@ -72,19 +72,51 @@ Future<void> showNotificationSettingsSheet(
     tone: CollectStatusTone.info,
     primaryLabel: 'Enable',
     primaryIcon: CollectIcons.pending,
-    onPrimary: () async {
-      final granted = await requestNativeNotifications(ref);
-      if (!context.mounted) return;
-      ref.read(notificationPermissionStatusProvider.notifier).state = granted
-          ? CollectDevicePermissionStatus.granted
-          : CollectDevicePermissionStatus.denied;
-      Navigator.of(context).maybePop();
-      if (!granted) permissions.openAppSettings();
-    },
+    onPrimary: (sheetContext) =>
+        _requestNotificationsFromSheet(sheetContext, ref),
     secondaryLabel: 'Open app settings',
     secondaryIcon: CollectIcons.settings,
-    onSecondary: () {
-      Navigator.of(context).maybePop();
+    onSecondary: (sheetContext) {
+      Navigator.of(sheetContext, rootNavigator: true).maybePop();
+      permissions.openAppSettings();
+    },
+  );
+}
+
+Future<void> _requestNotificationsFromSheet(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final navigator = Navigator.of(context, rootNavigator: true);
+  final granted = await requestNativeNotifications(ref);
+  if (!navigator.mounted) return;
+  ref.read(notificationPermissionStatusProvider.notifier).state = granted
+      ? CollectDevicePermissionStatus.granted
+      : CollectDevicePermissionStatus.denied;
+  await navigator.maybePop();
+  if (granted || !navigator.mounted) return;
+  await _showNotificationRecoverySheet(navigator.context, ref);
+}
+
+Future<void> _showNotificationRecoverySheet(
+  BuildContext context,
+  WidgetRef ref,
+) {
+  return _showNativeSettingsSheet(
+    context,
+    icon: CollectIcons.pending,
+    title: 'Notifications',
+    message:
+        'Notification permission was not enabled. Try the phone prompt again or update Collect in app settings.',
+    tone: CollectStatusTone.warning,
+    primaryLabel: 'Try again',
+    primaryIcon: CollectIcons.sync,
+    onPrimary: (sheetContext) =>
+        _requestNotificationsFromSheet(sheetContext, ref),
+    secondaryLabel: 'Open app settings',
+    secondaryIcon: CollectIcons.settings,
+    onSecondary: (sheetContext) {
+      Navigator.of(sheetContext, rootNavigator: true).maybePop();
       permissions.openAppSettings();
     },
   );
@@ -112,16 +144,17 @@ Future<void> _showNativeSettingsSheet(
   required CollectStatusTone tone,
   required String primaryLabel,
   required IconData primaryIcon,
-  required VoidCallback onPrimary,
+  required ValueChanged<BuildContext> onPrimary,
   required String secondaryLabel,
   required IconData secondaryIcon,
-  required VoidCallback onSecondary,
+  required ValueChanged<BuildContext> onSecondary,
 }) {
   return showModalBottomSheet<void>(
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,
+    sheetAnimationStyle: CollectMotion.animationStyle(context),
     builder: (sheetContext) {
       return SafeArea(
         child: Padding(
@@ -141,13 +174,13 @@ Future<void> _showNativeSettingsSheet(
                 CollectButton(
                   label: primaryLabel,
                   icon: primaryIcon,
-                  onPressed: onPrimary,
+                  onPressed: () => onPrimary(sheetContext),
                   expand: true,
                 ),
                 CollectButton(
                   label: secondaryLabel,
                   icon: secondaryIcon,
-                  onPressed: onSecondary,
+                  onPressed: () => onSecondary(sheetContext),
                   variant: CollectButtonVariant.secondary,
                   expand: true,
                 ),

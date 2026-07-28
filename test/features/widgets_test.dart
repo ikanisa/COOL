@@ -46,6 +46,19 @@ void main() {
     expect(find.text('10k'), findsOneWidget);
     expect(find.text('1M'), findsOneWidget);
     expect(find.text('RWF'), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(
+      tester.widget<BackdropFilter>(find.byType(BackdropFilter)).enabled,
+      isTrue,
+    );
+
+    await tester.tap(find.byType(TextField));
+    await tester.pump();
+    expect(
+      tester.widget<BackdropFilter>(find.byType(BackdropFilter)).enabled,
+      isFalse,
+      reason: 'Focused amount entry must not repaint an expensive blur layer.',
+    );
 
     await tester.tap(find.text('10k'));
     expect(selectedAmount, 10000);
@@ -204,6 +217,116 @@ void main() {
       tester.widget<Text>(find.text(title)).overflow,
       TextOverflow.ellipsis,
     );
+  });
+
+  testWidgets('group list panel renders a dense grouped money list', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      final groups = [
+        CollectCollection(
+          id: 'church',
+          slug: 'church',
+          creatorUserId: 'u1',
+          title: 'St Michel building fund',
+          description: 'Community group',
+          collectionType: CollectionType.church,
+          createdAt: DateTime(2026),
+        ),
+        CollectCollection(
+          id: 'sport',
+          slug: 'sport',
+          creatorUserId: 'u1',
+          title: 'Kigali Lions away kit',
+          description: 'Supporters group',
+          collectionType: CollectionType.sport,
+          createdAt: DateTime(2026),
+        ),
+      ];
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light(),
+          home: Scaffold(
+            body: SizedBox(
+              width: 390,
+              child: GroupListPanel(
+                collections: groups,
+                summaries: const {
+                  'church': CollectionSummary(
+                    amountRaisedRwf: 35000,
+                    supporterCount: 2,
+                  ),
+                  'sport': CollectionSummary(
+                    amountRaisedRwf: 12000,
+                    supporterCount: 4,
+                  ),
+                },
+                onGroupTap: (_) {},
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(CollectCard), findsOneWidget);
+      expect(find.byType(BackdropFilter), findsOneWidget);
+      expect(find.byType(Divider), findsOneWidget);
+      expect(find.text('St Michel building fund'), findsOneWidget);
+      expect(find.text('Church · 2 members'), findsOneWidget);
+      expect(find.text('RWF 35,000'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel('Kigali Lions away kit, RWF 12,000, 4 members'),
+        findsOneWidget,
+      );
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('dense group list avoids a viewport-spanning backdrop filter', (
+    tester,
+  ) async {
+    final groups = List<CollectCollection>.generate(
+      12,
+      (index) => CollectCollection(
+        id: 'group-$index',
+        slug: 'group-$index',
+        creatorUserId: 'u1',
+        title: 'Community group $index',
+        description: 'Community group',
+        createdAt: DateTime(2026),
+      ),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: GroupListPanel(
+              collections: groups,
+              summaries: {
+                for (final group in groups)
+                  group.id: const CollectionSummary(
+                    amountRaisedRwf: 35000,
+                    supporterCount: 2,
+                  ),
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byType(CollectCard), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(
+      tester.widget<BackdropFilter>(find.byType(BackdropFilter)).enabled,
+      isFalse,
+    );
+    expect(find.byType(RepaintBoundary), findsWidgets);
+    expect(find.text('Community group 11'), findsOneWidget);
   });
 
   testWidgets('owned group card uses protected shield, not lock', (

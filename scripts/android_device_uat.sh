@@ -34,12 +34,19 @@ FLAVOR="${ANDROID_UAT_FLAVOR:-production}"
 TEST_TARGET="${ANDROID_UAT_TEST_TARGET:-integration_test/app_uat_smoke_test.dart}"
 DRIVER="${ANDROID_UAT_DRIVER:-test_driver/integration_test.dart}"
 TIMEOUT_SECONDS="${ANDROID_UAT_TIMEOUT_SECONDS:-900}"
+VARIANT_NAME="${ANDROID_UAT_VARIANT_NAME:-default-dark}"
+THEME_MODE="${ANDROID_UAT_THEME_MODE:-dark}"
+TEXT_SCALE="${ANDROID_UAT_TEXT_SCALE:-1.0}"
+HIGH_CONTRAST="${ANDROID_UAT_HIGH_CONTRAST:-false}"
+REDUCED_MOTION="${ANDROID_UAT_REDUCED_MOTION:-false}"
+REQUIRE_SCREENSHOTS="${ANDROID_UAT_REQUIRE_SCREENSHOTS:-false}"
 export COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY="${COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY:-false}"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 EVIDENCE_DIR="${ANDROID_UAT_EVIDENCE_DIR:-$ROOT_DIR/.cache/android_device_uat/$timestamp}"
 LOG_FILE="$EVIDENCE_DIR/android_device_uat.txt"
 SUMMARY_FILE="$EVIDENCE_DIR/summary.json"
 RUNNER_RESULT_FILE="$EVIDENCE_DIR/runner_result.json"
+SCREENSHOT_DIR="${ANDROID_UAT_SCREENSHOT_DIR:-$EVIDENCE_DIR/screenshots}"
 
 fail() {
   printf '[android-device-uat][FAIL] %s\n' "$*" >&2
@@ -90,7 +97,7 @@ case "${1:-}" in
     ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR\n'
+    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION\n'
     exit 0
     ;;
   *)
@@ -120,6 +127,20 @@ if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
 fi
 
 mkdir -p "$EVIDENCE_DIR"
+if [[ "$REQUIRE_SCREENSHOTS" == "true" ]]; then
+  mkdir -p "$SCREENSHOT_DIR"
+fi
+
+device_model="$("$ADB" -s "$DEVICE_ID" shell getprop ro.product.model 2>/dev/null | tr -d '\r' || true)"
+android_release="$("$ADB" -s "$DEVICE_ID" shell getprop ro.build.version.release 2>/dev/null | tr -d '\r' || true)"
+android_sdk="$("$ADB" -s "$DEVICE_ID" shell getprop ro.build.version.sdk 2>/dev/null | tr -d '\r' || true)"
+wm_size="$("$ADB" -s "$DEVICE_ID" shell wm size 2>/dev/null | tr -d '\r' || true)"
+wm_density="$("$ADB" -s "$DEVICE_ID" shell wm density 2>/dev/null | tr -d '\r' || true)"
+physical_size="$(awk -F': ' '/Physical size:/ { print $2; exit }' <<<"$wm_size")"
+override_size="$(awk -F': ' '/Override size:/ { print $2; exit }' <<<"$wm_size")"
+physical_density="$(awk -F': ' '/Physical density:/ { print $2; exit }' <<<"$wm_density")"
+override_density="$(awk -F': ' '/Override density:/ { print $2; exit }' <<<"$wm_density")"
+platform_night_mode="$("$ADB" -s "$DEVICE_ID" shell cmd uimode night 2>/dev/null | tr -d '\r' | sed -E 's/^[^:]+:[[:space:]]*//' || true)"
 
 if [[ -f "$DRIVER" ]]; then
   cmd=(
@@ -131,6 +152,11 @@ if [[ -f "$DRIVER" ]]; then
     -d "$DEVICE_ID"
     --flavor "$FLAVOR"
     --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
+    --dart-define="COLLECT_UAT_VARIANT_NAME=$VARIANT_NAME"
+    --dart-define="COLLECT_UAT_THEME_MODE=$THEME_MODE"
+    --dart-define="COLLECT_UAT_TEXT_SCALE=$TEXT_SCALE"
+    --dart-define="COLLECT_UAT_HIGH_CONTRAST=$HIGH_CONTRAST"
+    --dart-define="COLLECT_UAT_REDUCED_MOTION=$REDUCED_MOTION"
   )
   runner="drive"
 else
@@ -141,18 +167,24 @@ else
     -d "$DEVICE_ID"
     --flavor "$FLAVOR"
     --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
+    --dart-define="COLLECT_UAT_VARIANT_NAME=$VARIANT_NAME"
+    --dart-define="COLLECT_UAT_THEME_MODE=$THEME_MODE"
+    --dart-define="COLLECT_UAT_TEXT_SCALE=$TEXT_SCALE"
+    --dart-define="COLLECT_UAT_HIGH_CONTRAST=$HIGH_CONTRAST"
+    --dart-define="COLLECT_UAT_REDUCED_MOTION=$REDUCED_MOTION"
     "$TEST_TARGET"
   )
   runner="test"
 fi
 
-printf '[android-device-uat] adb=%s device=%s flavor=%s target=%s runner=%s evidence=%s timeout_seconds=%s\n' \
-  "$ADB" "$DEVICE_ID" "$FLAVOR" "$TEST_TARGET" "$runner" "${EVIDENCE_DIR#$ROOT_DIR/}" "$TIMEOUT_SECONDS" >&2
+printf '[android-device-uat] adb=%s device=%s flavor=%s target=%s runner=%s variant=%s theme=%s text_scale=%s high_contrast=%s reduced_motion=%s evidence=%s timeout_seconds=%s\n' \
+  "$ADB" "$DEVICE_ID" "$FLAVOR" "$TEST_TARGET" "$runner" "$VARIANT_NAME" "$THEME_MODE" "$TEXT_SCALE" "$HIGH_CONTRAST" "$REDUCED_MOTION" "${EVIDENCE_DIR#$ROOT_DIR/}" "$TIMEOUT_SECONDS" >&2
 
 set +e
 ANDROID_UAT_LOG_FILE="$LOG_FILE" \
 ANDROID_UAT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
 ANDROID_UAT_RUNNER_RESULT_FILE="$RUNNER_RESULT_FILE" \
+INTEGRATION_SCREENSHOT_DIR="$SCREENSHOT_DIR" \
 ruby -r json -e '
   def kill_process_group_or_pid(signal, pid, errors)
     begin
@@ -244,6 +276,57 @@ if [[ -f "$LOG_FILE" ]] && grep -Eq 'Some tests failed|Test failed\.|TimeoutExce
   fi
 fi
 
+completion_marker=0
+if [[ -f "$LOG_FILE" ]] && grep -Eq 'All tests passed[.!]' "$LOG_FILE"; then
+  completion_marker=1
+else
+  printf '[android-device-uat][FAIL] Flutter runner did not emit an All tests passed completion marker.\n' >>"$LOG_FILE"
+  if [[ "$rc" -eq 0 ]]; then
+    rc=1
+  fi
+fi
+
+route_expected=0
+route_passes=0
+screenshot_count=0
+screenshot_manifest_sha256=""
+if [[ "$TEST_TARGET" == *"mobile_route_matrix_device_uat_test.dart" ]]; then
+  route_expected="$(awk '/^  _RouteSpec\(/ { count += 1 } END { print count + 0 }' "$TEST_TARGET")"
+  route_passes="$(grep -c 'collect_route_uat:pass:' "$LOG_FILE" || true)"
+  if [[ "$route_expected" -eq 0 || "$route_passes" -ne "$route_expected" ]]; then
+    printf '[android-device-uat][FAIL] Route completion mismatch: expected=%s passed=%s.\n' \
+      "$route_expected" "$route_passes" >>"$LOG_FILE"
+    if [[ "$rc" -eq 0 ]]; then
+      rc=1
+    fi
+  fi
+  if [[ -d "$SCREENSHOT_DIR" ]]; then
+    screenshot_count="$(find "$SCREENSHOT_DIR" -maxdepth 1 -type f -name 'mobile_route_*.png' | wc -l | tr -d ' ')"
+  fi
+  if [[ -f "$SCREENSHOT_DIR/screenshots.jsonl" ]]; then
+    screenshot_manifest_sha256="$(shasum -a 256 "$SCREENSHOT_DIR/screenshots.jsonl" | awk '{print $1}')"
+  fi
+  if [[ "$REQUIRE_SCREENSHOTS" == "true" && "$screenshot_count" -ne "$route_expected" ]]; then
+    printf '[android-device-uat][FAIL] Screenshot completion mismatch: expected=%s captured=%s.\n' \
+      "$route_expected" "$screenshot_count" >>"$LOG_FILE"
+    if [[ "$rc" -eq 0 ]]; then
+      rc=1
+    fi
+  fi
+fi
+
+device_locked_after_run=0
+post_window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
+if grep -q 'mKeyguardShowing=true' <<<"$post_window_state" ||
+  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen|NotificationShade)' <<<"$post_window_state" ||
+  grep -q 'mDreamingLockscreen=true' <<<"$post_window_state"; then
+  device_locked_after_run=1
+  printf '[android-device-uat][FAIL] Android device locked or covered by the system shade during UAT.\n' >>"$LOG_FILE"
+  if [[ "$rc" -eq 0 ]]; then
+    rc=1
+  fi
+fi
+
 log_sha256="$(shasum -a 256 "$LOG_FILE" | awk '{print $1}')"
 status="pass"
 if [[ "$timed_out" == "1" ]]; then
@@ -256,13 +339,34 @@ ANDROID_UAT_GENERATED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
 ANDROID_UAT_STATUS="$status" \
 ANDROID_UAT_RC="$rc" \
 ANDROID_UAT_DEVICE_ID="$DEVICE_ID" \
+ANDROID_UAT_DEVICE_MODEL="$device_model" \
+ANDROID_UAT_ANDROID_RELEASE="$android_release" \
+ANDROID_UAT_ANDROID_SDK="$android_sdk" \
+ANDROID_UAT_PHYSICAL_SIZE="$physical_size" \
+ANDROID_UAT_OVERRIDE_SIZE="$override_size" \
+ANDROID_UAT_PHYSICAL_DENSITY="$physical_density" \
+ANDROID_UAT_OVERRIDE_DENSITY="$override_density" \
+ANDROID_UAT_PLATFORM_NIGHT_MODE="$platform_night_mode" \
 ANDROID_UAT_FLAVOR="$FLAVOR" \
 ANDROID_UAT_TARGET="$TEST_TARGET" \
 ANDROID_UAT_RUNNER="$runner" \
+ANDROID_UAT_VARIANT_NAME="$VARIANT_NAME" \
+ANDROID_UAT_THEME_MODE="$THEME_MODE" \
+ANDROID_UAT_TEXT_SCALE="$TEXT_SCALE" \
+ANDROID_UAT_HIGH_CONTRAST="$HIGH_CONTRAST" \
+ANDROID_UAT_REDUCED_MOTION="$REDUCED_MOTION" \
 ANDROID_UAT_LOG="${LOG_FILE#$ROOT_DIR/}" \
 ANDROID_UAT_LOG_SHA256="$log_sha256" \
 ANDROID_UAT_TIMED_OUT="$timed_out" \
 ANDROID_UAT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
+ANDROID_UAT_COMPLETION_MARKER="$completion_marker" \
+ANDROID_UAT_ROUTE_EXPECTED="$route_expected" \
+ANDROID_UAT_ROUTE_PASSES="$route_passes" \
+ANDROID_UAT_REQUIRE_SCREENSHOTS="$REQUIRE_SCREENSHOTS" \
+ANDROID_UAT_SCREENSHOT_DIR="${SCREENSHOT_DIR#$ROOT_DIR/}" \
+ANDROID_UAT_SCREENSHOT_COUNT="$screenshot_count" \
+ANDROID_UAT_SCREENSHOT_MANIFEST_SHA256="$screenshot_manifest_sha256" \
+ANDROID_UAT_DEVICE_LOCKED_AFTER_RUN="$device_locked_after_run" \
 ruby -r json <<'RUBY' >"$SUMMARY_FILE"
 puts JSON.pretty_generate(
   {
@@ -271,14 +375,40 @@ puts JSON.pretty_generate(
     "exit_code" => ENV.fetch("ANDROID_UAT_RC").to_i,
     "device" => ENV.fetch("ANDROID_UAT_DEVICE_ID"),
     "device_id" => ENV.fetch("ANDROID_UAT_DEVICE_ID"),
-    "device_model" => nil,
+    "device_model" => ENV.fetch("ANDROID_UAT_DEVICE_MODEL"),
+    "android_release" => ENV.fetch("ANDROID_UAT_ANDROID_RELEASE"),
+    "android_sdk" => ENV.fetch("ANDROID_UAT_ANDROID_SDK").to_i,
+    "display" => {
+      "physical_size" => ENV.fetch("ANDROID_UAT_PHYSICAL_SIZE"),
+      "override_size" => ENV.fetch("ANDROID_UAT_OVERRIDE_SIZE"),
+      "physical_density" => ENV.fetch("ANDROID_UAT_PHYSICAL_DENSITY").to_i,
+      "override_density" => ENV.fetch("ANDROID_UAT_OVERRIDE_DENSITY").to_i,
+      "platform_night_mode" => ENV.fetch("ANDROID_UAT_PLATFORM_NIGHT_MODE")
+    },
     "flavor" => ENV.fetch("ANDROID_UAT_FLAVOR"),
     "target" => ENV.fetch("ANDROID_UAT_TARGET"),
     "runner" => ENV.fetch("ANDROID_UAT_RUNNER"),
+    "variant" => {
+      "name" => ENV.fetch("ANDROID_UAT_VARIANT_NAME"),
+      "theme_mode" => ENV.fetch("ANDROID_UAT_THEME_MODE"),
+      "text_scale" => ENV.fetch("ANDROID_UAT_TEXT_SCALE").to_f,
+      "high_contrast" => ENV.fetch("ANDROID_UAT_HIGH_CONTRAST") == "true",
+      "reduced_motion" => ENV.fetch("ANDROID_UAT_REDUCED_MOTION") == "true"
+    },
     "log" => ENV.fetch("ANDROID_UAT_LOG"),
     "log_sha256" => ENV.fetch("ANDROID_UAT_LOG_SHA256"),
     "timed_out" => ENV.fetch("ANDROID_UAT_TIMED_OUT") == "1",
     "timeout_seconds" => ENV.fetch("ANDROID_UAT_TIMEOUT_SECONDS").to_i,
+    "completion_marker" => ENV.fetch("ANDROID_UAT_COMPLETION_MARKER") == "1",
+    "route_expected" => ENV.fetch("ANDROID_UAT_ROUTE_EXPECTED").to_i,
+    "route_passes" => ENV.fetch("ANDROID_UAT_ROUTE_PASSES").to_i,
+    "screenshots" => {
+      "required" => ENV.fetch("ANDROID_UAT_REQUIRE_SCREENSHOTS") == "true",
+      "directory" => ENV.fetch("ANDROID_UAT_SCREENSHOT_DIR"),
+      "count" => ENV.fetch("ANDROID_UAT_SCREENSHOT_COUNT").to_i,
+      "manifest_sha256" => ENV.fetch("ANDROID_UAT_SCREENSHOT_MANIFEST_SHA256")
+    },
+    "device_locked_after_run" => ENV.fetch("ANDROID_UAT_DEVICE_LOCKED_AFTER_RUN") == "1",
     "secret_handling" => "Device smoke output is retained locally and must not contain raw SMS bodies, phone/MoMo numbers, signing keys, service-role keys, provider tokens, or production customer data."
   }
 )

@@ -53,5 +53,6 @@ class CollectIcons {
   static const tune = Icons.tune_rounded;
   static const support = Icons.support_agent_rounded;
   static const palette = Icons.palette_rounded;
+  static const back = Icons.arrow_back_rounded;
   static const arrowForward = Icons.arrow_forward_rounded;
 }

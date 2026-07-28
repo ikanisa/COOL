@@ -9,8 +9,12 @@ CollectState _emptyCollectState() {
   );
 }
 
-CollectState _fixtureCollectState() {
-  final now = DateTime.now();
+CollectState _fixtureCollectState({
+  DateTime? fixtureNow,
+  int collectionCount = 2,
+  int contributionCount = 2,
+}) {
+  final now = fixtureNow ?? DateTime.now();
   const user = CollectProfile(
     id: 'local-user',
     publicId: '038491',
@@ -46,9 +50,63 @@ CollectState _fixtureCollectState() {
     isPublic: true,
     createdAt: now.subtract(const Duration(days: 1)),
   );
+  final effectiveCollectionCount = max(2, collectionCount);
+  final effectiveContributionCount = max(2, contributionCount);
+  final denseCollections = List<CollectCollection>.generate(
+    effectiveCollectionCount - 2,
+    (index) {
+      final number = index + 3;
+      final type = CollectionType.values[index % CollectionType.values.length];
+      return CollectCollection(
+        id: 'col-fixture-$number',
+        slug: 'fixture-group-$number',
+        creatorUserId: user.id,
+        title: 'Community group $number',
+        description:
+            'Representative local fixture data for scrolling and rendering checks.',
+        collectionType: type,
+        categorySubtype: type.storageValue,
+        purposeLabel: type.shortPurpose,
+        receiverMomoNumber: '0788123456',
+        receiverDisplayLabel: 'Group $number treasury',
+        isPublic: index.isEven,
+        createdAt: now.subtract(Duration(days: number)),
+      );
+    },
+    growable: false,
+  );
+  final collections = [church, team, ...denseCollections];
+  final contributions = <Contribution>[
+    Contribution(
+      id: 'pay-1',
+      collectionId: church.id,
+      amountRwf: 25000,
+      supporterLabel: 'Collect ID 038491',
+      createdAt: now.subtract(const Duration(hours: 5)),
+      transactionId: 'MTN12345',
+    ),
+    Contribution(
+      id: 'pay-2',
+      collectionId: church.id,
+      amountRwf: 10000,
+      supporterLabel: 'Collect ID 038491',
+      createdAt: now.subtract(const Duration(hours: 2)),
+      transactionId: 'MTN12346',
+    ),
+    for (var index = 0; index < effectiveContributionCount - 2; index++)
+      Contribution(
+        id: 'pay-fixture-${index + 3}',
+        collectionId: collections[index % collections.length].id,
+        amountRwf: 1000 * ((index % 25) + 1),
+        supporterLabel:
+            'Collect ID ${(100000 + index).toString().padLeft(6, '0')}',
+        createdAt: now.subtract(Duration(minutes: (index + 1) * 7)),
+        transactionId: 'FIXTURE${(index + 3).toString().padLeft(5, '0')}',
+      ),
+  ];
   return CollectState(
     currentProfile: user,
-    collections: [church, team],
+    collections: collections,
     paymentIntents: [
       PaymentIntentModel(
         id: 'intent-render',
@@ -63,24 +121,7 @@ CollectState _fixtureCollectState() {
         expiresAt: now.add(const Duration(hours: 23)),
       ),
     ],
-    contributions: [
-      Contribution(
-        id: 'pay-1',
-        collectionId: church.id,
-        amountRwf: 25000,
-        supporterLabel: 'Collect ID 038491',
-        createdAt: now.subtract(const Duration(hours: 5)),
-        transactionId: 'MTN12345',
-      ),
-      Contribution(
-        id: 'pay-2',
-        collectionId: church.id,
-        amountRwf: 10000,
-        supporterLabel: 'Collect ID 038491',
-        createdAt: now.subtract(const Duration(hours: 2)),
-        transactionId: 'MTN12346',
-      ),
-    ],
+    contributions: contributions,
     notificationEvents: [
       NotificationEvent(
         id: 'notif-contribution-confirmed',
