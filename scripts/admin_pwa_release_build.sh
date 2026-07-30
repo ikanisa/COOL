@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
+FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 
 if [[ -f .env ]]; then
   set -a

@@ -409,11 +409,9 @@ class _AdminRowActions extends ConsumerWidget {
               button: true,
               label: 'Request SMS reparse for ${row.title}',
               hint: 'Opens a reason dialog before queuing a reparse action.',
-              child: ExcludeSemantics(
-                child: TextButton(
-                  onPressed: () => _reparse(context, ref),
-                  child: const Text('Reparse'),
-                ),
+              child: TextButton(
+                onPressed: () => _reparse(context, ref),
+                child: const Text('Reparse'),
               ),
             ),
           ],
@@ -426,15 +424,13 @@ class _AdminRowActions extends ConsumerWidget {
               label:
                   '${row.status == 'enabled' ? 'Disable' : 'Enable'} feature flag ${row.title}',
               hint: 'Opens a reason dialog before changing this feature flag.',
-              child: ExcludeSemantics(
-                child: TextButton(
-                  onPressed: () => _setFeatureFlag(
-                    context,
-                    ref,
-                    enabled: row.status != 'enabled',
-                  ),
-                  child: Text(row.status == 'enabled' ? 'Disable' : 'Enable'),
+              child: TextButton(
+                onPressed: () => _setFeatureFlag(
+                  context,
+                  ref,
+                  enabled: row.status != 'enabled',
                 ),
+                child: Text(row.status == 'enabled' ? 'Disable' : 'Enable'),
               ),
             ),
           ],

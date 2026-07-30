@@ -12,6 +12,7 @@ import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -418,6 +419,7 @@ void main() {
       paths.where((path) => path.toLowerCase().endsWith('.svgz')),
       isEmpty,
     );
+    expect(paths.where((path) => path.toLowerCase().endsWith('.ico')), isEmpty);
 
     final brandImages = paths
         .where((path) => path.startsWith('assets/brand/collect_runtime/'))
@@ -428,6 +430,49 @@ void main() {
       'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
       'assets/brand/collect_runtime/media/qr-share.png',
     });
+
+    final approvedVisualAssets = <String, String>{};
+    for (final line in File(
+      'assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256',
+    ).readAsLinesSync()) {
+      if (line.isEmpty) continue;
+      final separator = line.indexOf('  ');
+      expect(separator, 64, reason: line);
+      final path = line.substring(separator + 2);
+      expect(approvedVisualAssets, isNot(contains(path)), reason: path);
+      approvedVisualAssets[path] = line.substring(0, separator);
+    }
+    final productVisualAssets = paths
+        .where(
+          (path) =>
+              path.startsWith('assets/') ||
+              path.startsWith('android/app/src/main/res/') ||
+              path.startsWith('ios/Runner/Assets.xcassets/') ||
+              path.startsWith('web/'),
+        )
+        .where((path) {
+          final extensionStart = path.lastIndexOf('.');
+          if (extensionStart < 0) return false;
+          return const {
+            '.png',
+            '.jpg',
+            '.jpeg',
+            '.webp',
+            '.svg',
+            '.svgz',
+            '.ico',
+          }.contains(path.substring(extensionStart).toLowerCase());
+        })
+        .toSet();
+    expect(productVisualAssets, approvedVisualAssets.keys.toSet());
+    expect(approvedVisualAssets, hasLength(26));
+    for (final entry in approvedVisualAssets.entries) {
+      expect(
+        sha256.convert(File(entry.key).readAsBytesSync()).toString(),
+        entry.value,
+        reason: entry.key,
+      );
+    }
 
     final officialSource = File(
       'assets/brand/collect_runtime/app_icons/app-icon-rule.png',
@@ -702,6 +747,47 @@ void main() {
     } finally {
       semantics.dispose();
     }
+  });
+
+  testWidgets('brand mark supports inverse text on immersive surfaces', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const CollectBrandMark(
+        framed: false,
+        foregroundColor: CollectColors.brandPaper,
+      ),
+    );
+
+    expect(
+      tester.widget<Text>(find.text('Collect')).style?.color,
+      CollectColors.brandPaper,
+    );
+  });
+
+  testWidgets('brand mark preserves its wordmark at accessibility text scale', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const MediaQuery(
+        data: MediaQueryData(
+          size: Size(1024, 1366),
+          textScaler: TextScaler.linear(2),
+        ),
+        child: CollectBrandMark(
+          compact: true,
+          framed: false,
+          foregroundColor: CollectColors.brandPaper,
+        ),
+      ),
+    );
+
+    final paragraph = tester.renderObject<RenderParagraph>(
+      find.text('Collect'),
+    );
+    expect(paragraph.didExceedMaxLines, isFalse);
   });
 
   test('secondary color system protects readable semantic roles', () {
@@ -1607,6 +1693,72 @@ void main() {
     expect(find.byIcon(CollectIcons.qr), findsOneWidget);
     expect(find.byIcon(CollectIcons.settings), findsOneWidget);
   });
+
+  testWidgets(
+    'TalkBack reaches chrome and hero actions without duplicate group labels',
+    (tester) async {
+      final semantics = tester.ensureSemantics();
+      await _pumpCollect(
+        tester,
+        Column(
+          children: [
+            CollectScreenTopChrome(
+              avatarTooltip: 'Profile',
+              searchLabel: 'Search groups',
+              onAvatarTap: () {},
+              onSearchTap: () {},
+              actions: [
+                CollectChromeAction(
+                  icon: CollectIcons.add,
+                  tooltip: 'Create group',
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            CollectHeroQuickActionRow(
+              actions: [
+                CollectHeroQuickAction(
+                  icon: CollectIcons.add,
+                  label: 'Create',
+                  onTap: () {},
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.qr,
+                  label: 'Scan QR',
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+      expect(find.semantics.byLabel('Screen actions'), findsNothing);
+      expect(find.semantics.byLabel('Primary screen actions'), findsNothing);
+      for (final label in const [
+        'Profile',
+        'Search groups',
+        'Create group',
+        'Create',
+        'Scan QR',
+      ]) {
+        final node = find.semantics.byLabel(
+          RegExp('^${RegExp.escape(label)}\$'),
+        );
+        expect(node, findsOne, reason: label);
+        expect(
+          find.semantics.descendant(
+            of: node,
+            matching: find.semantics.byAction(SemanticsAction.tap),
+            matchRoot: true,
+          ),
+          findsOneWidget,
+          reason: '$label must retain its TalkBack tap action.',
+        );
+      }
+      semantics.dispose();
+    },
+  );
 
   testWidgets('screen top chrome retains the official logo at maximum text', (
     tester,

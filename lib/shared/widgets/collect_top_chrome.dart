@@ -37,7 +37,6 @@ class CollectTopChrome extends StatelessWidget {
     return Semantics(
       container: true,
       explicitChildNodes: true,
-      label: 'Primary screen actions',
       child: SizedBox(
         height: 66,
         child: Row(
@@ -249,6 +248,7 @@ class CollectBrandMark extends StatelessWidget {
     this.width,
     this.height,
     this.showWordmark = true,
+    this.foregroundColor,
     super.key,
   });
 
@@ -257,13 +257,39 @@ class CollectBrandMark extends StatelessWidget {
   final double? width;
   final double? height;
   final bool showWordmark;
+  final Color? foregroundColor;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final tokenBorder = CollectRuntimeTokens.inputBorder(colors);
-    final markWidth = width ?? (compact ? 108.0 : 132.0);
-    final markHeight = height ?? (compact ? 32.0 : 38.0);
+    final baseWidth = compact ? 108.0 : 132.0;
+    final baseHeight = compact ? 32.0 : 38.0;
+    final wordmarkStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
+      color: foregroundColor ?? colors.textPrimary,
+      fontWeight: CollectTypography.weightBold,
+      letterSpacing: CollectTypography.trackingDefault,
+    );
+    final wordmarkPainter = TextPainter(
+      text: TextSpan(
+        text: CollectRuntimeAssets.brandLabel,
+        style: wordmarkStyle,
+      ),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout();
+    final markHeight =
+        height ?? math.max(baseHeight, wordmarkPainter.height.ceilToDouble());
+    final iconWidth = (markHeight * 0.82).clamp(24, 32).toDouble();
+    final adaptiveWidth = showWordmark
+        ? iconWidth +
+              CollectSpacing.x2 +
+              wordmarkPainter.width.ceilToDouble() +
+              CollectSpacing.x1
+        : iconWidth;
+    final markWidth = width ?? math.max(baseWidth, adaptiveWidth);
+    wordmarkPainter.dispose();
     final mark = SizedBox(
       width: markWidth,
       height: markHeight,
@@ -285,11 +311,7 @@ class CollectBrandMark extends StatelessWidget {
             Flexible(
               child: Text(
                 CollectRuntimeAssets.brandLabel,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                  letterSpacing: CollectTypography.trackingDefault,
-                ),
+                style: wordmarkStyle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

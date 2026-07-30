@@ -1218,7 +1218,14 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(script, contains('"override_density"'));
     expect(script, contains('"manifest_sha256"'));
     expect(script, contains('device_locked_after_run'));
-    expect(script, contains('mDreamingLockscreen=true'));
+    expect(
+      RegExp('mDreamingLockscreen=true').allMatches(script).length,
+      greaterThanOrEqualTo(2),
+    );
+    expect(
+      RegExp('NotificationShade').allMatches(script).length,
+      greaterThanOrEqualTo(2),
+    );
     expect(routeMatrix, contains('const Duration(seconds: 12)'));
     expect(
       routeMatrix,
@@ -3554,6 +3561,7 @@ checking Edge Function secret names
       );
 
       const directRuntimePackages = <String>[
+        'app_links',
         'country_picker',
         'crypto',
         'file_saver',
@@ -3627,7 +3635,12 @@ checking Edge Function secret names
     expect(audit, contains('Groups 0/154'));
     expect(audit, contains('amount entry 1/45'));
     expect(audit, contains('current-source iOS compilation passes'));
-    expect(audit, contains('current-source iOS native recapture'));
+    expect(audit, contains('E-055 supplies accepted iPhone'));
+    expect(
+      audit,
+      contains('E-054/E-056 complete controlled-emulator Notification'),
+    );
+    expect(audit, isNot(contains('current-source iOS native recapture')));
     expect(audit, isNot(contains('completion result: passed')));
   });
 

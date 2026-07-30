@@ -7,11 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/notifications/collect_notification_service.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
+import '../shared/repositories/pending_shared_group_intent_store.dart';
 import '../shared/widgets/collect_components.dart';
 import 'env/app_env.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 import 'theme/collect_theme_controller.dart';
+
+final collectIncomingAppLinksProvider = Provider<Stream<Uri>>(
+  (ref) => const Stream<Uri>.empty(),
+);
 
 class CollectApp extends ConsumerWidget {
   const CollectApp({super.key});
@@ -30,24 +35,144 @@ class CollectApp extends ConsumerWidget {
         systemNavigationBarIconBrightness: Brightness.light,
         systemNavigationBarDividerColor: CollectColors.transparentColor,
       ),
-      child: _SmsAccessSyncHost(
-        child: MaterialApp.router(
-          title: 'Collect',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light(),
-          darkTheme: AppTheme.dark(),
-          highContrastTheme: AppTheme.highContrastLight(),
-          highContrastDarkTheme: AppTheme.highContrastDark(),
-          themeMode: themeMode,
-          routerConfig: router,
-          builder: (context, child) {
-            return _CollectConnectivityOverlay(
-              child: child ?? const SizedBox.shrink(),
-            );
-          },
+      child: _PendingSharedGroupIntentRecoveryHost(
+        child: _SmsAccessSyncHost(
+          child: MaterialApp.router(
+            title: 'Collect',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light(),
+            darkTheme: AppTheme.dark(),
+            highContrastTheme: AppTheme.highContrastLight(),
+            highContrastDarkTheme: AppTheme.highContrastDark(),
+            themeMode: themeMode,
+            routerConfig: router,
+            builder: (context, child) {
+              return _CollectConnectivityOverlay(
+                child: child ?? const SizedBox.shrink(),
+              );
+            },
+          ),
         ),
       ),
     );
+  }
+}
+
+class _PendingSharedGroupIntentRecoveryHost extends ConsumerStatefulWidget {
+  const _PendingSharedGroupIntentRecoveryHost({required this.child});
+
+  final Widget child;
+
+  @override
+  ConsumerState<_PendingSharedGroupIntentRecoveryHost> createState() =>
+      _PendingSharedGroupIntentRecoveryHostState();
+}
+
+class _PendingSharedGroupIntentRecoveryHostState
+    extends ConsumerState<_PendingSharedGroupIntentRecoveryHost> {
+  StreamSubscription<Uri>? _appLinkSubscription;
+  var _recoveryScheduled = false;
+  String? _joinInFlightSlug;
+  String? _navigationTarget;
+
+  @override
+  void initState() {
+    super.initState();
+    _appLinkSubscription = ref
+        .read(collectIncomingAppLinksProvider)
+        .listen(
+          (uri) => unawaited(_acceptIncomingAppLink(uri)),
+          onError: (_) {
+            // Platform-channel availability must not make normal app startup
+            // fail. A received link still fails closed if it cannot persist.
+          },
+        );
+    _scheduleRecovery();
+  }
+
+  @override
+  void dispose() {
+    unawaited(_appLinkSubscription?.cancel());
+    super.dispose();
+  }
+
+  Future<void> _acceptIncomingAppLink(Uri uri) async {
+    final slug = pendingSharedGroupSlugFromAppLink(uri);
+    if (slug == null) return;
+    try {
+      await ref.read(pendingSharedGroupSlugProvider.notifier).retain(slug);
+      if (!mounted) return;
+      if (!ref.read(profileReadinessProvider).readyForGroupCreation) {
+        _scheduleNavigation('/c/${Uri.encodeComponent(slug)}');
+      }
+    } catch (_) {
+      // Never navigate from a link that was not durably retained.
+    }
+  }
+
+  void _scheduleRecovery() {
+    if (_recoveryScheduled) return;
+    _recoveryScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _recoveryScheduled = false;
+      unawaited(_recover());
+    });
+  }
+
+  Future<void> _recover() async {
+    final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
+    final slug = await pendingIntent.current();
+    if (!mounted || slug == null) return;
+    final readiness = ref.read(profileReadinessProvider);
+    if (!readiness.readyForGroupCreation) return;
+
+    final router = ref.read(appRouterProvider);
+    final intentPath = '/c/${Uri.encodeComponent(slug)}';
+    if (router.routeInformationProvider.value.uri.path == intentPath) return;
+    if (_joinInFlightSlug == slug) return;
+    _joinInFlightSlug = slug;
+    try {
+      final collection = await ref
+          .read(collectRepositoryProvider.notifier)
+          .joinGroupBySlug(slug);
+      final cleared = await pendingIntent.clearIfMatches(slug);
+      if (!mounted || !cleared) return;
+      _scheduleNavigation('/groups/${collection.id}');
+    } catch (_) {
+      if (!mounted) return;
+      // Keep the durable intent and hand the failure to the normal link route,
+      // which exposes its governed retry state.
+      _scheduleNavigation(intentPath);
+    } finally {
+      if (_joinInFlightSlug == slug) _joinInFlightSlug = null;
+    }
+  }
+
+  void _scheduleNavigation(String target) {
+    final router = ref.read(appRouterProvider);
+    if (router.routeInformationProvider.value.uri.path == target) return;
+    if (_navigationTarget == target) return;
+    _navigationTarget = target;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _navigationTarget = null;
+      final currentRouter = ref.read(appRouterProvider);
+      if (currentRouter.routeInformationProvider.value.uri.path == target) {
+        return;
+      }
+      currentRouter.go(target);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen<String?>(pendingSharedGroupSlugProvider, (_, _) {
+      _scheduleRecovery();
+    });
+    ref.listen<ProfileReadiness>(profileReadinessProvider, (_, _) {
+      _scheduleRecovery();
+    });
+    return widget.child;
   }
 }
 

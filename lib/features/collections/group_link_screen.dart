@@ -19,7 +19,13 @@ class GroupLinkScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
-  late final Future<void> _openGroup = Future<void>.microtask(_joinAndOpen);
+  late Future<void> _openGroup;
+
+  @override
+  void initState() {
+    super.initState();
+    _openGroup = Future<void>.microtask(_joinAndOpen);
+  }
 
   Future<void> _joinAndOpen() async {
     if (_shouldOpenStoreFallback()) {
@@ -29,19 +35,27 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
       );
       return;
     }
+    final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
+    final slug = await pendingIntent.retain(widget.slug);
     final profile = ref.read(collectRepositoryProvider).currentProfile;
     if (profile == null) {
-      ref.read(pendingSharedGroupSlugProvider.notifier).state = widget.slug;
       if (!mounted) return;
       context.go('/auth');
       return;
     }
     final collection = await ref
         .read(collectRepositoryProvider.notifier)
-        .joinGroupBySlug(widget.slug);
-    ref.read(pendingSharedGroupSlugProvider.notifier).state = null;
+        .joinGroupBySlug(slug);
+    final cleared = await pendingIntent.clearIfMatches(slug);
     if (!mounted) return;
+    if (!cleared) return;
     context.go('/groups/${collection.id}');
+  }
+
+  void _retry() {
+    setState(() {
+      _openGroup = Future<void>.microtask(_joinAndOpen);
+    });
   }
 
   @override
@@ -98,7 +112,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
                 errorMessage:
                     snapshot.error?.toString() ??
                     'Try again from Groups when the connection is stable.',
-                onRetry: () => context.go('/groups'),
+                onRetry: _retry,
                 data: (context, _) => const MinimalStatePanel(
                   icon: CollectIcons.qr,
                   title: 'Opening group',

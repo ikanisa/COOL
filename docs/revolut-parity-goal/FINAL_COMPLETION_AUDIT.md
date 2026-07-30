@@ -2,7 +2,7 @@
 
 ## Audit status
 
-- Audit date: 2026-07-25
+- Audit date: 2026-07-28
 - Repository: `/Volumes/PRO-G40/COOL`
 - Goal source: `docs/revolut-parity-goal/GOAL.md`
 - Design authority: `/Volumes/PRO-G40/DESIGN/DESIGN.md`
@@ -43,23 +43,23 @@ recorded external blocker do not prove the complete goal.
 | WS2 Core visual-parity closure | Partial | Phase 1/2 comparisons, E-002 through E-010, E-043, and `REFERENCE_MAPPING_MATRIX.md` | RT-003/RT-004 route mapping is complete. RT-001/RT-002 direct auth/amount capture and RT-005 through RT-007 full mobile/public/Admin comparison closure remain. |
 | WS3 Mobile information architecture | Proven locally | Five destinations, global Contribute/Activity, route guards, E-009, E-013, widget/native route matrices | Android interaction/device confirmation remains under WS9, not an architecture implementation gap. |
 | WS4 Remaining mobile surfaces | Partial | Implemented routes, 35-route widget/native resolution matrices, and complete route-to-reference/no-direct-analogue mapping | Direct auth/amount references, full normalized route-state closure, Android interaction checks, VoiceOver/TalkBack, and controlled-backend paths remain. |
-| WS5 Complete state system | Partial | Loading/empty/offline/stale/error/expired/duplicate/recovery implementations and automated regressions | RT-010 through RT-012 and RT-028 require device/backend lifecycle evidence. |
-| WS6 Typography and design system | Proven locally, render matrix partial | Exclusive Inter, central 400–700 roles, official assets, tokens/components, theme/high-contrast/reduced-motion interactions, numeric contrast and interaction-target contracts, consolidated CI source-hygiene gate, E-011/E-033/E-034/E-040/E-042/E-045/E-046/E-053 | Browser, tablet accessibility, native/browser target and focus behavior, and assistive-technology evidence remains. |
-| WS7 Public web and Admin PWA | Partial | Current source, widget coverage, local static/Admin builds, responsive source contracts, and E-047 fresh artifact manifest | RT-006, RT-019, RT-022, RT-024, live deployment and post-deploy verification. |
-| WS8 Automated testing | Partial | 412-test canonical suite, 77.83% coverage, E-045 source hygiene, E-046 reduced-motion interactions, E-048 evidence consistency, E-052 repeat performance profiles, numeric contrast and repo-wide target contracts, plus 13 checksum-pinned core member/public/Admin golden baselines and semantics/route/theme/security/release/completion-audit regressions | Remaining physical-device/backend/browser/assistive-technology integration cannot be substituted by the green suite or widget goldens. |
-| WS9 Device, accessibility, and performance QA | Partial | Four-target iOS default matrix, iPhone Light and combined accessibility variants, current-source iOS compile-only bundle, E-049 controlled Android default/accessibility matrices, E-050 permission metadata, E-052 optimized performance profiles, E-053 large System-Light/System-Dark matrices, E-054 native notification recovery, semantics regression, and fail-closed device/performance harnesses | Physical Pixel confirmation, Camera permission UX/dialog screenshots, TalkBack/VoiceOver, tablet System variants, current-source iOS recapture, browser, long-session, crash/ANR, and backend evidence remain open. |
-| WS10 Release hardening and closeout | Partial | Formatting, analysis, tests, source/security gates, E-047 public/Admin/Android artifact refresh, E-044 current-source iOS Simulator compile, E-048 evidence-consistency and issue-assignment gates, permission/dependency review, release matrix | Current-source iOS native recapture and external signing/store/deployment/approval gates, including RT-048. |
+| WS5 Complete state system | Partial | Loading/empty/offline/stale/error/expired/duplicate/recovery implementations and automated regressions; E-057 proves controlled-emulator process-death, cold-restart, warm App Link, matching-clear, and no-replay recovery | RT-010 through RT-012 still require controlled backend/network lifecycle evidence; E-057 does not substitute for live-backend idempotency or physical-device confirmation. |
+| WS6 Typography and design system | Proven locally, render matrix partial | Exclusive Inter, central 400–700 roles, official assets, tokens/components, theme/high-contrast/reduced-motion interactions, numeric contrast and interaction-target contracts, consolidated CI source-hygiene gate, E-058 browser rendering/accessibility-tree evidence, and E-063 iPhone Large-text action-label closure | Full native/browser target and focus behavior, physical-device, and assistive-technology evidence remains. |
+| WS7 Public web and Admin PWA | Partial | Current source, widget coverage, refreshed local static/Admin builds, E-058 public 16-route responsive browser pass, and E-062 complete 23-route Admin responsive/semantic/accessibility-tree/critical-keyboard/target matrix | RT-006 normalized comparisons, RT-023 native target/focus measurement, RT-024 actual screen reader, live deployment, and post-deploy verification. |
+| WS8 Automated testing | Partial | E-065 passes the Flutter 3.44.4 canonical suite with 433 tests at 78.30% coverage plus source hygiene, analysis, formatting, and patch hygiene | Physical-device/backend/assistive-technology integration remains. |
+| WS9 Device, accessibility, and performance QA | Partial | Controlled iOS/Android matrices, permission/intent/performance evidence, browser evidence, E-063 iPhone Dark/1.2-text matrix, and E-064 actual TalkBack Home/Groups focus/tree evidence. The exact physical Pixel remains securely locked | Physical-device confirmation, QR detection, complete TalkBack/VoiceOver, native target/focus measurement, deployed-host checks, long-session, crash/ANR, and backend evidence remain open. |
+| WS10 Release hardening and closeout | Partial | E-065 current clean Admin/public/Android artifacts, current iOS Simulator compile, current unsigned archive, packaged-payload checks, tests, source/security gates, E-048 evidence governance, permission/dependency review, and release matrix | External signing/store/deployment/approval gates, including RT-048. |
 
 ## Required-deliverable audit
 
 | Deliverable | Verdict | Evidence or blocker |
 |---|---|---|
-| 1. Implemented Flutter, web, and Admin PWA changes | Partial | Local implementation and current Android/Admin artifacts pass; full browser/device/live behavior remains incomplete. |
+| 1. Implemented Flutter, web, and Admin PWA changes | Partial | E-058 adds responsive Admin fixes and public browser evidence; E-059 closes the accountable sensitive-reveal flow; E-062 accepts all 23 Admin routes, critical keyboard actions, and 44 CSS-pixel target measurement across three viewports; E-063 closes iPhone Home large-text action-label truncation and hardens the physical Android lock preflight. Normalized comparison, actual assistive technology, device/live behavior, and external gates remain incomplete. |
 | 2. Full-scope `design-qa.md` | Missing | Correctly ends `final result: blocked`; RT-003/RT-004 mapping is complete, while RT-001/RT-002 and RT-005 through RT-007 remain. |
 | 3. Normalized comparison images | Partial | Phase 1, expanded Phase 2, and E-043 group/Settings mapping sets exist; the direct auth/amount and full mobile/public/Admin set is still incomplete. |
-| 4. Automated tests and validation | Partial | Canonical suite and the declared core-surface golden matrix pass, but device/browser/backend integration evidence remains incomplete. |
-| 5. Native iOS, Android, and web evidence | Partial | Strong retained iOS evidence and a current-source iOS compile-only bundle exist; E-049/E-053 add controlled Android standard/accessibility/large/System 35-route evidence and E-054 adds native notification recovery; physical Android, Camera dialog screenshots, browser QA, and current-source iOS native recapture remain open. |
-| 6. Accessibility and responsive evidence matrix | Partial | Widget/iPhone matrices plus E-049 Android 200%-text/high-contrast/reduced-motion and E-053 large System-Light/System-Dark route evidence pass; VoiceOver, TalkBack, browser keyboard/screen reader, and tablet variants remain. |
+| 4. Automated tests and validation | Partial | E-065 passes 433 tests at 78.30% coverage, formatting, analysis, patch/source hygiene, fresh artifact verification, and packaged-payload checks. Device, backend, deployed-host, and complete assistive-technology validation remain open. |
+| 5. Native iOS, Android, and web evidence | Partial | Controlled native evidence remains; E-058 adds a complete local public responsive browser matrix; E-062 accepts all 23 Admin routes, critical keyboard actions, and 1,138 measured enabled targets with zero genuine sub-44 CSS-pixel violations; E-063 accepts 35/35 current-source iPhone Dark/1.2-text fixture routes and records a fail-closed locked physical Pixel preflight with no runner start. Deployed-host QA, physical-device, QR detection, VoiceOver/TalkBack, native target/focus measurement, and signed iOS distribution remain open. |
+| 6. Accessibility and responsive evidence matrix | Partial | Widget/native matrices plus E-058 public Chrome, E-062 Admin accessibility-tree/keyboard/live-region/focus/target evidence, E-063 iPhone Large-text evidence, and E-064 actual TalkBack Home/Groups focus/tree evidence pass in declared scope. Complete TalkBack, VoiceOver, physical-device variants, and broader native target/focus measurement remain open. |
 | 7. Performance assessment | Partial | E-052 passes two v2-target six-scenario runs after dense-list and amount-entry remediation. The repeat records Groups 0/154, Activity 0/191, and amount entry 1/45 UI-or-raster budget misses, with every scenario p90 UI/raster duration below 16.667 ms. I-042 is closed for controlled-emulator quality; physical, long-session, crash/ANR, and authorized reporting evidence remain missing. |
 | 8. Security/privacy verification record | Partial | Current source/artifact checks pass; native negative paths, store declarations, and accountable approval remain. |
 | 9. Release-readiness matrix | Proven as a truthful current record | `RELEASE_READINESS_MATRIX.md` separates local evidence from external gates and states engineering in progress. |
@@ -73,7 +73,7 @@ recorded external blocker do not prove the complete goal.
 | Gate 1 — Product Design evidence | Not passed | Missing verified references/comparisons; `design-qa.md` remains blocked. |
 | Gate 2 — Architecture, data, security, privacy | Partial | Source and automated contracts pass; controlled backend/native negative-path evidence remains. |
 | Gate 3 — Implementation quality | Proven for current local source | Formatting, analysis, centralized typography/assets, source contracts, and current automated tests pass. |
-| Gate 4 — Accessibility, responsive behavior, performance | Not passed | Controlled Android standard/accessibility/large/System routes, notification recovery, and optimized repeat profile variants pass, but physical/Camera interaction, assistive-technology, browser, current-source iOS recapture, tablet System, long-session, and crash/ANR evidence remain incomplete. |
+| Gate 4 — Accessibility, responsive behavior, performance | Not passed | Controlled Android and current-source iOS phone/tablet route variants, Notification/Camera recovery, and optimized repeat performance profiles pass, but physical-device interaction, QR detection, assistive-technology, browser, long-session, and crash/ANR evidence remain incomplete. |
 | Gate 5 — Release readiness | Not passed | Current Android/Admin artifacts and current-source iOS Simulator compilation pass; iOS signing, device, store, deployment, and fresh approval gates remain. |
 | Gate 6 — Closeout | Not passed | Open P1/P2/external items remain and accountable acceptances are missing. |
 
@@ -83,21 +83,28 @@ recorded external blocker do not prove the complete goal.
    full normalized visual comparisons remain. RT-003/RT-004 route mapping is
    complete under E-043. E-041 records the current iPhone Mirroring
    `iPhone Not Found` blocker and is not reference evidence.
-2. RT-009/021/025/027: E-049/E-053 supply controlled Android standard,
+2. RT-021/025/027: E-049/E-053 supply controlled Android standard,
    accessibility, large-viewport, and native System evidence; E-050 supplies
    permission metadata; E-052 supplies two optimized v2-target six-scenario
-   performance profiles; E-054
-   completes notification denial/retry/grant. RT-014 and RT-026 are locally
-   complete. Physical confirmation, Camera permission/screenshots, TalkBack,
-   long-session reliability, crash/ANR reporting, and residual-risk acceptance
-   remain unaccepted.
-3. RT-015/016/018/020/038: native Android System is complete under E-053 and
-   current-source iOS compilation passes, but native
-   recapture and the remaining tablet/System/VoiceOver variants require an
-   isolated CoreSimulator window. Another project currently has a live
-   simulator session; it was not interrupted.
-4. RT-019/022/024: browser automation and browser assistive-technology capture
-   require explicit permission.
+   performance profiles; E-054/E-056 complete controlled-emulator Notification
+   and Camera denial/retry/grant/recovery; E-057 completes controlled-emulator
+   process-death, warm App Link, matching-clear, and no-replay recovery. RT-009,
+   RT-014, RT-026, and RT-028 are locally
+   complete. Physical confirmation, QR detection, TalkBack, long-session
+   reliability, crash/ANR reporting, and residual-risk acceptance remain
+   unaccepted.
+3. RT-015/016/018/020/038: native Android System is complete under E-053,
+   current-source iOS compilation passes, E-055 supplies accepted iPhone
+   Dark/System-Light and iPad System/accessibility route recapture, and E-063
+   supplies accepted iPhone Dark/1.2-text action-label recapture. Controlled
+   simulator route variants are locally complete; VoiceOver, physical-device,
+   current-source signed archive, and accountable release evidence remain.
+4. RT-019/022/023/024: E-058 completes local public responsive browser
+   coverage and E-062 completes the local 23-route Admin responsive,
+   critical-keyboard, and 44 CSS-pixel target matrix across compact, tablet,
+   and desktop. RT-019 and RT-022 are complete locally; RT-023 has complete
+   local Admin browser measurement. Native target/focus measurement,
+   deployed-host behavior, and actual screen-reader traversal remain open.
 5. RT-010 through RT-012 and RT-032: controlled backend/device fixtures are
    required; production mutation and real payment execution are not authorized.
 6. RT-035/036/040-044/048: signing identity, production, store, deployment, and

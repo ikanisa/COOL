@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
+FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 NODE="${NODE:-node}"
 BUILD_DIR="${ADMIN_PWA_AUTH_RENDER_BUILD_DIR:-$ROOT_DIR/.cache/admin_pwa_authenticated_render_build}"
 EVIDENCE_DIR="${ADMIN_PWA_AUTH_RENDER_EVIDENCE_DIR:-$ROOT_DIR/.cache/admin_pwa_authenticated_render_smoke/$(date -u +%Y%m%dT%H%M%SZ)}"
@@ -63,20 +63,31 @@ if [[ -z "$CHROME" || ! -x "$CHROME" ]]; then
   fail "Chrome/Chromium is required for authenticated Admin PWA render evidence."
 fi
 
-rm -rf "$BUILD_DIR"
-"$FLUTTER" build web \
-  -t lib/main_admin.dart \
-  --output="$BUILD_DIR" \
-  --release \
-  --no-wasm-dry-run \
-  --no-web-resources-cdn \
-  --no-pub \
-  --dart-define=APP_ENVIRONMENT=evidence \
-  --dart-define=ENABLE_ADMIN_PANEL=true \
-  --dart-define=ADMIN_PWA_EVIDENCE_MODE=true \
-  >"$EVIDENCE_DIR/flutter_build.log" 2>&1
+if [[ "${ADMIN_PWA_AUTH_RENDER_SKIP_BUILD:-0}" == "1" ]]; then
+  [[ -s "$BUILD_DIR/main.dart.js" ]] ||
+    fail "Existing Admin evidence build is missing main.dart.js: $BUILD_DIR"
+  if find lib/admin lib/app -type f -newer "$BUILD_DIR/main.dart.js" -print -quit |
+    grep -q .; then
+    fail "Existing Admin evidence build is stale relative to lib/admin or lib/app."
+  fi
+  printf '[admin-pwa-auth-render] reused current evidence build %s\n' "$BUILD_DIR" \
+    >"$EVIDENCE_DIR/flutter_build.log"
+else
+  rm -rf "$BUILD_DIR"
+  "$FLUTTER" build web \
+    -t lib/main_admin.dart \
+    --output="$BUILD_DIR" \
+    --release \
+    --no-wasm-dry-run \
+    --no-web-resources-cdn \
+    --no-pub \
+    --dart-define=APP_ENVIRONMENT=evidence \
+    --dart-define=ENABLE_ADMIN_PANEL=true \
+    --dart-define=ADMIN_PWA_EVIDENCE_MODE=true \
+    >"$EVIDENCE_DIR/flutter_build.log" 2>&1
 
-touch "$BUILD_DIR/main.dart.js"
+  touch "$BUILD_DIR/main.dart.js"
+fi
 
 if [[ -z "$PORT" ]]; then
   PORT="$(ruby -rsocket -e 'server = TCPServer.new("127.0.0.1", 0); puts server.addr[1]; server.close')"
@@ -135,9 +146,16 @@ capture_route "admin-payment-intents" "/admin/payment-intents" "$VIEWPORT_DESKTO
 capture_route "admin-sms-detail" "/admin/sms/sms-1" "$VIEWPORT_DESKTOP"
 capture_route "admin-system-health" "/admin/system-health" "$VIEWPORT_DESKTOP"
 
+browser_qa_dir="$EVIDENCE_DIR/browser-qa"
+"$NODE" "$ROOT_DIR/scripts/admin_pwa_browser_qa.mjs" \
+  "$BASE_URL/" \
+  "$browser_qa_dir"
+
 ruby -r json -r time -e '
-  evidence_dir, build_dir, base_url, captures_json = ARGV
+  evidence_dir, build_dir, base_url, captures_json, browser_report_path = ARGV
   captures = File.readlines(captures_json, chomp: true).reject(&:empty?).map { |line| JSON.parse(line) }
+  browser_report = JSON.parse(File.read(browser_report_path))
+  abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
   File.write(
     File.join(evidence_dir, "summary.json"),
     JSON.pretty_generate(
@@ -151,10 +169,14 @@ ruby -r json -r time -e '
         "routes" => captures.map { |item| item.fetch("route") },
         "screenshots" => captures.map { |item| item.fetch("path") },
         "screenshot_checks" => captures.map { |item| "#{item.fetch("path")}.json" },
+        "browser_qa_report" => browser_report_path,
+        "browser_qa_route_count" => browser_report.fetch("routeCount"),
+        "browser_qa_viewport_count" => browser_report.fetch("viewportCount"),
+        "browser_qa_screenshot_count" => browser_report.fetch("screenshotCount"),
         "captures" => captures,
         "privacy" => "Evidence-mode Admin PWA uses masked deterministic test data only; no production Supabase session, service-role key, raw SMS body, OTP, PIN, or real customer phone is present."
       }
     ) + "\n"
   )
-' "$EVIDENCE_DIR" "$BUILD_DIR" "$BASE_URL" "$captures_json"
+' "$EVIDENCE_DIR" "$BUILD_DIR" "$BASE_URL" "$captures_json" "$browser_qa_dir/admin_browser_qa.json"
 printf '[admin-pwa-auth-render] pass evidence=%s\n' "$EVIDENCE_DIR"

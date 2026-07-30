@@ -21,8 +21,9 @@ const chromeCandidates = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
 ].filter(Boolean);
 const viewports = [
-  { name: "mobile_390x844", width: 390, height: 844, isMobile: true },
-  { name: "desktop_1440x1000", width: 1440, height: 1000, isMobile: false },
+  { name: "mobile_390x844", width: 390, height: 844, isMobile: true, allowedGridColumns: [2] },
+  { name: "tablet_834x1194", width: 834, height: 1194, isMobile: false, allowedGridColumns: [2, 3] },
+  { name: "desktop_1440x1000", width: 1440, height: 1000, isMobile: false, allowedGridColumns: [3] },
 ];
 const legalRoutes = new Set(["/privacy/", "/terms/", "/account-deletion/", "/data-deletion/"]);
 
@@ -76,6 +77,10 @@ async function auditRoute(page, route, viewport) {
         tag: active.tagName.toLowerCase(),
         text: (active.getAttribute("aria-label") || active.textContent || active.getAttribute("alt") || "").trim().replace(/\s+/g, " ").slice(0, 80),
         href: active.getAttribute("href") || "",
+        focusVisible: active.matches(":focus-visible"),
+        outlineStyle: getComputedStyle(active).outlineStyle,
+        outlineWidth: getComputedStyle(active).outlineWidth,
+        boxShadow: getComputedStyle(active).boxShadow,
       };
     }));
   }
@@ -219,9 +224,8 @@ async function auditRoute(page, route, viewport) {
     mobileMenuOpens: !viewport.isMobile || mobileMenuOpen,
     mobileProductPreviewUsable: !viewport.isMobile || (metrics.heroDevice && metrics.heroDevice.height >= 220 && metrics.heroDevice.top < viewport.height),
     compactCardGridLayout: presentCompactGrids.every((grid) => {
-      const expectedColumns = viewport.isMobile ? 2 : 3;
       const maxAllowedHeight = grid.selector === ".content-grid" ? 900 : (editorialGridSelectors.has(grid.selector) ? 760 : (compactGridSelectors.has(grid.selector) ? 180 : 320));
-      return grid.columns === expectedColumns &&
+      return viewport.allowedGridColumns.includes(grid.columns) &&
         grid.uniqueBackgrounds >= 2 &&
         grid.plainWhiteCards === 0 &&
         grid.maxHeight <= maxAllowedHeight;
@@ -229,6 +233,14 @@ async function auditRoute(page, route, viewport) {
     legalLayoutPresent: !metrics.isLegalRoute || metrics.legalLayoutPresent,
     footerTapTargets: !viewport.isMobile || metrics.footerRects.every((box) => box.height >= 40),
     keyboardTraversal: keyboardFocus.filter(Boolean).length >= 5 && keyboardFocus.some((item) => item && ["Skip to content", "Jya ku bikubiyemo"].includes(item.text)),
+    visibleKeyboardFocus: keyboardFocus.filter(Boolean).length >= 5 &&
+      keyboardFocus.filter(Boolean).every((item) =>
+        item.focusVisible &&
+        (
+          (item.outlineStyle !== "none" && Number.parseFloat(item.outlineWidth) >= 2) ||
+          item.boxShadow !== "none"
+        )
+      ),
     screenReaderSmoke: metrics.landmarkCounts.header === 1 &&
       metrics.landmarkCounts.main === 1 &&
       metrics.landmarkCounts.footer === 1 &&

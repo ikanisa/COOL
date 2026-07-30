@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -15,6 +16,38 @@ String readCollectRepositoryLibrary() {
 }
 
 void main() {
+  test('local and CI Flutter toolchains use the governed stable engine', () {
+    const expectedVersion = '3.44.4';
+    const expectedRoot = '/Users/jeanbosco/Developer/flutter';
+    final fvmConfig =
+        jsonDecode(File('.fvmrc').readAsStringSync()) as Map<String, dynamic>;
+    final environment = File('docs/ENVIRONMENT.md').readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+    final governedScripts = <String>[
+      'scripts/admin_pwa_authenticated_render_smoke.sh',
+      'scripts/admin_pwa_release_build.sh',
+      'scripts/android_device_uat.sh',
+      'scripts/mobile_native_performance_profile.sh',
+      'scripts/mobile_route_render_smoke.sh',
+      'scripts/repo_wide_qa_uat.sh',
+    ];
+
+    expect(fvmConfig['flutter'], expectedVersion);
+    expect(environment, contains('Flutter `$expectedVersion`'));
+    expect(environment, contains('$expectedRoot/bin/flutter'));
+    expect(makefile, contains('FLUTTER ?= $expectedRoot/bin/flutter'));
+    expect(makefile, contains('DART ?= $expectedRoot/bin/dart'));
+    for (final path in governedScripts) {
+      final script = File(path).readAsStringSync();
+      expect(script, contains('$expectedRoot/bin/flutter'), reason: path);
+      expect(
+        script,
+        isNot(contains('/Volumes/PRO-G40/flutter_3_44/bin/flutter')),
+        reason: path,
+      );
+    }
+  });
+
   test('production Android manifest does not request SMS permissions', () {
     final productionManifest = File(
       'android/app/src/main/AndroidManifest.xml',
@@ -131,11 +164,18 @@ void main() {
       'release-evidence',
       'evidence-packs',
     };
-    final files = Directory.current
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((file) {
-          final path = file.path.replaceFirst('${Directory.current.path}/', '');
+    final inventory = Process.runSync('git', [
+      'ls-files',
+      '-z',
+      '--cached',
+      '--others',
+      '--exclude-standard',
+    ]);
+    expect(inventory.exitCode, 0, reason: inventory.stderr as String);
+    final files = (inventory.stdout as String)
+        .split('\u0000')
+        .where((path) => path.isNotEmpty)
+        .where((path) {
           if (skippedRoots.any(
             (root) => path == root || path.startsWith('$root/'),
           )) {
@@ -152,7 +192,9 @@ void main() {
               path.endsWith('.json') ||
               path.endsWith('.example') ||
               path.endsWith('.properties');
-        });
+        })
+        .map(File.new)
+        .where((file) => file.existsSync());
 
     for (final file in files) {
       final text = file.readAsStringSync();

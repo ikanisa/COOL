@@ -81,13 +81,15 @@ asset_roots = %w[
   ios/Runner/Assets.xcassets
   web
 ]
+repository_files = tracked_and_untracked_files(root_dir, ["."])
 asset_files = tracked_and_untracked_files(root_dir, asset_roots)
 prohibited_asset_extensions = %w[.svg .svgz .ico]
-prohibited_assets = asset_files.select do |path|
+prohibited_assets = repository_files.select do |path|
   prohibited_asset_extensions.include?(File.extname(path).downcase)
 end
 checks["no_prohibited_product_artwork"] = {
   "status" => prohibited_assets.empty? ? "pass" : "fail",
+  "scope" => "tracked and non-ignored untracked repository files",
   "prohibited_extensions" => prohibited_asset_extensions,
   "paths" => prohibited_assets
 }
@@ -95,6 +97,83 @@ unless prohibited_assets.empty?
   failures << {
     "check" => "no_prohibited_product_artwork",
     "paths" => prohibited_assets
+  }
+end
+
+approved_visual_manifest =
+  "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256"
+approved_visual_manifest_path = File.join(root_dir, approved_visual_manifest)
+approved_visual_hashes = {}
+visual_manifest_errors = []
+if File.file?(approved_visual_manifest_path)
+  File.readlines(approved_visual_manifest_path, chomp: true).each_with_index do |line, index|
+    next if line.empty?
+
+    match = line.match(/\A([0-9a-f]{64})  (.+)\z/)
+    unless match
+      visual_manifest_errors << {
+        "line" => index + 1,
+        "reason" => "invalid SHA-256 manifest entry"
+      }
+      next
+    end
+    path = match[2]
+    if approved_visual_hashes.key?(path)
+      visual_manifest_errors << {
+        "line" => index + 1,
+        "reason" => "duplicate visual asset path",
+        "path" => path
+      }
+      next
+    end
+    approved_visual_hashes[path] = match[1]
+  end
+else
+  visual_manifest_errors << {
+    "reason" => "approved visual asset manifest is missing",
+    "path" => approved_visual_manifest
+  }
+end
+
+visual_asset_extensions = %w[.png .jpg .jpeg .webp .svg .svgz .ico]
+observed_visual_assets = asset_files.select do |path|
+  visual_asset_extensions.include?(File.extname(path).downcase)
+end.sort
+approved_visual_assets = approved_visual_hashes.keys.sort
+missing_visual_assets = approved_visual_assets - observed_visual_assets
+unexpected_visual_assets = observed_visual_assets - approved_visual_assets
+hash_mismatches = approved_visual_hashes.each_with_object([]) do |entry, mismatches|
+  path, expected_sha256 = entry
+  actual_sha256 = file_sha256(File.join(root_dir, path))
+  next if actual_sha256 == expected_sha256
+
+  mismatches << {
+    "path" => path,
+    "expected_sha256" => expected_sha256,
+    "actual_sha256" => actual_sha256
+  }
+end
+approved_visual_assets_pass =
+  visual_manifest_errors.empty? &&
+  missing_visual_assets.empty? &&
+  unexpected_visual_assets.empty? &&
+  hash_mismatches.empty?
+checks["approved_product_visual_assets"] = {
+  "status" => approved_visual_assets_pass ? "pass" : "fail",
+  "manifest" => approved_visual_manifest,
+  "approved_count" => approved_visual_assets.length,
+  "observed_count" => observed_visual_assets.length,
+  "missing" => missing_visual_assets,
+  "unexpected" => unexpected_visual_assets,
+  "hash_mismatches" => hash_mismatches,
+  "manifest_errors" => visual_manifest_errors
+}
+unless approved_visual_assets_pass
+  failures << {
+    "check" => "approved_product_visual_assets",
+    "paths" => (missing_visual_assets + unexpected_visual_assets).uniq,
+    "hash_mismatches" => hash_mismatches,
+    "manifest_errors" => visual_manifest_errors
   }
 end
 

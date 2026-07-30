@@ -37,7 +37,7 @@ the script writes a blocked JSON summary and exits 99.
 
 Environment:
   ADB
-  FLUTTER                            default: /Volumes/PRO-G40/flutter_3_44/bin/flutter
+  FLUTTER                            default: /Users/jeanbosco/Developer/flutter/bin/flutter
   MOBILE_PERF_DEVICE_ID              default: 13111JEC215558
   MOBILE_PERF_FLAVOR                 default: production
   MOBILE_PERF_TEST_TARGET            default: integration_test/app_uat_smoke_test.dart
@@ -66,7 +66,7 @@ case "${1:-}" in
 esac
 
 ADB="$(resolve_adb)"
-FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
+FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 DEVICE_ID="${MOBILE_PERF_DEVICE_ID:-13111JEC215558}"
 FLAVOR="${MOBILE_PERF_FLAVOR:-production}"
 PACKAGE_ID="${MOBILE_PERF_PACKAGE_ID:-app.cool.mobile}"

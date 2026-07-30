@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
-DART="${DART:-/Volumes/PRO-G40/flutter_3_44/bin/dart}"
+FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
+DART="${DART:-/Users/jeanbosco/Developer/flutter/bin/dart}"
 resolve_adb() {
   local candidate
   if [[ "${ADB:-}" != "" ]]; then

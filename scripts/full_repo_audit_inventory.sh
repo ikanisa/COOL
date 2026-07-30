@@ -148,7 +148,7 @@ inventory = {
   "baseline" => {
     "git_status" => run("git status --short --branch"),
     "git_head" => run("git log -1 --oneline --decorate"),
-    "flutter_version" => run("/Volumes/PRO-G40/flutter_3_44/bin/flutter --version | head -n 1"),
+    "flutter_version" => run("/Users/jeanbosco/Developer/flutter/bin/flutter --version | head -n 1"),
     "make_commands" => run("make -n analyze test 2>/dev/null || true")
   },
   "counts" => {

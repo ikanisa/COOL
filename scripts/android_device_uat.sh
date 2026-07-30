@@ -28,7 +28,7 @@ resolve_adb() {
 }
 
 ADB="$(resolve_adb)"
-FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
+FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 DEVICE_ID="${ANDROID_UAT_DEVICE_ID:-13111JEC215558}"
 FLAVOR="${ANDROID_UAT_FLAVOR:-production}"
 TEST_TARGET="${ANDROID_UAT_TEST_TARGET:-integration_test/app_uat_smoke_test.dart}"
@@ -39,6 +39,7 @@ THEME_MODE="${ANDROID_UAT_THEME_MODE:-dark}"
 TEXT_SCALE="${ANDROID_UAT_TEXT_SCALE:-1.0}"
 HIGH_CONTRAST="${ANDROID_UAT_HIGH_CONTRAST:-false}"
 REDUCED_MOTION="${ANDROID_UAT_REDUCED_MOTION:-false}"
+MOBILE_EVIDENCE_MODE="${ANDROID_UAT_MOBILE_EVIDENCE_MODE:-true}"
 REQUIRE_SCREENSHOTS="${ANDROID_UAT_REQUIRE_SCREENSHOTS:-false}"
 export COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY="${COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY:-false}"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
@@ -97,13 +98,18 @@ case "${1:-}" in
     ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION\n'
+    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION ANDROID_UAT_MOBILE_EVIDENCE_MODE\n'
     exit 0
     ;;
   *)
     printf 'usage: %s\n' "$0" >&2
     exit 2
     ;;
+esac
+
+case "$MOBILE_EVIDENCE_MODE" in
+  true|false) ;;
+  *) fail "ANDROID_UAT_MOBILE_EVIDENCE_MODE must be true or false." ;;
 esac
 
 if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } END { exit(found ? 0 : 1) }' id="$DEVICE_ID"; then
@@ -118,7 +124,8 @@ sleep 1
 
 window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
 if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
-  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen)' <<<"$window_state"; then
+  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen|NotificationShade)' <<<"$window_state" ||
+  grep -q 'mDreamingLockscreen=true' <<<"$window_state"; then
   printf '%s\n' "$window_state" |
     rg 'mCurrentFocus|mFocusedApp|mDreamingLockscreen|mKeyguardShowing' >&2 || true
   reason="Android device $DEVICE_ID is locked. Unlock it and keep it awake before running Android UAT."
@@ -151,7 +158,7 @@ if [[ -f "$DRIVER" ]]; then
     --target="$TEST_TARGET"
     -d "$DEVICE_ID"
     --flavor "$FLAVOR"
-    --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
+    --dart-define="COLLECT_MOBILE_EVIDENCE_MODE=$MOBILE_EVIDENCE_MODE"
     --dart-define="COLLECT_UAT_VARIANT_NAME=$VARIANT_NAME"
     --dart-define="COLLECT_UAT_THEME_MODE=$THEME_MODE"
     --dart-define="COLLECT_UAT_TEXT_SCALE=$TEXT_SCALE"
@@ -166,7 +173,7 @@ else
     --no-pub
     -d "$DEVICE_ID"
     --flavor "$FLAVOR"
-    --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
+    --dart-define="COLLECT_MOBILE_EVIDENCE_MODE=$MOBILE_EVIDENCE_MODE"
     --dart-define="COLLECT_UAT_VARIANT_NAME=$VARIANT_NAME"
     --dart-define="COLLECT_UAT_THEME_MODE=$THEME_MODE"
     --dart-define="COLLECT_UAT_TEXT_SCALE=$TEXT_SCALE"

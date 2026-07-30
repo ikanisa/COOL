@@ -2,15 +2,15 @@
 
 ## SDK
 
-Use the isolated Flutter/Dart SDK installed for this project:
+Use the stable Flutter/Dart SDK pinned for this project:
 
-- Flutter: `/Volumes/PRO-G40/flutter_3_44/bin/flutter`
-- Dart: `/Volumes/PRO-G40/flutter_3_44/bin/dart`
-- Verified target: Flutter `3.44.3`, Dart `3.12.2`
+- Flutter: `/Users/jeanbosco/Developer/flutter/bin/flutter`
+- Dart: `/Users/jeanbosco/Developer/flutter/bin/dart`
+- Verified target: Flutter `3.44.4`, Dart `3.12.2`
 
 Local generated files such as `android/local.properties` should point
-`flutter.sdk` to `/Volumes/PRO-G40/flutter_3_44`. CI reads `.fvmrc`, which now
-resolves to Flutter `3.44.3` through `subosito/flutter-action`; local scripts
+`flutter.sdk` to `/Users/jeanbosco/Developer/flutter`. CI reads `.fvmrc`, which
+resolves to Flutter `3.44.4` through `subosito/flutter-action`; local scripts
 should prefer absolute SDK paths so they do not accidentally use another
 Flutter on `PATH`.
 

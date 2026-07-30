@@ -193,7 +193,6 @@ class CollectScreenTopChrome extends StatelessWidget {
     return Semantics(
       container: true,
       explicitChildNodes: true,
-      label: 'Screen actions',
       child: Row(
         children: [
           Semantics(
@@ -507,6 +506,7 @@ class CollectHeroQuickActionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (var index = 0; index < actions.length; index += 1) ...[
           Expanded(
@@ -530,45 +530,51 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final fill = CollectRuntimeTokens.chromeControl(colors);
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
+    void handleTap() {
+      CollectHaptics.selection();
+      action.onTap();
+    }
+
     return Semantics(
       key: action.key,
       button: true,
       label: action.label,
-      child: Tooltip(
-        message: action.tooltip ?? action.label,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: () {
-            CollectHaptics.selection();
-            action.onTap();
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: fill,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: border),
+      onTap: handleTap,
+      child: ExcludeSemantics(
+        child: Tooltip(
+          message: action.tooltip ?? action.label,
+          excludeFromSemantics: true,
+          child: InkWell(
+            borderRadius: CollectRadius.pillBorder,
+            onTap: handleTap,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: fill,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: border),
+                  ),
+                  child: SizedBox.square(
+                    dimension: 50,
+                    child: Icon(action.icon, color: foreground, size: 24),
+                  ),
                 ),
-                child: SizedBox.square(
-                  dimension: 50,
-                  child: Icon(action.icon, color: foreground, size: 24),
+                CollectSpacing.gap8,
+                Text(
+                  action.label,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: foreground,
+                    fontWeight: CollectTypography.weightSemibold,
+                    letterSpacing: CollectTypography.trackingDefault,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              CollectSpacing.gap8,
-              Text(
-                action.label,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: foreground,
-                  fontWeight: CollectTypography.weightSemibold,
-                  letterSpacing: CollectTypography.trackingDefault,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

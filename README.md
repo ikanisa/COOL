@@ -138,6 +138,6 @@ make test
 Pinned Flutter toolchain:
 
 ```sh
-/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze
-/Volumes/PRO-G40/flutter_3_44/bin/flutter test
+/Users/jeanbosco/Developer/flutter/bin/flutter analyze
+/Users/jeanbosco/Developer/flutter/bin/flutter test
 ```

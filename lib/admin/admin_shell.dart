@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../app/env/app_env.dart';
 import '../app/theme/collect_colors.dart';
+import '../app/theme/collect_spacing.dart';
 import '../app/theme/collect_typography.dart';
 import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
@@ -289,11 +290,47 @@ class _AdminSidebar extends StatelessWidget {
   }
 }
 
-class _AdminMobileNav extends StatelessWidget {
+class _AdminMobileNav extends StatefulWidget {
   const _AdminMobileNav({required this.location, required this.destinations});
 
   final String location;
   final List<_AdminNavDestination> destinations;
+
+  @override
+  State<_AdminMobileNav> createState() => _AdminMobileNavState();
+}
+
+class _AdminMobileNavState extends State<_AdminMobileNav> {
+  final _selectedKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _scheduleSelectedVisibility();
+  }
+
+  @override
+  void didUpdateWidget(covariant _AdminMobileNav oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.location != widget.location ||
+        oldWidget.destinations != widget.destinations) {
+      _scheduleSelectedVisibility();
+    }
+  }
+
+  void _scheduleSelectedVisibility() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final selectedContext = _selectedKey.currentContext;
+      if (selectedContext == null) return;
+      Scrollable.ensureVisible(
+        selectedContext,
+        alignment: 0.5,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+        duration: Duration.zero,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -309,40 +346,73 @@ class _AdminMobileNav extends StatelessWidget {
           bottom: false,
           child: SizedBox(
             height: navHeight,
-            child: ListView.separated(
+            child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              itemCount: destinations.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
-              itemBuilder: (context, index) {
-                final destination = destinations[index];
-                final selected = _isSelected(destination.path, location);
-                return Semantics(
-                  button: true,
-                  selected: selected,
-                  label: '${destination.label} admin section',
-                  hint: 'Opens ${destination.label} in the admin console.',
-                  child: FilledButton.tonalIcon(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: selected
-                          ? colors.surfaceReadable
-                          : colors.onImagePrimary.withValues(alpha: 0.12),
-                      foregroundColor: selected
-                          ? colors.textPrimary
-                          : colors.onImagePrimary,
-                      side: BorderSide(
-                        color: colors.onImagePrimary.withValues(alpha: 0.16),
+              child: Row(
+                children: [
+                  for (
+                    var index = 0;
+                    index < widget.destinations.length;
+                    index++
+                  ) ...[
+                    _AdminMobileNavItem(
+                      key:
+                          _isSelected(
+                            widget.destinations[index].path,
+                            widget.location,
+                          )
+                          ? _selectedKey
+                          : null,
+                      destination: widget.destinations[index],
+                      selected: _isSelected(
+                        widget.destinations[index].path,
+                        widget.location,
                       ),
+                      colors: colors,
                     ),
-                    onPressed: () => context.go(destination.path),
-                    icon: Icon(destination.icon, size: 18),
-                    label: Text(destination.label),
-                  ),
-                );
-              },
+                    if (index != widget.destinations.length - 1)
+                      const SizedBox(width: 8),
+                  ],
+                ],
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _AdminMobileNavItem extends StatelessWidget {
+  const _AdminMobileNavItem({
+    required this.destination,
+    required this.selected,
+    required this.colors,
+    super.key,
+  });
+
+  final _AdminNavDestination destination;
+  final bool selected;
+  final CollectColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton.tonalIcon(
+      style: FilledButton.styleFrom(
+        backgroundColor: selected
+            ? colors.surfaceReadable
+            : colors.onImagePrimary.withValues(alpha: 0.12),
+        foregroundColor: selected ? colors.textPrimary : colors.onImagePrimary,
+        side: BorderSide(color: colors.onImagePrimary.withValues(alpha: 0.16)),
+      ),
+      onPressed: () => context.go(destination.path),
+      icon: Icon(destination.icon, size: 18),
+      label: Semantics(
+        label: '${destination.label} admin section',
+        hint: 'Opens ${destination.label} in the admin console.',
+        excludeSemantics: true,
+        child: Text(destination.label),
       ),
     );
   }
@@ -359,23 +429,22 @@ class _NavItem extends StatelessWidget {
     final selected = _isSelected(destination.path, location);
     final colors = context.collectColors;
     final foreground = selected ? colors.textPrimary : colors.onImagePrimary;
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: '${destination.label} admin section',
-      hint: 'Opens ${destination.label} in the admin console.',
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        child: ListTile(
-          selected: selected,
-          selectedTileColor: colors.surfaceReadable,
-          tileColor: selected
-              ? colors.surfaceReadable
-              : colors.onImagePrimary.withValues(alpha: 0.07),
-          iconColor: foreground,
-          textColor: foreground,
-          leading: Icon(destination.icon, size: 20),
-          title: Text(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: ListTile(
+        selected: selected,
+        selectedTileColor: colors.surfaceReadable,
+        tileColor: selected
+            ? colors.surfaceReadable
+            : colors.onImagePrimary.withValues(alpha: 0.07),
+        iconColor: foreground,
+        textColor: foreground,
+        leading: Icon(destination.icon, size: 20),
+        title: Semantics(
+          label: '${destination.label} admin section',
+          hint: 'Opens ${destination.label} in the admin console.',
+          excludeSemantics: true,
+          child: Text(
             destination.label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -386,17 +455,18 @@ class _NavItem extends StatelessWidget {
                   : CollectTypography.weightMedium,
             ),
           ),
-          dense: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: BorderSide(
-              color: colors.surfaceReadable.withValues(
-                alpha: selected ? 0.0 : 0.10,
-              ),
+        ),
+        dense: true,
+        minTileHeight: CollectSpacing.iconTarget,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: colors.surfaceReadable.withValues(
+              alpha: selected ? 0.0 : 0.10,
             ),
           ),
-          onTap: () => context.go(destination.path),
         ),
+        onTap: () => context.go(destination.path),
       ),
     );
   }

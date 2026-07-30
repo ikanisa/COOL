@@ -5,8 +5,14 @@ class AuthIdentityHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [CollectBrandMark(framed: false, compact: true)],
+    return Row(
+      children: [
+        CollectBrandMark(
+          framed: false,
+          compact: true,
+          foregroundColor: context.collectColors.onImagePrimary,
+        ),
+      ],
     );
   }
 }

@@ -17,90 +17,102 @@ class AdminSensitiveDataGate extends StatefulWidget {
 }
 
 class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
-  final _reason = TextEditingController();
+  static const _revealReasons = <String>[
+    'Support case review',
+    'Compliance investigation',
+    'Internal audit evidence',
+  ];
+
+  String? _selectedReason;
   String? _revealed;
   String? _error;
   var _isBusy = false;
 
   @override
-  void dispose() {
-    _reason.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: '${widget.label} sensitive data reveal gate',
-      hint: 'Requires an audit reason before revealing sensitive admin data.',
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(
                 widget.label,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Reveal only for support, compliance, or audit work. The reason is written to the audit trail.',
-              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Reveal only for support, compliance, or audit work. The reason is written to the audit trail.',
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Select an accountable purpose',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final reason in _revealReasons)
+                  ChoiceChip(
+                    label: Text(reason),
+                    selected: _selectedReason == reason,
+                    onSelected: _isBusy
+                        ? null
+                        : (selected) {
+                            setState(() {
+                              _selectedReason = selected ? reason : null;
+                              _error = null;
+                            });
+                          },
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: _isBusy || _selectedReason == null
+                  ? null
+                  : () => _reveal(_selectedReason!),
+              icon: const Icon(Icons.visibility),
+              label: const Text('Reveal raw SMS'),
+            ),
+            if (_error != null) ...[
               const SizedBox(height: 12),
               Semantics(
-                textField: true,
-                label: '${widget.label} reveal reason',
-                hint:
-                    'Audit reason required before this sensitive value can be revealed.',
-                child: TextField(
-                  controller: _reason,
-                  minLines: 2,
-                  maxLines: 3,
-                  decoration: const InputDecoration(
-                    labelText: 'Reveal reason',
-                    border: OutlineInputBorder(),
+                liveRegion: true,
+                label: _error!,
+                child: ExcludeSemantics(
+                  child: Text(
+                    _error!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
-              Semantics(
-                button: true,
-                label: 'Reveal ${widget.label}',
-                hint:
-                    'Reveals sensitive data after recording the entered audit reason.',
-                enabled: !_isBusy,
-                child: FilledButton.icon(
-                  onPressed: _isBusy ? null : _reveal,
-                  icon: const Icon(Icons.visibility),
-                  label: const Text('Reveal raw SMS'),
-                ),
-              ),
-              if (_error != null) ...[
-                const SizedBox(height: 12),
-                Text(
-                  _error!,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
-              ],
-              if (_revealed != null) ...[
-                const SizedBox(height: 12),
-                SelectableText(_revealed!),
-              ],
             ],
-          ),
+            if (_revealed != null) ...[
+              const SizedBox(height: 12),
+              Semantics(
+                liveRegion: true,
+                label: 'Sensitive data revealed. ${_revealed!}',
+                child: ExcludeSemantics(child: SelectableText(_revealed!)),
+              ),
+            ],
+          ],
         ),
       ),
     );
   }
 
-  Future<void> _reveal() async {
-    final reason = _reason.text.trim();
-    if (reason.isEmpty) {
+  Future<void> _reveal(String reason) async {
+    if (_isBusy) return;
+    final normalizedReason = reason.trim();
+    if (normalizedReason.isEmpty) {
       setState(
         () => _error = 'Enter a reason before revealing sensitive data.',
       );
@@ -111,7 +123,7 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
       _error = null;
     });
     try {
-      final value = await widget.onReveal(reason);
+      final value = await widget.onReveal(normalizedReason);
       if (mounted) setState(() => _revealed = value);
     } catch (error) {
       if (mounted) setState(() => _error = adminSafeErrorMessage(error));

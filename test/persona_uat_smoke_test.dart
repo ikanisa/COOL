@@ -1,4 +1,4 @@
-import 'dart:ui' show SemanticsAction;
+import 'dart:async';
 
 import 'package:collect_app/admin/admin_app.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
@@ -9,10 +9,12 @@ import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
+import 'package:collect_app/shared/repositories/pending_shared_group_intent_store.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +38,17 @@ void main() {
     bool highContrast = false,
     bool boldText = false,
     ThemeMode themeMode = ThemeMode.dark,
+    PendingSharedGroupIntentStore? pendingSharedGroupIntentStore,
+    Stream<Uri> incomingAppLinks = const Stream<Uri>.empty(),
   }) async {
+    final intentStore =
+        pendingSharedGroupIntentStore ??
+        PendingSharedGroupIntentStore(
+          preferences: _MemoryPendingSharedGroupIntentPreferences(),
+        );
+    if (pendingSharedGroupSlug != null) {
+      await intentStore.saveSlug(pendingSharedGroupSlug);
+    }
     final router = createAppRouter(initialLocation: initialLocation);
     addTearDown(router.dispose);
     await tester.pumpWidget(
@@ -59,10 +71,8 @@ void main() {
           legalConsentAcceptedProvider.overrideWith(
             (ref) => legalConsentAccepted,
           ),
-          if (pendingSharedGroupSlug != null)
-            pendingSharedGroupSlugProvider.overrideWith(
-              (ref) => pendingSharedGroupSlug,
-            ),
+          pendingSharedGroupIntentStoreProvider.overrideWithValue(intentStore),
+          collectIncomingAppLinksProvider.overrideWithValue(incomingAppLinks),
         ],
         child: MediaQuery(
           data: MediaQueryData.fromView(tester.view).copyWith(
@@ -423,6 +433,34 @@ void main() {
     }
   });
 
+  testWidgets('iPhone home keeps quick-action labels readable at large text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    try {
+      await pumpMainAppAt(tester, '/home', textScale: 1.2);
+
+      for (final label in const ['Groups', 'Scan QR', 'Supported', 'Share']) {
+        final finder = find.descendant(
+          of: find.byType(CollectScreenHero),
+          matching: find.text(label),
+        );
+        expect(finder, findsOneWidget);
+        final text = tester.widget<Text>(finder);
+        expect(text.maxLines, 2, reason: label);
+        final paragraph = tester.renderObject<RenderParagraph>(finder);
+        expect(paragraph.didExceedMaxLines, isFalse, reason: label);
+      }
+      expectNoGlobalSecrets();
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
   testWidgets('iPhone direct create route does not expose group form', (
     tester,
   ) async {
@@ -566,10 +604,16 @@ void main() {
   testWidgets('profile save opens pending shared group deep link', (
     tester,
   ) async {
+    final repository = CollectRepository.fixture();
+    repository.state = repository.state.copyWith(
+      currentProfile: repository.state.currentProfile!.copyWith(
+        momoNumber: null,
+      ),
+    );
     await pumpMainAppAt(
       tester,
       '/settings/profile',
-      repository: CollectRepository.fixture(),
+      repository: repository,
       pendingSharedGroupSlug: 'st-michel-building-fund',
     );
 
@@ -582,6 +626,114 @@ void main() {
     expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('Open group'), findsNothing);
     expect(find.text('Finish setup'), findsNothing);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets(
+    'cold-start provider recreation resumes and clears one pending group intent',
+    (tester) async {
+      final preferences = _MemoryPendingSharedGroupIntentPreferences();
+      final store = PendingSharedGroupIntentStore(preferences: preferences);
+      await store.saveSlug('st-michel-building-fund');
+      final repository = CollectRepository.fixture();
+      final initialCollectionCount = repository.state.collections.length;
+
+      await pumpMainAppAt(
+        tester,
+        '/home',
+        repository: repository,
+        pendingSharedGroupIntentStore: store,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(repository.state.collections, hasLength(initialCollectionCount));
+      expect(await store.readSlug(), isNull);
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets(
+    'warm external app link persists, joins, and clears without replacing the router',
+    (tester) async {
+      final incomingLinks = StreamController<Uri>.broadcast();
+      addTearDown(incomingLinks.close);
+      final preferences = _MemoryPendingSharedGroupIntentPreferences();
+      final store = PendingSharedGroupIntentStore(preferences: preferences);
+      final repository = CollectRepository.fixture();
+      final initialCollectionCount = repository.state.collections.length;
+
+      await pumpMainAppAt(
+        tester,
+        '/home',
+        repository: repository,
+        pendingSharedGroupIntentStore: store,
+        incomingAppLinks: incomingLinks.stream,
+      );
+
+      incomingLinks.add(
+        Uri.parse('https://collect.ikanisa.com/c/kigali-lions-away-kit'),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Kigali Lions away kit'), findsWidgets);
+      expect(repository.state.collections, hasLength(initialCollectionCount));
+      expect(
+        repository.state.collections.where(
+          (collection) => collection.slug == 'kigali-lions-away-kit',
+        ),
+        hasLength(1),
+      );
+      expect(await store.readSlug(), isNull);
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets('unsigned group link persists before authentication redirect', (
+    tester,
+  ) async {
+    final preferences = _MemoryPendingSharedGroupIntentPreferences();
+    final store = PendingSharedGroupIntentStore(preferences: preferences);
+
+    await pumpMainAppAt(
+      tester,
+      '/c/st-michel-building-fund',
+      repository: CollectRepository(),
+      pendingSharedGroupIntentStore: store,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(await store.readSlug(), 'st-michel-building-fund');
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('failed group-link join retains intent and retry clears it', (
+    tester,
+  ) async {
+    final preferences = _MemoryPendingSharedGroupIntentPreferences();
+    final store = PendingSharedGroupIntentStore(preferences: preferences);
+    final repository = _FailOnceJoinRepository();
+
+    await pumpMainAppAt(
+      tester,
+      '/c/st-michel-building-fund',
+      repository: repository,
+      pendingSharedGroupIntentStore: store,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Link failed'), findsOneWidget);
+    expect(find.text('Try again'), findsOneWidget);
+    expect(repository.joinAttempts, 1);
+    expect(await store.readSlug(), 'st-michel-building-fund');
+
+    await tapVisible(tester, find.text('Try again'));
+    await tester.pumpAndSettle();
+
+    expect(repository.joinAttempts, 2);
+    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(await store.readSlug(), isNull);
     expectNoGlobalSecrets();
   });
 
@@ -1529,21 +1681,22 @@ void main() {
       expect(find.text('SMS metadata'), findsWidgets);
       expect(find.text('Reveal raw SMS'), findsOneWidget);
       expect(find.textContaining('MOMO payment received'), findsNothing);
-      await tapVisible(tester, find.text('Reveal raw SMS'));
       expect(
-        find.text('Enter a reason before revealing sensitive data.'),
-        findsOneWidget,
+        tester
+            .widget<FilledButton>(
+              find.widgetWithText(FilledButton, 'Reveal raw SMS'),
+            )
+            .onPressed,
+        isNull,
       );
-      await tester.enterText(
-        find.byType(TextField).last,
-        'Compliance audit sample',
-      );
+      await tester.tap(find.text('Internal audit evidence'));
+      await tester.pump();
       await tester.tap(find.text('Reveal raw SMS'));
       await pumpLaunchFrames(tester);
       expect(find.text('MOMO payment received from REDACTED.'), findsOneWidget);
       expect(
         repository.actions,
-        contains('admin_reveal_raw_sms:Compliance audit sample'),
+        contains('admin_reveal_raw_sms:Internal audit evidence'),
       );
 
       router.go('/admin/audit-logs');
@@ -1653,6 +1806,21 @@ class _LedgerScenarioRepository extends CollectRepository {
   }
 }
 
+class _FailOnceJoinRepository extends CollectRepository {
+  _FailOnceJoinRepository() : super.fixture();
+
+  var joinAttempts = 0;
+
+  @override
+  Future<CollectCollection> joinGroupBySlug(String slug) async {
+    joinAttempts += 1;
+    if (joinAttempts == 1) {
+      throw StateError('Controlled connection interruption');
+    }
+    return super.joinGroupBySlug(slug);
+  }
+}
+
 class _FakeAdminRepository extends AdminRepository {
   _FakeAdminRepository() : super(null);
 
@@ -1739,5 +1907,23 @@ class _FakeAdminRepository extends AdminRepository {
       return {'message': 'MOMO payment received from REDACTED.'};
     }
     return {'status': 'ok'};
+  }
+}
+
+class _MemoryPendingSharedGroupIntentPreferences
+    implements PendingSharedGroupIntentPreferences {
+  final Map<String, String> _values = {};
+
+  @override
+  Future<String?> getString(String key) async => _values[key];
+
+  @override
+  Future<void> setString(String key, String value) async {
+    _values[key] = value;
+  }
+
+  @override
+  Future<void> remove(String key) async {
+    _values.remove(key);
   }
 }

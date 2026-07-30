@@ -205,12 +205,18 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         momoPayCode: _momoPayCode.text,
       );
       if (!mounted) return;
-      final pendingSlug = ref.read(pendingSharedGroupSlugProvider)?.trim();
+      final pendingSlug = await ref
+          .read(pendingSharedGroupSlugProvider.notifier)
+          .current();
       if (pendingSlug != null && pendingSlug.isNotEmpty) {
-        final collection = await repository.joinGroupBySlug(pendingSlug);
-        ref.read(pendingSharedGroupSlugProvider.notifier).state = null;
-        if (!mounted) return;
-        context.go('/groups/${collection.id}');
+        if (mounted) {
+          setState(() {
+            _saving = false;
+            _error = null;
+          });
+        }
+        // The app-level recovery host owns the redirect so profile updates and
+        // restored-intent navigation cannot race the stateful shell.
         return;
       }
       setState(() {

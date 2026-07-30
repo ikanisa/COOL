@@ -2,7 +2,7 @@
 
 ## Assessment boundary
 
-- Evidence date: 2026-07-25
+- Evidence date: 2026-07-28
 - Repository: `/Volumes/PRO-G40/COOL`
 - Flutter/Dart: Flutter 3.44.4, Dart 3.12.2
 - Package evidence: resolved `pubspec.lock`, `flutter pub deps --json`,
@@ -25,11 +25,11 @@ engineering:
 - `file_saver` was intentionally advanced from 0.3.1 to 0.4.0 for Android
   path-traversal hardening, modern iOS/macOS packaging, and current platform
   compatibility;
-- all 17 direct third-party runtime packages carry permissive licences;
+- all 18 direct third-party runtime packages carry permissive licences;
 - the current package resolver reports no package affected by a published
   advisory, discontinued, or retracted;
 - formatting and static analysis pass;
-- the complete post-update automated suite passes 412 tests at 77.83% line
+- the complete post-update automated suite passes 433 tests at 78.30% line
   coverage;
 - Android dev compilation and the final unsigned iOS Release archive pass
   against the final assessed lockfile.
@@ -42,6 +42,7 @@ dialog UAT, signing, and accountable approval remain separate gates.
 
 | Package | Resolved | Licence disposition |
 |---|---:|---|
+| `app_links` | 7.2.1 | Apache-2.0 |
 | `country_picker` | 2.0.28 | MIT |
 | `crypto` | 3.0.7 | BSD-3-Clause |
 | `file_saver` | 0.4.0 | BSD-3-Clause |
@@ -86,6 +87,12 @@ Current unresolved direct-version differences:
 `file_saver` is no longer deferred: 0.4.0 retains the Collect call shape and
 was adopted because its security and platform fixes outweigh the controlled
 major-version change.
+
+`app_links` is now a direct dependency rather than an incidental Supabase
+transitive. Collect uses its Android/iOS stream explicitly so a shared-group
+link is validated and durably retained before navigation; Flutter's competing
+native router handoff is disabled on those platforms. Version 7.2.1 was
+already resolved in the assessed graph and is Apache-2.0 licensed.
 
 The vulnerability result is bounded to advisories exposed by the current Dart
 package resolver. A zero count is not proof that every transitive native
@@ -155,7 +162,9 @@ Remaining Google Play actions:
   it, and Product/Legal must classify Collect's group contributions and MoMo
   handoff accurately:
   <https://support.google.com/googleplay/android-developer/answer/13849271>;
-- complete Camera and Notification allow/deny/recovery UAT;
+- repeat the completed controlled-emulator Camera and Notification
+  allow/deny/recovery sequences on an approved physical device and final
+  production package;
 - verify the final privacy policy identifies the developer, data categories,
   purposes, sharing, security, retention, deletion, and contact route;
 - ensure the store title, icon, screenshots, description, and in-app surfaces
@@ -202,7 +211,7 @@ Remaining App Store actions:
 | Public deletion resource | Implemented locally | Production deployment and store-link verification |
 | Production restricted SMS permissions absent | Source/test evidence passes | Inspect final signed production APK/AAB |
 | Broad photo/video permission absent | Upgraded dev APK passes | Inspect final production artifact |
-| Camera/notification purpose and recovery | Source/widget coverage partial | Native allow/deny/retry screenshots and logs |
+| Camera/notification purpose and recovery | E-054/E-056 controlled-emulator native allow/deny/retry/recovery evidence passes | Physical-device and final-production-package confirmation |
 | Google Data Safety | Not submitted in this goal | Product/Privacy/Release approval and Play Console evidence |
 | Google Financial features declaration | Not submitted in this goal | Product/Legal classification and Play Console evidence |
 | Apple App Privacy | Not submitted in this goal | Product/Privacy/Release approval and App Store Connect evidence |

@@ -1,14 +1,92 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/collect_models.dart';
+import '../repositories/pending_shared_group_intent_store.dart';
 import '../repositories/collect_repository.dart';
 
 final onboardingCompleteProvider = StateProvider<bool>((ref) => false);
 
 final legalConsentAcceptedProvider = StateProvider<bool>((ref) => false);
 
-final pendingSharedGroupSlugProvider = StateProvider<String?>((ref) => null);
+final pendingSharedGroupIntentStoreProvider =
+    Provider<PendingSharedGroupIntentStore>(
+      (ref) => PendingSharedGroupIntentStore(),
+    );
+
+final pendingSharedGroupSlugProvider =
+    StateNotifierProvider<PendingSharedGroupIntentController, String?>(
+      (ref) => PendingSharedGroupIntentController(
+        ref.watch(pendingSharedGroupIntentStoreProvider),
+      ),
+    );
+
+class PendingSharedGroupIntentController extends StateNotifier<String?> {
+  PendingSharedGroupIntentController(
+    this._store, {
+    String? initialSlug,
+    bool restorePersistedIntent = true,
+  }) : super(normalizePendingSharedGroupSlug(initialSlug ?? '')) {
+    _operation = restorePersistedIntent ? _restore() : Future<void>.value();
+  }
+
+  final PendingSharedGroupIntentStore _store;
+  late Future<void> _operation;
+
+  Future<String?> current() async {
+    await _operation;
+    return state;
+  }
+
+  Future<String> retain(String rawSlug) {
+    return _enqueue(() async {
+      final slug = await _store.saveSlug(rawSlug);
+      if (mounted) state = slug;
+      return slug;
+    });
+  }
+
+  Future<bool> clearIfMatches(String rawSlug) {
+    return _enqueue(() async {
+      final slug = normalizePendingSharedGroupSlug(rawSlug);
+      if (slug == null || state != slug) return false;
+      await _store.clear();
+      if (mounted) state = null;
+      return true;
+    });
+  }
+
+  Future<void> clear() {
+    return _enqueue(() async {
+      await _store.clear();
+      if (mounted) state = null;
+    });
+  }
+
+  Future<void> _restore() async {
+    try {
+      final restored = await _store.readSlug();
+      if (mounted && state == null) state = restored;
+    } catch (_) {
+      // A local preference failure must not crash startup. A newly received
+      // intent still fails closed in retain() if it cannot be persisted.
+    }
+  }
+
+  Future<T> _enqueue<T>(Future<T> Function() operation) {
+    final completer = Completer<T>();
+    _operation = _operation.then((_) async {
+      try {
+        completer.complete(await operation());
+      } catch (error, stackTrace) {
+        completer.completeError(error, stackTrace);
+      }
+    });
+    return completer.future;
+  }
+}
 
 final notificationPermissionStatusProvider =
     StateProvider<CollectDevicePermissionStatus>(

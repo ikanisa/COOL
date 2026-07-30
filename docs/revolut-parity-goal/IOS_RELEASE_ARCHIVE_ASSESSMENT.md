@@ -2,7 +2,7 @@
 
 ## Scope
 
-- Date: 2026-07-24
+- Date: 2026-07-28
 - Workspace: `ios/Runner.xcworkspace`
 - Scheme: `Runner`
 - Configuration: `Release`
@@ -32,9 +32,10 @@ The Release build settings resolve to:
 
 ## Current unsigned archive
 
-The archive was regenerated after the resolved dependency upgrade and the
-`file_saver` 0.4.0 security/platform update. This current archive supersedes
-the earlier pre-upgrade archive for source-state evidence.
+The archive was regenerated under E-065 after the Flutter 3.44.4 toolchain
+alignment, E-064 semantics correction, clean release-artifact rebuild, and
+packaged-payload verification. This archive supersedes the E-057 archive for
+current-source evidence.
 
 Command:
 
@@ -44,8 +45,8 @@ xcodebuild \
   -scheme Runner \
   -configuration Release \
   -destination 'generic/platform=iOS' \
-  -archivePath .cache/ios_release_archive/20260724-post-upgrade/Collect-unsigned-final.xcarchive \
-  -derivedDataPath /Users/jeanbosco/Library/Developer/Xcode/DerivedData/Collect-Release-Archive-Final \
+  -archivePath .cache/ios_release_archive/20260728-e065/Collect-unsigned.xcarchive \
+  -derivedDataPath /Users/jeanbosco/Library/Developer/Xcode/DerivedData/Collect-Release-Archive-E065 \
   CODE_SIGNING_ALLOWED=NO \
   CODE_SIGNING_REQUIRED=NO \
   COMPILER_INDEX_STORE_ENABLE=NO \
@@ -57,19 +58,25 @@ Result: `ARCHIVE SUCCEEDED`.
 Retained evidence:
 
 - archive:
-  `.cache/ios_release_archive/20260724-post-upgrade/Collect-unsigned-final.xcarchive`;
-- archive size: 176 MB;
+  `.cache/ios_release_archive/20260728-e065/Collect-unsigned.xcarchive`;
+- archive size: 180,428 KiB;
 - application binary SHA-256:
-  `8b8c192561289bb9bc84aea771144c7d7312ba6de79c1f1bd4e85a3710c5e12a`;
+  `047ea05a5ec909381986e23cae3acd676758e0a16773ab1320555e1e47560a99`;
 - application Info.plist SHA-256:
-  `e387409f4a0cfbdfeb5c3ba6d796c21d2ea505cda03b43536c0235bb212142bd`;
+  `998e48672822db966eaec5ddd9cfcb63f6d862c865ac05bb508912f631f260a2`;
+- archive log SHA-256:
+  `3b540f040ac6753a2392654a67cec93a602ded0af72abae9be654ca7034ea3b0`;
 - dSYM UUID:
-  `4EDFC2BD-D3AC-319C-B11F-8866F61FF275`.
+  `D467626B-D459-319F-98B0-4C145E58CF35`.
 
-The final archive no longer emits the `file_saver` 0.3.1 deprecated
-`UIApplication.keyWindow` warning. It retains one upstream `mobile_scanner`
-generated Objective-C ownership warning and the existing always-run Flutter
-script phase notes; neither prevents archive creation.
+The archive contains `app_links` 7.2.1, sets
+`FlutterDeepLinkingEnabled=false`, and retains only the governed Inter variable
+font, tree-shaken Material Icons, and official Collect PNG among relevant
+font/product-artwork payload, with no SVG/SVGZ/ICO or legacy typeface. Its app
+binary contains neither removed toolbar semantics label. It emits one upstream
+`mobile_scanner` generated Objective-C ownership warning, an AppIntents
+metadata-skip warning because Collect has no AppIntents dependency, and the
+existing always-run Flutter script phase notes; none prevents archive creation.
 
 The archive is intentionally unsigned and is not distributable.
 

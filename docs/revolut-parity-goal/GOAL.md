@@ -38,13 +38,19 @@ release-hardening lead for this engagement.
 - Existing architecture: Flutter 3.44.4, Dart 3.12.2, Riverpod, GoRouter,
   Supabase-compatible repository layer
 - Visual contract:
-  - `/Volumes/PRO-G40/DESIGN/DESIGN.md`
+  - Universal benchmark authority:
+    `/Volumes/PRO-G40/DESIGN/DESIGN.md`
+  - COOL implementation constraints: this goal's non-negotiable exclusive-Inter
+    and official-asset requirements, enforced by source gates and tests. These
+    constraints specialize the universal benchmark without weakening or
+    overriding it.
   - `.cache/revolut_full_audit/20260723T200000/`
   - `.cache/revolut_full_audit/20260723T200000/REPORT.md`
 - Current implementation baseline: bundled Inter, compact shared shell, revised
   Home, Groups, Settings, Group Detail, Contribution, and Ledger
-- Current proof limitation: `design-qa.md` passes only the Phase 1
-  Home/Groups/Settings scope.
+- Current proof limitation: all 35 member routes are implemented and mapped,
+  but direct authentication/OTP and amount-entry references plus the complete
+  normalized mobile/public/Admin state matrix remain open.
 
 ## Non-negotiable product constraints
 

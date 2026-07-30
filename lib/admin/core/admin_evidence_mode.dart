@@ -82,7 +82,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     int? offset,
     String? sortBy,
   }) async {
-    final rows = [
+    final allRows = [
       for (var index = 1; index <= 30; index += 1)
         AdminTableRowData(
           id: _rowId(rpcName, index),
@@ -93,6 +93,17 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
           createdAt: DateTime.utc(2026, 6, (index % 15) + 1, 12),
         ),
     ];
+    final normalizedSearch = search?.trim().toLowerCase() ?? '';
+    final rows = normalizedSearch.isEmpty
+        ? allRows
+        : allRows
+              .where(
+                (row) =>
+                    row.title.toLowerCase().contains(normalizedSearch) ||
+                    row.subtitle.toLowerCase().contains(normalizedSearch) ||
+                    row.id.toLowerCase().contains(normalizedSearch),
+              )
+              .toList(growable: false);
     final start = (offset ?? 0).clamp(0, rows.length);
     final pageLimit = limit ?? 25;
     final end = (start + pageLimit).clamp(start, rows.length);

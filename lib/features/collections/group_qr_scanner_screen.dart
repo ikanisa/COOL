@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/providers/collect_app_state.dart';
@@ -129,24 +130,43 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
       _error = null;
     });
     _startTimeout?.cancel();
-    _startTimeout = Timer(const Duration(seconds: 8), () {
-      if (!mounted || !_starting) return;
-      ref.read(cameraPermissionStatusProvider.notifier).state =
-          CollectDevicePermissionStatus.denied;
-      setState(() {
-        _starting = false;
-        _scanning = false;
-        _error =
-            'Camera did not start. Check camera permission or open Collect on your phone.';
-      });
-    });
     try {
+      final cameraPermission = await permissions.Permission.camera.request();
+      if (!mounted) return;
+      if (!cameraPermission.isGranted) {
+        _startTimeout?.cancel();
+        ref.read(cameraPermissionStatusProvider.notifier).state =
+            CollectDevicePermissionStatus.denied;
+        setState(() {
+          _starting = false;
+          _scanning = false;
+          _error =
+              'Camera permission is off. Allow access to scan a group QR code.';
+        });
+        await showCameraAccessSheet(
+          context,
+          onRetry: () => unawaited(_startScanning()),
+        );
+        return;
+      }
+      _startTimeout = Timer(const Duration(seconds: 8), () {
+        if (!mounted || !_starting) return;
+        setState(() {
+          _starting = false;
+          _scanning = false;
+          _error =
+              'Camera did not start. Check camera permission or open Collect on your phone.';
+        });
+      });
       await _scanner.start();
       if (!mounted) return;
       _startTimeout?.cancel();
+      ref.read(cameraPermissionStatusProvider.notifier).state =
+          CollectDevicePermissionStatus.granted;
       setState(() {
         _starting = false;
         _scanning = true;
+        _error = null;
       });
     } on MobileScannerException catch (error) {
       if (!mounted) return;

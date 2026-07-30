@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
@@ -53,8 +55,8 @@ Future<void> showCameraAccessSheet(
     secondaryLabel: 'Scan again',
     secondaryIcon: CollectIcons.qr,
     onSecondary: (sheetContext) {
-      Navigator.of(sheetContext, rootNavigator: true).maybePop();
-      onRetry();
+      final navigator = Navigator.of(sheetContext, rootNavigator: true);
+      unawaited(navigator.maybePop().then((_) => onRetry()));
     },
   );
 }

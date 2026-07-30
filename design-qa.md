@@ -4,8 +4,10 @@
 
 - Scope: Collect mobile shared shell, Home, Groups, global Contribute, global
   Activity, Profile/Settings, Group Detail, Contribution, and Ledger.
-  Full-goal coverage remains open for authentication, group lifecycle,
-  settings subroutes, state matrices, public web, and Admin PWA.
+  All 35 member routes are implemented and mapped to a retained reference
+  pattern or an explicit no-direct-analogue rationale. Full-goal comparison
+  evidence remains open for direct authentication/OTP and amount-entry
+  references, normalized material-state coverage, public web, and Admin PWA.
 - Source visual truth:
   - `.cache/revolut_full_audit/20260723T200000/02-home-top.png`
   - `.cache/revolut_full_audit/20260723T200000/05-payments-top.png`
@@ -53,9 +55,11 @@ Groups, Contribute entry, Activity, Settings, Group Detail, and Ledger scope.
 
 The expanded full-goal QA is blocked because there is no verified Revolut
 amount-entry/transfer screenshot for a truthful Contribution side-by-side
-comparison, and the remaining goal screens have not yet been implemented and
-captured. The existing Contribution implementation screenshot is evidence of
-the current state, not proof of source parity.
+comparison, direct authentication/OTP references remain incomplete, and the
+implemented member/public/Admin routes do not yet have the complete normalized
+state matrix required for a passing result. The existing implementation
+screenshots prove current rendered states only; they do not prove full source
+parity.
 
 - Fonts and typography: the app uses bundled Inter exclusively. The revised 400-700 weight range, balance hierarchy, compact labels, line heights, and truncation behavior are visibly close to the reference. No 900-weight emphasis remains in the compared shared shell and hero surfaces.
 - Spacing and layout rhythm: Home now follows top chrome, balance, four quick actions, dense activity, then group content. Groups opens directly into a grouped list. Settings uses one identity block followed by a compact grouped control list. Phone padding is 16 px, routine cards are 16 px, featured cards are 20 px, sheets are 24 px, and the bottom bar is 60 px with a 44 px selected indicator.
@@ -253,8 +257,20 @@ Focused-region comparisons were not required after the final passes because all 
 - P3: replace the simulator-only back-to-app status indicator in presentation captures by recording from a clean simulator session; it is not app content.
 - P3: continue checking the five-destination labels at the remaining device
   widths and large text settings during the device matrix.
-- P3: public and Admin compact 200% text widget contracts now pass; complete
-  browser keyboard, assistive-technology, and normalized visual comparisons.
+- P3: E-058 passes all 16 public routes at compact/tablet/desktop in local
+  Chrome with visible focus, named controls, landmarks, and no overflow.
+  E-059 accepts the critical Admin compact/tablet/desktop keyboard flows after
+  compact filter, record-card, selected-navigation, and keyboard corrections.
+  E-062 extends responsive, semantic, accessibility-tree, critical-keyboard,
+  and target-size coverage to all 23 Admin routes with 69 clean screenshots.
+  All 1,138 visible enabled targets are measured; all 69 route/viewport target
+  checks pass with zero genuine sub-44 CSS-pixel violations. Login advances to
+  OTP by keyboard; both denied recovery actions navigate; filtered export
+  announces completion and retains focus; payment-dialog cancellation restores
+  trigger focus; group-record, accountable-purpose, sensitive-reveal, and
+  live-region flows pass in all three viewports. Normalized reference, native
+  target/focus measurement, deployed-host, and actual screen-reader review
+  remain.
 - P3: Android release flavors now emit local APKs and the aggregate signing
   guard is hardened; the explicit production AAB passes basic verification,
   while upload-certificate pinning and device evidence remain release-workstream
@@ -268,10 +284,14 @@ Focused-region comparisons were not required after the final passes because all 
   reduced-motion variants. E-053 adds large 1440x3120 System-Light/System-Dark
   matrices with 35 retained screenshots each and closes a Settings light-theme
   contrast defect. E-054 passes native notification denial, Collect recovery,
-  retry, and grant while closing resume/context races. Dev-package metadata
-  passes with restricted SMS absent. Physical-Pixel confirmation, native Camera
-  permission/screenshots, TalkBack, and direct reference comparisons remain
-  open.
+  retry, and grant while closing resume/context races. E-056 passes native
+  Camera denial, Collect privacy education, retry, grant, and recovered scanner
+  with four retained screenshots after closing the permission/timing/stale-error
+  defects. E-057 passes durable group-intent retention before process death,
+  distinct cold-restart recovery, same-process warm App Link delivery, and
+  no replay after matching clear. Dev-package metadata passes with restricted
+  SMS absent. Physical-device confirmation, QR detection, TalkBack, live
+  backend idempotency, and direct reference comparisons remain open.
 - P3: native profiling now executes a target-verified six-scenario matrix on
   the controlled emulator. E-052 supersedes the original E-051 quality
   interpretation with two accepted v2-target runs after dense-list and
@@ -283,18 +303,39 @@ Focused-region comparisons were not required after the final passes because all 
   open.
 - P3: Light, Dark, and persisted System appearance now work as distinct choices.
   System was verified on iPhone 17 Pro to respond live to iOS Light/Dark changes
-  and survive relaunch. A fresh native Light run also passed all 35 routes;
-  Android System-Light and System-Dark now pass all 35 routes at a large
-  viewport. Native tablet/System and screen-reader coverage remain open.
+  and survive relaunch. E-055 adds accepted current-source iPhone Dark and
+  System-Light 35-route matrices; Android System-Light and System-Dark pass all
+  35 routes at a large viewport. Screen-reader and physical-device coverage
+  remain open.
 - P3: member and Admin apps now expose real framework high-contrast themes with
   stronger boundaries and focus rings. A combined native iPhone run passed all
   35 routes with high contrast, 320% text, and reduced motion after exposing
-  and closing an Appearance-card overflow. Admin/browser, Android, tablet, and
-  assistive-technology traversal remain open evidence items.
-- P3: current iOS builds now pass on iPhone 17 Pro, iPhone 17 Pro Max, and iPad
-  Pro 11-inch. The captured iPad Home state uses a persistent navigation rail
-  without visible clipping or overflow. This is a Home smoke matrix, not
-  full-route, theme, large-text, or assistive-technology closure.
+  and closing an Appearance-card overflow. E-055 adds a current-source iPad
+  System/200%-text/high-contrast/reduced-motion matrix after exposing and
+  closing the truncated auth wordmark. Admin/browser and assistive-technology
+  traversal remain open evidence items.
+- P3: current-source E-055 iOS builds and complete route captures pass on iPhone
+  17 Dark/System-Light and iPad Pro 11-inch System/200%-text/high-contrast/
+  reduced-motion. Each accepted matrix resolves 35/35 routes, captures 35/35
+  screenshots with 26 distinct states, and passed contact-sheet visual review.
+  VoiceOver and physical-device closure remain separate.
+- P3: E-063 adds a fresh iPhone 17 Dark matrix at the platform Large/1.2-text
+  setting after direct native review exposed `Scan QR` and `Supported`
+  ellipsizing on Home. The accepted implementation top-aligns the hero actions
+  and permits two-line labels; a focused rendered-paragraph regression proves
+  all four labels fit, and the accepted recapture resolves 35/35 routes with
+  35/35 screenshots and 26 distinct states. The exact connected Pixel 4a
+  remained securely locked, so the hardened Android preflight recorded
+  `runner=not_started` before any build/install. This closes the local label
+  defect and lock-safety issue, not VoiceOver/TalkBack or physical-device
+  confirmation.
+- P3: E-064 runs Android Accessibility Suite TalkBack 16 on the controlled
+  Pixel 4a-profile emulator. The first Home/Groups pass exposed a redundant
+  whole-toolbar focus stop and duplicate hero-action announcements. The
+  accepted correction removes both while preserving individual labels and tap
+  actions; paired focus screenshots and Android accessibility trees are
+  retained. This is scoped Home/Groups TalkBack evidence, not complete
+  critical-flow, spoken-audio, physical-device, or VoiceOver closure.
 - P3: all 35 member routes now pass compact 320x568 at 200% text with reduced
   motion, standard 390x844, large 430x932, and tablet 834x1194 with high
   contrast widget matrices. Native iPhone maximum Dynamic Type plus Increase
@@ -302,8 +343,7 @@ Focused-region comparisons were not required after the final passes because all 
   defects on Activity/Ledger, and the later 35-route 320% native traversal
   exposed and closed the Appearance-card overflow. Primary content remains
   scrollable, while some secondary labels ellipsize at the extreme scale.
-  VoiceOver, Android, browser, and native tablet accessibility variants remain
-  open.
+  VoiceOver, browser, and physical-device accessibility variants remain open.
 - P3: E-046 closes the Flutter reduced-motion interaction gap for detail
   navigation, modal sheets, Activity list filtering, and amount receiver
   controls while preserving normal route motion. The same work corrected the

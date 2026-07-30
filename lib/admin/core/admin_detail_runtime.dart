@@ -208,12 +208,10 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     label: 'Request SMS payment event reparse',
                     hint:
                         'Opens a reason dialog before queuing this payment event for parser review.',
-                    child: ExcludeSemantics(
-                      child: FilledButton.icon(
-                        onPressed: () => _requestReparse(context, ref),
-                        icon: const Icon(Icons.replay_outlined),
-                        label: const Text('Request reparse'),
-                      ),
+                    child: FilledButton.icon(
+                      onPressed: () => _requestReparse(context, ref),
+                      icon: const Icon(Icons.replay_outlined),
+                      label: const Text('Request reparse'),
                     ),
                   ),
                 ),
@@ -229,16 +227,14 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     label: 'Record ${spec.heading} operator note',
                     hint:
                         'Opens a note dialog and persists the operator note to the audit-backed admin notes table.',
-                    child: ExcludeSemantics(
-                      child: OutlinedButton.icon(
-                        onPressed: () => _recordOperatorNote(
-                          context,
-                          ref,
-                          spec.noteEntityType!,
-                        ),
-                        icon: const Icon(Icons.note_add_outlined),
-                        label: const Text('Record note'),
+                    child: OutlinedButton.icon(
+                      onPressed: () => _recordOperatorNote(
+                        context,
+                        ref,
+                        spec.noteEntityType!,
                       ),
+                      icon: const Icon(Icons.note_add_outlined),
+                      label: const Text('Record note'),
                     ),
                   ),
                 ),
@@ -395,7 +391,7 @@ class _AdminCollectionStatusButton extends ConsumerWidget {
       button: true,
       label: '$label group support status',
       hint: 'Opens a reason dialog before updating the group status.',
-      child: ExcludeSemantics(child: button),
+      child: button,
     );
   }
 

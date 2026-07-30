@@ -133,10 +133,13 @@ secondary_sources.each do |label, path|
 end
 tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.map(&:strip)
 forbidden_tracked_paths = tracked_paths.reject do |path|
-  path == "DESIGN.md" ||
+    path == "DESIGN.md" ||
     path == "design-qa.md" ||
     path.start_with?("docs/revolut-parity-goal/") ||
+    path == "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256" ||
     path.start_with?("assets/brand/collect_runtime/") ||
+    path == "scripts/revolut_parity_evidence_consistency_gate.sh" ||
+    path == "scripts/revolut_parity_source_hygiene_gate.sh" ||
     path.start_with?("ios/Runner/Assets.xcassets/AppIcon.appiconset/") ||
     path == "web/icons/collect-web-512.png" ||
     path == "android/app/src/main/res/drawable/collect_launcher_icon.png" ||

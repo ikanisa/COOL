@@ -302,6 +302,27 @@ class AdminDeniedPage extends StatelessWidget {
       subtitle: permission == null
           ? 'Admin permission missing.'
           : 'Missing $permission.',
+      child: Semantics(
+        container: true,
+        explicitChildNodes: true,
+        label: 'Admin access recovery actions',
+        child: Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: [
+            FilledButton.icon(
+              onPressed: () => context.go('/admin'),
+              icon: const Icon(Icons.dashboard_outlined),
+              label: const Text('Return to operations'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () => context.go('/admin/login'),
+              icon: const Icon(Icons.login_outlined),
+              label: const Text('Admin sign-in'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

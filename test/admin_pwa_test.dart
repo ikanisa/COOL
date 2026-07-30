@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:collect_app/admin/admin_app.dart';
@@ -7,6 +8,8 @@ import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/shared/components/admin_data_table.dart';
+import 'package:collect_app/admin/shared/components/admin_filter_bar.dart';
+import 'package:collect_app/admin/shared/components/admin_sensitive_data_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -94,8 +97,64 @@ void main() {
     expect(script, contains('--dart-define=ADMIN_PWA_EVIDENCE_MODE=true'));
     expect(script, contains('admin_pwa_evidence_mode'));
     expect(script, contains('png_capture_check.mjs'));
+    expect(script, contains('admin_pwa_browser_qa.mjs'));
+    expect(script, contains('browser_qa_viewport_count'));
     expect(script, contains('/admin/payment-events'));
     expect(script, contains('/admin/sms/sms-1'));
+    final browserQa = File(
+      'scripts/admin_pwa_browser_qa.mjs',
+    ).readAsStringSync();
+    expect(browserQa, contains('compact_390x844'));
+    expect(browserQa, contains('tablet_834x1194'));
+    expect(browserQa, contains('desktop_1440x900'));
+    expect(browserQa, contains('Accessibility.getFullAXTree'));
+    expect(browserQa, contains('keyboardActivatesNavigation'));
+    expect(browserQa, contains('keyboardOpensTableRecord'));
+    expect(browserQa, contains('keyboardExportsCurrentPage'));
+    expect(browserQa, contains('keyboardReasonDialog'));
+    expect(browserQa, contains('keyboardSensitiveGate'));
+    expect(browserQa, contains('keyboardDeniedRecovery'));
+    expect(browserQa, contains('keyboardDeniedSignIn'));
+    expect(browserQa, contains('keyboardAdvancesAdminLogin'));
+    expect(browserQa, contains('requiredInteractiveNamesPresent'));
+    expect(browserQa, contains('interactiveTargetsMeetMinimum'));
+    expect(browserQa, contains('minimumCssPixels'));
+    expect(browserQa, contains('accessibleLabels'));
+    expect(browserQa, contains('accessibleName'));
+    expect(browserQa, contains('viewportClippedCandidates'));
+    expect(browserQa, contains('touchesViewportEdge'));
+    expect(browserQa, contains("textPrefix: 'Compliance investigation'"));
+    expect(browserQa, contains('reveal-reason-unavailable'));
+    expect(browserQa, contains("await page.keyboard.press('Enter')"));
+    expect(browserQa, contains('reveal-result-timeout'));
+    expect(browserQa, contains('interactiveControlsNamed'));
+    for (final route in const [
+      '/admin/login',
+      '/admin/denied',
+      '/admin',
+      '/admin/groups',
+      '/admin/groups/collection-1',
+      '/admin/members',
+      '/admin/members/user-1',
+      '/admin/payment-intents',
+      '/admin/payment-intents/admin-row-1',
+      '/admin/payment-events',
+      '/admin/payment-events/event-1',
+      '/admin/allocations',
+      '/admin/exceptions',
+      '/admin/ledger',
+      '/admin/receivers',
+      '/admin/receivers/receiver-1',
+      '/admin/sms',
+      '/admin/sms/sms-1',
+      '/admin/audit-logs',
+      '/admin/settings',
+      '/admin/feature-flags',
+      '/admin/system-health',
+      '/admin/admin-users',
+    ]) {
+      expect(browserQa, contains("path: '$route'"));
+    }
     expect(evidenceMode, contains('bool.fromEnvironment'));
     expect(evidenceMode, contains('Masked sender and allocation review'));
     expect(evidenceMode, contains('+250***4321'));
@@ -117,9 +176,59 @@ void main() {
     },
   );
 
+  testWidgets('sensitive gate requires an accountable purpose before reveal', (
+    tester,
+  ) async {
+    final response = Completer<String>();
+    var revealCount = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: AdminSensitiveDataGate(
+            label: 'Raw SMS',
+            onReveal: (reason) {
+              revealCount += 1;
+              expect(reason, 'Compliance investigation');
+              return response.future;
+            },
+          ),
+        ),
+      ),
+    );
+
+    final disabledReveal = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Reveal raw SMS'),
+    );
+    expect(disabledReveal.onPressed, isNull);
+
+    await tester.tap(find.text('Compliance investigation'));
+    await tester.pump();
+    await tester.tap(find.text('Reveal raw SMS'));
+    await tester.pump();
+    expect(revealCount, 1);
+
+    response.complete('Masked raw message');
+    await tester.pumpAndSettle();
+    expect(find.text('Masked raw message'), findsOneWidget);
+  });
+
   test('admin evidence overrides stay disabled by default', () {
     expect(adminPwaEvidenceMode, isFalse);
     expect(adminEvidenceOverrides(), isEmpty);
+  });
+
+  test('admin evidence repository filters deterministic masked rows', () async {
+    const repository = AdminEvidenceRepository();
+    final result = await repository.list(
+      'admin_list_collections',
+      search: 'Public group 30',
+      limit: 25,
+      offset: 0,
+    );
+
+    expect(result.total, 1);
+    expect(result.rows.single.id, 'collection-30');
+    expect(result.rows.single.title, 'Public group 30');
   });
 
   testWidgets('admin app blocks default non-admin state', (tester) async {
@@ -365,7 +474,109 @@ void main() {
     }
   });
 
-  testWidgets('admin table exposes scroll and record semantics', (
+  testWidgets('admin compact navigation reveals a deep selected route', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpAdminShell(
+        tester,
+        identity: _readOnlyFullIdentity,
+        location: '/admin/system-health',
+        child: const Text('System health route'),
+      );
+      await tester.pumpAndSettle();
+
+      final selected = find.widgetWithText(FilledButton, 'System health');
+      expect(selected, findsOneWidget);
+      final rect = tester.getRect(selected);
+      expect(rect.left, greaterThanOrEqualTo(0));
+      expect(rect.right, lessThanOrEqualTo(390));
+      expect(find.semantics.byLabel('System health admin section'), findsOne);
+      expect(find.semantics.byLabel('System health'), findsNothing);
+      expect(tester.takeException(), isNull);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('admin desktop navigation exposes one 44px target per route', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpAdminShell(
+        tester,
+        identity: _readOnlyFullIdentity,
+        location: '/admin/admin-users',
+        child: const Text('Admin users route'),
+      );
+
+      for (final tile in find.byType(ListTile).evaluate()) {
+        expect(
+          tester.getSize(find.byWidget(tile.widget)).height,
+          greaterThanOrEqualTo(44),
+        );
+      }
+      expect(find.semantics.byLabel('Admin users admin section'), findsOne);
+      expect(find.semantics.byLabel('Admin users'), findsNothing);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('admin compact filters keep status labels intact', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: AdminFilterBar(
+            searchController: controller,
+            status: '',
+            sortBy: 'created_at_desc',
+            statusOptions: const [
+              AdminFilterOption(value: '', label: 'All'),
+              AdminFilterOption(value: 'review', label: 'Review'),
+              AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
+              AdminFilterOption(value: 'ambiguous', label: 'Ambiguous'),
+              AdminFilterOption(value: 'allocated', label: 'Allocated'),
+            ],
+            onStatusChanged: (_) {},
+            onSortChanged: (_) {},
+            onRefresh: () {},
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byKey(const Key('admin-status-filter-select')), findsOneWidget);
+    expect(find.byType(ChoiceChip), findsNothing);
+    await tester.tap(find.byKey(const Key('admin-status-filter-select')));
+    await tester.pumpAndSettle();
+    expect(find.text('Unallocated'), findsOneWidget);
+    expect(find.text('Ambiguous'), findsOneWidget);
+    expect(find.text('Allocated'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('admin table adapts to compact record cards with semantics', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(320, 568);
@@ -401,13 +612,66 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.byType(Scrollbar), findsOneWidget);
+      expect(
+        find.byKey(const Key('admin-compact-record-list')),
+        findsOneWidget,
+      );
+      expect(find.byType(DataTable), findsNothing);
       expect(find.semantics.byLabel('Admin records table, 1 rows'), findsOne);
       expect(
         find.semantics.byLabel('Open Contribution exception 0001'),
         findsOne,
       );
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics &&
+              widget.properties.label == 'Open Contribution exception 0001',
+        ),
+        findsOne,
+      );
+      expect(find.text('Amount'), findsOneWidget);
+      expect(find.text('Created'), findsOneWidget);
       expect(tester.takeException(), isNull);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('admin desktop table exposes the full record control target', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1000, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: AdminDataTable(
+              onOpen: (_) {},
+              rows: [
+                AdminTableRowData(
+                  id: 'row-1',
+                  title: 'Public group 8',
+                  subtitle: 'Verified group activity and owner controls',
+                  status: 'Active',
+                  amount: 'RWF 25,000',
+                  createdAt: DateTime.utc(2026, 7, 24),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final target = find.semantics.byLabel('Open Public group 8');
+      expect(target, findsOne);
+      expect(target.evaluate().single.rect.height, greaterThanOrEqualTo(44));
+      expect(find.semantics.byLabel('Public group 8'), findsNothing);
     } finally {
       semantics.dispose();
     }
@@ -433,6 +697,12 @@ void main() {
     expect(find.text('Raw SMS queue'), findsNothing);
     expect(find.text('Admin access required'), findsOneWidget);
     expect(find.text('Missing sms.metadata.read.'), findsOneWidget);
+    expect(find.text('Return to operations'), findsOneWidget);
+    expect(find.text('Admin sign-in'), findsOneWidget);
+    expect(
+      find.semantics.byLabel('Admin access recovery actions'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('admin shell matches seeded role-matrix navigation', (
@@ -956,40 +1226,21 @@ void main() {
 
       expect(
         find.byWidgetPredicate(
-          (widget) =>
-              widget is Semantics &&
-              widget.properties.label == 'Raw SMS sensitive data reveal gate',
+          (widget) => widget is Semantics && widget.properties.header == true,
         ),
         findsOne,
       );
-      expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Semantics &&
-              widget.properties.label == 'Raw SMS reveal reason',
-        ),
-        findsOne,
-      );
-      expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Semantics &&
-              widget.properties.label == 'Reveal Raw SMS',
-        ),
-        findsOne,
-      );
+      expect(find.semantics.byLabel('Reveal raw SMS'), findsOne);
 
-      await tester.enterText(
-        find.widgetWithText(TextField, 'Reveal reason'),
-        'Compliance audit sample',
-      );
-      await tester.tap(find.widgetWithText(FilledButton, 'Reveal raw SMS'));
+      await tester.tap(find.text('Internal audit evidence'));
+      await tester.pump();
+      await tester.tap(find.text('Reveal raw SMS'));
       await tester.pumpAndSettle();
 
       expect(find.text('MOMO body redacted for test'), findsOneWidget);
       expect(
         repository.actions,
-        contains('admin_reveal_raw_sms:Compliance audit sample'),
+        contains('admin_reveal_raw_sms:Internal audit evidence'),
       );
     } finally {
       semantics.dispose();
