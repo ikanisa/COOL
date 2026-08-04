@@ -155,6 +155,26 @@ Deno.serve(async (req) => {
       "allocate_parsed_payment_event",
       { event_id: event.id },
     );
+    if (allocationStatus === "allocated") {
+      try {
+        await fetch(
+          `${requireEnv("SUPABASE_URL")}/functions/v1/dispatch-notifications`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${
+                requireEnv("SUPABASE_SERVICE_ROLE_KEY")
+              }`,
+              "Content-Type": "application/json",
+              "x-collect-signature": requireEnv("INTERNAL_FUNCTION_SECRET"),
+            },
+            body: JSON.stringify({ limit: 100 }),
+          },
+        );
+      } catch {
+        // The durable delivery queue is retried independently of payment posting.
+      }
+    }
     return jsonResponse({
       ok: true,
       parsed_event_id: event.id,

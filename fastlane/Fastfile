@@ -180,6 +180,7 @@ platform :ios do
       "SUPABASE_ANON_KEY" => supabase_anon_key,
       "APP_PUBLIC_URL" => public_url,
       "APP_ENVIRONMENT" => "production",
+      "APNS_ENVIRONMENT" => "production",
       "APP_REVIEW_AUTH_ENABLED" => "true",
       "APP_REVIEW_AUTH_PHONE" => review_phone,
       "APP_REVIEW_AUTH_OTP" => review_otp

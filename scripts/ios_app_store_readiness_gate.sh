@@ -45,6 +45,18 @@ grep -q '<string>FlutterSceneDelegate</string>' ios/Runner/Info.plist ||
   fail 'Flutter UIScene lifecycle configuration is missing.'
 grep -q '<key>CFBundleAllowMixedLocalizations</key>' ios/Runner/Info.plist ||
   fail 'Apple-platform share-sheet localization support is missing.'
+plutil -extract UIBackgroundModes json -o - ios/Runner/Info.plist | grep -q 'remote-notification' ||
+  fail 'Remote-notification background mode is missing.'
+[[ "$(plutil -extract aps-environment raw -o - ios/Runner/Runner.entitlements)" == '$(APS_ENVIRONMENT)' ]] ||
+  fail 'APNs entitlement is missing or not configuration-driven.'
+[[ "$(plutil -extract CollectAPNSEnvironment raw -o - ios/Runner/Info.plist)" == '$(APS_ENVIRONMENT)' ]] ||
+  fail 'APNs runtime environment is not aligned with the signed entitlement.'
+grep -q 'com.apple.Push' ios/Runner.xcodeproj/project.pbxproj ||
+  fail 'Xcode Push Notifications capability is missing.'
+grep -q '^APS_ENVIRONMENT=production$' ios/Flutter/Release-production.xcconfig ||
+  fail 'Production Release APNs environment is not production.'
+grep -q 'APNS_ENVIRONMENT' fastlane/Fastfile ||
+  fail 'Fastlane production Dart environment does not declare APNs production.'
 
 plutil -convert json -o - ios/Runner/PrivacyInfo.xcprivacy | ruby -r json -e '
   manifest = JSON.parse($stdin.read)

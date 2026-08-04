@@ -1871,8 +1871,9 @@ class _PermissionSequenceNotificationService
   }
 
   @override
-  Future<void> registerDevice(CollectRepository repository) async {
+  Future<bool> registerDevice(CollectRepository repository) async {
     registrationCalls += 1;
+    return true;
   }
 
   @override

@@ -75,6 +75,7 @@ class _ContributionFlowScreenState
         children: [
           _ContributionHeader(
             title: collection.title,
+            stepLabel: 'Setup needed',
             onBack: () => context.go('/groups/${widget.collectionId}'),
           ),
           MinimalStatePanel(
@@ -132,19 +133,7 @@ class _ContributionFlowScreenState
                 CollectButton(
                   label: 'Review contribution',
                   icon: CollectIcons.arrowForward,
-                  onPressed: () {
-                    final enteredAmount = _amountValue;
-                    if (enteredAmount <= 0) {
-                      setState(() => _error = 'Enter an amount above zero.');
-                      return;
-                    }
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    setState(() {
-                      _reviewing = true;
-                      _error = null;
-                    });
-                    _showStartOfCurrentStep();
-                  },
+                  onPressed: _reviewContribution,
                   expand: true,
                 ),
               ],
@@ -152,6 +141,9 @@ class _ContributionFlowScreenState
       children: [
         _ContributionHeader(
           title: collection.title,
+          stepLabel: _reviewing
+              ? 'Step 2 of 2 · Review'
+              : 'Step 1 of 2 · Amount',
           onBack: () => context.go('/groups/${widget.collectionId}'),
         ),
         if (!_reviewing) ...[
@@ -160,9 +152,13 @@ class _ContributionFlowScreenState
             amount: _amountValue,
             quickAmounts: const [],
             error: _error,
+            label: 'Contribution amount',
+            detail:
+                'For ${collection.title}. You will confirm the MoMo destination next.',
             showCurrencyChip: true,
             showQuickAmounts: false,
             onQuickAmount: (_) {},
+            onSubmitted: _reviewContribution,
           ),
         ] else ...[
           PaymentReviewSummary(
@@ -203,6 +199,20 @@ class _ContributionFlowScreenState
         ],
       ],
     );
+  }
+
+  void _reviewContribution() {
+    final enteredAmount = _amountValue;
+    if (enteredAmount <= 0) {
+      setState(() => _error = 'Enter an amount above zero.');
+      return;
+    }
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _reviewing = true;
+      _error = null;
+    });
+    _showStartOfCurrentStep();
   }
 
   Future<void> _createIntent() async {
@@ -311,9 +321,14 @@ class _ContributionFlowScreenState
 }
 
 class _ContributionHeader extends StatelessWidget {
-  const _ContributionHeader({required this.title, required this.onBack});
+  const _ContributionHeader({
+    required this.title,
+    required this.stepLabel,
+    required this.onBack,
+  });
 
   final String title;
+  final String stepLabel;
   final VoidCallback onBack;
 
   @override
@@ -337,17 +352,34 @@ class _ContributionHeader extends StatelessWidget {
         ),
         CollectSpacing.gapW12,
         Expanded(
-          child: Text(
-            title,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: foreground,
-              fontWeight: CollectTypography.weightBold,
-              height: CollectTypography.leadingSolid,
-              letterSpacing: CollectTypography.trackingDefault,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                stepLabel.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: CollectTypography.eyebrowLabel(
+                  foreground.withValues(alpha: 0.72),
+                ),
+              ),
+              Semantics(
+                header: true,
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: foreground,
+                    fontWeight: CollectTypography.weightBold,
+                    height: CollectTypography.leadingSolid,
+                    letterSpacing: CollectTypography.trackingDefault,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

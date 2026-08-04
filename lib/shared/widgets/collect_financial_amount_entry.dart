@@ -11,6 +11,7 @@ class AmountEntryPanel extends StatefulWidget {
     this.error,
     this.showCurrencyChip = true,
     this.showQuickAmounts = true,
+    this.onSubmitted,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class AmountEntryPanel extends StatefulWidget {
   final String? error;
   final bool showCurrencyChip;
   final bool showQuickAmounts;
+  final VoidCallback? onSubmitted;
 
   @override
   State<AmountEntryPanel> createState() => _AmountEntryPanelState();
@@ -172,6 +174,12 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
                       controller: widget.controller,
                       focusNode: _amountFocusNode,
                       keyboardType: TextInputType.number,
+                      textInputAction: widget.onSubmitted == null
+                          ? TextInputAction.next
+                          : TextInputAction.done,
+                      onSubmitted: widget.onSubmitted == null
+                          ? null
+                          : (_) => widget.onSubmitted!(),
                       inputFormatters: const [_RwfAmountInputFormatter()],
                       style: amountStyle,
                       maxLines: 1,

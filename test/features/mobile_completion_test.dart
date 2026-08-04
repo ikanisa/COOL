@@ -579,6 +579,31 @@ void main() {
     expect(repository.state.paymentIntents, hasLength(1));
   });
 
+  testWidgets('contribution amount advances from the native keyboard', (
+    tester,
+  ) async {
+    await pumpRoute(
+      tester,
+      '/groups/col-church/contribute',
+      legalConsentAccepted: true,
+    );
+
+    expect(find.text('STEP 1 OF 2 · AMOUNT'), findsOneWidget);
+    expect(
+      find.text(
+        'For St Michel building fund. You will confirm the MoMo destination next.',
+      ),
+      findsOneWidget,
+    );
+    await tester.enterText(find.byType(TextField).first, '5000');
+    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await tester.pump();
+
+    expect(find.text('STEP 2 OF 2 · REVIEW'), findsOneWidget);
+    expect(find.text('Review contribution'), findsOneWidget);
+    expect(find.text('RWF 5,000'), findsOneWidget);
+  });
+
   testWidgets('contribution review explains an expired matching request', (
     tester,
   ) async {

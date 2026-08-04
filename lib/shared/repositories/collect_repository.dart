@@ -74,8 +74,9 @@ class CollectRepository extends StateNotifier<CollectState> {
     CollectState initialState,
     this._allowLocalWrites,
     this._offlineCache, {
-    this._appReviewDemoEnabled = false,
-  }) : super(initialState);
+    bool appReviewDemoEnabled = false,
+  }) : _appReviewDemoEnabled = appReviewDemoEnabled,
+       super(initialState);
 
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
@@ -84,6 +85,8 @@ class CollectRepository extends StateNotifier<CollectState> {
   final bool _appReviewDemoEnabled;
   final CollectOfflineCache _offlineCache;
   RealtimeInvalidationSubscription? _realtimeSync;
+  String? _registeredNotificationProvider;
+  String? _registeredNotificationToken;
 
   static const _uuid = Uuid();
   static final _publicIds = PublicIdGenerator(random: Random(491));
@@ -258,7 +261,26 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   Future<void> signOut() async {
+    final supabase = _supabase;
+    final provider = _registeredNotificationProvider;
+    final token = _registeredNotificationToken;
+    if (supabase != null &&
+        supabase.auth.currentUser != null &&
+        provider != null &&
+        token != null) {
+      try {
+        await supabase.rpc<void>(
+          'unregister_notification_device',
+          params: {'p_provider': provider, 'p_token': token},
+        );
+      } catch (_) {
+        // Server-side token reassignment prevents cross-account delivery if a
+        // best-effort sign-out cleanup cannot reach the backend.
+      }
+    }
     await _supabase?.auth.signOut();
+    _registeredNotificationProvider = null;
+    _registeredNotificationToken = null;
     state = _emptyCollectState();
   }
 
@@ -322,20 +344,26 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<void> registerNotificationDevice({
     required String platform,
-    required String tokenHash,
-    String? tokenLastFour,
+    required String provider,
+    required String token,
+    required String environment,
   }) async {
     _requireProfile();
     final supabase = _supabase;
     if (supabase == null || supabase.auth.currentUser == null) return;
-    await supabase.rpc<void>(
+    await supabase.rpc<dynamic>(
       'register_notification_device',
       params: {
         'p_platform': platform,
-        'p_token_hash': tokenHash,
-        'p_token_last_four': tokenLastFour,
+        'p_provider': provider,
+        'p_token': token,
+        'p_environment': environment,
+        'p_locale': 'en',
+        'p_app_version': null,
       },
     );
+    _registeredNotificationProvider = provider;
+    _registeredNotificationToken = token;
   }
 
   Future<void> createSupportRequest({

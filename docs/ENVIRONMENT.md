@@ -20,6 +20,8 @@ Flutter dart defines:
 - `SUPABASE_ANON_KEY`
 - `APP_PUBLIC_URL`
 - `APP_ENVIRONMENT`
+- `APNS_ENVIRONMENT` (`sandbox` for development/staging, `production` only for
+  the App Store production Release build)
 - `ENABLE_SMS_READER`
 - `ENABLE_ANDROID_SMS_ACCESS`
 
@@ -43,6 +45,11 @@ Supabase function secrets:
 - `SMS_INGEST_HMAC_SECRET`
 - `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON` (server-only)
 - `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` (server-only fallback for Play Integrity)
+- `APNS_KEY_ID` (server-only Apple push key identifier)
+- `APNS_TEAM_ID` (server-only Apple Developer team identifier)
+- `APNS_BUNDLE_ID` (`app.cool.mobile` in production)
+- `APNS_PRIVATE_KEY_BASE64` (server-only base64 encoding of the complete Apple
+  `.p8` private-key PEM file)
 
 The WhatsApp hook also accepts the Mobi/Memories-compatible aliases
 `WHATSAPP_CLOUD_ACCESS_TOKEN`, `WHATSAPP_CLOUD_PHONE_NUMBER_ID`,

@@ -8,6 +8,7 @@ ruby <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "allocate-payment" => :internal,
+  "dispatch-notifications" => :internal,
   "parse-payment-sms" => :internal,
   "ingest-payment-sms" => :user,
   "send-notification" => :internal,

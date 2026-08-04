@@ -6,6 +6,9 @@ Implemented production functions:
 - `ingest-payment-sms`: MoMo SMS ingestion into `raw_payment_sms`.
 - `parse-payment-sms`: service-only OpenAI parser for MoMo SMS facts.
 - `allocate-payment`: service-only wrapper around Postgres allocation.
+- `send-notification`: internal, preference-gated notification event enqueue.
+- `dispatch-notifications`: internal APNs queue dispatcher with bounded retries,
+  invalid-token retirement, and per-attempt evidence.
 - `stripe-create-customer`: authenticated Stripe Customer setup for diaspora
   rails.
 - `stripe-create-setup-intent`: authenticated saved-bank setup for ACH Direct
@@ -28,6 +31,8 @@ supabase functions deploy auth-send-whatsapp-otp --no-verify-jwt
 supabase functions deploy ingest-payment-sms
 supabase functions deploy parse-payment-sms
 supabase functions deploy allocate-payment
+supabase functions deploy send-notification
+supabase functions deploy dispatch-notifications
 supabase functions deploy stripe-create-customer
 supabase functions deploy stripe-create-setup-intent
 supabase functions deploy stripe-create-diaspora-contribution
@@ -40,6 +45,10 @@ Security notes:
   WhatsApp Cloud API tokens, or SMS gateway secrets.
 - `parse-payment-sms` and `allocate-payment` require
   `INTERNAL_FUNCTION_SECRET`.
+- `send-notification` and `dispatch-notifications` require
+  `INTERNAL_FUNCTION_SECRET`. APNs delivery additionally requires
+  `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_BUNDLE_ID`, and
+  `APNS_PRIVATE_KEY_BASE64` in the Supabase secret store.
 - `ingest-payment-sms` verifies the receiver can ingest for the target receiver
   MoMo hash or group receiver context before queuing parser work.
 - Parser output is evidence for deterministic Postgres allocation. Ledger

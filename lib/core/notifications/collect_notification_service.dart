@@ -2,49 +2,69 @@ import 'dart:async';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../shared/repositories/collect_repository.dart';
-import '../security/hash_utils.dart';
 
 final collectNotificationServiceProvider = Provider<CollectNotificationService>(
   (ref) => CollectNotificationService(),
 );
 
+class CollectNotificationIntent {
+  const CollectNotificationIntent({required this.deepLink, this.eventId});
+
+  final String deepLink;
+  final String? eventId;
+}
+
 class CollectNotificationRegistration {
   const CollectNotificationRegistration({
     required this.platform,
-    required this.tokenHash,
-    required this.tokenLastFour,
+    required this.provider,
+    required this.token,
+    required this.environment,
   });
 
   final String platform;
-  final String tokenHash;
-  final String tokenLastFour;
+  final String provider;
+  final String token;
+  final String environment;
 }
 
 class CollectNotificationService {
   CollectNotificationService({
     FlutterLocalNotificationsPlugin? plugin,
-    SharedPreferencesAsync? preferences,
-  }) : this._(plugin ?? FlutterLocalNotificationsPlugin(), preferences);
+    MethodChannel? nativeChannel,
+  }) : this._(
+         plugin ?? FlutterLocalNotificationsPlugin(),
+         nativeChannel ?? const MethodChannel(_nativeChannelName),
+       );
 
-  CollectNotificationService._(this._plugin, this._preferences);
+  CollectNotificationService._(this._plugin, this._nativeChannel);
 
-  static const _installTokenKey = 'collect.notification.install_token.v1';
+  static const _nativeChannelName = 'app.cool.mobile/notifications';
   static const _androidChannelId = 'collect_group_updates';
   static const _androidChannelName = 'Collect group updates';
   static const _androidChannelDescription =
       'Contribution confirmations, payment reminders, group updates, and security notices.';
   static const _positiveNotificationIdMask = 2147483647;
+  static const _apnsEnvironment = String.fromEnvironment(
+    'APNS_ENVIRONMENT',
+    defaultValue: 'sandbox',
+  );
 
   final FlutterLocalNotificationsPlugin _plugin;
-  final SharedPreferencesAsync? _preferences;
-  final _uuid = const Uuid();
+  final MethodChannel _nativeChannel;
+  final _tapPayloads = StreamController<CollectNotificationIntent>.broadcast();
   Future<void>? _initializing;
+  Completer<String?>? _remoteTokenWaiter;
+  CollectRepository? _registrationRepository;
+  String? _remoteToken;
+
+  Stream<CollectNotificationIntent> get notificationTapPayloads =>
+      _tapPayloads.stream;
 
   Future<void> initialize() {
     return _initializing ??= _initialize();
@@ -60,7 +80,16 @@ class CollectNotificationService {
         requestSoundPermission: false,
       );
       const settings = InitializationSettings(android: android, iOS: ios);
-      await _plugin.initialize(settings: settings);
+      await _plugin.initialize(
+        settings: settings,
+        onDidReceiveNotificationResponse: (response) {
+          _emitTapPayload(response.payload);
+        },
+      );
+      final launchDetails = await _plugin.getNotificationAppLaunchDetails();
+      if (launchDetails?.didNotificationLaunchApp ?? false) {
+        _emitTapPayload(launchDetails?.notificationResponse?.payload);
+      }
       await _plugin
           .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin
@@ -73,6 +102,19 @@ class CollectNotificationService {
               importance: Importance.high,
             ),
           );
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        _nativeChannel.setMethodCallHandler(_handleNativeMethod);
+        try {
+          final initial = await _nativeChannel.invokeMethod<Object?>(
+            'getInitialNotification',
+          );
+          _emitNativeIntent(initial);
+        } on PlatformException {
+          // Remote notifications remain unavailable until native setup exists.
+        } on MissingPluginException {
+          // Widget tests and non-iOS builds do not expose the native channel.
+        }
+      }
     } catch (_) {
       // Widget tests and unsupported platforms do not register native plugins.
     }
@@ -130,22 +172,52 @@ class CollectNotificationService {
     }
   }
 
-  Future<CollectNotificationRegistration> registration() async {
-    final token = await _installToken();
+  Future<CollectNotificationRegistration?> registration() async {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) return null;
+    await initialize();
+    final token = await _requestRemoteToken();
+    if (token == null || token.isEmpty) return null;
+    final environment = await _resolveNativeEnvironment();
     return CollectNotificationRegistration(
-      platform: _platformName,
-      tokenHash: HashUtils.sha256Hex('collect-notification:$token'),
-      tokenLastFour: token.substring(token.length - 4),
+      platform: 'ios',
+      provider: 'apns',
+      token: token,
+      environment: environment,
     );
   }
 
-  Future<void> registerDevice(CollectRepository repository) async {
-    final registration = await this.registration();
-    await repository.registerNotificationDevice(
-      platform: registration.platform,
-      tokenHash: registration.tokenHash,
-      tokenLastFour: registration.tokenLastFour,
-    );
+  Future<String> _resolveNativeEnvironment() async {
+    var environment = _apnsEnvironment;
+    try {
+      final nativeEnvironment = await _nativeChannel.invokeMethod<String?>(
+        'getRemoteEnvironment',
+      );
+      if (nativeEnvironment == 'sandbox' || nativeEnvironment == 'production') {
+        environment = nativeEnvironment!;
+      }
+    } on PlatformException {
+      // The compile-time environment remains the controlled fallback.
+    } on MissingPluginException {
+      // Non-iOS and widget-test builds do not expose native entitlements.
+    }
+    return environment;
+  }
+
+  Future<bool> registerDevice(CollectRepository repository) async {
+    _registrationRepository = repository;
+    try {
+      final registration = await this.registration();
+      if (registration == null) return false;
+      await repository.registerNotificationDevice(
+        platform: registration.platform,
+        provider: registration.provider,
+        token: registration.token,
+        environment: registration.environment,
+      );
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<void> showNotification({
@@ -182,13 +254,86 @@ class CollectNotificationService {
     }
   }
 
-  Future<String> _installToken() async {
-    final preferences = _preferences ?? SharedPreferencesAsync();
-    final existing = await preferences.getString(_installTokenKey);
-    if (existing != null && existing.trim().isNotEmpty) return existing;
-    final token = '$_platformName-${_uuid.v4()}';
-    await preferences.setString(_installTokenKey, token);
-    return token;
+  Future<String?> _requestRemoteToken() async {
+    final cached = _remoteToken;
+    if (cached != null && cached.isNotEmpty) return cached;
+    try {
+      final immediate = await _nativeChannel.invokeMethod<String?>(
+        'requestRemoteRegistration',
+      );
+      if (immediate != null && immediate.isNotEmpty) {
+        _remoteToken = immediate;
+        return immediate;
+      }
+      final waiter = _remoteTokenWaiter ??= Completer<String?>();
+      return await waiter.future.timeout(
+        const Duration(seconds: 8),
+        onTimeout: () => null,
+      );
+    } on PlatformException {
+      return null;
+    } on MissingPluginException {
+      return null;
+    }
+  }
+
+  Future<void> _handleNativeMethod(MethodCall call) async {
+    switch (call.method) {
+      case 'remoteToken':
+        final token = call.arguments is String
+            ? (call.arguments as String).trim()
+            : '';
+        if (token.isEmpty) return;
+        _remoteToken = token;
+        final waiter = _remoteTokenWaiter;
+        if (waiter != null && !waiter.isCompleted) waiter.complete(token);
+        final repository = _registrationRepository;
+        if (repository != null) {
+          unawaited(_registerRemoteToken(repository, token));
+        }
+      case 'notificationTap':
+        _emitNativeIntent(call.arguments);
+    }
+  }
+
+  Future<void> _registerRemoteToken(
+    CollectRepository repository,
+    String token,
+  ) async {
+    try {
+      await repository.registerNotificationDevice(
+        platform: 'ios',
+        provider: 'apns',
+        token: token,
+        environment: await _resolveNativeEnvironment(),
+      );
+    } catch (_) {
+      // A later token refresh or app resume retries registration.
+    }
+  }
+
+  void _emitTapPayload(String? payload) {
+    final target = normalizeNotificationDeepLink(payload);
+    if (target != null && !_tapPayloads.isClosed) {
+      _tapPayloads.add(CollectNotificationIntent(deepLink: target));
+    }
+  }
+
+  void _emitNativeIntent(Object? payload) {
+    if (payload is String) {
+      _emitTapPayload(payload);
+      return;
+    }
+    if (payload is! Map) return;
+    final target = normalizeNotificationDeepLink(payload['deep_link']);
+    if (target == null || _tapPayloads.isClosed) return;
+    final rawEventId = payload['collect_event_id'];
+    final eventId = rawEventId is String && rawEventId.trim().isNotEmpty
+        ? rawEventId.trim()
+        : null;
+    _tapPayloads.add(
+      CollectNotificationIntent(deepLink: target, eventId: eventId),
+    );
   }
 
   int _notificationId(String title, String body) {
@@ -196,13 +341,26 @@ class CollectNotificationService {
     return digest.take(4).fold<int>(0, (value, byte) => (value << 8) + byte) &
         _positiveNotificationIdMask;
   }
+}
 
-  String get _platformName {
-    if (kIsWeb) return 'web';
-    return switch (defaultTargetPlatform) {
-      TargetPlatform.android => 'android',
-      TargetPlatform.iOS => 'ios',
-      _ => 'web',
-    };
+String? normalizeNotificationDeepLink(Object? raw) {
+  if (raw is! String) return null;
+  final value = raw.trim();
+  if (value.isEmpty || value.length > 512) return null;
+  final uri = Uri.tryParse(value);
+  if (uri == null || uri.hasScheme || uri.hasAuthority || uri.hasFragment) {
+    return null;
   }
+  final path = uri.path;
+  const exact = <String>{
+    '/home',
+    '/activity',
+    '/groups',
+    '/settings/notifications',
+  };
+  final groupRoute = RegExp(
+    r'^/groups/[A-Za-z0-9_-]+(?:/(?:ledger|members|profile))?$',
+  );
+  if (!exact.contains(path) && !groupRoute.hasMatch(path)) return null;
+  return uri.hasQuery ? '$path?${uri.query}' : path;
 }

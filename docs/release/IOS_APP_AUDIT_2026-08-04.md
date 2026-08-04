@@ -88,6 +88,22 @@ remain useful historical evidence, but they do not certify this changed source.
 | App icon and materials | Opaque complete icon set; Flutter surfaces retain legible product hierarchy | Dark/clear/tinted iOS 26 icon variants need approved layered brand assets; do not synthesize them |
 | Store review | Reviewer access is deterministic, seeded, and separated from live customer authentication | Human review notes, credentials, legal entity, age rating, trader status, and final submission remain open |
 
+## Mobbin benchmark follow-up
+
+The signed-in Mobbin library was reviewed against Splitwise's current iOS
+screens and its onboarding, adding-an-expense, split-options, group-detail, and
+activity flow taxonomy. Collect already had the strongest transferable patterns:
+group-first context, a dominant financial amount, compact activity, explicit
+review, and a single anchored primary action.
+
+The contribution journey now adds a visible two-step label, explains that the
+MoMo destination is confirmed next, preserves one editable semantic control,
+and advances from the native keyboard's Done action. Receipt
+itemisation, expense-splitting modes, debt balances, multi-page promotional
+onboarding, and reminder features were not copied because they do not match
+Collect's verified-contribution model. No Mobbin or third-party visual assets
+were imported.
+
 ## Evidence completed
 
 - `flutter analyze --no-pub`: pass after iOS changes.

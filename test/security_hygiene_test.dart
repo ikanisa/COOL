@@ -83,47 +83,55 @@ void main() {
     );
   });
 
-  test(
-    'native notification runtime is wired without remote-push overclaiming',
-    () {
-      final pubspec = File('pubspec.yaml').readAsStringSync();
-      final service = File(
-        'lib/core/notifications/collect_notification_service.dart',
-      ).readAsStringSync();
-      final nativePermissionSheets = File(
-        'lib/features/status/native_permission_sheets.dart',
-      ).readAsStringSync();
-      final androidGradle = File(
-        'android/app/build.gradle.kts',
-      ).readAsStringSync();
-      final repository = File(
-        'lib/shared/repositories/collect_repository.dart',
-      ).readAsStringSync();
-      final entitlements = File(
-        'ios/Runner/Runner.entitlements',
-      ).readAsStringSync();
+  test('native notification runtime is wired for local and APNs delivery', () {
+    final pubspec = File('pubspec.yaml').readAsStringSync();
+    final service = File(
+      'lib/core/notifications/collect_notification_service.dart',
+    ).readAsStringSync();
+    final nativePermissionSheets = File(
+      'lib/features/status/native_permission_sheets.dart',
+    ).readAsStringSync();
+    final androidGradle = File(
+      'android/app/build.gradle.kts',
+    ).readAsStringSync();
+    final repository = File(
+      'lib/shared/repositories/collect_repository.dart',
+    ).readAsStringSync();
+    final entitlements = File(
+      'ios/Runner/Runner.entitlements',
+    ).readAsStringSync();
+    final appDelegate = File('ios/Runner/AppDelegate.swift').readAsStringSync();
 
-      expect(pubspec, contains('flutter_local_notifications:'));
-      expect(service, contains('FlutterLocalNotificationsPlugin'));
-      expect(service, contains('requestNotificationsPermission'));
-      expect(service, contains('IOSFlutterLocalNotificationsPlugin'));
-      expect(service, contains('registerDevice'));
-      expect(service, contains('showNotification'));
-      expect(nativePermissionSheets, contains('showNotificationSettingsSheet'));
-      expect(nativePermissionSheets, contains('requestNativeNotifications'));
-      expect(
-        nativePermissionSheets,
-        contains('collectNotificationServiceProvider'),
-      );
-      expect(nativePermissionSheets, contains('registerDevice(repository)'));
-      expect(nativePermissionSheets, contains('showNotification('));
-      expect(nativePermissionSheets, contains("payload: '/home'"));
-      expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
-      expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
-      expect(repository, contains('register_notification_device'));
-      expect(entitlements, isNot(contains('aps-environment')));
-    },
-  );
+    expect(pubspec, contains('flutter_local_notifications:'));
+    expect(service, contains('FlutterLocalNotificationsPlugin'));
+    expect(service, contains('requestNotificationsPermission'));
+    expect(service, contains('IOSFlutterLocalNotificationsPlugin'));
+    expect(service, contains('registerDevice'));
+    expect(service, contains('showNotification'));
+    expect(nativePermissionSheets, contains('showNotificationSettingsSheet'));
+    expect(nativePermissionSheets, contains('requestNativeNotifications'));
+    expect(
+      nativePermissionSheets,
+      contains('collectNotificationServiceProvider'),
+    );
+    expect(nativePermissionSheets, contains('registerDevice(repository)'));
+    expect(nativePermissionSheets, contains('showNotification('));
+    expect(nativePermissionSheets, contains("payload: '/home'"));
+    expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
+    expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
+    expect(repository, contains('register_notification_device'));
+    expect(service, contains('requestRemoteRegistration'));
+    expect(service, contains('notificationTapPayloads'));
+    expect(service, contains('normalizeNotificationDeepLink'));
+    expect(repository, contains('unregister_notification_device'));
+    expect(entitlements, contains('aps-environment'));
+    expect(appDelegate, contains('registerForRemoteNotifications'));
+    expect(
+      appDelegate,
+      contains('didRegisterForRemoteNotificationsWithDeviceToken'),
+    );
+    expect(appDelegate, contains('notificationTap'));
+  });
 
   test('iOS permission declarations match implemented features only', () {
     final podfile = File('ios/Podfile').readAsStringSync();
@@ -150,7 +158,9 @@ void main() {
     expect(podfile, contains('PERMISSION_PHOTOS_ADD_ONLY=0'));
     expect(entitlements, contains('applinks:collect.ikanisa.com'));
     expect(entitlements, isNot(contains('com.apple.developer.nfc')));
-    expect(entitlements, isNot(contains('aps-environment')));
+    expect(entitlements, contains('aps-environment'));
+    expect(infoPlist, contains('remote-notification'));
+    expect(xcodeProject, contains('com.apple.Push'));
     expect(privacyManifest, contains('<key>NSPrivacyTracking</key>'));
     expect(privacyManifest, contains('<false/>'));
     for (final dataType in <String>[

@@ -18,6 +18,26 @@ type NotificationRequest = {
   locale?: string;
 };
 
+async function requestDispatch(): Promise<boolean> {
+  try {
+    const response = await fetch(
+      `${Deno.env.get("SUPABASE_URL")}/functions/v1/dispatch-notifications`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+          "Content-Type": "application/json",
+          "x-collect-signature": Deno.env.get("INTERNAL_FUNCTION_SECRET") ?? "",
+        },
+        body: JSON.stringify({ limit: 100 }),
+      },
+    );
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -49,10 +69,12 @@ Deno.serve(async (req) => {
         },
       );
       if (error) throw error;
+      const dispatchRequested = data === null ? false : await requestDispatch();
       return jsonResponse({
         ok: data !== null,
         skipped: data === null,
         notification_event_id: data,
+        dispatch_requested: dispatchRequested,
       });
     }
     if (!title || !body || !type) {
@@ -70,10 +92,12 @@ Deno.serve(async (req) => {
       },
     );
     if (error) throw error;
+    const dispatchRequested = data === null ? false : await requestDispatch();
     return jsonResponse({
       ok: data !== null,
       skipped: data === null,
       notification_event_id: data,
+      dispatch_requested: dispatchRequested,
     });
   } catch (error) {
     const authStatus = authErrorStatus(error);

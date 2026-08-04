@@ -133,8 +133,17 @@ void main() {
   final notificationTemplatesRuntime = File(
     'supabase/migrations/20260703225455_notification_templates_runtime.sql',
   ).readAsStringSync();
+  final nativePushDelivery = File(
+    'supabase/migrations/20260804150000_native_push_delivery.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
+  ).readAsStringSync();
+  final dispatchNotificationsFunction = File(
+    'supabase/functions/dispatch-notifications/index.ts',
+  ).readAsStringSync();
+  final apnsTransport = File(
+    'supabase/functions/_shared/apns.ts',
   ).readAsStringSync();
   final readiness = File(
     'scripts/supabase_production_readiness.sh',
@@ -496,6 +505,56 @@ void main() {
     );
     expect(sendNotificationFunction, contains('p_template_key: templateKey'));
     expect(sendNotificationFunction, contains('payload.context ?? {}'));
+  });
+
+  test('native APNs delivery is durable, preference-gated, and observable', () {
+    expect(
+      nativePushDelivery,
+      contains('provider in (\'legacy_local\', \'apns\')'),
+    );
+    expect(nativePushDelivery, contains('legacy_token_not_deliverable'));
+    expect(
+      nativePushDelivery,
+      contains('notification_device_tokens_provider_hash_uidx'),
+    );
+    expect(
+      nativePushDelivery,
+      contains('revoke all on notification_device_tokens'),
+    );
+    expect(
+      nativePushDelivery,
+      contains('create table if not exists notification_deliveries'),
+    );
+    expect(
+      nativePushDelivery,
+      contains('create table if not exists notification_delivery_attempts'),
+    );
+    expect(nativePushDelivery, contains('for update of delivery skip locked'));
+    expect(nativePushDelivery, contains('claim_timeout'));
+    expect(nativePushDelivery, contains('complete_notification_delivery'));
+    expect(nativePushDelivery, contains("'BadDeviceToken'"));
+    expect(
+      nativePushDelivery,
+      contains('enqueue_contribution_confirmation_notification'),
+    );
+    expect(nativePushDelivery, contains('contribution.confirmed.default'));
+    expect(
+      dispatchNotificationsFunction,
+      contains('requireInternalRequest(req)'),
+    );
+    expect(
+      dispatchNotificationsFunction,
+      contains('claim_notification_deliveries'),
+    );
+    expect(
+      dispatchNotificationsFunction,
+      contains('complete_notification_delivery'),
+    );
+    expect(dispatchNotificationsFunction, isNot(contains('console.log')));
+    expect(apnsTransport, contains('https://api.push.apple.com'));
+    expect(apnsTransport, contains('https://api.sandbox.push.apple.com'));
+    expect(apnsTransport, contains('apns-push-type'));
+    expect(sendNotificationFunction, contains('dispatch_requested'));
   });
 
   test(
@@ -1710,6 +1769,7 @@ void main() {
     expect(readiness, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
     expect(readiness, contains('scripts/supabase_schema_inventory.sh'));
     expect(readiness, contains('send-notification'));
+    expect(readiness, contains('dispatch-notifications'));
     expect(
       readiness,
       contains("('authenticated', 'app_realtime_events', 'SELECT')"),
@@ -1859,6 +1919,7 @@ void main() {
     expect(evidenceBundle, contains('.cache/supabase_go_live_evidence'));
     expect(evidenceBundle, isNot(contains(r'cat .env')));
     expect(edgeAuthUat, contains('"send-notification" => :internal'));
+    expect(edgeAuthUat, contains('"dispatch-notifications" => :internal'));
     expect(goLiveGate, contains('go_live_approved'));
     expect(goLiveGate, contains('SUPABASE_GO_LIVE_STATUS_JSON'));
     expect(goLiveGate, contains('SUPABASE_GO_LIVE_READINESS_JSON'));

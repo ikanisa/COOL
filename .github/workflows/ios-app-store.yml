@@ -101,6 +101,9 @@ jobs:
           mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
           security cms -D -i "$PROFILE_PATH" > "$RUNNER_TEMP/profile.plist"
           PROFILE_UUID=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$RUNNER_TEMP/profile.plist")
+          PROFILE_APS_ENV=$(/usr/libexec/PlistBuddy -c 'Print Entitlements:aps-environment' "$RUNNER_TEMP/profile.plist")
+          test "$PROFILE_APS_ENV" = "production"
+          /usr/libexec/PlistBuddy -c 'Print Entitlements:com.apple.developer.associated-domains' "$RUNNER_TEMP/profile.plist" >/dev/null
           cp "$PROFILE_PATH" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
 
       - name: Flutter dependencies and checks
@@ -111,7 +114,9 @@ jobs:
           flutter test --no-pub test/features/mobile_completion_test.dart test/shared/collect_repository_test.dart test/security_hygiene_test.dart
 
       - name: Validate iOS App Store package
-        run: ./scripts/ios_app_store_readiness_gate.sh
+        run: |
+          ./scripts/notification_readiness_gate.sh
+          ./scripts/ios_app_store_readiness_gate.sh
 
       - name: Stage App Store screenshots
         run: bundle exec fastlane ios prepare_app_store_assets

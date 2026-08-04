@@ -10,6 +10,7 @@ cd "$ROOT_DIR"
 EXPECTED_FUNCTIONS=(
   allocate-payment
   auth-send-whatsapp-otp
+  dispatch-notifications
   ingest-payment-sms
   parse-payment-sms
   send-notification

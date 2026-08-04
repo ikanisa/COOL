@@ -129,7 +129,7 @@ Future<bool> requestNativeNotifications(WidgetRef ref) async {
   final granted = await service.requestPermission();
   if (!granted) return false;
   final repository = ref.read(collectRepositoryProvider.notifier);
-  await service.registerDevice(repository);
+  unawaited(service.registerDevice(repository));
   await service.showNotification(
     title: 'Collect notifications enabled',
     body: 'Payment reminders, group updates, and security notices are enabled.',

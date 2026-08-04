@@ -3,3 +3,4 @@
 
 APP_BUNDLE_IDENTIFIER=app.cool.mobile.staging
 APP_DISPLAY_NAME=Collect [STG]
+APS_ENVIRONMENT=development

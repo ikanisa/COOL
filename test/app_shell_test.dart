@@ -21,6 +21,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('notification deep links are constrained to existing safe routes', () {
+    expect(normalizeNotificationDeepLink('/home'), '/home');
+    expect(
+      normalizeNotificationDeepLink('/groups/group-1/ledger'),
+      '/groups/group-1/ledger',
+    );
+    expect(
+      normalizeNotificationDeepLink('/settings/notifications'),
+      '/settings/notifications',
+    );
+    expect(normalizeNotificationDeepLink('https://evil.example/home'), isNull);
+    expect(normalizeNotificationDeepLink('/settings/account/delete'), isNull);
+    expect(normalizeNotificationDeepLink('/groups/group-1/share'), isNull);
+  });
+
   testWidgets('app opens with Collect launch splash', (tester) async {
     final semantics = tester.ensureSemantics();
     try {
@@ -158,6 +173,44 @@ void main() {
       container.read(notificationPermissionStatusProvider),
       CollectDevicePermissionStatus.denied,
     );
+  });
+
+  testWidgets('notification taps navigate only through the safe route bridge', (
+    tester,
+  ) async {
+    final notifications = _LifecycleNotificationService(enabled: true);
+    final router = createAppRouter(initialLocation: '/home');
+    final container = ProviderContainer(
+      overrides: [
+        appRouterProvider.overrideWithValue(router),
+        appEnvProvider.overrideWithValue(_noSmsAccessEnv),
+        collectRepositoryProvider.overrideWith(
+          (ref) => CollectRepository.fixture(),
+        ),
+        collectNotificationServiceProvider.overrideWithValue(notifications),
+      ],
+    );
+    addTearDown(router.dispose);
+    addTearDown(container.dispose);
+    addTearDown(notifications.disposeTestStream);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+    expect(notifications.hasTapListener, isTrue);
+    notifications.emitTap('/settings/notifications');
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(
+      router.routeInformationProvider.value.uri.path,
+      '/settings/notifications',
+    );
+    expect(find.text('Contribution confirmations'), findsOneWidget);
   });
 
   testWidgets(
@@ -1225,6 +1278,20 @@ class _LifecycleNotificationService extends CollectNotificationService {
   bool throwOnPermissionCheck = false;
   int initializeCalls = 0;
   int permissionChecks = 0;
+  final _tapController = StreamController<CollectNotificationIntent>.broadcast(
+    sync: true,
+  );
+
+  @override
+  Stream<CollectNotificationIntent> get notificationTapPayloads =>
+      _tapController.stream;
+
+  void emitTap(String target) =>
+      _tapController.add(CollectNotificationIntent(deepLink: target));
+
+  bool get hasTapListener => _tapController.hasListener;
+
+  void disposeTestStream() => _tapController.close();
 
   @override
   Future<void> initialize() async {

@@ -36,26 +36,82 @@ class CollectApp extends ConsumerWidget {
         systemNavigationBarDividerColor: CollectColors.transparentColor,
       ),
       child: _PendingSharedGroupIntentRecoveryHost(
-        child: _SmsAccessSyncHost(
-          child: MaterialApp.router(
-            title: 'Collect',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light(),
-            darkTheme: AppTheme.dark(),
-            highContrastTheme: AppTheme.highContrastLight(),
-            highContrastDarkTheme: AppTheme.highContrastDark(),
-            themeMode: themeMode,
-            routerConfig: router,
-            builder: (context, child) {
-              return _CollectConnectivityOverlay(
-                child: child ?? const SizedBox.shrink(),
-              );
-            },
+        child: _NotificationIntentHost(
+          child: _SmsAccessSyncHost(
+            child: MaterialApp.router(
+              title: 'Collect',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light(),
+              darkTheme: AppTheme.dark(),
+              highContrastTheme: AppTheme.highContrastLight(),
+              highContrastDarkTheme: AppTheme.highContrastDark(),
+              themeMode: themeMode,
+              routerConfig: router,
+              builder: (context, child) {
+                return _CollectConnectivityOverlay(
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+class _NotificationIntentHost extends ConsumerStatefulWidget {
+  const _NotificationIntentHost({required this.child});
+
+  final Widget child;
+
+  @override
+  ConsumerState<_NotificationIntentHost> createState() =>
+      _NotificationIntentHostState();
+}
+
+class _NotificationIntentHostState
+    extends ConsumerState<_NotificationIntentHost> {
+  StreamSubscription<CollectNotificationIntent>? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    final notifications = ref.read(collectNotificationServiceProvider);
+    _subscription = notifications.notificationTapPayloads.listen(
+      _scheduleNavigation,
+    );
+  }
+
+  @override
+  void dispose() {
+    unawaited(_subscription?.cancel());
+    super.dispose();
+  }
+
+  void _scheduleNavigation(CollectNotificationIntent intent) {
+    final eventId = intent.eventId;
+    if (eventId != null) {
+      unawaited(_markNotificationRead(eventId));
+    }
+    final target = intent.deepLink;
+    final router = ref.read(appRouterProvider);
+    if (router.routeInformationProvider.value.uri.toString() == target) return;
+    router.go(target);
+  }
+
+  Future<void> _markNotificationRead(String eventId) async {
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .markNotificationRead(eventId);
+    } catch (_) {
+      // Navigation remains available if read-receipt sync is temporarily down.
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
 
 class _PendingSharedGroupIntentRecoveryHost extends ConsumerStatefulWidget {
@@ -278,6 +334,8 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
       if (notificationsEnabled) {
         ref.read(notificationPermissionStatusProvider.notifier).state =
             CollectDevicePermissionStatus.granted;
+        final repository = ref.read(collectRepositoryProvider.notifier);
+        unawaited(notifications.registerDevice(repository));
       } else if (permissionState == CollectDevicePermissionStatus.granted) {
         // A previously granted permission becoming disabled is a denial.
         // Preserve both the initial not-requested state and an explicit denial:

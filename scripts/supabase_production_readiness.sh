@@ -10,6 +10,7 @@ cd "$ROOT_DIR"
 EXPECTED_FUNCTIONS=(
   allocate-payment
   auth-send-whatsapp-otp
+  dispatch-notifications
   ingest-payment-sms
   parse-payment-sms
   send-notification
@@ -30,6 +31,10 @@ REQUIRED_SECRETS=(
   INTERNAL_FUNCTION_SECRET
   SMS_INGEST_HMAC_SECRET
   PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON
+  APNS_KEY_ID
+  APNS_TEAM_ID
+  APNS_BUNDLE_ID
+  APNS_PRIVATE_KEY_BASE64
 )
 
 STRIPE_REQUIRED_SECRETS=(
@@ -621,6 +626,7 @@ check_edge_function_auth_contract() {
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "allocate-payment" => :internal,
+  "dispatch-notifications" => :internal,
   "parse-payment-sms" => :internal,
   "ingest-payment-sms" => :user,
   "send-notification" => :internal,
