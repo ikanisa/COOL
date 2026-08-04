@@ -124,6 +124,11 @@ checks["required_artifacts"] =
 
 feature_graphic = assets.fetch("feature_graphic", {})
 phone_screenshot_policy = assets.fetch("phone_screenshots", {})
+feature_graphic_path = File.join(root, feature_graphic["path"].to_s)
+feature_graphic_valid =
+  feature_graphic["status"] == "approved_official_asset" &&
+  File.file?(feature_graphic_path) &&
+  Digest::SHA256.file(feature_graphic_path).hexdigest == feature_graphic["sha256"].to_s
 official_icon_policy =
   assets["brand_icon_source"] == "assets/brand/collect_runtime/app_icons/app-icon-rule.png" &&
   assets["brand_icon_sha256"] == "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209" &&
@@ -136,11 +141,21 @@ phone_screenshots = screenshots_dir.empty? ? [] : Dir.glob(File.join(screenshots
     "bytes" => File.size(path)
   }
 end
+expected_screenshot_hashes = phone_screenshot_policy["sha256"].is_a?(Hash) ? phone_screenshot_policy["sha256"] : {}
+phone_screenshot_hashes_valid =
+  !expected_screenshot_hashes.empty? &&
+  phone_screenshots.length == expected_screenshot_hashes.length &&
+  phone_screenshots.all? do |item|
+    path = File.join(root, item.fetch("path"))
+    expected = expected_screenshot_hashes[File.basename(path)].to_s
+    !expected.empty? && Digest::SHA256.file(path).hexdigest == expected
+  end
 minimum_screenshots = phone_screenshot_policy["minimum_required"].to_i
 current_screenshots =
   phone_screenshot_policy["status"] == "current_product_capture" &&
-  phone_screenshot_policy["source"] == "native_product_capture_only"
-official_feature_graphic = feature_graphic["status"] == "approved_official_asset"
+  phone_screenshot_policy["source"] == "native_product_capture_only" &&
+  phone_screenshot_hashes_valid
+official_feature_graphic = feature_graphic_valid
 checks["store_graphics"] =
   if official_icon_policy && current_screenshots && official_feature_graphic && phone_screenshots.length >= minimum_screenshots
     check("pass", "Play visual exports use the approved Collect icon and current native product captures.", "phone_screenshot_count" => phone_screenshots.length, "phone_screenshots" => phone_screenshots)

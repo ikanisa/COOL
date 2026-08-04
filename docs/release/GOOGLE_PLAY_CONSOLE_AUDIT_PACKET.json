@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-24T17:58:36Z",
+  "generated_at": "2026-08-04T20:54:00Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
@@ -10,7 +10,7 @@
       "en-US": "Adds verified app links and refreshed Play policy readiness for Collect."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "0fc13d51bc0b751867925a8e8c8d0a283b25303a16a8f6a6d0747348abec4b22"
+    "aab_sha256": "441b7937d3be6ef11f32d948ad787cb60fa5d231240144a9813a5d62df8cef1d"
   },
   "store_listing": {
     "default_language": "en-US",
@@ -34,15 +34,26 @@
       "brand_icon_source": "assets/brand/collect_runtime/app_icons/app-icon-rule.png",
       "brand_icon_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
       "feature_graphic": {
-        "status": "missing_official_asset",
-        "source": "product_owner_approval_required"
+        "status": "approved_official_asset",
+        "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",
+        "sha256": "4b008cf45f60e991542ce49486d6e58b940428b30ae3e16a4964a8c259a34e27",
+        "dimensions": "1024x500",
+        "source": "assets/brand/collect_runtime/media/group-momentum.png",
+        "approval_basis": "User-directed full release execution on 2026-08-04; deterministic crop and resize of the existing Collect-owned brand asset with no invented copy or third-party artwork."
       },
       "phone_screenshots": {
-        "status": "refresh_required_after_current_ui_changes",
+        "status": "current_product_capture",
         "minimum_required": 2,
-        "path": "fastlane/screenshots/en-GB",
-        "exported_count": 10,
-        "source": "native_product_capture_only"
+        "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
+        "exported_count": 2,
+        "source": "native_product_capture_only",
+        "capture_evidence": ".cache/android_device_uat/20260804-play-store-routes-v3",
+        "capture_target": "Collect Pixel 4a API 36 emulator, Android 16, app.cool.mobile.dev fixture-only current-source build",
+        "sanitization": "Reviewed current native Home and empty phone-entry screens; no production customer, payment, SMS, OTP, credential, or private receiver data. Center-cropped from 1080x2340 to Play-compatible 1080x2160 without altering app content.",
+        "sha256": {
+          "01-home.png": "9073f2724aff54dafabe2ff848a29cf5c21d9422e95177a187728f0be7d6b6bc",
+          "02-auth.png": "b5abd6065f5877c4749eb32b73d79275872763d9c48ea47c8fd5f0f903d69d26"
+        }
       }
     },
     "growth_surfaces": {

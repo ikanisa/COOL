@@ -252,7 +252,7 @@ metadata_files = {
   "title" => "fastlane/metadata/android/en-US/title.txt",
   "short_description" => "fastlane/metadata/android/en-US/short_description.txt",
   "full_description" => "fastlane/metadata/android/en-US/full_description.txt",
-  "changelog_9" => "fastlane/metadata/android/en-US/changelogs/9.txt"
+  "changelog_10" => "fastlane/metadata/android/en-US/changelogs/10.txt"
 }
 metadata_items = metadata_files.transform_values do |relative|
   path = File.join(root, relative)
@@ -273,12 +273,25 @@ metadata_length_issues << "full_description_over_4000_chars" if metadata_items.d
 play_assets = console_audit_packet.dig("store_listing", "assets") || {}
 feature_graphic = play_assets.fetch("feature_graphic", {})
 phone_screenshot_policy = play_assets.fetch("phone_screenshots", {})
+feature_graphic_path = File.join(root, feature_graphic["path"].to_s)
+feature_graphic_valid =
+  feature_graphic["status"] == "approved_official_asset" &&
+  File.file?(feature_graphic_path) &&
+  Digest::SHA256.file(feature_graphic_path).hexdigest == feature_graphic["sha256"].to_s
 phone_screenshot_export_path = phone_screenshot_policy["path"].to_s
 phone_screenshot_paths =
   if phone_screenshot_export_path.empty?
     []
   else
     Dir.glob(File.join(root, phone_screenshot_export_path, "*.png")).sort
+  end
+expected_screenshot_hashes = phone_screenshot_policy["sha256"].is_a?(Hash) ? phone_screenshot_policy["sha256"] : {}
+phone_screenshot_hashes_valid =
+  !expected_screenshot_hashes.empty? &&
+  phone_screenshot_paths.length == expected_screenshot_hashes.length &&
+  phone_screenshot_paths.all? do |path|
+    expected = expected_screenshot_hashes[File.basename(path)].to_s
+    !expected.empty? && Digest::SHA256.file(path).hexdigest == expected
   end
 brand_icon_path = File.join(root, play_assets["brand_icon_source"].to_s)
 launcher_icon_path = File.join(root, play_assets["launcher_icon"].to_s)
@@ -289,9 +302,10 @@ official_icon_policy =
   File.file?(launcher_icon_path) &&
   Digest::SHA256.file(launcher_icon_path).hexdigest == play_assets["launcher_icon_sha256"].to_s
 current_visual_exports =
-  feature_graphic["status"] == "approved_official_asset" &&
+  feature_graphic_valid &&
   phone_screenshot_policy["status"] == "current_product_capture" &&
   phone_screenshot_policy["source"] == "native_product_capture_only" &&
+  phone_screenshot_hashes_valid &&
   phone_screenshot_paths.length >= phone_screenshot_policy["minimum_required"].to_i
 checks["play_store_metadata_export"] =
   if metadata_missing.empty? && metadata_length_issues.empty? && official_icon_policy && current_visual_exports

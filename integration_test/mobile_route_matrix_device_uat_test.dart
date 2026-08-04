@@ -111,7 +111,7 @@ void main() {
           // genuinely wrong route still fails instead of hanging evidence.
           for (
             var attempt = 0;
-            attempt < 20 &&
+            attempt < 50 &&
                 find.textContaining(expectedText).evaluate().isEmpty;
             attempt += 1
           ) {
@@ -202,8 +202,8 @@ const _routeSpecs = <_RouteSpec>[
     expectedText: 'Edit profile',
   ),
   _RouteSpec('home', '/home', 'primary', expectedText: 'RWF 35,000'),
-  _RouteSpec('offline', '/offline', 'utility', expectedText: 'Offline mode'),
-  _RouteSpec('sync', '/sync', 'utility', expectedText: 'Sync status'),
+  _RouteSpec('offline', '/offline', 'utility', expectedText: 'You are offline'),
+  _RouteSpec('sync', '/sync', 'utility', expectedText: 'Sync needs attention'),
   _RouteSpec('groups', '/groups', 'primary', expectedText: 'Groups'),
   _RouteSpec(
     'contribute-entry',

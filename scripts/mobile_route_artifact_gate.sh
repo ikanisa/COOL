@@ -21,12 +21,7 @@ cleanup() {
   rmdir "$summary_tmp_dir" 2>/dev/null || true
 }
 trap cleanup EXIT
-set -x
-# The system Ruby can be terminated by macOS execution-policy pressure when
-# this nested audit is fully silent. Bash xtrace keeps the local command
-# observable on stderr without contaminating JSON stdout. It exposes only
-# commands and local paths; the audit does not read secrets.
-if ! bash -x ./scripts/universal_contract_audit.sh --json >"$summary_path"; then
+if ! bash ./scripts/universal_contract_audit.sh --json >"$summary_path"; then
   exit 1
 fi
 

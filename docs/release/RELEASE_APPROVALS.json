@@ -1,5 +1,5 @@
 {
-  "status": "approved",
+  "status": "pending",
   "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "qa_summary": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "approvals": [
@@ -35,13 +35,14 @@
       "status": "approved",
       "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-06-21T12:54:05Z",
-      "evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "signed_at": "2026-08-04T21:12:01Z",
+      "evidence_reference": "output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-08-04.sha256",
       "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,
-      "notes": "Current production APK and AAB were rebuilt as version 1.2.2+9 and signature verification passed without exposing signing keys."
+      "notes": "User-directed full release execution on 2026-08-04 covers the current 1.2.2+10 Android signing review; fresh APK/AAB builds, upload-certificate preflight, APK v2 verification, AAB signature verification, and redacted artifact hashes passed without exposing signing material.",
+      "artifact_version": "1.2.2+10"
     },
     {
       "key": "ios_release_scope",

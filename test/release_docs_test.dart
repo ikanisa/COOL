@@ -811,7 +811,11 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         ]),
       ),
     );
-    expect(decoded['blocker_keys'], contains('android_release_signing_review'));
+    expect(
+      decoded['blocker_keys'],
+      isNot(contains('android_release_signing_review')),
+    );
+    expect(decoded['blocker_keys'], contains('release_owner_signoff'));
     expect(decoded['blocker_keys'], isNot(contains('ios_release_scope')));
     final linkedSmsFirstUat =
         decoded['evidence_flags']['linked_sms_first_uat'] as String;

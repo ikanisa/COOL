@@ -49,16 +49,30 @@ that a provider or store requires from a natural person.
 - Gate 5: live deployment, monitoring, rollback, metadata, signing, and stores.
 - Gate 6: revision-bound approvals, evidence consistency, audit, and closeout.
 
-## Current entry blockers
+## Current execution state
 
-- The August 4 UI cleanup is not yet committed.
-- Android and Admin artifacts predate the current source.
-- The Admin custom domain fails the current exact live gate.
-- Signing and release-owner approvals refer to `1.2.2+9` instead of
-  `1.2.2+10`.
-- All ten UAT persona rows remain unsigned and lack evidence files.
-- Physical accessibility, selected physical-iOS behaviors, production soak,
-  and account-controlled store/provider checks remain open.
+- The August 4 legacy-chrome cleanup, backend hardening, App Links correction,
+  public performance split, and deployment records are committed and pushed
+  to `main`.
+- The Admin PWA and public site are live on their custom domains with exact
+  live gates passing and recorded Cloudflare rollback versions.
+- The two pending production Supabase migrations are applied; the production
+  schema/migration/RLS/advisor gates pass, the notification dispatcher is
+  deployed with JWT verification, and the temporary database allowlist entry
+  was removed after the operation.
+- All nine locally retained release artifacts are fresh. The Android upload
+  certificate preflight and current `1.2.2+10` signing review pass without
+  exposing signing material.
+- The current API 36 Android route matrix passes 35/35 routes with 35 native
+  screenshots after correcting stale Offline/Sync evidence assertions.
+- The Google Play listing text, owned feature graphic, icon policy, and two
+  current sanitized Android screenshots pass the local Console packet and
+  optimization gates.
+- Remaining gates are non-delegable or externally authenticated: Play
+  Developer Reporting and live Console inspection/upload, release-owner and
+  ten-persona UAT signoff, physical spoken-assistive-technology and production
+  soak evidence, provider-authorized MoMo validation, optional iOS distribution
+  provisioning/APNs configuration, and store processing/review.
 
 ## Completion rule
 
