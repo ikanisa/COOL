@@ -2645,6 +2645,9 @@ def split_stylesheets(css)
     story-grid market-grid source-note home-flow section-number localized-
     diaspora-card protection-card readiness-card community-card partner-card
     trust-card policy-card terms-card deletion-card data-card
+    activity-list app-list app-segments corridor-map faq-list home-app-card
+    ledger- member- proof-grid protection-item record-card shield-mark
+    statement- supported-group workflow-stack
   ]
   sections_css = []
   core_lines = []
