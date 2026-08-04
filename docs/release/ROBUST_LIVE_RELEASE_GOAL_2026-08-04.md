@@ -60,19 +60,29 @@ that a provider or store requires from a natural person.
   schema/migration/RLS/advisor gates pass, the notification dispatcher is
   deployed with JWT verification, and the temporary database allowlist entry
   was removed after the operation.
-- All nine locally retained release artifacts are fresh. The Android upload
-  certificate preflight and current `1.2.2+10` signing review pass without
-  exposing signing material.
+- All 24 locally buildable public/Admin/Android/iOS release files are fresh under
+  a cross-platform manifest with per-platform source fingerprints. Android and
+  iOS `1.2.2+10` signing reviews pass without exposing signing material.
 - The current API 36 Android route matrix passes 35/35 routes with 35 native
   screenshots after correcting stale Offline/Sync evidence assertions.
+- The current iPhone 17 iOS 26.5 Simulator route matrix passes 35/35 routes,
+  both controlled Camera permission phases pass, and a production-scheme
+  unsigned `1.2.2 (10)` archive with dSYM was produced.
 - The Google Play listing text, owned feature graphic, icon policy, and two
   current sanitized Android screenshots pass the local Console packet and
   optimization gates.
-- Remaining gates are non-delegable or externally authenticated: Play
+- The Product Design evidence gate now passes under the owner-approved
+  retained/public-reference and explicit no-direct-analogue boundary; this does
+  not claim copied assets or complete Revolut screen equivalence.
+- GitHub Actions is an external platform gate: all recent pushes and a manual CI
+  dispatch fail as `startup_failure` before any job is created even though local
+  workflow parsing passes and repository Actions is enabled.
+- Remaining gates are non-delegable, version-gated, or externally authenticated: Play
   Developer Reporting and live Console inspection/upload, release-owner and
   ten-persona UAT signoff, physical spoken-assistive-technology and production
   soak evidence, provider-authorized MoMo validation, optional iOS distribution
-  provisioning/APNs configuration, and store processing/review.
+  provisioning/APNs configuration, Flutter 3.47+ built-in Kotlin validation,
+  organization-level CI restoration, and store processing/review.
 
 ## Completion rule
 

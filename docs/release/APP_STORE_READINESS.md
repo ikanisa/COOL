@@ -12,10 +12,12 @@ Known current boundaries:
 
 - The source and App Store package gate pass locally, including platform-correct
   screenshots, opaque icons, metadata, plists, and privacy JSON.
-- Current native build/runtime evidence is blocked because the active Xcode path
-  points to a disconnected external volume and no iOS Simulator is available.
-- App Store submission still requires current Apple credentials, signing,
-  screenshots, App Privacy details, uploaded build evidence, and recorded human
+- Xcode 26.6 is available. Current native evidence passes 35/35 routes on an
+  iPhone 17 iOS 26.5 Simulator, both controlled Camera permission phases pass,
+  and a production-scheme unsigned `1.2.2 (10)` archive with dSYM was built.
+- App Store submission still requires Associated Domains-capable distribution
+  provisioning, a signed archive/export, current App Store Connect inspection,
+  physical-iPhone/VoiceOver UAT, uploaded-build processing, and recorded human
   approval.
 - Do not submit or alter App Store records without explicit recorded owner
   approval.

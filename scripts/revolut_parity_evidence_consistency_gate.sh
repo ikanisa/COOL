@@ -263,20 +263,31 @@ unfinished_tasks = remaining_text.lines.grep(/^\| RT-\d{3} \|/).map do |line|
 
   cells[1]
 end.compact
+unfinished_design_tasks = unfinished_tasks.select do |task_id|
+  task_number = task_id.delete_prefix("RT-").to_i
+  task_number.between?(1, 7)
+end
 audit_sentinel = terminal_line(audit_path)
 design_sentinel = terminal_line(design_qa_path)
+expected_audit_sentinel =
+  unfinished_tasks.empty? ? "completion result: passed" : "completion result: blocked"
+expected_design_sentinel =
+  unfinished_design_tasks.empty? ? "final result: passed" : "final result: blocked"
 sentinels_pass =
-  !unfinished_tasks.empty? &&
-  audit_sentinel == "completion result: blocked" &&
-  design_sentinel == "final result: blocked"
+  audit_sentinel == expected_audit_sentinel &&
+  design_sentinel == expected_design_sentinel
 add_check(
   checks,
   failures,
   "fail_closed_sentinels",
   sentinels_pass,
   "unfinished_task_count" => unfinished_tasks.length,
+  "unfinished_design_task_count" => unfinished_design_tasks.length,
+  "unfinished_design_tasks" => unfinished_design_tasks,
   "audit_sentinel" => audit_sentinel,
-  "design_qa_sentinel" => design_sentinel
+  "expected_audit_sentinel" => expected_audit_sentinel,
+  "design_qa_sentinel" => design_sentinel,
+  "expected_design_qa_sentinel" => expected_design_sentinel
 )
 
 readiness_boundary_pass =

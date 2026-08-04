@@ -15,6 +15,7 @@ Date: 2026-08-04
 - Compared the retained Revolut phone, confirmation, OTP, and invalid-code references with the current Collect captures in the same review pass.
 - Compared the two user-supplied legacy screenshots with the current native phone and OTP captures.
 - Inspected all 13 core goldens, all 6 prototype goldens, the 17-state native matrix, and representative screens from the 35-route matrix.
+- Applied the product owner's explicit reference boundary: publicly accessible and retained unblurred references are sufficient, while Collect-only amount, MoMo, deletion, and recovery states use documented no-direct-analogue dispositions instead of requiring personal-account captures.
 
 ## Acceptance checks
 
@@ -35,4 +36,4 @@ Date: 2026-08-04
 - iPhone 17 fixture-only material-state matrix: 17/17 states passed.
 - iPhone 17 fixture-only route matrix: 35/35 routes passed.
 
-final result: blocked
+final result: passed

@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Users/jeanbosco/Developer/flutter/bin/flutter
 DART ?= /Users/jeanbosco/Developer/flutter/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -25,6 +25,7 @@ help:
 	@echo "  make ios-simulator-material-state-uat ARGS='...' Capture exact-Simulator material state evidence"
 	@echo "  make ios-physical-camera-permission-uat ARGS='...' Reset only staging and run owner-assisted physical Camera recovery UAT"
 	@echo "  make ios-simulator-camera-permission-uat ARGS='...' Run exact-simulator Camera denial/recovery UAT"
+	@echo "  make ios-app-store-readiness-gate Validate iOS metadata, artwork, privacy, and build contracts"
 	@echo "  make flutter-mobile-release-gate Validate mobile release metadata, signing review, and iOS scope"
 	@echo "  make android-release-signing-preflight Check configured Android signing certificate against Play signing fingerprint"
 	@echo "  make android-kotlin-plugin-compat Check Android Flutter plugins for direct Kotlin Gradle Plugin usage"
@@ -33,6 +34,7 @@ help:
 	@echo "  make record-uat-evidence-signoff ARGS='...' Safely record one UAT persona or release-owner signoff"
 	@echo "  make uat-signoff-gate Validate human UAT release-owner signoff"
 	@echo "  make release-artifact-manifest Verify release artifacts and write SHA-256 manifest"
+	@echo "  make release-artifact-manifest-all-platforms IOS_RELEASE_ARCHIVE_PATH='...' Verify Android, Admin, public, and unsigned iOS artifacts"
 	@echo "  make release-evidence-index Validate release evidence bundle auditability"
 	@echo "  make release-approval-packet Print current pending approval packet"
 	@echo "  make release-approval-evidence-gate Validate signed release approval manifest"
@@ -198,6 +200,18 @@ release-artifact-manifest:
 
 release-artifact-manifest-json:
 	@./scripts/release_artifact_manifest.sh --json
+
+release-artifact-manifest-all-platforms:
+	@./scripts/release_artifact_manifest.sh --all-platforms
+
+release-artifact-manifest-all-platforms-json:
+	@./scripts/release_artifact_manifest.sh --all-platforms --json
+
+ios-app-store-readiness-gate:
+	@./scripts/ios_app_store_readiness_gate.sh
+
+ios-app-store-readiness-gate-json:
+	@./scripts/ios_app_store_readiness_gate.sh --json
 
 release-evidence-index:
 	@./scripts/release_evidence_index.sh

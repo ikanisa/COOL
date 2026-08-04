@@ -379,8 +379,12 @@ Date/time: 2026-06-01T12:30:00Z
       docs['decision'],
       contains('group creation is available only on Android'),
     );
-    expect(docs['blockers'], contains('Android release signing'));
-    expect(docs['blockers'], contains('https://cool-admin-212.pages.dev'));
+    expect(docs['blockers'], contains('local signing review is current'));
+    expect(docs['blockers'], contains('https://admin.collect.ikanisa.com'));
+    expect(
+      docs['blockers'],
+      isNot(contains('https://cool-admin-212.pages.dev')),
+    );
     expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('101'));
     expect(docs['packet'], contains('Required Final Commands'));
@@ -403,7 +407,8 @@ Date/time: 2026-06-01T12:30:00Z
       docs['approval'],
       contains('docs/release/UAT_EVIDENCE_MANIFEST.json'),
     );
-    expect(docs['blockers'], contains('20260602T081408Z'));
+    expect(docs['blockers'], contains('E-080'));
+    expect(docs['blockers'], isNot(contains('20260602T081408Z')));
     expect(uatManifestJson['status'], 'pending-human-signoff');
     expect(uatManifestJson['staging_only'], false);
     expect(uatManifestJson['release_owner'], isA<Map<String, dynamic>>());
@@ -1066,6 +1071,48 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       expect(script, contains('"android/gradle.properties"'));
       expect(script, contains('"android/settings.gradle.kts"'));
     }
+  });
+
+  test(
+    'cross-platform artifact manifest covers public and unsigned iOS outputs',
+    () {
+      final script = File(
+        'scripts/release_artifact_manifest.sh',
+      ).readAsStringSync();
+      final makefile = File('Makefile').readAsStringSync();
+
+      expect(script, contains('--all-platforms'));
+      expect(script, contains('IOS_RELEASE_ARCHIVE_PATH'));
+      expect(script, contains('build/public_web/index.html'));
+      expect(script, contains('apple-app-site-association'));
+      expect(script, contains('Products/Applications/Collect.app/Collect'));
+      expect(script, contains('PrivacyInfo.xcprivacy'));
+      expect(script, contains('dSYMs/Collect.app.dSYM'));
+      expect(script, contains('source_fingerprints'));
+      expect(script, contains('source_revision'));
+      expect(script, contains('CROSS_PLATFORM_BUILD_ARTIFACT_CHECKSUMS_'));
+      expect(script, contains('/ios/Flutter/Generated.xcconfig'));
+      expect(
+        makefile,
+        contains('release-artifact-manifest-all-platforms-json:'),
+      );
+    },
+  );
+
+  test('iOS App Store readiness gate emits structured JSON', () {
+    final result = runProcessSync('./scripts/ios_app_store_readiness_gate.sh', [
+      '--json',
+    ]);
+
+    expect(result.exitCode, 0, reason: result.stderr as String);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], 'pass');
+    expect(decoded['screenshots'], 10);
+    expect(decoded['icons'], 15);
+    expect(decoded['plists'], 4);
+    expect(decoded['metadata_fields'], 8);
+    expect(decoded['privacy_types'], 8);
+    expect(decoded['failures'], isEmpty);
   });
 
   test('Android signing preflight reports redacted certificate state', () {
@@ -3852,7 +3899,7 @@ checking Edge Function secret names
     expect(assessment, contains('must never be uploaded'));
   });
 
-  test('completion audit remains fail closed while goal evidence is open', () {
+  test('completion audit stays blocked while independent design QA passes', () {
     final audit = File(
       'docs/revolut-parity-goal/FINAL_COMPLETION_AUDIT.md',
     ).readAsStringSync();
@@ -3876,7 +3923,7 @@ checking Edge Function secret names
     }
 
     expect(audit.trimRight(), endsWith('completion result: blocked'));
-    expect(designQa.trimRight(), endsWith('final result: blocked'));
+    expect(designQa.trimRight(), endsWith('final result: passed'));
     expect(remaining, contains('RT-001'));
     expect(remaining, contains('RT-048'));
     expect(audit, contains('I-042 is closed for controlled-emulator quality'));
@@ -3886,8 +3933,8 @@ checking Edge Function secret names
     );
     expect(audit, contains('Groups 0/154'));
     expect(audit, contains('amount entry 1/45'));
-    expect(audit, contains('current-source iOS compilation passes'));
-    expect(audit, contains('E-055 supplies accepted iPhone'));
+    expect(audit, contains('35/35 current iOS routes'));
+    expect(audit, contains('production-scheme unsigned archive'));
     expect(
       audit,
       contains('E-054/E-056 complete controlled-emulator Notification'),
@@ -3926,6 +3973,12 @@ checking Edge Function secret names
                 as Map<String, dynamic>)['open_issue_assignment']
             as Map<String, dynamic>)['status'],
         'pass',
+      );
+      expect(
+        ((passingEvidence['checks']
+                as Map<String, dynamic>)['fail_closed_sentinels']
+            as Map<String, dynamic>)['unfinished_design_task_count'],
+        0,
       );
 
       final audit = File('${tempGoalDir.path}/FINAL_COMPLETION_AUDIT.md');

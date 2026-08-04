@@ -24,14 +24,21 @@ Current evidence is mixed:
   The upload-certificate preflight and Android signing review are approved for
   that exact version without exposing signing material. The release-owner
   approval still identifies `1.2.2+9` and remains rejected as stale.
-- iOS is marked out of scope for the Android Google Play go-live in
-  `docs/release/RELEASE_APPROVALS.json`.
+- iOS remains outside the Android Google Play approval manifest, but E-080 now
+  supplies current local iOS evidence: 35/35 Simulator routes, both controlled
+  Camera permission phases, a passing App Store package gate, and a
+  production-scheme unsigned `1.2.2 (10)` archive. Distribution provisioning,
+  physical VoiceOver/UAT, App Store Connect, upload, and processing remain open.
 - `docs/release/UAT_EVIDENCE_MANIFEST.json` still records persona evidence as
   `pending` and the release owner decision as `NO-GO`.
 - Public and Admin Cloudflare deployments are recorded in
   `docs/release/LIVE_DEPLOYMENTS.json` with live gate status `pass`.
 - Local Play implementation/readiness checks pass except for authorized Play
   Developer Reporting access and live account-controlled Console surfaces.
+- The extended cross-platform manifest passes 24/24 locally buildable files for
+  public, Admin, Android, and iOS. GitHub-hosted CI is unavailable: recent pushes
+  and manual run `30952768654` fail before job creation as `startup_failure`,
+  requiring organization-level Actions administration.
 
 Treat any older dated NO-GO/GO report as historical unless a current gate
 reproduces it.

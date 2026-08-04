@@ -1,20 +1,22 @@
 # iOS app audit and release assessment
 
-Status date: 2026-08-04  
-Scope: Collect member iPhone/iPad app, current uncommitted source  
+Status date: 2026-08-04
+Scope: Collect member iPhone/iPad app, current controlled source
 Decision: **NOT READY FOR APP STORE RELEASE**
 
 ## Current result
 
-The Flutter/iOS source, store artwork, metadata, privacy declaration, and release
-automation are materially improved and pass the new local package gate. A current
-iOS binary, simulator run, signed archive, TestFlight build, physical-device UAT,
-VoiceOver review, and App Store Connect state were not produced or verified.
+The Flutter/iOS source, store artwork, metadata, privacy declaration, release
+automation, current native route matrix, controlled Camera permission states,
+and production-scheme unsigned archive pass their local gates. This is materially
+stronger than source-only readiness, but it is not App Store release evidence.
 
-The active Xcode path is a broken link to the disconnected `PRO-G40` volume. The
-current simulator harness therefore fails before launch with no available
-`simctl` runtime. The previous July unsigned archive and simulator route evidence
-remain useful historical evidence, but they do not certify this changed source.
+Xcode 26.6 and iOS 26.5 Simulator tooling are now available. The current iPhone
+17 run passes 35/35 routes with 35 screenshots, and both controlled Camera TCC
+phases pass. The current unsigned archive contains `app.cool.mobile` version
+`1.2.2 (10)` plus its dSYM and privacy manifest. A signed distribution archive,
+exported IPA, TestFlight build, complete physical-device/VoiceOver UAT, and live
+App Store Connect state were not produced or verified.
 
 ## Implemented in this pass
 
@@ -57,33 +59,33 @@ remain useful historical evidence, but they do not certify this changed source.
 
 | Surface | Current source result | Current native proof |
 | --- | --- | --- |
-| Auth and OTP | Clean member flow; large-text and reduced-motion contracts retained | Open |
-| Home | Platform-correct iOS actions; current store artwork reviewed | Store artwork only |
-| Groups and search | Search works; compact cards and long-name handling retained | Store artwork only |
-| Group detail, members, ledger | Clean hierarchy; native iOS back gesture enabled | Widget contract only |
-| Contribute and MoMo return | Existing feedback and safe error handling retained | Open physical iPhone |
-| QR and camera recovery | Usage string and guarded recovery flow present | Open current simulator/physical iPhone |
-| Activity | Dense-list blur removed in the prior UX pass | Open current iOS profile trace |
+| Auth and OTP | Clean member flow; large-text and reduced-motion contracts retained | Current Simulator route proof; VoiceOver/physical open |
+| Home | Platform-correct iOS actions; current store artwork reviewed | Current Simulator and artwork proof |
+| Groups and search | Search works; compact cards and long-name handling retained | Current Simulator and artwork proof |
+| Group detail, members, ledger | Clean hierarchy; native iOS back gesture enabled | Current Simulator route plus widget gesture contract |
+| Contribute and MoMo return | Existing feedback and safe error handling retained | Current Simulator route; provider/physical open |
+| QR and camera recovery | Usage string and guarded recovery flow present | Controlled Simulator denial/grant proof; continuous/physical open |
+| Activity | Dense-list blur removed in the prior UX pass | Current Simulator route; current native profile trace open |
 | Profile and settings | Reduced copy, legal/privacy access, notification recovery retained | Open VoiceOver/physical iPhone |
-| Offline and sync | Primary action remains above floating navigation | Open live transition test |
-| iPad | Responsive rail layout and current accepted-size artwork present | Open native iPad runtime |
+| Offline and sync | Primary action remains above floating navigation | Current Simulator route; physical network transition open |
+| iPad | Responsive rail layout and current accepted-size artwork present | Prior native matrix and current artwork; refreshed iPad runtime open |
 
 ## 2026 native-platform assessment
 
 | Native area | Implemented source state | Evidence boundary or next action |
 | --- | --- | --- |
-| Build baseline | iOS 15.5 minimum deployment; CI requires the iOS 26 SDK | Fresh Xcode 26 archive is open |
+| Build baseline | iOS 15.5 minimum deployment; Xcode 26.6/iOS 26.5 available; current unsigned archive passes | Distribution-signed archive remains open |
 | App lifecycle | Flutter `UIScene`/`FlutterSceneDelegate` configuration is present | Background/foreground restoration needs a current native run |
 | Navigation | `CupertinoPage` detail routes and interactive back-swipe contract | Confirm on iPhone and iPad with VoiceOver running |
 | Input and keyboard | International phone input, OTP content type, one-time-code AutoFill, keyboard-safe forms | Verify AutoFill using a real WhatsApp code on device |
 | iPad adaptation | Responsive rail, accepted 13-inch screenshots, anchored share popovers | Run split view, rotation, multitasking, pointer, and hardware-keyboard UAT |
 | Accessibility | 44-point target contracts, large text, high contrast, reduced motion, semantics tests | Complete every common task with VoiceOver and approve App Store accessibility labels |
-| Privacy | App privacy answers and Runner privacy manifest cover current declared data; tracking is false | Inspect the built archive's aggregated first- and third-party manifests |
+| Privacy | App privacy answers and Runner privacy manifest cover current declared data; tracking is false; current archive manifest hash recorded | Inspect aggregated first/third-party manifests again in the signed export |
 | Permissions | Camera/photo purpose strings are scoped; Contacts, NFC, add-only Photos, and remote-push entitlements are absent | Verify deny/retry/Settings recovery on a physical iPhone |
 | Universal Links | Associated Domains entitlement and live `.well-known` AASA file agree on team ID and app ID | Replace the wildcard provisioning profile and validate installed-app routing |
 | Sharing | Native share sheet with iPad source rectangle | Confirm installed-app share targets and cancellation paths |
 | Notifications | Local notification runtime is implemented and does not claim APNs | Decide separately whether remote push is a product requirement |
-| Camera and QR | Native camera flow and permission recovery exist | Current simulator and physical-device proof is open |
+| Camera and QR | Native camera flow and permission recovery exist; Simulator denial recovery and host-granted relaunch pass | Continuous in-session native-dialog, physical-device, QR detection, and VoiceOver proof remain open |
 | Performance | Dense-list visual blur was removed; profile harness exists | Capture launch, animation, memory, thermal, and scrolling traces on current source |
 | App icon and materials | Opaque complete icon set; Flutter surfaces retain legible product hierarchy | Dark/clear/tinted iOS 26 icon variants need approved layered brand assets; do not synthesize them |
 | Store review | Reviewer access is deterministic, seeded, and separated from live customer authentication | Human review notes, credentials, legal entity, age rating, trader status, and final submission remain open |
@@ -107,9 +109,9 @@ were imported.
 ## Evidence completed
 
 - `flutter analyze --no-pub`: pass after iOS changes.
-- Full Flutter suite: 449 tests pass. Fresh line coverage is 78.81%
-  (`9719/12332`); `coverage/lcov.info` SHA-256 is
-  `d626c6b89a9cf69be0a3494b0078babffe00b58b299782a02bb81e3e66d5770a`.
+- The canonical Flutter suite and exact count are recorded in
+  `docs/revolut-parity-goal/VALIDATION_MANIFEST.md`; the suite is rerun after
+  the E-080 gate additions.
 - `scripts/ios_app_store_readiness_gate.sh`: pass; 10 screenshots, 15 icons,
   four plists, eight metadata fields, eight privacy-manifest data types, and App
   Privacy JSON validated.
@@ -124,19 +126,34 @@ were imported.
 - Current screenshot manifest:
   `output/app_store/ios_screenshots/manifest.json`, SHA-256
   `b12be1daebd1527b222945b4d052a5ecbc21aa27c4324907e6a7794610c2f131`.
-- Current native attempt:
-  `.cache/ios_simulator_route_uat/20260804-ios-focus-current/summary.json`,
-  SHA-256
-  `e15aaa2b9c5ecbd4bb038c1737a6f7c2913860d6c5c17a90b3cf5744dcc537aa`.
-  Result: fail before runner start because full Xcode/simulator tooling is
-  unavailable.
+- Current native route evidence:
+  `.cache/ios_simulator_route_uat/20260804-current-main-v10/summary.json` passes
+  35/35 routes with 35 screenshots. Log and screenshot-manifest SHA-256 values
+  are `336b8573fc8ba5a1e134688917de09455ac9a22db7c2cd70e6f9e2c35d2aa987`
+  and `1988e4a827fbac9320028f8ae327acca357012cc7e9aaffcdaf9248bbd9c6aee`.
+- Current Camera evidence:
+  `.cache/ios_simulator_camera_permission_uat/20260804-current-main-v10/summary.json`
+  passes denial recovery and a host-granted controlled relaunch. Summary and
+  retained-screen SHA-256 values are
+  `88f7146b432bf27bdf5d8644e7b64c4584e61c18de960abbbf1408bc709c7233`
+  and `8e66863b80dcc1112130cb87f1cdf81c739a32bd6c4430bfe9296867dee163d3`.
+- Current unsigned archive:
+  `.cache/ios_release_archive/20260804-current-main-v11/Collect-unsigned.xcarchive`.
+  App binary, Info.plist, privacy manifest, dSYM binary, and archive-log SHA-256
+  values are `07febe7d6fc660ee61b9f131cbd93ad451e40ffd15ea33fc767e3edaf4f1382a`,
+  `c250c10954ba417c8c3145aba769bb7416d83865f43d0178e0f1985d4043cc8b`,
+  `262fdd4a5c35c93eeef154e4c74e3f3de1e6d7d30267b7b2841ff8cac6d9b19c`,
+  `17b312fc46929beeec8daee8c3caabd7f1bd31b75e4a8d740b83e25ccc206418`,
+  and `f73d0670c9ef9bac08cd7cbd2c499a0c885aa886800b59d90782626f3149984f`.
+  dSYM UUID is `02207392-00C7-3722-A20C-4C7F145132E7`.
 
 ## Open release gates
 
-1. Reconnect or install full Xcode, select it with `xcode-select`, and rerun the
-   current iPhone/iPad simulator route, camera, lifecycle, accessibility, and
-   profile-performance harnesses.
-2. Run current physical-iPhone journeys: install, launch, background/resume,
+1. Refresh iPad, lifecycle, accessibility, and profile-performance Simulator
+   harnesses if the iOS source changes; the current iPhone route and controlled
+   Camera TCC matrices pass.
+2. Run current physical-iPhone journeys with the device unlocked and attached:
+   install, launch, background/resume,
    camera deny/retry/Settings recovery, network loss/restoration, large text,
    reduced motion, VoiceOver, and back-swipe navigation.
 3. Obtain an Associated Domains-capable provisioning profile for

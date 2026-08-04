@@ -1,77 +1,40 @@
 # Remaining Task Register
 
-## Status through 2026-08-01
+## Status through 2026-08-04
 
-The current checkout has passed formatting, static analysis, 441 automated
-tests with 78.74% line coverage, the numeric contrast and interaction-target
-contracts, the 13-surface
-golden matrix, the focused typography/asset contracts, the rebuilt static
-public-site quality gate, the complete local Admin PWA wrapper, and fresh
-Android production APK/AAB builds, a current-source iOS Simulator bundle, and
-an unsigned generic-device archive with governed payload inspection. E-055 adds current-source
-native iPhone Dark/System-Light and iPad System/200%-text/high-contrast/
-reduced-motion route matrices. E-063 adds an iPhone Dark/1.2-text
-35-route matrix after closing Home quick-action label truncation and hardens the
-physical Android preflight to stop before test/install when either
-`NotificationShade` or `mDreamingLockscreen=true` proves the target is locked.
-E-064 adds an actual controlled-emulator TalkBack Home/Groups pass and closes
-redundant whole-toolbar and duplicate hero-action announcements. E-065 closes
-the resulting local refresh with Flutter 3.44.4, 433 tests, 78.30% coverage,
-clean Android/Admin/public artifacts, packaged AOT verification, a current iOS
-Simulator build, and a current unsigned archive.
-VoiceOver and physical-device iOS evidence remain
-open. The deployed Admin
-host remains stale, signed iOS remains blocked by provisioning, and
-device/browser/store/owner gates remain open.
-This register contains only work that remains open, partially evidenced, or
-externally gated.
+E-080 is the current checkpoint. Formatting and static analysis pass; the
+canonical suite passes 455 tests at 78.38% line coverage, and the focused
+release-document suite passes 75/75. Public quality passes 55/55 and the live
+public gate passes 34/34. The public and Admin hosts are live on recorded
+Cloudflare versions, production Supabase is aligned, and the current Android
+API 36 native matrix passes 35/35 routes.
 
-`design-qa.md` must remain blocked until every required reference comparison
-and matrix below is complete.
+The iPhone 17 iOS 26.5 Simulator passes 35/35 routes and both controlled Camera
+TCC phases. A production-scheme unsigned `1.2.2 (10)` archive with dSYM passes
+local inspection. The separate nine-file Android/Admin and 24-file
+public/Admin/Android/iOS manifests both pass with no missing or stale artifact.
+The archive is intentionally non-distributable; signed iOS remains blocked by
+Associated Domains provisioning and external distribution authority.
 
-E-073 closes eight of the prior 25 unfinished rows for their declared local
-scope: RT-006, RT-010, RT-011, RT-012, RT-016, RT-023, RT-024, and RT-032.
-E-074 refreshes the local graph, suite, Android/Admin artifacts, and Kotlin
-compatibility evidence without changing the external task count. E-075 adds an
-exact-device, staging-only physical-iOS harness, correctly rejects a locked
-preflight, then passes a Dark 35/35 route matrix after the same iPhone is
-unlocked. The 439-test canonical suite passes at unchanged 78.79% coverage;
-physical accessibility, lifecycle, and permission evidence keep RT-034 open. The
-evidence-consistency gate still counts 17 unfinished rows:
+Publicly accessible and retained reference patterns plus explicit
+no-direct-analogue dispositions are the owner-accepted design basis. The
+35-route mapping, 16-state material matrix, interactive contribution prototype,
+legacy-chrome cleanup, and `design-qa.md` close RT-001/002/005/007 without
+claiming copied assets or complete Revolut screen equivalence. Android/iOS local
+signing review closes RT-035/036 for `1.2.2+10`.
 
-E-076 adds an exact iPhone 17 Simulator Camera TCC denial/grant matrix across
-two controlled staging launches, visually confirms the denial education and
-both recovery actions, closes I-061, and preserves the same 17-task external
-boundary. It does not replace continuous native-dialog retry, physical-iPhone,
-or VoiceOver evidence.
+Nine rows remain unfinished: RT-020, RT-021, RT-027, RT-034, RT-037, RT-041,
+RT-042, RT-043, and RT-048. This register contains only work that remains open,
+partially evidenced, or externally gated. GitHub Actions is also an external
+platform gate under I-064: all recent pushes and manual run `30952768654` fail
+before job creation as `startup_failure`.
 
-E-077 fixes the stale scanner state after returning from iOS App Settings,
-recertifies the exact-Simulator denied/granted matrix on current source, and
-adds exact-device physical lifecycle and owner-assisted Camera Settings
-harnesses. Physical attempts were rejected when the phone auto-locked before
-the lifecycle test extension ran; no lifecycle, Camera Settings, or VoiceOver
-pass is claimed. The unfinished count therefore remains 17.
-
-E-078 adds a fail-closed 16-state material-state harness and accepts Dark,
-Light, and System-on-iOS-Light exact-Simulator matrices after visual review.
-It closes the local capture-harness and evidence-receiver privacy defects, but
-not the missing direct Revolut references or accountable no-direct-analogue
-decisions. RT-005 advances and the unfinished count remains 17.
-
-E-079 revalidates the exact 17 open rows against current targets, official
-toolchain availability, and a controlled TalkBack 16 probe. The paired iPhone
-is visible but offline; injected Android input is rejected as human TalkBack
-gesture/utterance proof; and Flutter 3.47+ is not yet in the checked official
-stable release list. Accessibility was restored and the emulator shut down.
-No row closes and the unfinished count remains 17.
-
-- Reference/final Product Design: RT-001, RT-002, RT-005, RT-007.
 - Spoken assistive technology: RT-020, RT-021.
 - Production/physical reliability: RT-027.
 - Physical iPhone: RT-034.
-- Signing/upstream: RT-035, RT-036, RT-037.
-- Production, store, deployment, and accountable acceptance: RT-040 through
-  RT-044 and RT-048.
+- Upstream toolchain: RT-037.
+- Production provider, store, and accountable acceptance: RT-041 through
+  RT-043 and RT-048.
 
 ## July 30 robust implementation overlay
 
@@ -123,13 +86,13 @@ remains valid only for its recorded July 28 source state.
 
 | ID | Priority | Remaining task | Dependency or blocker | Required exit evidence | Owner | Status |
 |---|---|---|---|---|---|---|
-| RT-001 | P1 | Capture a verified Revolut amount-entry/transfer reference at the same state needed for Collect's contribution review. | E-069 records the latest live Mirroring boundary: the phone connected briefly, but the connection ended with `iPhone in Use` before Revolut opened. The phone must remain locked and unused for the complete read-only capture session. | Opened source capture with provenance and viewport/state notes. | Product Design / user | Blocked on phone-mirroring availability |
-| RT-002 | P1 | Capture or explicitly map verified references for phone entry, OTP, authentication error/retry, and review-login states. | Lower/authenticated Revolut states are not yet in the evidence set, and the latest live phone-mirroring attempt is blocked under E-069. | Source inventory entries and usable captures for each material state. | Product Design / user | Blocked on phone-mirroring availability |
+| RT-001 | P1 | Capture or explicitly disposition the amount-entry/transfer reference needed for Collect's contribution review. | E-080 applies the owner's accepted public-reference boundary. Collect's amount/review flow is mapped to observed amount-first and review hierarchy, while MoMo handoff and ledger verification retain a documented no-direct-analogue disposition. No personal-account capture is required or reproduced. | Public/retained pattern provenance plus accountable no-direct-analogue disposition. | Product Design / user | Completed under E-080 |
+| RT-002 | P1 | Capture or explicitly map verified references for phone entry, OTP, authentication error/retry, and review-login states. | The retained 24-screen Revolut onboarding set includes phone entry, confirmation, OTP empty/completed, incorrect-code, and recovery states; E-080 reconciles those directly observed references to the current Collect 17-state matrix. | Source inventory entries and usable captures or explicit pattern mapping for each material state. | Product Design / user | Completed under E-080 |
 | RT-003 | P1 | Capture or map references for group creation, management, edit/profile, members/admins, QR, share/invite, archive, ownership transfer, and confirmation surfaces. | E-043 and `REFERENCE_MAPPING_MATRIX.md` map every group-family route to a retained reference pattern or an explicit no-direct-analogue rationale. | Per-route reference or approved no-direct-analogue rationale. | Product Design | Completed locally; normalized device closure remains under RT-005 |
-| RT-004 | P1 | Capture or map missing Profile/Settings references, including Notifications, Help, Terms, Privacy, deletion, and remaining security/account states. | E-043 maps every Profile/Settings route and retains normalized comparisons for Settings, Notifications, Appearance, Security, Account, deletion, and Help. Missing direct-detail states are explicitly bounded. | Per-route reference or approved pattern mapping. | Product Design / user | Completed locally; direct auth/amount references remain RT-001/RT-002 |
-| RT-005 | P1 | Produce normalized side-by-side comparisons for every remaining mobile route and material state. | E-078 supplies a reviewed 16-state Collect matrix across Dark, Light, and System-Light with 48 screenshots, 12 contact sheets, explicit direct/pattern/no-analogue dispositions, and privacy-safe masked receivers. RT-001/RT-002 still block state-matched Auth/OTP and contribution entry/review comparisons; deletion/recovery states still need accountable no-direct-analogue acceptance, and personal captures cannot be reproduced. | Same viewport/state source and implementation composites; all P0-P2 mismatches closed. | Product Design / Flutter | In progress under E-078; local state capture is strong, while direct-reference and accountable-decision closure remains open |
-| RT-006 | P1 | Complete public-site and Admin-PWA normalized visual comparisons. | E-058 supplies fresh local compact/tablet/desktop public screenshots; E-059/E-060 supply accepted representative and complete authenticated operational Admin sets. E-073 adds public trust and Admin operations pattern comparisons made only from real source screenshots, plus a fresh 64-shot public-site rendered pass and a 34/34 live public gate proving the official logo asset on the deployed host. The Admin comparison is deliberately pattern-level because no equivalent Revolut Admin product exists; authenticated deployed Admin parity remains inapplicable and deployment authority remains RT-044. | Responsive comparison set with mismatch disposition. | Product Design / QA | Completed for the honest pattern-comparison scope under E-073; direct auth/amount state matching remains RT-001/RT-002/RT-005 |
-| RT-007 | P1 | Expand `design-qa.md` to the full goal and change its final result only after all visual gates pass. | RT-001 through RT-006 and the matrix tasks below. | Report ends exactly `final result: passed` with direct evidence for each claim. | Product Design | Blocked |
+| RT-004 | P1 | Capture or map missing Profile/Settings references, including Notifications, Help, Terms, Privacy, deletion, and remaining security/account states. | E-043 maps every Profile/Settings route and retains normalized comparisons for Settings, Notifications, Appearance, Security, Account, deletion, and Help. Missing direct-detail states are explicitly bounded. | Per-route reference or approved pattern mapping. | Product Design / user | Completed for the E-080 accepted reference boundary |
+| RT-005 | P1 | Produce normalized comparisons for every material mobile route/state using direct, pattern-only, or no-direct-analogue evidence. | E-078 supplies the reviewed multi-theme state matrix and E-080 records the owner-accepted reference boundary. The current 35-route and 17-state evidence contains no open P0-P2 visual mismatch, masks receiver data, and does not reproduce personal captures. | Same-state implementation evidence with explicit reference disposition and all P0-P2 mismatches closed. | Product Design / Flutter | Completed under E-080 |
+| RT-006 | P1 | Complete public-site and Admin-PWA normalized visual comparisons. | E-058 supplies fresh local compact/tablet/desktop public screenshots; E-059/E-060 supply accepted representative and complete authenticated operational Admin sets. E-073 adds public trust and Admin operations pattern comparisons made only from real source screenshots, plus a fresh 64-shot public-site rendered pass and a 34/34 live public gate proving the official logo asset on the deployed host. The Admin comparison is deliberately pattern-level because no equivalent Revolut Admin product exists. | Responsive comparison set with mismatch disposition. | Product Design / QA | Completed for the E-080 accepted pattern-comparison scope |
+| RT-007 | P1 | Expand `design-qa.md` to the full goal and change its final result only after all visual gates pass. | RT-001 through RT-006 and the current route/state/prototype matrices. | Report ends exactly `final result: passed` with direct evidence and explicit no-direct-analogue boundaries. | Product Design | Completed under E-080 |
 
 ## B. Mobile route, state, and live-behavior validation
 
@@ -185,13 +148,13 @@ remains valid only for its recorded July 28 source state.
 
 | ID | Priority | Remaining task | Dependency or blocker | Required exit evidence | Owner | Status |
 |---|---|---|---|---|---|---|
-| RT-033 | P2 | Run iOS release/archive checks and document signing status. | The generic-device Release archive passes unsigned; the configured signed attempt fails because the available wildcard provisioning profile lacks Associated Domains. Compatible profile creation and distribution require release-owner Apple account authority. | `IOS_RELEASE_ARCHIVE_ASSESSMENT.md`, retained unsigned archive, hashes, dSYM UUID, and exact signed-archive diagnostic. | Release | Completed locally; external signing blocked |
+| RT-033 | P2 | Run iOS release/archive checks and document signing status. | E-080 refreshes the production-scheme generic-device archive under Xcode 26.6. The unsigned archive is version `1.2.2+10`, passes store validation, retains its app privacy manifest and dSYM, and is intentionally non-distributable. The configured signing path still lacks an Associated Domains-capable distribution profile. | Current archive, hashes, dSYM UUID, and exact external signing disposition. | Release | Completed locally under E-080; external signing remains RT-043 |
 | RT-034 | P2 | Run iOS physical-device UAT. | E-075 proves the exact iPhone 12 Pro development-signing/install/launch path and a 35/35 Dark route matrix. E-077 fixes Camera Settings resume in source, recertifies exact-Simulator denial/grant states, and adds guarded physical lifecycle and owner-assisted Camera Settings targets with prebuild, bounded unlock, staging-only reset, and fail-closed markers. Physical lifecycle attempts reached signing/install/attach but were rejected after the phone auto-locked before any lifecycle marker; the Camera Settings phase was not run and no staging reset occurred. | Use a stable unlocked window, preferably USB, to obtain accepted lifecycle state-preservation markers, native Camera denial/App-Settings enable/return recovery, and actual VoiceOver traversal. Physical-host screenshots are unavailable and must not be fabricated; harness/source/Simulator success cannot close RT-034. | QA / Release owner / device owner | In progress; physical Dark routes and current-source Simulator Camera states pass, while physical lifecycle, Camera Settings recovery, and VoiceOver remain open |
-| RT-035 | P2 | Configure and verify the expected Android upload-certificate fingerprint. | Release-owner confirmation of the controlled certificate. | Pin configured and preflight matches the controlled certificate. | Release owner | External |
-| RT-036 | P2 | Disposition strict Android bundle-signature warnings. | Release certificate/process confirmation. | Documented chain/timestamp decision and final verification output. | Release owner | External |
+| RT-035 | P2 | Configure and verify the expected Android upload-certificate fingerprint. | The expected upload fingerprint is configured; the current preflight matches it without exposing signing material, and the Android signing review is approved for `1.2.2+10`. | Pin configured and preflight matches the controlled certificate. | Release owner | Completed for `1.2.2+10` under E-080 |
+| RT-036 | P2 | Disposition strict Android bundle-signature warnings. | The current signing review records the self-signed-chain/no-timestamp limitations, APK v2 and AAB verification, and accepts the controlled upload process for `1.2.2+10`. | Documented chain/timestamp decision and final verification output. | Release owner | Completed for `1.2.2+10` under E-080 |
 | RT-037 | P2 | Close the remaining legacy Kotlin Gradle Plugin warnings. | E-074 corrects the scanner's prior false positives, vendors a provenance-recorded `file_saver` fork that removes unconditional KGP application, and proves all 14 resolved Android plugins are future-source-ready with zero unconditional blockers. Current AGP 8 evaluation retains conditional `mobile_scanner` and `share_plus` fallbacks; Flutter builds warn only for `mobile_scanner`. The governed Flutter 3.44.4 toolchain cannot enable the flag because official guidance requires Flutter 3.47 or later. | Controlled Flutter 3.47+ upgrade, `android.builtInKotlin=true`, clean compatibility gate, and complete Android build/regression matrix. | Flutter / upstream owners | Partially closed at source level under E-074; platform enablement awaits Flutter 3.47+ |
-| RT-038 | P2 | Rebuild final public site, Admin PWA, Android APK/AAB, and iOS targets after all material changes. | E-074 refreshes the current Android APK/AAB and complete Admin wrapper using the documented public support number; all nine retained artifacts are fresh. The public live baseline remains 34/34 under E-073. Signed iOS and deployment remain external. | Fresh logs and hashes for every final artifact; complete Admin PWA wrapper output; signed-platform disposition; no unexplained warnings/failures. | Release / Flutter | Completed for current locally buildable artifacts under E-074; signed-iOS and deployment gates remain explicit |
-| RT-039 | P2 | Run final formatting, analysis, full tests, coverage, integration, source/security, and repository QA gates. | E-077 passes clean analysis, the 440-test canonical suite at 78.74% coverage, and exact-Simulator Camera TCC recertification on current scanner source. E-074 retains dependency/Kotlin, source-hygiene, and Android/Admin artifact evidence, while E-073 retains the broader controlled integrations. Final register consistency is rerun after this reconciliation. | All required commands pass; manifest and hashes refreshed after the final source/register change. | Flutter / QA | Completed for current local source and controlled integrations through E-077; physical and external-account gates retain their own task rows |
+| RT-038 | P2 | Rebuild final public site, Admin PWA, Android APK/AAB, and iOS targets after all material changes. | E-080 extends the prior nine-artifact Android/Admin evidence with a freshly rebuilt public site and production-scheme unsigned iOS archive. The 24-file cross-platform manifest passes with per-platform source fingerprints and no missing or stale artifact; the public local gate passes 55/55 and live gate 34/34. | Fresh logs and hashes for every locally buildable artifact plus signed-platform disposition. | Release / Flutter | Completed for all locally buildable platforms under E-080; signed distribution remains external |
+| RT-039 | P2 | Run final formatting, analysis, full tests, coverage, integration, source/security, and repository QA gates. | E-080 passes formatting, analysis, 455 canonical tests at 78.38% coverage, 75 release-document tests, source hygiene, current iOS route/Camera evidence, and both artifact scopes. | All required commands pass; manifest and hashes refreshed after the final source/register change. | Flutter / QA | Completed for current local source and controlled integrations under E-080; physical and external-account gates retain their own rows |
 
 ## H. External production and distribution gates
 
@@ -208,9 +171,9 @@ remains valid only for its recorded July 28 source state.
 | ID | Priority | Remaining task | Dependency or blocker | Required exit evidence | Owner | Status |
 |---|---|---|---|---|---|---|
 | RT-045 | P1 | Close, accept as P3, or externally assign every issue in `ISSUE_LOG.md`. | E-048 verifies every issue row has a complete recommendation, owner, status, and escalation disposition. Closed local issues remain closed; unresolved reference/device/browser/backend/signing/upstream issues retain explicit accountable owners and are not silently treated as complete. | No unexplained open P0-P2 local issue. | Flutter / Product Design / QA | Completed for issue disposition; underlying assigned blockers remain open |
-| RT-046 | P1 | Refresh all registers, hashes, comparison indexes, rollback notes, and the release-readiness matrix. | E-077 is the current local/evidence snapshot: E-001..E-077, I-001..I-062, 440 tests, 78.74% coverage, E-075 physical-iOS routes, E-077 current-source Simulator Camera states and rejected physical behavior attempts, retained E-073 controlled integrations, E-074 current Android/Admin artifacts, and explicit reference/physical/production/store/approval limitations. | Cross-referenced evidence pack with no stale claims. | QA | Completed for the E-077 local/evidence snapshot; refresh again after the next material source or evidence change |
+| RT-046 | P1 | Refresh all registers, hashes, comparison indexes, rollback notes, and the release-readiness matrix. | E-080 is the current snapshot: E-001..E-080, I-001..I-064, 455 tests, 78.38% coverage, current iOS route/Camera/archive evidence, 24-file artifact manifest, live deployment/backend records, and explicit physical/provider/store/CI/approval limitations. | Cross-referenced evidence pack with no stale current claim. | QA | Completed for E-080; refresh after the next material source or evidence change |
 | RT-047 | P1 | Create the final requirement-by-requirement completion audit. | The current-state audit maps every goal workstream, deliverable, gate, constraint, and blocker. E-048 now rejects identifier drift and premature passing sentinels. The audit cannot pass while required external/device/browser/reference evidence remains incomplete. | `FINAL_COMPLETION_AUDIT.md` maps every goal requirement to direct evidence. | Flutter lead | Completed as a fail-closed current-state audit; outcome remains blocked |
-| RT-048 | External | Obtain Product Design, engineering, security/privacy, release, and product-owner acceptance for their respective gates. | Complete evidence pack; the recorded Android signing and release-owner approvals are explicitly for `1.2.2+9`, while the current artifact is `1.2.2+10`. Shared gates now reject those stale approvals. | Named approvals tied to `1.2.2+10` and its current hashes, plus accepted residual risks. | Accountable reviewers | Open external gate; fresh artifact-bound approvals required |
+| RT-048 | External | Obtain Product Design, engineering, security/privacy, release, and product-owner acceptance for their respective gates. | Product Design closure and Android signing review are current. The release-owner record still identifies `1.2.2+9`; human persona UAT, provider/store evidence, and residual-risk acceptance remain incomplete. | Named approvals tied to `1.2.2+10` and its current hashes, plus accepted residual risks. | Accountable reviewers | Open external gate; current release-owner and human UAT approval required |
 
 ## Immediate execution order
 

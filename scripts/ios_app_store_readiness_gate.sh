@@ -4,8 +4,30 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+output_format="text"
+case "${1:-}" in
+  "") ;;
+  --json) output_format="json" ;;
+  *)
+    printf 'usage: %s [--json]\n' "$0" >&2
+    exit 2
+    ;;
+esac
+
 fail() {
-  printf '[ios-app-store-readiness][FAIL] %s\n' "$*" >&2
+  if [[ "$output_format" == "json" ]]; then
+    IOS_APP_STORE_FAILURE="$*" ruby -r json -r time -e '
+      puts JSON.pretty_generate(
+        {
+          "generated_at" => Time.now.utc.iso8601,
+          "status" => "fail",
+          "failures" => [ENV.fetch("IOS_APP_STORE_FAILURE")]
+        }
+      )
+    '
+  else
+    printf '[ios-app-store-readiness][FAIL] %s\n' "$*" >&2
+  fi
   exit 1
 }
 
@@ -127,4 +149,21 @@ done
 grep -q 'supabase: ref.watch(supabaseClientProvider)' lib/main.dart ||
   fail 'App Review mode does not preserve the production Supabase client.'
 
-printf '[ios-app-store-readiness] pass screenshots=10 icons=15 plists=4 metadata=8 privacy_types=8\n'
+if [[ "$output_format" == "json" ]]; then
+  ruby -r json -r time -e '
+    puts JSON.pretty_generate(
+      {
+        "generated_at" => Time.now.utc.iso8601,
+        "status" => "pass",
+        "screenshots" => 10,
+        "icons" => 15,
+        "plists" => 4,
+        "metadata_fields" => 8,
+        "privacy_types" => 8,
+        "failures" => []
+      }
+    )
+  '
+else
+  printf '[ios-app-store-readiness] pass screenshots=10 icons=15 plists=4 metadata=8 privacy_types=8\n'
+fi
