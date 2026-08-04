@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T19:58:34Z",
+  "generated_at": "2026-08-04T20:27:49Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,9 +7,10 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "07f9925a-1be0-4076-8adf-843972dafcf1",
+      "version_id": "5c96e0a5-92c7-4e35-8f6d-f4f537b7770f",
+      "rollback_version_id": "706a4c17-f141-47c5-8610-2adb402e9ab0",
       "live_gate_status": "pass",
-      "evidence": "ruby scripts/public_static_site_build.rb generated build/public_web with asset version 20260630-ui-dev-audit-5; scripts/public_website_quality_gate.sh --json passed 48/48 locally. Local rendered screenshot QA passed with 48 screenshots and no failures after normalizing mobile hero phone previews. wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-30 --message \"Normalize mobile hero phone previews\" deployed Current Version ID 07f9925a-1be0-4076-8adf-843972dafcf1. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com scripts/public_website_live_gate.sh --json passed 27/27 at 2026-06-30T08:50:21Z. PUBLIC_WEBSITE_QA_URL=https://collect.ikanisa.com/ PUBLIC_WEBSITE_QA_OUT=output/public_website_route_rendered_qa_live_final2 PUBLIC_BUILD_DIR=build/public_web node scripts/public_website_route_rendered_qa.js passed with 48 live screenshots and no failures. The final live pass covers the public routes page by page, including CRaaS and Community Groups, and confirms no horizontal overflow, consistent CTAs, no Privacy/Terms/Trust TOC/sidebar, and complete mobile phone previews using styles.css?v=20260630-ui-dev-audit-5."
+      "evidence": "ruby scripts/public_static_site_build.rb and ./scripts/public_website_quality_gate.sh --json passed 55/55 from e87a7192. The build publishes both the Google Play app-signing and upload certificate fingerprints for app.cool.mobile and splits route-only styles from the 21,932-byte critical stylesheet. npx --yes wrangler@latest deploy --name collect-public --assets build/public_web --compatibility-date 2026-08-04 --message \"Reduce critical CSS from e87a7192\" --strict deployed Current Version ID 5c96e0a5-92c7-4e35-8f6d-f4f537b7770f; version 706a4c17-f141-47c5-8610-2adb402e9ab0 is retained as the clean pre-change rollback. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com ./scripts/public_website_live_gate.sh --json passed 34/34 at 2026-08-04T20:27:49Z with critical first-party assets at 36,785 bytes."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",
