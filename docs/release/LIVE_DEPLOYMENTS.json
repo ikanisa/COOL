@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T08:50:21Z",
+  "generated_at": "2026-08-04T19:58:34Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -17,9 +17,10 @@
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
       "branch": "main",
-      "version_id": "f3398179-a855-4762-8c51-6db9e499063f",
+      "version_id": "36269764-bfde-414a-b1d6-c1ea3a72d084",
+      "rollback_version_id": "54bcf7f7-9885-4ff1-a02b-8ce65a8a4efc",
       "live_gate_status": "pass",
-      "evidence": "ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com ./scripts/admin_pwa_live_gate.sh --json"
+      "evidence": "COLLECT_ADMIN_WHATSAPP_PHONE was sourced locally without being recorded; ./scripts/admin_pwa_release_build.sh passed the manifest and hosting gates and produced a fresh 58-file build. npx --yes wrangler@latest deploy --name collect-admin --assets build/web --compatibility-date 2026-08-04 --message \"Deploy Collect Admin 1.2.2+10 from 4c08c158\" --strict deployed Current Version ID 36269764-bfde-414a-b1d6-c1ea3a72d084 at 2026-08-04T19:57:56Z. The immediately preceding live version 54bcf7f7-9885-4ff1-a02b-8ce65a8a4efc is retained as the rollback target. ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com ./scripts/admin_pwa_live_gate.sh --json passed at 2026-08-04T19:58:34Z, including official icon, favicon, manifest, custom service worker, bundle, robots, cache policy, CSP, and security headers."
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."

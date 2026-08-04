@@ -232,6 +232,8 @@ create table if not exists notification_delivery_attempts (
 create index if not exists notification_deliveries_claim_idx
   on notification_deliveries (status, next_attempt_at, created_at)
   where status in ('queued', 'processing');
+create index if not exists notification_deliveries_device_idx
+  on notification_deliveries (device_id);
 create index if not exists notification_delivery_attempts_delivery_idx
   on notification_delivery_attempts (delivery_id, attempted_at desc);
 
