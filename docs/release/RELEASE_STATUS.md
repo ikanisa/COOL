@@ -1,6 +1,6 @@
 # Collect Release Status
 
-Status date: 2026-07-24
+Status date: 2026-08-04
 Canonical machine-readable inputs:
 
 - `docs/release/RELEASE_APPROVALS.json`
@@ -16,12 +16,14 @@ This file is the readable current status; machine gates remain authoritative.
 
 Current evidence is mixed:
 
-- Latest `./scripts/release_status.sh --json` result:
-  `NO-GO`, `blocked`, blocker keys `android_release_signing_review` and
-  `release_owner_signoff`.
-- The production APK/AAB are current for `1.2.2+10`, but the durable Android
-  signing and release-owner approvals in `docs/release/RELEASE_APPROVALS.json`
-  identify `1.2.2+9`. Shared gates now reject those stale approvals.
+- Latest `./scripts/release_status.sh --json` result: `NO-GO`, `blocked`, with
+  only `release_owner_signoff` remaining.
+- The production APK/AAB are current for `1.2.2+10`. Their SHA-256 values are
+  `fe130d6c493dd1ea09edf305ed4249437dab7f1c1b7035f7ec0122030a1d29aa`
+  and `441b7937d3be6ef11f32d948ad787cb60fa5d231240144a9813a5d62df8cef1d`.
+  The upload-certificate preflight and Android signing review are approved for
+  that exact version without exposing signing material. The release-owner
+  approval still identifies `1.2.2+9` and remains rejected as stale.
 - iOS is marked out of scope for the Android Google Play go-live in
   `docs/release/RELEASE_APPROVALS.json`.
 - `docs/release/UAT_EVIDENCE_MANIFEST.json` still records persona evidence as

@@ -35,13 +35,13 @@
       "status": "approved",
       "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-08-04T21:12:01Z",
-      "evidence_reference": "output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-08-04.sha256",
+      "signed_at": "2026-08-04T21:18:24Z",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md",
       "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,
-      "notes": "User-directed full release execution on 2026-08-04 covers the current 1.2.2+10 Android signing review; fresh APK/AAB builds, upload-certificate preflight, APK v2 verification, AAB signature verification, and redacted artifact hashes passed without exposing signing material.",
+      "notes": "User-directed full release execution on 2026-08-04 covers the current 1.2.2+10 Android signing review; the tracked release status records fresh APK/AAB hashes, upload-certificate preflight, APK v2 verification, AAB signature verification, and no exposed signing material.",
       "artifact_version": "1.2.2+10"
     },
     {
