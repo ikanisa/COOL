@@ -1881,11 +1881,11 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"anon_security_definer_function_executable" => 4'),
+      contains('"anon_security_definer_function_executable" => 5'),
     );
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 55'),
+      contains('"authenticated_security_definer_function_executable" => 57'),
     );
     expect(warningInventory, contains('ensure_developer_account_data()'));
     expect(warningInventory, contains('admin_runtime_config()'));
@@ -2451,7 +2451,7 @@ void main() {
     expect(schemaInventory, contains('drop function(?: if exists)?'));
     expect(
       File('scripts/supabase_advisors_warning_inventory.sh').readAsStringSync(),
-      contains('"pg_graphql_authenticated_table_exposed" => 32'),
+      contains('"pg_graphql_authenticated_table_exposed" => 35'),
     );
     expect(
       realtimeInvalidation,

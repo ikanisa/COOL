@@ -132,7 +132,8 @@ restricted_sms = %w[
 ]
 main_restricted = restricted_sms.select { |permission| manifest.include?(permission) }
 receiver_missing = %w[android.permission.READ_SMS android.permission.RECEIVE_SMS].reject { |permission| receiver_manifest.include?(permission) }
-expected_fingerprint = "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
+expected_play_fingerprint = "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92"
+expected_upload_fingerprint = "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
 
 checks = {}
 checks["package_identity"] =
@@ -179,7 +180,8 @@ checks["android_app_links"] =
       manifest.include?('android:host="collect.ikanisa.com"') &&
       manifest.include?('android:pathPrefix="/c"') &&
       assetlinks_source.include?('"package_name": "app.cool.mobile"') &&
-      assetlinks_source.include?(expected_fingerprint)
+      assetlinks_source.include?(expected_play_fingerprint) &&
+      assetlinks_source.include?(expected_upload_fingerprint)
     status = http.dig("https://collect.ikanisa.com/.well-known/assetlinks.json", "status_code") == 200 ? "pass" : "blocked"
     message = status == "pass" ? "Verified App Links source and live assetlinks endpoint are present." : "Verified App Links source is present but live assetlinks endpoint is not deployed yet."
     check(status, message, "assetlinks_url" => http["https://collect.ikanisa.com/.well-known/assetlinks.json"])
