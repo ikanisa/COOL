@@ -269,7 +269,6 @@ class MoneyHeroCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: heroColor,
         borderRadius: CollectRadius.cardLargeBorder,
-        boxShadow: CollectShadows.card(),
       ),
       child: Stack(
         children: [

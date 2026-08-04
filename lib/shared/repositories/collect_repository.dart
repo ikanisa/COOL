@@ -74,9 +74,8 @@ class CollectRepository extends StateNotifier<CollectState> {
     CollectState initialState,
     this._allowLocalWrites,
     this._offlineCache, {
-    bool appReviewDemoEnabled = false,
-  }) : _appReviewDemoEnabled = appReviewDemoEnabled,
-       super(initialState);
+    this._appReviewDemoEnabled = false,
+  }) : super(initialState);
 
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);

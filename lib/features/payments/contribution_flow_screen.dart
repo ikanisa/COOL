@@ -196,6 +196,12 @@ class _ContributionFlowScreenState
               message: _error!,
               tone: CollectStatusTone.warning,
             ),
+          const InfoSecurityBanner(
+            title: 'What happens next',
+            message:
+                'Collect opens the MoMo payment prompt. Your group ledger updates only after the payment is confirmed.',
+            tone: CollectStatusTone.privacy,
+          ),
         ],
       ],
     );

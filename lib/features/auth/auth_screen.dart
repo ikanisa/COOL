@@ -24,6 +24,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _phone = TextEditingController();
   final _otp = TextEditingController();
   final _captchaToken = TextEditingController();
+  final _scrollController = ScrollController();
   var _selectedCountry = Country.parse('RW');
   bool _otpSent = false;
   bool _submitting = false;
@@ -77,6 +78,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     _phone.dispose();
     _otp.dispose();
     _captchaToken.dispose();
+    _scrollController.dispose();
     _resendTimer?.cancel();
     super.dispose();
   }
@@ -91,43 +93,45 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Scaffold(
       backgroundColor: context.collectColors.transparent,
       body: CollectGradientBackground(
-        routePath: '/auth',
         child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(
-              CollectSpacing.x5,
-              CollectSpacing.x5,
-              CollectSpacing.x5,
-              CollectSpacing.x5,
-            ),
+          child: Column(
             children: [
-              const AuthIdentityHeader(),
-              CollectSpacing.gap24,
-              AuthHeadline(
-                otpSent: _otpSent,
-                phone: displayPhone,
-                usesReviewAuth: usesReviewAuth,
+              Expanded(
+                child: ListView(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.fromLTRB(
+                    CollectSpacing.x5,
+                    CollectSpacing.x3,
+                    CollectSpacing.x5,
+                    CollectSpacing.x5,
+                  ),
+                  children: [
+                    const AuthIdentityHeader(),
+                    CollectSpacing.gap24,
+                    AuthHeadline(
+                      otpSent: _otpSent,
+                      phone: displayPhone,
+                      usesReviewAuth: usesReviewAuth,
+                    ),
+                    CollectSpacing.gap24,
+                    AuthInputPanel(
+                      otpSent: _otpSent,
+                      phoneController: _phone,
+                      otpController: _otp,
+                      captchaController: _captchaToken,
+                      env: env,
+                      error: _error,
+                      resendRemaining: _resendRemaining,
+                      countryCode: _countryCode,
+                      onCountryTap: _showCountryPicker,
+                      onPhoneChanged: () => setState(() => _error = null),
+                      onOtpChanged: () => setState(() => _error = null),
+                      onCaptchaChanged: () => setState(() => _error = null),
+                    ),
+                  ],
+                ),
               ),
-              CollectSpacing.gap20,
-              AuthInputPanel(
-                otpSent: _otpSent,
-                phoneController: _phone,
-                otpController: _otp,
-                captchaController: _captchaToken,
-                env: env,
-                error: _error,
-                resendRemaining: _resendRemaining,
-                countryCode: _countryCode,
-                countryFlag: _selectedCountry.flagEmoji,
-                displayPhone: displayPhone,
-                onCountryTap: _showCountryPicker,
-                onPhoneChanged: () => setState(() => _error = null),
-                onOtpChanged: () => setState(() => _error = null),
-                onCaptchaChanged: () => setState(() => _error = null),
-              ),
-              CollectSpacing.gap20,
               AuthActionDock(
-                embedded: true,
                 otpSent: _otpSent,
                 submitting: _submitting,
                 resendRemaining: _resendRemaining,
@@ -153,10 +157,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 
   Future<void> _submit(AppEnv env) async {
-    setState(() {
-      _submitting = true;
-      _error = null;
-    });
+    if (_submitting) return;
+    setState(() => _error = null);
     try {
       final phone = PhoneNormalizer.normalizeInternational(_phoneForAuth);
       final client = ref.read(supabaseClientProvider);
@@ -167,8 +169,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         throw const FormatException('Complete CAPTCHA verification first.');
       }
       if (!_otpSent) {
+        FocusManager.instance.primaryFocus?.unfocus();
+        final confirmed = await _confirmPhoneNumber(phone);
+        if (!mounted || !confirmed) return;
+        setState(() => _submitting = true);
         if (_isAppReviewAuthPhone(env, phone)) {
-          if (!mounted) return;
           setState(() {
             _otpSent = true;
             _submitting = false;
@@ -184,6 +189,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         _startResendCooldown();
         return;
       }
+      setState(() => _submitting = true);
       if (_isAppReviewAuthPhone(env, phone)) {
         if (_otp.text.trim() != env.appReviewAuthOtp.trim()) {
           throw const FormatException('Invalid Apple reviewer OTP.');
@@ -210,12 +216,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       if (!mounted) return;
       context.go('/home');
     } catch (error) {
-      if (!mounted) return;
-      setState(() {
-        _error = _safeAuthErrorMessage(error);
-        _submitting = false;
-      });
+      _showAuthError(error);
     }
+  }
+
+  Future<bool> _confirmPhoneNumber(String phone) async {
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
+      builder: (context) => AuthPhoneConfirmationSheet(phone: phone),
+    );
+    return confirmed ?? false;
   }
 
   bool _isAppReviewAuthPhone(AppEnv env, String phone) {
@@ -252,11 +266,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       setState(() => _submitting = false);
       _startResendCooldown();
     } catch (error) {
-      if (!mounted) return;
-      setState(() {
-        _error = _safeAuthErrorMessage(error);
-        _submitting = false;
-      });
+      _showAuthError(error);
     }
   }
 
@@ -306,8 +316,22 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return 'Sign-in failed. Try again.';
   }
 
+  void _showAuthError(Object error) {
+    if (!mounted) return;
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _error = _safeAuthErrorMessage(error);
+      _submitting = false;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+      _scrollController.jumpTo(0);
+    });
+  }
+
   void _showCountryPicker() {
-    final foreground = context.collectColors.onImagePrimary;
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
     showCountryPicker(
       context: context,
       showPhoneCode: true,
@@ -315,7 +339,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       searchAutofocus: false,
       useSafeArea: true,
       countryListTheme: CountryListThemeData(
-        backgroundColor: CollectColors.referenceChromeBlack,
+        backgroundColor: CollectColors.referenceContentDark,
         borderRadius: CollectRadius.cardLargeBorder,
         bottomSheetHeight: MediaQuery.sizeOf(context).height * 0.74,
         flagSize: 24,
@@ -339,7 +363,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             color: foreground.withValues(alpha: 0.72),
           ),
           filled: true,
-          fillColor: foreground.withValues(alpha: 0.08),
+          fillColor: foreground.withValues(alpha: 0.12),
           border: OutlineInputBorder(
             borderRadius: CollectRadius.pillBorder,
             borderSide: BorderSide(color: foreground.withValues(alpha: 0.14)),
@@ -350,7 +374,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: CollectRadius.pillBorder,
-            borderSide: const BorderSide(color: CollectColors.brandMintGreen),
+            borderSide: BorderSide(color: colors.focusRing, width: 2),
           ),
         ),
       ),

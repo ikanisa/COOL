@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import '../../app/theme/collect_colors.dart';
@@ -267,9 +265,7 @@ class CollectCard extends StatelessWidget {
     this.onTap,
     this.padding = CollectSpacing.cardPadding,
     this.emphasis = CollectCardEmphasis.normal,
-    this.backgroundGradient,
     this.accentColor,
-    this.blurBackground = true,
     super.key,
   });
 
@@ -277,9 +273,7 @@ class CollectCard extends StatelessWidget {
   final VoidCallback? onTap;
   final EdgeInsetsGeometry padding;
   final CollectCardEmphasis emphasis;
-  final Gradient? backgroundGradient;
   final Color? accentColor;
-  final bool blurBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -313,25 +307,14 @@ class CollectCard extends StatelessWidget {
       duration: CollectMotion.duration(context, CollectMotion.fast),
       curve: CollectMotion.standard,
       decoration: BoxDecoration(
-        color: backgroundGradient == null
-            ? background.withValues(alpha: backgroundOpacity)
-            : null,
-        gradient: backgroundGradient,
+        color: background.withValues(alpha: backgroundOpacity),
         borderRadius: radius,
         border: border,
         boxShadow: shadows,
       ),
       child: Padding(padding: padding, child: child),
     );
-    final decorated = ClipRRect(
-      borderRadius: radius,
-      child: blurBackground
-          ? BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-              child: container,
-            )
-          : container,
-    );
+    final decorated = ClipRRect(borderRadius: radius, child: container);
     return Material(
       color: colors.transparent,
       borderRadius: radius,

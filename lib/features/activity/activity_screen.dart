@@ -9,8 +9,6 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-const _activityBackdropLimit = 8;
-
 class ActivityScreen extends ConsumerStatefulWidget {
   const ActivityScreen({super.key});
 
@@ -119,7 +117,6 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                 RepaintBoundary(
                   child: CollectCard(
                     emphasis: CollectCardEmphasis.flat,
-                    blurBackground: visible.length <= _activityBackdropLimit,
                     child: Column(
                       children: [
                         for (

@@ -40,7 +40,6 @@ class ShareScreen extends ConsumerWidget {
     final shareText = groupShareMessageFor(env, collection);
 
     return CollectGradientBackground(
-      routePath: '/groups/$collectionId/share',
       child: Scaffold(
         backgroundColor: colors.transparent,
         body: SafeArea(

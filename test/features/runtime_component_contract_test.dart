@@ -21,7 +21,7 @@ void main() {
     final light = AppTheme.light().extension<CollectColors>();
     expect(light, isNotNull);
     expect(light!.surface, CollectColors.brandPaper);
-    expect(light.screenBase, CollectColors.referencePaymentsPurple);
+    expect(light.screenBase, CollectColors.referenceAccountNavyDeep);
   });
 
   test('Collect light and dark modes are visually distinctive', () {
@@ -81,51 +81,12 @@ void main() {
     );
   });
 
-  test('route background families are applied by route', () {
+  test('customer routes share one clean background system', () {
     final light = AppTheme.light().extension<CollectColors>()!;
 
-    expect(
-      (light.screenGradientForPath('/home') as LinearGradient).begin,
-      Alignment.topCenter,
-    );
-    expect(
-      (light.screenGradientForPath('/home') as LinearGradient).end,
-      Alignment.bottomCenter,
-    );
-    final routeGradients = <String, List<Color>>{
-      '/home': _gradientColors(light.screenGradientForPath('/home')),
-      '/groups': _gradientColors(light.screenGradientForPath('/groups')),
-      '/groups/group_1/contribute': _gradientColors(
-        light.screenGradientForPath('/groups/group_1/contribute'),
-      ),
-      '/groups/group_1/share': _gradientColors(
-        light.screenGradientForPath('/groups/group_1/share'),
-      ),
-      '/groups/create': _gradientColors(
-        light.screenGradientForPath('/groups/create'),
-      ),
-      '/settings': _gradientColors(light.screenGradientForPath('/settings')),
-      '/settings/legal/privacy': _gradientColors(
-        light.screenGradientForPath('/settings/legal/privacy'),
-      ),
-    };
-    expect(routeGradients.values, everyElement(isNotEmpty));
-    expect(routeGradients['/home'], hasLength(greaterThanOrEqualTo(3)));
-    expect(routeGradients['/groups'], isNot(routeGradients['/home']));
-    expect(
-      routeGradients['/groups/group_1/contribute'],
-      isNot(routeGradients['/groups']),
-    );
-    expect(
-      routeGradients['/groups/group_1/share'],
-      isNot(routeGradients['/groups/group_1/contribute']),
-    );
-    expect(routeGradients['/groups/create'], isNot(routeGradients['/home']));
-    expect(routeGradients['/settings'], isNot(routeGradients['/home']));
-    expect(
-      routeGradients['/settings/legal/privacy'],
-      isNot(routeGradients['/settings']),
-    );
+    expect(light.screenGradient.begin, Alignment.topCenter);
+    expect(light.screenGradient.end, Alignment.bottomCenter);
+    expect(light.screenGradient.colors, hasLength(greaterThanOrEqualTo(3)));
   });
 
   testWidgets('top chrome profile control is visible and links to profile', (
@@ -516,7 +477,7 @@ void main() {
     }
   });
 
-  test('mobile visual foundation uses compact reference geometry', () {
+  test('mobile visual foundation uses compact clean geometry', () {
     expect(CollectRadius.card, 16);
     expect(CollectRadius.cardLarge, 20);
     expect(CollectRadius.panel, 20);
@@ -529,8 +490,9 @@ void main() {
       'lib/core/widgets/collect_shell.dart',
     ).readAsStringSync();
     expect(shell, contains('final height = showLabels ? 60.0 : 52.0;'));
-    expect(shell, contains('width: selected ? 44 : 38'));
-    expect(shell, isNot(contains('width: selected ? 74 : 46')));
+    expect(shell, contains('size: selected ? 23 : 21'));
+    expect(shell, isNot(contains('BackdropFilter')));
+    expect(shell, isNot(contains('ImageFilter.blur')));
   });
 
   test('universal semantic token extension covers mobile and admin roles', () {
@@ -1830,15 +1792,6 @@ void main() {
     );
     expect(collectRoutePaths, isNot(contains('/admin')));
   });
-}
-
-List<Color> _gradientColors(Gradient gradient) {
-  return switch (gradient) {
-    LinearGradient(:final colors) => colors,
-    RadialGradient(:final colors) => colors,
-    SweepGradient(:final colors) => colors,
-    _ => fail('Unsupported gradient type: ${gradient.runtimeType}'),
-  };
 }
 
 Future<void> _pumpCollect(WidgetTester tester, Widget child) async {

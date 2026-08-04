@@ -657,8 +657,8 @@ void main() {
       legalConsentAccepted: true,
     );
 
-    expect(find.text('Sign in'), findsOneWidget);
-    expect(find.text('WhatsApp'), findsOneWidget);
+    expect(find.text("Let's get started!"), findsOneWidget);
+    expect(find.textContaining('code on WhatsApp'), findsOneWidget);
     expect(find.text('Send WhatsApp code'), findsOneWidget);
     expect(
       tester.getBottomRight(find.text('Send WhatsApp code')).dy,
@@ -668,12 +668,16 @@ void main() {
     await tester.enterText(find.byType(TextField).first, '+250789123456');
     await tapVisible(tester, find.text('Send WhatsApp code'));
 
+    expect(find.text('Confirm your number'), findsOneWidget);
+    await tester.pumpAndSettle();
+    await tapVisible(tester, find.text('Confirm and send'));
+
     expect(find.text('Authentication failed'), findsOneWidget);
     expect(
       find.textContaining('WhatsApp sign-in is unavailable'),
       findsOneWidget,
     );
-    expect(find.text('Verify WhatsApp'), findsNothing);
+    expect(find.text('6-digit code'), findsNothing);
     expect(repository.state.currentProfile, isNull);
     expectNoGlobalSecrets();
   });
@@ -815,7 +819,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.text("Let's get started!"), findsOneWidget);
     expect(await store.readSlug(), 'st-michel-building-fund');
     expectNoGlobalSecrets();
   });
@@ -1005,19 +1009,7 @@ void main() {
   ) async {
     await pumpMainAppAt(tester, '/settings', themeMode: ThemeMode.light);
 
-    final gradients = tester
-        .widgetList<CollectCard>(find.byType(CollectCard))
-        .map((card) => card.backgroundGradient)
-        .whereType<LinearGradient>();
-    expect(
-      gradients.any(
-        (gradient) =>
-            gradient.colors.length == 2 &&
-            gradient.colors.first == CollectColors.light.surfaceReadable &&
-            gradient.colors.last == CollectColors.light.surfaceRaised,
-      ),
-      isTrue,
-    );
+    expect(find.byType(CollectCard), findsWidgets);
     expect(find.text('Account details'), findsOneWidget);
     expect(find.text('Notifications'), findsWidgets);
   });
@@ -1074,7 +1066,7 @@ void main() {
           (
             '/auth',
             [
-              (RegExp(r'^WhatsApp$'), true),
+              (RegExp(r"Let's get started!"), false),
               (RegExp(r'^Send WhatsApp code$'), false),
             ],
           ),

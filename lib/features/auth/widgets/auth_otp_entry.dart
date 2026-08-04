@@ -107,58 +107,75 @@ class AuthOtpEntryState extends State<AuthOtpEntry> {
   @override
   Widget build(BuildContext context) {
     final foreground = context.collectColors.onImagePrimary;
-    return Semantics(
-      textField: true,
-      label: 'Verification code',
-      child: Row(
-        children: List.generate(_digitCount, (index) {
-          return Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: index == _digitCount - 1 ? 0 : 6),
-              child: Focus(
-                onKeyEvent: (_, event) => _handleKey(index, event),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: foreground.withValues(alpha: 0.08),
-                    borderRadius: CollectRadius.mdBorder,
-                    border: Border.all(
-                      color: foreground.withValues(alpha: 0.16),
+    return AutofillGroup(
+      child: Semantics(
+        textField: true,
+        label: 'Verification code',
+        child: Row(
+          children: [
+            for (var index = 0; index < _digitCount; index += 1) ...[
+              Expanded(
+                child: Focus(
+                  onKeyEvent: (_, event) => _handleKey(index, event),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: foreground.withValues(alpha: 0.18),
+                      borderRadius: BorderRadius.circular(17),
                     ),
-                  ),
-                  child: SizedBox(
-                    height: 58,
-                    child: TextField(
-                      key: ValueKey('auth_otp_digit_$index'),
-                      controller: _controllers[index],
-                      focusNode: _nodes[index],
-                      keyboardType: TextInputType.number,
-                      autofillHints: index == 0
-                          ? const [AutofillHints.oneTimeCode]
-                          : null,
-                      textInputAction: index == _digitCount - 1
-                          ? TextInputAction.done
-                          : TextInputAction.next,
-                      textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: foreground,
-                        fontWeight: CollectTypography.weightBold,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                        letterSpacing: CollectTypography.trackingDefault,
+                    child: SizedBox(
+                      height: 64,
+                      child: TextField(
+                        key: ValueKey('auth_otp_digit_$index'),
+                        controller: _controllers[index],
+                        focusNode: _nodes[index],
+                        keyboardType: TextInputType.number,
+                        autofocus: index == 0,
+                        autofillHints: index == 0
+                            ? const [AutofillHints.oneTimeCode]
+                            : null,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        obscureText: true,
+                        obscuringCharacter: '•',
+                        textInputAction: index == _digitCount - 1
+                            ? TextInputAction.done
+                            : TextInputAction.next,
+                        textAlign: TextAlign.center,
+                        textAlignVertical: TextAlignVertical.center,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: foreground,
+                          fontWeight: CollectTypography.weightBold,
+                          fontFeatures: const [FontFeature.tabularFigures()],
+                        ),
+                        decoration: const InputDecoration(
+                          counterText: '',
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) => _handleDigit(index, value),
                       ),
-                      decoration: const InputDecoration(
-                        counterText: '',
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (value) => _handleDigit(index, value),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        }),
+              if (index == 2)
+                SizedBox(
+                  width: 20,
+                  child: Text(
+                    '–',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: foreground.withValues(alpha: 0.72),
+                    ),
+                  ),
+                )
+              else if (index != _digitCount - 1)
+                const SizedBox(width: 6),
+            ],
+          ],
+        ),
       ),
     );
   }

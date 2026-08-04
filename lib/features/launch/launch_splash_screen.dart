@@ -42,7 +42,6 @@ class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
     return Scaffold(
       backgroundColor: colors.transparent,
       body: CollectGradientBackground(
-        routePath: '/auth',
         child: SizedBox.expand(
           child: SafeArea(
             child: LayoutBuilder(

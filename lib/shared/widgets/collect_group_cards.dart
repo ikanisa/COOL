@@ -59,8 +59,6 @@ class GroupCard extends StatelessWidget {
 
 enum GroupCardVariant { owned, publicDiscovery, compact, visual }
 
-const _groupListBackdropLimit = 8;
-
 class GroupListPanel extends StatelessWidget {
   const GroupListPanel({
     required this.collections,
@@ -76,11 +74,9 @@ class GroupListPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final usesBackdropBlur = collections.length <= _groupListBackdropLimit;
     final panel = CollectCard(
       padding: EdgeInsets.zero,
       emphasis: CollectCardEmphasis.normal,
-      blurBackground: usesBackdropBlur,
       child: Column(
         children: [
           for (var index = 0; index < collections.length; index += 1) ...[
@@ -107,7 +103,7 @@ class GroupListPanel extends StatelessWidget {
         ],
       ),
     );
-    return usesBackdropBlur ? panel : RepaintBoundary(child: panel);
+    return RepaintBoundary(child: panel);
   }
 }
 
@@ -250,7 +246,6 @@ class _OwnedGroupCard extends StatelessWidget {
       padding: CollectSpacing.cardPaddingComfortable,
       emphasis: CollectCardEmphasis.tonal,
       accentColor: accent,
-      backgroundGradient: _groupCardGradient(context, accent),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -334,7 +329,6 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       emphasis: CollectCardEmphasis.glow,
       accentColor: accent,
-      backgroundGradient: _groupCardGradient(context, accent),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
         child: Stack(
@@ -536,7 +530,6 @@ class _VisualGroupCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       emphasis: CollectCardEmphasis.glow,
       accentColor: accent,
-      backgroundGradient: _groupCardGradient(context, accent),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
         child: Stack(

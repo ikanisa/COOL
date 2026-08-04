@@ -618,14 +618,9 @@ class CollectAsyncStateView<T> extends StatelessWidget {
 }
 
 class CollectBottomSheet extends StatelessWidget {
-  const CollectBottomSheet({
-    required this.child,
-    this.blurBackground = true,
-    super.key,
-  });
+  const CollectBottomSheet({required this.child, super.key});
 
   final Widget child;
-  final bool blurBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -633,11 +628,9 @@ class CollectBottomSheet extends StatelessWidget {
     final sheet = DecoratedBox(
       decoration: BoxDecoration(
         color: colors.glassPanel,
-        border: Border.all(color: colors.glassBorder),
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(CollectRadius.bottomSheet),
         ),
-        boxShadow: CollectShadows.card(),
       ),
       child: Material(
         type: MaterialType.transparency,
@@ -651,12 +644,7 @@ class CollectBottomSheet extends StatelessWidget {
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(CollectRadius.bottomSheet),
       ),
-      child: blurBackground
-          ? BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
-              child: sheet,
-            )
-          : sheet,
+      child: sheet,
     );
   }
 }

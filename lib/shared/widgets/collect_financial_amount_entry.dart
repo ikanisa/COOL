@@ -91,7 +91,6 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
       child: CollectCard(
         emphasis: CollectCardEmphasis.compact,
         padding: CollectSpacing.cardPaddingComfortable,
-        blurBackground: !_amountFocusNode.hasFocus,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

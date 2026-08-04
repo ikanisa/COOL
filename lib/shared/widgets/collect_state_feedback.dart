@@ -288,15 +288,8 @@ class CollectConnectivityBanner extends StatelessWidget {
       label: details.semanticLabel,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Color.alphaBlend(
-            colors.statusForeground(details.tone).withValues(alpha: 0.24),
-            CollectColors.referenceChromeBlack.withValues(alpha: 0.94),
-          ),
+          color: colors.statusBackground(details.tone),
           borderRadius: CollectRadius.pillBorder,
-          border: Border.all(
-            color: colors.onImagePrimary.withValues(alpha: 0.28),
-          ),
-          boxShadow: CollectShadows.card(),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -306,7 +299,11 @@ class CollectConnectivityBanner extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(details.icon, color: colors.onImagePrimary, size: 18),
+              Icon(
+                details.icon,
+                color: colors.statusForeground(details.tone),
+                size: 18,
+              ),
               CollectSpacing.gapW8,
               Flexible(
                 child: Text(
@@ -315,7 +312,7 @@ class CollectConnectivityBanner extends StatelessWidget {
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: colors.onImagePrimary,
+                    color: colors.statusForeground(details.tone),
                     fontWeight: CollectTypography.weightBold,
                     letterSpacing: CollectTypography.trackingDefault,
                   ),

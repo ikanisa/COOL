@@ -218,9 +218,9 @@ void main() {
         '/settings/legal/privacy',
         '/offline',
       ];
+      final gradient = colors.screenGradient;
 
       for (final path in routePaths) {
-        final gradient = colors.screenGradientForPath(path) as LinearGradient;
         for (var index = 0; index < gradient.colors.length; index += 1) {
           final background = gradient.colors[index];
           _expectContrast(

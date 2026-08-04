@@ -29,73 +29,40 @@ class CollectShell extends StatelessWidget {
     final selectedIndex =
         navigationShell?.currentIndex ?? _selectedIndexForPath(path);
     final body = navigationShell ?? child!;
-    return CollectBackgroundRouteScope(
-      routePath: path,
-      child: CollectGradientBackground(
-        routePath: path,
-        child: Scaffold(
-          backgroundColor: colors.transparent,
-          extendBody: true,
-          body: useRail
-              ? Row(
-                  children: [
-                    _CollectNavigationRail(
-                      selectedIndex: selectedIndex,
-                      onDestinationSelected: _navigateToIndex,
-                    ),
-                    Expanded(child: body),
-                  ],
-                )
-              : body,
-          bottomNavigationBar: showNav && !useRail
-              ? SafeArea(
-                  top: false,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(32),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: CollectColors.referenceChromeBlack.withValues(
-                            alpha: 0.94,
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              colors.onImagePrimary.withValues(alpha: 0.08),
-                              CollectColors.inkPrimary.withValues(alpha: 0.92),
-                              CollectColors.referenceChromeBlack.withValues(
-                                alpha: 0.98,
-                              ),
-                            ],
-                          ),
-                          border: Border.all(
-                            color: colors.onImagePrimary.withValues(
-                              alpha: 0.28,
-                            ),
-                            width: 1,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: CollectColors.inkPrimary.withValues(
-                                alpha: 0.26,
-                              ),
-                              blurRadius: 24,
-                              offset: const Offset(0, 12),
-                            ),
-                          ],
-                        ),
-                        child: _CollectBottomNav(
-                          selectedIndex: selectedIndex,
-                          onDestinationSelected: _navigateToIndex,
-                        ),
+    return CollectGradientBackground(
+      child: Scaffold(
+        backgroundColor: colors.transparent,
+        extendBody: true,
+        body: useRail
+            ? Row(
+                children: [
+                  _CollectNavigationRail(
+                    selectedIndex: selectedIndex,
+                    onDestinationSelected: _navigateToIndex,
+                  ),
+                  Expanded(child: body),
+                ],
+              )
+            : body,
+        bottomNavigationBar: showNav && !useRail
+            ? SafeArea(
+                top: false,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: CollectColors.referenceChromeBlack,
+                    border: Border(
+                      top: BorderSide(
+                        color: colors.onImagePrimary.withValues(alpha: 0.10),
                       ),
                     ),
                   ),
-                )
-              : null,
-        ),
+                  child: _CollectBottomNav(
+                    selectedIndex: selectedIndex,
+                    onDestinationSelected: _navigateToIndex,
+                  ),
+                ),
+              )
+            : null,
       ),
     );
   }
@@ -215,76 +182,59 @@ class _CollectNavigationRail extends StatelessWidget {
     final colors = context.collectColors;
     return SafeArea(
       right: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(34),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: CollectColors.referenceChromeBlack.withValues(alpha: 0.94),
-              border: Border.all(
-                color: colors.onImagePrimary.withValues(alpha: 0.34),
-              ),
-              borderRadius: BorderRadius.circular(34),
-              boxShadow: [
-                BoxShadow(
-                  color: CollectColors.inkPrimary.withValues(alpha: 0.30),
-                  blurRadius: 32,
-                  offset: const Offset(14, 18),
-                ),
-              ],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: CollectColors.referenceChromeBlack,
+          border: Border(
+            right: BorderSide(
+              color: colors.onImagePrimary.withValues(alpha: 0.10),
             ),
-            child: Semantics(
-              container: true,
-              label: 'Primary navigation rail',
-              child: NavigationRail(
-                backgroundColor: colors.transparent,
-                selectedIndex: selectedIndex,
-                minWidth: 88,
-                minExtendedWidth: 128,
-                labelType: NavigationRailLabelType.all,
-                useIndicator: true,
-                indicatorColor: colors.periwinklePaint.withValues(alpha: 0.30),
-                selectedIconTheme: IconThemeData(
+          ),
+        ),
+        child: Semantics(
+          container: true,
+          label: 'Primary navigation rail',
+          child: NavigationRail(
+            backgroundColor: colors.transparent,
+            selectedIndex: selectedIndex,
+            minWidth: 88,
+            minExtendedWidth: 128,
+            labelType: NavigationRailLabelType.all,
+            useIndicator: false,
+            selectedIconTheme: IconThemeData(
+              color: colors.onImagePrimary,
+              size: 24,
+            ),
+            unselectedIconTheme: IconThemeData(
+              color: colors.onImagePrimary.withValues(alpha: 0.60),
+              size: 22,
+            ),
+            selectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(
                   color: colors.onImagePrimary,
-                  size: 24,
+                  fontWeight: CollectTypography.weightBold,
                 ),
-                unselectedIconTheme: IconThemeData(
-                  color: colors.onImagePrimary.withValues(alpha: 0.68),
-                  size: 22,
+            unselectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(
+                  color: colors.onImagePrimary.withValues(alpha: 0.60),
+                  fontWeight: CollectTypography.weightMedium,
                 ),
-                selectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
-                    ?.copyWith(
-                      color: colors.onImagePrimary,
-                      fontWeight: CollectTypography.weightBold,
-                      letterSpacing: CollectTypography.trackingDefault,
-                    ),
-                unselectedLabelTextStyle: Theme.of(context)
-                    .textTheme
-                    .labelMedium
-                    ?.copyWith(
-                      color: colors.onImagePrimary.withValues(alpha: 0.68),
-                      fontWeight: CollectTypography.weightBold,
-                      letterSpacing: CollectTypography.trackingDefault,
-                    ),
-                onDestinationSelected: (index) =>
-                    onDestinationSelected(context, index),
-                destinations: [
-                  for (final destination in _collectNavDestinations)
-                    NavigationRailDestination(
-                      icon: Tooltip(
-                        message: destination.label,
-                        child: Icon(destination.icon),
-                      ),
-                      selectedIcon: Tooltip(
-                        message: destination.label,
-                        child: Icon(destination.selectedIcon),
-                      ),
-                      label: Text(destination.label),
-                    ),
-                ],
-              ),
-            ),
+            onDestinationSelected: (index) =>
+                onDestinationSelected(context, index),
+            destinations: [
+              for (final destination in _collectNavDestinations)
+                NavigationRailDestination(
+                  icon: Tooltip(
+                    message: destination.label,
+                    child: Icon(destination.icon),
+                  ),
+                  selectedIcon: Tooltip(
+                    message: destination.label,
+                    child: Icon(destination.selectedIcon),
+                  ),
+                  label: Text(destination.label),
+                ),
+            ],
           ),
         ),
       ),
@@ -312,14 +262,6 @@ class _CollectBottomNavItem extends StatelessWidget {
     final foreground = selected
         ? colors.onImagePrimary
         : colors.onImagePrimary.withValues(alpha: 0.72);
-    final indicator = LinearGradient(
-      colors: [
-        colors.onImagePrimary.withValues(alpha: 0.24),
-        colors.periwinklePaint.withValues(alpha: 0.34),
-      ],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    );
     return Semantics(
       button: true,
       selected: selected,
@@ -336,31 +278,10 @@ class _CollectBottomNavItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                AnimatedContainer(
-                  duration: CollectMotion.duration(
-                    context,
-                    CollectMotion.medium,
-                  ),
-                  curve: CollectMotion.standard,
-                  width: selected ? 44 : 38,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? null
-                        : colors.onImagePrimary.withValues(alpha: 0.025),
-                    gradient: selected ? indicator : null,
-                    borderRadius: CollectRadius.pillBorder,
-                    border: Border.all(
-                      color: colors.onImagePrimary.withValues(
-                        alpha: selected ? 0.28 : 0.05,
-                      ),
-                    ),
-                  ),
-                  child: Icon(
-                    selected ? destination.selectedIcon : destination.icon,
-                    size: selected ? 21 : 20,
-                    color: foreground,
-                  ),
+                Icon(
+                  selected ? destination.selectedIcon : destination.icon,
+                  size: selected ? 23 : 21,
+                  color: foreground,
                 ),
                 if (showLabel) ...[
                   const SizedBox(height: 3),

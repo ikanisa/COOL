@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'collect_colors.dart';
 import 'collect_radius.dart';
-import 'collect_shadows.dart';
 
 class CollectRuntimeTokens {
   const CollectRuntimeTokens._();
@@ -34,11 +33,11 @@ class CollectRuntimeTokens {
   }
 
   static Color chromeControl(CollectColors colors) {
-    return CollectColors.referenceChromeBlack.withValues(alpha: 0.92);
+    return colors.onImagePrimary.withValues(alpha: 0.14);
   }
 
   static Color chromeControlBorder(CollectColors colors) {
-    return colors.onImagePrimary.withValues(alpha: 0.24);
+    return CollectColors.transparentColor;
   }
 
   static Color chromeAvatarBorder(CollectColors colors) {
@@ -64,7 +63,7 @@ class CollectRuntimeTokens {
     ),
   ];
 
-  static Color inputFill(CollectColors colors) => colors.glassControl;
+  static Color inputFill(CollectColors colors) => colors.surfaceRaised;
 
   static Color controlBorder(CollectColors colors) => colors.controlBorder;
 
@@ -74,7 +73,7 @@ class CollectRuntimeTokens {
     return colors.periwinklePaint.withValues(alpha: 0.18);
   }
 
-  static Color chipBackground(CollectColors colors) => colors.glassControl;
+  static Color chipBackground(CollectColors colors) => colors.surfaceRaised;
 
   static Color chipSelectedBackground(CollectColors colors) {
     return colors.periwinklePaint;
@@ -103,26 +102,18 @@ class CollectRuntimeTokens {
   ) {
     final isDark = brightness == Brightness.dark;
     return switch (emphasis) {
-      CollectRuntimeCardEmphasis.flat =>
-        isDark ? CollectColors.referenceContentDark : colors.surface,
-      CollectRuntimeCardEmphasis.outline =>
-        isDark
-            ? CollectColors.referencePaymentsPurpleDeep
-            : colors.surfaceRaised,
+      CollectRuntimeCardEmphasis.flat => colors.surface,
+      CollectRuntimeCardEmphasis.outline => colors.surfaceRaised,
       CollectRuntimeCardEmphasis.tonal => Color.alphaBlend(
         (accentColor ?? colors.actionColor).withValues(
-          alpha: isDark ? 0.18 : 0.08,
+          alpha: isDark ? 0.14 : 0.07,
         ),
-        isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
+        colors.surfaceRaised,
       ),
-      CollectRuntimeCardEmphasis.glow =>
-        isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
-      CollectRuntimeCardEmphasis.compact =>
-        isDark
-            ? CollectColors.referencePaymentsPurpleDeep
-            : colors.surfaceRaised,
-      CollectRuntimeCardEmphasis.hero || CollectRuntimeCardEmphasis.normal =>
-        isDark ? CollectColors.referencePaymentsPurple : colors.surfaceMuted,
+      CollectRuntimeCardEmphasis.glow => colors.surfaceRaised,
+      CollectRuntimeCardEmphasis.compact => colors.surfaceRaised,
+      CollectRuntimeCardEmphasis.hero ||
+      CollectRuntimeCardEmphasis.normal => colors.surfaceRaised,
     };
   }
 
@@ -130,16 +121,7 @@ class CollectRuntimeTokens {
     Brightness brightness,
     CollectRuntimeCardEmphasis emphasis,
   ) {
-    final isDark = brightness == Brightness.dark;
-    return switch (emphasis) {
-      CollectRuntimeCardEmphasis.hero => isDark ? 0.90 : 0.82,
-      CollectRuntimeCardEmphasis.glow => isDark ? 0.88 : 0.80,
-      CollectRuntimeCardEmphasis.tonal => isDark ? 0.86 : 0.78,
-      CollectRuntimeCardEmphasis.compact => isDark ? 0.84 : 0.76,
-      CollectRuntimeCardEmphasis.flat => isDark ? 0.82 : 0.70,
-      CollectRuntimeCardEmphasis.outline => isDark ? 0.82 : 0.74,
-      CollectRuntimeCardEmphasis.normal => isDark ? 0.84 : 0.78,
-    };
+    return 1;
   }
 
   static Border? cardBorder(
@@ -148,30 +130,15 @@ class CollectRuntimeTokens {
     CollectRuntimeCardEmphasis emphasis,
     Color? accentColor,
   ) {
-    final isDark = brightness == Brightness.dark;
     return switch (emphasis) {
-      CollectRuntimeCardEmphasis.flat => null,
-      CollectRuntimeCardEmphasis.glow => Border.all(
-        color: (accentColor ?? colors.actionColor).withValues(
-          alpha: isDark ? 0.34 : 0.24,
-        ),
-      ),
-      CollectRuntimeCardEmphasis.outline => Border.all(
-        color: isDark
-            ? colors.onImagePrimary.withValues(alpha: 0.14)
-            : colors.border,
-      ),
-      CollectRuntimeCardEmphasis.compact => Border.all(
-        color: isDark
-            ? colors.onImagePrimary.withValues(alpha: 0.12)
-            : colors.border.withValues(alpha: 0.72),
-      ),
+      CollectRuntimeCardEmphasis.flat ||
+      CollectRuntimeCardEmphasis.glow ||
       CollectRuntimeCardEmphasis.hero ||
       CollectRuntimeCardEmphasis.tonal ||
-      CollectRuntimeCardEmphasis.normal => Border.all(
-        color: isDark
-            ? colors.onImagePrimary.withValues(alpha: 0.12)
-            : colors.border,
+      CollectRuntimeCardEmphasis.normal => null,
+      CollectRuntimeCardEmphasis.outline => Border.all(color: colors.border),
+      CollectRuntimeCardEmphasis.compact => Border.all(
+        color: colors.border.withValues(alpha: 0.72),
       ),
     };
   }
@@ -182,24 +149,7 @@ class CollectRuntimeTokens {
     CollectRuntimeCardEmphasis emphasis,
     Color? accentColor,
   ) {
-    final isDark = brightness == Brightness.dark;
-    return switch (emphasis) {
-      CollectRuntimeCardEmphasis.flat ||
-      CollectRuntimeCardEmphasis.outline ||
-      CollectRuntimeCardEmphasis.compact => const <BoxShadow>[],
-      CollectRuntimeCardEmphasis.glow => [
-        BoxShadow(
-          color: (accentColor ?? colors.actionColor).withValues(
-            alpha: isDark ? 0.20 : 0.13,
-          ),
-          blurRadius: isDark ? 34 : 28,
-          offset: const Offset(0, 18),
-        ),
-      ],
-      CollectRuntimeCardEmphasis.hero ||
-      CollectRuntimeCardEmphasis.tonal ||
-      CollectRuntimeCardEmphasis.normal => CollectShadows.card(),
-    };
+    return const <BoxShadow>[];
   }
 
   static BorderRadius cardRadius(CollectRuntimeCardEmphasis emphasis) {

@@ -26,85 +26,64 @@ class AuthActionDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
     return Padding(
       padding: embedded
           ? EdgeInsets.zero
           : const EdgeInsets.fromLTRB(
-              CollectSpacing.x4,
+              CollectSpacing.x5,
               CollectSpacing.x2,
-              CollectSpacing.x4,
+              CollectSpacing.x5,
               CollectSpacing.x4,
             ),
-      child: ClipRRect(
-        borderRadius: CollectRadius.cardLargeBorder,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: CollectColors.referenceChromeBlack.withValues(alpha: 0.72),
-              borderRadius: CollectRadius.cardLargeBorder,
-              border: Border.all(color: foreground.withValues(alpha: 0.16)),
-              boxShadow: [
-                BoxShadow(
-                  color: CollectColors.referenceChromeBlack.withValues(
-                    alpha: 0.32,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Semantics(
+            liveRegion: submitting,
+            label: submitting
+                ? otpSent
+                      ? 'Verifying code'
+                      : 'Sending WhatsApp code'
+                : null,
+            child: _AuthNativeActionButton(
+              key: const ValueKey('auth_submit_button'),
+              label: submitting
+                  ? otpSent
+                        ? 'Verifying code'
+                        : 'Sending code'
+                  : otpSent
+                  ? 'Verify and continue'
+                  : 'Send WhatsApp code',
+              busy: submitting,
+              onPressed: canSubmit ? onSubmit : null,
+            ),
+          ),
+          if (otpSent) ...[
+            CollectSpacing.gap8,
+            Row(
+              children: [
+                Expanded(
+                  child: _AuthNativeActionButton(
+                    key: const ValueKey('auth_change_button'),
+                    label: 'Change number',
+                    onPressed: onAnotherNumber,
+                    isPrimary: false,
                   ),
-                  blurRadius: 34,
-                  offset: const Offset(0, 16),
+                ),
+                Expanded(
+                  child: _AuthNativeActionButton(
+                    key: const ValueKey('auth_resend_button'),
+                    label: resendRemaining > 0
+                        ? '${resendRemaining}s'
+                        : 'Resend',
+                    onPressed: canResend ? onResend : null,
+                    isPrimary: false,
+                  ),
                 ),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(CollectSpacing.x3),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _AuthNativeActionButton(
-                    key: const ValueKey('auth_submit_button'),
-                    label: submitting
-                        ? 'Checking'
-                        : otpSent
-                        ? 'Verify and continue'
-                        : 'Send WhatsApp code',
-                    icon: otpSent ? CollectIcons.shield : null,
-                    leading: otpSent ? null : const AuthSupportIcon(size: 20),
-                    onPressed: canSubmit ? onSubmit : null,
-                  ),
-                  if (otpSent) ...[
-                    CollectSpacing.gap12,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _AuthNativeActionButton(
-                            key: const ValueKey('auth_change_button'),
-                            label: 'Change',
-                            icon: CollectIcons.tune,
-                            onPressed: onAnotherNumber,
-                            isPrimary: false,
-                          ),
-                        ),
-                        CollectSpacing.gapW12,
-                        Expanded(
-                          child: _AuthNativeActionButton(
-                            key: const ValueKey('auth_resend_button'),
-                            label: resendRemaining > 0
-                                ? '${resendRemaining}s'
-                                : 'Resend',
-                            icon: CollectIcons.sync,
-                            onPressed: canResend ? onResend : null,
-                            isPrimary: false,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ),
+          ],
+        ],
       ),
     );
   }
@@ -114,15 +93,13 @@ class _AuthNativeActionButton extends StatelessWidget {
   const _AuthNativeActionButton({
     required this.label,
     required this.onPressed,
-    this.icon,
-    this.leading,
+    this.busy = false,
     this.isPrimary = true,
     super.key,
   });
 
   final String label;
-  final IconData? icon;
-  final Widget? leading;
+  final bool busy;
   final VoidCallback? onPressed;
   final bool isPrimary;
 
@@ -131,13 +108,15 @@ class _AuthNativeActionButton extends StatelessWidget {
     final colors = context.collectColors;
     final enabled = onPressed != null;
     final foreground = isPrimary
-        ? colors.onImagePrimary.withValues(alpha: enabled ? 1 : 0.42)
+        ? CollectColors.referenceChromeBlack.withValues(
+            alpha: enabled ? 1 : 0.46,
+          )
         : colors.onImagePrimary.withValues(alpha: enabled ? 0.92 : 0.38);
     final background = isPrimary
         ? enabled
-              ? colors.actionColor
-              : colors.onImagePrimary.withValues(alpha: 0.10)
-        : colors.onImagePrimary.withValues(alpha: enabled ? 0.12 : 0.06);
+              ? colors.onImagePrimary
+              : colors.onImagePrimary.withValues(alpha: 0.46)
+        : CollectColors.transparentColor;
     return SizedBox(
       width: double.infinity,
       height: isPrimary ? 56 : 48,
@@ -148,7 +127,7 @@ class _AuthNativeActionButton extends StatelessWidget {
           ),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(isPrimary ? 16 : 14),
+              borderRadius: BorderRadius.circular(isPrimary ? 28 : 14),
             ),
           ),
           backgroundColor: WidgetStatePropertyAll(background),
@@ -162,17 +141,16 @@ class _AuthNativeActionButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (leading != null)
-              IconTheme.merge(
-                data: IconThemeData(
+            if (busy)
+              SizedBox.square(
+                dimension: isPrimary ? 19 : 17,
+                child: CircularProgressIndicator(
+                  key: const ValueKey('auth_submit_progress'),
+                  strokeWidth: 2,
                   color: foreground,
-                  size: isPrimary ? 19 : 17,
                 ),
-                child: leading!,
-              )
-            else if (icon != null)
-              Icon(icon, color: foreground, size: isPrimary ? 19 : 17),
-            CollectSpacing.gapW8,
+              ),
+            if (busy) CollectSpacing.gapW8,
             Flexible(
               child: Text(
                 label,

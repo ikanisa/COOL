@@ -106,14 +106,6 @@ class SearchWithClearField extends StatelessWidget {
       decoration: BoxDecoration(
         color: CollectRuntimeTokens.inputFill(colors),
         borderRadius: CollectRadius.pillBorder,
-        border: Border.all(color: CollectRuntimeTokens.inputBorder(colors)),
-        boxShadow: [
-          BoxShadow(
-            color: CollectRuntimeTokens.inputShadow(colors),
-            blurRadius: 22,
-            offset: const Offset(0, 12),
-          ),
-        ],
       ),
       child: TextField(
         controller: controller,

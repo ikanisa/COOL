@@ -546,7 +546,6 @@ class _AppearancePreview extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: gradient,
               borderRadius: CollectRadius.cardLargeBorder,
-              border: Border.all(color: previewColors.borderSoft),
             ),
             child: Column(
               children: [
@@ -559,7 +558,6 @@ class _AppearancePreview extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: previewColors.surfaceRaised,
                         shape: BoxShape.circle,
-                        border: Border.all(color: previewColors.borderSoft),
                       ),
                       child: Image.asset(
                         CollectRuntimeAssets.officialLogo,
@@ -576,7 +574,6 @@ class _AppearancePreview extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: previewColors.surfaceReadable,
                           borderRadius: CollectRadius.pillBorder,
-                          border: Border.all(color: previewColors.borderSoft),
                         ),
                         child: Row(
                           children: [
@@ -659,7 +656,6 @@ class _AppearancePreview extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: previewColors.surfaceReadable,
                       borderRadius: CollectRadius.cardBorder,
-                      border: Border.all(color: previewColors.borderSoft),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -692,9 +688,10 @@ class _AppearancePreview extends StatelessWidget {
                     horizontal: CollectSpacing.x3,
                   ),
                   decoration: BoxDecoration(
-                    color: previewColors.surfaceRaised,
-                    borderRadius: CollectRadius.pillBorder,
-                    border: Border.all(color: previewColors.borderSoft),
+                    color: effectiveBrightness == Brightness.dark
+                        ? CollectColors.referenceChromeBlack
+                        : previewColors.surfaceRaised,
+                    borderRadius: CollectRadius.controlBorder,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -739,7 +736,6 @@ class _AppearancePreviewCircle extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.surfaceRaised,
         shape: BoxShape.circle,
-        border: Border.all(color: colors.borderSoft),
       ),
       child: Icon(icon, size: 16, color: colors.textPrimary),
     );

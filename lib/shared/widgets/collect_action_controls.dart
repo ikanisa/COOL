@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
-import '../../app/theme/collect_shadows.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
 
@@ -20,8 +19,6 @@ class BottomActionSurface extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.glassPanel,
         borderRadius: CollectRadius.cardBorder,
-        border: Border.all(color: colors.glassBorder),
-        boxShadow: CollectShadows.card(),
       ),
       child: Padding(
         padding: const EdgeInsets.all(CollectSpacing.x4),

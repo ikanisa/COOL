@@ -65,12 +65,16 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
 
-      expect(find.text('Sign in'), findsOneWidget);
+      expect(find.text("Let's get started!"), findsOneWidget);
       await tester.enterText(find.byType(TextField).first, reviewPhone);
       await tester.tap(find.text('Send WhatsApp code'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
-      expect(find.text('Verify WhatsApp'), findsOneWidget);
+      expect(find.text('Confirm your number'), findsOneWidget);
+      await tester.tap(find.text('Confirm and send'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('6-digit code'), findsOneWidget);
       expect(find.text('Authentication failed'), findsNothing);
 
       await tester.enterText(find.byType(TextField).first, reviewOtp);

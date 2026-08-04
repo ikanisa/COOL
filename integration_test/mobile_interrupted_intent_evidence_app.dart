@@ -58,7 +58,6 @@ class _InterruptedIntentSeededApp extends StatelessWidget {
       theme: AppTheme.dark(),
       home: Scaffold(
         body: CollectGradientBackground(
-          routePath: '/groups',
           child: SafeArea(
             child: Center(
               child: Padding(

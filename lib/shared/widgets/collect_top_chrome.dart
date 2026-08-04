@@ -89,12 +89,7 @@ class _TopChromeAvatar extends StatelessWidget {
           DecoratedBox(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: CollectRuntimeTokens.chromeAvatarGradient(),
-              border: Border.all(
-                color: CollectRuntimeTokens.chromeAvatarBorder(colors),
-                width: 1.1,
-              ),
-              boxShadow: CollectRuntimeTokens.chromeAvatarShadow(),
+              color: colors.onImagePrimary.withValues(alpha: 0.14),
             ),
             child: Material(
               color: colors.transparent,
@@ -106,10 +101,10 @@ class _TopChromeAvatar extends StatelessWidget {
                   effectiveOnTap();
                 },
                 child: SizedBox.square(
-                  dimension: 58,
+                  dimension: 48,
                   child: Center(
                     child: SizedBox.square(
-                      dimension: 30,
+                      dimension: 26,
                       child: Image.asset(
                         CollectRuntimeAssets.officialLogo,
                         fit: BoxFit.contain,
@@ -152,37 +147,16 @@ class _TopChromeTitlePill extends StatelessWidget {
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     return Semantics(
       label: label,
-      child: Material(
-        color: CollectRuntimeTokens.chromeControl(colors),
-        borderRadius: CollectRadius.pillBorder,
-        child: SizedBox(
-          height: 58,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: CollectRadius.pillBorder,
-              border: Border.all(
-                color: CollectRuntimeTokens.chromeControlBorder(colors),
-                width: 1.25,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x4,
-              ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: foreground,
-                    fontWeight: CollectTypography.weightBold,
-                    letterSpacing: CollectTypography.trackingDefault,
-                  ),
-                ),
-              ),
-            ),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: foreground,
+            fontWeight: CollectTypography.weightBold,
+            letterSpacing: CollectTypography.trackingDefault,
           ),
         ),
       ),
@@ -206,7 +180,7 @@ class _TopChromeActionButton extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Material(
-            color: CollectRuntimeTokens.chromeControl(colors),
+            color: CollectColors.transparentColor,
             shape: const CircleBorder(),
             child: InkWell(
               customBorder: const CircleBorder(),
@@ -217,8 +191,8 @@ class _TopChromeActionButton extends StatelessWidget {
                       action.onPressed!();
                     },
               child: SizedBox.square(
-                dimension: 58,
-                child: Icon(action.icon, color: foreground, size: 30),
+                dimension: 48,
+                child: Icon(action.icon, color: foreground, size: 26),
               ),
             ),
           ),
@@ -330,7 +304,6 @@ class CollectBrandMark extends StatelessWidget {
                   color: CollectRuntimeTokens.inputFill(colors),
                   borderRadius: BorderRadius.circular(markHeight * 0.5),
                   border: Border.all(color: tokenBorder),
-                  boxShadow: CollectShadows.soft(),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),

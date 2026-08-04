@@ -44,26 +44,15 @@ void main() {
     );
   });
 
-  test('route background families stay stable across light and dark modes', () {
+  test('customer background stays stable across light and dark modes', () {
     final light = AppTheme.light().extension<CollectColors>()!;
     final dark = AppTheme.dark().extension<CollectColors>()!;
 
-    for (final route in const [
-      '/home',
-      '/groups',
-      '/groups/create',
-      '/groups/col-church/contribute',
-      '/groups/col-church/share',
-      '/settings',
-      '/settings/legal/privacy',
-    ]) {
-      expect(
-        _gradientColors(light.screenGradientForPath(route)),
-        _gradientColors(dark.screenGradientForPath(route)),
-        reason:
-            'Light/dark mode changes surfaces and text, not the reference route background for $route.',
-      );
-    }
+    expect(
+      _gradientColors(light.screenGradient),
+      _gradientColors(dark.screenGradient),
+      reason: 'Light and dark surfaces use one stable customer background.',
+    );
   });
 }
 

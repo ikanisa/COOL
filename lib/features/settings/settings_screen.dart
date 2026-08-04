@@ -223,11 +223,6 @@ class _SettingsCluster extends StatelessWidget {
     final colors = context.collectColors;
     return CollectCard(
       emphasis: CollectCardEmphasis.normal,
-      backgroundGradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [colors.surfaceReadable, colors.surfaceRaised],
-      ),
       padding: const EdgeInsets.symmetric(
         horizontal: CollectSpacing.x3,
         vertical: CollectSpacing.x1,

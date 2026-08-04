@@ -191,10 +191,10 @@ const _routeSpecs = <_RouteSpec>[
     '/',
     'entry',
     expectedPath: '/auth',
-    expectedText: 'Sign in',
+    expectedText: "Let's get started!",
     extraPumpBeforeAssert: Duration(milliseconds: 1000),
   ),
-  _RouteSpec('auth', '/auth', 'workflow', expectedText: 'Sign in'),
+  _RouteSpec('auth', '/auth', 'workflow', expectedText: "Let's get started!"),
   _RouteSpec(
     'profile-edit',
     '/settings/profile',

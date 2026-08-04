@@ -19,140 +19,40 @@ class CollectVisualFeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final foreground = isDark ? colors.onImagePrimary : colors.textPrimary;
-    final panelGradient = isDark
-        ? LinearGradient(
-            colors: [
-              CollectColors.referencePaymentsPurpleDeep,
-              Color.alphaBlend(
-                colors.statusForeground(tone).withValues(alpha: 0.16),
-                CollectColors.referencePaymentsPurple,
-              ),
-              CollectColors.referenceAssetNavy,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )
-        : LinearGradient(
-            colors: [
-              Color.alphaBlend(
-                colors.statusForeground(tone).withValues(alpha: 0.14),
-                colors.glassPanel,
-              ),
-              Color.alphaBlend(
-                colors.mintPaint.withValues(alpha: 0.08),
-                colors.glassPanel,
-              ),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          );
-    final featureVisual = DecoratedBox(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [
-            colors
-                .statusForeground(tone)
-                .withValues(alpha: isDark ? 0.36 : 0.20),
-            colors.mintPaint.withValues(alpha: isDark ? 0.14 : 0.10),
-            Colors.transparent,
-          ],
-          stops: const [0, 0.54, 1],
-        ),
-      ),
-      child: Center(
-        child: Icon(
-          icon,
-          size: 64,
-          color: foreground.withValues(alpha: isDark ? 0.34 : 0.20),
-        ),
-      ),
-    );
     return CollectCard(
       onTap: onTap,
-      emphasis: CollectCardEmphasis.glow,
+      emphasis: CollectCardEmphasis.tonal,
       accentColor: colors.statusForeground(tone),
-      padding: EdgeInsets.zero,
-      backgroundGradient: panelGradient,
-      child: ClipRRect(
-        borderRadius: CollectRadius.cardLargeBorder,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 132),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: FractionallySizedBox(
-                    widthFactor: 0.48,
-                    heightFactor: 1,
-                    child: featureVisual,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CollectToneIcon(icon: icon, tone: tone),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: CollectTypography.weightBold,
                   ),
+                  maxLines: 2,
                 ),
-              ),
-              Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        (isDark
-                                ? CollectColors.referencePaymentsPurpleDeep
-                                : colors.glassPanel)
-                            .withValues(alpha: isDark ? 0.98 : 0.98),
-                        (isDark
-                                ? CollectColors.referencePaymentsPurple
-                                : colors.glassPanel)
-                            .withValues(alpha: isDark ? 0.88 : 0.88),
-                        (isDark
-                                ? CollectColors.referenceAssetNavy
-                                : colors.glassPanel)
-                            .withValues(alpha: isDark ? 0.30 : 0.18),
-                      ],
-                      stops: const [0, 0.58, 1],
-                    ),
+                CollectSpacing.gap4,
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.textSecondary,
+                    height: CollectTypography.leadingLabel,
                   ),
+                  maxLines: 3,
                 ),
-              ),
-              Padding(
-                padding: CollectSpacing.cardPaddingComfortable,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 230),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CollectToneIcon(icon: icon, tone: tone),
-                      CollectSpacing.gap16,
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: foreground,
-                          fontWeight: CollectTypography.weightBold,
-                          height: CollectTypography.leadingTitle,
-                        ),
-                        maxLines: 2,
-                        softWrap: true,
-                        overflow: TextOverflow.clip,
-                      ),
-                      CollectSpacing.gap8,
-                      Text(
-                        message,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: foreground.withValues(alpha: 0.76),
-                          height: CollectTypography.leadingLabel,
-                        ),
-                        maxLines: 2,
-                        softWrap: true,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

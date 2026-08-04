@@ -5,14 +5,25 @@ class AuthIdentityHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CollectBrandMark(
-          framed: false,
-          compact: true,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: IconButton(
+        key: const ValueKey('auth_back_button'),
+        tooltip: 'Back',
+        onPressed: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go('/');
+          }
+        },
+        style: IconButton.styleFrom(
           foregroundColor: context.collectColors.onImagePrimary,
+          backgroundColor: CollectColors.transparentColor,
+          padding: EdgeInsets.zero,
         ),
-      ],
+        icon: const Icon(Icons.arrow_back_rounded, size: 30),
+      ),
     );
   }
 }
@@ -37,7 +48,7 @@ class AuthHeadline extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          otpSent ? 'Verify WhatsApp' : 'Sign in',
+          otpSent ? '6-digit code' : "Let's get started!",
           style: textTheme.headlineLarge?.copyWith(
             color: foreground,
             fontWeight: CollectTypography.weightBold,
@@ -52,8 +63,8 @@ class AuthHeadline extends StatelessWidget {
           otpSent
               ? usesReviewAuth
                     ? 'Use the reviewer code for $phone.'
-                    : 'Code sent to $phone'
-              : 'Enter your WhatsApp number to receive a secure sign-in code.',
+                    : 'Enter the code sent to $phone.'
+              : 'Enter your phone number. We will send a secure sign-in code on WhatsApp.',
           style: textTheme.bodyLarge?.copyWith(
             color: foreground.withValues(alpha: 0.70),
             fontWeight: CollectTypography.weightSemibold,

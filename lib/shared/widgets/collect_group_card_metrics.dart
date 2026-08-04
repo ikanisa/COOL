@@ -1,63 +1,11 @@
 part of 'collect_group_cards.dart';
 
-LinearGradient _groupCardGradient(BuildContext context, Color accent) {
-  final colors = context.collectColors;
-  final isDark = Theme.of(context).brightness == Brightness.dark;
-  if (isDark) {
-    final lead = Color.alphaBlend(
-      accent.withValues(alpha: 0.18),
-      CollectColors.referencePaymentsPurpleDeep,
-    );
-    final middle = Color.alphaBlend(
-      colors.periwinklePaint.withValues(alpha: 0.10),
-      CollectColors.referencePaymentsPurple,
-    );
-    final tail = Color.alphaBlend(
-      colors.rosePaint.withValues(alpha: 0.08),
-      CollectColors.referenceContentDark,
-    );
-    return LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [lead, middle, tail],
-      stops: const [0, 0.54, 1],
-    );
-  }
-  final lead = Color.alphaBlend(
-    accent.withValues(alpha: 0.24),
-    colors.surfaceRaised,
-  );
-  final middle = Color.alphaBlend(
-    colors.periwinklePaint.withValues(alpha: 0.12),
-    colors.surfaceRaised,
-  );
-  final tail = Color.alphaBlend(
-    colors.rosePaint.withValues(alpha: 0.16),
-    colors.surfaceRaised,
-  );
-  return LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [lead, middle, tail],
-    stops: const [0, 0.55, 1],
-  );
-}
-
 BoxDecoration _groupFooterDecoration(BuildContext context) {
   final colors = context.collectColors;
-  final isDark = Theme.of(context).brightness == Brightness.dark;
-  if (isDark) {
-    return BoxDecoration(
-      color: CollectColors.referenceAssetNavy.withValues(alpha: 0.88),
-      border: Border(
-        top: BorderSide(color: colors.onImagePrimary.withValues(alpha: 0.20)),
-      ),
-    );
-  }
   return BoxDecoration(
-    color: colors.surfaceReadable.withValues(alpha: 0.88),
+    color: colors.surfaceReadable,
     border: Border(
-      top: BorderSide(color: colors.textPrimary.withValues(alpha: 0.10)),
+      top: BorderSide(color: colors.border.withValues(alpha: 0.60)),
     ),
   );
 }

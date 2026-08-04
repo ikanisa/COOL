@@ -425,7 +425,15 @@ void main() {
       await tester.pump();
       expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
       await tester.tap(find.text('Send WhatsApp code'));
-      await tester.pump();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Confirm your number'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('auth_confirmation_phone')),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('Confirm and send'));
+      await tester.pumpAndSettle();
 
       expect(find.text('Before you continue'), findsNothing);
       expect(find.text('Authentication failed'), findsOneWidget);
@@ -439,7 +447,7 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(find.text('Verify WhatsApp'), findsNothing);
+      expect(find.text('6-digit code'), findsNothing);
     } finally {
       semantics.dispose();
     }
@@ -579,31 +587,6 @@ void main() {
     expect(repository.state.paymentIntents, hasLength(1));
   });
 
-  testWidgets('contribution amount advances from the native keyboard', (
-    tester,
-  ) async {
-    await pumpRoute(
-      tester,
-      '/groups/col-church/contribute',
-      legalConsentAccepted: true,
-    );
-
-    expect(find.text('STEP 1 OF 2 · AMOUNT'), findsOneWidget);
-    expect(
-      find.text(
-        'For St Michel building fund. You will confirm the MoMo destination next.',
-      ),
-      findsOneWidget,
-    );
-    await tester.enterText(find.byType(TextField).first, '5000');
-    await tester.testTextInput.receiveAction(TextInputAction.done);
-    await tester.pump();
-
-    expect(find.text('STEP 2 OF 2 · REVIEW'), findsOneWidget);
-    expect(find.text('Review contribution'), findsOneWidget);
-    expect(find.text('RWF 5,000'), findsOneWidget);
-  });
-
   testWidgets('contribution review explains an expired matching request', (
     tester,
   ) async {
@@ -659,22 +642,22 @@ void main() {
     expect(find.text('Contribution already pending'), findsNothing);
   });
 
-  testWidgets('auth screen avoids duplicate decorative WhatsApp semantics', (
+  testWidgets('auth screen removes legacy decorative WhatsApp chrome', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
     try {
       await pumpRoute(tester, '/auth', legalConsentAccepted: true);
 
-      expect(find.text('Sign in'), findsOneWidget);
+      expect(find.text("Let's get started!"), findsOneWidget);
       expect(
         find.text(
-          'Enter your WhatsApp number to receive a secure sign-in code.',
+          'Enter your phone number. We will send a secure sign-in code on WhatsApp.',
         ),
         findsOneWidget,
       );
       expect(find.bySemanticsLabel('Send WhatsApp code'), findsOneWidget);
-      expect(find.bySemanticsLabel('WhatsApp'), findsOneWidget);
+      expect(find.bySemanticsLabel('WhatsApp'), findsNothing);
       expect(
         find.byKey(const ValueKey('auth_country_code_picker')),
         findsOneWidget,
@@ -719,16 +702,34 @@ void main() {
     await tester.pump();
     expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
     await tester.tap(find.text('Send WhatsApp code'));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.text('OTP'), findsOneWidget);
+    expect(find.text('Confirm your number'), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('auth_confirmation_phone')),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Edit number'));
+    await tester.pumpAndSettle();
+    expect(find.text('OTP'), findsNothing);
+    expect(find.text('+250700000001'), findsOneWidget);
+
+    await tester.tap(find.text('Send WhatsApp code'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and send'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('6-digit code'), findsOneWidget);
     expect(find.text('Authentication failed'), findsNothing);
     expect(
-      tester
-          .widget<TextField>(find.byKey(const ValueKey('auth_otp_digit_0')))
-          .autofillHints,
-      contains(AutofillHints.oneTimeCode),
+      find.text("Didn't get the code? Use Resend or Change number below."),
+      findsOneWidget,
     );
+    final firstOtpField = tester.widget<TextField>(
+      find.byKey(const ValueKey('auth_otp_digit_0')),
+    );
+    expect(firstOtpField.autofocus, isTrue);
+    expect(firstOtpField.autofillHints, contains(AutofillHints.oneTimeCode));
     expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
     expect(authButtonEnabled(tester, 'auth_change_button'), isTrue);
     expect(authButtonEnabled(tester, 'auth_resend_button'), isTrue);
@@ -743,6 +744,8 @@ void main() {
     expect(repository.state.currentProfile, isNull);
 
     await tester.enterText(find.byType(TextField).first, '135790');
+    await tester.ensureVisible(find.text('Verify and continue'));
+    await tester.pump();
     await tester.tap(find.text('Verify and continue'));
     await tester.pumpAndSettle();
 

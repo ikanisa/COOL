@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' show SemanticsAction;
 
+import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/utils/date_format.dart';
@@ -13,6 +14,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('auth action announces and shows OTP submission progress', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const Scaffold(
+            body: AuthActionDock(
+              embedded: true,
+              otpSent: true,
+              submitting: true,
+              resendRemaining: 12,
+              canSubmit: false,
+              canResend: false,
+              onSubmit: null,
+              onAnotherNumber: null,
+              onResend: null,
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        find.byKey(const ValueKey('auth_submit_progress')),
+        findsOneWidget,
+      );
+      expect(find.text('Verifying code'), findsOneWidget);
+      expect(find.bySemanticsLabel('Verifying code'), findsWidgets);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   test('MoMo launcher uses USSD menu, not receiver phone call', () {
     expect(momoUssdUri().toString(), 'tel:*182%23');
   });
@@ -47,11 +83,7 @@ void main() {
     expect(find.text('10k'), findsOneWidget);
     expect(find.text('1M'), findsOneWidget);
     expect(find.text('RWF'), findsOneWidget);
-    expect(find.byType(BackdropFilter), findsOneWidget);
-    expect(
-      tester.widget<BackdropFilter>(find.byType(BackdropFilter)).enabled,
-      isTrue,
-    );
+    expect(find.byType(BackdropFilter), findsNothing);
 
     final semantics = tester.ensureSemantics();
     expect(find.semantics.byLabel(RegExp(r'^Amount field$')), findsOne);
@@ -177,14 +209,14 @@ void main() {
       contains("CollectSemanticIcons.forKeyword('public')"),
     );
     expect(find.byIcon(Icons.lock_rounded), findsNothing);
-    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsNothing);
     expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
     expect(find.text('Total collected'), findsNothing);
     expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
   });
 
-  testWidgets('visual group card keeps title compact with glass chrome', (
+  testWidgets('visual group card keeps title compact without glass chrome', (
     tester,
   ) async {
     const title = 'St Michel building fund with a longer community name';
@@ -216,7 +248,7 @@ void main() {
       ),
     );
 
-    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsNothing);
     expect(find.byType(Image), findsNothing);
     expect(find.text('Public'), findsNothing);
     expect(
@@ -281,7 +313,7 @@ void main() {
       );
 
       expect(find.byType(CollectCard), findsOneWidget);
-      expect(find.byType(BackdropFilter), findsOneWidget);
+      expect(find.byType(BackdropFilter), findsNothing);
       expect(find.byType(Divider), findsOneWidget);
       expect(find.text('St Michel building fund'), findsOneWidget);
       expect(find.text('Church · 2 members'), findsOneWidget);

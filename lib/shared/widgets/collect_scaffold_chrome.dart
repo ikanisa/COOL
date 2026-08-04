@@ -19,30 +19,22 @@ class ScreenHeader extends StatelessWidget {
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final actionButtons = <Widget>[
       for (final action in actions)
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: CollectRuntimeTokens.chromeControl(colors),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: CollectRuntimeTokens.chromeControlBorder(colors),
+        IconTheme.merge(
+          data: IconThemeData(color: foreground),
+          child: IconButtonTheme(
+            data: IconButtonThemeData(
+              style: IconButton.styleFrom(
+                fixedSize: const Size.square(CollectSpacing.iconTarget),
+                minimumSize: const Size.square(CollectSpacing.iconTarget),
+                padding: EdgeInsets.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                foregroundColor: foreground,
+                backgroundColor: CollectColors.transparentColor,
+              ),
             ),
-          ),
-          child: IconTheme.merge(
-            data: IconThemeData(color: foreground),
-            child: IconButtonTheme(
-              data: IconButtonThemeData(
-                style: IconButton.styleFrom(
-                  fixedSize: const Size.square(CollectSpacing.iconTarget),
-                  minimumSize: const Size.square(CollectSpacing.iconTarget),
-                  padding: EdgeInsets.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  foregroundColor: foreground,
-                ),
-              ),
-              child: SizedBox.square(
-                dimension: CollectSpacing.iconTarget,
-                child: Center(child: action),
-              ),
+            child: SizedBox.square(
+              dimension: CollectSpacing.iconTarget,
+              child: Center(child: action),
             ),
           ),
         ),
@@ -65,10 +57,7 @@ class ScreenHeader extends StatelessWidget {
               fixedSize: const Size.square(CollectSpacing.iconTarget),
               minimumSize: const Size.square(CollectSpacing.iconTarget),
               padding: EdgeInsets.zero,
-              backgroundColor: CollectRuntimeTokens.chromeControl(colors),
-              side: BorderSide(
-                color: CollectRuntimeTokens.chromeControlBorder(colors),
-              ),
+              backgroundColor: CollectColors.transparentColor,
             ),
           ),
           CollectSpacing.gapW12,
@@ -583,53 +572,16 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
 }
 
 class CollectGradientBackground extends StatelessWidget {
-  const CollectGradientBackground({
-    required this.child,
-    this.routePath,
-    super.key,
-  });
+  const CollectGradientBackground({required this.child, super.key});
 
   final Widget child;
-  final String? routePath;
 
   @override
   Widget build(BuildContext context) {
-    String? path = routePath;
-    path ??= CollectBackgroundRouteScope.maybeOf(context);
-    if (path == null) {
-      try {
-        path = GoRouterState.of(context).uri.path;
-      } catch (_) {
-        path = null;
-      }
-    }
     return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: context.collectColors.screenGradientForPath(path),
-      ),
+      decoration: BoxDecoration(gradient: context.collectColors.screenGradient),
       child: child,
     );
-  }
-}
-
-class CollectBackgroundRouteScope extends InheritedWidget {
-  const CollectBackgroundRouteScope({
-    required this.routePath,
-    required super.child,
-    super.key,
-  });
-
-  final String routePath;
-
-  static String? maybeOf(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<CollectBackgroundRouteScope>()
-        ?.routePath;
-  }
-
-  @override
-  bool updateShouldNotify(CollectBackgroundRouteScope oldWidget) {
-    return oldWidget.routePath != routePath;
   }
 }
 

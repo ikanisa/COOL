@@ -232,67 +232,21 @@ class CollectColors extends ThemeExtension<CollectColors> {
     CollectPaletteOption(brandOrangeRed),
   ];
 
-  Color get screenBase => referencePaymentsPurple;
+  Color get screenBase => referenceAccountNavyDeep;
 
-  Color get glassPanel => surfaceReadable.withValues(alpha: 0.82);
+  Color get glassPanel => surfaceReadable;
 
-  Color get glassPanelStrong => surfaceReadable.withValues(alpha: 0.90);
+  Color get glassPanelStrong => surfaceRaised;
 
-  Color get glassControl => surfaceReadable.withValues(alpha: 0.78);
+  Color get glassControl => surfaceRaised;
 
-  Color get glassBorder => borderAccent.withValues(alpha: 0.78);
+  Color get glassBorder => transparentColor;
 
   Color get glassScrim => inkPrimary.withValues(alpha: 0.08);
 
-  LinearGradient get screenGradient => const LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referencePaymentsPurpleMid,
-      referencePaymentsPurple,
-      referencePaymentsPurpleDeep,
-    ],
-    stops: [0, 0.52, 1],
-  );
+  LinearGradient get screenGradient => referenceAccountGradient;
 
-  Gradient screenGradientForPath(String? path) {
-    final route = path ?? '';
-    if (route == '/home' || route.startsWith('/auth')) {
-      return referenceAccountGradient;
-    }
-    if (route.startsWith('/groups/create') ||
-        route.startsWith('/settings/profile')) {
-      return referenceWealthGradient;
-    }
-    if (route.contains('/contribute') ||
-        route.contains('/activity') ||
-        route.contains('/ledger')) {
-      return referenceAssetGradient;
-    }
-    if (route.startsWith('/settings/account') ||
-        route.startsWith('/settings/privacy') ||
-        route.startsWith('/settings/help') ||
-        route.startsWith('/settings/legal')) {
-      return referenceContentGradient;
-    }
-    if (route.startsWith('/share') ||
-        route.contains('/share') ||
-        route.contains('/invite')) {
-      return referenceRewardsGradient;
-    }
-    if (route == '/settings' ||
-        route == '/settings/appearance' ||
-        route == '/settings/security') {
-      return referenceProfileGradient;
-    }
-    if (route == '/offline' || route == '/sync') return referenceInvestGradient;
-    if (route.startsWith('/groups') || route.startsWith('/c/')) {
-      return referencePaymentsGradient;
-    }
-    return screenGradient;
-  }
-
-  static const Gradient referenceAccountGradient = LinearGradient(
+  static const LinearGradient referenceAccountGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [

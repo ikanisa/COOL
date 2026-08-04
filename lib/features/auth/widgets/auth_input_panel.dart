@@ -10,8 +10,6 @@ class AuthInputPanel extends StatelessWidget {
     required this.error,
     required this.resendRemaining,
     required this.countryCode,
-    required this.countryFlag,
-    required this.displayPhone,
     required this.onCountryTap,
     required this.onPhoneChanged,
     required this.onOtpChanged,
@@ -27,8 +25,6 @@ class AuthInputPanel extends StatelessWidget {
   final String? error;
   final int resendRemaining;
   final String countryCode;
-  final String countryFlag;
-  final String displayPhone;
   final VoidCallback onCountryTap;
   final VoidCallback onPhoneChanged;
   final VoidCallback onOtpChanged;
@@ -38,99 +34,46 @@ class AuthInputPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
-    return ClipRRect(
-      borderRadius: CollectRadius.cardLargeBorder,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: CollectColors.referenceChromeBlack.withValues(alpha: 0.22),
-            borderRadius: CollectRadius.cardLargeBorder,
-            border: Border.all(color: foreground.withValues(alpha: 0.12)),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (!otpSent)
+          AuthPhoneEntry(
+            controller: phoneController,
+            countryCode: countryCode,
+            onCountryTap: onCountryTap,
+            onChanged: onPhoneChanged,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    otpSent
-                        ? const Icon(
-                            CollectIcons.shield,
-                            color: CollectColors.brandMintGreen,
-                            size: 22,
-                          )
-                        : const AuthSupportIcon(size: 24),
-                    CollectSpacing.gapW8,
-                    Expanded(
-                      child: Text(
-                        otpSent ? 'OTP' : 'WhatsApp',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: foreground,
-                          fontWeight: CollectTypography.weightBold,
-                          letterSpacing: CollectTypography.trackingDefault,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                CollectSpacing.gap16,
-                if (!otpSent)
-                  AuthPhoneEntry(
-                    controller: phoneController,
-                    countryCode: countryCode,
-                    countryFlag: countryFlag,
-                    onCountryTap: onCountryTap,
-                    onChanged: onPhoneChanged,
-                  ),
-                if (otpSent) ...[
-                  AuthPhoneAnchor(
-                    countryCode: countryCode,
-                    countryFlag: countryFlag,
-                    phone: displayPhone,
-                  ),
-                  CollectSpacing.gap16,
-                  AuthOtpEntry(
-                    controller: otpController,
-                    onChanged: onOtpChanged,
-                  ),
-                  if (resendRemaining > 0) ...[
-                    CollectSpacing.gap12,
-                    Text(
-                      'Resend in ${resendRemaining}s',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: foreground.withValues(alpha: 0.66),
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    ),
-                  ],
-                ],
-                if (env.authCaptchaEnabled) ...[
-                  CollectSpacing.gap16,
-                  CollectTextInput(
-                    controller: captchaController,
-                    label: env.authCaptchaProvider.isEmpty
-                        ? 'CAPTCHA'
-                        : env.authCaptchaProvider,
-                    textInputAction: TextInputAction.done,
-                    onChanged: (_) => onCaptchaChanged(),
-                  ),
-                ],
-                if (error != null) ...[
-                  CollectSpacing.gap16,
-                  AuthStatusNotice(
-                    title: 'Authentication failed',
-                    message: error!,
-                  ),
-                ],
-              ],
+        if (otpSent) ...[
+          AuthOtpEntry(controller: otpController, onChanged: onOtpChanged),
+          CollectSpacing.gap20,
+          Text(
+            resendRemaining > 0
+                ? 'Resend code in 00:${resendRemaining.toString().padLeft(2, '0')}'
+                : "Didn't get the code? Use Resend or Change number below.",
+            key: const ValueKey('auth_otp_recovery_message'),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: foreground.withValues(alpha: 0.90),
+              fontWeight: CollectTypography.weightSemibold,
             ),
           ),
-        ),
-      ),
+        ],
+        if (env.authCaptchaEnabled) ...[
+          CollectSpacing.gap20,
+          CollectTextInput(
+            controller: captchaController,
+            label: env.authCaptchaProvider.isEmpty
+                ? 'CAPTCHA'
+                : env.authCaptchaProvider,
+            textInputAction: TextInputAction.done,
+            onChanged: (_) => onCaptchaChanged(),
+          ),
+        ],
+        if (error != null) ...[
+          CollectSpacing.gap20,
+          AuthStatusNotice(title: 'Authentication failed', message: error!),
+        ],
+      ],
     );
   }
 }
@@ -139,7 +82,6 @@ class AuthPhoneEntry extends StatelessWidget {
   const AuthPhoneEntry({
     required this.controller,
     required this.countryCode,
-    required this.countryFlag,
     required this.onCountryTap,
     required this.onChanged,
     super.key,
@@ -147,7 +89,6 @@ class AuthPhoneEntry extends StatelessWidget {
 
   final TextEditingController controller;
   final String countryCode;
-  final String countryFlag;
   final VoidCallback onCountryTap;
   final VoidCallback onChanged;
 
@@ -155,28 +96,25 @@ class AuthPhoneEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
-    final digits = controller.text.replaceAll(RegExp(r'\D'), '');
-    final ready = digits.length >= 9 || controller.text.trim().startsWith('+');
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final selectorWidth = screenWidth < 360 ? 86.0 : 94.0;
+    final selectorWidth = screenWidth < 360 ? 96.0 : 108.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Material(
           color: CollectColors.transparentColor,
-          borderRadius: CollectRadius.mdBorder,
+          borderRadius: BorderRadius.circular(20),
           child: InkWell(
             key: const ValueKey('auth_country_code_picker'),
-            borderRadius: CollectRadius.mdBorder,
+            borderRadius: BorderRadius.circular(20),
             onTap: onCountryTap,
             child: Ink(
               decoration: BoxDecoration(
-                color: foreground.withValues(alpha: 0.10),
-                borderRadius: CollectRadius.mdBorder,
-                border: Border.all(color: foreground.withValues(alpha: 0.16)),
+                color: foreground.withValues(alpha: 0.18),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: SizedBox(
-                height: 58,
+                height: 66,
                 width: selectorWidth,
                 child: Center(
                   child: Padding(
@@ -186,10 +124,11 @@ class AuthPhoneEntry extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          AuthCountryFlag(
-                            countryCode: countryCode,
-                            countryFlag: countryFlag,
-                            size: 18,
+                          Icon(
+                            CollectIcons.publicOutline,
+                            color: foreground,
+                            size: 20,
+                            semanticLabel: 'Selected country',
                           ),
                           const SizedBox(width: 5),
                           Text(
@@ -207,7 +146,7 @@ class AuthPhoneEntry extends StatelessWidget {
                           const SizedBox(width: 3),
                           Icon(
                             CollectIcons.chevronDown,
-                            color: foreground.withValues(alpha: 0.72),
+                            color: foreground.withValues(alpha: 0.82),
                             size: 14,
                           ),
                         ],
@@ -223,13 +162,8 @@ class AuthPhoneEntry extends StatelessWidget {
         Expanded(
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: foreground.withValues(alpha: 0.08),
-              borderRadius: CollectRadius.mdBorder,
-              border: Border.all(
-                color: ready
-                    ? CollectColors.brandMintGreen.withValues(alpha: 0.42)
-                    : foreground.withValues(alpha: 0.14),
-              ),
+              color: foreground.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: TextField(
               key: const ValueKey('auth_whatsapp_phone_input'),
@@ -248,14 +182,14 @@ class AuthPhoneEntry extends StatelessWidget {
                 letterSpacing: CollectTypography.trackingDefault,
               ),
               decoration: InputDecoration(
-                hintText: '788 123 456',
+                hintText: 'Enter your phone',
                 hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: foreground.withValues(alpha: 0.36),
                 ),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 16,
+                  vertical: 19,
                 ),
               ),
               onChanged: (_) => onChanged(),
@@ -263,151 +197,6 @@ class AuthPhoneEntry extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class AuthPhoneAnchor extends StatelessWidget {
-  const AuthPhoneAnchor({
-    required this.countryCode,
-    required this.countryFlag,
-    required this.phone,
-    super.key,
-  });
-
-  final String countryCode;
-  final String countryFlag;
-  final String phone;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
-    final raw = phone.trim();
-    final display = raw.isEmpty ? countryCode : raw;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: foreground.withValues(alpha: 0.08),
-        borderRadius: CollectRadius.mdBorder,
-        border: Border.all(color: foreground.withValues(alpha: 0.14)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        child: Row(
-          children: [
-            SizedBox.square(
-              dimension: 38,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: CollectColors.brandMintGreen.withValues(alpha: 0.16),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: AuthCountryFlag(
-                    countryCode: countryCode,
-                    countryFlag: countryFlag,
-                    size: 26,
-                  ),
-                ),
-              ),
-            ),
-            CollectSpacing.gapW12,
-            Expanded(
-              child: Text(
-                display,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: foreground,
-                  fontWeight: CollectTypography.weightBold,
-                  letterSpacing: CollectTypography.trackingDefault,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AuthSupportIcon extends StatelessWidget {
-  const AuthSupportIcon({this.size = 22, this.semanticLabel, super.key});
-
-  final double size;
-  final String? semanticLabel;
-
-  @override
-  Widget build(BuildContext context) {
-    final label = semanticLabel?.trim();
-    return Icon(
-      CollectIcons.support,
-      size: size,
-      color: CollectColors.brandMintGreen,
-      semanticLabel: label == null || label.isEmpty ? null : label,
-    );
-  }
-}
-
-class AuthCountryFlag extends StatelessWidget {
-  const AuthCountryFlag({
-    required this.countryCode,
-    required this.countryFlag,
-    this.size = 24,
-    super.key,
-  });
-
-  final String countryCode;
-  final String countryFlag;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final normalizedCode = countryCode.replaceAll(RegExp(r'\D'), '');
-    if (normalizedCode == '250') {
-      return Semantics(
-        label: 'Rwanda',
-        image: true,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: CollectColors.brandPeriwinkle.withValues(alpha: 0.14),
-            borderRadius: BorderRadius.circular(size * 0.18),
-            border: Border.all(
-              color: CollectColors.brandPaper.withValues(alpha: 0.30),
-            ),
-          ),
-          child: SizedBox(
-            width: size * 1.36,
-            height: size,
-            child: Center(
-              child: Text(
-                'RW',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: CollectColors.brandPaper,
-                  fontWeight: CollectTypography.weightBold,
-                  letterSpacing: CollectTypography.trackingDefault,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    return SizedBox(
-      width: size * 1.36,
-      height: size,
-      child: Center(
-        child: Text(
-          countryCode,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: context.collectColors.textPrimary,
-            fontWeight: CollectTypography.weightBold,
-          ),
-          textAlign: TextAlign.center,
-          semanticsLabel: countryCode,
-        ),
-      ),
     );
   }
 }
@@ -430,47 +219,34 @@ class AuthStatusNotice extends StatelessWidget {
       liveRegion: true,
       label: '$title. $message',
       child: ExcludeSemantics(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.danger.withValues(alpha: 0.14),
-            borderRadius: CollectRadius.mdBorder,
-            border: Border.all(color: colors.danger.withValues(alpha: 0.28)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x4),
-            child: Row(
-              children: [
-                Icon(CollectIcons.warning, color: colors.danger, size: 20),
-                CollectSpacing.gapW12,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: colors.danger,
-                          fontWeight: CollectTypography.weightBold,
-                          letterSpacing: CollectTypography.trackingDefault,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      CollectSpacing.gap4,
-                      Text(
-                        message,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: colors.onImagePrimary.withValues(alpha: 0.76),
-                          fontWeight: CollectTypography.weightBold,
-                        ),
-                        maxLines: 4,
-                      ),
-                    ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(CollectIcons.warning, color: colors.danger, size: 22),
+            CollectSpacing.gapW12,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: colors.danger,
+                      fontWeight: CollectTypography.weightBold,
+                    ),
                   ),
-                ),
-              ],
+                  CollectSpacing.gap4,
+                  Text(
+                    message,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.onImagePrimary.withValues(alpha: 0.82),
+                    ),
+                    maxLines: 4,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

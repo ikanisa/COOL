@@ -165,11 +165,19 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
       await tester.enterText(find.byType(TextField).first, '+250700000001');
       await _pumpFrames(tester, count: 3);
       return;
+    case 'auth-phone-confirmation':
+      await tester.enterText(find.byType(TextField).first, '+250700000001');
+      await _pumpFrames(tester, count: 2);
+      await tester.tap(find.text('Send WhatsApp code'));
+      await _pumpFrames(tester, count: 4);
+      return;
     case 'auth-otp-empty':
     case 'auth-otp-invalid':
       await tester.enterText(find.byType(TextField).first, '+250700000001');
       await _pumpFrames(tester, count: 2);
       await tester.tap(find.text('Send WhatsApp code'));
+      await _pumpFrames(tester, count: 4);
+      await tester.tap(find.text('Confirm and send'));
       await _pumpFrames(tester, count: 4);
       if (spec.name == 'auth-otp-invalid') {
         await tester.enterText(find.byType(TextField).first, '000000');
@@ -272,7 +280,7 @@ const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'auth-phone-empty',
     '/auth',
-    'Sign in',
+    "Let's get started!",
     repositoryKind: _RepositoryKind.reviewAuth,
     usesReviewAuth: true,
   ),
@@ -280,6 +288,13 @@ const _stateSpecs = <_StateSpec>[
     'auth-phone-valid',
     '/auth',
     'Send WhatsApp code',
+    repositoryKind: _RepositoryKind.reviewAuth,
+    usesReviewAuth: true,
+  ),
+  _StateSpec(
+    'auth-phone-confirmation',
+    '/auth',
+    'Confirm your number',
     repositoryKind: _RepositoryKind.reviewAuth,
     usesReviewAuth: true,
   ),
