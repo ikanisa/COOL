@@ -93,49 +93,41 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       body: CollectGradientBackground(
         routePath: '/auth',
         child: SafeArea(
-          child: Column(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(
+              CollectSpacing.x5,
+              CollectSpacing.x5,
+              CollectSpacing.x5,
+              CollectSpacing.x5,
+            ),
             children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(
-                    CollectSpacing.x5,
-                    CollectSpacing.x5,
-                    CollectSpacing.x5,
-                    CollectSpacing.x5,
-                  ),
-                  children: [
-                    const AuthIdentityHeader(),
-                    SizedBox(
-                      height:
-                          MediaQuery.sizeOf(context).height *
-                          (_otpSent ? 0.04 : 0.12),
-                    ),
-                    AuthHeadline(
-                      otpSent: _otpSent,
-                      phone: displayPhone,
-                      usesReviewAuth: usesReviewAuth,
-                    ),
-                    CollectSpacing.gap24,
-                    AuthInputPanel(
-                      otpSent: _otpSent,
-                      phoneController: _phone,
-                      otpController: _otp,
-                      captchaController: _captchaToken,
-                      env: env,
-                      error: _error,
-                      resendRemaining: _resendRemaining,
-                      countryCode: _countryCode,
-                      countryFlag: _selectedCountry.flagEmoji,
-                      displayPhone: displayPhone,
-                      onCountryTap: _showCountryPicker,
-                      onPhoneChanged: () => setState(() => _error = null),
-                      onOtpChanged: () => setState(() => _error = null),
-                      onCaptchaChanged: () => setState(() => _error = null),
-                    ),
-                  ],
-                ),
+              const AuthIdentityHeader(),
+              CollectSpacing.gap24,
+              AuthHeadline(
+                otpSent: _otpSent,
+                phone: displayPhone,
+                usesReviewAuth: usesReviewAuth,
               ),
+              CollectSpacing.gap20,
+              AuthInputPanel(
+                otpSent: _otpSent,
+                phoneController: _phone,
+                otpController: _otp,
+                captchaController: _captchaToken,
+                env: env,
+                error: _error,
+                resendRemaining: _resendRemaining,
+                countryCode: _countryCode,
+                countryFlag: _selectedCountry.flagEmoji,
+                displayPhone: displayPhone,
+                onCountryTap: _showCountryPicker,
+                onPhoneChanged: () => setState(() => _error = null),
+                onOtpChanged: () => setState(() => _error = null),
+                onCaptchaChanged: () => setState(() => _error = null),
+              ),
+              CollectSpacing.gap20,
               AuthActionDock(
+                embedded: true,
                 otpSent: _otpSent,
                 submitting: _submitting,
                 resendRemaining: _resendRemaining,

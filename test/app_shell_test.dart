@@ -238,6 +238,11 @@ void main() {
   });
 
   testWidgets('offline and sync routes render recovery states', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     for (final route in <String>['/offline', '/sync']) {
       final router = createAppRouter(initialLocation: route);
       addTearDown(router.dispose);
@@ -254,13 +259,20 @@ void main() {
 
       if (route == '/offline') {
         expect(find.text('Offline mode'), findsOneWidget);
-        expect(find.text('Showing saved collection data'), findsOneWidget);
+        expect(find.text('You are offline'), findsOneWidget);
         expect(find.text('Saved'), findsOneWidget);
+        expect(find.text('Scan/share'), findsNothing);
       } else {
         expect(find.text('Sync status'), findsOneWidget);
         expect(find.text('Sync needs attention'), findsOneWidget);
         expect(find.text('Queued updates'), findsOneWidget);
+        expect(find.text('Verified ledger'), findsNothing);
       }
+      expect(find.text('Review groups'), findsOneWidget);
+      expect(
+        tester.getBottomRight(find.text('Review groups')).dy,
+        lessThan(844),
+      );
       expect(find.text('Home'), findsWidgets);
     }
   });
@@ -396,10 +408,10 @@ void main() {
     expect(recoveryScreens, contains('CollectConnectivityBanner'));
     expect(recoveryScreens, contains('ConnectivityStatus.offlineStale'));
     expect(recoveryScreens, contains('ConnectivityStatus.degraded'));
-    expect(recoveryScreens, contains('Privacy stays on'));
-    expect(recoveryScreens, contains('receiver MoMo numbers'));
+    expect(recoveryScreens, contains('Privacy in recovery'));
+    expect(recoveryScreens, isNot(contains('Privacy stays on')));
     expect(recoveryScreens, contains("primaryLabel: 'Review groups'"));
-    expect(recoveryScreens, contains("primaryLabel: 'Refresh groups'"));
+    expect(recoveryScreens, isNot(contains("primaryLabel: 'Refresh groups'")));
 
     final shareScreen = File(
       'lib/features/collections/share_screen.dart',

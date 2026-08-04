@@ -645,6 +645,7 @@ class PremiumScaffold extends StatelessWidget {
     this.persistentPill,
     this.bottomAction,
     this.onRefresh,
+    this.scrollController,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -659,6 +660,7 @@ class PremiumScaffold extends StatelessWidget {
   final Widget? persistentPill;
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
+  final ScrollController? scrollController;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
@@ -666,6 +668,7 @@ class PremiumScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final listView = ListView(
+      controller: scrollController,
       physics: onRefresh == null
           ? null
           : const AlwaysScrollableScrollPhysics(
@@ -751,6 +754,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
     this.persistentPill,
     this.bottomAction,
     this.onRefresh,
+    this.scrollController,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -765,6 +769,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final Widget? persistentPill;
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
+  final ScrollController? scrollController;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
@@ -781,6 +786,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
       persistentPill: persistentPill,
       bottomAction: bottomAction,
       onRefresh: onRefresh,
+      scrollController: scrollController,
       showHeader: showHeader,
       compact: compact,
       children: children,

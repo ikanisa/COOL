@@ -51,6 +51,10 @@ release-hardening lead for this engagement.
 - Current proof limitation: all 35 member routes are implemented and mapped,
   but direct authentication/OTP and amount-entry references plus the complete
   normalized mobile/public/Admin state matrix remain open.
+- Active implementation overlay:
+  `docs/revolut-parity-goal/ROBUST_IMPLEMENTATION_GOAL_2026-07-30.md`. It
+  incorporates the July 30 Collect × Revolut audit through CRP-001–CRP-503
+  while preserving this goal's authority, registers, workstreams, and gates.
 
 ## Non-negotiable product constraints
 

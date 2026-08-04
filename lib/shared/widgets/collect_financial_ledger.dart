@@ -55,6 +55,7 @@ class ActivityFeedItem extends StatelessWidget {
     this.transactionId,
     this.tone = CollectStatusTone.info,
     this.onTap,
+    this.prioritizeContext = false,
     super.key,
   });
 
@@ -64,6 +65,7 @@ class ActivityFeedItem extends StatelessWidget {
   final String? transactionId;
   final CollectStatusTone tone;
   final VoidCallback? onTap;
+  final bool prioritizeContext;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,7 @@ class ActivityFeedItem extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final amountColor = isDark ? colors.onImagePrimary : colors.textPrimary;
     final stackAmount =
+        prioritizeContext ||
         MediaQuery.sizeOf(context).width < 340 ||
         MediaQuery.textScalerOf(context).scale(1) > 1.3;
     final amountText = Text(
@@ -97,7 +100,7 @@ class ActivityFeedItem extends StatelessWidget {
                     Text(
                       compactCollectIdLabel(title),
                       style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     CollectSpacing.gap4,
@@ -107,16 +110,21 @@ class ActivityFeedItem extends StatelessWidget {
                         color: colors.textSecondary,
                         fontWeight: CollectTypography.weightBold,
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (transactionId != null) ...[
                       CollectSpacing.gap4,
-                      Text(
-                        transactionId!,
-                        style: CollectTypography.mono(colors.textMuted),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      Semantics(
+                        label: 'Transaction reference $transactionId',
+                        child: ExcludeSemantics(
+                          child: Text(
+                            _compactTransactionReference(transactionId!),
+                            style: CollectTypography.mono(colors.textMuted),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ),
                     ],
                     if (stackAmount) ...[CollectSpacing.gap8, amountText],
@@ -135,4 +143,10 @@ class ActivityFeedItem extends StatelessWidget {
       ),
     );
   }
+}
+
+String _compactTransactionReference(String value) {
+  final reference = value.trim();
+  if (reference.length <= 12) return 'Ref $reference';
+  return 'Ref …${reference.substring(reference.length - 8)}';
 }

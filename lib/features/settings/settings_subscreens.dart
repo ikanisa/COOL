@@ -286,6 +286,51 @@ class HelpSettingsScreen extends ConsumerWidget {
           message:
               'Get support for app access, groups, contributions, privacy, or account requests.',
         ),
+        const SectionHeader(title: 'Common problems'),
+        _SettingsOptionPanel(
+          children: [
+            _SettingsLinkRow(
+              icon: CollectIcons.lock,
+              title: 'Sign-in or code problem',
+              subtitle: 'Get help when a code is late, expired, or rejected.',
+              onTap: () => openCollectWhatsAppSupport(
+                phone: runtimeConfig.whatsAppSupportPhone,
+              ),
+            ),
+            _SettingsLinkRow(
+              icon: CollectIcons.pending,
+              title: 'Contribution issue',
+              subtitle:
+                  'Ask about a pending, missing, duplicate, or wrong contribution.',
+              onTap: () => openCollectWhatsAppSupport(
+                phone: runtimeConfig.whatsAppSupportPhone,
+              ),
+            ),
+            _SettingsLinkRow(
+              icon: CollectIcons.qr,
+              title: 'QR, sharing, or joining',
+              subtitle: 'Get help finding, joining, scanning, or sharing.',
+              onTap: () => openCollectWhatsAppSupport(
+                phone: runtimeConfig.whatsAppSupportPhone,
+              ),
+            ),
+            _SettingsLinkRow(
+              icon: CollectIcons.people,
+              title: 'Membership or owner issue',
+              subtitle: 'Get help with group access, roles, or ownership.',
+              onTap: () => openCollectWhatsAppSupport(
+                phone: runtimeConfig.whatsAppSupportPhone,
+              ),
+            ),
+            _SettingsLinkRow(
+              icon: CollectIcons.privacy,
+              title: 'Privacy or deletion request',
+              subtitle: 'Review privacy or create an auditable request.',
+              onTap: () => context.go('/settings/account/delete'),
+            ),
+          ],
+        ),
+        const SectionHeader(title: 'Contact and policies'),
         _SettingsOptionPanel(
           children: [
             _SettingsLinkRow(
@@ -593,25 +638,33 @@ class _AppearancePreview extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _AppearancePreviewAction(
-                      icon: CollectIcons.donate,
-                      label: 'Pay',
-                      colors: previewColors,
+                    Expanded(
+                      child: _AppearancePreviewAction(
+                        icon: CollectIcons.donate,
+                        label: 'Contribute',
+                        colors: previewColors,
+                      ),
                     ),
-                    _AppearancePreviewAction(
-                      icon: CollectIcons.people,
-                      label: 'Groups',
-                      colors: previewColors,
+                    Expanded(
+                      child: _AppearancePreviewAction(
+                        icon: CollectIcons.people,
+                        label: 'Groups',
+                        colors: previewColors,
+                      ),
                     ),
-                    _AppearancePreviewAction(
-                      icon: CollectIcons.qr,
-                      label: 'QR',
-                      colors: previewColors,
+                    Expanded(
+                      child: _AppearancePreviewAction(
+                        icon: CollectIcons.qr,
+                        label: 'QR',
+                        colors: previewColors,
+                      ),
                     ),
-                    _AppearancePreviewAction(
-                      icon: CollectIcons.settings,
-                      label: 'More',
-                      colors: previewColors,
+                    Expanded(
+                      child: _AppearancePreviewAction(
+                        icon: CollectIcons.settings,
+                        label: 'More',
+                        colors: previewColors,
+                      ),
                     ),
                   ],
                 ),
@@ -728,9 +781,14 @@ class _AppearancePreviewAction extends StatelessWidget {
       children: [
         _AppearancePreviewCircle(icon: icon, colors: colors),
         CollectSpacing.gap4,
-        Text(
-          label,
-          style: textTheme.labelSmall?.copyWith(color: colors.textSecondary),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: textTheme.labelSmall?.copyWith(color: colors.textSecondary),
+            maxLines: 1,
+          ),
         ),
       ],
     );

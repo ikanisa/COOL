@@ -138,6 +138,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                                 ' · ${formatCollectDateTime(visible[index].createdAt)}',
                             transactionId: visible[index].transactionId,
                             tone: CollectStatusTone.success,
+                            prioritizeContext: true,
                             onTap: () => context.go(
                               '/groups/${visible[index].collectionId}/ledger',
                             ),

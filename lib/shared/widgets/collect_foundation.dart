@@ -325,11 +325,12 @@ class CollectCard extends StatelessWidget {
     );
     final decorated = ClipRRect(
       borderRadius: radius,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        enabled: blurBackground,
-        child: container,
-      ),
+      child: blurBackground
+          ? BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+              child: container,
+            )
+          : container,
     );
     return Material(
       color: colors.transparent,

@@ -15,6 +15,7 @@ class ScreenScaffold extends ConsumerWidget {
     this.persistentPill,
     this.bottomAction,
     this.onRefresh,
+    this.scrollController,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -29,6 +30,7 @@ class ScreenScaffold extends ConsumerWidget {
   final Widget? persistentPill;
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
+  final ScrollController? scrollController;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
@@ -57,6 +59,7 @@ class ScreenScaffold extends ConsumerWidget {
       persistentPill: persistentPill ?? stalePill,
       bottomAction: bottomAction,
       onRefresh: onRefresh,
+      scrollController: scrollController,
       showHeader: showHeader,
       compact: compact,
       children: children,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' show SemanticsAction;
 
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -52,16 +53,26 @@ void main() {
       isTrue,
     );
 
+    final semantics = tester.ensureSemantics();
+    expect(find.semantics.byLabel(RegExp(r'^Amount field$')), findsOne);
     await tester.tap(find.byType(TextField));
     await tester.pump();
     expect(
-      tester.widget<BackdropFilter>(find.byType(BackdropFilter)).enabled,
-      isFalse,
-      reason: 'Focused amount entry must not repaint an expensive blur layer.',
+      find.semantics.byAction(SemanticsAction.setText),
+      findsOne,
+      reason:
+          'Amount entry must expose one labeled editable semantics node without a duplicate inner field.',
+    );
+
+    expect(
+      find.byType(BackdropFilter),
+      findsNothing,
+      reason: 'Focused amount entry must not build an expensive blur layer.',
     );
 
     await tester.tap(find.text('10k'));
     expect(selectedAmount, 10000);
+    semantics.dispose();
   });
 
   testWidgets('group card renders SMS-first details', (tester) async {
@@ -320,11 +331,7 @@ void main() {
     );
 
     expect(find.byType(CollectCard), findsOneWidget);
-    expect(find.byType(BackdropFilter), findsOneWidget);
-    expect(
-      tester.widget<BackdropFilter>(find.byType(BackdropFilter)).enabled,
-      isFalse,
-    );
+    expect(find.byType(BackdropFilter), findsNothing);
     expect(find.byType(RepaintBoundary), findsWidgets);
     expect(find.text('Community group 11'), findsOneWidget);
   });
@@ -394,7 +401,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Review contribution'), findsOneWidget);
-    expect(find.text('Pay with MOMO'), findsOneWidget);
+    expect(find.text('Contribute with MoMo'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 }

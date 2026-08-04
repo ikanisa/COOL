@@ -136,6 +136,7 @@ void main() {
     expect(infoPlist, contains('NSPhotoLibraryUsageDescription'));
     expect(infoPlist, isNot(contains('NSContactsUsageDescription')));
     expect(infoPlist, isNot(contains('NSPhotoLibraryAddUsageDescription')));
+    expect(podfile, contains('PERMISSION_CAMERA=1'));
     expect(podfile, contains('PERMISSION_CONTACTS=0'));
     expect(podfile, contains('PERMISSION_NOTIFICATIONS=0'));
     expect(podfile, contains('PERMISSION_PHOTOS_ADD_ONLY=0'));

@@ -49,6 +49,27 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
     if (mounted) setState(() {});
   }
 
+  void _handleSemanticAmount(String rawAmount) {
+    const formatter = _RwfAmountInputFormatter();
+    final nextValue = formatter.formatEditUpdate(
+      widget.controller.value,
+      TextEditingValue(
+        text: rawAmount,
+        selection: TextSelection.collapsed(offset: rawAmount.length),
+      ),
+    );
+    widget.controller.value = nextValue;
+    _amountFocusNode.requestFocus();
+  }
+
+  void _handleSemanticTap() {
+    _amountFocusNode.requestFocus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_amountFocusNode.hasFocus) return;
+      SystemChannels.textInput.invokeMethod<void>('TextInput.show');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
@@ -140,25 +161,35 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
                   textField: true,
                   label: '$effectiveLabel field',
                   hint: 'Enter amount in Rwandan francs',
-                  child: TextField(
-                    controller: widget.controller,
-                    focusNode: _amountFocusNode,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: const [_RwfAmountInputFormatter()],
-                    style: amountStyle,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      hintText: '0',
-                      prefixText: 'RWF ',
-                      prefixStyle: prefixStyle,
-                      hintStyle: amountStyle.copyWith(color: colors.textMuted),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                      isCollapsed: true,
-                      contentPadding: EdgeInsets.zero,
+                  value: widget.controller.text.isEmpty
+                      ? '0'
+                      : widget.controller.text,
+                  focused: _amountFocusNode.hasFocus,
+                  onTap: _handleSemanticTap,
+                  onSetText: _handleSemanticAmount,
+                  child: ExcludeSemantics(
+                    child: TextField(
+                      controller: widget.controller,
+                      focusNode: _amountFocusNode,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: const [_RwfAmountInputFormatter()],
+                      style: amountStyle,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: '0',
+                        prefixText: 'RWF ',
+                        prefixStyle: prefixStyle,
+                        hintStyle: amountStyle.copyWith(
+                          color: colors.textMuted,
+                        ),
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        isCollapsed: true,
+                        contentPadding: EdgeInsets.zero,
+                      ),
                     ),
                   ),
                 ),

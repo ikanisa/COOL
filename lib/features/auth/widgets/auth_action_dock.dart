@@ -10,6 +10,7 @@ class AuthActionDock extends StatelessWidget {
     required this.onSubmit,
     required this.onAnotherNumber,
     required this.onResend,
+    this.embedded = false,
     super.key,
   });
 
@@ -21,18 +22,21 @@ class AuthActionDock extends StatelessWidget {
   final VoidCallback? onSubmit;
   final VoidCallback? onAnotherNumber;
   final VoidCallback? onResend;
+  final bool embedded;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        CollectSpacing.x4,
-        CollectSpacing.x2,
-        CollectSpacing.x4,
-        CollectSpacing.x4,
-      ),
+      padding: embedded
+          ? EdgeInsets.zero
+          : const EdgeInsets.fromLTRB(
+              CollectSpacing.x4,
+              CollectSpacing.x2,
+              CollectSpacing.x4,
+              CollectSpacing.x4,
+            ),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
         child: BackdropFilter(

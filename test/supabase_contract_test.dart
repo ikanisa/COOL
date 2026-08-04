@@ -64,6 +64,9 @@ void main() {
   final mobileProductionStateSupport = File(
     'supabase/migrations/20260531190000_mobile_production_state_support.sql',
   ).readAsStringSync();
+  final mobileRequestOwnReadGrant = File(
+    'supabase/migrations/20260730134500_grant_mobile_request_own_read.sql',
+  ).readAsStringSync();
   final updateCollectionProfileRpc = File(
     'supabase/migrations/20260607130500_update_collection_profile_rpc.sql',
   ).readAsStringSync();
@@ -2557,6 +2560,32 @@ void main() {
       contains(
         'grant execute on function request_account_deletion(text) to authenticated',
       ),
+    );
+    expect(
+      mobileRequestOwnReadGrant,
+      contains(
+        'grant select on table public.mobile_account_deletion_requests to authenticated',
+      ),
+    );
+    expect(
+      mobileRequestOwnReadGrant,
+      contains(
+        'grant select on table public.mobile_support_requests to authenticated',
+      ),
+    );
+    expect(
+      mobileRequestOwnReadGrant,
+      contains(
+        'create or replace function public.collection_is_public_approved',
+      ),
+    );
+    expect(
+      mobileRequestOwnReadGrant,
+      contains('and public.collection_is_public_approved(collection_id)'),
+    );
+    expect(
+      mobileRequestOwnReadGrant,
+      isNot(contains('grant select (public_status)')),
     );
     expect(mobileProductionStateSupport, isNot(contains('raw_body')));
     expect(mobileProductionStateSupport, isNot(contains('display_name')));

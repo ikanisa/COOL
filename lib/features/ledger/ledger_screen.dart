@@ -192,6 +192,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (context) {
         return CollectBottomSheet(
+          blurBackground: false,
           child: _LedgerOptionSheet<_LedgerSort>(
             title: 'Sort ledger',
             values: _LedgerSort.values,

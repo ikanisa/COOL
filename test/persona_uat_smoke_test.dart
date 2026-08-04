@@ -214,7 +214,18 @@ void main() {
     await pumpMainAppAt(tester, '/home');
 
     expect(find.text('Activity'), findsWidgets);
+    expect(find.text('1 supported group'), findsOneWidget);
+    expect(find.text('1 supported groups'), findsNothing);
     expect(find.text('Public groups'), findsNothing);
+    final topChrome = find.byType(CollectScreenTopChrome);
+    expect(
+      find.descendant(of: topChrome, matching: find.byTooltip('Profile')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: topChrome, matching: find.byTooltip('Settings')),
+      findsOneWidget,
+    );
     expect(find.byTooltip('Supported groups'), findsOneWidget);
     final router = GoRouter.of(
       tester.element(find.byKey(const Key('home_supported_groups_chip'))),
@@ -235,6 +246,92 @@ void main() {
     expect(find.text('Kigali Lions away kit'), findsNothing);
     expectNoGlobalSecrets();
   });
+
+  testWidgets(
+    'activity preserves group and date context at the default phone size',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await pumpMainAppAt(
+        tester,
+        '/activity',
+        repository: CollectRepository.fixture(
+          fixtureNow: DateTime(2026, 7, 30, 12),
+        ),
+      );
+
+      final groupFinder = find.text('St Michel building fund');
+      expect(groupFinder, findsWidgets);
+      for (final paragraph in tester.renderObjectList<RenderParagraph>(
+        groupFinder,
+      )) {
+        expect(
+          paragraph.didExceedMaxLines,
+          isFalse,
+          reason: 'Group identity must remain readable at text scale 1.0.',
+        );
+      }
+
+      final dateFinders = find.textContaining(RegExp(r'\d{1,2} Jul 2026,'));
+      expect(dateFinders, findsWidgets);
+      for (final paragraph in tester.renderObjectList<RenderParagraph>(
+        dateFinders,
+      )) {
+        expect(
+          paragraph.didExceedMaxLines,
+          isFalse,
+          reason: 'Activity date and time must remain complete.',
+        );
+      }
+      expect(find.text('Ref MTN12345'), findsOneWidget);
+      expectNoGlobalSecrets();
+    },
+  );
+
+  testWidgets(
+    'long primary routes keep their final task target above floating navigation',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final semantics = tester.ensureSemantics();
+      try {
+        final cases = <(String, Finder)>[
+          ('/home', find.text('Kigali Lions away kit')),
+          ('/groups/col-church/manage', find.text('Archive group')),
+          (
+            '/groups/col-church/profile',
+            find.widgetWithText(CollectButton, 'Save'),
+          ),
+        ];
+
+        for (final (route, target) in cases) {
+          await tester.pumpWidget(const SizedBox.shrink());
+          await tester.pump();
+          await pumpMainAppAt(tester, route);
+          expect(target, findsWidgets, reason: route);
+          await tester.ensureVisible(target.first);
+          await tester.pumpAndSettle();
+
+          final navigation = find.bySemanticsLabel('Primary navigation');
+          expect(navigation, findsOneWidget, reason: route);
+          final targetRect = tester.getRect(target.first);
+          final navigationRect = tester.getRect(navigation);
+          expect(
+            targetRect.bottom,
+            lessThanOrEqualTo(navigationRect.top - CollectSpacing.x2),
+            reason: '$route final task target must clear floating navigation.',
+          );
+        }
+      } finally {
+        semantics.dispose();
+      }
+    },
+  );
 
   testWidgets(
     'groups screen lists compact cards without search or filter dock',
@@ -311,7 +408,7 @@ void main() {
     );
     await tapVisible(
       tester,
-      find.widgetWithText(FilledButton, 'Pay with MOMO'),
+      find.widgetWithText(FilledButton, 'Contribute with MoMo'),
     );
     await tester.pumpAndSettle();
     await pumpLaunchFrames(tester);
@@ -552,6 +649,10 @@ void main() {
     expect(find.text('Sign in'), findsOneWidget);
     expect(find.text('WhatsApp'), findsOneWidget);
     expect(find.text('Send WhatsApp code'), findsOneWidget);
+    expect(
+      tester.getBottomRight(find.text('Send WhatsApp code')).dy,
+      lessThan(844),
+    );
 
     await tester.enterText(find.byType(TextField).first, '+250789123456');
     await tapVisible(tester, find.text('Send WhatsApp code'));
@@ -790,7 +891,7 @@ void main() {
 
     await tapVisible(
       tester,
-      find.widgetWithText(FilledButton, 'Pay with MOMO'),
+      find.widgetWithText(FilledButton, 'Contribute with MoMo'),
     );
     await pumpLaunchFrames(tester);
 
@@ -1005,7 +1106,10 @@ void main() {
           ),
           (
             '/offline',
-            [(RegExp(r'^Review groups$'), true), (RegExp(r'^Home$'), true)],
+            [
+              (RegExp(r'^Review groups$'), true),
+              (RegExp(r'^Privacy in recovery$'), true),
+            ],
           ),
         ];
 
@@ -1186,6 +1290,12 @@ void main() {
     await pumpMainAppAt(tester, '/settings/help');
 
     expect(find.text('Help'), findsWidgets);
+    expect(find.text('Sign-in or code problem'), findsOneWidget);
+    expect(find.text('Contribution issue'), findsOneWidget);
+    expect(find.text('QR, sharing, or joining'), findsOneWidget);
+    expect(find.text('Membership or owner issue'), findsOneWidget);
+    expect(find.text('Privacy or deletion request'), findsOneWidget);
+    await scrollToVisible(tester, find.text('WhatsApp support'));
     expect(find.text('WhatsApp support'), findsOneWidget);
     expect(find.text('Support without secrets'), findsNothing);
     expect(find.text('Contact support on WhatsApp.'), findsNothing);

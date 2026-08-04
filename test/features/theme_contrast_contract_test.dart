@@ -121,6 +121,22 @@ void main() {
           destructive,
           _normalTextMinimum,
         );
+        final enabledDangerBackground = destructive.backgroundColor?.resolve(
+          <WidgetState>{},
+        );
+        final disabledDangerBackground = destructive.backgroundColor?.resolve(
+          <WidgetState>{WidgetState.disabled},
+        );
+        final enabledDangerForeground = destructive.foregroundColor?.resolve(
+          <WidgetState>{},
+        );
+        final disabledDangerForeground = destructive.foregroundColor?.resolve(
+          <WidgetState>{WidgetState.disabled},
+        );
+        expect(enabledDangerBackground, isNotNull);
+        expect(disabledDangerBackground, isNotNull);
+        expect(enabledDangerBackground, isNot(disabledDangerBackground));
+        expect(enabledDangerForeground, isNot(disabledDangerForeground));
         final colors = entry.value.extension<CollectColors>()!;
         final side = outlined.side?.resolve(<WidgetState>{});
         expect(side, isNotNull);

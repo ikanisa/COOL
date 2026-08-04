@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Users/jeanbosco/Developer/flutter/bin/flutter
 DART ?= /Users/jeanbosco/Developer/flutter/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -20,6 +20,11 @@ help:
 	@echo "  make mobile-route-artifact-gate Validate current mobile route evidence against DESIGN.md"
 	@echo "  make universal-contract-gate Validate DESIGN.md is the sole contract"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
+	@echo "  make ios-physical-route-uat ARGS='...' Run exact-device, staging-only physical iPhone route UAT"
+	@echo "  make ios-physical-lifecycle-uat ARGS='...' Run exact-device physical iPhone lifecycle UAT"
+	@echo "  make ios-simulator-material-state-uat ARGS='...' Capture exact-Simulator material state evidence"
+	@echo "  make ios-physical-camera-permission-uat ARGS='...' Reset only staging and run owner-assisted physical Camera recovery UAT"
+	@echo "  make ios-simulator-camera-permission-uat ARGS='...' Run exact-simulator Camera denial/recovery UAT"
 	@echo "  make flutter-mobile-release-gate Validate mobile release metadata, signing review, and iOS scope"
 	@echo "  make android-release-signing-preflight Check configured Android signing certificate against Play signing fingerprint"
 	@echo "  make android-kotlin-plugin-compat Check Android Flutter plugins for direct Kotlin Gradle Plugin usage"
@@ -119,6 +124,38 @@ universal-contract-gate-json:
 
 android-device-uat:
 	@./scripts/android_device_uat.sh
+
+ios-physical-route-uat:
+	@./scripts/ios_physical_route_uat.sh $(ARGS)
+
+ios-physical-lifecycle-uat:
+	@IOS_PHYSICAL_UAT_MODE=lifecycle \
+		IOS_PHYSICAL_UAT_TEST_TARGET=integration_test/mobile_ios_lifecycle_device_uat_test.dart \
+		IOS_PHYSICAL_UAT_VARIANT_NAME=physical-lifecycle-dark \
+		IOS_PHYSICAL_UAT_PREBUILD=true \
+		IOS_PHYSICAL_UAT_UNLOCK_WAIT_SECONDS=180 \
+		./scripts/ios_physical_route_uat.sh $(ARGS)
+
+ios-physical-camera-permission-uat:
+	@IOS_PHYSICAL_UAT_MODE=camera-settings \
+		IOS_PHYSICAL_UAT_TEST_TARGET=integration_test/mobile_camera_permission_device_uat_test.dart \
+		IOS_PHYSICAL_UAT_VARIANT_NAME=physical-camera-settings-dark \
+		IOS_PHYSICAL_UAT_MOBILE_EVIDENCE_MODE=false \
+		IOS_PHYSICAL_UAT_CAMERA_PHASE=physical-settings \
+		IOS_PHYSICAL_UAT_RESET_STAGING_APP=true \
+		IOS_PHYSICAL_UAT_PREBUILD=true \
+		IOS_PHYSICAL_UAT_UNLOCK_WAIT_SECONDS=180 \
+		./scripts/ios_physical_route_uat.sh $(ARGS)
+
+ios-simulator-camera-permission-uat:
+	@./scripts/ios_simulator_camera_permission_uat.sh $(ARGS)
+
+ios-simulator-material-state-uat:
+	@IOS_UAT_MODE=state \
+		IOS_UAT_TEST_TARGET=integration_test/mobile_material_state_matrix_device_uat_test.dart \
+		IOS_UAT_VARIANT_NAME=material-state-dark \
+		IOS_UAT_THEME_MODE=dark \
+		./scripts/ios_simulator_route_uat.sh $(ARGS)
 
 flutter-mobile-release-gate:
 	@./scripts/flutter_mobile_release_gate.sh

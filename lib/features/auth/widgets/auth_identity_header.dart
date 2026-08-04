@@ -38,7 +38,7 @@ class AuthHeadline extends StatelessWidget {
       children: [
         Text(
           otpSent ? 'Verify WhatsApp' : 'Sign in',
-          style: textTheme.displaySmall?.copyWith(
+          style: textTheme.headlineLarge?.copyWith(
             color: foreground,
             fontWeight: CollectTypography.weightBold,
             height: CollectTypography.leadingDense,
@@ -53,10 +53,10 @@ class AuthHeadline extends StatelessWidget {
               ? usesReviewAuth
                     ? 'Use the reviewer code for $phone.'
                     : 'Code sent to $phone'
-              : 'Use your WhatsApp number.',
-          style: textTheme.titleMedium?.copyWith(
+              : 'Enter your WhatsApp number to receive a secure sign-in code.',
+          style: textTheme.bodyLarge?.copyWith(
             color: foreground.withValues(alpha: 0.70),
-            fontWeight: CollectTypography.weightBold,
+            fontWeight: CollectTypography.weightSemibold,
             letterSpacing: CollectTypography.trackingDefault,
           ),
           maxLines: 2,

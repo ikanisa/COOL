@@ -21,7 +21,8 @@ class GroupQrScannerScreen extends ConsumerStatefulWidget {
       _GroupQrScannerScreenState();
 }
 
-class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
+class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
+    with WidgetsBindingObserver {
   static const _mobileEvidenceMode = bool.fromEnvironment(
     'COLLECT_MOBILE_EVIDENCE_MODE',
   );
@@ -43,14 +44,23 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) => _startScanning());
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _startTimeout?.cancel();
     _scanner.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      unawaited(_resumeScanningAfterSettings());
+    }
   }
 
   @override
@@ -117,6 +127,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
   }
 
   Future<void> _startScanning() async {
+    if (_starting || _scanning) return;
     if (!_scannerAvailable) {
       setState(() {
         _starting = false;
@@ -149,6 +160,12 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
         );
         return;
       }
+      // This provider represents the OS permission decision, not camera
+      // hardware availability. Keep the two states distinct so a granted
+      // permission is not misreported as denied when a Simulator or device
+      // camera cannot start.
+      ref.read(cameraPermissionStatusProvider.notifier).state =
+          CollectDevicePermissionStatus.granted;
       _startTimeout = Timer(const Duration(seconds: 8), () {
         if (!mounted || !_starting) return;
         setState(() {
@@ -161,8 +178,6 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
       await _scanner.start();
       if (!mounted) return;
       _startTimeout?.cancel();
-      ref.read(cameraPermissionStatusProvider.notifier).state =
-          CollectDevicePermissionStatus.granted;
       setState(() {
         _starting = false;
         _scanning = true;
@@ -171,10 +186,12 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
     } on MobileScannerException catch (error) {
       if (!mounted) return;
       _startTimeout?.cancel();
-      ref.read(cameraPermissionStatusProvider.notifier).state =
-          CollectDevicePermissionStatus.denied;
       final permissionDenied =
           error.errorCode == MobileScannerErrorCode.permissionDenied;
+      if (permissionDenied) {
+        ref.read(cameraPermissionStatusProvider.notifier).state =
+            CollectDevicePermissionStatus.denied;
+      }
       setState(() {
         _starting = false;
         _scanning = false;
@@ -197,6 +214,17 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
         _error = 'Camera unavailable. Try again or use a group link.';
       });
     }
+  }
+
+  Future<void> _resumeScanningAfterSettings() async {
+    if (!_scannerAvailable || _starting || _scanning) return;
+    final cameraPermission = await permissions.Permission.camera.status;
+    if (!mounted || !cameraPermission.isGranted || _starting || _scanning) {
+      return;
+    }
+    ref.read(cameraPermissionStatusProvider.notifier).state =
+        CollectDevicePermissionStatus.granted;
+    await _startScanning();
   }
 
   Future<void> _toggleTorch() async {

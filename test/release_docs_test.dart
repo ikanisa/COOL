@@ -183,6 +183,20 @@ void main() {
     return manifest;
   }
 
+  void moveFileForTest(File source, File destination) {
+    try {
+      source.renameSync(destination.path);
+    } on FileSystemException catch (error) {
+      // Android build output may be redirected to internal APFS storage while
+      // the repository cache remains on an external volume. EXDEV makes an
+      // atomic rename impossible, so preserve the helper's move semantics
+      // with a byte-for-byte copy followed by deletion.
+      if (error.osError?.errorCode != 18) rethrow;
+      source.copySync(destination.path);
+      source.deleteSync();
+    }
+  }
+
   Map<File, File> hideAndroidReleaseArtifactsForTest() {
     final artifacts = <File>[
       File('build/app/outputs/flutter-apk/app-production-release.apk'),
@@ -201,7 +215,7 @@ void main() {
       if (backup.existsSync()) {
         backup.deleteSync();
       }
-      artifact.renameSync(backup.path);
+      moveFileForTest(artifact, backup);
       hiddenArtifacts[artifact] = backup;
     }
     return hiddenArtifacts;
@@ -213,7 +227,7 @@ void main() {
       final backup = entry.value;
       artifact.parent.createSync(recursive: true);
       if (backup.existsSync()) {
-        backup.renameSync(artifact.path);
+        moveFileForTest(backup, artifact);
       }
     }
   }
@@ -1200,6 +1214,213 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     },
   );
 
+  test('iOS simulator material-state UAT is explicit and fail closed', () {
+    final script = File(
+      'scripts/ios_simulator_route_uat.sh',
+    ).readAsStringSync();
+    final integration = File(
+      'integration_test/mobile_material_state_matrix_device_uat_test.dart',
+    ).readAsStringSync();
+    final contribution = File(
+      'lib/features/payments/contribution_flow_screen.dart',
+    ).readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+
+    expect(script, contains('IOS_UAT_MODE'));
+    expect(script, contains('IOS_UAT_MODE must be route or state'));
+    expect(script, contains('collect_state_uat:pass:'));
+    expect(script, contains('collect_state_uat:variant:'));
+    expect(script, contains('mobile_state_'));
+    expect(script, contains('state_expected'));
+    expect(script, contains('state_passes'));
+    expect(integration, contains('auth-phone-empty'));
+    expect(integration, contains('auth-otp-invalid'));
+    expect(integration, contains('groups-empty'));
+    expect(integration, contains('activity-empty'));
+    expect(integration, contains('contribution-entry-valid'));
+    expect(integration, contains('contribution-review-existing'));
+    expect(integration, contains('account-delete-confirmation'));
+    expect(integration, contains('offline-recovery'));
+    expect(integration, contains('sync-recovery'));
+    expect(integration, contains('missing-group'));
+    expect(integration, contains('COLLECT_UAT_VARIANT_NAME'));
+    expect(integration, contains('loadPersistedMode: false'));
+    expect(contribution, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
+    expect(
+      contribution,
+      contains('showFullReceiverNumber: !_mobileEvidenceMode'),
+    );
+    expect(makefile, contains('ios-simulator-material-state-uat:'));
+    expect(makefile, contains('IOS_UAT_MODE=state'));
+    expect(
+      makefile,
+      contains(
+        'IOS_UAT_TEST_TARGET=integration_test/mobile_material_state_matrix_device_uat_test.dart',
+      ),
+    );
+  });
+
+  test('physical iOS route UAT is exact-device and staging-only', () {
+    final script = File('scripts/ios_physical_route_uat.sh').readAsStringSync();
+    final lifecycle = File(
+      'integration_test/mobile_ios_lifecycle_device_uat_test.dart',
+    ).readAsStringSync();
+    final camera = File(
+      'integration_test/mobile_camera_permission_device_uat_test.dart',
+    ).readAsStringSync();
+    final scanner = File(
+      'lib/features/collections/group_qr_scanner_screen.dart',
+    ).readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+
+    expect(script, contains('IOS_PHYSICAL_UAT_DEVICE_ID is required'));
+    expect(script, contains('never auto-selects a physical device'));
+    expect(script, contains('target_platform"] == "ios"'));
+    expect(script, contains('d["emulator"] == false'));
+    expect(script, contains('d["reality"] == "physical"'));
+    expect(script, contains('d["developer_mode"] == "enabled"'));
+    expect(script, contains('d["pairing_state"] == "paired"'));
+    expect(script, contains('devicectl device info lockState'));
+    expect(script, contains('"passcode_required"'));
+    expect(script, contains('device is locked; unlock it'));
+    expect(script, contains('IOS_PHYSICAL_UAT_EXPECTED_NAME'));
+    expect(script, contains('IOS_PHYSICAL_UAT_EXPECTED_MODEL'));
+    expect(script, contains('IOS_PHYSICAL_UAT_MODE'));
+    expect(script, contains('route|lifecycle|camera-settings'));
+    expect(script, contains('FLAVOR" != "staging"'));
+    expect(script, contains('BUNDLE_ID" != "app.cool.mobile.staging"'));
+    expect(script, contains('-configuration Debug-staging'));
+    expect(script, contains('resolved_bundle_id'));
+    expect(script, contains('--flavor "\$FLAVOR"'));
+    expect(script, contains('IOS_PHYSICAL_UAT_MOBILE_EVIDENCE_MODE:-true'));
+    expect(
+      script,
+      contains(r'COLLECT_MOBILE_EVIDENCE_MODE=$MOBILE_EVIDENCE_MODE'),
+    );
+    expect(script, contains('All tests passed'));
+    expect(script, contains('collect_route_uat:variant:'));
+    expect(script, contains('collect_route_uat:pass:'));
+    expect(script, contains('route_expected'));
+    expect(script, contains('route_passes'));
+    expect(script, contains('screenshots_required" => false'));
+    expect(script, contains('raw device inventory, serial/ECID values'));
+    expect(script, contains('devicectl list devices --json-output'));
+    expect(script, contains('com.apple.Preferences'));
+    expect(script, contains('devicectl device uninstall app'));
+    expect(script, contains('IOS_PHYSICAL_UAT_RESET_STAGING_APP'));
+    expect(script, contains('IOS_PHYSICAL_UAT_PREBUILD'));
+    expect(script, contains('IOS_PHYSICAL_UAT_UNLOCK_WAIT_SECONDS'));
+    expect(script, contains(r'"$FLUTTER" build ios'));
+    expect(script, contains('build/ios/iphoneos/Collect.app'));
+    expect(script, contains(r'--use-application-binary="$APP_BINARY"'));
+    expect(script, contains('keep its screen awake'));
+    expect(script, contains('app.cool.mobile.staging to reset its Camera'));
+    expect(script, contains('collect_ios_lifecycle_uat:ready-for-background'));
+    expect(script, contains('collect_ios_lifecycle_uat:ordered-transition:'));
+    expect(script, contains('host_lifecycle_action_failed'));
+    expect(script, contains('foreground_background_lifecycle'));
+    expect(script, contains('native_camera_permission_dialog'));
+    expect(script, contains('"voiceover" => false'));
+    expect(script, contains('"udid_sha256"'));
+    expect(script, isNot(contains('"udid" =>')));
+    expect(script, isNot(contains('simctl')));
+    expect(makefile, contains('ios-physical-route-uat:'));
+    expect(makefile, contains('./scripts/ios_physical_route_uat.sh'));
+    expect(makefile, contains('ios-physical-lifecycle-uat:'));
+    expect(
+      makefile,
+      contains('integration_test/mobile_ios_lifecycle_device_uat_test.dart'),
+    );
+    expect(makefile, contains('ios-physical-camera-permission-uat:'));
+    expect(makefile, contains('IOS_PHYSICAL_UAT_MODE=camera-settings'));
+    expect(makefile, contains('IOS_PHYSICAL_UAT_MOBILE_EVIDENCE_MODE=false'));
+    expect(makefile, contains('IOS_PHYSICAL_UAT_RESET_STAGING_APP=true'));
+    expect(makefile, contains('IOS_PHYSICAL_UAT_PREBUILD=true'));
+    expect(makefile, contains('IOS_PHYSICAL_UAT_UNLOCK_WAIT_SECONDS=180'));
+
+    expect(lifecycle, contains('WidgetsBindingObserver'));
+    expect(lifecycle, contains('AppLifecycleState.paused'));
+    expect(lifecycle, contains('AppLifecycleState.resumed'));
+    expect(lifecycle, contains('collect_ios_lifecycle_uat:'));
+    expect(lifecycle, contains('contribution-review-preserved'));
+    expect(lifecycle, contains('/groups/col-church/contribute'));
+    expect(lifecycle, contains('12,345'));
+
+    expect(camera, contains("'physical-settings'"));
+    expect(camera, contains('camera-settings-recovery-requested'));
+    expect(camera, contains('camera-physical-settings-recovery-pass'));
+    expect(
+      camera,
+      contains("find.widgetWithText(CollectButton, 'Open app settings')"),
+    );
+    expect(scanner, contains('with WidgetsBindingObserver'));
+    expect(scanner, contains('_resumeScanningAfterSettings'));
+    expect(scanner, contains('Permission.camera.status'));
+  });
+
+  test('iOS Simulator Camera recovery UAT is exact-target and fail closed', () {
+    final script = File(
+      'scripts/ios_simulator_camera_permission_uat.sh',
+    ).readAsStringSync();
+    final integration = File(
+      'integration_test/mobile_camera_permission_device_uat_test.dart',
+    ).readAsStringSync();
+    final scanner = File(
+      'lib/features/collections/group_qr_scanner_screen.dart',
+    ).readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+
+    expect(script, contains('IOS_CAMERA_UAT_SIMULATOR_ID is required'));
+    expect(script, contains('never auto-selects a simulator'));
+    expect(script, contains('target_platform"] == "ios"'));
+    expect(script, contains('d["emulator"] == true'));
+    expect(script, contains('d["supported"] == true'));
+    expect(script, contains('FLAVOR" != "staging"'));
+    expect(script, contains('BUNDLE_ID" != "app.cool.mobile.staging"'));
+    expect(script, contains('-configuration Debug-staging'));
+    expect(script, contains('resolved_bundle_id'));
+    expect(script, contains('simctl privacy'));
+    expect(script, contains('mktemp -d'));
+    expect(script, contains('CAPTURE_TMP_PATH'));
+    expect(script, contains('capture_xcrun'));
+    expect(script, contains('"io"'));
+    expect(script, contains('cp "\$CAPTURE_TMP_PATH"'));
+    expect(script, contains('IOS_CAMERA_COMMAND_TIMEOUT_SECONDS=180'));
+    expect(script, contains('bounded attach retry follows'));
+    expect(script, contains('"application_state" => "stopped"'));
+    expect(script, contains('"revoke"'));
+    expect(script, contains('"grant"'));
+    expect(script, contains('COLLECT_MOBILE_EVIDENCE_MODE=false'));
+    expect(script, contains('All tests passed'));
+    expect(script, contains('evidence_accepted'));
+    expect(script, contains('screenshot_size'));
+    expect(script, contains('simulator_booted_after'));
+    expect(script, contains('native_permission_dialog_interaction'));
+    expect(script, contains('continuous_in_session_retry'));
+    expect(script, contains('physical_iphone'));
+    expect(script, contains('voiceover'));
+    expect(script, contains('simctl terminate'));
+    expect(script, contains('simctl uninstall'));
+    expect(script, isNot(contains('66FE')));
+
+    expect(integration, contains('COLLECT_PERMISSION_HOST_ACTION_DELAY_MS'));
+    expect(integration, contains('ios_camera_permission_denied_recovery'));
+    expect(
+      integration,
+      contains('collect_camera_permission_uat:camera-recovery-pass'),
+    );
+    expect(
+      scanner.indexOf('CollectDevicePermissionStatus.granted'),
+      lessThan(scanner.indexOf('await _scanner.start()')),
+    );
+    expect(scanner, contains('if (permissionDenied)'));
+    expect(makefile, contains('ios-simulator-camera-permission-uat:'));
+    expect(
+      makefile,
+      contains('./scripts/ios_simulator_camera_permission_uat.sh'),
+    );
+  });
+
   test('Android device UAT fails closed without completed route evidence', () {
     final script = File('scripts/android_device_uat.sh').readAsStringSync();
     final routeMatrix = File(
@@ -1396,13 +1617,31 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['status'], anyOf('pass', 'warning'));
     expect(decoded['secret_handling'], contains('does not read or print'));
+    expect(decoded['app_agp_major'], 8);
+    expect(decoded['app_built_in_kotlin_enabled'], isFalse);
+    expect(decoded['interpretation'], contains('Classpath declarations'));
+    expect(decoded['platform_boundary'], contains('Flutter 3.47 or later'));
     if (decoded['status'] == 'warning') {
       final names =
           ((decoded['direct_kotlin_plugins'] as List<dynamic>)
                   .cast<Map<String, dynamic>>())
               .map((plugin) => plugin['name'])
               .toSet();
-      expect(names, containsAll(<String>['file_saver', 'mobile_scanner']));
+      expect(names, containsAll(<String>['mobile_scanner', 'share_plus']));
+      expect(names, isNot(contains('file_saver')));
+      expect(names, isNot(contains('image_picker_android')));
+      expect(names, isNot(contains('shared_preferences_android')));
+      expect(names, isNot(contains('url_launcher_android')));
+      final futureNotReady =
+          ((decoded['future_not_ready_plugins'] as List<dynamic>)
+                  .cast<Map<String, dynamic>>())
+              .map((plugin) => plugin['name'])
+              .toSet();
+      expect(futureNotReady, isEmpty);
+      expect(
+        decoded['future_built_in_kotlin_ready_count'],
+        decoded['plugin_count'],
+      );
     }
   });
 
@@ -3540,65 +3779,74 @@ checking Edge Function secret names
     }
   });
 
-  test(
-    'dependency and store-policy assessment matches current package scope',
-    () {
-      final assessment = File(
-        'docs/revolut-parity-goal/DEPENDENCY_LICENSE_POLICY_ASSESSMENT.md',
-      ).readAsStringSync();
-      final pubspec = File('pubspec.yaml').readAsStringSync();
-      final lockfile = File('pubspec.lock').readAsStringSync();
+  test('dependency and store-policy assessment matches current package scope', () {
+    final assessment = File(
+      'docs/revolut-parity-goal/DEPENDENCY_LICENSE_POLICY_ASSESSMENT.md',
+    ).readAsStringSync();
+    final pubspec = File('pubspec.yaml').readAsStringSync();
+    final lockfile = File('pubspec.lock').readAsStringSync();
 
-      expect(pubspec, contains('file_saver: ^0.4.0'));
-      expect(
-        lockfile,
-        matches(
-          RegExp(
-            r'file_saver:\s+dependency:.*?version: "0\.4\.0"',
-            dotAll: true,
-          ),
+    expect(pubspec, contains('path: third_party/file_saver'));
+    expect(
+      lockfile,
+      matches(
+        RegExp(
+          r'file_saver:\s+dependency:.*?path: "third_party/file_saver".*?source: path.*?version: "0\.4\.0\+collect\.1"',
+          dotAll: true,
         ),
-      );
+      ),
+    );
+    final forkRecord = File(
+      'third_party/file_saver/COLLECT_FORK.md',
+    ).readAsStringSync();
+    final forkGradle = File(
+      'third_party/file_saver/android/build.gradle',
+    ).readAsStringSync();
+    expect(forkRecord, contains('file_saver` 0.4.0'));
+    expect(forkRecord, contains('BSD-3-Clause'));
+    expect(forkRecord, contains('Flutter 3.47 or later'));
+    expect(forkGradle, isNot(contains("apply plugin: 'kotlin-android'")));
+    expect(forkGradle, isNot(contains('kotlinOptions')));
+    expect(forkGradle, contains('compilerOptions'));
 
-      const directRuntimePackages = <String>[
-        'app_links',
-        'country_picker',
-        'crypto',
-        'file_saver',
-        'flutter_local_notifications',
-        'flutter_riverpod',
-        'go_router',
-        'image_picker',
-        'intl',
-        'logger',
-        'mobile_scanner',
-        'permission_handler',
-        'qr_flutter',
-        'share_plus',
-        'shared_preferences',
-        'supabase_flutter',
-        'url_launcher',
-        'uuid',
-      ];
-      for (final package in directRuntimePackages) {
-        expect(assessment, contains('`$package`'), reason: package);
-      }
+    const directRuntimePackages = <String>[
+      'app_links',
+      'country_picker',
+      'crypto',
+      'file_saver',
+      'flutter_local_notifications',
+      'flutter_riverpod',
+      'go_router',
+      'image_picker',
+      'intl',
+      'logger',
+      'mobile_scanner',
+      'permission_handler',
+      'qr_flutter',
+      'share_plus',
+      'shared_preferences',
+      'supabase_flutter',
+      'url_launcher',
+      'uuid',
+    ];
+    for (final package in directRuntimePackages) {
+      expect(assessment, contains('`$package`'), reason: package);
+    }
 
-      expect(assessment, contains('no package affected by a published'));
-      expect(
-        assessment,
-        contains(
-          'https://support.google.com/googleplay/android-developer/answer/10208820',
-        ),
-      );
-      expect(
-        assessment,
-        contains('https://developer.apple.com/app-store/review/guidelines/'),
-      );
-      expect(assessment, contains('internal_receiver'));
-      expect(assessment, contains('must never be uploaded'));
-    },
-  );
+    expect(assessment, contains('no package affected by a published'));
+    expect(
+      assessment,
+      contains(
+        'https://support.google.com/googleplay/android-developer/answer/10208820',
+      ),
+    );
+    expect(
+      assessment,
+      contains('https://developer.apple.com/app-store/review/guidelines/'),
+    );
+    expect(assessment, contains('internal_receiver'));
+    expect(assessment, contains('must never be uploaded'));
+  });
 
   test('completion audit remains fail closed while goal evidence is open', () {
     final audit = File(

@@ -9,6 +9,15 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Native Android release intermediates are unreliable on the external project
+// volume. Release automation may point this module at an internal APFS root
+// while keeping the repository and the public `build/` path in place.
+val collectAndroidBuildRoot =
+    providers.environmentVariable("COLLECT_ANDROID_BUILD_ROOT").orNull
+if (!collectAndroidBuildRoot.isNullOrBlank()) {
+    layout.buildDirectory.set(file(collectAndroidBuildRoot).resolve("app"))
+}
+
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {

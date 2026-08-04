@@ -2,13 +2,13 @@
 
 ## Assessment boundary
 
-- Evidence date: 2026-07-28
+- Evidence date: 2026-08-01
 - Repository: `/Volumes/PRO-G40/COOL`
 - Flutter/Dart: Flutter 3.44.4, Dart 3.12.2
 - Package evidence: resolved `pubspec.lock`, `flutter pub deps --json`,
   `flutter pub outdated --json`, package licence files, Flutter analysis/tests,
-  Android merged-manifest inspection, Android integration build, and iOS
-  generic-device Release archive
+  Android merged-manifest inspection, production APK/AAB rebuilds, Admin PWA
+  rebuild, and the retained iOS generic-device Release archive
 - Policy evidence: current official Apple Developer and Google Play policy
   pages linked below
 
@@ -22,17 +22,19 @@ The resolved Flutter dependency graph is locally acceptable for continued
 engineering:
 
 - all compatible package upgrades were applied;
-- `file_saver` was intentionally advanced from 0.3.1 to 0.4.0 for Android
+- `file_saver` was intentionally advanced from 0.3.1 to the controlled
+  `0.4.0+collect.1` fork for Android
   path-traversal hardening, modern iOS/macOS packaging, and current platform
   compatibility;
 - all 18 direct third-party runtime packages carry permissive licences;
 - the current package resolver reports no package affected by a published
   advisory, discontinued, or retracted;
 - formatting and static analysis pass;
-- the complete post-update automated suite passes 433 tests at 78.30% line
+- the complete post-update automated suite passes 438 tests at 78.79% line
   coverage;
-- Android dev compilation and the final unsigned iOS Release archive pass
-  against the final assessed lockfile.
+- Android production APK/AAB compilation and the Admin PWA wrapper pass
+  against the assessed lockfile; the retained unsigned iOS Release archive
+  predates this Android-only fork and remains non-distributable evidence.
 
 This does not close store readiness. Final production artifacts, store
 declarations, privacy answers, financial-feature classification, permission
@@ -45,7 +47,7 @@ dialog UAT, signing, and accountable approval remain separate gates.
 | `app_links` | 7.2.1 | Apache-2.0 |
 | `country_picker` | 2.0.28 | MIT |
 | `crypto` | 3.0.7 | BSD-3-Clause |
-| `file_saver` | 0.4.0 | BSD-3-Clause |
+| `file_saver` | 0.4.0+collect.1 controlled path fork | BSD-3-Clause; upstream licence and provenance retained |
 | `flutter_local_notifications` | 22.1.0 | BSD-3-Clause |
 | `flutter_riverpod` | 2.6.1 | MIT |
 | `go_router` | 16.3.0 | BSD-3-Clause |
@@ -84,9 +86,11 @@ Current unresolved direct-version differences:
 | `go_router` | 16.3.0 | 17.3.0 | Major navigation migration. Defer until the complete 35-route and deep-link matrix can be rerun on native devices. |
 | `intl` | 0.20.2 | 0.20.3 | Not currently resolvable within the Flutter SDK/localization graph; retain the SDK-compatible version. |
 
-`file_saver` is no longer deferred: 0.4.0 retains the Collect call shape and
-was adopted because its security and platform fixes outweigh the controlled
-major-version change.
+`file_saver` is no longer deferred: the controlled `0.4.0+collect.1` path fork
+retains the Collect call shape, licence, and platform source while migrating
+its Android Gradle configuration away from unconditional KGP application.
+`third_party/file_saver/COLLECT_FORK.md` records the upstream hashes and the
+three Collect-owned changes.
 
 `app_links` is now a direct dependency rather than an incidental Supabase
 transitive. Collect uses its Android/iOS stream explicitly so a shared-group
@@ -101,25 +105,28 @@ at release time.
 
 ## Built-in Kotlin compatibility
 
-The local compatibility gate reports six resolved Android plugins that still
-apply the legacy Kotlin Gradle Plugin:
+The corrected compatibility gate distinguishes classpath declarations and
+compiler DSL from actual Kotlin-plugin application. Against the current AGP 8
+graph it reports two conditional fallbacks: `mobile_scanner` while built-in
+Kotlin is disabled and `share_plus` while AGP is below 9. All 14 resolved
+Android plugins are source-ready for the future built-in-Kotlin graph; there
+are zero unconditional future blockers.
 
-1. `file_saver`
-2. `image_picker_android`
-3. `mobile_scanner`
-4. `share_plus`
-5. `shared_preferences_android`
-6. `url_launcher_android`
+The controlled `file_saver` fork removes the prior unconditional
+`kotlin-android` application and replaces `kotlinOptions` with
+`kotlin.compilerOptions`. Current production APK/AAB builds pass and Flutter's
+warning is reduced from `file_saver` plus `mobile_scanner` to
+`mobile_scanner` only.
 
-The current Flutter build emits the warning for directly detected build-path
-plugins and still compiles. This is an upstream forward-compatibility risk, not
-a present compile failure. Blindly removing Gradle declarations from cached
-packages is not an acceptable fix. Closure requires upstream built-in-Kotlin
-releases or reviewed, controlled vendor forks, followed by the compatibility
-gate and Android build matrix.
+This is a source-migration closure, not platform enablement. Flutter 3.44.4 is
+the governed repository toolchain, while Flutter's current guidance requires
+Flutter 3.47 or later before `android.builtInKotlin=true` can be enabled and
+validated. RT-037 therefore remains partially open for a controlled Flutter
+upgrade, actual built-in-Kotlin build, and full Android regression matrix.
 
-Flutter's official migration guidance:
+Flutter's official app and plugin migration guidance:
 <https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers>
+<https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors>
 
 ## Android permission and Google Play assessment
 
@@ -133,8 +140,8 @@ The upgraded dev APK is `app.cool.mobile.dev`, targets SDK 36, and declares:
 - the application-scoped dynamic-receiver protection permission
 
 It does not declare `READ_SMS`, `RECEIVE_SMS`, `SEND_SMS`, Call Log, broad
-photo/video, or storage permissions. `file_saver` 0.4.0 initially introduced
-legacy external-storage declarations during manifest merging; Collect now
+photo/video, or storage permissions. Upstream `file_saver` 0.4.0 initially
+introduced legacy external-storage declarations during manifest merging; Collect now
 removes both explicitly because QR export uses app-specific storage. A
 regression test and rebuilt APK permission inspection prove the removals. The
 production source manifest also excludes restricted SMS permissions.

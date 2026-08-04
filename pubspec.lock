@@ -188,11 +188,10 @@ packages:
   file_saver:
     dependency: "direct main"
     description:
-      name: file_saver
-      sha256: "68c9a085d9bb4546e0a31d1e583a48d7c17a6987d538788ea064f0043b1fc02d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
+      path: "third_party/file_saver"
+      relative: true
+    source: path
+    version: "0.4.0+collect.1"
   file_selector_linux:
     dependency: transitive
     description:

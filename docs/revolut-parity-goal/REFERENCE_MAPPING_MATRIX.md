@@ -15,6 +15,12 @@ under:
 - `.cache/revolut_full_audit/20260723T200000/revolut10/`
 - `.cache/revolut_phase2_qa/20260724/`
 - `.cache/revolut_parity_mapping/20260724/`
+- `/Volumes/PRO-G40/AFRICLUB/output/revolut_rayon_visual_audit_20260730/screenshots/revolut/`
+
+The July 30 set is governed by
+`docs/revolut-parity-goal/JULY_30_REFERENCE_INVENTORY.md`: eight files are
+reference-safe and 36 are personal local-review-only. Personal files may inform
+local analysis but may not be reproduced in shareable comparisons.
 
 The retained direct captures are 316 by 696 pixels. The ten supplied
 Drive-preview images are 1,898 by 798 pixels and contain the original
@@ -47,6 +53,10 @@ with invented references.
 | R-PROFILE-LOWER | `.cache/revolut_full_audit/20260723T200000/11-profile-lower.png` | Compact account, security, documents, and help hierarchy |
 | R-SECURITY | `.cache/revolut_full_audit/20260723T200000/11-security.png` | Quiet security shell, emergency actions, one primary prompt, grouped controls |
 | R-LONG | `.cache/revolut_full_audit/20260723T200000/revolut10/IMG_2750-drive-preview.png` through `IMG_2752-drive-preview.png` | Long-page section rhythm for discovery surfaces only |
+| R-J30-VALUE | `.../screenshots/revolut/04-crypto-overview.png` | Current reference-safe value hierarchy, four actions, and immediate activity |
+| R-J30-MENU | `.../screenshots/revolut/05-crypto-more-menu.png` | Current reference-safe anchored menu |
+| R-J30-THEME | `.../screenshots/revolut/08-theme-preview.png`, `09-theme-mode-picker.png` | Current reference-safe preview-first theme hierarchy and mode choice |
+| R-J30-SECURITY | `.../screenshots/revolut/10-security-settings.png` | Current reference-safe security hierarchy |
 
 ## Complete 35-route mapping
 

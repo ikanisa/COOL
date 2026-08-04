@@ -85,19 +85,21 @@ class CollectionDetailScreen extends ConsumerWidget {
         eyebrow: collection.collectionType.name.toUpperCase(),
         title: collection.title,
         metric: formatRwf(summary.amountRaisedRwf),
-        subtitle: '${summary.supporterCount} supporters',
+        subtitle:
+            '${summary.supporterCount} '
+            '${summary.supporterCount == 1 ? 'member' : 'members'}',
         icon: collectionTypeIcon(collection.collectionType),
         semanticLabel:
             '${formatRwf(summary.amountRaisedRwf)} raised, Open group members, ${summary.supporterCount} members',
         quickActions: [
           CollectHeroQuickAction(
             icon: CollectIcons.donate,
-            label: 'Pay',
+            label: 'Contribute',
             onTap: () => context.go('/groups/$collectionId/contribute'),
           ),
           CollectHeroQuickAction(
             icon: CollectIcons.people,
-            label: 'People',
+            label: 'Members',
             onTap: () => context.go('/groups/$collectionId/members'),
           ),
           CollectHeroQuickAction(

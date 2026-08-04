@@ -18,8 +18,10 @@
   ],
   "repository": "/Volumes/PRO-G40/COOL",
   "created_at": "2026-07-24",
+  "updated_at": "2026-07-30",
+  "active_implementation_goal": "docs/revolut-parity-goal/ROBUST_IMPLEMENTATION_GOAL_2026-07-30.md",
+  "active_implementation_packages": "CRP-001..CRP-503",
   "human_review_required": true,
   "external_mutation_authorized": false,
   "status": "active"
 }
-

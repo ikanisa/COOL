@@ -11,6 +11,7 @@ TEST_TARGET="${IOS_UAT_TEST_TARGET:-integration_test/mobile_route_matrix_device_
 DRIVER="${IOS_UAT_DRIVER:-test_driver/integration_test.dart}"
 TIMEOUT_SECONDS="${IOS_UAT_TIMEOUT_SECONDS:-900}"
 BUNDLE_ID="${IOS_UAT_BUNDLE_ID:-app.cool.mobile}"
+MODE="${IOS_UAT_MODE:-route}"
 VARIANT_NAME="${IOS_UAT_VARIANT_NAME:-default-dark}"
 THEME_MODE="${IOS_UAT_THEME_MODE:-dark}"
 TEXT_SCALE="${IOS_UAT_TEXT_SCALE:-1.0}"
@@ -87,6 +88,7 @@ write_early_failure_summary() {
   IOS_UAT_REASON="$reason" \
   IOS_UAT_SIMULATOR_JSON="$simulator_json" \
   IOS_UAT_TARGET="$TEST_TARGET" \
+  IOS_UAT_MODE="$MODE" \
   IOS_UAT_LOG="${LOG_FILE#$ROOT_DIR/}" \
   IOS_UAT_LOG_SHA256="$log_sha256" \
   IOS_UAT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
@@ -105,6 +107,7 @@ puts JSON.pretty_generate(
     "reason" => ENV.fetch("IOS_UAT_REASON"),
     "simulator" => simulator,
     "target" => ENV.fetch("IOS_UAT_TARGET"),
+    "evidence_mode" => ENV.fetch("IOS_UAT_MODE", "route"),
     "runner" => "not_started",
     "log" => ENV.fetch("IOS_UAT_LOG"),
     "log_sha256" => ENV.fetch("IOS_UAT_LOG_SHA256"),
@@ -118,10 +121,10 @@ puts JSON.pretty_generate(
       "reduced_motion" => ENV.fetch("IOS_UAT_REDUCED_MOTION") == "true"
     },
     "completion_marker" => false,
-    "route_expected" => 0,
-    "route_passes" => 0,
+    "item_expected" => 0,
+    "item_passes" => 0,
     "screenshot_count" => 0,
-    "secret_handling" => "Fixture-only screenshots and route logs must not contain secrets, raw SMS bodies, phone/MoMo receiver data, signing keys, service-role keys, provider tokens, or production customer data."
+    "secret_handling" => "Fixture-only screenshots and route logs must not contain secrets, raw SMS bodies, raw phone/MoMo receiver data, signing keys, service-role keys, provider tokens, or production customer data."
   }
 )
 RUBY
@@ -132,7 +135,7 @@ case "${1:-}" in
     ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Environment: FLUTTER XCRUN IOS_UAT_SIMULATOR_ID IOS_UAT_TEST_TARGET IOS_UAT_DRIVER IOS_UAT_TIMEOUT_SECONDS IOS_UAT_BUNDLE_ID IOS_UAT_EVIDENCE_DIR IOS_UAT_VARIANT_NAME IOS_UAT_THEME_MODE IOS_UAT_TEXT_SCALE IOS_UAT_HIGH_CONTRAST IOS_UAT_REDUCED_MOTION\n'
+    printf 'Environment: FLUTTER XCRUN IOS_UAT_SIMULATOR_ID IOS_UAT_TEST_TARGET IOS_UAT_DRIVER IOS_UAT_TIMEOUT_SECONDS IOS_UAT_BUNDLE_ID IOS_UAT_EVIDENCE_DIR IOS_UAT_MODE IOS_UAT_VARIANT_NAME IOS_UAT_THEME_MODE IOS_UAT_TEXT_SCALE IOS_UAT_HIGH_CONTRAST IOS_UAT_REDUCED_MOTION\n'
     exit 0
     ;;
   *)
@@ -144,6 +147,23 @@ esac
 case "$THEME_MODE" in
   light|dark|system) ;;
   *) fail "IOS_UAT_THEME_MODE must be light, dark, or system." ;;
+esac
+case "$MODE" in
+  route)
+    marker_namespace="collect_route_uat"
+    pass_marker="collect_route_uat:pass:"
+    variant_marker_prefix="collect_route_uat:variant:"
+    spec_token="_RouteSpec("
+    screenshot_prefix="mobile_route_"
+    ;;
+  state)
+    marker_namespace="collect_state_uat"
+    pass_marker="collect_state_uat:pass:"
+    variant_marker_prefix="collect_state_uat:variant:"
+    spec_token="_StateSpec("
+    screenshot_prefix="mobile_state_"
+    ;;
+  *) fail "IOS_UAT_MODE must be route or state." ;;
 esac
 case "$HIGH_CONTRAST" in
   true|false) ;;
@@ -356,38 +376,38 @@ fi
 
 variant_marker=0
 observed_variant_marker="$(
-  grep -o 'collect_route_uat:variant:[^[:space:]]*' "$LOG_FILE" |
+  grep -o "$variant_marker_prefix[^[:space:]]*" "$LOG_FILE" |
     tail -1 ||
     true
 )"
-if grep -Fq "collect_route_uat:variant:$VARIANT_NAME:theme=$THEME_MODE:" "$LOG_FILE"; then
+if grep -Fq "$variant_marker_prefix$VARIANT_NAME:theme=$THEME_MODE:" "$LOG_FILE"; then
   variant_marker=1
 else
   printf '[ios-simulator-route-uat][FAIL] Flutter driver did not emit the expected variant marker.\n' >>"$LOG_FILE"
   [[ "$rc" -eq 0 ]] && rc=1
 fi
 
-route_expected="$(awk '/^  _RouteSpec\(/ { count += 1 } END { print count + 0 }' "$TEST_TARGET")"
-route_passes="$(grep -c 'collect_route_uat:pass:' "$LOG_FILE" || true)"
-if [[ "$route_expected" -eq 0 || "$route_passes" -ne "$route_expected" ]]; then
-  printf '[ios-simulator-route-uat][FAIL] Route completion mismatch: expected=%s passed=%s.\n' \
-    "$route_expected" "$route_passes" >>"$LOG_FILE"
+item_expected="$(awk -v token="$spec_token" 'index($0, token) == 3 { count += 1 } END { print count + 0 }' "$TEST_TARGET")"
+item_passes="$(grep -c "$pass_marker" "$LOG_FILE" || true)"
+if [[ "$item_expected" -eq 0 || "$item_passes" -ne "$item_expected" ]]; then
+  printf '[ios-simulator-route-uat][FAIL] %s completion mismatch: expected=%s passed=%s.\n' \
+    "$MODE" "$item_expected" "$item_passes" >>"$LOG_FILE"
   [[ "$rc" -eq 0 ]] && rc=1
 fi
 
-screenshot_count="$(find "$SCREENSHOT_DIR" -type f -name 'mobile_route_*.png' | wc -l | tr -d ' ')"
+screenshot_count="$(find "$SCREENSHOT_DIR" -type f -name "${screenshot_prefix}*.png" | wc -l | tr -d ' ')"
 screenshot_manifest_rows=0
 if [[ -f "$SCREENSHOT_MANIFEST" ]]; then
   screenshot_manifest_rows="$(wc -l <"$SCREENSHOT_MANIFEST" | tr -d ' ')"
 fi
-if [[ "$screenshot_count" -ne "$route_expected" || "$screenshot_manifest_rows" -ne "$route_expected" ]]; then
+if [[ "$screenshot_count" -ne "$item_expected" || "$screenshot_manifest_rows" -ne "$item_expected" ]]; then
   printf '[ios-simulator-route-uat][FAIL] Screenshot completion mismatch: expected=%s png=%s manifest=%s.\n' \
-    "$route_expected" "$screenshot_count" "$screenshot_manifest_rows" >>"$LOG_FILE"
+    "$item_expected" "$screenshot_count" "$screenshot_manifest_rows" >>"$LOG_FILE"
   [[ "$rc" -eq 0 ]] && rc=1
 fi
 
 small_screenshot_count="$(
-  find "$SCREENSHOT_DIR" -type f -name 'mobile_route_*.png' -size -8001c | wc -l | tr -d ' '
+  find "$SCREENSHOT_DIR" -type f -name "${screenshot_prefix}*.png" -size -8001c | wc -l | tr -d ' '
 )"
 if [[ "$small_screenshot_count" -ne 0 ]]; then
   printf '[ios-simulator-route-uat][FAIL] %s screenshots are smaller than the 8,001-byte evidence floor.\n' \
@@ -396,14 +416,18 @@ if [[ "$small_screenshot_count" -ne 0 ]]; then
 fi
 
 unique_screenshot_count="$(
-  find "$SCREENSHOT_DIR" -type f -name 'mobile_route_*.png' -print0 |
+  find "$SCREENSHOT_DIR" -type f -name "${screenshot_prefix}*.png" -print0 |
     xargs -0 shasum -a 256 2>/dev/null |
     awk '{print $1}' |
     sort -u |
     wc -l |
     tr -d ' '
 )"
-minimum_unique_screenshots=$((route_expected - 12))
+if [[ "$MODE" == "route" ]]; then
+  minimum_unique_screenshots=$((item_expected - 12))
+else
+  minimum_unique_screenshots=$((item_expected - 3))
+fi
 if [[ "$minimum_unique_screenshots" -lt 1 ]]; then
   minimum_unique_screenshots=1
 fi
@@ -444,6 +468,7 @@ IOS_UAT_RC="$rc" \
 IOS_UAT_SIMULATOR_BEFORE="$simulator_before" \
 IOS_UAT_SIMULATOR_AFTER="$simulator_after" \
 IOS_UAT_TARGET="$TEST_TARGET" \
+IOS_UAT_MODE="$MODE" \
 IOS_UAT_LOG="${LOG_FILE#$ROOT_DIR/}" \
 IOS_UAT_LOG_SHA256="$log_sha256" \
 IOS_UAT_TIMED_OUT="$timed_out" \
@@ -458,8 +483,8 @@ IOS_UAT_THEME_MODE="$THEME_MODE" \
 IOS_UAT_TEXT_SCALE="$TEXT_SCALE" \
 IOS_UAT_HIGH_CONTRAST="$HIGH_CONTRAST" \
 IOS_UAT_REDUCED_MOTION="$REDUCED_MOTION" \
-IOS_UAT_ROUTE_EXPECTED="$route_expected" \
-IOS_UAT_ROUTE_PASSES="$route_passes" \
+IOS_UAT_ITEM_EXPECTED="$item_expected" \
+IOS_UAT_ITEM_PASSES="$item_passes" \
 IOS_UAT_SCREENSHOT_COUNT="$screenshot_count" \
 IOS_UAT_SCREENSHOT_MANIFEST="${SCREENSHOT_MANIFEST#$ROOT_DIR/}" \
 IOS_UAT_SCREENSHOT_MANIFEST_SHA256="$screenshot_manifest_sha256" \
@@ -469,12 +494,13 @@ IOS_UAT_MINIMUM_UNIQUE_SCREENSHOTS="$minimum_unique_screenshots" \
 IOS_UAT_SIMULATOR_BOOTED_AFTER="$simulator_booted_after" \
 ruby -r json -r time <<'RUBY' >"$SUMMARY_FILE"
 status = ENV.fetch("IOS_UAT_STATUS")
+mode = ENV.fetch("IOS_UAT_MODE", "route")
 build_failed = ENV.fetch("IOS_UAT_BUILD_FAILED") == "1"
 log_failed = ENV.fetch("IOS_UAT_LOG_FAILED") == "1"
 completion_marker = ENV.fetch("IOS_UAT_COMPLETION_MARKER") == "1"
 variant_marker = ENV.fetch("IOS_UAT_VARIANT_MARKER") == "1"
-route_expected = ENV.fetch("IOS_UAT_ROUTE_EXPECTED").to_i
-route_passes = ENV.fetch("IOS_UAT_ROUTE_PASSES").to_i
+item_expected = ENV.fetch("IOS_UAT_ITEM_EXPECTED").to_i
+item_passes = ENV.fetch("IOS_UAT_ITEM_PASSES").to_i
 screenshot_count = ENV.fetch("IOS_UAT_SCREENSHOT_COUNT").to_i
 screenshot_manifest_sha256 = ENV.fetch("IOS_UAT_SCREENSHOT_MANIFEST_SHA256")
 small_screenshot_count = ENV.fetch("IOS_UAT_SMALL_SCREENSHOT_COUNT").to_i
@@ -487,8 +513,8 @@ failure_keys << "native_build_failed" if build_failed
 failure_keys << "flutter_test_failure" if log_failed
 failure_keys << "completion_marker_missing" unless completion_marker
 failure_keys << "variant_marker_mismatch" unless variant_marker
-failure_keys << "route_completion_mismatch" unless route_expected.positive? && route_passes == route_expected
-failure_keys << "screenshot_completion_mismatch" unless screenshot_count == route_expected && !screenshot_manifest_sha256.empty?
+failure_keys << "#{mode}_completion_mismatch" unless item_expected.positive? && item_passes == item_expected
+failure_keys << "screenshot_completion_mismatch" unless screenshot_count == item_expected && !screenshot_manifest_sha256.empty?
 failure_keys << "screenshot_size_floor" if small_screenshot_count.positive?
 failure_keys << "screenshot_diversity" if unique_screenshot_count < minimum_unique_screenshots
 failure_keys << "simulator_not_booted_after" unless simulator_booted_after
@@ -504,6 +530,7 @@ puts JSON.pretty_generate(
     "simulator_before" => JSON.parse(ENV.fetch("IOS_UAT_SIMULATOR_BEFORE")),
     "simulator_after" => JSON.parse(ENV.fetch("IOS_UAT_SIMULATOR_AFTER", "{}")),
     "target" => ENV.fetch("IOS_UAT_TARGET"),
+    "evidence_mode" => mode,
     "runner" => "drive",
     "log" => ENV.fetch("IOS_UAT_LOG"),
     "log_sha256" => ENV.fetch("IOS_UAT_LOG_SHA256"),
@@ -521,8 +548,12 @@ puts JSON.pretty_generate(
       "high_contrast" => ENV.fetch("IOS_UAT_HIGH_CONTRAST") == "true",
       "reduced_motion" => ENV.fetch("IOS_UAT_REDUCED_MOTION") == "true"
     },
-    "route_expected" => route_expected,
-    "route_passes" => route_passes,
+    "item_expected" => item_expected,
+    "item_passes" => item_passes,
+    "route_expected" => mode == "route" ? item_expected : nil,
+    "route_passes" => mode == "route" ? item_passes : nil,
+    "state_expected" => mode == "state" ? item_expected : nil,
+    "state_passes" => mode == "state" ? item_passes : nil,
     "screenshot_count" => screenshot_count,
     "screenshot_manifest" => ENV.fetch("IOS_UAT_SCREENSHOT_MANIFEST"),
     "screenshot_manifest_sha256" => screenshot_manifest_sha256,
@@ -530,12 +561,12 @@ puts JSON.pretty_generate(
     "unique_screenshot_count" => unique_screenshot_count,
     "minimum_unique_screenshots" => minimum_unique_screenshots,
     "simulator_booted_after" => simulator_booted_after,
-    "secret_handling" => "Fixture-only screenshots and route logs must not contain secrets, raw SMS bodies, phone/MoMo receiver data, signing keys, service-role keys, provider tokens, or production customer data."
+    "secret_handling" => "Fixture-only screenshots and route logs must not contain secrets, raw SMS bodies, raw phone/MoMo receiver data, signing keys, service-role keys, provider tokens, or production customer data."
   }
 )
 RUBY
 
 printf '[ios-simulator-route-uat] status=%s evidence=%s log=%s screenshots=%s/%s\n' \
-  "$status" "${SUMMARY_FILE#$ROOT_DIR/}" "${LOG_FILE#$ROOT_DIR/}" "$screenshot_count" "$route_expected" >&2
+  "$status" "${SUMMARY_FILE#$ROOT_DIR/}" "${LOG_FILE#$ROOT_DIR/}" "$screenshot_count" "$item_expected" >&2
 cat "$LOG_FILE"
 exit "$rc"

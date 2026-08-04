@@ -1003,23 +1003,32 @@ void main() {
   });
 
   testWidgets('ledger row renders tabular transaction details', (tester) async {
-    await _pumpCollect(
-      tester,
-      LedgerRow.confirmed(
-        contribution: Contribution(
-          id: 'con-1',
-          collectionId: 'col-1',
-          amountRwf: 15000,
-          supporterLabel: 'Collect ID 038491',
-          createdAt: DateTime(2026),
-          transactionId: 'MTN-001',
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        LedgerRow.confirmed(
+          contribution: Contribution(
+            id: 'con-1',
+            collectionId: 'col-1',
+            amountRwf: 15000,
+            supporterLabel: 'Collect ID 038491',
+            createdAt: DateTime(2026),
+            transactionId: 'MTN-001',
+          ),
         ),
-      ),
-    );
+      );
 
-    expect(find.text('038491'), findsOneWidget);
-    expect(find.text('RWF 15,000'), findsOneWidget);
-    expect(find.text('MTN-001'), findsOneWidget);
+      expect(find.text('038491'), findsOneWidget);
+      expect(find.text('RWF 15,000'), findsOneWidget);
+      expect(find.text('Ref MTN-001'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel(RegExp(r'Transaction reference MTN-001')),
+        findsWidgets,
+      );
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets('empty, error, and loading states render', (tester) async {
@@ -1410,7 +1419,10 @@ void main() {
     expect(collectionsScreen, isNot(contains('Group activity')));
     expect(collectionsScreen, isNot(contains('Supported activity')));
     expect(collectionsScreen, isNot(contains('Total collected')));
-    expect(detailActions, contains("label: 'People'"));
+    expect(detailActions, contains("label: 'Members'"));
+    expect(detailActions, contains("label: 'Contribute'"));
+    expect(detailActions, isNot(contains("label: 'People'")));
+    expect(detailActions, isNot(contains("label: 'Pay'")));
     expect(detailActions, contains('/groups/\$collectionId/members'));
     expect(detailActions, isNot(contains('class _GroupMomentumRail')));
     expect(detailHero, contains('CollectScreenHero('));

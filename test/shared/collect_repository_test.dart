@@ -353,6 +353,164 @@ void main() {
     },
   );
 
+  test(
+    'controlled backend loss preserves auth group contribution and recovery state',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      const cache = CollectOfflineCache(
+        preferencesKey: 'collect.offline_snapshot.backend_network_loss_uat',
+      );
+      final online = _ControlledNetworkRepository(offlineCache: cache);
+      await online.signInWithOtp(phone: '+250788123456', otp: '123456');
+      await online.updateProfile(momoNumber: '+250788123456');
+      final created = await online.createCollection(
+        title: 'Network UAT group',
+        description: 'Controlled backend loss and recovery coverage',
+        receiverMomoNumber: '0788123456',
+      );
+      final intent = await online.createPaymentIntent(
+        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 21000),
+      );
+      final savedAt = DateTime.utc(2026, 7, 30, 10, 15);
+      await cache.save(_snapshotFrom(online.state, savedAt: savedAt));
+
+      final offline = CollectRepository(offlineCache: cache);
+      final restored = await offline.restoreOfflineSnapshot(
+        reason: 'SocketException: controlled backend unavailable',
+      );
+
+      expect(restored, isTrue);
+      expect(offline.state.usingStaleCache, isTrue);
+      expect(offline.state.lastSuccessfulSyncAt, savedAt);
+      expect(offline.state.lastError, contains('SocketException'));
+      expect(offline.state.currentProfile?.publicId, '038491');
+      expect(
+        offline.state.collections.map((item) => item.id),
+        containsAll(<String>['col-church', created.id]),
+      );
+      expect(
+        offline.state.paymentIntents.map((item) => item.id),
+        contains(intent.id),
+      );
+      expect(offline.contributionsFor('col-church'), hasLength(2));
+      expect(
+        offline.state.contributions.any((item) => item.transactionId != null),
+        isFalse,
+        reason:
+            'Stale-cache recovery keeps ledger status readable without retaining raw transaction IDs.',
+      );
+
+      final container = ProviderContainer(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => offline)],
+      );
+      addTearDown(container.dispose);
+
+      expect(
+        container.read(profileReadinessProvider).readyForContribution,
+        isTrue,
+      );
+      expect(
+        container.read(connectivityStatusProvider),
+        ConnectivityStatus.offlineStale,
+      );
+      expect(
+        container.read(realtimeSyncStatusProvider),
+        RealtimeSyncStatus.needsAttention,
+      );
+      expect(
+        container.read(
+          paymentUiStatusProvider(
+            PaymentStatusKey(collectionId: 'col-church', intentId: intent.id),
+          ),
+        ),
+        PaymentUiStatus.pending,
+      );
+      expect(
+        container.read(offlineSnapshotStatusProvider).label,
+        contains('Offline saved data'),
+      );
+
+      await expectLater(
+        offline.createPaymentIntent(
+          const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
+        ),
+        throwsA(
+          isA<StateError>().having(
+            (error) => error.message,
+            'message',
+            contains('Sign in before starting a contribution'),
+          ),
+        ),
+      );
+    },
+  );
+
+  test(
+    'controlled backend restoration clears stale state and keeps newest sync',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      const cache = CollectOfflineCache(
+        preferencesKey: 'collect.offline_snapshot.backend_network_restore_uat',
+      );
+      final backend = _ControlledNetworkRepository(offlineCache: cache);
+      final initialSyncAt = DateTime.utc(2026, 7, 30, 11);
+      await cache.save(_snapshotFrom(backend.state, savedAt: initialSyncAt));
+
+      final interrupted = CollectRepository(offlineCache: cache);
+      expect(
+        await interrupted.restoreOfflineSnapshot(
+          reason: 'Network connection lost during group sync',
+        ),
+        isTrue,
+      );
+      expect(interrupted.state.usingStaleCache, isTrue);
+
+      await backend.updateCollectionReceiver(
+        collectionId: 'col-church',
+        receiverMomoNumber: '0788000111',
+        receiverLabel: 'Restored treasury',
+      );
+      final syncedIntent = await backend.createPaymentIntent(
+        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 31000),
+      );
+      final restoredSyncAt = DateTime.utc(2026, 7, 30, 11, 5);
+      final authoritativeSnapshot = _snapshotFrom(
+        backend.state,
+        savedAt: restoredSyncAt,
+      );
+      final recovered = _ControlledNetworkRepository(seeded: false);
+      recovered.applyAuthoritativeSync(authoritativeSnapshot);
+
+      final container = ProviderContainer(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => recovered)],
+      );
+      addTearDown(container.dispose);
+
+      expect(recovered.state.usingStaleCache, isFalse);
+      expect(recovered.state.lastError, isNull);
+      expect(recovered.state.lastSuccessfulSyncAt, restoredSyncAt);
+      expect(
+        recovered.collectionById('col-church').receiverMomoNumber,
+        '0788000111',
+      );
+      expect(
+        recovered.collectionById('col-church').receiverDisplayLabel,
+        'Restored treasury',
+      );
+      expect(recovered.intentById(syncedIntent.id).expectedAmountRwf, 31000);
+      expect(recovered.contributionsFor('col-church'), hasLength(2));
+      expect(
+        container.read(connectivityStatusProvider),
+        ConnectivityStatus.online,
+      );
+      expect(
+        container.read(realtimeSyncStatusProvider),
+        RealtimeSyncStatus.current,
+      );
+      expect(container.read(offlineSnapshotStatusProvider).label, 'Live data');
+    },
+  );
+
   test('fixture state includes backend notification events', () {
     final repo = CollectRepository.fixture();
     final events = repo.state.notificationEvents;
@@ -809,4 +967,34 @@ class _FakeSmsAccessChannel extends SmsAccessChannel {
     drainCalls += 1;
     return pending;
   }
+}
+
+class _ControlledNetworkRepository extends CollectRepository {
+  _ControlledNetworkRepository({super.seeded = true, super.offlineCache})
+    : super.fixture();
+
+  void applyAuthoritativeSync(CollectOfflineSnapshot snapshot) {
+    state = state.copyWith(
+      currentProfile: snapshot.currentProfile,
+      collections: snapshot.collections,
+      paymentIntents: snapshot.paymentIntents,
+      contributions: snapshot.contributions,
+      isLoading: false,
+      usingStaleCache: false,
+      lastSuccessfulSyncAt: snapshot.savedAt,
+    );
+  }
+}
+
+CollectOfflineSnapshot _snapshotFrom(
+  CollectState state, {
+  required DateTime savedAt,
+}) {
+  return CollectOfflineSnapshot(
+    savedAt: savedAt,
+    currentProfile: state.currentProfile,
+    collections: state.collections,
+    paymentIntents: state.paymentIntents,
+    contributions: state.contributions,
+  );
 }

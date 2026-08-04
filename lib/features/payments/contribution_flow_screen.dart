@@ -11,6 +11,11 @@ import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_empty_state.dart';
 
+const _mobileEvidenceMode = bool.fromEnvironment(
+  'COLLECT_MOBILE_EVIDENCE_MODE',
+  defaultValue: false,
+);
+
 class ContributionFlowScreen extends ConsumerStatefulWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
 
@@ -24,6 +29,7 @@ class ContributionFlowScreen extends ConsumerStatefulWidget {
 class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
   final _amount = TextEditingController();
+  final _scrollController = ScrollController();
   String? _error;
   bool _reviewing = false;
   bool _creating = false;
@@ -36,6 +42,7 @@ class _ContributionFlowScreenState
   @override
   void dispose() {
     _amount.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -74,7 +81,7 @@ class _ContributionFlowScreenState
             icon: CollectIcons.momo,
             title: 'Link your MoMo number first.',
             message:
-                'Collect needs your profile MoMo number before starting a group payment.',
+                'Collect needs your profile MoMo number before starting a group contribution.',
             tone: CollectStatusTone.warning,
             primaryAction: CollectButton(
               label: 'Link MoMo number',
@@ -91,15 +98,16 @@ class _ContributionFlowScreenState
       subtitle: collection.title,
       showHeader: false,
       compact: true,
+      scrollController: _scrollController,
       bottomAction: _ContributionActionSurface(
         children: _reviewing
             ? [
                 CollectButton(
                   label: _creating
-                      ? 'Opening MOMO'
+                      ? 'Opening MoMo'
                       : activeIntent == null
-                      ? 'Pay with MOMO'
-                      : 'Open existing MOMO',
+                      ? 'Contribute with MoMo'
+                      : 'Continue existing contribution',
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,
@@ -109,10 +117,13 @@ class _ContributionFlowScreenState
                   icon: CollectIcons.tune,
                   onPressed: _creating
                       ? null
-                      : () => setState(() {
-                          _reviewing = false;
-                          _error = null;
-                        }),
+                      : () {
+                          setState(() {
+                            _reviewing = false;
+                            _error = null;
+                          });
+                          _showStartOfCurrentStep();
+                        },
                   variant: CollectButtonVariant.secondary,
                   expand: true,
                 ),
@@ -132,6 +143,7 @@ class _ContributionFlowScreenState
                       _reviewing = true;
                       _error = null;
                     });
+                    _showStartOfCurrentStep();
                   },
                   expand: true,
                 ),
@@ -159,29 +171,32 @@ class _ContributionFlowScreenState
             receiverLabel: collection.receiverDisplayLabel,
             receiverMomoNumber:
                 collection.receiverMomoNumber ?? 'Not configured',
-            showFullReceiverNumber: true,
-            onEdit: () => setState(() {
-              _reviewing = false;
-              _error = null;
-            }),
+            showFullReceiverNumber: !_mobileEvidenceMode,
+            onEdit: () {
+              setState(() {
+                _reviewing = false;
+                _error = null;
+              });
+              _showStartOfCurrentStep();
+            },
           ),
           if (activeIntent != null)
             const InfoSecurityBanner(
-              title: 'Payment already pending',
+              title: 'Contribution already pending',
               message:
-                  'Collect will reuse the active request for this group and amount instead of creating a duplicate ledger intent.',
+                  'Collect will reuse the active request for this group and amount instead of creating a duplicate ledger entry.',
               tone: CollectStatusTone.info,
             )
           else if (expiredIntent != null)
             const InfoSecurityBanner(
               title: 'Previous request expired',
               message:
-                  'Continuing creates a fresh payment request. The expired request will not be added to the confirmed ledger.',
+                  'Continuing creates a fresh contribution request. The expired request will not be added to the confirmed ledger.',
               tone: CollectStatusTone.warning,
             ),
           if (_error != null)
             InfoSecurityBanner(
-              title: 'Could not start payment',
+              title: 'Could not start contribution',
               message: _error!,
               tone: CollectStatusTone.warning,
             ),
@@ -268,11 +283,18 @@ class _ContributionFlowScreenState
   String _safeContributionError(Object error) {
     if (error is FormatException) return error.message.toString();
     if (error is StateError) return error.message.toString();
-    return 'Payment setup failed. Check your connection and try again.';
+    return 'Contribution setup failed. Check your connection and try again.';
   }
 
   int get _amountValue =>
       int.tryParse(_amount.text.replaceAll(RegExp(r'\D'), '')) ?? 0;
+
+  void _showStartOfCurrentStep() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+      _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+    });
+  }
 }
 
 class _ContributionHeader extends StatelessWidget {

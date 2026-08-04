@@ -30,8 +30,23 @@ class CollectComponentTokens {
   static ButtonStyle dangerButton(BuildContext context) {
     final colors = context.collectColors;
     return filledButton(context).copyWith(
-      backgroundColor: WidgetStatePropertyAll(colors.danger),
-      foregroundColor: WidgetStatePropertyAll(colors.surfaceReadable),
+      backgroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return colors.neutralContainer;
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return Color.alphaBlend(
+            colors.textPrimary.withValues(alpha: 0.12),
+            colors.danger,
+          );
+        }
+        return colors.danger;
+      }),
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? colors.textMuted
+            : colors.surfaceReadable,
+      ),
     );
   }
 

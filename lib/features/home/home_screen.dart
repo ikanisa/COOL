@@ -40,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
       compact: true,
       topChrome: CollectScreenTopChrome(
         avatarLabel: profile?.publicId,
-        avatarTooltip: 'Settings',
+        avatarTooltip: 'Profile',
         searchLabel: 'Search groups',
         onAvatarTap: () => context.go('/settings'),
         onSearchTap: () => context.go('/groups'),
@@ -64,7 +64,7 @@ class HomeScreen extends ConsumerWidget {
               eyebrow: 'TOTAL COLLECTED',
               title: 'Total collected',
               metric: formatRwf(raisedTotal),
-              subtitle: '$contributedGroupCount supported groups',
+              subtitle: _supportedGroupCountLabel(contributedGroupCount),
               quickActions: [
                 if (showCreate)
                   CollectHeroQuickAction(
@@ -146,3 +146,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+
+String _supportedGroupCountLabel(int count) =>
+    '$count supported ${count == 1 ? 'group' : 'groups'}';

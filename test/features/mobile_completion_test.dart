@@ -116,8 +116,8 @@ void main() {
 
     expect(find.text('Activity'), findsWidgets);
     expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('MTN12345'), findsOneWidget);
-    expect(find.text('MTN12346'), findsOneWidget);
+    expect(find.text('Ref MTN12345'), findsOneWidget);
+    expect(find.text('Ref MTN12346'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsNothing);
     expect(find.textContaining('intent-render'), findsNothing);
   });
@@ -133,14 +133,45 @@ void main() {
       repository: repository,
     );
 
+    final activityCard = find
+        .ancestor(
+          of: find.byType(ActivityFeedItem).first,
+          matching: find.byType(CollectCard),
+        )
+        .first;
+    expect(activityCard, findsOneWidget);
     expect(
-      tester
-          .widgetList<BackdropFilter>(find.byType(BackdropFilter))
-          .any((filter) => !filter.enabled),
-      isTrue,
-      reason: 'Dense scrolling content must not repaint through glass blur.',
+      find.descendant(of: activityCard, matching: find.byType(BackdropFilter)),
+      findsNothing,
+      reason: 'Dense activity content must not build a glass blur layer.',
     );
     expect(find.byType(RepaintBoundary), findsWidgets);
+  });
+
+  testWidgets('ledger sort sheet avoids blurred backdrop on performance path', (
+    tester,
+  ) async {
+    await pumpRoute(
+      tester,
+      '/groups/col-church/ledger',
+      legalConsentAccepted: true,
+      repository: CollectRepository.fixture(fixtureContributionCount: 80),
+    );
+
+    await tester.tap(find.byTooltip('Sort ledger'));
+    await tester.pumpAndSettle();
+
+    final sheet = find.byType(CollectBottomSheet);
+    expect(sheet, findsOneWidget);
+    expect(
+      find.descendant(of: sheet, matching: find.text('Sort ledger')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: sheet, matching: find.byType(BackdropFilter)),
+      findsNothing,
+      reason: 'Performance-critical sort sheet must not animate a blur layer.',
+    );
   });
 
   testWidgets('notification settings persist repository preferences', (
@@ -541,8 +572,8 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Review contribution'));
     await tester.pump();
 
-    expect(find.text('Payment already pending'), findsOneWidget);
-    expect(find.text('Open existing MOMO'), findsOneWidget);
+    expect(find.text('Contribution already pending'), findsOneWidget);
+    expect(find.text('Continue existing contribution'), findsOneWidget);
     expect(repository.state.paymentIntents, hasLength(1));
   });
 
@@ -597,8 +628,8 @@ void main() {
     await tester.pump();
 
     expect(find.text('Previous request expired'), findsOneWidget);
-    expect(find.text('Pay with MOMO'), findsOneWidget);
-    expect(find.text('Payment already pending'), findsNothing);
+    expect(find.text('Contribute with MoMo'), findsOneWidget);
+    expect(find.text('Contribution already pending'), findsNothing);
   });
 
   testWidgets('auth screen avoids duplicate decorative WhatsApp semantics', (
@@ -609,7 +640,12 @@ void main() {
       await pumpRoute(tester, '/auth', legalConsentAccepted: true);
 
       expect(find.text('Sign in'), findsOneWidget);
-      expect(find.text('Use your WhatsApp number.'), findsOneWidget);
+      expect(
+        find.text(
+          'Enter your WhatsApp number to receive a secure sign-in code.',
+        ),
+        findsOneWidget,
+      );
       expect(find.bySemanticsLabel('Send WhatsApp code'), findsOneWidget);
       expect(find.bySemanticsLabel('WhatsApp'), findsOneWidget);
       expect(

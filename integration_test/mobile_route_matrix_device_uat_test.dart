@@ -14,12 +14,24 @@ import 'package:integration_test/integration_test.dart';
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  GoRouter? activeRouter;
+  tearDown(() {
+    activeRouter?.dispose();
+    activeRouter = null;
+  });
 
-  Future<GoRouter> pumpRoute(WidgetTester tester, String route) async {
+  Future<GoRouter> pumpRoute(WidgetTester tester, _RouteSpec spec) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+    activeRouter?.dispose();
+
+    final route = spec.route;
     final router = createAppRouter(initialLocation: route);
-    addTearDown(router.dispose);
+    activeRouter = router;
     await tester.pumpWidget(
       ProviderScope(
+        key: ValueKey('collect-route-harness-${spec.name}'),
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
@@ -87,7 +99,25 @@ void main() {
         // Printed progress is retained in the UAT log for route-level triage.
         // ignore: avoid_print
         print('collect_route_uat:start:${spec.name}:${spec.route}');
-        final router = await pumpRoute(tester, spec.route);
+        final router = await pumpRoute(tester, spec);
+        if (spec.extraPumpBeforeAssert > Duration.zero) {
+          await tester.pump(spec.extraPumpBeforeAssert);
+        }
+        final expectedText = spec.expectedVisibleText;
+        if (expectedText != null) {
+          // A timer-driven redirect can update GoRouter at the end of a pump,
+          // leaving its outgoing page visible until later transition frames.
+          // Wait only for the declared marker and keep the wait bounded so a
+          // genuinely wrong route still fails instead of hanging evidence.
+          for (
+            var attempt = 0;
+            attempt < 20 &&
+                find.textContaining(expectedText).evaluate().isEmpty;
+            attempt += 1
+          ) {
+            await tester.pump(const Duration(milliseconds: 100));
+          }
+        }
         expect(tester.takeException(), isNull, reason: spec.route);
         expect(find.byType(CollectApp), findsOneWidget, reason: spec.route);
         expect(
@@ -95,7 +125,6 @@ void main() {
           spec.expectedResolvedPath,
           reason: '${spec.route} resolved path',
         );
-        final expectedText = spec.expectedVisibleText;
         if (expectedText != null) {
           expect(
             find.textContaining(expectedText),
@@ -157,7 +186,14 @@ ThemeMode get _uatThemeMode => switch (_uatThemeModeName) {
 double get _uatTextScale => double.parse(_uatTextScaleName);
 
 const _routeSpecs = <_RouteSpec>[
-  _RouteSpec('root-redirect', '/', 'entry', expectedText: 'Collect'),
+  _RouteSpec(
+    'root-redirect',
+    '/',
+    'entry',
+    expectedPath: '/auth',
+    expectedText: 'Sign in',
+    extraPumpBeforeAssert: Duration(milliseconds: 1000),
+  ),
   _RouteSpec('auth', '/auth', 'workflow', expectedText: 'Sign in'),
   _RouteSpec(
     'profile-edit',
@@ -343,6 +379,7 @@ class _RouteSpec {
     this.expectedText,
     this.iosResolvedPath,
     this.iosExpectedText,
+    this.extraPumpBeforeAssert = Duration.zero,
   });
 
   final String name;
@@ -352,6 +389,7 @@ class _RouteSpec {
   final String? expectedText;
   final String? iosResolvedPath;
   final String? iosExpectedText;
+  final Duration extraPumpBeforeAssert;
 
   bool get isProductScreen => routeClass != 'compatibility';
 

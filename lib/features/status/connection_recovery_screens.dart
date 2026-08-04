@@ -12,18 +12,15 @@ class OfflineRecoveryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _ConnectionRecoveryScreen(
       title: 'Offline mode',
-      subtitle: 'Saved groups stay visible',
+      subtitle: 'Saved data is available',
       bannerStatus: ConnectivityStatus.offlineStale,
       heroIcon: CollectIcons.sync,
-      heroTitle: 'Showing saved collection data',
+      heroTitle: 'You are offline',
       heroMessage:
-          'You can review saved groups and ledgers. New joins, QR scans, and contribution updates resume when the connection returns.',
+          'Review saved groups and ledgers. New activity resumes when the connection returns.',
       primaryLabel: 'Review groups',
       primaryIcon: CollectIcons.collections,
       primaryRoute: '/groups',
-      secondaryLabel: 'Home',
-      secondaryIcon: CollectIcons.home,
-      secondaryRoute: '/home',
       rows: [
         _RecoveryRow(
           icon: CollectIcons.collections,
@@ -37,12 +34,6 @@ class OfflineRecoveryScreen extends StatelessWidget {
           value: 'Read only',
           tone: CollectStatusTone.info,
         ),
-        _RecoveryRow(
-          icon: CollectIcons.qr,
-          title: 'Scan/share',
-          value: 'Wait online',
-          tone: CollectStatusTone.neutral,
-        ),
       ],
     );
   }
@@ -55,18 +46,15 @@ class SyncRecoveryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _ConnectionRecoveryScreen(
       title: 'Sync status',
-      subtitle: 'Keep changes verifiable',
+      subtitle: 'Latest changes are pending',
       bannerStatus: ConnectivityStatus.degraded,
       heroIcon: CollectIcons.pending,
       heroTitle: 'Sync needs attention',
       heroMessage:
-          'Collect keeps visible data privacy-safe while the latest group, payment, and member updates finish syncing.',
-      primaryLabel: 'Refresh groups',
+          'Review saved data while Collect checks for the latest group and contribution updates.',
+      primaryLabel: 'Review groups',
       primaryIcon: CollectIcons.sync,
       primaryRoute: '/groups',
-      secondaryLabel: 'Home',
-      secondaryIcon: CollectIcons.home,
-      secondaryRoute: '/home',
       rows: [
         _RecoveryRow(
           icon: CollectIcons.pending,
@@ -79,12 +67,6 @@ class SyncRecoveryScreen extends StatelessWidget {
           title: 'Private data',
           value: 'Masked',
           tone: CollectStatusTone.privacy,
-        ),
-        _RecoveryRow(
-          icon: CollectIcons.check,
-          title: 'Verified ledger',
-          value: 'Rechecks',
-          tone: CollectStatusTone.info,
         ),
       ],
     );
@@ -102,9 +84,6 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
     required this.primaryLabel,
     required this.primaryIcon,
     required this.primaryRoute,
-    required this.secondaryLabel,
-    required this.secondaryIcon,
-    required this.secondaryRoute,
     required this.rows,
   });
 
@@ -117,9 +96,6 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
   final String primaryLabel;
   final IconData primaryIcon;
   final String primaryRoute;
-  final String secondaryLabel;
-  final IconData secondaryIcon;
-  final String secondaryRoute;
   final List<_RecoveryRow> rows;
 
   @override
@@ -149,25 +125,19 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
             ],
           ),
         ),
-        const InfoSecurityBanner(
-          title: 'Privacy stays on',
-          message:
-              'Raw phone numbers, receiver MoMo numbers, SMS bodies, OTPs, and transaction IDs stay hidden in recovery states.',
-          tone: CollectStatusTone.privacy,
-          messageMaxLines: 2,
-        ),
         CollectButton(
           label: primaryLabel,
           icon: primaryIcon,
           onPressed: () => context.go(primaryRoute),
           expand: true,
         ),
-        CollectButton(
-          label: secondaryLabel,
-          icon: secondaryIcon,
-          variant: CollectButtonVariant.secondary,
-          onPressed: () => context.go(secondaryRoute),
-          expand: true,
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () => context.go('/settings/legal/privacy'),
+            icon: const Icon(CollectIcons.privacy),
+            label: const Text('Privacy in recovery'),
+          ),
         ),
       ],
     );

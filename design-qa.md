@@ -7,7 +7,9 @@
   All 35 member routes are implemented and mapped to a retained reference
   pattern or an explicit no-direct-analogue rationale. Full-goal comparison
   evidence remains open for direct authentication/OTP and amount-entry
-  references, normalized material-state coverage, public web, and Admin PWA.
+  references and the remaining state-matched mobile material states. E-073
+  completes the honest public trust and Admin operations pattern comparisons
+  without claiming that Revolut has equivalent public/Admin products.
 - Source visual truth:
   - `.cache/revolut_full_audit/20260723T200000/02-home-top.png`
   - `.cache/revolut_full_audit/20260723T200000/05-payments-top.png`
@@ -53,11 +55,11 @@
 No actionable P0, P1, or P2 differences remain within the compared Home,
 Groups, Contribute entry, Activity, Settings, Group Detail, and Ledger scope.
 
-The expanded full-goal QA is blocked because there is no verified Revolut
+The expanded full-goal QA remains blocked because there is no verified Revolut
 amount-entry/transfer screenshot for a truthful Contribution side-by-side
 comparison, direct authentication/OTP references remain incomplete, and the
-implemented member/public/Admin routes do not yet have the complete normalized
-state matrix required for a passing result. The existing implementation
+implemented member routes do not yet have the complete state-matched normalized
+matrix required for a passing result. The existing implementation
 screenshots prove current rendered states only; they do not prove full source
 parity.
 
@@ -290,8 +292,12 @@ Focused-region comparisons were not required after the final passes because all 
   defects. E-057 passes durable group-intent retention before process death,
   distinct cold-restart recovery, same-process warm App Link delivery, and
   no replay after matching clear. Dev-package metadata passes with restricted
-  SMS absent. Physical-device confirmation, QR detection, TalkBack, live
-  backend idempotency, and direct reference comparisons remain open.
+  SMS absent. E-073 additionally measures 113 native actionable controls
+  across nine critical Android states with zero unnamed, intrinsically
+  undersized, or non-focusable results and closes the Home Profile/Settings
+  naming ambiguity and adds focused TalkBack contribution action/amount entry.
+  Complete TalkBack traversal/speech, physical iOS VoiceOver, and direct
+  reference comparisons remain open.
 - P3: native profiling now executes a target-verified six-scenario matrix on
   the controlled emulator. E-052 supersedes the original E-051 quality
   interpretation with two accepted v2-target runs after dense-list and
@@ -299,8 +305,10 @@ Focused-region comparisons were not required after the final passes because all 
   a 2,204,852-byte Perfetto trace: Groups recorded 0/154 UI-or-raster budget
   misses, Activity 0/191, and amount entry 1/45, with p90 raster durations of
   2.285 ms, 2.642 ms, and 6.052 ms. I-042 is closed for the controlled-emulator
-  scope; physical-device repetition, long-session, and crash/ANR evidence remain
-  open.
+  scope. E-066 supplies the accepted exact-Pixel profile. E-071 adds an isolated
+  600-second emulator session with one stable PID, 266 route actions, 17
+  lifecycle cycles, and zero scoped crash/ANR matches. Physical/production
+  soak and authorized Play crash/ANR reporting remain open.
 - P3: Light, Dark, and persisted System appearance now work as distinct choices.
   System was verified on iPhone 17 Pro to respond live to iOS Light/Dark changes
   and survive relaunch. E-055 adds accepted current-source iPhone Dark and
@@ -349,5 +357,89 @@ Focused-region comparisons were not required after the final passes because all 
   controls while preserving normal route motion. The same work corrected the
   shared glass-sheet Material ink layer without changing any approved golden.
   Physical-device vestibular comfort confirmation remains separate evidence.
+
+## July 30 current-source checkpoint
+
+E-067 adds two accepted iPhone 17 matrices from the current July 30 working
+tree:
+
+- Dark: 35/35 routes, 35/35 screenshots, 26 distinct states;
+- System on iOS Light: 35/35 routes, 35/35 screenshots, 26 distinct states.
+
+The first Dark attempt is retained and rejected because its root redirect
+asserted the visible Auth marker before the timer-driven transition finished
+painting. The corrected harness uses a bounded marker wait without weakening
+the exact-path, route-count, screenshot-count, variant, or diversity gates.
+
+Direct review of Auth, Activity, Offline, Sync, Help, Contribution, Appearance,
+Security, Group Detail, and Delete request found one remaining local P1:
+Sync still placed three supporting rows before the recovery CTA. Offline and
+Sync now use the plan's maximum of two supporting rows; the primary action is
+visible without scrolling on the standard phone in both accepted variants.
+
+Three normalized 316x696-per-panel pattern comparisons use only reference-safe
+Revolut captures:
+
+- `.cache/revolut_parity_comparisons/20260730-crp-current/01-value-hierarchy.png`;
+- `.cache/revolut_parity_comparisons/20260730-crp-current/02-appearance.png`;
+- `.cache/revolut_parity_comparisons/20260730-crp-current/03-security.png`.
+
+The combined UX and screenshot-visible accessibility findings are recorded in
+`docs/revolut-parity-goal/JULY_30_CURRENT_SOURCE_COMPARISON_REVIEW.md`.
+The comparisons explicitly do not claim feature equivalence. None of the 36
+personal-local-only captures is reproduced.
+
+E-069 records the latest live iPhone Mirroring check. Mirroring briefly
+connected, but the phone was not on Revolut and the session ended with
+`iPhone in Use` before Revolut opened. No unrelated app or personal content was
+retained as reference evidence. Direct Auth/OTP/amount/review capture therefore
+remains blocked until the iPhone is locked and left unused for the complete
+read-only capture session.
+
+Verified local outcomes:
+
+- Activity preserves group, date, compact reference, and amount in both
+  variants.
+- Auth keeps identity, instruction, input, and disabled primary action in one
+  first-viewport task zone.
+- Recovery states show one thesis, no more than two supporting rows, one
+  primary recovery action, and a secondary privacy route.
+- Help exposes task-led sign-in, contribution, QR/joining, membership/owner,
+  and privacy/deletion categories.
+- Appearance retains a preview-first Dark/Light/System hierarchy and System
+  follows iOS Light.
+- Security preserves a compact Collect-specific trust hierarchy without
+  copying unsupported banking products.
+- Disabled destructive styling is visibly distinct and remains numerically
+  covered.
+- Nine critical native Android states expose 113 named, focusable actionable
+  nodes at the governed 44 dp minimum; the four viewport-edge clips were
+  accepted only after full-size recapture.
+- Home distinguishes the top-left `Profile` action from the top-right
+  `Settings` action in the native accessibility tree.
+- The contribution flow exposes one editable native amount node, opens the
+  numeric keyboard under TalkBack focus, accepts `12,345`, and restores the
+  original assistive-technology setting after the controlled run.
+- Clean local Supabase replay and rollback-only lifecycle evidence pass for
+  pending, confirmed, expired, duplicate, failed, recovery, idempotent
+  allocation, ledger immutability, and scoped receiver/deletion/support/audit
+  boundaries.
+- The controlled emulator contribution route passes online, stale-cache
+  offline, and authoritative online resync while restoring the exact initial
+  radio state.
+- Live Chrome exposes the public Privacy and Admin-login accessibility trees;
+  the public host passes 34/34 and serves the official four-node logo.
+
+Still unverified or blocked:
+
+- direct Auth/OTP/error/retry and contribution amount/review references;
+- state-matched completion of every mobile comparison family;
+- VoiceOver/TalkBack end-to-end spoken reading order and actions;
+- physical iOS, authenticated deployed Admin, Play reporting/Console, signing,
+  store, production, deployment-change, and accountable approval gates;
+- a single clean source revision for the final comparison and release pack.
+
+These gaps keep RT-001, RT-002, RT-005, RT-007, and their dependent external
+completion gates open.
 
 final result: blocked

@@ -117,6 +117,7 @@ third_party/**/example/
 
 # Gradle build caches (third-party modules)
 **/.gradle/
+third_party/**/build/
 .bundle/
 vendor/bundle/
 fastlane/report.xml
