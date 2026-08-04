@@ -407,7 +407,7 @@ Date/time: 2026-06-01T12:30:00Z
       docs['approval'],
       contains('docs/release/UAT_EVIDENCE_MANIFEST.json'),
     );
-    expect(docs['blockers'], contains('E-080'));
+    expect(docs['blockers'], contains('E-081'));
     expect(docs['blockers'], isNot(contains('20260602T081408Z')));
     expect(uatManifestJson['status'], 'pending-human-signoff');
     expect(uatManifestJson['staging_only'], false);

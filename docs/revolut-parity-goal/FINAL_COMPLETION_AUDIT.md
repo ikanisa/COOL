@@ -2,7 +2,7 @@
 
 ## Audit status
 
-- Audit date: 2026-08-04
+- Audit date: 2026-08-05
 - Repository: `/Volumes/PRO-G40/COOL`
 - Goal source: `docs/revolut-parity-goal/GOAL.md`
 - Design authority: `/Volumes/PRO-G40/DESIGN/DESIGN.md`
@@ -14,11 +14,12 @@ marked proven only when current evidence covers the requirement at its stated
 scope. Partial tests, previous-source native captures, local builds, or a
 recorded external blocker do not prove the complete goal.
 
-E-080 closes the obsolete direct-reference requirements under the owner's
-retained/public-reference and explicit no-direct-analogue boundary, recertifies
-35/35 native iOS routes and Camera denial/grant states, builds a current
-production-scheme unsigned archive, and extends artifact evidence to all 24
-locally buildable public/Admin/Android/iOS files. Nine RT rows remain unfinished:
+E-081 retains E-080's closure of obsolete direct-reference requirements under
+the owner's retained/public-reference and explicit no-direct-analogue boundary,
+recertifies the post-physical-prebuild unsigned archive and all 24 locally
+buildable artifacts, and records the rejected locked physical attempt. E-080
+retains 35/35 native iOS routes and Camera denial/grant states. Nine RT rows
+remain unfinished:
 RT-020/021/027/034/037/041/042/043/048. GitHub Actions also remains unavailable
 because every push and a manual dispatch fail before job creation.
 
@@ -79,10 +80,10 @@ because every push and a manual dispatch fail before job creation.
 |---|---|---|
 | Gate 0 — Authority and scope | Proven locally | Local actions stayed within authority; production/payment/store/deployment actions remain prohibited without explicit authorization. |
 | Gate 1 — Product Design evidence | Proven for accepted scope | Retained/public references, complete route/state dispositions, reviewed comparisons, and `design-qa.md` pass under E-080. |
-| Gate 2 — Architecture, data, security, privacy | Proven for controlled local scope | Source/automated contracts and E-073 clean-reset backend/privacy negative paths pass; production application is an external authorization gate. |
+| Gate 2 — Architecture, data, security, privacy | Partial | Source/automated contracts, production 60/60 migration and 58/58 RLS checks, linked SMS/Admin UAT, and E-073 clean-reset backend/privacy negative paths pass. Strict production readiness fails closed on four missing APNs secrets. |
 | Gate 3 — Implementation quality | Proven for current local source | Formatting, analysis, centralized typography/assets, source contracts, and current automated tests pass. |
 | Gate 4 — Accessibility, responsive behavior, performance | Not passed | Controlled Android/iOS route variants, permissions, performance, target measurement, long session, live browser semantics, native high contrast, and contribution TalkBack action/entry pass, but complete spoken assistive technology, physical/production soak, authorized Play reporting, and physical iOS remain incomplete. |
-| Gate 5 — Release readiness | Not passed | All 24 locally buildable public/Admin/Android/iOS artifacts are current and local signing reviews pass, but signed iOS distribution, stores, provider evidence, CI availability, device/assistive checks, and approval remain. |
+| Gate 5 — Release readiness | Not passed | E-081 recertifies all 24 locally buildable public/Admin/Android/iOS artifacts, but its physical runner never started because the paired iPhone remained locked. Signed iOS/APNs distribution, stores, provider evidence, CI availability, device/assistive checks, and approval remain. |
 | Gate 6 — Closeout | Not passed | Open P1/P2/external items remain and accountable acceptances are missing. |
 
 ## Current authoritative blockers

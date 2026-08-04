@@ -1,6 +1,6 @@
 # App Store Readiness
 
-Status date: 2026-08-04
+Status date: 2026-08-05
 
 Current active iOS/App Store readiness should be read from the latest build,
 signing, screenshot, App Privacy, and App Store Connect checks. Dated readiness
@@ -15,8 +15,12 @@ Known current boundaries:
 - Xcode 26.6 is available. Current native evidence passes 35/35 routes on an
   iPhone 17 iOS 26.5 Simulator, both controlled Camera permission phases pass,
   and a production-scheme unsigned `1.2.2 (10)` archive with dSYM was built.
+- E-081 confirms the paired physical iPhone is supported and Developer Mode is
+  enabled. Its staging prebuild passed, but the phone remained locked through
+  preflight; no runner, install, route, lifecycle, Camera, screenshot, or
+  VoiceOver evidence was accepted. A new unsigned archive was built afterward.
 - App Store submission still requires Associated Domains-capable distribution
-  provisioning, a signed archive/export, current App Store Connect inspection,
+  provisioning, secure APNs configuration, a signed archive/export, current App Store Connect inspection,
   physical-iPhone/VoiceOver UAT, uploaded-build processing, and recorded human
   approval.
 - Do not submit or alter App Store records without explicit recorded owner

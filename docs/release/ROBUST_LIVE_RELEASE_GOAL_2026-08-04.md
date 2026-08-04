@@ -1,6 +1,6 @@
 # Robust COOL/Collect Live-Release Goal
 
-Status: active
+Status: blocked — all independent work complete; external/device/version/approval gates remain
 Created: 2026-08-04
 Release baseline: `1.2.2+10`
 Starting revision: `dc87acf1af987de52aa6027d6c364d6e686a651f`
@@ -83,6 +83,11 @@ that a provider or store requires from a natural person.
   soak evidence, provider-authorized MoMo validation, optional iOS distribution
   provisioning/APNs configuration, Flutter 3.47+ built-in Kotlin validation,
   organization-level CI restoration, and store processing/review.
+- E-081 is the third consecutive external-blocker audit. The paired iPhone
+  remained locked after a successful staging prebuild; GitHub Actions still
+  fails before job creation; strict Supabase readiness now identifies the four
+  absent APNs secrets; provider/store/approval authority remains unavailable;
+  and the required Flutter 3.47+ toolchain is not yet in the stable family.
 
 ## Completion rule
 
