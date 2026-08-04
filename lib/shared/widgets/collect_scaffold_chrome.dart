@@ -713,20 +713,34 @@ class PremiumScaffold extends StatelessWidget {
           );
     return CollectGradientBackground(
       child: SafeArea(
-        child: Column(
-          children: [
-            Expanded(child: scrollable),
-            if (bottomAction != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  CollectSpacing.x4,
-                  CollectSpacing.x2,
-                  CollectSpacing.x4,
-                  CollectSpacing.x4,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth > CollectSpacing.contentMaxWidth
+                ? CollectSpacing.contentMaxWidth
+                : constraints.maxWidth;
+            return Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: width,
+                height: constraints.maxHeight,
+                child: Column(
+                  children: [
+                    Expanded(child: scrollable),
+                    if (bottomAction != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          CollectSpacing.x4,
+                          CollectSpacing.x2,
+                          CollectSpacing.x4,
+                          CollectSpacing.x4,
+                        ),
+                        child: bottomAction!,
+                      ),
+                  ],
                 ),
-                child: bottomAction!,
               ),
-          ],
+            );
+          },
         ),
       ),
     );

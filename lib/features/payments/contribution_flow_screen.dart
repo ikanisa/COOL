@@ -219,8 +219,9 @@ class _ContributionFlowScreenState
       final activeIntent = _activePendingIntent(amountRwf: amount);
       if (activeIntent != null) {
         if (!mounted) return;
+        final messenger = ScaffoldMessenger.of(context);
         context.go('/groups/${widget.collectionId}');
-        unawaited(_launchMomoDialer());
+        unawaited(_launchMomoDialer(messenger));
         return;
       }
       await ref
@@ -232,8 +233,9 @@ class _ContributionFlowScreenState
             ),
           );
       if (!mounted) return;
+      final messenger = ScaffoldMessenger.of(context);
       context.go('/groups/${widget.collectionId}');
-      unawaited(_launchMomoDialer());
+      unawaited(_launchMomoDialer(messenger));
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -243,12 +245,23 @@ class _ContributionFlowScreenState
     }
   }
 
-  Future<void> _launchMomoDialer() async {
+  Future<void> _launchMomoDialer(ScaffoldMessengerState messenger) async {
+    var opened = false;
     try {
-      await launchUrl(momoUssdUri(), mode: LaunchMode.externalApplication);
+      opened = await launchUrl(
+        momoUssdUri(),
+        mode: LaunchMode.externalApplication,
+      );
     } catch (_) {
       // Web and some desktops cannot handle tel: links; the group remains the
       // source of truth until creator SMS parsing confirms the contribution.
+    }
+    if (!opened && messenger.mounted) {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('MoMo could not open. Try again from this group.'),
+        ),
+      );
     }
   }
 

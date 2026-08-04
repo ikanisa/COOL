@@ -17,6 +17,18 @@ class CollectionsScreen extends ConsumerStatefulWidget {
 }
 
 class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
+  final _search = TextEditingController();
+  final _searchFocus = FocusNode();
+  String _query = '';
+  bool _searching = false;
+
+  @override
+  void dispose() {
+    _search.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
@@ -33,11 +45,12 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     final routeUri = _maybeRouteUri(context);
     final showContributedOnly =
         routeUri.queryParameters['filter'] == 'contributed';
+    final query = _query.trim().toLowerCase();
     final visibleCollections = [
       for (final collection in collections)
         if (!showContributedOnly ||
             contributedCollectionIds.contains(collection.id))
-          collection,
+          if (query.isEmpty || _matchesQuery(collection, query)) collection,
     ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
     final pageTitle = showContributedOnly ? 'Supported groups' : 'Groups';
@@ -49,7 +62,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         topChrome: CollectScreenTopChrome(
           searchLabel: 'Search groups',
           onAvatarTap: () => context.go('/settings'),
-          onSearchTap: () => context.go('/groups'),
+          onSearchTap: _beginSearch,
         ),
         onRefresh: () =>
             ref.read(collectRepositoryProvider.notifier).loadInitial(),
@@ -71,7 +84,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         topChrome: CollectScreenTopChrome(
           searchLabel: 'Search groups',
           onAvatarTap: () => context.go('/settings'),
-          onSearchTap: () => context.go('/groups'),
+          onSearchTap: _beginSearch,
           actions: [
             if (showCreate)
               CollectChromeAction(
@@ -81,17 +94,17 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               ),
           ],
         ),
-        hero: const CollectScreenHero(
-          eyebrow: 'GROUPS',
-          title: 'Start collecting',
-          metric: '0',
-          subtitle: 'Create a group or scan a group QR',
-          icon: CollectIcons.collections,
-        ),
         onRefresh: () =>
             ref.read(collectRepositoryProvider.notifier).loadInitial(),
-        children: const [
-          EmptyIllustrationState(
+        children: [
+          if (_searching)
+            SearchWithClearField(
+              controller: _search,
+              focusNode: _searchFocus,
+              label: 'Search group name, type, or purpose',
+              onChanged: (value) => setState(() => _query = value),
+            ),
+          const EmptyIllustrationState(
             icon: CollectIcons.collections,
             title: 'No groups yet',
             message: 'Create a group or scan a group QR to start collecting.',
@@ -106,7 +119,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       topChrome: CollectScreenTopChrome(
         searchLabel: 'Search groups',
         onAvatarTap: () => context.go('/settings'),
-        onSearchTap: () => context.go('/groups'),
+        onSearchTap: _beginSearch,
         actions: [
           if (showCreate)
             CollectChromeAction(
@@ -127,8 +140,21 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: [
         SectionHeader(title: pageTitle),
+        if (_searching)
+          SearchWithClearField(
+            controller: _search,
+            focusNode: _searchFocus,
+            label: 'Search group name, type, or purpose',
+            onChanged: (value) => setState(() => _query = value),
+          ),
         if (visibleCollections.isNotEmpty)
           _GroupsCardGrid(collections: visibleCollections, summaries: summaries)
+        else if (query.isNotEmpty)
+          EmptySearchState(
+            title: 'No matching groups',
+            message: 'Clear the search and try again.',
+            onClear: _clearSearch,
+          )
         else if (showContributedOnly)
           EmptySearchState(
             title: 'No supported groups yet',
@@ -145,6 +171,27 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ),
       ],
     );
+  }
+
+  bool _matchesQuery(CollectCollection collection, String query) {
+    return collection.title.toLowerCase().contains(query) ||
+        collection.description.toLowerCase().contains(query) ||
+        collection.collectionType.name.toLowerCase().contains(query) ||
+        (collection.purposeLabel?.toLowerCase().contains(query) ?? false);
+  }
+
+  void _beginSearch() {
+    if (!_searching) setState(() => _searching = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _searchFocus.requestFocus();
+    });
+  }
+
+  void _clearSearch() {
+    setState(() {
+      _search.clear();
+      _query = '';
+    });
   }
 }
 

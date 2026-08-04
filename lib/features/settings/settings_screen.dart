@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../shared/repositories/collect_repository.dart';
-import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
-import '../status/native_permission_sheets.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -19,7 +17,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
-    final runtimeConfig = ref.watch(collectRuntimeConfigProvider);
     final profile = state.currentProfile;
     final isInitialLoading = state.isLoading && profile == null;
     final settingsEntries = <Widget>[
@@ -63,13 +60,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       title: 'Settings',
       showHeader: false,
       compact: true,
-      topChrome: _SettingsTopBar(
-        onHomeTap: () => context.go('/home'),
-        onNotificationsTap: () => showNotificationSettingsSheet(context, ref),
-        onHelpTap: () => openCollectWhatsAppSupport(
-          phone: runtimeConfig.whatsAppSupportPhone,
-        ),
-      ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: isInitialLoading
@@ -88,62 +78,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _SettingsCluster(children: settingsEntries),
               const SizedBox(height: 18),
             ],
-    );
-  }
-}
-
-class _SettingsTopBar extends StatelessWidget {
-  const _SettingsTopBar({
-    required this.onHomeTap,
-    required this.onNotificationsTap,
-    required this.onHelpTap,
-  });
-
-  final VoidCallback onHomeTap;
-  final VoidCallback onNotificationsTap;
-  final VoidCallback onHelpTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = CollectRuntimeTokens.chromeForeground(colors);
-    final background = CollectRuntimeTokens.chromeControl(colors);
-    final border = CollectRuntimeTokens.chromeControlBorder(colors);
-    Widget action({
-      required IconData icon,
-      required String tooltip,
-      required VoidCallback onPressed,
-    }) {
-      return IconButton(
-        tooltip: tooltip,
-        onPressed: onPressed,
-        icon: Icon(icon),
-        style: IconButton.styleFrom(
-          fixedSize: const Size(44, 44),
-          minimumSize: const Size(44, 44),
-          backgroundColor: background,
-          foregroundColor: foreground,
-          side: BorderSide(color: border),
-        ),
-      );
-    }
-
-    return Row(
-      children: [
-        action(icon: CollectIcons.home, tooltip: 'Home', onPressed: onHomeTap),
-        const Spacer(),
-        action(
-          icon: CollectIcons.pending,
-          tooltip: 'Notifications',
-          onPressed: onNotificationsTap,
-        ),
-        CollectSpacing.gapW8,
-        action(
-          icon: CollectIcons.support,
-          tooltip: 'Help',
-          onPressed: onHelpTap,
-        ),
-      ],
     );
   }
 }

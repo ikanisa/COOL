@@ -4,12 +4,17 @@ import 'package:go_router/go_router.dart';
 
 import '../../shared/widgets/collect_components.dart';
 
+const _mobileEvidencePlatform = String.fromEnvironment(
+  'COLLECT_MOBILE_EVIDENCE_PLATFORM',
+);
+
 bool canCreateGroupsOnThisPlatform() {
-  return kIsWeb || defaultTargetPlatform == TargetPlatform.android;
+  return (kIsWeb && _mobileEvidencePlatform != 'ios') ||
+      defaultTargetPlatform == TargetPlatform.android;
 }
 
 bool shouldShowGroupCreationEntryOnThisPlatform() {
-  return kIsWeb || defaultTargetPlatform == TargetPlatform.android;
+  return canCreateGroupsOnThisPlatform();
 }
 
 Future<void> openGroupCreation(BuildContext context) {

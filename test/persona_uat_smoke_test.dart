@@ -224,7 +224,7 @@ void main() {
     );
     expect(
       find.descendant(of: topChrome, matching: find.byTooltip('Settings')),
-      findsOneWidget,
+      findsNothing,
     );
     expect(find.byTooltip('Supported groups'), findsOneWidget);
     final router = GoRouter.of(
@@ -333,28 +333,39 @@ void main() {
     },
   );
 
-  testWidgets(
-    'groups screen lists compact cards without search or filter dock',
-    (tester) async {
-      final repository = CollectRepository.fixture();
-      await repository.createCollection(
-        title: 'Private family support',
-        description: 'Family group',
-        receiverMomoNumber: '0789123456',
-      );
+  testWidgets('groups screen lists compact cards and opens working search', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture();
+    await repository.createCollection(
+      title: 'Private family support',
+      description: 'Family group',
+      receiverMomoNumber: '0789123456',
+    );
 
-      await pumpMainAppAt(tester, '/groups', repository: repository);
+    await pumpMainAppAt(tester, '/groups', repository: repository);
 
-      expect(find.text('Groups'), findsWidgets);
-      expect(find.text('St Michel building fund'), findsWidgets);
-      expect(find.text('Private family support'), findsWidgets);
-      expect(find.text('VISIBILITY'), findsNothing);
-      expect(find.text('SORT'), findsNothing);
-      expect(find.text('Search groups'), findsOneWidget);
-      expect(find.byType(TextField), findsNothing);
-      expectNoGlobalSecrets();
-    },
-  );
+    expect(find.text('Groups'), findsWidgets);
+    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('Private family support'), findsWidgets);
+    expect(
+      tester.widget<Text>(find.text('St Michel building fund').first).maxLines,
+      2,
+    );
+    expect(find.text('VISIBILITY'), findsNothing);
+    expect(find.text('SORT'), findsNothing);
+    expect(find.text('Search groups'), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
+
+    await tester.tap(find.text('Search groups'));
+    await tester.pump();
+    expect(find.byType(TextField), findsOneWidget);
+    await tester.enterText(find.byType(TextField), 'Private family');
+    await tester.pump();
+    expect(find.text('Private family support'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsNothing);
+    expectNoGlobalSecrets();
+  });
 
   testWidgets('group detail keeps hero compact and labels untruncated', (
     tester,

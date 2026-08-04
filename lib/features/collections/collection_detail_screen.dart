@@ -57,30 +57,7 @@ class CollectionDetailScreen extends ConsumerWidget {
       subtitle: profile?.publicId,
       showHeader: false,
       compact: true,
-      topChrome: CollectScreenTopChrome(
-        avatarIcon: CollectIcons.back,
-        avatarTooltip: 'Back',
-        searchLabel: collection.title,
-        onAvatarTap: () => goBackOrHome(context),
-        onSearchTap: () => context.go('/groups'),
-        actions: [
-          CollectChromeAction(
-            icon: CollectIcons.share,
-            tooltip: 'Share group',
-            onPressed: () => shareGroupDeepLink(
-              context: context,
-              ref: ref,
-              collection: collection,
-            ),
-          ),
-          if (isAdmin)
-            CollectChromeAction(
-              icon: CollectIcons.settings,
-              tooltip: 'Manage group',
-              onPressed: () => context.go('/groups/$collectionId/manage'),
-            ),
-        ],
-      ),
+      topChrome: const CollectPlainPageHeader(title: 'Group'),
       hero: CollectScreenHero(
         eyebrow: collection.collectionType.name.toUpperCase(),
         title: collection.title,

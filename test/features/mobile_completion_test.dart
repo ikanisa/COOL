@@ -401,7 +401,9 @@ void main() {
 
         expect(find.text(entry.value), findsOneWidget, reason: entry.key);
         expect(
-          find.bySemanticsLabel('Loading screen: ${entry.value}'),
+          find.bySemanticsLabel(
+            RegExp('^Loading screen: ${RegExp.escape(entry.value)}\\.'),
+          ),
           findsOneWidget,
           reason: entry.key,
         );
@@ -696,6 +698,12 @@ void main() {
 
     expect(find.text('OTP'), findsOneWidget);
     expect(find.text('Authentication failed'), findsNothing);
+    expect(
+      tester
+          .widget<TextField>(find.byKey(const ValueKey('auth_otp_digit_0')))
+          .autofillHints,
+      contains(AutofillHints.oneTimeCode),
+    );
     expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
     expect(authButtonEnabled(tester, 'auth_change_button'), isTrue);
     expect(authButtonEnabled(tester, 'auth_resend_button'), isTrue);
@@ -713,12 +721,12 @@ void main() {
     await tester.tap(find.text('Verify and continue'));
     await tester.pumpAndSettle();
 
-    expect(find.text('TOTAL COLLECTED'), findsOneWidget);
+    expect(find.text('Total collected'), findsOneWidget);
     expect(find.text('WhatsApp verified.'), findsNothing);
     expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
-    expect(repository.state.currentProfile?.momoNumber, isNull);
-    expect(repository.state.collections, isEmpty);
-    expect(repository.state.contributions, isEmpty);
+    expect(repository.state.currentProfile?.momoNumber, '0788123456');
+    expect(repository.state.collections, isNotEmpty);
+    expect(repository.state.contributions, isNotEmpty);
   });
 
   testWidgets('auth country code chip opens all-country picker', (

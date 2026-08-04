@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,45 +54,41 @@ class CollectShell extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(32),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: CollectColors.referenceChromeBlack
-                                .withValues(alpha: 0.94),
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                colors.onImagePrimary.withValues(alpha: 0.08),
-                                CollectColors.inkPrimary.withValues(
-                                  alpha: 0.92,
-                                ),
-                                CollectColors.referenceChromeBlack.withValues(
-                                  alpha: 0.98,
-                                ),
-                              ],
-                            ),
-                            border: Border.all(
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.28,
-                              ),
-                              width: 1,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: CollectColors.inkPrimary.withValues(
-                                  alpha: 0.26,
-                                ),
-                                blurRadius: 24,
-                                offset: const Offset(0, 12),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: CollectColors.referenceChromeBlack.withValues(
+                            alpha: 0.94,
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              colors.onImagePrimary.withValues(alpha: 0.08),
+                              CollectColors.inkPrimary.withValues(alpha: 0.92),
+                              CollectColors.referenceChromeBlack.withValues(
+                                alpha: 0.98,
                               ),
                             ],
                           ),
-                          child: _CollectBottomNav(
-                            selectedIndex: selectedIndex,
-                            onDestinationSelected: _navigateToIndex,
+                          border: Border.all(
+                            color: colors.onImagePrimary.withValues(
+                              alpha: 0.28,
+                            ),
+                            width: 1,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: CollectColors.inkPrimary.withValues(
+                                alpha: 0.26,
+                              ),
+                              blurRadius: 24,
+                              offset: const Offset(0, 12),
+                            ),
+                          ],
+                        ),
+                        child: _CollectBottomNav(
+                          selectedIndex: selectedIndex,
+                          onDestinationSelected: _navigateToIndex,
                         ),
                       ),
                     ),
@@ -225,79 +219,70 @@ class _CollectNavigationRail extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(34),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: CollectColors.referenceChromeBlack.withValues(
-                  alpha: 0.94,
-                ),
-                border: Border.all(
-                  color: colors.onImagePrimary.withValues(alpha: 0.34),
-                ),
-                borderRadius: BorderRadius.circular(34),
-                boxShadow: [
-                  BoxShadow(
-                    color: CollectColors.inkPrimary.withValues(alpha: 0.30),
-                    blurRadius: 32,
-                    offset: const Offset(14, 18),
-                  ),
-                ],
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: CollectColors.referenceChromeBlack.withValues(alpha: 0.94),
+              border: Border.all(
+                color: colors.onImagePrimary.withValues(alpha: 0.34),
               ),
-              child: Semantics(
-                container: true,
-                label: 'Primary navigation rail',
-                child: NavigationRail(
-                  backgroundColor: colors.transparent,
-                  selectedIndex: selectedIndex,
-                  minWidth: 88,
-                  minExtendedWidth: 128,
-                  labelType: NavigationRailLabelType.all,
-                  useIndicator: true,
-                  indicatorColor: colors.periwinklePaint.withValues(
-                    alpha: 0.30,
-                  ),
-                  selectedIconTheme: IconThemeData(
-                    color: colors.onImagePrimary,
-                    size: 24,
-                  ),
-                  unselectedIconTheme: IconThemeData(
-                    color: colors.onImagePrimary.withValues(alpha: 0.68),
-                    size: 22,
-                  ),
-                  selectedLabelTextStyle: Theme.of(context)
-                      .textTheme
-                      .labelMedium
-                      ?.copyWith(
-                        color: colors.onImagePrimary,
-                        fontWeight: CollectTypography.weightBold,
-                        letterSpacing: CollectTypography.trackingDefault,
-                      ),
-                  unselectedLabelTextStyle: Theme.of(context)
-                      .textTheme
-                      .labelMedium
-                      ?.copyWith(
-                        color: colors.onImagePrimary.withValues(alpha: 0.68),
-                        fontWeight: CollectTypography.weightBold,
-                        letterSpacing: CollectTypography.trackingDefault,
-                      ),
-                  onDestinationSelected: (index) =>
-                      onDestinationSelected(context, index),
-                  destinations: [
-                    for (final destination in _collectNavDestinations)
-                      NavigationRailDestination(
-                        icon: Tooltip(
-                          message: destination.label,
-                          child: Icon(destination.icon),
-                        ),
-                        selectedIcon: Tooltip(
-                          message: destination.label,
-                          child: Icon(destination.selectedIcon),
-                        ),
-                        label: Text(destination.label),
-                      ),
-                  ],
+              borderRadius: BorderRadius.circular(34),
+              boxShadow: [
+                BoxShadow(
+                  color: CollectColors.inkPrimary.withValues(alpha: 0.30),
+                  blurRadius: 32,
+                  offset: const Offset(14, 18),
                 ),
+              ],
+            ),
+            child: Semantics(
+              container: true,
+              label: 'Primary navigation rail',
+              child: NavigationRail(
+                backgroundColor: colors.transparent,
+                selectedIndex: selectedIndex,
+                minWidth: 88,
+                minExtendedWidth: 128,
+                labelType: NavigationRailLabelType.all,
+                useIndicator: true,
+                indicatorColor: colors.periwinklePaint.withValues(alpha: 0.30),
+                selectedIconTheme: IconThemeData(
+                  color: colors.onImagePrimary,
+                  size: 24,
+                ),
+                unselectedIconTheme: IconThemeData(
+                  color: colors.onImagePrimary.withValues(alpha: 0.68),
+                  size: 22,
+                ),
+                selectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(
+                      color: colors.onImagePrimary,
+                      fontWeight: CollectTypography.weightBold,
+                      letterSpacing: CollectTypography.trackingDefault,
+                    ),
+                unselectedLabelTextStyle: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(
+                      color: colors.onImagePrimary.withValues(alpha: 0.68),
+                      fontWeight: CollectTypography.weightBold,
+                      letterSpacing: CollectTypography.trackingDefault,
+                    ),
+                onDestinationSelected: (index) =>
+                    onDestinationSelected(context, index),
+                destinations: [
+                  for (final destination in _collectNavDestinations)
+                    NavigationRailDestination(
+                      icon: Tooltip(
+                        message: destination.label,
+                        child: Icon(destination.icon),
+                      ),
+                      selectedIcon: Tooltip(
+                        message: destination.label,
+                        child: Icon(destination.selectedIcon),
+                      ),
+                      label: Text(destination.label),
+                    ),
+                ],
               ),
             ),
           ),

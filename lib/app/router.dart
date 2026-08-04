@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -421,6 +422,20 @@ Page<void> _collectPage(
     _CollectRouteTransition.confirmation => CollectMotion.slow,
     _ => CollectMotion.medium,
   });
+  final platform = Theme.of(context).platform;
+  final usesNativeIosNavigation =
+      platform == TargetPlatform.iOS &&
+      transition != _CollectRouteTransition.fade &&
+      transition != _CollectRouteTransition.primary;
+  if (usesNativeIosNavigation) {
+    return CupertinoPage<void>(
+      key: state.pageKey,
+      name: state.name,
+      arguments: state.extra,
+      fullscreenDialog: transition == _CollectRouteTransition.modal,
+      child: child,
+    );
+  }
   return CustomTransitionPage<void>(
     key: state.pageKey,
     name: state.name,

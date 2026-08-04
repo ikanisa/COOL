@@ -4,6 +4,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../app/env/app_env.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/utils/collect_share_origin.dart';
 
 String groupDeepLinkFor(AppEnv env, CollectCollection collection) {
   final configured = env.publicUrl.trim();
@@ -28,6 +29,7 @@ Future<void> shareGroupDeepLink({
       ShareParams(
         title: collection.title,
         text: message,
+        sharePositionOrigin: collectSharePositionOrigin(context),
         downloadFallbackEnabled: true,
       ),
     );

@@ -5,6 +5,7 @@ import {
   safeErrorMessage,
 } from "../_shared/cors.ts";
 import { serviceClient } from "../_shared/supabase.ts";
+import { verifyStripeSignature } from "../_shared/stripe_webhook_signature.ts";
 
 type StripeEvent = {
   id: string;
@@ -12,46 +13,6 @@ type StripeEvent = {
   livemode?: boolean;
   data?: { object?: Record<string, unknown> };
 };
-
-function hex(buffer: ArrayBuffer): string {
-  return [...new Uint8Array(buffer)]
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-async function hmacSha256(secret: string, payload: string): Promise<string> {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  return hex(
-    await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload)),
-  );
-}
-
-async function verifyStripeSignature(
-  rawBody: string,
-  signature: string | null,
-) {
-  if (!signature) throw new Error("Missing Stripe signature");
-  const parts = Object.fromEntries(
-    signature.split(",").map((part) => {
-      const [key, value] = part.split("=", 2);
-      return [key, value];
-    }),
-  );
-  const timestamp = parts.t;
-  const expected = parts.v1;
-  if (!timestamp || !expected) throw new Error("Invalid Stripe signature");
-  const computed = await hmacSha256(
-    requireEnv("STRIPE_WEBHOOK_SECRET"),
-    `${timestamp}.${rawBody}`,
-  );
-  if (computed !== expected) throw new Error("Invalid Stripe signature");
-}
 
 function localStatusFor(event: StripeEvent): string {
   switch (event.type) {
@@ -80,7 +41,11 @@ Deno.serve(async (req) => {
 
   try {
     const rawBody = await req.text();
-    await verifyStripeSignature(rawBody, req.headers.get("stripe-signature"));
+    await verifyStripeSignature(
+      rawBody,
+      req.headers.get("stripe-signature"),
+      requireEnv("STRIPE_WEBHOOK_SECRET"),
+    );
     const event = JSON.parse(rawBody) as StripeEvent;
     const stripeObject = event.data?.object ?? {};
     const paymentIntentId = String(stripeObject.id ?? "");

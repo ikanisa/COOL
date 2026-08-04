@@ -8,6 +8,7 @@ import 'app/env/app_env.dart';
 import 'app/router.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
+import 'core/supabase/supabase_module.dart';
 import 'shared/repositories/collect_repository.dart';
 
 Future<void> main() async {
@@ -50,7 +51,9 @@ Future<void> main() async {
           )
         else if (env.hasAppReviewAuthConfig)
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.appReviewDemo(),
+            (ref) => CollectRepository.appReviewDemo(
+              supabase: ref.watch(supabaseClientProvider),
+            ),
           ),
       ],
       child: const CollectApp(),

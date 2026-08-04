@@ -44,24 +44,10 @@ class HomeScreen extends ConsumerWidget {
         searchLabel: 'Search groups',
         onAvatarTap: () => context.go('/settings'),
         onSearchTap: () => context.go('/groups'),
-        actions: [
-          if (showCreate)
-            CollectChromeAction(
-              icon: CollectIcons.add,
-              tooltip: 'Create group',
-              onPressed: () => context.go('/groups/create'),
-            ),
-          CollectChromeAction(
-            icon: CollectIcons.settings,
-            tooltip: 'Settings',
-            onPressed: () => context.go('/settings'),
-          ),
-        ],
       ),
       hero: isInitialLoading
           ? null
           : CollectScreenHero(
-              eyebrow: 'TOTAL COLLECTED',
               title: 'Total collected',
               metric: formatRwf(raisedTotal),
               subtitle: _supportedGroupCountLabel(contributedGroupCount),

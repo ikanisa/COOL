@@ -7,12 +7,15 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:collect_app/app/theme/collect_motion.dart';
+import 'package:collect_app/app/theme/collect_spacing.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/app/theme/collect_universal_tokens.dart';
 import 'package:collect_app/core/notifications/collect_notification_service.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -258,12 +261,12 @@ void main() {
       await tester.pumpAndSettle();
 
       if (route == '/offline') {
-        expect(find.text('Offline mode'), findsOneWidget);
+        expect(find.text('Offline mode'), findsNothing);
         expect(find.text('You are offline'), findsOneWidget);
         expect(find.text('Saved'), findsOneWidget);
         expect(find.text('Scan/share'), findsNothing);
       } else {
-        expect(find.text('Sync status'), findsOneWidget);
+        expect(find.text('Sync status'), findsNothing);
         expect(find.text('Sync needs attention'), findsOneWidget);
         expect(find.text('Queued updates'), findsOneWidget);
         expect(find.text('Verified ledger'), findsNothing);
@@ -332,7 +335,7 @@ void main() {
   testWidgets('large-width shell uses five-destination navigation rail', (
     tester,
   ) async {
-    tester.view.physicalSize = const Size(820, 1000);
+    tester.view.physicalSize = const Size(1200, 1000);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -354,6 +357,10 @@ void main() {
     expect(find.text('Activity'), findsOneWidget);
     expect(find.text('Profile'), findsOneWidget);
     expect(find.text('Admin'), findsNothing);
+    expect(
+      tester.getSize(find.byType(ListView).first).width,
+      lessThanOrEqualTo(CollectSpacing.contentMaxWidth),
+    );
   });
 
   test('main mobile routes use the shared transition page helper', () {
@@ -363,6 +370,12 @@ void main() {
     ).readAsStringSync();
 
     expect(routerSource, contains('CustomTransitionPage<void>'));
+    expect(routerSource, contains('CupertinoPage<void>'));
+    expect(routerSource, contains('platform == TargetPlatform.iOS'));
+    expect(
+      routerSource,
+      contains('fullscreenDialog: transition == _CollectRouteTransition.modal'),
+    );
     expect(routerSource, contains('pageBuilder:'));
     expect(
       routerSource,
@@ -419,6 +432,37 @@ void main() {
     expect(shareScreen, isNot(contains('const Spacer()')));
     expect(shareScreen, contains('Privacy-safe link'));
     expect(shareScreen, contains('summaryFor(collectionId)'));
+  });
+
+  testWidgets('iOS detail screens use native Cupertino navigation', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    final router = createAppRouter(initialLocation: '/groups/col-church');
+    try {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            appRouterProvider.overrideWithValue(router),
+            collectRepositoryProvider.overrideWith(
+              (ref) => CollectRepository.fixture(),
+            ),
+          ],
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final detailContext = tester.element(
+        find.text('St Michel building fund').first,
+      );
+      final route = ModalRoute.of(detailContext);
+      expect(route?.settings, isA<CupertinoPage<void>>());
+      expect((route as PageRoute<void>).popGestureEnabled, isTrue);
+    } finally {
+      router.dispose();
+      debugDefaultTargetPlatformOverride = null;
+    }
   });
 
   test('mobile chrome exposes native refresh and haptic affordances', () {
@@ -780,7 +824,8 @@ void main() {
 
       expect(main, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
       expect(main, contains('CollectRepository.fixture()'));
-      expect(main, contains('CollectRepository.appReviewDemo()'));
+      expect(main, contains('CollectRepository.appReviewDemo('));
+      expect(main, contains('ref.watch(supabaseClientProvider)'));
       expect(
         smokeScript,
         contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
@@ -808,6 +853,9 @@ void main() {
     final settings = File(
       'lib/features/settings/settings_screen.dart',
     ).readAsStringSync();
+    final shell = File(
+      'lib/core/widgets/collect_shell.dart',
+    ).readAsStringSync();
     final sharedBarrel = File(
       'lib/shared/widgets/collect_components.dart',
     ).readAsStringSync();
@@ -825,11 +873,14 @@ void main() {
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
     expect(groups, contains('CollectScreenTopChrome('));
     expect(groups, contains("'Search groups'"));
-    expect(settings, contains('class _SettingsTopBar'));
+    expect(settings, isNot(contains('class _SettingsTopBar')));
     expect(settings, isNot(contains('CollectScreenTopChrome(')));
     expect(settings, isNot(contains("searchLabel: 'Settings'")));
-    expect(groupDetail, contains('CollectScreenTopChrome'));
+    expect(groupDetail, contains('CollectPlainPageHeader'));
+    expect(groupDetail, isNot(contains('CollectScreenTopChrome')));
     expect(groupDetail, isNot(contains('persistentPill')));
+    expect(shell, isNot(contains('BackdropFilter')));
+    expect(shell, isNot(contains("import 'dart:ui'")));
     expect(sharedBarrel, contains("export 'collect_chrome.dart';"));
     expect(sharedBarrel, isNot(contains('class CollectScreenTopChrome')));
     expect(chromeModule, contains('class CollectScreenTopChrome'));
@@ -838,6 +889,37 @@ void main() {
     expect(chromeModule, isNot(contains('onSearchChanged')));
     expect(chromeModule, contains('CollectIcons.search'));
     expect(chromeModule, contains('class ScreenHeader'));
+  });
+
+  test('member feedback surfaces do not render raw exception strings', () {
+    for (final path in <String>[
+      'lib/features/collections/collection_create_screen.dart',
+      'lib/features/collections/group_profile_screen.dart',
+      'lib/features/collections/group_qr_scanner_screen.dart',
+      'lib/features/profile/profile_edit_screen.dart',
+      'lib/features/settings/settings_subscreens.dart',
+    ]) {
+      final source = File(path).readAsStringSync();
+      expect(
+        source,
+        isNot(contains('_error = error.toString()')),
+        reason: path,
+      );
+      expect(
+        source,
+        isNot(contains("Text('Could not save notifications: ")),
+        reason: path,
+      );
+    }
+
+    final contribution = File(
+      'lib/features/payments/contribution_flow_screen.dart',
+    ).readAsStringSync();
+    expect(contribution, contains('if (!opened && messenger.mounted)'));
+    expect(
+      contribution,
+      contains('MoMo could not open. Try again from this group.'),
+    );
   });
 
   test('group card media primitives stay out of the base component barrel', () {

@@ -274,12 +274,13 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
           .joinGroupBySlug(slug);
       if (!mounted) return;
       context.go('/groups/${collection.id}');
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
       setState(() {
         _joining = false;
         _scanning = false;
-        _error = error.toString();
+        _error =
+            'Could not open this group. Check the QR code or connection and try again.';
       });
     }
   }

@@ -128,6 +128,12 @@ void main() {
   test('iOS permission declarations match implemented features only', () {
     final podfile = File('ios/Podfile').readAsStringSync();
     final infoPlist = File('ios/Runner/Info.plist').readAsStringSync();
+    final privacyManifest = File(
+      'ios/Runner/PrivacyInfo.xcprivacy',
+    ).readAsStringSync();
+    final xcodeProject = File(
+      'ios/Runner.xcodeproj/project.pbxproj',
+    ).readAsStringSync();
     final entitlements = File(
       'ios/Runner/Runner.entitlements',
     ).readAsStringSync();
@@ -136,6 +142,8 @@ void main() {
     expect(infoPlist, contains('NSPhotoLibraryUsageDescription'));
     expect(infoPlist, isNot(contains('NSContactsUsageDescription')));
     expect(infoPlist, isNot(contains('NSPhotoLibraryAddUsageDescription')));
+    expect(infoPlist, contains('CFBundleAllowMixedLocalizations'));
+    expect(infoPlist, contains('FlutterSceneDelegate'));
     expect(podfile, contains('PERMISSION_CAMERA=1'));
     expect(podfile, contains('PERMISSION_CONTACTS=0'));
     expect(podfile, contains('PERMISSION_NOTIFICATIONS=0'));
@@ -143,7 +151,46 @@ void main() {
     expect(entitlements, contains('applinks:collect.ikanisa.com'));
     expect(entitlements, isNot(contains('com.apple.developer.nfc')));
     expect(entitlements, isNot(contains('aps-environment')));
+    expect(privacyManifest, contains('<key>NSPrivacyTracking</key>'));
+    expect(privacyManifest, contains('<false/>'));
+    for (final dataType in <String>[
+      'NSPrivacyCollectedDataTypePhoneNumber',
+      'NSPrivacyCollectedDataTypeUserID',
+      'NSPrivacyCollectedDataTypeDeviceID',
+      'NSPrivacyCollectedDataTypePaymentInfo',
+      'NSPrivacyCollectedDataTypeOtherFinancialInfo',
+      'NSPrivacyCollectedDataTypePhotosorVideos',
+      'NSPrivacyCollectedDataTypeCustomerSupport',
+      'NSPrivacyCollectedDataTypeOtherUserContent',
+    ]) {
+      expect(privacyManifest, contains(dataType), reason: dataType);
+    }
+    expect(xcodeProject, contains('PrivacyInfo.xcprivacy in Resources'));
   });
+
+  test(
+    'iOS App Store build preserves production data and review isolation',
+    () {
+      final fastfile = File('fastlane/Fastfile').readAsStringSync();
+      final workflow = File(
+        '.github/workflows/ios-app-store.yml',
+      ).readAsStringSync();
+      final main = File('lib/main.dart').readAsStringSync();
+      final repository = File(
+        'lib/shared/repositories/collect_repository.dart',
+      ).readAsStringSync();
+
+      expect(fastfile, contains('SUPABASE_PRODUCTION_URL'));
+      expect(fastfile, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+      expect(fastfile, contains('"APP_ENVIRONMENT" => "production"'));
+      expect(workflow, contains('iOS 26 SDK or later is required'));
+      expect(workflow, contains('SUPABASE_PRODUCTION_URL:'));
+      expect(main, contains('ref.watch(supabaseClientProvider)'));
+      expect(repository, contains('signInForAppReview'));
+      expect(repository, contains('_appReviewDemoEnabled'));
+      expect(repository, contains('_fixtureCollectState()'));
+    },
+  );
 
   test('repository text files do not store obvious live secrets', () {
     final blockedPatterns = <RegExp>[

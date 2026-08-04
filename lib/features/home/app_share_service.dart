@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../app/env/app_env.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/collect_share_origin.dart';
 
 String collectAppInviteLinkFor(AppEnv env, CollectProfile? profile) {
   final configured = env.publicUrl.trim();
@@ -37,6 +38,7 @@ Future<void> shareCollectApp({
       ShareParams(
         title: 'Collect',
         text: message,
+        sharePositionOrigin: collectSharePositionOrigin(context),
         downloadFallbackEnabled: true,
       ),
     );

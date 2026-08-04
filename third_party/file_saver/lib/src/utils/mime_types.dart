@@ -3,10 +3,7 @@ import 'package:collection/collection.dart';
 ///[MimeType] is an enum for adding filetype for HTML Blob
 enum MimeType {
   ///[aac] for .aac extension
-  aac(
-    name: 'AAC',
-    type: 'audio/aac',
-  ),
+  aac(name: 'AAC', type: 'audio/aac'),
 
   ///[apng] for .apng extension
   apng(name: 'APNG', type: 'image/apng'),
@@ -15,10 +12,7 @@ enum MimeType {
   asice(name: 'ASICE', type: 'application/vnd.etsi.asic-e+zip'),
 
   ///[asics] for .asice
-  asics(
-    name: 'ASICS',
-    type: 'application/vnd.etsi.asic-s+zip',
-  ),
+  asics(name: 'ASICS', type: 'application/vnd.etsi.asic-s+zip'),
 
   ///[avi] for .avi extension
   avi(name: 'AVI', type: 'video/x-msvideo'),
@@ -27,19 +21,13 @@ enum MimeType {
   avif(name: 'AVIF', type: 'image/avif'),
 
   ///[bDoc] for .asice
-  bDoc(
-    name: 'BDoc',
-    type: 'application/vnd.etsi.asic-e+zip',
-  ),
+  bDoc(name: 'BDoc', type: 'application/vnd.etsi.asic-e+zip'),
 
   ///[bmp] for .bmp extension
   bmp(name: 'Bitmap', type: 'image/bmp'),
 
   ///[csv] for .csv extension
-  csv(
-    name: 'CSV',
-    type: 'text/csv',
-  ),
+  csv(name: 'CSV', type: 'text/csv'),
 
   ///[epub] for .epub extention
   epub(name: 'Epub', type: 'application/epub+zip'),
@@ -70,15 +58,17 @@ enum MimeType {
 
   ///[microsoftPresentation] for .pptx extension
   microsoftPresentation(
-      name: 'Microsoft Presentation',
-      type:
-          'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+    name: 'Microsoft Presentation',
+    type:
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  ),
 
   ///[microsoftWord] for .docx extension
   microsoftWord(
-      name: 'Microsoft Word',
-      type:
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+    name: 'Microsoft Word',
+    type:
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  ),
 
   ///[mp3] for .mp3 extension
   mp3(name: 'MP3', type: 'audio/mpeg'),
@@ -109,8 +99,9 @@ enum MimeType {
 
   ///[openDocText] for .odt extension
   openDocText(
-      name: 'Open Document Text',
-      type: 'application/vnd.oasis.opendocument.text'),
+    name: 'Open Document Text',
+    type: 'application/vnd.oasis.opendocument.text',
+  ),
 
   ///[otf] for .otf extension
   otf(name: 'OTF', type: 'font/otf'),
@@ -119,19 +110,13 @@ enum MimeType {
   other(name: 'Other', type: 'application/octet-stream'),
 
   ///[pdf] for .pdf extension
-  pdf(
-    name: 'PDF',
-    type: 'application/pdf',
-  ),
+  pdf(name: 'PDF', type: 'application/pdf'),
 
   ///[png] for .png extension
   png(name: 'PNG', type: 'image/png'),
 
   ///[rar] for .rar extension
-  rar(
-    name: 'RAR',
-    type: 'application/x-rar-compressed',
-  ),
+  rar(name: 'RAR', type: 'application/x-rar-compressed'),
 
   ///[sql] for .sql extension
   sql(name: 'SQL', type: 'application/sql'),
@@ -158,10 +143,7 @@ enum MimeType {
   yaml(name: 'YAML', type: 'application/x-yaml'),
 
   ///[zip] for .zip extension
-  zip(
-    name: 'ZIP',
-    type: 'application/zip',
-  ),
+  zip(name: 'ZIP', type: 'application/zip'),
 
   ///Custom mimeType which is not yet added in the enum
   custom(name: 'Custom', type: '');

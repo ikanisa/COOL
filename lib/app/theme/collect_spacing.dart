@@ -21,6 +21,7 @@ class CollectSpacing {
   static const double iconTarget = 44;
   static const double target = 48;
   static const double metricCardWidth = 220;
+  static const double contentMaxWidth = 840;
 
   static const gap4 = SizedBox(height: x1);
   static const gap8 = SizedBox(height: x2);

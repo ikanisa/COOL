@@ -105,6 +105,7 @@ android/.kotlin/errors/
 # Design tool exports & operator output
 stitch_exports/
 stitch.json
+test/goldens/failures/
 test/shared/failures/
 test/features/partners/failures/
 

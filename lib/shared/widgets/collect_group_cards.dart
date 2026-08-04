@@ -164,7 +164,7 @@ class _GroupListRow extends StatelessWidget {
                     fontWeight: CollectTypography.weightSemibold,
                     letterSpacing: CollectTypography.trackingDefault,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,

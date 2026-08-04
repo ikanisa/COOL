@@ -115,18 +115,29 @@ function sanitizedVerdict(
   packageName: string,
   payload: Record<string, unknown>,
 ) {
-  const requestDetails = payload.requestDetails as Record<string, unknown> | undefined;
-  const appIntegrity = payload.appIntegrity as Record<string, unknown> | undefined;
-  const deviceIntegrity = payload.deviceIntegrity as Record<string, unknown> | undefined;
-  const accountDetails = payload.accountDetails as Record<string, unknown> | undefined;
+  const requestDetails = payload.requestDetails as
+    | Record<string, unknown>
+    | undefined;
+  const appIntegrity = payload.appIntegrity as
+    | Record<string, unknown>
+    | undefined;
+  const deviceIntegrity = payload.deviceIntegrity as
+    | Record<string, unknown>
+    | undefined;
+  const accountDetails = payload.accountDetails as
+    | Record<string, unknown>
+    | undefined;
   const verdictPackage = String(appIntegrity?.packageName ?? "");
   const appVerdict = String(appIntegrity?.appRecognitionVerdict ?? "UNKNOWN");
   const tokenRequestHash = String(requestDetails?.requestHash ?? "");
   const timestampMillis = Number(requestDetails?.timestampMillis ?? 0);
-  const deviceVerdicts = Array.isArray(deviceIntegrity?.deviceRecognitionVerdict)
-    ? deviceIntegrity?.deviceRecognitionVerdict.map(String)
-    : [];
-  const licensingVerdict = String(accountDetails?.appLicensingVerdict ?? "UNKNOWN");
+  const deviceVerdicts =
+    Array.isArray(deviceIntegrity?.deviceRecognitionVerdict)
+      ? deviceIntegrity?.deviceRecognitionVerdict.map(String)
+      : [];
+  const licensingVerdict = String(
+    accountDetails?.appLicensingVerdict ?? "UNKNOWN",
+  );
   const tokenFresh = timestampMillis > 0 &&
     Math.abs(Date.now() - timestampMillis) <= maxTokenAgeMs;
   const recognizedDevice = deviceVerdicts.includes("MEETS_DEVICE_INTEGRITY") ||
@@ -137,7 +148,9 @@ function sanitizedVerdict(
     tokenFresh &&
     recognizedDevice;
   const failureReasons: string[] = [];
-  if (verdictPackage !== packageName) failureReasons.push("package_name_mismatch");
+  if (verdictPackage !== packageName) {
+    failureReasons.push("package_name_mismatch");
+  }
   if (appVerdict !== "PLAY_RECOGNIZED") {
     failureReasons.push("app_not_play_recognized");
   }

@@ -132,6 +132,9 @@ class AuthOtpEntryState extends State<AuthOtpEntry> {
                       controller: _controllers[index],
                       focusNode: _nodes[index],
                       keyboardType: TextInputType.number,
+                      autofillHints: index == 0
+                          ? const [AutofillHints.oneTimeCode]
+                          : null,
                       textInputAction: index == _digitCount - 1
                           ? TextInputAction.done
                           : TextInputAction.next,

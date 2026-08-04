@@ -11,6 +11,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../app/env/app_env.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/collect_share_origin.dart';
 import '../../shared/widgets/collect_components.dart';
 import 'group_empty_state.dart';
 import 'group_share_service.dart';
@@ -191,6 +192,7 @@ class ShareScreen extends ConsumerWidget {
     String text,
   ) async {
     try {
+      final sharePositionOrigin = collectSharePositionOrigin(context);
       final bytes = await _qrPngBytes(link);
       await SharePlus.instance.share(
         ShareParams(
@@ -200,6 +202,7 @@ class ShareScreen extends ConsumerWidget {
             XFile.fromData(bytes, mimeType: 'image/png', name: '$filename.png'),
           ],
           fileNameOverrides: ['$filename.png'],
+          sharePositionOrigin: sharePositionOrigin,
           downloadFallbackEnabled: true,
         ),
       );

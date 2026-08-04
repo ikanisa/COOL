@@ -17,12 +17,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  late GoldenFileComparator previousGoldenFileComparator;
+
   setUpAll(() async {
+    previousGoldenFileComparator = goldenFileComparator;
+    goldenFileComparator = _CollectGoldenFileComparator(
+      Uri.parse('test/goldens/collect_core_surfaces_golden_test.dart'),
+      precisionTolerance: 0.0005,
+    );
     final inter = FontLoader('Inter')
       ..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'));
     final materialIcons = FontLoader('MaterialIcons')
       ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
     await Future.wait([inter.load(), materialIcons.load()]);
+  });
+
+  tearDownAll(() {
+    goldenFileComparator = previousGoldenFileComparator;
   });
 
   const memberSurfaces = <String, String>{
@@ -202,6 +213,38 @@ void main() {
     },
     variant: TargetPlatformVariant.only(TargetPlatform.android),
   );
+}
+
+/// Allows only sub-pixel rasterization drift while preserving geometry and
+/// layout regression detection across the supported Flutter build hosts.
+class _CollectGoldenFileComparator extends LocalFileComparator {
+  _CollectGoldenFileComparator(
+    super.testFile, {
+    required double precisionTolerance,
+  }) : assert(
+         0 <= precisionTolerance && precisionTolerance <= 1,
+         'precisionTolerance must be between 0 and 1',
+       ),
+       _precisionTolerance = precisionTolerance;
+
+  final double _precisionTolerance;
+
+  @override
+  Future<bool> compare(Uint8List imageBytes, Uri golden) async {
+    final result = await GoldenFileComparator.compareLists(
+      imageBytes,
+      await getGoldenBytes(golden),
+    );
+    final passed = result.passed || result.diffPercent <= _precisionTolerance;
+    if (passed) {
+      result.dispose();
+      return true;
+    }
+
+    final error = await generateFailureOutput(result, golden, basedir);
+    result.dispose();
+    throw FlutterError(error);
+  }
 }
 
 Future<void> _setViewport(WidgetTester tester, Size size) async {

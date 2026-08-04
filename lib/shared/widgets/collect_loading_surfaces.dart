@@ -488,12 +488,29 @@ class CollectScreenLoadingState extends StatelessWidget {
     return Semantics(
       container: true,
       liveRegion: true,
-      label: 'Loading screen: $title',
+      label: 'Loading screen: $title. $message',
       child: Column(
         key: ValueKey<String>('loading-$title'),
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          LoadingStatePanel(title: title, message: message, icon: icon),
+          Row(
+            children: [
+              CollectToneIcon(icon: icon, tone: CollectStatusTone.info),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              const SizedBox.square(
+                dimension: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ],
+          ),
           for (var index = 0; index < skeletons.length; index += 1) ...[
             CollectSpacing.gap16,
             skeletons[index],

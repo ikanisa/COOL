@@ -253,7 +253,7 @@ class _CollectionCreateScreenState
         _groupImageMimeType = image.mimeType ?? _mimeTypeFromName(image.name);
         _error = null;
       });
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
       setState(() {
         _error = 'Photo upload failed.';
@@ -332,11 +332,11 @@ class _CollectionCreateScreenState
           );
       if (!mounted) return;
       context.go('/groups/${collection.id}');
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
       setState(() {
         _creating = false;
-        _error = error.toString();
+        _error = 'Could not create the group. Check the details and try again.';
       });
     }
   }

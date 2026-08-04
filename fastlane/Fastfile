@@ -2,6 +2,7 @@ default_platform(:android)
 
 require "shellwords"
 require "json"
+require "fileutils"
 require "tempfile"
 
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
@@ -21,6 +22,20 @@ end
 
 def collect_review_otp
   collect_required_env("COLLECT_REVIEW_OTP")
+end
+
+def collect_production_supabase_url
+  value = ENV["SUPABASE_PRODUCTION_URL"].to_s.strip
+  value = ENV["SUPABASE_URL"].to_s.strip if value.empty?
+  UI.user_error!("SUPABASE_PRODUCTION_URL or SUPABASE_URL is required") if value.empty?
+  value
+end
+
+def collect_production_supabase_anon_key
+  value = ENV["SUPABASE_PRODUCTION_ANON_KEY"].to_s.strip
+  value = ENV["SUPABASE_ANON_KEY"].to_s.strip if value.empty?
+  UI.user_error!("SUPABASE_PRODUCTION_ANON_KEY or SUPABASE_ANON_KEY is required") if value.empty?
+  value
 end
 
 def collect_app_store_connect_api_key
@@ -84,28 +99,36 @@ end
 platform :ios do
   desc "Stage Collect App Store screenshots into Fastlane's upload layout"
   lane :prepare_app_store_assets do
-    sh("rm -rf screenshots/en-GB")
-    sh("mkdir -p screenshots/en-GB")
-
     iphone_sources = Dir["../output/app_store/ios_screenshots/final/iphone65/*.png"].sort
     ipad_sources = Dir["../output/app_store/ios_screenshots/final/ipadPro129/*.png"].sort
 
-    UI.user_error!("No iPhone 6.5-inch screenshots found. Run scripts/app_store_ios_capture_assets.sh first.") if iphone_sources.empty?
-    UI.user_error!("No 13-inch iPad screenshots found. Run scripts/app_store_ios_capture_assets.sh first.") if ipad_sources.empty?
+    if iphone_sources.empty? && ipad_sources.empty?
+      iphone_sources = Dir["screenshots/en-GB/iphone65-*.png"].sort
+      ipad_sources = Dir["screenshots/en-GB/ipadPro129-*.png"].sort
+      UI.message("Using the reviewed App Store screenshots committed to the repository.")
+    elsif iphone_sources.empty? || ipad_sources.empty?
+      UI.user_error!("The generated App Store screenshot set is incomplete. Run scripts/app_store_ios_capture_assets.sh again.")
+    else
+      FileUtils.rm_rf("screenshots/en-GB")
+      FileUtils.mkdir_p("screenshots/en-GB")
 
-    iphone_sources.each do |source|
-      basename = File.basename(source)
-      iphone_target = "screenshots/en-GB/iphone65-#{basename}"
+      iphone_sources.each do |source|
+        basename = File.basename(source)
+        iphone_target = "screenshots/en-GB/iphone65-#{basename}"
 
-      sh("cp #{source.shellescape} #{iphone_target.shellescape}")
+        FileUtils.cp(source, iphone_target)
+      end
+
+      ipad_sources.each do |source|
+        basename = File.basename(source)
+        ipad_target = "screenshots/en-GB/ipadPro129-#{basename}"
+
+        FileUtils.cp(source, ipad_target)
+      end
     end
 
-    ipad_sources.each do |source|
-      basename = File.basename(source)
-      ipad_target = "screenshots/en-GB/ipadPro129-#{basename}"
-
-      sh("cp #{source.shellescape} #{ipad_target.shellescape}")
-    end
+    UI.user_error!("Expected exactly 5 iPhone 6.5-inch screenshots.") unless iphone_sources.length == 5
+    UI.user_error!("Expected exactly 5 13-inch iPad screenshots.") unless ipad_sources.length == 5
     sh("sips -g pixelWidth -g pixelHeight screenshots/en-GB/*.png >/dev/null")
   end
 
@@ -143,12 +166,20 @@ platform :ios do
     )
   end
 
-  desc "Build the App Review IPA with deterministic reviewer OTP access enabled"
+  desc "Build the production IPA with isolated deterministic App Review access"
   lane :build_review_ipa do
     review_phone = collect_review_phone
     review_otp = collect_review_otp
+    supabase_url = collect_production_supabase_url
+    supabase_anon_key = collect_production_supabase_anon_key
+    public_url = ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com").to_s.strip
+    UI.user_error!("APP_PUBLIC_URL must use HTTPS") unless public_url.start_with?("https://")
     review_defines = Tempfile.new(["collect-app-review-defines", ".json"])
     review_defines.write(JSON.generate({
+      "SUPABASE_URL" => supabase_url,
+      "SUPABASE_ANON_KEY" => supabase_anon_key,
+      "APP_PUBLIC_URL" => public_url,
+      "APP_ENVIRONMENT" => "production",
       "APP_REVIEW_AUTH_ENABLED" => "true",
       "APP_REVIEW_AUTH_PHONE" => review_phone,
       "APP_REVIEW_AUTH_OTP" => review_otp

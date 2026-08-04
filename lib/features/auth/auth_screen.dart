@@ -190,7 +190,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         }
         await ref
             .read(collectRepositoryProvider.notifier)
-            .signInWithOtp(phone: phone, otp: _otp.text);
+            .signInForAppReview(phone: phone);
         if (!mounted) return;
         context.go('/home');
         return;

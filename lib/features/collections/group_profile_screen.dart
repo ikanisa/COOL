@@ -265,11 +265,12 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           );
       if (!mounted) return;
       context.go('/groups/${collection.id}/manage');
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
       setState(() {
         _saving = false;
-        _error = error.toString();
+        _error =
+            'Could not save the group profile. Check the fields and try again.';
       });
     }
   }

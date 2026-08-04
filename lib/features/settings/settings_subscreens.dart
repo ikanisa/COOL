@@ -37,12 +37,12 @@ class _NotificationSettingsScreenState
         icon: CollectIcons.pending,
       ),
       children: [
-        InfoSecurityBanner(
-          title: _saving ? 'Saving preferences' : 'Your notification choices',
-          message:
-              'Choose which Collect updates appear. Native phone permission is managed separately.',
-          tone: CollectStatusTone.info,
-        ),
+        if (_saving)
+          Semantics(
+            liveRegion: true,
+            label: 'Saving notification preferences',
+            child: const LinearProgressIndicator(),
+          ),
         _SettingsOptionPanel(
           children: [
             _SettingsSwitchRow(
@@ -100,10 +100,12 @@ class _NotificationSettingsScreenState
       await ref
           .read(collectRepositoryProvider.notifier)
           .updateNotificationPreferences(preferences);
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not save notifications: $error')),
+        const SnackBar(
+          content: Text('Could not save notification preferences. Try again.'),
+        ),
       );
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -206,23 +208,10 @@ class SecuritySettingsScreen extends StatelessWidget {
         icon: CollectIcons.shield,
         showHeading: false,
       ),
-      hero: CollectScreenHero(
-        eyebrow: 'COLLECT PROTECTION',
+      hero: const CollectScreenHero(
         title: 'Security',
         subtitle: 'Account, payment, and privacy safeguards',
         icon: CollectIcons.shield,
-        quickActions: [
-          CollectHeroQuickAction(
-            icon: CollectIcons.profile,
-            label: 'Account',
-            onTap: () => context.go('/settings/account'),
-          ),
-          CollectHeroQuickAction(
-            icon: CollectIcons.privacy,
-            label: 'Privacy',
-            onTap: () => context.go('/settings/legal/privacy'),
-          ),
-        ],
       ),
       children: [
         const InfoSecurityBanner(
@@ -280,12 +269,6 @@ class HelpSettingsScreen extends ConsumerWidget {
         icon: CollectIcons.support,
       ),
       children: [
-        const EmptyIllustrationState(
-          icon: CollectIcons.support,
-          title: 'How can we help?',
-          message:
-              'Get support for app access, groups, contributions, privacy, or account requests.',
-        ),
         const SectionHeader(title: 'Common problems'),
         _SettingsOptionPanel(
           children: [

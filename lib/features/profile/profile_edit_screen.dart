@@ -226,10 +226,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         _initialMomoNumber = _momoNumber.text.trim();
         _initialMomoPayCode = _momoPayCode.text.trim();
       });
-    } catch (error) {
+    } catch (_) {
       if (mounted) {
         setState(() {
-          _error = error.toString();
+          _error =
+              'Could not save account details. Check the fields and try again.';
           _saving = false;
         });
       }

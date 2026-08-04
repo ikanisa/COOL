@@ -17,7 +17,7 @@ class OfflineRecoveryScreen extends StatelessWidget {
       heroIcon: CollectIcons.sync,
       heroTitle: 'You are offline',
       heroMessage:
-          'Review saved groups and ledgers. New activity resumes when the connection returns.',
+          'Saved groups and ledgers remain available. New activity resumes when you reconnect.',
       primaryLabel: 'Review groups',
       primaryIcon: CollectIcons.collections,
       primaryRoute: '/groups',
@@ -51,7 +51,7 @@ class SyncRecoveryScreen extends StatelessWidget {
       heroIcon: CollectIcons.pending,
       heroTitle: 'Sync needs attention',
       heroMessage:
-          'Review saved data while Collect checks for the latest group and contribution updates.',
+          'Saved data remains available while Collect checks for updates.',
       primaryLabel: 'Review groups',
       primaryIcon: CollectIcons.sync,
       primaryRoute: '/groups',
@@ -103,6 +103,7 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
     return ScreenScaffold(
       title: title,
       subtitle: subtitle,
+      showHeader: false,
       compact: true,
       persistentPill: CollectConnectivityBanner(status: bannerStatus),
       children: [
@@ -159,6 +160,32 @@ class _RecoveryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(1) > 1.4;
+    final status = CollectStatusChip(label: value, tone: tone, icon: icon);
+    if (largeText) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CollectToneIcon(icon: icon, tone: tone),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+              ],
+            ),
+            CollectSpacing.gap8,
+            status,
+          ],
+        ),
+      );
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
       child: Row(
@@ -174,7 +201,7 @@ class _RecoveryRow extends StatelessWidget {
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
-          CollectStatusChip(label: value, tone: tone, icon: icon),
+          status,
         ],
       ),
     );

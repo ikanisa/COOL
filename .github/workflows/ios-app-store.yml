@@ -54,8 +54,18 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - name: Install latest Fastlane
-        run: gem install fastlane -NV
+      - name: Set up pinned Ruby tools
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Enforce Apple 2026 build toolchain
+        run: |
+          set -euo pipefail
+          xcodebuild -version
+          IOS_SDK_VERSION="$(xcrun --sdk iphoneos --show-sdk-version)"
+          ruby -e 'version = Gem::Version.new(ARGV.fetch(0)); abort("iOS 26 SDK or later is required") if version < Gem::Version.new("26.0")' "$IOS_SDK_VERSION"
 
       - name: Install Apple signing material
         env:
@@ -100,8 +110,11 @@ jobs:
           flutter analyze --no-pub
           flutter test --no-pub test/features/mobile_completion_test.dart test/shared/collect_repository_test.dart test/security_hygiene_test.dart
 
+      - name: Validate iOS App Store package
+        run: ./scripts/ios_app_store_readiness_gate.sh
+
       - name: Stage App Store screenshots
-        run: fastlane ios prepare_app_store_assets
+        run: bundle exec fastlane ios prepare_app_store_assets
 
       - name: Upload metadata and screenshots
         if: ${{ inputs.upload_metadata == 'true' }}
@@ -111,13 +124,16 @@ jobs:
           ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
           COLLECT_REVIEW_PHONE: ${{ secrets.COLLECT_REVIEW_PHONE }}
           COLLECT_REVIEW_OTP: ${{ secrets.COLLECT_REVIEW_OTP }}
-        run: fastlane ios upload_metadata_screenshots
+        run: bundle exec fastlane ios upload_metadata_screenshots
 
       - name: Build App Review IPA
         env:
           COLLECT_REVIEW_PHONE: ${{ secrets.COLLECT_REVIEW_PHONE }}
           COLLECT_REVIEW_OTP: ${{ secrets.COLLECT_REVIEW_OTP }}
-        run: fastlane ios build_review_ipa
+          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
+          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
+          APP_PUBLIC_URL: https://collect.ikanisa.com
+        run: bundle exec fastlane ios build_review_ipa
 
       - name: Upload build to TestFlight
         if: ${{ inputs.upload_build == 'true' }}
@@ -125,7 +141,7 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
-        run: fastlane ios upload_review_build
+        run: bundle exec fastlane ios upload_review_build
 
       - name: Upload IPA artifact
         if: always()

@@ -35,6 +35,7 @@ run_capture() {
   MOBILE_ROUTE_RENDER_EVIDENCE_DIR="$evidence_dir" \
     MOBILE_ROUTE_RENDER_ROUTE_FILTER="home,groups,group-detail,ledger,share" \
     MOBILE_ROUTE_RENDER_VIEWPORT="$viewport" \
+    MOBILE_ROUTE_RENDER_BUILD_ARGS="--release --no-wasm-dry-run --no-pub --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true --dart-define=COLLECT_MOBILE_EVIDENCE_PLATFORM=ios" \
     "$ROOT_DIR/scripts/mobile_route_render_smoke.sh"
 }
 
@@ -105,7 +106,8 @@ ruby -r json -r time -e '
   manifest = {
     "status" => "pass",
     "generated_at" => Time.now.utc.iso8601,
-    "source" => "Current Flutter app evidence mode route render",
+    "source" => "Current Flutter iOS-platform fixture rendered in web evidence mode",
+    "capture_boundary" => "Store artwork generated from current Flutter widgets with iOS-only product controls enabled; this is not physical-device or native-runtime evidence.",
     "apple_rejection" => {
       "submission_id" => "e6cd1894-6497-4a83-acec-c59ef3bb584a",
       "guideline" => "2.3.3",

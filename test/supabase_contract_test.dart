@@ -13,6 +13,9 @@ String readCollectRepositoryLibrary() {
 }
 
 void main() {
+  final supabaseSharedClient = File(
+    'supabase/functions/_shared/supabase.ts',
+  ).readAsStringSync();
   final migration = File(
     'supabase/migrations/202605230001_collect_baseline.sql',
   ).readAsStringSync();
@@ -154,6 +157,9 @@ void main() {
   final stripeWebhookFunction = File(
     'supabase/functions/stripe-webhook/index.ts',
   ).readAsStringSync();
+  final stripeWebhookSignature = File(
+    'supabase/functions/_shared/stripe_webhook_signature.ts',
+  ).readAsStringSync();
 
   String migrationSection(String text, String start, String end) {
     final startIndex = text.indexOf(start);
@@ -162,6 +168,29 @@ void main() {
     expect(endIndex, isNonNegative, reason: 'missing section end: $end');
     return text.substring(startIndex, endIndex);
   }
+
+  test('Edge Functions pin the shared Supabase client dependency', () {
+    expect(
+      supabaseSharedClient,
+      contains('https://esm.sh/@supabase/supabase-js@2.112.0'),
+    );
+    expect(
+      RegExp(r'@supabase/supabase-js@2["\x27]').hasMatch(supabaseSharedClient),
+      isFalse,
+    );
+  });
+
+  test('Stripe webhook rejects replayed events and supports key rotation', () {
+    expect(stripeWebhookFunction, contains('verifyStripeSignature('));
+    expect(stripeWebhookSignature, contains('DEFAULT_TOLERANCE_SECONDS = 300'));
+    expect(
+      stripeWebhookSignature,
+      contains('Math.abs(nowSeconds - timestamp)'),
+    );
+    expect(stripeWebhookSignature, contains('signatures.some('));
+    expect(stripeWebhookSignature, contains('constantTimeHexEqual'));
+    expect(stripeWebhookSignature, isNot(contains('Object.fromEntries')));
+  });
 
   test('migration exposes contribution intent RPC without instruction copy', () {
     final contributionIntentFunction = migrationSection(
