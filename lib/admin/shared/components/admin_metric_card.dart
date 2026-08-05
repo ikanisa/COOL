@@ -17,17 +17,7 @@ class AdminMetricCard extends StatelessWidget {
       width: 260,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              colors.textPrimary,
-              Color.alphaBlend(
-                colors.periwinklePaint.withValues(alpha: 0.24),
-                colors.textPrimary,
-              ),
-            ],
-          ),
+          color: colors.textPrimary,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: colors.surfaceReadable.withValues(alpha: 0.14),

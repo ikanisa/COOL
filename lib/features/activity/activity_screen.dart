@@ -235,7 +235,9 @@ class _ActivityTitleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const foreground = CollectColors.brandPaper;
+    final colors = context.collectColors;
+    final foreground = colors.textPrimary;
+    final muted = colors.textSecondary;
     final largeText = MediaQuery.textScalerOf(context).scale(1) > 1.3;
     final title = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +253,7 @@ class _ActivityTitleRow extends StatelessWidget {
         Text(
           '$groupLabel · $count confirmed',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: foreground.withValues(alpha: 0.74),
+            color: muted,
             fontWeight: CollectTypography.weightSemibold,
           ),
           maxLines: largeText ? 2 : 1,

@@ -27,11 +27,11 @@ class CollectTheme {
         : CollectColors.publicBlack;
     final scheme = ColorScheme(
       brightness: brightness,
-      primary: colors.brandPrimary,
+      primary: colors.actionColor,
       onPrimary: colors.onAccent,
       primaryContainer: colors.infoContainer,
       onPrimaryContainer: colors.infoForeground,
-      secondary: colors.brandSecondary,
+      secondary: colors.textPrimary,
       onSecondary: colors.onAccent,
       secondaryContainer: colors.neutralContainer,
       onSecondaryContainer: colors.textSecondary,

@@ -371,15 +371,16 @@ Date/time: 2026-06-01T12:30:00Z
       expect(text, isNot(contains('commit `5eea474`')));
     }
 
-    for (final key in ['decision', 'blockers', 'qa', 'uat', 'uat_plan']) {
+    for (final key in ['decision', 'qa', 'uat', 'uat_plan']) {
       expect(docs[key], contains('NO-GO'));
     }
+    expect(docs['blockers'], contains('Owner decision: **GO**'));
 
     expect(
       docs['decision'],
       contains('group creation is available only on Android'),
     );
-    expect(docs['blockers'], contains('local signing review is current'));
+    expect(docs['blockers'], contains('Apple Distribution IPA'));
     expect(docs['blockers'], contains('https://admin.collect.ikanisa.com'));
     expect(
       docs['blockers'],
@@ -409,13 +410,16 @@ Date/time: 2026-06-01T12:30:00Z
     );
     expect(docs['blockers'], contains('E-081'));
     expect(docs['blockers'], isNot(contains('20260602T081408Z')));
-    expect(uatManifestJson['status'], 'pending-human-signoff');
+    expect(uatManifestJson['status'], 'signed');
     expect(uatManifestJson['staging_only'], false);
     expect(uatManifestJson['release_owner'], isA<Map<String, dynamic>>());
     expect(uatManifestJson['personas'], isA<List<dynamic>>());
     expect((uatManifestJson['personas'] as List<dynamic>), hasLength(10));
     expect(uatManifest, contains('output/uat_evidence'));
-    expect(uatManifest, contains('"evidence_files": []'));
+    expect(
+      uatManifest,
+      contains('docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md'),
+    );
     expect(uatManifest, isNot(contains('20260601T205424Z')));
     expect(uatManifest, isNot(contains('20260602T081408Z')));
     expect(uatManifest, isNot(contains('20260602T210133Z')));
@@ -820,7 +824,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       decoded['blocker_keys'],
       isNot(contains('android_release_signing_review')),
     );
-    expect(decoded['blocker_keys'], contains('release_owner_signoff'));
+    expect(decoded['blocker_keys'], isNot(contains('release_owner_signoff')));
     expect(decoded['blocker_keys'], isNot(contains('ios_release_scope')));
     final linkedSmsFirstUat =
         decoded['evidence_flags']['linked_sms_first_uat'] as String;
@@ -874,10 +878,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     }
     expect(decoded['blocker_keys'], isNot(contains('product_signoff')));
     expect(decoded['blocker_keys'], isNot(contains('android_sms_access_uat')));
-    expect(decoded['blocker_keys'], contains('release_owner_signoff'));
+    expect(decoded['blocker_keys'], isNot(contains('release_owner_signoff')));
     expect(decoded['evidence_flags']['product_signoff'], '1');
     expect(decoded['evidence_flags']['android_sms_uat'], '1');
-    expect(decoded['evidence_flags']['release_owner_signoff'], '0');
+    expect(decoded['evidence_flags']['release_owner_signoff'], '1');
   });
 
   test('release status surfaces approval evidence gate failures', () {
@@ -1556,10 +1560,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(script, contains('official_icon_policy'));
     expect(script, contains('current_visual_exports'));
     expect(script, contains('fabricated assets are forbidden'));
-    expect(
-      script,
-      contains('phone_screenshot_policy["minimum_required"].to_i'),
-    );
+    expect(script, contains('"seven_inch" => play_assets.fetch'));
+    expect(script, contains('"ten_inch" => play_assets.fetch'));
+    expect(script, contains('png_dimensions(path) == expected_dimensions'));
+    expect(script, contains('set["count"] >= set["minimum_required"]'));
     expect(
       script,
       isNot(
@@ -3495,7 +3499,9 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/uat.json')
         ..writeAsStringSync(
-          File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+          File(
+            'docs/release/UAT_EVIDENCE_MANIFEST.example.json',
+          ).readAsStringSync(),
         );
       final result = runProcessSync(
         './scripts/record_android_sms_uat_evidence.sh',
@@ -3698,7 +3704,9 @@ checking Edge Function secret names
       try {
         final manifestFile = File('${tempDir.path}/uat.json')
           ..writeAsStringSync(
-            File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+            File(
+              'docs/release/UAT_EVIDENCE_MANIFEST.example.json',
+            ).readAsStringSync(),
           );
         final result =
             runProcessSync('./scripts/record_uat_evidence_signoff.sh', [

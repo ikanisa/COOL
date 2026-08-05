@@ -48,9 +48,9 @@ class _GroupProfileCardTextField extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.glassControl,
+        color: colors.controlSurface,
         borderRadius: CollectRadius.cardBorder,
-        border: Border.all(color: colors.glassBorder),
+        border: Border.all(color: colors.panelBorder),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(

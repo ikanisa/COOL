@@ -22,9 +22,9 @@ class AdminShell extends ConsumerWidget {
     final identity = ref.watch(adminIdentityProvider);
     final colors = context.collectColors;
     return Scaffold(
-      backgroundColor: CollectColors.inkPrimary,
-      body: DecoratedBox(
-        decoration: BoxDecoration(gradient: colors.adminScreenGradient),
+      backgroundColor: colors.canvas,
+      body: ColoredBox(
+        color: colors.canvas,
         child: identity.when(
           loading: () => const AdminLoadingState(
             title: 'Loading admin workspace',
@@ -218,7 +218,7 @@ class _AdminSidebar extends StatelessWidget {
       child: SizedBox(
         width: 260,
         child: Material(
-          color: CollectColors.inkPrimary.withValues(alpha: 0.94),
+          color: CollectColors.referenceChromeBlack,
           child: SafeArea(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
@@ -341,7 +341,7 @@ class _AdminMobileNavState extends State<_AdminMobileNav> {
       container: true,
       label: 'Collect admin mobile navigation',
       child: Material(
-        color: CollectColors.inkPrimary.withValues(alpha: 0.96),
+        color: CollectColors.referenceChromeBlack,
         child: SafeArea(
           bottom: false,
           child: SizedBox(
@@ -492,7 +492,7 @@ class _AdminTopbar extends StatelessWidget {
       label:
           'Signed in as ${identity.displayName}. Roles: ${identity.roles.join(', ')}. Environment: $envName.',
       child: Material(
-        color: CollectColors.inkPrimary.withValues(alpha: 0.90),
+        color: CollectColors.referenceChromeBlack,
         child: SafeArea(
           bottom: false,
           child: Container(
@@ -509,7 +509,7 @@ class _AdminTopbar extends StatelessWidget {
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colors.mintPaint.withValues(alpha: 0.14),
+                    color: colors.successContainer,
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: SizedBox(
@@ -518,7 +518,7 @@ class _AdminTopbar extends StatelessWidget {
                     child: Center(
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: colors.mintPaint,
+                          color: colors.successForeground,
                           shape: BoxShape.circle,
                         ),
                         child: const SizedBox.square(dimension: 5),

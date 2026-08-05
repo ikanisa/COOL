@@ -343,7 +343,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       _GroupCoverMedia(collection: collection),
-                      _GroupCoverScrim(accent: accent),
+                      const _GroupCoverScrim(),
                       Positioned(
                         left: CollectSpacing.x3,
                         right: CollectSpacing.x3,
@@ -544,7 +544,7 @@ class _VisualGroupCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       _GroupCoverMedia(collection: collection),
-                      _GroupCoverScrim(accent: accent),
+                      const _GroupCoverScrim(),
                       Positioned(
                         left: CollectSpacing.x4,
                         right: CollectSpacing.x4,

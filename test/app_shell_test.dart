@@ -751,7 +751,8 @@ void main() {
     ).readAsStringSync();
     expect(groupCardMedia, isNot(contains('orangePaint')));
     expect(groupCardMedia, isNot(contains('brandAction,')));
-    expect(groupCardMedia, contains('colors.rosePaint'));
+    expect(groupCardMedia, isNot(contains('rosePaint')));
+    expect(groupCardMedia, isNot(contains('periwinklePaint')));
 
     final staticSite = File(
       'scripts/public_static_site_build.rb',

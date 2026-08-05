@@ -17,7 +17,7 @@ class BottomActionSurface extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.glassPanel,
+        color: colors.panelSurface,
         borderRadius: CollectRadius.cardBorder,
       ),
       child: Padding(
@@ -67,9 +67,9 @@ class CollectMobileInputField extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.glassControl,
+        color: colors.controlSurface,
         borderRadius: CollectRadius.controlBorder,
-        border: Border.all(color: colors.glassBorder),
+        border: Border.all(color: colors.panelBorder),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -149,9 +149,9 @@ class CollectMomoReceiverCard extends StatelessWidget {
       borderRadius: radius,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: colors.glassControl,
+          color: colors.controlSurface,
           borderRadius: radius,
-          border: Border.all(color: colors.glassBorder),
+          border: Border.all(color: colors.panelBorder),
         ),
         child: Padding(
           padding: const EdgeInsets.all(CollectSpacing.x2),
@@ -185,7 +185,7 @@ class CollectMomoReceiverCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: CollectSpacing.x1),
                 child: Divider(
-                  color: colors.glassBorder,
+                  color: colors.panelBorder,
                   height: CollectSpacing.x4,
                 ),
               ),
@@ -266,7 +266,7 @@ class _MomoModeTab extends StatelessWidget {
               height: 48,
               decoration: BoxDecoration(
                 color: selected
-                    ? colors.glassPanel.withValues(alpha: 0.72)
+                    ? colors.panelSurface.withValues(alpha: 0.72)
                     : colors.transparent,
                 borderRadius: CollectRadius.controlBorder,
               ),

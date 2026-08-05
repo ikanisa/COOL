@@ -35,11 +35,11 @@ const allRoutes = [
     minimumAccessibilityNodes: 8,
     minimumKeyboardStops: 1,
     requiredLabels: [
-      'WhatsApp phone\nRW',
-      '+250 7XX XXX XXX',
+      'WhatsApp phone\n+250',
+      'Phone number',
       'Send admin WhatsApp OTP',
     ],
-    requiredInteractiveNames: ['+250 7XX XXX XXX', 'Send WhatsApp OTP'],
+    requiredInteractiveNames: ['Phone number', 'Send WhatsApp OTP'],
   },
   {
     path: '/admin/denied',
@@ -771,11 +771,11 @@ async function keyboardActivateDeniedSignIn(page) {
 
 async function keyboardAdvanceAdminLogin(page) {
   const phoneInput = page.locator(
-    'input[aria-label="+250 7XX XXX XXX"], input[aria-label="WhatsApp phone"]',
+    'input[aria-label="Phone number"], input[aria-label="WhatsApp phone"]',
   );
   try {
     await phoneInput.waitFor({ state: 'attached', timeout: 5_000 });
-    await phoneInput.fill('+250 788 000 001');
+    await phoneInput.fill('788 000 001');
   } catch (_) {
     return false;
   }

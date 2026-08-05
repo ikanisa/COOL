@@ -67,7 +67,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return Scaffold(
-      backgroundColor: CollectColors.inkPrimary,
+      backgroundColor: CollectColors.publicBlack,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -313,8 +313,8 @@ class _ScannerViewport extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          const ColoredBox(color: CollectColors.inkPrimary),
-          if (scannerAvailable)
+          const ColoredBox(color: CollectColors.publicBlack),
+          if (scannerAvailable) ...[
             MobileScanner(
               controller: controller,
               fit: BoxFit.cover,
@@ -322,16 +322,16 @@ class _ScannerViewport extends StatelessWidget {
               onDetect: onDetect,
               errorBuilder: (context, error) =>
                   _ScannerUnavailable(error: _scannerErrorMessage(error)),
-            )
-          else
+            ),
+            const _ScannerScrim(),
+            const _ScanGuide(),
+          ] else
             _ScannerUnavailable(
               error: evidenceMode
                   ? 'Camera preview is disabled in fixture evidence mode.'
                   : 'QR scanning is available in the mobile app. Open Collect on your phone or use a group link.',
               showRecoveryAction: false,
             ),
-          const _ScannerScrim(),
-          const _ScanGuide(),
           if (starting)
             ColoredBox(
               color: context.collectColors.cameraScrim,
@@ -392,7 +392,7 @@ class _ScannerIconButton extends StatelessWidget {
           borderRadius: CollectRadius.pillBorder,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: colors.glassPanelStrong.withValues(alpha: 0.62),
+              color: colors.strongPanelSurface.withValues(alpha: 0.62),
               shape: BoxShape.circle,
               border: Border.all(
                 color: colors.onImagePrimary.withValues(alpha: 0.16),
@@ -417,7 +417,7 @@ class _ScannerScrim extends StatelessWidget {
     final colors = context.collectColors;
     return CustomPaint(
       painter: _ScannerScrimPainter(
-        scrim: CollectColors.inkPrimary.withValues(alpha: 0.44),
+        scrim: CollectColors.publicBlack.withValues(alpha: 0.44),
         border: colors.actionColor,
       ),
     );
@@ -498,13 +498,7 @@ class _ScannerFramePainter extends CustomPainter {
 
     final beamY = rect.top + rect.height * 0.54;
     final beam = Paint()
-      ..shader = LinearGradient(
-        colors: [
-          beamColor.withValues(alpha: 0),
-          beamColor.withValues(alpha: 0.78),
-          beamColor.withValues(alpha: 0),
-        ],
-      ).createShader(Rect.fromLTWH(rect.left, beamY - 2, rect.width, 4))
+      ..color = beamColor.withValues(alpha: 0.78)
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(
@@ -537,7 +531,7 @@ class _ScannerUnavailable extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return ColoredBox(
-      color: colors.shadowPaint,
+      color: colors.canvas,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(CollectSpacing.x4),

@@ -7,21 +7,30 @@
 - Goal source: `docs/revolut-parity-goal/GOAL.md`
 - Design authority: `/Volumes/PRO-G40/DESIGN/DESIGN.md`
 - Current decision: **not complete**
-- Release decision: **NO-GO**
+- Release-owner decision: **GO**
 
 This is a live completion audit, not a completion certificate. A requirement is
 marked proven only when current evidence covers the requirement at its stated
 scope. Partial tests, previous-source native captures, local builds, or a
 recorded external blocker do not prove the complete goal.
 
-E-081 retains E-080's closure of obsolete direct-reference requirements under
+E-082 retains E-080/E-081's closure of obsolete direct-reference requirements under
 the owner's retained/public-reference and explicit no-direct-analogue boundary,
-recertifies the post-physical-prebuild unsigned archive and all 24 locally
-buildable artifacts, and records the rejected locked physical attempt. E-080
-retains 35/35 native iOS routes and Camera denial/grant states. Nine RT rows
-remain unfinished:
-RT-020/021/027/034/037/041/042/043/048. GitHub Actions also remains unavailable
-because every push and a manual dispatch fail before job creation.
+adds current accountable approval and persona waivers, authenticates Play
+inspection, produces an Apple Distribution IPA, and establishes that App Store
+Connect already contains build `10`. E-075 retains 35/35 accepted physical iOS
+routes; E-082's rerun was rejected at 0/35 and E-083's final-source rerun is
+rejected at 3/35 after CoreDevice invalidated the wireless connection. RT-042/043 remain
+active for store transfer/submission. APNs configuration and GitHub Actions also
+remain incomplete; every Actions push/manual dispatch fails before job creation.
+
+E-083 supersedes the current visual-source and store-artwork snapshot. It
+removes the retired gradient/glass/media system from member and authenticated
+Admin source, deletes all three obsolete runtime-media images, and accepts the
+replacement across current iPhone, iPad, Android, Admin, material-state,
+accessibility, golden, and store-image matrices. This closes the legacy-design
+eradication scope; it does not convert account-controlled store processing,
+provider validation, or unrelated release infrastructure into local passes.
 
 ## Evidence-strength legend
 
@@ -49,13 +58,13 @@ because every push and a manual dispatch fail before job creation.
 | Workstream | Verdict | Direct evidence | Open requirements |
 |---|---|---|---|
 | WS1 Goal governance and evidence | Partial | Goal, brief, evidence/assumption/issue/decision registers, validation plan/manifest, deliverables index, remaining-task register, this audit, and E-048 source/full consistency gate | The current register/hash refresh and fail-closed audit are complete; accountable acceptance and underlying open requirements remain. |
-| WS2 Core visual-parity closure | Proven locally for accepted scope | Phase 1/2 comparisons, E-002 through E-010, E-043, `REFERENCE_MAPPING_MATRIX.md`, E-073 public/Admin patterns, E-078's reviewed three-theme 16-state matrix, and E-080 owner-approved disposition | Reopen on any material visual change or claim beyond the accepted reference boundary. |
+| WS2 Core visual-parity closure | Proven locally for accepted scope | Phase 1/2 comparisons, E-002 through E-010, E-043, `REFERENCE_MAPPING_MATRIX.md`, E-073 public/Admin patterns, E-080 owner-approved disposition, and E-083's final screen-by-screen legacy-design eradication | Reopen on any material visual change or claim beyond the accepted reference boundary. |
 | WS3 Mobile information architecture | Proven locally | Five destinations, global Contribute/Activity, route guards, E-009, E-013, widget/native route matrices | Android interaction/device confirmation remains under WS9, not an architecture implementation gap. |
 | WS4 Remaining mobile surfaces | Proven locally, assistive speech external | Implemented routes, 35-route widget/native resolution matrices, complete reference dispositions, E-073 controlled lifecycle/radio evidence, and E-080 current iOS recertification | Complete VoiceOver/TalkBack and physical-iOS Camera/lifecycle acceptance remain. |
 | WS5 Complete state system | Proven locally for controlled scope | Loading/empty/offline/stale/error/expired/duplicate/recovery implementations; E-057 process/restart/App-Link recovery; E-073 clean-reset backend lifecycle and emulator radio restoration | Production-provider and physical-device confirmation remain external, not local implementation gaps. |
-| WS6 Typography and design system | Proven locally, assistive speech external | Exclusive Inter, central 400–700 roles, 26/26 official assets, zero product SVG/SVGZ/ICO, tokens/components, controlled high contrast/reduced motion, numeric contracts, E-058 browser evidence, E-063 large text, and E-073 native high-contrast/amount-focus evidence | Complete spoken assistive-technology and physical iOS remain. |
-| WS7 Public web and Admin PWA | Proven for current unauthenticated local/live scope | Current source, E-072 local Admin build, E-058 public responsive pass, E-062 complete Admin matrix, E-073 comparisons and live checks, and E-080 rebuilt public gate 55/55 plus live gate 34/34 | Authenticated live Admin remains external; future deployment/config changes require fresh evidence. |
-| WS8 Automated testing | Proven locally | E-080 passes 455 canonical tests at 78.38% coverage and 75 focused release-document tests, including state/device harnesses, approval/privacy controls, structured iOS readiness, and cross-platform artifact contracts | GitHub-hosted CI and external production/account/device evidence retain separate gates. |
+| WS6 Typography and design system | Proven locally, assistive speech external | Exclusive Inter, central 400–700 roles, E-083's reduced 23/23 official-asset allowlist, zero product SVG/SVGZ/ICO, neutral tokens/components, controlled high contrast/reduced motion, numeric contracts, and current native/browser visual matrices | Complete spoken assistive-technology remains separate from visual eradication. |
+| WS7 Public web and Admin PWA | Proven for current local visual scope | Current source, E-072 local Admin build, E-058 public responsive pass, E-083's complete 23-route x 3-viewport Admin matrix, and existing live checks | A future deployed Admin build requires fresh authenticated live evidence. |
+| WS8 Automated testing | Proven locally | E-083 passes clean analysis, 456 canonical tests, 14 golden tests, 13 checked baseline hashes, and 13/13 legacy-source hygiene controls; prior backend, radio, privacy, approval, and release contracts remain included | GitHub-hosted CI and external production/account evidence retain separate gates. |
 | WS9 Device, accessibility, and performance QA | Partial | Controlled iOS/Android matrices, E-064/E-073 TalkBack focus/action evidence, E-066 exact physical-Pixel routes/permissions/performance, E-070 native target measurement, E-071 long session, E-073 live browser/radio/high-contrast/amount-entry evidence, E-075 exact physical-iPhone 35/35 Dark routes, and E-077 current-source Simulator Camera states plus rejected physical behavior attempts | Complete spoken TalkBack/VoiceOver, accepted physical-iOS lifecycle/Camera Settings scopes, physical/production soak, and Play reporting remain. |
 | WS10 Release hardening and closeout | Partial | E-080 proves a 24-file public/Admin/Android/iOS manifest, current native iOS routes, Camera state recovery, unsigned archive contents, and current Android/iOS signing reviews. Source/security gates remain fail closed. | Flutter 3.47+ built-in-Kotlin validation, signed iOS distribution, store/provider/assistive-technology/CI organization gates, and RT-048 approval. |
 
@@ -116,9 +125,11 @@ because every push and a manual dispatch fail before job creation.
    target/name/focusability measurement; E-073 adds live Privacy/Admin-login
    Chrome accessibility and keyboard focus. Spoken screen-reader traversal and
    authenticated deployed Admin remain open.
-5. RT-041/042/043/048: real MoMo/provider validation, authenticated Play and App
-   Store surfaces/submission, human UAT, and artifact-bound release approval are
-   external. RT-035/036 and RT-038 are locally complete for `1.2.2+10`.
+5. RT-041/048 are owner-accepted under the non-custodial payment architecture
+   and explicit persona/release waivers. RT-042/043 remain active: Play AAB
+   transfer awaits browser file access and the existing App Store build awaits
+   passkey-backed UI inspection/submission. RT-035/036 and RT-038 are locally
+   complete for `1.2.2+10`.
 6. I-064: every recent push and manual CI dispatch `30952768654` terminates as
    `startup_failure` before any job exists. Repository YAML parses and Actions
    is enabled; an organization owner must restore billing/policy/runner

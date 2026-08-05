@@ -20,7 +20,7 @@ class _ContributionTimeline extends StatelessWidget {
                 height: 1,
                 thickness: 1,
                 indent: 64,
-                color: colors.glassBorder,
+                color: colors.panelBorder,
               ),
           ],
         ],

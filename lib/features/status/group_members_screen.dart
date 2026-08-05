@@ -196,7 +196,9 @@ class _MembersPageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final control = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Semantics(
       container: true,
       header: true,
@@ -206,9 +208,9 @@ class _MembersPageHeader extends StatelessWidget {
           IconButton.filledTonal(
             tooltip: 'Back',
             style: IconButton.styleFrom(
-              backgroundColor: foreground.withValues(alpha: 0.10),
+              backgroundColor: control,
               foregroundColor: foreground,
-              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              side: BorderSide(color: border),
               fixedSize: const Size(44, 44),
               minimumSize: const Size(44, 44),
               padding: EdgeInsets.zero,
@@ -296,12 +298,12 @@ class _MemberControlButton extends StatelessWidget {
       button: true,
       label: '$title $value',
       child: Material(
-        color: colors.glassControl,
+        color: colors.controlSurface,
         borderRadius: CollectRadius.pillBorder,
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: colors.glassBorder),
+            border: Border.all(color: colors.panelBorder),
           ),
           child: InkWell(
             borderRadius: CollectRadius.pillBorder,
@@ -416,7 +418,7 @@ class _MemberSheetPill<T> extends StatelessWidget {
       selected: selected,
       label: 'Filter option $label',
       child: Material(
-        color: selected ? colors.actionColor : colors.glassControl,
+        color: selected ? colors.actionColor : colors.controlSurface,
         borderRadius: CollectRadius.pillBorder,
         child: InkWell(
           borderRadius: CollectRadius.pillBorder,

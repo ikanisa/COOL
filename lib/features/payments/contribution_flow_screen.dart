@@ -340,15 +340,17 @@ class _ContributionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final control = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Row(
       children: [
         IconButton.filledTonal(
           tooltip: 'Back to group',
           style: IconButton.styleFrom(
-            backgroundColor: foreground.withValues(alpha: 0.10),
+            backgroundColor: control,
             foregroundColor: foreground,
-            side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+            side: BorderSide(color: border),
             fixedSize: const Size(44, 44),
             minimumSize: const Size(44, 44),
             padding: EdgeInsets.zero,

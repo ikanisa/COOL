@@ -31,6 +31,15 @@ def artifact(root, relative)
   }
 end
 
+def png_dimensions(path)
+  bytes = File.binread(path, 24)
+  return nil unless bytes.byteslice(0, 8) == "\x89PNG\r\n\x1A\n".b
+
+  bytes.byteslice(16, 8).unpack("NN")
+rescue StandardError
+  nil
+end
+
 def latest_mtime(root, patterns)
   paths = patterns.flat_map { |pattern| Dir.glob(File.join(root, pattern), File::FNM_DOTMATCH) }
   files = paths.select { |path| File.file?(path) }.reject do |path|
@@ -272,27 +281,40 @@ metadata_length_issues << "short_description_over_80_chars" if metadata_items.di
 metadata_length_issues << "full_description_over_4000_chars" if metadata_items.dig("full_description", "text").to_s.length > 4000
 play_assets = console_audit_packet.dig("store_listing", "assets") || {}
 feature_graphic = play_assets.fetch("feature_graphic", {})
-phone_screenshot_policy = play_assets.fetch("phone_screenshots", {})
 feature_graphic_path = File.join(root, feature_graphic["path"].to_s)
 feature_graphic_valid =
   feature_graphic["status"] == "approved_official_asset" &&
   File.file?(feature_graphic_path) &&
   Digest::SHA256.file(feature_graphic_path).hexdigest == feature_graphic["sha256"].to_s
-phone_screenshot_export_path = phone_screenshot_policy["path"].to_s
-phone_screenshot_paths =
-  if phone_screenshot_export_path.empty?
-    []
-  else
-    Dir.glob(File.join(root, phone_screenshot_export_path, "*.png")).sort
-  end
-expected_screenshot_hashes = phone_screenshot_policy["sha256"].is_a?(Hash) ? phone_screenshot_policy["sha256"] : {}
-phone_screenshot_hashes_valid =
-  !expected_screenshot_hashes.empty? &&
-  phone_screenshot_paths.length == expected_screenshot_hashes.length &&
-  phone_screenshot_paths.all? do |path|
-    expected = expected_screenshot_hashes[File.basename(path)].to_s
-    !expected.empty? && Digest::SHA256.file(path).hexdigest == expected
-  end
+screenshot_policies = {
+  "phone" => play_assets.fetch("phone_screenshots", {}),
+  "seven_inch" => play_assets.fetch("seven_inch_screenshots", {}),
+  "ten_inch" => play_assets.fetch("ten_inch_screenshots", {})
+}
+screenshot_sets = screenshot_policies.transform_values do |policy|
+  export_path = policy["path"].to_s
+  paths = export_path.empty? ? [] : Dir.glob(File.join(root, export_path, "*.png")).sort
+  expected_hashes = policy["sha256"].is_a?(Hash) ? policy["sha256"] : {}
+  expected_dimensions = policy["dimensions"].to_s.split("x").map(&:to_i)
+  dimensions_valid =
+    expected_dimensions.length == 2 && expected_dimensions.all?(&:positive?) &&
+    paths.all? { |path| png_dimensions(path) == expected_dimensions }
+  hashes_valid =
+    !expected_hashes.empty? &&
+    paths.length == expected_hashes.length &&
+    paths.all? do |path|
+      expected = expected_hashes[File.basename(path)].to_s
+      !expected.empty? && Digest::SHA256.file(path).hexdigest == expected
+    end
+  {
+    "count" => paths.length,
+    "hashes_valid" => hashes_valid,
+    "dimensions_valid" => dimensions_valid,
+    "status" => policy["status"],
+    "source" => policy["source"],
+    "minimum_required" => policy["minimum_required"].to_i
+  }
+end
 brand_icon_path = File.join(root, play_assets["brand_icon_source"].to_s)
 launcher_icon_path = File.join(root, play_assets["launcher_icon"].to_s)
 official_icon_policy =
@@ -303,15 +325,18 @@ official_icon_policy =
   Digest::SHA256.file(launcher_icon_path).hexdigest == play_assets["launcher_icon_sha256"].to_s
 current_visual_exports =
   feature_graphic_valid &&
-  phone_screenshot_policy["status"] == "current_product_capture" &&
-  phone_screenshot_policy["source"] == "native_product_capture_only" &&
-  phone_screenshot_hashes_valid &&
-  phone_screenshot_paths.length >= phone_screenshot_policy["minimum_required"].to_i
+  screenshot_sets.values.all? do |set|
+    set["status"] == "current_product_capture" &&
+      set["source"] == "native_product_capture_only" &&
+      set["hashes_valid"] &&
+      set["dimensions_valid"] &&
+      set["count"] >= set["minimum_required"]
+  end
 checks["play_store_metadata_export"] =
   if metadata_missing.empty? && metadata_length_issues.empty? && official_icon_policy && current_visual_exports
-    check("pass", "Fastlane-compatible Play metadata uses the approved Collect icon and current native screenshots.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "phone_screenshot_count" => phone_screenshot_paths.length, "official_icon_policy" => true)
+    check("pass", "Fastlane-compatible Play metadata uses the approved Collect icon and current phone, 7-inch, and 10-inch native screenshots.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "screenshot_sets" => screenshot_sets, "official_icon_policy" => true)
   else
-    check("blocked", "Play listing metadata awaits an owner-approved feature graphic and refreshed native screenshots; fabricated assets are forbidden.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "phone_screenshot_count" => phone_screenshot_paths.length, "official_icon_policy" => official_icon_policy, "feature_graphic_status" => feature_graphic["status"], "phone_screenshot_status" => phone_screenshot_policy["status"], "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
+    check("blocked", "Play listing metadata awaits an owner-approved feature graphic and complete current native screenshot sets; fabricated assets are forbidden.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "screenshot_sets" => screenshot_sets, "official_icon_policy" => official_icon_policy, "feature_graphic_status" => feature_graphic["status"], "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
   end
 
 fastlane_files = {

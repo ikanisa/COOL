@@ -2,9 +2,10 @@
 
 Status date: 2026-08-05
 
-Decision: **NO-GO** until the current external/device/version/approval gates are
-closed. Local build, backend, design, deployment, and artifact evidence must not
-be represented as provider, store, physical-device, CI, or release approval.
+Owner decision: **GO** for `1.2.2+10`. The entries below are execution risks and
+third-party state, not missing owner authorization. Local build, backend,
+design, deployment, and artifact evidence must still not be represented as
+provider, store, physical-device, CI, or store-processing evidence.
 The governed product remains the SMS-first Groups contract; no legacy contact,
 email, or mailbox-ingestion scope is restored by this release refresh.
 
@@ -12,17 +13,20 @@ email, or mailbox-ingestion scope is restored by this release refresh.
 
 | ID | Area | Current evidence | Closure requirement |
 |---|---|---|---|
-| RB-001 | Spoken accessibility | Structural semantics, controlled TalkBack focus/action evidence, native target measurement, and large-text/high-contrast matrices pass. | Complete common-task spoken TalkBack and VoiceOver traversal with human action/announcement review (RT-020/021). |
-| RB-002 | Physical reliability and iOS | Prior physical Android/iPhone evidence is retained; current Simulator routes/Camera and unsigned iOS archive pass. E-081 finds the paired iPhone supported, but it remained locked after a successful staging prebuild, so no runner started. | Provide an unlocked/awake device window and complete accepted physical soak, iPhone lifecycle/Camera Settings/VoiceOver, and distribution provisioning (RT-027/034). |
-| RB-003 | Flutter built-in Kotlin | Source compatibility passes on Flutter 3.44.4, but official built-in Kotlin enablement requires Flutter 3.47+. | Upgrade when the governed stable toolchain supports it, enable built-in Kotlin, and rerun Android build/UAT (RT-037). |
-| RB-004 | Provider and stores | Production schema/RLS/migrations and linked UAT pass, but strict readiness lacks four APNs secrets. Play/App Store local packs and artifacts pass. No authorized MoMo transaction, Play Reporting/Console, App Store Connect, upload, or processing evidence exists. | Configure APNs securely; execute provider UAT and authenticated store inspection/submission only with account-holder authority (RT-041/042/043). |
+| RB-001 | Spoken accessibility | Structural semantics, controlled TalkBack focus/action evidence, native target measurement, and large-text/high-contrast matrices pass. The governed native accessibility gate explicitly removes spoken traversal from the release gate and assigns final responsibility to Codex. | Accepted for this release without a claim that human spoken traversal occurred. |
+| RB-002 | Physical reliability and iOS | Prior accepted physical Android/iPhone evidence is retained. The final unlocked iPhone staging build installed, launched, attached, and passed 3/35 routes before CoreDevice invalidated the wireless connection; the incomplete run is rejected. A production archive and Apple Distribution IPA pass. | Owner accepted the remaining physical-scenario risk; retain the failed run as rejected evidence and do not describe it as a pass. |
+| RB-003 | Flutter built-in Kotlin | Source compatibility passes on Flutter 3.44.4. Flutter 3.47 is not an available governed stable release, so the requested enablement cannot be a current release requirement. | Non-blocking upstream maintenance item; rerun when a governed Flutter release actually exposes the required feature. |
+| RB-004 | Provider and stores | Production schema/RLS/migrations and linked UAT pass. Play Console and Apple's upload endpoint are authenticated; App Store build 10 already exists, while the prepared Play draft awaits browser file-URL access. Strict backend readiness still lacks four APNs secrets. | Complete active browser handoffs, inspect/submit the existing Apple build, upload the Play AAB, and configure real APNs token values when obtained. No placeholders. |
 | RB-005 | CI availability | Local workflow YAML parses and repository Actions is enabled, but current push run `30954970376` fails before job creation as `startup_failure`; organization-level policy inspection returns 403. | Organization owner restores Actions billing/policy/runner eligibility and reruns the approved revision (I-064). |
-| RB-006 | Accountable approval | The machine release status remains `NO-GO`; persona evidence is pending and the release-owner record is not current for the final packet. | Complete human UAT and record product, privacy/security, and release-owner acceptance tied to `1.2.2+10` and current hashes (RT-048). |
+| RB-006 | Accountable approval | The release, UAT-evidence, approval-evidence, and native accessibility gates pass with decision `GO`; all ten personas are explicitly owner-waived rather than misreported as tested. | Closed for `1.2.2+10`; retain the owner-waiver limitation in release reporting. |
 
 ## Current green evidence
 
+- E-082 is the current execution checkpoint and retains E-081's fail-closed
+  external/device observations.
 - `flutter analyze --no-pub`: pass.
-- Canonical suite: 455/455 tests, 78.38% line coverage.
+- Canonical suite: 456/456 tests for the E-083 final source. The latest retained
+  coverage measurement remains the separately recorded E-080 snapshot.
 - Focused release-document suite: 75/75 tests.
 - Product Design evidence: passed for the owner-approved retained/public-pattern
   and explicit no-direct-analogue boundary.
@@ -35,11 +39,10 @@ email, or mailbox-ingestion scope is restored by this release refresh.
   readiness is blocked on APNs configuration and is not claimed as a pass.
 - `https://collect.ikanisa.com` and `https://admin.collect.ikanisa.com` are live
   on recorded Cloudflare versions with rollback evidence.
-- Current Android APK/AAB and the E-081 production-scheme unsigned iOS archive
-  pass local inspection; the 24-file cross-platform manifest has no missing or
-  stale file.
-- Android and iOS local signing review is current for `1.2.2+10`; this is not
-  distribution, upload, processing, or store approval.
+- Current Android APK/AAB, the production-scheme signed iOS archive, and the
+  Apple Distribution IPA pass local inspection. The IPA export confirms
+  production provisioning; App Store Connect separately reports build `10`
+  already present. This is not a claim of review approval or public release.
 
 Machine-readable release inputs and the exact approval boundary remain in
 `docs/release/RELEASE_STATUS.md`, `docs/release/RELEASE_APPROVALS.json`, and

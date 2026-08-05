@@ -1,5 +1,5 @@
 {
-  "status": "pending",
+  "status": "approved",
   "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "qa_summary": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "approvals": [
@@ -47,15 +47,15 @@
     {
       "key": "ios_release_scope",
       "title": "iOS release scope decision",
-      "status": "out_of_scope",
-      "decision": "OUT_OF_SCOPE",
+      "status": "approved",
+      "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-06-21T12:54:05Z",
+      "signed_at": "2026-08-05T06:04:11Z",
       "evidence_reference": "docs/release/RELEASE_STATUS.md",
       "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
-      "notes": "This request is Android Google Play production only; iOS release is explicitly out of scope for this go-live."
+      "notes": "Owner expanded the current release authority to include iOS execution, distribution preparation, store inspection, upload, and submission for the complete app scope."
     },
     {
       "key": "release_owner_signoff",
@@ -63,12 +63,13 @@
       "status": "approved",
       "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-06-21T12:54:05Z",
+      "signed_at": "2026-08-05T06:04:11Z",
       "evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
       "suggested_evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
-      "notes": "Owner authorized Google Play production deployment of current version 1.2.2+9 from Codex chat after fresh artifact build and signature checks."
+      "notes": "Owner explicitly authorized full execution and approval of every app task for current version 1.2.2+10, accepting recorded residual risks while requiring all available device, provider, and store actions to be attempted.",
+      "artifact_version": "1.2.2+10"
     }
   ],
   "secret_handling": "Approval evidence metadata only. Do not add secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service keys, provider tokens, or production customer data."

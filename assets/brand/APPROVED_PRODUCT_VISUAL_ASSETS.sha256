@@ -5,9 +5,6 @@ e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33  android/app/sr
 c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb  android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
 15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265  android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209  assets/brand/collect_runtime/app_icons/app-icon-rule.png
-9b6278d46d68ce2c61fabef8c634ac00b8cf299008cc54ccc74bd34d480068b2  assets/brand/collect_runtime/media/group-momentum.png
-eaa9fc831baaf3b050d6acdf3de95024098361d6cd9043543ffe159b6c1e8f66  assets/brand/collect_runtime/media/mobile-money-ussd-signal.png
-9f67af8c93f035738bfb60f3e6964fe69c6908f5e40ae0003bbf1d609c8eafd4  assets/brand/collect_runtime/media/qr-share.png
 25fabc042f4e2b90ba385388542cfbea764b34e0e8cbeaa18dda12045f277738  ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
 73c8455d411242a0e11cdba9cca979a1afc67b3e565c92538226904b547295e2  ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png
 0237d6760362334cf16b2f082533784c56f8e79d64218396104b56fc284de3f5  ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png

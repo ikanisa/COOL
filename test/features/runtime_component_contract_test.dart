@@ -17,11 +17,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Collect color tokens separate brand canvas from screen background', () {
+  test('Collect routes use a neutral canvas independent of logo colors', () {
     final light = AppTheme.light().extension<CollectColors>();
     expect(light, isNotNull);
-    expect(light!.surface, CollectColors.brandPaper);
-    expect(light.screenBase, CollectColors.referenceAccountNavyDeep);
+    expect(light!.surface, const Color(0xFFF7F7F8));
+    expect(light.screenBase, light.canvas);
+    expect(light.screenBase, isNot(CollectColors.brandPeriwinkle));
   });
 
   test('Collect light and dark modes are visually distinctive', () {
@@ -37,9 +38,9 @@ void main() {
     expect(light.textPrimary, isNot(dark.textPrimary));
     expect(light.textSecondary, isNot(dark.textSecondary));
     expect(light.neutralContainer, isNot(dark.neutralContainer));
-    expect(light.glassPanel, isNot(dark.glassPanel));
-    expect(light.onAccent, CollectColors.inkPrimary);
-    expect(dark.onAccent, CollectColors.inkPrimary);
+    expect(light.panelSurface, isNot(dark.panelSurface));
+    expect(light.onAccent, CollectColors.publicWhite);
+    expect(dark.onAccent, CollectColors.publicBlack);
     expect(
       _contrastRatio(dark.textPrimary, dark.surfaceReadable),
       greaterThanOrEqualTo(4.5),
@@ -71,22 +72,57 @@ void main() {
     },
   );
 
-  test('Collect runtime token layer preserves structured secondary colors', () {
-    expect(CollectRuntimeTokens.secondaryColorRoles, hasLength(17));
-    expect(
-      CollectRuntimeTokens.secondaryColorRoles.values.toSet().intersection(
-        CollectColors.brandPrimaryColors.toSet(),
-      ),
-      isEmpty,
-    );
+  test('Collect runtime token layer contains no retired chrome vocabulary', () {
+    final source = File(
+      'lib/app/theme/collect_runtime_tokens.dart',
+    ).readAsStringSync();
+    expect(source, isNot(contains('secondaryColorRoles')));
+    expect(source, isNot(contains('glassPanel')));
+    expect(source, isNot(contains('periwinklePaint')));
   });
 
-  test('customer routes share one clean background system', () {
-    final light = AppTheme.light().extension<CollectColors>()!;
+  test('customer routes share one clean solid background system', () {
+    final source = File(
+      'lib/shared/widgets/collect_scaffold_chrome.dart',
+    ).readAsStringSync();
 
-    expect(light.screenGradient.begin, Alignment.topCenter);
-    expect(light.screenGradient.end, Alignment.bottomCenter);
-    expect(light.screenGradient.colors, hasLength(greaterThanOrEqualTo(3)));
+    expect(source, contains('ColoredBox(color: context.collectColors.canvas'));
+    expect(source, isNot(contains('screenGradient')));
+  });
+
+  test('member and admin source rejects retired decorative chrome', () {
+    const roots = <String>[
+      'lib/admin',
+      'lib/core/widgets',
+      'lib/features/auth',
+      'lib/features/collections',
+      'lib/features/launch',
+      'lib/features/ledger',
+      'lib/features/settings',
+      'lib/features/status',
+      'lib/shared',
+    ];
+    final files = <File>[];
+    for (final root in roots) {
+      final entity = Directory(root);
+      if (!entity.existsSync()) continue;
+      files.addAll(
+        entity
+            .listSync(recursive: true)
+            .whereType<File>()
+            .where((file) => file.path.endsWith('.dart')),
+      );
+    }
+    final combined = files.map((file) => file.readAsStringSync()).join('\n');
+
+    expect(combined, isNot(contains('LinearGradient(')));
+    expect(combined, isNot(contains('screenGradient')));
+    expect(combined, isNot(contains('adminScreenGradient')));
+    expect(combined, isNot(contains('colors.periwinklePaint')));
+    expect(combined, isNot(contains('CollectColors.inkPrimary')));
+    expect(combined, isNot(contains('qr-share.png')));
+    expect(combined, isNot(contains('group-momentum.png')));
+    expect(combined, isNot(contains('mobile-money-ussd-signal.png')));
   });
 
   testWidgets('top chrome profile control is visible and links to profile', (
@@ -371,9 +407,15 @@ void main() {
       '--exclude-standard',
     ]);
     expect(tracked.exitCode, 0);
-    final paths = (tracked.stdout as String)
+    final deleted = Process.runSync('git', ['ls-files', '--deleted']);
+    expect(deleted.exitCode, 0);
+    final deletedPaths = (deleted.stdout as String)
         .split('\n')
         .where((path) => path.isNotEmpty)
+        .toSet();
+    final paths = (tracked.stdout as String)
+        .split('\n')
+        .where((path) => path.isNotEmpty && !deletedPaths.contains(path))
         .toList();
     expect(paths.where((path) => path.toLowerCase().endsWith('.svg')), isEmpty);
     expect(
@@ -387,9 +429,6 @@ void main() {
         .toSet();
     expect(brandImages, {
       'assets/brand/collect_runtime/app_icons/app-icon-rule.png',
-      'assets/brand/collect_runtime/media/group-momentum.png',
-      'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
-      'assets/brand/collect_runtime/media/qr-share.png',
     });
 
     final approvedVisualAssets = <String, String>{};
@@ -426,7 +465,7 @@ void main() {
         })
         .toSet();
     expect(productVisualAssets, approvedVisualAssets.keys.toSet());
-    expect(approvedVisualAssets, hasLength(26));
+    expect(approvedVisualAssets, hasLength(23));
     for (final entry in approvedVisualAssets.entries) {
       expect(
         sha256.convert(File(entry.key).readAsBytesSync()).toString(),
@@ -507,7 +546,6 @@ void main() {
     expect(light.adminRail, CollectColors.referenceChromeBlack);
     expect(light.actionPrimary, CollectColors.light.actionColor);
     expect(light.actionDestructive, CollectColors.light.dangerForeground);
-    expect(light.surfaceGlass, CollectColors.light.glassPanel);
     expect(light.touchTarget, greaterThanOrEqualTo(48));
     expect(light.iconTarget, greaterThanOrEqualTo(44));
     expect(light.spacingStep, 4);
@@ -516,9 +554,10 @@ void main() {
     expect(light.motionStandard.inMilliseconds, inInclusiveRange(200, 280));
     expect(light.motionSlow.inMilliseconds, inInclusiveRange(320, 420));
 
-    expect(dark!.surfaceGlass, CollectColors.dark.glassPanel);
-    expect(dark.focusRing, CollectColors.dark.focusRing);
-    expect(dark.adminWorkspace, CollectColors.referenceAssetNavy);
+    expect(dark, isNotNull);
+    final darkTokens = dark!;
+    expect(darkTokens.focusRing, CollectColors.dark.focusRing);
+    expect(darkTokens.adminWorkspace, CollectColors.dark.canvas);
     expect(
       CollectUniversalTokens.highContrastDark().focusRing,
       CollectColors.brandPaper,
@@ -526,7 +565,7 @@ void main() {
     expect(CollectUniversalTokens.highContrastDark().highContrast, isTrue);
     expect(
       CollectUniversalTokens.highContrastDark().focusRingWidth,
-      greaterThan(dark.focusRingWidth),
+      greaterThan(darkTokens.focusRingWidth),
     );
   });
 
@@ -755,16 +794,16 @@ void main() {
   test('secondary color system protects readable semantic roles', () {
     final light = AppTheme.light().extension<CollectColors>()!;
 
-    expect(light.actionColor, CollectColors.brandPeriwinkle);
+    expect(light.actionColor, CollectColors.publicBlack);
     expect(light.urgentAction, CollectColors.brandOrangeRed);
-    expect(light.onAccent, CollectColors.inkPrimary);
-    expect(light.selectedOnAccent, CollectColors.inkPrimary);
-    expect(light.surfaceReadable, CollectColors.secondarySurfaceReadable);
-    expect(light.surfaceRaised, CollectColors.secondarySurfaceReadable);
-    expect(light.surfaceMuted, CollectColors.secondarySurfaceMuted);
-    expect(light.borderSoft, CollectColors.secondaryBorderSoft);
-    expect(light.borderAccent, CollectColors.secondaryBorderAccent);
-    expect(light.focusRing, CollectColors.secondaryFocusRing);
+    expect(light.onAccent, CollectColors.publicWhite);
+    expect(light.selectedOnAccent, CollectColors.publicWhite);
+    expect(light.surfaceReadable, CollectColors.publicWhite);
+    expect(light.surfaceRaised, const Color(0xFFF0F0F2));
+    expect(light.surfaceMuted, const Color(0xFFE8E8EB));
+    expect(light.borderSoft, const Color(0xFFE1E1E4));
+    expect(light.borderAccent, const Color(0xFFB8B8BE));
+    expect(light.focusRing, CollectColors.publicBlack);
     expect(light.info, CollectColors.semanticInfoForeground);
     expect(light.success, CollectColors.semanticSuccessForeground);
     expect(light.warning, CollectColors.semanticWarningForeground);
@@ -804,10 +843,10 @@ void main() {
       light.success,
       light.warning,
       light.danger,
-      light.onAccent,
     ]) {
-      expect(_contrastRatio(color, CollectColors.brandPaper), greaterThan(4.5));
+      expect(_contrastRatio(color, light.surfaceReadable), greaterThan(4.5));
     }
+    expect(_contrastRatio(light.onAccent, light.actionColor), greaterThan(4.5));
   });
 
   test('RWF amount typography uses tabular numerals', () {
@@ -1392,6 +1431,11 @@ void main() {
     expect(shareScreen, contains("'Group QR'"));
     expect(shareScreen, contains("label: 'Share'"));
     expect(shareScreen, contains("label: 'Save'"));
+    expect(shareScreen, contains('QrEyeShape.square'));
+    expect(shareScreen, contains('QrDataModuleShape.square'));
+    expect(shareScreen, isNot(contains('CollectColors.brandPrimaryColors')));
+    expect(shareScreen, isNot(contains('QrEyeShape.circle')));
+    expect(shareScreen, isNot(contains('QrDataModuleShape.circle')));
     expect(
       shareScreen,
       isNot(

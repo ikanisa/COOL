@@ -11,10 +11,6 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
   const CollectUniversalTokens({
     required this.chromeDefault,
     required this.chromeMuted,
-    required this.heroGradientStart,
-    required this.heroGradientEnd,
-    required this.surfaceGlass,
-    required this.surfaceStrong,
     required this.actionPrimary,
     required this.actionPill,
     required this.actionDestructive,
@@ -41,10 +37,6 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
 
   final Color chromeDefault;
   final Color chromeMuted;
-  final Color heroGradientStart;
-  final Color heroGradientEnd;
-  final Color surfaceGlass;
-  final Color surfaceStrong;
   final Color actionPrimary;
   final Color actionPill;
   final Color actionDestructive;
@@ -82,20 +74,12 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
       chromeMuted: CollectColors.referenceChromeBlack.withValues(
         alpha: isDark ? 0.82 : 0.72,
       ),
-      heroGradientStart: isDark
-          ? CollectColors.referenceAccountBlueDeep
-          : CollectColors.referenceAccountBlue,
-      heroGradientEnd: isDark
-          ? CollectColors.referencePaymentsPurpleDeep
-          : CollectColors.referenceAccountNavy,
-      surfaceGlass: colors.glassPanel,
-      surfaceStrong: colors.glassPanelStrong,
       actionPrimary: colors.actionColor,
       actionPill: isDark ? CollectColors.brandPaper : CollectColors.publicBlack,
       actionDestructive: colors.dangerForeground,
       focusRing: focus,
       adminRail: CollectColors.referenceChromeBlack,
-      adminWorkspace: CollectColors.referenceAssetNavy,
+      adminWorkspace: colors.canvas,
       statusSuccess: colors.successForeground,
       statusWarning: colors.warningForeground,
       statusDanger: colors.dangerForeground,
@@ -131,10 +115,6 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
   CollectUniversalTokens copyWith({
     Color? chromeDefault,
     Color? chromeMuted,
-    Color? heroGradientStart,
-    Color? heroGradientEnd,
-    Color? surfaceGlass,
-    Color? surfaceStrong,
     Color? actionPrimary,
     Color? actionPill,
     Color? actionDestructive,
@@ -161,10 +141,6 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
     return CollectUniversalTokens(
       chromeDefault: chromeDefault ?? this.chromeDefault,
       chromeMuted: chromeMuted ?? this.chromeMuted,
-      heroGradientStart: heroGradientStart ?? this.heroGradientStart,
-      heroGradientEnd: heroGradientEnd ?? this.heroGradientEnd,
-      surfaceGlass: surfaceGlass ?? this.surfaceGlass,
-      surfaceStrong: surfaceStrong ?? this.surfaceStrong,
       actionPrimary: actionPrimary ?? this.actionPrimary,
       actionPill: actionPill ?? this.actionPill,
       actionDestructive: actionDestructive ?? this.actionDestructive,
@@ -199,14 +175,6 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
     return CollectUniversalTokens(
       chromeDefault: Color.lerp(chromeDefault, other.chromeDefault, t)!,
       chromeMuted: Color.lerp(chromeMuted, other.chromeMuted, t)!,
-      heroGradientStart: Color.lerp(
-        heroGradientStart,
-        other.heroGradientStart,
-        t,
-      )!,
-      heroGradientEnd: Color.lerp(heroGradientEnd, other.heroGradientEnd, t)!,
-      surfaceGlass: Color.lerp(surfaceGlass, other.surfaceGlass, t)!,
-      surfaceStrong: Color.lerp(surfaceStrong, other.surfaceStrong, t)!,
       actionPrimary: Color.lerp(actionPrimary, other.actionPrimary, t)!,
       actionPill: Color.lerp(actionPill, other.actionPill, t)!,
       actionDestructive: Color.lerp(

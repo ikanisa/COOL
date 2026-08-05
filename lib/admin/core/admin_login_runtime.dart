@@ -14,6 +14,15 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   var _isBusy = false;
   String? _error;
 
+  String get _phoneForAuth {
+    final raw = _phone.text.trim();
+    if (raw.startsWith('+') || raw.startsWith('00')) return raw;
+    final digits = raw
+        .replaceAll(RegExp(r'\D'), '')
+        .replaceFirst(RegExp(r'^0+'), '');
+    return '+250$digits';
+  }
+
   @override
   void dispose() {
     _phone.dispose();
@@ -27,8 +36,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: colors.screenBase,
-      body: DecoratedBox(
-        decoration: BoxDecoration(gradient: colors.screenGradient),
+      body: ColoredBox(
+        color: colors.canvas,
         child: LayoutBuilder(
           builder: (context, constraints) {
             final viewportWidth = MediaQuery.sizeOf(context).width;
@@ -55,10 +64,10 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                       decoration: BoxDecoration(
                         color: colors.surfaceReadable.withValues(alpha: 0.92),
                         borderRadius: BorderRadius.circular(28),
-                        border: Border.all(color: colors.glassBorder),
+                        border: Border.all(color: colors.panelBorder),
                         boxShadow: [
                           BoxShadow(
-                            color: CollectColors.inkPrimary.withValues(
+                            color: CollectColors.publicBlack.withValues(
                               alpha: 0.14,
                             ),
                             blurRadius: 48,
@@ -78,7 +87,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                   width: 44,
                                   height: 44,
                                   decoration: BoxDecoration(
-                                    color: CollectColors.inkPrimary,
+                                    color: CollectColors.referenceChromeBlack,
                                     borderRadius: BorderRadius.circular(14),
                                   ),
                                   child: Icon(
@@ -150,7 +159,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 onPressed: _isBusy ? null : _submit,
                                 style: FilledButton.styleFrom(
                                   minimumSize: const Size.fromHeight(58),
-                                  backgroundColor: CollectColors.inkPrimary,
+                                  backgroundColor:
+                                      CollectColors.referenceChromeBlack,
                                   foregroundColor: colors.surfaceReadable,
                                   disabledBackgroundColor:
                                       colors.neutralContainer,
@@ -210,11 +220,11 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     try {
       final repository = ref.read(adminRepositoryProvider);
       if (!_otpSent) {
-        await repository.sendOtp(phone: _phone.text);
+        await repository.sendOtp(phone: _phoneForAuth);
         if (mounted) setState(() => _otpSent = true);
       } else {
         final identity = await repository.verifyOtp(
-          phone: _phone.text,
+          phone: _phoneForAuth,
           otp: _otp.text,
         );
         ref.invalidate(adminAuthGuardProvider);
@@ -284,30 +294,23 @@ class _AdminPhoneInput extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              height: 58,
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              decoration: BoxDecoration(
-                border: Border(right: BorderSide(color: colors.controlBorder)),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 14),
+              child: Text(
+                '+250',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
+                  letterSpacing: CollectTypography.trackingDefault,
+                ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'RW',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: CollectTypography.weightBold,
-                      letterSpacing: CollectTypography.trackingDefault,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Icon(
-                    Icons.keyboard_arrow_down,
-                    color: colors.textSecondary,
-                    size: 18,
-                  ),
-                ],
+            ),
+            SizedBox(
+              height: 30,
+              child: VerticalDivider(
+                width: 1,
+                thickness: 1,
+                color: colors.controlBorder,
               ),
             ),
             Expanded(
@@ -320,7 +323,7 @@ class _AdminPhoneInput extends StatelessWidget {
                   fontWeight: CollectTypography.weightBold,
                 ),
                 decoration: const InputDecoration(
-                  hintText: '+250 7XX XXX XXX',
+                  hintText: 'Phone number',
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,

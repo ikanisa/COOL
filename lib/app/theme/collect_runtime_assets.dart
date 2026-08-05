@@ -8,8 +8,9 @@ class CollectRuntimeAssets {
   static const officialLogoSha256 =
       'c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209';
   static const assetPolicy =
-      'Use only the immutable pre-audit Collect logo and approved official media. '
-      'Do not create text, CSS, SVG, or generated substitutes.';
+      'Use the immutable pre-audit Collect logo as the only bundled product '
+      'artwork. Do not restore the retired gradient media set or create text, '
+      'CSS, SVG, or generated logo substitutes.';
 
   static const requiredBlockerKeys = <String>[];
 }

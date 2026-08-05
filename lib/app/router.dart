@@ -85,7 +85,11 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           context,
           state,
           const AuthScreen(),
-          transition: _CollectRouteTransition.forward,
+          // Authentication is an entry surface, not a pushed detail page.
+          // A fade also keeps direct /auth launches visibly painted on iOS;
+          // Cupertino's initial push transition can otherwise retain an
+          // empty first frame in native screenshot and cold-start evidence.
+          transition: _CollectRouteTransition.fade,
         ),
       ),
       StatefulShellRoute.indexedStack(

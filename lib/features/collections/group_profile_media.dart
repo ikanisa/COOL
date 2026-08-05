@@ -24,9 +24,9 @@ class _GroupProfileMediaRow extends StatelessWidget {
     final titleText = title.trim().isEmpty ? 'Group' : title.trim();
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.glassControl,
+        color: colors.controlSurface,
         borderRadius: CollectRadius.cardBorder,
-        border: Border.all(color: colors.glassBorder),
+        border: Border.all(color: colors.panelBorder),
       ),
       child: Padding(
         padding: const EdgeInsets.all(CollectSpacing.x3),
@@ -44,16 +44,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              accentColor.withValues(alpha: 0.62),
-                              colors.glassPanel.withValues(alpha: 0.82),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
+                        decoration: BoxDecoration(color: colors.surfaceMuted),
                       ),
                       if (imageBytes != null)
                         Image.memory(
@@ -83,7 +74,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                             titleText.characters.first.toUpperCase(),
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(
-                                  color: colors.onImagePrimary,
+                                  color: colors.textPrimary,
                                   fontWeight: CollectTypography.weightSemibold,
                                 ),
                           ),
@@ -116,7 +107,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
               onPressed: onPick,
               icon: const Icon(CollectIcons.photo),
               style: IconButton.styleFrom(
-                backgroundColor: colors.glassPanel,
+                backgroundColor: colors.panelSurface,
                 foregroundColor: colors.textPrimary,
                 fixedSize: const Size.square(CollectSpacing.iconTarget),
               ),
@@ -128,7 +119,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
                 onPressed: onRemove,
                 icon: const Icon(Icons.close_rounded),
                 style: IconButton.styleFrom(
-                  backgroundColor: colors.glassPanel,
+                  backgroundColor: colors.panelSurface,
                   foregroundColor: colors.textPrimary,
                   fixedSize: const Size.square(CollectSpacing.iconTarget),
                 ),

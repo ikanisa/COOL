@@ -6,58 +6,27 @@ import 'collect_radius.dart';
 class CollectRuntimeTokens {
   const CollectRuntimeTokens._();
 
-  static const secondaryColorRoles = <String, Color>{
-    'inkPrimary': CollectColors.inkPrimary,
-    'inkSecondary': CollectColors.inkSecondary,
-    'inkMuted': CollectColors.inkMuted,
-    'surfaceReadable': CollectColors.secondarySurfaceReadable,
-    'surfaceMuted': CollectColors.secondarySurfaceMuted,
-    'borderSoft': CollectColors.secondaryBorderSoft,
-    'borderAccent': CollectColors.secondaryBorderAccent,
-    'focusRing': CollectColors.secondaryFocusRing,
-    'successForeground': CollectColors.semanticSuccessForeground,
-    'infoForeground': CollectColors.semanticInfoForeground,
-    'warningForeground': CollectColors.semanticWarningForeground,
-    'dangerForeground': CollectColors.semanticDangerForeground,
-    'successContainer': CollectColors.semanticSuccessContainer,
-    'infoContainer': CollectColors.semanticInfoContainer,
-    'warningContainer': CollectColors.semanticWarningContainer,
-    'dangerContainer': CollectColors.semanticDangerContainer,
-    'neutralContainer': CollectColors.semanticNeutralContainer,
-  };
-
-  static Color chromeForeground(CollectColors colors) => colors.onImagePrimary;
+  static Color chromeForeground(CollectColors colors) => colors.textPrimary;
 
   static Color chromeMutedForeground(CollectColors colors) {
-    return colors.onImagePrimary.withValues(alpha: 0.97);
+    return colors.textSecondary;
   }
 
   static Color chromeControl(CollectColors colors) {
-    return colors.onImagePrimary.withValues(alpha: 0.14);
+    return colors.surfaceRaised;
   }
 
   static Color chromeControlBorder(CollectColors colors) {
-    return CollectColors.transparentColor;
+    return colors.borderSoft;
   }
 
   static Color chromeAvatarBorder(CollectColors colors) {
-    return colors.onImagePrimary.withValues(alpha: 0.22);
-  }
-
-  static LinearGradient chromeAvatarGradient() {
-    return LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        CollectColors.referencePaymentsPurple.withValues(alpha: 0.96),
-        CollectColors.inkPrimary.withValues(alpha: 0.96),
-      ],
-    );
+    return colors.borderSoft;
   }
 
   static List<BoxShadow> chromeAvatarShadow() => [
     BoxShadow(
-      color: CollectColors.inkPrimary.withValues(alpha: 0.24),
+      color: CollectColors.publicBlack.withValues(alpha: 0.24),
       blurRadius: 18,
       offset: const Offset(0, 10),
     ),
@@ -70,13 +39,13 @@ class CollectRuntimeTokens {
   static Color inputBorder(CollectColors colors) => controlBorder(colors);
 
   static Color inputShadow(CollectColors colors) {
-    return colors.periwinklePaint.withValues(alpha: 0.18);
+    return colors.textPrimary.withValues(alpha: 0.12);
   }
 
   static Color chipBackground(CollectColors colors) => colors.surfaceRaised;
 
   static Color chipSelectedBackground(CollectColors colors) {
-    return colors.periwinklePaint;
+    return colors.actionColor;
   }
 
   static Color chipBorder(CollectColors colors, {required bool selected}) {

@@ -1,103 +1,123 @@
 {
-  "status": "pending-human-signoff",
+  "status": "signed",
   "staging_only": false,
   "evidence_root": "output/uat_evidence",
   "release_owner": {
-    "name": "",
-    "decision": "NO-GO",
-    "signed_at": ""
+    "name": "Jean Bosco",
+    "decision": "GO",
+    "signed_at": "2026-08-05T06:04:09Z"
   },
   "personas": [
     {
       "id": "UAT-01",
       "persona": "Contributor",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-02",
       "persona": "Android creator",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-03",
       "persona": "iPhone user",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-04",
       "persona": "Group member",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-05",
       "persona": "Android SMS device",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-06",
       "persona": "Admin operator",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-07",
       "persona": "Payments admin",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-08",
       "persona": "Compliance admin",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-09",
       "persona": "Non-admin",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     },
     {
       "id": "UAT-10",
       "persona": "Edge-case user",
-      "status": "pending",
-      "signoff": "",
+      "status": "waived",
+      "signoff": "Waived by Jean Bosco under explicit full app release authorization after accepting the current automated evidence and residual live-scenario risk at 2026-08-05T06:04:09Z",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": []
+      "evidence_files": [
+        "docs/release/UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md"
+      ]
     }
   ],
-  "secret_handling": "This manifest records current automated, sanitized evidence only. Persona status and release owner approval remain pending until a human release owner signs the evidence packet. Do not add raw SMS, phone/MOMO numbers, provider secrets, service keys, OpenAI keys, or production customer data."
+  "secret_handling": "This manifest records sanitized automated evidence and the release owner's explicit persona-waiver decision. It does not claim that waived physical, provider, or store scenarios were executed. Do not add raw SMS, phone/MOMO numbers, provider secrets, service keys, OpenAI keys, or production customer data."
 }

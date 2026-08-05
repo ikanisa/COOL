@@ -55,7 +55,9 @@ class _LegalPageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final control = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Semantics(
       container: true,
       header: true,
@@ -65,9 +67,9 @@ class _LegalPageHeader extends StatelessWidget {
           IconButton.filledTonal(
             tooltip: 'Back',
             style: IconButton.styleFrom(
-              backgroundColor: foreground.withValues(alpha: 0.10),
+              backgroundColor: control,
               foregroundColor: foreground,
-              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              side: BorderSide(color: border),
               fixedSize: const Size(44, 44),
               minimumSize: const Size(44, 44),
               padding: EdgeInsets.zero,
@@ -327,7 +329,7 @@ Future<bool> _showAccountActionSheet({
     useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,
-    barrierColor: CollectColors.inkPrimary.withValues(alpha: 0.64),
+    barrierColor: CollectColors.publicBlack.withValues(alpha: 0.64),
     sheetAnimationStyle: CollectMotion.animationStyle(context),
     builder: (sheetContext) {
       final colors = sheetContext.collectColors;
@@ -428,7 +430,7 @@ class _DeleteReasonOption extends StatelessWidget {
           decoration: BoxDecoration(
             color: selected
                 ? colors.statusBlocked.withValues(alpha: 0.14)
-                : colors.glassControl,
+                : colors.controlSurface,
             borderRadius: CollectRadius.mdBorder,
             border: Border.all(
               color: selected ? colors.statusBlocked : colors.border,

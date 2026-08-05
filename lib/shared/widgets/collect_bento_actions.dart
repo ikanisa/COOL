@@ -275,7 +275,7 @@ class QuickActionButton extends StatelessWidget {
       explicitChildNodes: true,
       label: detail == null ? label : '$label, $detail',
       child: Material(
-        color: colors.glassControl,
+        color: colors.controlSurface,
         borderRadius: CollectRadius.cardBorder,
         child: InkWell(
           borderRadius: CollectRadius.cardBorder,

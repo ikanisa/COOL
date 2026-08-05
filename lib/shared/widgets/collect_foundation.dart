@@ -224,8 +224,8 @@ class _CollectionTypeIconChoice extends StatelessWidget {
     final type = option.type;
     final colors = context.collectColors;
     final foreground = selected ? colors.onAccent : colors.textSecondary;
-    final border = selected ? colors.actionColor : colors.glassBorder;
-    final fill = selected ? colors.actionColor : colors.glassControl;
+    final border = selected ? colors.actionColor : colors.panelBorder;
+    final fill = selected ? colors.actionColor : colors.controlSurface;
     return Tooltip(
       message: option.label,
       child: Semantics(

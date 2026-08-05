@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T20:54:00Z",
+  "generated_at": "2026-08-05T09:30:00Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
@@ -10,7 +10,7 @@
       "en-US": "Adds verified app links and refreshed Play policy readiness for Collect."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "441b7937d3be6ef11f32d948ad787cb60fa5d231240144a9813a5d62df8cef1d"
+    "aab_sha256": "68507fe84c9038cce11dbcdd19f83c666004c8b8e45ace9020e8dadb2e29442c"
   },
   "store_listing": {
     "default_language": "en-US",
@@ -36,23 +36,60 @@
       "feature_graphic": {
         "status": "approved_official_asset",
         "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",
-        "sha256": "4b008cf45f60e991542ce49486d6e58b940428b30ae3e16a4964a8c259a34e27",
+        "sha256": "30c47e3f55238a63ec1babfdf8ef03f34e8f241815718100cfc9b95e4c190cb5",
         "dimensions": "1024x500",
-        "source": "assets/brand/collect_runtime/media/group-momentum.png",
-        "approval_basis": "User-directed full release execution on 2026-08-04; deterministic crop and resize of the existing Collect-owned brand asset with no invented copy or third-party artwork."
+        "source": "current_collect_owned_feature_graphic",
+        "approval_basis": "Current Collect-owned official-mark composition and product copy; independently retained from the deleted legacy runtime-media set."
       },
       "phone_screenshots": {
         "status": "current_product_capture",
         "minimum_required": 2,
         "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
-        "exported_count": 2,
+        "exported_count": 6,
         "source": "native_product_capture_only",
-        "capture_evidence": ".cache/android_device_uat/20260804-play-store-routes-v3",
-        "capture_target": "Collect Pixel 4a API 36 emulator, Android 16, app.cool.mobile.dev fixture-only current-source build",
-        "sanitization": "Reviewed current native Home and empty phone-entry screens; no production customer, payment, SMS, OTP, credential, or private receiver data. Center-cropped from 1080x2340 to Play-compatible 1080x2160 without altering app content.",
+        "capture_evidence": ".cache/android_device_uat/20260805-legacy-eradication-accepted-emulator",
+        "capture_target": "Android 16 API 36 emulator, app.cool.mobile.dev fixture-only final legacy-eradication source",
+        "dimensions": "1080x2340",
+        "sanitization": "Reviewed Home, Auth, Groups, Group detail, Ledger, and contribution-review captures; no production customer, payment, SMS, OTP, credential, or private receiver data. Native 1080x2340 pixels are retained without altering app content.",
         "sha256": {
-          "01-home.png": "9073f2724aff54dafabe2ff848a29cf5c21d9422e95177a187728f0be7d6b6bc",
-          "02-auth.png": "b5abd6065f5877c4749eb32b73d79275872763d9c48ea47c8fd5f0f903d69d26"
+          "01-home.png": "20cac9f5b44837441f7e0f12d6aef750e2fcdedb712146c1f9f9d17f18be658d",
+          "02-auth.png": "00e8e04d8659c622fd792661d6deed38a098f69c390eecb8522ddee40e668ab2",
+          "03-groups.png": "ad0cad7af9d733bceb3ea50f0c4979990b1304e0104fbc99c5ce46fadc6e0f05",
+          "04-group-detail.png": "129e31ad30fc3d7334b422b6c4bfbb21eea4f124fbfdcaf4edf8d88a14b7348c",
+          "05-ledger.png": "21ebd6c90d6c3c9c5fa4be3fa2b251fd40b5db63b45ae7a9f73298f0bd62372b",
+          "06-contribution-review.png": "b0dbdadc770f6b886ae39dc90337607286e78d8f1223dcf25f2372da887f37fe"
+        }
+      },
+      "seven_inch_screenshots": {
+        "status": "current_product_capture",
+        "minimum_required": 1,
+        "path": "fastlane/metadata/android/en-US/images/sevenInchScreenshots",
+        "exported_count": 5,
+        "source": "native_product_capture_only",
+        "capture_evidence": ".cache/google_play_store_screenshots/20260805-legacy-eradication-accepted/seven-inch",
+        "dimensions": "600x960",
+        "sha256": {
+          "01-home.png": "f89de3ec8b75d33176814721567004ae8bc4f62f2d2d5f07ec3705dd379725c1",
+          "02-groups.png": "0f840012115bffcbf6bc607487dd5e52fa069ae09f8498a166f3c01d7e3ccc49",
+          "03-group-detail.png": "ad8cbebec863b4a2c3f9f48784d6971ab75d91b3b8e36d0a7530c0cd0f3a4240",
+          "04-ledger.png": "6a8498baea8ab45b5475f701197dea16a864f6fe5c4f84e262bd78b90ef977cd",
+          "05-share.png": "f279461d044398d7bf3ee6af321b7116ee08fbe1a640fd0fafe49e5f3389f867"
+        }
+      },
+      "ten_inch_screenshots": {
+        "status": "current_product_capture",
+        "minimum_required": 1,
+        "path": "fastlane/metadata/android/en-US/images/tenInchScreenshots",
+        "exported_count": 5,
+        "source": "native_product_capture_only",
+        "capture_evidence": ".cache/google_play_store_screenshots/20260805-legacy-eradication-accepted/ten-inch",
+        "dimensions": "1024x1366",
+        "sha256": {
+          "01-home.png": "f5f66b427936de6e0f59169265fda2e392510bfe65d8945ba2a20a0801b0fcce",
+          "02-groups.png": "824661a65e212a4f0f37b1e7a3be52681a9c4e7bed0133ca752f7259da37d796",
+          "03-group-detail.png": "7de9af93f118455bc12c242cb176a14e428260133cb4990c241ffeaf494db613",
+          "04-ledger.png": "9f7df4712f165f7294205157f772fb5331b4ba667e4a141cce19345a5db3c7f5",
+          "05-share.png": "d84cb8773e234f061224a7e47f2f74b857ef7b6f51c80e02a0ad1d8d03488114"
         }
       }
     },

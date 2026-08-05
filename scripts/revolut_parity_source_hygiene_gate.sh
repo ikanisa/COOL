@@ -247,6 +247,76 @@ checks["no_legacy_runtime_typography_or_artwork"] = {
 }
 failures.concat(runtime_hits) unless runtime_hits.empty?
 
+legacy_design_scope = tracked_and_untracked_files(
+  root_dir,
+  %w[
+    lib/admin
+    lib/app/theme
+    lib/core/widgets
+    lib/features
+    lib/shared
+  ]
+).select do |path|
+  path.end_with?(".dart") && !path.start_with?("lib/features/landing/")
+end
+legacy_design_patterns = {
+  "decorative_gradient" => /\bLinearGradient\s*\(/,
+  "retired_gradient_token" =>
+    /\b(?:screenGradient|adminScreenGradient|glassPanelGradient|heroGradientStart|heroGradientEnd)\b/,
+  "retired_runtime_media" =>
+    /\b(?:qr-share|group-momentum|mobile-money-ussd-signal)\.png\b/,
+  "legacy_periwinkle_chrome" =>
+    /\b(?:colors\.periwinklePaint|CollectColors\.brandPeriwinkle)\b/,
+  "legacy_purple_ink_chrome" => /\bCollectColors\.inkPrimary\b/,
+  "retired_chrome_vocabulary" =>
+    /\b(?:periwinklePaint|mintPaint|rosePaint|orangePaint|glassPanel|glassPanelStrong|glassControl|glassBorder|glassScrim|surfaceGlass|secondaryColorRoles)\b/
+}
+legacy_design_hits = []
+legacy_design_scope.each do |path|
+  text = File.read(File.join(root_dir, path))
+  legacy_design_patterns.each do |check, pattern|
+    next unless text.match?(pattern)
+
+    legacy_design_hits << {
+      "check" => check,
+      "path" => path
+    }
+  end
+end
+checks["no_legacy_member_or_admin_chrome"] = {
+  "status" => legacy_design_hits.empty? ? "pass" : "fail",
+  "scanned_files" => legacy_design_scope.length,
+  "allowed_exception" =>
+    "The immutable official logo and semantic status colors remain permitted.",
+  "hits" => legacy_design_hits
+}
+failures.concat(legacy_design_hits) unless legacy_design_hits.empty?
+
+adaptive_page_header_paths = %w[
+  lib/features/launch/launch_splash_screen.dart
+  lib/features/activity/activity_screen.dart
+  lib/features/payments/contribution_flow_screen.dart
+  lib/features/settings/settings_subscreens.dart
+  lib/features/status/account_legal_screens.dart
+  lib/features/status/group_members_screen.dart
+  lib/shared/widgets/collect_display_primitives.dart
+]
+adaptive_page_header_hits = adaptive_page_header_paths.each_with_object([]) do |path, hits|
+  text = File.read(File.join(root_dir, path))
+  next unless text.match?(/\.onImagePrimary\b|CollectColors\.brandPaper\b/)
+
+  hits << {
+    "check" => "adaptive_page_uses_image_foreground",
+    "path" => path
+  }
+end
+checks["adaptive_page_header_contrast"] = {
+  "status" => adaptive_page_header_hits.empty? ? "pass" : "fail",
+  "paths" => adaptive_page_header_paths,
+  "hits" => adaptive_page_header_hits
+}
+failures.concat(adaptive_page_header_hits) unless adaptive_page_header_hits.empty?
+
 typography_scope = tracked_and_untracked_files(
   root_dir,
   %w[lib/features lib/shared lib/admin]

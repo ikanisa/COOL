@@ -59,7 +59,7 @@ class ShareScreen extends ConsumerWidget {
                       children: [
                         DecoratedBox(
                           decoration: BoxDecoration(
-                            color: colors.glassBorder,
+                            color: colors.panelBorder,
                             borderRadius: CollectRadius.pillBorder,
                           ),
                           child: const SizedBox(width: 44, height: 4),
@@ -241,50 +241,33 @@ class ShareScreen extends ConsumerWidget {
 
 Future<Uint8List> _qrPngBytes(String link) async {
   const size = 1080.0;
-  const outerPadding = 54.0;
-  const innerPadding = 84.0;
+  const qrPadding = 96.0;
   final recorder = ui.PictureRecorder();
   final canvas = Canvas(recorder, const Rect.fromLTWH(0, 0, size, size));
-  final outerRect = RRect.fromRectAndRadius(
+  final canvasRect = RRect.fromRectAndRadius(
     const Rect.fromLTWH(0, 0, size, size),
-    const Radius.circular(96),
+    const Radius.circular(72),
   );
-  final gradientPaint = Paint()
-    ..shader = const LinearGradient(
-      colors: CollectColors.brandPrimaryColors,
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ).createShader(const Rect.fromLTWH(0, 0, size, size));
-  canvas.drawRRect(outerRect, gradientPaint);
-  final innerRect = RRect.fromRectAndRadius(
-    const Rect.fromLTWH(
-      outerPadding,
-      outerPadding,
-      size - (outerPadding * 2),
-      size - (outerPadding * 2),
-    ),
-    const Radius.circular(78),
-  );
-  canvas.drawRRect(innerRect, Paint()..color = CollectColors.brandPaper);
+  canvas.drawRRect(canvasRect, Paint()..color = CollectColors.brandPaper);
   final painter = QrPainter(
     data: link,
     version: QrVersions.auto,
     errorCorrectionLevel: QrErrorCorrectLevel.H,
     gapless: true,
     eyeStyle: const QrEyeStyle(
-      eyeShape: QrEyeShape.circle,
-      color: CollectColors.brandPeriwinkle,
+      eyeShape: QrEyeShape.square,
+      color: CollectColors.publicBlack,
     ),
     dataModuleStyle: const QrDataModuleStyle(
-      dataModuleShape: QrDataModuleShape.circle,
-      color: CollectColors.brandPeriwinkle,
+      dataModuleShape: QrDataModuleShape.square,
+      color: CollectColors.publicBlack,
     ),
   );
   const qrRect = Rect.fromLTWH(
-    innerPadding,
-    innerPadding,
-    size - (innerPadding * 2),
-    size - (innerPadding * 2),
+    qrPadding,
+    qrPadding,
+    size - (qrPadding * 2),
+    size - (qrPadding * 2),
   );
   canvas.save();
   canvas.translate(qrRect.left, qrRect.top);
@@ -309,56 +292,24 @@ class _BrandedQrCard extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: CollectColors.brandPrimaryColors,
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: CollectColors.brandPaper,
         borderRadius: CollectRadius.cardLargeBorder,
-        boxShadow: [
-          BoxShadow(
-            color: colors.shadowPaint.withValues(alpha: 0.18),
-            blurRadius: 30,
-            offset: const Offset(0, 18),
-          ),
-        ],
+        border: Border.all(color: colors.panelBorder),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(CollectSpacing.x3),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                colors.exportCanvas,
-                CollectColors.brandPaper,
-                CollectColors.brandMintGreen.withValues(alpha: 0.20),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: CollectRadius.cardLargeBorder,
+        padding: const EdgeInsets.all(CollectSpacing.x5),
+        child: QrImageView(
+          data: data,
+          size: 196,
+          errorCorrectionLevel: QrErrorCorrectLevel.H,
+          backgroundColor: CollectColors.brandPaper,
+          eyeStyle: const QrEyeStyle(
+            eyeShape: QrEyeShape.square,
+            color: CollectColors.publicBlack,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x4),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                QrImageView(
-                  data: data,
-                  size: 196,
-                  errorCorrectionLevel: QrErrorCorrectLevel.H,
-                  backgroundColor: colors.transparent,
-                  eyeStyle: const QrEyeStyle(
-                    eyeShape: QrEyeShape.circle,
-                    color: CollectColors.inkPrimary,
-                  ),
-                  dataModuleStyle: const QrDataModuleStyle(
-                    dataModuleShape: QrDataModuleShape.circle,
-                    color: CollectColors.inkPrimary,
-                  ),
-                ),
-              ],
-            ),
+          dataModuleStyle: const QrDataModuleStyle(
+            dataModuleShape: QrDataModuleShape.square,
+            color: CollectColors.publicBlack,
           ),
         ),
       ),

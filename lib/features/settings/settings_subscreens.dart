@@ -356,7 +356,10 @@ class _SettingsSubpageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = context.collectColors.onImagePrimary;
+    final colors = context.collectColors;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    final control = CollectRuntimeTokens.chromeControl(colors);
+    final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Semantics(
       container: true,
       header: true,
@@ -369,9 +372,9 @@ class _SettingsSubpageHeader extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded),
             style: IconButton.styleFrom(
               fixedSize: const Size(44, 44),
-              backgroundColor: foreground.withValues(alpha: 0.10),
+              backgroundColor: control,
               foregroundColor: foreground,
-              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              side: BorderSide(color: border),
             ),
           ),
           if (showHeading) ...[
@@ -518,18 +521,6 @@ class _AppearancePreview extends StatelessWidget {
     final previewColors = effectiveBrightness == Brightness.dark
         ? CollectColors.dark
         : CollectColors.light;
-    final gradient = effectiveBrightness == Brightness.dark
-        ? CollectColors.referenceAccountGradient
-        : LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              previewColors.infoContainer,
-              previewColors.canvas,
-              previewColors.canvas,
-            ],
-            stops: const [0, 0.5, 1],
-          );
     final textTheme = Theme.of(context).textTheme;
 
     return Semantics(
@@ -544,8 +535,9 @@ class _AppearancePreview extends StatelessWidget {
             padding: const EdgeInsets.all(CollectSpacing.x4),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              gradient: gradient,
+              color: previewColors.canvas,
               borderRadius: CollectRadius.cardLargeBorder,
+              border: Border.all(color: previewColors.border),
             ),
             child: Column(
               children: [

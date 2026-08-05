@@ -29,12 +29,13 @@ void main() {
       lessThan(-0.70),
     );
     expect(
-      light.glassPanel.computeLuminance() - dark.glassPanel.computeLuminance(),
+      light.panelSurface.computeLuminance() -
+          dark.panelSurface.computeLuminance(),
       greaterThan(0.80),
     );
     expect(
-      light.glassControl.computeLuminance() -
-          dark.glassControl.computeLuminance(),
+      light.controlSurface.computeLuminance() -
+          dark.controlSurface.computeLuminance(),
       greaterThan(0.75),
     );
     expect(
@@ -44,23 +45,12 @@ void main() {
     );
   });
 
-  test('customer background stays stable across light and dark modes', () {
+  test('customer background is solid and adaptive across modes', () {
     final light = AppTheme.light().extension<CollectColors>()!;
     final dark = AppTheme.dark().extension<CollectColors>()!;
 
-    expect(
-      _gradientColors(light.screenGradient),
-      _gradientColors(dark.screenGradient),
-      reason: 'Light and dark surfaces use one stable customer background.',
-    );
+    expect(light.screenBase, light.canvas);
+    expect(dark.screenBase, dark.canvas);
+    expect(light.canvas, isNot(dark.canvas));
   });
-}
-
-List<Color> _gradientColors(Gradient gradient) {
-  return switch (gradient) {
-    LinearGradient(:final colors) => colors,
-    RadialGradient(:final colors) => colors,
-    SweepGradient(:final colors) => colors,
-    _ => throw StateError('Unsupported gradient type: $gradient'),
-  };
 }

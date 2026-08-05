@@ -38,7 +38,7 @@ class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
-    final foreground = colors.onImagePrimary;
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
     return Scaffold(
       backgroundColor: colors.transparent,
       body: CollectGradientBackground(

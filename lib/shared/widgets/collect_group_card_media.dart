@@ -53,7 +53,7 @@ class _GroupCoverImageTone extends StatelessWidget {
     if (Theme.of(context).brightness != Brightness.dark) return child;
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-        CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.28),
+        CollectColors.publicBlack.withValues(alpha: 0.18),
         BlendMode.multiply,
       ),
       child: child,
@@ -62,36 +62,14 @@ class _GroupCoverImageTone extends StatelessWidget {
 }
 
 class _GroupCoverScrim extends StatelessWidget {
-  const _GroupCoverScrim({required this.accent});
-
-  final Color accent;
+  const _GroupCoverScrim();
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final deep = isDark
-        ? CollectColors.referencePaymentsPurpleDeep
-        : CollectColors.inkPrimary;
-    final topAlpha = isDark ? 0.18 : 0.22;
-    final midAlpha = isDark ? 0.38 : 0.42;
+    const deep = CollectColors.publicBlack;
     final bottomAlpha = isDark ? 0.78 : 0.82;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            deep.withValues(alpha: topAlpha),
-            Color.alphaBlend(
-              accent.withValues(alpha: isDark ? 0.08 : 0.06),
-              deep.withValues(alpha: midAlpha),
-            ),
-            deep.withValues(alpha: bottomAlpha),
-          ],
-          stops: const [0, 0.52, 1],
-        ),
-      ),
-    );
+    return ColoredBox(color: deep.withValues(alpha: bottomAlpha));
   }
 }
 
@@ -191,8 +169,9 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
                     letterSpacing: CollectTypography.trackingDefault,
                     shadows: [
                       Shadow(
-                        color: CollectColors.referencePaymentsPurpleDeep
-                            .withValues(alpha: 0.88),
+                        color: CollectColors.publicBlack.withValues(
+                          alpha: 0.88,
+                        ),
                         offset: const Offset(0, 1),
                         blurRadius: 8,
                       ),
@@ -220,47 +199,8 @@ class _GeneratedGroupCover extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final coverScrim = isDark
-        ? CollectColors.referencePaymentsPurpleDeep
-        : CollectColors.inkPrimary;
-    final topAlpha = isDark ? 0.16 : 0.16;
-    final bottomAlpha = isDark ? 0.62 : 0.70;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color.alphaBlend(
-                  collection.collectionType == CollectionType.sport
-                      ? colors.rosePaint.withValues(alpha: 0.24)
-                      : colors.actionColor.withValues(alpha: 0.24),
-                  coverScrim.withValues(alpha: topAlpha),
-                ),
-                Color.alphaBlend(
-                  colors.mintPaint.withValues(alpha: 0.12),
-                  coverScrim.withValues(alpha: bottomAlpha),
-                ),
-              ],
-            ),
-          ),
-        ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                coverScrim.withValues(alpha: topAlpha),
-                coverScrim.withValues(alpha: bottomAlpha),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return ColoredBox(
+      color: isDark ? colors.surfaceMuted : CollectColors.publicBlack,
     );
   }
 }
@@ -297,7 +237,7 @@ Color _groupAccent(BuildContext context, CollectCollection collection) {
   final selectedColor = _colorFromHex(collection.accentColorHex);
   if (selectedColor != null) return selectedColor;
   final palette = [
-    colors.brandPrimary,
+    colors.defaultGroupAccent,
     colors.brandSecondary,
     colors.brandSuccess,
     colors.priorityColor,

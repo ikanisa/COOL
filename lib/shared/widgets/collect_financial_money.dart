@@ -262,13 +262,13 @@ class MoneyHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final heroColor = colors.periwinklePaint;
     return AnimatedContainer(
       duration: CollectMotion.duration(context, CollectMotion.medium),
       curve: CollectMotion.standard,
       decoration: BoxDecoration(
-        color: heroColor,
+        color: colors.surfaceReadable,
         borderRadius: CollectRadius.cardLargeBorder,
+        border: Border.all(color: colors.border),
       ),
       child: Stack(
         children: [
@@ -276,9 +276,7 @@ class MoneyHeroCard extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: CollectRadius.cardLargeBorder,
-                border: Border.all(
-                  color: colors.onImagePrimary.withValues(alpha: 0.08),
-                ),
+                border: Border.all(color: colors.borderSoft),
               ),
             ),
           ),
@@ -291,7 +289,7 @@ class MoneyHeroCard extends StatelessWidget {
                   Text(
                     label,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: colors.onImagePrimary.withValues(alpha: 0.78),
+                      color: colors.textSecondary,
                     ),
                   ),
                   CollectSpacing.gap8,
@@ -301,7 +299,7 @@ class MoneyHeroCard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     formatRwf(amount),
-                    style: CollectTypography.amountHero(colors.onImagePrimary),
+                    style: CollectTypography.amountHero(colors.textPrimary),
                   ),
                 ),
                 if (detail != null) ...[
@@ -309,7 +307,7 @@ class MoneyHeroCard extends StatelessWidget {
                   Text(
                     detail!,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colors.onImagePrimary.withValues(alpha: 0.76),
+                      color: colors.textSecondary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

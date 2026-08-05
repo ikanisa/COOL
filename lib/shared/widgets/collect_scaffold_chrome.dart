@@ -372,8 +372,11 @@ class CollectScreenHero extends StatelessWidget {
     final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final headlineSize = textScale > 1.3
-        ? CollectTypography.sizePageCompact
+        ? CollectTypography.sizeMetric
         : CollectTypography.sizeHero;
+    final scaledGap = textScale > 1.3
+        ? CollectSpacing.gap16
+        : CollectSpacing.gap8;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -416,7 +419,7 @@ class CollectScreenHero extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  CollectSpacing.gap8,
+                  scaledGap,
                 ],
                 FittedBox(
                   fit: BoxFit.scaleDown,
@@ -441,7 +444,7 @@ class CollectScreenHero extends StatelessWidget {
                   ),
                 ),
                 if (metric != null) ...[
-                  CollectSpacing.gap8,
+                  scaledGap,
                   Text(
                     title,
                     textAlign: TextAlign.center,
@@ -493,6 +496,26 @@ class CollectHeroQuickActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    if (largeText) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final itemWidth = (constraints.maxWidth - CollectSpacing.x2) / 2;
+          return Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x3,
+            alignment: WrapAlignment.center,
+            children: [
+              for (final action in actions)
+                SizedBox(
+                  width: itemWidth,
+                  child: _CollectHeroQuickActionButton(action: action),
+                ),
+            ],
+          );
+        },
+      );
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -578,10 +601,7 @@ class CollectGradientBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(gradient: context.collectColors.screenGradient),
-      child: child,
-    );
+    return ColoredBox(color: context.collectColors.canvas, child: child);
   }
 }
 

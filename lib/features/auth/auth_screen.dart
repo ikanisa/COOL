@@ -91,8 +91,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final usesReviewAuth =
         normalizedPhone != null && _isAppReviewAuthPhone(env, normalizedPhone);
     return Scaffold(
-      backgroundColor: context.collectColors.transparent,
-      body: CollectGradientBackground(
+      backgroundColor: CollectColors.referenceChromeBlack,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          color: CollectColors.referenceChromeBlack,
+        ),
         child: SafeArea(
           child: Column(
             children: [

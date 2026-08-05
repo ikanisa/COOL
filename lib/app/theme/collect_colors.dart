@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 class CollectColors extends ThemeExtension<CollectColors> {
   const CollectColors({
-    required this.periwinklePaint,
-    required this.mintPaint,
-    required this.rosePaint,
-    required this.orangePaint,
     required this.canvas,
     required this.surface,
     required this.surfaceReadable,
@@ -33,10 +29,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
     required this.textMuted,
   });
 
-  final Color periwinklePaint;
-  final Color mintPaint;
-  final Color rosePaint;
-  final Color orangePaint;
   final Color canvas;
   final Color surface;
   final Color surfaceReadable;
@@ -73,41 +65,17 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const inkSecondary = Color(0xFF4B4664);
   static const inkMuted = Color(0xFF5F5A76);
   static const transparentColor = Color(0x00000000);
-  static const secondarySurfaceReadable = Color(0xFFFFFDFB);
-  static const secondarySurfaceMuted = Color(0xFFF1ECF7);
-  static const secondaryBorderSoft = Color(0xFFDED8EA);
-  static const secondaryBorderAccent = Color(0xFFCDC7F5);
-  static const secondaryFocusRing = Color(0xFF6F67E8);
   static const semanticSuccessForeground = Color(0xFF137A3F);
-  static const semanticInfoForeground = Color(0xFF514DD2);
+  static const semanticInfoForeground = Color(0xFF303035);
   static const semanticWarningForeground = Color(0xFFB9472E);
   static const semanticDangerForeground = Color(0xFFB3261E);
   static const semanticSuccessContainer = Color(0xFFE7F8ED);
-  static const semanticInfoContainer = Color(0xFFECEBFF);
+  static const semanticInfoContainer = Color(0xFFE8E8EB);
   static const semanticWarningContainer = Color(0xFFFFE9E3);
   static const semanticDangerContainer = Color(0xFFFFE5DF);
-  static const semanticNeutralContainer = Color(0xFFF1ECF7);
-  static const referenceAccountNavy = Color(0xFF000840);
-  static const referenceAccountNavyDeep = Color(0xFF000838);
-  static const referenceAccountBlue = Color(0xFF0818A0);
-  static const referenceAccountBlueMid = Color(0xFF0F198E);
-  static const referenceAccountBlueDeep = Color(0xFF070D60);
   static const referencePaymentsPurple = Color(0xFF181038);
-  static const referencePaymentsPurpleMid = Color(0xFF302848);
-  static const referencePaymentsPurpleDeep = Color(0xFF100820);
   static const referenceAssetNavy = Color(0xFF101830);
-  static const referenceAssetNavyMid = Color(0xFF303870);
-  static const referenceAssetNavySoft = Color(0xFF202858);
-  static const referenceRewardsViolet = Color(0xFF302878);
-  static const referenceRewardsVioletBright = Color(0xFF7050E8);
-  static const referenceRewardsVioletHot = Color(0xFF9838F0);
-  static const referenceWealthTeal = Color(0xFF102028);
-  static const referenceWealthTealMid = Color(0xFF204050);
-  static const referenceWealthTealSoft = Color(0xFF183848);
   static const referenceContentDark = Color(0xFF101018);
-  static const referenceContentBronze = Color(0xFF303020);
-  static const referenceInvestTeal = Color(0xFF202828);
-  static const referenceStockTealBlack = Color(0xFF001010);
   static const publicWhite = Color(0xFFFFFFFF);
   static const publicBlack = Color(0xFF000000);
   static const publicMutedGrey = Color(0xFF84848C);
@@ -131,19 +99,15 @@ class CollectColors extends ThemeExtension<CollectColors> {
     brandOrangeRed,
   ];
   static const light = CollectColors(
-    periwinklePaint: brandPeriwinkle,
-    mintPaint: brandMintGreen,
-    rosePaint: brandDustyRose,
-    orangePaint: brandOrangeRed,
-    canvas: brandPaper,
-    surface: brandPaper,
-    surfaceReadable: secondarySurfaceReadable,
-    surfaceRaised: secondarySurfaceReadable,
-    surfaceMuted: secondarySurfaceMuted,
-    border: secondaryBorderSoft,
-    borderSoft: secondaryBorderSoft,
-    borderAccent: secondaryBorderAccent,
-    focusRing: secondaryFocusRing,
+    canvas: Color(0xFFF7F7F8),
+    surface: Color(0xFFF7F7F8),
+    surfaceReadable: publicWhite,
+    surfaceRaised: Color(0xFFF0F0F2),
+    surfaceMuted: Color(0xFFE8E8EB),
+    border: Color(0xFFDADADD),
+    borderSoft: Color(0xFFE1E1E4),
+    borderAccent: Color(0xFFB8B8BE),
+    focusRing: publicBlack,
     success: semanticSuccessForeground,
     warning: semanticWarningForeground,
     danger: semanticDangerForeground,
@@ -156,72 +120,69 @@ class CollectColors extends ThemeExtension<CollectColors> {
     infoContainer: semanticInfoContainer,
     warningContainer: semanticWarningContainer,
     dangerContainer: semanticDangerContainer,
-    neutralContainer: semanticNeutralContainer,
-    textPrimary: inkPrimary,
-    textSecondary: inkSecondary,
-    textMuted: inkMuted,
+    neutralContainer: Color(0xFFE8E8EB),
+    textPrimary: publicBlack,
+    textSecondary: Color(0xFF45454A),
+    textMuted: Color(0xFF626269),
   );
 
   static const dark = CollectColors(
-    periwinklePaint: brandPeriwinkle,
-    mintPaint: brandMintGreen,
-    rosePaint: brandDustyRose,
-    orangePaint: brandOrangeRed,
-    canvas: Color(0xFF080810),
-    surface: Color(0xFF080810),
-    surfaceReadable: Color(0xFF171624),
-    surfaceRaised: Color(0xFF201E32),
-    surfaceMuted: Color(0xFF2A2740),
-    border: Color(0xFF3E3A58),
-    borderSoft: Color(0xFF474263),
-    borderAccent: Color(0xFF6962AA),
-    focusRing: Color(0xFFA7A2FF),
+    canvas: Color(0xFF08080A),
+    surface: Color(0xFF08080A),
+    surfaceReadable: Color(0xFF17171A),
+    surfaceRaised: Color(0xFF202024),
+    surfaceMuted: Color(0xFF2A2A2F),
+    border: Color(0xFF343438),
+    borderSoft: Color(0xFF424247),
+    borderAccent: Color(0xFF5A5A62),
+    focusRing: publicWhite,
     success: Color(0xFF73E39B),
     warning: Color(0xFFFFA487),
     danger: Color(0xFFFF8C78),
-    info: Color(0xFFB8B4FF),
+    info: Color(0xFFC9C9CE),
     successForeground: Color(0xFF73E39B),
-    infoForeground: Color(0xFFB8B4FF),
+    infoForeground: Color(0xFFC9C9CE),
     warningForeground: Color(0xFFFFA487),
     dangerForeground: Color(0xFFFF8C78),
     successContainer: Color(0xFF123822),
-    infoContainer: Color(0xFF28234E),
+    infoContainer: Color(0xFF2A2A2F),
     warningContainer: Color(0xFF472117),
     dangerContainer: Color(0xFF4B1D17),
-    neutralContainer: Color(0xFF2A2740),
-    textPrimary: Color(0xFFF7F4FF),
-    textSecondary: Color(0xFFD0CBDC),
-    textMuted: Color(0xFFAAA3BA),
+    neutralContainer: Color(0xFF2A2A2F),
+    textPrimary: Color(0xFFF7F7F8),
+    textSecondary: Color(0xFFC9C9CE),
+    textMuted: Color(0xFF9A9AA2),
   );
 
   Color get paper => canvas;
   Color get surfaceLow => surfaceMuted;
   Color get surfaceHigh => surfaceRaised;
-  Color get actionColor => periwinklePaint;
-  Color get priorityColor => periwinklePaint;
+  bool get _isDarkPalette => textPrimary.computeLuminance() > 0.5;
+  Color get actionColor => _isDarkPalette ? publicWhite : publicBlack;
+  Color get priorityColor => actionColor;
   Color get outlineSoft => borderSoft;
   Color get controlBorder =>
       Color.alphaBlend(textPrimary.withValues(alpha: 0.52), surfaceReadable);
   Color get successInk => successForeground;
   Color get dangerSoft => dangerForeground;
-  Color get brandPrimary => brandPeriwinkle;
+  Color get defaultGroupAccent => brandPeriwinkle;
   Color get brandFoundation => brandPaper;
   Color get brandSecondary => brandDustyRose;
   Color get brandAction => brandOrangeRed;
   Color get urgentAction => brandOrangeRed;
   Color get brandSuccess => brandMintGreen;
   Color get transparent => transparentColor;
-  Color get onAccent => inkPrimary;
-  Color get selectedOnAccent => inkPrimary;
+  Color get onAccent => _isDarkPalette ? publicBlack : publicWhite;
+  Color get selectedOnAccent => onAccent;
   Color get onImagePrimary => brandPaper;
   Color get onImageMuted => brandPaper.withValues(alpha: 0.72);
   Color get exportCanvas => brandPaper;
-  Color get exportPaint => brandPeriwinkle;
-  Color get shadowPaint => brandPeriwinkle;
-  Color get imageScrimSoft => brandPeriwinkle.withValues(alpha: 0.14);
-  Color get imageScrimStrong => brandPeriwinkle.withValues(alpha: 0.58);
-  Color get cameraScrim => brandPeriwinkle.withValues(alpha: 0.54);
-  Color get cameraScrimStrong => brandPeriwinkle.withValues(alpha: 0.68);
+  Color get exportPaint => publicBlack;
+  Color get shadowPaint => publicBlack;
+  Color get imageScrimSoft => publicBlack.withValues(alpha: 0.18);
+  Color get imageScrimStrong => publicBlack.withValues(alpha: 0.62);
+  Color get cameraScrim => publicBlack.withValues(alpha: 0.58);
+  Color get cameraScrimStrong => publicBlack.withValues(alpha: 0.72);
   Color get statusGranted => successForeground;
   Color get statusBlocked => dangerForeground;
 
@@ -232,135 +193,17 @@ class CollectColors extends ThemeExtension<CollectColors> {
     CollectPaletteOption(brandOrangeRed),
   ];
 
-  Color get screenBase => referenceAccountNavyDeep;
+  Color get screenBase => canvas;
 
-  Color get glassPanel => surfaceReadable;
+  Color get panelSurface => surfaceReadable;
 
-  Color get glassPanelStrong => surfaceRaised;
+  Color get strongPanelSurface => surfaceRaised;
 
-  Color get glassControl => surfaceRaised;
+  Color get controlSurface => surfaceRaised;
 
-  Color get glassBorder => transparentColor;
+  Color get panelBorder => transparentColor;
 
-  Color get glassScrim => inkPrimary.withValues(alpha: 0.08);
-
-  LinearGradient get screenGradient => referenceAccountGradient;
-
-  static const LinearGradient referenceAccountGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referenceAccountBlue,
-      referenceAccountBlueMid,
-      referenceAccountNavyDeep,
-      Color(0xFF000030),
-    ],
-    stops: [0, 0.30, 0.68, 1],
-  );
-
-  static const Gradient referenceWealthGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referenceWealthTealMid,
-      referenceWealthTealSoft,
-      referenceWealthTeal,
-      Color(0xFF081820),
-    ],
-    stops: [0, 0.36, 0.72, 1],
-  );
-
-  static const Gradient referencePaymentsGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referencePaymentsPurpleMid,
-      referencePaymentsPurple,
-      referencePaymentsPurpleDeep,
-    ],
-    stops: [0, 0.54, 1],
-  );
-
-  static const Gradient referenceAssetGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referenceAssetNavyMid,
-      referenceAssetNavySoft,
-      referenceAssetNavy,
-      Color(0xFF000818),
-    ],
-    stops: [0, 0.34, 0.72, 1],
-  );
-
-  static const Gradient referenceRewardsGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referenceRewardsVioletHot,
-      referenceRewardsVioletBright,
-      referenceRewardsViolet,
-      referencePaymentsPurpleDeep,
-    ],
-    stops: [0, 0.32, 0.70, 1],
-  );
-
-  static const Gradient referenceProfileGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [Color(0xFF17171A), Color(0xFF0E0E11), Color(0xFF08080A)],
-    stops: [0, 0.52, 1],
-  );
-
-  static const Gradient referenceMarketGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referencePaymentsPurpleMid,
-      referencePaymentsPurple,
-      referenceContentDark,
-    ],
-    stops: [0, 0.58, 1],
-  );
-
-  static const Gradient referenceContentGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referenceContentBronze,
-      referencePaymentsPurple,
-      referenceContentDark,
-    ],
-    stops: [0, 0.48, 1],
-  );
-
-  static const Gradient referenceInvestGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [referenceInvestTeal, referenceWealthTeal, referenceStockTealBlack],
-    stops: [0, 0.48, 1],
-  );
-
-  LinearGradient get adminScreenGradient => const LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      referenceStockTealBlack,
-      referenceAssetNavy,
-      referencePaymentsPurple,
-    ],
-    stops: [0, 0.54, 1],
-  );
-
-  LinearGradient get glassPanelGradient => LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color.alphaBlend(brandPeriwinkle.withValues(alpha: 0.08), glassPanel),
-      Color.alphaBlend(brandDustyRose.withValues(alpha: 0.05), glassPanel),
-      glassPanel,
-    ],
-  );
+  Color get overlayScrim => publicBlack.withValues(alpha: 0.08);
 
   Color statusBackground(CollectStatusTone tone) {
     return switch (tone) {
@@ -386,10 +229,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
 
   @override
   CollectColors copyWith({
-    Color? periwinklePaint,
-    Color? mintPaint,
-    Color? rosePaint,
-    Color? orangePaint,
     Color? canvas,
     Color? surface,
     Color? surfaceReadable,
@@ -417,10 +256,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
     Color? textMuted,
   }) {
     return CollectColors(
-      periwinklePaint: periwinklePaint ?? this.periwinklePaint,
-      mintPaint: mintPaint ?? this.mintPaint,
-      rosePaint: rosePaint ?? this.rosePaint,
-      orangePaint: orangePaint ?? this.orangePaint,
       canvas: canvas ?? this.canvas,
       surface: surface ?? this.surface,
       surfaceReadable: surfaceReadable ?? this.surfaceReadable,
@@ -453,10 +288,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
   CollectColors lerp(ThemeExtension<CollectColors>? other, double t) {
     if (other is! CollectColors) return this;
     return CollectColors(
-      periwinklePaint: Color.lerp(periwinklePaint, other.periwinklePaint, t)!,
-      mintPaint: Color.lerp(mintPaint, other.mintPaint, t)!,
-      rosePaint: Color.lerp(rosePaint, other.rosePaint, t)!,
-      orangePaint: Color.lerp(orangePaint, other.orangePaint, t)!,
       canvas: Color.lerp(canvas, other.canvas, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
       surfaceReadable: Color.lerp(surfaceReadable, other.surfaceReadable, t)!,

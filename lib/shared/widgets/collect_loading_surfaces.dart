@@ -627,7 +627,7 @@ class CollectBottomSheet extends StatelessWidget {
     final colors = context.collectColors;
     final sheet = DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.glassPanel,
+        color: colors.panelSurface,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(CollectRadius.bottomSheet),
         ),

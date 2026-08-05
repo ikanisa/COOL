@@ -147,23 +147,14 @@ class _CreateGroupPhotoRow extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          accentColor.withValues(alpha: 0.52),
-                          colors.glassPanel.withValues(alpha: 0.76),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
+                    decoration: BoxDecoration(color: colors.surfaceMuted),
                   ),
                   if (imageBytes != null)
                     Image.memory(imageBytes!, fit: BoxFit.cover)
                   else
                     Icon(
                       CollectIcons.photo,
-                      color: colors.onImagePrimary,
+                      color: colors.textPrimary,
                       size: 30,
                     ),
                 ],

@@ -204,10 +204,7 @@ void main() {
       }
     });
 
-    test('primary and muted chrome copy clears every route gradient stop', () {
-      const colors = CollectColors.light;
-      final primary = CollectRuntimeTokens.chromeForeground(colors);
-      final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
+    test('primary and muted chrome copy clears each route canvas', () {
       const routePaths = <String>[
         '/home',
         '/groups',
@@ -218,21 +215,24 @@ void main() {
         '/settings/legal/privacy',
         '/offline',
       ];
-      final gradient = colors.screenGradient;
 
-      for (final path in routePaths) {
-        for (var index = 0; index < gradient.colors.length; index += 1) {
-          final background = gradient.colors[index];
+      for (final colors in <CollectColors>[
+        CollectColors.light,
+        CollectColors.dark,
+      ]) {
+        final primary = CollectRuntimeTokens.chromeForeground(colors);
+        final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
+        for (final path in routePaths) {
           _expectContrast(
-            '$path primary chrome at stop $index',
+            '$path primary chrome',
             primary,
-            background,
+            colors.canvas,
             _normalTextMinimum,
           );
           _expectContrast(
-            '$path muted chrome at stop $index',
+            '$path muted chrome',
             muted,
-            background,
+            colors.canvas,
             _normalTextMinimum,
           );
         }

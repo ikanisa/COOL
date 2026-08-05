@@ -341,7 +341,7 @@ class _LedgerSheetPill<T> extends StatelessWidget {
       selected: selected,
       label: 'Filter option $label',
       child: Material(
-        color: selected ? colors.actionColor : colors.glassControl,
+        color: selected ? colors.actionColor : colors.controlSurface,
         borderRadius: CollectRadius.pillBorder,
         child: InkWell(
           borderRadius: CollectRadius.pillBorder,

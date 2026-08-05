@@ -134,13 +134,13 @@ class CollectAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: size / 2,
       backgroundColor: colors.statusBackground(CollectStatusTone.privacy),
-      foregroundColor: colors.periwinklePaint,
+      foregroundColor: colors.textPrimary,
       backgroundImage: hasImage ? NetworkImage(imageUrl!) : null,
       child: hasImage
           ? null
           : Icon(
               CollectIcons.people,
-              color: colors.periwinklePaint,
+              color: colors.textPrimary,
               size: (size * 0.68).clamp(22, 38).toDouble(),
             ),
     );
@@ -161,7 +161,7 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const foreground = CollectColors.brandPaper;
+    final foreground = context.collectColors.textPrimary;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

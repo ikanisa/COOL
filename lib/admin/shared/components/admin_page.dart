@@ -20,17 +20,7 @@ class AdminPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(28),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  colors.surfaceReadable.withValues(alpha: 0.96),
-                  Color.alphaBlend(
-                    colors.periwinklePaint.withValues(alpha: 0.12),
-                    colors.surfaceReadable,
-                  ),
-                ],
-              ),
+              color: colors.surfaceReadable,
               border: Border.all(color: colors.borderAccent),
               boxShadow: [
                 BoxShadow(

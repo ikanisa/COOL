@@ -118,6 +118,13 @@ void main() {
             await tester.pump(const Duration(milliseconds: 100));
           }
         }
+        // A marker can exist in an outgoing or offstage page while a redirect
+        // or primary-branch transition is still painting. Drain a bounded set
+        // of frames before visual evidence so captures never preserve a blank
+        // transition, clipped branch, or outgoing splash fragment.
+        for (var frame = 0; frame < 12; frame += 1) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
         expect(tester.takeException(), isNull, reason: spec.route);
         expect(find.byType(CollectApp), findsOneWidget, reason: spec.route);
         expect(
