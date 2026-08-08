@@ -134,6 +134,7 @@ tracked_paths = IO.popen(["git", "ls-files"], chdir: root, &:read).to_s.lines.ma
 forbidden_tracked_paths = tracked_paths.reject do |path|
     path == "DESIGN.md" ||
     path == "design-qa.md" ||
+    path == "docs/release/LEGACY_DESIGN_ERADICATION_AUDIT_2026-08-05.md" ||
     path.start_with?("docs/revolut-parity-goal/") ||
     path == "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256" ||
     path.start_with?("assets/brand/collect_runtime/") ||

@@ -88,6 +88,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
           'Identity, contact, Collect ID and account details provided by the customer',
           'Group membership, roles, rules, contribution activity and payout records',
           'Payment references, support messages, service choices and service notifications',
+          'On Android, only new MTN or Airtel mobile-money transaction SMS after the group receiver opts in; Collect does not read inbox history or unrelated messages',
           'Camera or image inputs only when a customer uses a QR, support, or evidence feature',
         ],
       ),

@@ -93,6 +93,7 @@ end
 pubspec = read(File.join(root, "pubspec.yaml"))
 manifest = read(File.join(root, "android/app/src/main/AndroidManifest.xml"))
 receiver_manifest = read(File.join(root, "android/app/src/internal_receiver/AndroidManifest.xml"))
+production_manifest = read(File.join(root, "android/app/src/production/AndroidManifest.xml"))
 assetlinks_source = read(File.join(root, "web/.well-known/assetlinks.json"))
 live_deployments = JSON.parse(read(File.join(root, "docs/release/LIVE_DEPLOYMENTS.json"))) rescue {}
 console_audit_packet_path = File.join(root, "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json")
@@ -140,7 +141,15 @@ restricted_sms = %w[
   android.permission.BROADCAST_SMS
 ]
 main_restricted = restricted_sms.select { |permission| manifest.include?(permission) }
-receiver_missing = %w[android.permission.READ_SMS android.permission.RECEIVE_SMS].reject { |permission| receiver_manifest.include?(permission) }
+production_declares_receive = production_manifest.include?("android.permission.RECEIVE_SMS")
+production_declares_read = production_manifest.include?("android.permission.READ_SMS")
+receiver_declares_receive = receiver_manifest.include?("android.permission.RECEIVE_SMS")
+receiver_declares_read = receiver_manifest.include?("android.permission.READ_SMS")
+telephony_optional_pattern = /android:name=["']android\.hardware\.telephony["'][^>]*android:required=["']false["']/m
+production_telephony_optional = production_manifest.match?(telephony_optional_pattern)
+receiver_telephony_optional = receiver_manifest.match?(telephony_optional_pattern)
+apk_restricted = Array(package["permissions"]) & restricted_sms
+expected_apk_restricted = ["android.permission.RECEIVE_SMS"]
 expected_play_fingerprint = "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92"
 expected_upload_fingerprint = "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
 
@@ -157,6 +166,13 @@ checks["target_api"] =
     check("pass", "APK targets the current Google Play API floor.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"], "min_sdk" => package["min_sdk"])
   else
     check("blocked", "APK must target API 35+ before Play submission.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"])
+  end
+
+checks["sms_device_compatibility"] =
+  if production_telephony_optional && receiver_telephony_optional
+    check("pass", "SMS-capable flavors explicitly keep telephony optional to preserve non-telephony Play device eligibility.")
+  else
+    check("fail", "SMS-capable flavors must declare android.hardware.telephony with android:required=false.")
   end
 
 stale = [apk, aab].select { |item| item["exists"] && source_latest && File.mtime(item["path"]) < source_latest }.map { |item| item["path"] }
@@ -178,10 +194,21 @@ checks["sixteen_kb_alignment"] =
   end
 
 checks["production_permissions"] =
-  if main_restricted.empty? && receiver_missing.empty?
-    check("pass", "Production manifest excludes restricted SMS permissions; SMS receiver permissions stay isolated to internal_receiver.", "apk_permissions" => package["permissions"])
+  if main_restricted.empty? &&
+      production_declares_receive && !production_declares_read &&
+      receiver_declares_receive && !receiver_declares_read &&
+      apk_restricted == expected_apk_restricted
+    check("pass", "Production is receive-only for consented MoMo SMS and excludes inbox-history, send, and Call Log access.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted)
   else
-    check("fail", "Restricted SMS permission scope is invalid.", "restricted_in_production_manifest" => main_restricted, "receiver_missing" => receiver_missing)
+    check("fail", "Restricted SMS permission scope is invalid.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted)
+  end
+
+sms_declaration_status = console_audit_packet.dig("app_content", "permissions", "sms_permissions_declaration_status").to_s
+checks["restricted_sms_play_approval"] =
+  if sms_declaration_status == "approved"
+    check("pass", "Google Play SMS Permissions Declaration approval is recorded in the release packet.")
+  else
+    check("blocked", "Google Play must accept the receive-only SMS Permissions Declaration before public production distribution.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
   end
 
 checks["android_app_links"] =
@@ -250,7 +277,8 @@ checks["play_console_readiness_packet"] =
       console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/privacy/" &&
       console_audit_packet.dig("app_content", "account_deletion_url").to_s == "https://collect.ikanisa.com/account-deletion/" &&
       console_audit_packet.dig("app_content", "data_deletion_url").to_s == "https://collect.ikanisa.com/data-deletion/" &&
-      console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == false &&
+      console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == true &&
+      console_audit_packet.dig("app_content", "permissions", "production_permissions").to_a.include?("android.permission.RECEIVE_SMS") &&
       packet_surface_missing.empty?
     check("pass", "Repo-owned Play Console audit packet is complete for listing, app content, policy, release, and account-controlled audit prompts.", "packet_path" => console_audit_packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "console_completion_status" => console_audit_packet["console_completion_status"])
   else
@@ -261,7 +289,7 @@ metadata_files = {
   "title" => "fastlane/metadata/android/en-US/title.txt",
   "short_description" => "fastlane/metadata/android/en-US/short_description.txt",
   "full_description" => "fastlane/metadata/android/en-US/full_description.txt",
-  "changelog_10" => "fastlane/metadata/android/en-US/changelogs/10.txt"
+  "changelog_12" => "fastlane/metadata/android/en-US/changelogs/12.txt"
 }
 metadata_items = metadata_files.transform_values do |relative|
   path = File.join(root, relative)
@@ -436,6 +464,7 @@ result = {
     "Android vitals: https://developer.android.com/topic/performance/vitals",
     "Core app quality: https://developer.android.com/docs/quality-guidelines/core-app-quality",
     "Data safety: https://support.google.com/googleplay/android-developer/answer/10787469",
+    "SMS and Call Log permissions: https://support.google.com/googleplay/android-developer/answer/10208820",
     "Account deletion: https://support.google.com/googleplay/android-developer/answer/13327111"
   ],
   "secret_handling" => "This gate records public URLs, build metadata, certificate fingerprints, and artifact paths only; it must not print signing keys, service account JSON, cookies, raw SMS, phone/MoMo numbers, provider tokens, or production customer data."

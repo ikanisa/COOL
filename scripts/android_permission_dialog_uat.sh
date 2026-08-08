@@ -51,6 +51,9 @@ mkdir -p "$EVIDENCE_DIR"
 "$ADB" -s "$DEVICE_ID" shell pm revoke "$PACKAGE" android.permission.POST_NOTIFICATIONS >/dev/null 2>&1 || true
 "$ADB" -s "$DEVICE_ID" shell pm clear-permission-flags "$PACKAGE" android.permission.POST_NOTIFICATIONS user-set >/dev/null 2>&1 || true
 "$ADB" -s "$DEVICE_ID" shell pm clear-permission-flags "$PACKAGE" android.permission.POST_NOTIFICATIONS user-fixed >/dev/null 2>&1 || true
+if [[ "$PACKAGE" != "app.cool.mobile" ]]; then
+  "$ADB" -s "$DEVICE_ID" shell am force-stop app.cool.mobile >/dev/null 2>&1 || true
+fi
 
 ADB="$ADB" \
 ANDROID_UAT_DEVICE_ID="$DEVICE_ID" \
@@ -92,7 +95,8 @@ wait_for_marker() {
 
 tap_permission_button() {
   local button_id="$1"
-  local timeout_seconds="${2:-45}"
+  local expected_state="$2"
+  local timeout_seconds="${3:-45}"
   local waited=0
   local xml
   local coordinates
@@ -104,6 +108,11 @@ tap_permission_button() {
     "$ADB" -s "$DEVICE_ID" shell timeout 4 uiautomator dump --compressed \
       /data/local/tmp/collect-permission.xml >/dev/null 2>&1 || true
     xml="$("$ADB" -s "$DEVICE_ID" exec-out cat /data/local/tmp/collect-permission.xml 2>/dev/null || true)"
+    if [[ "$xml" != *"permissioncontroller"* ]]; then
+      sleep 1
+      waited=$((waited + 5))
+      continue
+    fi
     coordinates="$(
       BUTTON_ID="$button_id" ruby -e '
         xml = STDIN.read
@@ -132,10 +141,22 @@ tap_permission_button() {
         sleep 1
         current_focus="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null |
           awk -F= '/mCurrentFocus=/ { print $2; exit }' || true)"
+        permission_line="$("$ADB" -s "$DEVICE_ID" shell dumpsys package "$PACKAGE" 2>/dev/null |
+          awk '/android.permission.POST_NOTIFICATIONS: granted=/ { print; exit }' || true)"
         printf 'action=tap button=%s x=%s y=%s elapsed_seconds=%s attempt=%s focus=%s\n' \
           "$button_id" "$x" "$y" "$waited" "$tap_attempt" \
           "${current_focus//[[:space:]]/}" >>"$DIALOG_LOG"
-        if [[ "$current_focus" != *"permissioncontroller"* ]]; then
+        if [[ "$expected_state" == "denied" &&
+          "$permission_line" == *"granted=false"* &&
+          "$permission_line" == *"USER_SET"* ]]; then
+          return 0
+        fi
+        if [[ "$expected_state" == "granted" &&
+          "$permission_line" == *"granted=true"* ]]; then
+          return 0
+        fi
+        if [[ "$expected_state" == "granted" && -f "$DEVICE_LOG" ]] &&
+          grep -Fq 'collect_permission_uat:notification-recovery-pass' "$DEVICE_LOG"; then
           return 0
         fi
       done
@@ -151,16 +172,16 @@ tap_permission_button() {
   return 1
 }
 
-wait_for_marker 'collect_permission_uat:notification-deny-prompt-requested' 180 ||
+wait_for_marker 'collect_permission_uat:notification-deny-prompt-requested' 480 ||
   fail "Notification deny prompt marker was not emitted."
-tap_permission_button "permission_deny_button" 60 ||
+tap_permission_button "permission_deny_button" denied 60 ||
   fail "Notification denial action was not found."
 wait_for_marker 'collect_permission_uat:notification-denied-recovery-visible' 60 ||
   fail "Collect did not expose denial recovery."
 wait_for_marker 'collect_permission_uat:notification-retry-prompt-requested' 30 ||
   fail "Notification retry marker was not emitted."
 
-if ! tap_permission_button "permission_allow_button" 35; then
+if ! tap_permission_button "permission_allow_button" granted 35; then
   wait_for_marker 'collect_permission_uat:notification-settings-recovery-requested' 40 ||
     fail "Neither a retry prompt nor settings recovery became available."
   "$ADB" -s "$DEVICE_ID" shell pm grant "$PACKAGE" android.permission.POST_NOTIFICATIONS

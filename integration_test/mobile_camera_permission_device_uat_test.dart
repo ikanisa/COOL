@@ -4,6 +4,7 @@ import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -138,7 +139,9 @@ void main() {
         );
         return;
       }
-      await binding.takeScreenshot('ios_camera_permission_denied_recovery');
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        await binding.takeScreenshot('ios_camera_permission_denied_recovery');
+      }
       // Keep the education/retry state on screen long enough for the host
       // harness to capture it before the test advances to the second native
       // permission prompt. Without this bounded hold, faster physical devices

@@ -256,6 +256,7 @@ pubspec = read(File.join(root_dir, "pubspec.yaml"))
 gradle = read(File.join(root_dir, "android/app/build.gradle.kts"))
 main_manifest = read(File.join(root_dir, "android/app/src/main/AndroidManifest.xml"))
 receiver_manifest = read(File.join(root_dir, "android/app/src/internal_receiver/AndroidManifest.xml"))
+production_manifest = read(File.join(root_dir, "android/app/src/production/AndroidManifest.xml"))
 main_activity = read(File.join(root_dir, "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt"))
 release_approvals = release_approval_records(root_dir)
 
@@ -311,20 +312,48 @@ checks["production_restricted_sms_permissions_absent"] =
     check("fail", "Production Android manifest includes restricted SMS permissions.", "permissions" => restricted_in_main)
   end
 
-receiver_missing = restricted_permissions.reject { |permission| receiver_manifest.include?(permission) }
+receiver_has_receive = receiver_manifest.include?("android.permission.RECEIVE_SMS")
+receiver_has_read = receiver_manifest.include?("android.permission.READ_SMS")
 checks["internal_receiver_sms_permissions_present"] =
-  if receiver_missing.empty?
-    check("pass", "Restricted SMS permissions are isolated to the internal_receiver flavor manifest.")
+  if receiver_has_receive && !receiver_has_read
+    check("pass", "internal_receiver declares RECEIVE_SMS without inbox-history READ_SMS access.")
   else
-    check("fail", "internal_receiver manifest must declare READ_SMS and RECEIVE_SMS.", "missing_permissions" => receiver_missing)
+    check(
+      "fail",
+      "internal_receiver must declare RECEIVE_SMS and must not declare READ_SMS.",
+      "receive_sms_present" => receiver_has_receive,
+      "read_sms_present" => receiver_has_read
+    )
+  end
+
+production_has_receive = production_manifest.include?("android.permission.RECEIVE_SMS")
+production_has_read = production_manifest.include?("android.permission.READ_SMS")
+checks["production_sms_permissions_minimized"] =
+  if production_has_receive && !production_has_read
+    check("pass", "Production declares RECEIVE_SMS without inbox-history READ_SMS access.")
+  else
+    check(
+      "fail",
+      "Production must declare RECEIVE_SMS and must not declare READ_SMS.",
+      "receive_sms_present" => production_has_receive,
+      "read_sms_present" => production_has_read
+    )
+  end
+
+telephony_optional_pattern = /android:name=["']android\.hardware\.telephony["'][^>]*android:required=["']false["']/m
+checks["sms_telephony_feature_optional"] =
+  if production_manifest.match?(telephony_optional_pattern) && receiver_manifest.match?(telephony_optional_pattern)
+    check("pass", "SMS-capable flavors keep parent telephony hardware optional so non-telephony devices remain installable.")
+  else
+    check("fail", "SMS-capable flavors must explicitly declare android.hardware.telephony with android:required=false.")
   end
 
 checks["android_sms_runtime_permission_request"] =
   if main_activity.include?("requestPermissions(SMS_PERMISSIONS") &&
       main_activity.include?("onRequestPermissionsResult") &&
       main_activity.include?("Manifest.permission.RECEIVE_SMS") &&
-      main_activity.include?("Manifest.permission.READ_SMS")
-    check("pass", "Android SMS access requests runtime SMS permissions before enabling ingestion.")
+      !main_activity.include?("Manifest.permission.READ_SMS")
+    check("pass", "Android SMS access requests RECEIVE_SMS before enabling ingestion and does not request inbox history.")
   else
     check("fail", "Android SMS access must request and verify runtime SMS permissions before enabling ingestion.")
   end
@@ -502,7 +531,10 @@ result = {
   "android" => {
     "application_id" => "app.cool.mobile",
     "production_flavor" => "production",
-    "restricted_sms_permissions_scope" => restricted_in_main.empty? && receiver_missing.empty? ? "internal_receiver_only" : "invalid",
+    "restricted_sms_permissions_scope" =>
+      restricted_in_main.empty? &&
+      receiver_has_receive && !receiver_has_read &&
+      production_has_receive && !production_has_read ? "receive_only_flavors" : "invalid",
     "artifacts" => artifacts
   },
   "ios" => {

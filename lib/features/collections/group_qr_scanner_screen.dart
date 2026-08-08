@@ -83,20 +83,23 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(CollectSpacing.x4),
-              child: Row(
-                children: [
-                  _ScannerIconButton(
-                    icon: Icons.close_rounded,
-                    label: 'Close scanner',
-                    onTap: () => context.go('/groups'),
-                  ),
-                  const Spacer(),
-                  _ScannerIconButton(
-                    icon: Icons.flashlight_on_rounded,
-                    label: 'Torch',
-                    onTap: _toggleTorch,
-                  ),
-                ],
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Row(
+                  children: [
+                    _ScannerIconButton(
+                      icon: Icons.close_rounded,
+                      label: 'Close scanner',
+                      onTap: () => context.go('/groups'),
+                    ),
+                    const Spacer(),
+                    _ScannerIconButton(
+                      icon: Icons.flashlight_on_rounded,
+                      label: 'Torch',
+                      onTap: _toggleTorch,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

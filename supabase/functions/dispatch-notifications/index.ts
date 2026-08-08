@@ -11,12 +11,18 @@ import {
   createApnsJwt,
   sendApnsMessage,
 } from "../_shared/apns.ts";
+import {
+  createFcmAccessToken,
+  FcmCredentials,
+  sendFcmMessage,
+} from "../_shared/fcm.ts";
 
 type ClaimedDelivery = {
   delivery_id: string;
   event_id: string;
   device_id: string;
   token: string;
+  provider: "apns" | "fcm";
   environment: "sandbox" | "production";
   title: string;
   body: string;
@@ -25,13 +31,17 @@ type ClaimedDelivery = {
   attempt_number: number;
 };
 
-function credentialsFromEnvironment(): ApnsCredentials {
+function apnsCredentialsFromEnvironment(): ApnsCredentials {
   return {
     keyId: requireEnv("APNS_KEY_ID"),
     teamId: requireEnv("APNS_TEAM_ID"),
     bundleId: requireEnv("APNS_BUNDLE_ID"),
     privateKeyBase64: requireEnv("APNS_PRIVATE_KEY_BASE64"),
   };
+}
+
+function fcmCredentialsFromEnvironment(): FcmCredentials {
+  return { serviceAccountJson: requireEnv("FCM_SERVICE_ACCOUNT_JSON") };
 }
 
 Deno.serve(async (req) => {
@@ -43,8 +53,6 @@ Deno.serve(async (req) => {
   }
   try {
     requireInternalRequest(req);
-    const credentials = credentialsFromEnvironment();
-    const authorization = await createApnsJwt(credentials);
     const rawPayload = await req.json().catch(() => ({}));
     const requestedLimit = Number(
       (rawPayload as { limit?: unknown }).limit ?? 100,
@@ -58,21 +66,42 @@ Deno.serve(async (req) => {
     });
     if (error) throw error;
     const deliveries = (data ?? []) as ClaimedDelivery[];
+    let apnsCredentials: ApnsCredentials | null = null;
+    let apnsAuthorization: string | null = null;
+    let fcmCredentials: FcmCredentials | null = null;
+    let fcmAccessToken: string | null = null;
     let sent = 0;
     let retrying = 0;
     let failed = 0;
 
     for (const delivery of deliveries) {
       try {
-        const result = await sendApnsMessage(credentials, authorization, {
-          token: delivery.token,
-          environment: delivery.environment,
-          title: delivery.title,
-          body: delivery.body,
-          eventId: delivery.event_id,
-          eventType: delivery.event_type,
-          deepLink: delivery.deep_link,
-        });
+        const result = delivery.provider === "apns"
+          ? await (async () => {
+            apnsCredentials ??= apnsCredentialsFromEnvironment();
+            apnsAuthorization ??= await createApnsJwt(apnsCredentials);
+            return await sendApnsMessage(apnsCredentials, apnsAuthorization, {
+              token: delivery.token,
+              environment: delivery.environment,
+              title: delivery.title,
+              body: delivery.body,
+              eventId: delivery.event_id,
+              eventType: delivery.event_type,
+              deepLink: delivery.deep_link,
+            });
+          })()
+          : await (async () => {
+            fcmCredentials ??= fcmCredentialsFromEnvironment();
+            fcmAccessToken ??= await createFcmAccessToken(fcmCredentials);
+            return await sendFcmMessage(fcmCredentials, fcmAccessToken, {
+              token: delivery.token,
+              title: delivery.title,
+              body: delivery.body,
+              eventId: delivery.event_id,
+              eventType: delivery.event_type,
+              deepLink: delivery.deep_link,
+            });
+          })();
         const completion = await service.rpc("complete_notification_delivery", {
           p_delivery_id: delivery.delivery_id,
           p_success: result.ok,
@@ -96,8 +125,9 @@ Deno.serve(async (req) => {
         });
         if (completion.error) throw completion.error;
         retrying += 1;
-        console.error("APNs delivery deferred", {
+        console.error("Push delivery deferred", {
           delivery_id: delivery.delivery_id,
+          provider: delivery.provider,
           message: safeErrorMessage(deliveryError),
         });
       }

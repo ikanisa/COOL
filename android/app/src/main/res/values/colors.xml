@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="collect_notification_accent">#087A55</color>
     <color name="collect_mint">#3CD070</color>
     <color name="collect_paper">#FAF8F5</color>
     <color name="collect_launch_background">#8885F0</color>

@@ -31,6 +31,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         onTap: () => context.go('/settings/notifications'),
       ),
       _SettingsTile(
+        leading: CollectIcons.shield,
+        title: 'App permissions',
+        onTap: () => context.go('/settings/permissions'),
+      ),
+      _SettingsTile(
         leading: CollectIcons.palette,
         title: 'Appearance',
         onTap: () => context.go('/settings/appearance'),

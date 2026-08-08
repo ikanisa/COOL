@@ -26,6 +26,8 @@ class AuthActionDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return Padding(
       padding: embedded
           ? EdgeInsets.zero
@@ -60,28 +62,42 @@ class AuthActionDock extends StatelessWidget {
           ),
           if (otpSent) ...[
             CollectSpacing.gap8,
-            Row(
-              children: [
-                Expanded(
-                  child: _AuthNativeActionButton(
-                    key: const ValueKey('auth_change_button'),
-                    label: 'Change number',
-                    onPressed: onAnotherNumber,
-                    isPrimary: false,
+            if (usesAccessibilityText) ...[
+              _AuthNativeActionButton(
+                key: const ValueKey('auth_change_button'),
+                label: 'Change number',
+                onPressed: onAnotherNumber,
+                isPrimary: false,
+              ),
+              _AuthNativeActionButton(
+                key: const ValueKey('auth_resend_button'),
+                label: resendRemaining > 0 ? '${resendRemaining}s' : 'Resend',
+                onPressed: canResend ? onResend : null,
+                isPrimary: false,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: _AuthNativeActionButton(
+                      key: const ValueKey('auth_change_button'),
+                      label: 'Change number',
+                      onPressed: onAnotherNumber,
+                      isPrimary: false,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: _AuthNativeActionButton(
-                    key: const ValueKey('auth_resend_button'),
-                    label: resendRemaining > 0
-                        ? '${resendRemaining}s'
-                        : 'Resend',
-                    onPressed: canResend ? onResend : null,
-                    isPrimary: false,
+                  Expanded(
+                    child: _AuthNativeActionButton(
+                      key: const ValueKey('auth_resend_button'),
+                      label: resendRemaining > 0
+                          ? '${resendRemaining}s'
+                          : 'Resend',
+                      onPressed: canResend ? onResend : null,
+                      isPrimary: false,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ],
       ),

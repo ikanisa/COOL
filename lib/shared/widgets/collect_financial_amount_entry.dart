@@ -75,6 +75,8 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final effectiveLabel = widget.label?.trim().isNotEmpty == true
         ? widget.label!.trim()
         : 'Amount';
@@ -84,6 +86,45 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
           height: CollectTypography.leadingDisplayRelaxed,
         );
     final prefixStyle = amountStyle.copyWith(color: colors.textSecondary);
+    final labelWidget = Semantics(
+      header: true,
+      label: effectiveLabel,
+      child: ExcludeSemantics(
+        child: Text(
+          effectiveLabel,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: colors.textSecondary,
+            fontWeight: CollectTypography.weightSemibold,
+          ),
+          maxLines: usesAccessibilityText ? null : 1,
+          overflow: usesAccessibilityText
+              ? TextOverflow.visible
+              : TextOverflow.ellipsis,
+        ),
+      ),
+    );
+    final currencyWidget = Semantics(
+      label: 'Currency RWF',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: CollectRuntimeTokens.chipBackground(colors),
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(color: CollectRuntimeTokens.inputBorder(colors)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x1,
+            ),
+            child: Text(
+              'RWF',
+              style: CollectTypography.eyebrowLabel(colors.textMuted),
+            ),
+          ),
+        ),
+      ),
+    );
     return Semantics(
       container: true,
       explicitChildNodes: true,
@@ -94,55 +135,24 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Semantics(
-                    header: true,
-                    label: effectiveLabel,
-                    child: ExcludeSemantics(
-                      child: Text(
-                        effectiveLabel,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: colors.textSecondary,
-                              fontWeight: CollectTypography.weightSemibold,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                ),
-                if (widget.showCurrencyChip)
-                  Semantics(
-                    label: 'Currency RWF',
-                    child: ExcludeSemantics(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: CollectRuntimeTokens.chipBackground(colors),
-                          borderRadius: CollectRadius.pillBorder,
-                          border: Border.all(
-                            color: CollectRuntimeTokens.inputBorder(colors),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: CollectSpacing.x3,
-                            vertical: CollectSpacing.x1,
-                          ),
-                          child: Text(
-                            'RWF',
-                            style: CollectTypography.eyebrowLabel(
-                              colors.textMuted,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+            if (usesAccessibilityText)
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: CollectSpacing.x3,
+                runSpacing: CollectSpacing.x2,
+                children: [
+                  labelWidget,
+                  if (widget.showCurrencyChip) currencyWidget,
+                ],
+              )
+            else
+              Row(
+                children: [
+                  Expanded(child: labelWidget),
+                  if (widget.showCurrencyChip) currencyWidget,
+                ],
+              ),
             CollectSpacing.gap16,
             DecoratedBox(
               decoration: BoxDecoration(
@@ -169,33 +179,41 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
                   onTap: _handleSemanticTap,
                   onSetText: _handleSemanticAmount,
                   child: ExcludeSemantics(
-                    child: TextField(
-                      controller: widget.controller,
-                      focusNode: _amountFocusNode,
-                      keyboardType: TextInputType.number,
-                      textInputAction: widget.onSubmitted == null
-                          ? TextInputAction.next
-                          : TextInputAction.done,
-                      onSubmitted: widget.onSubmitted == null
-                          ? null
-                          : (_) => widget.onSubmitted!(),
-                      inputFormatters: const [_RwfAmountInputFormatter()],
-                      style: amountStyle,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        hintText: '0',
-                        prefixText: 'RWF ',
-                        prefixStyle: prefixStyle,
-                        hintStyle: amountStyle.copyWith(
-                          color: colors.textMuted,
+                    child: MediaQuery.withClampedTextScaling(
+                      // Keep formatted RWF values visible inside the single-line
+                      // financial field. The surrounding label, detail, and the
+                      // explicit text-field semantics still honor accessibility
+                      // scaling, while this display-sized numeric value remains
+                      // readable instead of horizontally clipping at 200% text.
+                      maxScaleFactor: 1.0,
+                      child: TextField(
+                        controller: widget.controller,
+                        focusNode: _amountFocusNode,
+                        keyboardType: TextInputType.number,
+                        textInputAction: widget.onSubmitted == null
+                            ? TextInputAction.next
+                            : TextInputAction.done,
+                        onSubmitted: widget.onSubmitted == null
+                            ? null
+                            : (_) => widget.onSubmitted!(),
+                        inputFormatters: const [_RwfAmountInputFormatter()],
+                        style: amountStyle,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          hintText: '0',
+                          prefixText: 'RWF ',
+                          prefixStyle: prefixStyle,
+                          hintStyle: amountStyle.copyWith(
+                            color: colors.textMuted,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.zero,
                         ),
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        focusedErrorBorder: InputBorder.none,
-                        isCollapsed: true,
-                        contentPadding: EdgeInsets.zero,
                       ),
                     ),
                   ),

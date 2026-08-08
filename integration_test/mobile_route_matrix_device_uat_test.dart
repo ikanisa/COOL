@@ -326,6 +326,12 @@ const _routeSpecs = <_RouteSpec>[
     expectedText: 'Account details',
   ),
   _RouteSpec(
+    'settings-permissions',
+    '/settings/permissions',
+    'utility',
+    expectedText: 'App permissions',
+  ),
+  _RouteSpec(
     'settings-notifications',
     '/settings/notifications',
     'utility',

@@ -22,6 +22,7 @@ import '../features/payments/contribution_flow_screen.dart';
 import '../features/payments/contribute_entry_screen.dart';
 import '../features/profile/profile_edit_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/settings/app_permissions_screen.dart';
 import '../features/settings/settings_subscreens.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/widgets/collect_components.dart';
@@ -56,6 +57,7 @@ const collectRoutePaths = <String>[
   '/settings',
   '/settings/profile',
   '/settings/notifications',
+  '/settings/permissions',
   '/settings/appearance',
   '/settings/security',
   '/settings/account',
@@ -316,6 +318,15 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       context,
                       state,
                       const NotificationSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'permissions',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const AppPermissionsScreen(),
                       transition: _CollectRouteTransition.detail,
                     ),
                   ),

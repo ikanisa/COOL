@@ -142,6 +142,7 @@ route_specs=(
   "group-profile|/groups/col-church/profile|workflow"
   "members|/groups/col-church/members|workflow"
   "settings|/settings|primary"
+  "settings-permissions|/settings/permissions|utility"
   "settings-notifications|/settings/notifications|utility"
   "settings-appearance|/settings/appearance|utility"
   "settings-security|/settings/security|utility"

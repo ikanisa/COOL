@@ -9,7 +9,6 @@ import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import '../shared/repositories/pending_shared_group_intent_store.dart';
 import '../shared/widgets/collect_components.dart';
-import 'env/app_env.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 import 'theme/collect_theme_controller.dart';
@@ -289,6 +288,7 @@ class _SmsAccessSyncHost extends ConsumerStatefulWidget {
 class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
     with WidgetsBindingObserver {
   Future<void>? _syncInFlight;
+  var _wasBackgrounded = false;
 
   @override
   void initState() {
@@ -305,7 +305,14 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.detached) {
+      _wasBackgrounded = true;
+      return;
+    }
+    if (state == AppLifecycleState.resumed && _wasBackgrounded) {
+      _wasBackgrounded = false;
       _syncPendingSms();
     }
   }
@@ -325,7 +332,6 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
 
   Future<void> _syncPendingSmsSafely() async {
     try {
-      final env = ref.read(appEnvProvider);
       final notifications = ref.read(collectNotificationServiceProvider);
       await notifications.initialize();
       final notificationsEnabled = await notifications
@@ -343,7 +349,6 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
         ref.read(notificationPermissionStatusProvider.notifier).state =
             CollectDevicePermissionStatus.denied;
       }
-      if (!env.enableAndroidSmsAccess && !env.enableSmsReader) return;
       await ref.read(collectRepositoryProvider.notifier).syncPendingSmsAccess();
     } catch (_) {
       // SMS queue sync is retried on the next resume/realtime refresh.

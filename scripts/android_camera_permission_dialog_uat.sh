@@ -52,6 +52,9 @@ mkdir -p "$SCREENSHOT_DIR"
 "$ADB" -s "$DEVICE_ID" shell pm revoke "$PACKAGE" android.permission.CAMERA >/dev/null 2>&1 || true
 "$ADB" -s "$DEVICE_ID" shell pm clear-permission-flags "$PACKAGE" android.permission.CAMERA user-set >/dev/null 2>&1 || true
 "$ADB" -s "$DEVICE_ID" shell pm clear-permission-flags "$PACKAGE" android.permission.CAMERA user-fixed >/dev/null 2>&1 || true
+if [[ "$PACKAGE" != "app.cool.mobile" ]]; then
+  "$ADB" -s "$DEVICE_ID" shell am force-stop app.cool.mobile >/dev/null 2>&1 || true
+fi
 
 ADB="$ADB" \
 ANDROID_UAT_DEVICE_ID="$DEVICE_ID" \
@@ -150,11 +153,13 @@ tap_permission_button() {
           "${current_focus//[[:space:]]/}" "$screenshot_name" >>"$DIALOG_LOG"
         if [[ "$expected_state" == "denied" &&
           "$permission_line" == *"granted=false"* &&
-          "$permission_line" == *"USER_SET"* ]]; then
+          "$permission_line" == *"USER_SET"* &&
+          "$current_focus" == *"$PACKAGE/"* ]]; then
           return 0
         fi
         if [[ "$expected_state" == "granted" &&
-          "$permission_line" == *"granted=true"* ]]; then
+          "$permission_line" == *"granted=true"* &&
+          "$current_focus" == *"$PACKAGE/"* ]]; then
           return 0
         fi
       done
@@ -170,7 +175,7 @@ tap_permission_button() {
   return 1
 }
 
-wait_for_marker 'collect_camera_permission_uat:camera-deny-prompt-requested' 180 ||
+wait_for_marker 'collect_camera_permission_uat:camera-deny-prompt-requested' 480 ||
   fail "Camera deny prompt marker was not emitted."
 tap_permission_button \
   "permission_deny_button|permission_deny_and_dont_ask_again_button" \

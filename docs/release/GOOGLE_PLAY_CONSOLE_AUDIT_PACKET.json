@@ -1,22 +1,39 @@
 {
-  "generated_at": "2026-08-05T09:30:00Z",
+  "generated_at": "2026-08-08T13:43:00Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
-    "version_code": 10,
+    "version_code": 12,
     "track": "production",
-    "release_name": "Collect 1.2.2 (10)",
+    "release_name": "Collect 1.2.2 (12)",
     "release_notes": {
-      "en-US": "Adds verified app links and refreshed Play policy readiness for Collect."
+      "en-US": "Adds native notification controls and optional receive-only MoMo SMS matching, with stronger permission recovery, accessibility, and security."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "68507fe84c9038cce11dbcdd19f83c666004c8b8e45ace9020e8dadb2e29442c"
+    "aab_sha256": "8a3e2c6f5557d51e873b72e0968591e3a98fbc281b94d8ea1d6f581becdc0d1f",
+    "play_console_state": "changes_in_review",
+    "rollout_percentage": 100,
+    "review_submitted_at": "2026-08-08T13:43:00Z",
+    "device_catalog_delta": {
+      "phones_removed": 0,
+      "tablets_removed": 0,
+      "tv_removed": 0,
+      "cars_removed": 0,
+      "chromebooks_removed": 0,
+      "android_xr_removed": 0
+    },
+    "internal_testing": {
+      "version_code": 12,
+      "status": "available_to_internal_testers",
+      "published_at": "2026-08-08T13:39:00Z",
+      "superseded_version_code": 3
+    }
   },
   "store_listing": {
     "default_language": "en-US",
     "app_name": "Collect",
     "short_description": "Group savings, contribution records, and credit-readiness support.",
-    "full_description": "Collect helps savings groups organize members, track contributions, review group activity, and prepare credit-readiness records. Members can follow group rules, view contribution status, request support, and keep account and deletion choices accessible from the app. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.",
+    "full_description": "Collect helps savings groups organize members, track contributions, review group activity, and prepare credit-readiness records. Members can follow group rules, view contribution status, request support, and keep account and deletion choices accessible from the app. On Android, a group receiver can optionally allow Collect to receive only new MTN or Airtel mobile-money transaction SMS so contributions can be matched automatically. Collect does not read inbox history or unrelated messages. This access is explained before Android's permission prompt, can be denied, and can be turned off at any time from App permissions. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.",
     "category": "FINANCE",
     "tags_to_confirm_in_console": [
       "Savings",
@@ -123,8 +140,9 @@
     "account_deletion_url": "https://collect.ikanisa.com/account-deletion/",
     "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
     "app_access": {
-      "reviewer_access_required": "confirm_in_console",
-      "notes": "If Play reviewers cannot access post-login group workflows, add reviewer instructions or a test account through App access."
+      "reviewer_access_required": true,
+      "status": "configured_in_play_console_2026_08_08",
+      "notes": "Play Sign in details declares restricted access and contains a dedicated WhatsApp OTP review entry. Credential values were not read, printed, copied, or retained during the audit."
     },
     "data_safety": {
       "collected_data_categories": [
@@ -203,11 +221,13 @@
         "android.permission.INTERNET",
         "android.permission.CAMERA",
         "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECEIVE_SMS",
         "android.permission.VIBRATE",
         "android.permission.ACCESS_NETWORK_STATE"
       ],
-      "restricted_sms_permissions_in_production": false,
-      "sms_receiver_scope": "Restricted SMS permissions remain isolated to the internal_receiver flavor and are not in the production manifest."
+      "restricted_sms_permissions_in_production": true,
+      "sms_permissions_declaration_status": "submitted_with_production_v12_review",
+      "sms_receiver_scope": "Production is receive-only for new consented MTN/Airtel mobile-money broadcasts. It never requests READ_SMS, SEND_SMS, inbox history, Call Log, contacts, or storage access. Public distribution remains blocked until Google Play accepts the declaration."
     }
   },
   "play_console_surfaces": {
@@ -262,6 +282,6 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "canonical_privacy_url_submitted_to_google_play_review_2026_07_18",
+  "console_completion_status": "production_v12_changes_in_review_internal_v12_available_app_access_verified_ad_id_no_sms_declaration_submitted_2026_08_08",
   "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
 }

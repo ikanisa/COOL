@@ -1878,6 +1878,7 @@ class _PermissionSequenceNotificationService
     required String title,
     required String body,
     String? payload,
+    String? eventType,
   }) async {
     notificationCalls += 1;
   }

@@ -163,6 +163,8 @@ class CollectScreenTopChrome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
     final control = CollectRuntimeTokens.chromeControl(colors);
@@ -267,7 +269,9 @@ class CollectScreenTopChrome extends StatelessWidget {
                               CollectSpacing.gapW8,
                               Expanded(
                                 child: Text(
-                                  searchLabel,
+                                  usesAccessibilityText
+                                      ? 'Search'
+                                      : searchLabel,
                                   style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(
                                         color: muted,

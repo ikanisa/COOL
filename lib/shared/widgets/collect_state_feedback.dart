@@ -231,6 +231,8 @@ class InfoSecurityBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final visibleMessage = message.trim();
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return CollectCard(
       emphasis: CollectCardEmphasis.flat,
       padding: const EdgeInsets.symmetric(
@@ -249,7 +251,7 @@ class InfoSecurityBanner extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: titleMaxLines,
+                  maxLines: usesAccessibilityText ? null : titleMaxLines,
                   softWrap: true,
                   overflow: TextOverflow.clip,
                 ),
@@ -258,7 +260,7 @@ class InfoSecurityBanner extends StatelessWidget {
                   Text(
                     visibleMessage,
                     style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: messageMaxLines,
+                    maxLines: usesAccessibilityText ? null : messageMaxLines,
                     softWrap: true,
                     overflow: TextOverflow.clip,
                   ),
@@ -282,6 +284,8 @@ class CollectConnectivityBanner extends StatelessWidget {
     final details = _ConnectivityBannerDetails.fromStatus(status);
     if (details == null) return const SizedBox.shrink();
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return Semantics(
       container: true,
       liveRegion: true,
@@ -308,8 +312,8 @@ class CollectConnectivityBanner extends StatelessWidget {
               Flexible(
                 child: Text(
                   details.label,
-                  maxLines: 1,
-                  softWrap: false,
+                  maxLines: usesAccessibilityText ? 2 : 1,
+                  softWrap: usesAccessibilityText,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: colors.statusForeground(details.tone),

@@ -29,7 +29,6 @@ void main() {
       final router = createAppRouter(initialLocation: '/groups');
       final recorder = _FlutterFrameRecorder();
       addTearDown(router.dispose);
-      addTearDown(repository.dispose);
       addTearDown(recorder.dispose);
 
       recorder.begin('startup_first_usable_route');

@@ -35,14 +35,14 @@
       "status": "approved",
       "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-08-04T21:18:24Z",
+      "signed_at": "2026-08-08T12:53:00Z",
       "evidence_reference": "docs/release/RELEASE_STATUS.md",
       "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,
-      "notes": "User-directed full release execution on 2026-08-04 covers the current 1.2.2+10 Android signing review; the tracked release status records fresh APK/AAB hashes, upload-certificate preflight, APK v2 verification, AAB signature verification, and no exposed signing material.",
-      "artifact_version": "1.2.2+10"
+      "notes": "Owner reconfirmed full release execution and approval on 2026-08-08 for 1.2.2+12 after the Play Console showed the older version 10 bundle lacked RECEIVE_SMS and the version 11 device-catalog check exposed an implicit telephony filter. The current review requires fresh APK/AAB hashes, upload-certificate preflight, APK signature verification, AAB verification, and no exposed signing material.",
+      "artifact_version": "1.2.2+12"
     },
     {
       "key": "ios_release_scope",
@@ -50,7 +50,7 @@
       "status": "approved",
       "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-08-05T06:04:11Z",
+      "signed_at": "2026-08-08T12:53:00Z",
       "evidence_reference": "docs/release/RELEASE_STATUS.md",
       "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
@@ -68,8 +68,8 @@
       "suggested_evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
-      "notes": "Owner explicitly authorized full execution and approval of every app task for current version 1.2.2+10, accepting recorded residual risks while requiring all available device, provider, and store actions to be attempted.",
-      "artifact_version": "1.2.2+10"
+      "notes": "Owner explicitly reconfirmed full execution and approval of every app task for current version 1.2.2+12, including use of authenticated computer and Play Console capabilities, while requiring all available device, provider, and store actions to be attempted.",
+      "artifact_version": "1.2.2+12"
     }
   ],
   "secret_handling": "Approval evidence metadata only. Do not add secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service keys, provider tokens, or production customer data."

@@ -26,7 +26,7 @@ engineering:
   `0.4.0+collect.1` fork for Android
   path-traversal hardening, modern iOS/macOS packaging, and current platform
   compatibility;
-- all 18 direct third-party runtime packages carry permissive licences;
+- all 19 direct third-party runtime packages carry permissive licences;
 - the current package resolver reports no package affected by a published
   advisory, discontinued, or retracted;
 - formatting and static analysis pass;
@@ -47,8 +47,9 @@ dialog UAT, signing, and accountable approval remain separate gates.
 | `app_links` | 7.2.1 | Apache-2.0 |
 | `country_picker` | 2.0.28 | MIT |
 | `crypto` | 3.0.7 | BSD-3-Clause |
+| `cupertino_icons` | 1.0.9 | MIT |
 | `file_saver` | 0.4.0+collect.1 controlled path fork | BSD-3-Clause; upstream licence and provenance retained |
-| `flutter_local_notifications` | 22.1.0 | BSD-3-Clause |
+| `flutter_local_notifications` | 22.3.0 | BSD-3-Clause |
 | `flutter_riverpod` | 2.6.1 | MIT |
 | `go_router` | 16.3.0 | BSD-3-Clause |
 | `image_picker` | 1.2.3 | BSD-3-Clause plus bundled Apache-2.0 notice |
@@ -59,7 +60,7 @@ dialog UAT, signing, and accountable approval remain separate gates.
 | `qr_flutter` | 4.1.0 | BSD-3-Clause |
 | `share_plus` | 13.3.0 | BSD-3-Clause |
 | `shared_preferences` | 2.5.5 | BSD-3-Clause |
-| `supabase_flutter` | 2.16.0 | MIT |
+| `supabase_flutter` | 2.17.1 | MIT |
 | `url_launcher` | 6.3.2 | BSD-3-Clause |
 | `uuid` | 4.6.0 | MIT |
 
@@ -139,18 +140,19 @@ The upgraded dev APK is `app.cool.mobile.dev`, targets SDK 36, and declares:
 - `VIBRATE`
 - the application-scoped dynamic-receiver protection permission
 
-It does not declare `READ_SMS`, `RECEIVE_SMS`, `SEND_SMS`, Call Log, broad
+It does not declare `READ_SMS`, `SEND_SMS`, Call Log, broad
 photo/video, or storage permissions. Upstream `file_saver` 0.4.0 initially
 introduced legacy external-storage declarations during manifest merging; Collect now
 removes both explicitly because QR export uses app-specific storage. A
 regression test and rebuilt APK permission inspection prove the removals. The
-production source manifest also excludes restricted SMS permissions.
+production source manifest declares receive-only `RECEIVE_SMS` for the
+prominently disclosed SMS-based money-management feature.
 
-`READ_SMS` and `RECEIVE_SMS` are isolated to the separately suffixed
-`internal_receiver` flavor. That flavor is controlled UAT infrastructure and
-must never be uploaded to a public Google Play track. Google restricts SMS and
-Call Log permissions and requires an approved core use and declaration when
-they are present:
+`internal_receiver` remains controlled UAT infrastructure. Production also
+contains `RECEIVE_SMS` but never `READ_SMS`; it must not be uploaded to a public
+Google Play track until Google accepts the restricted SMS Permissions
+Declaration. Google restricts SMS and Call Log permissions and requires an
+approved core use and declaration when they are present:
 <https://support.google.com/googleplay/android-developer/answer/10208820>
 
 The absence of broad photo/video permissions aligns with Google's minimum-scope
@@ -216,7 +218,7 @@ Remaining App Store actions:
 | Privacy policy routes | Implemented locally | Legal approval, production URL, browser/device verification |
 | In-app account deletion request | Implemented locally | Controlled-backend negative/positive path and retention evidence |
 | Public deletion resource | Implemented locally | Production deployment and store-link verification |
-| Production restricted SMS permissions absent | Source/test evidence passes | Inspect final signed production APK/AAB |
+| Production receive-only SMS scope | `RECEIVE_SMS` present; `READ_SMS` and `SEND_SMS` absent | Inspect final signed APK/AAB and obtain Google Play declaration acceptance before public distribution |
 | Broad photo/video permission absent | Upgraded dev APK passes | Inspect final production artifact |
 | Camera/notification purpose and recovery | E-054/E-056 controlled-emulator native allow/deny/retry/recovery evidence passes | Physical-device and final-production-package confirmation |
 | Google Data Safety | Not submitted in this goal | Product/Privacy/Release approval and Play Console evidence |

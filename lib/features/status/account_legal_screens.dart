@@ -333,6 +333,8 @@ Future<bool> _showAccountActionSheet({
     sheetAnimationStyle: CollectMotion.animationStyle(context),
     builder: (sheetContext) {
       final colors = sheetContext.collectColors;
+      final usesAccessibilityText =
+          MediaQuery.textScalerOf(sheetContext).scale(1) >= 1.3;
       return Padding(
         padding: EdgeInsets.fromLTRB(
           CollectSpacing.x4,
@@ -340,65 +342,88 @@ Future<bool> _showAccountActionSheet({
           CollectSpacing.x4,
           MediaQuery.viewInsetsOf(sheetContext).bottom + CollectSpacing.x4,
         ),
-        child: CollectCard(
-          emphasis: CollectCardEmphasis.glow,
-          accentColor: colors.statusBlocked,
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CollectToneIcon(icon: icon, tone: CollectStatusTone.warning),
-                  CollectSpacing.gapW12,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: Theme.of(sheetContext).textTheme.titleLarge
-                              ?.copyWith(
-                                fontWeight: CollectTypography.weightBold,
-                              ),
+        child: SingleChildScrollView(
+          child: CollectCard(
+            emphasis: CollectCardEmphasis.glow,
+            accentColor: colors.statusBlocked,
+            padding: CollectSpacing.cardPaddingComfortable,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CollectToneIcon(
+                      icon: icon,
+                      tone: CollectStatusTone.warning,
+                    ),
+                    CollectSpacing.gapW12,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: Theme.of(sheetContext).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: CollectTypography.weightBold,
+                                ),
+                          ),
+                          CollectSpacing.gap8,
+                          Text(
+                            message,
+                            softWrap: true,
+                            style: Theme.of(sheetContext).textTheme.bodyMedium
+                                ?.copyWith(color: colors.textSecondary),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                CollectSpacing.gap20,
+                if (usesAccessibilityText) ...[
+                  CollectButton(
+                    label: confirmLabel,
+                    icon: confirmIcon,
+                    variant: CollectButtonVariant.danger,
+                    onPressed: () => Navigator.of(sheetContext).pop(true),
+                    expand: true,
+                  ),
+                  CollectSpacing.gap12,
+                  CollectButton(
+                    label: 'Cancel',
+                    icon: CollectIcons.chevron,
+                    variant: CollectButtonVariant.secondary,
+                    onPressed: () => Navigator.of(sheetContext).pop(false),
+                    expand: true,
+                  ),
+                ] else
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CollectButton(
+                          label: 'Cancel',
+                          icon: CollectIcons.chevron,
+                          variant: CollectButtonVariant.secondary,
+                          onPressed: () =>
+                              Navigator.of(sheetContext).pop(false),
                         ),
-                        CollectSpacing.gap8,
-                        Text(
-                          message,
-                          softWrap: true,
-                          style: Theme.of(sheetContext).textTheme.bodyMedium
-                              ?.copyWith(color: colors.textSecondary),
+                      ),
+                      CollectSpacing.gapW12,
+                      Expanded(
+                        child: CollectButton(
+                          label: confirmLabel,
+                          icon: confirmIcon,
+                          variant: CollectButtonVariant.danger,
+                          onPressed: () => Navigator.of(sheetContext).pop(true),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              CollectSpacing.gap20,
-              Row(
-                children: [
-                  Expanded(
-                    child: CollectButton(
-                      label: 'Cancel',
-                      icon: CollectIcons.chevron,
-                      variant: CollectButtonVariant.secondary,
-                      onPressed: () => Navigator.of(sheetContext).pop(false),
-                    ),
-                  ),
-                  CollectSpacing.gapW12,
-                  Expanded(
-                    child: CollectButton(
-                      label: confirmLabel,
-                      icon: confirmIcon,
-                      variant: CollectButtonVariant.danger,
-                      onPressed: () => Navigator.of(sheetContext).pop(true),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

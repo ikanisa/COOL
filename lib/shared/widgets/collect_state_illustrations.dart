@@ -27,6 +27,8 @@ class MinimalStatePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return CollectCard(
       emphasis: CollectCardEmphasis.tonal,
       accentColor: colors.statusForeground(tone),
@@ -34,7 +36,9 @@ class MinimalStatePanel extends StatelessWidget {
         container: true,
         label: message.trim().isEmpty ? title : '$title, $message',
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: contentMaxWidth),
+          constraints: BoxConstraints(
+            maxWidth: usesAccessibilityText ? double.infinity : contentMaxWidth,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,7 +50,7 @@ class MinimalStatePanel extends StatelessWidget {
                   color: colors.textPrimary,
                   fontWeight: CollectTypography.weightBold,
                 ),
-                maxLines: titleMaxLines,
+                maxLines: usesAccessibilityText ? null : titleMaxLines,
               ),
               if (message.trim().isNotEmpty) ...[
                 CollectSpacing.gap8,
@@ -55,7 +59,7 @@ class MinimalStatePanel extends StatelessWidget {
                   style: Theme.of(
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
-                  maxLines: messageMaxLines,
+                  maxLines: usesAccessibilityText ? null : messageMaxLines,
                 ),
               ],
               if (primaryAction != null || secondaryAction != null) ...[

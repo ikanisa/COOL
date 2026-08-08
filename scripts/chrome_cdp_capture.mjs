@@ -85,6 +85,7 @@ const chromeArgs = [
   '--disable-dev-shm-usage',
   '--disable-extensions',
   '--disable-crash-reporter',
+  '--force-prefers-reduced-motion',
   '--no-sandbox',
   '--no-first-run',
   '--no-default-browser-check',
@@ -179,6 +180,7 @@ async function captureWithBuiltInScreenshot(reason) {
     '--disable-dev-shm-usage',
     '--disable-extensions',
     '--disable-crash-reporter',
+    '--force-prefers-reduced-motion',
     '--no-sandbox',
     '--no-first-run',
     '--no-default-browser-check',
@@ -333,6 +335,9 @@ try {
     positionY: 0,
   });
   await command('Emulation.setTouchEmulationEnabled', { enabled: true });
+  await command('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
+  });
   await command('Page.navigate', { url });
   await delay(waitMs);
   const bootDeadline = Date.now() + commandTimeoutMs;

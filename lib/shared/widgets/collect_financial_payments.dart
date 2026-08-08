@@ -21,34 +21,66 @@ class PaymentReviewSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return CollectCard(
       emphasis: CollectCardEmphasis.hero,
       padding: CollectSpacing.cardPaddingComfortable,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
+          if (usesAccessibilityText) ...[
+            Text(
+              'Review contribution',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            if (onEdit != null) ...[
+              CollectSpacing.gap8,
+              CollectButton(
+                label: 'Edit amount',
+                icon: CollectIcons.tune,
+                onPressed: onEdit,
+                variant: CollectButtonVariant.subtle,
+              ),
+            ],
+          ] else
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Review contribution',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                if (onEdit != null)
+                  CollectButton(
+                    label: 'Edit',
+                    icon: CollectIcons.tune,
+                    onPressed: onEdit,
+                    variant: CollectButtonVariant.subtle,
+                  ),
+              ],
+            ),
+          CollectSpacing.gap16,
+          if (usesAccessibilityText)
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: MediaQuery.withClampedTextScaling(
+                maxScaleFactor: 1.3,
                 child: Text(
-                  'Review contribution',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  formatRwf(amountRwf),
+                  maxLines: 1,
+                  softWrap: false,
+                  style: CollectTypography.amountDisplay(colors.textPrimary),
                 ),
               ),
-              if (onEdit != null)
-                CollectButton(
-                  label: 'Edit',
-                  icon: CollectIcons.tune,
-                  onPressed: onEdit,
-                  variant: CollectButtonVariant.subtle,
-                ),
-            ],
-          ),
-          CollectSpacing.gap16,
-          Text(
-            formatRwf(amountRwf),
-            style: CollectTypography.amountDisplay(colors.textPrimary),
-          ),
+            )
+          else
+            Text(
+              formatRwf(amountRwf),
+              style: CollectTypography.amountDisplay(colors.textPrimary),
+            ),
           CollectSpacing.gap20,
           _ReviewLine(label: 'Group', value: groupTitle),
           _ReviewLine(
@@ -72,26 +104,43 @@ class _ReviewLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 92,
-            child: Text(
-              label.toUpperCase(),
-              style: CollectTypography.eyebrowLabel(colors.textMuted),
+      child: usesAccessibilityText
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: CollectTypography.eyebrowLabel(colors.textMuted),
+                ),
+                CollectSpacing.gap4,
+                SelectableText(
+                  value,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 92,
+                  child: Text(
+                    label.toUpperCase(),
+                    style: CollectTypography.eyebrowLabel(colors.textMuted),
+                  ),
+                ),
+                Expanded(
+                  child: SelectableText(
+                    value,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Expanded(
-            child: SelectableText(
-              value,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

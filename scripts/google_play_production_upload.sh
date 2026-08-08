@@ -9,8 +9,8 @@ TRACK="${TRACK:-production}"
 STATUS="${STATUS:-completed}"
 USER_FRACTION="${USER_FRACTION:-}"
 AAB_PATH="${AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}"
-RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (10)}"
-RELEASE_NOTES="${RELEASE_NOTES:-Adds verified app links and refreshed Play policy readiness for Collect.}"
+RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (12)}"
+RELEASE_NOTES="${RELEASE_NOTES:-Adds native notification controls and optional receive-only MoMo SMS matching, with stronger permission recovery, accessibility, and security.}"
 OUTPUT_PATH="${OUTPUT_PATH:-}"
 OUTPUT_FORMAT="text"
 SUBMIT="false"
@@ -30,9 +30,9 @@ Environment:
   STATUS                               default: completed
   USER_FRACTION                        optional, for staged rollout statuses
   AAB_PATH                             default: build/app/outputs/bundle/productionRelease/app-production-release.aab
-  RELEASE_NAME                         default: Collect 1.2.2 (9)
+  RELEASE_NAME                         default: Collect 1.2.2 (12)
   RELEASE_NOTES                        default release notes
-  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v10.json
+  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v12.json
   ANDROID_PUBLISHER_ACCESS_TOKEN       optional bearer token; never printed
   ANDROID_PUBLISHER_ACCESS_TOKEN_CMD   optional command that prints a bearer token
   GOOGLE_APPLICATION_CREDENTIALS       service-account JSON is supported directly
@@ -67,9 +67,9 @@ done
 
 if [[ -z "$OUTPUT_PATH" ]]; then
   if [[ "$SUBMIT" == "true" ]]; then
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v10.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v12.json"
   else
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v10_dry_run.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v12_dry_run.json"
   fi
 fi
 
@@ -224,6 +224,12 @@ end
 errors = []
 errors << "missing AAB: #{aab_path}" unless File.file?(aab_path)
 errors << "unsupported release status: #{status}" unless %w[draft inProgress halted completed].include?(status)
+if submit
+  packet_path = File.join(Dir.pwd, "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json")
+  packet = JSON.parse(File.read(packet_path)) rescue {}
+  declaration_status = packet.dig("app_content", "permissions", "sms_permissions_declaration_status")
+  errors << "google_play_sms_permissions_declaration_not_approved" unless declaration_status == "approved"
+end
 if status == "inProgress"
   fraction = Float(user_fraction) rescue nil
   errors << "USER_FRACTION must be > 0 and < 1 for inProgress releases" unless fraction && fraction.positive? && fraction < 1

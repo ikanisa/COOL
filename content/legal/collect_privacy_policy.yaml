@@ -6,7 +6,7 @@ page:
   seo:
     title: Privacy Policy | Collect by IKANISA
     description: Learn how Collect by IKANISA collects, uses, shares, protects, retains and deletes personal data.
-  last_updated: 20 June 2026
+  last_updated: 8 August 2026
   hero:
     eyebrow: PRIVACY AND TRUST
     headline: Your data. Your choice. Your financial journey.
@@ -107,8 +107,10 @@ page:
       - Repayment records
       - Purpose-based savings goals
       closing: >-
-        Collect may receive transaction evidence from banks, mobile-money providers or other authorised payment
-        partners. Collect does not require access to unrelated messages stored on your device.
+        On Android, a group receiver may choose to allow Collect to process only new MTN or Airtel mobile-money
+        transaction SMS received after consent. Collect does not read inbox history, unrelated messages or SMS from
+        before consent. Transaction evidence may also come from banks, mobile-money providers or other authorised
+        payment partners.
     - heading: Credit-readiness information
       bullets:
       - Business profile and ownership information

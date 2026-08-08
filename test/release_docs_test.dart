@@ -31,7 +31,7 @@ void main() {
       'android_release_signing_review': (
         reviewer: 'Release Engineer Cy',
         notes:
-            'Signed version 1.2.2+10 APK AAB and Play App Signing evidence for release gate test.',
+            'Signed version 1.2.2+12 APK AAB and Play App Signing evidence for release gate test.',
       ),
       'ios_release_scope': (
         reviewer: 'Mobile Scope Lead Dee',
@@ -60,7 +60,7 @@ void main() {
       }
       if (record['key'] == 'android_release_signing_review' ||
           record['key'] == 'release_owner_signoff') {
-        record['artifact_version'] = '1.2.2+10';
+        record['artifact_version'] = '1.2.2+12';
       }
     }
     return manifest;
@@ -950,7 +950,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           'RELEASE_APPROVALS_JSON': manifestFile.path,
           'ANDROID_RELEASE_SIGNING_REVIEWED': '1',
           'ANDROID_RELEASE_SIGNING_NOTE':
-              'Current version 1.2.2+10 release signing reviewed.',
+              'Current version 1.2.2+12 release signing reviewed.',
           'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
           'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
           'ANDROID_RELEASE_SIGNING_EVIDENCE': 'docs/release/RELEASE_STATUS.md',
@@ -987,7 +987,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['checks']['android_release_signing_review']['current_artifact_version'],
-        '1.2.2+10',
+        '1.2.2+12',
       );
       expect(
         decoded['checks']['android_release_signing_review']['approved_artifact_version'],
@@ -1050,7 +1050,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['approvals']['release_owner_signoff']['current_artifact_version'],
-        '1.2.2+10',
+        '1.2.2+12',
       );
       expect(
         decoded['approvals']['release_owner_signoff']['approved_artifact_version'],
@@ -1672,7 +1672,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['status'], anyOf('pass', 'warning'));
     expect(decoded['secret_handling'], contains('does not read or print'));
-    expect(decoded['app_agp_major'], 8);
+    expect(decoded['app_agp_major'], 9);
     expect(decoded['app_built_in_kotlin_enabled'], isFalse);
     expect(decoded['interpretation'], contains('Classpath declarations'));
     expect(decoded['platform_boundary'], contains('Flutter 3.47 or later'));
@@ -1682,7 +1682,8 @@ Current decision: **NO-GO - Codex responsibility incomplete**
                   .cast<Map<String, dynamic>>())
               .map((plugin) => plugin['name'])
               .toSet();
-      expect(names, containsAll(<String>['mobile_scanner', 'share_plus']));
+      expect(names, contains('mobile_scanner'));
+      expect(names, isNot(contains('share_plus')));
       expect(names, isNot(contains('file_saver')));
       expect(names, isNot(contains('image_picker_android')));
       expect(names, isNot(contains('shared_preferences_android')));
@@ -2500,7 +2501,7 @@ checking Edge Function secret names
     );
     expect(
       androidSigning['record_command'],
-      contains('--artifact-version 1.2.2+10'),
+      contains('--artifact-version 1.2.2+12'),
     );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
@@ -2519,7 +2520,7 @@ checking Edge Function secret names
     );
     expect(
       releaseOwner['record_command'],
-      contains('--artifact-version 1.2.2+10'),
+      contains('--artifact-version 1.2.2+12'),
     );
     expect(
       releaseOwner['evidence_to_review'],
@@ -3872,6 +3873,7 @@ checking Edge Function secret names
       'app_links',
       'country_picker',
       'crypto',
+      'cupertino_icons',
       'file_saver',
       'flutter_local_notifications',
       'flutter_riverpod',
@@ -3904,7 +3906,9 @@ checking Edge Function secret names
       contains('https://developer.apple.com/app-store/review/guidelines/'),
     );
     expect(assessment, contains('internal_receiver'));
-    expect(assessment, contains('must never be uploaded'));
+    expect(assessment, contains('receive-only `RECEIVE_SMS`'));
+    expect(assessment, contains('must not be uploaded to a public'));
+    expect(assessment, contains('declaration acceptance'));
   });
 
   test('completion audit stays blocked while independent design QA passes', () {

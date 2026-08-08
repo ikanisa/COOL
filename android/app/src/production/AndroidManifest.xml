@@ -1,0 +1,25 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+      Restricted Google Play permission: this is used only for the prominent,
+      user-enabled SMS-based money-management feature. Store distribution must
+      remain gated on an approved SMS Permissions Declaration.
+    -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony.messaging"
+        android:required="false" />
+
+    <application>
+        <receiver
+            android:name=".receiver_sms.CollectSmsReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

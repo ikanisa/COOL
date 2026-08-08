@@ -154,6 +154,9 @@ on_exit() {
   if [[ "${uat_pid:-}" != "" ]] && kill -0 "$uat_pid" >/dev/null 2>&1; then
     kill -TERM "$uat_pid" >/dev/null 2>&1 || true
   fi
+  if [[ "${probe_pid:-}" != "" ]] && kill -0 "$probe_pid" >/dev/null 2>&1; then
+    kill -TERM "$probe_pid" >/dev/null 2>&1 || true
+  fi
   exit "$rc"
 }
 
@@ -189,6 +192,26 @@ set_airplane_mode 0
 set_wifi_enabled 1
 set_data_enabled 1
 sleep 4
+
+# The device test probes the Android-emulator host alias (10.0.2.2). Own the
+# matching host-side TCP listener here so the network transition is
+# deterministic and does not depend on an unrelated process already using the
+# configured port.
+ruby -rsocket -e '
+  server = TCPServer.new("0.0.0.0", Integer(ARGV.fetch(0)))
+  trap("TERM") { server.close; exit }
+  loop do
+    client = server.accept
+    client.close
+  rescue IOError, Errno::EBADF
+    exit
+  end
+' "$PROBE_PORT" >>"$HARNESS_LOG" 2>&1 &
+probe_pid=$!
+sleep 1
+if ! kill -0 "$probe_pid" >/dev/null 2>&1; then
+  fail "Unable to start the local TCP reachability probe on port $PROBE_PORT."
+fi
 
 "$FLUTTER" test \
   --no-pub \
@@ -238,6 +261,12 @@ wait "$uat_pid"
 rc=$?
 set -e
 uat_pid=""
+
+if [[ "${probe_pid:-}" != "" ]] && kill -0 "$probe_pid" >/dev/null 2>&1; then
+  kill -TERM "$probe_pid" >/dev/null 2>&1 || true
+  wait "$probe_pid" >/dev/null 2>&1 || true
+fi
+probe_pid=""
 
 status="pass"
 if [[ "$rc" -ne 0 ]] ||

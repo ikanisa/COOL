@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../core/notifications/collect_notification_service.dart';
+import '../../core/security/sms_access_channel.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -18,13 +19,13 @@ Future<void> showSmsAccessSheet(
     icon: CollectIcons.sms,
     title: 'SMS access',
     message:
-        'Collect uses Android SMS access only for owner-side MoMo payment matching when this internal build enables it.',
+        'Collect uses Android SMS access only for new mobile-money transaction messages after you opt in. It does not read inbox history or unrelated SMS.',
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
     onPrimary: (sheetContext) {
       Navigator.of(sheetContext, rootNavigator: true).maybePop();
-      permissions.openAppSettings();
+      unawaited(const SmsAccessChannel().openAppSettings());
     },
     secondaryLabel: 'Retry',
     secondaryIcon: CollectIcons.sync,

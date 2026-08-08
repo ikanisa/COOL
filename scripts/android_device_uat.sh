@@ -39,6 +39,7 @@ THEME_MODE="${ANDROID_UAT_THEME_MODE:-dark}"
 TEXT_SCALE="${ANDROID_UAT_TEXT_SCALE:-1.0}"
 HIGH_CONTRAST="${ANDROID_UAT_HIGH_CONTRAST:-false}"
 REDUCED_MOTION="${ANDROID_UAT_REDUCED_MOTION:-false}"
+STATE_FILTER="${ANDROID_UAT_STATE_FILTER:-}"
 MOBILE_EVIDENCE_MODE="${ANDROID_UAT_MOBILE_EVIDENCE_MODE:-true}"
 REQUIRE_SCREENSHOTS="${ANDROID_UAT_REQUIRE_SCREENSHOTS:-false}"
 export COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY="${COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY:-false}"
@@ -98,7 +99,7 @@ case "${1:-}" in
     ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION ANDROID_UAT_MOBILE_EVIDENCE_MODE\n'
+    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION ANDROID_UAT_STATE_FILTER ANDROID_UAT_MOBILE_EVIDENCE_MODE\n'
     exit 0
     ;;
   *)
@@ -164,6 +165,7 @@ if [[ -f "$DRIVER" ]]; then
     --dart-define="COLLECT_UAT_TEXT_SCALE=$TEXT_SCALE"
     --dart-define="COLLECT_UAT_HIGH_CONTRAST=$HIGH_CONTRAST"
     --dart-define="COLLECT_UAT_REDUCED_MOTION=$REDUCED_MOTION"
+    --dart-define="COLLECT_UAT_STATE_FILTER=$STATE_FILTER"
   )
   runner="drive"
 else
@@ -179,6 +181,7 @@ else
     --dart-define="COLLECT_UAT_TEXT_SCALE=$TEXT_SCALE"
     --dart-define="COLLECT_UAT_HIGH_CONTRAST=$HIGH_CONTRAST"
     --dart-define="COLLECT_UAT_REDUCED_MOTION=$REDUCED_MOTION"
+    --dart-define="COLLECT_UAT_STATE_FILTER=$STATE_FILTER"
     "$TEST_TARGET"
   )
   runner="test"
@@ -295,6 +298,8 @@ fi
 
 route_expected=0
 route_passes=0
+state_expected=0
+state_passes=0
 screenshot_count=0
 screenshot_manifest_sha256=""
 if [[ "$TEST_TARGET" == *"mobile_route_matrix_device_uat_test.dart" ]]; then
@@ -316,6 +321,34 @@ if [[ "$TEST_TARGET" == *"mobile_route_matrix_device_uat_test.dart" ]]; then
   if [[ "$REQUIRE_SCREENSHOTS" == "true" && "$screenshot_count" -ne "$route_expected" ]]; then
     printf '[android-device-uat][FAIL] Screenshot completion mismatch: expected=%s captured=%s.\n' \
       "$route_expected" "$screenshot_count" >>"$LOG_FILE"
+    if [[ "$rc" -eq 0 ]]; then
+      rc=1
+    fi
+  fi
+fi
+if [[ "$TEST_TARGET" == *"mobile_material_state_matrix_device_uat_test.dart" ]]; then
+  if [[ -n "$STATE_FILTER" ]]; then
+    state_expected=1
+  else
+    state_expected="$(awk '/^  _StateSpec\(/ { count += 1 } END { print count + 0 }' "$TEST_TARGET")"
+  fi
+  state_passes="$(grep -c 'collect_state_uat:pass:' "$LOG_FILE" || true)"
+  if [[ "$state_expected" -eq 0 || "$state_passes" -ne "$state_expected" ]]; then
+    printf '[android-device-uat][FAIL] State completion mismatch: expected=%s passed=%s.\n' \
+      "$state_expected" "$state_passes" >>"$LOG_FILE"
+    if [[ "$rc" -eq 0 ]]; then
+      rc=1
+    fi
+  fi
+  if [[ -d "$SCREENSHOT_DIR" ]]; then
+    screenshot_count="$(find "$SCREENSHOT_DIR" -maxdepth 1 -type f -name 'mobile_state_*.png' | wc -l | tr -d ' ')"
+  fi
+  if [[ -f "$SCREENSHOT_DIR/screenshots.jsonl" ]]; then
+    screenshot_manifest_sha256="$(shasum -a 256 "$SCREENSHOT_DIR/screenshots.jsonl" | awk '{print $1}')"
+  fi
+  if [[ "$REQUIRE_SCREENSHOTS" == "true" && "$screenshot_count" -ne "$state_expected" ]]; then
+    printf '[android-device-uat][FAIL] Screenshot completion mismatch: expected=%s captured=%s.\n' \
+      "$state_expected" "$screenshot_count" >>"$LOG_FILE"
     if [[ "$rc" -eq 0 ]]; then
       rc=1
     fi
@@ -369,6 +402,8 @@ ANDROID_UAT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
 ANDROID_UAT_COMPLETION_MARKER="$completion_marker" \
 ANDROID_UAT_ROUTE_EXPECTED="$route_expected" \
 ANDROID_UAT_ROUTE_PASSES="$route_passes" \
+ANDROID_UAT_STATE_EXPECTED="$state_expected" \
+ANDROID_UAT_STATE_PASSES="$state_passes" \
 ANDROID_UAT_REQUIRE_SCREENSHOTS="$REQUIRE_SCREENSHOTS" \
 ANDROID_UAT_SCREENSHOT_DIR="${SCREENSHOT_DIR#$ROOT_DIR/}" \
 ANDROID_UAT_SCREENSHOT_COUNT="$screenshot_count" \
@@ -409,6 +444,8 @@ puts JSON.pretty_generate(
     "completion_marker" => ENV.fetch("ANDROID_UAT_COMPLETION_MARKER") == "1",
     "route_expected" => ENV.fetch("ANDROID_UAT_ROUTE_EXPECTED").to_i,
     "route_passes" => ENV.fetch("ANDROID_UAT_ROUTE_PASSES").to_i,
+    "state_expected" => ENV.fetch("ANDROID_UAT_STATE_EXPECTED").to_i,
+    "state_passes" => ENV.fetch("ANDROID_UAT_STATE_PASSES").to_i,
     "screenshots" => {
       "required" => ENV.fetch("ANDROID_UAT_REQUIRE_SCREENSHOTS") == "true",
       "directory" => ENV.fetch("ANDROID_UAT_SCREENSHOT_DIR"),

@@ -50,6 +50,8 @@ Supabase function secrets:
 - `APNS_BUNDLE_ID` (`app.cool.mobile` in production)
 - `APNS_PRIVATE_KEY_BASE64` (server-only base64 encoding of the complete Apple
   `.p8` private-key PEM file)
+- `FCM_SERVICE_ACCOUNT_JSON` (server-only complete Firebase service-account
+  JSON used by the Android FCM HTTP v1 sender)
 
 The WhatsApp hook also accepts the Mobi/Memories-compatible aliases
 `WHATSAPP_CLOUD_ACCESS_TOKEN`, `WHATSAPP_CLOUD_PHONE_NUMBER_ID`,
@@ -60,8 +62,17 @@ The WhatsApp hook also accepts the Mobi/Memories-compatible aliases
 Build flavors:
 
 - `dev`: normal development build without restricted SMS permissions.
-- `internal_receiver`: internal Android build with SMS permissions and SMS app-access flags.
-- `production`: production app without restricted SMS permissions by default.
+- `internal_receiver`: internal Android build with the scoped `RECEIVE_SMS`
+  permission for device testing.
+- `production`: production Android build with the scoped `RECEIVE_SMS`
+  permission. Publishing this flavor is blocked until the Google Play SMS
+  Permissions Declaration is approved for the app's core money-management use
+  case.
+
+The Android receiver does not request `READ_SMS`: it handles only newly
+delivered, provider-filtered financial messages after the user enables access.
+Queued messages are encrypted with an Android Keystore key and are removed only
+after successful ingestion.
 
 Local Supabase notes:
 

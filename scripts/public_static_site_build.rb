@@ -52,7 +52,7 @@ BRAND_PRIMARY_COLORS = {
 BRAND_BLACK = collect_color_hex("referenceChromeBlack")
 BRAND_PAPER = collect_color_hex("brandPaper")
 BRAND_INK = collect_color_hex("inkPrimary")
-BRAND_SURFACE_WHITE = collect_color_hex("secondarySurfaceReadable")
+BRAND_SURFACE_WHITE = collect_color_hex("publicWhite")
 
 
 PUBLIC_FAQS = {

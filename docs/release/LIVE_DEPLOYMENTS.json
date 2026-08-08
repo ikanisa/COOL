@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T20:27:49Z",
+  "generated_at": "2026-08-08T09:59:16Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,10 +7,10 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "5c96e0a5-92c7-4e35-8f6d-f4f537b7770f",
-      "rollback_version_id": "706a4c17-f141-47c5-8610-2adb402e9ab0",
+      "version_id": "d7608fd6-47bd-4e2f-84aa-b8f7c98a6be9",
+      "rollback_version_id": "5c96e0a5-92c7-4e35-8f6d-f4f537b7770f",
       "live_gate_status": "pass",
-      "evidence": "ruby scripts/public_static_site_build.rb and ./scripts/public_website_quality_gate.sh --json passed 55/55 from e87a7192. The build publishes both the Google Play app-signing and upload certificate fingerprints for app.cool.mobile and splits route-only styles from the 21,932-byte critical stylesheet. npx --yes wrangler@latest deploy --name collect-public --assets build/public_web --compatibility-date 2026-08-04 --message \"Reduce critical CSS from e87a7192\" --strict deployed Current Version ID 5c96e0a5-92c7-4e35-8f6d-f4f537b7770f; version 706a4c17-f141-47c5-8610-2adb402e9ab0 is retained as the clean pre-change rollback. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com ./scripts/public_website_live_gate.sh --json passed 34/34 at 2026-08-04T20:27:49Z with critical first-party assets at 36,785 bytes."
+      "evidence": "The static quality gate passed 55/55 with the 8 August 2026 receive-only Android SMS privacy disclosure and the immutable public media hashes. Wrangler deployed Current Version ID d7608fd6-47bd-4e2f-84aa-b8f7c98a6be9; version 5c96e0a5-92c7-4e35-8f6d-f4f537b7770f is retained as the immediate rollback. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com scripts/public_website_live_gate.sh --json passed 34/34 after deployment."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",

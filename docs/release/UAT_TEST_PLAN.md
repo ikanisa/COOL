@@ -1,9 +1,10 @@
 # Collect UAT Test Plan
 
-Audit date: 2026-06-02
+Audit date: 2026-08-05
 
-Decision context: **NO-GO pending Android SMS scenario evidence, Android
-signing review, iOS scope evidence, and release-owner execution records**.
+Decision context: **NO-GO pending Google Play restricted-SMS approval, live
+Android FCM evidence, Android SMS scenario evidence, Android signing review,
+iOS scope evidence, and release-owner execution records**.
 
 This plan covers the corrected SMS-first Groups product definition. It excludes old
 goals, campaign/public-directory flows, manual SMS paste, self-reported payment
@@ -34,6 +35,13 @@ Current blocked evidence:
 - Production-flavor Pixel smoke passed at
   `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS
   scenario UAT is still pending.
+- The 2026-08-05 implementation adds production-scoped `RECEIVE_SMS` without
+  `READ_SMS`, native permission/settings recovery, encrypted acknowledged
+  queuing, Android notification channels, and FCM HTTP v1 transport. These are
+  implementation/compile assertions until the current device and live-service
+  evidence packet is attached.
+- Google Play restricted-permission declaration approval and live Firebase
+  server credentials/delivery evidence are pending.
 - Android release signing, iOS scope, product signoff, and release-owner signoff
   are pending.
 
@@ -64,9 +72,11 @@ make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8
 1. Product definition signoff recorded.
 2. Linked Supabase migration and `scripts/collect_linked_uat.sh` pass remain
    current.
-3. Android SMS access UAT passes with sanitized screenshots/logs and reviewer
-   approval.
+3. Google Play approves the restricted SMS permission declaration and Android
+   SMS access UAT passes with sanitized screenshots/logs and reviewer approval.
 4. Admin PWA deployed URL passes live gate and any required admin walkthrough is
    signed off.
 5. Android signing review and iOS release-scope decision are recorded.
-6. Release owner approves the current release packet.
+6. Android FCM foreground, background, and notification-tap delivery passes
+   with production server credentials and sanitized evidence.
+7. Release owner approves the current release packet.

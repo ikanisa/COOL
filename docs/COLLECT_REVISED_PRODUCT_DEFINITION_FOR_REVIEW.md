@@ -362,14 +362,15 @@ Admin must not present fake metrics, demo operational content, or manual user fa
 
 ### Android SMS Layer
 
-- `RECEIVE_SMS` and `READ_SMS` permission flow for Android group owners.
+- Receive-only `RECEIVE_SMS` permission flow for Android group owners; no inbox
+  history or `READ_SMS` access.
 - Official MoMo sender allowlist.
 - BroadcastReceiver for live SMS.
-- Inbox/backfill support where appropriate.
-- Local durable queue.
+- No inbox/backfill access; only new consented telephony broadcasts.
+- Android Keystore AES-GCM encrypted, bounded, acknowledged local queue.
 - Canonical SMS hash.
 - Batch upload with authenticated signed request.
-- WorkManager retry/backoff.
+- Lifecycle retry with read-then-ack semantics after authenticated ingestion.
 - Device/gateway health state.
 
 ### Supabase Backend

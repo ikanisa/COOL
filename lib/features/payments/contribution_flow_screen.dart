@@ -340,6 +340,8 @@ class _ContributionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final control = CollectRuntimeTokens.chromeControl(colors);
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
@@ -376,8 +378,8 @@ class _ContributionHeader extends StatelessWidget {
                 header: true,
                 child: Text(
                   title,
-                  maxLines: 1,
-                  softWrap: false,
+                  maxLines: usesAccessibilityText ? 2 : 1,
+                  softWrap: usesAccessibilityText,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: foreground,

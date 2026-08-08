@@ -48,90 +48,149 @@ void main() {
     }
   });
 
-  test('production Android manifest does not request SMS permissions', () {
-    final productionManifest = File(
+  test('production Android limits SMS access to new consented messages', () {
+    final mainManifest = File(
       'android/app/src/main/AndroidManifest.xml',
+    ).readAsStringSync();
+    final productionManifest = File(
+      'android/app/src/production/AndroidManifest.xml',
     ).readAsStringSync();
     final internalReceiverManifest = File(
       'android/app/src/internal_receiver/AndroidManifest.xml',
     ).readAsStringSync();
+    final receiver = File(
+      'android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt',
+    ).readAsStringSync();
+    final playGate = File(
+      'scripts/google_play_optimization_gate.sh',
+    ).readAsStringSync();
+    final playUpload = File(
+      'scripts/google_play_production_upload.sh',
+    ).readAsStringSync();
+    final playPacket =
+        jsonDecode(
+              File(
+                'docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, dynamic>;
 
-    expect(productionManifest, isNot(contains('android.permission.READ_SMS')));
-    expect(
-      productionManifest,
-      isNot(contains('android.permission.RECEIVE_SMS')),
-    );
-    expect(
-      productionManifest,
-      contains('android.permission.READ_EXTERNAL_STORAGE'),
-    );
-    expect(
-      productionManifest,
-      contains('android.permission.WRITE_EXTERNAL_STORAGE'),
-    );
+    expect(mainManifest, isNot(contains('android.permission.READ_SMS')));
+    expect(mainManifest, isNot(contains('android.permission.RECEIVE_SMS')));
+    expect(mainManifest, contains('android.permission.READ_EXTERNAL_STORAGE'));
+    expect(mainManifest, contains('android.permission.WRITE_EXTERNAL_STORAGE'));
     expect(
       RegExp(
         r'android\.permission\.(READ|WRITE)_EXTERNAL_STORAGE"'
         r'\s+tools:node="remove"',
-      ).allMatches(productionManifest),
+      ).allMatches(mainManifest),
       hasLength(2),
     );
-    expect(internalReceiverManifest, contains('android.permission.READ_SMS'));
+    expect(productionManifest, isNot(contains('android.permission.READ_SMS')));
+    expect(productionManifest, contains('android.permission.RECEIVE_SMS'));
+    expect(
+      productionManifest,
+      contains('android:name="android.hardware.telephony"'),
+    );
+    expect(productionManifest, contains('android:required="false"'));
+    expect(productionManifest, contains('.receiver_sms.CollectSmsReceiver'));
+    expect(productionManifest, contains('android:exported="true"'));
+    expect(
+      productionManifest,
+      contains('android:permission="android.permission.BROADCAST_SMS"'),
+    );
+    expect(
+      internalReceiverManifest,
+      isNot(contains('android.permission.READ_SMS')),
+    );
     expect(
       internalReceiverManifest,
       contains('android.permission.RECEIVE_SMS'),
     );
+    expect(
+      internalReceiverManifest,
+      contains('android:name="android.hardware.telephony"'),
+    );
+    expect(internalReceiverManifest, contains('android:required="false"'));
+    expect(internalReceiverManifest, contains('android:exported="true"'));
+    expect(
+      internalReceiverManifest,
+      contains('android:permission="android.permission.BROADCAST_SMS"'),
+    );
+    expect(receiver, contains('Secure SMS queue unavailable'));
+    expect(receiver, contains('wakiriye'));
+    expect(playGate, contains('restricted_sms_play_approval'));
+    expect(playGate, contains('expected_apk_restricted'));
+    expect(
+      playUpload,
+      contains('google_play_sms_permissions_declaration_not_approved'),
+    );
+    expect(
+      ((playPacket['app_content'] as Map<String, dynamic>)['permissions']
+          as Map<String, dynamic>)['sms_permissions_declaration_status'],
+      'submitted_with_production_v12_review',
+    );
   });
 
-  test('native notification runtime is wired for local and APNs delivery', () {
-    final pubspec = File('pubspec.yaml').readAsStringSync();
-    final service = File(
-      'lib/core/notifications/collect_notification_service.dart',
-    ).readAsStringSync();
-    final nativePermissionSheets = File(
-      'lib/features/status/native_permission_sheets.dart',
-    ).readAsStringSync();
-    final androidGradle = File(
-      'android/app/build.gradle.kts',
-    ).readAsStringSync();
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
-    final entitlements = File(
-      'ios/Runner/Runner.entitlements',
-    ).readAsStringSync();
-    final appDelegate = File('ios/Runner/AppDelegate.swift').readAsStringSync();
+  test(
+    'native notification runtime is wired for local, APNs, and FCM delivery',
+    () {
+      final pubspec = File('pubspec.yaml').readAsStringSync();
+      final service = File(
+        'lib/core/notifications/collect_notification_service.dart',
+      ).readAsStringSync();
+      final nativePermissionSheets = File(
+        'lib/features/status/native_permission_sheets.dart',
+      ).readAsStringSync();
+      final androidGradle = File(
+        'android/app/build.gradle.kts',
+      ).readAsStringSync();
+      final repository = File(
+        'lib/shared/repositories/collect_repository.dart',
+      ).readAsStringSync();
+      final entitlements = File(
+        'ios/Runner/Runner.entitlements',
+      ).readAsStringSync();
+      final appDelegate = File(
+        'ios/Runner/AppDelegate.swift',
+      ).readAsStringSync();
 
-    expect(pubspec, contains('flutter_local_notifications:'));
-    expect(service, contains('FlutterLocalNotificationsPlugin'));
-    expect(service, contains('requestNotificationsPermission'));
-    expect(service, contains('IOSFlutterLocalNotificationsPlugin'));
-    expect(service, contains('registerDevice'));
-    expect(service, contains('showNotification'));
-    expect(nativePermissionSheets, contains('showNotificationSettingsSheet'));
-    expect(nativePermissionSheets, contains('requestNativeNotifications'));
-    expect(
-      nativePermissionSheets,
-      contains('collectNotificationServiceProvider'),
-    );
-    expect(nativePermissionSheets, contains('registerDevice(repository)'));
-    expect(nativePermissionSheets, contains('showNotification('));
-    expect(nativePermissionSheets, contains("payload: '/home'"));
-    expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
-    expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
-    expect(repository, contains('register_notification_device'));
-    expect(service, contains('requestRemoteRegistration'));
-    expect(service, contains('notificationTapPayloads'));
-    expect(service, contains('normalizeNotificationDeepLink'));
-    expect(repository, contains('unregister_notification_device'));
-    expect(entitlements, contains('aps-environment'));
-    expect(appDelegate, contains('registerForRemoteNotifications'));
-    expect(
-      appDelegate,
-      contains('didRegisterForRemoteNotificationsWithDeviceToken'),
-    );
-    expect(appDelegate, contains('notificationTap'));
-  });
+      expect(pubspec, contains('flutter_local_notifications:'));
+      expect(pubspec, contains('firebase_messaging:'));
+      expect(service, contains('FlutterLocalNotificationsPlugin'));
+      expect(service, contains('requestNotificationsPermission'));
+      expect(service, contains('IOSFlutterLocalNotificationsPlugin'));
+      expect(service, contains('registerDevice'));
+      expect(service, contains('showNotification'));
+      expect(nativePermissionSheets, contains('showNotificationSettingsSheet'));
+      expect(nativePermissionSheets, contains('requestNativeNotifications'));
+      expect(
+        nativePermissionSheets,
+        contains('collectNotificationServiceProvider'),
+      );
+      expect(nativePermissionSheets, contains('registerDevice(repository)'));
+      expect(nativePermissionSheets, contains('showNotification('));
+      expect(nativePermissionSheets, contains("payload: '/home'"));
+      expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
+      expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
+      expect(repository, contains('register_notification_device'));
+      expect(service, contains('requestRemoteRegistration'));
+      expect(service, contains("provider: 'fcm'"));
+      expect(service, contains('FirebaseMessaging.onMessage'));
+      expect(service, contains('getInitialMessage'));
+      expect(service, contains('collect_security'));
+      expect(service, contains('notificationTapPayloads'));
+      expect(service, contains('normalizeNotificationDeepLink'));
+      expect(repository, contains('unregister_notification_device'));
+      expect(entitlements, contains('aps-environment'));
+      expect(appDelegate, contains('registerForRemoteNotifications'));
+      expect(
+        appDelegate,
+        contains('didRegisterForRemoteNotificationsWithDeviceToken'),
+      );
+      expect(appDelegate, contains('notificationTap'));
+    },
+  );
 
   test('iOS permission declarations match implemented features only', () {
     final podfile = File('ios/Podfile').readAsStringSync();

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:crypto/crypto.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,8 +11,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/repositories/collect_repository.dart';
 
 final collectNotificationServiceProvider = Provider<CollectNotificationService>(
-  (ref) => CollectNotificationService(),
+  (ref) {
+    final service = CollectNotificationService();
+    ref.onDispose(() => unawaited(service.dispose()));
+    return service;
+  },
 );
+
+@pragma('vm:entry-point')
+Future<void> collectFirebaseMessagingBackgroundHandler(
+  RemoteMessage message,
+) async {
+  await Firebase.initializeApp();
+}
+
+void configureCollectAndroidPushBackgroundHandler() {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    FirebaseMessaging.onBackgroundMessage(
+      collectFirebaseMessagingBackgroundHandler,
+    );
+  }
+}
 
 class CollectNotificationIntent {
   const CollectNotificationIntent({required this.deepLink, this.eventId});
@@ -49,6 +70,9 @@ class CollectNotificationService {
   static const _androidChannelName = 'Collect group updates';
   static const _androidChannelDescription =
       'Contribution confirmations, payment reminders, group updates, and security notices.';
+  static const _androidContributionChannelId = 'collect_contributions';
+  static const _androidReminderChannelId = 'collect_reminders';
+  static const _androidSecurityChannelId = 'collect_security';
   static const _positiveNotificationIdMask = 2147483647;
   static const _apnsEnvironment = String.fromEnvironment(
     'APNS_ENVIRONMENT',
@@ -62,6 +86,10 @@ class CollectNotificationService {
   Completer<String?>? _remoteTokenWaiter;
   CollectRepository? _registrationRepository;
   String? _remoteToken;
+  FirebaseMessaging? _androidMessaging;
+  StreamSubscription<RemoteMessage>? _androidForegroundSubscription;
+  StreamSubscription<RemoteMessage>? _androidTapSubscription;
+  StreamSubscription<String>? _androidTokenSubscription;
 
   Stream<CollectNotificationIntent> get notificationTapPayloads =>
       _tapPayloads.stream;
@@ -73,7 +101,9 @@ class CollectNotificationService {
   Future<void> _initialize() async {
     if (kIsWeb) return;
     try {
-      const android = AndroidInitializationSettings('@drawable/transparent');
+      const android = AndroidInitializationSettings(
+        '@drawable/ic_collect_notification',
+      );
       const ios = DarwinInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
@@ -90,18 +120,16 @@ class CollectNotificationService {
       if (launchDetails?.didNotificationLaunchApp ?? false) {
         _emitTapPayload(launchDetails?.notificationResponse?.payload);
       }
-      await _plugin
+      final androidPlugin = _plugin
           .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin
-          >()
-          ?.createNotificationChannel(
-            const AndroidNotificationChannel(
-              _androidChannelId,
-              _androidChannelName,
-              description: _androidChannelDescription,
-              importance: Importance.high,
-            ),
-          );
+          >();
+      for (final channel in _androidChannels) {
+        await androidPlugin?.createNotificationChannel(channel);
+      }
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await _initializeAndroidRemoteMessaging();
+      }
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         _nativeChannel.setMethodCallHandler(_handleNativeMethod);
         try {
@@ -117,6 +145,66 @@ class CollectNotificationService {
       }
     } catch (_) {
       // Widget tests and unsupported platforms do not register native plugins.
+    }
+  }
+
+  static const _androidChannels = <AndroidNotificationChannel>[
+    AndroidNotificationChannel(
+      _androidContributionChannelId,
+      'Contribution confirmations',
+      description: 'Confirmed MoMo contributions and ledger updates.',
+      importance: Importance.high,
+    ),
+    AndroidNotificationChannel(
+      _androidReminderChannelId,
+      'Payment reminders',
+      description: 'Time-sensitive contribution reminders.',
+      importance: Importance.defaultImportance,
+    ),
+    AndroidNotificationChannel(
+      _androidChannelId,
+      _androidChannelName,
+      description: _androidChannelDescription,
+      importance: Importance.defaultImportance,
+    ),
+    AndroidNotificationChannel(
+      _androidSecurityChannelId,
+      'Security notices',
+      description: 'Important account, permission, and privacy notices.',
+      importance: Importance.high,
+    ),
+  ];
+
+  Future<void> _initializeAndroidRemoteMessaging() async {
+    try {
+      await Firebase.initializeApp();
+      final messaging = FirebaseMessaging.instance;
+      _androidMessaging = messaging;
+      _androidForegroundSubscription ??= FirebaseMessaging.onMessage.listen(
+        _handleAndroidForegroundMessage,
+      );
+      _androidTapSubscription ??= FirebaseMessaging.onMessageOpenedApp.listen(
+        _emitRemoteMessageIntent,
+      );
+      _androidTokenSubscription ??= messaging.onTokenRefresh.listen((token) {
+        _remoteToken = token;
+        final repository = _registrationRepository;
+        if (repository != null) {
+          unawaited(
+            _registerRemoteToken(
+              repository,
+              token,
+              platform: 'android',
+              provider: 'fcm',
+              environment: 'production',
+            ),
+          );
+        }
+      });
+      final initial = await messaging.getInitialMessage();
+      if (initial != null) _emitRemoteMessageIntent(initial);
+    } catch (_) {
+      // Non-Firebase flavors retain local notifications and permission UX.
     }
   }
 
@@ -173,8 +261,27 @@ class CollectNotificationService {
   }
 
   Future<CollectNotificationRegistration?> registration() async {
-    if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) return null;
+    if (kIsWeb) return null;
     await initialize();
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      final messaging = _androidMessaging;
+      if (messaging == null || !await areNotificationsEnabled()) return null;
+      try {
+        await messaging.setAutoInitEnabled(true);
+        final token = (await messaging.getToken())?.trim();
+        if (token == null || token.isEmpty) return null;
+        _remoteToken = token;
+        return CollectNotificationRegistration(
+          platform: 'android',
+          provider: 'fcm',
+          token: token,
+          environment: 'production',
+        );
+      } catch (_) {
+        return null;
+      }
+    }
+    if (defaultTargetPlatform != TargetPlatform.iOS) return null;
     final token = await _requestRemoteToken();
     if (token == null || token.isEmpty) return null;
     final environment = await _resolveNativeEnvironment();
@@ -224,6 +331,7 @@ class CollectNotificationService {
     required String title,
     required String body,
     String? payload,
+    String? eventType,
   }) async {
     await initialize();
     if (kIsWeb) return;
@@ -232,16 +340,18 @@ class CollectNotificationService {
         id: _notificationId(title, body),
         title: title,
         body: body,
-        notificationDetails: const NotificationDetails(
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
-            _androidChannelId,
-            _androidChannelName,
-            channelDescription: _androidChannelDescription,
-            importance: Importance.high,
+            _channelIdForEventType(eventType),
+            _channelNameForEventType(eventType),
+            channelDescription: _channelDescriptionForEventType(eventType),
+            icon: '@drawable/ic_collect_notification',
+            importance: _importanceForEventType(eventType),
             priority: Priority.high,
             category: AndroidNotificationCategory.reminder,
+            visibility: NotificationVisibility.private,
           ),
-          iOS: DarwinNotificationDetails(
+          iOS: const DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
@@ -252,6 +362,66 @@ class CollectNotificationService {
     } catch (_) {
       // Local notification delivery should not break core app flows.
     }
+  }
+
+  Future<void> _handleAndroidForegroundMessage(RemoteMessage message) async {
+    final notification = message.notification;
+    final title = notification?.title?.trim() ?? '';
+    final body = notification?.body?.trim() ?? '';
+    if (title.isEmpty || body.isEmpty) return;
+    await showNotification(
+      title: title,
+      body: body,
+      payload: _remoteMessageData(message, 'deep_link'),
+      eventType: _remoteMessageData(message, 'type'),
+    );
+  }
+
+  void _emitRemoteMessageIntent(RemoteMessage message) {
+    final target = normalizeNotificationDeepLink(
+      _remoteMessageData(message, 'deep_link'),
+    );
+    if (target == null || _tapPayloads.isClosed) return;
+    final rawEventId = _remoteMessageData(message, 'collect_event_id');
+    final eventId = rawEventId?.trim().isNotEmpty == true
+        ? rawEventId!.trim()
+        : null;
+    _tapPayloads.add(
+      CollectNotificationIntent(deepLink: target, eventId: eventId),
+    );
+  }
+
+  String _channelIdForEventType(String? eventType) {
+    final value = eventType?.toLowerCase() ?? '';
+    if (value.contains('contribution')) return _androidContributionChannelId;
+    if (value.contains('reminder')) return _androidReminderChannelId;
+    if (value.contains('security')) return _androidSecurityChannelId;
+    return _androidChannelId;
+  }
+
+  String _channelNameForEventType(String? eventType) {
+    return _androidChannels
+        .firstWhere(
+          (channel) => channel.id == _channelIdForEventType(eventType),
+        )
+        .name;
+  }
+
+  String _channelDescriptionForEventType(String? eventType) {
+    return _androidChannels
+            .firstWhere(
+              (channel) => channel.id == _channelIdForEventType(eventType),
+            )
+            .description ??
+        _androidChannelDescription;
+  }
+
+  Importance _importanceForEventType(String? eventType) {
+    return _androidChannels
+        .firstWhere(
+          (channel) => channel.id == _channelIdForEventType(eventType),
+        )
+        .importance;
   }
 
   Future<String?> _requestRemoteToken() async {
@@ -298,14 +468,17 @@ class CollectNotificationService {
 
   Future<void> _registerRemoteToken(
     CollectRepository repository,
-    String token,
-  ) async {
+    String token, {
+    String platform = 'ios',
+    String provider = 'apns',
+    String? environment,
+  }) async {
     try {
       await repository.registerNotificationDevice(
-        platform: 'ios',
-        provider: 'apns',
+        platform: platform,
+        provider: provider,
         token: token,
-        environment: await _resolveNativeEnvironment(),
+        environment: environment ?? await _resolveNativeEnvironment(),
       );
     } catch (_) {
       // A later token refresh or app resume retries registration.
@@ -341,6 +514,20 @@ class CollectNotificationService {
     return digest.take(4).fold<int>(0, (value, byte) => (value << 8) + byte) &
         _positiveNotificationIdMask;
   }
+
+  Future<void> dispose() async {
+    await _androidForegroundSubscription?.cancel();
+    await _androidTapSubscription?.cancel();
+    await _androidTokenSubscription?.cancel();
+    _nativeChannel.setMethodCallHandler(null);
+    await _tapPayloads.close();
+  }
+}
+
+String? _remoteMessageData(RemoteMessage message, String key) {
+  final value = message.data[key];
+  if (value == null) return null;
+  return value is String ? value : value.toString();
 }
 
 String? normalizeNotificationDeepLink(Object? raw) {

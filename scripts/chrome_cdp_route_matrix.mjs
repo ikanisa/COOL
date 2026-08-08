@@ -80,6 +80,7 @@ const chromeArgs = [
   '--disable-dev-shm-usage',
   '--disable-extensions',
   '--disable-crash-reporter',
+  '--force-prefers-reduced-motion',
   '--no-sandbox',
   '--no-first-run',
   '--no-default-browser-check',
@@ -251,6 +252,9 @@ try {
           positionY: 0,
         });
         await command('Emulation.setTouchEmulationEnabled', { enabled: true });
+        await command('Emulation.setEmulatedMedia', {
+          features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
+        });
         const screenshot = await withTimeout(
           (async () => {
             await command('Page.navigate', { url });

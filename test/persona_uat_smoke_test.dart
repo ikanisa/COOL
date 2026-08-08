@@ -519,7 +519,16 @@ void main() {
     await pumpMainAppAt(tester, '/groups/scan');
 
     expect(find.text('Scan QR'), findsNothing);
-    expect(find.bySemanticsLabel('Close scanner'), findsOneWidget);
+    final closeScanner = find.bySemanticsLabel('Close scanner');
+    final torch = find.bySemanticsLabel('Torch');
+    expect(closeScanner, findsOneWidget);
+    expect(torch, findsOneWidget);
+    expect(
+      tester.getTopLeft(closeScanner).dy,
+      lessThan(80),
+      reason: 'Scanner controls must stay in the top safe area.',
+    );
+    expect(tester.getTopLeft(torch).dy, tester.getTopLeft(closeScanner).dy);
     expect(find.text('Join with a code.'), findsNothing);
     expect(find.text('Group code'), findsNothing);
     expect(find.text('Group code or link'), findsNothing);

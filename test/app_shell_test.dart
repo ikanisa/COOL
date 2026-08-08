@@ -94,7 +94,7 @@ void main() {
       await tester.pump();
 
       expect(repository.syncCalls, 1);
-      expect(notifications.initializeCalls, 1);
+      expect(notifications.initializeCalls, 2);
       expect(notifications.permissionChecks, 1);
       expect(
         container.read(notificationPermissionStatusProvider),
@@ -109,71 +109,74 @@ void main() {
       await tester.pump();
       await tester.pump();
       expect(repository.syncCalls, 2);
-      expect(notifications.initializeCalls, 2);
+      expect(notifications.initializeCalls, 4);
       expect(notifications.permissionChecks, 2);
     },
   );
 
-  testWidgets('notification permission refresh is independent of SMS access', (
-    tester,
-  ) async {
-    final repository = _LifecycleCollectRepository();
-    final notifications = _LifecycleNotificationService(enabled: true);
-    final router = createAppRouter(initialLocation: '/home');
-    final container = ProviderContainer(
-      overrides: [
-        appRouterProvider.overrideWithValue(router),
-        appEnvProvider.overrideWithValue(_noSmsAccessEnv),
-        collectRepositoryProvider.overrideWith((ref) => repository),
-        collectNotificationServiceProvider.overrideWithValue(notifications),
-      ],
-    );
-    addTearDown(router.dispose);
-    addTearDown(container.dispose);
+  testWidgets(
+    'native permission refresh is independent of legacy SMS feature flags',
+    (tester) async {
+      final repository = _LifecycleCollectRepository();
+      final notifications = _LifecycleNotificationService(enabled: true);
+      final router = createAppRouter(initialLocation: '/home');
+      final container = ProviderContainer(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          appEnvProvider.overrideWithValue(_noSmsAccessEnv),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectNotificationServiceProvider.overrideWithValue(notifications),
+        ],
+      );
+      addTearDown(router.dispose);
+      addTearDown(container.dispose);
 
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: const CollectApp(),
-      ),
-    );
-    await tester.pump();
-    await tester.pump();
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
 
-    expect(repository.syncCalls, 0);
-    expect(notifications.initializeCalls, 1);
-    expect(notifications.permissionChecks, 1);
-    expect(
-      container.read(notificationPermissionStatusProvider),
-      CollectDevicePermissionStatus.granted,
-    );
+      expect(repository.syncCalls, 1);
+      expect(notifications.initializeCalls, 2);
+      expect(notifications.permissionChecks, 1);
+      expect(
+        container.read(notificationPermissionStatusProvider),
+        CollectDevicePermissionStatus.granted,
+      );
 
-    notifications.enabled = false;
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-    await tester.pump();
-    await tester.pump();
+      notifications.enabled = false;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      await tester.pump();
 
-    expect(repository.syncCalls, 0);
-    expect(notifications.initializeCalls, 2);
-    expect(notifications.permissionChecks, 2);
-    expect(
-      container.read(notificationPermissionStatusProvider),
-      CollectDevicePermissionStatus.denied,
-    );
+      expect(repository.syncCalls, 2);
+      expect(notifications.initializeCalls, 3);
+      expect(notifications.permissionChecks, 2);
+      expect(
+        container.read(notificationPermissionStatusProvider),
+        CollectDevicePermissionStatus.denied,
+      );
 
-    container.read(notificationPermissionStatusProvider.notifier).state =
-        CollectDevicePermissionStatus.denied;
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-    await tester.pump();
-    await tester.pump();
+      container.read(notificationPermissionStatusProvider.notifier).state =
+          CollectDevicePermissionStatus.denied;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      await tester.pump();
 
-    expect(notifications.initializeCalls, 3);
-    expect(notifications.permissionChecks, 3);
-    expect(
-      container.read(notificationPermissionStatusProvider),
-      CollectDevicePermissionStatus.denied,
-    );
-  });
+      expect(notifications.initializeCalls, 4);
+      expect(notifications.permissionChecks, 3);
+      expect(
+        container.read(notificationPermissionStatusProvider),
+        CollectDevicePermissionStatus.denied,
+      );
+    },
+  );
 
   testWidgets('notification taps navigate only through the safe route bridge', (
     tester,
@@ -253,6 +256,7 @@ void main() {
       );
 
       notifications.throwOnPermissionCheck = true;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump();
       await tester.pump();
@@ -260,6 +264,7 @@ void main() {
 
       notifications.throwOnPermissionCheck = false;
       notifications.enabled = true;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump();
       await tester.pump();
@@ -1182,7 +1187,7 @@ void main() {
     expect(manage, isNot(contains('Duration(milliseconds: 160)')));
   });
 
-  test('environment defaults keep Android SMS access disabled', () {
+  test('native SMS capability is not hidden behind legacy feature flags', () {
     final env = AppEnv.fromEnvironment();
     final app = File('lib/app/app.dart').readAsStringSync();
 
@@ -1190,12 +1195,8 @@ void main() {
     expect(env.enableAndroidSmsAccess, isFalse);
     expect(env.enableAdminPanel, isFalse);
     expect(env.enableAdminDevTools, isFalse);
-    expect(
-      app,
-      contains(
-        'if (!env.enableAndroidSmsAccess && !env.enableSmsReader) return;',
-      ),
-    );
+    expect(app, isNot(contains('if (!env.enableAndroidSmsAccess')));
+    expect(app, contains('syncPendingSmsAccess()'));
   });
 }
 

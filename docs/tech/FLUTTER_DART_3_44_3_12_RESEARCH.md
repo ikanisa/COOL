@@ -27,8 +27,11 @@
 
 ## Product Safety Notes
 
-- Production Android manifest remains free of `READ_SMS` and `RECEIVE_SMS`.
-- Restricted SMS permissions remain isolated to `android/app/src/internal_receiver/AndroidManifest.xml`.
+- The later production SMS decision supersedes the original isolation note:
+  production and `internal_receiver` declare receive-only `RECEIVE_SMS`, while
+  all flavors remain free of inbox-history `READ_SMS`.
+- Public Play distribution remains gated on an accepted restricted-SMS
+  Permissions Declaration.
 - Ledger and payment list reads continue to use safe views/RPCs in repository code and contract tests.
 - RWF formatting is integer-only and covered by tests; money logic remains integer RWF with no float conversion.
 - Project-level Codex environment placeholders replaced live-looking secrets; real values must stay in ignored local or CI secret stores.

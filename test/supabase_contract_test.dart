@@ -136,6 +136,9 @@ void main() {
   final nativePushDelivery = File(
     'supabase/migrations/20260804150000_native_push_delivery.sql',
   ).readAsStringSync();
+  final androidFcmPushDelivery = File(
+    'supabase/migrations/20260805120000_android_fcm_push_delivery.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -144,6 +147,9 @@ void main() {
   ).readAsStringSync();
   final apnsTransport = File(
     'supabase/functions/_shared/apns.ts',
+  ).readAsStringSync();
+  final fcmTransport = File(
+    'supabase/functions/_shared/fcm.ts',
   ).readAsStringSync();
   final readiness = File(
     'scripts/supabase_production_readiness.sh',
@@ -555,6 +561,30 @@ void main() {
     expect(apnsTransport, contains('https://api.sandbox.push.apple.com'));
     expect(apnsTransport, contains('apns-push-type'));
     expect(sendNotificationFunction, contains('dispatch_requested'));
+  });
+
+  test('native Android FCM delivery is registered, routed, and observable', () {
+    expect(
+      androidFcmPushDelivery,
+      contains("provider in ('legacy_local', 'apns', 'fcm')"),
+    );
+    expect(
+      androidFcmPushDelivery,
+      contains("clean_platform = 'android' and clean_provider = 'fcm'"),
+    );
+    expect(
+      androidFcmPushDelivery,
+      contains('device.provider in (\'apns\', \'fcm\')'),
+    );
+    expect(androidFcmPushDelivery, contains('device.provider,'));
+    expect(androidFcmPushDelivery, contains("'UNREGISTERED'"));
+    expect(dispatchNotificationsFunction, contains('createFcmAccessToken'));
+    expect(dispatchNotificationsFunction, contains('sendFcmMessage'));
+    expect(dispatchNotificationsFunction, contains('delivery.provider'));
+    expect(fcmTransport, contains('firebase.messaging'));
+    expect(fcmTransport, contains('fcm.googleapis.com/v1/projects'));
+    expect(fcmTransport, contains('collect_contributions'));
+    expect(fcmTransport, contains('visibility: "PRIVATE"'));
   });
 
   test(
@@ -2343,9 +2373,9 @@ void main() {
     expect(liveParserUat, contains('ledger_count'));
   });
 
-  test('Android internal SMS receiver is consent gated and drainable', () {
+  test('Android SMS receiver is consent gated, encrypted, and retry safe', () {
     final receiver = File(
-      'android/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt',
+      'android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt',
     ).readAsStringSync();
     final mainActivity = File(
       'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
@@ -2355,27 +2385,32 @@ void main() {
     ).readAsStringSync();
     final repository = readCollectRepositoryLibrary();
 
-    expect(receiver, contains('if (!prefs.getBoolean(SMS_ACCESS_ENABLED_KEY'));
-    expect(receiver, contains('pending_sms'));
+    final queueStore = File(
+      'android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt',
+    ).readAsStringSync();
+
+    expect(receiver, contains('SmsQueueStore.SMS_ACCESS_ENABLED_KEY'));
+    expect(receiver, contains('SmsQueueStore(context.applicationContext)'));
+    expect(receiver, contains('UUID.randomUUID()'));
+    expect(queueStore, contains('AES/GCM/NoPadding'));
+    expect(queueStore, contains('AndroidKeyStore'));
+    expect(queueStore, contains('pending_sms_encrypted_v1'));
     expect(receiver, isNot(contains('Log.i("CollectSmsReceiver", body')));
     expect(mainActivity, contains('"collect/sms_access"'));
     expect(mainActivity, contains('"setEnabled"'));
     expect(mainActivity, contains('requestPermissions(SMS_PERMISSIONS'));
     expect(mainActivity, contains('onRequestPermissionsResult'));
-    expect(mainActivity, contains('"drainPendingSms"'));
+    expect(mainActivity, contains('"readPendingSms"'));
+    expect(mainActivity, contains('"ackPendingSms"'));
     expect(channel, contains("MethodChannel('collect/sms_access')"));
     expect(repository, contains('syncPendingSmsAccess'));
-    expect(repository, contains('drainPendingSms'));
+    expect(repository, contains('readPendingSms'));
+    expect(repository, contains('acknowledgePendingSms'));
     final app = File('lib/app/app.dart').readAsStringSync();
     expect(app, contains('WidgetsBindingObserver'));
     expect(app, contains('AppLifecycleState.resumed'));
     expect(app, contains('syncPendingSmsAccess'));
-    expect(
-      app,
-      contains(
-        'if (!env.enableAndroidSmsAccess && !env.enableSmsReader) return;',
-      ),
-    );
+    expect(repository, contains('refreshSmsAccessStatus'));
     expect(repository, contains('unawaited(syncPendingSmsAccess())'));
   });
 

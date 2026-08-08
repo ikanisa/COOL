@@ -7,6 +7,7 @@ import java.util.Locale
 plugins {
     id("com.android.application")
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
 }
 
 // Native Android release intermediates are unreliable on the external project
@@ -141,6 +142,12 @@ android {
 
     buildTypes {
         release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
             if (hasReleaseSigning) {
                 signingConfig = signingConfigs.getByName("release")
             }
@@ -213,6 +220,23 @@ gradle.taskGraph.whenReady {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("com.google.android.play:integrity:1.6.0")
+    testImplementation("junit:junit:4.13.2")
+}
+
+// Firebase is configured only for the store/staging application IDs. Keep
+// development and restricted-SMS QA variants buildable without inventing
+// Firebase clients for package IDs that are not registered with the project.
+tasks.configureEach {
+    if (
+        name.matches(
+            Regex(
+                "process(?:Dev|Internal_receiver)(?:Debug|Profile|Release)GoogleServices",
+                RegexOption.IGNORE_CASE,
+            ),
+        )
+    ) {
+        enabled = false
+    }
 }
 
 tasks.register("printReleaseSigningCertificateStatus") {

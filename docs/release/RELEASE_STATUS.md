@@ -1,6 +1,6 @@
 # Collect Release Status
 
-Status date: 2026-08-05
+Status date: 2026-08-08
 Canonical machine-readable inputs:
 
 - `docs/release/RELEASE_APPROVALS.json`
@@ -20,12 +20,12 @@ separate:
 - Latest `./scripts/release_status.sh --json` result: `GO`, `pass`, with no
   approval blocker keys. The native mobile accessibility, UAT evidence, and
   release-approval evidence gates also pass.
-- The production APK/AAB are current for `1.2.2+10`. Their SHA-256 values are
-  `341272d66716fd6ef6e6950c07d476632481c66f5f5b75bc1e58b31181d9f115`
-  and `68507fe84c9038cce11dbcdd19f83c666004c8b8e45ace9020e8dadb2e29442c`.
+- The production APK/AAB are current for `1.2.2+12`. Their SHA-256 values are
+  `4228666e3e1b674d839fd933c3ad587d57c59e99e03b19d445853828c5d58652`
+  and `8a3e2c6f5557d51e873b72e0968591e3a98fbc281b94d8ea1d6f581becdc0d1f`.
   The upload-certificate preflight and Android signing review are approved for
   that exact version without exposing signing material. The current release
-  owner approval is tied to `1.2.2+10`.
+  owner approval is tied to `1.2.2+12`.
 - The member app and authenticated Admin PWA have completed the E-083 legacy-
   design eradication. Retired gradient/glass/media chrome is removed, the
   three obsolete runtime images are deleted, and the current visual system is
@@ -52,10 +52,18 @@ separate:
   as owner-waived (not human-tested) and the release-owner decision as `GO`.
 - Public and Admin Cloudflare deployments are recorded in
   `docs/release/LIVE_DEPLOYMENTS.json` with live gate status `pass`.
-- Google Play Console is authenticated. The live app is on production
-  `1.2.1 (8)`, with no unpublished changes and no reportable crash/ANR values.
-  A production draft is ready for the current `1.2.2 (10)` AAB; browser upload
-  awaits file-URL permission for the ChatGPT Chrome extension.
+- Google Play Console is authenticated. The live app remains on production
+  `1.2.1 (8)`. Version `1.2.2 (12)` is uploaded and saved for a full production
+  rollout. Play accepted target SDK 36, 16 KB support, receive-only
+  `RECEIVE_SMS`, and the optional telephony feature declarations without losing
+  any previously supported device. Internal testing version 12 is available to
+  testers and supersedes legacy version 3, removing its obsolete Advertising
+  ID, inbox SMS, contacts, location, microphone, NFC, and storage permissions.
+  The Advertising ID declaration is `No`, and
+  the SMS/Call Log declaration now accurately describes optional new-message
+  money-management matching without inbox-history `READ_SMS`. The 100% rollout
+  and both declarations were sent to Google review on 8 August 2026. Production
+  is in review and is not yet published.
 - The extended cross-platform manifest passes 24/24 locally buildable files for
   public, Admin, Android, and iOS. GitHub-hosted CI is unavailable: recent pushes
   and current push run `30954970376` fails before job creation as `startup_failure`,
@@ -92,6 +100,6 @@ Keep these durable governance files in active docs:
 ## Current Human Approval Boundary
 
 Jean Bosco explicitly authorized app release inspection, signing, upload, and
-submission for `1.2.2+10`. This approval does not permit fabricated provider,
+submission for `1.2.2+12`. This approval does not permit fabricated provider,
 device, browser, or store-processing evidence and does not authorize unrelated
 regulatory, legal, Stripe, financial, or professional submissions.

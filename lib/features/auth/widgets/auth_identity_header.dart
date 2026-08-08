@@ -44,6 +44,8 @@ class AuthHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     final foreground = context.collectColors.onImagePrimary;
     final textTheme = Theme.of(context).textTheme;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -55,8 +57,10 @@ class AuthHeadline extends StatelessWidget {
             height: CollectTypography.leadingDense,
             letterSpacing: CollectTypography.trackingDefault,
           ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+          maxLines: usesAccessibilityText ? null : 2,
+          overflow: usesAccessibilityText
+              ? TextOverflow.visible
+              : TextOverflow.ellipsis,
         ),
         CollectSpacing.gap8,
         Text(
@@ -70,8 +74,10 @@ class AuthHeadline extends StatelessWidget {
             fontWeight: CollectTypography.weightSemibold,
             letterSpacing: CollectTypography.trackingDefault,
           ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+          maxLines: usesAccessibilityText ? null : 2,
+          overflow: usesAccessibilityText
+              ? TextOverflow.visible
+              : TextOverflow.ellipsis,
         ),
       ],
     );

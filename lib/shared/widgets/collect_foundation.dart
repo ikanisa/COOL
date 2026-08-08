@@ -30,6 +30,8 @@ class CollectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final style = switch (variant) {
       CollectButtonVariant.primary => CollectComponentTokens.filledButton(
         context,
@@ -47,7 +49,14 @@ class CollectButton extends StatelessWidget {
       ),
     };
     final child = icon == null
-        ? Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)
+        ? usesAccessibilityText
+              ? Text(
+                  label,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                )
+              : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)
         : Row(
             mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -55,11 +64,14 @@ class CollectButton extends StatelessWidget {
               Icon(icon),
               CollectSpacing.gapW8,
               Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: usesAccessibilityText
+                    ? Text(
+                        label,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      )
+                    : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
               ),
             ],
           );

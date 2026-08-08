@@ -4,7 +4,6 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
-import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +27,15 @@ void main() {
     CollectRepository repository,
   ) async {
     FocusManager.instance.primaryFocus?.unfocus();
+    try {
+      await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+    } on MissingPluginException {
+      // Desktop-style test bindings may not expose a native input channel.
+    } on PlatformException {
+      // The next app frame is still safe to render without a native IME.
+    }
     await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pump();
+    await _pumpFrames(tester, count: 6);
     activeRouter?.dispose();
 
     final router = createAppRouter(initialLocation: spec.route);
@@ -96,17 +102,12 @@ void main() {
       );
 
       for (final spec in _stateSpecs) {
+        if (_uatStateFilter.isNotEmpty && spec.name != _uatStateFilter) {
+          continue;
+        }
         // ignore: avoid_print
         print('collect_state_uat:start:${spec.name}:${spec.route}');
         final repository = spec.createRepository();
-        if (spec.name == 'contribution-review-existing') {
-          await repository.createPaymentIntent(
-            const PaymentIntentDraft(
-              collectionId: 'col-church',
-              amountRwf: 12345,
-            ),
-          );
-        }
         await pumpState(tester, spec, repository);
         await _prepareState(tester, spec);
 
@@ -193,16 +194,29 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
           .widget<TextField>(_amountTextField())
           .controller;
       expect(amountController, isNotNull);
-      amountController!.value = const TextEditingValue(
-        text: '12,345',
-        selection: TextSelection.collapsed(offset: 6),
+      final amountText = spec.name == 'contribution-review-existing'
+          ? '15,000'
+          : '12,345';
+      amountController!.value = TextEditingValue(
+        text: amountText,
+        selection: TextSelection.collapsed(offset: amountText.length),
       );
       await _pumpFrames(tester, count: 3);
       if (spec.name != 'contribution-entry-valid') {
-        await tester.tap(
+        final reviewButton = tester.widget<FilledButton>(
           find.widgetWithText(FilledButton, 'Review contribution'),
         );
+        expect(reviewButton.onPressed, isNotNull);
+        reviewButton.onPressed!.call();
         await _pumpFrames(tester, count: 5);
+        if (spec.name == 'contribution-review-existing') {
+          await tester.scrollUntilVisible(
+            find.text('Contribution already pending'),
+            240,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await _pumpFrames(tester, count: 3);
+        }
       }
       return;
     case 'account-delete-enabled':
@@ -248,6 +262,10 @@ const _uatHighContrast = bool.fromEnvironment(
 const _uatReducedMotion = bool.fromEnvironment(
   'COLLECT_UAT_REDUCED_MOTION',
   defaultValue: false,
+);
+const _uatStateFilter = String.fromEnvironment(
+  'COLLECT_UAT_STATE_FILTER',
+  defaultValue: '',
 );
 
 ThemeMode get _uatThemeMode => switch (_uatThemeModeName) {

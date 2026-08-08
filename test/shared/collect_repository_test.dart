@@ -761,6 +761,7 @@ void main() {
       final channel = _FakeSmsAccessChannel(
         pending: const [
           SmsAccessEnvelope(
+            id: 'sms-1',
             rawSender: 'MTN MOMO',
             rawBody: 'You have received 5,000 RWF. TxId ABCD1234.',
             receivedAtDevice: '1',
@@ -770,12 +771,13 @@ void main() {
       final repo = CollectRepository.fixture(smsAccessChannel: channel);
 
       expect(await repo.syncPendingSmsAccess(), 0);
-      expect(channel.drainCalls, 0);
+      expect(channel.readCalls, 0);
 
       await repo.setSmsAccess(true);
 
       expect(await repo.syncPendingSmsAccess(), 1);
-      expect(channel.drainCalls, 1);
+      expect(channel.readCalls, 1);
+      expect(channel.acknowledgedIds, ['sms-1']);
       expect(repo.contributionsFor('col-church'), hasLength(2));
     },
   );
@@ -969,7 +971,8 @@ class _FakeSmsAccessChannel extends SmsAccessChannel {
   final List<SmsAccessEnvelope> pending;
   final bool grant;
   var enabled = false;
-  var drainCalls = 0;
+  var readCalls = 0;
+  final List<String> acknowledgedIds = [];
 
   @override
   Future<bool> setEnabled(bool enabled) async {
@@ -981,9 +984,26 @@ class _FakeSmsAccessChannel extends SmsAccessChannel {
   Future<bool> isEnabled() async => enabled;
 
   @override
-  Future<List<SmsAccessEnvelope>> drainPendingSms() async {
-    drainCalls += 1;
+  Future<SmsAccessStatus> status() async => SmsAccessStatus(
+    supported: true,
+    declared: true,
+    enabled: enabled,
+    granted: enabled,
+    requestedBefore: enabled,
+    shouldShowRationale: false,
+    permanentlyDenied: false,
+  );
+
+  @override
+  Future<List<SmsAccessEnvelope>> readPendingSms() async {
+    readCalls += 1;
     return pending;
+  }
+
+  @override
+  Future<bool> acknowledgePendingSms(Iterable<String> ids) async {
+    acknowledgedIds.addAll(ids);
+    return true;
   }
 }
 

@@ -279,13 +279,12 @@ void main() {
           .join(' ')
           .toLowerCase();
 
-      for (final banned in const [
+      final bannedPhrases = <String>[
         'supabase',
         'parser',
         'payment intent',
         'raw sms',
         'backend',
-        'android',
         'iphone',
         'realtime',
         'allocation',
@@ -305,7 +304,9 @@ void main() {
         'provider handoff',
         'support infrastructure',
         'create group savings',
-      ]) {
+      ];
+      if (path != '/privacy') bannedPhrases.add('android');
+      for (final banned in bannedPhrases) {
         expect(
           visibleText,
           isNot(contains(banned)),

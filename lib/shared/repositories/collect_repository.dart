@@ -746,13 +746,27 @@ class CollectRepository extends StateNotifier<CollectState> {
     return consentEnabled;
   }
 
+  Future<SmsAccessStatus> refreshSmsAccessStatus() async {
+    final nativeStatus = await _smsAccessChannel.status();
+    if (state.smsAccessEnabled && !nativeStatus.enabled) {
+      await setSmsAccess(false);
+      return _smsAccessChannel.status();
+    }
+    state = state.copyWith(
+      smsAccessEnabled: nativeStatus.enabled,
+      smsAccessDenied:
+          nativeStatus.permanentlyDenied ||
+          (nativeStatus.requestedBefore && !nativeStatus.granted),
+    );
+    return nativeStatus;
+  }
+
   Future<int> syncPendingSmsAccess() async {
     final profile = state.currentProfile;
     if (profile == null) return 0;
-    final enabled =
-        state.smsAccessEnabled || await _smsAccessChannel.isEnabled();
-    if (!enabled) return 0;
-    final pending = await _smsAccessChannel.drainPendingSms();
+    final status = await refreshSmsAccessStatus();
+    if (!status.enabled) return 0;
+    final pending = await _smsAccessChannel.readPendingSms();
     var ingested = 0;
     for (final item in pending) {
       if (item.rawBody.trim().isEmpty) continue;
@@ -761,6 +775,10 @@ class CollectRepository extends StateNotifier<CollectState> {
         rawSender: item.rawSender,
         receiverMomoNumber: profile.momoNumber,
       );
+      final acknowledged = await _smsAccessChannel.acknowledgePendingSms([
+        item.id,
+      ]);
+      if (!acknowledged) break;
       ingested += 1;
     }
     return ingested;

@@ -2,7 +2,11 @@ package app.cool.mobile
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
+import app.cool.mobile.receiver_sms.SmsQueueStore
 import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.StandardIntegrityManager
 import io.flutter.embedding.engine.FlutterEngine
@@ -30,10 +34,17 @@ class MainActivity : FlutterActivity() {
                 "setEnabled" -> {
                     val enabled = call.argument<Boolean>("enabled") ?: false
                     if (!enabled) {
-                        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).apply()
+                        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()
+                        SmsQueueStore(applicationContext).clear()
                         result.success(true)
+                    } else if (!supportsSmsAccess()) {
+                        result.error(
+                            "sms_access_unavailable",
+                            "SMS access is unavailable in this Android build or device",
+                            smsAccessStatus()
+                        )
                     } else if (hasSmsPermissions()) {
-                        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, true).apply()
+                        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, true).commit()
                         result.success(true)
                     } else if (pendingSmsAccessResult != null) {
                         result.error(
@@ -41,34 +52,74 @@ class MainActivity : FlutterActivity() {
                             "SMS access request is already pending",
                             null
                         )
+                    } else if (isSmsPermissionPermanentlyDenied()) {
+                        result.error(
+                            "sms_permission_permanently_denied",
+                            "SMS permission must be enabled in Android app settings",
+                            smsAccessStatus()
+                        )
                     } else {
                         pendingSmsAccessResult = result
+                        prefs.edit()
+                            .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true)
+                            .commit()
                         requestPermissions(SMS_PERMISSIONS, SMS_PERMISSION_REQUEST_CODE)
                     }
                 }
+                "status" -> result.success(smsAccessStatus())
                 "isEnabled" -> result.success(
-                    prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) && hasSmsPermissions()
+                    prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) &&
+                        supportsSmsAccess() &&
+                        hasSmsPermissions()
                 )
-                "drainPendingSms" -> {
-                    if (!prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) || !hasSmsPermissions()) {
+                "readPendingSms" -> {
+                    if (
+                        !prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) ||
+                        !supportsSmsAccess() ||
+                        !hasSmsPermissions()
+                    ) {
                         result.success(emptyList<Map<String, String>>())
                         return@setMethodCallHandler
                     }
-                    val pending = prefs.getString(PENDING_SMS_KEY, "[]") ?: "[]"
-                    val array = JSONArray(pending)
+                    val array = SmsQueueStore(applicationContext).read()
                     val values = mutableListOf<Map<String, String>>()
                     for (index in 0 until array.length()) {
                         val item = array.optJSONObject(index) ?: JSONObject()
                         values.add(
                             mapOf(
+                                "id" to item.optString("id", ""),
                                 "raw_sender" to item.optString("raw_sender", "android_sms"),
                                 "raw_body" to item.optString("raw_body", ""),
                                 "received_at_device" to item.optString("received_at_device", "")
                             )
                         )
                     }
-                    prefs.edit().putString(PENDING_SMS_KEY, "[]").apply()
                     result.success(values)
+                }
+                "ackPendingSms" -> {
+                    val rawIds = call.argument<List<String>>("ids").orEmpty()
+                    val ids = rawIds.map(String::trim).filter(String::isNotEmpty).toSet()
+                    if (ids.isEmpty()) {
+                        result.success(true)
+                        return@setMethodCallHandler
+                    }
+                    val store = SmsQueueStore(applicationContext)
+                    val pending = store.read()
+                    val retained = JSONArray()
+                    for (index in 0 until pending.length()) {
+                        val item = pending.optJSONObject(index) ?: continue
+                        if (!ids.contains(item.optString("id", ""))) retained.put(item)
+                    }
+                    result.success(store.write(retained))
+                }
+                "openAppSettings" -> {
+                    startActivity(
+                        Intent(
+                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", packageName, null),
+                        ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                    )
+                    result.success(true)
                 }
                 else -> result.notImplemented()
             }
@@ -164,7 +215,7 @@ class MainActivity : FlutterActivity() {
         getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(SMS_ACCESS_ENABLED_KEY, granted)
-            .apply()
+            .commit()
         pendingSmsAccessResult?.success(granted)
         pendingSmsAccessResult = null
     }
@@ -175,14 +226,53 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    private fun supportsSmsAccess(): Boolean {
+        return packageDeclaresSmsPermissions() &&
+            packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY_MESSAGING)
+    }
+
+    @Suppress("DEPRECATION")
+    private fun packageDeclaresSmsPermissions(): Boolean {
+        val requested = packageManager
+            .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+            .requestedPermissions
+            .orEmpty()
+        return SMS_PERMISSIONS.all(requested::contains)
+    }
+
+    private fun isSmsPermissionPermanentlyDenied(): Boolean {
+        val requestedBefore = getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
+            .getBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, false)
+        return supportsSmsAccess() &&
+            requestedBefore &&
+            !hasSmsPermissions() &&
+            SMS_PERMISSIONS.none(::shouldShowRequestPermissionRationale)
+    }
+
+    private fun smsAccessStatus(): Map<String, Boolean> {
+        val prefs = getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
+        val supported = supportsSmsAccess()
+        val granted = supported && hasSmsPermissions()
+        return mapOf(
+            "supported" to supported,
+            "declared" to packageDeclaresSmsPermissions(),
+            "enabled" to (granted && prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false)),
+            "granted" to granted,
+            "requested_before" to prefs.getBoolean(
+                SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY,
+                false,
+            ),
+            "should_show_rationale" to SMS_PERMISSIONS.any(::shouldShowRequestPermissionRationale),
+            "permanently_denied" to isSmsPermissionPermanentlyDenied(),
+        )
+    }
+
     companion object {
         const val SMS_ACCESS_PREFS = "collect_sms_access"
         const val SMS_ACCESS_ENABLED_KEY = "enabled"
-        const val PENDING_SMS_KEY = "pending_sms"
         private const val SMS_PERMISSION_REQUEST_CODE = 182
         private val SMS_PERMISSIONS = arrayOf(
-            Manifest.permission.RECEIVE_SMS,
-            Manifest.permission.READ_SMS
+            Manifest.permission.RECEIVE_SMS
         )
     }
 }
