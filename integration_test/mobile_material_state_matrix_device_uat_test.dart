@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:collect_app/app/app.dart';
-import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
@@ -52,8 +52,10 @@ void main() {
               loadPersistedMode: false,
             ),
           ),
-          if (spec.usesReviewAuth)
-            appEnvProvider.overrideWithValue(_reviewAuthEnv),
+          if (spec.usesFakeAuth)
+            authOtpGatewayProvider.overrideWithValue(
+              const _MaterialStateAuthOtpGateway(),
+            ),
         ],
         child: const CollectApp(),
       ),
@@ -277,58 +279,41 @@ ThemeMode get _uatThemeMode => switch (_uatThemeModeName) {
 
 double get _uatTextScale => double.parse(_uatTextScaleName);
 
-const _reviewAuthEnv = AppEnv(
-  supabaseUrl: '',
-  supabaseAnonKey: '',
-  publicUrl: '',
-  adminAppUrl: '',
-  enableSmsReader: false,
-  enableAndroidSmsAccess: false,
-  enableAdminPanel: false,
-  enableAdminDevTools: false,
-  authCaptchaEnabled: false,
-  authCaptchaProvider: '',
-  authCaptchaSiteKey: '',
-  appReviewAuthEnabled: true,
-  appReviewAuthPhone: '+250700000001',
-  appReviewAuthOtp: '135790',
-);
-
 const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'auth-phone-empty',
     '/auth',
     "Let's get started!",
-    repositoryKind: _RepositoryKind.reviewAuth,
-    usesReviewAuth: true,
+    repositoryKind: _RepositoryKind.empty,
+    usesFakeAuth: true,
   ),
   _StateSpec(
     'auth-phone-valid',
     '/auth',
     'Send WhatsApp code',
-    repositoryKind: _RepositoryKind.reviewAuth,
-    usesReviewAuth: true,
+    repositoryKind: _RepositoryKind.empty,
+    usesFakeAuth: true,
   ),
   _StateSpec(
     'auth-phone-confirmation',
     '/auth',
     'Confirm your number',
-    repositoryKind: _RepositoryKind.reviewAuth,
-    usesReviewAuth: true,
+    repositoryKind: _RepositoryKind.empty,
+    usesFakeAuth: true,
   ),
   _StateSpec(
     'auth-otp-empty',
     '/auth',
     'Verify and continue',
-    repositoryKind: _RepositoryKind.reviewAuth,
-    usesReviewAuth: true,
+    repositoryKind: _RepositoryKind.empty,
+    usesFakeAuth: true,
   ),
   _StateSpec(
     'auth-otp-invalid',
     '/auth',
     'Authentication failed',
-    repositoryKind: _RepositoryKind.reviewAuth,
-    usesReviewAuth: true,
+    repositoryKind: _RepositoryKind.empty,
+    usesFakeAuth: true,
   ),
   _StateSpec(
     'groups-empty',
@@ -387,7 +372,7 @@ const _stateSpecs = <_StateSpec>[
   ),
 ];
 
-enum _RepositoryKind { fixture, empty, reviewAuth }
+enum _RepositoryKind { fixture, empty }
 
 class _StateSpec {
   const _StateSpec(
@@ -395,7 +380,7 @@ class _StateSpec {
     this.route,
     this.expectedText, {
     this.repositoryKind = _RepositoryKind.fixture,
-    this.usesReviewAuth = false,
+    this.usesFakeAuth = false,
     this.expectedFieldValue,
   });
 
@@ -403,12 +388,30 @@ class _StateSpec {
   final String route;
   final String expectedText;
   final _RepositoryKind repositoryKind;
-  final bool usesReviewAuth;
+  final bool usesFakeAuth;
   final String? expectedFieldValue;
 
   CollectRepository createRepository() => switch (repositoryKind) {
     _RepositoryKind.fixture => CollectRepository.fixture(),
     _RepositoryKind.empty => CollectRepository.fixture(seeded: false),
-    _RepositoryKind.reviewAuth => CollectRepository.appReviewDemo(),
   };
+}
+
+class _MaterialStateAuthOtpGateway implements AuthOtpGateway {
+  const _MaterialStateAuthOtpGateway();
+
+  @override
+  Future<void> sendWhatsAppOtp({
+    required String phone,
+    String? captchaToken,
+  }) async {}
+
+  @override
+  Future<void> verifyWhatsAppOtp({
+    required String phone,
+    required String otp,
+    String? captchaToken,
+  }) async {
+    throw const FormatException('Invalid OTP');
+  }
 }

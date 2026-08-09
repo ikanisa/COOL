@@ -44,7 +44,9 @@ def latest_mtime(root, patterns)
   paths = patterns.flat_map { |pattern| Dir.glob(File.join(root, pattern), File::FNM_DOTMATCH) }
   files = paths.select { |path| File.file?(path) }.reject do |path|
     relative = path.sub(%r{\A#{Regexp.escape(root)}/?}, "")
-    relative == "lib/main_public.dart" || relative.start_with?("lib/features/landing/")
+    relative == "lib/main_public.dart" ||
+      relative.start_with?("lib/features/landing/") ||
+      relative == "android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java"
   end
   files.map { |path| File.mtime(path) }.max
 end

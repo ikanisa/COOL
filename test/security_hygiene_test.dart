@@ -254,12 +254,62 @@ void main() {
       expect(fastfile, contains('"APP_ENVIRONMENT" => "production"'));
       expect(workflow, contains('iOS 26 SDK or later is required'));
       expect(workflow, contains('SUPABASE_PRODUCTION_URL:'));
-      expect(main, contains('ref.watch(supabaseClientProvider)'));
-      expect(repository, contains('signInForAppReview'));
-      expect(repository, contains('_appReviewDemoEnabled'));
-      expect(repository, contains('_fixtureCollectState()'));
+      expect(fastfile, isNot(contains('APP_REVIEW_AUTH_PHONE')));
+      expect(fastfile, isNot(contains('APP_REVIEW_AUTH_OTP')));
+      expect(main, isNot(contains('CollectRepository.appReviewDemo')));
+      expect(repository, isNot(contains('signInForAppReview')));
     },
   );
+
+  test('Android Play build uses ephemeral public configuration only', () {
+    final script = File(
+      'scripts/android_play_store_build.sh',
+    ).readAsStringSync();
+
+    expect(script, contains('mktemp'));
+    expect(script, contains('umask 077'));
+    expect(script, contains('build apk'));
+    expect(script, contains('build appbundle'));
+    expect(script, contains('--flavor production'));
+    expect(script, contains('--dart-define-from-file'));
+    expect(script, contains('SUPABASE_PRODUCTION_URL'));
+    expect(script, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+    expect(script, contains('"COLLECT_MOBILE_EVIDENCE_MODE" => "false"'));
+    expect(script, contains('accepts no extra Flutter arguments'));
+    expect(script, isNot(contains(r'"$@"')));
+    expect(script, isNot(contains('APP_REVIEW_OTP')));
+    expect(script, isNot(contains('APP_REVIEW_PHONE')));
+    expect(script, isNot(contains('AUTH_LOCAL_BYPASS')));
+  });
+
+  test('iOS App Store build cannot enable fixture evidence mode', () {
+    final script = File('scripts/ios_app_store_build.sh').readAsStringSync();
+
+    expect(script, contains('"COLLECT_MOBILE_EVIDENCE_MODE" => "false"'));
+    expect(script, contains('accepts no extra Flutter arguments'));
+    expect(script, isNot(contains(r'"$@"')));
+  });
+
+  test('external GitHub Actions are pinned to immutable commits', () {
+    final workflows = Directory(
+      '.github/workflows',
+    ).listSync().whereType<File>().where((file) => file.path.endsWith('.yml'));
+    final externalUse = RegExp(r'uses:\s+([^\s@]+)@([^\s#]+)');
+    final fullCommit = RegExp(r'^[0-9a-f]{40}$');
+
+    for (final workflow in workflows) {
+      final source = workflow.readAsStringSync();
+      for (final match in externalUse.allMatches(source)) {
+        final action = match.group(1)!;
+        if (action.startsWith('./')) continue;
+        expect(
+          match.group(2),
+          matches(fullCommit),
+          reason: '$action in ${workflow.path} must use a full commit SHA.',
+        );
+      }
+    }
+  });
 
   test('repository text files do not store obvious live secrets', () {
     final blockedPatterns = <RegExp>[

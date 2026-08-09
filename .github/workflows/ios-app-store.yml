@@ -33,7 +33,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Read pinned Flutter version
         id: flutter-version
@@ -48,14 +48,14 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
       - name: Set up pinned Ruby tools
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "3.3"
           bundler-cache: true
@@ -133,8 +133,6 @@ jobs:
 
       - name: Build App Review IPA
         env:
-          COLLECT_REVIEW_PHONE: ${{ secrets.COLLECT_REVIEW_PHONE }}
-          COLLECT_REVIEW_OTP: ${{ secrets.COLLECT_REVIEW_OTP }}
           SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
           SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
           APP_PUBLIC_URL: https://collect.ikanisa.com
@@ -150,7 +148,7 @@ jobs:
 
       - name: Upload IPA artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: collect-ios-ipa
           path: build/ios/ipa/*.ipa

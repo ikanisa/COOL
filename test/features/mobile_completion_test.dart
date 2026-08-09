@@ -1,6 +1,7 @@
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
@@ -11,6 +12,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class _TestAuthOtpGateway implements AuthOtpGateway {
+  static const acceptedOtp = '135790';
+  String? sentPhone;
+
+  @override
+  Future<void> sendWhatsAppOtp({
+    required String phone,
+    String? captchaToken,
+  }) async {
+    sentPhone = phone;
+  }
+
+  @override
+  Future<void> verifyWhatsAppOtp({
+    required String phone,
+    required String otp,
+    String? captchaToken,
+  }) async {
+    if (phone != sentPhone || otp != acceptedOtp) {
+      throw const FormatException('Invalid OTP');
+    }
+  }
+}
 
 void main() {
   bool authButtonEnabled(WidgetTester tester, String key) {
@@ -30,6 +55,7 @@ void main() {
     double textScale = 1,
     AppEnv? appEnv,
     CollectRepository? repository,
+    AuthOtpGateway? authOtpGateway,
   }) async {
     final router = createAppRouter(initialLocation: route);
     addTearDown(router.dispose);
@@ -38,6 +64,8 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           if (appEnv != null) appEnvProvider.overrideWithValue(appEnv),
+          if (authOtpGateway != null)
+            authOtpGatewayProvider.overrideWithValue(authOtpGateway),
           collectRepositoryProvider.overrideWith(
             (ref) => repository ?? CollectRepository.fixture(),
           ),
@@ -671,31 +699,17 @@ void main() {
     }
   });
 
-  testWidgets('app review OTP signs in with configured static code', (
+  testWidgets('auth uses an injected OTP gateway without a credential bypass', (
     tester,
   ) async {
-    final repository = CollectRepository.appReviewDemo();
+    final repository = CollectRepository.fixture(seeded: false);
+    final authOtpGateway = _TestAuthOtpGateway();
     await pumpRoute(
       tester,
       '/auth',
       legalConsentAccepted: true,
       repository: repository,
-      appEnv: const AppEnv(
-        supabaseUrl: '',
-        supabaseAnonKey: '',
-        publicUrl: '',
-        adminAppUrl: '',
-        enableSmsReader: false,
-        enableAndroidSmsAccess: false,
-        enableAdminPanel: false,
-        enableAdminDevTools: false,
-        authCaptchaEnabled: false,
-        authCaptchaProvider: '',
-        authCaptchaSiteKey: '',
-        appReviewAuthEnabled: true,
-        appReviewAuthPhone: '+250700000001',
-        appReviewAuthOtp: '135790',
-      ),
+      authOtpGateway: authOtpGateway,
     );
 
     await tester.enterText(find.byType(TextField).first, '+250700000001');
@@ -721,10 +735,7 @@ void main() {
 
     expect(find.text('6-digit code'), findsOneWidget);
     expect(find.text('Authentication failed'), findsNothing);
-    expect(
-      find.text("Didn't get the code? Use Resend or Change number below."),
-      findsOneWidget,
-    );
+    expect(find.textContaining('Resend code in 00:'), findsOneWidget);
     final firstOtpField = tester.widget<TextField>(
       find.byKey(const ValueKey('auth_otp_digit_0')),
     );
@@ -732,7 +743,7 @@ void main() {
     expect(firstOtpField.autofillHints, contains(AutofillHints.oneTimeCode));
     expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
     expect(authButtonEnabled(tester, 'auth_change_button'), isTrue);
-    expect(authButtonEnabled(tester, 'auth_resend_button'), isTrue);
+    expect(authButtonEnabled(tester, 'auth_resend_button'), isFalse);
 
     await tester.enterText(find.byType(TextField).first, '000000');
     await tester.pump();
@@ -752,9 +763,8 @@ void main() {
     expect(find.text('Total collected'), findsOneWidget);
     expect(find.text('WhatsApp verified.'), findsNothing);
     expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
-    expect(repository.state.currentProfile?.momoNumber, '0788123456');
-    expect(repository.state.collections, isNotEmpty);
-    expect(repository.state.contributions, isNotEmpty);
+    expect(repository.state.collections, isEmpty);
+    expect(repository.state.contributions, isEmpty);
   });
 
   testWidgets('auth country code chip opens all-country picker', (

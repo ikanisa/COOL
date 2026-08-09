@@ -14,24 +14,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  test('App Review access is isolated to seeded fixture data', () async {
-    final repo = CollectRepository.appReviewDemo();
-
-    final profile = await repo.signInForAppReview(phone: '+250700000001');
-
-    expect(profile.whatsappPhone, '+250700000001');
-    expect(profile.momoNumber, '0788123456');
-    expect(repo.isLive, isFalse);
-    expect(repo.state.collections, isNotEmpty);
-    expect(repo.state.contributions, isNotEmpty);
-  });
-
-  test('normal repositories reject the isolated App Review path', () {
-    final repo = CollectRepository.fixture(seeded: false);
-
-    expect(repo.signInForAppReview(phone: '+250700000001'), throwsStateError);
-  });
-
   test('group creation stores receiver MoMo from profile flow', () async {
     final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');

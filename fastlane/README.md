@@ -58,7 +58,7 @@ Upload Collect App Store metadata and screenshots without a binary or review sub
 [bundle exec] fastlane ios build_review_ipa
 ```
 
-Build the App Review IPA with deterministic reviewer OTP access enabled
+Build the production App Review IPA without embedding reviewer credentials
 
 ### ios upload_review_build
 

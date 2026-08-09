@@ -161,15 +161,13 @@ platform :ios do
         email_address: "info@ikanisa.com",
         demo_user: review_phone,
         demo_password: review_otp,
-        notes: "Collect review build has deterministic reviewer access. Open Sign in, enter the provided demo phone number, tap Send WhatsApp code, then enter the provided review OTP. No WhatsApp delivery is required for the review build. Demo records are seeded for review only."
+        notes: "Use the dedicated least-privilege review account. Open Sign in, enter the provided review phone number, request the WhatsApp code, and enter the provided review OTP. The submitted binary uses the same server-authenticated flow as the public app; no reviewer credential is embedded in the app."
       }
     )
   end
 
-  desc "Build the production IPA with isolated deterministic App Review access"
+  desc "Build the production IPA without embedding App Review credentials"
   lane :build_review_ipa do
-    review_phone = collect_review_phone
-    review_otp = collect_review_otp
     supabase_url = collect_production_supabase_url
     supabase_anon_key = collect_production_supabase_anon_key
     public_url = ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com").to_s.strip
@@ -180,10 +178,7 @@ platform :ios do
       "SUPABASE_ANON_KEY" => supabase_anon_key,
       "APP_PUBLIC_URL" => public_url,
       "APP_ENVIRONMENT" => "production",
-      "APNS_ENVIRONMENT" => "production",
-      "APP_REVIEW_AUTH_ENABLED" => "true",
-      "APP_REVIEW_AUTH_PHONE" => review_phone,
-      "APP_REVIEW_AUTH_OTP" => review_otp
+      "APNS_ENVIRONMENT" => "production"
     }))
     review_defines.close
 

@@ -4,11 +4,10 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../app/env/app_env.dart';
 import '../../core/security/phone_normalizer.dart';
-import '../../core/supabase/supabase_module.dart';
+import '../../core/supabase/auth_otp_gateway.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import 'widgets/auth_screen_widgets.dart';
@@ -87,9 +86,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
     final displayPhone = _maskedPhoneForDisplay(_phoneForAuth);
-    final normalizedPhone = _normalizedPhoneOrNull;
-    final usesReviewAuth =
-        normalizedPhone != null && _isAppReviewAuthPhone(env, normalizedPhone);
     return Scaffold(
       backgroundColor: CollectColors.referenceChromeBlack,
       body: DecoratedBox(
@@ -111,11 +107,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   children: [
                     const AuthIdentityHeader(),
                     CollectSpacing.gap24,
-                    AuthHeadline(
-                      otpSent: _otpSent,
-                      phone: displayPhone,
-                      usesReviewAuth: usesReviewAuth,
-                    ),
+                    AuthHeadline(otpSent: _otpSent, phone: displayPhone),
                     CollectSpacing.gap24,
                     AuthInputPanel(
                       otpSent: _otpSent,
@@ -164,7 +156,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     setState(() => _error = null);
     try {
       final phone = PhoneNormalizer.normalizeInternational(_phoneForAuth);
-      final client = ref.read(supabaseClientProvider);
+      final otpGateway = ref.read(authOtpGatewayProvider);
       final captchaToken = env.authCaptchaEnabled
           ? _captchaToken.text.trim()
           : '';
@@ -176,14 +168,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         final confirmed = await _confirmPhoneNumber(phone);
         if (!mounted || !confirmed) return;
         setState(() => _submitting = true);
-        if (_isAppReviewAuthPhone(env, phone)) {
-          setState(() {
-            _otpSent = true;
-            _submitting = false;
-          });
-          return;
-        }
-        await _sendOtp(client, phone, captchaToken);
+        await _sendOtp(otpGateway, phone, captchaToken);
         if (!mounted) return;
         setState(() {
           _otpSent = true;
@@ -193,25 +178,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         return;
       }
       setState(() => _submitting = true);
-      if (_isAppReviewAuthPhone(env, phone)) {
-        if (_otp.text.trim() != env.appReviewAuthOtp.trim()) {
-          throw const FormatException('Invalid Apple reviewer OTP.');
-        }
-        await ref
-            .read(collectRepositoryProvider.notifier)
-            .signInForAppReview(phone: phone);
-        if (!mounted) return;
-        context.go('/home');
-        return;
+      if (otpGateway == null) {
+        throw StateError('WhatsApp sign-in is unavailable.');
       }
-      if (client != null) {
-        await client.auth.verifyOTP(
-          phone: phone,
-          token: _otp.text,
-          type: OtpType.sms,
-          captchaToken: captchaToken.isEmpty ? null : captchaToken,
-        );
-      }
+      await otpGateway.verifyWhatsAppOtp(
+        phone: phone,
+        otp: _otp.text,
+        captchaToken: captchaToken.isEmpty ? null : captchaToken,
+      );
       if (!mounted) return;
       await ref
           .read(collectRepositoryProvider.notifier)
@@ -235,16 +209,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return confirmed ?? false;
   }
 
-  bool _isAppReviewAuthPhone(AppEnv env, String phone) {
-    if (!env.hasAppReviewAuthConfig) return false;
-    try {
-      return PhoneNormalizer.normalizeInternational(env.appReviewAuthPhone) ==
-          PhoneNormalizer.normalizeInternational(phone);
-    } catch (_) {
-      return false;
-    }
-  }
-
   Future<void> _resendCode(AppEnv env) async {
     setState(() {
       _submitting = true;
@@ -259,12 +223,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       if (env.authCaptchaEnabled && captchaToken.isEmpty) {
         throw const FormatException('Complete CAPTCHA verification first.');
       }
-      if (_isAppReviewAuthPhone(env, phone)) {
-        if (!mounted) return;
-        setState(() => _submitting = false);
-        return;
-      }
-      await _sendOtp(ref.read(supabaseClientProvider), phone, captchaToken);
+      await _sendOtp(ref.read(authOtpGatewayProvider), phone, captchaToken);
       if (!mounted) return;
       setState(() => _submitting = false);
       _startResendCooldown();
@@ -274,16 +233,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 
   Future<void> _sendOtp(
-    SupabaseClient? client,
+    AuthOtpGateway? otpGateway,
     String phone,
     String captchaToken,
   ) async {
-    if (client == null) {
+    if (otpGateway == null) {
       throw StateError('WhatsApp sign-in is unavailable.');
     }
-    await client.auth.signInWithOtp(
+    await otpGateway.sendWhatsAppOtp(
       phone: phone,
-      channel: OtpChannel.whatsapp,
       captchaToken: captchaToken.isEmpty ? null : captchaToken,
     );
   }

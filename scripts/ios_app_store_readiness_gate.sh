@@ -141,13 +141,14 @@ ruby -r json -e '
 for build_contract in \
   'SUPABASE_PRODUCTION_URL' \
   'SUPABASE_PRODUCTION_ANON_KEY' \
-  'APP_ENVIRONMENT' \
-  'APP_REVIEW_AUTH_ENABLED'; do
+  'APP_ENVIRONMENT'; do
   grep -q "$build_contract" fastlane/Fastfile ||
     fail "Fastlane production build contract is missing $build_contract."
 done
-grep -q 'supabase: ref.watch(supabaseClientProvider)' lib/main.dart ||
-  fail 'App Review mode does not preserve the production Supabase client.'
+if rg -q 'APP_REVIEW_AUTH_(ENABLED|PHONE|OTP)|signInForAppReview|appReviewDemo' \
+  lib fastlane/Fastfile .github/workflows/ios-app-store.yml; then
+  fail 'Production App Review packaging must not embed reviewer credentials or a local auth bypass.'
+fi
 
 if [[ "$output_format" == "json" ]]; then
   ruby -r json -r time -e '

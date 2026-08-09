@@ -9,10 +9,9 @@ storePassword=replace-with-local-secret
 keyAlias=replace-with-local-alias
 keyPassword=replace-with-local-secret
 
-# Optional non-secret upload-key pin. Set this when the Play Console upload
-# certificate fingerprint is known; leave blank to report the configured upload
-# certificate without blocking artifact creation.
-# COOL_EXPECTED_UPLOAD_SIGNING_SHA256=AA:BB:CC:...
+# Non-secret upload-key pin from the Google Play Console. Keep this aligned with
+# the registered upload certificate so a wrong local signing key fails closed.
+COOL_EXPECTED_UPLOAD_SIGNING_SHA256=9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10
 
 # Non-secret reference fingerprint captured from the Play-installed
 # app.cool.mobile package. This is for Play Integrity/API provider setup and

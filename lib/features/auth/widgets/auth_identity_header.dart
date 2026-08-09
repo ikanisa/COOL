@@ -29,16 +29,10 @@ class AuthIdentityHeader extends StatelessWidget {
 }
 
 class AuthHeadline extends StatelessWidget {
-  const AuthHeadline({
-    required this.otpSent,
-    required this.phone,
-    required this.usesReviewAuth,
-    super.key,
-  });
+  const AuthHeadline({required this.otpSent, required this.phone, super.key});
 
   final bool otpSent;
   final String phone;
-  final bool usesReviewAuth;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +59,7 @@ class AuthHeadline extends StatelessWidget {
         CollectSpacing.gap8,
         Text(
           otpSent
-              ? usesReviewAuth
-                    ? 'Use the reviewer code for $phone.'
-                    : 'Enter the code sent to $phone.'
+              ? 'Enter the code sent to $phone.'
               : 'Enter your phone number. We will send a secure sign-in code on WhatsApp.',
           style: textTheme.bodyLarge?.copyWith(
             color: foreground.withValues(alpha: 0.70),

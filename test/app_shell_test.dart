@@ -883,8 +883,7 @@ void main() {
 
       expect(main, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
       expect(main, contains('CollectRepository.fixture()'));
-      expect(main, contains('CollectRepository.appReviewDemo('));
-      expect(main, contains('ref.watch(supabaseClientProvider)'));
+      expect(main, isNot(contains('CollectRepository.appReviewDemo(')));
       expect(
         smokeScript,
         contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),

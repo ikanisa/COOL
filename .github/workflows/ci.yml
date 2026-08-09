@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Secret & binary file scan
         run: |
@@ -120,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Read pinned Flutter version
         id: flutter-version
@@ -135,7 +135,7 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Read pinned Flutter version
         id: flutter-version
@@ -165,7 +165,7 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
@@ -178,7 +178,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: unit-test-results
           path: test-results.json
@@ -186,7 +186,7 @@ jobs:
 
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: coverage-report
           path: coverage/lcov.info
@@ -228,7 +228,7 @@ jobs:
     timeout-minutes: 15
     needs: [analyze]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Read pinned Flutter version
         id: flutter-version
@@ -243,7 +243,7 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
@@ -260,7 +260,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Read pinned Flutter version
         id: flutter-version
@@ -275,7 +275,7 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
@@ -288,7 +288,7 @@ jobs:
 
       - name: Upload integration test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: integration-test-results
           path: test-results.json
@@ -300,42 +300,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Read pinned Flutter version
-        id: flutter-version
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
+      - name: Validate the universal governance contract
+        run: make universal-contract-gate
 
-          with open(".fvmrc", "r", encoding="utf-8") as handle:
-              config = json.load(handle)
+      - name: Validate notification and deep-link routing
+        run: bash scripts/notification_readiness_gate.sh
 
-          print(f"version={config['flutter']}")
-          PY
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          cache: true
-
-      - run: flutter pub get
-      - name: Run governance docs check
-        run: |
-          dart tool/governance_docs.dart --check || {
-            echo "::error::Governance docs check failed. Please run 'dart tool/governance_docs.dart --generate' locally and commit the changes."
-            echo "### ❌ Governance Docs Check Failed" >> "$GITHUB_STEP_SUMMARY"
-            exit 1
-          }
-      - name: Run deep link release assets check
-        run: |
-          dart tool/deep_link_release_assets.dart --generate --check || {
-            echo "::error::Deep link release assets check failed. Please run 'dart tool/deep_link_release_assets.dart --generate' locally and commit the changes."
-            echo "### ❌ Deep Link Release Assets Check Failed" >> "$GITHUB_STEP_SUMMARY"
-            exit 1
-          }
+      - name: Build and validate public deep-link assets
+        run: bash scripts/public_website_ci_gate.sh static
 
   # ── 5. Deno checks (fast ~15s) ─────────────────────────────────────
   deno-check:
@@ -343,10 +317,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Set up Deno
-        uses: denoland/setup-deno@v2
+        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2
         with:
           deno-version-file: .dvmrc
           cache: true
@@ -379,7 +353,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Read pinned Flutter version
         id: flutter-version
@@ -394,14 +368,14 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
       - name: Set up Deno
-        uses: denoland/setup-deno@v2
+        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2
         with:
           deno-version-file: .dvmrc
           cache: true
@@ -418,10 +392,10 @@ jobs:
     needs: [analyze]
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: temurin
           java-version: '17'
@@ -440,7 +414,7 @@ jobs:
           PY
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable
           flutter-version: ${{ steps.flutter-version.outputs.version }}
@@ -448,29 +422,28 @@ jobs:
 
       - run: flutter pub get
 
-      - name: Build release APK (size check)
-        env:
-          COOL_ALLOW_DEBUG_SIGNING_FOR_RELEASE: '1'
-        run: flutter build apk --release --no-pub --flavor production --dart-define=FLAVOR=production
+      - name: Build release APK size proxy (dev flavor)
+        run: flutter build apk --release --split-per-abi --no-pub --flavor dev --dart-define=FLAVOR=dev
 
-      - name: Check APK size budget
+      - name: Check per-device APK size budget
         run: |
-          APK_PATH="build/app/outputs/flutter-apk/app-production-release.apk"
-          if [ ! -f "$APK_PATH" ]; then
-            echo "::error::APK not found at $APK_PATH"
+          shopt -s nullglob
+          APK_PATHS=(build/app/outputs/flutter-apk/app-*-dev-release.apk)
+          if [ "${#APK_PATHS[@]}" -ne 3 ]; then
+            echo "::error::Expected 3 split APKs, found ${#APK_PATHS[@]}"
             exit 1
           fi
-
-          APK_SIZE_BYTES=$(stat -c%s "$APK_PATH" 2>/dev/null || stat -f%z "$APK_PATH")
-          APK_SIZE_MB=$(echo "scale=2; $APK_SIZE_BYTES / 1048576" | bc)
-
-          echo "📦 APK size: ${APK_SIZE_MB} MB"
-          echo "### 📦 APK Size: ${APK_SIZE_MB} MB" >> "$GITHUB_STEP_SUMMARY"
 
           MAX_SIZE_BYTES=$((50 * 1048576))
-          if [ "$APK_SIZE_BYTES" -gt "$MAX_SIZE_BYTES" ]; then
-            echo "::error::APK size (${APK_SIZE_MB} MB) exceeds budget (50 MB)"
-            exit 1
-          fi
+          for APK_PATH in "${APK_PATHS[@]}"; do
+            APK_SIZE_BYTES=$(stat -c%s "$APK_PATH")
+            APK_SIZE_MB=$(awk -v bytes="$APK_SIZE_BYTES" 'BEGIN { printf "%.2f", bytes / 1048576 }')
+            echo "📦 $(basename "$APK_PATH"): ${APK_SIZE_MB} MB"
+            echo "- $(basename "$APK_PATH"): ${APK_SIZE_MB} MB" >> "$GITHUB_STEP_SUMMARY"
+            if [ "$APK_SIZE_BYTES" -gt "$MAX_SIZE_BYTES" ]; then
+              echo "::error::$(basename "$APK_PATH") (${APK_SIZE_MB} MB) exceeds the 50 MB per-device budget"
+              exit 1
+            fi
+          done
 
-          echo "✅ APK size within budget (< 50 MB)"
+          echo "✅ All split APKs are within the 50 MB per-device budget"

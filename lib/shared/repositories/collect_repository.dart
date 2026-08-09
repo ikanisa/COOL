@@ -55,33 +55,18 @@ class CollectRepository extends StateNotifier<CollectState> {
          offlineCache ?? const CollectOfflineCache(),
        );
 
-  CollectRepository.appReviewDemo({
-    SupabaseClient? supabase,
-    SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-    CollectOfflineCache? offlineCache,
-  }) : this._(
-         supabase,
-         smsAccessChannel,
-         _emptyCollectState(),
-         true,
-         offlineCache ?? const CollectOfflineCache(),
-         appReviewDemoEnabled: true,
-       );
-
   CollectRepository._(
     this._supabase,
     this._smsAccessChannel,
     CollectState initialState,
     this._allowLocalWrites,
-    this._offlineCache, {
-    this._appReviewDemoEnabled = false,
-  }) : super(initialState);
+    this._offlineCache,
+  ) : super(initialState);
 
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
   final SmsAccessChannel _smsAccessChannel;
   final bool _allowLocalWrites;
-  final bool _appReviewDemoEnabled;
   final CollectOfflineCache _offlineCache;
   RealtimeInvalidationSubscription? _realtimeSync;
   String? _registeredNotificationProvider;
@@ -196,24 +181,6 @@ class CollectRepository extends StateNotifier<CollectState> {
           momoNumber: PhoneNormalizer.tryNormalizeMtnMomoLocal(normalized),
         );
     state = state.copyWith(currentProfile: profile);
-    return profile;
-  }
-
-  Future<CollectProfile> signInForAppReview({required String phone}) async {
-    if (!_appReviewDemoEnabled) {
-      throw StateError('App Review demo access is unavailable.');
-    }
-    final normalized = PhoneNormalizer.normalizeInternational(phone);
-    final fixtureState = _fixtureCollectState();
-    final fixtureProfile = fixtureState.currentProfile!;
-    final profile = CollectProfile(
-      id: fixtureProfile.id,
-      publicId: fixtureProfile.publicId,
-      whatsappPhone: normalized,
-      momoNumber: fixtureProfile.momoNumber,
-      momoPayCode: fixtureProfile.momoPayCode,
-    );
-    state = fixtureState.copyWith(currentProfile: profile);
     return profile;
   }
 

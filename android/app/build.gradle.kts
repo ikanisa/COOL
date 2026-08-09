@@ -64,6 +64,7 @@ val expectedUploadSigningSha256 = (
     (keystoreProperties["COOL_EXPECTED_UPLOAD_SIGNING_SHA256"] as String?)
         ?: (findProperty("COOL_EXPECTED_UPLOAD_SIGNING_SHA256") as String?)
         ?: System.getenv("COOL_EXPECTED_UPLOAD_SIGNING_SHA256")
+        ?: "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
 )?.normalizedSha256()
 val releaseStoreFileValue = signingValue("storeFile")
 val releaseStoreFile = releaseStoreFileValue?.let { value ->

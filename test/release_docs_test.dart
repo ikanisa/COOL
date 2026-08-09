@@ -31,7 +31,7 @@ void main() {
       'android_release_signing_review': (
         reviewer: 'Release Engineer Cy',
         notes:
-            'Signed version 1.2.2+12 APK AAB and Play App Signing evidence for release gate test.',
+            'Signed version 1.2.2+13 APK AAB and Play App Signing evidence for release gate test.',
       ),
       'ios_release_scope': (
         reviewer: 'Mobile Scope Lead Dee',
@@ -60,7 +60,7 @@ void main() {
       }
       if (record['key'] == 'android_release_signing_review' ||
           record['key'] == 'release_owner_signoff') {
-        record['artifact_version'] = '1.2.2+12';
+        record['artifact_version'] = '1.2.2+13';
       }
     }
     return manifest;
@@ -950,7 +950,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           'RELEASE_APPROVALS_JSON': manifestFile.path,
           'ANDROID_RELEASE_SIGNING_REVIEWED': '1',
           'ANDROID_RELEASE_SIGNING_NOTE':
-              'Current version 1.2.2+12 release signing reviewed.',
+              'Current version 1.2.2+13 release signing reviewed.',
           'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
           'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
           'ANDROID_RELEASE_SIGNING_EVIDENCE': 'docs/release/RELEASE_STATUS.md',
@@ -987,7 +987,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['checks']['android_release_signing_review']['current_artifact_version'],
-        '1.2.2+12',
+        '1.2.2+13',
       );
       expect(
         decoded['checks']['android_release_signing_review']['approved_artifact_version'],
@@ -1050,7 +1050,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['approvals']['release_owner_signoff']['current_artifact_version'],
-        '1.2.2+12',
+        '1.2.2+13',
       );
       expect(
         decoded['approvals']['release_owner_signoff']['approved_artifact_version'],
@@ -1075,6 +1075,19 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       expect(script, contains('"android/gradle.properties"'));
       expect(script, contains('"android/settings.gradle.kts"'));
     }
+  });
+
+  test('Google Play freshness ignores content-stable Flutter generation', () {
+    final script = File(
+      'scripts/google_play_optimization_gate.sh',
+    ).readAsStringSync();
+
+    expect(
+      script,
+      contains(
+        'android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java',
+      ),
+    );
   });
 
   test(
@@ -1162,41 +1175,47 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(jsonEncode(decoded), isNot(contains('keyPassword')));
   });
 
-  test('Android aggregate release tasks cannot bypass production signing', () {
-    final androidGradle = File(
-      'android/app/build.gradle.kts',
-    ).readAsStringSync();
-    final ci = File('.github/workflows/ci.yml').readAsStringSync();
-    final repoWideQa = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
+  test(
+    'Android production tasks require signing and CI size checks use a dev proxy',
+    () {
+      final androidGradle = File(
+        'android/app/build.gradle.kts',
+      ).readAsStringSync();
+      final ci = File('.github/workflows/ci.yml').readAsStringSync();
+      final repoWideQa = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
 
-    expect(androidGradle, contains('gradle.taskGraph.whenReady'));
-    expect(androidGradle, contains('allTasks.any'));
-    expect(androidGradle, contains('task.name.contains("ProductionRelease"'));
-    expect(
-      androidGradle,
-      isNot(
-        contains(
-          'gradle.startParameter.taskNames.any { taskName ->\n'
-          '        taskName.contains("ProductionRelease"',
+      expect(androidGradle, contains('gradle.taskGraph.whenReady'));
+      expect(androidGradle, contains('allTasks.any'));
+      expect(androidGradle, contains('task.name.contains("ProductionRelease"'));
+      expect(
+        androidGradle,
+        isNot(
+          contains(
+            'gradle.startParameter.taskNames.any { taskName ->\n'
+            '        taskName.contains("ProductionRelease"',
+          ),
         ),
-      ),
-    );
-    expect(
-      androidGradle,
-      contains('Production Android signing requires android/key.properties'),
-    );
-    expect(
-      ci,
-      contains(
-        'flutter build apk --release --no-pub --flavor production '
-        '--dart-define=FLAVOR=production',
-      ),
-    );
-    expect(
-      repoWideQa,
-      contains('build apk --release --flavor production --no-pub'),
-    );
-  });
+      );
+      expect(
+        androidGradle,
+        contains('Production Android signing requires android/key.properties'),
+      );
+      expect(
+        ci,
+        contains(
+          'flutter build apk --release --split-per-abi --no-pub --flavor dev '
+          '--dart-define=FLAVOR=dev',
+        ),
+      );
+      expect(ci, contains('app-*-dev-release.apk'));
+      expect(ci, contains('Expected 3 split APKs'));
+      expect(ci, isNot(contains('COOL_ALLOW_DEBUG_SIGNING_FOR_RELEASE')));
+      expect(
+        repoWideQa,
+        contains('build apk --release --flavor production --no-pub'),
+      );
+    },
+  );
 
   test('Android device UAT timeout cleans up the process group', () {
     final script = File('scripts/android_device_uat.sh').readAsStringSync();
@@ -2501,7 +2520,7 @@ checking Edge Function secret names
     );
     expect(
       androidSigning['record_command'],
-      contains('--artifact-version 1.2.2+12'),
+      contains('--artifact-version 1.2.2+13'),
     );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
@@ -2520,7 +2539,7 @@ checking Edge Function secret names
     );
     expect(
       releaseOwner['record_command'],
-      contains('--artifact-version 1.2.2+12'),
+      contains('--artifact-version 1.2.2+13'),
     );
     expect(
       releaseOwner['evidence_to_review'],

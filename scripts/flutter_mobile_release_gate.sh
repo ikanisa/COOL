@@ -305,11 +305,11 @@ restricted_permissions = %w[
 ]
 
 restricted_in_main = restricted_permissions.select { |permission| main_manifest.include?(permission) }
-checks["production_restricted_sms_permissions_absent"] =
+checks["base_manifest_restricted_sms_permissions_absent"] =
   if restricted_in_main.empty?
-    check("pass", "Production Android manifest excludes restricted SMS permissions.")
+    check("pass", "Base Android manifest excludes restricted SMS permissions; production receive-only SMS opt-in is evaluated separately.")
   else
-    check("fail", "Production Android manifest includes restricted SMS permissions.", "permissions" => restricted_in_main)
+    check("fail", "Base Android manifest includes restricted SMS permissions; keep the production receive-only opt-in flavor-scoped.", "permissions" => restricted_in_main)
   end
 
 receiver_has_receive = receiver_manifest.include?("android.permission.RECEIVE_SMS")

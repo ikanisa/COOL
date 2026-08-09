@@ -9,7 +9,6 @@ import 'app/router.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
 import 'core/notifications/collect_notification_service.dart';
-import 'core/supabase/supabase_module.dart';
 import 'shared/repositories/collect_repository.dart';
 
 Future<void> main() async {
@@ -50,12 +49,6 @@ Future<void> main() async {
         if (mobileEvidenceMode)
           collectRepositoryProvider.overrideWith(
             (ref) => CollectRepository.fixture(),
-          )
-        else if (env.hasAppReviewAuthConfig)
-          collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.appReviewDemo(
-              supabase: ref.watch(supabaseClientProvider),
-            ),
           ),
       ],
       child: const CollectApp(),
