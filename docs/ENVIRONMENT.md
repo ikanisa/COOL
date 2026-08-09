@@ -79,7 +79,7 @@ Local Supabase notes:
 - This repo uses non-default local ports in `supabase/config.toml` to avoid
   conflicts with other local Supabase projects.
 - Local database/API/auth are sufficient for migration and RLS verification.
-- Storage, Studio, Realtime, Inbucket, and Analytics can be enabled when those
+- Storage, Studio, Realtime, local SMTP, and Analytics can be enabled when those
   local services are needed; they are not required for the current database lint
   gate.
 - Supabase operator scripts use `SUPABASE_BIN` when set, a `supabase` command

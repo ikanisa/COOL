@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers/process_runner.dart';
@@ -31,7 +32,7 @@ void main() {
       'android_release_signing_review': (
         reviewer: 'Release Engineer Cy',
         notes:
-            'Signed version 1.2.2+13 APK AAB and Play App Signing evidence for release gate test.',
+            'Signed version 1.2.2+14 APK AAB and Play App Signing evidence for release gate test.',
       ),
       'ios_release_scope': (
         reviewer: 'Mobile Scope Lead Dee',
@@ -48,7 +49,7 @@ void main() {
       final fixture = approvalFixtures[record['key']];
       if (fixture == null) continue;
       record['reviewer'] = fixture.reviewer;
-      record['signed_at'] = '2026-06-01T12:00:00Z';
+      record['signed_at'] = '2099-06-01T12:00:00Z';
       record['notes'] = fixture.notes;
       if (record['key'] == 'android_sms_access_uat') {
         record['evidence_reference'] =
@@ -60,7 +61,23 @@ void main() {
       }
       if (record['key'] == 'android_release_signing_review' ||
           record['key'] == 'release_owner_signoff') {
-        record['artifact_version'] = '1.2.2+13';
+        record['artifact_version'] = '1.2.2+14';
+        record['android_artifact_sha256'] = <String, String>{
+          'apk': sha256
+              .convert(
+                File(
+                  'build/app/outputs/flutter-apk/app-production-release.apk',
+                ).readAsBytesSync(),
+              )
+              .toString(),
+          'aab': sha256
+              .convert(
+                File(
+                  'build/app/outputs/bundle/productionRelease/app-production-release.aab',
+                ).readAsBytesSync(),
+              )
+              .toString(),
+        };
       }
     }
     return manifest;
@@ -374,7 +391,7 @@ Date/time: 2026-06-01T12:30:00Z
     for (final key in ['decision', 'qa', 'uat', 'uat_plan']) {
       expect(docs[key], contains('NO-GO'));
     }
-    expect(docs['blockers'], contains('Owner decision: **GO**'));
+    expect(docs['blockers'], contains('Owner decision: **PENDING**'));
 
     expect(
       docs['decision'],
@@ -824,7 +841,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       decoded['blocker_keys'],
       isNot(contains('android_release_signing_review')),
     );
-    expect(decoded['blocker_keys'], isNot(contains('release_owner_signoff')));
+    expect(decoded['blocker_keys'], contains('release_owner_signoff'));
     expect(decoded['blocker_keys'], isNot(contains('ios_release_scope')));
     final linkedSmsFirstUat =
         decoded['evidence_flags']['linked_sms_first_uat'] as String;
@@ -878,10 +895,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     }
     expect(decoded['blocker_keys'], isNot(contains('product_signoff')));
     expect(decoded['blocker_keys'], isNot(contains('android_sms_access_uat')));
-    expect(decoded['blocker_keys'], isNot(contains('release_owner_signoff')));
+    expect(decoded['blocker_keys'], contains('release_owner_signoff'));
     expect(decoded['evidence_flags']['product_signoff'], '1');
     expect(decoded['evidence_flags']['android_sms_uat'], '1');
-    expect(decoded['evidence_flags']['release_owner_signoff'], '1');
+    expect(decoded['evidence_flags']['release_owner_signoff'], '0');
   });
 
   test('release status surfaces approval evidence gate failures', () {
@@ -950,7 +967,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
           'RELEASE_APPROVALS_JSON': manifestFile.path,
           'ANDROID_RELEASE_SIGNING_REVIEWED': '1',
           'ANDROID_RELEASE_SIGNING_NOTE':
-              'Current version 1.2.2+13 release signing reviewed.',
+              'Current version 1.2.2+14 release signing reviewed.',
           'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
           'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
           'ANDROID_RELEASE_SIGNING_EVIDENCE': 'docs/release/RELEASE_STATUS.md',
@@ -987,7 +1004,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['checks']['android_release_signing_review']['current_artifact_version'],
-        '1.2.2+13',
+        '1.2.2+14',
       );
       expect(
         decoded['checks']['android_release_signing_review']['approved_artifact_version'],
@@ -1050,7 +1067,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['approvals']['release_owner_signoff']['current_artifact_version'],
-        '1.2.2+13',
+        '1.2.2+14',
       );
       expect(
         decoded['approvals']['release_owner_signoff']['approved_artifact_version'],
@@ -1060,6 +1077,80 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       tempDir.deleteSync(recursive: true);
     }
   });
+
+  test('release approval gate rejects an Android artifact digest replay', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final signing = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'android_release_signing_review',
+      );
+      (signing['android_artifact_sha256'] as Map<String, dynamic>)['apk'] =
+          '0' * 64;
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = runProcessSync(
+        './scripts/release_approval_evidence_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blocker_keys'],
+        contains('android_release_signing_review'),
+      );
+      expect(
+        decoded['approvals']['android_release_signing_review']['blockers'],
+        contains('android_artifact_sha256_mismatch'),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test(
+    'release approval gate rejects approval older than Android artifacts',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync(
+        'cool_release_approvals_',
+      );
+      try {
+        final manifest = approvedReleaseManifest();
+        final approvals = manifest['approvals'] as List<dynamic>;
+        final signing = approvals.cast<Map<String, dynamic>>().firstWhere(
+          (record) => record['key'] == 'android_release_signing_review',
+        );
+        signing['signed_at'] = '2026-01-01T00:00:00Z';
+
+        final manifestFile = File('${tempDir.path}/approvals.json')
+          ..writeAsStringSync(jsonEncode(manifest));
+        final result = runProcessSync(
+          './scripts/release_approval_evidence_gate.sh',
+          ['--json'],
+          environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+        );
+
+        expect(result.exitCode, 99);
+        final decoded =
+            jsonDecode(result.stdout as String) as Map<String, dynamic>;
+        expect(decoded['status'], 'blocked');
+        expect(
+          decoded['approvals']['android_release_signing_review']['blockers'],
+          contains('approval_predates_android_artifacts'),
+        );
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
 
   test('Android artifact freshness includes Gradle property changes', () {
     final mobileReleaseGate = File(
@@ -1088,6 +1179,10 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         'android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java',
       ),
     );
+    expect(script, contains('production_runtime_config'));
+    expect(script, contains('archive_entry_includes?'));
+    expect(script, contains('base/lib/arm64-v8a/libapp.so'));
+    expect(script, contains('changelogs/#{package["version_code"]}.txt'));
   });
 
   test(
@@ -1609,6 +1704,15 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     expect(
       reporting,
       contains('File.write(output_path, JSON.pretty_generate(result)'),
+    );
+    expect(upload, contains('Collect 1.2.2 (14)'));
+    expect(upload, contains('android_publisher_upload_v14.json'));
+    const mandatoryGate =
+        r'"$ROOT_DIR/scripts/google_play_optimization_gate.sh" --json >/dev/null';
+    expect(upload, contains(mandatoryGate));
+    expect(
+      upload.indexOf(r'PACKAGE_NAME="$PACKAGE_NAME"'),
+      greaterThan(upload.indexOf(mandatoryGate)),
     );
   });
 
@@ -2520,7 +2624,7 @@ checking Edge Function secret names
     );
     expect(
       androidSigning['record_command'],
-      contains('--artifact-version 1.2.2+13'),
+      contains('--artifact-version 1.2.2+14'),
     );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
@@ -2539,7 +2643,7 @@ checking Edge Function secret names
     );
     expect(
       releaseOwner['record_command'],
-      contains('--artifact-version 1.2.2+13'),
+      contains('--artifact-version 1.2.2+14'),
     );
     expect(
       releaseOwner['evidence_to_review'],
@@ -4047,10 +4151,11 @@ checking Edge Function secret names
     final tempDir = Directory.systemTemp.createTempSync(
       'cool_release_approvals_',
     );
+    final approvedManifest = approvedReleaseManifest();
     final hiddenArtifacts = hideAndroidReleaseArtifactsForTest();
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
-        ..writeAsStringSync(jsonEncode(approvedReleaseManifest()));
+        ..writeAsStringSync(jsonEncode(approvedManifest));
       final result = runProcessSync(
         './scripts/release_status.sh',
         ['--json'],
@@ -4071,10 +4176,11 @@ checking Edge Function secret names
       expect(decoded['evidence_flags']['android_release_artifacts'], 'stale');
       expect(
         decoded['evidence_flags']['android_release_signing_review'],
-        'current',
+        'missing',
       );
       expect(decoded['evidence_flags']['ios_release_scope'], 'current');
-      expect(decoded['evidence_flags']['release_owner_signoff'], '1');
+      expect(decoded['evidence_flags']['release_owner_signoff'], '0');
+      expect(decoded['blocker_keys'], contains('release_owner_signoff'));
     } finally {
       restoreAndroidReleaseArtifacts(hiddenArtifacts);
       tempDir.deleteSync(recursive: true);

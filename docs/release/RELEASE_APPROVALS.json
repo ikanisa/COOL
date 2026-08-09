@@ -1,5 +1,5 @@
 {
-  "status": "approved",
+  "status": "pending",
   "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "qa_summary": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "approvals": [
@@ -35,14 +35,18 @@
       "status": "approved",
       "decision": "GO",
       "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-08-09T10:21:34Z",
+      "signed_at": "2026-08-09T17:54:11Z",
       "evidence_reference": "docs/release/RELEASE_STATUS.md",
       "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,
-      "notes": "Owner granted full release execution and all needed approvals in Codex chat. Version 1.2.2+13 supersedes the version 12 store candidate so the submitted artifacts include the reviewer-auth and CI supply-chain security remediations. Fresh APK/AAB hashes, upload-certificate preflight, signature verification, and no exposed signing material remain required.",
-      "artifact_version": "1.2.2+13"
+      "notes": "Technical release verification for 1.2.2+14 is bound to the exact signed APK and AAB digests below. The APK/AAB signatures, upload-certificate preflight, 16 KB alignment, production runtime identity, and signed Android emulator acceptance evidence were rechecked without exposing signing material.",
+      "artifact_version": "1.2.2+14",
+      "android_artifact_sha256": {
+        "apk": "abf5a610b6dee60227a33aa6de534622b130b0115d495a95df7a4146580dbe6f",
+        "aab": "da98b062e43c08a2086450decb704b6990807d382786eaab48119284ec369f4f"
+      }
     },
     {
       "key": "ios_release_scope",
@@ -60,16 +64,16 @@
     {
       "key": "release_owner_signoff",
       "title": "Release-owner go/no-go approval",
-      "status": "approved",
-      "decision": "GO",
-      "reviewer": "Jean Bosco (Codex chat authorization)",
-      "signed_at": "2026-08-09T10:21:34Z",
-      "evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+      "status": "pending",
+      "decision": "PENDING",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": null,
       "suggested_evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
-      "notes": "Owner explicitly granted full execution and approval of every remaining app task, including computer and authenticated store capabilities. The approval is bound to 1.2.2+13, which supersedes version 12 after security hardening; external provider, physical-device, CI, and store-processing evidence must still be reported separately.",
-      "artifact_version": "1.2.2+13"
+      "notes": "Execution authorization is not final production go-live signoff. Record a fresh artifact-bound owner decision only after provider configuration, physical-device accessibility and push evidence, CI, policy, and store-processing gates are complete.",
+      "artifact_version": "1.2.2+14"
     }
   ],
   "secret_handling": "Approval evidence metadata only. Do not add secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service keys, provider tokens, or production customer data."

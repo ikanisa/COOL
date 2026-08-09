@@ -4,8 +4,13 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-ruby -r json -r time -r uri -r fileutils - "$@" <<'RUBY'
+ruby -r json -r time -r uri -r fileutils -r digest - "$@" <<'RUBY'
 root_dir = Dir.pwd
+
+ANDROID_RELEASE_ARTIFACTS = {
+  "apk" => "build/app/outputs/flutter-apk/app-production-release.apk",
+  "aab" => "build/app/outputs/bundle/productionRelease/app-production-release.aab"
+}.freeze
 
 required_keys = %w[
   product_signoff
@@ -197,6 +202,33 @@ def placeholder_approval_record?(record)
     placeholder_notes.include?(record["notes"].to_s.strip)
 end
 
+def current_android_artifact_evidence(root_dir)
+  ANDROID_RELEASE_ARTIFACTS.transform_values do |relative_path|
+    path = File.join(root_dir, relative_path)
+    next nil unless File.file?(path)
+
+    {
+      "sha256" => Digest::SHA256.file(path).hexdigest,
+      "mtime" => File.mtime(path).utc
+    }
+  end
+end
+
+def android_artifact_binding_valid?(record, root_dir)
+  expected = record["android_artifact_sha256"]
+  return false unless expected.is_a?(Hash)
+
+  current = current_android_artifact_evidence(root_dir)
+  return false if current.values.any?(&:nil?)
+
+  digests_match = ANDROID_RELEASE_ARTIFACTS.keys.all? do |artifact_key|
+    expected[artifact_key].to_s.downcase == current.dig(artifact_key, "sha256")
+  end
+  signed_time = Time.iso8601(record["signed_at"].to_s) rescue nil
+  latest_mtime = current.values.map { |item| item["mtime"] }.max
+  digests_match && signed_time && signed_time >= latest_mtime
+end
+
 def approval_record_valid?(record, key, root_dir, patterns)
   status = record["status"].to_s.strip
   decision = record["decision"].to_s.strip
@@ -229,7 +261,8 @@ def approval_record_valid?(record, key, root_dir, patterns)
     record["sanitized_evidence"] == true &&
     record["contains_production_customer_data"] == false &&
     (key != "android_release_signing_review" || record["signing_keys_exposed"] == false) &&
-    version_current
+    version_current &&
+    (!version_bound || android_artifact_binding_valid?(record, root_dir))
 end
 
 errors = []
@@ -253,6 +286,17 @@ if version_bound
   elsif options["artifact_version"].to_s.strip != "" &&
       options["artifact_version"].to_s.strip != current_artifact_version
     errors << "--artifact-version must match current pubspec version #{current_artifact_version}."
+  end
+
+  android_artifacts = current_android_artifact_evidence(root_dir)
+  missing_android_artifacts = android_artifacts.select { |_artifact_key, item| item.nil? }.keys
+  unless missing_android_artifacts.empty?
+    errors << "current Android release artifacts are required for artifact-bound approval: #{missing_android_artifacts.join(", ")}."
+  end
+  signed_time = Time.iso8601(options["signed_at"].to_s) rescue nil
+  latest_android_artifact_time = android_artifacts.values.compact.map { |item| item["mtime"] }.max
+  if signed_time && latest_android_artifact_time && signed_time < latest_android_artifact_time
+    errors << "--signed-at must be on or after the current Android release artifacts were built."
   end
 end
 
@@ -304,6 +348,11 @@ record = {
 }
 record["signing_keys_exposed"] = false if key == "android_release_signing_review"
 record["artifact_version"] = options["artifact_version"].to_s.strip if version_bound
+if version_bound
+  record["android_artifact_sha256"] = current_android_artifact_evidence(root_dir).transform_values do |item|
+    item && item["sha256"]
+  end
+end
 
 hits = sensitive_metadata_hits(record, sensitive_patterns)
 errors << "approval metadata contains sensitive marker(s): #{hits.join(", ")}." unless hits.empty?

@@ -25,12 +25,15 @@ Deno.test("FCM sender emits private channel-routed data and classifies invalid t
     },
     async (input, init) => {
       requests.push(new Request(input, init));
-      return new Response(JSON.stringify({
-        error: {
-          status: "NOT_FOUND",
-          details: [{ errorCode: "UNREGISTERED" }],
-        },
-      }), { status: 404 });
+      return new Response(
+        JSON.stringify({
+          error: {
+            status: "NOT_FOUND",
+            details: [{ errorCode: "UNREGISTERED" }],
+          },
+        }),
+        { status: 404 },
+      );
     },
   );
   const request = requests[0];

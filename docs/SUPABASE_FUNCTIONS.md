@@ -7,8 +7,8 @@ Implemented production functions:
 - `parse-payment-sms`: service-only OpenAI parser for MoMo SMS facts.
 - `allocate-payment`: service-only wrapper around Postgres allocation.
 - `send-notification`: internal, preference-gated notification event enqueue.
-- `dispatch-notifications`: internal APNs queue dispatcher with bounded retries,
-  invalid-token retirement, and per-attempt evidence.
+- `dispatch-notifications`: internal APNs/FCM queue dispatcher with bounded
+  retries, invalid-token retirement, and per-attempt evidence.
 - `stripe-create-customer`: authenticated Stripe Customer setup for diaspora
   rails.
 - `stripe-create-setup-intent`: authenticated saved-bank setup for ACH Direct
@@ -19,6 +19,8 @@ Implemented production functions:
   Debit in Canada.
 - `stripe-webhook`: Stripe signature-verified webhook receiver for idempotent
   diaspora contribution status updates.
+- `verify-play-integrity`: authenticated Google Play Integrity decoder and
+  verdict recorder for the production Android package.
 
 Legacy/deprecated Edge Functions for public requests and manual allocation are
 not part of the deploy set. Older SQL migration history may define legacy RPCs,
@@ -37,6 +39,7 @@ supabase functions deploy stripe-create-customer
 supabase functions deploy stripe-create-setup-intent
 supabase functions deploy stripe-create-diaspora-contribution
 supabase functions deploy stripe-webhook --no-verify-jwt
+supabase functions deploy verify-play-integrity
 ```
 
 Security notes:
@@ -48,7 +51,8 @@ Security notes:
 - `send-notification` and `dispatch-notifications` require
   `INTERNAL_FUNCTION_SECRET`. APNs delivery additionally requires
   `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_BUNDLE_ID`, and
-  `APNS_PRIVATE_KEY_BASE64` in the Supabase secret store.
+  `APNS_PRIVATE_KEY_BASE64`; Android delivery requires
+  `FCM_SERVICE_ACCOUNT_JSON` in the Supabase secret store.
 - `ingest-payment-sms` verifies the receiver can ingest for the target receiver
   MoMo hash or group receiver context before queuing parser work.
 - Parser output is evidence for deterministic Postgres allocation. Ledger

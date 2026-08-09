@@ -12,7 +12,7 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri -r open3 <<'RUBY'
+OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri -r open3 -r digest <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
@@ -252,6 +252,13 @@ def approved_artifact_version(record)
   record["notes"].to_s[/\b[0-9]+\.[0-9]+\.[0-9]+\+[0-9]+\b/]
 end
 
+def approved_android_artifact_digests(record)
+  value = record["android_artifact_sha256"]
+  return {} unless value.is_a?(Hash)
+
+  value.transform_keys(&:to_s).transform_values { |digest| digest.to_s.strip.downcase }
+end
+
 pubspec = read(File.join(root_dir, "pubspec.yaml"))
 gradle = read(File.join(root_dir, "android/app/build.gradle.kts"))
 main_manifest = read(File.join(root_dir, "android/app/src/main/AndroidManifest.xml"))
@@ -430,10 +437,29 @@ approved_android_artifact_version = approved_artifact_version(android_signing_re
 android_signing_version_current =
   current_artifact_version &&
   approved_android_artifact_version == current_artifact_version
+current_android_artifact_digests = artifacts.transform_values do |item|
+  item.fetch("exists") ? Digest::SHA256.file(item.fetch("path")).hexdigest : nil
+end
+recorded_android_artifact_digests = approved_android_artifact_digests(android_signing_record)
+android_signing_digests_current =
+  %w[apk aab].all? do |artifact_key|
+    record_key = artifact_key
+    artifact_name = artifact_key == "apk" ? "android_release_apk" : "android_release_aab"
+    recorded_android_artifact_digests[record_key].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+      recorded_android_artifact_digests[record_key] == current_android_artifact_digests[artifact_name]
+  end
+android_signing_time = Time.iso8601(android_signing_record["signed_at"].to_s) rescue nil
+latest_android_artifact_time = artifacts.values.select { |item| item.fetch("exists") }.map { |item| File.mtime(item.fetch("path")).utc }.max
+android_signing_after_artifacts =
+  android_signing_time &&
+  latest_android_artifact_time &&
+  android_signing_time >= latest_android_artifact_time
 
 android_signing_reviewed =
   android_signing_reviewed_from_manifest &&
-  android_signing_version_current
+  android_signing_version_current &&
+  android_signing_digests_current &&
+  android_signing_after_artifacts
 
 checks["android_release_signing_review"] =
   if android_signing_reviewed
@@ -445,7 +471,8 @@ checks["android_release_signing_review"] =
       "reviewer" => android_signing_record["reviewer"],
       "reviewed_at" => android_signing_record["signed_at"],
       "evidence_reference" => android_signing_record["evidence_reference"],
-      "artifact_version" => approved_android_artifact_version
+      "artifact_version" => approved_android_artifact_version,
+      "android_artifact_sha256" => recorded_android_artifact_digests
     )
   else
     check(
@@ -454,7 +481,11 @@ checks["android_release_signing_review"] =
       "current_artifact_version" => current_artifact_version,
       "approved_artifact_version" => approved_android_artifact_version,
       "approval_record_valid" => android_signing_reviewed_from_manifest,
-      "approval_version_current" => android_signing_version_current
+      "approval_version_current" => android_signing_version_current,
+      "approved_android_artifact_sha256" => recorded_android_artifact_digests,
+      "current_android_artifact_sha256" => current_android_artifact_digests,
+      "approval_artifact_digests_current" => android_signing_digests_current,
+      "approval_after_android_artifacts" => android_signing_after_artifacts
     )
   end
 

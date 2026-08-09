@@ -120,7 +120,9 @@ export async function sendFcmMessage(
   const account = serviceAccount(credentials);
   const started = performance.now();
   const response = await fetcher(
-    `https://fcm.googleapis.com/v1/projects/${encodeURIComponent(account.project_id)}/messages:send`,
+    `https://fcm.googleapis.com/v1/projects/${
+      encodeURIComponent(account.project_id)
+    }/messages:send`,
     {
       method: "POST",
       headers: {

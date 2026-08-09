@@ -9,7 +9,7 @@ TRACK="${TRACK:-production}"
 STATUS="${STATUS:-completed}"
 USER_FRACTION="${USER_FRACTION:-}"
 AAB_PATH="${AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}"
-RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (13)}"
+RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (14)}"
 RELEASE_NOTES="${RELEASE_NOTES:-Adds native notification controls and optional receive-only MoMo SMS matching, removes embedded reviewer access, and hardens release security.}"
 OUTPUT_PATH="${OUTPUT_PATH:-}"
 OUTPUT_FORMAT="text"
@@ -30,9 +30,9 @@ Environment:
   STATUS                               default: completed
   USER_FRACTION                        optional, for staged rollout statuses
   AAB_PATH                             default: build/app/outputs/bundle/productionRelease/app-production-release.aab
-  RELEASE_NAME                         default: Collect 1.2.2 (13)
+  RELEASE_NAME                         default: Collect 1.2.2 (14)
   RELEASE_NOTES                        default release notes
-  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v13.json
+  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v14.json
   ANDROID_PUBLISHER_ACCESS_TOKEN       optional bearer token; never printed
   ANDROID_PUBLISHER_ACCESS_TOKEN_CMD   optional command that prints a bearer token
   GOOGLE_APPLICATION_CREDENTIALS       service-account JSON is supported directly
@@ -67,10 +67,16 @@ done
 
 if [[ -z "$OUTPUT_PATH" ]]; then
   if [[ "$SUBMIT" == "true" ]]; then
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v13.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v14.json"
   else
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v13_dry_run.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v14_dry_run.json"
   fi
+fi
+
+if [[ "$SUBMIT" == "true" ]]; then
+  # The upload path must not be able to bypass the independently pinned
+  # production-backend, artifact, SMS-policy, and console-state controls.
+  "$ROOT_DIR/scripts/google_play_optimization_gate.sh" --json >/dev/null
 fi
 
 PACKAGE_NAME="$PACKAGE_NAME" \

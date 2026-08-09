@@ -251,6 +251,12 @@ void main() {
 
       expect(fastfile, contains('SUPABASE_PRODUCTION_URL'));
       expect(fastfile, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+      expect(fastfile, contains('COLLECT_PRODUCTION_SUPABASE_URL ='));
+      expect(fastfile, isNot(contains('ENV["SUPABASE_URL"]')));
+      expect(
+        fastfile,
+        contains('sh("./scripts/google_play_optimization_gate.sh --json")'),
+      );
       expect(fastfile, contains('"APP_ENVIRONMENT" => "production"'));
       expect(workflow, contains('iOS 26 SDK or later is required'));
       expect(workflow, contains('SUPABASE_PRODUCTION_URL:'));
@@ -274,7 +280,23 @@ void main() {
     expect(script, contains('--dart-define-from-file'));
     expect(script, contains('SUPABASE_PRODUCTION_URL'));
     expect(script, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+    expect(
+      script,
+      contains(
+        'EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"',
+      ),
+    );
+    expect(script, isNot(contains(r'${SUPABASE_URL:-}')));
+    expect(script, isNot(contains(r'${SUPABASE_ANON_KEY:-}')));
     expect(script, contains('"COLLECT_MOBILE_EVIDENCE_MODE" => "false"'));
+    expect(script, contains('--no-build-cache'));
+    expect(script, contains('org.gradle.caching=false'));
+    expect(script, contains('COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false'));
+    expect(script, contains(':app:clean'));
+    expect(script, isNot(contains(r'"$ROOT_DIR/android" clean')));
+    expect(script, contains('verify_public_runtime_config'));
+    expect(script, contains('lib/arm64-v8a/libapp.so'));
+    expect(script, contains('base/lib/arm64-v8a/libapp.so'));
     expect(script, contains('accepts no extra Flutter arguments'));
     expect(script, isNot(contains(r'"$@"')));
     expect(script, isNot(contains('APP_REVIEW_OTP')));
@@ -286,8 +308,32 @@ void main() {
     final script = File('scripts/ios_app_store_build.sh').readAsStringSync();
 
     expect(script, contains('"COLLECT_MOBILE_EVIDENCE_MODE" => "false"'));
+    expect(
+      script,
+      contains('Payload/Collect.app/Frameworks/App.framework/App'),
+    );
+    expect(script, contains('EXPECTED_SUPABASE_URL'));
+    expect(
+      script,
+      contains(
+        'EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"',
+      ),
+    );
+    expect(script, isNot(contains(r'${SUPABASE_URL:-}')));
+    expect(script, isNot(contains(r'${SUPABASE_ANON_KEY:-}')));
     expect(script, contains('accepts no extra Flutter arguments'));
     expect(script, isNot(contains(r'"$@"')));
+  });
+
+  test('live OTP probe requires runtime inputs and redacts failures', () {
+    final probe = File('scripts/auth_otp_live_probe.dart').readAsStringSync();
+
+    expect(probe, contains('Platform.environment[name]'));
+    expect(probe, contains('COLLECT_AUTH_TEST_PHONE'));
+    expect(probe, contains("'[PHONE]'"));
+    expect(probe, contains("'[TOKEN]'"));
+    expect(probe, contains("'[REDACTED]'"));
+    expect(probe, isNot(contains(RegExp(r'\+250\d{9}'))));
   });
 
   test('external GitHub Actions are pinned to immutable commits', () {

@@ -1045,6 +1045,14 @@ void main() {
       );
       expect(find.semantics.byLabel('Cancel'), findsOne);
       expect(find.semantics.byLabel('Sign out'), findsWidgets);
+      expect(
+        find.widgetWithText(CollectButton, 'Cancel').hitTestable(),
+        findsOneWidget,
+      );
+      expect(
+        find.widgetWithText(CollectButton, 'Sign out').hitTestable(),
+        findsOneWidget,
+      );
       await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
 
       await pumpMainAppAt(tester, '/settings/account/delete');

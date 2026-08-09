@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-08-08T13:43:00Z",
+  "generated_at": "2026-08-09T18:46:31Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
-    "version_code": 12,
+    "version_code": 14,
     "track": "production",
-    "release_name": "Collect 1.2.2 (12)",
+    "release_name": "Collect 1.2.2 (14)",
     "release_notes": {
-      "en-US": "Adds native notification controls and optional receive-only MoMo SMS matching, with stronger permission recovery, accessibility, and security."
+      "en-US": "Fixes production sign-in packaging and account action accessibility, with native notification and optional receive-only MoMo SMS controls."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "8a3e2c6f5557d51e873b72e0968591e3a98fbc281b94d8ea1d6f581becdc0d1f",
-    "play_console_state": "changes_in_review",
-    "rollout_percentage": 100,
-    "review_submitted_at": "2026-08-08T13:43:00Z",
+    "aab_sha256": "da98b062e43c08a2086450decb704b6990807d382786eaab48119284ec369f4f",
+    "play_console_state": "not_uploaded_active_version_12_and_replacement_screenshots_in_review",
+    "rollout_percentage": 0,
+    "review_submitted_at": null,
     "device_catalog_delta": {
       "phones_removed": 0,
       "tablets_removed": 0,
@@ -100,13 +100,14 @@
         "exported_count": 5,
         "source": "native_product_capture_only",
         "capture_evidence": ".cache/google_play_store_screenshots/20260805-legacy-eradication-accepted/ten-inch",
-        "dimensions": "1024x1366",
+        "store_upload_transform": "Aspect-preserving 1080x1440 export used for the 2026-08-09 Google Play upload because Play rejected the 1024-pixel short side.",
+        "dimensions": "1080x1440",
         "sha256": {
-          "01-home.png": "f5f66b427936de6e0f59169265fda2e392510bfe65d8945ba2a20a0801b0fcce",
-          "02-groups.png": "824661a65e212a4f0f37b1e7a3be52681a9c4e7bed0133ca752f7259da37d796",
-          "03-group-detail.png": "7de9af93f118455bc12c242cb176a14e428260133cb4990c241ffeaf494db613",
-          "04-ledger.png": "9f7df4712f165f7294205157f772fb5331b4ba667e4a141cce19345a5db3c7f5",
-          "05-share.png": "d84cb8773e234f061224a7e47f2f74b857ef7b6f51c80e02a0ad1d8d03488114"
+          "01-home.png": "c3d8f7dc822348aabf08df9218e5583a57b432f7bdc0fa9e40cfa48bef8d8cc7",
+          "02-groups.png": "bea9ce21311876b3d4a3da29efedbeb7f180f72b23afa32bddcf449f5ea101a7",
+          "03-group-detail.png": "be63c6d97271ac5d33e0826070da23cb2f66d6454df905f0cd16925118a7bca1",
+          "04-ledger.png": "5a6a5e0340a569ffa60655b99d0343c2d1ddb2183fdfb160d5d52c3b75d0bb58",
+          "05-share.png": "c64078f46dc75b42b4f9d62a5a58959135721aba654cc7894ca1704ac42020dd"
         }
       }
     },
@@ -282,6 +283,6 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "production_v12_changes_in_review_internal_v12_available_app_access_verified_ad_id_no_sms_declaration_submitted_2026_08_08",
+  "console_completion_status": "target_v14_not_uploaded_production_v12_and_all_replacement_screenshot_changes_in_review_public_listing_not_yet_updated_app_access_verified_sms_declaration_submitted_not_approved",
   "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
 }

@@ -60,6 +60,13 @@ def run(*cmd)
   }
 end
 
+def archive_entry_includes?(archive_path, entry, expected)
+  stdout, _stderr, status = Open3.capture3("unzip", "-p", archive_path, entry)
+  status.success? && stdout.b.include?(expected.b)
+rescue StandardError
+  false
+end
+
 def http_probe(url)
   uri = URI(url)
   response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: 6, read_timeout: 8) do |http|
@@ -188,6 +195,36 @@ checks["release_artifacts_fresh"] =
     check("blocked", "Production APK/AAB artifacts are stale relative to current sources.", "stale" => stale, "source_latest_mtime" => source_latest&.utc&.iso8601, "apk" => apk, "aab" => aab)
   end
 
+production_supabase_url = "https://lhbowpbcpwoiparwnwgt.supabase.co"
+apk_runtime_config =
+  apk["exists"] && archive_entry_includes?(
+    apk["path"],
+    "lib/arm64-v8a/libapp.so",
+    production_supabase_url,
+  )
+aab_runtime_config =
+  aab["exists"] && archive_entry_includes?(
+    aab["path"],
+    "base/lib/arm64-v8a/libapp.so",
+    production_supabase_url,
+  )
+checks["production_runtime_config"] =
+  if apk_runtime_config && aab_runtime_config
+    check(
+      "pass",
+      "Final APK and AAB contain the reviewed production runtime endpoint.",
+      "apk_runtime_config" => true,
+      "aab_runtime_config" => true,
+    )
+  else
+    check(
+      "fail",
+      "Final APK/AAB packaging reused a stale or unconfigured Flutter runtime.",
+      "apk_runtime_config" => apk_runtime_config,
+      "aab_runtime_config" => aab_runtime_config,
+    )
+  end
+
 checks["sixteen_kb_alignment"] =
   if zipalign_16k.fetch("status") == 0
     check("pass", "APK verifies with zipalign -P 16 for 16 KB page-size packaging alignment.", "native_library_count" => native_libs.length)
@@ -291,7 +328,7 @@ metadata_files = {
   "title" => "fastlane/metadata/android/en-US/title.txt",
   "short_description" => "fastlane/metadata/android/en-US/short_description.txt",
   "full_description" => "fastlane/metadata/android/en-US/full_description.txt",
-  "changelog_12" => "fastlane/metadata/android/en-US/changelogs/12.txt"
+  "changelog" => "fastlane/metadata/android/en-US/changelogs/#{package["version_code"]}.txt"
 }
 metadata_items = metadata_files.transform_values do |relative|
   path = File.join(root, relative)

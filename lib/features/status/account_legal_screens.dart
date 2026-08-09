@@ -326,6 +326,7 @@ Future<bool> _showAccountActionSheet({
 }) async {
   final result = await showModalBottomSheet<bool>(
     context: context,
+    useRootNavigator: true,
     useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,

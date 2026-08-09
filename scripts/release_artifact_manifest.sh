@@ -118,7 +118,6 @@ source_patterns = {
     "lib/**/*.dart",
     "ios/Runner/**/*",
     "ios/Flutter/*.xcconfig",
-    "ios/ExportOptionsAppStore.plist",
     "ios/Podfile",
     "ios/Podfile.lock",
     "ios/Runner.xcodeproj/**/*",
