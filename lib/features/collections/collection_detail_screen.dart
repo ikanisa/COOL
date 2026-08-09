@@ -67,7 +67,8 @@ class CollectionDetailScreen extends ConsumerWidget {
             '${summary.supporterCount == 1 ? 'member' : 'members'}',
         icon: collectionTypeIcon(collection.collectionType),
         semanticLabel:
-            '${formatRwf(summary.amountRaisedRwf)} raised, Open group members, ${summary.supporterCount} members',
+            '${collection.title}, ${formatRwf(summary.amountRaisedRwf)} raised, '
+            'Open group members, ${summary.supporterCount} members',
         quickActions: [
           CollectHeroQuickAction(
             icon: CollectIcons.donate,

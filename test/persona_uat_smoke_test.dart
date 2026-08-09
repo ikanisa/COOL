@@ -381,7 +381,11 @@ void main() {
         findsOneWidget,
       );
       expect(
-        find.bySemanticsLabel(RegExp(r'Open group members, 2 members')),
+        find.bySemanticsLabel(
+          RegExp(
+            r'St Michel building fund, RWF 35,000 raised, Open group members, 2 members',
+          ),
+        ),
         findsOneWidget,
       );
       expect(
@@ -1093,7 +1097,12 @@ void main() {
             '/groups/col-church',
             [
               (RegExp(r'RWF 35,000 raised'), false),
-              (RegExp(r'Open group members, 2 members'), false),
+              (
+                RegExp(
+                  r'St Michel building fund, RWF 35,000 raised, Open group members, 2 members',
+                ),
+                false,
+              ),
             ],
           ),
           (

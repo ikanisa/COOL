@@ -391,7 +391,8 @@ class CollectScreenHero extends StatelessWidget {
               semanticLabel ??
               [
                 if (eyebrow != null) eyebrow,
-                metric ?? title,
+                title,
+                if (metric != null) metric,
                 if (subtitle != null) subtitle,
               ].whereType<String>().join(', '),
           child: ExcludeSemantics(

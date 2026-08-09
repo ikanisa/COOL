@@ -143,7 +143,7 @@ record "warm_single_process_verified=true"
 
 "$ADB" -s "$DEVICE_ID" shell am force-stop "$PACKAGE"
 start_launcher
-wait_for_text "TOTAL COLLECTED" "04-cleared-restart" 120 ||
+wait_for_text "Total collected" "04-cleared-restart" 120 ||
   fail "A completed intent was replayed after its success-clearing restart."
 capture "04-completed-intents-not-replayed"
 record "completed_intents_not_replayed=true"

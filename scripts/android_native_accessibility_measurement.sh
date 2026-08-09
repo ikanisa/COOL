@@ -205,6 +205,10 @@ tap_named "Home"
 capture "01-home"
 
 tap_named "Groups"
+# StatefulShellRoute preserves each branch's most recent nested route. A
+# second selection of the active branch is the app's intentional "back to
+# branch root" gesture, so exercise it before measuring the groups list.
+tap_named "Groups"
 capture "02-groups"
 tap_named "St Michel building fund, RWF 35,000, 2 members"
 capture "03-group-detail"
@@ -230,7 +234,7 @@ sleep 1
 capture "07b-profile-scrolled"
 
 launch_app
-tap_named "Settings"
+tap_named "Profile"
 capture "08-settings"
 
 PACKAGE="$PACKAGE" \
