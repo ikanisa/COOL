@@ -136,6 +136,12 @@ void main() {
   final nativePushDelivery = File(
     'supabase/migrations/20260804150000_native_push_delivery.sql',
   ).readAsStringSync();
+  final mobileNotificationPreferenceGrants = File(
+    'supabase/migrations/20260812080000_restore_mobile_notification_preferences_grants.sql',
+  ).readAsStringSync();
+  final developerDummyDataCleanup = File(
+    'supabase/migrations/20260812100000_remove_developer_dummy_data.sql',
+  ).readAsStringSync();
   final androidFcmPushDelivery = File(
     'supabase/migrations/20260805120000_android_fcm_push_delivery.sql',
   ).readAsStringSync();
@@ -561,6 +567,61 @@ void main() {
     expect(apnsTransport, contains('https://api.sandbox.push.apple.com'));
     expect(apnsTransport, contains('apns-push-type'));
     expect(sendNotificationFunction, contains('dispatch_requested'));
+  });
+
+  test('mobile notification preferences retain owner-scoped table grants', () {
+    expect(
+      mobileNotificationPreferenceGrants,
+      contains('revoke all on table public.notification_preferences from anon'),
+    );
+    expect(
+      mobileNotificationPreferenceGrants,
+      contains(
+        'grant select, insert, update on table public.notification_preferences',
+      ),
+    );
+    expect(mobileNotificationPreferenceGrants, isNot(contains('grant delete')));
+    expect(
+      readiness,
+      contains("('authenticated', 'notification_preferences', 'SELECT')"),
+    );
+  });
+
+  test('developer dummy data is retired without deleting real profiles', () {
+    final repository = readCollectRepositoryLibrary();
+
+    expect(repository, isNot(contains('ensure_developer_account_data')));
+    expect(
+      developerDummyDataCleanup,
+      contains(
+        'drop function if exists public.ensure_developer_account_data()',
+      ),
+    );
+    expect(
+      developerDummyDataCleanup,
+      contains('delete from public.collections'),
+    );
+    expect(developerDummyDataCleanup, contains('delete from public.payments'));
+    expect(
+      developerDummyDataCleanup,
+      contains('delete from public.ledger_entries'),
+    );
+    expect(
+      developerDummyDataCleanup,
+      isNot(contains('delete from public.profiles')),
+    );
+    expect(
+      developerDummyDataCleanup,
+      isNot(contains('delete from auth.users')),
+    );
+    expect(
+      readiness,
+      isNot(
+        contains(
+          "('authenticated', 'ensure_developer_account_data', 'EXECUTE')",
+        ),
+      ),
+    );
   });
 
   test('native Android FCM delivery is registered, routed, and observable', () {
@@ -1183,15 +1244,17 @@ void main() {
     expect(migration, contains('create trigger ledger_entries_prevent_delete'));
   });
 
-  test('SMS ingestion requires an authorized receiver MOMO route', () {
+  test('SMS ingestion always requires an authorized receiver controller', () {
     final ingest = File(
       'supabase/functions/ingest-payment-sms/index.ts',
     ).readAsStringSync();
 
     expect(migration, contains('user_can_ingest_receiver_sms'));
+    expect(ingest, contains('receiver_hash: receiverMomoHash'));
+    expect(ingest, contains('collection: collectionId'));
     expect(
       ingest,
-      contains('receiver_momo_number or collection_id is required'),
+      isNot(contains('receiver_momo_number or collection_id is required')),
     );
     expect(ingest, contains('user_can_ingest_receiver_sms'));
     expect(ingest, contains('Receiver is not authorized for this MOMO number'));
@@ -1867,10 +1930,6 @@ void main() {
     );
     expect(
       readiness,
-      contains("('authenticated', 'ensure_developer_account_data', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
       contains("('authenticated', 'transfer_group_ownership', 'EXECUTE')"),
     );
     expect(
@@ -1915,9 +1974,12 @@ void main() {
     );
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 57'),
+      contains('"authenticated_security_definer_function_executable" => 56'),
     );
-    expect(warningInventory, contains('ensure_developer_account_data()'));
+    expect(
+      warningInventory,
+      isNot(contains('ensure_developer_account_data()')),
+    );
     expect(warningInventory, contains('admin_runtime_config()'));
     expect(warningInventory, contains('get_active_policy_document()'));
     expect(warningInventory, contains('record_policy_acceptance'));
@@ -2351,27 +2413,40 @@ void main() {
     );
   });
 
-  test('SMS parser requires OpenAI structured parsing', () {
-    final parser = File(
-      'supabase/functions/parse-payment-sms/index.ts',
-    ).readAsStringSync();
-    final parserSchema = File(
-      'supabase/functions/_shared/sms_schema.ts',
-    ).readAsStringSync();
-    final liveParserUat = File(
-      'scripts/collect_live_parser_uat.sh',
-    ).readAsStringSync();
+  test(
+    'SMS parser uses deterministic MoMo parsing with structured fallback',
+    () {
+      final parser = File(
+        'supabase/functions/parse-payment-sms/index.ts',
+      ).readAsStringSync();
+      final deterministicParser = File(
+        'supabase/functions/_shared/momo_sms_parser.ts',
+      ).readAsStringSync();
+      final parserSchema = File(
+        'supabase/functions/_shared/sms_schema.ts',
+      ).readAsStringSync();
+      final liveParserUat = File(
+        'scripts/collect_live_parser_uat.sh',
+      ).readAsStringSync();
 
-    expect(parser, isNot(contains('fallbackParse')));
-    expect(parser, isNot(contains('collect.local_heuristic.v1')));
-    expect(parser, isNot(contains('detected_collection_code')));
-    expect(parserSchema, isNot(contains('detected_collection_code')));
-    expect(parser, contains('OpenAI parse failed'));
-    expect(parser, contains('allocation_status: allocationStatus'));
-    expect(liveParserUat, contains('live parser UAT passed'));
-    expect(liveParserUat, contains('OpenAI returned 429'));
-    expect(liveParserUat, contains('ledger_count'));
-  });
+      expect(parser, contains('parseDeterministicMomoSms'));
+      expect(parser, contains('collect.deterministic_momo.v1'));
+      expect(
+        deterministicParser,
+        contains('high-confidence MoMo notifications'),
+      );
+      expect(deterministicParser, contains('incomingPattern'));
+      expect(deterministicParser, contains('unsafePattern'));
+      expect(deterministicParser, contains('RWF'));
+      expect(parser, isNot(contains('detected_collection_code')));
+      expect(parserSchema, isNot(contains('detected_collection_code')));
+      expect(parser, contains('OpenAI parse failed'));
+      expect(parser, contains('allocation_status: allocationStatus'));
+      expect(liveParserUat, contains('live parser UAT passed'));
+      expect(liveParserUat, contains('OpenAI returned 429'));
+      expect(liveParserUat, contains('ledger_count'));
+    },
+  );
 
   test('Android SMS receiver is consent gated, encrypted, and retry safe', () {
     final receiver = File(
@@ -2384,6 +2459,9 @@ void main() {
       'lib/core/security/sms_access_channel.dart',
     ).readAsStringSync();
     final repository = readCollectRepositoryLibrary();
+    final repositoryHelpers = File(
+      'lib/shared/repositories/collect_repository_helpers.dart',
+    ).readAsStringSync();
 
     final queueStore = File(
       'android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt',
@@ -2406,12 +2484,35 @@ void main() {
     expect(repository, contains('syncPendingSmsAccess'));
     expect(repository, contains('readPendingSms'));
     expect(repository, contains('acknowledgePendingSms'));
+    expect(repository, contains('_smsSyncInFlight'));
+    expect(repository, contains('receivedAtDevice'));
+    expect(repositoryHelpers, contains('ownedGroupReceivers.length == 1'));
+    expect(receiver, contains('Instant::ofEpochMilli'));
     final app = File('lib/app/app.dart').readAsStringSync();
     expect(app, contains('WidgetsBindingObserver'));
     expect(app, contains('AppLifecycleState.resumed'));
     expect(app, contains('syncPendingSmsAccess'));
     expect(repository, contains('refreshSmsAccessStatus'));
     expect(repository, contains('unawaited(syncPendingSmsAccess())'));
+  });
+
+  test('MoMo code persistence accepts exactly 4 to 9 digits', () {
+    final migration = File(
+      'supabase/migrations/20260812090000_expand_momo_pay_code_length.sql',
+    ).readAsStringSync();
+    final repositoryHelpers = File(
+      'lib/shared/repositories/collect_repository_helpers.dart',
+    ).readAsStringSync();
+    final receiverInput = File(
+      'lib/shared/widgets/collect_action_controls.dart',
+    ).readAsStringSync();
+
+    expect(migration, contains(r"momo_pay_code ~ '^[0-9]{4,9}$'"));
+    expect(
+      repositoryHelpers,
+      contains('MomoReceiverNormalizer.normalizePayCode'),
+    );
+    expect(receiverInput, contains('MomoReceiverNormalizer.maxPayCodeLength'));
   });
 
   test('Play Integrity uses native token requests and server verification', () {

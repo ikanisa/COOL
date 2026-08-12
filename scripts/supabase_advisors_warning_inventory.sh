@@ -69,16 +69,15 @@ allowed_security_max = {
   # returns one public-approval boolean for RLS policy evaluation; all run with
   # pinned search paths.
   "anon_security_definer_function_executable" => 5,
-  # The post-20260703 increases are ensure_developer_account_data(), which
-  # seeds protected developer-owned data after verifying the signed-in
-  # developer phone number; admin_runtime_config(), which filters metadata rows
-  # through the signed-in admin's permissions; get_active_policy_document() and
-  # list_account_request_reasons(), which return published policy content and
-  # enabled request reasons; record_policy_acceptance(), which writes the
-  # signed-in user's policy acceptance event; collection_is_public_approved(),
-  # which supports scoped public reads; and unregister_notification_device(),
-  # which can disable only the signed-in user's hashed APNs token.
-  "authenticated_security_definer_function_executable" => 57,
+  # The remaining authenticated helpers include admin_runtime_config(), which
+  # filters metadata rows through the signed-in admin's permissions;
+  # get_active_policy_document() and list_account_request_reasons(), which
+  # return published policy content and enabled request reasons;
+  # record_policy_acceptance(), which writes the signed-in user's policy
+  # acceptance event; collection_is_public_approved(), which supports scoped
+  # public reads; and unregister_notification_device(), which can disable only
+  # the signed-in user's hashed APNs token.
+  "authenticated_security_definer_function_executable" => 56,
   "auth_leaked_password_protection" => 1
 }
 

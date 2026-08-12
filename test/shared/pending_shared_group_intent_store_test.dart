@@ -149,6 +149,44 @@ void main() {
       ),
       isNull,
     );
+    expect(
+      pendingSharedGroupSlugFromAppLink(
+        Uri.parse('collect://group/St-Michel-Building-Fund'),
+      ),
+      'st-michel-building-fund',
+    );
+  });
+
+  test('app sharing links route only canonical app and invite targets', () {
+    expect(
+      collectAppLinkTargetFromUri(
+        Uri.parse('https://collect.ikanisa.com/app'),
+      )?.kind,
+      CollectAppLinkKind.app,
+    );
+    final invite = collectAppLinkTargetFromUri(
+      Uri.parse('https://collect.ikanisa.com/invite/038491'),
+    );
+    expect(invite?.kind, CollectAppLinkKind.invite);
+    expect(invite?.value, '038491');
+    expect(
+      collectAppLinkTargetFromUri(Uri.parse('collect://invite/038491'))?.kind,
+      CollectAppLinkKind.invite,
+    );
+    expect(
+      collectAppLinkTargetFromUri(Uri.parse('collect://app'))?.kind,
+      CollectAppLinkKind.app,
+    );
+    expect(
+      collectAppLinkTargetFromUri(
+        Uri.parse('https://evil.example/invite/038491'),
+      ),
+      isNull,
+    );
+    expect(
+      collectAppLinkTargetFromUri(Uri.parse('collect://invite/038491/extra')),
+      isNull,
+    );
   });
 }
 

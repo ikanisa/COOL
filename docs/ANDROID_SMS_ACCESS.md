@@ -22,9 +22,9 @@ Consent and data-handling controls:
   broadcast; it requires the system signature permission
   `android.permission.BROADCAST_SMS` and checks the native consent flag before
   processing any PDU.
-- Provider, currency, and transaction markers limit capture to likely
-  MTN/Airtel mobile-money events. Unrelated and promotional SMS are discarded
-  on-device.
+- Provider and transaction markers, together with either an RWF/FRW marker or
+  an amount plus transaction reference, limit capture to likely MTN/Airtel
+  mobile-money events. Unrelated and promotional SMS are discarded on-device.
 - Matching messages are kept in a bounded Android Keystore AES-GCM encrypted
   queue, excluded from backup/device transfer, and removed only after Flutter
   acknowledges successful authenticated ingestion. Turning the feature off
@@ -34,10 +34,12 @@ Consent and data-handling controls:
   SMS consent tables.
 - Matching raw SMS is sent to Supabase, protected by RLS, and never shown
   publicly. The app does not scan or backfill inbox history.
-- Ingestion is accepted only when the authenticated user is the configured
-  receiver or an admin for the receiver MoMo number. Requests must include
-  either `receiver_momo_number` or `collection_id`; the Edge Function hashes the
-  number and checks `user_can_ingest_receiver_sms` before storing raw SMS.
+- Ingestion is accepted only when the authenticated user controls at least one
+  configured group receiver. When exactly one receiver is known or explicitly
+  present in the SMS, the app sends that receiver for hashing. With multiple
+  possible receivers, it does not guess: the Edge Function authorizes the user
+  first and the parser must extract the receiver before deterministic
+  allocation can proceed.
 
 Fallback policy:
 

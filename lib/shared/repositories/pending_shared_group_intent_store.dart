@@ -118,11 +118,76 @@ String? normalizePendingSharedGroupSlug(String rawSlug) {
 }
 
 String? pendingSharedGroupSlugFromAppLink(Uri uri) {
-  if (uri.scheme.toLowerCase() != 'https' ||
-      uri.host.toLowerCase() != 'collect.ikanisa.com' ||
-      uri.pathSegments.length != 2 ||
-      uri.pathSegments.first.toLowerCase() != 'c') {
-    return null;
+  final target = collectAppLinkTargetFromUri(uri);
+  return target?.kind == CollectAppLinkKind.group ? target?.value : null;
+}
+
+enum CollectAppLinkKind { group, app, invite }
+
+class CollectAppLinkTarget {
+  const CollectAppLinkTarget(this.kind, {this.value});
+
+  final CollectAppLinkKind kind;
+  final String? value;
+}
+
+CollectAppLinkTarget? collectAppLinkTargetFromUri(Uri uri) {
+  final scheme = uri.scheme.toLowerCase();
+  if (scheme == 'https' && uri.host.toLowerCase() == 'collect.ikanisa.com') {
+    return _collectHttpsAppLinkTarget(uri.pathSegments);
   }
-  return normalizePendingSharedGroupSlug(uri.pathSegments[1]);
+  if (scheme == 'collect') {
+    return _collectCustomSchemeTarget(uri.host.toLowerCase(), uri.pathSegments);
+  }
+  return null;
+}
+
+CollectAppLinkTarget? _collectHttpsAppLinkTarget(List<String> segments) {
+  if (segments.length == 1 && segments.first.toLowerCase() == 'app') {
+    return const CollectAppLinkTarget(CollectAppLinkKind.app);
+  }
+  if (segments.length != 2) return null;
+  final route = segments.first.toLowerCase();
+  if (route == 'c') {
+    final slug = normalizePendingSharedGroupSlug(segments[1]);
+    return slug == null
+        ? null
+        : CollectAppLinkTarget(CollectAppLinkKind.group, value: slug);
+  }
+  if (route == 'invite') {
+    final publicId = _normalizeInviterPublicId(segments[1]);
+    return publicId == null
+        ? null
+        : CollectAppLinkTarget(CollectAppLinkKind.invite, value: publicId);
+  }
+  return null;
+}
+
+CollectAppLinkTarget? _collectCustomSchemeTarget(
+  String host,
+  List<String> segments,
+) {
+  if (host == 'app' && segments.isEmpty) {
+    return const CollectAppLinkTarget(CollectAppLinkKind.app);
+  }
+  if (segments.length != 1) return null;
+  if (host == 'group') {
+    final slug = normalizePendingSharedGroupSlug(segments.single);
+    return slug == null
+        ? null
+        : CollectAppLinkTarget(CollectAppLinkKind.group, value: slug);
+  }
+  if (host == 'invite') {
+    final publicId = _normalizeInviterPublicId(segments.single);
+    return publicId == null
+        ? null
+        : CollectAppLinkTarget(CollectAppLinkKind.invite, value: publicId);
+  }
+  return null;
+}
+
+String? _normalizeInviterPublicId(String value) {
+  final normalized = value.trim();
+  if (!RegExp(r'^[A-Za-z0-9_-]{1,64}$').hasMatch(normalized)) return null;
+  return normalized;
 }

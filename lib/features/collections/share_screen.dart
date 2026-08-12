@@ -1,8 +1,8 @@
 import 'dart:ui' as ui;
-import 'dart:typed_data';
 
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -139,7 +139,7 @@ class ShareScreen extends ConsumerWidget {
                         const InfoSecurityBanner(
                           title: 'Privacy-safe link',
                           message:
-                              'The QR shares the public group page. Receiver MoMo numbers, raw SMS, and private member phones stay hidden.',
+                              'The QR shares the group invitation. Receiver MoMo numbers, raw SMS, and private member phones stay hidden.',
                           tone: CollectStatusTone.privacy,
                           messageMaxLines: 2,
                         ),
@@ -171,6 +171,14 @@ class ShareScreen extends ConsumerWidget {
                               ),
                             ),
                           ],
+                        ),
+                        CollectSpacing.gap12,
+                        CollectButton(
+                          label: 'Copy group link',
+                          icon: CollectIcons.copy,
+                          onPressed: () => _copyLink(context, link),
+                          variant: CollectButtonVariant.subtle,
+                          expand: true,
                         ),
                       ],
                     ),
@@ -206,11 +214,20 @@ class ShareScreen extends ConsumerWidget {
         ),
       );
     } catch (_) {
+      await Clipboard.setData(ClipboardData(text: link));
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Open on your phone to share QR.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
     }
+  }
+
+  Future<void> _copyLink(BuildContext context, String link) async {
+    await Clipboard.setData(ClipboardData(text: link));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
   }
 
   Future<void> _saveQr(

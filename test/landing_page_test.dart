@@ -49,11 +49,11 @@ void main() {
       findsOneWidget,
     );
     await tester.scrollUntilVisible(
-      find.text('*182*8*1*41258*2000#'),
+      find.text('*182**8*1*41258*2000#'),
       600,
       scrollable: verticalScrollable,
     );
-    expect(find.text('*182*8*1*41258*2000#'), findsOneWidget);
+    expect(find.text('*182**8*1*41258*2000#'), findsOneWidget);
     await tester.scrollUntilVisible(
       find.text('Built for the missing middle of financial inclusion'),
       600,

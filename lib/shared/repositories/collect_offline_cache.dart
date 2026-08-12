@@ -8,6 +8,10 @@ class CollectOfflineCache {
   const CollectOfflineCache({this.preferencesKey = _defaultKey});
 
   static const _defaultKey = 'collect.offline_snapshot.v1';
+  static const _retiredDeveloperSeedCollectionIds = <String>{
+    '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001',
+    '8db1f114-4f2b-4a6a-aec9-a0e33a1f1002',
+  };
 
   final String preferencesKey;
 
@@ -16,9 +20,18 @@ class CollectOfflineCache {
     final raw = preferences.getString(preferencesKey);
     if (raw == null || raw.trim().isEmpty) return null;
     try {
-      return CollectOfflineSnapshot.fromJson(
+      final snapshot = CollectOfflineSnapshot.fromJson(
         Map<String, dynamic>.from(jsonDecode(raw) as Map),
       );
+      final sanitized = snapshot.withoutCollections(
+        _retiredDeveloperSeedCollectionIds,
+      );
+      if (sanitized.collections.length != snapshot.collections.length ||
+          sanitized.paymentIntents.length != snapshot.paymentIntents.length ||
+          sanitized.contributions.length != snapshot.contributions.length) {
+        await save(sanitized);
+      }
+      return sanitized;
     } catch (_) {
       await preferences.remove(preferencesKey);
       return null;
@@ -56,6 +69,26 @@ class CollectOfflineSnapshot {
         collections.isNotEmpty ||
         paymentIntents.isNotEmpty ||
         contributions.isNotEmpty;
+  }
+
+  CollectOfflineSnapshot withoutCollections(Set<String> collectionIds) {
+    if (collectionIds.isEmpty) return this;
+    return CollectOfflineSnapshot(
+      savedAt: savedAt,
+      currentProfile: currentProfile,
+      collections: [
+        for (final item in collections)
+          if (!collectionIds.contains(item.id)) item,
+      ],
+      paymentIntents: [
+        for (final item in paymentIntents)
+          if (!collectionIds.contains(item.collectionId)) item,
+      ],
+      contributions: [
+        for (final item in contributions)
+          if (!collectionIds.contains(item.collectionId)) item,
+      ],
+    );
   }
 
   factory CollectOfflineSnapshot.fromJson(Map<String, dynamic> json) {

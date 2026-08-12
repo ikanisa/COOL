@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../app/env/app_env.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/utils/collect_share_links.dart';
 import '../../shared/utils/collect_share_origin.dart';
 
 String groupDeepLinkFor(AppEnv env, CollectCollection collection) {
-  final configured = env.publicUrl.trim();
-  final base = configured.isEmpty ? defaultCollectPublicUrl : configured;
-  return '${base.replaceFirst(RegExp(r'/$'), '')}/c/${collection.slug}';
+  return collectPublicLink(env, ['c', collection.slug.trim()]);
 }
 
 String groupShareMessageFor(AppEnv env, CollectCollection collection) {
@@ -34,9 +34,25 @@ Future<void> shareGroupDeepLink({
       ),
     );
   } catch (_) {
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Open on your phone to share via apps.')),
+    await Clipboard.setData(
+      ClipboardData(text: groupDeepLinkFor(env, collection)),
     );
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
   }
+}
+
+Future<void> copyGroupDeepLink({
+  required BuildContext context,
+  required WidgetRef ref,
+  required CollectCollection collection,
+}) async {
+  final link = groupDeepLinkFor(ref.read(appEnvProvider), collection);
+  await Clipboard.setData(ClipboardData(text: link));
+  if (!context.mounted) return;
+  ScaffoldMessenger.of(
+    context,
+  ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
 }

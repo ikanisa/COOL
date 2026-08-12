@@ -7,6 +7,7 @@ import {
 } from "../_shared/cors.ts";
 import { requireInternalRequest, serviceClient } from "../_shared/supabase.ts";
 import { hashPhone, redactSmsForParser } from "../_shared/hash.ts";
+import { parseDeterministicMomoSms } from "../_shared/momo_sms_parser.ts";
 import {
   parserSchemaVersion,
   smsParserJsonSchema,
@@ -57,52 +58,58 @@ Deno.serve(async (req) => {
       .single();
     if (rawError) throw rawError;
 
-    const model = Deno.env.get("OPENAI_MODEL") ?? "gpt-4o-mini";
-    const redactedBody = redactSmsForParser(rawSms.raw_body);
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${requireEnv("OPENAI_API_KEY")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        input: [
-          {
-            role: "system",
-            content:
-              "Parse mobile money notification SMS for Collect. Return only facts present in the SMS. Detect a 6-digit Collect ID only when it is explicitly present as a member/user/reference ID. Do not extract payer names, receiver names, payment reasons, or separate contribution/reference codes. Do not rely on separate contribution/reference codes for allocation. Do not infer missing values. Only classify incoming received money as incoming payment. Ignore promotional, loan, airtime, failed, balance-only, and outgoing messages.",
-          },
-          {
-            role: "user",
-            content:
-              `SMS sender: ${rawSms.raw_sender}\nSMS body:\n${redactedBody}`,
-          },
-        ],
-        text: {
-          format: {
-            type: "json_schema",
-            name: "collect_sms_payment_event",
-            strict: true,
-            schema: smsParserJsonSchema,
-          },
-        },
-      }),
-    });
-
     let parsed: Record<string, unknown>;
-    const parserModel = model;
-
-    if (!response.ok) {
-      await supabase.from("raw_payment_sms").update({
-        parse_status: "failed",
-      })
-        .eq("id", raw_sms_id);
-      return jsonResponse({
-        error: "OpenAI parse failed",
-        status: response.status,
-      }, 502);
+    let parserModel = "collect.deterministic_momo.v1";
+    const deterministic = parseDeterministicMomoSms(
+      rawSms.raw_sender,
+      rawSms.raw_body,
+    );
+    if (deterministic != null) {
+      parsed = { ...deterministic };
     } else {
+      const model = Deno.env.get("OPENAI_MODEL") ?? "gpt-4o-mini";
+      parserModel = model;
+      const redactedBody = redactSmsForParser(rawSms.raw_body);
+      const response = await fetch("https://api.openai.com/v1/responses", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${requireEnv("OPENAI_API_KEY")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model,
+          input: [
+            {
+              role: "system",
+              content:
+                "Parse mobile money notification SMS for Collect. Return only facts present in the SMS. Detect a 6-digit Collect ID only when it is explicitly present as a member/user/reference ID. Do not extract payer names, receiver names, payment reasons, or separate contribution/reference codes. Do not rely on separate contribution/reference codes for allocation. Do not infer missing values. Only classify incoming received money as incoming payment. Ignore promotional, loan, airtime, failed, balance-only, and outgoing messages.",
+            },
+            {
+              role: "user",
+              content:
+                `SMS sender: ${rawSms.raw_sender}\nSMS body:\n${redactedBody}`,
+            },
+          ],
+          text: {
+            format: {
+              type: "json_schema",
+              name: "collect_sms_payment_event",
+              strict: true,
+              schema: smsParserJsonSchema,
+            },
+          },
+        }),
+      });
+      if (!response.ok) {
+        await supabase.from("raw_payment_sms").update({
+          parse_status: "failed",
+        })
+          .eq("id", raw_sms_id);
+        return jsonResponse({
+          error: "OpenAI parse failed",
+          status: response.status,
+        }, 502);
+      }
       const openaiJson = await response.json();
       try {
         parsed = JSON.parse(extractOutputText(openaiJson));

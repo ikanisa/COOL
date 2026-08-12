@@ -49,8 +49,26 @@ void main() {
     }
   });
 
-  test('MoMo launcher uses USSD menu, not receiver phone call', () {
-    expect(momoUssdUri().toString(), 'tel:*182%23');
+  test('MoMo launcher pre-fills the complete merchant USSD request', () {
+    expect(
+      momoUssdUri(receiverCode: '2209724', amountRwf: 100).toString(),
+      'tel:*182**8*1*2209724*100%23',
+    );
+  });
+
+  test('MoMo launcher normalizes the code and rejects unsafe input', () {
+    expect(
+      momoUssdUri(receiverCode: '220-9724', amountRwf: 6000).toString(),
+      'tel:*182**8*1*2209724*6000%23',
+    );
+    expect(
+      () => momoUssdUri(receiverCode: '123', amountRwf: 100),
+      throwsFormatException,
+    );
+    expect(
+      () => momoUssdUri(receiverCode: '2209724', amountRwf: 0),
+      throwsFormatException,
+    );
   });
 
   test('activity labels use compact Collect IDs', () {

@@ -241,6 +241,12 @@ void main() {
       find.byKey(const ValueKey(CollectMomoReceiverMode.momoPayCode)),
       findsOneWidget,
     );
+    await tester.enterText(
+      find.byKey(const ValueKey(CollectMomoReceiverMode.momoPayCode)),
+      '1234567890',
+    );
+    await tester.pump();
+    expect(codeController.text, '123456789');
     expect(
       tester
           .widgetList<AnimatedContainer>(find.byType(AnimatedContainer))

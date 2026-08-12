@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/security/phone_normalizer.dart';
+import '../../core/security/momo_receiver_normalizer.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -175,8 +176,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     final value = _activeMomoController.text.trim();
     if (value.isEmpty) return false;
     if (_momoMode == CollectMomoReceiverMode.momoPayCode) {
-      final digits = value.replaceAll(RegExp(r'\D'), '');
-      return digits.length >= 5 && digits.length <= 6;
+      return MomoReceiverNormalizer.tryNormalizePayCode(value) != null;
     }
     return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) != null;
   }
@@ -201,8 +201,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     try {
       final repository = ref.read(collectRepositoryProvider.notifier);
       await repository.updateProfile(
-        momoNumber: _momoNumber.text,
-        momoPayCode: _momoPayCode.text,
+        momoNumber: _momoMode == CollectMomoReceiverMode.momoNumber
+            ? _momoNumber.text
+            : '',
+        momoPayCode: _momoMode == CollectMomoReceiverMode.momoPayCode
+            ? _momoPayCode.text
+            : '',
       );
       if (!mounted) return;
       final pendingSlug = await ref

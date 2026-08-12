@@ -16,7 +16,7 @@ const collectDefaultRegulatoryFooterNote =
 const collectDefaultWhatsAppSupportPhone = '250795588248';
 const collectDefaultWhatsAppSupportDisplay = '+250 795 588 248';
 const collectDefaultSupportEmail = 'info@ikanisa.com';
-const collectDefaultUssdCode = '*182*8*1*41258*2000#';
+const collectDefaultUssdCode = '*182**8*1*41258*2000#';
 
 const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(

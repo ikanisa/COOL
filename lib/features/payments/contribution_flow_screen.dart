@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/payments/momo_ussd_launcher.dart';
+import '../../core/security/momo_receiver_normalizer.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -232,12 +233,23 @@ class _ContributionFlowScreenState
     }
     setState(() => _creating = true);
     try {
+      final collection = ref
+          .read(collectRepositoryProvider.notifier)
+          .maybeCollectionById(widget.collectionId);
+      final receiverCode = collection?.receiverMomoNumber?.trim();
+      if (receiverCode == null || receiverCode.isEmpty) {
+        throw StateError('Group has no MoMo receiver.');
+      }
+      final ussdUri = momoUssdUri(
+        receiverCode: receiverCode,
+        amountRwf: amount,
+      );
       final activeIntent = _activePendingIntent(amountRwf: amount);
       if (activeIntent != null) {
         if (!mounted) return;
         final messenger = ScaffoldMessenger.of(context);
         context.go('/groups/${widget.collectionId}');
-        unawaited(_launchMomoDialer(messenger));
+        unawaited(_launchMomoDialer(messenger, ussdUri));
         return;
       }
       await ref
@@ -251,7 +263,7 @@ class _ContributionFlowScreenState
       if (!mounted) return;
       final messenger = ScaffoldMessenger.of(context);
       context.go('/groups/${widget.collectionId}');
-      unawaited(_launchMomoDialer(messenger));
+      unawaited(_launchMomoDialer(messenger, ussdUri));
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -261,16 +273,16 @@ class _ContributionFlowScreenState
     }
   }
 
-  Future<void> _launchMomoDialer(ScaffoldMessengerState messenger) async {
+  Future<void> _launchMomoDialer(
+    ScaffoldMessengerState messenger,
+    Uri ussdUri,
+  ) async {
     var opened = false;
     try {
-      opened = await launchUrl(
-        momoUssdUri(),
-        mode: LaunchMode.externalApplication,
-      );
+      opened = await MomoUssdLauncher().launch(ussdUri);
     } catch (_) {
-      // Web and some desktops cannot handle tel: links; the group remains the
-      // source of truth until creator SMS parsing confirms the contribution.
+      // Unsupported platforms and denied Android phone access leave the group
+      // as the source of truth until creator SMS parsing confirms payment.
     }
     if (!opened && messenger.mounted) {
       messenger.showSnackBar(
@@ -417,4 +429,11 @@ class _ContributionActionSurface extends StatelessWidget {
 }
 
 @visibleForTesting
-Uri momoUssdUri() => Uri.parse('tel:${Uri.encodeComponent('*182#')}');
+Uri momoUssdUri({required String receiverCode, required int amountRwf}) {
+  if (amountRwf <= 0) {
+    throw const FormatException('Contribution amount must be above zero.');
+  }
+  final normalizedCode = MomoReceiverNormalizer.normalizePayCode(receiverCode);
+  final ussdCode = '*182**8*1*$normalizedCode*$amountRwf#';
+  return Uri.parse('tel:${Uri.encodeComponent(ussdCode)}');
+}

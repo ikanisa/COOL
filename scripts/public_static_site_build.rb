@@ -14,7 +14,7 @@ ASSET_VERSION = "20260630-ui-dev-audit-5"
 APP_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
 WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
-USSD_CODE = "*182*8*1*41258*2000#"
+USSD_CODE = "*182**8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
@@ -1902,6 +1902,121 @@ def page_html(page, current_path: page[:path])
   HTML
 end
 
+def share_landing_page_html(kind:)
+  group_link = kind == :group
+  canonical_path = group_link ? "/c/" : "/app/"
+  title = group_link ? "Open a Collect Group | Collect by IKANISA" : "Open Collect | Collect by IKANISA"
+  description = if group_link
+    "Open a shared Collect group invitation in the native app, or install Collect to continue securely."
+  else
+    "Open the native Collect app, or install Collect to organize group contributions in Rwanda."
+  end
+  heading = group_link ? "Open this Collect group" : "Open Collect"
+  intro = if group_link
+    "This privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding."
+  else
+    "Continue in the native Collect app. If Collect is not installed, use the official Android listing below."
+  end
+  native_link = group_link ? "collect://group/shared-group" : "collect://app"
+  share_schema = JSON.generate(
+    "@context" => "https://schema.org",
+    "@graph" => [
+      {
+        "@type" => "WebPage",
+        "name" => title,
+        "description" => description,
+        "url" => "#{PUBLIC_URL}#{canonical_path}"
+      },
+      {
+        "@type" => "SoftwareApplication",
+        "name" => "Collect",
+        "applicationCategory" => "FinanceApplication",
+        "operatingSystem" => "Android, iOS"
+      }
+    ]
+  )
+
+  <<~HTML
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>#{esc(title)}</title>
+      <meta name="description" content="#{esc(description)}">
+      <meta name="robots" content="noindex, nofollow">
+      <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
+      <link rel="canonical" href="#{PUBLIC_URL}#{canonical_path}" data-share-canonical>
+      <link rel="icon" href="/icons/collect.png" type="image/png">
+      <link rel="manifest" href="/manifest.json">
+      <meta property="og:type" content="website">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:url" content="#{PUBLIC_URL}#{canonical_path}" data-share-og-url>
+      <meta property="og:title" content="#{esc(title)}">
+      <meta property="og:description" content="#{esc(description)}">
+      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/collect_runtime/media/qr-share.png">
+      <meta name="twitter:card" content="summary_large_image">
+      <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
+      <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
+      <script type="application/ld+json">#{share_schema}</script>
+    </head>
+    <body class="route-share-link" data-share-landing="#{group_link ? "group" : "app"}">
+      <a class="skip-link" href="#content">Skip to content</a>
+      <header class="site-header">
+        <a class="brand" href="/">
+          <img src="/icons/collect.png" alt="" width="42" height="42">
+          <span><strong>Collect</strong><small>by IKANISA</small></span>
+        </a>
+        <nav class="site-nav" aria-label="Public website">
+          <a class="nav-link" href="/group-savings/">Group Savings</a>
+          <a class="nav-link" href="/trust/">Trust &amp; Security</a>
+        </nav>
+        <div class="header-actions">
+          <a class="button secondary" href="#{APP_DOWNLOAD_URL}">Get the App</a>
+        </div>
+      </header>
+
+      <main id="content">
+        <section class="hero share-link-hero">
+          <div class="hero-copy">
+            <p class="hero-eyebrow">Shared Collect link</p>
+            <h1 data-share-heading>#{esc(heading)}</h1>
+            <p class="hero-intro">#{esc(intro)}</p>
+            <p class="share-link-code" data-share-code#{group_link ? "" : " hidden"}>Secure group invitation</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#{native_link}" data-collect-open-link>Open in Collect</a>
+              <a class="button ghost" href="#{APP_DOWNLOAD_URL}">Install on Android</a>
+              <button class="button ghost" type="button" data-collect-copy-link>Copy link</button>
+            </div>
+            <p class="share-link-status" data-share-status role="status" aria-live="polite"></p>
+          </div>
+          <div class="hero-device">
+            <div class="hero-widget share-link-widget" aria-label="Collect shared link preview">
+              <img src="/icons/collect.png" alt="" width="72" height="72">
+              <span>COLLECT GROUP LINK</span>
+              <strong>Private details stay in the app.</strong>
+              <p>Receiver numbers, raw payment messages and member phone numbers are never placed in this public link.</p>
+            </div>
+          </div>
+        </section>
+        <section class="start-section" aria-labelledby="share-link-help-heading">
+          <div>
+            <h2 id="share-link-help-heading">A link that survives onboarding</h2>
+          </div>
+          <div>
+            <p>Collect retains a valid group invitation for up to 24 hours on the device, then joins only after the member signs in and the group is confirmed by the backend.</p>
+            <p>Having a link does not expose payment credentials or confirm a payment.</p>
+          </div>
+        </section>
+      </main>
+
+      #{site_footer_html}
+      <script src="/site.js?v=#{ASSET_VERSION}" defer></script>
+    </body>
+    </html>
+  HTML
+end
+
 def stylesheet
   <<~CSS
     @font-face {
@@ -2042,6 +2157,15 @@ def stylesheet
     .button.primary, .button.secondary { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
     .button.ghost { background: transparent; color: var(--paper); }
     .button.cta-app, .button.cta-group, .button.cta-touch { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
+    .share-link-hero { min-height: calc(100svh - 72px); }
+    .share-link-hero .hero-actions .button { min-height: 44px; }
+    .share-link-code { display: inline-flex; max-width: 100%; margin: 0 0 22px; padding: 10px 14px; border: 1px solid rgba(250,248,245,.18); border-radius: 999px; color: var(--mint); font-weight: var(--type-weight-bold); overflow-wrap: anywhere; }
+    .share-link-status { min-height: 24px; margin: 14px 0 0; color: rgba(250,248,245,.78); }
+    .share-link-widget { justify-items: start; }
+    .share-link-widget img { border-radius: 18px; }
+    .share-link-widget > span { font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); letter-spacing: var(--type-tracking-wide); }
+    .share-link-widget > strong { font-size: var(--type-size-fluid-28px-4vw-42px); line-height: var(--type-leading-1-05); }
+    .share-link-widget p { margin: 0; color: rgba(250,248,245,.72); font-size: var(--type-size-17px); line-height: var(--type-leading-1-5); }
     .menu-button { display: none; background: rgba(250,248,245,.08); color: var(--paper); }
     .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(136,133,240,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(60,208,112,.16), transparent 32%), #050510; }
     .legal-hero { min-height: auto; grid-template-columns: minmax(0, .92fr) minmax(260px, .58fr); padding-top: clamp(36px, 6vw, 72px); padding-bottom: clamp(36px, 6vw, 72px); }
@@ -2710,6 +2834,55 @@ def site_js
     if (window.location.hash === '#/privacy') {
       window.location.replace('/privacy/');
     }
+    const shareLanding = document.querySelector('[data-share-landing]');
+    if (shareLanding) {
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      const kind = shareLanding.dataset.shareLanding;
+      const slug = kind === 'group' && segments.length === 2 && segments[0].toLowerCase() === 'c'
+        ? segments[1].toLowerCase()
+        : null;
+      const inviteId = kind === 'app' && segments.length === 2 && segments[0].toLowerCase() === 'invite'
+        ? segments[1]
+        : null;
+      const openLink = document.querySelector('[data-collect-open-link]');
+      const code = document.querySelector('[data-share-code]');
+      const heading = document.querySelector('[data-share-heading]');
+      const status = document.querySelector('[data-share-status]');
+      const canonical = document.querySelector('[data-share-canonical]');
+      const ogUrl = document.querySelector('[data-share-og-url]');
+      const safeSlug = slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : null;
+      const safeInviteId = inviteId && /^[A-Za-z0-9_-]{1,64}$/.test(inviteId) ? inviteId : null;
+      if (kind === 'group') {
+        if (safeSlug) {
+          openLink.href = `collect://group/${encodeURIComponent(safeSlug)}`;
+          code.textContent = `Group link: ${safeSlug}`;
+        } else {
+          openLink.removeAttribute('href');
+          openLink.setAttribute('aria-disabled', 'true');
+          code.textContent = 'This group link is invalid.';
+          status.textContent = 'Ask the group member to share a new link.';
+        }
+      } else if (safeInviteId) {
+        openLink.href = `collect://invite/${encodeURIComponent(safeInviteId)}`;
+        heading.textContent = 'Join someone you know on Collect';
+      } else {
+        openLink.href = 'collect://app';
+      }
+      const exactUrl = `${window.location.origin}${window.location.pathname}`;
+      if (canonical) canonical.href = exactUrl;
+      if (ogUrl) ogUrl.content = exactUrl;
+      const copyButton = document.querySelector('[data-collect-copy-link]');
+      if (copyButton) {
+        copyButton.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(exactUrl);
+            status.textContent = 'Link copied.';
+          } catch (_) {
+            status.textContent = 'Copy the link from your browser address bar.';
+          }
+        });
+      }
+    }
   JS
 end
 
@@ -2765,6 +2938,10 @@ write_file(File.join(BUILD_DIR, "styles.css"), core_stylesheet)
 write_file(File.join(BUILD_DIR, "sections.css"), section_stylesheet)
 write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
+write_file(
+  File.join(BUILD_DIR, "_redirects"),
+  "/c/* /c/index.html 200\n/invite/* /app/index.html 200\n"
+)
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
 write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
 
@@ -2831,6 +3008,9 @@ PAGES.each do |page|
   end
 end
 
+write_file(File.join(BUILD_DIR, "c", "index.html"), share_landing_page_html(kind: :group))
+write_file(File.join(BUILD_DIR, "app", "index.html"), share_landing_page_html(kind: :app))
+
 
 sitemap_urls = all_paths.uniq.sort.map do |path|
   "  <url><loc>#{page_url(path)}</loc><lastmod>#{build_lastmod}</lastmod></url>"
@@ -2846,6 +3026,7 @@ write_file(
     "name" => "collect-public-static",
     "generated_at" => Time.now.utc.iso8601,
     "routes" => all_paths.uniq.sort,
+    "share_routes" => ["/c/:slug", "/app", "/invite/:publicId"],
     "indexnow_key_file" => INDEXNOW_KEY.empty? ? nil : "#{INDEXNOW_KEY}.txt"
   ) + "\n"
 )

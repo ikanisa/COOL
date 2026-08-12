@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:collect_app/core/security/hash_utils.dart';
+import 'package:collect_app/core/security/momo_receiver_normalizer.dart';
 import 'package:collect_app/core/security/phone_normalizer.dart';
 import 'package:collect_app/core/security/public_id_generator.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,6 +26,20 @@ void main() {
     expect(
       () => PhoneNormalizer.normalizeMtnMomoLocal('0722123456'),
       throwsFormatException,
+    );
+  });
+
+  test('accepts and normalizes 4 to 9 digit MoMo receiver codes', () {
+    expect(MomoReceiverNormalizer.normalizePayCode('12 34'), '1234');
+    expect(MomoReceiverNormalizer.normalizePayCode('123456789'), '123456789');
+    expect(MomoReceiverNormalizer.tryNormalizePayCode('123'), isNull);
+    expect(MomoReceiverNormalizer.tryNormalizePayCode('1234567890'), isNull);
+  });
+
+  test('hashes MoMo receiver codes with the Edge canonical form', () {
+    expect(
+      HashUtils.momoReceiverHash('12 34', isMomoPayCode: true),
+      HashUtils.sha256Hex('+1234'),
     );
   });
 

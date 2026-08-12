@@ -6,17 +6,15 @@ import 'package:share_plus/share_plus.dart';
 import '../../app/env/app_env.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/collect_share_links.dart';
 import '../../shared/utils/collect_share_origin.dart';
 
 String collectAppInviteLinkFor(AppEnv env, CollectProfile? profile) {
-  final configured = env.publicUrl.trim();
-  final base = configured.isEmpty ? defaultCollectPublicUrl : configured;
-  final cleanBase = base.replaceFirst(RegExp(r'/$'), '');
   final publicId = profile?.publicId.trim();
   if (publicId != null && publicId.isNotEmpty) {
-    return '$cleanBase/invite/${Uri.encodeComponent(publicId)}';
+    return collectPublicLink(env, ['invite', publicId]);
   }
-  return '$cleanBase/app';
+  return collectPublicLink(env, const ['app']);
 }
 
 String collectAppShareMessageFor(AppEnv env, CollectProfile? profile) {

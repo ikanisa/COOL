@@ -135,6 +135,32 @@ required_routes.each do |route, required_text|
   )
 end
 
+group_share_path = File.join(build_dir, "c", "index.html")
+app_share_path = File.join(build_dir, "app", "index.html")
+redirects_path = File.join(build_dir, "_redirects")
+group_share_html = read(group_share_path)
+app_share_html = read(app_share_path)
+redirects = read(redirects_path)
+share_routes_ok =
+  group_share_html.include?("Open this Collect group") &&
+  group_share_html.include?('data-share-landing="group"') &&
+  group_share_html.include?("collect://group/shared-group") &&
+  group_share_html.include?('name="robots" content="noindex, nofollow"') &&
+  app_share_html.include?("Open Collect") &&
+  app_share_html.include?('data-share-landing="app"') &&
+  app_share_html.include?("collect://app") &&
+  redirects.include?("/c/* /c/index.html 200") &&
+  redirects.include?("/invite/* /app/index.html 200")
+check(
+  checks,
+  "native_share_link_fallbacks",
+  pass_if(share_routes_ok),
+  share_routes_ok ? "Group and app share URLs have native-open and public-web fallbacks." : "Group or app share-link fallback output is incomplete.",
+  "group_path" => group_share_path,
+  "app_path" => app_share_path,
+  "redirects_path" => redirects_path
+)
+
 retired_routes = ["/impact/", "/rw/", "/rw/group-savings/", "/rw/community-groups/", "/subprocessors/", "/privacy-request/", "/cookies/"]
 retired_route_files = retired_routes.select { |route| File.exist?(route_index(build_dir, route)) }
 check(
@@ -542,7 +568,7 @@ baseline_content_hashes = {
 generated_routes = all_html_paths.map do |path|
   relative = path.delete_prefix(build_dir).delete_suffix("index.html")
   relative.empty? ? "/" : relative
-end.sort
+end.reject { |route| ["/app/", "/c/"].include?(route) }.sort
 content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
   html = read(route_index(build_dir, route)).gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
   visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")

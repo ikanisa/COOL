@@ -28,6 +28,22 @@ class CollectSmsReceiverTest {
         assertTrue(
             receiver.isLikelyMobileMoney(
                 "M-Money",
+                "Konti yawe yakiriye amafaranga 4,500 RWF.",
+            ),
+        )
+    }
+
+    @Test
+    fun acceptsProviderTransactionWithAmountAndReferenceWithoutCurrencyMarker() {
+        assertTrue(
+            receiver.isLikelyMobileMoney(
+                "M-Money",
+                "You have received 5000. Financial Transaction Id: 123456789.",
+            ),
+        )
+        assertTrue(
+            receiver.isLikelyMobileMoney(
+                "M-Money",
                 "Wakiriye RWF 3,000 kuri MTN Mobile Money.",
             ),
         )
@@ -51,6 +67,12 @@ class CollectSmsReceiverTest {
             receiver.isLikelyMobileMoney(
                 "Airtel Money",
                 "Payment received successfully.",
+            ),
+        )
+        assertFalse(
+            receiver.isLikelyMobileMoney(
+                "MTN MoMo",
+                "Promotion: buy a bundle today and pay only RWF 1,000.",
             ),
         )
     }

@@ -17,6 +17,8 @@ import org.json.JSONObject
 
 class MainActivity : FlutterActivity() {
     private var pendingSmsAccessResult: MethodChannel.Result? = null
+    private var pendingMomoUssdResult: MethodChannel.Result? = null
+    private var pendingMomoUssdUri: Uri? = null
     private var standardIntegrityProvider:
         StandardIntegrityManager.StandardIntegrityTokenProvider? = null
     private var pendingIntegrityResults = mutableListOf<Pair<String, MethodChannel.Result>>()
@@ -60,9 +62,6 @@ class MainActivity : FlutterActivity() {
                         )
                     } else {
                         pendingSmsAccessResult = result
-                        prefs.edit()
-                            .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true)
-                            .commit()
                         requestPermissions(SMS_PERMISSIONS, SMS_PERMISSION_REQUEST_CODE)
                     }
                 }
@@ -141,6 +140,62 @@ class MainActivity : FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "collect/momo_ussd"
+        ).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "launch" -> {
+                    val rawUri = call.argument<String>("uri")?.trim().orEmpty()
+                    val requestedUri = runCatching { Uri.parse(rawUri) }.getOrNull()
+                    val ussdCode = requestedUri?.schemeSpecificPart.orEmpty()
+                    if (
+                        requestedUri?.scheme != "tel" ||
+                        !MOMO_USSD_PATTERN.matches(ussdCode)
+                    ) {
+                        result.error(
+                            "momo_ussd_invalid",
+                            "Unsupported MoMo USSD request",
+                            null
+                        )
+                        return@setMethodCallHandler
+                    }
+                    launchMomoUssd(Uri.fromParts("tel", ussdCode, null), result)
+                }
+                else -> result.notImplemented()
+            }
+        }
+    }
+
+    private fun launchMomoUssd(uri: Uri, result: MethodChannel.Result) {
+        if (checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                startActivity(Intent(Intent.ACTION_CALL, uri))
+                result.success(true)
+            } catch (_: Exception) {
+                result.error(
+                    "momo_ussd_unavailable",
+                    "MoMo USSD is unavailable on this device",
+                    null
+                )
+            }
+            return
+        }
+        if (pendingMomoUssdResult != null) {
+            result.error(
+                "momo_ussd_pending",
+                "A MoMo USSD request is already pending",
+                null
+            )
+            return
+        }
+        pendingMomoUssdResult = result
+        pendingMomoUssdUri = uri
+        requestPermissions(
+            arrayOf(Manifest.permission.CALL_PHONE),
+            MOMO_USSD_PERMISSION_REQUEST_CODE
+        )
     }
 
     private fun requestPlayIntegrityToken(requestHash: String, result: MethodChannel.Result) {
@@ -207,6 +262,27 @@ class MainActivity : FlutterActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == MOMO_USSD_PERMISSION_REQUEST_CODE) {
+            val result = pendingMomoUssdResult
+            val uri = pendingMomoUssdUri
+            pendingMomoUssdResult = null
+            pendingMomoUssdUri = null
+            if (
+                result != null &&
+                uri != null &&
+                checkSelfPermission(Manifest.permission.CALL_PHONE) ==
+                    PackageManager.PERMISSION_GRANTED
+            ) {
+                launchMomoUssd(uri, result)
+            } else {
+                result?.error(
+                    "momo_call_permission_denied",
+                    "Phone access is required to start the MoMo USSD session",
+                    null
+                )
+            }
+            return
+        }
         if (requestCode != SMS_PERMISSION_REQUEST_CODE) return
 
         val granted = SMS_PERMISSIONS.all { permission ->
@@ -214,6 +290,7 @@ class MainActivity : FlutterActivity() {
         }
         getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
             .edit()
+            .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true)
             .putBoolean(SMS_ACCESS_ENABLED_KEY, granted)
             .commit()
         pendingSmsAccessResult?.success(granted)
@@ -271,6 +348,10 @@ class MainActivity : FlutterActivity() {
         const val SMS_ACCESS_PREFS = "collect_sms_access"
         const val SMS_ACCESS_ENABLED_KEY = "enabled"
         private const val SMS_PERMISSION_REQUEST_CODE = 182
+        private const val MOMO_USSD_PERMISSION_REQUEST_CODE = 183
+        private val MOMO_USSD_PATTERN = Regex(
+            """^\*182\*\*8\*1\*[0-9]{4,9}\*[1-9][0-9]*#$"""
+        )
         private val SMS_PERMISSIONS = arrayOf(
             Manifest.permission.RECEIVE_SMS
         )

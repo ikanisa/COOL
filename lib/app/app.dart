@@ -152,16 +152,31 @@ class _PendingSharedGroupIntentRecoveryHostState
   }
 
   Future<void> _acceptIncomingAppLink(Uri uri) async {
-    final slug = pendingSharedGroupSlugFromAppLink(uri);
-    if (slug == null) return;
-    try {
-      await ref.read(pendingSharedGroupSlugProvider.notifier).retain(slug);
-      if (!mounted) return;
-      if (!ref.read(profileReadinessProvider).readyForGroupCreation) {
-        _scheduleNavigation('/c/${Uri.encodeComponent(slug)}');
-      }
-    } catch (_) {
-      // Never navigate from a link that was not durably retained.
+    final target = collectAppLinkTargetFromUri(uri);
+    if (target == null) return;
+    switch (target.kind) {
+      case CollectAppLinkKind.group:
+        final slug = target.value!;
+        try {
+          await ref.read(pendingSharedGroupSlugProvider.notifier).retain(slug);
+          if (!mounted) return;
+          if (!ref.read(profileReadinessProvider).readyForGroupCreation) {
+            _scheduleNavigation('/c/${Uri.encodeComponent(slug)}');
+          } else {
+            _scheduleRecovery();
+          }
+        } catch (_) {
+          // Never navigate from a link that was not durably retained.
+        }
+        return;
+      case CollectAppLinkKind.app:
+      case CollectAppLinkKind.invite:
+        _scheduleNavigation(
+          ref.read(collectRepositoryProvider).currentProfile == null
+              ? '/auth'
+              : '/home',
+        );
+        return;
     }
   }
 

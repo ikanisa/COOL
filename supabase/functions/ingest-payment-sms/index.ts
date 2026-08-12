@@ -8,6 +8,17 @@ import {
 import { requireUser, serviceClient } from "../_shared/supabase.ts";
 import { hashPhone, sha256Hex } from "../_shared/hash.ts";
 
+function normalizeReceivedAtDevice(value: unknown): string | null {
+  if (value == null) return null;
+  const raw = String(value).trim();
+  if (!raw) return null;
+  const epoch = /^\d{10,13}$/.test(raw) ? Number(raw) : Number.NaN;
+  const date = Number.isFinite(epoch)
+    ? new Date(raw.length === 10 ? epoch * 1000 : epoch)
+    : new Date(raw);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -31,11 +42,6 @@ Deno.serve(async (req) => {
     }
 
     const receiverMomoHash = await hashPhone(payload.receiver_momo_number);
-    if (!receiverMomoHash && !collectionId) {
-      return jsonResponse({
-        error: "receiver_momo_number or collection_id is required",
-      }, 400);
-    }
     const bodyHash = await sha256Hex(rawBody);
     const supabase = serviceClient();
 
@@ -62,7 +68,9 @@ Deno.serve(async (req) => {
         raw_body: rawBody,
         body_hash: bodyHash,
         receiver_momo_number_hash: receiverMomoHash,
-        received_at_device: payload.received_at_device ?? null,
+        received_at_device: normalizeReceivedAtDevice(
+          payload.received_at_device,
+        ),
         parse_status: "pending",
       }, { onConflict: "body_hash", ignoreDuplicates: false })
       .select("id")

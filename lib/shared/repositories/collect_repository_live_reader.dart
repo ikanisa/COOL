@@ -61,23 +61,6 @@ class _CollectLiveReader {
     return profile.copyWith(momoNumber: localMomo);
   }
 
-  Future<bool> ensureDeveloperAccountDataIfAvailable() async {
-    final supabase = _supabase;
-    if (supabase == null || supabase.auth.currentUser == null) return false;
-    try {
-      final result = await supabase.rpc<dynamic>(
-        'ensure_developer_account_data',
-      );
-      return result == true;
-    } on PostgrestException catch (error) {
-      if (error.code == '42883' ||
-          error.message.toLowerCase().contains('does not exist')) {
-        return false;
-      }
-      rethrow;
-    }
-  }
-
   Future<List<CollectCollection>> fetchCollections() async {
     final rows = await _supabase!
         .from('member_collections_view')

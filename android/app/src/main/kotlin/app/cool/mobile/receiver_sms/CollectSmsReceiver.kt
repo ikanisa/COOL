@@ -7,6 +7,7 @@ import android.provider.Telephony
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
+import java.time.Instant
 import java.util.UUID
 
 class CollectSmsReceiver : BroadcastReceiver() {
@@ -42,8 +43,9 @@ class CollectSmsReceiver : BroadcastReceiver() {
                         "received_at_device",
                         messages.minOfOrNull { it.timestampMillis }
                             ?.takeIf { it > 0L }
+                            ?.let(Instant::ofEpochMilli)
                             ?.toString()
-                            ?: System.currentTimeMillis().toString(),
+                            ?: Instant.now().toString(),
                     ),
             )
             if (store.write(bounded)) {
@@ -63,20 +65,35 @@ class CollectSmsReceiver : BroadcastReceiver() {
     internal fun isLikelyMobileMoney(sender: String, body: String): Boolean {
         val providerHint = PROVIDER_HINT.containsMatchIn(sender) ||
             PROVIDER_HINT.containsMatchIn(body)
-        val currencyHint = body.contains("RWF", ignoreCase = true) ||
-            body.contains("FRW", ignoreCase = true)
+        val moneyHint = CURRENCY_HINT.containsMatchIn(body) ||
+            (AMOUNT_HINT.containsMatchIn(body) && TRANSACTION_ID_HINT.containsMatchIn(body))
         val transactionHint = TRANSACTION_HINT.containsMatchIn(body)
-        return providerHint && currencyHint && transactionHint
+        val promotionalHint = PROMOTIONAL_HINT.containsMatchIn(body)
+        return providerHint && moneyHint && transactionHint && !promotionalHint
     }
 
     companion object {
         private const val TAG = "CollectSmsReceiver"
         private const val MAX_PENDING_SMS = 25
-        private val PROVIDER_HINT = Regex("(?:momo|mobile\\s*money|mtn|airtel)", RegexOption.IGNORE_CASE)
+        private val PROVIDER_HINT = Regex(
+            "(?:momo|m[-\\s]?money|mobile\\s*money|mtn|airtel)",
+            RegexOption.IGNORE_CASE,
+        )
+        private val CURRENCY_HINT = Regex("(?:RWF|FRW)", RegexOption.IGNORE_CASE)
+        private val AMOUNT_HINT = Regex("(?:^|\\D)[0-9][0-9 ,.]{0,18}(?:$|\\D)")
+        private val TRANSACTION_ID_HINT = Regex(
+            "(?:transaction|trans(?:action)?\\s*id|txn|txid|reference|ref\\b)",
+            RegexOption.IGNORE_CASE,
+        )
         private val TRANSACTION_HINT = Regex(
-            "(?:received|sent|paid|payment|transaction|transferred|cash[ -]?in|deposit|" +
+            "(?:received|credited|sent|paid|payment|transaction|transferred|cash[ -]?in|deposit(?:ed)?|" +
                 "re(?:c|ç)u|envoy(?:e|é)|paiement|versement|d(?:e|é)p(?:o|ô)t|" +
-                "wakiriye|woherereje|wishyuye|yishyuwe)",
+                "wakiriye|yakiriye|woherereje|wishyuye|yishyuwe|amafaranga)",
+            RegexOption.IGNORE_CASE,
+        )
+        private val PROMOTIONAL_HINT = Regex(
+            "(?:buy\\s+(?:a\\s+)?bundle|airtime\\s+offer|promotion|promo\\b|bonus\\s+offer|" +
+                "apply\\s+for\\s+(?:a\\s+)?loan)",
             RegexOption.IGNORE_CASE,
         )
     }

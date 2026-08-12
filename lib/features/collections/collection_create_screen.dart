@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/security/phone_normalizer.dart';
+import '../../core/security/momo_receiver_normalizer.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -76,10 +77,13 @@ class _CollectionCreateScreenState
         ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
         CollectionTypeCatalogConfig.defaults;
     final selectedTypeOption = collectionCatalog.optionFor(_collectionType);
-    if (!_syncedProfileMomo &&
-        _receiverNumber.text.trim().isEmpty &&
-        profile?.momoNumber?.trim().isNotEmpty == true) {
-      _receiverNumber.text = profile!.momoNumber!;
+    if (!_syncedProfileMomo && profile != null) {
+      if (profile.momoNumber?.trim().isNotEmpty == true) {
+        _receiverNumber.text = profile.momoNumber!;
+      } else if (profile.momoPayCode?.trim().isNotEmpty == true) {
+        _receiverMode = CollectMomoReceiverMode.momoPayCode;
+        _receiverPayCode.text = profile.momoPayCode!;
+      }
       _syncedProfileMomo = true;
     }
     final canCreate = canCreateGroupsOnThisPlatform();
@@ -355,7 +359,7 @@ class _CollectionCreateScreenState
 
   String get _receiverErrorMessage {
     return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? 'Use a 5 or 6 digit MoMo code.'
+        ? MomoReceiverNormalizer.payCodeErrorMessage
         : 'Use an MTN MoMo number.';
   }
 
@@ -371,8 +375,7 @@ class _CollectionCreateScreenState
     final value = _activeReceiverController.text.trim();
     if (value.isEmpty) return '';
     if (_receiverMode == CollectMomoReceiverMode.momoPayCode) {
-      final digits = value.replaceAll(RegExp(r'\D'), '');
-      return digits.length >= 5 && digits.length <= 6 ? digits : '';
+      return MomoReceiverNormalizer.tryNormalizePayCode(value) ?? '';
     }
     return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) ?? '';
   }

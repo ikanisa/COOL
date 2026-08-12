@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../core/security/momo_receiver_normalizer.dart';
+
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
@@ -296,7 +298,9 @@ class CollectMomoReceiverCard extends StatelessWidget {
                 child: TextField(
                   key: ValueKey(mode),
                   controller: activeController,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: mode == CollectMomoReceiverMode.momoPayCode
+                      ? TextInputType.number
+                      : TextInputType.phone,
                   textInputAction: TextInputAction.done,
                   autofillHints: mode == CollectMomoReceiverMode.momoNumber
                       ? const [AutofillHints.telephoneNumber]
@@ -304,7 +308,9 @@ class CollectMomoReceiverCard extends StatelessWidget {
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(
-                      mode == CollectMomoReceiverMode.momoPayCode ? 6 : 12,
+                      mode == CollectMomoReceiverMode.momoPayCode
+                          ? MomoReceiverNormalizer.maxPayCodeLength
+                          : 12,
                     ),
                   ],
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(

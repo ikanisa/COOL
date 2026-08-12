@@ -87,8 +87,8 @@ void main() {
       'payment_entrypoints': [
         {
           'key': 'rw.mtn_momo.ussd.collect_2000',
-          'code': '*182*8*1*00000*2000#',
-          'display_code': '*182*8*1*00000*2000#',
+          'code': '*182**8*1*00000*2000#',
+          'display_code': '*182**8*1*00000*2000#',
         },
       ],
     });
@@ -100,7 +100,7 @@ void main() {
     expect(config.whatsAppSupportPhone, '250700000001');
     expect(config.whatsAppSupportDisplay, '+250 700 000 001');
     expect(config.supportEmail, 'support@example.com');
-    expect(config.ussdDisplayCode, '*182*8*1*00000*2000#');
+    expect(config.ussdDisplayCode, '*182**8*1*00000*2000#');
     expect(
       collectWhatsAppSupportUri(phone: config.whatsAppSupportPhone).toString(),
       'https://wa.me/250700000001',
@@ -128,34 +128,44 @@ void main() {
     },
   );
 
-  test('group creation accepts MoMo Pay code receiver mode', () async {
+  test('group creation accepts 4 to 9 digit MoMo Pay receivers', () async {
     final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
-    final collection = await repo.createCollection(
+    final shortCodeCollection = await repo.createCollection(
       title: 'Merchant group',
       description: 'MoMo Pay collections',
-      receiverMomoNumber: '12345',
+      receiverMomoNumber: '1234',
+      receiverLabel: 'MoMo code',
+      receiverIsMomoPayCode: true,
+    );
+    final longCodeCollection = await repo.createCollection(
+      title: 'Merchant group two',
+      description: 'MoMo Pay collections',
+      receiverMomoNumber: '123456789',
       receiverLabel: 'MoMo code',
       receiverIsMomoPayCode: true,
     );
 
-    expect(collection.receiverMomoNumber, '12345');
-    expect(collection.receiverDisplayLabel, 'MoMo code');
+    expect(shortCodeCollection.receiverMomoNumber, '1234');
+    expect(shortCodeCollection.receiverDisplayLabel, 'MoMo code');
+    expect(longCodeCollection.receiverMomoNumber, '123456789');
   });
 
   test('group creation rejects invalid MoMo Pay receiver codes', () async {
     final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
 
-    expect(
-      repo.createCollection(
-        title: 'Merchant group',
-        description: 'MoMo Pay collections',
-        receiverMomoNumber: '12',
-        receiverIsMomoPayCode: true,
-      ),
-      throwsA(isA<FormatException>()),
-    );
+    for (final invalidCode in ['123', '1234567890']) {
+      expect(
+        repo.createCollection(
+          title: 'Merchant group',
+          description: 'MoMo Pay collections',
+          receiverMomoNumber: invalidCode,
+          receiverIsMomoPayCode: true,
+        ),
+        throwsA(isA<FormatException>()),
+      );
+    }
   });
 
   test(
@@ -300,6 +310,62 @@ void main() {
       );
     },
   );
+
+  test('offline cache removes retired developer seed collections', () async {
+    SharedPreferences.setMockInitialValues({});
+    const cache = CollectOfflineCache(
+      preferencesKey: 'collect.offline_snapshot.retired_seed_test',
+    );
+    final now = DateTime.utc(2026, 8, 12, 10);
+    const retiredCollectionId = '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001';
+    final fixture = CollectRepository.fixture();
+    final retainedCollection = fixture.state.collections.first;
+    final retiredCollection = CollectCollection(
+      id: retiredCollectionId,
+      slug: 'retired-developer-seed',
+      creatorUserId: fixture.state.currentProfile!.id,
+      title: 'Retired developer seed',
+      description: 'Must not be restored from an old device cache.',
+      createdAt: now,
+    );
+
+    await cache.save(
+      CollectOfflineSnapshot(
+        savedAt: now,
+        currentProfile: fixture.state.currentProfile,
+        collections: [retiredCollection, retainedCollection],
+        paymentIntents: [
+          PaymentIntentModel(
+            id: 'retired-intent',
+            collectionId: retiredCollectionId,
+            expectedAmountRwf: 1000,
+            receiverMomoNumber: '0788123456',
+            status: 'pending',
+            createdAt: now,
+            expiresAt: now.add(const Duration(hours: 1)),
+          ),
+        ],
+        contributions: [
+          Contribution(
+            id: 'retired-contribution',
+            collectionId: retiredCollectionId,
+            amountRwf: 1000,
+            supporterLabel: 'Collect ID 038491',
+            createdAt: now,
+          ),
+        ],
+      ),
+    );
+
+    final restored = await cache.read();
+
+    expect(restored?.collections.map((item) => item.id), [
+      retainedCollection.id,
+    ]);
+    expect(restored?.paymentIntents, isEmpty);
+    expect(restored?.contributions, isEmpty);
+    expect(restored?.currentProfile, isNotNull);
+  });
 
   test(
     'repository restores stale offline snapshot with explicit status',

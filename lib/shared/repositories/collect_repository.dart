@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/security/hash_utils.dart';
+import '../../core/security/momo_receiver_normalizer.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
@@ -71,6 +72,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   RealtimeInvalidationSubscription? _realtimeSync;
   String? _registeredNotificationProvider;
   String? _registeredNotificationToken;
+  Future<int>? _smsSyncInFlight;
 
   static const _uuid = Uuid();
   static final _publicIds = PublicIdGenerator(random: Random(491));
@@ -84,9 +86,7 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     state = state.copyWith(isLoading: true, usingStaleCache: false);
     try {
-      var profile = await _liveReader.fetchProfile(user.id);
-      await _liveReader.ensureDeveloperAccountDataIfAvailable();
-      profile = await _liveReader.fetchProfile(user.id) ?? profile;
+      final profile = await _liveReader.fetchProfile(user.id);
       final collections = await _liveReader.fetchCollections();
       final paymentIntents = await _liveReader.fetchPaymentIntents();
       final contributions = await _liveReader.fetchContributions();
@@ -158,9 +158,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase != null && user != null) {
-      var profile = await _liveReader.ensureLiveProfile(user.id, normalized);
-      await _liveReader.ensureDeveloperAccountDataIfAvailable();
-      profile = await _liveReader.fetchProfile(user.id) ?? profile;
+      final profile = await _liveReader.ensureLiveProfile(user.id, normalized);
       state = state.copyWith(currentProfile: profile);
       unawaited(loadInitial());
       return profile;
@@ -418,7 +416,10 @@ class CollectRepository extends StateNotifier<CollectState> {
           'group_name': title.trim(),
           'group_description': description.trim(),
           'receiver_momo_number': normalizedReceiver,
-          'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
+          'receiver_momo_number_hash': HashUtils.momoReceiverHash(
+            normalizedReceiver,
+            isMomoPayCode: receiverIsMomoPayCode,
+          ),
           'receiver_label': normalizedLabel,
           'group_collection_type': collectionType.storageValue,
           'group_category_subtype': categorySubtype?.trim(),
@@ -495,7 +496,10 @@ class CollectRepository extends StateNotifier<CollectState> {
         params: {
           'collection': collectionId,
           'receiver_momo_number': normalizedReceiver,
-          'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
+          'receiver_momo_number_hash': HashUtils.momoReceiverHash(
+            normalizedReceiver,
+            isMomoPayCode: receiverIsMomoPayCode,
+          ),
           'receiver_label': cleanReceiverLabel,
         },
       );
@@ -671,6 +675,8 @@ class CollectRepository extends StateNotifier<CollectState> {
     String body, {
     String rawSender = 'android_sms',
     String? receiverMomoNumber,
+    String? receivedAtDevice,
+    bool refreshAfterIngest = true,
   }) async {
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -680,9 +686,10 @@ class CollectRepository extends StateNotifier<CollectState> {
           'raw_sender': rawSender,
           'raw_body': body,
           'receiver_momo_number': receiverMomoNumber,
+          'received_at_device': receivedAtDevice,
         },
       );
-      await loadInitial();
+      if (refreshAfterIngest) await loadInitial();
     }
   }
 
@@ -698,9 +705,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         'record_sms_access_consent',
         params: {
           'enabled': consentEnabled,
-          'momo_number_hash': profile.momoNumber == null
-              ? null
-              : HashUtils.phoneHash(profile.momoNumber!),
+          'momo_number_hash': _profileSmsReceiverHash(profile),
           'build_channel': 'android_sms_access',
           'device_label': 'flutter_app',
         },
@@ -728,7 +733,17 @@ class CollectRepository extends StateNotifier<CollectState> {
     return nativeStatus;
   }
 
-  Future<int> syncPendingSmsAccess() async {
+  Future<int> syncPendingSmsAccess() {
+    final existing = _smsSyncInFlight;
+    if (existing != null) return existing;
+    final sync = _syncPendingSmsAccess();
+    _smsSyncInFlight = sync;
+    return sync.whenComplete(() {
+      if (identical(_smsSyncInFlight, sync)) _smsSyncInFlight = null;
+    });
+  }
+
+  Future<int> _syncPendingSmsAccess() async {
     final profile = state.currentProfile;
     if (profile == null) return 0;
     final status = await refreshSmsAccessStatus();
@@ -740,13 +755,24 @@ class CollectRepository extends StateNotifier<CollectState> {
       await ingestReceiverSms(
         item.rawBody,
         rawSender: item.rawSender,
-        receiverMomoNumber: profile.momoNumber,
+        receiverMomoNumber: _resolveSmsReceiver(
+          profile,
+          state.collections,
+          item.rawBody,
+        ),
+        receivedAtDevice: item.receivedAtDevice.trim().isEmpty
+            ? null
+            : item.receivedAtDevice,
+        refreshAfterIngest: false,
       );
       final acknowledged = await _smsAccessChannel.acknowledgePendingSms([
         item.id,
       ]);
       if (!acknowledged) break;
       ingested += 1;
+    }
+    if (ingested > 0 && _supabase?.auth.currentUser != null) {
+      await loadInitial();
     }
     return ingested;
   }
