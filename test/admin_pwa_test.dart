@@ -231,6 +231,43 @@ void main() {
     expect(result.rows.single.title, 'Public group 30');
   });
 
+  testWidgets('admin overview renders the premium operations workspace', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 1024);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    const repository = AdminEvidenceRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminAuthGuardProvider.overrideWithValue(
+            const AdminAuthGuard(isAuthorized: true),
+          ),
+          adminRepositoryProvider.overrideWithValue(repository),
+          adminIdentityProvider.overrideWith(
+            (ref) => repository.currentIdentity(),
+          ),
+        ],
+        child: const CollectAdminApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('admin-overview-workspace')), findsOneWidget);
+    expect(find.text('Review queue'), findsOneWidget);
+    expect(find.text('Allocated today'), findsOneWidget);
+    expect(find.text('Parser health'), findsWidgets);
+    expect(find.text('Needs attention'), findsOneWidget);
+    expect(find.text('Queue health'), findsOneWidget);
+    expect(find.text('Recent allocation activity'), findsOneWidget);
+    expect(find.text('Review next exception'), findsOneWidget);
+    expect(find.textContaining('Raw SMS remains gated.'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('admin app blocks default non-admin state', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: CollectAdminApp()));
     await tester.pumpAndSettle();
@@ -433,7 +470,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.text('Collect Admin'), findsWidgets);
-      expect(find.text('Operations overview'), findsOneWidget);
+      expect(find.text('Operations overview'), findsWidgets);
       expect(find.text('Groups'), findsNothing);
       expect(
         find.semantics.byLabel('Collect admin primary navigation'),
@@ -467,6 +504,8 @@ void main() {
         findsOne,
       );
       expect(find.text('Read-only settings catalog'), findsOneWidget);
+      await tester.tap(find.byTooltip('Open admin navigation'));
+      await tester.pumpAndSettle();
       expect(find.text('Overview'), findsOneWidget);
       expect(tester.takeException(), isNull);
     } finally {
@@ -491,7 +530,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final selected = find.widgetWithText(FilledButton, 'System health');
+      final selected = find.text('System health');
       expect(selected, findsOneWidget);
       final rect = tester.getRect(selected);
       expect(rect.left, greaterThanOrEqualTo(0));

@@ -1,7 +1,9 @@
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
+import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
@@ -9,6 +11,7 @@ import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -784,6 +787,68 @@ void main() {
     expect(find.text('Search country'), findsOneWidget);
     expect(find.textContaining('Rwanda'), findsWidgets);
     expect(find.textContaining('+250'), findsWidgets);
+
+    await tester.tap(find.byKey(const ValueKey('auth_country_row_AF_93')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('auth_country_list')), findsNothing);
+    expect(find.text('+93'), findsOneWidget);
+  });
+
+  testWidgets('country picker keeps codes and names readable on one line', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.dark(),
+        home: MediaQuery(
+          data: MediaQueryData.fromView(
+            tester.view,
+          ).copyWith(textScaler: const TextScaler.linear(2)),
+          child: const Scaffold(body: AuthCountryPickerSheet()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final longCode = find.byKey(const ValueKey('auth_country_code_AS_1684'));
+    await tester.scrollUntilVisible(
+      longCode,
+      160,
+      scrollable: find.descendant(
+        of: find.byKey(const ValueKey('auth_country_list')),
+        matching: find.byType(Scrollable),
+      ),
+    );
+    await tester.pump();
+
+    final codeText = tester.widget<Text>(longCode);
+    expect(codeText.data, '+1684');
+    expect(codeText.maxLines, 1);
+    expect(codeText.softWrap, isFalse);
+    expect(tester.getSize(longCode).width, greaterThan(45));
+
+    final countryName = find.byKey(const ValueKey('auth_country_name_AS_1684'));
+    final countryNameText = tester.widget<Text>(countryName);
+    final countryNameParagraph = tester.renderObject<RenderParagraph>(
+      countryName,
+    );
+    expect(countryNameText.data, 'American Samoa');
+    expect(countryNameText.maxLines, 1);
+    expect(countryNameText.softWrap, isFalse);
+    expect(countryNameParagraph.didExceedMaxLines, isFalse);
+    expect(
+      countryNameParagraph.textScaler.scale(
+        countryNameParagraph.text.style?.fontSize ?? 14,
+      ),
+      lessThanOrEqualTo(14),
+    );
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('auth disables send until WhatsApp phone is valid', (

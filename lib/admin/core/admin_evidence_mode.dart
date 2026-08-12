@@ -82,15 +82,30 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     int? offset,
     String? sortBy,
   }) async {
+    final rowCount = switch (rpcName) {
+      'admin_list_allocations' => 42,
+      'admin_list_unallocated' => 6,
+      _ => 30,
+    };
     final allRows = [
-      for (var index = 1; index <= 30; index += 1)
+      for (var index = 1; index <= rowCount; index += 1)
         AdminTableRowData(
           id: _rowId(rpcName, index),
           title: _rowTitle(rpcName, index),
           subtitle: _rowSubtitle(rpcName),
-          status: index.isEven ? 'allocated' : 'needs_review',
-          amount: 'RWF ${index * 2500}',
-          createdAt: DateTime.utc(2026, 6, (index % 15) + 1, 12),
+          status: _rowStatus(rpcName, index),
+          amount: _rowAmount(rpcName, index),
+          createdAt: _rowCreatedAt(rpcName, index),
+          extra: {
+            'sender_masked': _maskedSender(
+              _displayedEventIndex(rpcName, index),
+            ),
+            'reference':
+                'Ref MTN${12345 + _displayedEventIndex(rpcName, index)}',
+            'age': _rowAge(index),
+            'allocated_to': 'St Michael building fund',
+            'operator': index <= 2 ? 'Alex K.' : 'Grace M.',
+          },
         ),
     ];
     final normalizedSearch = search?.trim().toLowerCase() ?? '';
@@ -119,6 +134,13 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   ];
 
   @override
+  Future<AdminQueueSla?> queueSla(String queueKey) async => const AdminQueueSla(
+    target: '< 15m',
+    owner: 'Money operations',
+    escalation: 'Review immediately when the target is exceeded',
+  );
+
+  @override
   Future<void> sendOtp({required String phone}) async {}
 
   @override
@@ -135,6 +157,8 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_users' => 'user-$index',
   'admin_list_collections' => 'collection-$index',
   'admin_list_payment_events' => 'event-$index',
+  'admin_list_allocations' => 'event-$index',
+  'admin_list_unallocated' => 'event-$index',
   'admin_list_sms_metadata' => 'sms-$index',
   'admin_list_receivers' => 'receiver-$index',
   _ => 'admin-row-$index',
@@ -144,6 +168,8 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_users' => 'Member profile $index',
   'admin_list_collections' => 'Public group $index',
   'admin_list_payment_events' => 'Parsed MoMo event $index',
+  'admin_list_allocations' => 'Parsed MoMo event ${index * 2}',
+  'admin_list_unallocated' => 'Parsed MoMo event ${(index * 2) - 1}',
   'admin_list_sms_metadata' => 'SMS metadata $index',
   'admin_list_receivers' => 'Masked receiver $index',
   _ => 'Operational record $index',
@@ -153,7 +179,53 @@ String _rowSubtitle(String rpcName) => switch (rpcName) {
   'admin_list_users' => 'Collect ID and permission-safe account state',
   'admin_list_collections' => 'Verified group activity and owner controls',
   'admin_list_payment_events' => 'Masked sender and allocation review',
+  'admin_list_allocations' => 'Successful masked payment allocation',
+  'admin_list_unallocated' => 'Masked sender and allocation review',
   'admin_list_sms_metadata' => 'Metadata only; raw body is gated',
   'admin_list_receivers' => 'Masked MoMo receiver and review state',
   _ => 'Admin evidence row with masked test data',
 };
+
+String _rowStatus(String rpcName, int index) => switch (rpcName) {
+  'admin_list_allocations' => 'allocated',
+  'admin_list_unallocated' => 'needs_review',
+  _ => index.isEven ? 'allocated' : 'needs_review',
+};
+
+String _maskedSender(int index) {
+  const senders = [
+    '0786 **** 341',
+    '0789 **** 662',
+    '0724 **** 152',
+    '0720 **** 775',
+    '0781 **** 908',
+    '0783 **** 114',
+    '0728 **** 440',
+    '0731 **** 229',
+  ];
+  return senders[(index - 1) % senders.length];
+}
+
+String _rowAge(int index) {
+  const ages = ['38m', '2h 14m', '4h 27m', '5h 05m', '6h 12m'];
+  return ages[(index - 1) % ages.length];
+}
+
+String _rowAmount(String rpcName, int index) {
+  return 'RWF ${_displayedEventIndex(rpcName, index) * 2500}';
+}
+
+int _displayedEventIndex(String rpcName, int index) => switch (rpcName) {
+  'admin_list_allocations' => index * 2,
+  'admin_list_unallocated' => (index * 2) - 1,
+  _ => index,
+};
+
+DateTime _rowCreatedAt(String rpcName, int index) {
+  if (rpcName == 'admin_list_allocations') {
+    const times = [(21, 0), (18, 0), (16, 45), (15, 30)];
+    final time = times[(index - 1) % times.length];
+    return DateTime.utc(2026, 7, 24, time.$1, time.$2);
+  }
+  return DateTime.utc(2026, 7, 24, 22 - (index % 8), index.isEven ? 0 : 30);
+}

@@ -19,7 +19,6 @@ import '../shared/components/admin_data_table.dart';
 import '../shared/components/admin_empty_state.dart';
 import '../shared/components/admin_filter_bar.dart';
 import '../shared/components/admin_loading_state.dart';
-import '../shared/components/admin_metric_card.dart';
 import '../shared/components/admin_page.dart';
 import '../shared/components/admin_sensitive_data_gate.dart';
 import '../shared/components/admin_status_chip.dart';
@@ -28,6 +27,7 @@ import 'admin_error_boundary.dart';
 import 'admin_repository_base.dart';
 
 part 'admin_login_runtime.dart';
+part 'admin_overview_runtime.dart';
 part 'admin_list_specs.dart';
 part 'admin_list_export.dart';
 part 'admin_list_workflow.dart';
@@ -42,11 +42,6 @@ final adminRepositoryProvider = Provider<AdminRepositoryBase>((ref) {
 
 final adminIdentityProvider = FutureProvider<AdminIdentity?>((ref) {
   return ref.watch(adminRepositoryProvider).currentIdentity();
-});
-
-final _adminOverviewProvider = FutureProvider<List<AdminMetric>>((ref) {
-  ref.watch(adminRealtimeTickProvider);
-  return ref.watch(adminRepositoryProvider).overviewMetrics();
 });
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
@@ -322,42 +317,6 @@ class AdminDeniedPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AdminOverviewContent extends ConsumerWidget {
-  const AdminOverviewContent({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final metrics = ref.watch(_adminOverviewProvider);
-    return AdminPage(
-      title: 'Operations overview',
-      subtitle: 'Live queues. Private data gated.',
-      child: metrics.when(
-        loading: () => const AdminLoadingState(
-          title: 'Loading operations overview',
-          message: 'Refreshing queues.',
-        ),
-        error: (error, _) => AdminSafeErrorPanel(error: error),
-        data: (items) {
-          if (items.isEmpty) {
-            return const AdminEmptyState(
-              title: 'No admin metrics yet',
-              message: 'Metrics appear after the platform has live activity.',
-            );
-          }
-          return Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: [
-              for (final item in items) AdminMetricCard(metric: item),
-              const _AdminOverviewSignalCard(),
-            ],
-          );
-        },
       ),
     );
   }

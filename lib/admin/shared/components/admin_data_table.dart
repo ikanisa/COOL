@@ -38,18 +38,18 @@ class AdminDataTable extends StatelessWidget {
           return DecoratedBox(
             decoration: _tableDecoration(colors),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(16),
               child: Scrollbar(
                 scrollbarOrientation: ScrollbarOrientation.bottom,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     headingRowColor: WidgetStatePropertyAll(
-                      colors.textPrimary.withValues(alpha: 0.94),
+                      colors.surfaceRaised.withValues(alpha: 0.72),
                     ),
                     headingTextStyle: Theme.of(context).textTheme.labelMedium
                         ?.copyWith(
-                          color: colors.surfaceReadable,
+                          color: colors.textSecondary,
                           fontWeight: CollectTypography.weightBold,
                         ),
                     dataTextStyle: Theme.of(context).textTheme.bodyMedium
@@ -57,10 +57,11 @@ class AdminDataTable extends StatelessWidget {
                           color: colors.textPrimary,
                           fontWeight: CollectTypography.weightBold,
                         ),
-                    headingRowHeight: 46 + ((textScale - 1) * 24),
-                    dataRowMinHeight: 52 + extraHeight,
-                    dataRowMaxHeight: 64 + extraHeight,
-                    columnSpacing: 28,
+                    dividerThickness: 0.8,
+                    headingRowHeight: 44 + ((textScale - 1) * 24),
+                    dataRowMinHeight: 50 + extraHeight,
+                    dataRowMaxHeight: 62 + extraHeight,
+                    columnSpacing: 24,
                     columns: [
                       if (trailingBuilder != null)
                         const DataColumn(label: Text('Actions')),
@@ -109,14 +110,14 @@ class AdminDataTable extends StatelessWidget {
 
 BoxDecoration _tableDecoration(CollectColors colors) {
   return BoxDecoration(
-    color: colors.surfaceReadable.withValues(alpha: 0.96),
-    borderRadius: BorderRadius.circular(24),
-    border: Border.all(color: colors.borderAccent),
+    color: colors.surfaceReadable,
+    borderRadius: BorderRadius.circular(16),
+    border: Border.all(color: colors.borderSoft),
     boxShadow: [
       BoxShadow(
-        color: colors.textPrimary.withValues(alpha: 0.14),
-        blurRadius: 28,
-        offset: const Offset(0, 16),
+        color: CollectColors.publicBlack.withValues(alpha: 0.07),
+        blurRadius: 16,
+        offset: const Offset(0, 8),
       ),
     ],
   );

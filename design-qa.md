@@ -1,39 +1,47 @@
-# Design QA — legacy Collect chrome cleanup
+# Collect Admin redesign QA
 
-Date: 2026-08-04
+## Source of truth
 
-## Scope
+- Selected reference: `/Users/jeanbosco/.codex/generated_images/019fec22-d025-7753-bc3e-5196d0a869ce/exec-ef685d8c-910e-44c9-aabd-0b929fd50b17.png`
+- Reference dimensions: 1487 x 1058, normalized to 1440 x 1024 for comparison.
+- Implementation capture: `output/admin-redesign/qa/implementation-release-ready-1440x1024.png`
+- Mobile capture: `output/admin-redesign/qa/implementation-release-ready-mobile-390x844.png`
+- Combined comparison: `output/admin-redesign/qa/reference-vs-implementation-final.png`
+- Focused comparison: `output/admin-redesign/qa/reference-vs-implementation-focus.png`
+- State: authenticated admin evidence mode, Operations overview.
 
-- authentication phone, confirmation, OTP, invalid-code, and recovery states;
-- shared customer gradient, cards, sheets, headers, status surfaces, and inputs;
-- bottom navigation and tablet rail;
-- Home, Groups, Contribute, Activity, Ledger, Settings, and recovery routes;
-- six-state interactive contribution prototype.
+## Fidelity review
 
-## Visual comparison
+| Surface | Result | Evidence |
+| --- | --- | --- |
+| Layout and hierarchy | Passed | Grouped left navigation, two-line command header, four-metric summary, task-first exception queue, queue health, and recent allocation table match the selected hierarchy. |
+| Typography | Passed | Inter remains the exclusive product typeface; hierarchy and weights follow the existing Collect typography tokens. |
+| Color and elevation | Passed | Near-black application chrome, quiet borders, muted secondary copy, white primary action, and semantic green/orange states match the reference. |
+| Spacing and density | Passed | Desktop capture uses the required 1440 x 1024 viewport; table density, panel spacing, and footer placement were tuned against the normalized reference. |
+| Icons and assets | Passed | The reference uses interface symbols rather than custom raster artwork; implementation uses the existing Material icon system and official Collect identity. |
+| Copy and data shape | Passed | Reference labels, masked senders, queue ages, allocation amounts, SLA, and activity rows are represented in deterministic evidence mode while production continues to use live RPC results. |
+| Responsive behavior | Passed | At 390 x 844, metrics remain readable, country-independent text does not clip, cards replace dense desktop rows, and compact navigation remains usable. |
 
-- Compared the retained Revolut phone, confirmation, OTP, and invalid-code references with the current Collect captures in the same review pass.
-- Compared the two user-supplied legacy screenshots with the current native phone and OTP captures.
-- Inspected all 13 core goldens, all 6 prototype goldens, the 17-state native matrix, and representative screens from the 35-route matrix.
-- Applied the product owner's explicit reference boundary: publicly accessible and retained unblurred references are sufficient, while Collect-only amount, MoMo, deletion, and recovery states use documented no-direct-analogue dispositions instead of requiring personal-account captures.
+## Interaction and runtime review
 
-## Acceptance checks
+- `Review next exception` navigated from `/admin` to `/admin/exceptions`.
+- Compact navigation opened at 390 x 844 and `Exceptions` navigated to `/admin/exceptions`.
+- The final in-app browser run recorded zero console warnings and zero console errors.
+- Admin repository access remains permission-scoped; raw SMS remains purpose-gated and audited.
+- Existing secured Supabase RPCs supply overview metrics, unallocated events, allocations, and queue SLA data. No schema migration was required for this redesign.
 
-- No boxed WhatsApp panel, custom `RW` badge, masked-phone anchor panel, floating blurred nav, route-specific gradient, or backdrop-blur customer card remains.
-- Phone entry, number confirmation, OTP, invalid-code, bottom actions, and keyboard recovery remain reachable and readable.
-- Shared cards and sheets use solid hierarchy without broad shadows or ornamental borders.
-- Bottom navigation is edge-to-edge and no longer floats in a capsule.
-- No observed clipping, unsafe-area collision, overflow stripe, missing primary action, or broken back navigation in retained captures.
-- Empty, error, offline, sync, and deletion states retain semantic state and recovery actions.
-- Evidence contains fixture data only and is not represented as production or physical-device proof.
+## Iteration history
 
-## Validation
+1. Replaced the previous generic admin shell with the selected grouped navigation and task-first overview.
+2. Fixed desktop wrapping, table action overflow, status-chip clipping, and incorrect evidence totals.
+3. Fixed mobile metric truncation and compact heading overflow.
+4. Matched the reference summary height, content offset, queue density, allocation footer, masked evidence rows, and SLA presentation.
 
-- `flutter analyze`: passed.
-- Full Flutter suite: 449/449 tests passed on the current source after the final auth scroll guard; the release-wide completion sentinel remains fail-closed below.
-- Core golden suite: 14 tests passed after repinning 11 intentionally redesigned customer baselines.
-- Prototype golden and interaction suite: 7 tests passed.
-- iPhone 17 fixture-only material-state matrix: 17/17 states passed.
-- iPhone 17 fixture-only route matrix: 35/35 routes passed.
+## Remaining differences
+
+- P3: Evidence mode displays the accountable seeded identity `Collect evidence admin` rather than the concept-only `Alex K.` top-bar identity. Production displays the authenticated operator.
+- P3: The implementation retains the existing `SMS` route in addition to `SMS parsing` so no current operational capability is removed.
+
+No open P0, P1, or P2 visual, responsive, interaction, or console findings remain.
 
 final result: passed

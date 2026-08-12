@@ -290,62 +290,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     });
   }
 
-  void _showCountryPicker() {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
-    showCountryPicker(
-      context: context,
-      showPhoneCode: true,
-      favorite: const ['RW'],
-      searchAutofocus: false,
-      useSafeArea: true,
-      countryListTheme: CountryListThemeData(
-        backgroundColor: CollectColors.referenceContentDark,
-        borderRadius: CollectRadius.cardLargeBorder,
-        bottomSheetHeight: MediaQuery.sizeOf(context).height * 0.74,
-        flagSize: 24,
-        textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: foreground,
-          fontWeight: CollectTypography.weightBold,
-          letterSpacing: CollectTypography.trackingDefault,
-        ),
-        searchTextStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: foreground,
-          fontWeight: CollectTypography.weightBold,
-          letterSpacing: CollectTypography.trackingDefault,
-        ),
-        inputDecoration: InputDecoration(
-          hintText: 'Search country',
-          hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: foreground.withValues(alpha: 0.48),
-          ),
-          prefixIcon: Icon(
-            CollectIcons.search,
-            color: foreground.withValues(alpha: 0.72),
-          ),
-          filled: true,
-          fillColor: foreground.withValues(alpha: 0.12),
-          border: OutlineInputBorder(
-            borderRadius: CollectRadius.pillBorder,
-            borderSide: BorderSide(color: foreground.withValues(alpha: 0.14)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: CollectRadius.pillBorder,
-            borderSide: BorderSide(color: foreground.withValues(alpha: 0.14)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: CollectRadius.pillBorder,
-            borderSide: BorderSide(color: colors.focusRing, width: 2),
-          ),
-        ),
-      ),
-      onSelect: (country) {
-        setState(() {
-          _selectedCountry = country;
-          _error = null;
-        });
-      },
-    );
+  Future<void> _showCountryPicker() async {
+    final country = await showCollectCountryPicker(context);
+    if (!mounted || country == null) return;
+    setState(() {
+      _selectedCountry = country;
+      _error = null;
+    });
   }
 
   void _startResendCooldown() {

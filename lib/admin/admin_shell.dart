@@ -10,14 +10,21 @@ import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
 import 'shared/components/admin_loading_state.dart';
 
-class AdminShell extends ConsumerWidget {
+class AdminShell extends ConsumerStatefulWidget {
   const AdminShell({required this.location, required this.child, super.key});
 
   final String location;
   final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdminShell> createState() => _AdminShellState();
+}
+
+class _AdminShellState extends ConsumerState<AdminShell> {
+  var _railCollapsed = false;
+
+  @override
+  Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
     final identity = ref.watch(adminIdentityProvider);
     final colors = context.collectColors;
@@ -39,30 +46,43 @@ class AdminShell extends ConsumerWidget {
                 .valueOrNull;
             final destinations = _adminNavDestinationsFor(value, runtimeConfig);
             final requiredPermission = adminRequiredPermissionForPath(
-              location,
+              widget.location,
               runtimeConfig: runtimeConfig,
             );
             final page =
-                adminCanOpenPath(value, location, runtimeConfig: runtimeConfig)
-                ? child
+                adminCanOpenPath(
+                  value,
+                  widget.location,
+                  runtimeConfig: runtimeConfig,
+                )
+                ? widget.child
                 : AdminDeniedPage(requiredPermission: requiredPermission);
-            final content = Semantics(
-              container: true,
-              label: 'Collect admin workspace',
-              child: Column(
-                children: [
-                  _AdminTopbar(envName: env.environmentName, identity: value),
-                  Expanded(child: page),
-                ],
-              ),
-            );
+
             return LayoutBuilder(
               builder: (context, constraints) {
-                if (constraints.maxWidth < 720) {
+                final compact = constraints.maxWidth < 720;
+                const forcedCompactRail = false;
+                final collapsed = _railCollapsed || forcedCompactRail;
+                final content = Semantics(
+                  container: true,
+                  label: 'Collect admin workspace',
+                  child: Column(
+                    children: [
+                      _AdminTopbar(
+                        envName: env.environmentName,
+                        identity: value,
+                        location: widget.location,
+                        destinations: destinations,
+                      ),
+                      Expanded(child: page),
+                    ],
+                  ),
+                );
+                if (compact) {
                   return Column(
                     children: [
                       _AdminMobileNav(
-                        location: location,
+                        location: widget.location,
                         destinations: destinations,
                       ),
                       Expanded(child: content),
@@ -72,8 +92,12 @@ class AdminShell extends ConsumerWidget {
                 return Row(
                   children: [
                     _AdminSidebar(
-                      location: location,
+                      location: widget.location,
                       destinations: destinations,
+                      collapsed: collapsed,
+                      canToggle: !forcedCompactRail,
+                      onToggle: () =>
+                          setState(() => _railCollapsed = !_railCollapsed),
                     ),
                     Expanded(child: content),
                   ],
@@ -90,7 +114,7 @@ class AdminShell extends ConsumerWidget {
 const _adminNavDestinations = <_AdminNavDestination>[
   _AdminNavDestination(
     'Overview',
-    Icons.dashboard_outlined,
+    Icons.home_rounded,
     '/admin',
     'overview.read',
   ),
@@ -203,84 +227,120 @@ class _AdminNavDestination {
   }
 }
 
+enum _AdminNavSection { workspace, money, people, control }
+
+const _sectionLabels = <_AdminNavSection, String>{
+  _AdminNavSection.workspace: 'WORKSPACE',
+  _AdminNavSection.money: 'MONEY OPERATIONS',
+  _AdminNavSection.people: 'PEOPLE',
+  _AdminNavSection.control: 'CONTROL',
+};
+
 class _AdminSidebar extends StatelessWidget {
-  const _AdminSidebar({required this.location, required this.destinations});
+  const _AdminSidebar({
+    required this.location,
+    required this.destinations,
+    required this.collapsed,
+    required this.canToggle,
+    required this.onToggle,
+  });
 
   final String location;
   final List<_AdminNavDestination> destinations;
+  final bool collapsed;
+  final bool canToggle;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final width = collapsed ? 80.0 : 256.0;
     return Semantics(
       container: true,
+      explicitChildNodes: true,
       label: 'Collect admin primary navigation',
-      child: SizedBox(
-        width: 260,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+        width: width,
         child: Material(
           color: CollectColors.referenceChromeBlack,
           child: SafeArea(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
+            child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 18),
-                  child: Row(
+                _AdminBrand(collapsed: collapsed),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
                     children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.onImagePrimary.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: colors.onImagePrimary.withValues(
-                              alpha: 0.16,
-                            ),
-                          ),
-                        ),
-                        child: SizedBox(
-                          width: 44,
-                          height: 44,
-                          child: Icon(
-                            Icons.admin_panel_settings_outlined,
-                            color: colors.onImagePrimary,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Collect Admin',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary,
-                                    fontWeight: CollectTypography.weightBold,
-                                  ),
-                            ),
-                            Text(
-                              'Operations',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.labelMedium
+                      for (final section in _AdminNavSection.values) ...[
+                        if (!collapsed)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 16, 8, 7),
+                            child: Text(
+                              _sectionLabels[section]!,
+                              style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
                                     color: colors.onImagePrimary.withValues(
-                                      alpha: 0.62,
+                                      alpha: 0.58,
                                     ),
                                     fontWeight: CollectTypography.weightBold,
+                                    letterSpacing:
+                                        CollectTypography.trackingEyebrow,
                                   ),
                             ),
-                          ],
-                        ),
-                      ),
+                          )
+                        else if (section != _AdminNavSection.workspace)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Divider(
+                              height: 1,
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.10,
+                              ),
+                            ),
+                          ),
+                        for (final destination in destinations)
+                          if (_sectionForPath(destination.path) == section)
+                            _NavItem(
+                              destination,
+                              location,
+                              collapsed: collapsed,
+                            ),
+                      ],
                     ],
                   ),
                 ),
-                for (final destination in destinations)
-                  _NavItem(destination, location),
+                Divider(
+                  height: 1,
+                  indent: 18,
+                  endIndent: 18,
+                  color: colors.onImagePrimary.withValues(alpha: 0.12),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Tooltip(
+                    message: collapsed ? 'Expand navigation' : 'Collapse',
+                    child: TextButton.icon(
+                      onPressed: canToggle ? onToggle : null,
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                        foregroundColor: colors.onImagePrimary,
+                        alignment: collapsed
+                            ? Alignment.center
+                            : Alignment.centerLeft,
+                      ),
+                      icon: Icon(
+                        collapsed
+                            ? Icons.chevron_right_rounded
+                            : Icons.chevron_left_rounded,
+                      ),
+                      label: collapsed
+                          ? const SizedBox.shrink()
+                          : const Text('Collapse'),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -290,183 +350,214 @@ class _AdminSidebar extends StatelessWidget {
   }
 }
 
-class _AdminMobileNav extends StatefulWidget {
+class _AdminBrand extends StatelessWidget {
+  const _AdminBrand({required this.collapsed});
+
+  final bool collapsed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(collapsed ? 12 : 20, 10, 12, 12),
+      child: Row(
+        mainAxisAlignment: collapsed
+            ? MainAxisAlignment.center
+            : MainAxisAlignment.start,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.onImagePrimary.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: colors.onImagePrimary.withValues(alpha: 0.14),
+              ),
+            ),
+            child: SizedBox.square(
+              dimension: 42,
+              child: Icon(
+                Icons.admin_panel_settings_outlined,
+                color: colors.onImagePrimary,
+                size: 22,
+              ),
+            ),
+          ),
+          if (!collapsed) ...[
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Collect Admin',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: colors.onImagePrimary,
+                      fontWeight: CollectTypography.weightBold,
+                    ),
+                  ),
+                  Text(
+                    'Operations',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: colors.onImagePrimary.withValues(alpha: 0.58),
+                      fontWeight: CollectTypography.weightMedium,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _AdminMobileNav extends StatelessWidget {
   const _AdminMobileNav({required this.location, required this.destinations});
 
   final String location;
   final List<_AdminNavDestination> destinations;
 
   @override
-  State<_AdminMobileNav> createState() => _AdminMobileNavState();
-}
-
-class _AdminMobileNavState extends State<_AdminMobileNav> {
-  final _selectedKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    _scheduleSelectedVisibility();
-  }
-
-  @override
-  void didUpdateWidget(covariant _AdminMobileNav oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.location != widget.location ||
-        oldWidget.destinations != widget.destinations) {
-      _scheduleSelectedVisibility();
-    }
-  }
-
-  void _scheduleSelectedVisibility() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final selectedContext = _selectedKey.currentContext;
-      if (selectedContext == null) return;
-      Scrollable.ensureVisible(
-        selectedContext,
-        alignment: 0.5,
-        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-        duration: Duration.zero,
-      );
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final textScale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
-    final navHeight = 64 + ((textScale - 1) * 20);
+    final current = _destinationForLocation(location, destinations);
     return Semantics(
       container: true,
+      explicitChildNodes: true,
       label: 'Collect admin mobile navigation',
       child: Material(
         color: CollectColors.referenceChromeBlack,
         child: SafeArea(
           bottom: false,
-          child: SizedBox(
-            height: navHeight,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Row(
-                children: [
-                  for (
-                    var index = 0;
-                    index < widget.destinations.length;
-                    index++
-                  ) ...[
-                    _AdminMobileNavItem(
-                      key:
-                          _isSelected(
-                            widget.destinations[index].path,
-                            widget.location,
-                          )
-                          ? _selectedKey
-                          : null,
-                      destination: widget.destinations[index],
-                      selected: _isSelected(
-                        widget.destinations[index].path,
-                        widget.location,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.admin_panel_settings_outlined,
+                  color: CollectColors.brandPaper,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Semantics(
+                    label: current == null
+                        ? 'Collect Admin'
+                        : '${current.label} admin section',
+                    excludeSemantics: true,
+                    child: Text(
+                      current?.label ?? 'Collect Admin',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colors.onImagePrimary,
+                        fontWeight: CollectTypography.weightBold,
                       ),
-                      colors: colors,
                     ),
-                    if (index != widget.destinations.length - 1)
-                      const SizedBox(width: 8),
+                  ),
+                ),
+                PopupMenuButton<String>(
+                  tooltip: 'Open admin navigation',
+                  icon: const Icon(
+                    Icons.menu_rounded,
+                    color: CollectColors.brandPaper,
+                  ),
+                  onSelected: context.go,
+                  itemBuilder: (context) => [
+                    for (final section in _AdminNavSection.values) ...[
+                      PopupMenuItem<String>(
+                        enabled: false,
+                        height: 32,
+                        child: Text(_sectionLabels[section]!),
+                      ),
+                      for (final destination in destinations)
+                        if (_sectionForPath(destination.path) == section)
+                          PopupMenuItem<String>(
+                            value: destination.path,
+                            child: Semantics(
+                              label: '${destination.label} admin section',
+                              hint:
+                                  'Opens ${destination.label} in the admin console.',
+                              excludeSemantics: true,
+                              child: Row(
+                                children: [
+                                  Icon(destination.icon, size: 20),
+                                  const SizedBox(width: 12),
+                                  Expanded(child: Text(destination.label)),
+                                  if (_isSelected(destination.path, location))
+                                    const Icon(Icons.check_rounded, size: 18),
+                                ],
+                              ),
+                            ),
+                          ),
+                    ],
                   ],
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _AdminMobileNavItem extends StatelessWidget {
-  const _AdminMobileNavItem({
-    required this.destination,
-    required this.selected,
-    required this.colors,
-    super.key,
-  });
-
-  final _AdminNavDestination destination;
-  final bool selected;
-  final CollectColors colors;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton.tonalIcon(
-      style: FilledButton.styleFrom(
-        backgroundColor: selected
-            ? colors.surfaceReadable
-            : colors.onImagePrimary.withValues(alpha: 0.12),
-        foregroundColor: selected ? colors.textPrimary : colors.onImagePrimary,
-        side: BorderSide(color: colors.onImagePrimary.withValues(alpha: 0.16)),
-      ),
-      onPressed: () => context.go(destination.path),
-      icon: Icon(destination.icon, size: 18),
-      label: Semantics(
-        label: '${destination.label} admin section',
-        hint: 'Opens ${destination.label} in the admin console.',
-        excludeSemantics: true,
-        child: Text(destination.label),
       ),
     );
   }
 }
 
 class _NavItem extends StatelessWidget {
-  const _NavItem(this.destination, this.location);
+  const _NavItem(this.destination, this.location, {required this.collapsed});
 
   final _AdminNavDestination destination;
   final String location;
+  final bool collapsed;
 
   @override
   Widget build(BuildContext context) {
     final selected = _isSelected(destination.path, location);
     final colors = context.collectColors;
-    final foreground = selected ? colors.textPrimary : colors.onImagePrimary;
+    final foreground = colors.onImagePrimary;
+    final tile = ListTile(
+      selected: selected,
+      selectedTileColor: colors.onImagePrimary.withValues(alpha: 0.10),
+      tileColor: Colors.transparent,
+      iconColor: foreground.withValues(alpha: selected ? 1 : 0.78),
+      textColor: foreground,
+      leading: Icon(destination.icon, size: 20),
+      title: collapsed
+          ? null
+          : Semantics(
+              label: '${destination.label} admin section',
+              hint: 'Opens ${destination.label} in the admin console.',
+              excludeSemantics: true,
+              child: Text(
+                destination.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: foreground.withValues(alpha: selected ? 1 : 0.84),
+                  fontWeight: selected
+                      ? CollectTypography.weightBold
+                      : CollectTypography.weightMedium,
+                ),
+              ),
+            ),
+      minTileHeight: CollectSpacing.iconTarget,
+      minLeadingWidth: collapsed ? 0 : null,
+      contentPadding: EdgeInsets.symmetric(horizontal: collapsed ? 16 : 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      onTap: () => context.go(destination.path),
+    );
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: ListTile(
-        selected: selected,
-        selectedTileColor: colors.surfaceReadable,
-        tileColor: selected
-            ? colors.surfaceReadable
-            : colors.onImagePrimary.withValues(alpha: 0.07),
-        iconColor: foreground,
-        textColor: foreground,
-        leading: Icon(destination.icon, size: 20),
-        title: Semantics(
-          label: '${destination.label} admin section',
-          hint: 'Opens ${destination.label} in the admin console.',
-          excludeSemantics: true,
-          child: Text(
-            destination.label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: foreground,
-              fontWeight: selected
-                  ? CollectTypography.weightBold
-                  : CollectTypography.weightMedium,
-            ),
-          ),
-        ),
-        dense: true,
-        minTileHeight: CollectSpacing.iconTarget,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(
-            color: colors.surfaceReadable.withValues(
-              alpha: selected ? 0.0 : 0.10,
-            ),
-          ),
-        ),
-        onTap: () => context.go(destination.path),
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Semantics(
+        label: collapsed ? '${destination.label} admin section' : null,
+        hint: collapsed
+            ? 'Opens ${destination.label} in the admin console.'
+            : null,
+        button: collapsed,
+        child: collapsed
+            ? Tooltip(message: destination.label, child: tile)
+            : tile,
       ),
     );
   }
@@ -476,17 +567,23 @@ bool _isSelected(String path, String location) {
   return path == '/admin' ? location == path : location.startsWith(path);
 }
 
-class _AdminTopbar extends StatelessWidget {
-  const _AdminTopbar({required this.envName, required this.identity});
+class _AdminTopbar extends ConsumerWidget {
+  const _AdminTopbar({
+    required this.envName,
+    required this.identity,
+    required this.location,
+    required this.destinations,
+  });
 
   final String envName;
   final AdminIdentity identity;
+  final String location;
+  final List<_AdminNavDestination> destinations;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.collectColors;
-    final textScale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
-    final topbarHeight = 68 + ((textScale - 1) * 20);
+    final current = _destinationForLocation(location, destinations);
     return Semantics(
       container: true,
       label:
@@ -495,77 +592,278 @@ class _AdminTopbar extends StatelessWidget {
         color: CollectColors.referenceChromeBlack,
         child: SafeArea(
           bottom: false,
-          child: Container(
-            height: topbarHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: colors.surfaceReadable.withValues(alpha: 0.10),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final compact = constraints.maxWidth < 760;
+              final showSearch = constraints.maxWidth >= 620;
+              final showIdentity = constraints.maxWidth >= 900;
+              return Container(
+                constraints: BoxConstraints(minHeight: compact ? 64 : 88),
+                padding: EdgeInsets.symmetric(
+                  horizontal: compact ? 14 : 20,
+                  vertical: 10,
                 ),
-              ),
-            ),
-            child: Row(
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.successContainer,
-                    borderRadius: BorderRadius.circular(999),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: colors.onImagePrimary.withValues(alpha: 0.10),
+                    ),
                   ),
-                  child: SizedBox(
-                    width: 10,
-                    height: 10,
-                    child: Center(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.successForeground,
-                          shape: BoxShape.circle,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () => context.go('/admin'),
+                                borderRadius: BorderRadius.circular(8),
+                                child: SizedBox.square(
+                                  dimension: 44,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.home_outlined,
+                                      size: 19,
+                                      color: colors.onImagePrimary.withValues(
+                                        alpha: 0.60,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Icon(
+                                Icons.chevron_right_rounded,
+                                size: 18,
+                                color: colors.onImagePrimary.withValues(
+                                  alpha: 0.44,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Flexible(
+                                child: Text(
+                                  _workspaceTitle(current),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: colors.onImagePrimary,
+                                        fontWeight:
+                                            CollectTypography.weightBold,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (!compact) ...[
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.refresh_rounded,
+                                  size: 15,
+                                  color: colors.onImagePrimary.withValues(
+                                    alpha: 0.54,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'Last refreshed: ${_clockTime(DateTime.now())}',
+                                  style: Theme.of(context).textTheme.labelMedium
+                                      ?.copyWith(
+                                        color: colors.onImagePrimary.withValues(
+                                          alpha: 0.62,
+                                        ),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    if (showSearch) ...[
+                      const SizedBox(width: 16),
+                      SizedBox(
+                        width: constraints.maxWidth >= 1100 ? 280 : 210,
+                        height: 46,
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (query) => _openMatchingDestination(
+                            context,
+                            destinations,
+                            query,
+                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: colors.onImagePrimary),
+                          decoration: InputDecoration(
+                            hintText: 'Search or press ⌘K',
+                            hintStyle: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: colors.onImagePrimary.withValues(
+                                    alpha: 0.56,
+                                  ),
+                                ),
+                            prefixIcon: Icon(
+                              Icons.search_rounded,
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.62,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: colors.onImagePrimary.withValues(
+                              alpha: 0.04,
+                            ),
+                            contentPadding: EdgeInsets.zero,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: colors.onImagePrimary.withValues(
+                                  alpha: 0.18,
+                                ),
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: colors.onImagePrimary.withValues(
+                                  alpha: 0.18,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: const SizedBox.square(dimension: 5),
+                      ),
+                    ],
+                    const SizedBox(width: 14),
+                    _EnvironmentBadge(envName: envName),
+                    const SizedBox(width: 12),
+                    PopupMenuButton<String>(
+                      tooltip: 'Operator menu',
+                      onSelected: (value) async {
+                        if (value != 'sign-out') return;
+                        await ref.read(adminRepositoryProvider).signOut();
+                        if (context.mounted) context.go('/admin/login');
+                      },
+                      itemBuilder: (context) => const [
+                        PopupMenuItem(
+                          value: 'sign-out',
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Icon(Icons.logout_rounded),
+                            title: Text('Sign out'),
+                          ),
+                        ),
+                      ],
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: colors.onImagePrimary.withValues(
+                              alpha: 0.10,
+                            ),
+                            foregroundColor: colors.onImagePrimary,
+                            child: Text(
+                              _initials(identity.displayName),
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(
+                                    color: colors.onImagePrimary,
+                                    fontWeight: CollectTypography.weightBold,
+                                  ),
+                            ),
+                          ),
+                          if (showIdentity) ...[
+                            const SizedBox(width: 9),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 120),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    identity.displayName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                          color: colors.onImagePrimary,
+                                          fontWeight:
+                                              CollectTypography.weightBold,
+                                        ),
+                                  ),
+                                  Text(
+                                    identity.roles.isEmpty
+                                        ? 'Operator'
+                                        : identity.roles.first.replaceAll(
+                                            '_',
+                                            ' ',
+                                          ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium
+                                        ?.copyWith(
+                                          color: colors.onImagePrimary
+                                              .withValues(alpha: 0.62),
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down_rounded,
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.56,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    '${identity.displayName}  ${identity.roles.join(', ')}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colors.onImagePrimary,
-                      fontWeight: CollectTypography.weightBold,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.onImagePrimary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(
-                      color: colors.onImagePrimary.withValues(alpha: 0.16),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    child: Text(
-                      envName.toUpperCase(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.end,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: colors.onImagePrimary,
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EnvironmentBadge extends StatelessWidget {
+  const _EnvironmentBadge({required this.envName});
+
+  final String envName;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.onImagePrimary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: colors.onImagePrimary.withValues(alpha: 0.14),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+        child: Text(
+          envName.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: colors.onImagePrimary,
+            fontWeight: CollectTypography.weightBold,
+            letterSpacing: CollectTypography.trackingMeta,
           ),
         ),
       ),
@@ -649,9 +947,76 @@ String? adminRequiredPermissionForPath(
   return null;
 }
 
+_AdminNavSection _sectionForPath(String path) {
+  if (path == '/admin') return _AdminNavSection.workspace;
+  if (path.startsWith('/admin/groups') ||
+      path.startsWith('/admin/members') ||
+      path.startsWith('/admin/receivers')) {
+    return _AdminNavSection.people;
+  }
+  if (path.startsWith('/admin/payment') ||
+      path.startsWith('/admin/allocations') ||
+      path.startsWith('/admin/exceptions') ||
+      path.startsWith('/admin/ledger') ||
+      path == '/admin/sms') {
+    return _AdminNavSection.money;
+  }
+  return _AdminNavSection.control;
+}
+
+_AdminNavDestination? _destinationForLocation(
+  String location,
+  List<_AdminNavDestination> destinations,
+) {
+  for (final destination in destinations.reversed) {
+    if (_isSelected(destination.path, location)) return destination;
+  }
+  return null;
+}
+
+void _openMatchingDestination(
+  BuildContext context,
+  List<_AdminNavDestination> destinations,
+  String query,
+) {
+  final normalized = query.trim().toLowerCase();
+  if (normalized.isEmpty) return;
+  for (final destination in destinations) {
+    if (destination.label.toLowerCase().contains(normalized)) {
+      context.go(destination.path);
+      return;
+    }
+  }
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('No admin section matches “${query.trim()}”.')),
+  );
+}
+
+String _initials(String name) {
+  final words = name
+      .trim()
+      .split(RegExp(r'\s+'))
+      .where((word) => word.isNotEmpty)
+      .toList();
+  if (words.isEmpty) return 'CA';
+  if (words.length == 1) return words.first.substring(0, 1).toUpperCase();
+  return '${words.first[0]}${words.last[0]}'.toUpperCase();
+}
+
+String _clockTime(DateTime time) {
+  String two(int value) => value.toString().padLeft(2, '0');
+  return '${two(time.hour)}:${two(time.minute)}';
+}
+
+String _workspaceTitle(_AdminNavDestination? destination) {
+  if (destination == null) return 'Admin workspace';
+  if (destination.path == '/admin') return 'Operations overview';
+  return '${destination.label} workspace';
+}
+
 IconData _adminIconForKey(String iconKey) {
   return switch (iconKey.trim().toLowerCase()) {
-    'dashboard' || 'dashboard_outlined' => Icons.dashboard_outlined,
+    'dashboard' || 'dashboard_outlined' => Icons.home_rounded,
     'groups' || 'folder_copy' => Icons.folder_copy_outlined,
     'members' || 'people' => Icons.people_outline,
     'payments' || 'payment_intents' => Icons.payments_outlined,

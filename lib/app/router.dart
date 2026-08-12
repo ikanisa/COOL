@@ -25,9 +25,31 @@ import '../features/settings/settings_screen.dart';
 import '../features/settings/app_permissions_screen.dart';
 import '../features/settings/settings_subscreens.dart';
 import '../features/status/production_state_screens.dart';
+import '../shared/repositories/collect_repository.dart';
 import '../shared/widgets/collect_components.dart';
 
-final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
+final appRouterProvider = Provider<GoRouter>((ref) {
+  final refresh = _CollectRouterRefresh();
+  ref.onDispose(refresh.dispose);
+  ref.listen(
+    collectRepositoryProvider.select(
+      (state) => (state.currentProfile != null, state.isLoading),
+    ),
+    (_, _) => refresh.notify(),
+  );
+
+  return createAppRouter(
+    refreshListenable: refresh,
+    routeRedirect: (state) {
+      final collectState = ref.read(collectRepositoryProvider);
+      return collectAuthenticationRedirect(
+        uri: state.uri,
+        hasProfile: collectState.currentProfile != null,
+        isLoading: collectState.isLoading,
+      );
+    },
+  );
+});
 
 const collectRoutePaths = <String>[
   '/',
@@ -68,9 +90,17 @@ const collectRoutePaths = <String>[
   '/settings/legal/privacy',
 ];
 
-GoRouter createAppRouter({String initialLocation = '/'}) {
+GoRouter createAppRouter({
+  String initialLocation = '/',
+  Listenable? refreshListenable,
+  String? Function(GoRouterState state)? routeRedirect,
+}) {
   return GoRouter(
     initialLocation: initialLocation,
+    refreshListenable: refreshListenable,
+    redirect: routeRedirect == null
+        ? null
+        : (context, state) => routeRedirect(state),
     routes: [
       GoRoute(
         path: '/',
@@ -414,6 +444,62 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
     ],
     errorBuilder: (context, state) => const _RouteNotFoundScreen(),
   );
+}
+
+String? collectAuthenticationRedirect({
+  required Uri uri,
+  required bool hasProfile,
+  required bool isLoading,
+}) {
+  final isHeldSplash =
+      uri.path == '/' && uri.queryParameters['holdSplash'] == '1';
+
+  if (isLoading) {
+    if (isHeldSplash) return null;
+    return Uri(
+      path: '/',
+      queryParameters: {'holdSplash': '1', 'next': uri.toString()},
+    ).toString();
+  }
+
+  if (isHeldSplash) {
+    final next = _safeInternalRoute(uri.queryParameters['next']);
+    if (hasProfile) return next?.toString() ?? '/home';
+    if (next != null && _isPublicUnauthenticatedPath(next.path)) {
+      return next.toString();
+    }
+    return '/auth';
+  }
+
+  if (hasProfile) {
+    if (uri.path == '/' || uri.path == '/auth') return '/home';
+    return null;
+  }
+
+  if (!_isPublicUnauthenticatedPath(uri.path)) return '/auth';
+  return null;
+}
+
+bool _isPublicUnauthenticatedPath(String path) {
+  return path == '/' || path == '/auth' || path.startsWith('/c/');
+}
+
+Uri? _safeInternalRoute(String? rawRoute) {
+  if (rawRoute == null || rawRoute.isEmpty) return null;
+  final route = Uri.tryParse(rawRoute);
+  if (route == null ||
+      route.hasScheme ||
+      route.hasAuthority ||
+      !route.path.startsWith('/') ||
+      route.path.startsWith('//') ||
+      route.path == '/') {
+    return null;
+  }
+  return route;
+}
+
+class _CollectRouterRefresh extends ChangeNotifier {
+  void notify() => notifyListeners();
 }
 
 enum _CollectRouteTransition {

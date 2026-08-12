@@ -323,67 +323,6 @@ class _AdminPaginationBar extends StatelessWidget {
   }
 }
 
-class _AdminOverviewSignalCard extends StatelessWidget {
-  const _AdminOverviewSignalCard();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return SizedBox(
-      width: 260,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceReadable.withValues(alpha: 0.96),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.textPrimary,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: Icon(
-                    Icons.privacy_tip_outlined,
-                    color: colors.surfaceReadable,
-                    size: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Sensitive data gated',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Raw details stay gated.',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _AdminRowActions extends ConsumerWidget {
   const _AdminRowActions({
     required this.row,

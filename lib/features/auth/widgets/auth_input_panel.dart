@@ -99,62 +99,63 @@ class AuthPhoneEntry extends StatelessWidget {
     final borderColor = foreground.withValues(alpha: 0.14);
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.4,
-      child: Semantics(
-        container: true,
-        label: 'WhatsApp phone number',
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.surfaceRaised,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: borderColor),
-          ),
-          child: SizedBox(
-            height: 60,
-            child: Row(
-              children: [
-                Material(
-                  color: CollectColors.transparentColor,
-                  child: InkWell(
-                    key: const ValueKey('auth_country_code_picker'),
-                    borderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(16),
-                    ),
-                    onTap: onCountryTap,
-                    child: SizedBox(
-                      height: 60,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 12),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              countryCode,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: foreground,
-                                    fontWeight:
-                                        CollectTypography.weightSemibold,
-                                    fontFeatures: const [
-                                      FontFeature.tabularFigures(),
-                                    ],
-                                  ),
-                            ),
-                            const SizedBox(width: 4),
-                            Icon(
-                              CollectIcons.chevronDown,
-                              color: foreground.withValues(alpha: 0.58),
-                              size: 16,
-                            ),
-                          ],
-                        ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceRaised,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: borderColor),
+        ),
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            children: [
+              Material(
+                color: CollectColors.transparentColor,
+                child: InkWell(
+                  key: const ValueKey('auth_country_code_picker'),
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(16),
+                  ),
+                  onTap: onCountryTap,
+                  child: SizedBox(
+                    height: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 12),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            countryCode,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: foreground,
+                                  fontWeight: CollectTypography.weightSemibold,
+                                  fontFeatures: const [
+                                    FontFeature.tabularFigures(),
+                                  ],
+                                ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            CollectIcons.chevronDown,
+                            color: foreground.withValues(alpha: 0.58),
+                            size: 16,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-                Container(width: 1, height: 28, color: borderColor),
-                Expanded(
-                  child: TextField(
+              ),
+              Container(width: 1, height: 28, color: borderColor),
+              Expanded(
+                child: CollectAccessibleTextField(
+                  controller: controller,
+                  label: 'WhatsApp phone number',
+                  onChanged: (_) => onChanged(),
+                  builder: (focusNode) => TextField(
                     key: const ValueKey('auth_whatsapp_phone_input'),
+                    focusNode: focusNode,
                     controller: controller,
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.done,
@@ -187,8 +188,8 @@ class AuthPhoneEntry extends StatelessWidget {
                     onChanged: (_) => onChanged(),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -50,8 +50,8 @@ class AdminFilterBar extends StatelessWidget {
             labelText: 'Search',
             prefixIcon: const Icon(Icons.search),
             filled: true,
-            fillColor: colors.surfaceMuted.withValues(alpha: 0.72),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+            fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
         ),
       ),
@@ -62,7 +62,7 @@ class AdminFilterBar extends StatelessWidget {
       hint: 'Limits results to the selected queue state.',
       child: SegmentedButton<String>(
         style: SegmentedButton.styleFrom(
-          backgroundColor: colors.surfaceMuted.withValues(alpha: 0.62),
+          backgroundColor: colors.surfaceRaised.withValues(alpha: 0.62),
           selectedBackgroundColor: colors.textPrimary,
           selectedForegroundColor: colors.surfaceReadable,
           foregroundColor: colors.textPrimary,
@@ -97,8 +97,8 @@ class AdminFilterBar extends StatelessWidget {
           labelText: 'Status',
           prefixIcon: const Icon(Icons.filter_alt_outlined),
           filled: true,
-          fillColor: colors.surfaceMuted.withValues(alpha: 0.72),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+          fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
         items: [
           for (final option in statusOptions)
@@ -126,8 +126,8 @@ class AdminFilterBar extends StatelessWidget {
           labelText: 'Sort',
           prefixIcon: const Icon(Icons.sort),
           filled: true,
-          fillColor: colors.surfaceMuted.withValues(alpha: 0.72),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+          fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
         items: [
           for (final option in sortOptions)
@@ -155,8 +155,8 @@ class AdminFilterBar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surfaceReadable.withValues(alpha: 0.92),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: colors.borderAccent),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colors.borderSoft),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
