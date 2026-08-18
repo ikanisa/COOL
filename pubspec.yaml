@@ -15,7 +15,7 @@ dependencies:
   go_router: ^16.3.0
   app_links: ^7.2.1
   crypto: ^3.0.7
-  intl: ^0.20.2
+  intl: ^0.20.3
   logger: ^2.6.2
   qr_flutter: ^4.1.0
   supabase_flutter: ^2.10.2
