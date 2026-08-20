@@ -42,5 +42,5 @@ export function redactSmsForParser(body: string): string {
       /(new balance|available balance)[^\n.]{0,80}/gi,
       "[balance redacted]",
     )
-    .slice(0, 1600);
+    .slice(0, 2000);
 }

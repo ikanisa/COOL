@@ -32,10 +32,11 @@ Apply after review:
 supabase db push
 ```
 
-Current required migration:
+The reviewed local migration ledger must be compared with production by dry-run.
+At the 2026-08-15 checkpoint it ends at:
 
 ```text
-supabase/migrations/202605270001_sms_first_group_payment_intents.sql
+supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql
 ```
 
 ## Edge Functions
@@ -44,9 +45,16 @@ Active functions:
 
 ```text
 auth-send-whatsapp-otp
+dispatch-notifications
 ingest-payment-sms
 parse-payment-sms
-allocate-payment
+provider-finality
+send-notification
+stripe-create-customer
+stripe-create-diaspora-contribution
+stripe-create-setup-intent
+stripe-webhook
+verify-play-integrity
 ```
 
 Validate:
@@ -55,7 +63,8 @@ Validate:
 ./scripts/collect_edge_auth_contract_uat.sh
 deno check supabase/functions/parse-payment-sms/index.ts \
   supabase/functions/ingest-payment-sms/index.ts \
-  supabase/functions/allocate-payment/index.ts
+  supabase/functions/provider-finality/index.ts
+deno test supabase/functions/_shared/provider_finality_*_test.ts
 ```
 
 Deploy active functions through:

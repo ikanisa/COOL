@@ -37,7 +37,7 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Sharing',
     body:
-        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or payment verification. We do not sell personal data.',
+        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or payment verification. Opted-in MoMo SMS content is sent from Collect servers to the OpenAI API for structured payment parsing. We do not sell personal data.',
   ),
   CollectPolicySection(
     title: 'Choices and retention',
@@ -563,6 +563,22 @@ class CollectProfile {
 
   String get safeAlias => 'Collect ID $publicId';
 
+  /// Returns the canonical payer phone only when the saved MoMo number is the
+  /// same Rwanda phone confirmed during authentication. A separately owned
+  /// payer number needs its own verification flow and must not be trusted from
+  /// an editable profile field.
+  String? get authenticatedMomoPayerPhone {
+    final savedMomoNumber = momoNumber?.trim();
+    if (savedMomoNumber == null || savedMomoNumber.isEmpty) return null;
+    try {
+      final authenticatedPhone = PhoneNormalizer.normalizeRwanda(whatsappPhone);
+      final payerPhone = PhoneNormalizer.normalizeRwanda(savedMomoNumber);
+      return payerPhone == authenticatedPhone ? authenticatedPhone : null;
+    } on FormatException {
+      return null;
+    }
+  }
+
   CollectProfile copyWith({
     Object? momoNumber = _unsetProfileField,
     Object? momoPayCode = _unsetProfileField,
@@ -597,13 +613,17 @@ class CollectCollection {
     this.imageUrl,
     this.accentColorHex,
     this.isPublic = false,
+    this.isCurrentUserMember = false,
+    this.isRecurring = true,
     this.recurringCadence = 'monthly',
+    String? visibilityStatus,
     this.suggestedAmountRwf,
     this.diasporaEnabled = false,
     this.diasporaRegions = const [],
     this.moderationStatus = 'not_requested',
     required this.createdAt,
-  });
+  }) : visibilityStatus =
+           visibilityStatus ?? (isPublic ? 'public_approved' : 'private');
 
   final String id;
   final String slug;
@@ -618,7 +638,10 @@ class CollectCollection {
   final String? imageUrl;
   final String? accentColorHex;
   final bool isPublic;
+  final bool isCurrentUserMember;
+  final bool isRecurring;
   final String recurringCadence;
+  final String visibilityStatus;
   final int? suggestedAmountRwf;
   final bool diasporaEnabled;
   final List<String> diasporaRegions;
@@ -663,11 +686,18 @@ class CollectCollection {
           (json['card_color_hex'] as String?) ??
           (json['color_hex'] as String?),
       isPublic: _collectionIsPublic(json),
+      isCurrentUserMember: (json['is_member'] as bool?) ?? false,
+      isRecurring: (json['is_recurring'] as bool?) ?? true,
       recurringCadence:
           (json['recurring_cadence'] as String?) ??
           (json['contribution_frequency'] as String?) ??
           (json['frequency'] as String?) ??
           'monthly',
+      visibilityStatus:
+          (json['visibility_status'] as String?) ??
+          ((json['is_public'] as bool?) == true
+              ? 'public_approved'
+              : 'private'),
       suggestedAmountRwf: (json['suggested_amount_rwf'] as num?)?.toInt(),
       diasporaEnabled: (json['diaspora_enabled'] as bool?) ?? false,
       diasporaRegions: _stringList(json['diaspora_regions']),
@@ -689,7 +719,10 @@ class CollectCollection {
     String? imageUrl,
     String? accentColorHex,
     bool? isPublic,
+    bool? isCurrentUserMember,
+    bool? isRecurring,
     String? recurringCadence,
+    String? visibilityStatus,
     int? suggestedAmountRwf,
     bool? diasporaEnabled,
     List<String>? diasporaRegions,
@@ -709,7 +742,10 @@ class CollectCollection {
       imageUrl: imageUrl ?? this.imageUrl,
       accentColorHex: accentColorHex ?? this.accentColorHex,
       isPublic: isPublic ?? this.isPublic,
+      isCurrentUserMember: isCurrentUserMember ?? this.isCurrentUserMember,
+      isRecurring: isRecurring ?? this.isRecurring,
       recurringCadence: recurringCadence ?? this.recurringCadence,
+      visibilityStatus: visibilityStatus ?? this.visibilityStatus,
       suggestedAmountRwf: suggestedAmountRwf ?? this.suggestedAmountRwf,
       diasporaEnabled: diasporaEnabled ?? this.diasporaEnabled,
       diasporaRegions: diasporaRegions ?? this.diasporaRegions,
@@ -759,6 +795,9 @@ class PaymentIntentModel {
   factory PaymentIntentModel.fromJson(Map<String, dynamic> json) {
     final receiverLabel =
         (json['receiver_label'] as String?) ?? 'Primary MoMo receiver';
+    final createdAt = _dateTime(json['created_at']);
+    final expiresAt = _dateTime(json['expires_at']);
+    final storedStatus = (json['status'] as String?) ?? 'pending';
     return PaymentIntentModel(
       id: json['id'] as String,
       collectionId: json['collection_id'] as String,
@@ -773,9 +812,13 @@ class PaymentIntentModel {
       receiverLabel: receiverLabel,
       network: (json['network'] as String?) ?? 'unknown',
       senderPhoneHash: json['sender_phone_hash'] as String?,
-      status: (json['status'] as String?) ?? 'pending',
-      createdAt: _dateTime(json['created_at']),
-      expiresAt: _dateTime(json['expires_at']),
+      status:
+          storedStatus == 'pending' &&
+              !expiresAt.isAfter(DateTime.now().toUtc())
+          ? 'expired'
+          : storedStatus,
+      createdAt: createdAt,
+      expiresAt: expiresAt,
     );
   }
 }
@@ -800,6 +843,7 @@ class Contribution {
     required this.supporterLabel,
     required this.createdAt,
     this.transactionId,
+    this.isCurrentUserContribution = false,
   });
 
   final String id;
@@ -808,6 +852,7 @@ class Contribution {
   final String supporterLabel;
   final DateTime createdAt;
   final String? transactionId;
+  final bool isCurrentUserContribution;
 
   factory Contribution.fromJson(Map<String, dynamic> json) {
     return Contribution(
@@ -821,6 +866,7 @@ class Contribution {
               : 'Collect ID ${json['contributor_public_id']}'),
       createdAt: _dateTime(json['posted_at'] ?? json['created_at']),
       transactionId: json['transaction_id'] as String?,
+      isCurrentUserContribution: json['is_current_user_contribution'] == true,
     );
   }
 }
@@ -866,10 +912,21 @@ class CollectionSummary {
   const CollectionSummary({
     required this.amountRaisedRwf,
     required this.supporterCount,
+    this.currentUserBalanceRwf = 0,
   });
 
   final int amountRaisedRwf;
   final int supporterCount;
+  final int currentUserBalanceRwf;
+
+  factory CollectionSummary.fromJson(Map<String, dynamic> json) {
+    return CollectionSummary(
+      amountRaisedRwf: (json['amount_raised_rwf'] as num?)?.toInt() ?? 0,
+      supporterCount: (json['supporter_count'] as num?)?.toInt() ?? 0,
+      currentUserBalanceRwf:
+          (json['current_user_balance_rwf'] as num?)?.toInt() ?? 0,
+    );
+  }
 }
 
 @immutable

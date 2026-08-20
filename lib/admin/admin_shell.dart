@@ -137,6 +137,12 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'payments.read',
   ),
   _AdminNavDestination(
+    'Transactions',
+    Icons.receipt_long_outlined,
+    '/admin/transactions',
+    'payments.read',
+  ),
+  _AdminNavDestination(
     'SMS parsing',
     Icons.receipt_long_outlined,
     '/admin/payment-events',
@@ -171,6 +177,12 @@ const _adminNavDestinations = <_AdminNavDestination>[
     Icons.sms_outlined,
     '/admin/sms',
     'sms.metadata.read',
+  ),
+  _AdminNavDestination(
+    'Notifications',
+    Icons.notifications_outlined,
+    '/admin/notifications',
+    'notifications.read',
   ),
   _AdminNavDestination(
     'Audit logs',
@@ -955,6 +967,7 @@ _AdminNavSection _sectionForPath(String path) {
     return _AdminNavSection.people;
   }
   if (path.startsWith('/admin/payment') ||
+      path.startsWith('/admin/transactions') ||
       path.startsWith('/admin/allocations') ||
       path.startsWith('/admin/exceptions') ||
       path.startsWith('/admin/ledger') ||
@@ -1026,6 +1039,7 @@ IconData _adminIconForKey(String iconKey) {
     'ledger' || 'account_balance' => Icons.account_balance_outlined,
     'receivers' || 'settings_phone' => Icons.settings_phone_outlined,
     'sms' => Icons.sms_outlined,
+    'notifications' => Icons.notifications_outlined,
     'audit' || 'policy' => Icons.policy_outlined,
     'settings' || 'tune' => Icons.tune_outlined,
     'feature_flags' || 'flag' => Icons.flag_outlined,

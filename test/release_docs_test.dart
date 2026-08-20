@@ -7,6 +7,75 @@ import 'package:flutter_test/flutter_test.dart';
 import 'helpers/process_runner.dart';
 
 void main() {
+  late Directory androidArtifactFixtureDir;
+  late File androidApkFixture;
+  late File androidAabFixture;
+
+  setUpAll(() {
+    // Release-gate unit tests bind approvals to artifact digests. They must not
+    // depend on or mutate canonical APK/AAB release output paths.
+    final cacheRoot = Directory('.cache')..createSync(recursive: true);
+    androidArtifactFixtureDir = cacheRoot.createTempSync(
+      'release_docs_android_artifacts_',
+    );
+    const fixtureBytes = <int>[
+      0x43,
+      0x4f,
+      0x4c,
+      0x4c,
+      0x45,
+      0x43,
+      0x54,
+      0x2d,
+      0x52,
+      0x45,
+      0x4c,
+      0x45,
+      0x41,
+      0x53,
+      0x45,
+      0x2d,
+      0x54,
+      0x45,
+      0x53,
+      0x54,
+    ];
+    androidApkFixture = File(
+      '${androidArtifactFixtureDir.path}/app-production-release.apk',
+    )..writeAsBytesSync(fixtureBytes, flush: true);
+    androidAabFixture = File(
+      '${androidArtifactFixtureDir.path}/app-production-release.aab',
+    )..writeAsBytesSync(fixtureBytes, flush: true);
+  });
+
+  tearDownAll(() {
+    if (androidArtifactFixtureDir.existsSync()) {
+      androidArtifactFixtureDir.deleteSync(recursive: true);
+    }
+  });
+
+  Map<String, String> releaseArtifactEnvironment([
+    Map<String, String> environment = const <String, String>{},
+  ]) {
+    return <String, String>{
+      'COLLECT_ANDROID_RELEASE_APK_PATH': androidApkFixture.path,
+      'COLLECT_ANDROID_RELEASE_AAB_PATH': androidAabFixture.path,
+      ...environment,
+    };
+  }
+
+  ProcessResult runReleaseGate(
+    String executable,
+    List<String> arguments, {
+    Map<String, String> environment = const <String, String>{},
+  }) {
+    return runProcessSync(
+      executable,
+      arguments,
+      environment: releaseArtifactEnvironment(environment),
+    );
+  }
+
   Map<String, dynamic> approvedReleaseManifest() {
     final manifest =
         jsonDecode(
@@ -63,20 +132,8 @@ void main() {
           record['key'] == 'release_owner_signoff') {
         record['artifact_version'] = '1.2.2+14';
         record['android_artifact_sha256'] = <String, String>{
-          'apk': sha256
-              .convert(
-                File(
-                  'build/app/outputs/flutter-apk/app-production-release.apk',
-                ).readAsBytesSync(),
-              )
-              .toString(),
-          'aab': sha256
-              .convert(
-                File(
-                  'build/app/outputs/bundle/productionRelease/app-production-release.aab',
-                ).readAsBytesSync(),
-              )
-              .toString(),
+          'apk': sha256.convert(androidApkFixture.readAsBytesSync()).toString(),
+          'aab': sha256.convert(androidAabFixture.readAsBytesSync()).toString(),
         };
       }
     }
@@ -215,12 +272,7 @@ void main() {
   }
 
   Map<File, File> hideAndroidReleaseArtifactsForTest() {
-    final artifacts = <File>[
-      File('build/app/outputs/flutter-apk/app-production-release.apk'),
-      File(
-        'build/app/outputs/bundle/productionRelease/app-production-release.aab',
-      ),
-    ];
+    final artifacts = <File>[androidApkFixture, androidAabFixture];
     final hiddenArtifacts = <File, File>{};
     final backupDir = Directory('.cache/release_docs_hidden_artifacts')
       ..createSync(recursive: true);
@@ -404,7 +456,7 @@ Date/time: 2026-06-01T12:30:00Z
       isNot(contains('https://cool-admin-212.pages.dev')),
     );
     expect(docs['checklist'], contains('release_owner_signoff'));
-    expect(docs['qa'], contains('101'));
+    expect(docs['qa'], contains('509 tests'));
     expect(docs['packet'], contains('Required Final Commands'));
     expect(docs['approval'], contains('RELEASE_APPROVAL_PACKET'));
     expect(docs['approval'], contains('product_signoff'));
@@ -442,13 +494,18 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, isNot(contains('20260602T210133Z')));
     expect(uatManifest, isNot(contains('20260602T050529Z')));
     expect(uatManifest, isNot(contains('20260601T204710Z')));
-    expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
-    expect(docs['qa'], contains('20260602T210133Z'));
-    expect(docs['qa'], contains('collect_product_boundary_scan.sh'));
-    expect(docs['qa'], contains('zero forbidden'));
+    expect(docs['qa'], contains('Full `flutter test -r compact`'));
+    expect(docs['qa'], contains('Supabase contract suite'));
+    expect(docs['qa'], contains('78 migrations'));
+    expect(docs['qa'], contains('Current evidence is synthetic, local'));
+    expect(docs['qa'], contains('standalone group-contribution system'));
+    expect(docs['qa'], contains('no ledger before'));
+    expect(docs['qa'], contains('provider-finality'));
     expect(docs['checklist'], contains('Collect product-boundary scan'));
-    expect(docs['qa'], contains('Re-run on final tree'));
-    expect(docs['qa'], contains('exact final release branch'));
+    expect(docs['qa'], contains('staged `inProgress` rollout'));
+    expect(docs['qa'], contains('version `1.2.2+20`'));
+    expect(docs['qa'], isNot(contains('release-ready and deployed')));
+    expect(docs['qa'], isNot(contains('100% rollout target')));
     expect(docs['checklist'], contains('Re-run on final tree'));
     expect(docs['audit'], contains('Re-run on final tree'));
     expect(docs['packet'], contains('release_owner_signoff'));
@@ -813,7 +870,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   );
 
   test('release status reports current blocker keys', () {
-    final result = runProcessSync(
+    final result = runReleaseGate(
       './scripts/release_status.sh',
       ['--json'],
       environment: {'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev'},
@@ -837,10 +894,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         ]),
       ),
     );
-    expect(
-      decoded['blocker_keys'],
-      isNot(contains('android_release_signing_review')),
-    );
+    expect(decoded['blocker_keys'], contains('android_release_signing_review'));
     expect(decoded['blocker_keys'], contains('release_owner_signoff'));
     expect(decoded['blocker_keys'], isNot(contains('ios_release_scope')));
     final linkedSmsFirstUat =
@@ -863,7 +917,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   });
 
   test('release status can read tracked Admin PWA deployment metadata', () {
-    final result = runProcessSync(
+    final result = runReleaseGate(
       './scripts/release_status.sh',
       ['--json'],
       environment: {'COLLECT_LINKED_SMS_FIRST_UAT_PASSED': '1'},
@@ -876,7 +930,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
   });
 
   test('release status ignores direct approval environment overrides', () {
-    final result = runProcessSync(
+    final result = runReleaseGate(
       './scripts/release_status.sh',
       ['--json'],
       environment: {
@@ -916,7 +970,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_status.sh',
         ['--json'],
         environment: {
@@ -960,7 +1014,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
 
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/flutter_mobile_release_gate.sh',
         ['--json'],
         environment: {
@@ -1004,7 +1058,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['checks']['android_release_signing_review']['current_artifact_version'],
-        '1.2.2+14',
+        '1.2.2+20',
       );
       expect(
         decoded['checks']['android_release_signing_review']['approved_artifact_version'],
@@ -1050,7 +1104,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -1067,7 +1121,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['approvals']['release_owner_signoff']['current_artifact_version'],
-        '1.2.2+14',
+        '1.2.2+20',
       );
       expect(
         decoded['approvals']['release_owner_signoff']['approved_artifact_version'],
@@ -1093,7 +1147,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -1132,7 +1186,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
 
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = runProcessSync(
+        final result = runReleaseGate(
           './scripts/release_approval_evidence_gate.sh',
           ['--json'],
           environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -1309,6 +1363,133 @@ Current decision: **NO-GO - Codex responsibility incomplete**
         repoWideQa,
         contains('build apk --release --flavor production --no-pub'),
       );
+    },
+  );
+
+  test(
+    'Android Play build wrapper is private, reproducible, and single-writer',
+    () {
+      final script = File(
+        'scripts/android_play_store_build.sh',
+      ).readAsStringSync();
+
+      expect(
+        script,
+        contains(
+          r'FLUTTER_BIN="${FLUTTER_BIN:-$(command -v flutter || true)}"',
+        ),
+      );
+      expect(script, contains('FLUTTER_BIN must point to an executable'));
+      expect(script, contains('mktemp -d'));
+      expect(script, contains('umask 077'));
+      expect(script, contains('--dart-define-from-file'));
+      expect(script, contains('verify_public_runtime_config'));
+      expect(script, contains('COLLECT_ANDROID_BUILD_ROOT'));
+      expect(
+        script,
+        contains('Generated output path is unexpectedly non-empty'),
+      );
+      expect(script, contains('COLLECT_ANDROID_BUILD_LOCK_DIR'));
+      expect(script, contains(r'mkdir "$BUILD_LOCK_DIR"'));
+      expect(script, contains('Another Android production build owns'));
+      expect(script, contains(r'rm -f "$BUILD_LOCK_DIR/pid"'));
+
+      final temporary = Directory.systemTemp.createTempSync(
+        'collect-android-build-lock-test.',
+      );
+      addTearDown(() => temporary.deleteSync(recursive: true));
+      final lock = Directory('${temporary.path}/build.lock')..createSync();
+      File('${lock.path}/pid').writeAsStringSync('4242\n');
+
+      final result = runProcessSync(
+        './scripts/android_play_store_build.sh',
+        const <String>[],
+        environment: {
+          'FLUTTER_BIN': '/usr/bin/true',
+          'SUPABASE_PRODUCTION_URL': 'https://lhbowpbcpwoiparwnwgt.supabase.co',
+          'SUPABASE_PRODUCTION_ANON_KEY': 'local-test-placeholder',
+          'COLLECT_ANDROID_BUILD_LOCK_DIR': lock.path,
+        },
+      );
+
+      expect(result.exitCode, 3);
+      expect(result.stderr, contains('Another Android production build owns'));
+      expect(result.stderr, contains('(pid 4242)'));
+    },
+  );
+
+  test('Admin PWA browser evidence requires the complete governed matrix', () {
+    final browserQa = File(
+      'scripts/admin_pwa_browser_qa.mjs',
+    ).readAsStringSync();
+    final wrapper = File(
+      'scripts/admin_pwa_authenticated_render_smoke.sh',
+    ).readAsStringSync();
+
+    expect(browserQa, contains('Admin evidence browser QA must target'));
+    expect(browserQa, contains("'pass_partial'"));
+    expect(browserQa, contains('releaseAdmissible'));
+    expect(browserQa, contains('evidenceModeMarkerVerified'));
+    expect(browserQa, contains('fullSizeVerifiedAfterScroll'));
+    expect(browserQa, contains('afterScrollVerification'));
+    expect(browserQa, contains('target.fullSizeVerifiedAfterScroll !== true'));
+    expect(browserQa, isNot(contains('minimumKeyboardStops: 1')));
+    expect(
+      wrapper,
+      contains(
+        'env -u ADMIN_PWA_BROWSER_QA_ROUTE -u ADMIN_PWA_BROWSER_QA_VIEWPORT',
+      ),
+    );
+    expect(wrapper, contains('browser_report.fetch("routeCount") == 28'));
+    expect(wrapper, contains('browser_report.fetch("viewportCount") == 3'));
+    expect(wrapper, contains('browser_report.fetch("screenshotCount") == 84'));
+    expect(
+      wrapper,
+      contains('browser_report.fetch("evidenceModeMarkerVerified") == true'),
+    );
+  });
+
+  test(
+    'public group-link browser QA fails closed across responsive states',
+    () {
+      final builder = File(
+        'scripts/public_static_site_build.rb',
+      ).readAsStringSync();
+      final qualityGate = File(
+        'scripts/public_website_quality_gate.sh',
+      ).readAsStringSync();
+      final renderedQa = File(
+        'scripts/public_website_route_rendered_qa.js',
+      ).readAsStringSync();
+      final wrapper = File(
+        'scripts/public_website_rendered_route_qa.sh',
+      ).readAsStringSync();
+
+      expect(
+        builder,
+        contains('Expired, revoked or invalid links cannot join a group.'),
+      );
+      expect(
+        builder,
+        contains('the backend confirms that the invitation is current'),
+      );
+      expect(qualityGate, contains('Expired, revoked or invalid links'));
+      for (final scenario in <String>[
+        'valid_syntax',
+        'expired_or_revoked_safe',
+        'invalid_syntax',
+        'oversized_code',
+      ]) {
+        expect(renderedQa, contains(scenario));
+      }
+      expect(renderedQa, contains('collect://group/production-link-audit'));
+      expect(renderedQa, contains('Ask the group member to share a new link.'));
+      expect(renderedQa, contains('failClosedValidityCopy'));
+      expect(renderedQa, contains('noAppFallback'));
+      expect(renderedQa, contains('visibleKeyboardFocus'));
+      expect(renderedQa, contains('shareResults'));
+      expect(wrapper, contains('PUBLIC_WEBSITE_NODE_BIN'));
+      expect(wrapper, contains('A Node.js executable is required'));
     },
   );
 
@@ -1699,14 +1880,22 @@ Current decision: **NO-GO - Codex responsibility incomplete**
     for (final script in [reporting, upload]) {
       expect(script, contains('rescue Errno::ENOENT'));
       expect(script, contains('"#{cmd.first} unavailable"'));
+      expect(script, contains('umask 077'));
+      expect(script, isNot(contains('stderr.lines.first')));
     }
     expect(reporting, contains('play_developer_reporting_auth_unavailable'));
     expect(
       reporting,
       contains('File.write(output_path, JSON.pretty_generate(result)'),
     );
-    expect(upload, contains('Collect 1.2.2 (14)'));
-    expect(upload, contains('android_publisher_upload_v14.json'));
+    expect(upload, contains('Collect 1.2.2 (20)'));
+    expect(upload, contains('android_publisher_upload_v20.json'));
+    expect(upload, contains('umask 077'));
+    expect(upload, contains('--submit is pinned to app.cool.mobile'));
+    expect(upload, contains('--submit requires a staged production rollout'));
+    expect(upload, contains('custom_command_failed'));
+    expect(upload, isNot(contains('stderr.lines.first')));
+    expect(upload, contains('prior_releases + [release]'));
     const mandatoryGate =
         r'"$ROOT_DIR/scripts/google_play_optimization_gate.sh" --json >/dev/null';
     expect(upload, contains(mandatoryGate));
@@ -2624,7 +2813,7 @@ checking Edge Function secret names
     );
     expect(
       androidSigning['record_command'],
-      contains('--artifact-version 1.2.2+14'),
+      contains('--artifact-version 1.2.2+20'),
     );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
@@ -2643,7 +2832,7 @@ checking Edge Function secret names
     );
     expect(
       releaseOwner['record_command'],
-      contains('--artifact-version 1.2.2+14'),
+      contains('--artifact-version 1.2.2+20'),
     );
     expect(
       releaseOwner['evidence_to_review'],
@@ -2788,7 +2977,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2855,7 +3044,7 @@ checking Edge Function secret names
 
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = runProcessSync(
+        final result = runReleaseGate(
           './scripts/release_approval_evidence_gate.sh',
           ['--json'],
           environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2894,7 +3083,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2935,7 +3124,7 @@ checking Edge Function secret names
 
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = runProcessSync(
+        final result = runReleaseGate(
           './scripts/release_approval_evidence_gate.sh',
           ['--json'],
           environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -2968,7 +3157,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -3011,7 +3200,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/flutter_mobile_release_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -3049,7 +3238,7 @@ checking Edge Function secret names
 
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(manifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/flutter_mobile_release_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -3102,7 +3291,7 @@ checking Edge Function secret names
       expect(recorder['status'], 'pass');
       expect(recorder['updated_key'], 'product_signoff');
 
-      final gate = runProcessSync(
+      final gate = runReleaseGate(
         './scripts/release_approval_evidence_gate.sh',
         ['--json'],
         environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
@@ -3237,7 +3426,7 @@ checking Edge Function secret names
   );
 
   test('release approval example manifest cannot approve production GO', () {
-    final result = runProcessSync(
+    final result = runReleaseGate(
       './scripts/release_status.sh',
       ['--json'],
       environment: {
@@ -3279,7 +3468,7 @@ checking Edge Function secret names
             'Signed approval evidence metadata only; no secrets or production customer data.';
         final manifestFile = File('${tempDir.path}/approvals.json')
           ..writeAsStringSync(jsonEncode(manifest));
-        final result = runProcessSync(
+        final result = runReleaseGate(
           './scripts/release_status.sh',
           ['--json'],
           environment: {
@@ -4156,7 +4345,7 @@ checking Edge Function secret names
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(approvedManifest));
-      final result = runProcessSync(
+      final result = runReleaseGate(
         './scripts/release_status.sh',
         ['--json'],
         environment: {

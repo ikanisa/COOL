@@ -12,7 +12,11 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri -r open3 -r digest <<'RUBY'
+OUTPUT_FORMAT="$output_format" \
+ROOT_DIR="$ROOT_DIR" \
+COLLECT_ANDROID_RELEASE_APK_PATH="${COLLECT_ANDROID_RELEASE_APK_PATH:-build/app/outputs/flutter-apk/app-production-release.apk}" \
+COLLECT_ANDROID_RELEASE_AAB_PATH="${COLLECT_ANDROID_RELEASE_AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}" \
+ruby -r json -r time -r uri -r open3 -r digest <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
@@ -366,10 +370,10 @@ checks["android_sms_runtime_permission_request"] =
   end
 
 artifact_paths = {
-  "android_release_apk" => "build/app/outputs/flutter-apk/app-production-release.apk",
-  "android_release_aab" => "build/app/outputs/bundle/productionRelease/app-production-release.aab"
+  "android_release_apk" => ENV.fetch("COLLECT_ANDROID_RELEASE_APK_PATH"),
+  "android_release_aab" => ENV.fetch("COLLECT_ANDROID_RELEASE_AAB_PATH")
 }
-artifacts = artifact_paths.transform_values { |relative_path| artifact(File.join(root_dir, relative_path)) }
+artifacts = artifact_paths.transform_values { |relative_path| artifact(File.expand_path(relative_path, root_dir)) }
 
 missing_artifacts = artifacts.select { |_name, item| !item.fetch("exists") }.keys
 android_source_latest_mtime = latest_source_mtime(

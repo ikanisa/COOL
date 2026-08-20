@@ -7,9 +7,9 @@ cd "$ROOT_DIR"
 ruby <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
-  "allocate-payment" => :internal,
   "dispatch-notifications" => :internal,
   "parse-payment-sms" => :internal,
+  "provider-finality" => :provider_finality,
   "ingest-payment-sms" => :user,
   "send-notification" => :internal,
   "stripe-create-customer" => :user,
@@ -22,10 +22,21 @@ expected = {
 issues = []
 config = File.read("supabase/config.toml")
 disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*=\s*false/m).flatten.sort
-no_verify_functions = ["auth-send-whatsapp-otp", "stripe-webhook"]
+no_verify_functions = [
+  "auth-send-whatsapp-otp",
+  "dispatch-notifications",
+  "parse-payment-sms",
+  "provider-finality",
+  "send-notification",
+  "stripe-webhook",
+]
 unexpected_disabled = disabled - no_verify_functions
 issues << "JWT verification disabled for unexpected functions: #{unexpected_disabled.join(", ")}" unless unexpected_disabled.empty?
 issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
+issues << "provider-finality must have verify_jwt=false because its HMAC contract is authoritative" unless disabled.include?("provider-finality")
+%w[dispatch-notifications parse-payment-sms send-notification].each do |name|
+  issues << "#{name} must have verify_jwt=false because custom internal authorization is authoritative" unless disabled.include?(name)
+end
 
 shared_cors = File.read("supabase/functions/_shared/cors.ts")
 issues << "shared CORS helper must expose authErrorStatus" unless shared_cors.include?("authErrorStatus")
@@ -43,6 +54,11 @@ expected.each do |name, mode|
   next issues << "#{name} source file is missing" unless File.exist?(path)
 
   source = File.read(path)
+  if mode == :provider_finality
+    source += File.read("supabase/functions/_shared/provider_finality_handler.ts")
+    source += File.read("supabase/functions/_shared/provider_finality_signature.ts")
+    source += File.read("supabase/functions/_shared/provider_finality_payload.ts")
+  end
   case mode
   when :webhook
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
@@ -52,6 +68,12 @@ expected.each do |name, mode|
     issues << "#{name} must verify STRIPE_WEBHOOK_SECRET" unless source.include?("STRIPE_WEBHOOK_SECRET")
     issues << "#{name} must verify the stripe-signature header" unless source.include?("stripe-signature")
     issues << "#{name} must write webhook events through the service client" unless source.include?("stripe_webhook_events") && source.include?("serviceClient()")
+    issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
+  when :provider_finality
+    issues << "#{name} must require its dedicated current HMAC secret" unless source.include?("PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT")
+    issues << "#{name} must support an optional previous rotation key" unless source.include?("PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS")
+    issues << "#{name} must verify signed timestamp/request-id/body bytes" unless source.include?("verifyProviderFinalitySignature(")
+    issues << "#{name} must use the atomic replay-safe database RPC" unless source.include?("process_provider_finality_event")
     issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
   when :internal
     issues << "#{name} must call requireInternalRequest(req)" unless source.include?("requireInternalRequest(req)")
@@ -67,8 +89,8 @@ expected.each do |name, mode|
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
-  issues << "deploy script must deploy auth-send-whatsapp-otp and stripe-webhook with --no-verify-jwt"
+unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("provider-finality") && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
+  issues << "deploy script must deploy webhook/provider endpoints with --no-verify-jwt"
 end
 
 if issues.any?

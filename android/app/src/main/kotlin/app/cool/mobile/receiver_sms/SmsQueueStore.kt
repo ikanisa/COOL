@@ -5,6 +5,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import org.json.JSONArray
+import org.json.JSONObject
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -20,10 +21,127 @@ import javax.crypto.spec.GCMParameterSpec
  * message data.
  */
 class SmsQueueStore(private val context: Context) {
+    enum class AppendResult {
+        STORED,
+        DUPLICATE,
+        FULL,
+        DISABLED,
+        FAILED,
+    }
+
     fun read(): JSONArray = synchronized(lock) {
+        readLocked()
+    }
+
+    fun write(queue: JSONArray): Boolean = synchronized(lock) {
+        writeLocked(queue)
+    }
+
+    fun appendIfCapacity(envelope: JSONObject, maxItems: Int): AppendResult =
+        synchronized(lock) {
+            val prefs = preferences()
+            val envelopeOwner = envelope.optString("owner_user_id", "").trim()
+            val activeOwner = prefs.getString(SMS_ACCESS_OWNER_USER_ID_KEY, null)
+                .orEmpty()
+                .trim()
+            if (!prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) ||
+                envelopeOwner.isEmpty() ||
+                envelopeOwner != activeOwner
+            ) {
+                return@synchronized AppendResult.DISABLED
+            }
+
+            val queue = readLocked()
+            val envelopeId = envelope.optString("id", "")
+            for (index in 0 until queue.length()) {
+                val item = queue.optJSONObject(index) ?: continue
+                if (item.optString("id", "") == envelopeId) {
+                    return@synchronized AppendResult.DUPLICATE
+                }
+            }
+            if (queue.length() >= maxItems) {
+                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()
+                return@synchronized AppendResult.FULL
+            }
+            queue.put(envelope)
+            if (writeLocked(queue)) AppendResult.STORED else AppendResult.FAILED
+        }
+
+    /** Atomically acknowledges IDs without overwriting an SMS appended mid-drain. */
+    fun acknowledge(ids: Set<String>): Boolean = synchronized(lock) {
+        if (ids.isEmpty()) return@synchronized true
+        val pending = readLocked()
+        val retained = JSONArray()
+        for (index in 0 until pending.length()) {
+            val item = pending.optJSONObject(index) ?: continue
+            if (!ids.contains(item.optString("id", ""))) retained.put(item)
+        }
+        writeLocked(retained)
+    }
+
+    fun clear(): Boolean = synchronized(lock) {
+        preferences().edit()
+            .remove(ENCRYPTED_QUEUE_KEY)
+            .remove(LEGACY_QUEUE_KEY)
+            .remove(SMS_QUEUE_OVERFLOW_KEY)
+            .commit()
+    }
+
+    /** Atomically binds consent to one account and clears stale-owner data. */
+    fun enableForOwner(ownerUserId: String): Boolean = synchronized(lock) {
+        val cleanOwner = ownerUserId.trim()
+        if (cleanOwner.isEmpty()) return@synchronized false
+        val prefs = preferences()
+        val previousOwner = prefs.getString(SMS_ACCESS_OWNER_USER_ID_KEY, null)
+            .orEmpty()
+            .trim()
+        val editor = prefs.edit()
+            .putBoolean(SMS_ACCESS_ENABLED_KEY, true)
+            .putString(SMS_ACCESS_OWNER_USER_ID_KEY, cleanOwner)
+        if (previousOwner.isNotEmpty() && previousOwner != cleanOwner) {
+            editor
+                .remove(ENCRYPTED_QUEUE_KEY)
+                .remove(LEGACY_QUEUE_KEY)
+                .remove(SMS_QUEUE_OVERFLOW_KEY)
+        }
+        editor.commit()
+    }
+
+    /** Disables capture and destroys queued message content in one commit. */
+    fun disableAndClear(): Boolean = synchronized(lock) {
+        preferences().edit()
+            .putBoolean(SMS_ACCESS_ENABLED_KEY, false)
+            .remove(SMS_ACCESS_OWNER_USER_ID_KEY)
+            .remove(ENCRYPTED_QUEUE_KEY)
+            .remove(LEGACY_QUEUE_KEY)
+            .remove(SMS_QUEUE_OVERFLOW_KEY)
+            .commit()
+    }
+
+    /** Persists the Android permission decision and owner binding atomically. */
+    fun completePermissionRequest(granted: Boolean, ownerUserId: String?): Boolean =
+        synchronized(lock) {
+            val cleanOwner = ownerUserId.orEmpty().trim()
+            val enable = granted && cleanOwner.isNotEmpty()
+            val editor = preferences().edit()
+                .putBoolean(SMS_PERMISSION_REQUESTED_KEY, true)
+                .putBoolean(SMS_ACCESS_ENABLED_KEY, enable)
+            if (enable) {
+                editor.putString(SMS_ACCESS_OWNER_USER_ID_KEY, cleanOwner)
+            } else {
+                editor
+                    .remove(SMS_ACCESS_OWNER_USER_ID_KEY)
+                    .remove(ENCRYPTED_QUEUE_KEY)
+                    .remove(LEGACY_QUEUE_KEY)
+                    .remove(SMS_QUEUE_OVERFLOW_KEY)
+            }
+            editor.commit()
+        }
+
+    private fun readLocked(): JSONArray {
         val encrypted = preferences().getString(ENCRYPTED_QUEUE_KEY, null)
-            ?: return@synchronized migrateLegacyQueue()
-        try {
+            ?: return migrateLegacyQueueLocked()
+        return try {
             JSONArray(decrypt(encrypted))
         } catch (_: Exception) {
             preferences().edit()
@@ -34,22 +152,15 @@ class SmsQueueStore(private val context: Context) {
         }
     }
 
-    fun write(queue: JSONArray): Boolean = synchronized(lock) {
+    private fun writeLocked(queue: JSONArray): Boolean {
         val encrypted = encrypt(queue.toString())
-        preferences().edit()
+        return preferences().edit()
             .putString(ENCRYPTED_QUEUE_KEY, encrypted)
             .remove(LEGACY_QUEUE_KEY)
             .commit()
     }
 
-    fun clear(): Boolean = synchronized(lock) {
-        preferences().edit()
-            .remove(ENCRYPTED_QUEUE_KEY)
-            .remove(LEGACY_QUEUE_KEY)
-            .commit()
-    }
-
-    private fun migrateLegacyQueue(): JSONArray {
+    private fun migrateLegacyQueueLocked(): JSONArray {
         val legacy = preferences().getString(LEGACY_QUEUE_KEY, null)
             ?: return JSONArray()
         val queue = try {
@@ -57,7 +168,7 @@ class SmsQueueStore(private val context: Context) {
         } catch (_: Exception) {
             JSONArray()
         }
-        write(queue)
+        writeLocked(queue)
         return queue
     }
 
@@ -108,6 +219,8 @@ class SmsQueueStore(private val context: Context) {
         const val SMS_ACCESS_PREFS = "collect_sms_access"
         const val SMS_ACCESS_ENABLED_KEY = "enabled"
         const val SMS_PERMISSION_REQUESTED_KEY = "permission_requested"
+        const val SMS_ACCESS_OWNER_USER_ID_KEY = "owner_user_id"
+        const val SMS_QUEUE_OVERFLOW_KEY = "queue_overflowed"
         private const val ENCRYPTED_QUEUE_KEY = "pending_sms_encrypted_v1"
         private const val LEGACY_QUEUE_KEY = "pending_sms"
         private const val ANDROID_KEY_STORE = "AndroidKeyStore"

@@ -12,8 +12,24 @@ String groupDeepLinkFor(AppEnv env, CollectCollection collection) {
   return collectPublicLink(env, ['c', collection.slug.trim()]);
 }
 
-String groupShareMessageFor(AppEnv env, CollectCollection collection) {
-  final link = groupDeepLinkFor(env, collection);
+String groupDeepLinkForCode(
+  AppEnv env,
+  CollectCollection collection,
+  String? shareCode,
+) {
+  final code = shareCode?.trim();
+  return collectPublicLink(env, [
+    'c',
+    code == null || code.isEmpty ? collection.slug.trim() : code,
+  ]);
+}
+
+String groupShareMessageFor(
+  AppEnv env,
+  CollectCollection collection, {
+  String? shareCode,
+}) {
+  final link = groupDeepLinkForCode(env, collection, shareCode);
   return 'Join ${collection.title} for ${collection.collectionType.shortPurpose.toLowerCase()} on Collect: $link';
 }
 
@@ -21,9 +37,10 @@ Future<void> shareGroupDeepLink({
   required BuildContext context,
   required WidgetRef ref,
   required CollectCollection collection,
+  String? shareCode,
 }) async {
   final env = ref.read(appEnvProvider);
-  final message = groupShareMessageFor(env, collection);
+  final message = groupShareMessageFor(env, collection, shareCode: shareCode);
   try {
     await SharePlus.instance.share(
       ShareParams(
@@ -35,7 +52,7 @@ Future<void> shareGroupDeepLink({
     );
   } catch (_) {
     await Clipboard.setData(
-      ClipboardData(text: groupDeepLinkFor(env, collection)),
+      ClipboardData(text: groupDeepLinkForCode(env, collection, shareCode)),
     );
     if (!context.mounted) return;
     ScaffoldMessenger.of(

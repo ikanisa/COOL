@@ -9,7 +9,6 @@ import 'app/router.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
 import 'core/notifications/collect_notification_service.dart';
-import 'shared/repositories/collect_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,10 +44,6 @@ Future<void> main() async {
         if (mobileEvidenceMode)
           appRouterProvider.overrideWithValue(
             createAppRouter(initialLocation: '/home'),
-          ),
-        if (mobileEvidenceMode)
-          collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
           ),
       ],
       child: const CollectApp(),

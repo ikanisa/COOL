@@ -89,9 +89,6 @@ sitemap = read(sitemap_path)
 manifest_path = File.join(build_dir, "manifest.json")
 manifest_text = read(manifest_path)
 collect_icon_path = File.join(build_dir, "icons", "collect.png")
-group_momentum_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "group-momentum.png")
-mobile_money_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "mobile-money-ussd-signal.png")
-qr_share_path = File.join(build_dir, "assets", "brand", "collect_runtime", "media", "qr-share.png")
 stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
 design_contract_path = File.join(Dir.pwd, "DESIGN.md")
 
@@ -145,6 +142,7 @@ share_routes_ok =
   group_share_html.include?("Open this Collect group") &&
   group_share_html.include?('data-share-landing="group"') &&
   group_share_html.include?("collect://group/shared-group") &&
+  group_share_html.include?("Expired, revoked or invalid links cannot join a group.") &&
   group_share_html.include?('name="robots" content="noindex, nofollow"') &&
   app_share_html.include?("Open Collect") &&
   app_share_html.include?('data-share-landing="app"') &&
@@ -275,9 +273,6 @@ check(
 
 official_asset_hashes = {
   collect_icon_path => "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
-  group_momentum_path => "9b6278d46d68ce2c61fabef8c634ac00b8cf299008cc54ccc74bd34d480068b2",
-  mobile_money_path => "eaa9fc831baaf3b050d6acdf3de95024098361d6cd9043543ffe159b6c1e8f66",
-  qr_share_path => "9f67af8c93f035738bfb60f3e6964fe69c6908f5e40ae0003bbf1d609c8eafd4",
 }
 official_asset_hash_failures = official_asset_hashes.reject do |path, expected_hash|
   File.file?(path) && Digest::SHA256.file(path).hexdigest == expected_hash
@@ -285,7 +280,7 @@ end
 brand_assets_match_baseline = official_asset_hash_failures.empty? &&
   root_html.include?('<link rel="icon" href="/icons/collect.png" type="image/png">') &&
   root_html.include?('<img src="/icons/collect.png" alt="" width="42" height="42">') &&
-  root_html.include?('<meta property="og:image" content="https://collect.ikanisa.com/assets/brand/collect_runtime/media/group-momentum.png">') &&
+  root_html.include?('<meta property="og:image" content="https://collect.ikanisa.com/icons/collect.png">') &&
   !root_html.include?('class="brand-mark"') &&
   manifest_text.include?('"src": "/icons/collect.png"') &&
   manifest_text.include?('"sizes": "512x512"') &&
@@ -294,7 +289,7 @@ check(
   checks,
   "pre_audit_brand_assets",
   pass_if(brand_assets_match_baseline),
-  brand_assets_match_baseline ? "Official header logo, PNG favicon, manifest icon, and related media match the immutable pre-audit deployment hashes." : "A website brand asset differs from the immutable pre-audit deployment.",
+  brand_assets_match_baseline ? "Official header logo, PNG favicon, social image, and manifest icon match the governed immutable asset hash." : "A governed website brand asset differs from its immutable hash.",
   "path" => collect_icon_path,
   "bytes" => file_size(collect_icon_path),
   "hash_failures" => official_asset_hash_failures

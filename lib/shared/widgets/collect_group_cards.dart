@@ -166,7 +166,7 @@ class _GroupListRow extends StatelessWidget {
                 CollectSpacing.gap4,
                 Text(
                   '${collection.collectionType.label} · '
-                  '${summary.supporterCount} members',
+                  '${summary.supporterCount} supporters',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: colors.textSecondary,
                     fontWeight: CollectTypography.weightRegular,
@@ -208,7 +208,7 @@ class _GroupListRow extends StatelessWidget {
       button: onTap != null,
       label:
           '${collection.title}, $formattedAmount, '
-          '${summary.supporterCount} members',
+          '${summary.supporterCount} supporters',
       child: ExcludeSemantics(
         child: onTap == null
             ? row
@@ -292,7 +292,7 @@ class _OwnedGroupCard extends StatelessWidget {
                 child: _GroupIconMetric(
                   icon: CollectIcons.people,
                   value: '${summary.supporterCount}',
-                  semanticLabel: '${summary.supporterCount} group members',
+                  semanticLabel: '${summary.supporterCount} group supporters',
                   accent: colors.success,
                 ),
               ),
@@ -385,7 +385,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                               icon: CollectIcons.people,
                               value: '${summary.supporterCount}',
                               semanticLabel:
-                                  '${summary.supporterCount} group members',
+                                  '${summary.supporterCount} group supporters',
                               accent: colors.success,
                             ),
                           ),
@@ -582,7 +582,7 @@ class _VisualGroupCard extends StatelessWidget {
                             icon: CollectIcons.people,
                             value: '${summary.supporterCount}',
                             semanticLabel:
-                                '${summary.supporterCount} group members',
+                                '${summary.supporterCount} group supporters',
                             accent: colors.success,
                           ),
                         ),

@@ -18,9 +18,6 @@ USSD_CODE = "*182**8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
-BRAND_ASSET = "assets/brand/collect_runtime/media/group-momentum.png"
-MOMO_ASSET = "assets/brand/collect_runtime/media/mobile-money-ussd-signal.png"
-QR_ASSET = "assets/brand/collect_runtime/media/qr-share.png"
 ICON_ASSET = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
 TYPEFACE_ASSET = "assets/typefaces/Inter-Variable.ttf"
 TYPEFACE_LICENSE = "assets/typefaces/OFL-Inter.txt"
@@ -1821,7 +1818,7 @@ def page_html(page, current_path: page[:path])
       <meta property="og:url" content="#{page_url(current_path)}">
       <meta property="og:title" content="#{esc(page[:title])}">
       <meta property="og:description" content="#{esc(page[:description])}">
-      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/collect_runtime/media/group-momentum.png">
+      <meta property="og:image" content="#{PUBLIC_URL}/icons/collect.png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">
@@ -1954,7 +1951,7 @@ def share_landing_page_html(kind:)
       <meta property="og:url" content="#{PUBLIC_URL}#{canonical_path}" data-share-og-url>
       <meta property="og:title" content="#{esc(title)}">
       <meta property="og:description" content="#{esc(description)}">
-      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/collect_runtime/media/qr-share.png">
+      <meta property="og:image" content="#{PUBLIC_URL}/icons/collect.png">
       <meta name="twitter:card" content="summary_large_image">
       <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
       <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
@@ -1983,6 +1980,7 @@ def share_landing_page_html(kind:)
             <h1 data-share-heading>#{esc(heading)}</h1>
             <p class="hero-intro">#{esc(intro)}</p>
             <p class="share-link-code" data-share-code#{group_link ? "" : " hidden"}>Secure group invitation</p>
+            #{group_link ? '<p class="share-link-validity">Collect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.</p>' : ''}
             <div class="hero-actions">
               <a class="button primary" href="#{native_link}" data-collect-open-link>Open in Collect</a>
               <a class="button ghost" href="#{APP_DOWNLOAD_URL}">Install on Android</a>
@@ -2004,7 +2002,7 @@ def share_landing_page_html(kind:)
             <h2 id="share-link-help-heading">A link that survives onboarding</h2>
           </div>
           <div>
-            <p>Collect retains a valid group invitation for up to 24 hours on the device, then joins only after the member signs in and the group is confirmed by the backend.</p>
+            <p>Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.</p>
             <p>Having a link does not expose payment credentials or confirm a payment.</p>
           </div>
         </section>
@@ -2850,7 +2848,7 @@ def site_js
       const status = document.querySelector('[data-share-status]');
       const canonical = document.querySelector('[data-share-canonical]');
       const ogUrl = document.querySelector('[data-share-og-url]');
-      const safeSlug = slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : null;
+      const safeSlug = slug && slug.length <= 140 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : null;
       const safeInviteId = inviteId && /^[A-Za-z0-9_-]{1,64}$/.test(inviteId) ? inviteId : null;
       if (kind === 'group') {
         if (safeSlug) {
@@ -2925,6 +2923,12 @@ def headers
   HEADERS
 end
 
+allowed_build_roots = [File.join(ROOT, "build"), File.join(ROOT, ".cache")]
+unless allowed_build_roots.any? do |allowed_root|
+         BUILD_DIR.start_with?("#{allowed_root}#{File::SEPARATOR}")
+       end
+  abort("PUBLIC_BUILD_DIR must be a child of #{allowed_build_roots.join(' or ')}")
+end
 FileUtils.rm_rf(BUILD_DIR)
 FileUtils.mkdir_p(BUILD_DIR)
 build_lastmod = Time.now.utc.strftime("%Y-%m-%d")
@@ -2946,9 +2950,6 @@ write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap
 write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
 
 assets = [
-  BRAND_ASSET,
-  MOMO_ASSET,
-  QR_ASSET,
   ICON_ASSET,
   TYPEFACE_ASSET,
   TYPEFACE_LICENSE

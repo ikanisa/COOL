@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
-NODE="${NODE:-node}"
+NODE="${NODE:-/Users/jeanbosco/.codex/runners/africlub/externals/node20/bin/node}"
 BUILD_DIR="${ADMIN_PWA_AUTH_RENDER_BUILD_DIR:-$ROOT_DIR/.cache/admin_pwa_authenticated_render_build}"
 EVIDENCE_DIR="${ADMIN_PWA_AUTH_RENDER_EVIDENCE_DIR:-$ROOT_DIR/.cache/admin_pwa_authenticated_render_smoke/$(date -u +%Y%m%dT%H%M%SZ)}"
 HOST="${ADMIN_PWA_AUTH_RENDER_HOST:-127.0.0.1}"
@@ -14,12 +14,22 @@ RENDER_WAIT_MS="${ADMIN_PWA_AUTH_RENDER_WAIT_MS:-10000}"
 DEVTOOLS_READY_MS="${ADMIN_PWA_AUTH_RENDER_DEVTOOLS_READY_MS:-60000}"
 COMMAND_TIMEOUT_MS="${ADMIN_PWA_AUTH_RENDER_COMMAND_TIMEOUT_MS:-60000}"
 
-mkdir -p "$EVIDENCE_DIR" "$BUILD_DIR"
-
 fail() {
   printf '[admin-pwa-auth-render][FAIL] %s\n' "$*" >&2
   exit 1
 }
+
+case "$BUILD_DIR" in
+  "$ROOT_DIR"/.cache/*) ;;
+  *) fail "Admin evidence build directory must stay under $ROOT_DIR/.cache/." ;;
+esac
+mkdir -p "$EVIDENCE_DIR" "$BUILD_DIR"
+
+if [[ "$NODE" == */* ]]; then
+  [[ -x "$NODE" ]] || fail "Node.js is required for Admin PWA evidence: $NODE"
+else
+  command -v "$NODE" >/dev/null 2>&1 || fail "Node.js is required for Admin PWA evidence: $NODE"
+fi
 
 find_chrome() {
   if [[ -n "${ADMIN_PWA_CHROME:-}" ]]; then
@@ -66,9 +76,9 @@ fi
 if [[ "${ADMIN_PWA_AUTH_RENDER_SKIP_BUILD:-0}" == "1" ]]; then
   [[ -s "$BUILD_DIR/main.dart.js" ]] ||
     fail "Existing Admin evidence build is missing main.dart.js: $BUILD_DIR"
-  if find lib/admin lib/app -type f -newer "$BUILD_DIR/main.dart.js" -print -quit |
+  if find lib -type f -newer "$BUILD_DIR/main.dart.js" -print -quit |
     grep -q .; then
-    fail "Existing Admin evidence build is stale relative to lib/admin or lib/app."
+    fail "Existing Admin evidence build is stale relative to current Dart sources."
   fi
   printf '[admin-pwa-auth-render] reused current evidence build %s\n' "$BUILD_DIR" \
     >"$EVIDENCE_DIR/flutter_build.log"
@@ -147,7 +157,8 @@ capture_route "admin-sms-detail" "/admin/sms/sms-1" "$VIEWPORT_DESKTOP"
 capture_route "admin-system-health" "/admin/system-health" "$VIEWPORT_DESKTOP"
 
 browser_qa_dir="$EVIDENCE_DIR/browser-qa"
-"$NODE" "$ROOT_DIR/scripts/admin_pwa_browser_qa.mjs" \
+env -u ADMIN_PWA_BROWSER_QA_ROUTE -u ADMIN_PWA_BROWSER_QA_VIEWPORT \
+  "$NODE" "$ROOT_DIR/scripts/admin_pwa_browser_qa.mjs" \
   "$BASE_URL/" \
   "$browser_qa_dir"
 
@@ -156,6 +167,11 @@ ruby -r json -r time -e '
   captures = File.readlines(captures_json, chomp: true).reject(&:empty?).map { |line| JSON.parse(line) }
   browser_report = JSON.parse(File.read(browser_report_path))
   abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
+  abort("Admin browser QA was not a full release matrix") unless browser_report.fetch("releaseAdmissible") == true
+  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 28
+  abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 3
+  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 84
+  abort("Admin evidence-mode marker was not verified") unless browser_report.fetch("evidenceModeMarkerVerified") == true
   File.write(
     File.join(evidence_dir, "summary.json"),
     JSON.pretty_generate(

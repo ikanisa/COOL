@@ -6,13 +6,15 @@ cd "$ROOT_DIR"
 
 # shellcheck source=scripts/supabase_cli_helpers.sh
 . "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
+# shellcheck source=scripts/load_dotenv_strict.sh
+. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
 EXPECTED_FUNCTIONS=(
-  allocate-payment
   auth-send-whatsapp-otp
   dispatch-notifications
   ingest-payment-sms
   parse-payment-sms
+  provider-finality
   send-notification
   stripe-create-customer
   stripe-create-setup-intent
@@ -30,6 +32,7 @@ REQUIRED_SECRETS=(
   SEND_SMS_HOOK_SECRET
   INTERNAL_FUNCTION_SECRET
   SMS_INGEST_HMAC_SECRET
+  PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT
   PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON
   APNS_KEY_ID
   APNS_TEAM_ID
@@ -54,6 +57,7 @@ warn() {
 }
 
 platform_issue() {
+  PLATFORM_ISSUES+=("$*")
   warn "$*"
 }
 
@@ -75,23 +79,45 @@ pooler_connectivity_failure() {
 }
 
 check_strict_platform_issues() {
-  :
+  if [[ "${SUPABASE_READY_STRICT_PLATFORM:-0}" == "1" && "${#PLATFORM_ISSUES[@]}" -gt 0 ]]; then
+    fail "Strict platform readiness found ${#PLATFORM_ISSUES[@]} unresolved issue(s)."
+  fi
+  if [[ "${#PLATFORM_ISSUES[@]}" -gt 0 ]]; then
+    warn "Platform readiness completed with ${#PLATFORM_ISSUES[@]} unresolved issue(s)."
+  fi
 }
 
 load_env() {
   if [[ -f .env ]]; then
-    set -a
-    # shellcheck disable=SC1091
-    . ./.env
-    set +a
+    collect_load_dotenv_strict "$ROOT_DIR/.env"
   fi
 
   : "${SUPABASE_ACCESS_TOKEN:?SUPABASE_ACCESS_TOKEN is required}"
   : "${SUPABASE_PROJECT_REF:?SUPABASE_PROJECT_REF is required}"
   : "${SUPABASE_DB_PASSWORD:?SUPABASE_DB_PASSWORD is required}"
   : "${DATABASE_URL:?DATABASE_URL is required}"
+  : "${SUPABASE_URL:?SUPABASE_URL is required}"
   READINESS_DATABASE_URL="${SUPABASE_READINESS_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
   export READINESS_DATABASE_URL
+}
+
+check_target_binding() {
+  log "checking linked project and endpoint binding"
+  local project_ref_file="$ROOT_DIR/supabase/.temp/project-ref"
+  [[ -f "$project_ref_file" && ! -L "$project_ref_file" ]] ||
+    fail "Supabase linked project reference is missing. Link the intended project first."
+  local linked_ref
+  linked_ref="$(tr -d '[:space:]' < "$project_ref_file")"
+  [[ "$SUPABASE_PROJECT_REF" =~ ^[a-z0-9]{20}$ ]] ||
+    fail "SUPABASE_PROJECT_REF has an invalid format"
+  [[ "$linked_ref" == "$SUPABASE_PROJECT_REF" ]] ||
+    fail "Linked Supabase project does not match SUPABASE_PROJECT_REF"
+  [[ "${SUPABASE_URL%/}" == "https://${SUPABASE_PROJECT_REF}.supabase.co" ]] ||
+    fail "SUPABASE_URL does not match SUPABASE_PROJECT_REF"
+  [[ "$DATABASE_URL" == *"$SUPABASE_PROJECT_REF"* ]] ||
+    fail "DATABASE_URL is not bound to SUPABASE_PROJECT_REF"
+  [[ "$READINESS_DATABASE_URL" == *"$SUPABASE_PROJECT_REF"* ]] ||
+    fail "READINESS_DATABASE_URL is not bound to SUPABASE_PROJECT_REF"
 }
 
 db_query_json_rows() {
@@ -233,7 +259,7 @@ RUBY
 check_pending_migrations() {
   if [[ "${SUPABASE_READY_REQUIRE_POOLER_COMMANDS:-0}" == "1" || "${SUPABASE_DB_QUERY_MODE:-linked}" == "direct" ]]; then
     local dry_run
-    dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db push -p "$SUPABASE_DB_PASSWORD" --dry-run)"
+    dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" supabase_cli db push --dry-run)"
     printf '%s\n' "$dry_run"
     if [[ "$dry_run" == *"Would push these migrations:"* ]]; then
       fail "Pending remote migrations detected"
@@ -267,7 +293,12 @@ check_app_contract_columns() {
     with expected(table_name, column_name) as (
       values
         ('raw_payment_sms', 'collection_id'),
-        ('parsed_payment_events', 'collection_id')
+        ('raw_payment_sms', 'parse_started_at'),
+        ('raw_payment_sms', 'parse_lease_id'),
+        ('parsed_payment_events', 'collection_id'),
+        ('native_action_capabilities', 'request_payload'),
+        ('payment_provider_confirmations', 'provider_confirmation_id'),
+        ('payments', 'posted_at')
     )
     select expected.table_name || '.' || expected.column_name
     from expected
@@ -469,19 +500,25 @@ check_sql_privileges() {
         ('anon', 'user_is_collection_admin', 'EXECUTE'),
         ('authenticated', 'admin_current_user', 'EXECUTE'),
         ('authenticated', 'admin_get_queue_sla', 'EXECUTE'),
+        ('authenticated', 'admin_get_admin_user', 'EXECUTE'),
         ('authenticated', 'admin_get_collection', 'EXECUTE'),
+        ('authenticated', 'admin_get_notification', 'EXECUTE'),
         ('authenticated', 'admin_get_payment', 'EXECUTE'),
         ('authenticated', 'admin_get_payment_event', 'EXECUTE'),
+        ('authenticated', 'admin_get_payment_intent', 'EXECUTE'),
         ('authenticated', 'admin_get_receiver', 'EXECUTE'),
         ('authenticated', 'admin_get_sms_metadata', 'EXECUTE'),
         ('authenticated', 'admin_get_user', 'EXECUTE'),
+        ('authenticated', 'admin_grant_user_role', 'EXECUTE'),
         ('authenticated', 'admin_list_admin_users', 'EXECUTE'),
         ('authenticated', 'admin_list_allocations', 'EXECUTE'),
         ('authenticated', 'admin_list_audit_logs', 'EXECUTE'),
         ('authenticated', 'admin_list_collections', 'EXECUTE'),
         ('authenticated', 'admin_list_feature_flags', 'EXECUTE'),
         ('authenticated', 'admin_list_ledger', 'EXECUTE'),
+        ('authenticated', 'admin_list_notifications', 'EXECUTE'),
         ('authenticated', 'admin_list_payment_events', 'EXECUTE'),
+        ('authenticated', 'admin_list_payment_intents', 'EXECUTE'),
         ('authenticated', 'admin_list_payments', 'EXECUTE'),
         ('authenticated', 'admin_list_receivers', 'EXECUTE'),
         ('authenticated', 'admin_list_settings', 'EXECUTE'),
@@ -492,13 +529,15 @@ check_sql_privileges() {
         ('authenticated', 'admin_record_operator_note', 'EXECUTE'),
         ('authenticated', 'admin_reparse_payment_event', 'EXECUTE'),
         ('authenticated', 'admin_reveal_raw_sms', 'EXECUTE'),
+        ('authenticated', 'admin_retry_notification', 'EXECUTE'),
+        ('authenticated', 'admin_revoke_user_role', 'EXECUTE'),
         ('authenticated', 'admin_runtime_config', 'EXECUTE'),
         ('authenticated', 'admin_set_feature_flag', 'EXECUTE'),
         ('authenticated', 'admin_system_health', 'EXECUTE'),
         ('authenticated', 'admin_update_collection_support_status', 'EXECUTE'),
         ('authenticated', 'archive_group', 'EXECUTE'),
         ('authenticated', 'create_mobile_support_request', 'EXECUTE'),
-        ('authenticated', 'create_group_with_owner', 'EXECUTE'),
+        ('authenticated', 'create_group_with_owner_attested', 'EXECUTE'),
         ('authenticated', 'join_group_by_slug', 'EXECUTE'),
         ('authenticated', 'create_payment_intent', 'EXECUTE'),
         ('authenticated', 'create_contribution_intent', 'EXECUTE'),
@@ -508,13 +547,17 @@ check_sql_privileges() {
         ('authenticated', 'ensure_current_profile', 'EXECUTE'),
         ('authenticated', 'get_owner_group_health', 'EXECUTE'),
         ('authenticated', 'get_current_profile', 'EXECUTE'),
+        ('authenticated', 'get_group_share_code', 'EXECUTE'),
         ('authenticated', 'get_active_policy_document', 'EXECUTE'),
         ('authenticated', 'get_collection_type_catalog', 'EXECUTE'),
         ('authenticated', 'get_notification_runtime_config', 'EXECUTE'),
         ('authenticated', 'get_public_runtime_config', 'EXECUTE'),
         ('authenticated', 'has_admin_permission', 'EXECUTE'),
         ('authenticated', 'is_platform_admin', 'EXECUTE'),
+        ('authenticated', 'join_group_by_share_code', 'EXECUTE'),
         ('authenticated', 'list_collection_collect_ids', 'EXECUTE'),
+        ('authenticated', 'list_current_user_collection_summaries', 'EXECUTE'),
+        ('authenticated', 'list_current_user_payment_intents', 'EXECUTE'),
         ('authenticated', 'list_account_request_reasons', 'EXECUTE'),
         ('authenticated', 'mark_notification_event_read', 'EXECUTE'),
         ('authenticated', 'record_policy_acceptance', 'EXECUTE'),
@@ -522,11 +565,11 @@ check_sql_privileges() {
         ('authenticated', 'register_notification_device', 'EXECUTE'),
         ('authenticated', 'request_account_deletion', 'EXECUTE'),
         ('authenticated', 'resolve_collection_catalog_choice', 'EXECUTE'),
+        ('authenticated', 'rotate_group_share_code', 'EXECUTE'),
         ('authenticated', 'transfer_group_ownership', 'EXECUTE'),
         ('authenticated', 'unregister_notification_device', 'EXECUTE'),
-        ('authenticated', 'update_collection_profile', 'EXECUTE'),
+        ('authenticated', 'update_collection_profile_and_receiver', 'EXECUTE'),
         ('authenticated', 'update_collection_receiver', 'EXECUTE'),
-        ('authenticated', 'user_can_ingest_receiver_sms', 'EXECUTE'),
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),
         ('authenticated', 'user_is_collection_admin', 'EXECUTE')
     ),
@@ -555,12 +598,45 @@ check_sql_privileges() {
       except
       select 'missing function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name
       from actual_function_grants
+    ),
+    required_service_function_grants(routine_name) as (
+      values
+        ('mint_native_action_capability'),
+        ('confirm_provider_payment'),
+        ('reject_provider_payment'),
+        ('claim_raw_payment_sms_for_parse'),
+        ('ingest_raw_payment_sms')
+    ),
+    missing_service_function_grants as (
+      select 'missing service_role function grant: EXECUTE on ' || routine_name as issue
+      from required_service_function_grants
+      except
+      select 'missing service_role function grant: EXECUTE on ' || routine_name
+      from information_schema.routine_privileges
+      where specific_schema = 'public'
+        and grantee = 'service_role'
+        and privilege_type = 'EXECUTE'
+    ),
+    forbidden_function_grants as (
+      select 'forbidden function grant: ' || grantee || ' EXECUTE on ' || routine_name as issue
+      from information_schema.routine_privileges
+      where specific_schema = 'public'
+        and privilege_type = 'EXECUTE'
+        and (
+          (grantee = 'authenticated' and routine_name in (
+            'create_group_with_owner',
+            'update_collection_profile'
+          ))
+          or (grantee = 'service_role' and routine_name = 'check_sms_ingest_rate_limit')
+        )
     )
     select issue from unexpected_table_grants
     union all select issue from missing_table_grants
     union all select issue from public_function_grants
     union all select issue from unexpected_function_grants
     union all select issue from missing_function_grants
+    union all select issue from missing_service_function_grants
+    union all select issue from forbidden_function_grants
     order by issue;
   ")"
   [[ -z "$violations" ]] || fail "SQL privilege contract violations: $violations"
@@ -634,9 +710,9 @@ check_edge_function_auth_contract() {
   ruby <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
-  "allocate-payment" => :internal,
   "dispatch-notifications" => :internal,
   "parse-payment-sms" => :internal,
+  "provider-finality" => :provider_finality,
   "ingest-payment-sms" => :user,
   "send-notification" => :internal,
   "stripe-create-customer" => :user,
@@ -649,13 +725,29 @@ expected = {
 issues = []
 config = File.read("supabase/config.toml")
 disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*=\s*false/m).flatten.sort
-no_verify_functions = ["auth-send-whatsapp-otp", "stripe-webhook"]
+no_verify_functions = [
+  "auth-send-whatsapp-otp",
+  "dispatch-notifications",
+  "parse-payment-sms",
+  "provider-finality",
+  "send-notification",
+  "stripe-webhook",
+]
 issues << "JWT verification disabled for unexpected functions: #{(disabled - no_verify_functions).join(", ")}" unless (disabled - no_verify_functions).empty?
 issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
+issues << "provider-finality must have verify_jwt=false because its HMAC contract is authoritative" unless disabled.include?("provider-finality")
+%w[dispatch-notifications parse-payment-sms send-notification].each do |name|
+  issues << "#{name} must have verify_jwt=false because custom internal authorization is authoritative" unless disabled.include?(name)
+end
 
 expected.each do |name, mode|
   path = "supabase/functions/#{name}/index.ts"
   source = File.read(path)
+  if mode == :provider_finality
+    source += File.read("supabase/functions/_shared/provider_finality_handler.ts")
+    source += File.read("supabase/functions/_shared/provider_finality_signature.ts")
+    source += File.read("supabase/functions/_shared/provider_finality_payload.ts")
+  end
   case mode
   when :webhook
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
@@ -664,6 +756,12 @@ expected.each do |name, mode|
     issues << "#{name} must verify STRIPE_WEBHOOK_SECRET" unless source.include?("STRIPE_WEBHOOK_SECRET")
     issues << "#{name} must verify the stripe-signature header" unless source.include?("stripe-signature")
     issues << "#{name} must write webhook events through the service client" unless source.include?("stripe_webhook_events") && source.include?("serviceClient()")
+    issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
+  when :provider_finality
+    issues << "#{name} must require its dedicated current HMAC secret" unless source.include?("PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT")
+    issues << "#{name} must support an optional previous rotation key" unless source.include?("PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS")
+    issues << "#{name} must verify signed timestamp/request-id/body bytes" unless source.include?("verifyProviderFinalitySignature(")
+    issues << "#{name} must use the atomic replay-safe database RPC" unless source.include?("process_provider_finality_event")
     issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
   when :internal
     issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
@@ -677,7 +775,7 @@ expected.each do |name, mode|
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-issues << "deploy script must deploy auth-send-whatsapp-otp and stripe-webhook with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
+issues << "deploy script must deploy webhook/provider endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("provider-finality") && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
 
 if issues.any?
   warn issues.join("\n")
@@ -712,15 +810,6 @@ check_functions() {
     --data '{"user":{"phone":"+250788123456"},"sms":{}}')"
   [[ "$status" == "400" ]] || fail "auth-send-whatsapp-otp probe expected HTTP 400, got $status"
   grep -q 'Invalid OTP hook payload' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
-
-  status="$(curl -sS -o "$body_file" -w '%{http_code}' \
-    -X POST "$base_url/allocate-payment" \
-    -H 'content-type: application/json' \
-    -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
-    -H "x-collect-signature: $INTERNAL_FUNCTION_SECRET" \
-    --data '{"parsed_event_id":"00000000-0000-0000-0000-000000000000"}')"
-  [[ "$status" == "500" ]] || fail "allocate-payment probe expected HTTP 500 for dummy event, got $status"
-  grep -q 'Parsed event not found' "$body_file" || fail "allocate-payment probe did not reach deterministic allocator"
 
   local fn
   for fn in ingest-payment-sms parse-payment-sms; do
@@ -887,6 +976,7 @@ main() {
   fi
   require_cmd ruby
   load_env
+  check_target_binding
 
   log "checking linked project $SUPABASE_PROJECT_REF"
   if ! SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli projects list -o json \

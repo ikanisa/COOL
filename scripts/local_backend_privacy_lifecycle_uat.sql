@@ -19,23 +19,27 @@ $$;
 \set member_id 10000000-0000-4000-8000-000000000002
 \set outsider_id 10000000-0000-4000-8000-000000000003
 \set collection_id 20000000-0000-4000-8000-000000000001
-\set receiver_hash controlled-receiver-hash
-\set sender_hash controlled-sender-hash
+select
+  encode(extensions.digest('+250780000001', 'sha256'), 'hex') as receiver_hash,
+  encode(extensions.digest('+250780000002', 'sha256'), 'hex') as sender_hash
+\gset
 
 insert into auth.users (
   id,
   aud,
   role,
   email,
+  phone,
+  phone_confirmed_at,
   raw_app_meta_data,
   raw_user_meta_data,
   created_at,
   updated_at
 )
 values
-  (:'owner_id', 'authenticated', 'authenticated', 'owner@collect.local', '{}', '{}', now(), now()),
-  (:'member_id', 'authenticated', 'authenticated', 'member@collect.local', '{}', '{}', now(), now()),
-  (:'outsider_id', 'authenticated', 'authenticated', 'outsider@collect.local', '{}', '{}', now(), now());
+  (:'owner_id', 'authenticated', 'authenticated', 'owner@collect.local', '+250780000001', now(), '{}', '{}', now(), now()),
+  (:'member_id', 'authenticated', 'authenticated', 'member@collect.local', '+250780000002', now(), '{}', '{}', now(), now()),
+  (:'outsider_id', 'authenticated', 'authenticated', 'outsider@collect.local', '+250780000003', now(), '{}', '{}', now(), now());
 
 update public.profiles
 set public_id = case id
@@ -47,6 +51,16 @@ display_name = case id
   when :'owner_id'::uuid then 'Controlled owner'
   when :'member_id'::uuid then 'Controlled member'
   when :'outsider_id'::uuid then 'Controlled outsider'
+end,
+momo_number = case id
+  when :'owner_id'::uuid then '0780000001'
+  when :'member_id'::uuid then '0780000002'
+  when :'outsider_id'::uuid then '0780000003'
+end,
+momo_number_hash = case id
+  when :'owner_id'::uuid then encode(extensions.digest('+250780000001', 'sha256'), 'hex')
+  when :'member_id'::uuid then encode(extensions.digest('+250780000002', 'sha256'), 'hex')
+  when :'outsider_id'::uuid then encode(extensions.digest('+250780000003', 'sha256'), 'hex')
 end
 where id in (:'owner_id', :'member_id', :'outsider_id');
 
@@ -253,8 +267,218 @@ values (
 select pg_temp.assert_true(
   public.allocate_parsed_payment_event(
     '40000000-0000-4000-8000-000000000001'
-  ) = 'allocated',
-  'a valid controlled parsed event must allocate'
+  ) = 'awaiting_provider_confirmation',
+  'a valid controlled parsed event must await provider confirmation'
+);
+
+select pg_temp.assert_true(
+  not exists (
+    select 1
+    from public.ledger_entries
+    where payment_id = (
+      select id
+      from public.payments
+      where parsed_event_id = '40000000-0000-4000-8000-000000000001'
+    )
+  ),
+  'SMS candidate evidence must not affect ledger truth'
+);
+
+select id as confirmed_payment_id
+from public.payments
+where parsed_event_id = '40000000-0000-4000-8000-000000000001'
+\gset
+
+set local role service_role;
+select set_config(
+  'request.jwt.claims',
+  json_build_object('role', 'service_role')::text,
+  true
+);
+select public.process_provider_finality_event(
+  '50000000-0000-4000-8000-000000000001',
+  'payment.confirmed',
+  encode(extensions.digest('controlled-provider-payload', 'sha256'), 'hex'),
+  :'confirmed_payment_id',
+  'mtn_momo',
+  'CONTROLLED-TXN-001',
+  'CONTROLLED-PROVIDER-CONFIRM-001',
+  :'receiver_hash',
+  10000,
+  now(),
+  encode(extensions.digest('controlled-provider-evidence', 'sha256'), 'hex'),
+  null,
+  null
+) as provider_finality_result
+\gset
+
+select pg_temp.assert_true(
+  not ((:'provider_finality_result')::jsonb ->> 'replayed')::boolean,
+  'the first authenticated provider delivery must finalize once'
+);
+
+select public.process_provider_finality_event(
+  '50000000-0000-4000-8000-000000000001',
+  'payment.confirmed',
+  encode(extensions.digest('controlled-provider-payload', 'sha256'), 'hex'),
+  :'confirmed_payment_id',
+  'mtn_momo',
+  'CONTROLLED-TXN-001',
+  'CONTROLLED-PROVIDER-CONFIRM-001',
+  :'receiver_hash',
+  10000,
+  now(),
+  encode(extensions.digest('controlled-provider-evidence', 'sha256'), 'hex'),
+  null,
+  null
+) as provider_finality_replay_result
+\gset
+
+select pg_temp.assert_true(
+  ((:'provider_finality_replay_result')::jsonb ->> 'replayed')::boolean,
+  'an identical provider request-id replay must return the original result'
+);
+
+reset role;
+
+select pg_temp.assert_true(
+  (
+    select count(*) = 1
+    from public.provider_finality_requests
+    where request_id = '50000000-0000-4000-8000-000000000001'
+      and status = 'processed'
+      and result_payment_id = :'confirmed_payment_id'
+  ),
+  'the provider gateway request must be durably registered exactly once'
+);
+
+select pg_temp.assert_true(
+  not has_table_privilege(
+    'authenticated',
+    'public.provider_finality_requests',
+    'select'
+  ),
+  'browser roles must not read provider finality gateway evidence'
+);
+
+select pg_temp.assert_true(
+  not has_function_privilege(
+    'authenticated',
+    'public.process_provider_finality_event(uuid,text,text,uuid,text,text,text,text,bigint,timestamptz,text,text,text)',
+    'execute'
+  ),
+  'browser roles must not execute provider finality transitions'
+);
+
+do $$
+declare
+  target_payment_id uuid;
+begin
+  select id into target_payment_id
+  from public.payments
+  where parsed_event_id = '40000000-0000-4000-8000-000000000001';
+  begin
+    perform public.process_provider_finality_event(
+      '50000000-0000-4000-8000-000000000001',
+      'payment.confirmed',
+      encode(extensions.digest('different-provider-payload', 'sha256'), 'hex'),
+      target_payment_id,
+      'mtn_momo',
+      'CONTROLLED-TXN-001',
+      'CONTROLLED-PROVIDER-CONFIRM-001',
+      encode(extensions.digest('+250780000001', 'sha256'), 'hex'),
+      10000,
+      now(),
+      null,
+      null,
+      null
+    );
+    raise exception 'provider request-id collision unexpectedly succeeded';
+  exception
+    when others then
+      if sqlerrm = 'provider request-id collision unexpectedly succeeded' then
+        raise;
+      end if;
+      if sqlerrm <> 'Provider finality request id was reused with different content' then
+        raise;
+      end if;
+  end;
+end;
+$$;
+
+insert into public.payments (
+  id,
+  payment_intent_id,
+  collection_id,
+  contributor_user_id,
+  contributor_public_id,
+  receiver_user_id,
+  receiver_momo_number_hash,
+  amount_rwf,
+  transaction_id,
+  provider_network,
+  source,
+  status,
+  anonymity_choice,
+  posted_at
+) values (
+  '60000000-0000-4000-8000-000000000001',
+  '20000000-0000-4000-8000-000000000002',
+  :'collection_id',
+  :'member_id',
+  '900002',
+  :'owner_id',
+  :'receiver_hash',
+  12000,
+  'CONTROLLED-TXN-REJECT-001',
+  'mtn_momo',
+  'sms_auto',
+  'review',
+  'anonymous',
+  null
+);
+
+select public.process_provider_finality_event(
+  '50000000-0000-4000-8000-000000000002',
+  'payment.rejected',
+  encode(extensions.digest('controlled-provider-rejection', 'sha256'), 'hex'),
+  '60000000-0000-4000-8000-000000000001',
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  'Provider reports transaction not settled',
+  'CONTROLLED-PROVIDER-REJECT-001'
+);
+
+select pg_temp.assert_true(
+  (
+    select status = 'reversed' and posted_at is null
+    from public.payments
+    where id = '60000000-0000-4000-8000-000000000001'
+  ),
+  'a provider rejection must reverse only the awaiting candidate'
+);
+
+select pg_temp.assert_true(
+  not exists (
+    select 1
+    from public.ledger_entries
+    where payment_id = '60000000-0000-4000-8000-000000000001'
+  ),
+  'a provider rejection must never post ledger entries'
+);
+
+select pg_temp.assert_true(
+  (
+    select status = 'cancelled'
+    from public.payment_intents
+    where id = '20000000-0000-4000-8000-000000000002'
+  ),
+  'a provider rejection must cancel its payment intent'
 );
 
 select pg_temp.assert_true(
@@ -262,6 +486,13 @@ select pg_temp.assert_true(
     '40000000-0000-4000-8000-000000000001'
   ) = 'already_allocated',
   'replaying the same parsed event must be idempotent'
+);
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  true
 );
 
 select pg_temp.assert_true(
@@ -280,7 +511,7 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select count(*) = 1
+    select count(*) = 2
     from public.ledger_entries
     where payment_id = (
       select id
@@ -288,8 +519,24 @@ select pg_temp.assert_true(
       where parsed_event_id = '40000000-0000-4000-8000-000000000001'
     )
   ),
-  'confirmed payment must create exactly one ledger entry'
+  'confirmed payment must create exactly one group credit and one member credit'
 );
+
+select pg_temp.assert_true(
+  (
+    select count(*) filter (where entry_type = 'collection_credit') = 1
+      and count(*) filter (where entry_type = 'member_credit') = 1
+    from public.ledger_entries
+    where payment_id = (
+      select id
+      from public.payments
+      where parsed_event_id = '40000000-0000-4000-8000-000000000001'
+    )
+  ),
+  'group and payer balances must have separate exactly-once ledger credits'
+);
+
+reset role;
 
 insert into public.raw_payment_sms (
   id,
@@ -424,11 +671,11 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select count(*) = 1
+    select count(*) = 2
     from public.ledger_entries
     where user_id = :'member_id'
   ),
-  'the contributor must read their own confirmed ledger entry'
+  'the contributor must read their own group and member ledger credits'
 );
 
 select pg_temp.assert_true(
@@ -483,6 +730,7 @@ select pg_temp.assert_true(
 reset role;
 
 select 'LOCAL_BACKEND_PRIVACY_LIFECYCLE_PASS';
+select 'PROVIDER_FINALITY_GATEWAY_PASS';
 select 'pending,confirmed,expired,duplicate,failed,recovery';
 select 'receiver_privacy,ledger_authorization,deletion_request,audit_scope';
 

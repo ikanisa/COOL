@@ -37,6 +37,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
+    final summary = repo.summaryFor(widget.collectionId);
     final contributions = ref.watch(
       contributionsForCollectionProvider(widget.collectionId),
     );
@@ -49,10 +50,6 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     }).toList()..sort((a, b) => _compareContributions(a, b, _sort));
     final hasAnyLedgerActivity = contributions.isNotEmpty;
     final hasVisibleLedgerActivity = visible.isNotEmpty;
-    final total = contributions.fold<int>(
-      0,
-      (sum, item) => sum + item.amountRwf,
-    );
 
     return ScreenScaffold(
       title: 'Ledger',
@@ -65,11 +62,12 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
         onAvatarTap: () => goBackOrHome(context),
         onSearchTap: _beginSearch,
         actions: [
-          CollectChromeAction(
-            icon: CollectIcons.collections,
-            tooltip: 'Filter by group',
-            onPressed: () => _showGroupSheet(state.collections),
-          ),
+          if (state.collections.isNotEmpty)
+            CollectChromeAction(
+              icon: CollectIcons.collections,
+              tooltip: 'Filter by group',
+              onPressed: () => _showGroupSheet(state.collections),
+            ),
           CollectChromeAction(
             icon: CollectIcons.filter,
             tooltip: 'Sort ledger',
@@ -91,8 +89,14 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           : [
               _LedgerTitleRow(
                 groupLabel: collection?.title ?? 'Group',
-                total: total,
+                total: summary.amountRaisedRwf,
                 count: contributions.length,
+              ),
+              InfoSecurityBanner(
+                title: 'Your confirmed balance',
+                message:
+                    'You have ${formatRwf(summary.currentUserBalanceRwf)} in confirmed contributions.',
+                tone: CollectStatusTone.info,
               ),
               if (_searching)
                 SearchWithClearField(
@@ -106,7 +110,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   icon: CollectIcons.ledger,
                   title: 'No ledger activity',
                   message:
-                      'Confirmed MoMo contributions will appear here after SMS verification.',
+                      'Confirmed MoMo contributions appear here only after independent provider verification.',
                   action: CollectButton(
                     label: 'Contribute now',
                     icon: CollectIcons.momo,
@@ -146,6 +150,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   }
 
   void _showGroupSheet(List<CollectCollection> collections) {
+    if (collections.isEmpty) return;
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,

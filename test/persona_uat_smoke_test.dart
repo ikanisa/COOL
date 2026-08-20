@@ -383,7 +383,7 @@ void main() {
       expect(
         find.bySemanticsLabel(
           RegExp(
-            r'St Michel building fund, RWF 35,000 raised, Open group members, 2 members',
+            r'St Michel building fund, RWF 35,000 raised, 2 confirmed supporters',
           ),
         ),
         findsOneWidget,
@@ -455,10 +455,12 @@ void main() {
   testWidgets('creator share routes preserve group boundaries', (tester) async {
     await pumpMainAppAt(tester, '/groups/col-church/share');
 
-    expect(find.text('Group QR'), findsWidgets);
+    expect(find.text('Share group'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsNothing);
-    expect(find.text('Share'), findsOneWidget);
-    expect(find.text('Save'), findsOneWidget);
+    expect(find.text('Share link'), findsOneWidget);
+    expect(find.text('Share QR code'), findsOneWidget);
+    expect(find.text('Save QR'), findsOneWidget);
+    expect(find.text('Copy link'), findsOneWidget);
     expect(find.text('Group sharing'), findsNothing);
     expect(find.text('Private receiver'), findsNothing);
     expect(
@@ -467,14 +469,16 @@ void main() {
     );
     expect(find.textContaining('+250788'), findsNothing);
 
-    final router = GoRouter.of(tester.element(find.text('Share').first));
+    final router = GoRouter.of(tester.element(find.text('Share link')));
     router.go('/groups/col-church/invite');
     await tester.pumpAndSettle();
 
-    expect(find.text('Group QR'), findsWidgets);
+    expect(find.text('Share group'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsNothing);
-    expect(find.text('Share'), findsOneWidget);
-    expect(find.text('Save'), findsOneWidget);
+    expect(find.text('Share link'), findsOneWidget);
+    expect(find.text('Share QR code'), findsOneWidget);
+    expect(find.text('Save QR'), findsOneWidget);
+    expect(find.text('Copy link'), findsOneWidget);
     expect(find.text('SMS'), findsNothing);
     expect(find.text('WhatsApp'), findsNothing);
     expect(find.text('Copy deep link'), findsNothing);
@@ -599,49 +603,50 @@ void main() {
     }
   });
 
-  testWidgets('Android group creation does not require SMS access approval', (
-    tester,
-  ) async {
-    debugDefaultTargetPlatformOverride = TargetPlatform.android;
-    try {
-      await pumpMainAppAt(
-        tester,
-        '/groups/create',
-        repository: CollectRepository.fixture(
-          smsAccessChannel: _DenySmsAccessChannel(),
-        ),
-      );
+  testWidgets(
+    'fixture group creation stays independent of native SMS prompts',
+    (tester) async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      try {
+        await pumpMainAppAt(
+          tester,
+          '/groups/create',
+          repository: CollectRepository.fixture(
+            smsAccessChannel: _DenySmsAccessChannel(),
+          ),
+        );
 
-      await tester.enterText(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is TextField &&
-              widget.decoration?.labelText == 'Group name',
-        ),
-        'Parish support',
-      );
-      await pumpLaunchFrames(tester);
-      await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
-      await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
-      await tester.enterText(find.byType(TextField).last, '0789123456');
-      await pumpLaunchFrames(tester);
-      await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
-      await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
-      await tapVisible(
-        tester,
-        find.widgetWithText(FilledButton, 'Create group'),
-      );
-      await tester.pumpAndSettle();
+        await tester.enterText(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is TextField &&
+                widget.decoration?.labelText == 'Group name',
+          ),
+          'Parish support',
+        );
+        await pumpLaunchFrames(tester);
+        await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
+        await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
+        await tester.enterText(find.byType(TextField).last, '0789123456');
+        await pumpLaunchFrames(tester);
+        await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
+        await tapVisible(tester, find.widgetWithText(FilledButton, 'Continue'));
+        await tapVisible(
+          tester,
+          find.widgetWithText(FilledButton, 'Create group'),
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text('Parish support'), findsWidgets);
-      expect(find.text('SMS access'), findsNothing);
-      expect(find.text('Open app settings'), findsNothing);
-      expect(find.text('Retry'), findsNothing);
-      expectNoGlobalSecrets();
-    } finally {
-      debugDefaultTargetPlatformOverride = null;
-    }
-  });
+        expect(find.text('Parish support'), findsWidgets);
+        expect(find.text('SMS access'), findsNothing);
+        expect(find.text('Open app settings'), findsNothing);
+        expect(find.text('Retry'), findsNothing);
+        expectNoGlobalSecrets();
+      } finally {
+        debugDefaultTargetPlatformOverride = null;
+      }
+    },
+  );
 
   testWidgets('unsigned profile edit does not prefill a sample MoMo number', (
     tester,
@@ -957,6 +962,32 @@ void main() {
     },
   );
 
+  testWidgets(
+    'contribution with an alternate unverified payer number fails closed',
+    (tester) async {
+      final repository = CollectRepository.fixture(seeded: false);
+      await repository.signInWithOtp(phone: '+250788123456', otp: '123456');
+      await repository.updateProfile(momoNumber: '0789123456');
+      final collection = await repository.createCollection(
+        title: 'Verified payer group',
+        description: 'Safe payer matching',
+        receiverMomoNumber: '0788123456',
+      );
+
+      await pumpMainAppAt(
+        tester,
+        '/groups/${collection.id}/contribute',
+        repository: repository,
+      );
+
+      expect(find.text('Use your verified number.'), findsOneWidget);
+      expect(find.text('Update MoMo number'), findsOneWidget);
+      expect(find.text('Review contribution'), findsNothing);
+      expect(repository.state.paymentIntents, isEmpty);
+      expectNoGlobalSecrets();
+    },
+  );
+
   testWidgets('ledger hides unvalidated local MoMo attempts', (tester) async {
     final repository = CollectRepository.fixture();
     final intent = await repository.createPaymentIntent(
@@ -1107,7 +1138,7 @@ void main() {
               (RegExp(r'RWF 35,000 raised'), false),
               (
                 RegExp(
-                  r'St Michel building fund, RWF 35,000 raised, Open group members, 2 members',
+                  r'St Michel building fund, RWF 35,000 raised, 2 confirmed supporters',
                 ),
                 false,
               ),
@@ -1795,17 +1826,18 @@ void main() {
       router.go('/admin/allocations');
       await pumpLaunchFrames(tester);
       expect(find.text('Allocations'), findsWidgets);
-      expect(find.text('Allocated MOMO event'), findsOneWidget);
+      expect(find.text('Allocated MOMO event'), findsWidgets);
 
       router.go('/admin/exceptions');
       await pumpLaunchFrames(tester);
       expect(find.text('Exceptions'), findsWidgets);
-      expect(find.text('Ambiguous MOMO event'), findsOneWidget);
+      expect(find.text('Ambiguous MOMO event'), findsWidgets);
       await tapTableAction(tester, 'Reparse');
       await tester.enterText(
         find.byType(TextField).last,
         'Retry parser after support review',
       );
+      await tester.pump();
       await tester.tap(find.widgetWithText(FilledButton, 'Request reparse'));
       await pumpLaunchFrames(tester);
       expect(
@@ -1908,7 +1940,7 @@ const _platformOwnerIdentity = AdminIdentity(
 
 class _DenySmsAccessChannel extends SmsAccessChannel {
   @override
-  Future<bool> setEnabled(bool enabled) async => false;
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => false;
 
   @override
   Future<bool> isEnabled() async => false;

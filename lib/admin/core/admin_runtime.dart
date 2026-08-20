@@ -51,10 +51,6 @@ final adminRuntimeConfigProvider = FutureProvider<AdminRuntimeConfig?>((ref) {
   return ref.watch(adminRepositoryProvider).runtimeConfig();
 });
 
-const _collectAdminWhatsAppPhone = String.fromEnvironment(
-  'COLLECT_ADMIN_WHATSAPP_PHONE',
-);
-
 final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
   final client = ref.watch(supabaseClientProvider);
   if (client == null || client.auth.currentUser == null) return;
@@ -242,14 +238,7 @@ class AdminRepository extends AdminRepositoryBase {
   }
 
   String _normalizeAdminPhone(String phone) {
-    final normalized = PhoneNormalizer.normalizeInternational(phone);
-    if (_collectAdminWhatsAppPhone.trim().isEmpty) {
-      throw const FormatException('Admin WhatsApp phone is not configured.');
-    }
-    if (normalized != _collectAdminWhatsAppPhone) {
-      throw const FormatException('Use the registered admin WhatsApp number.');
-    }
-    return normalized;
+    return PhoneNormalizer.normalizeInternational(phone);
   }
 
   bool _isLegacyListSignatureError(PostgrestException error) {

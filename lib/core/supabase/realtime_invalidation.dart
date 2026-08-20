@@ -23,6 +23,7 @@ const collectAdminRealtimeAreas = <String>{
   'feature_flags',
   'settings',
   'system_health',
+  'notifications',
 };
 
 class RealtimeInvalidationSubscription {
@@ -46,9 +47,13 @@ class RealtimeInvalidationSubscription {
 
   RealtimeChannel? _channel;
   Timer? _timer;
+  bool _invalidateInFlight = false;
+  bool _invalidateRequested = false;
+  bool _disposed = false;
 
   void start() {
     if (_channel != null || _areas.isEmpty) return;
+    _disposed = false;
     _channel = _client
         .channel(_topic)
         .onPostgresChanges(
@@ -61,6 +66,7 @@ class RealtimeInvalidationSubscription {
   }
 
   Future<void> dispose() async {
+    _disposed = true;
     _timer?.cancel();
     final channel = _channel;
     _channel = null;
@@ -74,7 +80,24 @@ class RealtimeInvalidationSubscription {
     if (area is! String || !_areas.contains(area)) return;
     _timer?.cancel();
     _timer = Timer(_debounce, () {
-      unawaited(Future<void>.sync(_onInvalidate));
+      unawaited(_invalidate());
     });
+  }
+
+  Future<void> _invalidate() async {
+    if (_disposed) return;
+    if (_invalidateInFlight) {
+      _invalidateRequested = true;
+      return;
+    }
+    _invalidateInFlight = true;
+    try {
+      do {
+        _invalidateRequested = false;
+        await Future<void>.sync(_onInvalidate);
+      } while (_invalidateRequested && !_disposed);
+    } finally {
+      _invalidateInFlight = false;
+    }
   }
 }

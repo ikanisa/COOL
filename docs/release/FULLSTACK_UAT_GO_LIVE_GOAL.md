@@ -2,6 +2,12 @@
 
 Prepared: 2026-06-01
 
+Current override (2026-08-15): SMS/parser allocation is candidate evidence
+only. Production GO also requires the signed provider-finality gateway,
+provider-specific settlement-source certification, reconciliation, FCM,
+current 78-migration deployment, physical evidence and the gates in
+`QA_TEST_REPORT.md`.
+
 ## Goal
 
 Execute and evidence production readiness for the corrected Collect platform:
@@ -24,9 +30,10 @@ human operator workflows.
   `group creation is available only on Android`.
 - Contributions create Supabase payment intents and launch MoMo USSD through
   `tel:`.
-- MoMo SMS ingestion, OpenAI parsing, allocation, exceptions, and ledger
-  posting are automated through Supabase; there is no manual SMS paste or
-  contributor-reported transaction ID fallback.
+- MoMo SMS ingestion, OpenAI parsing, candidate allocation and exceptions are
+  automated through Supabase; there is no manual SMS paste or
+  contributor-reported transaction ID fallback. Only an authenticated
+  provider-finality event posts the ledger.
 - Admin PWA monitors Groups, Members, Payment intents, SMS parsing,
   Allocations, Exceptions, Ledger, Receivers, SMS, Audit logs, Settings,
   Feature flags, System health, and Admin users.
@@ -62,7 +69,7 @@ human operator workflows.
 
 | Persona | Journey |
 | --- | --- |
-| Contributor | Open group, contribute amount, create payment intent, launch MoMo USSD, receive automated allocation/ledger confirmation. |
+| Contributor | Open group, contribute amount, create payment intent, launch MoMo USSD, see awaiting-provider state, then receive provider-confirmed ledger notification. |
 | Android creator | Complete profile, create group, grant SMS access, share link/QR/deep link/SMS. |
 | iPhone user | Attempt group creation and see the exact Android-only warning. |
 | Group member | Join/open shared group and contribute using Collect ID. |
@@ -76,7 +83,8 @@ human operator workflows.
 ## GO Criteria
 
 1. Corrected product definition is signed off.
-2. Real Android SMS access UAT passes with sanitized evidence.
+2. Real Android SMS access and provider-finality/reconciliation UAT pass with
+   sanitized evidence and no credential/PIN/OTP capture.
 3. Android signing review and iOS release scope evidence pass release gates.
 4. Release owner signs current evidence packet and worktree review.
 

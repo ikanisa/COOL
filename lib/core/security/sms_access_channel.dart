@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 
 class SmsAccessEnvelope {
   const SmsAccessEnvelope({
     required this.id,
+    required this.ownerUserId,
     required this.rawSender,
     required this.rawBody,
     required this.receivedAtDevice,
@@ -11,6 +14,7 @@ class SmsAccessEnvelope {
   factory SmsAccessEnvelope.fromMap(Map<dynamic, dynamic> map) {
     return SmsAccessEnvelope(
       id: (map['id'] as String?) ?? '',
+      ownerUserId: (map['owner_user_id'] as String?) ?? '',
       rawSender: (map['raw_sender'] as String?) ?? 'android_sms',
       rawBody: (map['raw_body'] as String?) ?? '',
       receivedAtDevice: (map['received_at_device'] as String?) ?? '',
@@ -18,6 +22,7 @@ class SmsAccessEnvelope {
   }
 
   final String id;
+  final String ownerUserId;
   final String rawSender;
   final String rawBody;
   final String receivedAtDevice;
@@ -32,6 +37,7 @@ class SmsAccessStatus {
     required this.requestedBefore,
     required this.shouldShowRationale,
     required this.permanentlyDenied,
+    required this.queueOverflowed,
   });
 
   const SmsAccessStatus.unavailable()
@@ -41,7 +47,8 @@ class SmsAccessStatus {
       granted = false,
       requestedBefore = false,
       shouldShowRationale = false,
-      permanentlyDenied = false;
+      permanentlyDenied = false,
+      queueOverflowed = false;
 
   factory SmsAccessStatus.fromMap(Map<dynamic, dynamic> map) {
     bool value(String key) => map[key] == true;
@@ -53,6 +60,7 @@ class SmsAccessStatus {
       requestedBefore: value('requested_before'),
       shouldShowRationale: value('should_show_rationale'),
       permanentlyDenied: value('permanently_denied'),
+      queueOverflowed: value('queue_overflowed'),
     );
   }
 
@@ -63,23 +71,35 @@ class SmsAccessStatus {
   final bool requestedBefore;
   final bool shouldShowRationale;
   final bool permanentlyDenied;
+  final bool queueOverflowed;
 }
 
 class SmsAccessChannel {
   const SmsAccessChannel();
 
   static const MethodChannel _channel = MethodChannel('collect/sms_access');
+  static const EventChannel _events = EventChannel('collect/sms_access/events');
 
-  Future<bool> setEnabled(bool enabled) async {
+  /// Metadata-only queue invalidations. Raw SMS stays behind the consent-gated
+  /// method channel and is read only when an authenticated drain begins.
+  Stream<void> get pendingSmsEvents => _events
+      .receiveBroadcastStream()
+      .where((event) => event is Map && event['type'] == 'pending_sms')
+      .map((_) {});
+
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
     try {
       return await _channel.invokeMethod<bool>('setEnabled', {
             'enabled': enabled,
+            'owner_user_id': ownerUserId,
           }) ??
           false;
     } on MissingPluginException {
-      return !enabled;
+      return false;
     } on PlatformException {
-      return !enabled;
+      return false;
+    } catch (_) {
+      return false;
     }
   }
 
@@ -87,6 +107,10 @@ class SmsAccessChannel {
     try {
       return await _channel.invokeMethod<bool>('isEnabled') ?? false;
     } on MissingPluginException {
+      return false;
+    } on PlatformException {
+      return false;
+    } catch (_) {
       return false;
     }
   }
@@ -104,6 +128,8 @@ class SmsAccessChannel {
       return details is Map
           ? SmsAccessStatus.fromMap(details)
           : const SmsAccessStatus.unavailable();
+    } catch (_) {
+      return const SmsAccessStatus.unavailable();
     }
   }
 
@@ -121,6 +147,10 @@ class SmsAccessChannel {
           .toList(growable: false);
     } on MissingPluginException {
       return const [];
+    } on PlatformException {
+      return const [];
+    } catch (_) {
+      return const [];
     }
   }
 
@@ -136,6 +166,8 @@ class SmsAccessChannel {
       return false;
     } on PlatformException {
       return false;
+    } catch (_) {
+      return false;
     }
   }
 
@@ -145,6 +177,8 @@ class SmsAccessChannel {
     } on MissingPluginException {
       return false;
     } on PlatformException {
+      return false;
+    } catch (_) {
       return false;
     }
   }

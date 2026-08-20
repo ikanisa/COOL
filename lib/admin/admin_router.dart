@@ -22,6 +22,8 @@ const adminRoutePaths = <String>[
   '/admin/members/:id',
   '/admin/payment-intents',
   '/admin/payment-intents/:id',
+  '/admin/transactions',
+  '/admin/transactions/:id',
   '/admin/payment-events',
   '/admin/payment-events/:id',
   '/admin/allocations',
@@ -31,11 +33,14 @@ const adminRoutePaths = <String>[
   '/admin/receivers/:id',
   '/admin/sms',
   '/admin/sms/:id',
+  '/admin/notifications',
+  '/admin/notifications/:id',
   '/admin/audit-logs',
   '/admin/settings',
   '/admin/feature-flags',
   '/admin/system-health',
   '/admin/admin-users',
+  '/admin/admin-users/:id',
 ];
 
 final adminRouterProvider = Provider<GoRouter>((ref) {
@@ -110,12 +115,23 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           _listRoute(
             '/admin/payment-intents',
             title: 'Payment intents',
-            rpcName: 'admin_list_payments',
+            rpcName: 'admin_list_payment_intents',
             detailPathPrefix: '/admin/payment-intents',
           ),
           _detailRoute(
             '/admin/payment-intents/:id',
             title: 'Payment intent detail',
+            rpcName: 'admin_get_payment_intent',
+          ),
+          _listRoute(
+            '/admin/transactions',
+            title: 'Transactions',
+            rpcName: 'admin_list_payments',
+            detailPathPrefix: '/admin/transactions',
+          ),
+          _detailRoute(
+            '/admin/transactions/:id',
+            title: 'Transaction detail',
             rpcName: 'admin_get_payment',
           ),
           _listRoute(
@@ -171,6 +187,17 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
                 AdminSmsDetailPage(id: state.pathParameters['id']!),
           ),
           _listRoute(
+            '/admin/notifications',
+            title: 'Notifications',
+            rpcName: 'admin_list_notifications',
+            detailPathPrefix: '/admin/notifications',
+          ),
+          _detailRoute(
+            '/admin/notifications/:id',
+            title: 'Notification detail',
+            rpcName: 'admin_get_notification',
+          ),
+          _listRoute(
             '/admin/audit-logs',
             title: 'Audit logs',
             rpcName: 'admin_list_audit_logs',
@@ -198,6 +225,12 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/admin-users',
             title: 'Admin users',
             rpcName: 'admin_list_admin_users',
+            detailPathPrefix: '/admin/admin-users',
+          ),
+          _detailRoute(
+            '/admin/admin-users/:id',
+            title: 'Admin user detail',
+            rpcName: 'admin_get_admin_user',
           ),
         ],
       ),

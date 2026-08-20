@@ -34,15 +34,19 @@ MANIFEST_PATH="$MANIFEST_PATH" \
 OUTPUT_FORMAT="$output_format" \
 INCLUDE_ALL_PLATFORMS="$include_all_platforms" \
 IOS_RELEASE_ARCHIVE_PATH="${IOS_RELEASE_ARCHIVE_PATH:-}" \
+COLLECT_ANDROID_RELEASE_APK_PATH="${COLLECT_ANDROID_RELEASE_APK_PATH:-build/app/outputs/flutter-apk/app-production-release.apk}" \
+COLLECT_ANDROID_RELEASE_AAB_PATH="${COLLECT_ANDROID_RELEASE_AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}" \
 ruby -r digest -r fileutils -r json -r open3 -r pathname -r time <<'RUBY'
 artifact_root = File.expand_path(ENV.fetch("ARTIFACT_ROOT"))
 manifest_path = File.expand_path(ENV.fetch("MANIFEST_PATH"))
 output_format = ENV.fetch("OUTPUT_FORMAT")
 include_all_platforms = ENV.fetch("INCLUDE_ALL_PLATFORMS") == "true"
 
-required_artifacts = [
-  "build/app/outputs/flutter-apk/app-production-release.apk",
-  "build/app/outputs/bundle/productionRelease/app-production-release.aab",
+android_artifact_paths = [
+  ENV.fetch("COLLECT_ANDROID_RELEASE_APK_PATH"),
+  ENV.fetch("COLLECT_ANDROID_RELEASE_AAB_PATH")
+]
+required_artifacts = android_artifact_paths + [
   "build/web/index.html",
   "build/web/flutter_bootstrap.js",
   "build/web/main.dart.js",
@@ -126,8 +130,8 @@ source_patterns = {
   ]
 }
 
-def artifact_group(relative_path)
-  return "android" if relative_path.start_with?("build/app/")
+def artifact_group(relative_path, android_artifact_paths)
+  return "android" if android_artifact_paths.include?(relative_path)
   return "admin_web" if relative_path.start_with?("build/web/")
   return "public_web" if relative_path.start_with?("build/public_web/")
   return "ios" if relative_path.include?(".xcarchive/")
@@ -173,7 +177,7 @@ tracked_worktree_clean = tracked_status_result.success? && tracked_status.strip.
 artifacts = required_artifacts.map do |relative_path|
   absolute_path = File.expand_path(relative_path, artifact_root)
   present = absolute_path.start_with?(artifact_root + File::SEPARATOR) && File.file?(absolute_path)
-  group = artifact_group(relative_path)
+  group = artifact_group(relative_path, android_artifact_paths)
   source_latest_mtime = source_latest_mtimes[group]
   artifact = {
     "path" => relative_path,

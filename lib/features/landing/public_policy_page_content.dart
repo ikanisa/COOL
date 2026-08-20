@@ -89,6 +89,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
           'Group membership, roles, rules, contribution activity and payout records',
           'Payment references, support messages, service choices and service notifications',
           'On Android, only new MTN or Airtel mobile-money transaction SMS after the group receiver opts in; Collect does not read inbox history or unrelated messages',
+          'Opted-in MoMo SMS content is sent through Collect servers to the OpenAI API for structured payment parsing',
           'Camera or image inputs only when a customer uses a QR, support, or evidence feature',
         ],
       ),
@@ -108,7 +109,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
         body:
             'Collect does not sell customer personal data. Information may be shared only when needed to operate the service, support customer requests, process payment or support workflows, meet legal obligations, or work with service providers under appropriate controls.',
         bullets: [
-          'Payment, messaging, hosting, analytics, security and support service providers',
+          'Payment, messaging, hosting, OpenAI parsing, analytics, security and support service providers',
           'Banks, insurers, cooperatives, group leaders or partners only when required for a customer-requested workflow',
           'Authorities, auditors or dispute handlers where legally required',
         ],

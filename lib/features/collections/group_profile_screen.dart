@@ -56,6 +56,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
@@ -63,6 +64,28 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       return ArchivedGroupStateScreen(
         collectionId: widget.collectionId,
         groupTitle: collection.title,
+      );
+    }
+    final profile = state.currentProfile;
+    if (profile == null || collection.creatorUserId != profile.id) {
+      return ScreenScaffold(
+        title: 'Group profile',
+        subtitle: collection.title,
+        children: [
+          const MinimalStatePanel(
+            icon: CollectIcons.lock,
+            title: 'Owner only',
+            message:
+                'Only the current group owner can change the group profile or contribution receiver.',
+            tone: CollectStatusTone.privacy,
+          ),
+          CollectButton(
+            label: 'Open group',
+            icon: CollectIcons.collections,
+            onPressed: () => context.go('/groups/${widget.collectionId}'),
+            expand: true,
+          ),
+        ],
       );
     }
     final collectionCatalog =
@@ -134,7 +157,10 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               color: context.collectColors.transparent,
               child: SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Public group'),
+                title: const Text('Request public discovery'),
+                subtitle: Text(
+                  _visibilityHelperText(collection, requestedPublic: _isPublic),
+                ),
                 value: _isPublic,
                 onChanged: (value) => setState(() => _isPublic = value),
               ),
@@ -203,9 +229,11 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         collection.accentColorHex ??
         CollectColors.brandPrimaryOptions.first.hex;
     _cadence = collection.recurringCadence;
-    _recurringEnabled = collection.recurringCadence.trim().isNotEmpty;
+    _recurringEnabled = collection.isRecurring;
     _collectionType = collection.collectionType;
-    _isPublic = collection.isPublic;
+    _isPublic =
+        collection.visibilityStatus == 'public_requested' ||
+        collection.visibilityStatus == 'public_approved';
   }
 
   Future<void> _pickImage() async {
@@ -261,6 +289,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             accentColorHex: _accentColorHex,
             imageUrl: imageUrl,
             isPublic: _isPublic,
+            isRecurring: _recurringEnabled,
             receiverIsMomoPayCode: receiverIsMomoPayCode,
           );
       if (!mounted) return;
@@ -288,6 +317,23 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             CollectionTypeCatalogConfig.defaults)
         .optionFor(_collectionType);
   }
+}
+
+String _visibilityHelperText(
+  CollectCollection collection, {
+  required bool requestedPublic,
+}) {
+  if (!requestedPublic) {
+    return collection.visibilityStatus == 'public_approved'
+        ? 'Saving will remove this group from public discovery.'
+        : 'The group will remain private.';
+  }
+  return switch (collection.visibilityStatus) {
+    'public_approved' => 'Approved and visible in public discovery.',
+    'public_requested' => 'Review pending; the group remains private.',
+    'public_rejected' => 'The previous public request was not approved.',
+    _ => 'Private until an administrator approves the request.',
+  };
 }
 
 bool _isMomoPayCodeLabel(String label) {

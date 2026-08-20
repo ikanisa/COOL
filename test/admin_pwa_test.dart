@@ -41,6 +41,8 @@ void main() {
     '/admin/members/:id',
     '/admin/payment-intents',
     '/admin/payment-intents/:id',
+    '/admin/transactions',
+    '/admin/transactions/:id',
     '/admin/payment-events',
     '/admin/payment-events/:id',
     '/admin/allocations',
@@ -50,11 +52,14 @@ void main() {
     '/admin/receivers/:id',
     '/admin/sms',
     '/admin/sms/:id',
+    '/admin/notifications',
+    '/admin/notifications/:id',
     '/admin/audit-logs',
     '/admin/settings',
     '/admin/feature-flags',
     '/admin/system-health',
     '/admin/admin-users',
+    '/admin/admin-users/:id',
   ];
 
   test('admin routes are exact', () {
@@ -72,12 +77,7 @@ void main() {
     expect(script, contains('"SUPABASE_URL"'));
     expect(script, contains('"SUPABASE_ANON_KEY"'));
     expect(script, contains('"ADMIN_APP_URL"'));
-    expect(script, contains('COLLECT_ADMIN_WHATSAPP_PHONE'));
-    expect(script, contains('"COLLECT_ADMIN_WHATSAPP_PHONE"'));
-    expect(
-      script,
-      contains('Missing admin build config: COLLECT_ADMIN_WHATSAPP_PHONE'),
-    );
+    expect(script, isNot(contains('COLLECT_ADMIN_WHATSAPP_PHONE')));
     expect(script, contains('"APP_ENVIRONMENT" => "production"'));
     expect(script, contains('"COLLECT_PUBLIC_LANDING_HOME" => "true"'));
     expect(script, isNot(contains('--dart-define=SUPABASE_SERVICE_ROLE_KEY')));
@@ -123,7 +123,9 @@ void main() {
     expect(browserQa, contains('accessibleName'));
     expect(browserQa, contains('viewportClippedCandidates'));
     expect(browserQa, contains('touchesViewportEdge'));
-    expect(browserQa, contains("textPrefix: 'Compliance investigation'"));
+    expect(browserQa, contains("'Support case review'"));
+    expect(browserQa, contains("'Compliance investigation'"));
+    expect(browserQa, contains("'Internal audit evidence'"));
     expect(browserQa, contains('reveal-reason-unavailable'));
     expect(browserQa, contains("await page.keyboard.press('Enter')"));
     expect(browserQa, contains('reveal-result-timeout'));
@@ -138,6 +140,8 @@ void main() {
       '/admin/members/user-1',
       '/admin/payment-intents',
       '/admin/payment-intents/admin-row-1',
+      '/admin/transactions',
+      '/admin/transactions/admin-row-1',
       '/admin/payment-events',
       '/admin/payment-events/event-1',
       '/admin/allocations',
@@ -147,11 +151,14 @@ void main() {
       '/admin/receivers/receiver-1',
       '/admin/sms',
       '/admin/sms/sms-1',
+      '/admin/notifications',
+      '/admin/notifications/notification-1',
       '/admin/audit-logs',
       '/admin/settings',
       '/admin/feature-flags',
       '/admin/system-health',
       '/admin/admin-users',
+      '/admin/admin-users/admin-user-1',
     ]) {
       expect(browserQa, contains("path: '$route'"));
     }
@@ -987,9 +994,26 @@ void main() {
 
       await tester.tap(find.widgetWithText(FilledButton, 'Request reparse'));
       await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<FilledButton>(
+              find.widgetWithText(FilledButton, 'Request reparse').last,
+            )
+            .onPressed,
+        isNull,
+      );
       await tester.enterText(
         find.byType(TextField),
         'Parser missed allocation',
+      );
+      await tester.pump();
+      expect(
+        tester
+            .widget<FilledButton>(
+              find.widgetWithText(FilledButton, 'Request reparse').last,
+            )
+            .onPressed,
+        isNotNull,
       );
       await tester.tap(
         find.widgetWithText(FilledButton, 'Request reparse').last,
@@ -1011,6 +1035,7 @@ void main() {
         find.byType(TextField),
         'Operator confirmed member impact',
       );
+      await tester.pump();
       await tester.tap(find.widgetWithText(FilledButton, 'Record note'));
       await tester.pumpAndSettle();
 
@@ -1095,6 +1120,7 @@ void main() {
       ),
       'Enable for staged UAT',
     );
+    await tester.pump();
     await tester.tap(find.widgetWithText(FilledButton, 'Enable flag'));
     await tester.pumpAndSettle();
 
@@ -1166,6 +1192,10 @@ void main() {
     expect(find.semantics.byLabel('Group support status actions'), findsOne);
     expect(find.widgetWithText(OutlinedButton, 'Set private'), findsOneWidget);
     expect(
+      find.widgetWithText(OutlinedButton, 'Approve public'),
+      findsOneWidget,
+    );
+    expect(
       find.widgetWithText(OutlinedButton, 'Reject public'),
       findsOneWidget,
     );
@@ -1176,6 +1206,7 @@ void main() {
     await tester.tap(find.widgetWithText(OutlinedButton, 'Archive'));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'Inactive duplicate group');
+    await tester.pump();
     await tester.tap(find.widgetWithText(FilledButton, 'Archive'));
     await tester.pumpAndSettle();
 
@@ -1335,6 +1366,7 @@ const _supportIdentity = AdminIdentity(
     'payments.read',
     'audit.read',
     'system_health.read',
+    'notifications.read',
   ],
 );
 
@@ -1352,6 +1384,7 @@ const _complianceIdentity = AdminIdentity(
     'ledger.read',
     'audit.read',
     'system_health.read',
+    'notifications.read',
   ],
 );
 
@@ -1371,6 +1404,7 @@ const _paymentsIdentity = AdminIdentity(
     'ledger.read',
     'audit.read',
     'system_health.read',
+    'notifications.read',
   ],
 );
 
@@ -1393,6 +1427,7 @@ const _readOnlyFullIdentity = AdminIdentity(
     'settings.read',
     'system_health.read',
     'admin_users.read',
+    'notifications.read',
   ],
 );
 
@@ -1565,6 +1600,7 @@ class _DetailAdminRepository extends AdminRepository {
         'title': 'St Michel building fund',
         'slug': 'st-michel-building-fund',
         'description': 'Church construction support',
+        'public_status': 'public_requested',
         'status': 'public_approved',
         'active_members': '24',
         'active_receivers': '1',

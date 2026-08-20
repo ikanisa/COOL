@@ -16,15 +16,20 @@ esac
 
 manifest_path="${RELEASE_APPROVALS_JSON:-$ROOT_DIR/docs/release/RELEASE_APPROVALS.json}"
 
-OUTPUT_FORMAT="$output_format" MANIFEST_PATH="$manifest_path" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri -r digest <<'RUBY'
+OUTPUT_FORMAT="$output_format" \
+MANIFEST_PATH="$manifest_path" \
+ROOT_DIR="$ROOT_DIR" \
+COLLECT_ANDROID_RELEASE_APK_PATH="${COLLECT_ANDROID_RELEASE_APK_PATH:-build/app/outputs/flutter-apk/app-production-release.apk}" \
+COLLECT_ANDROID_RELEASE_AAB_PATH="${COLLECT_ANDROID_RELEASE_AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}" \
+ruby -r json -r time -r uri -r digest <<'RUBY'
 format = ENV.fetch("OUTPUT_FORMAT")
 manifest_path = ENV.fetch("MANIFEST_PATH")
 root_dir = ENV.fetch("ROOT_DIR")
 pubspec_path = File.join(root_dir, "pubspec.yaml")
 
 ANDROID_RELEASE_ARTIFACTS = {
-  "apk" => "build/app/outputs/flutter-apk/app-production-release.apk",
-  "aab" => "build/app/outputs/bundle/productionRelease/app-production-release.aab"
+  "apk" => ENV.fetch("COLLECT_ANDROID_RELEASE_APK_PATH"),
+  "aab" => ENV.fetch("COLLECT_ANDROID_RELEASE_AAB_PATH")
 }.freeze
 
 required_keys = %w[
@@ -165,7 +170,7 @@ end
 
 def current_android_artifact_evidence(root_dir)
   ANDROID_RELEASE_ARTIFACTS.transform_values do |relative_path|
-    path = File.join(root_dir, relative_path)
+    path = File.expand_path(relative_path, root_dir)
     next {"path" => relative_path, "exists" => false, "sha256" => nil, "mtime" => nil} unless File.file?(path)
 
     {

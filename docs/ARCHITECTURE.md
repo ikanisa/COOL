@@ -13,8 +13,11 @@ Core boundaries:
   generated 6-digit Collect ID.
 - Contributions start as Supabase payment intents, not as app-entered payment
   confirmations.
-- Receiver MoMo SMS is ingested automatically, parsed by OpenAI, and allocated
-  to pending payment intents in Postgres.
+- Receiver MoMo SMS is ingested automatically, parsed by OpenAI, and matched to
+  pending payment intents in Postgres as candidate evidence only. It never
+  establishes provider settlement or changes a balance.
+- A separately trusted, signed provider-finality gateway confirms or rejects
+  candidates. Only a confirmed event posts the immutable ledger pair.
 - Raw SMS is protected data and is never exposed in member-facing surfaces.
 
 Flutter structure:
@@ -27,7 +30,7 @@ Flutter structure:
 - `features/profile`: Collect ID and MoMo number.
 - `features/collections`: Groups list/create/detail/manage/share/invite.
 - `features/payments`: amount entry, payment intent creation, MoMo dialer launch.
-- `features/ledger`: confirmed SMS-matched ledger entries.
+- `features/ledger`: independently provider-confirmed ledger entries.
 - `admin`: separate Flutter web Admin PWA from `lib/main_admin.dart`.
 
 Mobile workflow:
@@ -43,15 +46,23 @@ Mobile workflow:
 8. App opens the MoMo dialer through `tel:`.
 9. MoMo SMS is uploaded to Supabase.
 10. `parse-payment-sms` extracts structured facts with OpenAI.
-11. `allocate-payment` calls Postgres allocation.
-12. Clear matches post immutable ledger entries and realtime invalidation events.
-13. Ambiguous parser/allocation results stay as admin-visible exceptions, not
+11. `parse-payment-sms` calls the locked Postgres allocator, which creates an
+    awaiting-provider-confirmation candidate without ledger impact.
+12. A trusted connector validates provider/bank settlement and sends an exact
+    HMAC-signed event to `provider-finality`.
+13. The replay-safe gateway confirms or rejects the candidate transactionally.
+    Confirmation alone posts one collection credit and one member credit.
+14. Ambiguous parser/allocation/provider results stay as admin-visible exceptions, not
     member-entered fallbacks.
 
 Admin workflow:
 
-- Admin PWA monitors groups, members, payment intents, raw SMS metadata, parser
-  output, allocations, exceptions, receivers, ledger, audit logs, and settings.
+- Admin PWA monitors groups, members, payment intents, posted transactions, raw
+  SMS metadata, parser output, allocations, exceptions, receivers, ledger,
+  notification delivery, audit logs, settings, feature flags, system health,
+  and admin-role assignments.
 - Admin routes are operational monitoring routes, not public campaign approval
   routes.
 - Raw SMS reveal, when enabled, remains permissioned and audited.
+- Role changes and failed-notification retries are reason-gated, audited RPCs;
+  the browser never receives notification device tokens or raw message bodies.

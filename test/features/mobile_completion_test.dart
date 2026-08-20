@@ -763,7 +763,7 @@ void main() {
     await tester.tap(find.text('Verify and continue'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Total collected'), findsOneWidget);
+    expect(find.text('My confirmed contributions'), findsOneWidget);
     expect(find.text('WhatsApp verified.'), findsNothing);
     expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
     expect(repository.state.collections, isEmpty);
@@ -956,7 +956,9 @@ void main() {
 
     expect(find.text('Groups'), findsWidgets);
     expect(
-      find.bySemanticsLabel('St Michel building fund, RWF 35,000, 2 members'),
+      find.bySemanticsLabel(
+        'St Michel building fund, RWF 35,000, 2 supporters',
+      ),
       findsOneWidget,
     );
     expect(find.text('Scan'), findsNothing);
@@ -1048,9 +1050,20 @@ void main() {
   ) async {
     final semantics = tester.ensureSemantics();
     try {
-      await pumpRoute(tester, '/home', textScale: 2);
+      await pumpRoute(
+        tester,
+        '/home',
+        textScale: 2,
+        legalConsentAccepted: true,
+      );
 
       expect(tester.takeException(), isNull);
+      await tester.scrollUntilVisible(
+        find.text('Activity'),
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
       expect(find.text('Activity'), findsOneWidget);
       await tester.scrollUntilVisible(
         find.text('My groups'),

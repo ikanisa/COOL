@@ -25,7 +25,7 @@ async function requestDispatch(): Promise<boolean> {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+          apikey: Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
           "Content-Type": "application/json",
           "x-collect-signature": Deno.env.get("INTERNAL_FUNCTION_SECRET") ?? "",
         },

@@ -17,6 +17,52 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('group creation is Android-only, including production web builds', () {
+    expect(
+      groupCreationPlatformAllowed(
+        isWeb: false,
+        targetPlatform: TargetPlatform.android,
+      ),
+      isTrue,
+    );
+    for (final platform in <TargetPlatform>[
+      TargetPlatform.iOS,
+      TargetPlatform.macOS,
+      TargetPlatform.linux,
+      TargetPlatform.windows,
+      TargetPlatform.fuchsia,
+    ]) {
+      expect(
+        groupCreationPlatformAllowed(isWeb: false, targetPlatform: platform),
+        isFalse,
+      );
+    }
+    expect(
+      groupCreationPlatformAllowed(
+        isWeb: true,
+        targetPlatform: TargetPlatform.android,
+      ),
+      isFalse,
+    );
+    expect(
+      groupCreationPlatformAllowed(
+        isWeb: true,
+        targetPlatform: TargetPlatform.android,
+        mobileEvidencePlatform: 'ios',
+      ),
+      isFalse,
+    );
+    expect(
+      groupCreationPlatformAllowed(
+        isWeb: true,
+        targetPlatform: TargetPlatform.iOS,
+        mobileEvidencePlatform: 'android',
+      ),
+      isTrue,
+      reason: 'Only an explicit Android evidence build may expose creation.',
+    );
+  });
+
   test('Collect routes use a neutral canvas independent of logo colors', () {
     final light = AppTheme.light().extension<CollectColors>();
     expect(light, isNotNull);
@@ -906,7 +952,11 @@ void main() {
     expect(find.text('078***3456'), findsOneWidget);
     expect(find.text('Payment intent'), findsNothing);
     expect(find.text('Intent'), findsNothing);
-    expect(find.text('SMS verification'), findsOneWidget);
+    expect(find.text('Receipt and provider verification'), findsOneWidget);
+    expect(
+      find.textContaining('independent provider confirmation'),
+      findsOneWidget,
+    );
     expect(find.text('Recorded'), findsNothing);
     expect(find.textContaining('receiver-side MoMo SMS'), findsNothing);
     expect(find.textContaining('Do not paste SMS'), findsNothing);
@@ -1420,7 +1470,8 @@ void main() {
     expect(collectionCards, contains('maxLines: 1'));
     expect(collectionCards, contains('softWrap: false'));
     expect(groupCards, contains('iconOnly: true'));
-    expect(groupCards, isNot(contains('supporters\',')));
+    expect(groupCards, contains("'\${summary.supporterCount} supporters'"));
+    expect(groupCards, isNot(contains("'\${summary.supporterCount} members'")));
     expect(collectionsScreen, contains('GroupListPanel'));
     expect(collectionsScreen, isNot(contains('class _GroupsMetricPill')));
     expect(collectionsScreen, isNot(contains('Group activity')));
@@ -1428,15 +1479,19 @@ void main() {
     expect(collectionsScreen, isNot(contains('Total collected')));
     expect(detailActions, contains("label: 'Members'"));
     expect(detailActions, contains("label: 'Contribute'"));
+    expect(detailActions, contains("label: 'Share'"));
+    expect(detailActions, isNot(contains("label: 'QR'")));
     expect(detailActions, isNot(contains("label: 'People'")));
     expect(detailActions, isNot(contains("label: 'Pay'")));
-    expect(detailActions, contains('/groups/\$collectionId/members'));
+    expect(detailActions, contains('/groups/\${widget.collectionId}/members'));
     expect(detailActions, isNot(contains('class _GroupMomentumRail')));
     expect(detailHero, contains('CollectScreenHero('));
     expect(detailHero, contains('semanticLabel:'));
-    expect(shareScreen, contains("'Group QR'"));
-    expect(shareScreen, contains("label: 'Share'"));
-    expect(shareScreen, contains("label: 'Save'"));
+    expect(shareScreen, contains("'Share group'"));
+    expect(shareScreen, contains("label: 'Share link'"));
+    expect(shareScreen, contains("label: 'Share QR code'"));
+    expect(shareScreen, contains("label: 'Save QR'"));
+    expect(shareScreen, contains("label: 'Copy link'"));
     expect(shareScreen, contains('QrEyeShape.square'));
     expect(shareScreen, contains('QrDataModuleShape.square'));
     expect(shareScreen, isNot(contains('CollectColors.brandPrimaryColors')));

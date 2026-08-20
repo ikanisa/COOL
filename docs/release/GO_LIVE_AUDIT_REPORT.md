@@ -1,10 +1,40 @@
 # Collect Go-Live Audit Report
 
-Audit date: 2026-06-01
+Audit date: 2026-08-15
 
-Final decision: **NO-GO** until Android SMS access UAT approval, Android
-signing/iOS scope evidence, product signoff, and release-owner signoff are
-complete.
+Final decision: **NO-GO**. The current 78-migration/provider-finality source is
+locally hardened but not production-deployed, provider-reconciled,
+public-link-deployed, artifact-frozen, physically accepted or store-approved.
+The June gate table below is retained as historical evidence and must not be
+used as current approval. Current acceptance is governed by
+`QA_TEST_REPORT.md` and the 2026-08-15 group-journey remediation plan.
+
+## Current 2026-08-15 verification delta
+
+- `flutter analyze` is clean; the canonical suite passes 509 tests and the
+  governed visual suite passes 14 tests against 13 pinned baselines.
+- A clean local Supabase reset applies all 78 migrations; SQL lint, group,
+  linked contribution, Admin security, privacy/provider lifecycle and true
+  concurrent-join UAT lanes pass. Supabase contracts pass 68 tests, and the
+  provider gateway passes 11 Deno signature/payload/HTTP tests plus type
+  checking.
+- Android production-debug JVM tests pass. Fresh production APK/AAB generation,
+  embedded-runtime checks, upload-key signature verification and the local
+  artifact manifest pass; accountable approval remains stale and blocks the
+  mobile release gate.
+- The local public website passes 56 checks. The live public gate fails 33/35:
+  `/c/production-link-audit` is HTTP 404 and deployed brand-asset hashes are
+  stale.
+- Read-only production inventory is 321/341 expected schema objects and misses
+  20 current group/payment contracts. Strict readiness also blocks on the
+  warning-level advisor inventory. No production mutation was performed.
+- Read-only Edge inventory is 10/11 and specifically misses
+  `provider-finality`. Required-secret name inventory is 13/15 and misses
+  `PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT` plus the already-open
+  `FCM_SERVICE_ACCOUNT_JSON`. No secret values were inspected or recorded.
+
+The historical table below is retained only as prior evidence; where it
+conflicts with this delta, the current delta controls.
 
 ## Baseline
 
@@ -17,7 +47,8 @@ complete.
 - Payment model: contribution creates a Supabase payment intent and opens the
   MoMo USSD dialer through `tel:`.
 - Confirmation model: receiver Android SMS ingestion, OpenAI parsing,
-  deterministic payment-intent allocation, exceptions, and immutable ledger.
+  deterministic payment-intent candidate matching, provider/bank finality,
+  exceptions, and an immutable exactly-once two-entry ledger.
 - Admin model: operational monitoring for groups, members, payment intents,
   SMS parsing, allocations, exceptions, ledger, receivers, audit, settings,
   feature flags, system health, and admin users.
@@ -71,10 +102,12 @@ complete.
 
 ## Decision Basis
 
-NO-GO. Current code-owned local checks, linked Supabase contribution/admin UAT,
-and Admin PWA live proof pass. The platform is not production-ready until real
-Android SMS approval, Android signing/iOS scope, and stakeholder release
-evidence are complete.
+NO-GO. Current code-owned database, authorization, privacy, idempotency,
+provider-finality and release-control remediations have local evidence. The
+platform is not production-ready until authorized deployment and authenticated
+smoke, provider reconciliation, live `/c/*` proof, fresh artifact-bound physical
+and TalkBack UAT, Google restricted-SMS/release approval, public availability
+and the 72-hour monitoring review are complete.
 
 Older CAPTCHA/HIBP/plan/PITR claims from the previous release packet are not
 treated as current blockers in this audit unless fresh post-refactor readiness

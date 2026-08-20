@@ -6,16 +6,18 @@ cd "$ROOT_DIR"
 
 # shellcheck source=scripts/supabase_cli_helpers.sh
 . "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
+# shellcheck source=scripts/load_dotenv_strict.sh
+. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
-if [[ -f .env ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  . ./.env
-  set +a
+if [[ "${COLLECT_SKIP_DOTENV:-0}" != "1" && -f .env ]]; then
+  collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
-: "${DATABASE_URL:?DATABASE_URL is required}"
-READINESS_DATABASE_URL="${SUPABASE_READINESS_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+SUPABASE_DB_QUERY_MODE="${SUPABASE_DB_QUERY_MODE:-linked}"
+if [[ "$SUPABASE_DB_QUERY_MODE" != "local" ]]; then
+  : "${DATABASE_URL:?DATABASE_URL is required}"
+  READINESS_DATABASE_URL="${SUPABASE_READINESS_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+fi
 
 tmp_sql="$(mktemp)"
 trap 'rm -f "$tmp_sql"' EXIT
@@ -38,6 +40,7 @@ declare
   reparse_response jsonb;
   metadata_response jsonb;
   reveal_response jsonb;
+  admin_response jsonb;
   role_id uuid;
   raw_body text := 'You have received 7,777 RWF from Admin UAT Sender +250788654321. Financial Transaction Id: ADMIN-UAT-001. New balance is 900,000 RWF.';
   receiver_phone text := '+250788111222';
@@ -76,8 +79,31 @@ begin
   update profiles
     set display_name = 'Admin UAT Owner',
         momo_number = receiver_phone,
-        momo_number_hash = receiver_hash
+        momo_number_hash = receiver_hash,
+        is_platform_admin = true
     where id = owner_id;
+
+  update profiles
+    set momo_number = '+250781100002',
+        momo_number_hash = encode(
+          extensions.digest('+250781100002', 'sha256'),
+          'hex'
+        )
+    where id = contributor_id;
+
+  insert into receiver_mode_consents (
+    user_id,
+    enabled,
+    momo_number_hash,
+    build_channel,
+    device_label
+  ) values (
+    owner_id,
+    true,
+    receiver_hash,
+    'uat',
+    'rollback-admin-security'
+  );
 
   for role_id in select id from admin_roles where name = 'compliance_admin' loop
     insert into admin_user_roles (user_id, role_id, granted_by, reason)
@@ -169,7 +195,45 @@ begin
 
   perform set_config('request.jwt.claim.sub', contributor_id::text, true);
   select * into payment_intent
-  from create_contribution_intent(collection_id, 7777, null);
+  from create_contribution_intent(
+    collection_id,
+    7777,
+    encode(extensions.digest('+250781100002', 'sha256'), 'hex')
+  );
+
+  perform set_config('request.jwt.claim.sub', owner_id::text, true);
+  admin_response := admin_current_user();
+  if not coalesce(admin_response->'roles' ? 'platform_owner', false)
+     or not coalesce(admin_response->'permissions' ? 'admin_users.manage', false) then
+    raise exception 'legacy platform owner did not receive the effective control-plane identity';
+  end if;
+  admin_response := admin_list_payment_intents();
+  if jsonb_array_length(coalesce(admin_response->'rows', '[]'::jsonb)) <> 1 then
+    raise exception 'payment intent control-plane list did not return the UAT intent';
+  end if;
+  perform admin_grant_user_role(
+    support_admin_id,
+    'read_only_admin',
+    'Rollback UAT role grant'
+  );
+  perform admin_revoke_user_role(
+    support_admin_id,
+    'read_only_admin',
+    'Rollback UAT role revoke'
+  );
+  if not exists (
+    select 1 from audit_logs
+    where actor_user_id = owner_id
+      and entity_id = support_admin_id
+      and action = 'admin.role.granted'
+  ) or not exists (
+    select 1 from audit_logs
+    where actor_user_id = owner_id
+      and entity_id = support_admin_id
+      and action = 'admin.role.revoked'
+  ) then
+    raise exception 'admin role-management audit trail is incomplete';
+  end if;
 
   insert into parsed_payment_events (
     raw_sms_id,
@@ -244,7 +308,19 @@ $$;
 rollback;
 SQL
 
-if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]]; then
+if [[ "$SUPABASE_DB_QUERY_MODE" == "local" ]]; then
+  local_db_container="${SUPABASE_LOCAL_DB_CONTAINER:-supabase_db_collect}"
+  if ! docker inspect "$local_db_container" >/dev/null 2>&1; then
+    printf '[collect-admin-uat][FAIL] Local Supabase database container is unavailable: %s\n' "$local_db_container" >&2
+    exit 1
+  fi
+  docker exec -i "$local_db_container" \
+    psql -U postgres -d postgres -v ON_ERROR_STOP=1 < "$tmp_sql"
+  printf '[collect-admin-uat] rollback admin/security UAT passed via local database query\n'
+  exit 0
+fi
+
+if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
   if SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null; then
     printf '[collect-admin-uat] rollback admin/security UAT passed via linked database query\n'
     exit 0

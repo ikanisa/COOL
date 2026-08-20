@@ -26,6 +26,36 @@ const viewports = [
   { name: "desktop_1440x1000", width: 1440, height: 1000, isMobile: false, allowedGridColumns: [3] },
 ];
 const legalRoutes = new Set(["/privacy/", "/terms/", "/account-deletion/", "/data-deletion/"]);
+const groupShareScenarios = [
+  {
+    name: "valid_syntax",
+    route: "/c/production-link-audit",
+    nativeHref: "collect://group/production-link-audit",
+    codeText: "Group link: production-link-audit",
+    disabled: false,
+  },
+  {
+    name: "expired_or_revoked_safe",
+    route: "/c/expired-link-audit",
+    nativeHref: "collect://group/expired-link-audit",
+    codeText: "Group link: expired-link-audit",
+    disabled: false,
+  },
+  {
+    name: "invalid_syntax",
+    route: "/c/INVALID%20CODE",
+    nativeHref: null,
+    codeText: "This group link is invalid.",
+    disabled: true,
+  },
+  {
+    name: "oversized_code",
+    route: `/c/${"a".repeat(141)}`,
+    nativeHref: null,
+    codeText: "This group link is invalid.",
+    disabled: true,
+  },
+];
 
 function findExisting(candidates, label) {
   const found = candidates.find((candidate) => candidate && fs.existsSync(candidate));
@@ -265,12 +295,135 @@ async function auditRoute(page, route, viewport) {
   };
 }
 
+async function auditGroupShareScenario(page, scenario, viewport, shareHtml) {
+  const consoleMessages = [];
+  const pageErrors = [];
+  page.on("console", (message) => {
+    if (["error", "warning"].includes(message.type()) && !/favicon/i.test(message.text())) {
+      consoleMessages.push({ type: message.type(), text: message.text() });
+    }
+  });
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+  await page.route("**/c/**", async (route) => {
+    if (route.request().resourceType() === "document") {
+      await route.fulfill({ status: 200, contentType: "text/html", body: shareHtml });
+    } else {
+      await route.continue();
+    }
+  });
+
+  const url = new URL(scenario.route, baseUrl).toString();
+  const response = await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
+  await page.locator("h1").waitFor({ state: "visible", timeout: 10_000 });
+
+  const keyboardFocus = [];
+  for (let index = 0; index < 7; index += 1) {
+    await page.keyboard.press("Tab");
+    keyboardFocus.push(await page.evaluate(() => {
+      const active = document.activeElement;
+      if (!active || active === document.body) return null;
+      const style = getComputedStyle(active);
+      return {
+        text: (active.getAttribute("aria-label") || active.textContent || "").trim().replace(/\s+/g, " ").slice(0, 80),
+        focusVisible: active.matches(":focus-visible"),
+        outlineStyle: style.outlineStyle,
+        outlineWidth: style.outlineWidth,
+        boxShadow: style.boxShadow,
+      };
+    }));
+  }
+
+  const metrics = await page.evaluate(() => {
+    const openLink = document.querySelector("[data-collect-open-link]");
+    const installLink = [...document.querySelectorAll("a")].find((link) => link.textContent.trim() === "Install on Android");
+    const copyButton = document.querySelector("[data-collect-copy-link]");
+    const code = document.querySelector("[data-share-code]");
+    const status = document.querySelector("[data-share-status]");
+    const bodyText = document.body.innerText;
+    return {
+      openHref: openLink?.getAttribute("href") || null,
+      openDisabled: openLink?.getAttribute("aria-disabled") === "true",
+      installHref: installLink?.getAttribute("href") || "",
+      codeText: code?.textContent.trim() || "",
+      statusText: status?.textContent.trim() || "",
+      hasValidityCopy: bodyText.includes("Expired, revoked or invalid links cannot join a group."),
+      noFalseJoinConfirmation: !/invitation (is|has been) valid|you (have )?joined/i.test(bodyText),
+      actionRects: [openLink, installLink, copyButton].map((element) => {
+        if (!element) return null;
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return {
+          text: element.textContent.trim(),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+          display: style.display,
+          visibility: style.visibility,
+          opacity: style.opacity,
+        };
+      }),
+      hasCopyAction: Boolean(copyButton),
+      noHorizontalOverflow: Math.max(document.body.scrollWidth, document.documentElement.scrollWidth) <= window.innerWidth + 1,
+      canonicalPath: document.querySelector("[data-share-canonical]")?.getAttribute("href") || "",
+    };
+  });
+
+  const presentFocus = keyboardFocus.filter(Boolean);
+  const checks = {
+    rewriteServes200: Boolean(response && response.status() === 200),
+    noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
+    noHorizontalOverflow: metrics.noHorizontalOverflow,
+    failClosedValidityCopy: metrics.hasValidityCopy && metrics.noFalseJoinConfirmation,
+    scenarioCode: metrics.codeText === scenario.codeText,
+    nativeAction: scenario.nativeHref === null
+      ? metrics.openHref === null && metrics.openDisabled === scenario.disabled
+      : metrics.openHref === scenario.nativeHref && metrics.openDisabled === scenario.disabled,
+    noAppFallback: metrics.installHref.includes("play.google.com") && metrics.hasCopyAction &&
+      metrics.actionRects.slice(1).every((rect) => rect && rect.width > 0 && rect.height >= 44 &&
+        rect.display !== "none" && rect.visibility === "visible" && Number.parseFloat(rect.opacity) > 0),
+    nativeActionVisible: Boolean(metrics.actionRects[0] && metrics.actionRects[0].width > 0 &&
+      metrics.actionRects[0].height >= 44 && metrics.actionRects[0].display !== "none" &&
+      metrics.actionRects[0].visibility === "visible" && Number.parseFloat(metrics.actionRects[0].opacity) > 0),
+    exactCanonicalPath: metrics.canonicalPath.endsWith(scenario.route.replace("%20", "%20")),
+    invalidRecoveryMessage: !scenario.disabled || metrics.statusText === "Ask the group member to share a new link.",
+    keyboardTraversal: presentFocus.length >= 5 && presentFocus[0]?.text === "Skip to content",
+    visibleKeyboardFocus: presentFocus.length >= 5 && presentFocus.every((item) =>
+      item.focusVisible && (
+        (item.outlineStyle !== "none" && Number.parseFloat(item.outlineWidth) >= 2) ||
+        item.boxShadow !== "none"
+      )),
+  };
+
+  await page.evaluate(() => {
+    if (document.activeElement && typeof document.activeElement.blur === "function") {
+      document.activeElement.blur();
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForTimeout(100);
+  const screenshot = path.join(screenshotDir, `group_${scenario.name}_${viewport.name}.png`);
+  await page.screenshot({ path: screenshot, fullPage: false });
+  return {
+    scenario: scenario.name,
+    route: scenario.route,
+    viewport: viewport.name,
+    url,
+    screenshot,
+    checks,
+    failures: Object.entries(checks).filter(([, passed]) => !passed).map(([id]) => id),
+    metrics,
+    keyboardFocus: presentFocus,
+    consoleMessages,
+    pageErrors,
+  };
+}
+
 (async () => {
   fs.mkdirSync(screenshotDir, { recursive: true });
   const { modulePath, playwright } = await loadPlaywright();
   const executablePath = findExisting(chromeCandidates, "Chromium/Chrome executable");
   const browser = await playwright.chromium.launch({ executablePath, headless: true });
   const results = [];
+  const shareResults = [];
   try {
     for (const route of sitemapRoutes()) {
       for (const viewport of viewports) {
@@ -286,6 +439,21 @@ async function auditRoute(page, route, viewport) {
         }
       }
     }
+    const shareHtml = fs.readFileSync(path.join(buildDir, "c", "index.html"), "utf8");
+    for (const scenario of groupShareScenarios) {
+      for (const viewport of viewports) {
+        const page = await browser.newPage({
+          viewport: { width: viewport.width, height: viewport.height },
+          deviceScaleFactor: 1,
+          isMobile: viewport.isMobile,
+        });
+        try {
+          shareResults.push(await auditGroupShareScenario(page, scenario, viewport, shareHtml));
+        } finally {
+          await page.close();
+        }
+      }
+    }
   } finally {
     await browser.close();
   }
@@ -296,16 +464,19 @@ async function auditRoute(page, route, viewport) {
     buildDir,
     playwrightCore: modulePath,
     executablePath,
-    status: results.some((result) => result.failures.length > 0) ? "fail" : "pass",
+    status: [...results, ...shareResults].some((result) => result.failures.length > 0) ? "fail" : "pass",
     results,
+    shareResults,
   };
   const reportPath = path.join(outDir, "route_rendered_qa.json");
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
   console.log(JSON.stringify({
     status: report.status,
     reportPath,
-    screenshotCount: results.filter((result) => result.screenshot).length + results.filter((result) => result.menuScreenshot).length,
-    failures: results.flatMap((result) => result.failures.map((failure) => `${result.route} ${result.viewport}: ${failure}`)),
+    screenshotCount: results.filter((result) => result.screenshot).length +
+      results.filter((result) => result.menuScreenshot).length + shareResults.length,
+    failures: [...results, ...shareResults]
+      .flatMap((result) => result.failures.map((failure) => `${result.route} ${result.viewport}: ${failure}`)),
   }, null, 2));
   process.exit(report.status === "pass" ? 0 : 1);
 })().catch((error) => {

@@ -6,12 +6,11 @@ cd "$ROOT_DIR"
 
 # shellcheck source=scripts/supabase_cli_helpers.sh
 . "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
+# shellcheck source=scripts/load_dotenv_strict.sh
+. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
 if [[ -f .env ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  . ./.env
-  set +a
+  collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
 : "${SUPABASE_ACCESS_TOKEN:?SUPABASE_ACCESS_TOKEN is required}"

@@ -4,8 +4,10 @@ Implemented production functions:
 
 - `auth-send-whatsapp-otp`: WhatsApp OTP hook sender with rate limiting.
 - `ingest-payment-sms`: MoMo SMS ingestion into `raw_payment_sms`.
-- `parse-payment-sms`: service-only OpenAI parser for MoMo SMS facts.
-- `allocate-payment`: service-only wrapper around Postgres allocation.
+- `parse-payment-sms`: service-only OpenAI parser that invokes the locked
+  Postgres allocator after successful structured parsing.
+- `provider-finality`: HMAC-authenticated, replay-safe provider gateway that
+  atomically confirms or rejects an awaiting payment candidate.
 - `send-notification`: internal, preference-gated notification event enqueue.
 - `dispatch-notifications`: internal APNs/FCM queue dispatcher with bounded
   retries, invalid-token retirement, and per-attempt evidence.
@@ -32,7 +34,7 @@ Deploy:
 supabase functions deploy auth-send-whatsapp-otp --no-verify-jwt
 supabase functions deploy ingest-payment-sms
 supabase functions deploy parse-payment-sms
-supabase functions deploy allocate-payment
+supabase functions deploy provider-finality --no-verify-jwt
 supabase functions deploy send-notification
 supabase functions deploy dispatch-notifications
 supabase functions deploy stripe-create-customer
@@ -46,17 +48,28 @@ Security notes:
 
 - Flutter never receives `SUPABASE_SERVICE_ROLE_KEY`, `OPENAI_API_KEY`,
   WhatsApp Cloud API tokens, or SMS gateway secrets.
-- `parse-payment-sms` and `allocate-payment` require
-  `INTERNAL_FUNCTION_SECRET`.
+- `parse-payment-sms` requires `INTERNAL_FUNCTION_SECRET`.
+- `provider-finality` requires
+  `PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT`; an optional
+  `PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS` supports bounded key rotation.
+  It verifies the timestamp, request ID and exact raw body before one atomic
+  replay registration plus confirmation/rejection transaction. See
+  `PROVIDER_FINALITY_GATEWAY.md` for the wire contract and external evidence
+  boundary.
 - `send-notification` and `dispatch-notifications` require
   `INTERNAL_FUNCTION_SECRET`. APNs delivery additionally requires
   `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_BUNDLE_ID`, and
   `APNS_PRIVATE_KEY_BASE64`; Android delivery requires
   `FCM_SERVICE_ACCOUNT_JSON` in the Supabase secret store.
-- `ingest-payment-sms` verifies the receiver can ingest for the target receiver
-  MoMo hash or group receiver context before queuing parser work.
-- Parser output is evidence for deterministic Postgres allocation. Ledger
-  posting happens only after allocation finds a valid pending payment intent.
+- `ingest-payment-sms` verifies current consent and that the authenticated user
+  owns an active group receiving route. A supplied receiver hash must match
+  exactly; a provider message that omits the receiver can still be captured.
+- The OpenAI Responses API parses each opted-in MoMo SMS with a strict JSON
+  schema. Postgres creates only a non-ledger candidate after the parsed
+  transaction, amount, payer identity, time window, and an active receiver
+  owned by the SMS account match exactly one pending payment intent. The model
+  never chooses the target group. Balances change only after the separate
+  provider-finality gateway authenticates and reconciles the provider event.
 - Stripe functions require `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and
   explicit sandbox/live environment separation. The approved fee-sensitive rails
   are strictly ACH Direct Debit (`us_bank_account`), EUR Bank Transfer

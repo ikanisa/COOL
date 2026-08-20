@@ -8,6 +8,7 @@ class _CreateGroupReview extends StatelessWidget {
     required this.receiver,
     required this.accentColor,
     required this.hasPhoto,
+    required this.isPublicRequested,
     this.error,
   });
 
@@ -17,6 +18,7 @@ class _CreateGroupReview extends StatelessWidget {
   final String receiver;
   final Color accentColor;
   final bool hasPhoto;
+  final bool isPublicRequested;
   final String? error;
 
   @override
@@ -46,6 +48,17 @@ class _CreateGroupReview extends StatelessWidget {
           CollectListTile(
             leading: CollectIcons.photo,
             title: hasPhoto ? 'Group photo selected' : 'No group photo',
+          ),
+          CollectListTile(
+            leading: isPublicRequested
+                ? CollectIcons.people
+                : CollectIcons.lock,
+            title: isPublicRequested
+                ? 'Public review requested'
+                : 'Private group',
+            subtitle: isPublicRequested
+                ? 'The group stays private until approved.'
+                : 'Only people with a valid share link can join.',
           ),
           if (error != null) ...[
             CollectSpacing.gap12,

@@ -214,15 +214,15 @@ class _AdminListSpec {
           ),
         ],
       ),
-      'admin_list_payments' => const _AdminListSpec(
+      'admin_list_payment_intents' => const _AdminListSpec(
         title: 'Payment intents',
-        subtitle: 'Review MoMo intent states.',
+        subtitle: 'Review contribution intent lifecycle.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'pending', label: 'Pending'),
-          AdminFilterOption(value: 'confirmed', label: 'Confirmed'),
-          AdminFilterOption(value: 'needs_review', label: 'Review'),
+          AdminFilterOption(value: 'matched', label: 'Matched'),
           AdminFilterOption(value: 'expired', label: 'Expired'),
+          AdminFilterOption(value: 'cancelled', label: 'Cancelled'),
         ],
         sortOptions: [
           AdminFilterOption(value: 'created_at_desc', label: 'Newest'),
@@ -242,6 +242,52 @@ class _AdminListSpec {
           _AdminQueueSignal(Icons.open_in_new_outlined, 'Open intent detail'),
           _AdminQueueSignal(Icons.compare_arrows_outlined, 'Compare events'),
           _AdminQueueSignal(Icons.receipt_long_outlined, 'Check ledger impact'),
+        ],
+      ),
+      'admin_list_payments' => const _AdminListSpec(
+        title: 'Transactions',
+        subtitle: 'Review posted MoMo transactions.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'posted', label: 'Posted'),
+          AdminFilterOption(value: 'review', label: 'Review'),
+          AdminFilterOption(value: 'reversed', label: 'Reversed'),
+        ],
+        sortOptions: [
+          AdminFilterOption(value: 'created_at_desc', label: 'Newest'),
+          AdminFilterOption(value: 'created_at_asc', label: 'Oldest'),
+          AdminFilterOption(value: 'amount_desc', label: 'Amount high'),
+          AdminFilterOption(value: 'amount_asc', label: 'Amount low'),
+        ],
+        prioritySignals: [
+          _AdminQueueSignal(Icons.receipt_long_outlined, 'Posted records'),
+          _AdminQueueSignal(Icons.account_balance_outlined, 'Ledger impact'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Open transaction'),
+          _AdminQueueSignal(Icons.compare_arrows_outlined, 'Compare intent'),
+          _AdminQueueSignal(Icons.history_outlined, 'Review posting history'),
+        ],
+      ),
+      'admin_list_notifications' => const _AdminListSpec(
+        title: 'Notifications',
+        subtitle: 'Monitor event and delivery health.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'queued', label: 'Queued'),
+          AdminFilterOption(value: 'sent', label: 'Sent'),
+          AdminFilterOption(value: 'failed', label: 'Failed'),
+          AdminFilterOption(value: 'read', label: 'Read'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.notifications_outlined, 'Delivery health'),
+          _AdminQueueSignal(Icons.privacy_tip_outlined, 'Message body hidden'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Open event detail'),
+          _AdminQueueSignal(Icons.replay_outlined, 'Retry with reason'),
+          _AdminQueueSignal(Icons.policy_outlined, 'Review audit entry'),
         ],
       ),
       'admin_list_receivers' => const _AdminListSpec(
@@ -403,6 +449,7 @@ IconData _adminQueueIconForKey(String iconKey) {
     'monitor_heart' => Icons.monitor_heart_outlined,
     'note_alt' => Icons.note_alt_outlined,
     'notes' => Icons.notes_outlined,
+    'notifications' => Icons.notifications_outlined,
     'open_in_new' => Icons.open_in_new_outlined,
     'payments' => Icons.payments_outlined,
     'person_search' => Icons.person_search_outlined,

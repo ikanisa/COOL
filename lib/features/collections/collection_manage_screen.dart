@@ -8,7 +8,6 @@ import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
-import 'group_share_service.dart';
 
 class CollectionManageScreen extends ConsumerStatefulWidget {
   const CollectionManageScreen({required this.collectionId, super.key});
@@ -77,7 +76,8 @@ class _CollectionManageScreenState
         MoneyHeroCard(
           amount: summary.amountRaisedRwf,
           label: collection.title,
-          detail: '${summary.supporterCount} members',
+          detail:
+              '${summary.supporterCount} ${summary.supporterCount == 1 ? 'confirmed supporter' : 'confirmed supporters'}',
         ),
         _SettingsSection(
           children: [
@@ -87,18 +87,10 @@ class _CollectionManageScreenState
               onTap: () => context.go('/groups/${widget.collectionId}/profile'),
             ),
             _ManageTile(
-              icon: CollectIcons.qr,
-              title: 'Group QR',
-              onTap: () => context.go('/groups/${widget.collectionId}/share'),
-            ),
-            _ManageTile(
               icon: CollectIcons.share,
               title: 'Share group',
-              onTap: () => shareGroupDeepLink(
-                context: context,
-                ref: ref,
-                collection: collection,
-              ),
+              subtitle: 'Share the group link or QR code',
+              onTap: () => context.go('/groups/${widget.collectionId}/share'),
             ),
           ],
         ),
@@ -107,7 +99,7 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.people,
               title: 'Members',
-              subtitle: '${summary.supporterCount}',
+              subtitle: 'View and manage active membership',
               onTap: () => context.go('/groups/${widget.collectionId}/members'),
             ),
             _ManageTile(

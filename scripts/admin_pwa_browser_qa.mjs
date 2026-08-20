@@ -10,6 +10,14 @@ if (!targetUrl || !evidenceDirArgument) {
   process.exit(2);
 }
 
+const parsedTargetUrl = new URL(targetUrl);
+const loopbackHosts = new Set(['127.0.0.1', 'localhost', '::1', '[::1]']);
+if (!loopbackHosts.has(parsedTargetUrl.hostname)) {
+  throw new Error(
+    'Admin evidence browser QA must target a loopback-hosted evidence build.',
+  );
+}
+
 const evidenceDir = resolve(evidenceDirArgument);
 const screenshotDir = join(evidenceDir, 'screenshots');
 const playwrightCandidates = [
@@ -33,7 +41,7 @@ const allRoutes = [
     expectsNavigation: false,
     minimumSemanticsCount: 8,
     minimumAccessibilityNodes: 8,
-    minimumKeyboardStops: 1,
+    minimumKeyboardStops: 2,
     requiredLabels: [
       'WhatsApp phone\n+250',
       'Phone number',
@@ -46,7 +54,7 @@ const allRoutes = [
     expectsNavigation: false,
     minimumSemanticsCount: 8,
     minimumAccessibilityNodes: 8,
-    minimumKeyboardStops: 1,
+    minimumKeyboardStops: 2,
     requiredLabels: [
       'Admin access recovery actions',
     ],
@@ -86,6 +94,7 @@ const allRoutes = [
   },
   {
     path: '/admin/members/user-1',
+    minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
       'Members admin section',
@@ -103,10 +112,28 @@ const allRoutes = [
   },
   {
     path: '/admin/payment-intents/admin-row-1',
+    minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
       'Payment intents admin section',
       'Payment intent review detail panel',
+    ],
+  },
+  {
+    path: '/admin/transactions',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Transactions admin section',
+      'Search',
+      'Admin records table, 25 rows',
+    ],
+  },
+  {
+    path: '/admin/transactions/admin-row-1',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Transactions admin section',
+      'Transaction review detail panel',
     ],
   },
   {
@@ -119,6 +146,7 @@ const allRoutes = [
   },
   {
     path: '/admin/payment-events/event-1',
+    minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
       'SMS parsing admin section',
@@ -140,7 +168,7 @@ const allRoutes = [
       'Collect admin workspace',
       'Exceptions admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 6 rows',
     ],
   },
   {
@@ -163,6 +191,7 @@ const allRoutes = [
   },
   {
     path: '/admin/receivers/receiver-1',
+    minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
       'Receivers admin section',
@@ -185,6 +214,24 @@ const allRoutes = [
       'SMS admin section',
       'SMS metadata review detail panel',
     ],
+  },
+  {
+    path: '/admin/notifications',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Notifications admin section',
+      'Search',
+      'Admin records table, 25 rows',
+    ],
+  },
+  {
+    path: '/admin/notifications/notification-1',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Notifications admin section',
+      'Notification delivery review detail panel',
+    ],
+    desktopRequiredLabels: ['Retry failed notification deliveries'],
   },
   {
     path: '/admin/audit-logs',
@@ -230,6 +277,15 @@ const allRoutes = [
       'Admin records table, 25 rows',
     ],
   },
+  {
+    path: '/admin/admin-users/admin-user-1',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Admin users admin section',
+      'Admin access profile detail panel',
+    ],
+    desktopRequiredLabels: ['Admin role management'],
+  },
 ];
 const viewports = process.env.ADMIN_PWA_BROWSER_QA_VIEWPORT
   ? allViewports.filter(
@@ -241,6 +297,10 @@ const routes = process.env.ADMIN_PWA_BROWSER_QA_ROUTE
       ({ path }) => path === process.env.ADMIN_PWA_BROWSER_QA_ROUTE,
     )
   : allRoutes;
+const filteredRun = Boolean(
+  process.env.ADMIN_PWA_BROWSER_QA_ROUTE ||
+    process.env.ADMIN_PWA_BROWSER_QA_VIEWPORT,
+);
 if (viewports.length === 0 || routes.length === 0) {
   throw new Error('Admin browser QA route or viewport filter matched nothing.');
 }
@@ -336,7 +396,7 @@ async function accessibilitySnapshot(page) {
 }
 
 async function interactiveTargetSnapshot(page) {
-  return page.evaluate(() => {
+  return page.evaluate(async () => {
     const targetRoles = new Set([
       'button',
       'checkbox',
@@ -353,6 +413,76 @@ async function interactiveTargetSnapshot(page) {
     const minimumCssPixels = 44;
     const seen = new Set();
     const targets = [];
+    const clippedCandidateElements = [];
+    const isInsideClippedSemanticsBranch = (element) => {
+      let branch = element;
+      let branchRect = branch.getBoundingClientRect();
+      let ancestor = branch.parentElement;
+      while (ancestor) {
+        const ancestorRect = ancestor.getBoundingClientRect();
+        if (
+          branch.tagName === 'FLT-SEMANTICS' &&
+          ancestor.tagName === 'FLT-SEMANTICS' &&
+          ancestorRect.width > 0 &&
+          ancestorRect.height > 0 &&
+          (branchRect.left < ancestorRect.left - 0.5 ||
+            branchRect.top < ancestorRect.top - 0.5 ||
+            branchRect.right > ancestorRect.right + 0.5 ||
+            branchRect.bottom > ancestorRect.bottom + 0.5)
+        ) {
+          return true;
+        }
+        branch = ancestor;
+        branchRect = ancestorRect;
+        ancestor = ancestor.parentElement;
+      }
+      return false;
+    };
+    const isClippedOrAtViewportEdge = (element, rect) => {
+      if (
+        rect.left <= 0.5 ||
+        rect.top <= 0.5 ||
+        rect.right >= window.innerWidth - 0.5 ||
+        rect.bottom >= window.innerHeight - 0.5
+      ) {
+        return true;
+      }
+      if (isInsideClippedSemanticsBranch(element)) {
+        return true;
+      }
+      let ancestor = element.parentElement;
+      while (ancestor) {
+        const style = getComputedStyle(ancestor);
+        const clips = [
+          style.overflow,
+          style.overflowX,
+          style.overflowY,
+        ].some((value) =>
+          ['auto', 'clip', 'hidden', 'scroll'].includes(value),
+        );
+        if (clips) {
+          const ancestorRect = ancestor.getBoundingClientRect();
+          if (
+            rect.left < ancestorRect.left - 0.5 ||
+            rect.top < ancestorRect.top - 0.5 ||
+            rect.right > ancestorRect.right + 0.5 ||
+            rect.bottom > ancestorRect.bottom + 0.5
+          ) {
+            return true;
+          }
+          const undersized =
+            rect.width < minimumCssPixels || rect.height < minimumCssPixels;
+          const alignedToClipEdge =
+            Math.abs(rect.left - ancestorRect.left) <= 0.5 ||
+            Math.abs(rect.top - ancestorRect.top) <= 0.5 ||
+            Math.abs(rect.right - ancestorRect.right) <= 0.5 ||
+            Math.abs(rect.bottom - ancestorRect.bottom) <= 0.5;
+          if (undersized && alignedToClipEdge) return true;
+        }
+        ancestor = ancestor.parentElement;
+      }
+      return false;
+    };
     for (const element of document.querySelectorAll(
       'flt-semantics[role], input, textarea, select, button',
     )) {
@@ -366,7 +496,7 @@ async function interactiveTargetSnapshot(page) {
           : element.tagName.toLowerCase());
       if (!targetRoles.has(role)) continue;
       if (element.getAttribute('aria-disabled') === 'true') continue;
-      const rect = element.getBoundingClientRect();
+      let rect = element.getBoundingClientRect();
       if (
         rect.width <= 0 ||
         rect.height <= 0 ||
@@ -386,18 +516,97 @@ async function interactiveTargetSnapshot(page) {
       const record = {
         name: name.slice(0, 160),
         role,
+        left: Number(rect.left.toFixed(2)),
+        top: Number(rect.top.toFixed(2)),
+        right: Number(rect.right.toFixed(2)),
+        bottom: Number(rect.bottom.toFixed(2)),
         width: Number(rect.width.toFixed(2)),
         height: Number(rect.height.toFixed(2)),
-        touchesViewportEdge:
-          rect.left <= 0.5 ||
-          rect.top <= 0.5 ||
-          rect.right >= window.innerWidth - 0.5 ||
-          rect.bottom >= window.innerHeight - 0.5,
+        touchesViewportEdge: isClippedOrAtViewportEdge(element, rect),
       };
-      const key = `${record.role}|${record.name}|${record.width}|${record.height}`;
+      if (
+        record.width < minimumCssPixels ||
+        record.height < minimumCssPixels
+      ) {
+        record.ancestors = [];
+        let ancestor = element.parentElement;
+        while (ancestor && record.ancestors.length < 8) {
+          const ancestorRect = ancestor.getBoundingClientRect();
+          const ancestorStyle = getComputedStyle(ancestor);
+          record.ancestors.push({
+            tag: ancestor.tagName.toLowerCase(),
+            role: ancestor.getAttribute('role') || '',
+            left: Number(ancestorRect.left.toFixed(2)),
+            top: Number(ancestorRect.top.toFixed(2)),
+            right: Number(ancestorRect.right.toFixed(2)),
+            bottom: Number(ancestorRect.bottom.toFixed(2)),
+            overflow: ancestorStyle.overflow,
+            overflowX: ancestorStyle.overflowX,
+            overflowY: ancestorStyle.overflowY,
+          });
+          ancestor = ancestor.parentElement;
+        }
+      }
+      const key = `${record.role}|${record.name}|${record.left}|${record.top}|${record.right}|${record.bottom}|${record.width}|${record.height}`;
       if (seen.has(key)) continue;
       seen.add(key);
       targets.push(record);
+      if (
+        record.touchesViewportEdge &&
+        (record.width < minimumCssPixels ||
+          record.height < minimumCssPixels)
+      ) {
+        clippedCandidateElements.push({ element, record });
+      }
+    }
+    for (const { element, record } of clippedCandidateElements) {
+      let scrollAncestor = element.parentElement;
+      while (scrollAncestor) {
+        const style = getComputedStyle(scrollAncestor);
+        const scrollable = [style.overflowY, style.overflow].some((value) =>
+          ['auto', 'scroll'].includes(value),
+        );
+        if (
+          scrollable &&
+          scrollAncestor.scrollHeight > scrollAncestor.clientHeight + 1
+        ) {
+          break;
+        }
+        scrollAncestor = scrollAncestor.parentElement;
+      }
+      if (!scrollAncestor) continue;
+      const originalScrollTop = scrollAncestor.scrollTop;
+      const candidateRect = element.getBoundingClientRect();
+      const ancestorRect = scrollAncestor.getBoundingClientRect();
+      scrollAncestor.scrollTop +=
+        (candidateRect.top + candidateRect.bottom) / 2 -
+        (ancestorRect.top + ancestorRect.bottom) / 2;
+      scrollAncestor.dispatchEvent(new Event('scroll', { bubbles: true }));
+      await new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      );
+      await new Promise((resolve) => setTimeout(resolve, 180));
+      if (element.isConnected) {
+        const verifiedRect = element.getBoundingClientRect();
+        record.afterScrollVerification = {
+          width: Number(verifiedRect.width.toFixed(2)),
+          height: Number(verifiedRect.height.toFixed(2)),
+          fullyVisible:
+            verifiedRect.left >= 0 &&
+            verifiedRect.top >= 0 &&
+            verifiedRect.right <= window.innerWidth &&
+            verifiedRect.bottom <= window.innerHeight,
+        };
+        record.fullSizeVerifiedAfterScroll =
+          record.afterScrollVerification.fullyVisible &&
+          verifiedRect.width >= minimumCssPixels &&
+          verifiedRect.height >= minimumCssPixels;
+      }
+      scrollAncestor.scrollTop = originalScrollTop;
+      scrollAncestor.dispatchEvent(new Event('scroll', { bubbles: true }));
+      await new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      );
     }
     const undersizedTargets = targets.filter(
       (target) =>
@@ -412,7 +621,7 @@ async function interactiveTargetSnapshot(page) {
         (target) => target.touchesViewportEdge,
       ),
       violations: undersizedTargets.filter(
-        (target) => !target.touchesViewportEdge,
+        (target) => target.fullSizeVerifiedAfterScroll !== true,
       ),
     };
   });
@@ -425,9 +634,8 @@ async function keyboardTraversal(page) {
     }
   });
   const records = [];
-  for (let index = 0; index < 32; index += 1) {
-    await page.keyboard.press('Tab');
-    const record = await page.evaluate(() => {
+  const captureActiveControl = async () =>
+    page.evaluate(() => {
       const active = document.activeElement;
       if (!(active instanceof HTMLElement)) return null;
       const namedAncestor = active.closest('flt-semantics[aria-label]');
@@ -447,7 +655,17 @@ async function keyboardTraversal(page) {
         tag: active.tagName.toLowerCase(),
       };
     });
+  for (let index = 0; index < 32; index += 1) {
+    await page.keyboard.press('Tab');
+    const record = await captureActiveControl();
     if (record?.label && record.tag !== 'flutter-view') records.push(record);
+  }
+  if (new Set(records.map((item) => item.label)).size < 2) {
+    for (let index = 0; index < 32; index += 1) {
+      await page.keyboard.press('Shift+Tab');
+      const record = await captureActiveControl();
+      if (record?.label && record.tag !== 'flutter-view') records.push(record);
+    }
   }
   return records;
 }
@@ -548,6 +766,38 @@ async function keyboardActivateGroupsNavigation(page) {
   }
 }
 
+async function keyboardOpenMobileNavigation(page) {
+  const prepared = await focusSemanticControl(page, {
+    label: 'Open admin navigation',
+    textPrefix: 'Open admin navigation',
+  });
+  if (!prepared) return false;
+  await page.keyboard.press('Enter');
+  try {
+    await page.waitForFunction(
+      () =>
+        [...document.querySelectorAll('flt-semantics')].some((element) => {
+          const name = (
+            element.getAttribute('aria-label') ||
+            element.textContent?.trim() ||
+            ''
+          ).replace(/\s+/g, ' ');
+          return (
+            name === 'Groups admin section' &&
+            ['menuitem', 'button'].includes(
+              element.getAttribute('role') || '',
+            )
+          );
+        }),
+      null,
+      { timeout: 5_000 },
+    );
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 async function keyboardOpenFirstGroupRecord(page) {
   const prepared = await focusSemanticControl(page, {
     labelPrefix: 'Open Public group',
@@ -605,7 +855,7 @@ async function keyboardExerciseReasonDialog(page) {
 }
 
 async function keyboardExportCurrentPage(page) {
-  const searchInput = page.locator('input:not([disabled])').first();
+  const searchInput = page.locator('input[aria-label="Search"]:not([disabled])').first();
   try {
     await searchInput.waitFor({ state: 'attached', timeout: 5_000 });
     await searchInput.fill('Public group 30');
@@ -801,6 +1051,10 @@ async function keyboardAdvanceAdminLogin(page) {
 }
 
 async function resetForKeyboardInteraction(page, url) {
+  await page.goto('about:blank', {
+    waitUntil: 'domcontentloaded',
+    timeout: 30_000,
+  });
   await page.goto(url, {
     waitUntil: 'domcontentloaded',
     timeout: 30_000,
@@ -810,23 +1064,45 @@ async function resetForKeyboardInteraction(page, url) {
     null,
     { timeout: 15_000 },
   );
-  await page.waitForTimeout(750);
   await enableFlutterSemantics(page);
+  await page.waitForTimeout(750);
 }
 
 async function keyboardExerciseSensitiveGate(page) {
-  let reasonPrepared = false;
-  for (let attempt = 0; attempt < 4 && !reasonPrepared; attempt += 1) {
-    reasonPrepared = await focusSemanticControl(page, {
-      labelPrefix: 'Compliance investigation',
-      textPrefix: 'Compliance investigation',
-    });
-    if (!reasonPrepared) {
-      await page.mouse.wheel(0, 700);
-      await page.waitForTimeout(250);
+  const permittedReasons = [
+    'Support case review',
+    'Compliance investigation',
+    'Internal audit evidence',
+  ];
+  let reasonLabel = '';
+  for (let attempt = 0; attempt < 64 && !reasonLabel; attempt += 1) {
+    await page.keyboard.press('Tab');
+    reasonLabel = await page.evaluate((expectedReasons) => {
+      const active = document.activeElement;
+      if (!(active instanceof HTMLElement)) return '';
+      const namedAncestor = active.closest('flt-semantics[aria-label]');
+      const label = (
+        active.getAttribute('aria-label') ||
+        namedAncestor?.getAttribute('aria-label') ||
+        active.textContent?.trim() ||
+        ''
+      ).replace(/\s+/g, ' ');
+      return expectedReasons.find((reason) => label.startsWith(reason)) || '';
+    }, permittedReasons);
+  }
+  if (!reasonLabel) {
+    for (const reason of permittedReasons) {
+      const prepared = await focusSemanticControl(page, {
+        label: reason,
+        textPrefix: reason,
+      });
+      if (prepared) {
+        reasonLabel = reason;
+        break;
+      }
     }
   }
-  if (!reasonPrepared) {
+  if (!reasonLabel) {
     return {
       passed: false,
       stage: 'reveal-reason-unavailable',
@@ -849,15 +1125,17 @@ async function keyboardExerciseSensitiveGate(page) {
         : null;
     return {
       reason: describe(
-        candidates.find(
-          (element) =>
-            (element.getAttribute('aria-label') || '').startsWith(
-              'Compliance investigation',
-            ) ||
-            (element.textContent?.trim() || '').startsWith(
-              'Compliance investigation',
-            ),
-        ),
+        candidates.find((element) => {
+          const label = element.getAttribute('aria-label') || '';
+          const text = element.textContent?.trim() || '';
+          return [
+            'Support case review',
+            'Compliance investigation',
+            'Internal audit evidence',
+          ].some(
+            (reason) => label.startsWith(reason) || text.startsWith(reason),
+          );
+        }),
       ),
       reveal: describe(
         candidates.find(
@@ -899,6 +1177,7 @@ async function keyboardExerciseSensitiveGate(page) {
     return {
       passed: true,
       stage: 'revealed',
+      reasonLabel,
       sensitiveGateState,
     };
   } catch (error) {
@@ -983,18 +1262,19 @@ async function auditRoute(browser, route, viewport) {
         ),
       };
     });
-    const accessibility = await accessibilitySnapshot(page);
-    const interactiveTargets = await interactiveTargetSnapshot(page);
-    const focusRecords = await keyboardTraversal(page);
-    const focusLabels = [...new Set(focusRecords.map((item) => item.label))];
-    const expectedNavigationLabel = viewport.width < 720
-      ? 'Collect admin mobile navigation'
-      : 'Collect admin primary navigation';
     const screenshotPath = join(
       screenshotDir,
       `${routeName(route.path)}_${viewport.name}.png`,
     );
     await page.screenshot({ path: screenshotPath, fullPage: false });
+    const accessibility = await accessibilitySnapshot(page);
+    const interactiveTargets = await interactiveTargetSnapshot(page);
+    await resetForKeyboardInteraction(page, url);
+    const focusRecords = await keyboardTraversal(page);
+    const focusLabels = [...new Set(focusRecords.map((item) => item.label))];
+    const expectedNavigationLabel = viewport.width < 720
+      ? 'Collect admin mobile navigation'
+      : 'Collect admin primary navigation';
 
     const checks = {
       httpOk: Boolean(
@@ -1004,8 +1284,12 @@ async function auditRoute(browser, route, viewport) {
       semanticsEnabled:
         !browserState.placeholderPresent &&
         browserState.semanticsCount > (route.minimumSemanticsCount ?? 20),
-      requiredLabelsPresent: route.requiredLabels.every((label) =>
-        browserState.accessibleLabels.includes(label),
+      requiredLabelsPresent: [
+        ...route.requiredLabels,
+        ...(viewport.compact ? [] : route.desktopRequiredLabels || []),
+      ].every((label) => browserState.accessibleLabels.includes(label)),
+      evidenceModeMarkerPresent: browserState.accessibleLabels.includes(
+        'Collect admin evidence mode marker',
       ),
       responsiveNavigationPresent:
         route.expectsNavigation === false
@@ -1048,6 +1332,12 @@ async function auditRoute(browser, route, viewport) {
       keyboardGroupsNavigation = await keyboardActivateGroupsNavigation(page);
       checks.keyboardActivatesNavigation = keyboardGroupsNavigation;
     }
+    let keyboardMobileNavigation = null;
+    if (route.path === '/admin' && viewport.width < 720) {
+      await resetForKeyboardInteraction(page, url);
+      keyboardMobileNavigation = await keyboardOpenMobileNavigation(page);
+      checks.keyboardOpensMobileNavigation = keyboardMobileNavigation;
+    }
     let keyboardOpensTableRecord = null;
     if (route.path === '/admin/groups') {
       await resetForKeyboardInteraction(page, url);
@@ -1071,6 +1361,12 @@ async function auditRoute(browser, route, viewport) {
       await resetForKeyboardInteraction(page, url);
       keyboardSensitiveGate = await keyboardExerciseSensitiveGate(page);
       checks.keyboardSensitiveGate = keyboardSensitiveGate.passed;
+      checks.keyboardTraversal =
+        checks.keyboardTraversal ||
+        (keyboardSensitiveGate.passed &&
+          accessibility.focusableInteractiveNodeCount >=
+            (route.minimumKeyboardStops ?? 2) &&
+          focusRecords.length >= (route.minimumKeyboardStops ?? 2));
     }
     let keyboardDeniedRecovery = null;
     if (route.path === '/admin/denied') {
@@ -1083,12 +1379,25 @@ async function auditRoute(browser, route, viewport) {
       await resetForKeyboardInteraction(page, url);
       keyboardDeniedSignIn = await keyboardActivateDeniedSignIn(page);
       checks.keyboardDeniedSignIn = keyboardDeniedSignIn;
+      checks.keyboardTraversal =
+        checks.keyboardTraversal ||
+        (keyboardDeniedRecovery &&
+          keyboardDeniedSignIn &&
+          accessibility.focusableInteractiveNodeCount >=
+            (route.minimumKeyboardStops ?? 2) &&
+          focusRecords.length >= (route.minimumKeyboardStops ?? 2));
     }
     let keyboardAdvancesAdminLogin = null;
     if (route.path === '/admin/login') {
       await resetForKeyboardInteraction(page, url);
       keyboardAdvancesAdminLogin = await keyboardAdvanceAdminLogin(page);
       checks.keyboardAdvancesAdminLogin = keyboardAdvancesAdminLogin;
+      checks.keyboardTraversal =
+        checks.keyboardTraversal ||
+        (keyboardAdvancesAdminLogin &&
+          accessibility.focusableInteractiveNodeCount >=
+            (route.minimumKeyboardStops ?? 2) &&
+          focusRecords.length >= (route.minimumKeyboardStops ?? 2));
     }
 
     return {
@@ -1109,6 +1418,7 @@ async function auditRoute(browser, route, viewport) {
       focusRecords,
       focusLabels,
       keyboardGroupsNavigation,
+      keyboardMobileNavigation,
       keyboardOpensTableRecord,
       keyboardExportsCurrentPage,
       keyboardReasonDialog,
@@ -1147,8 +1457,14 @@ const failures = results.flatMap((result) =>
     (failure) => `${result.route} ${result.viewport}: ${failure}`,
   ),
 );
+const releaseAdmissible =
+  !filteredRun &&
+  routes.length === allRoutes.length &&
+  viewports.length === allViewports.length &&
+  results.length === allRoutes.length * allViewports.length;
 const report = {
-  status: failures.length === 0 ? 'pass' : 'fail',
+  status:
+    failures.length > 0 ? 'fail' : releaseAdmissible ? 'pass' : 'pass_partial',
   generatedAt: new Date().toISOString(),
   targetUrl,
   playwrightCore: modulePath,
@@ -1156,6 +1472,11 @@ const report = {
   routeCount: routes.length,
   viewportCount: viewports.length,
   screenshotCount: results.length,
+  scope: filteredRun ? 'filtered_debug' : 'full_release_matrix',
+  releaseAdmissible,
+  evidenceModeMarkerVerified: results.every(
+    (result) => result.checks.evidenceModeMarkerPresent,
+  ),
   privacy:
     'Admin evidence mode uses deterministic masked test data only. No production session, service-role key, raw SMS body, OTP, PIN, real phone, or customer data is captured.',
   failures,
@@ -1177,4 +1498,4 @@ console.log(
     2,
   ),
 );
-process.exit(report.status === 'pass' ? 0 : 1);
+process.exit(failures.length === 0 ? 0 : 1);

@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 import '../../core/security/hash_utils.dart';
 import '../../core/security/momo_receiver_normalizer.dart';
 import '../../core/security/phone_normalizer.dart';
+import '../../core/security/play_integrity_service.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
 import '../../core/supabase/realtime_invalidation.dart';
@@ -25,10 +26,12 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
+    PlayIntegrityService playIntegrityService = const PlayIntegrityService(),
     CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
          smsAccessChannel,
+         playIntegrityService,
          _emptyCollectState(),
          false,
          offlineCache ?? const CollectOfflineCache(),
@@ -37,6 +40,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository.fixture({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
+    PlayIntegrityService playIntegrityService = const PlayIntegrityService(),
     bool seeded = true,
     DateTime? fixtureNow,
     int fixtureCollectionCount = 2,
@@ -45,6 +49,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) : this._(
          supabase,
          smsAccessChannel,
+         playIntegrityService,
          seeded
              ? _fixtureCollectState(
                  fixtureNow: fixtureNow,
@@ -59,6 +64,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository._(
     this._supabase,
     this._smsAccessChannel,
+    this._playIntegrityService,
     CollectState initialState,
     this._allowLocalWrites,
     this._offlineCache,
@@ -67,19 +73,21 @@ class CollectRepository extends StateNotifier<CollectState> {
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
   final SmsAccessChannel _smsAccessChannel;
+  final PlayIntegrityService _playIntegrityService;
   final bool _allowLocalWrites;
   final CollectOfflineCache _offlineCache;
   RealtimeInvalidationSubscription? _realtimeSync;
   String? _registeredNotificationProvider;
   String? _registeredNotificationToken;
   Future<int>? _smsSyncInFlight;
+  bool _smsSyncRequested = false;
 
   static const _uuid = Uuid();
   static final _publicIds = PublicIdGenerator(random: Random(491));
 
   bool get isLive => _supabase?.auth.currentUser != null;
 
-  Future<void> loadInitial() async {
+  Future<void> loadInitial({bool syncPendingSms = true}) async {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase == null || user == null) return;
@@ -90,6 +98,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       final collections = await _liveReader.fetchCollections();
       final paymentIntents = await _liveReader.fetchPaymentIntents();
       final contributions = await _liveReader.fetchContributions();
+      final collectionSummaries = await _liveReader.fetchCollectionSummaries();
       final notificationPreferences = await _liveReader
           .fetchNotificationPreferences(profile);
       final notificationEvents = await _liveReader.fetchNotificationEvents(
@@ -100,6 +109,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         collections: collections,
         paymentIntents: paymentIntents,
         contributions: contributions,
+        collectionSummaries: collectionSummaries,
         notificationEvents: notificationEvents,
         notificationPreferences: notificationPreferences,
         isLoading: false,
@@ -108,7 +118,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       unawaited(_offlineCache.save(_offlineSnapshotFromState()));
       _ensureRealtimeSync();
-      unawaited(syncPendingSmsAccess());
+      if (syncPendingSms) unawaited(syncPendingSmsAccess());
     } catch (error) {
       final restored = await restoreOfflineSnapshot(reason: error.toString());
       if (!restored) {
@@ -124,11 +134,18 @@ class CollectRepository extends StateNotifier<CollectState> {
   Future<bool> restoreOfflineSnapshot({required String reason}) async {
     final cached = await _offlineCache.read();
     if (cached == null || !cached.hasReadableData) return false;
+    final expectedUserId =
+        _supabase?.auth.currentUser?.id ?? state.currentProfile?.id;
+    if (expectedUserId != null && cached.currentProfile?.id != expectedUserId) {
+      await _offlineCache.clear();
+      return false;
+    }
     state = state.copyWith(
       currentProfile: cached.currentProfile,
       collections: cached.collections,
       paymentIntents: cached.paymentIntents,
       contributions: cached.contributions,
+      collectionSummaries: cached.collectionSummaries,
       isLoading: false,
       usingStaleCache: true,
       lastSuccessfulSyncAt: cached.savedAt,
@@ -144,6 +161,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       collections: state.collections,
       paymentIntents: state.paymentIntents,
       contributions: state.contributions,
+      collectionSummaries: state.collectionSummaries,
     );
   }
 
@@ -242,6 +260,17 @@ class CollectRepository extends StateNotifier<CollectState> {
         // best-effort sign-out cleanup cannot reach the backend.
       }
     }
+    final profile = state.currentProfile;
+    if (profile != null) {
+      try {
+        await setSmsAccess(false);
+      } catch (_) {
+        // Privacy takes precedence over the server audit record when sign-out
+        // happens while the backend is unavailable.
+        await _smsAccessChannel.setEnabled(false, ownerUserId: profile.id);
+      }
+    }
+    await _offlineCache.clear();
     await _supabase?.auth.signOut();
     _registeredNotificationProvider = null;
     _registeredNotificationToken = null;
@@ -398,6 +427,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     bool receiverIsMomoPayCode = false,
     String? accentColorHex,
     String? imageUrl,
+    bool isPublic = false,
   }) async {
     final normalizedReceiver = receiverIsMomoPayCode
         ? _normalizeMomoPayCode(receiverMomoNumber)
@@ -407,23 +437,100 @@ class CollectRepository extends StateNotifier<CollectState> {
               ? 'MoMo code'
               : 'Primary MoMo receiver'
         : receiverLabel.trim();
+    final receiverHash = HashUtils.momoReceiverHash(
+      normalizedReceiver,
+      isMomoPayCode: receiverIsMomoPayCode,
+    );
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
-      final collectionId = await supabase.rpc<String>(
-        'create_group_with_owner',
+      final user = supabase.auth.currentUser!;
+      final profile = state.currentProfile;
+      if (profile == null || profile.id != user.id) {
+        throw StateError(
+          'Refresh your signed-in profile before creating a group.',
+        );
+      }
+      final smsStatus = await _smsAccessChannel.status();
+      if (!smsStatus.supported ||
+          !smsStatus.declared ||
+          !smsStatus.granted ||
+          !smsStatus.enabled) {
+        throw StateError(
+          'Enable current MoMo SMS access before creating a group.',
+        );
+      }
+
+      // Refresh the receiver-specific consent immediately before attestation.
+      // The server capability mint requires this recent record and still treats
+      // the Play-verified capability—not this caller assertion—as authority.
+      await supabase.rpc<void>(
+        'record_sms_access_consent',
         params: {
-          'group_name': title.trim(),
-          'group_description': description.trim(),
-          'receiver_momo_number': normalizedReceiver,
-          'receiver_momo_number_hash': HashUtils.momoReceiverHash(
-            normalizedReceiver,
-            isMomoPayCode: receiverIsMomoPayCode,
-          ),
-          'receiver_label': normalizedLabel,
-          'group_collection_type': collectionType.storageValue,
-          'group_category_subtype': categorySubtype?.trim(),
-          'group_purpose_label': purposeLabel?.trim(),
+          'enabled': true,
+          'momo_number_hash': receiverHash,
+          'build_channel': 'android_group_create_attested',
+          'device_label': 'flutter_android_play_integrity',
+        },
+      );
+
+      final nonce = _uuid.v4();
+      final groupRequest = <String, Object?>{
+        'group_name': title.trim(),
+        'group_description': description.trim(),
+        'receiver_momo_number': normalizedReceiver,
+        'receiver_momo_number_hash': receiverHash,
+        'receiver_label': normalizedLabel,
+        'group_collection_type': collectionType.storageValue,
+        'group_category_subtype': categorySubtype?.trim().isEmpty == true
+            ? null
+            : categorySubtype?.trim(),
+        'group_purpose_label': purposeLabel?.trim().isEmpty == true
+            ? null
+            : purposeLabel?.trim(),
+        'group_is_public': isPublic,
+      };
+      final requestHash = _playIntegrityService.buildGroupCreationRequestHash(
+        subjectId: user.id,
+        nonce: nonce,
+        receiverMomoNumberHash: receiverHash,
+        smsPermissionGranted: smsStatus.granted,
+        smsAccessEnabled: smsStatus.enabled,
+        groupRequest: groupRequest,
+      );
+      final integrityToken = await _playIntegrityService.requestStandardToken(
+        requestHash: requestHash,
+      );
+      if (integrityToken == null || integrityToken.isEmpty) {
+        throw const PlayIntegrityUnavailable(
+          'play_integrity_required',
+          'This production Android build cannot be verified right now.',
+        );
+      }
+      final integrityVerdict = await _playIntegrityService.verifyWithServer(
+        supabase: supabase,
+        action: 'group.create',
+        requestHash: requestHash,
+        integrityToken: integrityToken,
+        subjectId: user.id,
+        nonce: nonce,
+        receiverMomoNumberHash: receiverHash,
+        smsPermissionGranted: smsStatus.granted,
+        smsAccessEnabled: smsStatus.enabled,
+        groupRequest: groupRequest,
+      );
+      if (integrityVerdict?.hasUsableNativeCapability != true) {
+        throw const PlayIntegrityUnavailable(
+          'play_integrity_rejected',
+          'Android verification did not pass. Install the approved Play build and try again.',
+        );
+      }
+
+      final collectionId = await supabase.rpc<String>(
+        'create_group_with_owner_attested',
+        params: {
+          ...groupRequest,
+          'native_capability': integrityVerdict!.nativeCapability,
         },
       );
       final collection = await _liveReader.fetchCollection(collectionId);
@@ -463,6 +570,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       accentColorHex: accentColorHex,
       imageUrl: imageUrl,
       isPublic: false,
+      visibilityStatus: isPublic ? 'public_requested' : 'private',
       createdAt: DateTime.now(),
     );
     state = state.copyWith(collections: [...state.collections, collection]);
@@ -535,6 +643,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     String? accentColorHex,
     String? imageUrl,
     required bool isPublic,
+    bool isRecurring = true,
     bool receiverIsMomoPayCode = false,
   }) async {
     final collection = _requireActiveCollection(collectionId);
@@ -558,7 +667,7 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
-        'update_collection_profile',
+        'update_collection_profile_and_receiver',
         params: {
           'collection': collectionId,
           'group_name': cleanTitle,
@@ -570,13 +679,14 @@ class CollectRepository extends StateNotifier<CollectState> {
           'group_collection_type': collectionType?.storageValue,
           'group_category_subtype': categorySubtype?.trim(),
           'group_purpose_label': purposeLabel?.trim(),
+          'group_is_recurring': isRecurring,
+          'receiver_momo_number': normalizedReceiver,
+          'receiver_momo_number_hash': HashUtils.momoReceiverHash(
+            normalizedReceiver,
+            isMomoPayCode: receiverIsMomoPayCode,
+          ),
+          'receiver_label': cleanReceiverLabel,
         },
-      );
-      await updateCollectionReceiver(
-        collectionId: collectionId,
-        receiverMomoNumber: normalizedReceiver,
-        receiverLabel: cleanReceiverLabel,
-        receiverIsMomoPayCode: receiverIsMomoPayCode,
       );
       final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();
@@ -604,6 +714,8 @@ class CollectRepository extends StateNotifier<CollectState> {
       imageUrl: imageUrl,
       accentColorHex: accentColorHex,
       isPublic: isPublic,
+      isRecurring: isRecurring,
+      visibilityStatus: isPublic ? 'public_requested' : 'private',
       recurringCadence: cadence,
     );
     state = state.copyWith(collections: collections);
@@ -621,17 +733,29 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (contributorMomoNumber == null || contributorMomoNumber.isEmpty) {
       throw StateError('Link your MoMo number before contributing.');
     }
+    final authenticatedPayerPhone = profile.authenticatedMomoPayerPhone;
+    if (authenticatedPayerPhone == null) {
+      throw StateError(
+        'Use your verified WhatsApp number as your MoMo payer number before contributing.',
+      );
+    }
     final collection = _requireActiveCollection(draft.collectionId);
+    if (!collection.isCurrentUserMember &&
+        collection.creatorUserId != profile.id) {
+      throw StateError('Join this group before contributing.');
+    }
     final now = DateTime.now();
+    final senderPhoneHash = HashUtils.phoneHash(authenticatedPayerPhone);
     for (final intent in state.paymentIntents) {
       if (intent.collectionId == collection.id &&
           intent.expectedAmountRwf == draft.amountRwf &&
+          intent.senderPhoneHash == senderPhoneHash &&
+          intent.receiverMomoNumber.trim().isNotEmpty &&
           intent.status == 'pending' &&
           now.isBefore(intent.expiresAt)) {
         return intent;
       }
     }
-    final senderPhoneHash = HashUtils.phoneHash(contributorMomoNumber);
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -673,6 +797,7 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<void> ingestReceiverSms(
     String body, {
+    String? clientEnvelopeId,
     String rawSender = 'android_sms',
     String? receiverMomoNumber,
     String? receivedAtDevice,
@@ -685,6 +810,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         body: {
           'raw_sender': rawSender,
           'raw_body': body,
+          'client_envelope_id': clientEnvelopeId,
           'receiver_momo_number': receiverMomoNumber,
           'received_at_device': receivedAtDevice,
         },
@@ -695,21 +821,38 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<bool> setSmsAccess(bool enabled) async {
     final profile = state.currentProfile;
+    if (enabled && profile == null) {
+      throw StateError('Sign in before enabling MoMo SMS access.');
+    }
     final supabase = _supabase;
-    final granted = await _smsAccessChannel.setEnabled(enabled);
+    final granted = await _smsAccessChannel.setEnabled(
+      enabled,
+      ownerUserId: profile?.id,
+    );
     final consentEnabled = enabled && granted;
-    if (supabase != null &&
-        supabase.auth.currentUser != null &&
-        profile != null) {
-      await supabase.rpc<void>(
-        'record_sms_access_consent',
-        params: {
-          'enabled': consentEnabled,
-          'momo_number_hash': _profileSmsReceiverHash(profile),
-          'build_channel': 'android_sms_access',
-          'device_label': 'flutter_app',
-        },
+    try {
+      if (supabase != null &&
+          supabase.auth.currentUser != null &&
+          profile != null) {
+        await supabase.rpc<void>(
+          'record_sms_access_consent',
+          params: {
+            'enabled': consentEnabled,
+            'momo_number_hash': _profileSmsReceiverHash(profile),
+            'build_channel': 'android_sms_access',
+            'device_label': 'flutter_app',
+          },
+        );
+      }
+    } catch (_) {
+      if (enabled) {
+        await _smsAccessChannel.setEnabled(false, ownerUserId: profile?.id);
+      }
+      state = state.copyWith(
+        smsAccessEnabled: false,
+        smsAccessDenied: enabled && !granted,
       );
+      rethrow;
     }
     state = state.copyWith(
       smsAccessEnabled: consentEnabled,
@@ -720,7 +863,11 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<SmsAccessStatus> refreshSmsAccessStatus() async {
     final nativeStatus = await _smsAccessChannel.status();
-    if (state.smsAccessEnabled && !nativeStatus.enabled) {
+    if (nativeStatus.supported &&
+        nativeStatus.declared &&
+        !nativeStatus.enabled &&
+        state.currentProfile != null &&
+        _supabase?.auth.currentUser != null) {
       await setSmsAccess(false);
       return _smsAccessChannel.status();
     }
@@ -729,21 +876,45 @@ class CollectRepository extends StateNotifier<CollectState> {
       smsAccessDenied:
           nativeStatus.permanentlyDenied ||
           (nativeStatus.requestedBefore && !nativeStatus.granted),
+      smsQueueOverflowed: nativeStatus.queueOverflowed,
     );
     return nativeStatus;
   }
 
   Future<int> syncPendingSmsAccess() {
     final existing = _smsSyncInFlight;
-    if (existing != null) return existing;
-    final sync = _syncPendingSmsAccess();
+    if (existing != null) {
+      _smsSyncRequested = true;
+      return existing;
+    }
+    final sync = _runPendingSmsAccessSync();
     _smsSyncInFlight = sync;
     return sync.whenComplete(() {
       if (identical(_smsSyncInFlight, sync)) _smsSyncInFlight = null;
     });
   }
 
-  Future<int> _syncPendingSmsAccess() async {
+  Future<int> _runPendingSmsAccessSync() async {
+    try {
+      final ingested = await _drainPendingSmsAccess();
+      state = state.copyWith(smsSyncNeedsAttention: false);
+      return ingested;
+    } catch (_) {
+      state = state.copyWith(smsSyncNeedsAttention: true);
+      rethrow;
+    }
+  }
+
+  Future<int> _drainPendingSmsAccess() async {
+    var ingested = 0;
+    do {
+      _smsSyncRequested = false;
+      ingested += await _syncPendingSmsAccessPass();
+    } while (_smsSyncRequested && mounted);
+    return ingested;
+  }
+
+  Future<int> _syncPendingSmsAccessPass() async {
     final profile = state.currentProfile;
     if (profile == null) return 0;
     final status = await refreshSmsAccessStatus();
@@ -752,8 +923,15 @@ class CollectRepository extends StateNotifier<CollectState> {
     var ingested = 0;
     for (final item in pending) {
       if (item.rawBody.trim().isEmpty) continue;
+      if (item.ownerUserId != profile.id) {
+        await _smsAccessChannel.setEnabled(false, ownerUserId: profile.id);
+        throw StateError(
+          'Queued SMS belongs to a different account and was quarantined.',
+        );
+      }
       await ingestReceiverSms(
         item.rawBody,
+        clientEnvelopeId: item.id,
         rawSender: item.rawSender,
         receiverMomoNumber: _resolveSmsReceiver(
           profile,
@@ -772,7 +950,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       ingested += 1;
     }
     if (ingested > 0 && _supabase?.auth.currentUser != null) {
-      await loadInitial();
+      await loadInitial(syncPendingSms: false);
     }
     return ingested;
   }
@@ -806,8 +984,8 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     if (supabase != null && supabase.auth.currentUser != null) {
       final response = await supabase.rpc<dynamic>(
-        'join_group_by_slug',
-        params: {'group_slug': normalizedSlug},
+        'join_group_by_share_code',
+        params: {'p_group_code': normalizedSlug},
       );
       final collection = await _liveReader.fetchCollection(response as String);
       final existing = state.collections.indexWhere(
@@ -827,6 +1005,42 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
 
     return collectionBySlug(normalizedSlug);
+  }
+
+  Future<String> getGroupShareCode(String collectionId) async {
+    final collection = _requireActiveCollection(collectionId);
+    final profile = _requireProfile();
+    if (!collection.isCurrentUserMember &&
+        collection.creatorUserId != profile.id) {
+      throw StateError('Join this group before sharing it.');
+    }
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      return supabase.rpc<String>(
+        'get_group_share_code',
+        params: {'p_collection_id': collectionId},
+      );
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before sharing a group.');
+    }
+    return collection.slug;
+  }
+
+  Future<String> rotateGroupShareCode(String collectionId) async {
+    final collection = _requireActiveCollection(collectionId);
+    _requireCollectionOwner(collection, action: 'rotate the group share link');
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      return supabase.rpc<String>(
+        'rotate_group_share_code',
+        params: {'p_collection_id': collectionId},
+      );
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before rotating a group link.');
+    }
+    return _uuid.v4();
   }
 
   PaymentIntentModel intentById(String id) =>
@@ -1050,6 +1264,8 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   CollectionSummary summaryFor(String collectionId) {
+    final authoritative = state.collectionSummaries[collectionId];
+    if (authoritative != null) return authoritative;
     final contributions = contributionsFor(collectionId);
     return CollectionSummary(
       amountRaisedRwf: contributions.fold(
@@ -1057,6 +1273,9 @@ class CollectRepository extends StateNotifier<CollectState> {
         (sum, item) => sum + item.amountRwf,
       ),
       supporterCount: contributions.length,
+      currentUserBalanceRwf: contributions
+          .where((item) => item.isCurrentUserContribution)
+          .fold(0, (sum, item) => sum + item.amountRwf),
     );
   }
 

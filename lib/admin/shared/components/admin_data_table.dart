@@ -10,12 +10,14 @@ class AdminDataTable extends StatelessWidget {
     required this.rows,
     this.onOpen,
     this.trailingBuilder,
+    this.valueLabel = 'Amount',
     super.key,
   });
 
   final List<AdminTableRowData> rows;
   final ValueChanged<AdminTableRowData>? onOpen;
   final Widget Function(AdminTableRowData row)? trailingBuilder;
+  final String valueLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class AdminDataTable extends StatelessWidget {
               rows: rows,
               onOpen: onOpen,
               trailingBuilder: trailingBuilder,
+              valueLabel: valueLabel,
             );
           }
           return DecoratedBox(
@@ -67,7 +70,7 @@ class AdminDataTable extends StatelessWidget {
                         const DataColumn(label: Text('Actions')),
                       const DataColumn(label: Text('Record')),
                       const DataColumn(label: Text('Status')),
-                      const DataColumn(label: Text('Amount')),
+                      DataColumn(label: Text(valueLabel)),
                       const DataColumn(label: Text('Created')),
                     ],
                     rows: [
@@ -128,11 +131,13 @@ class _AdminCompactRecordList extends StatelessWidget {
     required this.rows,
     required this.onOpen,
     required this.trailingBuilder,
+    required this.valueLabel,
   });
 
   final List<AdminTableRowData> rows;
   final ValueChanged<AdminTableRowData>? onOpen;
   final Widget Function(AdminTableRowData row)? trailingBuilder;
+  final String valueLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +149,7 @@ class _AdminCompactRecordList extends StatelessWidget {
             row: rows[index],
             onOpen: onOpen,
             trailing: trailingBuilder?.call(rows[index]),
+            valueLabel: valueLabel,
           ),
           if (index != rows.length - 1) const SizedBox(height: 12),
         ],
@@ -157,11 +163,13 @@ class _AdminCompactRecordCard extends StatelessWidget {
     required this.row,
     required this.onOpen,
     required this.trailing,
+    required this.valueLabel,
   });
 
   final AdminTableRowData row;
   final ValueChanged<AdminTableRowData>? onOpen;
   final Widget? trailing;
+  final String valueLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +191,7 @@ class _AdminCompactRecordCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _CompactValue(
-                    label: 'Amount',
+                    label: valueLabel,
                     value: row.amount.isEmpty ? '-' : row.amount,
                   ),
                 ),

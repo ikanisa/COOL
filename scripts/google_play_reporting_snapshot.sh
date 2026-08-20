@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+umask 077
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -25,20 +26,24 @@ package_name = ENV.fetch("PACKAGE_NAME")
 days = Integer(ENV.fetch("DAYS"))
 output_path = File.expand_path(ENV.fetch("OUTPUT_PATH"), root)
 output_format = ENV.fetch("OUTPUT_FORMAT")
+allowed_output_roots = [File.join(root, ".cache"), File.join(root, "output")]
+unless allowed_output_roots.any? { |allowed| output_path.start_with?("#{allowed}#{File::SEPARATOR}") }
+  abort("OUTPUT_PATH must stay under repository .cache or output")
+end
 
 def token_from_command(command)
   return nil unless command && !command.strip.empty?
-  stdout, stderr, status = Open3.capture3(command)
+  stdout, _stderr, status = Open3.capture3(command)
   return [stdout.strip, "custom_command"] if status.success? && !stdout.strip.empty?
-  [nil, "custom_command_failed: #{stderr.lines.first.to_s.strip}"]
-rescue Errno::ENOENT => e
-  [nil, "custom_command_unavailable: #{e.message.lines.first.to_s.strip}"]
+  [nil, "custom_command_failed"]
+rescue Errno::ENOENT
+  [nil, "custom_command_unavailable"]
 end
 
 def token_from_gcloud(*cmd)
-  stdout, stderr, status = Open3.capture3(*cmd)
+  stdout, _stderr, status = Open3.capture3(*cmd)
   return [stdout.strip, cmd.join(" ")] if status.success? && !stdout.strip.empty?
-  [nil, "#{cmd.join(" ")} failed: #{stderr.lines.first.to_s.strip}"]
+  [nil, "#{cmd.first}_auth_failed"]
 rescue Errno::ENOENT
   [nil, "#{cmd.first} unavailable"]
 end

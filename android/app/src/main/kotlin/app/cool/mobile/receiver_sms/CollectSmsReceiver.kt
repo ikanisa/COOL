@@ -5,8 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import android.util.Log
-import org.json.JSONArray
 import org.json.JSONObject
+import java.nio.ByteBuffer
+import java.security.MessageDigest
 import java.time.Instant
 import java.util.UUID
 
@@ -21,62 +22,101 @@ class CollectSmsReceiver : BroadcastReceiver() {
         if (!prefs.getBoolean(SmsQueueStore.SMS_ACCESS_ENABLED_KEY, false)) return
 
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-        if (messages.isEmpty()) return
+        if (messages.isEmpty() || messages.size > MAX_SMS_SEGMENTS) return
         val sender = messages.firstOrNull()?.originatingAddress.orEmpty().trim()
         val body = messages.joinToString(separator = "") { it.messageBody.orEmpty() }.trim()
-        if (body.isEmpty() || !isLikelyMobileMoney(sender, body)) return
+        val ownerUserId = prefs.getString(
+            SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
+            null,
+        ).orEmpty().trim()
+        if (ownerUserId.isEmpty() || body.isEmpty() || body.length > MAX_SMS_BODY_CHARS ||
+            !isLikelyMobileMoney(sender, body)
+        ) return
 
+        val receivedAtMillis = messages.minOfOrNull { it.timestampMillis }
+            ?.takeIf { it > 0L }
+            ?: System.currentTimeMillis()
+        val envelope = JSONObject()
+            .put("id", envelopeIdFor(ownerUserId, sender, body, receivedAtMillis))
+            .put("owner_user_id", ownerUserId)
+            .put("raw_sender", sender)
+            .put("raw_body", body)
+            .put("received_at_device", Instant.ofEpochMilli(receivedAtMillis).toString())
+        val pendingResult = goAsync()
         try {
-            val store = SmsQueueStore(context.applicationContext)
-            val pending = store.read()
-            val bounded = JSONArray()
-            val startIndex = maxOf(0, pending.length() - MAX_PENDING_SMS + 1)
-            for (index in startIndex until pending.length()) {
-                pending.optJSONObject(index)?.let(bounded::put)
+            SmsQueueWorker.execute {
+                try {
+                    val result = SmsQueueStore(context.applicationContext).appendIfCapacity(
+                        envelope,
+                        MAX_PENDING_SMS,
+                    )
+                    when (result) {
+                        SmsQueueStore.AppendResult.STORED -> {
+                            // Never log sender, message body, phone number, amount,
+                            // transaction ID, or the device-local envelope ID.
+                            Log.i(TAG, "Consented mobile-money SMS queued for secure ingestion")
+                            SmsQueueEventBus.notifyQueueChanged()
+                        }
+                        SmsQueueStore.AppendResult.DUPLICATE -> {
+                            // A duplicate broadcast may be the signal that wakes a
+                            // foreground Flutter engine after an earlier event race.
+                            SmsQueueEventBus.notifyQueueChanged()
+                        }
+                        SmsQueueStore.AppendResult.FULL ->
+                            Log.w(TAG, "Secure SMS queue is full; existing evidence was preserved")
+                        SmsQueueStore.AppendResult.DISABLED -> Unit
+                        SmsQueueStore.AppendResult.FAILED ->
+                            Log.w(TAG, "Unable to persist consented SMS queue item")
+                    }
+                } catch (_: Exception) {
+                    // Android Keystore can be temporarily unavailable. Fail closed
+                    // instead of crashing or exposing the protected broadcast path.
+                    Log.w(TAG, "Secure SMS queue unavailable; message was not retained")
+                } finally {
+                    pendingResult.finish()
+                }
             }
-            bounded.put(
-                JSONObject()
-                    .put("id", UUID.randomUUID().toString())
-                    .put("raw_sender", sender)
-                    .put("raw_body", body)
-                    .put(
-                        "received_at_device",
-                        messages.minOfOrNull { it.timestampMillis }
-                            ?.takeIf { it > 0L }
-                            ?.let(Instant::ofEpochMilli)
-                            ?.toString()
-                            ?: Instant.now().toString(),
-                    ),
-            )
-            if (store.write(bounded)) {
-                // Never log sender, message body, phone number, amount, or transaction ID.
-                Log.i(TAG, "Consented mobile-money SMS queued for secure ingestion")
-            } else {
-                Log.w(TAG, "Unable to persist consented SMS queue item")
-            }
-        } catch (_: Exception) {
-            // Android Keystore can be temporarily unavailable while a device is
-            // locked or after key invalidation. Fail closed and let the provider
-            // remain the source of truth instead of crashing the broadcast path.
-            Log.w(TAG, "Secure SMS queue unavailable; message was not retained")
+        } catch (_: RuntimeException) {
+            pendingResult.finish()
+            Log.w(TAG, "Secure SMS queue worker unavailable; message was not retained")
         }
     }
 
+    internal fun envelopeIdFor(
+        ownerUserId: String,
+        sender: String,
+        body: String,
+        receivedAtMillis: Long,
+    ): String {
+        val digest = MessageDigest.getInstance("SHA-256").digest(
+            listOf(ownerUserId.trim(), sender.trim(), receivedAtMillis.toString(), body.trim())
+                .joinToString("\u0000")
+                .toByteArray(Charsets.UTF_8),
+        ).copyOf(16)
+        // Encode the deterministic transport fingerprint as an RFC 4122 version-5
+        // UUID so the backend can use it as an idempotency key without raw SMS data.
+        digest[6] = ((digest[6].toInt() and 0x0f) or 0x50).toByte()
+        digest[8] = ((digest[8].toInt() and 0x3f) or 0x80).toByte()
+        val bytes = ByteBuffer.wrap(digest)
+        return UUID(bytes.long, bytes.long).toString()
+    }
+
     internal fun isLikelyMobileMoney(sender: String, body: String): Boolean {
-        val providerHint = PROVIDER_HINT.containsMatchIn(sender) ||
-            PROVIDER_HINT.containsMatchIn(body)
+        val allowedSender = PROVIDER_SENDER.matches(sender)
         val moneyHint = CURRENCY_HINT.containsMatchIn(body) ||
             (AMOUNT_HINT.containsMatchIn(body) && TRANSACTION_ID_HINT.containsMatchIn(body))
         val transactionHint = TRANSACTION_HINT.containsMatchIn(body)
         val promotionalHint = PROMOTIONAL_HINT.containsMatchIn(body)
-        return providerHint && moneyHint && transactionHint && !promotionalHint
+        return allowedSender && moneyHint && transactionHint && !promotionalHint
     }
 
     companion object {
         private const val TAG = "CollectSmsReceiver"
-        private const val MAX_PENDING_SMS = 25
-        private val PROVIDER_HINT = Regex(
-            "(?:momo|m[-\\s]?money|mobile\\s*money|mtn|airtel)",
+        private const val MAX_PENDING_SMS = 100
+        private const val MAX_SMS_SEGMENTS = 10
+        private const val MAX_SMS_BODY_CHARS = 2_000
+        private val PROVIDER_SENDER = Regex(
+            "^\\s*(?:mtn(?:\\s*(?:momo|mobile\\s*money))?|momo|m[-\\s]?money|airtel(?:\\s*money)?)\\s*$",
             RegexOption.IGNORE_CASE,
         )
         private val CURRENCY_HINT = Regex("(?:RWF|FRW)", RegexOption.IGNORE_CASE)

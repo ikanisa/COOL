@@ -116,6 +116,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                   AdminDataTable(
                     rows: rows,
                     onOpen: _openRow,
+                    valueLabel: _adminQueueValueLabel(widget.rpcName),
                     trailingBuilder: widget.actionKind == null
                         ? null
                         : (row) => _AdminRowActions(
@@ -186,6 +187,19 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     context.go('$prefix/${row.id}');
   }
 }
+
+String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
+  'admin_list_collections' => 'Members',
+  'admin_list_receivers' => 'Network',
+  'admin_list_notifications' => 'Deliveries',
+  'admin_list_admin_users' => 'Roles',
+  'admin_list_users' ||
+  'admin_list_sms_metadata' ||
+  'admin_list_audit_logs' ||
+  'admin_list_settings' ||
+  'admin_list_feature_flags' => 'Detail',
+  _ => 'Amount',
+};
 
 class _AdminQueueExportBar extends StatelessWidget {
   const _AdminQueueExportBar({required this.spec, required this.rows});

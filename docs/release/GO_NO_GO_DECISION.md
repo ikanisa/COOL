@@ -2,6 +2,12 @@
 
 Audit date: 2026-06-01
 
+Current override (2026-08-15): this June snapshot is historical. The governing
+status is `QA_TEST_REPORT.md`, which remains **NO-GO** on production/public
+deployment, provider-specific finality certification and reconciliation, FCM,
+physical Android/payment/accessibility evidence, signing/Play approval and
+monitored rollout.
+
 Decision: NO-GO for public production launch until the corrected SMS-first
 Groups product contract is fully validated on mobile, Admin PWA, and linked
 Supabase.
@@ -19,7 +25,9 @@ has been superseded. The current source of truth is the Groups workflow:
 - `Contribute` creates a Supabase payment intent tied to group, amount,
   receiver MoMo, user id, and Collect ID.
 - MoMo payment is completed off app through the dialer.
-- MoMo SMS is ingested, parsed, allocated, and posted to the ledger.
+- MoMo SMS is ingested, parsed and matched as non-ledger candidate evidence. A
+  separately authenticated provider-finality event is required before the
+  exactly-once ledger pair is posted.
 
 ## Current Gate Summary
 

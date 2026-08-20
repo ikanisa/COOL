@@ -76,15 +76,32 @@ Mobile app routes:
 
 1. User signs in with a WhatsApp number and receives a 6-digit Collect ID.
 2. User stores a MoMo number in Settings/Profile.
-3. Android group creator creates a group with name, optional description, and
-   receiver MoMo number synced from profile.
+3. Android group creation is allowed only after the production build confirms
+   receive-only MoMo SMS access and the backend confirms the receiver matches
+   the creator's linked MoMo number or 4-to-9-digit merchant code.
 4. iPhone group creation is blocked with `group creation is available only on Android`.
-5. Members join from a link or QR code shared through chat apps, SMS, or deep link.
+5. Members join from a revocable high-entropy link or QR code shared through
+   the native Android share sheet. Public groups also support reviewed discovery;
+   private slugs are never treated as invitation credentials.
 6. Member taps `Contribute`, enters amount, and Supabase creates a pending
    payment intent linked to group, amount, receiver MoMo, user id, and Collect ID.
-7. The app opens the MoMo dialer with `tel:` and payment is completed off app.
-8. MoMo SMS is uploaded to Supabase, parsed, matched to the pending intent,
-   and posted to the immutable ledger.
+7. On supported Android builds, the allowlisted native `ACTION_CALL` bridge opens
+   only the exact Collect merchant USSD request; the member confirms all carrier,
+   PIN, and final payment steps.
+8. MoMo SMS is atomically uploaded to Supabase, leased to the parser and matched
+   to the pending intent as evidence awaiting provider confirmation. SMS alone
+   never changes a balance. Only an authenticated service-side provider finality
+   event posts exactly one collection credit and one payer credit. Server-owned
+   aggregate RPCs expose group and current-payer balances without exposing other
+   payers' private payment rows.
+
+The current group-journey hardening is the reviewed migration chain from
+`20260815050900_harden_momo_sms_standalone_posting.sql` through
+`20260815084500_revoke_non_dml_table_privileges.sql`. It adds server-attested,
+request-bound Android creation; owner-derived receiver enforcement; reviewable
+visibility; private rotatable share codes; atomic safe joins; member-gated
+contribution requests; provider-global payment idempotency; provider-finality
+ledger posting; audited notifications; and privacy-preserving balance summaries.
 
 There is no manual SMS paste, no reported transaction ID field, and no anonymity
 picker. Category-specific collection context and diaspora rails are allowed only

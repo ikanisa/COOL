@@ -9,8 +9,21 @@ const _mobileEvidencePlatform = String.fromEnvironment(
 );
 
 bool canCreateGroupsOnThisPlatform() {
-  return (kIsWeb && _mobileEvidencePlatform != 'ios') ||
-      defaultTargetPlatform == TargetPlatform.android;
+  return groupCreationPlatformAllowed(
+    isWeb: kIsWeb,
+    targetPlatform: defaultTargetPlatform,
+    mobileEvidencePlatform: _mobileEvidencePlatform,
+  );
+}
+
+@visibleForTesting
+bool groupCreationPlatformAllowed({
+  required bool isWeb,
+  required TargetPlatform targetPlatform,
+  String mobileEvidencePlatform = '',
+}) {
+  if (isWeb) return mobileEvidencePlatform == 'android';
+  return targetPlatform == TargetPlatform.android;
 }
 
 bool shouldShowGroupCreationEntryOnThisPlatform() {

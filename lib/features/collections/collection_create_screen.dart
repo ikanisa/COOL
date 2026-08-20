@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/security/phone_normalizer.dart';
 import '../../core/security/momo_receiver_normalizer.dart';
+import '../../core/security/play_integrity_service.dart';
+import '../../core/security/sms_access_channel.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -24,8 +26,8 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
       _CollectionCreateScreenState();
 }
 
-class _CollectionCreateScreenState
-    extends ConsumerState<CollectionCreateScreen> {
+class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
+    with WidgetsBindingObserver {
   static const _lastStep = 4;
 
   final _title = TextEditingController();
@@ -41,6 +43,10 @@ class _CollectionCreateScreenState
   CollectionType _collectionType = CollectionType.ikimina;
   bool _syncedProfileMomo = false;
   bool _creating = false;
+  bool _isPublicRequested = false;
+  bool _permissionChecking = false;
+  SmsAccessStatus? _smsStatus;
+  String? _permissionError;
   int _step = 0;
   String? _error;
 
@@ -53,13 +59,25 @@ class _CollectionCreateScreenState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _title.addListener(_refreshPreview);
     _receiverNumber.addListener(_refreshPreview);
     _receiverPayCode.addListener(_refreshPreview);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _refreshSmsPermission();
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshSmsPermission();
+    }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _title.removeListener(_refreshPreview);
     _receiverNumber.removeListener(_refreshPreview);
     _receiverPayCode.removeListener(_refreshPreview);
@@ -89,6 +107,11 @@ class _CollectionCreateScreenState
     final canCreate = canCreateGroupsOnThisPlatform();
     if (!canCreate) {
       return const SizedBox.shrink();
+    }
+    final liveRepository = ref.read(collectRepositoryProvider.notifier).isLive;
+    if (liveRepository &&
+        (_permissionChecking || _smsStatus?.enabled != true)) {
+      return _buildSmsPermissionGate();
     }
     return ScreenScaffold(
       title: 'Create group',
@@ -201,6 +224,24 @@ class _CollectionCreateScreenState
                     });
                   },
           ),
+          CollectCard(
+            emphasis: CollectCardEmphasis.flat,
+            child: Material(
+              color: context.collectColors.transparent,
+              child: SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Request a public group'),
+                subtitle: const Text(
+                  'Private is immediate. Public groups appear in discovery only after review.',
+                ),
+                value: _isPublicRequested,
+                onChanged: (value) => setState(() {
+                  _isPublicRequested = value;
+                  _error = null;
+                }),
+              ),
+            ),
+          ),
         ] else ...[
           _CreateGroupReview(
             title: _title.text.trim(),
@@ -209,6 +250,7 @@ class _CollectionCreateScreenState
             receiver: _receiverPreviewLabel,
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
+            isPublicRequested: _isPublicRequested,
             error: _error,
           ),
         ],
@@ -314,6 +356,28 @@ class _CollectionCreateScreenState
       });
       return;
     }
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    if (repository.isLive) {
+      SmsAccessStatus status;
+      try {
+        status = await repository.refreshSmsAccessStatus();
+      } catch (_) {
+        if (!mounted) return;
+        setState(() {
+          _error =
+              'MoMo SMS access could not be verified. Check your connection.';
+        });
+        return;
+      }
+      if (!mounted) return;
+      setState(() => _smsStatus = status);
+      if (!status.enabled) {
+        setState(() {
+          _error = 'Enable MoMo SMS access before creating a group.';
+        });
+        return;
+      }
+    }
     try {
       setState(() {
         _creating = true;
@@ -333,9 +397,16 @@ class _CollectionCreateScreenState
                 _receiverMode == CollectMomoReceiverMode.momoPayCode,
             accentColorHex: _accentColorHex,
             imageUrl: _selectedImageDataUri(),
+            isPublic: _isPublicRequested,
           );
       if (!mounted) return;
       context.go('/groups/${collection.id}');
+    } on PlayIntegrityUnavailable catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _creating = false;
+        _error = error.message;
+      });
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -388,5 +459,88 @@ class _CollectionCreateScreenState
         _mimeTypeFromName(_groupImageName ?? '') ??
         'image/jpeg';
     return 'data:$mimeType;base64,${base64Encode(bytes)}';
+  }
+
+  Future<void> _refreshSmsPermission() async {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    if (!repository.isLive || _permissionChecking) return;
+    setState(() {
+      _permissionChecking = true;
+      _permissionError = null;
+    });
+    try {
+      final status = await repository.refreshSmsAccessStatus();
+      if (!mounted) return;
+      setState(() {
+        _smsStatus = status;
+        _permissionChecking = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _permissionChecking = false;
+        _permissionError =
+            'MoMo SMS access could not be verified. Check your connection and try again.';
+      });
+    }
+  }
+
+  Widget _buildSmsPermissionGate() {
+    final status = _smsStatus;
+    final unavailable =
+        status != null && (!status.supported || !status.declared);
+    return ScreenScaffold(
+      title: 'Create group',
+      showHeader: false,
+      children: [
+        const CollectPlainPageHeader(title: 'Create group'),
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                unavailable ? CollectIcons.info : CollectIcons.lock,
+                size: 34,
+              ),
+              CollectSpacing.gap12,
+              Text(
+                _permissionChecking
+                    ? 'Checking MoMo SMS access'
+                    : unavailable
+                    ? 'Group creation is unavailable in this build'
+                    : 'Enable MoMo SMS access first',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              CollectSpacing.gap8,
+              Text(
+                _permissionError ??
+                    (unavailable
+                        ? 'Receiver mode is Android-only and requires the approved production SMS capability.'
+                        : 'Collect captures new receipt candidates on this Android device. Ledger balances change only after independent provider confirmation. Collect never reads old messages or sends SMS.'),
+              ),
+              CollectSpacing.gap16,
+              if (!_permissionChecking && !unavailable)
+                CollectButton(
+                  label: 'Review MoMo SMS access',
+                  icon: CollectIcons.settings,
+                  onPressed: () => context.push('/settings/permissions'),
+                  expand: true,
+                ),
+              if (!_permissionChecking) ...[
+                CollectSpacing.gap12,
+                CollectButton(
+                  label: 'Check again',
+                  icon: Icons.refresh_rounded,
+                  onPressed: _refreshSmsPermission,
+                  variant: CollectButtonVariant.secondary,
+                  expand: true,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

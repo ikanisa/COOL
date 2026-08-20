@@ -1,4 +1,4 @@
-export const parserSchemaVersion = "collect.sms_parser.v1";
+export const parserSchemaVersion = "collect.sms_parser.openai.v2";
 
 export const smsParserJsonSchema = {
   type: "object",

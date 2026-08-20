@@ -259,11 +259,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
         message.contains('invalid token')) {
       return 'That code is expired or already used. Request a new WhatsApp OTP.';
     }
-    if (message.contains('registered admin whatsapp number')) {
-      return 'Use the registered admin WhatsApp number.';
-    }
-    if (message.contains('admin whatsapp phone is not configured')) {
-      return 'Admin WhatsApp phone is not configured.';
+    if (message.contains('format') || message.contains('phone')) {
+      return 'Enter a valid international WhatsApp number.';
     }
     if (message.contains('not authorized') ||
         message.contains('overview.read') ||

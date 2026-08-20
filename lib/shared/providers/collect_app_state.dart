@@ -105,6 +105,7 @@ final profileReadinessProvider = Provider<ProfileReadiness>((ref) {
   return ProfileReadiness(
     hasProfile: profile != null,
     hasMomoNumber: profile?.momoNumber?.trim().isNotEmpty == true,
+    hasAuthenticatedMomoPayer: profile?.authenticatedMomoPayerPhone != null,
     collectId: profile?.publicId,
   );
 });
@@ -198,14 +199,17 @@ class ProfileReadiness {
   const ProfileReadiness({
     required this.hasProfile,
     required this.hasMomoNumber,
+    required this.hasAuthenticatedMomoPayer,
     required this.collectId,
   });
 
   final bool hasProfile;
   final bool hasMomoNumber;
+  final bool hasAuthenticatedMomoPayer;
   final String? collectId;
 
-  bool get readyForContribution => hasProfile && hasMomoNumber;
+  bool get readyForContribution =>
+      hasProfile && hasMomoNumber && hasAuthenticatedMomoPayer;
   bool get readyForGroupCreation => hasProfile && hasMomoNumber;
 }
 

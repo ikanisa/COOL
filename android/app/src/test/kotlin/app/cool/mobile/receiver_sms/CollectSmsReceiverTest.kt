@@ -1,6 +1,9 @@
 package app.cool.mobile.receiver_sms
 
+import java.util.UUID
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -75,5 +78,47 @@ class CollectSmsReceiverTest {
                 "Promotion: buy a bundle today and pay only RWF 1,000.",
             ),
         )
+    }
+
+    @Test
+    fun envelopeIdIsStableForDuplicateBroadcastsAndChangesWithTimestamp() {
+        val first = receiver.envelopeIdFor(
+            "user-1",
+            "M-Money",
+            "You received RWF 5,000. Transaction Id: ABC1234.",
+            1_700_000_000_000,
+        )
+        val duplicate = receiver.envelopeIdFor(
+            "user-1",
+            "M-Money",
+            "You received RWF 5,000. Transaction Id: ABC1234.",
+            1_700_000_000_000,
+        )
+        val later = receiver.envelopeIdFor(
+            "user-1",
+            "M-Money",
+            "You received RWF 5,000. Transaction Id: ABC1234.",
+            1_700_000_001_000,
+        )
+
+        assertEquals(first, duplicate)
+        assertNotEquals(first, later)
+        assertEquals(5, UUID.fromString(first).version())
+    }
+
+    @Test
+    fun queueEventBusEmitsMonotonicMetadataOnlySignals() {
+        val observed = mutableListOf<Long>()
+        val listener: (Long) -> Unit = observed::add
+        SmsQueueEventBus.addListener(listener)
+        try {
+            SmsQueueEventBus.notifyQueueChanged()
+            SmsQueueEventBus.notifyQueueChanged()
+        } finally {
+            SmsQueueEventBus.removeListener(listener)
+        }
+
+        assertEquals(2, observed.size)
+        assertTrue(observed[1] > observed[0])
     }
 }

@@ -123,6 +123,11 @@ class _AuthNativeActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final enabled = onPressed != null;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
+    final buttonHeight = usesAccessibilityText
+        ? (isPrimary ? 76.0 : 64.0)
+        : (isPrimary ? 56.0 : 48.0);
     final foreground = isPrimary
         ? CollectColors.referenceChromeBlack.withValues(
             alpha: enabled ? 1 : 0.46,
@@ -135,12 +140,10 @@ class _AuthNativeActionButton extends StatelessWidget {
         : CollectColors.transparentColor;
     return SizedBox(
       width: double.infinity,
-      height: isPrimary ? 56 : 48,
+      height: buttonHeight,
       child: TextButton(
         style: ButtonStyle(
-          minimumSize: WidgetStatePropertyAll(
-            Size.fromHeight(isPrimary ? 56 : 48),
-          ),
+          minimumSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(isPrimary ? 28 : 14),
@@ -170,8 +173,8 @@ class _AuthNativeActionButton extends StatelessWidget {
             Flexible(
               child: Text(
                 label,
-                maxLines: 1,
-                softWrap: false,
+                maxLines: usesAccessibilityText ? 2 : 1,
+                softWrap: usesAccessibilityText,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: foreground,

@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-08-09T18:46:31Z",
+  "generated_at": "2026-08-15T05:42:23Z",
   "package_name": "app.cool.mobile",
   "target_release": {
     "version_name": "1.2.2",
-    "version_code": 14,
+    "version_code": 20,
     "track": "production",
-    "release_name": "Collect 1.2.2 (14)",
+    "release_name": "Collect 1.2.2 (20)",
     "release_notes": {
-      "en-US": "Fixes production sign-in packaging and account action accessibility, with native notification and optional receive-only MoMo SMS controls."
+      "en-US": "Adds secure receive-only MoMo SMS capture, OpenAI-powered payment parsing, exact contribution matching, reliable balances, and transaction notifications."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "da98b062e43c08a2086450decb704b6990807d382786eaab48119284ec369f4f",
-    "play_console_state": "not_uploaded_active_version_12_and_replacement_screenshots_in_review",
-    "rollout_percentage": 0,
-    "review_submitted_at": null,
+    "aab_sha256": "4202a07f970886c0f8c8eff13f6d89aaa5cdae77c23b4681df7f37cf6a1b4c36",
+    "play_console_state": "version_20_in_google_review_automated_checks_complete",
+    "rollout_percentage": 100,
+    "review_submitted_at": "2026-08-15T05:42:23Z",
     "device_catalog_delta": {
       "phones_removed": 0,
       "tablets_removed": 0,
@@ -142,8 +142,8 @@
     "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
     "app_access": {
       "reviewer_access_required": true,
-      "status": "configured_in_play_console_2026_08_08",
-      "notes": "Play Sign in details declares restricted access and contains a dedicated WhatsApp OTP review entry. Credential values were not read, printed, copied, or retained during the audit."
+      "status": "verified_and_submitted_in_play_console_2026_08_15",
+      "notes": "Play Sign in details declares restricted access and contains bare reviewer credentials plus explicit WhatsApp OTP and MoMo SMS permission navigation instructions. The credentials were verified against live production auth; secret values are not retained in this packet or test evidence."
     },
     "data_safety": {
       "collected_data_categories": [
@@ -227,7 +227,7 @@
         "android.permission.ACCESS_NETWORK_STATE"
       ],
       "restricted_sms_permissions_in_production": true,
-      "sms_permissions_declaration_status": "submitted_with_production_v12_review",
+      "sms_permissions_declaration_status": "submitted_with_production_v20_review_pending_google_approval",
       "sms_receiver_scope": "Production is receive-only for new consented MTN/Airtel mobile-money broadcasts. It never requests READ_SMS, SEND_SMS, inbox history, Call Log, contacts, or storage access. Public distribution remains blocked until Google Play accepts the declaration."
     }
   },
@@ -283,6 +283,6 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "target_v14_not_uploaded_production_v12_and_all_replacement_screenshot_changes_in_review_public_listing_not_yet_updated_app_access_verified_sms_declaration_submitted_not_approved",
+  "console_completion_status": "target_v20_and_current_screenshots_in_google_review_app_access_verified_sms_declaration_pending_google_approval",
   "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
 }

@@ -375,6 +375,18 @@ deno_version = 2
 [functions.auth-send-whatsapp-otp]
 verify_jwt = false
 
+[functions.dispatch-notifications]
+verify_jwt = false
+
+[functions.parse-payment-sms]
+verify_jwt = false
+
+[functions.provider-finality]
+verify_jwt = false
+
+[functions.send-notification]
+verify_jwt = false
+
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 

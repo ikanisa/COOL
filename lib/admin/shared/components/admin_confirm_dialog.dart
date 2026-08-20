@@ -18,37 +18,66 @@ Future<String?> showAdminReasonDialog(
   required String title,
   required String actionLabel,
 }) {
-  final controller = TextEditingController();
   return showDialog<String>(
     context: context,
     animationStyle: CollectMotion.animationStyle(context),
-    builder: (context) {
-      return AlertDialog(
-        title: Text(title),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          minLines: 2,
-          maxLines: 4,
-          decoration: const InputDecoration(
-            labelText: 'Reason',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              final reason = controller.text.trim();
-              Navigator.of(context).pop(reason.isEmpty ? null : reason);
-            },
-            child: Text(actionLabel),
-          ),
-        ],
-      );
-    },
+    builder: (context) =>
+        _AdminReasonDialog(title: title, actionLabel: actionLabel),
   );
+}
+
+class _AdminReasonDialog extends StatefulWidget {
+  const _AdminReasonDialog({required this.title, required this.actionLabel});
+
+  final String title;
+  final String actionLabel;
+
+  @override
+  State<_AdminReasonDialog> createState() => _AdminReasonDialogState();
+}
+
+class _AdminReasonDialogState extends State<_AdminReasonDialog> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(widget.title),
+      content: TextField(
+        controller: _controller,
+        autofocus: true,
+        minLines: 2,
+        maxLines: 4,
+        decoration: const InputDecoration(
+          labelText: 'Reason',
+          helperText: 'Required for the audit trail.',
+          border: OutlineInputBorder(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: _controller,
+          builder: (context, value, child) {
+            final reason = value.text.trim();
+            return FilledButton(
+              onPressed: reason.isEmpty
+                  ? null
+                  : () => Navigator.of(context).pop(reason),
+              child: Text(widget.actionLabel),
+            );
+          },
+        ),
+      ],
+    );
+  }
 }

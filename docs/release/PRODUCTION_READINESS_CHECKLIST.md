@@ -2,6 +2,13 @@
 
 Audit date: 2026-06-01
 
+Current override (2026-08-15): this checklist is a historical June snapshot.
+Use `QA_TEST_REPORT.md`, `GO_LIVE_AUDIT_REPORT.md`, and the group-journey
+`REMEDIATION_PLAN.md` for current status. In particular, production is
+321/341 schema objects and 10/11 Edge Functions; `provider-finality`, its
+current signing-key name, and `FCM_SERVICE_ACCOUNT_JSON` are not configured.
+SMS cannot post a balance without provider finality.
+
 This checklist reflects the corrected SMS-first Groups product definition. It
 does not carry forward previous unverified Supabase platform blockers. Run
 fresh release gates after Android SMS UAT and release signoffs before making a

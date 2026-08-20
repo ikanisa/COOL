@@ -26,6 +26,7 @@ class HomeScreen extends ConsumerWidget {
         state.contributions.isEmpty &&
         state.paymentIntents.isEmpty;
     final collections = ref.watch(homeCollectionsProvider);
+    final publicCollections = ref.watch(publicDiscoveryCollectionsProvider);
     final profile = state.currentProfile;
     final contributedGroupCount = ref.watch(
       contributedCollectionIdsProvider.select((ids) => ids.length),
@@ -48,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
       hero: isInitialLoading
           ? null
           : CollectScreenHero(
-              title: 'Total collected',
+              title: 'My confirmed contributions',
               metric: formatRwf(raisedTotal),
               subtitle: _supportedGroupCountLabel(contributedGroupCount),
               quickActions: [
@@ -125,7 +126,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ],
               _PublicGroupsSection(
-                collections: collections,
+                collections: publicCollections,
                 summaries: summaries,
               ),
             ],

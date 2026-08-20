@@ -6,26 +6,57 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import app.cool.mobile.receiver_sms.SmsQueueEventBus
 import app.cool.mobile.receiver_sms.SmsQueueStore
+import app.cool.mobile.receiver_sms.SmsQueueWorker
 import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.StandardIntegrityManager
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
-import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : FlutterActivity() {
     private var pendingSmsAccessResult: MethodChannel.Result? = null
+    private var pendingSmsOwnerUserId: String? = null
     private var pendingMomoUssdResult: MethodChannel.Result? = null
     private var pendingMomoUssdUri: Uri? = null
     private var standardIntegrityProvider:
         StandardIntegrityManager.StandardIntegrityTokenProvider? = null
     private var pendingIntegrityResults = mutableListOf<Pair<String, MethodChannel.Result>>()
     private var preparingIntegrityProvider = false
+    private var smsQueueEventSink: EventChannel.EventSink? = null
+    private val smsQueueListener: (Long) -> Unit = { sequence ->
+        runOnUiThread {
+            smsQueueEventSink?.success(
+                mapOf(
+                    "type" to "pending_sms",
+                    "sequence" to sequence,
+                ),
+            )
+        }
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        EventChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "collect/sms_access/events",
+        ).setStreamHandler(
+            object : EventChannel.StreamHandler {
+                override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+                    smsQueueEventSink = events
+                }
+
+                override fun onCancel(arguments: Any?) {
+                    smsQueueEventSink = null
+                }
+            },
+        )
+        SmsQueueEventBus.removeListener(smsQueueListener)
+        SmsQueueEventBus.addListener(smsQueueListener)
 
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger,
@@ -35,10 +66,24 @@ class MainActivity : FlutterActivity() {
             when (call.method) {
                 "setEnabled" -> {
                     val enabled = call.argument<Boolean>("enabled") ?: false
+                    val ownerUserId = call.argument<String>("owner_user_id")?.trim().orEmpty()
                     if (!enabled) {
-                        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()
-                        SmsQueueStore(applicationContext).clear()
-                        result.success(true)
+                        val disabled = SmsQueueStore(applicationContext).disableAndClear()
+                        if (!disabled) {
+                            result.error(
+                                "sms_access_update_failed",
+                                "Unable to disable SMS access safely",
+                                smsAccessStatus(),
+                            )
+                        } else {
+                            result.success(true)
+                        }
+                    } else if (ownerUserId.isEmpty()) {
+                        result.error(
+                            "sms_access_owner_required",
+                            "SMS access must be bound to an authenticated account",
+                            smsAccessStatus()
+                        )
                     } else if (!supportsSmsAccess()) {
                         result.error(
                             "sms_access_unavailable",
@@ -46,8 +91,15 @@ class MainActivity : FlutterActivity() {
                             smsAccessStatus()
                         )
                     } else if (hasSmsPermissions()) {
-                        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, true).commit()
-                        result.success(true)
+                        if (SmsQueueStore(applicationContext).enableForOwner(ownerUserId)) {
+                            result.success(true)
+                        } else {
+                            result.error(
+                                "sms_access_update_failed",
+                                "Unable to bind SMS access to this account",
+                                smsAccessStatus(),
+                            )
+                        }
                     } else if (pendingSmsAccessResult != null) {
                         result.error(
                             "sms_access_pending",
@@ -62,38 +114,50 @@ class MainActivity : FlutterActivity() {
                         )
                     } else {
                         pendingSmsAccessResult = result
+                        pendingSmsOwnerUserId = ownerUserId
                         requestPermissions(SMS_PERMISSIONS, SMS_PERMISSION_REQUEST_CODE)
                     }
                 }
                 "status" -> result.success(smsAccessStatus())
                 "isEnabled" -> result.success(
                     prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) &&
+                        prefs.getString(
+                            SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
+                            null,
+                        ).orEmpty().trim().isNotEmpty() &&
                         supportsSmsAccess() &&
                         hasSmsPermissions()
                 )
                 "readPendingSms" -> {
                     if (
                         !prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false) ||
+                        prefs.getString(
+                            SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
+                            null,
+                        ).orEmpty().trim().isEmpty() ||
                         !supportsSmsAccess() ||
                         !hasSmsPermissions()
                     ) {
                         result.success(emptyList<Map<String, String>>())
                         return@setMethodCallHandler
                     }
-                    val array = SmsQueueStore(applicationContext).read()
-                    val values = mutableListOf<Map<String, String>>()
-                    for (index in 0 until array.length()) {
-                        val item = array.optJSONObject(index) ?: JSONObject()
-                        values.add(
-                            mapOf(
-                                "id" to item.optString("id", ""),
-                                "raw_sender" to item.optString("raw_sender", "android_sms"),
-                                "raw_body" to item.optString("raw_body", ""),
-                                "received_at_device" to item.optString("received_at_device", "")
+                    runSmsQueueTask(result) {
+                        val array = SmsQueueStore(applicationContext).read()
+                        val values = mutableListOf<Map<String, String>>()
+                        for (index in 0 until array.length()) {
+                            val item = array.optJSONObject(index) ?: JSONObject()
+                            values.add(
+                                mapOf(
+                                    "id" to item.optString("id", ""),
+                                    "owner_user_id" to item.optString("owner_user_id", ""),
+                                    "raw_sender" to item.optString("raw_sender", "android_sms"),
+                                    "raw_body" to item.optString("raw_body", ""),
+                                    "received_at_device" to item.optString("received_at_device", "")
+                                )
                             )
-                        )
+                        }
+                        values
                     }
-                    result.success(values)
                 }
                 "ackPendingSms" -> {
                     val rawIds = call.argument<List<String>>("ids").orEmpty()
@@ -102,14 +166,9 @@ class MainActivity : FlutterActivity() {
                         result.success(true)
                         return@setMethodCallHandler
                     }
-                    val store = SmsQueueStore(applicationContext)
-                    val pending = store.read()
-                    val retained = JSONArray()
-                    for (index in 0 until pending.length()) {
-                        val item = pending.optJSONObject(index) ?: continue
-                        if (!ids.contains(item.optString("id", ""))) retained.put(item)
+                    runSmsQueueTask(result) {
+                        SmsQueueStore(applicationContext).acknowledge(ids)
                     }
-                    result.success(store.write(retained))
                 }
                 "openAppSettings" -> {
                     startActivity(
@@ -165,6 +224,40 @@ class MainActivity : FlutterActivity() {
                 }
                 else -> result.notImplemented()
             }
+        }
+    }
+
+    override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+        SmsQueueEventBus.removeListener(smsQueueListener)
+        smsQueueEventSink = null
+        super.cleanUpFlutterEngine(flutterEngine)
+    }
+
+    private fun runSmsQueueTask(
+        result: MethodChannel.Result,
+        task: () -> Any?,
+    ) {
+        try {
+            SmsQueueWorker.execute {
+                try {
+                    val value = task()
+                    runOnUiThread { result.success(value) }
+                } catch (_: Exception) {
+                    runOnUiThread {
+                        result.error(
+                            "sms_queue_unavailable",
+                            "Secure SMS queue is temporarily unavailable",
+                            smsAccessStatus(),
+                        )
+                    }
+                }
+            }
+        } catch (_: RuntimeException) {
+            result.error(
+                "sms_queue_unavailable",
+                "Secure SMS queue worker is unavailable",
+                smsAccessStatus(),
+            )
         }
     }
 
@@ -288,13 +381,21 @@ class MainActivity : FlutterActivity() {
         val granted = SMS_PERMISSIONS.all { permission ->
             checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
         }
-        getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true)
-            .putBoolean(SMS_ACCESS_ENABLED_KEY, granted)
-            .commit()
-        pendingSmsAccessResult?.success(granted)
+        val saved = SmsQueueStore(applicationContext).completePermissionRequest(
+            granted,
+            pendingSmsOwnerUserId,
+        )
+        if (saved) {
+            pendingSmsAccessResult?.success(granted)
+        } else {
+            pendingSmsAccessResult?.error(
+                "sms_access_update_failed",
+                "Unable to save the SMS permission decision",
+                smsAccessStatus(),
+            )
+        }
         pendingSmsAccessResult = null
+        pendingSmsOwnerUserId = null
     }
 
     private fun hasSmsPermissions(): Boolean {
@@ -330,10 +431,18 @@ class MainActivity : FlutterActivity() {
         val prefs = getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
         val supported = supportsSmsAccess()
         val granted = supported && hasSmsPermissions()
+        val ownerBound = prefs.getString(
+            SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
+            null,
+        ).orEmpty().trim().isNotEmpty()
         return mapOf(
             "supported" to supported,
             "declared" to packageDeclaresSmsPermissions(),
-            "enabled" to (granted && prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false)),
+            "enabled" to (
+                granted &&
+                    ownerBound &&
+                    prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false)
+            ),
             "granted" to granted,
             "requested_before" to prefs.getBoolean(
                 SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY,
@@ -341,6 +450,10 @@ class MainActivity : FlutterActivity() {
             ),
             "should_show_rationale" to SMS_PERMISSIONS.any(::shouldShowRequestPermissionRationale),
             "permanently_denied" to isSmsPermissionPermanentlyDenied(),
+            "queue_overflowed" to prefs.getBoolean(
+                SmsQueueStore.SMS_QUEUE_OVERFLOW_KEY,
+                false,
+            ),
         )
     }
 

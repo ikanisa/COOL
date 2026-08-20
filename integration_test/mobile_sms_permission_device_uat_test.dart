@@ -12,7 +12,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets(
-    'SMS access uses disclosure, native permission, encrypted queue, and turn-off',
+    'SMS access uses disclosure, native permission, account binding, and turn-off',
     (tester) async {
       const smsAccess = SmsAccessChannel();
       final router = createAppRouter(initialLocation: '/settings/permissions');
@@ -46,10 +46,22 @@ void main() {
       );
 
       expect(find.text('MoMo SMS access'), findsOneWidget);
-      await tester.ensureVisible(find.text('Review and allow'));
+      final reviewButton = find.widgetWithText(
+        OutlinedButton,
+        'Review and allow',
+      );
+      await tester.scrollUntilVisible(
+        reviewButton,
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Review and allow'));
-      await tester.pumpAndSettle();
+      await tester.tap(reviewButton);
+      await _pumpUntil(
+        tester,
+        () => find.text('Allow MoMo SMS access?').evaluate().isNotEmpty,
+        timeout: const Duration(seconds: 10),
+      );
       expect(find.text('Allow MoMo SMS access?'), findsOneWidget);
       expect(
         find.textContaining('does not read inbox history'),
@@ -69,19 +81,18 @@ void main() {
       // ignore: avoid_print
       print('collect_sms_permission_uat:permission-granted');
 
-      final queued = await _pollForPendingSms(tester, smsAccess);
-      expect(queued, hasLength(1));
-      expect(queued.single.rawSender.trim(), isNotEmpty);
-      expect(queued.single.rawBody, contains('MTN MoMo'));
-      expect(queued.single.rawBody, contains('RWF'));
-      expect(await smsAccess.acknowledgePendingSms([queued.single.id]), isTrue);
       expect(await smsAccess.readPendingSms(), isEmpty);
       // ignore: avoid_print
-      print('collect_sms_permission_uat:encrypted-queue-ack-pass');
+      print('collect_sms_permission_uat:account-bound-opt-in-pass');
 
-      await tester.ensureVisible(find.text('Turn off'));
+      final turnOffButton = find.widgetWithText(OutlinedButton, 'Turn off');
+      await tester.scrollUntilVisible(
+        turnOffButton,
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Turn off'));
+      await tester.tap(turnOffButton);
       await _pumpUntil(
         tester,
         () => find.text('Review and allow').evaluate().isNotEmpty,
@@ -94,19 +105,6 @@ void main() {
     },
     timeout: const Timeout(Duration(minutes: 5)),
   );
-}
-
-Future<List<SmsAccessEnvelope>> _pollForPendingSms(
-  WidgetTester tester,
-  SmsAccessChannel channel,
-) async {
-  final deadline = DateTime.now().add(const Duration(seconds: 60));
-  while (DateTime.now().isBefore(deadline)) {
-    final pending = await channel.readPendingSms();
-    if (pending.isNotEmpty) return pending;
-    await tester.pump(const Duration(milliseconds: 250));
-  }
-  fail('Timed out waiting for the synthetic mobile-money SMS.');
 }
 
 Future<void> _pumpUntil(

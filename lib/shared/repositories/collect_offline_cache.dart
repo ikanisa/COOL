@@ -8,9 +8,14 @@ class CollectOfflineCache {
   const CollectOfflineCache({this.preferencesKey = _defaultKey});
 
   static const _defaultKey = 'collect.offline_snapshot.v1';
-  static const _retiredDeveloperSeedCollectionIds = <String>{
+  static const _retiredNonProductionCollectionIds = <String>{
     '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001',
     '8db1f114-4f2b-4a6a-aec9-a0e33a1f1002',
+    'bfb5d4d3-cb40-4bf1-ae89-579ea98073d5',
+    'd4bc46a2-dd50-4440-b950-dda5a13335d9',
+    '9208e94b-8b5a-4588-9dc2-0d4f8a34b7a5',
+    '747de065-e492-449c-b4e0-caa857ca413f',
+    'e30c018c-d19f-44f3-ada8-d7e666d45c55',
   };
 
   final String preferencesKey;
@@ -24,7 +29,7 @@ class CollectOfflineCache {
         Map<String, dynamic>.from(jsonDecode(raw) as Map),
       );
       final sanitized = snapshot.withoutCollections(
-        _retiredDeveloperSeedCollectionIds,
+        _retiredNonProductionCollectionIds,
       );
       if (sanitized.collections.length != snapshot.collections.length ||
           sanitized.paymentIntents.length != snapshot.paymentIntents.length ||
@@ -56,6 +61,7 @@ class CollectOfflineSnapshot {
     required this.collections,
     required this.paymentIntents,
     required this.contributions,
+    this.collectionSummaries = const {},
   });
 
   final DateTime savedAt;
@@ -63,6 +69,7 @@ class CollectOfflineSnapshot {
   final List<CollectCollection> collections;
   final List<PaymentIntentModel> paymentIntents;
   final List<Contribution> contributions;
+  final Map<String, CollectionSummary> collectionSummaries;
 
   bool get hasReadableData {
     return currentProfile != null ||
@@ -88,6 +95,10 @@ class CollectOfflineSnapshot {
         for (final item in contributions)
           if (!collectionIds.contains(item.collectionId)) item,
       ],
+      collectionSummaries: {
+        for (final entry in collectionSummaries.entries)
+          if (!collectionIds.contains(entry.key)) entry.key: entry.value,
+      },
     );
   }
 
@@ -111,6 +122,13 @@ class CollectOfflineSnapshot {
         for (final row in _list(json['contributions']))
           Contribution.fromJson(Map<String, dynamic>.from(row as Map)),
       ],
+      collectionSummaries: {
+        for (final entry in _map(json['collection_summaries']).entries)
+          if (entry.value is Map)
+            entry.key: CollectionSummary.fromJson(
+              Map<String, dynamic>.from(entry.value as Map),
+            ),
+      },
     );
   }
 
@@ -128,12 +146,26 @@ class CollectOfflineSnapshot {
       'contributions': [
         for (final item in contributions) _contributionToJson(item),
       ],
+      'collection_summaries': {
+        for (final entry in collectionSummaries.entries)
+          entry.key: {
+            'amount_raised_rwf': entry.value.amountRaisedRwf,
+            'supporter_count': entry.value.supporterCount,
+            'current_user_balance_rwf': entry.value.currentUserBalanceRwf,
+          },
+      },
     };
   }
 }
 
 List<Object?> _list(Object? value) {
   return value is List ? value : const [];
+}
+
+Map<String, Object?> _map(Object? value) {
+  return value is Map
+      ? {for (final entry in value.entries) entry.key.toString(): entry.value}
+      : const {};
 }
 
 DateTime _dateTime(Object? value) {
@@ -168,7 +200,10 @@ Map<String, dynamic> _collectionToJson(CollectCollection collection) {
     'image_url': collection.imageUrl,
     'accent_color_hex': collection.accentColorHex,
     'is_public': collection.isPublic,
+    'is_member': collection.isCurrentUserMember,
+    'is_recurring': collection.isRecurring,
     'recurring_cadence': collection.recurringCadence,
+    'visibility_status': collection.visibilityStatus,
     'suggested_amount_rwf': collection.suggestedAmountRwf,
     'diaspora_enabled': collection.diasporaEnabled,
     'diaspora_regions': collection.diasporaRegions,
@@ -200,5 +235,6 @@ Map<String, dynamic> _contributionToJson(Contribution contribution) {
     'supporter_label': contribution.supporterLabel,
     'created_at': contribution.createdAt.toUtc().toIso8601String(),
     'transaction_id': null,
+    'is_current_user_contribution': contribution.isCurrentUserContribution,
   };
 }

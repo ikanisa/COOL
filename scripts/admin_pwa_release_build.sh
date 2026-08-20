@@ -6,32 +6,30 @@ cd "$ROOT_DIR"
 
 FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 
+# shellcheck source=scripts/load_dotenv_strict.sh
+. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
+
 if [[ -f .env ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  . ./.env
-  set +a
+  collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
 SUPABASE_PUBLIC_URL="${SUPABASE_PRODUCTION_URL:-${SUPABASE_URL:-}}"
 SUPABASE_PUBLIC_ANON_KEY="${SUPABASE_PRODUCTION_ANON_KEY:-${SUPABASE_ANON_KEY:-}}"
 APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
 ADMIN_APP_URL="${ADMIN_APP_URL:-https://admin.collect.ikanisa.com}"
-COLLECT_ADMIN_WHATSAPP_PHONE="${COLLECT_ADMIN_WHATSAPP_PHONE:-}"
-export SUPABASE_PUBLIC_URL SUPABASE_PUBLIC_ANON_KEY APP_PUBLIC_URL ADMIN_APP_URL COLLECT_ADMIN_WHATSAPP_PHONE
+export SUPABASE_PUBLIC_URL SUPABASE_PUBLIC_ANON_KEY APP_PUBLIC_URL ADMIN_APP_URL
 
-if [[ -z "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
-  if [[ -z "$SUPABASE_PUBLIC_URL" || -z "$SUPABASE_PUBLIC_ANON_KEY" ]]; then
-    echo "Missing public Supabase build config: SUPABASE_PRODUCTION_URL/SUPABASE_URL and SUPABASE_PRODUCTION_ANON_KEY/SUPABASE_ANON_KEY are required." >&2
-    exit 1
-  fi
-  if [[ -z "$COLLECT_ADMIN_WHATSAPP_PHONE" ]]; then
-    echo "Missing admin build config: COLLECT_ADMIN_WHATSAPP_PHONE is required." >&2
-    exit 1
-  fi
-  DART_DEFINES_FILE="$(mktemp)"
-  trap 'rm -f "${DART_DEFINES_FILE:-}"' EXIT
-  DART_DEFINES_FILE="$DART_DEFINES_FILE" ruby -r json <<'RUBY'
+if [[ -n "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
+  echo "FLUTTER_ADMIN_WEB_BUILD_ARGS is not accepted for production Admin PWA builds." >&2
+  exit 1
+fi
+if [[ -z "$SUPABASE_PUBLIC_URL" || -z "$SUPABASE_PUBLIC_ANON_KEY" ]]; then
+  echo "Missing public Supabase build config: SUPABASE_PRODUCTION_URL/SUPABASE_URL and SUPABASE_PRODUCTION_ANON_KEY/SUPABASE_ANON_KEY are required." >&2
+  exit 1
+fi
+DART_DEFINES_FILE="$(mktemp)"
+trap 'rm -f "${DART_DEFINES_FILE:-}"' EXIT
+DART_DEFINES_FILE="$DART_DEFINES_FILE" ruby -r json <<'RUBY'
 File.write(
   ENV.fetch("DART_DEFINES_FILE"),
   JSON.generate({
@@ -39,24 +37,19 @@ File.write(
     "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_PUBLIC_ANON_KEY"),
     "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL"),
     "ADMIN_APP_URL" => ENV.fetch("ADMIN_APP_URL"),
-    "COLLECT_ADMIN_WHATSAPP_PHONE" => ENV.fetch("COLLECT_ADMIN_WHATSAPP_PHONE"),
     "APP_ENVIRONMENT" => "production",
     "ENABLE_ADMIN_PANEL" => "true",
     "COLLECT_PUBLIC_LANDING_HOME" => "true"
   })
 )
 RUBY
-  BUILD_ARGS=(
-    --release
-    --no-wasm-dry-run
-    --no-web-resources-cdn
-    --no-pub
-    "--dart-define-from-file=$DART_DEFINES_FILE"
-  )
-else
-  # shellcheck disable=SC2206
-  BUILD_ARGS=($FLUTTER_ADMIN_WEB_BUILD_ARGS)
-fi
+BUILD_ARGS=(
+  --release
+  --no-wasm-dry-run
+  --no-web-resources-cdn
+  --no-pub
+  "--dart-define-from-file=$DART_DEFINES_FILE"
+)
 
 "$FLUTTER" build web -t lib/main_admin.dart "${BUILD_ARGS[@]}"
 

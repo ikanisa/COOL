@@ -21,6 +21,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('cached-data status is not duplicated in the global overlay', () {
+    expect(
+      connectivityOverlayStatus(ConnectivityStatus.offlineStale),
+      ConnectivityStatus.online,
+    );
+    expect(
+      connectivityOverlayStatus(ConnectivityStatus.offline),
+      ConnectivityStatus.offline,
+    );
+    expect(
+      connectivityOverlayStatus(ConnectivityStatus.degraded),
+      ConnectivityStatus.degraded,
+    );
+  });
+
   test('notification deep links are constrained to existing safe routes', () {
     expect(normalizeNotificationDeepLink('/home'), '/home');
     expect(
@@ -489,7 +504,7 @@ void main() {
     ).readAsStringSync();
     expect(shareScreen, isNot(contains('const Spacer()')));
     expect(shareScreen, contains('Privacy-safe link'));
-    expect(shareScreen, contains('summaryFor(collectionId)'));
+    expect(shareScreen, contains('summaryFor(widget.collectionId)'));
   });
 
   testWidgets('iOS detail screens use native Cupertino navigation', (
@@ -873,29 +888,26 @@ void main() {
     expect(runtimeTheme.colorScheme.outline, CollectColors.publicBlack);
   });
 
-  test(
-    'mobile route smoke uses sanitized fixture evidence mode only by flag',
-    () {
-      final main = File('lib/main.dart').readAsStringSync();
-      final smokeScript = File(
-        'scripts/mobile_route_render_smoke.sh',
-      ).readAsStringSync();
+  test('mobile route smoke never injects fixture data at runtime', () {
+    final main = File('lib/main.dart').readAsStringSync();
+    final smokeScript = File(
+      'scripts/mobile_route_render_smoke.sh',
+    ).readAsStringSync();
 
-      expect(main, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
-      expect(main, contains('CollectRepository.fixture()'));
-      expect(main, isNot(contains('CollectRepository.appReviewDemo(')));
-      expect(
-        smokeScript,
-        contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
-      );
-      expect(
-        File(
-          'lib/shared/repositories/collect_repository.dart',
-        ).readAsStringSync(),
-        contains('_emptyCollectState(),\n         true'),
-      );
-    },
-  );
+    expect(main, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
+    expect(main, isNot(contains('CollectRepository.fixture()')));
+    expect(main, isNot(contains('CollectRepository.appReviewDemo(')));
+    expect(
+      smokeScript,
+      contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
+    );
+    expect(
+      File(
+        'lib/shared/repositories/collect_repository.dart',
+      ).readAsStringSync(),
+      contains('_emptyCollectState(),\n         true'),
+    );
+  });
 
   test('primary mobile screens use their reference chrome patterns', () {
     final home = [

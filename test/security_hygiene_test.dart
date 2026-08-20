@@ -16,6 +16,54 @@ String readCollectRepositoryLibrary() {
 }
 
 void main() {
+  test('strict dotenv loader treats configuration as guarded data', () {
+    final tempDir = Directory.systemTemp.createTempSync('collect_dotenv_');
+    try {
+      final valid = File('${tempDir.path}/valid.env')
+        ..writeAsStringSync("SAFE_VALUE='literal value with spaces'\n");
+      Process.runSync('chmod', ['600', valid.path]);
+      final validResult = runProcessSync('/bin/bash', [
+        '-c',
+        '. scripts/load_dotenv_strict.sh; collect_load_dotenv_strict "\$1"; printf "%s" "\$SAFE_VALUE"',
+        'dotenv-test',
+        valid.path,
+      ]);
+      expect(validResult.exitCode, 0, reason: validResult.stderr.toString());
+      expect(validResult.stdout, 'literal value with spaces');
+
+      final marker = File('${tempDir.path}/must-not-exist');
+      final malicious = File('${tempDir.path}/malicious.env')
+        ..writeAsStringSync('BAD=\$(touch ${marker.path})\n');
+      Process.runSync('chmod', ['600', malicious.path]);
+      final maliciousResult = runProcessSync('/bin/bash', [
+        '-c',
+        '. scripts/load_dotenv_strict.sh; collect_load_dotenv_strict "\$1"',
+        'dotenv-test',
+        malicious.path,
+      ]);
+      expect(maliciousResult.exitCode, isNonZero);
+      expect(
+        maliciousResult.stderr,
+        contains('shell expansion syntax rejected'),
+      );
+      expect(marker.existsSync(), isFalse);
+
+      final permissive = File('${tempDir.path}/permissive.env')
+        ..writeAsStringSync('SAFE_VALUE=visible\n');
+      Process.runSync('chmod', ['644', permissive.path]);
+      final permissiveResult = runProcessSync('/bin/bash', [
+        '-c',
+        '. scripts/load_dotenv_strict.sh; collect_load_dotenv_strict "\$1"',
+        'dotenv-test',
+        permissive.path,
+      ]);
+      expect(permissiveResult.exitCode, isNonZero);
+      expect(permissiveResult.stderr, contains('mode'));
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('local and CI Flutter toolchains use the governed stable engine', () {
     const expectedVersion = '3.44.4';
     const expectedRoot = '/Users/jeanbosco/Developer/flutter';
@@ -128,7 +176,7 @@ void main() {
     expect(
       ((playPacket['app_content'] as Map<String, dynamic>)['permissions']
           as Map<String, dynamic>)['sms_permissions_declaration_status'],
-      'submitted_with_production_v12_review',
+      'submitted_with_production_v20_review_pending_google_approval',
     );
   });
 
@@ -515,7 +563,9 @@ void main() {
     final sensitiveAssignments = RegExp(
       r'^(SUPABASE_ACCESS_TOKEN|SUPABASE_DB_PASSWORD|DATABASE_URL|'
       r'SUPABASE_SERVICE_ROLE_KEY|OPENAI_API_KEY|WHATSAPP_CLOUD_API_TOKEN|'
-      r'SEND_SMS_HOOK_SECRET|INTERNAL_FUNCTION_SECRET|SMS_INGEST_HMAC_SECRET)='
+      r'SEND_SMS_HOOK_SECRET|INTERNAL_FUNCTION_SECRET|SMS_INGEST_HMAC_SECRET|'
+      r'PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT|'
+      r'PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS)='
       r'(.+)$',
       multiLine: true,
     ).allMatches(codexEnv);
@@ -571,6 +621,11 @@ void main() {
       if (path.endsWith('lib/main.dart')) {
         expect(text, contains("'COLLECT_MOBILE_EVIDENCE_MODE'"), reason: path);
         expect(text, contains('if (mobileEvidenceMode)'), reason: path);
+        expect(
+          text,
+          isNot(contains('CollectRepository.fixture')),
+          reason: path,
+        );
       } else {
         expect(
           text,

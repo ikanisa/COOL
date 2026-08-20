@@ -1,8 +1,33 @@
 # Collect Release Status
 
-Status date: 2026-08-09
-Release candidate: `1.2.2+14`
+Status date: 2026-08-15
+Release candidate: **none — current source is not artifact-frozen**
 Product boundary: SMS-first Groups
+
+Current override: the build-14 and earlier build-20 records below are retained
+as historical store/artifact evidence. They predate the current attested group
+creation, provider-finality, atomic SMS ingestion and release-control changes
+and cannot authorize the present source. The current decision is **NO-GO**
+pending authorized production/public deployment, provider reconciliation, fresh
+artifact-bound physical/TalkBack UAT, Google restricted-SMS/release approval,
+public availability and monitored staged rollout.
+
+Fresh local `1.2.2+20` artifacts now exist for the current source checkpoint:
+APK SHA-256
+`ee04c7b1b2afe221a2c38e27133c93383694f75b69edba367d329e502578e109`
+and AAB SHA-256
+`d619992f6a2cf62ad985c76c0d53157a35f570bf616f9456800ced82852b0848`.
+The production build wrapper, embedded-runtime assertion, upload-key preflight,
+signature checks and nine-artifact Android/Admin manifest pass. The mobile
+release gate remains blocked because `android_release_signing_review` is still
+bound to historical build 14 rather than these hashes. No upload occurred.
+
+The current read-only backend recheck is also fail-closed: production has
+321/341 expected schema objects and 10/11 expected Edge Functions. The missing
+Edge Function is `provider-finality`; required-secret name inventory also lacks
+`PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT` and the previously open
+`FCM_SERVICE_ACCOUNT_JSON`. No production mutation or secret-value read was
+performed.
 
 Canonical machine-readable inputs:
 
@@ -13,8 +38,8 @@ Canonical machine-readable inputs:
 
 ## Executive status
 
-The exact `1.2.2+14` candidate has current artifact-bound Android technical
-signing approval. Final accountable release-owner sign-off is intentionally
+The historical `1.2.2+14` candidate had artifact-bound Android technical
+signing approval. Final accountable release-owner sign-off for a new candidate is intentionally
 **PENDING** until provider setup, physical-device testing, CI, policy/legal
 attestations, and the remaining store-console checks are complete. General
 execution authorization is not treated as final go-live approval.
@@ -120,8 +145,9 @@ The exact ordered closure list is maintained in
 2. Complete Google Cloud re-verification, create the dedicated least-privilege
    FCM sender, install `FCM_SERVICE_ACCOUNT_JSON`, and prove APNs/FCM foreground,
    background, terminated-state, tap-routing, token-refresh, and denial/recovery
-   delivery. APNs is already configured. No real carrier SMS provider is
-   required for this release.
+   delivery. APNs is already configured. Separately, the current SMS-first
+   payment journey requires an approved provider/bank settlement source for the
+   signed finality gateway; SMS alone cannot authorize a balance change.
 3. Complete fresh physical Android and iPhone UAT, including native permission
    dialogs, TalkBack/VoiceOver, large text, offline recovery, lifecycle, camera,
    notification, and Android receive-only SMS acceptance. The current physical

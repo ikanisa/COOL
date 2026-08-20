@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/features/collections/group_link_screen.dart';
 import 'package:collect_app/features/collections/group_share_service.dart';
@@ -119,14 +121,50 @@ void main() {
         'collection_type': 'church',
         'diaspora_regions': 'eu',
         'visibility': 'public_approved',
+        'is_member': true,
         'created_at': '2026-06-22T08:00:00Z',
       });
 
       expect(collection.isPublic, isTrue);
+      expect(collection.isCurrentUserMember, isTrue);
       expect(collection.diasporaRegions, ['eu']);
       expect(collection.collectionType, CollectionType.church);
     },
   );
+
+  test('collection model preserves pending visibility and recurring state', () {
+    final collection = CollectCollection.fromJson(const {
+      'id': 'col-pending',
+      'slug': 'pending-group',
+      'creator_user_id': 'owner',
+      'title': 'Pending group',
+      'description': '',
+      'collection_type': 'ikimina',
+      'is_public': false,
+      'is_member': true,
+      'is_recurring': false,
+      'recurring_cadence': 'weekly',
+      'visibility_status': 'public_requested',
+      'created_at': '2026-08-13T00:00:00Z',
+    });
+
+    expect(collection.isPublic, isFalse);
+    expect(collection.visibilityStatus, 'public_requested');
+    expect(collection.isRecurring, isFalse);
+    expect(collection.recurringCadence, 'weekly');
+  });
+
+  test('collection summary maps server-owned group and payer balances', () {
+    final summary = CollectionSummary.fromJson(const {
+      'amount_raised_rwf': 12000,
+      'supporter_count': 3,
+      'current_user_balance_rwf': 5000,
+    });
+
+    expect(summary.amountRaisedRwf, 12000);
+    expect(summary.supporterCount, 3);
+    expect(summary.currentUserBalanceRwf, 5000);
+  });
 
   test('group creation accepts 4 to 9 digit MoMo Pay receivers', () async {
     final repo = CollectRepository.fixture(seeded: false);
@@ -311,13 +349,14 @@ void main() {
     },
   );
 
-  test('offline cache removes retired developer seed collections', () async {
+  test('offline cache removes retired non-production collections', () async {
     SharedPreferences.setMockInitialValues({});
     const cache = CollectOfflineCache(
       preferencesKey: 'collect.offline_snapshot.retired_seed_test',
     );
     final now = DateTime.utc(2026, 8, 12, 10);
     const retiredCollectionId = '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001';
+    const legacyMockCollectionId = '9208e94b-8b5a-4588-9dc2-0d4f8a34b7a5';
     final fixture = CollectRepository.fixture();
     final retainedCollection = fixture.state.collections.first;
     final retiredCollection = CollectCollection(
@@ -328,16 +367,38 @@ void main() {
       description: 'Must not be restored from an old device cache.',
       createdAt: now,
     );
+    final legacyMockCollection = CollectCollection(
+      id: legacyMockCollectionId,
+      slug: 'mock-parity-public-member',
+      creatorUserId: fixture.state.currentProfile!.id,
+      title: 'Mock public member group',
+      description: 'Retired parity data must not return from device cache.',
+      isPublic: true,
+      createdAt: now,
+    );
 
     await cache.save(
       CollectOfflineSnapshot(
         savedAt: now,
         currentProfile: fixture.state.currentProfile,
-        collections: [retiredCollection, retainedCollection],
+        collections: [
+          retiredCollection,
+          legacyMockCollection,
+          retainedCollection,
+        ],
         paymentIntents: [
           PaymentIntentModel(
             id: 'retired-intent',
             collectionId: retiredCollectionId,
+            expectedAmountRwf: 1000,
+            receiverMomoNumber: '0788123456',
+            status: 'pending',
+            createdAt: now,
+            expiresAt: now.add(const Duration(hours: 1)),
+          ),
+          PaymentIntentModel(
+            id: 'legacy-mock-intent',
+            collectionId: legacyMockCollectionId,
             expectedAmountRwf: 1000,
             receiverMomoNumber: '0788123456',
             status: 'pending',
@@ -349,6 +410,13 @@ void main() {
           Contribution(
             id: 'retired-contribution',
             collectionId: retiredCollectionId,
+            amountRwf: 1000,
+            supporterLabel: 'Collect ID 038491',
+            createdAt: now,
+          ),
+          Contribution(
+            id: 'legacy-mock-contribution',
+            collectionId: legacyMockCollectionId,
             amountRwf: 1000,
             supporterLabel: 'Collect ID 038491',
             createdAt: now,
@@ -710,6 +778,30 @@ void main() {
     );
   });
 
+  test('payment intent rejects an unverified alternate payer number', () async {
+    final repo = CollectRepository.fixture(seeded: false);
+    await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
+    final collection = await repo.createCollection(
+      title: 'Verified payer group',
+      description: 'Payer identity test',
+      receiverMomoNumber: '0788123456',
+    );
+    await repo.updateProfile(momoNumber: '0789123456');
+
+    expect(
+      () => repo.createPaymentIntent(
+        PaymentIntentDraft(collectionId: collection.id, amountRwf: 5000),
+      ),
+      throwsA(
+        isA<StateError>().having(
+          (error) => error.message,
+          'message',
+          contains('verified WhatsApp number'),
+        ),
+      ),
+    );
+  });
+
   test('shared group link opens by slug', () async {
     final repo = CollectRepository.fixture();
     final collection = await repo.joinGroupBySlug('st-michel-building-fund');
@@ -744,11 +836,30 @@ void main() {
       'Join St Michel building fund for offering and donations on Collect: https://collect.ikanisa.com/c/st-michel-building-fund',
     );
     expect(
+      groupDeepLinkForCode(
+        env,
+        collection,
+        '123e4567-e89b-42d3-a456-426614174000',
+      ),
+      'https://collect.ikanisa.com/c/123e4567-e89b-42d3-a456-426614174000',
+    );
+    expect(
       collectGroupSlugFromInput(
         'https://collect.ikanisa.com/c/st-michel-building-fund',
       ),
       'st-michel-building-fund',
     );
+    expect(
+      collectGroupSlugFromInput(
+        'https://collect.ikanisa.com/c/${List.filled(141, 'a').join()}',
+      ),
+      isEmpty,
+    );
+    expect(
+      collectGroupSlugFromInput('https://collect.ikanisa.com/c/group%2Fpath'),
+      isEmpty,
+    );
+    expect(collectGroupSlugFromInput('../../settings'), isEmpty);
   });
 
   test('app share links use Collect invite route without group data', () {
@@ -810,6 +921,7 @@ void main() {
         pending: const [
           SmsAccessEnvelope(
             id: 'sms-1',
+            ownerUserId: 'local-user',
             rawSender: 'MTN MOMO',
             rawBody: 'You have received 5,000 RWF. TxId ABCD1234.',
             receivedAtDevice: '1',
@@ -827,6 +939,52 @@ void main() {
       expect(channel.readCalls, 1);
       expect(channel.acknowledgedIds, ['sms-1']);
       expect(repo.contributionsFor('col-church'), hasLength(2));
+    },
+  );
+
+  test(
+    'pending Android SMS sync reruns when an SMS arrives mid-drain',
+    () async {
+      final channel = _RacingSmsAccessChannel();
+      final repo = CollectRepository.fixture(smsAccessChannel: channel);
+      await repo.setSmsAccess(true);
+
+      final firstSync = repo.syncPendingSmsAccess();
+      await channel.firstAcknowledgeStarted.future;
+      channel.pending.add(
+        const SmsAccessEnvelope(
+          id: 'sms-2',
+          ownerUserId: 'local-user',
+          rawSender: 'M-Money',
+          rawBody: 'You received 7,000 RWF. TxId EFGH5678.',
+          receivedAtDevice: '2',
+        ),
+      );
+      final coalescedSync = repo.syncPendingSmsAccess();
+      channel.allowFirstAcknowledge.complete();
+
+      expect(await firstSync, 2);
+      expect(await coalescedSync, 2);
+      expect(channel.readCalls, 2);
+      expect(channel.acknowledgedIds, ['sms-1', 'sms-2']);
+    },
+  );
+
+  test(
+    'failed Android SMS sync remains visible and clears after retry',
+    () async {
+      final channel = _RetryingSmsAccessChannel();
+      final repo = CollectRepository.fixture(smsAccessChannel: channel);
+      await repo.setSmsAccess(true);
+
+      await expectLater(repo.syncPendingSmsAccess(), throwsStateError);
+      expect(repo.state.smsSyncNeedsAttention, isTrue);
+      expect(channel.acknowledgedIds, isEmpty);
+
+      channel.failRead = false;
+      expect(await repo.syncPendingSmsAccess(), 1);
+      expect(repo.state.smsSyncNeedsAttention, isFalse);
+      expect(channel.acknowledgedIds, ['sms-retry']);
     },
   );
 
@@ -1023,7 +1181,7 @@ class _FakeSmsAccessChannel extends SmsAccessChannel {
   final List<String> acknowledgedIds = [];
 
   @override
-  Future<bool> setEnabled(bool enabled) async {
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
     this.enabled = enabled && grant;
     return this.enabled;
   }
@@ -1040,12 +1198,112 @@ class _FakeSmsAccessChannel extends SmsAccessChannel {
     requestedBefore: enabled,
     shouldShowRationale: false,
     permanentlyDenied: false,
+    queueOverflowed: false,
   );
 
   @override
   Future<List<SmsAccessEnvelope>> readPendingSms() async {
     readCalls += 1;
     return pending;
+  }
+
+  @override
+  Future<bool> acknowledgePendingSms(Iterable<String> ids) async {
+    acknowledgedIds.addAll(ids);
+    return true;
+  }
+}
+
+class _RacingSmsAccessChannel extends SmsAccessChannel {
+  final pending = <SmsAccessEnvelope>[
+    const SmsAccessEnvelope(
+      id: 'sms-1',
+      ownerUserId: 'local-user',
+      rawSender: 'MTN MOMO',
+      rawBody: 'You received 5,000 RWF. TxId ABCD1234.',
+      receivedAtDevice: '1',
+    ),
+  ];
+  final firstAcknowledgeStarted = Completer<void>();
+  final allowFirstAcknowledge = Completer<void>();
+  final acknowledgedIds = <String>[];
+  var enabled = false;
+  var readCalls = 0;
+  var acknowledgeCalls = 0;
+
+  @override
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
+    this.enabled = enabled;
+    return enabled;
+  }
+
+  @override
+  Future<SmsAccessStatus> status() async => SmsAccessStatus(
+    supported: true,
+    declared: true,
+    enabled: enabled,
+    granted: enabled,
+    requestedBefore: enabled,
+    shouldShowRationale: false,
+    permanentlyDenied: false,
+    queueOverflowed: false,
+  );
+
+  @override
+  Future<List<SmsAccessEnvelope>> readPendingSms() async {
+    readCalls += 1;
+    return List<SmsAccessEnvelope>.from(pending);
+  }
+
+  @override
+  Future<bool> acknowledgePendingSms(Iterable<String> ids) async {
+    acknowledgeCalls += 1;
+    if (acknowledgeCalls == 1) {
+      firstAcknowledgeStarted.complete();
+      await allowFirstAcknowledge.future;
+    }
+    final cleanIds = ids.toSet();
+    acknowledgedIds.addAll(cleanIds);
+    pending.removeWhere((item) => cleanIds.contains(item.id));
+    return true;
+  }
+}
+
+class _RetryingSmsAccessChannel extends SmsAccessChannel {
+  var enabled = false;
+  var failRead = true;
+  final acknowledgedIds = <String>[];
+
+  @override
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
+    this.enabled = enabled;
+    return enabled;
+  }
+
+  @override
+  Future<SmsAccessStatus> status() async => SmsAccessStatus(
+    supported: true,
+    declared: true,
+    enabled: enabled,
+    granted: enabled,
+    requestedBefore: enabled,
+    shouldShowRationale: false,
+    permanentlyDenied: false,
+    queueOverflowed: false,
+  );
+
+  @override
+  Future<List<SmsAccessEnvelope>> readPendingSms() async {
+    if (failRead) throw StateError('offline');
+    return const [
+      SmsAccessEnvelope(
+        id: 'sms-retry',
+        ownerUserId: 'local-user',
+        rawSender: 'MTN MOMO',
+        rawBody: 'You received 5,000 RWF. TxId RETRY123.',
+        receivedAtDevice: '1',
+      ),
+    ];
   }
 
   @override

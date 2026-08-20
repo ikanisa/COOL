@@ -117,9 +117,9 @@ void main() {
         repository: CollectRepository.fixture(),
       );
 
-      expect(find.text('Group QR'), findsWidgets);
-      expect(find.text('Share'), findsWidgets);
-      expect(find.text('Share group'), findsNothing);
+      expect(find.text('Share group'), findsOneWidget);
+      expect(find.text('Share link'), findsOneWidget);
+      expect(find.text('Share QR code'), findsOneWidget);
       expect(find.text('St Michel building fund'), findsNothing);
       expect(
         find.textContaining('does not include phone numbers'),
@@ -127,15 +127,16 @@ void main() {
       );
       expect(find.textContaining('+250788'), findsNothing);
 
-      final router = GoRouter.of(tester.element(find.text('Share').first));
+      final router = GoRouter.of(tester.element(find.text('Share link')));
       router.go('/groups/col-church/invite');
       await pumpLaunchFrames(tester);
 
-      expect(find.text('Group QR'), findsWidgets);
-      expect(find.text('Share group'), findsNothing);
+      expect(find.text('Share group'), findsOneWidget);
       expect(find.text('St Michel building fund'), findsNothing);
-      expect(find.text('Share'), findsWidgets);
-      expect(find.text('Save'), findsWidgets);
+      expect(find.text('Share link'), findsOneWidget);
+      expect(find.text('Share QR code'), findsOneWidget);
+      expect(find.text('Save QR'), findsOneWidget);
+      expect(find.text('Copy link'), findsOneWidget);
       expect(find.text('SMS'), findsNothing);
       expect(find.text('WhatsApp'), findsNothing);
       expect(find.text('Copy deep link'), findsNothing);

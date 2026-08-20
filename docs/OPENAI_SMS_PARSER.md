@@ -2,17 +2,24 @@
 
 `parse-payment-sms` runs in Supabase Edge Functions only. Flutter never calls OpenAI directly.
 
-The parser uses the Responses API with `text.format.type = json_schema`, `strict = true`, and schema version `collect.sms_parser.v1`. This follows OpenAI structured output guidance that schema adherence requires Structured Outputs rather than plain JSON mode.
+The parser uses the Responses API with `text.format.type = json_schema`, `strict = true`, and schema version `collect.sms_parser.openai.v2`. The configured `OPENAI_MODEL` is required; there is no client-side model call or deterministic parsing substitute.
 
-Parser output is not authoritative. It stores extracted facts and confidence only. Allocation is performed by deterministic Postgres logic.
+If OpenAI parsing succeeds but the following transactional allocation call is temporarily unavailable, the parsed event remains `unallocated`. A retry reuses that saved model result and reruns only the idempotent allocation; it does not call OpenAI twice or create a second payment.
 
-High-confidence MTN MoMo and Airtel Money messages are parsed first by a
-deterministic, source-controlled parser. It accepts only explicit incoming
-payment language with an RWF/FRW amount, and explicitly rejects outgoing,
-failed, reversed, pending, airtime, bundle, loan, and promotional messages.
-Ambiguous or unfamiliar formats continue through the OpenAI structured-output
-parser. If that parser does not return valid structured output, the raw SMS
-parse status is marked failed and the event remains unallocated.
+OpenAI performs the SMS parsing; there is no deterministic SMS parser or
+regex fallback. Its structured output stores extracted facts and confidence.
+Postgres then enforces exact payer, amount, time, receiver-ownership, and
+single-intent conditions before creating a candidate. The parser and allocator
+cannot post ledger entries; the separate authenticated provider-finality path
+owns that transition.
+
+Every accepted MTN MoMo or Airtel Money message is parsed by the OpenAI
+Responses API in the Supabase Edge Function. The request uses a strict schema,
+disables response storage, bounds input/output and runtime, treats SMS text as
+untrusted data, detects refusals, and validates every returned value before it
+is persisted. If OpenAI is unavailable or does not return a complete valid
+structured result, the raw SMS parse status is marked failed, the native queue
+is not acknowledged, and the message remains retryable and unallocated.
 
 Rules:
 
@@ -21,5 +28,11 @@ Rules:
 - Only incoming received-money SMS can become payment events.
 - Promotional, balance-only, failed, loan, airtime, and outgoing SMS are ignored or sent to review.
 - Balance fragments are redacted before model submission where possible.
+- Opted-in SMS content is sent through Collect servers to the OpenAI API; this
+  is disclosed before SMS access is enabled and in the privacy policy.
 - Do not extract or store payer names, receiver names, payment reasons, or raw reference text.
 - Extract only transaction ID, amount, currency, phones for hashing, transaction time, network, direction, explicit 6-digit Collect ID, and confidence.
+- If a provider message omits its receiving number, the model is not trusted
+  to choose a group. Postgres may derive the route only when exactly one active
+  intent matches the payer, amount, time window, and a receiver owned by the
+  authenticated SMS account; otherwise the event stays in review.

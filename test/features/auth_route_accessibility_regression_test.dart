@@ -4,6 +4,7 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
+import 'package:collect_app/features/auth/auth_screen.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('Pixel auth CTA remains readable at 200 percent text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1080, 2340);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          theme: AppTheme.dark(),
+          home: const MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.linear(2)),
+            child: AuthScreen(),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final label = tester.widget<Text>(find.text('Send WhatsApp code'));
+    expect(label.maxLines, 2);
+    expect(label.softWrap, isTrue);
+    expect(
+      tester.getSize(find.byKey(const ValueKey('auth_submit_button'))).height,
+      greaterThanOrEqualTo(76),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('phone input exposes its own actionable semantics label', (
     tester,
   ) async {

@@ -42,9 +42,6 @@ routes = [
   "/site.js",
   "/manifest.json",
   "/icons/collect.png",
-  "/assets/brand/collect_runtime/media/group-momentum.png",
-  "/assets/brand/collect_runtime/media/mobile-money-ussd-signal.png",
-  "/assets/brand/collect_runtime/media/qr-share.png",
 ]
 responses = routes.to_h { |route| [route, fetch("#{base_url}#{route}")] }
 retired_language_routes = ["/rw/", "/rw/group-savings/", "/rw/community-groups/", "/fr/"]
@@ -55,9 +52,6 @@ styles_body = responses.fetch("/styles.css").fetch("body").dup.force_encoding("U
 site_js = responses.fetch("/site.js")
 manifest = responses.fetch("/manifest.json")
 collect_icon = responses.fetch("/icons/collect.png")
-group_momentum = responses.fetch("/assets/brand/collect_runtime/media/group-momentum.png")
-mobile_money = responses.fetch("/assets/brand/collect_runtime/media/mobile-money-ussd-signal.png")
-qr_share = responses.fetch("/assets/brand/collect_runtime/media/qr-share.png")
 privacy_body = responses.fetch("/privacy/").fetch("body").dup.force_encoding("UTF-8")
 partners_body = responses.fetch("/our-partners/").fetch("body").dup.force_encoding("UTF-8")
 sitemap_body = responses.fetch("/sitemap.xml").fetch("body").dup.force_encoding("UTF-8")
@@ -87,12 +81,9 @@ checks = {
   "valid_structured_data" => json_ld_parse_error.nil? && json_ld_types.include?("Organization") && json_ld_types.include?("SoftwareApplication"),
   "seo_metadata" => root_body.include?('rel="canonical"') && root_body.include?('property="og:title"') && root_body.include?('name="twitter:card"'),
   "pre_audit_brand_assets" => collect_icon.fetch("status") == 200 && Digest::SHA256.hexdigest(collect_icon.fetch("body")) == "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209" &&
-    group_momentum.fetch("status") == 200 && Digest::SHA256.hexdigest(group_momentum.fetch("body")) == "9b6278d46d68ce2c61fabef8c634ac00b8cf299008cc54ccc74bd34d480068b2" &&
-    mobile_money.fetch("status") == 200 && Digest::SHA256.hexdigest(mobile_money.fetch("body")) == "eaa9fc831baaf3b050d6acdf3de95024098361d6cd9043543ffe159b6c1e8f66" &&
-    qr_share.fetch("status") == 200 && Digest::SHA256.hexdigest(qr_share.fetch("body")) == "9f67af8c93f035738bfb60f3e6964fe69c6908f5e40ae0003bbf1d609c8eafd4" &&
     root_body.include?('<link rel="icon" href="/icons/collect.png" type="image/png">') &&
     root_body.include?('<img src="/icons/collect.png" alt="" width="42" height="42">') &&
-    root_body.include?('<meta property="og:image" content="https://collect.ikanisa.com/assets/brand/collect_runtime/media/group-momentum.png">') &&
+    root_body.include?('<meta property="og:image" content="https://collect.ikanisa.com/icons/collect.png">') &&
     !root_body.include?('class="brand-mark"') &&
     manifest.fetch("status") == 200 && manifest.fetch("body").include?('"src": "/icons/collect.png"') && manifest.fetch("body").include?('"sizes": "512x512"'),
   "no_flutter_or_wasm" => !root_body.match?(/flutter_bootstrap|flutter-view|main\.dart\.js|canvaskit|\.wasm/),

@@ -189,8 +189,9 @@ class PaymentIntentStatusCard extends StatelessWidget {
           ),
           CollectSpacing.gap16,
           const InfoSecurityBanner(
-            title: 'SMS verification',
-            message: 'Ledger updates after SMS.',
+            title: 'Receipt and provider verification',
+            message:
+                'SMS can match this request, but the ledger updates only after independent provider confirmation.',
             tone: CollectStatusTone.privacy,
           ),
         ],

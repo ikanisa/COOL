@@ -1,77 +1,165 @@
-# Collect QA Test Report
+# Collect MoMo SMS Production QA Report
 
-Audit date: 2026-06-01
+Audit date: 2026-08-15
 
-Scope: SMS-first Groups refactor for the Flutter mobile app, Admin PWA,
-Supabase schema/functions, payment-intent allocation, and release evidence.
+Scope: the complete standalone SMS-first MoMo journey across Android permission and
+live receipt, encrypted local queuing, Supabase ingestion, OpenAI parsing,
+payment-intent matching, transaction and balanced-ledger posting, payer/group
+balances, notifications, mobile UI, database controls, deployment, physical
+Android verification, and Google Play submission.
 
 ## Decision
 
-Current status: **NO-GO for public launch** until Android SMS access UAT is run
-with sanitized evidence, Android signing/iOS scope evidence is recorded,
-product signoff is approved, and release owner signoff is recorded.
+Public launch decision: **NO-GO**.
 
-Older Supabase platform blockers from the previous product definition are not
-carried forward in this report. Any platform blocker must be reproduced by a
-fresh readiness run.
+The code-owned security remediation is implemented and locally validated, but
+the resulting journey is not deployed, provider-integrated, artifact-frozen or
+release-approved. Earlier version `1.2.2+20` APK/AAB hashes, physical install
+evidence and Play submission records predate the current authorization,
+provider-finality, atomic-ingestion and release-control changes. They remain
+historical evidence only and cannot approve the current source tree.
 
-## Commands And Results
+Production database mutation, public-site deployment, real payment/SMS testing,
+credential/PIN/OTP handling, Play upload and rollout remain explicitly
+authorization-gated. The source can become a release candidate only after the
+current 78-migration chain and reviewed Edge Functions are deployed to the
+intended project, authenticated production smoke passes, a genuine provider
+finality integration reconciles, the exact final artifacts pass physical UAT,
+and Google separately approves restricted SMS access and the release.
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `scripts/release_worktree_review_gate.sh --json` | Re-run on final tree | Worktree review must pass on the exact final release branch after any recorder, evidence, or release-doc refresh is committed and synced. |
-| `scripts/collect_product_boundary_scan.sh --json` | Pass | Scanned 80 Flutter source files with zero forbidden Buro/crypto/trading/legacy navigation hits; safety-copy exceptions remain exact and limited. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` | Pass | Analyzer clean after the Collect mobile UI and SMS-first app/admin refactor. |
-| Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
-| `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T205424Z`. |
-| `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/admin_pwa_render_smoke/20260602T081408Z`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
-| `scripts/mobile_route_render_smoke.sh` | Pass | Flutter mobile web build captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 45 stable mobile routes at `.cache/mobile_route_render_smoke/20260602T210133Z`. |
-| `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass | Deployed Admin PWA responds over HTTPS with required headers, cache policy, manifest, service worker, and bundle responses. |
-| `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
-| `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
-| `./scripts/migrations/validate_supabase_migrations.sh` | Pass | Local migration validation passes. |
-| `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT for admin RBAC, raw-SMS reveal audit logging, payment-event reparse permission, and denial paths passed. |
-| `scripts/collect_linked_uat.sh` | Pass | Linked rollback UAT passed after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` through the linked query path. |
-| `scripts/supabase_production_readiness.sh` | Pass | Code-owned linked Supabase readiness passed after migration-history repair and mobile-state RLS init-plan hardening. |
-| `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/supabase_go_live_gate.sh --json` | Blocked | Supabase go-live remains NO-GO on product signoff, Android SMS UAT, signing/iOS scope, and release-owner signoff. |
-| `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`; retained evidence at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
-| `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current and signatures verify; signing review and iOS scope remain pending. Evidence: `.cache/mobile_release_gate/20260602T050529Z/summary.json`. |
-| `scripts/release_artifact_manifest.sh --json` | Pass | Current APK/AAB and Admin PWA artifacts are fresh; checksum manifest written to `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
+## Product Boundary
 
-## QA Findings
+- Collect is a standalone group-contribution system. It does not represent SMS
+  as bank/provider settlement truth and does not invent banking, escrow or
+  manual confirmation. A service-side provider/bank finality source is required
+  before any collection or payer balance changes.
+- Android requests only `RECEIVE_SMS` for this feature. It does not request
+  `READ_SMS`, `SEND_SMS`, Call Log, contacts, storage, or inbox-history access.
+- SMS parsing is performed by the OpenAI Responses API in the Supabase Edge
+  Function using strict structured output. There is no deterministic
+  transaction parser fallback and the model cannot select the receiver, group,
+  payer, or payment intent.
+- Native SMS can create only an `awaiting_provider_confirmation` candidate.
+  The service-only confirmation contract owns the exactly-once two-entry ledger
+  posting; rejection and replay remain explicit and audited.
 
-- P0: Android MoMo SMS consent, ingestion, parse, allocation, exception,
-  and ledger UAT must be executed on a real Android device with sanitized
-  evidence.
-- P0: Stakeholder signoff is required for the corrected Groups product
-  definition.
-- P0: Android release signing review and iOS release-scope evidence are missing.
-- P1: Release-owner review of the current clean, synced worktree still needs
-  human signoff.
-- P1: Android release signing and any iOS release-scope decision still need
-  current release-owner evidence.
+## Production Deployment Boundary
 
-## Refactor Coverage
+- The current reviewed local schema contains 78 migrations and ends at
+  `20260815085000_atomic_provider_finality_gateway`.
+- The final tail adds request-bound attested creation, privacy and receiver
+  authorization closure, provider finality, parser leasing, atomic ingestion,
+  non-DML client privilege revocation and the signed replay-safe provider
+  gateway. This tail has local reset/lint/UAT evidence only.
+- The current read-only production recheck found 321/341 expected schema
+  objects, with 20 missing objects spanning attested creation, atomic SMS
+  ingestion, parser claiming, provider finality, the provider gateway and
+  atomic profile/receiver updates. Strict readiness also stops on an
+  unreviewed warning-level advisor inventory. No action in this QA refresh
+  deploys or mutates production.
+- Edge Function versions, secrets, project identity, auth/network/SSL/PITR
+  state and migration history must be re-read authoritatively under strict
+  readiness immediately before and after an explicitly authorized deployment.
+- The 2026-08-15 read-only Edge inventory contains the ten previously deployed
+  functions but not the new `provider-finality` function. Secret-name
+  inventory also lacks `PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT` and the
+  previously open `FCM_SERVICE_ACCOUNT_JSON`; no secret values were read or
+  recorded.
 
-- Mobile navigation is reduced to `Home`, `Groups`, and `Settings`.
-- Public directory, campaign/category/target/cover flows, manual SMS paste,
-  contributor-reported transaction IDs, and anonymity choices are removed from
-  the current UX.
-- Profile owns MoMo number and the generated 6-digit Collect ID.
-- Group creation uses name, optional description, and profile-synced receiver
-  MoMo with edit support.
-- Group creation is Android-only; iPhone users receive exactly
-  `group creation is available only on Android`.
-- Contributions create Supabase payment intents and launch the MoMo USSD dialer.
-- MoMo SMS is parsed through Edge Functions and allocation is based on
-  payment intent, Collect ID, amount, receiver, and timing.
-- Admin PWA is aligned to Groups, Members, Payment intents, SMS parsing,
-  Allocations, Exceptions, Ledger, Receivers, SMS, Audit logs, Settings,
-  Feature flags, System health, and Admin users.
+## Current End-to-End Evidence
 
-## Next Verification
+Current evidence is synthetic, local and rollback-only:
 
-1. Run Android SMS access UAT with real MoMo notification scenarios.
-2. Record Android signing review and iOS scope evidence, then rerun release gates.
-3. Record product and release-owner signoff.
-4. Regenerate release evidence from current commands only.
+- Group creation UAT proves exact capability payload binding, single use,
+  owner membership, private/public-requested states, share rotation, removed
+  member denial, delegated-admin receiver denial and balance contracts.
+- Linked rollback UAT and the privacy lifecycle UAT prove payer identity,
+  matching, ambiguity, replay, provider-finality state, no ledger before
+  confirmation, exactly one collection credit and one member credit after
+  confirmation, scoped reads and immutable ledger behavior.
+- Admin security UAT proves permission-scoped raw-SMS metadata/reveal/reparse,
+  admin role controls and audited actions.
+- A true concurrent-join UAT proves one active membership, one join audit and
+  one owner notification from two simultaneous requests.
+- Supabase contract tests cover the forward migrations, Edge integration and
+  browser/service grant boundaries. Dedicated Deno tests additionally prove
+  signed-byte binding, key rotation, stale/tampered rejection, request-ID
+  binding, strict versioned payload parsing, HTTP status mapping and exact RPC
+  construction for the provider gateway.
+
+Any earlier production OpenAI/parser exercise predates the provider-finality
+boundary and does not prove the current capture-to-reconciliation chain.
+
+## Android Evidence
+
+- Historical version 20 installation on the Pixel 4a proved package launch and
+  a denied SMS-permission baseline only. It did not prove permission grant,
+  revocation recovery, authenticated creation, real share/join, carrier SMS or
+  provider-confirmed balances.
+- Current native source adds synchronized durable-queue access, authenticated
+  owner binding and a server-verified Play Integrity capability request.
+- Fresh local `1.2.2+20` production artifacts were built after the final source
+  change. The APK SHA-256 is
+  `ee04c7b1b2afe221a2c38e27133c93383694f75b69edba367d329e502578e109` and
+  the AAB SHA-256 is
+  `d619992f6a2cf62ad985c76c0d53157a35f570bf616f9456800ced82852b0848`.
+  Embedded production-runtime checks, upload-key signing preflight and APK/AAB
+  signature checks pass. These are local candidate artifacts, not approved or
+  physically accepted release artifacts.
+
+## Verification Results
+
+| Verification | Result |
+| --- | --- |
+| `flutter analyze` | Pass; no issues |
+| Full `flutter test -r compact` | Pass; 509 tests |
+| Security hygiene focused suite | Pass, including strict dotenv controls |
+| Supabase contract suite | Pass, 68 tests |
+| Provider gateway Deno tests/type check | Pass; 11 tests and `deno check` clean |
+| Clean local migration replay and SQL lint | Pass, 78 migrations and zero lint issues |
+| Group creation journey rollback UAT | Pass |
+| Linked contribution rollback UAT | Pass |
+| Admin security rollback UAT | Pass |
+| Privacy/provider lifecycle rollback UAT | Pass |
+| Concurrent join UAT | Pass; one membership, audit and notification |
+| Governed golden suite | Pass; 14 tests and 13 pinned baselines |
+| Android production-debug JVM tests | Pass |
+| Fresh production APK/AAB and artifact manifest | Pass locally; exact hashes recorded above |
+| Mobile release gate | Blocked only on current `android_release_signing_review` approval |
+| Local public website quality gate | Pass; 56 checks |
+| Live public website gate | Fail closed; 33/35, `/c/*` 404 and stale deployed brand hashes |
+| Read-only production schema inventory | Fail closed; 321/341 objects, 20 missing |
+| Admin PWA full 28-route by 3-viewport matrix | Pass; 84/84 screenshots, zero failures |
+| Real provider, production deployment and physical end-to-end UAT | Pending; not claimed |
+
+The Android build emits a non-blocking dependency warning that
+`mobile_scanner` still applies the legacy Kotlin Gradle plugin. The current
+release compiles and tests successfully; this dependency must be upgraded when
+a compatible built-in-Kotlin release is available.
+
+## Google Play State
+
+- Historical version 20 processing/review records do not approve the current
+  source or a future AAB.
+- Restricted `RECEIVE_SMS` approval and release approval must be evidenced as
+  separate Google decisions for the exact final AAB.
+- The upload wrapper is now pinned to the canonical AAB, package and production
+  track, revalidates its SHA-256 around the readiness gate and permits only a
+  staged `inProgress` rollout. Upload still requires explicit action-time
+  authority and an approved SMS declaration.
+
+## Remaining External Gates
+
+1. Authorized Supabase deployment and authenticated production negative/positive
+   smoke across capabilities, receivers, privacy, joins, provider replay and
+   grants.
+2. Authorized Cloudflare deployment and live `/c/*` deep-link/fallback proof.
+3. Approved provider/bank finality integration and one authorized low-value
+   reconciliation with no ledger effect from SMS alone.
+4. Fresh exact APK/AAB build, signing approval, physical two-user permission,
+   share/QR/join/payment/SMS/notification/balance UAT and human TalkBack review.
+5. Google restricted-SMS approval, artifact processing, tester/public
+   availability and staged 1-hour/24-hour/72-hour monitoring.
+
+No production mutation, provider settlement, payment, PIN/OTP entry, carrier
+SMS, Play approval or public availability is claimed by this report.

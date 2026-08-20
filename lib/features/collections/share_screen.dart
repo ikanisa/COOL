@@ -13,31 +13,87 @@ import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/collect_share_origin.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
 import 'group_share_service.dart';
 
-class ShareScreen extends ConsumerWidget {
+class ShareScreen extends ConsumerStatefulWidget {
   const ShareScreen({required this.collectionId, super.key});
 
   final String collectionId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShareScreen> createState() => _ShareScreenState();
+}
+
+class _ShareScreenState extends ConsumerState<ShareScreen> {
+  String? _shareCode;
+  String? _loadError;
+  bool _loading = true;
+  bool _rotating = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future<void>.microtask(_loadShareCode);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.collectColors;
     final env = ref.watch(appEnvProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.maybeCollectionById(collectionId);
+    final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
     if (collection.isArchived) {
       return ArchivedGroupStateScreen(
-        collectionId: collectionId,
+        collectionId: widget.collectionId,
         groupTitle: collection.title,
       );
     }
-    final summary = repo.summaryFor(collectionId);
-    final link = groupDeepLinkFor(env, collection);
+    if (_loading) {
+      return const ScreenScaffold(
+        title: 'Share group',
+        showHeader: false,
+        children: [
+          CollectScreenLoadingState(
+            title: 'Preparing secure invitation',
+            message: 'Loading the current link and QR code.',
+            icon: CollectIcons.share,
+            skeletonCount: 2,
+          ),
+        ],
+      );
+    }
+    if (_loadError != null) {
+      return ScreenScaffold(
+        title: 'Share group',
+        showHeader: false,
+        children: [
+          EmptyIllustrationState(
+            icon: CollectIcons.lock,
+            title: 'Invitation unavailable',
+            message: _loadError!,
+            action: CollectButton(
+              label: 'Try again',
+              icon: Icons.refresh_rounded,
+              onPressed: _loadShareCode,
+              expand: true,
+            ),
+          ),
+        ],
+      );
+    }
+    final summary = repo.summaryFor(widget.collectionId);
+    final link = groupDeepLinkForCode(env, collection, _shareCode);
     final filename = '${collection.slug}-qr';
-    final shareText = groupShareMessageFor(env, collection);
+    final shareText = groupShareMessageFor(
+      env,
+      collection,
+      shareCode: _shareCode,
+    );
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final isOwner = profile?.id == collection.creatorUserId;
 
     return CollectGradientBackground(
       child: Scaffold(
@@ -73,7 +129,7 @@ class ShareScreen extends ConsumerWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Group QR',
+                                    'Share group',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge
@@ -87,7 +143,7 @@ class ShareScreen extends ConsumerWidget {
                                   ),
                                   CollectSpacing.gap4,
                                   Text(
-                                    '${collection.collectionType.shortPurpose} link',
+                                    'Choose a link or QR code',
                                     style: Theme.of(context).textTheme.bodySmall
                                         ?.copyWith(color: colors.textSecondary),
                                     maxLines: 1,
@@ -101,7 +157,7 @@ class ShareScreen extends ConsumerWidget {
                             IconButton.filledTonal(
                               tooltip: 'Close',
                               onPressed: () =>
-                                  context.go('/groups/$collectionId'),
+                                  context.go('/groups/${widget.collectionId}'),
                               icon: const Icon(Icons.close_rounded),
                             ),
                           ],
@@ -127,7 +183,8 @@ class ShareScreen extends ConsumerWidget {
                               icon: CollectIcons.ledger,
                             ),
                             CollectStatusChip(
-                              label: '${summary.supporterCount} members',
+                              label:
+                                  '${summary.supporterCount} ${summary.supporterCount == 1 ? 'supporter' : 'supporters'}',
                               tone: CollectStatusTone.neutral,
                               icon: CollectIcons.people,
                             ),
@@ -139,47 +196,75 @@ class ShareScreen extends ConsumerWidget {
                         const InfoSecurityBanner(
                           title: 'Privacy-safe link',
                           message:
-                              'The QR shares the group invitation. Receiver MoMo numbers, raw SMS, and private member phones stay hidden.',
+                              'Share the group invitation as a native link or QR code. Receiver MoMo numbers, raw SMS, and private member phones stay hidden.',
                           tone: CollectStatusTone.privacy,
-                          messageMaxLines: 2,
+                          messageMaxLines: 4,
                         ),
                         CollectSpacing.gap16,
+                        CollectButton(
+                          label: 'Share link',
+                          icon: CollectIcons.share,
+                          onPressed: () => shareGroupDeepLink(
+                            context: context,
+                            ref: ref,
+                            collection: collection,
+                            shareCode: _shareCode,
+                          ),
+                          expand: true,
+                        ),
+                        CollectSpacing.gap12,
+                        CollectButton(
+                          label: 'Share QR code',
+                          icon: CollectIcons.qr,
+                          onPressed: () =>
+                              _shareQr(context, link, filename, shareText),
+                          variant: CollectButtonVariant.secondary,
+                          expand: true,
+                        ),
+                        CollectSpacing.gap12,
                         Row(
                           children: [
                             Expanded(
                               child: CollectButton(
-                                label: 'Share',
-                                icon: CollectIcons.share,
-                                onPressed: () => _shareQr(
-                                  context,
-                                  link,
-                                  filename,
-                                  shareText,
-                                ),
+                                label: 'Save QR',
+                                icon: CollectIcons.download,
+                                onPressed: () =>
+                                    _saveQr(context, link, filename),
+                                variant: CollectButtonVariant.subtle,
                                 expand: true,
                               ),
                             ),
                             CollectSpacing.gapW12,
                             Expanded(
                               child: CollectButton(
-                                label: 'Save',
-                                icon: CollectIcons.download,
-                                onPressed: () =>
-                                    _saveQr(context, link, filename),
-                                variant: CollectButtonVariant.secondary,
+                                label: 'Copy link',
+                                icon: CollectIcons.copy,
+                                onPressed: () => _copyLink(context, link),
+                                variant: CollectButtonVariant.subtle,
                                 expand: true,
                               ),
                             ),
                           ],
                         ),
-                        CollectSpacing.gap12,
-                        CollectButton(
-                          label: 'Copy group link',
-                          icon: CollectIcons.copy,
-                          onPressed: () => _copyLink(context, link),
-                          variant: CollectButtonVariant.subtle,
-                          expand: true,
-                        ),
+                        if (isOwner) ...[
+                          CollectSpacing.gap12,
+                          CollectButton(
+                            label: _rotating
+                                ? 'Rotating link'
+                                : 'Replace invitation link',
+                            icon: Icons.autorenew_rounded,
+                            onPressed: _rotating ? null : _rotateShareCode,
+                            variant: CollectButtonVariant.subtle,
+                            expand: true,
+                          ),
+                          CollectSpacing.gap8,
+                          Text(
+                            'Replacing the link invalidates every older private invitation and QR code.',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: colors.textSecondary),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -190,6 +275,75 @@ class ShareScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _loadShareCode() async {
+    if (mounted) {
+      setState(() {
+        _loading = true;
+        _loadError = null;
+      });
+    }
+    try {
+      final code = await ref
+          .read(collectRepositoryProvider.notifier)
+          .getGroupShareCode(widget.collectionId);
+      if (!mounted) return;
+      setState(() {
+        _shareCode = code;
+        _loading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _loadError = 'The secure group link could not be loaded.';
+      });
+    }
+  }
+
+  Future<void> _rotateShareCode() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      animationStyle: CollectMotion.animationStyle(context),
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Replace invitation link?'),
+        content: const Text(
+          'Every older private link and QR code will stop working. Existing members stay in the group.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Keep current link'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Replace link'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _rotating = true);
+    try {
+      final code = await ref
+          .read(collectRepositoryProvider.notifier)
+          .rotateGroupShareCode(widget.collectionId);
+      if (!mounted) return;
+      setState(() {
+        _shareCode = code;
+        _rotating = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('A new invitation link is ready.')),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _rotating = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not replace the link.')),
+      );
+    }
   }
 
   Future<void> _shareQr(

@@ -334,10 +334,12 @@ void main() {
       expect(find.byType(BackdropFilter), findsNothing);
       expect(find.byType(Divider), findsOneWidget);
       expect(find.text('St Michel building fund'), findsOneWidget);
-      expect(find.text('Church · 2 members'), findsOneWidget);
+      expect(find.text('Church · 2 supporters'), findsOneWidget);
       expect(find.text('RWF 35,000'), findsOneWidget);
       expect(
-        find.bySemanticsLabel('Kigali Lions away kit, RWF 12,000, 4 members'),
+        find.bySemanticsLabel(
+          'Kigali Lions away kit, RWF 12,000, 4 supporters',
+        ),
         findsOneWidget,
       );
     } finally {

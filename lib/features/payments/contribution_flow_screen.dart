@@ -34,6 +34,8 @@ class _ContributionFlowScreenState
   String? _error;
   bool _reviewing = false;
   bool _creating = false;
+  PaymentIntentModel? _reviewIntent;
+  bool _reviewReusedExisting = false;
 
   @override
   void initState() {
@@ -60,14 +62,41 @@ class _ContributionFlowScreenState
       );
     }
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final isMember =
+        profile != null &&
+        (collection.creatorUserId == profile.id ||
+            collection.isCurrentUserMember);
+    if (!isMember) {
+      return ScreenScaffold(
+        title: 'Join required',
+        subtitle: collection.title,
+        showHeader: false,
+        compact: true,
+        children: [
+          MinimalStatePanel(
+            icon: CollectIcons.people,
+            title: 'Join this group before contributing.',
+            message:
+                'Membership links the payment request to the right payer and keeps group records controlled.',
+            tone: CollectStatusTone.warning,
+            primaryAction: CollectButton(
+              label: 'Open group',
+              icon: CollectIcons.arrowForward,
+              onPressed: () => context.go('/groups/${widget.collectionId}'),
+              expand: true,
+            ),
+          ),
+        ],
+      );
+    }
     final amount = _reviewing ? _amountValue : 0;
     final activeIntent = _reviewing && amount > 0
-        ? _activePendingIntent(amountRwf: amount)
+        ? _reviewIntent ?? _activePendingIntent(amountRwf: amount)
         : null;
     final expiredIntent = _reviewing && amount > 0
         ? _latestExpiredIntent(amountRwf: amount)
         : null;
-    if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
+    if (profile.momoNumber?.trim().isNotEmpty != true) {
       return ScreenScaffold(
         title: 'Profile required',
         subtitle: collection.title,
@@ -95,6 +124,34 @@ class _ContributionFlowScreenState
         ],
       );
     }
+    if (profile.authenticatedMomoPayerPhone == null) {
+      return ScreenScaffold(
+        title: 'Verified payer required',
+        subtitle: collection.title,
+        showHeader: false,
+        compact: true,
+        children: [
+          _ContributionHeader(
+            title: collection.title,
+            stepLabel: 'Setup needed',
+            onBack: () => context.go('/groups/${widget.collectionId}'),
+          ),
+          MinimalStatePanel(
+            icon: CollectIcons.shield,
+            title: 'Use your verified number.',
+            message:
+                'For safe payment matching, your MoMo payer number must be the same number you verified for WhatsApp sign-in.',
+            tone: CollectStatusTone.warning,
+            primaryAction: CollectButton(
+              label: 'Update MoMo number',
+              icon: CollectIcons.momo,
+              onPressed: () => context.go('/settings/profile'),
+              expand: true,
+            ),
+          ),
+        ],
+      );
+    }
     return ScreenScaffold(
       title: _reviewing ? 'Review' : 'Contribute',
       subtitle: collection.title,
@@ -107,9 +164,9 @@ class _ContributionFlowScreenState
                 CollectButton(
                   label: _creating
                       ? 'Opening MoMo'
-                      : activeIntent == null
-                      ? 'Contribute with MoMo'
-                      : 'Continue existing contribution',
+                      : _reviewReusedExisting
+                      ? 'Continue existing contribution'
+                      : 'Contribute with MoMo',
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,
@@ -122,6 +179,8 @@ class _ContributionFlowScreenState
                       : () {
                           setState(() {
                             _reviewing = false;
+                            _reviewIntent = null;
+                            _reviewReusedExisting = false;
                             _error = null;
                           });
                           _showStartOfCurrentStep();
@@ -134,7 +193,7 @@ class _ContributionFlowScreenState
                 CollectButton(
                   label: 'Review contribution',
                   icon: CollectIcons.arrowForward,
-                  onPressed: _reviewContribution,
+                  onPressed: _creating ? null : _reviewContribution,
                   expand: true,
                 ),
               ],
@@ -165,31 +224,34 @@ class _ContributionFlowScreenState
           PaymentReviewSummary(
             amountRwf: amount,
             groupTitle: collection.title,
-            receiverLabel: collection.receiverDisplayLabel,
+            receiverLabel:
+                activeIntent?.receiverLabel ?? collection.receiverDisplayLabel,
             receiverMomoNumber:
-                collection.receiverMomoNumber ?? 'Not configured',
+                activeIntent?.receiverMomoNumber ?? 'Preparing secure receiver',
             showFullReceiverNumber: !_mobileEvidenceMode,
             onEdit: () {
               setState(() {
                 _reviewing = false;
+                _reviewIntent = null;
+                _reviewReusedExisting = false;
                 _error = null;
               });
               _showStartOfCurrentStep();
             },
           ),
-          if (activeIntent != null)
+          if (expiredIntent != null)
+            const InfoSecurityBanner(
+              title: 'Previous request expired',
+              message:
+                  'A fresh contribution request is ready. The expired request will not be added to the confirmed ledger.',
+              tone: CollectStatusTone.warning,
+            )
+          else if (_reviewReusedExisting && activeIntent != null)
             const InfoSecurityBanner(
               title: 'Contribution already pending',
               message:
                   'Collect will reuse the active request for this group and amount instead of creating a duplicate ledger entry.',
               tone: CollectStatusTone.info,
-            )
-          else if (expiredIntent != null)
-            const InfoSecurityBanner(
-              title: 'Previous request expired',
-              message:
-                  'Continuing creates a fresh contribution request. The expired request will not be added to the confirmed ledger.',
-              tone: CollectStatusTone.warning,
             ),
           if (_error != null)
             InfoSecurityBanner(
@@ -208,7 +270,7 @@ class _ContributionFlowScreenState
     );
   }
 
-  void _reviewContribution() {
+  Future<void> _reviewContribution() async {
     final enteredAmount = _amountValue;
     if (enteredAmount <= 0) {
       setState(() => _error = 'Enter an amount above zero.');
@@ -216,10 +278,34 @@ class _ContributionFlowScreenState
     }
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
-      _reviewing = true;
+      _creating = true;
       _error = null;
     });
-    _showStartOfCurrentStep();
+    try {
+      final existingIntent = _activePendingIntent(amountRwf: enteredAmount);
+      final intent = await ref
+          .read(collectRepositoryProvider.notifier)
+          .createPaymentIntent(
+            PaymentIntentDraft(
+              collectionId: widget.collectionId,
+              amountRwf: enteredAmount,
+            ),
+          );
+      if (!mounted) return;
+      setState(() {
+        _reviewIntent = intent;
+        _reviewReusedExisting = existingIntent?.id == intent.id;
+        _reviewing = true;
+        _creating = false;
+      });
+      _showStartOfCurrentStep();
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _creating = false;
+        _error = _safeContributionError(error);
+      });
+    }
   }
 
   Future<void> _createIntent() async {
@@ -233,33 +319,18 @@ class _ContributionFlowScreenState
     }
     setState(() => _creating = true);
     try {
-      final collection = ref
-          .read(collectRepositoryProvider.notifier)
-          .maybeCollectionById(widget.collectionId);
-      final receiverCode = collection?.receiverMomoNumber?.trim();
-      if (receiverCode == null || receiverCode.isEmpty) {
+      final intent = _reviewIntent ?? _activePendingIntent(amountRwf: amount);
+      if (intent == null) {
+        throw StateError('Contribution request expired. Review it again.');
+      }
+      final receiverCode = intent.receiverMomoNumber.trim();
+      if (receiverCode.isEmpty) {
         throw StateError('Group has no MoMo receiver.');
       }
       final ussdUri = momoUssdUri(
         receiverCode: receiverCode,
         amountRwf: amount,
       );
-      final activeIntent = _activePendingIntent(amountRwf: amount);
-      if (activeIntent != null) {
-        if (!mounted) return;
-        final messenger = ScaffoldMessenger.of(context);
-        context.go('/groups/${widget.collectionId}');
-        unawaited(_launchMomoDialer(messenger, ussdUri));
-        return;
-      }
-      await ref
-          .read(collectRepositoryProvider.notifier)
-          .createPaymentIntent(
-            PaymentIntentDraft(
-              collectionId: widget.collectionId,
-              amountRwf: amount,
-            ),
-          );
       if (!mounted) return;
       final messenger = ScaffoldMessenger.of(context);
       context.go('/groups/${widget.collectionId}');
@@ -282,7 +353,7 @@ class _ContributionFlowScreenState
       opened = await MomoUssdLauncher().launch(ussdUri);
     } catch (_) {
       // Unsupported platforms and denied Android phone access leave the group
-      // as the source of truth until creator SMS parsing confirms payment.
+      // as the source of truth until SMS matching and provider confirmation.
     }
     if (!opened && messenger.mounted) {
       messenger.showSnackBar(

@@ -341,7 +341,7 @@ class CollectHeroQuickAction {
   final Key? key;
   final IconData icon;
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String? tooltip;
 }
 
@@ -549,21 +549,24 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
     void handleTap() {
       CollectHaptics.selection();
-      action.onTap();
+      action.onTap?.call();
     }
+
+    final enabled = action.onTap != null;
 
     return Semantics(
       key: action.key,
       button: true,
+      enabled: enabled,
       label: action.label,
-      onTap: handleTap,
+      onTap: enabled ? handleTap : null,
       child: ExcludeSemantics(
         child: Tooltip(
           message: action.tooltip ?? action.label,
           excludeFromSemantics: true,
           child: InkWell(
             borderRadius: CollectRadius.pillBorder,
-            onTap: handleTap,
+            onTap: enabled ? handleTap : null,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

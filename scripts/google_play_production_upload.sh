@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
+umask 077
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 PACKAGE_NAME="${PACKAGE_NAME:-app.cool.mobile}"
 TRACK="${TRACK:-production}"
-STATUS="${STATUS:-completed}"
-USER_FRACTION="${USER_FRACTION:-}"
+STATUS="${STATUS:-inProgress}"
+USER_FRACTION="${USER_FRACTION:-0.05}"
 AAB_PATH="${AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}"
-RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (14)}"
+RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (20)}"
 RELEASE_NOTES="${RELEASE_NOTES:-Adds native notification controls and optional receive-only MoMo SMS matching, removes embedded reviewer access, and hardens release security.}"
 OUTPUT_PATH="${OUTPUT_PATH:-}"
 OUTPUT_FORMAT="text"
@@ -27,12 +28,12 @@ Play edit.
 Environment:
   PACKAGE_NAME                         default: app.cool.mobile
   TRACK                                default: production
-  STATUS                               default: completed
-  USER_FRACTION                        optional, for staged rollout statuses
+  STATUS                               fixed to inProgress for --submit
+  USER_FRACTION                        default: 0.05; must be > 0 and < 1
   AAB_PATH                             default: build/app/outputs/bundle/productionRelease/app-production-release.aab
-  RELEASE_NAME                         default: Collect 1.2.2 (14)
+  RELEASE_NAME                         default: Collect 1.2.2 (20)
   RELEASE_NOTES                        default release notes
-  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v14.json
+  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v20.json
   ANDROID_PUBLISHER_ACCESS_TOKEN       optional bearer token; never printed
   ANDROID_PUBLISHER_ACCESS_TOKEN_CMD   optional command that prints a bearer token
   GOOGLE_APPLICATION_CREDENTIALS       service-account JSON is supported directly
@@ -67,16 +68,49 @@ done
 
 if [[ -z "$OUTPUT_PATH" ]]; then
   if [[ "$SUBMIT" == "true" ]]; then
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v14.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v20.json"
   else
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v14_dry_run.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v20_dry_run.json"
   fi
 fi
+
+resolved_output_path="$(OUTPUT_PATH="$OUTPUT_PATH" ruby -e 'puts File.expand_path(ENV.fetch("OUTPUT_PATH"))')"
+case "$resolved_output_path" in
+  "$ROOT_DIR"/.cache/*|"$ROOT_DIR"/output/*) ;;
+  *)
+    printf '[google-play-production-upload][FAIL] OUTPUT_PATH must stay under repository .cache or output.\n' >&2
+    exit 1
+    ;;
+esac
 
 if [[ "$SUBMIT" == "true" ]]; then
   # The upload path must not be able to bypass the independently pinned
   # production-backend, artifact, SMS-policy, and console-state controls.
+  canonical_aab="$ROOT_DIR/build/app/outputs/bundle/productionRelease/app-production-release.aab"
+  [[ "$PACKAGE_NAME" == "app.cool.mobile" ]] || {
+    printf '[google-play-production-upload][FAIL] --submit is pinned to app.cool.mobile.\n' >&2
+    exit 1
+  }
+  [[ "$TRACK" == "production" && "$STATUS" == "inProgress" ]] || {
+    printf '[google-play-production-upload][FAIL] --submit requires a staged production rollout.\n' >&2
+    exit 1
+  }
+  ruby -e 'fraction = Float(ARGV.fetch(0)); exit(fraction.positive? && fraction < 1 ? 0 : 1)' "$USER_FRACTION" || {
+    printf '[google-play-production-upload][FAIL] --submit USER_FRACTION must be greater than 0 and less than 1.\n' >&2
+    exit 1
+  }
+  resolved_aab="$(AAB_PATH="$AAB_PATH" ruby -e 'puts File.expand_path(ENV.fetch("AAB_PATH"))')"
+  [[ "$resolved_aab" == "$canonical_aab" && -f "$canonical_aab" && ! -L "$canonical_aab" ]] || {
+    printf '[google-play-production-upload][FAIL] --submit requires the canonical, non-symlink production AAB.\n' >&2
+    exit 1
+  }
+  gated_aab_sha256="$(AAB_PATH="$canonical_aab" ruby -r digest -e 'puts Digest::SHA256.file(ENV.fetch("AAB_PATH")).hexdigest')"
   "$ROOT_DIR/scripts/google_play_optimization_gate.sh" --json >/dev/null
+  post_gate_sha256="$(AAB_PATH="$canonical_aab" ruby -r digest -e 'puts Digest::SHA256.file(ENV.fetch("AAB_PATH")).hexdigest')"
+  [[ "$post_gate_sha256" == "$gated_aab_sha256" ]] || {
+    printf '[google-play-production-upload][FAIL] Production AAB changed after the Play readiness gate.\n' >&2
+    exit 1
+  }
 fi
 
 PACKAGE_NAME="$PACKAGE_NAME" \
@@ -90,6 +124,7 @@ OUTPUT_PATH="$OUTPUT_PATH" \
 OUTPUT_FORMAT="$OUTPUT_FORMAT" \
 SUBMIT="$SUBMIT" \
 CHANGES_NOT_SENT_FOR_REVIEW="$CHANGES_NOT_SENT_FOR_REVIEW" \
+GATED_AAB_SHA256="${gated_aab_sha256:-}" \
 ruby -r json -r net/http -r uri -r open3 -r time -r fileutils -r openssl -r base64 -r digest -r shellwords <<'RUBY'
 SCOPE = "https://www.googleapis.com/auth/androidpublisher"
 TOKEN_URI = "https://oauth2.googleapis.com/token"
@@ -105,6 +140,13 @@ output_path = ENV.fetch("OUTPUT_PATH")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 submit = ENV.fetch("SUBMIT") == "true"
 changes_not_sent_for_review = ENV.fetch("CHANGES_NOT_SENT_FOR_REVIEW") == "true"
+gated_aab_sha256 = ENV.fetch("GATED_AAB_SHA256", "")
+
+if submit
+  abort("Play-gated AAB digest is missing") if gated_aab_sha256.empty?
+  abort("Production AAB changed before upload") unless File.file?(aab_path) &&
+    Digest::SHA256.file(aab_path).hexdigest == gated_aab_sha256
+end
 
 def json_out(payload, output_path, output_format)
   FileUtils.mkdir_p(File.dirname(output_path))
@@ -177,23 +219,23 @@ def token_from_service_account(path)
     "assertion" => assertion
   })
   [token.fetch("access_token"), "service_account"]
-rescue StandardError => e
-  [nil, "service_account_failed: #{e.message}"]
+rescue StandardError
+  [nil, "service_account_failed"]
 end
 
 def token_from_command(command)
   return nil unless command && !command.strip.empty?
-  stdout, stderr, status = Open3.capture3(command)
+  stdout, _stderr, status = Open3.capture3(command)
   return [stdout.strip, "custom_command"] if status.success? && !stdout.strip.empty?
-  [nil, "custom_command_failed: #{stderr.lines.first.to_s.strip}"]
-rescue Errno::ENOENT => e
-  [nil, "custom_command_unavailable: #{e.message.lines.first.to_s.strip}"]
+  [nil, "custom_command_failed"]
+rescue Errno::ENOENT
+  [nil, "custom_command_unavailable"]
 end
 
 def token_from_gcloud(*cmd)
-  stdout, stderr, status = Open3.capture3(*cmd)
+  stdout, _stderr, status = Open3.capture3(*cmd)
   return [stdout.strip, cmd.join(" ")] if status.success? && !stdout.strip.empty?
-  [nil, "#{cmd.join(" ")} failed: #{stderr.lines.first.to_s.strip}"]
+  [nil, "#{cmd.first}_auth_failed"]
 rescue Errno::ENOENT
   [nil, "#{cmd.first} unavailable"]
 end
@@ -329,7 +371,10 @@ begin
     ]
   }
   release["userFraction"] = user_fraction.to_f if status == "inProgress"
-  body = JSON.generate({ "track" => track, "releases" => [release] })
+  prior_releases = Array(before_track["releases"]).reject do |prior_release|
+    Array(prior_release["versionCodes"]).map(&:to_s).include?(uploaded_version)
+  end
+  body = JSON.generate({ "track" => track, "releases" => prior_releases + [release] })
   code, updated_track = http_json("Put", "#{base}/edits/#{edit_id}/tracks/#{track}", token: token, body: body)
   observations << { "step" => "edits.tracks.update", "code" => code }
 

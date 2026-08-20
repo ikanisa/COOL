@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Users/jeanbosco/Developer/flutter/bin/flutter
 DART ?= /Users/jeanbosco/Developer/flutter/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -56,10 +56,14 @@ help:
 	@echo "  make supabase-schema-inventory Print live public schema contract inventory"
 	@echo "  make supabase-go-live-evidence Build redacted Supabase go-live evidence bundle"
 	@echo "  make supabase-ready    Check linked Supabase production readiness"
-	@echo "  make supabase-deploy   Push migrations, deploy functions, then check readiness"
+	@echo "  make supabase-deploy   Bind target, preflight, deploy reviewed changes, then verify"
 	@echo "  make supabase-advisors Run linked Supabase security/performance advisor gate"
 	@echo "  make supabase-advisor-warnings Check warning-level Supabase advisor inventory"
 	@echo "  make supabase-admin-uat Run rollback-only admin/security UAT"
+	@echo "  make supabase-group-journey-uat Run rollback-only group creation journey UAT"
+	@echo "  make supabase-linked-uat-local Run linked-flow rollback UAT against local Supabase"
+	@echo "  make supabase-lifecycle-uat Run rollback-only privacy/provider lifecycle UAT"
+	@echo "  make supabase-concurrent-join-uat Run true concurrent join exactly-once UAT"
 	@echo "  make supabase-edge-auth-uat Run local Edge Function auth contract UAT"
 	@echo "  make supabase-auth-harden Apply optional production Auth hardening"
 	@echo "  make supabase-pitr-enable Apply optional billable backup add-on after explicit confirmation"
@@ -331,6 +335,18 @@ supabase-advisor-warnings:
 
 supabase-admin-uat:
 	@./scripts/collect_admin_security_uat.sh
+
+supabase-group-journey-uat:
+	@./scripts/group_creation_journey_uat.sh
+
+supabase-linked-uat-local:
+	@COLLECT_SKIP_DOTENV=1 SUPABASE_DB_QUERY_MODE=local ./scripts/collect_linked_uat.sh
+
+supabase-lifecycle-uat:
+	@./scripts/local_backend_privacy_lifecycle_uat.sh
+
+supabase-concurrent-join-uat:
+	@./scripts/local_concurrent_join_uat.sh
 
 supabase-edge-auth-uat:
 	@./scripts/collect_edge_auth_contract_uat.sh

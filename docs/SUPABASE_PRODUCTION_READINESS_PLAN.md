@@ -36,13 +36,12 @@ fresh readiness run reproduces them.
 
 1. Keep linked rollback UAT green after any backend change by rerunning
    `scripts/collect_linked_uat.sh`.
-2. Deploy active Edge Functions only:
-   - `auth-send-whatsapp-otp`
-   - `ingest-payment-sms`
-   - `parse-payment-sms`
-   - `allocate-payment`
-3. Run Android SMS access UAT so the backend receives real MoMo SMS rows,
-   parser output, allocation results, exceptions, and ledger entries.
+2. Deploy only the 11 functions in `EXPECTED_FUNCTIONS` within
+   `scripts/supabase_deploy.sh`, including the HMAC-authenticated
+   `provider-finality` endpoint. The deploy script is the canonical inventory.
+3. Run Android SMS access and approved provider-finality UAT so the backend
+   receives real MoMo SMS rows, parser output, candidate allocation, provider
+   confirmation/rejection, exceptions, and exactly-once ledger entries.
 
 ## Current Validation Commands
 
@@ -51,7 +50,8 @@ fresh readiness run reproduces them.
 ./scripts/collect_edge_auth_contract_uat.sh
 deno check supabase/functions/parse-payment-sms/index.ts \
   supabase/functions/ingest-payment-sms/index.ts \
-  supabase/functions/allocate-payment/index.ts
+  supabase/functions/provider-finality/index.ts
+deno test supabase/functions/_shared/provider_finality_*_test.ts
 ./scripts/collect_admin_security_uat.sh
 ./scripts/collect_linked_uat.sh
 ./scripts/supabase_production_readiness.sh

@@ -133,11 +133,10 @@ class _CollectLiveReader {
   }
 
   Future<List<PaymentIntentModel>> fetchPaymentIntents() async {
-    final rows = await _supabase!
-        .from('payment_intents')
-        .select()
-        .order('created_at', ascending: false)
-        .limit(100);
+    final response = await _supabase!.rpc<dynamic>(
+      'list_current_user_payment_intents',
+    );
+    final rows = response is List ? response : const [];
     return [
       for (final row in rows)
         PaymentIntentModel.fromJson(Map<String, dynamic>.from(row as Map)),
@@ -173,6 +172,20 @@ class _CollectLiveReader {
     final contributions = byId.values.toList()
       ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return contributions;
+  }
+
+  Future<Map<String, CollectionSummary>> fetchCollectionSummaries() async {
+    final response = await _supabase!.rpc<dynamic>(
+      'list_current_user_collection_summaries',
+    );
+    final rows = response is List ? response : const [];
+    return {
+      for (final row in rows)
+        if (row is Map && row['collection_id'] is String)
+          row['collection_id'] as String: CollectionSummary.fromJson(
+            Map<String, dynamic>.from(row),
+          ),
+    };
   }
 
   Future<NotificationPreferences> fetchNotificationPreferences(

@@ -14,7 +14,13 @@ Future<void> main() async {
         supabaseClientProvider.overrideWithValue(supabase),
         ...adminEvidenceOverrides(),
       ],
-      child: const CollectAdminApp(),
+      child: adminPwaEvidenceMode
+          ? Semantics(
+              container: true,
+              label: 'Collect admin evidence mode marker',
+              child: const CollectAdminApp(),
+            )
+          : const CollectAdminApp(),
     ),
   );
 }

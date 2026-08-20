@@ -27,6 +27,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   permissions.PermissionStatus _cameraStatus =
       permissions.PermissionStatus.denied;
   SmsAccessStatus _smsStatus = const SmsAccessStatus.unavailable();
+  String? _smsError;
 
   @override
   void initState() {
@@ -48,6 +49,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final repositoryState = ref.watch(collectRepositoryProvider);
     final isAndroid =
         !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
     return ScreenScaffold(
@@ -139,10 +141,30 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
                 ? _openSmsSettings
                 : _reviewAndRequestSms,
           ),
+        if (_smsStatus.queueOverflowed || repositoryState.smsQueueOverflowed)
+          const InfoSecurityBanner(
+            title: 'SMS queue needs attention',
+            message:
+                'The protected on-device queue reached capacity. Existing receipts were preserved; keep Collect open and contact support before relying on missing receipts.',
+            tone: CollectStatusTone.warning,
+          ),
+        if (repositoryState.smsSyncNeedsAttention)
+          const InfoSecurityBanner(
+            title: 'A receipt is waiting to sync',
+            message:
+                'The protected receipt remains queued and will retry automatically. Keep Collect online and open this screen again if the warning continues.',
+            tone: CollectStatusTone.warning,
+          ),
+        if (_smsError != null)
+          InfoSecurityBanner(
+            title: 'SMS access was not changed',
+            message: _smsError!,
+            tone: CollectStatusTone.warning,
+          ),
         const InfoSecurityBanner(
           title: 'Restricted SMS permission',
           message:
-              'Android SMS access is optional, consent-gated, limited to mobile-money matching, and subject to Google Play approval before store distribution.',
+              'Android SMS access is optional and consent-gated. New MoMo messages are encrypted while queued, uploaded when Collect opens or resumes, and parsed through the server-side OpenAI API. An exact match remains pending until independent provider confirmation; only then can it reach the ledger. Store distribution remains subject to Google Play approval.',
           tone: CollectStatusTone.warning,
         ),
       ],
@@ -196,7 +218,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
             icon: const Icon(CollectIcons.sms),
             title: const Text('Allow MoMo SMS access?'),
             content: const Text(
-              'Collect will capture only new MTN or Airtel mobile-money transaction messages after permission is granted. It does not read inbox history or unrelated SMS. Pending matches are encrypted on this device, uploaded only for contribution matching, and deleted from the queue after successful ingestion.',
+              'Collect will capture only new MTN or Airtel mobile-money transaction messages after permission is granted. It does not read inbox history or unrelated SMS. Pending receipts are encrypted on this device and sent through Collect servers to the OpenAI API for structured parsing. They are deleted from the device queue only after durable ingestion and parsing. An exact match creates a review candidate; the contribution and balances post only after independent provider confirmation.',
             ),
             actions: [
               TextButton(
@@ -212,12 +234,32 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
         ) ??
         false;
     if (!accepted || !mounted) return;
-    await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+    try {
+      await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+      if (mounted) setState(() => _smsError = null);
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _smsError =
+              'Collect could not record an account-bound consent. SMS capture remains off.';
+        });
+      }
+    }
     await _refresh();
   }
 
   Future<void> _disableSms() async {
-    await ref.read(collectRepositoryProvider.notifier).setSmsAccess(false);
+    try {
+      await ref.read(collectRepositoryProvider.notifier).setSmsAccess(false);
+      if (mounted) setState(() => _smsError = null);
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _smsError =
+              'Local SMS capture is off, but the server consent audit could not be updated. Try again when online.';
+        });
+      }
+    }
     await _refresh();
   }
 

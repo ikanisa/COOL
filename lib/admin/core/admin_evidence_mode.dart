@@ -39,6 +39,9 @@ const _evidenceAdmin = AdminIdentity(
     'settings.read',
     'system_health.read',
     'admin_users.read',
+    'admin_users.manage',
+    'notifications.read',
+    'notifications.manage',
   ],
 );
 
@@ -61,6 +64,53 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
 
   @override
   Future<Map<String, dynamic>> detail(String rpcName, String id) async {
+    if (rpcName == 'admin_get_admin_user') {
+      return {
+        'id': id,
+        'public_id': 'CA6816',
+        'phone_masked': '+250***6816',
+        'status': 'active',
+        'active_roles': ['platform_owner', 'compliance_admin'],
+        'available_roles': [
+          'platform_owner',
+          'compliance_admin',
+          'operations_admin',
+          'payments_admin',
+          'group_ops_admin',
+          'support_admin',
+          'read_only_admin',
+        ],
+        'legacy_platform_owner': false,
+        'created_at': '2026-06-15T12:00:00Z',
+      };
+    }
+    if (rpcName == 'admin_get_notification') {
+      return {
+        'id': id,
+        'type': 'contribution_confirmed',
+        'title': 'Contribution received',
+        'collect_id': 'AB1234',
+        'status': 'failed',
+        'delivery_statuses': 'failed: 1',
+        'retryable_count': 1,
+        'last_error_code': 'provider_unavailable',
+        'created_at': '2026-06-15T12:00:00Z',
+      };
+    }
+    if (rpcName == 'admin_system_health') {
+      return {
+        'id': id,
+        'database': 'reachable',
+        'auth': 'authenticated',
+        'parser_pending_sms': 2,
+        'failed_sms_parse': 1,
+        'unallocated_events': 6,
+        'queued_notifications': 4,
+        'processing_notifications': 1,
+        'failed_notifications': 2,
+        'checked_at': '2026-08-15T06:30:00Z',
+      };
+    }
     return {
       'id': id,
       'transaction_id': 'MOMO-EVIDENCE-001',
@@ -161,6 +211,8 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_unallocated' => 'event-$index',
   'admin_list_sms_metadata' => 'sms-$index',
   'admin_list_receivers' => 'receiver-$index',
+  'admin_list_admin_users' => 'admin-user-$index',
+  'admin_list_notifications' => 'notification-$index',
   _ => 'admin-row-$index',
 };
 
@@ -172,6 +224,10 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_unallocated' => 'Parsed MoMo event ${(index * 2) - 1}',
   'admin_list_sms_metadata' => 'SMS metadata $index',
   'admin_list_receivers' => 'Masked receiver $index',
+  'admin_list_payment_intents' => 'Intent C${1000 + index}',
+  'admin_list_payments' => 'MOMO-EVIDENCE-${1000 + index}',
+  'admin_list_admin_users' => 'Collect ID CA${6800 + index}',
+  'admin_list_notifications' => 'Contribution confirmed',
   _ => 'Operational record $index',
 };
 
@@ -183,12 +239,20 @@ String _rowSubtitle(String rpcName) => switch (rpcName) {
   'admin_list_unallocated' => 'Masked sender and allocation review',
   'admin_list_sms_metadata' => 'Metadata only; raw body is gated',
   'admin_list_receivers' => 'Masked MoMo receiver and review state',
+  'admin_list_payment_intents' => 'Contribution intent lifecycle',
+  'admin_list_payments' => 'Posted MoMo transaction',
+  'admin_list_admin_users' => 'platform_owner • compliance_admin',
+  'admin_list_notifications' => 'Collect ID AB1234 • 1 delivery',
   _ => 'Admin evidence row with masked test data',
 };
 
 String _rowStatus(String rpcName, int index) => switch (rpcName) {
   'admin_list_allocations' => 'allocated',
   'admin_list_unallocated' => 'needs_review',
+  'admin_list_payment_intents' => index.isEven ? 'matched' : 'pending',
+  'admin_list_payments' => index.isEven ? 'posted' : 'review',
+  'admin_list_admin_users' => 'active',
+  'admin_list_notifications' => index.isEven ? 'sent' : 'failed',
   _ => index.isEven ? 'allocated' : 'needs_review',
 };
 
@@ -212,6 +276,17 @@ String _rowAge(int index) {
 }
 
 String _rowAmount(String rpcName, int index) {
+  if (rpcName == 'admin_list_notifications') return '1 failed';
+  if (rpcName == 'admin_list_admin_users') return '2 roles';
+  if (rpcName == 'admin_list_users' ||
+      rpcName == 'admin_list_sms_metadata' ||
+      rpcName == 'admin_list_audit_logs' ||
+      rpcName == 'admin_list_settings' ||
+      rpcName == 'admin_list_feature_flags') {
+    return '';
+  }
+  if (rpcName == 'admin_list_receivers') return 'mtn_momo';
+  if (rpcName == 'admin_list_collections') return '${10 + index} members';
   return 'RWF ${_displayedEventIndex(rpcName, index) * 2500}';
 }
 

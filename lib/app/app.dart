@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/notifications/collect_notification_service.dart';
+import '../core/security/sms_access_channel.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import '../shared/repositories/pending_shared_group_intent_store.dart';
@@ -254,6 +255,7 @@ class _CollectConnectivityOverlay extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final status = ref.watch(connectivityStatusProvider);
+    final overlayStatus = connectivityOverlayStatus(status);
     final compactWidth = MediaQuery.sizeOf(context).width < 600;
     final topPadding = compactWidth ? 64.0 : CollectSpacing.x2;
     return Stack(
@@ -278,8 +280,8 @@ class _CollectConnectivityOverlay extends ConsumerWidget {
                     CollectMotion.medium,
                   ),
                   child: CollectConnectivityBanner(
-                    key: ValueKey<ConnectivityStatus>(status),
-                    status: status,
+                    key: ValueKey<ConnectivityStatus>(overlayStatus),
+                    status: overlayStatus,
                   ),
                 ),
               ),
@@ -289,6 +291,15 @@ class _CollectConnectivityOverlay extends ConsumerWidget {
       ],
     );
   }
+}
+
+/// Cached-data state is already shown by [ScreenScaffold] in the normal
+/// document flow. Keeping it out of the global overlay avoids covering screen
+/// titles while preserving overlay alerts for degraded and offline failures.
+ConnectivityStatus connectivityOverlayStatus(ConnectivityStatus status) {
+  return status == ConnectivityStatus.offlineStale
+      ? ConnectivityStatus.online
+      : status;
 }
 
 class _SmsAccessSyncHost extends ConsumerStatefulWidget {
@@ -302,19 +313,36 @@ class _SmsAccessSyncHost extends ConsumerStatefulWidget {
 
 class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
     with WidgetsBindingObserver {
+  StreamSubscription<void>? _smsQueueSubscription;
   Future<void>? _syncInFlight;
+  var _syncRequested = false;
   var _wasBackgrounded = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    unawaited(_startSmsQueueSubscription());
     WidgetsBinding.instance.addPostFrameCallback((_) => _syncPendingSms());
+  }
+
+  Future<void> _startSmsQueueSubscription() async {
+    const smsAccess = SmsAccessChannel();
+    final status = await smsAccess.status();
+    if (!mounted || !status.supported) return;
+    _smsQueueSubscription = smsAccess.pendingSmsEvents.listen(
+      (_) => _syncPendingSms(),
+      onError: (_) {
+        // Non-Android platforms and flavors without the native event channel
+        // continue to use the startup/resume drain below.
+      },
+    );
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    unawaited(_smsQueueSubscription?.cancel());
     super.dispose();
   }
 
@@ -333,13 +361,20 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
   }
 
   void _syncPendingSms() {
-    if (_syncInFlight != null) return;
+    if (_syncInFlight != null) {
+      _syncRequested = true;
+      return;
+    }
+    _syncRequested = false;
     final sync = _syncPendingSmsSafely();
     _syncInFlight = sync;
     unawaited(
       sync.whenComplete(() {
         if (identical(_syncInFlight, sync)) {
           _syncInFlight = null;
+          if (_syncRequested && mounted) {
+            _syncPendingSms();
+          }
         }
       }),
     );

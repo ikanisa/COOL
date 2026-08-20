@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/repositories/pending_shared_group_intent_store.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -109,9 +110,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
                 loadingMessage: 'Joining the group.',
                 loadingIcon: CollectIcons.qr,
                 errorTitle: 'Link failed',
-                errorMessage:
-                    snapshot.error?.toString() ??
-                    'Try again from Groups when the connection is stable.',
+                errorMessage: _safeGroupLinkError(snapshot.error),
                 onRetry: _retry,
                 data: (context, _) => const MinimalStatePanel(
                   icon: CollectIcons.qr,
@@ -126,6 +125,20 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
       },
     );
   }
+}
+
+String _safeGroupLinkError(Object? error) {
+  final message = error?.toString().toLowerCase() ?? '';
+  if (message.contains('removed by a group admin')) {
+    return 'Your membership was removed. Contact a group admin if this needs review.';
+  }
+  if (message.contains('archived')) {
+    return 'This group is archived and no longer accepts invitations.';
+  }
+  if (message.contains('invalid') || message.contains('expired')) {
+    return 'This invitation is invalid or was replaced. Ask a group admin for the current link.';
+  }
+  return 'Try again when the connection is stable. The invitation stays on this device for 24 hours.';
 }
 
 AsyncValue<void> _groupLinkSnapshotValue(AsyncSnapshot<void> snapshot) {
@@ -170,14 +183,16 @@ String collectGroupSlugFromInput(String input) {
     for (final candidate in candidates) {
       final clean = candidate?.trim();
       if (clean != null && clean.isNotEmpty) {
-        return Uri.decodeComponent(clean);
+        final normalized = normalizePendingSharedGroupSlug(clean);
+        if (normalized != null) return normalized;
       }
     }
   }
-  return trimmed
+  final rawCandidate = trimmed
       .replaceFirst(RegExp(r'^/?c/'), '')
       .replaceFirst(RegExp(r'^/?groups/'), '')
       .trim();
+  return normalizePendingSharedGroupSlug(rawCandidate) ?? '';
 }
 
 List<String?> _slugSegments(List<String> segments) {

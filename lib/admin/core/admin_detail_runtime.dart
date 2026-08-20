@@ -33,11 +33,20 @@ class AdminDetailPage extends ConsumerWidget {
           if (data.isEmpty) {
             return const AdminEmptyState(title: 'Record not found');
           }
-          return _AdminRecordDetailPanel(
-            title: title,
-            rpcName: rpcName,
-            id: id,
-            data: data,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _AdminRecordDetailPanel(
+                title: title,
+                rpcName: rpcName,
+                id: id,
+                data: data,
+              ),
+              if (rpcName == 'admin_get_admin_user') ...[
+                const SizedBox(height: 16),
+                _AdminRoleManagementPanel(userId: id, data: data),
+              ],
+            ],
           );
         },
       ),
@@ -216,6 +225,25 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                   ),
                 ),
               ],
+              if (rpcName == 'admin_get_notification' &&
+                  _adminHasPermission(identity, 'notifications.manage') &&
+                  _detailInt(data['retryable_count']) > 0) ...[
+                const SizedBox(height: 18),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Semantics(
+                    button: true,
+                    label: 'Retry failed notification deliveries',
+                    hint:
+                        'Opens a reason dialog before returning failed deliveries to the queue.',
+                    child: FilledButton.icon(
+                      onPressed: () => _retryNotification(context, ref),
+                      icon: const Icon(Icons.replay_outlined),
+                      label: const Text('Retry failed delivery'),
+                    ),
+                  ),
+                ),
+              ],
               if (spec.noteEntityType != null &&
                   _adminCanRecordNote(identity, spec.noteEntityType!)) ...[
                 const SizedBox(height: 12),
@@ -227,14 +255,18 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     label: 'Record ${spec.heading} operator note',
                     hint:
                         'Opens a note dialog and persists the operator note to the audit-backed admin notes table.',
-                    child: OutlinedButton.icon(
-                      onPressed: () => _recordOperatorNote(
-                        context,
-                        ref,
-                        spec.noteEntityType!,
+                    onTap: () =>
+                        _recordOperatorNote(context, ref, spec.noteEntityType!),
+                    child: ExcludeSemantics(
+                      child: OutlinedButton.icon(
+                        onPressed: () => _recordOperatorNote(
+                          context,
+                          ref,
+                          spec.noteEntityType!,
+                        ),
+                        icon: const Icon(Icons.note_add_outlined),
+                        label: const Text('Record note'),
                       ),
-                      icon: const Icon(Icons.note_add_outlined),
-                      label: const Text('Record note'),
                     ),
                   ),
                 ),
@@ -242,7 +274,14 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
               if (rpcName == 'admin_get_collection' &&
                   _adminHasPermission(identity, 'collections.moderate')) ...[
                 const SizedBox(height: 12),
-                _AdminCollectionStatusActions(collectionId: id),
+                _AdminCollectionStatusActions(
+                  collectionId: id,
+                  currentStatus: _detailValue(data, const [
+                    'public_status',
+                    'visibility',
+                    'status',
+                  ]),
+                ),
               ],
               const SizedBox(height: 18),
               _AdminDetailWorkflowPanel(spec: spec),
@@ -264,6 +303,31 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       'admin_reparse_payment_event',
       {'p_event_id': id, 'p_reason': reason},
     );
+  }
+
+  Future<void> _retryNotification(BuildContext context, WidgetRef ref) async {
+    final reason = await showAdminReasonDialog(
+      context,
+      title: 'Retry notification delivery',
+      actionLabel: 'Retry delivery',
+    );
+    if (reason == null) return;
+    try {
+      await ref.read(adminRepositoryProvider).action(
+        'admin_retry_notification',
+        {'p_event_id': id, 'p_reason': reason},
+      );
+      ref.read(adminRealtimeTickProvider.notifier).state += 1;
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed delivery returned to queue')),
+      );
+    } catch (error) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
+    }
   }
 
   Future<void> _recordOperatorNote(
@@ -288,10 +352,182 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
   }
 }
 
+class _AdminRoleManagementPanel extends ConsumerWidget {
+  const _AdminRoleManagementPanel({required this.userId, required this.data});
+
+  final String userId;
+  final Map<String, dynamic> data;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final canManage = _adminHasPermission(identity, 'admin_users.manage');
+    final activeRoles = _detailStringList(data['active_roles']);
+    final availableRoles = _detailStringList(data['available_roles']);
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: 'Admin role management',
+      hint: canManage
+          ? 'Grant or revoke roles with a required audit reason.'
+          : 'Read-only role visibility.',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceReadable.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(26),
+          border: Border.all(color: colors.borderAccent),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Role access',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                canManage
+                    ? 'Every change requires a reason and is written to the audit log.'
+                    : 'You can review roles but do not have role-management permission.',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+              ),
+              const SizedBox(height: 16),
+              if (availableRoles.isEmpty)
+                const AdminEmptyState(title: 'No roles available')
+              else
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    for (final role in availableRoles)
+                      _AdminRoleActionChip(
+                        userId: userId,
+                        role: role,
+                        active: activeRoles.contains(role),
+                        canManage: canManage,
+                      ),
+                  ],
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminRoleActionChip extends ConsumerWidget {
+  const _AdminRoleActionChip({
+    required this.userId,
+    required this.role,
+    required this.active,
+    required this.canManage,
+  });
+
+  final String userId;
+  final String role;
+  final bool active;
+  final bool canManage;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final label = _labelizeDetailKey(role);
+    final colors = context.collectColors;
+    return Semantics(
+      button: canManage,
+      enabled: canManage,
+      label: active ? '$label role active' : '$label role inactive',
+      hint: canManage
+          ? '${active ? 'Revoke' : 'Grant'} this role with a reason.'
+          : 'Role-management permission is required.',
+      child: active
+          ? OutlinedButton.icon(
+              onPressed: canManage ? () => _changeRole(context, ref) : null,
+              icon: const Icon(Icons.verified_user_outlined),
+              label: Text('$label · Revoke'),
+              style: OutlinedButton.styleFrom(foregroundColor: colors.danger),
+            )
+          : OutlinedButton.icon(
+              onPressed: canManage ? () => _changeRole(context, ref) : null,
+              icon: const Icon(Icons.person_add_alt_1_outlined),
+              label: Text('$label · Grant'),
+            ),
+    );
+  }
+
+  Future<void> _changeRole(BuildContext context, WidgetRef ref) async {
+    final verb = active ? 'Revoke' : 'Grant';
+    final reason = await showAdminReasonDialog(
+      context,
+      title: '$verb ${_labelizeDetailKey(role)} role',
+      actionLabel: '$verb role',
+    );
+    if (reason == null) return;
+    try {
+      await ref.read(adminRepositoryProvider).action(
+        active ? 'admin_revoke_user_role' : 'admin_grant_user_role',
+        {'p_user_id': userId, 'p_role_name': role, 'p_reason': reason},
+      );
+      ref.read(adminRealtimeTickProvider.notifier).state += 1;
+      ref.invalidate(adminIdentityProvider);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$role role ${active ? 'revoked' : 'granted'}')),
+      );
+    } catch (error) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
+    }
+  }
+}
+
+int _detailInt(Object? value) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  return int.tryParse('$value') ?? 0;
+}
+
+List<String> _detailStringList(Object? value) {
+  if (value is! List) return const [];
+  return value
+      .map((item) => '$item'.trim())
+      .where((item) => item.isNotEmpty)
+      .toList(growable: false);
+}
+
+String _adminActionErrorMessage(Object error) {
+  final message = error.toString().toLowerCase();
+  if (message.contains('last platform owner')) {
+    return 'The last platform owner cannot be revoked.';
+  }
+  if (message.contains('your own platform owner')) {
+    return 'You cannot revoke your own platform owner role.';
+  }
+  if (message.contains('already active')) return 'That role is already active.';
+  if (message.contains('no retryable failed deliveries')) {
+    return 'No active failed delivery is eligible for retry.';
+  }
+  return 'The admin action failed. Refresh and try again.';
+}
+
 class _AdminCollectionStatusActions extends ConsumerWidget {
-  const _AdminCollectionStatusActions({required this.collectionId});
+  const _AdminCollectionStatusActions({
+    required this.collectionId,
+    required this.currentStatus,
+  });
 
   final String collectionId;
+  final String currentStatus;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -332,17 +568,25 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
                 spacing: 10,
                 runSpacing: 10,
                 children: [
+                  if (currentStatus == 'public_requested') ...[
+                    _AdminCollectionStatusButton(
+                      collectionId: collectionId,
+                      status: 'public_approved',
+                      label: 'Approve public',
+                      icon: Icons.public_rounded,
+                    ),
+                    _AdminCollectionStatusButton(
+                      collectionId: collectionId,
+                      status: 'public_rejected',
+                      label: 'Reject public',
+                      icon: Icons.block_outlined,
+                    ),
+                  ],
                   _AdminCollectionStatusButton(
                     collectionId: collectionId,
                     status: 'private',
                     label: 'Set private',
                     icon: Icons.lock_outline,
-                  ),
-                  _AdminCollectionStatusButton(
-                    collectionId: collectionId,
-                    status: 'public_rejected',
-                    label: 'Reject public',
-                    icon: Icons.block_outlined,
                   ),
                   _AdminCollectionStatusButton(
                     collectionId: collectionId,

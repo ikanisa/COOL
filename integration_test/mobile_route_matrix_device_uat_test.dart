@@ -238,14 +238,14 @@ const _routeSpecs = <_RouteSpec>[
     'share',
     '/groups/col-church/share',
     'workflow',
-    expectedText: 'Group QR',
+    expectedText: 'Share group',
   ),
   _RouteSpec(
     'invite',
     '/groups/col-church/invite',
     'compatibility',
     expectedPath: '/groups/col-church/share',
-    expectedText: 'Group QR',
+    expectedText: 'Share group',
   ),
   _RouteSpec(
     'shared-group-link',

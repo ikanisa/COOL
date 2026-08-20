@@ -4,12 +4,18 @@ import {
   requireEnv,
   safeErrorMessage,
 } from "../_shared/cors.ts";
-import { requireUser } from "../_shared/supabase.ts";
+import { requireUser, serviceClient } from "../_shared/supabase.ts";
 
 type VerifyIntegrityRequest = {
   action?: string;
   request_hash?: string;
   integrity_token?: string;
+  subject_id?: string;
+  nonce?: string;
+  receiver_momo_number_hash?: string;
+  sms_permission_granted?: boolean;
+  sms_access_enabled?: boolean;
+  group_request?: Record<string, unknown>;
 };
 
 type ServiceAccount = {
@@ -22,6 +28,39 @@ const playIntegrityScope = "https://www.googleapis.com/auth/playintegrity";
 const tokenUri = "https://oauth2.googleapis.com/token";
 const defaultPackageName = "app.cool.mobile";
 const maxTokenAgeMs = 5 * 60 * 1000;
+
+function boundedString(
+  value: unknown,
+  name: string,
+  minLength: number,
+  maxLength: number,
+): string {
+  if (typeof value !== "string") throw new Error(`${name} is required`);
+  const clean = value.trim();
+  if (clean.length < minLength || clean.length > maxLength) {
+    throw new Error(`${name} is invalid`);
+  }
+  return clean;
+}
+
+function optionalBoundedString(
+  value: unknown,
+  name: string,
+  maxLength: number,
+): string | null {
+  if (value == null || value === "") return null;
+  return boundedString(value, name, 1, maxLength);
+}
+
+async function sha256Hex(value: string): Promise<string> {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(value),
+  );
+  return [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
 
 function base64Url(input: ArrayBuffer | string): string {
   const bytes = typeof input === "string"
@@ -182,23 +221,135 @@ Deno.serve(async (req) => {
   }
 
   try {
-    await requireUser(req.headers.get("authorization"));
+    const { user } = await requireUser(req.headers.get("authorization"));
     const packageName = Deno.env.get("PLAY_INTEGRITY_PACKAGE_NAME")?.trim() ||
       defaultPackageName;
     const payload = await req.json() as VerifyIntegrityRequest;
     const action = payload.action?.trim();
     const requestHash = payload.request_hash?.trim();
     const integrityToken = payload.integrity_token?.trim();
-    if (!action || !requestHash || !integrityToken) {
+    const subjectId = payload.subject_id?.trim();
+    const nonce = payload.nonce?.trim();
+    const receiverHash = payload.receiver_momo_number_hash?.trim().toLowerCase();
+    const untrustedGroupRequest = payload.group_request;
+    if (
+      action !== "group.create" ||
+      !requestHash ||
+      !integrityToken ||
+      subjectId !== user.id ||
+      !nonce ||
+      !/^[0-9a-f-]{36}$/i.test(nonce) ||
+      !receiverHash ||
+      !/^[a-f0-9]{64}$/.test(receiverHash) ||
+      payload.sms_permission_granted !== true ||
+      payload.sms_access_enabled !== true ||
+      typeof untrustedGroupRequest !== "object" ||
+      untrustedGroupRequest == null ||
+      Array.isArray(untrustedGroupRequest)
+    ) {
       return jsonResponse({ error: "Invalid Play Integrity request" }, 400);
+    }
+    const groupRequest = {
+      group_name: boundedString(
+        untrustedGroupRequest.group_name,
+        "group_name",
+        2,
+        120,
+      ),
+      group_description: boundedString(
+        untrustedGroupRequest.group_description,
+        "group_description",
+        0,
+        2_000,
+      ),
+      receiver_momo_number: boundedString(
+        untrustedGroupRequest.receiver_momo_number,
+        "receiver_momo_number",
+        4,
+        40,
+      ),
+      receiver_momo_number_hash: receiverHash,
+      receiver_label: boundedString(
+        untrustedGroupRequest.receiver_label,
+        "receiver_label",
+        1,
+        80,
+      ),
+      group_collection_type: boundedString(
+        untrustedGroupRequest.group_collection_type,
+        "group_collection_type",
+        2,
+        64,
+      ),
+      group_category_subtype: optionalBoundedString(
+        untrustedGroupRequest.group_category_subtype,
+        "group_category_subtype",
+        80,
+      ),
+      group_purpose_label: optionalBoundedString(
+        untrustedGroupRequest.group_purpose_label,
+        "group_purpose_label",
+        160,
+      ),
+      group_is_public: untrustedGroupRequest.group_is_public,
+    };
+    if (groupRequest.group_is_public !== true && groupRequest.group_is_public !== false) {
+      return jsonResponse({ error: "Invalid group visibility request" }, 400);
+    }
+    if (untrustedGroupRequest.receiver_momo_number_hash !== receiverHash) {
+      return jsonResponse({ error: "Group receiver binding mismatch" }, 400);
     }
     if (!/^[a-f0-9]{64}$/i.test(requestHash)) {
       return jsonResponse({ error: "Invalid request hash" }, 400);
     }
+    const expectedHash = await sha256Hex(JSON.stringify({
+      action,
+      subject_id: user.id,
+      nonce,
+      receiver_momo_number_hash: receiverHash,
+      sms_permission_granted: true,
+      sms_access_enabled: true,
+      group_request: groupRequest,
+    }));
+    if (expectedHash !== requestHash.toLowerCase()) {
+      return jsonResponse({ error: "Request binding mismatch" }, 400);
+    }
+
     const decoded = await decodeIntegrityToken(packageName, integrityToken);
-    return jsonResponse(
-      sanitizedVerdict(action, requestHash, packageName, decoded),
+    const verdict = sanitizedVerdict(
+      action,
+      requestHash.toLowerCase(),
+      packageName,
+      decoded,
     );
+    if (verdict.status !== "pass") {
+      return jsonResponse(verdict);
+    }
+
+    const { data: capability, error: capabilityError } = await serviceClient()
+      .rpc("mint_native_action_capability", {
+        capability_user_id: user.id,
+        capability_action: action,
+        capability_request_hash: requestHash.toLowerCase(),
+        capability_request_payload: groupRequest,
+        capability_receiver_hash: receiverHash,
+        capability_package_name: verdict.package_name,
+        capability_app_verdict: verdict.app_verdict,
+        capability_device_verdicts: verdict.device_verdicts,
+        capability_verified_at: new Date(verdict.timestamp_millis)
+          .toISOString(),
+      });
+    if (capabilityError || typeof capability !== "string") {
+      throw new Error("Native capability mint failed");
+    }
+
+    return jsonResponse({
+      ...verdict,
+      native_capability: capability,
+      capability_expires_at: new Date(
+        verdict.timestamp_millis + maxTokenAgeMs,
+      ).toISOString(),
+    });
   } catch (error) {
     const message = safeErrorMessage(error);
     if (message === "Authentication required") {

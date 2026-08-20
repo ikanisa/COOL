@@ -120,6 +120,10 @@ void main() {
     expect(normalizePendingSharedGroupSlug('../group'), isNull);
     expect(normalizePendingSharedGroupSlug('group--name'), isNull);
     expect(normalizePendingSharedGroupSlug(''), isNull);
+    expect(PendingSharedGroupIntentStore.maxSlugLength, 140);
+    final maximumCode = List.filled(140, 'a').join();
+    expect(normalizePendingSharedGroupSlug(maximumCode), maximumCode);
+    expect(normalizePendingSharedGroupSlug('${maximumCode}a'), isNull);
   });
 
   test('external app links accept only the canonical Collect group origin', () {

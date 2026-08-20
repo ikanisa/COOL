@@ -75,7 +75,8 @@ String _labelizeDetailKey(String key) {
 
 bool _isSafeDetailKey(String key) {
   final normalized = key.toLowerCase();
-  return !normalized.contains('raw') &&
+  return normalized != 'available_roles' &&
+      !normalized.contains('raw') &&
       !normalized.contains('secret') &&
       !normalized.contains('token') &&
       !normalized.contains('hash') &&

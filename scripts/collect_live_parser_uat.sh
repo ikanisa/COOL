@@ -6,12 +6,11 @@ cd "$ROOT_DIR"
 
 # shellcheck source=scripts/supabase_cli_helpers.sh
 . "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
+# shellcheck source=scripts/load_dotenv_strict.sh
+. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
-if [[ -f .env ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  . ./.env
-  set +a
+if [[ "${COLLECT_SKIP_ENV_FILE:-0}" != "1" && -f .env ]]; then
+  collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
 : "${DATABASE_URL:?DATABASE_URL is required}"
@@ -20,6 +19,7 @@ fi
 : "${INTERNAL_FUNCTION_SECRET:?INTERNAL_FUNCTION_SECRET is required}"
 
 PARSER_UAT_DATABASE_URL="${COLLECT_LIVE_PARSER_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+PARSER_UAT_FUNCTION_URL="${COLLECT_PARSER_FUNCTION_URL:-https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/parse-payment-sms}"
 
 require_cmd() {
   command -v "$1" >/dev/null 2>&1 || {
@@ -91,6 +91,10 @@ target_payments as (
   from payments p
   where p.collection_id in (select id from target_collections)
 ),
+delete_confirmations as (
+  delete from payment_provider_confirmations
+  where payment_id in (select id from target_payments)
+),
 delete_allocations as (
   delete from payment_allocations where collection_id in (select id from target_collections)
 ),
@@ -98,10 +102,14 @@ delete_payments as (
   delete from payments where collection_id in (select id from target_collections)
 ),
 delete_events as (
-  delete from parsed_payment_events where collection_id in (select id from target_collections)
+delete from parsed_payment_events
+where collection_id in (select id from target_collections)
+   or receiver_user_id in (select id from target_users)
 ),
 delete_raw as (
-  delete from raw_payment_sms where collection_id in (select id from target_collections)
+  delete from raw_payment_sms
+  where collection_id in (select id from target_collections)
+     or receiver_user_id in (select id from target_users)
 ),
 delete_intents as (
   delete from payment_intents where collection_id in (select id from target_collections)
@@ -191,7 +199,9 @@ values (
 );
 
 insert into collection_members (collection_id, user_id, role, status)
-values (:'collection_id', :'owner_id', 'owner', 'active');
+values
+  (:'collection_id', :'owner_id', 'owner', 'active'),
+  (:'collection_id', :'contributor_id', 'member', 'active');
 
 insert into collection_receivers (
   collection_id,
@@ -246,23 +256,21 @@ insert into raw_payment_sms (
 )
 values (
   :'raw_sms_id',
-  :'collection_id',
+  null,
   :'owner_id',
   'MTN MOMO',
   'You have received 4,321 RWF from COLLECT UAT (' || :'contributor_phone' || ') Collect ID ' ||
     (select public_id from profiles where id = :'contributor_id') ||
-    ' on your MTN MoMo account ' || :'receiver_phone' ||
     '. Financial Transaction Id: ' || :'txn_id' ||
     '. New balance is 900,000 RWF.',
   encode(extensions.digest(
     'You have received 4,321 RWF from COLLECT UAT (' || :'contributor_phone' || ') Collect ID ' ||
       (select public_id from profiles where id = :'contributor_id') ||
-      ' on your MTN MoMo account ' || :'receiver_phone' ||
       '. Financial Transaction Id: ' || :'txn_id' ||
       '. New balance is 900,000 RWF.',
     'sha256'
   ), 'hex'),
-  encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
+  null,
   now(),
   'pending'
 );
@@ -278,26 +286,14 @@ trap 'rm -f "$body_file"; cleanup' EXIT
 
 status="$(
   curl -sS -o "$body_file" -w '%{http_code}' \
-    -X POST "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/parse-payment-sms" \
+    -X POST "$PARSER_UAT_FUNCTION_URL" \
     -H 'content-type: application/json' \
-    -H "Authorization: Bearer ${SUPABASE_SERVICE_ROLE_KEY}" \
+    -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}" \
     -H "x-collect-signature: ${INTERNAL_FUNCTION_SECRET}" \
     --data "{\"raw_sms_id\":\"${raw_sms_id}\"}"
 )"
 
 if [[ "$status" != "200" ]]; then
-  if ruby -r json -e '
-      body = JSON.parse(File.read(ARGV.fetch(0))) rescue {}
-      exit(body["error"] == "OpenAI parse failed" && body["status"].to_i == 429 ? 0 : 1)
-    ' "$body_file"; then
-    if [[ "${COLLECT_PARSER_UAT_STRICT:-0}" == "1" ]]; then
-      printf '[collect-parser-uat][FAIL] OpenAI returned 429 while strict parser UAT is enabled\n' >&2
-      sed -n '1,20p' "$body_file" >&2
-      exit 1
-    fi
-    printf '[collect-parser-uat][SKIP] deployed parser reached OpenAI, but provider returned 429; set COLLECT_PARSER_UAT_STRICT=1 to fail this condition\n'
-    exit 0
-  fi
   printf '[collect-parser-uat][FAIL] parse-payment-sms returned HTTP %s\n' "$status" >&2
   sed -n '1,20p' "$body_file" >&2
   exit 1
@@ -306,8 +302,84 @@ fi
 ruby -r json -e '
   body = JSON.parse(File.read(ARGV.fetch(0)))
   abort("parse response missing ok=true") unless body["ok"] == true
-  abort("parse response was not allocated: #{body.inspect}") unless body["allocation_status"] == "allocated"
+  abort("SMS candidate is not awaiting provider confirmation: #{body.inspect}") unless body["allocation_status"] == "awaiting_provider_confirmation"
 ' "$body_file"
+
+replay_status="$(
+  curl -sS -o "$body_file" -w '%{http_code}' \
+    -X POST "$PARSER_UAT_FUNCTION_URL" \
+    -H 'content-type: application/json' \
+    -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}" \
+    -H "x-collect-signature: ${INTERNAL_FUNCTION_SECRET}" \
+    --data "{\"raw_sms_id\":\"${raw_sms_id}\"}"
+)"
+if [[ "$replay_status" != "200" ]]; then
+  printf '[collect-parser-uat][FAIL] parser replay returned HTTP %s\n' "$replay_status" >&2
+  sed -n '1,20p' "$body_file" >&2
+  exit 1
+fi
+ruby -r json -e '
+  body = JSON.parse(File.read(ARGV.fetch(0)))
+  abort("parser replay did not reuse the stored event") unless body["replay"] == true
+  abort("parser replay changed candidate status") unless body["allocation_status"] == "awaiting_provider_confirmation"
+' "$body_file"
+
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -v collection_id="$collection_id" \
+  -v raw_sms_id="$raw_sms_id" \
+  -v intent_id="$intent_id" \
+  -Atq <<'SQL' | ruby -e '
+values = STDIN.read.lines(chomp: true).map { |line| line.split("=", 2) }.to_h
+required = {
+  "event_status" => "needs_review",
+  "payment_status" => "review",
+  "intent_status" => "matched",
+  "ledger_count" => "0",
+  "notification_count" => "0"
+}
+required.each do |key, expected|
+  abort("[collect-parser-uat][FAIL] pre-finality #{key} expected #{expected}, got #{values[key].inspect}") unless values[key] == expected
+end
+'
+with event as (
+  select * from parsed_payment_events where raw_sms_id = :'raw_sms_id'
+), payment as (
+  select p.* from payments p join event e on e.id = p.parsed_event_id
+)
+select 'event_status=' || allocation_status from event
+union all
+select 'payment_status=' || status from payment
+union all
+select 'intent_status=' || status from payment_intents where id = :'intent_id'
+union all
+select 'ledger_count=' || count(*) from ledger_entries where payment_id in (select id from payment)
+union all
+select 'notification_count=' || count(*)
+from notification_events
+where collection_id = :'collection_id'
+  and type = 'contribution_confirmed';
+SQL
+
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -v raw_sms_id="$raw_sms_id" \
+  -v txn_id="$txn_id" \
+  -v receiver_phone="$receiver_phone" \
+  -v amount="$amount" <<'SQL'
+begin;
+set local role service_role;
+select set_config('request.jwt.claims', json_build_object('role', 'service_role')::text, true);
+select public.confirm_provider_payment(
+  (select p.id from payments p join parsed_payment_events e on e.id = p.parsed_event_id where e.raw_sms_id = :'raw_sms_id'),
+  'mtn_momo',
+  :'txn_id',
+  'LIVE-PARSER-' || :'txn_id',
+  encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
+  :'amount'::bigint,
+  now(),
+  encode(extensions.digest('live-parser-provider-evidence-' || :'txn_id', 'sha256'), 'hex')
+);
+commit;
+SQL
 
 psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
   -v collection_id="$collection_id" \
@@ -319,15 +391,19 @@ values = STDIN.read.lines(chomp: true)
   .select { |line| line.include?("=") }
   .map { |line| line.split("=", 2) }
   .to_h
+amount = ARGV.fetch(0)
 required = {
   "event_count" => "1",
   "event_status" => "allocated",
-  "schema_version" => "collect.sms_parser.v1",
+  "schema_version" => "collect.sms_parser.openai.v2",
   "raw_sender_phone_leaked" => "false",
   "raw_receiver_phone_leaked" => "false",
   "payment_count" => "1",
-  "allocation_method" => "auto_member_intent",
-  "ledger_count" => "1",
+  "allocation_method" => "auto_native_sms",
+  "ledger_count" => "2",
+  "group_balance" => amount,
+  "payer_balance" => amount,
+  "notification_count" => "1",
   "intent_status" => "matched",
   "collect_id_public_count" => "1"
 }
@@ -336,7 +412,7 @@ required.each do |key, expected|
   abort("[collect-parser-uat][FAIL] #{key} expected #{expected}, got #{actual.inspect}") unless actual == expected
 end
 abort("[collect-parser-uat][FAIL] parser_model missing") if values["parser_model"].to_s.empty?
-'
+' "$amount"
 with event as (
   select *
   from parsed_payment_events
@@ -372,7 +448,27 @@ from ledger_entries le
 join payments p on p.id = le.payment_id
 join event e on e.id = p.parsed_event_id
 where le.amount_rwf = :'amount'::bigint
+  and le.entry_type in ('collection_credit', 'member_credit')
+union all
+select 'group_balance=' || coalesce(sum(le.amount_rwf), 0)
+from ledger_entries le
+where le.collection_id = :'collection_id'
   and le.entry_type = 'collection_credit'
+union all
+select 'payer_balance=' || coalesce(sum(le.amount_rwf), 0)
+from ledger_entries le
+where le.collection_id = :'collection_id'
+  and le.entry_type = 'member_credit'
+  and le.user_id = (
+    select contributor_user_id from payment_intents where id = :'intent_id'
+  )
+union all
+select 'notification_count=' || count(*)
+from notification_events event
+where event.collection_id = :'collection_id'
+  and event.user_id = (
+    select contributor_user_id from payment_intents where id = :'intent_id'
+  )
 union all
 select 'intent_status=' || status
 from payment_intents
@@ -384,6 +480,186 @@ where collection_id = :'collection_id'
   and supporter_label = 'Collect ID ' || (
     select contributor_public_id from payment_intents where id = :'intent_id'
   );
+SQL
+
+# Simulate an outage after OpenAI output was saved but before allocation. The
+# parser retry must reuse that stored result, allocate exactly once, and restore
+# the raw evidence status without making a second model request.
+recovery_intent_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
+recovery_raw_sms_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
+recovery_event_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
+recovery_txn_id="RECOVERY$(date +%s)$$"
+recovery_amount="4322"
+
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -v collection_id="$collection_id" \
+  -v owner_id="$owner_id" \
+  -v contributor_id="$contributor_id" \
+  -v contributor_phone="$contributor_phone" \
+  -v receiver_phone="$receiver_phone" \
+  -v intent_id="$recovery_intent_id" \
+  -v raw_sms_id="$recovery_raw_sms_id" \
+  -v event_id="$recovery_event_id" \
+  -v txn_id="$recovery_txn_id" \
+  -v amount="$recovery_amount" <<'SQL'
+insert into payment_intents (
+  id,
+  collection_id,
+  contributor_user_id,
+  contributor_public_id,
+  expected_amount_rwf,
+  receiver_momo_number_hash,
+  sender_phone_hash,
+  status
+)
+values (
+  :'intent_id',
+  :'collection_id',
+  :'contributor_id',
+  (select public_id from profiles where id = :'contributor_id'),
+  :'amount'::bigint,
+  encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
+  encode(extensions.digest(:'contributor_phone', 'sha256'), 'hex'),
+  'pending'
+);
+
+insert into raw_payment_sms (
+  id,
+  collection_id,
+  receiver_user_id,
+  raw_sender,
+  raw_body,
+  body_hash,
+  receiver_momo_number_hash,
+  received_at_device,
+  parse_status
+)
+values (
+  :'raw_sms_id',
+  null,
+  :'owner_id',
+  'MTN MOMO',
+  'Stored OpenAI UAT result ' || :'txn_id',
+  encode(extensions.digest('Stored OpenAI UAT result ' || :'txn_id', 'sha256'), 'hex'),
+  null,
+  now(),
+  'failed'
+);
+
+insert into parsed_payment_events (
+  id,
+  raw_sms_id,
+  collection_id,
+  receiver_user_id,
+  is_mobile_money_payment,
+  network,
+  direction,
+  amount_rwf,
+  currency,
+  transaction_id,
+  sender_phone_hash,
+  receiver_phone_hash,
+  transaction_time,
+  detected_user_public_id,
+  confidence,
+  parser_model,
+  parser_schema_version,
+  parsed_json,
+  allocation_status
+)
+values (
+  :'event_id',
+  :'raw_sms_id',
+  null,
+  :'owner_id',
+  true,
+  'mtn_momo',
+  'incoming',
+  :'amount'::bigint,
+  'RWF',
+  :'txn_id',
+  encode(extensions.digest(:'contributor_phone', 'sha256'), 'hex'),
+  null,
+  now(),
+  (select public_id from profiles where id = :'contributor_id'),
+  0.99,
+  'uat-stored-openai-result',
+  'collect.sms_parser.openai.v2',
+  jsonb_build_object('sender_phone', '[hashed]', 'receiver_phone', null),
+  'unallocated'
+);
+SQL
+
+recovery_status="$(
+  curl -sS -o "$body_file" -w '%{http_code}' \
+    -X POST "$PARSER_UAT_FUNCTION_URL" \
+    -H 'content-type: application/json' \
+    -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}" \
+    -H "x-collect-signature: ${INTERNAL_FUNCTION_SECRET}" \
+    --data "{\"raw_sms_id\":\"${recovery_raw_sms_id}\"}"
+)"
+if [[ "$recovery_status" != "200" ]]; then
+  printf '[collect-parser-uat][FAIL] unallocated-event retry returned HTTP %s\n' "$recovery_status" >&2
+  sed -n '1,20p' "$body_file" >&2
+  exit 1
+fi
+ruby -r json -e '
+  body = JSON.parse(File.read(ARGV.fetch(0)))
+  abort("unallocated-event retry did not reuse the stored OpenAI result") unless body["replay"] == true
+  abort("unallocated-event retry did not create a provider-review candidate: #{body.inspect}") unless body["allocation_status"] == "awaiting_provider_confirmation"
+  abort("unallocated-event retry changed the parser model") unless body["parser_model"] == "uat-stored-openai-result"
+' "$body_file"
+
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -v event_id="$recovery_event_id" \
+  -v txn_id="$recovery_txn_id" \
+  -v receiver_phone="$receiver_phone" \
+  -v amount="$recovery_amount" <<'SQL'
+begin;
+set local role service_role;
+select set_config('request.jwt.claims', json_build_object('role', 'service_role')::text, true);
+select public.confirm_provider_payment(
+  (select id from payments where parsed_event_id = :'event_id'),
+  'mtn_momo',
+  :'txn_id',
+  'LIVE-PARSER-RECOVERY-' || :'txn_id',
+  encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
+  :'amount'::bigint,
+  now(),
+  encode(extensions.digest('live-parser-recovery-evidence-' || :'txn_id', 'sha256'), 'hex')
+);
+commit;
+SQL
+
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -v intent_id="$recovery_intent_id" \
+  -v raw_sms_id="$recovery_raw_sms_id" \
+  -v event_id="$recovery_event_id" \
+  -Atq <<'SQL' | ruby -e '
+values = STDIN.read.lines(chomp: true).map { |line| line.split("=", 2) }.to_h
+required = {
+  "raw_status" => "parsed",
+  "event_status" => "allocated",
+  "intent_status" => "matched",
+  "payment_count" => "1",
+  "ledger_count" => "2"
+}
+required.each do |key, expected|
+  abort("[collect-parser-uat][FAIL] recovery #{key} expected #{expected}, got #{values[key].inspect}") unless values[key] == expected
+end
+'
+select 'raw_status=' || parse_status from raw_payment_sms where id = :'raw_sms_id'
+union all
+select 'event_status=' || allocation_status from parsed_payment_events where id = :'event_id'
+union all
+select 'intent_status=' || status from payment_intents where id = :'intent_id'
+union all
+select 'payment_count=' || count(*) from payments where payment_intent_id = :'intent_id'
+union all
+select 'ledger_count=' || count(*)
+from ledger_entries entry
+join payments payment on payment.id = entry.payment_id
+where payment.payment_intent_id = :'intent_id';
 SQL
 
 printf '[collect-parser-uat] live parser UAT passed for raw_sms_id=%s collection_id=%s\n' "$raw_sms_id" "$collection_id"

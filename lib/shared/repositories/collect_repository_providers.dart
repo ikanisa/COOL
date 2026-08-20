@@ -102,17 +102,24 @@ final collectCollectionTypeCatalogProvider =
 final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
   ref,
 ) {
-  final contributions = ref.watch(
-    collectRepositoryProvider.select((state) => state.contributions),
-  );
-  final totals = <String, ({int amountRaisedRwf, int supporterCount})>{};
+  final state = ref.watch(collectRepositoryProvider);
+  if (state.collectionSummaries.isNotEmpty) {
+    return Map<String, CollectionSummary>.unmodifiable(
+      state.collectionSummaries,
+    );
+  }
+  final contributions = state.contributions;
+  final totals = <String, ({int amountRaisedRwf, int supporterCount, int own})>{};
   for (final contribution in contributions) {
     final current =
         totals[contribution.collectionId] ??
-        (amountRaisedRwf: 0, supporterCount: 0);
+        (amountRaisedRwf: 0, supporterCount: 0, own: 0);
     totals[contribution.collectionId] = (
       amountRaisedRwf: current.amountRaisedRwf + contribution.amountRwf,
       supporterCount: current.supporterCount + 1,
+      own:
+          current.own +
+          (contribution.isCurrentUserContribution ? contribution.amountRwf : 0),
     );
   }
   return {
@@ -120,6 +127,7 @@ final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
       entry.key: CollectionSummary(
         amountRaisedRwf: entry.value.amountRaisedRwf,
         supporterCount: entry.value.supporterCount,
+        currentUserBalanceRwf: entry.value.own,
       ),
   };
 });
@@ -135,7 +143,37 @@ final activeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
 
 final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   final collections = ref.watch(activeCollectionsProvider);
-  return List<CollectCollection>.unmodifiable(collections.take(3));
+  final profile = ref.watch(
+    collectRepositoryProvider.select((state) => state.currentProfile),
+  );
+  if (profile == null) return const <CollectCollection>[];
+  return List<CollectCollection>.unmodifiable(
+    collections
+        .where(
+          (collection) =>
+              collection.creatorUserId == profile.id ||
+              collection.isCurrentUserMember,
+        )
+        .take(3),
+  );
+});
+
+final publicDiscoveryCollectionsProvider = Provider<List<CollectCollection>>((
+  ref,
+) {
+  final collections = ref.watch(activeCollectionsProvider);
+  final profile = ref.watch(
+    collectRepositoryProvider.select((state) => state.currentProfile),
+  );
+  return List<CollectCollection>.unmodifiable(
+    collections.where(
+      (collection) =>
+          collection.isPublic &&
+          (profile == null ||
+              (collection.creatorUserId != profile.id &&
+                  !collection.isCurrentUserMember)),
+    ),
+  );
 });
 
 final pendingPaymentCountProvider = Provider<int>((ref) {
@@ -150,8 +188,14 @@ final pendingPaymentCountProvider = Provider<int>((ref) {
 final raisedTotalProvider = Provider<int>((ref) {
   return ref.watch(
     collectRepositoryProvider.select(
-      (state) =>
-          state.contributions.fold<int>(0, (sum, item) => sum + item.amountRwf),
+      (state) => state.contributions
+          .where(
+            (item) =>
+                item.isCurrentUserContribution ||
+                (state.currentProfile != null &&
+                    _contributionBelongsToProfile(item, state.currentProfile!)),
+          )
+          .fold<int>(0, (sum, item) => sum + item.amountRwf),
     ),
   );
 });
@@ -197,6 +241,7 @@ bool _contributionBelongsToProfile(
   Contribution contribution,
   CollectProfile profile,
 ) {
+  if (contribution.isCurrentUserContribution) return true;
   final publicId = profile.publicId.trim();
   if (publicId.isEmpty) return false;
   if (contribution.supporterLabel.contains(publicId)) return true;

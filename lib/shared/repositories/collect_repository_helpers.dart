@@ -21,34 +21,37 @@ String? _resolveSmsReceiver(
   Iterable<CollectCollection> collections,
   String smsBody,
 ) {
-  final ownedGroupReceivers = <String>{
+  final authorizedGroupReceivers = <String>{
     for (final collection in collections)
-      if (collection.creatorUserId == profile.id &&
-          !collection.isArchived &&
+      if (!collection.isArchived &&
           collection.receiverMomoNumber?.trim().isNotEmpty == true)
         collection.receiverMomoNumber!.trim(),
   };
-  final candidates = <String>{
-    if (profile.momoNumber?.trim().isNotEmpty == true)
-      profile.momoNumber!.trim(),
-    if (profile.momoPayCode?.trim().isNotEmpty == true)
-      profile.momoPayCode!.trim(),
-    ...ownedGroupReceivers,
-  };
-  final bodyDigits = smsBody.replaceAll(RegExp(r'\D'), '');
-  final explicitMatches = candidates
+  final explicitMatches = authorizedGroupReceivers
       .where((candidate) {
         final digits = candidate.replaceAll(RegExp(r'\D'), '');
-        return digits.length >= MomoReceiverNormalizer.minPayCodeLength &&
-            bodyDigits.contains(digits);
+        if (digits.length < MomoReceiverNormalizer.minPayCodeLength) {
+          return false;
+        }
+        final separatedDigits = digits
+            .split('')
+            .map(RegExp.escape)
+            .join(r'[\s-]*');
+        final labeledReceiver = RegExp(
+          '(?:receiver|receiving|merchant|pay(?:ment)?[ -]?code|account|to)'
+          '[^0-9]{0,40}(?<![0-9])$separatedDigits(?![0-9])',
+          caseSensitive: false,
+        );
+        return labeledReceiver.hasMatch(smsBody);
       })
       .toList(growable: false);
   if (explicitMatches.length == 1) return explicitMatches.single;
-  // A receiver account that owns exactly one active group has one safe route,
+  // An account authorized for exactly one active receiver has one safe route,
   // even when the provider SMS omits the merchant code from its body. Profile
-  // phone data must not make that otherwise unambiguous group route ambiguous.
-  if (ownedGroupReceivers.length == 1) return ownedGroupReceivers.single;
-  if (candidates.length == 1) return candidates.single;
+  // profile phone data must not make that route ambiguous.
+  if (authorizedGroupReceivers.length == 1) {
+    return authorizedGroupReceivers.single;
+  }
   // Let the backend parser extract the receiver when more than one receiver is
   // configured. Guessing here could allocate a payment to the wrong group.
   return null;

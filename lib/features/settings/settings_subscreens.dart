@@ -231,7 +231,8 @@ class SecuritySettingsScreen extends StatelessWidget {
             _SettingsLinkRow(
               icon: CollectIcons.sms,
               title: 'Contribution verification',
-              subtitle: 'Only confirmed SMS-matched records reach ledgers.',
+              subtitle:
+                  'Only provider-confirmed, SMS-matched records reach ledgers.',
               onTap: () => context.go('/activity'),
             ),
             _SettingsLinkRow(

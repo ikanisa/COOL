@@ -1,0 +1,1 @@
+Adds secure receive-only MoMo SMS capture, OpenAI-powered payment parsing, exact contribution matching, reliable balances, and transaction notifications.

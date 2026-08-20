@@ -52,7 +52,7 @@
 - Status: `approved`
 - Required now: `false`
 - Owner: mobile/release
-- Decision needed: Approve real Android device UAT for SMS consent, MoMo SMS ingestion, parser output, allocation, exception handling, offline retry, and ledger update.
+- Decision needed: Approve real Android device UAT for SMS consent, MoMo SMS ingestion, parser output, candidate allocation, exception handling and offline retry, plus separate provider-finality reconciliation before any ledger update.
 - Suggested evidence reference: `docs/release/UAT_EVIDENCE_MANIFEST.json`
 - Record device evidence: `make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label '<Android UAT device label>' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"`
 - Record: `make record-release-approval ARGS="--key android_sms_access_uat --reviewer '<name>' --evidence-reference docs/release/UAT_EVIDENCE_MANIFEST.json --notes '<sanitized real-device SMS UAT review summary>' --sanitized-evidence --no-production-customer-data"`

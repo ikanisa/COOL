@@ -46,6 +46,51 @@ void main() {
   final smsFirstGroupPaymentIntents = File(
     'supabase/migrations/202605270001_sms_first_group_payment_intents.sql',
   ).readAsStringSync();
+  final momoSmsHardening = File(
+    'supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql',
+  ).readAsStringSync();
+  final groupJourneyHardening = File(
+    'supabase/migrations/20260815051035_harden_group_creation_journey.sql',
+  ).readAsStringSync();
+  final groupJourneyDatabaseLintCleanup = File(
+    'supabase/migrations/20260815054500_close_group_journey_database_lint.sql',
+  ).readAsStringSync();
+  final contributionPayerIdentityBinding = File(
+    'supabase/migrations/20260815071500_bind_contribution_payer_identity.sql',
+  ).readAsStringSync();
+  final groupAuthorizationPrivacy = File(
+    'supabase/migrations/20260815082500_close_group_authorization_privacy.sql',
+  ).readAsStringSync();
+  final providerFinality = File(
+    'supabase/migrations/20260815083000_require_provider_finality.sql',
+  ).readAsStringSync();
+  final atomicProviderFinalityGateway = File(
+    'supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql',
+  ).readAsStringSync();
+  final providerFinalityFunction = File(
+    'supabase/functions/provider-finality/index.ts',
+  ).readAsStringSync() +
+      File(
+        'supabase/functions/_shared/provider_finality_handler.ts',
+      ).readAsStringSync();
+  final providerFinalitySignature = File(
+    'supabase/functions/_shared/provider_finality_signature.ts',
+  ).readAsStringSync();
+  final providerFinalityPayload = File(
+    'supabase/functions/_shared/provider_finality_payload.ts',
+  ).readAsStringSync();
+  final smsParserWorkClaim = File(
+    'supabase/migrations/20260815083500_claim_sms_parser_work.sql',
+  ).readAsStringSync();
+  final atomicSmsIngestion = File(
+    'supabase/migrations/20260815084000_atomic_sms_ingestion.sql',
+  ).readAsStringSync();
+  final revokedNonDmlClientPrivileges = File(
+    'supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql',
+  ).readAsStringSync();
+  final completeAdminOperationsControlPlane = File(
+    'supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql',
+  ).readAsStringSync();
   final adminPaymentEventServerPaging = File(
     'supabase/migrations/20260612110000_admin_payment_event_server_paging.sql',
   ).readAsStringSync();
@@ -141,6 +186,9 @@ void main() {
   ).readAsStringSync();
   final developerDummyDataCleanup = File(
     'supabase/migrations/20260812100000_remove_developer_dummy_data.sql',
+  ).readAsStringSync();
+  final legacyMockGroupCleanup = File(
+    'supabase/migrations/20260812073431_remove_legacy_mock_groups_and_classify_home.sql',
   ).readAsStringSync();
   final androidFcmPushDelivery = File(
     'supabase/migrations/20260805120000_android_fcm_push_delivery.sql',
@@ -293,6 +341,258 @@ void main() {
     );
     expect(groupCreationFunction, isNot(contains('target_amount_rwf')));
     expect(groupCreationFunction, isNot(contains('cover_image_url')));
+  });
+
+  test('group creation requires a request-bound native capability', () {
+    final integrityFunction = File(
+      'supabase/functions/verify-play-integrity/index.ts',
+    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
+
+    expect(
+      groupAuthorizationPrivacy,
+      contains('create table if not exists public.native_action_capabilities'),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains('revoke all on public.native_action_capabilities'),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains("coalesce(auth.role(), '') <> 'service_role'"),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains("clean_package_name <> 'app.cool.mobile'"),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains("clean_app_verdict <> 'PLAY_RECOGNIZED'"),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains("consent.created_at >= now() - interval '10 minutes'"),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains('capability_row.request_payload <> jsonb_build_object('),
+    );
+    expect(groupAuthorizationPrivacy, contains('set consumed_at = now()'));
+    expect(
+      groupAuthorizationPrivacy,
+      contains('revoke execute on function public.create_group_with_owner('),
+    );
+    expect(
+      groupAuthorizationPrivacy,
+      contains('create_group_with_owner_attested'),
+    );
+    expect(groupAuthorizationPrivacy, contains('to authenticated'));
+    expect(integrityFunction, contains('group_request: groupRequest'));
+    expect(
+      integrityFunction,
+      contains('capability_request_payload: groupRequest'),
+    );
+    expect(
+      integrityFunction,
+      contains(
+        'untrustedGroupRequest.receiver_momo_number_hash !== receiverHash',
+      ),
+    );
+    expect(repository, contains("'create_group_with_owner_attested'"));
+    expect(repository, contains('groupRequest: groupRequest'));
+    expect(repository, contains("'native_capability':"));
+  });
+
+  test(
+    'group mutation, join, privacy, and admin state controls are closed',
+    () {
+      expect(
+        groupAuthorizationPrivacy,
+        contains('collection_row.creator_user_id <> auth.uid()'),
+      );
+      expect(
+        groupAuthorizationPrivacy,
+        contains(
+          "raise exception 'Only the group owner can update the receiver'",
+        ),
+      );
+      expect(
+        groupAuthorizationPrivacy,
+        contains("encode(digest(canonical_receiver, 'sha256'), 'hex')"),
+      );
+      expect(
+        groupAuthorizationPrivacy,
+        contains('update_collection_profile_and_receiver'),
+      );
+      expect(
+        groupAuthorizationPrivacy,
+        contains('where collection_members.status <> \'active\''),
+      );
+      expect(
+        groupAuthorizationPrivacy,
+        contains('returning true into newly_joined'),
+      );
+      expect(groupAuthorizationPrivacy, contains('if newly_joined then'));
+      expect(
+        groupAuthorizationPrivacy,
+        contains("when payment.anonymity_choice = 'public_id'"),
+      );
+      expect(groupAuthorizationPrivacy, contains("else 'Anonymous supporter'"));
+      expect(groupAuthorizationPrivacy, contains('count(distinct coalesce('));
+      for (final field in [
+        "'visibility', collection.visibility",
+        "'public_status', collection.public_status",
+        "'status', case",
+        "'archived_at', collection.archived_at",
+      ]) {
+        expect(groupAuthorizationPrivacy, contains(field));
+      }
+    },
+  );
+
+  test('provider finality is globally idempotent and solely posts ledgers', () {
+    final candidateFunction = migrationSection(
+      providerFinality,
+      'create or replace function public.post_payment_from_event(',
+      'create or replace function public.allocate_parsed_payment_event(',
+    );
+    final confirmationFunction = migrationSection(
+      providerFinality,
+      'create or replace function public.confirm_provider_payment(',
+      'create or replace function public.reject_provider_payment(',
+    );
+
+    expect(
+      providerFinality,
+      contains(
+        'create unique index if not exists payments_provider_transaction_unique',
+      ),
+    );
+    expect(
+      providerFinality,
+      contains('provider_network,\n    upper(btrim(transaction_id))'),
+    );
+    expect(
+      providerFinality,
+      isNot(contains('payments_receiver_network_transaction_unique\n  on')),
+    );
+    expect(candidateFunction, contains("'review'"));
+    expect(
+      candidateFunction,
+      contains("'payment.awaiting_provider_confirmation'"),
+    );
+    expect(candidateFunction, contains("'ledger_posted', false"));
+    expect(
+      candidateFunction,
+      isNot(contains('insert into public.ledger_entries')),
+    );
+    expect(
+      confirmationFunction,
+      contains("coalesce(auth.role(), '') <> 'service_role'"),
+    );
+    expect(
+      confirmationFunction,
+      contains('insert into public.payment_provider_confirmations'),
+    );
+    expect(confirmationFunction, contains('insert into public.ledger_entries'));
+    expect(confirmationFunction, contains("'collection_credit'"));
+    expect(confirmationFunction, contains("'member_credit'"));
+    expect(confirmationFunction, contains("set status = 'posted'"));
+    expect(
+      providerFinality,
+      contains('grant execute on function public.confirm_provider_payment('),
+    );
+    expect(
+      providerFinality,
+      contains('grant execute on function public.reject_provider_payment'),
+    );
+    expect(providerFinality, contains('to service_role'));
+  });
+
+  test(
+    'provider gateway authenticates bytes and atomically rejects replay drift',
+    () {
+      expect(
+        providerFinalityFunction,
+        contains('PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT'),
+      );
+      expect(
+        providerFinalityFunction,
+        contains('PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS'),
+      );
+      expect(
+        providerFinalityFunction,
+        contains('verifyProviderFinalitySignature('),
+      );
+      expect(
+        providerFinalitySignature,
+        contains(r'`${timestamp}.${requestId}.${rawBody}`'),
+      );
+      expect(
+        providerFinalitySignature,
+        contains('Math.abs(nowSeconds - timestamp)'),
+      );
+      expect(providerFinalitySignature, contains('constantTimeHexEqual'));
+      expect(
+        providerFinalityPayload,
+        contains('eventId !== authenticatedRequestId.toLowerCase()'),
+      );
+      expect(
+        providerFinalityPayload,
+        contains('exactKeys(value, confirmedKeys)'),
+      );
+      expect(
+        providerFinalityFunction,
+        contains('process_provider_finality_event'),
+      );
+      expect(
+        atomicProviderFinalityGateway,
+        contains(
+          'create table if not exists public.provider_finality_requests',
+        ),
+      );
+      expect(
+        atomicProviderFinalityGateway,
+        contains('on conflict (request_id) do nothing'),
+      );
+      expect(
+        atomicProviderFinalityGateway,
+        contains('request id was reused with different content'),
+      );
+      expect(
+        atomicProviderFinalityGateway,
+        contains("coalesce(auth.role(), '') <> 'service_role'"),
+      );
+      expect(
+        atomicProviderFinalityGateway,
+        contains('public.confirm_provider_payment('),
+      );
+      expect(
+        atomicProviderFinalityGateway,
+        contains('public.reject_provider_payment('),
+      );
+      expect(atomicProviderFinalityGateway, contains('to service_role'));
+    },
+  );
+
+  test('browser roles cannot retain schema-level table mutation powers', () {
+    expect(
+      revokedNonDmlClientPrivileges,
+      contains(
+        'revoke references, trigger, truncate on all tables in schema public',
+      ),
+    );
+    expect(revokedNonDmlClientPrivileges, contains('from anon, authenticated'));
+    expect(
+      revokedNonDmlClientPrivileges,
+      contains('alter default privileges in schema public'),
+    );
+    expect(
+      revokedNonDmlClientPrivileges,
+      contains(
+        'revoke references, trigger, truncate on tables from anon, authenticated',
+      ),
+    );
   });
 
   test(
@@ -624,6 +924,26 @@ void main() {
     );
   });
 
+  test('legacy mock groups are retired and home groups are classified', () {
+    expect(legacyMockGroupCleanup, contains('mock-parity-public-member'));
+    expect(
+      legacyMockGroupCleanup,
+      contains('Legacy mock groups have payment evidence'),
+    );
+    expect(legacyMockGroupCleanup, contains('delete from public.collections'));
+    expect(
+      legacyMockGroupCleanup,
+      isNot(contains('delete from public.profiles')),
+    );
+    expect(legacyMockGroupCleanup, isNot(contains('delete from auth.users')));
+    expect(
+      legacyMockGroupCleanup,
+      contains("c.public_status = 'public_approved' as is_public"),
+    );
+    expect(legacyMockGroupCleanup, contains(') as is_member'));
+    expect(legacyMockGroupCleanup, contains('with (security_invoker = true)'));
+  });
+
   test('native Android FCM delivery is registered, routed, and observable', () {
     expect(
       androidFcmPushDelivery,
@@ -820,6 +1140,139 @@ void main() {
       ),
     );
   });
+
+  test('group creation journey is permission, membership, and balance safe', () {
+    expect(
+      groupJourneyHardening,
+      contains('create table if not exists public.collection_share_secrets'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('revoke all on table public.collection_share_secrets'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('Enable MoMo SMS access before creating a group'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains(
+        'Group receiver must match the MoMo receiver linked to your profile',
+      ),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('create or replace function public.join_group_by_share_code'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('Membership was removed by a group admin'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('create or replace function public.rotate_group_share_code'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('list_current_user_collection_summaries'),
+    );
+    expect(groupJourneyHardening, contains('current_user_balance_rwf bigint'));
+    expect(
+      groupJourneyHardening,
+      contains('Join this group before creating a contribution request'),
+    );
+    expect(
+      groupJourneyHardening,
+      contains(
+        "p_status not in ('private', 'public_approved', 'public_rejected', 'archived')",
+      ),
+    );
+    expect(
+      groupJourneyHardening,
+      contains("('group_ops_admin', 'public_requests.review')"),
+    );
+    expect(
+      groupJourneyHardening,
+      contains('intent.collection_id = requested_collection_id'),
+    );
+    expect(groupJourneyHardening, contains('intent.status = \'pending\''));
+  });
+
+  test('group journey database lint cleanup preserves safe RPC contracts', () {
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      contains('create or replace function public.admin_list_sms_metadata'),
+    );
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      contains("search_term text := nullif(btrim(p_search), '')"),
+    );
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      contains('coalesce(public.mask_phone(sms.raw_sender), \'SMS\')'),
+    );
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      isNot(contains('sms.raw_body ilike')),
+    );
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      contains('create or replace function public.create_payment_intent'),
+    );
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      contains('from public.create_contribution_intent('),
+    );
+    expect(groupJourneyDatabaseLintCleanup, contains('sender_phone_hash'));
+    expect(
+      groupJourneyDatabaseLintCleanup,
+      contains('and intent.contributor_user_id = auth.uid()'),
+    );
+  });
+
+  test(
+    'contribution intents bind payer identity to the authenticated profile',
+    () {
+      expect(
+        contributionPayerIdentityBinding,
+        contains(
+          'create or replace function public._authenticated_momo_phone_hash',
+        ),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains(
+          'verified_sender_phone_hash := public._authenticated_momo_phone_hash(auth.uid())',
+        ),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains('auth_user.phone_confirmed_at'),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains('canonical_profile_phone <> canonical_auth_phone'),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains('Contributor MoMo identity verification failed'),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains("set status = 'cancelled'"),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains('intent.sender_phone_hash = verified_sender_phone_hash'),
+      );
+      expect(
+        contributionPayerIdentityBinding,
+        contains(
+          'revoke all on function public._authenticated_momo_phone_hash(uuid)',
+        ),
+      );
+    },
+  );
 
   test('admin feature flag toggle is audited and manage-scoped', () {
     expect(adminFeatureFlagToggleRpc, contains('admin_set_feature_flag'));
@@ -1249,15 +1702,53 @@ void main() {
       'supabase/functions/ingest-payment-sms/index.ts',
     ).readAsStringSync();
 
-    expect(migration, contains('user_can_ingest_receiver_sms'));
-    expect(ingest, contains('receiver_hash: receiverMomoHash'));
-    expect(ingest, contains('collection: collectionId'));
+    expect(momoSmsHardening, contains('user_can_ingest_receiver_sms'));
+    expect(ingest, contains('p_receiver_momo_number_hash: receiverMomoHash'));
+    expect(ingest, contains('receiverNumber == null'));
+    expect(ingest, contains('p_collection_id: collectionId'));
     expect(
       ingest,
       isNot(contains('receiver_momo_number or collection_id is required')),
     );
-    expect(ingest, contains('user_can_ingest_receiver_sms'));
-    expect(ingest, contains('Receiver is not authorized for this MOMO number'));
+    expect(ingest, contains('ingest_raw_payment_sms'));
+    expect(ingest, contains('Receiver or SMS consent is not authorized'));
+    expect(ingest, contains('client_envelope_id'));
+    expect(ingest, isNot(contains('check_sms_ingest_rate_limit')));
+    expect(
+      atomicSmsIngestion,
+      contains('if not public.user_can_ingest_receiver_sms('),
+    );
+    expect(atomicSmsIngestion, contains("'sms-ingest:' || p_receiver_user_id"));
+    expect(atomicSmsIngestion, contains("'replay', true"));
+    expect(atomicSmsIngestion, contains('hourly_count >= 60'));
+    expect(atomicSmsIngestion, contains('daily_count >= 250'));
+    expect(atomicSmsIngestion, contains('from public, anon, authenticated'));
+    expect(atomicSmsIngestion, contains('to service_role'));
+    expect(momoSmsHardening, contains('receiver_user_id, client_envelope_id'));
+    expect(
+      momoSmsHardening,
+      contains(
+        'grant select, insert, update on table public.raw_payment_sms to service_role',
+      ),
+    );
+    expect(
+      momoSmsHardening,
+      contains('or receiver.momo_number_hash = receiver_hash'),
+    );
+    expect(
+      momoSmsHardening,
+      contains('route.receiver_user_id = event_row.receiver_user_id'),
+    );
+    expect(
+      momoSmsHardening,
+      contains('if event_row.receiver_phone_hash is null then'),
+    );
+    expect(
+      momoSmsHardening,
+      contains(
+        'grant select, insert, update on table public.parsed_payment_events to service_role',
+      ),
+    );
   });
 
   test('service-only and OTP hook functions require shared secrets', () {
@@ -1329,15 +1820,15 @@ void main() {
       'lib/admin/core/admin_runtime.dart',
     ).readAsStringSync();
 
-    expect(
-      adminRuntime,
-      contains("String.fromEnvironment(\n  'COLLECT_ADMIN_WHATSAPP_PHONE',"),
-    );
+    expect(adminRuntime, isNot(contains('COLLECT_ADMIN_WHATSAPP_PHONE')));
     expect(adminRuntime, isNot(contains("'+250788767816'")));
     expect(adminRuntime, contains('OtpChannel.whatsapp'));
     expect(adminRuntime, isNot(contains('admin_bootstrap_whatsapp_operator')));
-    expect(adminRuntime, contains('Admin WhatsApp phone is not configured.'));
-    expect(adminRuntime, contains('Use the registered admin WhatsApp number.'));
+    expect(
+      adminRuntime,
+      contains('PhoneNormalizer.normalizeInternational(phone)'),
+    );
+    expect(adminRuntime, isNot(contains('registered admin WhatsApp number')));
 
     expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
     expect(developerAccountSeedData, contains("'+250788767816'"));
@@ -1395,6 +1886,67 @@ void main() {
       contains('admin_bootstrap_whatsapp_operator is disabled'),
     );
   });
+
+  test('admin control plane separates domains and gates operator actions', () {
+    final controlPlane = completeAdminOperationsControlPlane;
+    for (final functionName in [
+      'admin_list_payment_intents',
+      'admin_get_payment_intent',
+      'admin_list_payments',
+      'admin_get_payment',
+      'admin_list_notifications',
+      'admin_get_notification',
+      'admin_retry_notification',
+      'admin_list_admin_users',
+      'admin_get_admin_user',
+      'admin_grant_user_role',
+      'admin_revoke_user_role',
+    ]) {
+      expect(controlPlane, contains('function public.$functionName'));
+    }
+    expect(controlPlane, contains("assert_admin_permission('payments.read')"));
+    expect(
+      controlPlane,
+      contains("assert_admin_permission('notifications.manage')"),
+    );
+    expect(
+      controlPlane,
+      contains("assert_admin_permission('admin_users.manage')"),
+    );
+    expect(controlPlane, contains('The last platform owner cannot be revoked'));
+    expect(controlPlane, contains('p_reason text'));
+    expect(controlPlane, contains("'notification.delivery.retried'"));
+    expect(controlPlane, contains("'admin.role.granted'"));
+    expect(controlPlane, contains("'admin.role.revoked'"));
+    expect(controlPlane, isNot(contains('device.token')));
+  });
+
+  test(
+    'admin control plane closes helper probing and emits realtime updates',
+    () {
+      final controlPlane = completeAdminOperationsControlPlane;
+      expect(
+        controlPlane,
+        contains('user_uuid is not distinct from auth.uid()'),
+      );
+      expect(controlPlane, contains("auth.role() = 'service_role'"));
+      expect(
+        controlPlane,
+        contains(
+          'grant execute on function public.user_can_read_collection(uuid, uuid) to anon, authenticated, service_role',
+        ),
+      );
+      expect(controlPlane, contains("'notifications'"));
+      expect(
+        controlPlane,
+        contains(
+          "execute function public.emit_app_realtime_event('notifications')",
+        ),
+      );
+      expect(controlPlane, contains("'queued_notifications'"));
+      expect(controlPlane, contains("'failed_notifications'"));
+    },
+  );
 
   test('WhatsApp OTP auth can pass CAPTCHA tokens when enabled', () {
     final authScreen = File(
@@ -2156,7 +2708,11 @@ void main() {
     );
     expect(smsFirstGroupPaymentIntents, contains('record_sms_access_consent'));
     expect(repository, contains("from('member_collections_view')"));
-    expect(repository, contains("'update_collection_profile'"));
+    expect(repository, contains("'update_collection_profile_and_receiver'"));
+    expect(
+      repository,
+      isNot(contains(".rpc<void>('update_collection_profile',")),
+    );
     expect(
       repository,
       isNot(contains("from('parsed_payment_events_review_view')")),
@@ -2178,7 +2734,7 @@ void main() {
     expect(readiness, contains("'record_sms_access_consent', 'EXECUTE'"));
   });
 
-  test('payment intents are confirmed only by MoMo SMS allocation', () {
+  test('payment intents require SMS matching and provider finality', () {
     final repository = readCollectRepositoryLibrary();
 
     expect(
@@ -2270,6 +2826,9 @@ void main() {
       contains('missing receiver authorization unexpectedly passed'),
     );
     expect(linkedUat, contains('allocation was not idempotent'));
+    expect(linkedUat, contains('awaiting_provider_confirmation'));
+    expect(linkedUat, contains('confirm_provider_payment'));
+    expect(linkedUat, contains('before provider confirmation'));
     expect(
       linkedUat,
       contains(
@@ -2282,6 +2841,21 @@ void main() {
     expect(linkedUat, contains('ambiguous event was posted automatically'));
     expect(linkedUat, contains('SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS'));
     expect(linkedUat, contains('run_with_timeout'));
+  });
+
+  test('local join concurrency UAT proves exactly-once side effects', () {
+    final concurrentJoinUat = File(
+      'scripts/local_concurrent_join_uat.sh',
+    ).readAsStringSync();
+
+    expect(concurrentJoinUat, contains('join_one_pid'));
+    expect(concurrentJoinUat, contains('join_two_pid'));
+    expect(concurrentJoinUat, contains("action = 'group.joined'"));
+    expect(concurrentJoinUat, contains("type = 'group_update'"));
+    expect(concurrentJoinUat, contains('membership_count <> 1'));
+    expect(concurrentJoinUat, contains('audit_count <> 1'));
+    expect(concurrentJoinUat, contains('notification_count <> 1'));
+    expect(concurrentJoinUat, contains('LOCAL_CONCURRENT_JOIN_UAT_PASS'));
   });
 
   test('parsed payment review events are collection-scoped', () {
@@ -2339,7 +2913,9 @@ void main() {
     expect(parserSchema, isNot(contains('raw_reference')));
     expect(parserSchema, isNot(contains('explanation')));
     expect(parser, contains('sender_name: null'));
-    expect(parser, contains('Do not extract payer names'));
+    expect(parser, contains('api.openai.com/v1/responses'));
+    expect(parser, contains('Do not extract names'));
+    expect(parser, contains('sanitizeParsedJson(parsed)'));
     expect(
       smsFirstGroupPaymentIntents,
       contains('update parsed_payment_events\nset sender_name = null'),
@@ -2387,12 +2963,12 @@ void main() {
       'auth-send-whatsapp-otp',
       'ingest-payment-sms',
       'parse-payment-sms',
-      'allocate-payment',
     ]) {
       expect(File('supabase/functions/$name/index.ts').existsSync(), isTrue);
     }
     for (final name in [
       'manual-allocate-payment',
+      'allocate-payment',
       'request-public-collection',
       'review-public-collection',
     ]) {
@@ -2414,13 +2990,10 @@ void main() {
   });
 
   test(
-    'SMS parser uses deterministic MoMo parsing with structured fallback',
+    'SMS parser uses OpenAI structured output and exact allocation controls',
     () {
       final parser = File(
         'supabase/functions/parse-payment-sms/index.ts',
-      ).readAsStringSync();
-      final deterministicParser = File(
-        'supabase/functions/_shared/momo_sms_parser.ts',
       ).readAsStringSync();
       final parserSchema = File(
         'supabase/functions/_shared/sms_schema.ts',
@@ -2429,21 +3002,62 @@ void main() {
         'scripts/collect_live_parser_uat.sh',
       ).readAsStringSync();
 
-      expect(parser, contains('parseDeterministicMomoSms'));
-      expect(parser, contains('collect.deterministic_momo.v1'));
-      expect(
-        deterministicParser,
-        contains('high-confidence MoMo notifications'),
-      );
-      expect(deterministicParser, contains('incomingPattern'));
-      expect(deterministicParser, contains('unsafePattern'));
-      expect(deterministicParser, contains('RWF'));
+      expect(parser, contains('https://api.openai.com/v1/responses'));
+      expect(parser, contains('requireEnv("OPENAI_API_KEY")'));
+      expect(parser, contains('requireEnv("OPENAI_MODEL")'));
+      expect(parser, contains('type: "json_schema"'));
+      expect(parser, contains('strict: true'));
+      expect(parser, contains('schema: smsParserJsonSchema'));
+      expect(parser, contains('store: false'));
+      expect(parser, contains('OPENAI_TIMEOUT_MS'));
+      expect(parser, contains('OpenAI refused SMS parsing'));
+      expect(parser, contains('validateParsedSms'));
+      expect(parser, isNot(contains('parseDeterministicMomoSms')));
       expect(parser, isNot(contains('detected_collection_code')));
       expect(parserSchema, isNot(contains('detected_collection_code')));
-      expect(parser, contains('OpenAI parse failed'));
+      expect(parserSchema, contains('collect.sms_parser.openai.v2'));
+      expect(
+        parser,
+        contains(
+          'const receiverHash = typeof rawSms.receiver_momo_number_hash === "string"',
+        ),
+      );
+      expect(parser, contains('claim_raw_payment_sms_for_parse'));
+      expect(parser, contains('p_lease_id: parseLeaseId'));
+      expect(parser, contains('.eq("parse_lease_id", parseLeaseId)'));
+      expect(parser, contains('allocation_status: "processing"'));
+      expect(smsParserWorkClaim, contains("parse_status = 'processing'"));
+      expect(smsParserWorkClaim, contains("interval '60 seconds'"));
+      expect(smsParserWorkClaim, contains('to service_role'));
       expect(parser, contains('allocation_status: allocationStatus'));
+      expect(parser, contains('allocationStatus === "allocated"'));
+      expect(
+        parser,
+        contains('existingEvent.allocation_status === "unallocated"'),
+      );
+      expect(
+        parser,
+        contains('await allocateEvent(supabase, existingEvent.id)'),
+      );
+      expect(parser, contains('allocationStatus === "already_allocated"'));
+      expect(parser, contains('error: rawStatusError'));
+      expect(providerFinality, contains("'auto_native_sms'"));
+      expect(providerFinality, isNot(contains("'auto_exact_txn'")));
+      expect(providerFinality, isNot(contains("'auto_code'")));
+      expect(providerFinality, isNot(contains("'manual_sms_review'")));
+      expect(providerFinality, isNot(contains("'system_exception'")));
+      expect(
+        providerFinality,
+        contains("return 'awaiting_provider_confirmation'"),
+      );
+      expect(providerFinality, contains("'collection_credit'"));
+      expect(providerFinality, contains("'member_credit'"));
       expect(liveParserUat, contains('live parser UAT passed'));
-      expect(liveParserUat, contains('OpenAI returned 429'));
+      expect(liveParserUat, contains('awaiting provider confirmation'));
+      expect(liveParserUat, contains('provider-review candidate'));
+      expect(liveParserUat, contains('confirm_provider_payment'));
+      expect(liveParserUat, contains('uat-stored-openai-result'));
+      expect(liveParserUat, isNot(contains('OpenAI returned 429')));
       expect(liveParserUat, contains('ledger_count'));
     },
   );
@@ -2469,25 +3083,38 @@ void main() {
 
     expect(receiver, contains('SmsQueueStore.SMS_ACCESS_ENABLED_KEY'));
     expect(receiver, contains('SmsQueueStore(context.applicationContext)'));
-    expect(receiver, contains('UUID.randomUUID()'));
+    expect(receiver, contains('envelopeIdFor'));
+    expect(receiver, contains('goAsync()'));
+    expect(receiver, contains('SmsQueueWorker.execute'));
     expect(queueStore, contains('AES/GCM/NoPadding'));
     expect(queueStore, contains('AndroidKeyStore'));
     expect(queueStore, contains('pending_sms_encrypted_v1'));
     expect(receiver, isNot(contains('Log.i("CollectSmsReceiver", body')));
     expect(mainActivity, contains('"collect/sms_access"'));
+    expect(mainActivity, contains('"collect/sms_access/events"'));
+    expect(mainActivity, isNot(contains('injectDebugTestSms')));
     expect(mainActivity, contains('"setEnabled"'));
     expect(mainActivity, contains('requestPermissions(SMS_PERMISSIONS'));
     expect(mainActivity, contains('onRequestPermissionsResult'));
     expect(mainActivity, contains('"readPendingSms"'));
     expect(mainActivity, contains('"ackPendingSms"'));
+    expect(mainActivity, contains('.acknowledge(ids)'));
+    expect(mainActivity, contains('runSmsQueueTask'));
     expect(channel, contains("MethodChannel('collect/sms_access')"));
+    expect(channel, contains("'collect/sms_access/events'"));
     expect(repository, contains('syncPendingSmsAccess'));
     expect(repository, contains('readPendingSms'));
     expect(repository, contains('acknowledgePendingSms'));
     expect(repository, contains('_smsSyncInFlight'));
+    expect(repository, contains('_smsSyncRequested'));
     expect(repository, contains('receivedAtDevice'));
-    expect(repositoryHelpers, contains('ownedGroupReceivers.length == 1'));
-    expect(receiver, contains('Instant::ofEpochMilli'));
+    expect(repositoryHelpers, contains('authorizedGroupReceivers.length == 1'));
+    expect(repositoryHelpers, contains('labeledReceiver'));
+    expect(receiver, contains('PROVIDER_SENDER.matches(sender)'));
+    expect(queueStore, contains('appendIfCapacity'));
+    expect(queueStore, contains('fun acknowledge(ids: Set<String>)'));
+    expect(queueStore, contains('SMS_QUEUE_OVERFLOW_KEY'));
+    expect(receiver, contains('Instant.ofEpochMilli'));
     final app = File('lib/app/app.dart').readAsStringSync();
     expect(app, contains('WidgetsBindingObserver'));
     expect(app, contains('AppLifecycleState.resumed'));
@@ -2637,6 +3264,7 @@ void main() {
     expect(realtimeClient, contains('PostgresChangeEvent.insert'));
     expect(realtimeClient, contains('collectMobileRealtimeAreas'));
     expect(realtimeClient, contains('collectAdminRealtimeAreas'));
+    expect(realtimeClient, contains('_invalidateRequested'));
     expect(realtimeClient, isNot(contains('raw_body')));
     expect(realtimeClient, isNot(contains('momo_number')));
 

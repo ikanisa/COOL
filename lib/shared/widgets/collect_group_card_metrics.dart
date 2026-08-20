@@ -77,7 +77,7 @@ class _GroupMetaIconRow extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       label:
-          '${collection.collectionType.label}, ${summary.supporterCount} members, ${collection.isPublic ? 'public' : 'private'}',
+          '${collection.collectionType.label}, ${summary.supporterCount} supporters, ${collection.isPublic ? 'public' : 'private'}',
       child: ExcludeSemantics(
         child: Row(
           mainAxisSize: MainAxisSize.min,

@@ -45,7 +45,8 @@ class PendingSharedGroupIntentStore {
 
   static const defaultPreferencesKey = 'collect.pending_shared_group_intent.v1';
   static const schemaVersion = 1;
-  static const maxSlugLength = 240;
+  // Must match join_group_by_share_code's server-side p_group_code bound.
+  static const maxSlugLength = 140;
 
   final PendingSharedGroupIntentPreferences _preferences;
   final PendingIntentClock _clock;

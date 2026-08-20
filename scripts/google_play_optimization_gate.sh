@@ -253,7 +253,7 @@ checks["restricted_sms_play_approval"] =
 checks["android_app_links"] =
   if manifest.include?('android:autoVerify="true"') &&
       manifest.include?('android:host="collect.ikanisa.com"') &&
-      manifest.include?('android:pathPrefix="/c"') &&
+      manifest.include?('android:pathPrefix="/c/"') &&
       assetlinks_source.include?('"package_name": "app.cool.mobile"') &&
       assetlinks_source.include?(expected_play_fingerprint) &&
       assetlinks_source.include?(expected_upload_fingerprint)
