@@ -76,7 +76,6 @@ declare
   ambiguous_event_id uuid;
   expired_event_id uuid;
   native_capability uuid;
-  payment_id uuid;
   allocation_status text;
   receiver_phone text := '+250788123456';
   receiver_hash text := encode(extensions.digest('+250788123456', 'sha256'), 'hex');
@@ -264,8 +263,8 @@ begin
   returning id into event_id;
 
   allocation_status := allocate_parsed_payment_event(event_id);
-  if allocation_status <> 'awaiting_provider_confirmation' then
-    raise exception 'expected provider-review status, got %', allocation_status;
+  if allocation_status <> 'allocated' then
+    raise exception 'expected automatic standalone allocation, got %', allocation_status;
   end if;
 
   if (
@@ -274,7 +273,7 @@ begin
     where parsed_event_id = event_id
       and payments.contributor_public_id = contributor_collect_id
   ) <> 1 then
-    raise exception 'matched event did not create exactly one anonymous member payment candidate';
+    raise exception 'matched event did not create exactly one anonymous member payment';
   end if;
 
   if (
@@ -283,25 +282,9 @@ begin
     where collection_id = uat_group_id
       and amount_rwf = 5000
       and entry_type in ('collection_credit', 'member_credit')
-  ) <> 0 then
-    raise exception 'SMS candidate affected group or payer balance before provider confirmation';
+  ) <> 2 then
+    raise exception 'standalone allocation did not create both balanced ledger entries';
   end if;
-
-  select id into payment_id
-  from payments
-  where parsed_event_id = event_id;
-  perform set_config('request.jwt.claim.role', 'service_role', true);
-  perform confirm_provider_payment(
-    payment_id,
-    'mtn_momo',
-    'UAT-SMS-FIRST-001',
-    'UAT-PROVIDER-CONFIRM-001',
-    receiver_hash,
-    5000,
-    now(),
-    repeat('b', 64)
-  );
-  perform set_config('request.jwt.claim.role', 'authenticated', true);
 
   if (
     select coalesce(sum(amount_rwf), 0)

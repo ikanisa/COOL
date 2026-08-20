@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T10:55:42Z",
+  "generated_at": "2026-08-20T15:24:49Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -18,10 +18,10 @@
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
       "branch": "main",
-      "version_id": "f1e2c19a-08b0-4f7c-8048-615219a33fb2",
-      "rollback_version_id": "36269764-bfde-414a-b1d6-c1ea3a72d084",
+      "version_id": "ff6801b3-447d-45d0-8d50-f5369dcbce2d",
+      "rollback_version_id": "f1e2c19a-08b0-4f7c-8048-615219a33fb2",
       "live_gate_status": "pass",
-      "evidence": "The 1.2.2+21 production Admin PWA passed its manifest and hosting gates and produced a fresh 58-file build. Wrangler 4.124.0 deployed version f1e2c19a-08b0-4f7c-8048-615219a33fb2 directly to collect-admin; the previous stable version 36269764-bfde-414a-b1d6-c1ea3a72d084 is retained as the rollback target. The custom-domain live gate passed, and the live main.dart.js and flutter_bootstrap.js SHA-256 hashes exactly matched the locally validated production build."
+      "evidence": "The audited production Admin PWA passed its manifest and hosting gates and produced a fresh 58-file build. Wrangler 4.124.0 deployed version ff6801b3-447d-45d0-8d50-f5369dcbce2d directly to collect-admin; the previous stable version f1e2c19a-08b0-4f7c-8048-615219a33fb2 is retained as the rollback target. The custom-domain live gate passed at 2026-08-20T15:24:49Z, and the live main.dart.js and flutter_bootstrap.js SHA-256 hashes exactly matched the locally validated production build."
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."

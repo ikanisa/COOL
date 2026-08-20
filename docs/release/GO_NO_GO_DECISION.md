@@ -4,7 +4,7 @@ Audit date: 2026-06-01
 
 Current override (2026-08-15): this June snapshot is historical. The governing
 status is `QA_TEST_REPORT.md`, which remains **NO-GO** on production/public
-deployment, provider-specific finality certification and reconciliation, FCM,
+deployment, live standalone reconciliation, FCM,
 physical Android/payment/accessibility evidence, signing/Play approval and
 monitored rollout.
 
@@ -25,9 +25,9 @@ has been superseded. The current source of truth is the Groups workflow:
 - `Contribute` creates a Supabase payment intent tied to group, amount,
   receiver MoMo, user id, and Collect ID.
 - MoMo payment is completed off app through the dialer.
-- MoMo SMS is ingested, parsed and matched as non-ledger candidate evidence. A
-  separately authenticated provider-finality event is required before the
-  exactly-once ledger pair is posted.
+- MoMo SMS is ingested and parsed by OpenAI. The locked allocator posts the
+  exactly-once ledger pair only for one complete, high-confidence match;
+  incomplete or ambiguous results stay in review.
 
 ## Current Gate Summary
 

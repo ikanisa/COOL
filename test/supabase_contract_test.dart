@@ -61,24 +61,6 @@ void main() {
   final groupAuthorizationPrivacy = File(
     'supabase/migrations/20260815082500_close_group_authorization_privacy.sql',
   ).readAsStringSync();
-  final providerFinality = File(
-    'supabase/migrations/20260815083000_require_provider_finality.sql',
-  ).readAsStringSync();
-  final atomicProviderFinalityGateway = File(
-    'supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql',
-  ).readAsStringSync();
-  final providerFinalityFunction = File(
-    'supabase/functions/provider-finality/index.ts',
-  ).readAsStringSync() +
-      File(
-        'supabase/functions/_shared/provider_finality_handler.ts',
-      ).readAsStringSync();
-  final providerFinalitySignature = File(
-    'supabase/functions/_shared/provider_finality_signature.ts',
-  ).readAsStringSync();
-  final providerFinalityPayload = File(
-    'supabase/functions/_shared/provider_finality_payload.ts',
-  ).readAsStringSync();
   final smsParserWorkClaim = File(
     'supabase/migrations/20260815083500_claim_sms_parser_work.sql',
   ).readAsStringSync();
@@ -87,6 +69,9 @@ void main() {
   ).readAsStringSync();
   final revokedNonDmlClientPrivileges = File(
     'supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql',
+  ).readAsStringSync();
+  final standaloneSmsRestoration = File(
+    'supabase/migrations/20260820160000_restore_momo_sms_standalone.sql',
   ).readAsStringSync();
   final completeAdminOperationsControlPlane = File(
     'supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql',
@@ -450,128 +435,70 @@ void main() {
     },
   );
 
-  test('provider finality is globally idempotent and solely posts ledgers', () {
-    final candidateFunction = migrationSection(
-      providerFinality,
+  test('standalone SMS allocation posts the balanced ledger atomically', () {
+    final allocationFunction = migrationSection(
+      standaloneSmsRestoration,
+      'create or replace function public.allocate_parsed_payment_event(',
+      'comment on function public.allocate_parsed_payment_event',
+    );
+    final postingFunction = migrationSection(
+      standaloneSmsRestoration,
       'create or replace function public.post_payment_from_event(',
       'create or replace function public.allocate_parsed_payment_event(',
     );
-    final confirmationFunction = migrationSection(
-      providerFinality,
-      'create or replace function public.confirm_provider_payment(',
-      'create or replace function public.reject_provider_payment(',
-    );
 
     expect(
-      providerFinality,
-      contains(
-        'create unique index if not exists payments_provider_transaction_unique',
-      ),
+      standaloneSmsRestoration,
+      contains('Standalone SMS restoration requires zero unposted'),
     );
     expect(
-      providerFinality,
-      contains('provider_network,\n    upper(btrim(transaction_id))'),
+      standaloneSmsRestoration,
+      contains('drop table if exists public.payment_provider_confirmations'),
     );
     expect(
-      providerFinality,
-      isNot(contains('payments_receiver_network_transaction_unique\n  on')),
-    );
-    expect(candidateFunction, contains("'review'"));
-    expect(
-      candidateFunction,
-      contains("'payment.awaiting_provider_confirmation'"),
-    );
-    expect(candidateFunction, contains("'ledger_posted', false"));
-    expect(
-      candidateFunction,
-      isNot(contains('insert into public.ledger_entries')),
+      standaloneSmsRestoration,
+      contains('drop table if exists public.provider_finality_requests'),
     );
     expect(
-      confirmationFunction,
-      contains("coalesce(auth.role(), '') <> 'service_role'"),
+      standaloneSmsRestoration,
+      contains('payments_receiver_network_transaction_unique'),
     );
-    expect(
-      confirmationFunction,
-      contains('insert into public.payment_provider_confirmations'),
-    );
-    expect(confirmationFunction, contains('insert into public.ledger_entries'));
-    expect(confirmationFunction, contains("'collection_credit'"));
-    expect(confirmationFunction, contains("'member_credit'"));
-    expect(confirmationFunction, contains("set status = 'posted'"));
-    expect(
-      providerFinality,
-      contains('grant execute on function public.confirm_provider_payment('),
-    );
-    expect(
-      providerFinality,
-      contains('grant execute on function public.reject_provider_payment'),
-    );
-    expect(providerFinality, contains('to service_role'));
+    expect(allocationFunction, contains("return 'allocated'"));
+    expect(allocationFunction, contains('perform post_payment_from_event('));
+    expect(allocationFunction, contains("allocation_status = 'ambiguous'"));
+    expect(allocationFunction, contains("allocation_status = 'needs_review'"));
+    expect(postingFunction, contains('source, anonymity_choice'));
+    expect(postingFunction, contains("'sms_auto'"));
+    expect(postingFunction, contains("'auto_native_sms'"));
+    expect(postingFunction, contains("'collection_credit'"));
+    expect(postingFunction, contains("'member_credit'"));
+    expect(postingFunction, contains("set status = 'matched'"));
+    expect(postingFunction, contains("allocation_status = 'allocated'"));
   });
 
   test(
-    'provider gateway authenticates bytes and atomically rejects replay drift',
+    'standalone deploy inventory contains only the ten reviewed functions',
     () {
+      final functions =
+          Directory('supabase/functions')
+              .listSync()
+              .whereType<Directory>()
+              .where(
+                (directory) => File('${directory.path}/index.ts').existsSync(),
+              )
+              .map((directory) => directory.path.split('/').last)
+              .toList()
+            ..sort();
+
+      expect(functions, hasLength(10));
       expect(
-        providerFinalityFunction,
-        contains('PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT'),
+        functions,
+        containsAll(<String>[
+          'ingest-payment-sms',
+          'parse-payment-sms',
+          'dispatch-notifications',
+        ]),
       );
-      expect(
-        providerFinalityFunction,
-        contains('PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS'),
-      );
-      expect(
-        providerFinalityFunction,
-        contains('verifyProviderFinalitySignature('),
-      );
-      expect(
-        providerFinalitySignature,
-        contains(r'`${timestamp}.${requestId}.${rawBody}`'),
-      );
-      expect(
-        providerFinalitySignature,
-        contains('Math.abs(nowSeconds - timestamp)'),
-      );
-      expect(providerFinalitySignature, contains('constantTimeHexEqual'));
-      expect(
-        providerFinalityPayload,
-        contains('eventId !== authenticatedRequestId.toLowerCase()'),
-      );
-      expect(
-        providerFinalityPayload,
-        contains('exactKeys(value, confirmedKeys)'),
-      );
-      expect(
-        providerFinalityFunction,
-        contains('process_provider_finality_event'),
-      );
-      expect(
-        atomicProviderFinalityGateway,
-        contains(
-          'create table if not exists public.provider_finality_requests',
-        ),
-      );
-      expect(
-        atomicProviderFinalityGateway,
-        contains('on conflict (request_id) do nothing'),
-      );
-      expect(
-        atomicProviderFinalityGateway,
-        contains('request id was reused with different content'),
-      );
-      expect(
-        atomicProviderFinalityGateway,
-        contains("coalesce(auth.role(), '') <> 'service_role'"),
-      );
-      expect(
-        atomicProviderFinalityGateway,
-        contains('public.confirm_provider_payment('),
-      );
-      expect(
-        atomicProviderFinalityGateway,
-        contains('public.reject_provider_payment('),
-      );
-      expect(atomicProviderFinalityGateway, contains('to service_role'));
     },
   );
 
@@ -2734,7 +2661,7 @@ void main() {
     expect(readiness, contains("'record_sms_access_consent', 'EXECUTE'"));
   });
 
-  test('payment intents require SMS matching and provider finality', () {
+  test('payment intents require exact standalone SMS matching', () {
     final repository = readCollectRepositoryLibrary();
 
     expect(
@@ -2826,9 +2753,8 @@ void main() {
       contains('missing receiver authorization unexpectedly passed'),
     );
     expect(linkedUat, contains('allocation was not idempotent'));
-    expect(linkedUat, contains('awaiting_provider_confirmation'));
-    expect(linkedUat, contains('confirm_provider_payment'));
-    expect(linkedUat, contains('before provider confirmation'));
+    expect(linkedUat, contains("allocation_status <> 'allocated'"));
+    expect(linkedUat, contains('both balanced ledger entries'));
     expect(
       linkedUat,
       contains(
@@ -3041,21 +2967,17 @@ void main() {
       );
       expect(parser, contains('allocationStatus === "already_allocated"'));
       expect(parser, contains('error: rawStatusError'));
-      expect(providerFinality, contains("'auto_native_sms'"));
-      expect(providerFinality, isNot(contains("'auto_exact_txn'")));
-      expect(providerFinality, isNot(contains("'auto_code'")));
-      expect(providerFinality, isNot(contains("'manual_sms_review'")));
-      expect(providerFinality, isNot(contains("'system_exception'")));
-      expect(
-        providerFinality,
-        contains("return 'awaiting_provider_confirmation'"),
-      );
-      expect(providerFinality, contains("'collection_credit'"));
-      expect(providerFinality, contains("'member_credit'"));
+      expect(momoSmsHardening, contains("'auto_native_sms'"));
+      expect(momoSmsHardening, isNot(contains("'auto_exact_txn'")));
+      expect(momoSmsHardening, isNot(contains("'auto_code'")));
+      expect(momoSmsHardening, isNot(contains("'manual_sms_review'")));
+      expect(momoSmsHardening, isNot(contains("'system_exception'")));
+      expect(momoSmsHardening, contains("return 'allocated'"));
+      expect(momoSmsHardening, contains("'collection_credit'"));
+      expect(momoSmsHardening, contains("'member_credit'"));
       expect(liveParserUat, contains('live parser UAT passed'));
-      expect(liveParserUat, contains('awaiting provider confirmation'));
-      expect(liveParserUat, contains('provider-review candidate'));
-      expect(liveParserUat, contains('confirm_provider_payment'));
+      expect(liveParserUat, contains('standalone pipeline'));
+      expect(liveParserUat, contains('stored OpenAI result'));
       expect(liveParserUat, contains('uat-stored-openai-result'));
       expect(liveParserUat, isNot(contains('OpenAI returned 429')));
       expect(liveParserUat, contains('ledger_count'));
@@ -3214,7 +3136,7 @@ void main() {
     expect(schemaInventory, contains('drop function(?: if exists)?'));
     expect(
       File('scripts/supabase_advisors_warning_inventory.sh').readAsStringSync(),
-      contains('"pg_graphql_authenticated_table_exposed" => 35'),
+      contains('"pg_graphql_authenticated_table_exposed" => 36'),
     );
     expect(
       realtimeInvalidation,
@@ -3449,10 +3371,9 @@ void main() {
     final repository = readCollectRepositoryLibrary();
     final landingSources = [
       'lib/features/landing/collect_landing_page.dart',
-      'lib/features/landing/collect_home_interactions.dart',
-      'lib/features/landing/collect_home_footer.dart',
-      'lib/features/landing/collect_home_access_trust.dart',
-      'lib/features/landing/collect_home_customer_action.dart',
+      'lib/features/landing/public_marketing_page_content.dart',
+      'lib/features/landing/public_page_content.dart',
+      'lib/features/landing/public_policy_page_content.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
     final supportContact = File(
       'lib/shared/utils/support_contact.dart',
@@ -3504,7 +3425,7 @@ void main() {
     expect(repository, contains("rpc<dynamic>('get_public_runtime_config')"));
     expect(repository, contains('collectRuntimeConfigProvider'));
     expect(landingSources, contains('collectRuntimeConfigProvider'));
-    expect(landingSources, contains('_runtimeConfigFor'));
+    expect(landingSources, contains('ref.watch(collectRuntimeConfigProvider)'));
     expect(landingSources, isNot(contains('const _collectUssdCode')));
     expect(landingSources, isNot(contains('const _collectWhatsAppNumber')));
     expect(landingSources, isNot(contains('const _collectContactEmail')));

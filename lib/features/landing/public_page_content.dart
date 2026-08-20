@@ -3,11 +3,7 @@ part of 'public_content.dart';
 const publicWebsitePaths = <String>{
   '/',
   '/group-savings',
-  '/diaspora',
-  '/insurance',
-  '/craas',
   '/community-groups',
-  '/our-partners',
   '/trust',
   '/security',
   '/privacy',
@@ -27,11 +23,6 @@ class CollectPublicPageData {
     required this.navLabel,
     required this.title,
     required this.intro,
-    required this.mediaRole,
-    required this.metricA,
-    required this.metricALabel,
-    required this.metricB,
-    required this.metricBLabel,
     required this.sections,
   });
 
@@ -39,17 +30,14 @@ class CollectPublicPageData {
   final String navLabel;
   final String title;
   final String intro;
-  final CollectPublicMediaRole mediaRole;
-  final String metricA;
-  final String metricALabel;
-  final String metricB;
-  final String metricBLabel;
   final List<CollectPublicSectionData> sections;
 
-  bool get isPolicy => path == '/privacy' || path == '/terms';
+  bool get isPolicy =>
+      path == '/privacy' ||
+      path == '/account-deletion' ||
+      path == '/data-deletion' ||
+      path == '/terms';
 }
-
-enum CollectPublicMediaRole { group, payment, share }
 
 class CollectPublicSectionData {
   const CollectPublicSectionData({
@@ -69,30 +57,14 @@ CollectPublicPageData publicPageForPath(String path) {
 }
 
 String publicSummaryLabel(CollectPublicPageData data) {
-  switch (data.path) {
-    case '/group-savings':
-      return 'Ibimina operating model';
-    case '/diaspora':
-      return 'Diaspora group records';
-    case '/insurance':
-      return 'Protection layer';
-    case '/craas':
-      return 'Credit-readiness service';
-    case '/community-groups':
-      return 'Mobile group operations';
-    case '/our-partners':
-      return 'Banking opportunity';
-    case '/trust':
-    case '/security':
-      return 'Trust and security';
-    case '/privacy':
-      return 'Customer information';
-    case '/account-deletion':
-      return 'Account deletion';
-    case '/data-deletion':
-      return 'Data deletion';
-    case '/terms':
-      return 'Service terms';
-  }
-  return data.navLabel;
+  return switch (data.path) {
+    '/group-savings' => 'MoMo group contributions',
+    '/community-groups' => 'Groups of every kind',
+    '/trust' => 'Trust and security',
+    '/privacy' => 'Customer information',
+    '/account-deletion' => 'Account deletion',
+    '/data-deletion' => 'Data deletion',
+    '/terms' => 'Service terms',
+    _ => data.navLabel,
+  };
 }

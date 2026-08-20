@@ -381,9 +381,6 @@ verify_jwt = false
 [functions.parse-payment-sms]
 verify_jwt = false
 
-[functions.provider-finality]
-verify_jwt = false
-
 [functions.send-notification]
 verify_jwt = false
 

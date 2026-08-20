@@ -2,10 +2,9 @@
 
 Prepared: 2026-06-01
 
-Current override (2026-08-15): SMS/parser allocation is candidate evidence
-only. Production GO also requires the signed provider-finality gateway,
-provider-specific settlement-source certification, reconciliation, FCM,
-current 78-migration deployment, physical evidence and the gates in
+Current override (2026-08-20): production GO requires the standalone OpenAI
+parser and atomic allocation chain, reconciliation, FCM, current 79-migration
+deployment, physical evidence and the gates in
 `QA_TEST_REPORT.md`.
 
 ## Goal
@@ -30,10 +29,10 @@ human operator workflows.
   `group creation is available only on Android`.
 - Contributions create Supabase payment intents and launch MoMo USSD through
   `tel:`.
-- MoMo SMS ingestion, OpenAI parsing, candidate allocation and exceptions are
+- MoMo SMS ingestion, OpenAI parsing, atomic allocation and exceptions are
   automated through Supabase; there is no manual SMS paste or
-  contributor-reported transaction ID fallback. Only an authenticated
-  provider-finality event posts the ledger.
+  contributor-reported transaction ID fallback. Only the locked exact-match
+  allocator posts the balanced ledger pair.
 - Admin PWA monitors Groups, Members, Payment intents, SMS parsing,
   Allocations, Exceptions, Ledger, Receivers, SMS, Audit logs, Settings,
   Feature flags, System health, and Admin users.
@@ -41,7 +40,8 @@ human operator workflows.
 ## Current Evidence Snapshot
 
 - `flutter analyze`: pass.
-- Full Flutter/release-doc tests: pass with `101` tests.
+- Flutter validation: 492 non-golden tests and 14 governed golden tests pass;
+  the Deno Edge suite passes 11 tests.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass with evidence at
   `.cache/admin_pwa_render_smoke/20260602T081408Z`.
@@ -55,10 +55,14 @@ human operator workflows.
 - `scripts/collect_linked_uat.sh`: pass after applying
   `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
   through the linked Supabase query path.
-- `scripts/supabase_production_readiness.sh`: pass.
+- `scripts/supabase_production_readiness.sh`: code-owned migration, schema,
+  RLS, privilege, advisor, function and rollback UAT gates pass; full readiness
+  fails closed on missing FCM and Stripe provider secrets.
 - `scripts/supabase_go_live_gate.sh --json`: blocked on remaining approval,
   device-UAT, and release-scope gates.
-- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
+- `https://admin.collect.ikanisa.com`: version
+  `ff6801b3-447d-45d0-8d50-f5369dcbce2d` passes the live gate and exact bundle
+  hash readback.
 - `scripts/flutter_mobile_release_gate.sh --json`: APK/AAB freshness and
   signature checks pass; blocked on Android release signing review and iOS
   release scope approval.
@@ -69,7 +73,7 @@ human operator workflows.
 
 | Persona | Journey |
 | --- | --- |
-| Contributor | Open group, contribute amount, create payment intent, launch MoMo USSD, see awaiting-provider state, then receive provider-confirmed ledger notification. |
+| Contributor | Open group, contribute amount, create payment intent, launch MoMo USSD, then receive the automatically matched ledger notification. |
 | Android creator | Complete profile, create group, grant SMS access, share link/QR/deep link/SMS. |
 | iPhone user | Attempt group creation and see the exact Android-only warning. |
 | Group member | Join/open shared group and contribute using Collect ID. |
@@ -83,7 +87,7 @@ human operator workflows.
 ## GO Criteria
 
 1. Corrected product definition is signed off.
-2. Real Android SMS access and provider-finality/reconciliation UAT pass with
+2. Real Android SMS access and end-to-end balance reconciliation UAT pass with
    sanitized evidence and no credential/PIN/OTP capture.
 3. Android signing review and iOS release scope evidence pass release gates.
 4. Release owner signs current evidence packet and worktree review.

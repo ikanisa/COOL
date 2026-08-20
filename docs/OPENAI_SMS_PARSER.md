@@ -9,9 +9,11 @@ If OpenAI parsing succeeds but the following transactional allocation call is te
 OpenAI performs the SMS parsing; there is no deterministic SMS parser or
 regex fallback. Its structured output stores extracted facts and confidence.
 Postgres then enforces exact payer, amount, time, receiver-ownership, and
-single-intent conditions before creating a candidate. The parser and allocator
-cannot post ledger entries; the separate authenticated provider-finality path
-owns that transition.
+single-intent conditions before posting. One exact match calls the locked,
+idempotent database function that creates the payment, allocation, group credit,
+payer credit, audit record, intent transition, and notification atomically.
+Incomplete, conflicting, duplicate, low-confidence, or ambiguous results stay
+unposted and reviewable.
 
 Every accepted MTN MoMo or Airtel Money message is parsed by the OpenAI
 Responses API in the Supabase Edge Function. The request uses a strict schema,

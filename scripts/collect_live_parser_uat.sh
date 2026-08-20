@@ -13,13 +13,26 @@ if [[ "${COLLECT_SKIP_ENV_FILE:-0}" != "1" && -f .env ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
-: "${DATABASE_URL:?DATABASE_URL is required}"
 : "${SUPABASE_PROJECT_REF:?SUPABASE_PROJECT_REF is required}"
 : "${SUPABASE_SERVICE_ROLE_KEY:?SUPABASE_SERVICE_ROLE_KEY is required}"
 : "${INTERNAL_FUNCTION_SECRET:?INTERNAL_FUNCTION_SECRET is required}"
 
-PARSER_UAT_DATABASE_URL="${COLLECT_LIVE_PARSER_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+PARSER_UAT_DB_MODE="${COLLECT_LIVE_PARSER_DB_MODE:-management}"
 PARSER_UAT_FUNCTION_URL="${COLLECT_PARSER_FUNCTION_URL:-https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/parse-payment-sms}"
+
+case "$PARSER_UAT_DB_MODE" in
+  management)
+    : "${SUPABASE_ACCESS_TOKEN:?SUPABASE_ACCESS_TOKEN is required for management database mode}"
+    ;;
+  direct)
+    : "${DATABASE_URL:?DATABASE_URL is required for direct database mode}"
+    PARSER_UAT_DATABASE_URL="${COLLECT_LIVE_PARSER_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+    ;;
+  *)
+    printf '[collect-parser-uat][FAIL] COLLECT_LIVE_PARSER_DB_MODE must be management or direct\n' >&2
+    exit 1
+    ;;
+esac
 
 require_cmd() {
   command -v "$1" >/dev/null 2>&1 || {
@@ -28,9 +41,84 @@ require_cmd() {
   }
 }
 
-psql_cli --version >/dev/null
 require_cmd curl
 require_cmd ruby
+
+if [[ "$PARSER_UAT_DB_MODE" == "direct" ]]; then
+  psql_cli --version >/dev/null
+else
+  SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
+    supabase_cli db query --linked 'select 1 as live_parser_uat_probe' \
+    -o json --agent=yes >/dev/null
+fi
+
+parser_db_exec() {
+  local compact_output=0
+  local sql rendered variables_json query_output
+  local -a variable_specs=()
+  local -a direct_args=()
+
+  while (($#)); do
+    case "$1" in
+      -v)
+        [[ $# -ge 2 ]] || {
+          printf '[collect-parser-uat][FAIL] missing value after -v\n' >&2
+          return 1
+        }
+        variable_specs+=("$2")
+        direct_args+=("$1" "$2")
+        shift 2
+        ;;
+      -Atq|-Aqt|-A|-t)
+        compact_output=1
+        direct_args+=("$1")
+        shift
+        ;;
+      *)
+        direct_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  if [[ "$PARSER_UAT_DB_MODE" == "direct" ]]; then
+    psql_cli "$PARSER_UAT_DATABASE_URL" "${direct_args[@]}"
+    return
+  fi
+
+  sql="$(cat)"
+  variables_json="$(ruby -r json -e '
+    variables = {}
+    ARGV.each do |spec|
+      key, value = spec.split("=", 2)
+      abort("invalid psql variable: #{spec}") if key.to_s.empty? || value.nil?
+      variables[key] = value
+    end
+    print JSON.generate(variables)
+  ' -- "${variable_specs[@]}")"
+  rendered="$(PARSER_SQL="$sql" PARSER_SQL_VARIABLES="$variables_json" ruby -r json -e '
+    sql = ENV.fetch("PARSER_SQL")
+    variables = JSON.parse(ENV.fetch("PARSER_SQL_VARIABLES"))
+    quote = 39.chr
+    variables.each do |key, value|
+      literal = quote + value.gsub(quote, quote * 2) + quote
+      sql = sql.gsub(":" + quote + key + quote, literal)
+    end
+    unresolved_pattern = Regexp.new(":" + quote + "[A-Za-z_][A-Za-z0-9_]*" + quote)
+    unresolved = sql.scan(unresolved_pattern).uniq
+    abort("unresolved psql variables: #{unresolved.join(", ")}") unless unresolved.empty?
+    print sql
+  ')"
+
+  query_output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
+    supabase_cli db query --linked "$rendered" -o json --agent=yes)"
+  if [[ "$compact_output" == "1" ]]; then
+    QUERY_OUTPUT="$query_output" ruby -r json -e '
+      rows = JSON.parse(ENV.fetch("QUERY_OUTPUT")).fetch("rows")
+      rows.each { |row| puts row.values.first }
+    '
+  fi
+}
 
 tag="collect_live_parser_uat_$(date +%s)_$$"
 txn_id="TX$(ruby -e 'print rand(100000..999999).to_s')$(date +%S)"
@@ -51,7 +139,7 @@ cleanup() {
   if [[ -z "$tag" ]]; then
     return
   fi
-  psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  parser_db_exec -v ON_ERROR_STOP=1 \
     -v tag="$tag" \
     -v owner_phone="$owner_phone" \
     -v contributor_phone="$contributor_phone" \
@@ -90,10 +178,6 @@ target_payments as (
   select p.id
   from payments p
   where p.collection_id in (select id from target_collections)
-),
-delete_confirmations as (
-  delete from payment_provider_confirmations
-  where payment_id in (select id from target_payments)
 ),
 delete_allocations as (
   delete from payment_allocations where collection_id in (select id from target_collections)
@@ -143,7 +227,7 @@ collection_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 intent_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 raw_sms_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+parser_db_exec -v ON_ERROR_STOP=1 \
   -v owner_id="$owner_id" \
   -v contributor_id="$contributor_id" \
   -v collection_id="$collection_id" \
@@ -302,7 +386,7 @@ fi
 ruby -r json -e '
   body = JSON.parse(File.read(ARGV.fetch(0)))
   abort("parse response missing ok=true") unless body["ok"] == true
-  abort("SMS candidate is not awaiting provider confirmation: #{body.inspect}") unless body["allocation_status"] == "awaiting_provider_confirmation"
+  abort("SMS was not allocated by the standalone pipeline: #{body.inspect}") unless body["allocation_status"] == "allocated"
 ' "$body_file"
 
 replay_status="$(
@@ -321,67 +405,10 @@ fi
 ruby -r json -e '
   body = JSON.parse(File.read(ARGV.fetch(0)))
   abort("parser replay did not reuse the stored event") unless body["replay"] == true
-  abort("parser replay changed candidate status") unless body["allocation_status"] == "awaiting_provider_confirmation"
+  abort("parser replay changed allocation status") unless body["allocation_status"] == "allocated"
 ' "$body_file"
 
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
-  -v collection_id="$collection_id" \
-  -v raw_sms_id="$raw_sms_id" \
-  -v intent_id="$intent_id" \
-  -Atq <<'SQL' | ruby -e '
-values = STDIN.read.lines(chomp: true).map { |line| line.split("=", 2) }.to_h
-required = {
-  "event_status" => "needs_review",
-  "payment_status" => "review",
-  "intent_status" => "matched",
-  "ledger_count" => "0",
-  "notification_count" => "0"
-}
-required.each do |key, expected|
-  abort("[collect-parser-uat][FAIL] pre-finality #{key} expected #{expected}, got #{values[key].inspect}") unless values[key] == expected
-end
-'
-with event as (
-  select * from parsed_payment_events where raw_sms_id = :'raw_sms_id'
-), payment as (
-  select p.* from payments p join event e on e.id = p.parsed_event_id
-)
-select 'event_status=' || allocation_status from event
-union all
-select 'payment_status=' || status from payment
-union all
-select 'intent_status=' || status from payment_intents where id = :'intent_id'
-union all
-select 'ledger_count=' || count(*) from ledger_entries where payment_id in (select id from payment)
-union all
-select 'notification_count=' || count(*)
-from notification_events
-where collection_id = :'collection_id'
-  and type = 'contribution_confirmed';
-SQL
-
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
-  -v raw_sms_id="$raw_sms_id" \
-  -v txn_id="$txn_id" \
-  -v receiver_phone="$receiver_phone" \
-  -v amount="$amount" <<'SQL'
-begin;
-set local role service_role;
-select set_config('request.jwt.claims', json_build_object('role', 'service_role')::text, true);
-select public.confirm_provider_payment(
-  (select p.id from payments p join parsed_payment_events e on e.id = p.parsed_event_id where e.raw_sms_id = :'raw_sms_id'),
-  'mtn_momo',
-  :'txn_id',
-  'LIVE-PARSER-' || :'txn_id',
-  encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
-  :'amount'::bigint,
-  now(),
-  encode(extensions.digest('live-parser-provider-evidence-' || :'txn_id', 'sha256'), 'hex')
-);
-commit;
-SQL
-
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+parser_db_exec -v ON_ERROR_STOP=1 \
   -v collection_id="$collection_id" \
   -v raw_sms_id="$raw_sms_id" \
   -v intent_id="$intent_id" \
@@ -491,7 +518,7 @@ recovery_event_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 recovery_txn_id="RECOVERY$(date +%s)$$"
 recovery_amount="4322"
 
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+parser_db_exec -v ON_ERROR_STOP=1 \
   -v collection_id="$collection_id" \
   -v owner_id="$owner_id" \
   -v contributor_id="$contributor_id" \
@@ -606,32 +633,11 @@ fi
 ruby -r json -e '
   body = JSON.parse(File.read(ARGV.fetch(0)))
   abort("unallocated-event retry did not reuse the stored OpenAI result") unless body["replay"] == true
-  abort("unallocated-event retry did not create a provider-review candidate: #{body.inspect}") unless body["allocation_status"] == "awaiting_provider_confirmation"
+  abort("unallocated-event retry did not allocate the stored OpenAI result: #{body.inspect}") unless body["allocation_status"] == "allocated"
   abort("unallocated-event retry changed the parser model") unless body["parser_model"] == "uat-stored-openai-result"
 ' "$body_file"
 
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
-  -v event_id="$recovery_event_id" \
-  -v txn_id="$recovery_txn_id" \
-  -v receiver_phone="$receiver_phone" \
-  -v amount="$recovery_amount" <<'SQL'
-begin;
-set local role service_role;
-select set_config('request.jwt.claims', json_build_object('role', 'service_role')::text, true);
-select public.confirm_provider_payment(
-  (select id from payments where parsed_event_id = :'event_id'),
-  'mtn_momo',
-  :'txn_id',
-  'LIVE-PARSER-RECOVERY-' || :'txn_id',
-  encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
-  :'amount'::bigint,
-  now(),
-  encode(extensions.digest('live-parser-recovery-evidence-' || :'txn_id', 'sha256'), 'hex')
-);
-commit;
-SQL
-
-psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
+parser_db_exec -v ON_ERROR_STOP=1 \
   -v intent_id="$recovery_intent_id" \
   -v raw_sms_id="$recovery_raw_sms_id" \
   -v event_id="$recovery_event_id" \

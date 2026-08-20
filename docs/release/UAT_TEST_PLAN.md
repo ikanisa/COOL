@@ -13,7 +13,8 @@ IDs, and anonymity choices.
 ## Current Automated Evidence To Attach
 
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze`: pass.
-- Full Flutter/release-doc tests: `101` tests pass.
+- Flutter validation: 492 non-golden tests and 14 governed golden tests pass;
+  the Deno Edge suite passes 11 tests.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass, evidence at
   `.cache/admin_pwa_render_smoke/20260602T081408Z`.
@@ -25,13 +26,17 @@ IDs, and anonymity choices.
 - `scripts/collect_linked_uat.sh`: pass after applying
   `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
   through the linked Supabase query path.
-- `scripts/supabase_production_readiness.sh`: pass.
+- `scripts/supabase_production_readiness.sh`: migration, schema, RLS,
+  privilege, advisor, Edge and rollback UAT gates pass; strict readiness fails
+  closed on missing FCM and Stripe provider secrets.
 - `scripts/supabase_go_live_gate.sh --json`: NO-GO on remaining approval,
   device-UAT, and release-scope blockers.
 
 Current blocked evidence:
 
-- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
+- `https://admin.collect.ikanisa.com`: deployed version
+  `ff6801b3-447d-45d0-8d50-f5369dcbce2d` passes the live gate and exact bundle
+  hash readback.
 - Production-flavor Pixel smoke passed at
   `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS
   scenario UAT is still pending.
@@ -41,7 +46,9 @@ Current blocked evidence:
   implementation/compile assertions until the current device and live-service
   evidence packet is attached.
 - Google Play restricted-permission declaration approval and live Firebase
-  server credentials/delivery evidence are pending.
+  server credentials/delivery evidence are pending. The deployed Stripe
+  functions also require governed `STRIPE_SECRET_KEY` and
+  `STRIPE_WEBHOOK_SECRET`, or an explicit release-scope exclusion.
 - Android release signing, iOS scope, product signoff, and release-owner signoff
   are pending.
 
@@ -49,13 +56,12 @@ Use the guarded Android SMS recorder for real-device scenario evidence before
 requesting UAT-05 signoff:
 
 ```bash
-make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label 'Pixel 4a UAT device' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,provider_finality,ledger_posting,balance_reconciliation,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids --sms-never-used-as-settlement --provider-finality-independently-authenticated --balances-reconciled"
+make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label 'Pixel 4a UAT device' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,balance_reconciliation,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids --balances-reconciled"
 ```
 
-Financial evidence boundary: SMS receipt, parsing, and intent allocation are
-candidate evidence only. Ledger posting must follow a separately authenticated
-provider-finality event, and payer plus group balances must reconcile
-independently.
+Financial evidence boundary: reconcile one raw receipt, one OpenAI parsed
+event, one exact matched intent and payer, one posted payment, one group credit,
+one payer credit, and the resulting group and payer balances.
 
 ## Persona Tests
 
@@ -65,7 +71,7 @@ independently.
 | UAT-02 | Android creator | Complete profile, create group, grant SMS access, share link/QR/deep link/SMS. | Receiver MoMo syncs from profile and is editable; SMS consent starts automated MoMo SMS capture. | Local tests and mobile route render. | Automated local pass; Android walkthrough signoff pending. |
 | UAT-03 | iPhone user | Tap group creation action. | Warning is exactly `group creation is available only on Android`. | Widget tests and mobile route render. | Automated local pass; iOS release-scope decision pending. |
 | UAT-04 | Member | Join/open group through share link and contribute with Collect ID-only identity. | User is identified only by Collect ID. | Local tests, mobile route render, and repository contract. | Automated local pass; shared-link human walkthrough pending. |
-| UAT-05 | Android SMS device | Receive MoMo SMS and allow automatic sync, then process independent provider finality. | SMS row reaches Supabase, parser extracts payment fields and Collect ID when present, allocation creates a candidate only; an independently authenticated provider event posts the ledger and payer/group balances reconcile. | Edge/type checks, provider-gateway tests, and linked rollback UAT. | Device/provider scenario approval pending; production-flavor Pixel smoke passed. |
+| UAT-05 | Android SMS device | Receive MoMo SMS and allow automatic sync. | SMS reaches Supabase, OpenAI extracts payment facts, one exact match posts the transaction and balanced ledger pair once, and payer/group balances reconcile; incomplete or ambiguous events stay in review. | Edge/type checks and linked rollback UAT. | Physical device scenario pending; production-flavor Pixel smoke passed. |
 | UAT-06 | Admin operator | Monitor groups, intents, SMS parsing, allocations, exceptions, ledger, and audit. | Admin sees operational state without raw SMS by default. | Admin PWA local render, live gate, and linked admin/security UAT. | Admin proof pass; human admin walkthrough/signoff pending. |
 | UAT-07 | Payments admin | Handle ambiguous event. | Reparse/review actions are reason-required and audited; no manual ledger posting shortcut. | Linked admin/security UAT and Admin PWA live gate. | Linked/admin proof pass; human payments-admin signoff pending. |
 | UAT-08 | Compliance admin | Reveal raw SMS through controlled path. | Raw SMS reveal is permission-gated, reason-required, and audited. | Linked admin/security UAT and Admin PWA live gate. | Linked/admin proof pass; sanitized compliance-admin signoff pending. |

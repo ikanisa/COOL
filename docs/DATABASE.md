@@ -3,7 +3,10 @@
 The baseline schema starts at
 `supabase/migrations/202605230001_collect_baseline.sql`. The current reviewed
 SMS-first Groups contract is the complete ordered ledger ending at
-`supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql`.
+`supabase/migrations/20260820160000_restore_momo_sms_standalone.sql`. Two
+immutable, already-deployed history migrations are retained, and the final
+forward migration removes their runtime objects and restores this standalone
+contract on both existing and fresh databases.
 
 Core data model:
 
@@ -18,12 +21,10 @@ Core data model:
 - `raw_payment_sms`: MoMo SMS rows uploaded from Android SMS access.
 - `parsed_payment_events`: OpenAI parser output and allocation status. Current
   parser output does not store payer/receiver names or raw payment reason text.
-- `payments`, `payment_allocations`: provider-awaiting candidates, posted
-  contributions, and their allocation evidence.
-- `payment_provider_confirmations`, `provider_finality_requests`: service-only
-  provider evidence and replay-safe signed-delivery audit state.
-- `ledger_entries`: immutable collection/member credits created only by a
-  matching provider confirmation.
+- `payments`, `payment_allocations`: posted contributions and their exact SMS
+  allocation evidence.
+- `ledger_entries`: immutable collection/member credits created atomically by
+  one exact standalone allocation.
 - `app_realtime_events`: invalidation stream for mobile/Admin refresh.
 
 Product rules in the database:
@@ -35,11 +36,9 @@ Product rules in the database:
 - Contributors do not update payment intents with payment references.
 - `allocate_parsed_payment_event` matches parsed MoMo SMS to pending payment
   intents by receiver, amount, time window, and explicit 6-digit Collect ID.
-  It creates no balance-bearing ledger entries and does not allocate from
-  member-entered references or contribution codes.
-- `process_provider_finality_event` is service-role-only, registers exact-body
-  replay state transactionally, and delegates to matching confirmation or
-  rejection logic.
+  One exact, complete match calls the locked posting function, while incomplete,
+  conflicting, duplicate, or ambiguous events post nothing. Member-entered
+  references and contribution codes are not allocation inputs.
 - Ambiguous or low-confidence results remain exceptions and are not posted to
   the ledger automatically.
 
@@ -56,9 +55,6 @@ Important RPCs:
 - `ingest_raw_payment_sms`
 - `claim_raw_payment_sms_for_parse`
 - `allocate_parsed_payment_event`
-- `process_provider_finality_event`
-- `confirm_provider_payment`
-- `reject_provider_payment`
 
 Removed legacy public surface in the current migration:
 

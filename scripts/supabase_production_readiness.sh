@@ -14,7 +14,6 @@ EXPECTED_FUNCTIONS=(
   dispatch-notifications
   ingest-payment-sms
   parse-payment-sms
-  provider-finality
   send-notification
   stripe-create-customer
   stripe-create-setup-intent
@@ -32,7 +31,6 @@ REQUIRED_SECRETS=(
   SEND_SMS_HOOK_SECRET
   INTERNAL_FUNCTION_SECRET
   SMS_INGEST_HMAC_SECRET
-  PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT
   PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON
   APNS_KEY_ID
   APNS_TEAM_ID
@@ -297,7 +295,6 @@ check_app_contract_columns() {
         ('raw_payment_sms', 'parse_lease_id'),
         ('parsed_payment_events', 'collection_id'),
         ('native_action_capabilities', 'request_payload'),
-        ('payment_provider_confirmations', 'provider_confirmation_id'),
         ('payments', 'posted_at')
     )
     select expected.table_name || '.' || expected.column_name
@@ -324,7 +321,11 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
   events = []
   sql.to_enum(:scan, /^create(?: unique)? index(?: if not exists)?\s+([a-zA-Z_][\w.]*)\s+on\s+([a-zA-Z_][\w.]*)/i).each do
     match = Regexp.last_match
-    events << [match.begin(0), :add_index, match[1], match[2].sub(/^public\./, "")]
+    events << [match.begin(0), :add_index, match[1].sub(/^public\./, ""), match[2].sub(/^public\./, "")]
+  end
+  sql.to_enum(:scan, /^drop index(?: if exists)?\s+([a-zA-Z_][\w.]*)/i).each do
+    match = Regexp.last_match
+    events << [match.begin(0), :drop_index, match[1].sub(/^public\./, ""), nil]
   end
   sql.to_enum(:scan, /^drop table(?: if exists)?\s+([a-zA-Z_][\w.]*)/i).each do
     match = Regexp.last_match
@@ -333,6 +334,8 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
   events.sort_by(&:first).each do |_position, action, index_name, table_name|
     if action == :add_index
       indexes[index_name] = table_name
+    elsif action == :drop_index
+      indexes.delete(index_name)
     else
       indexes.delete_if { |_name, indexed_table| indexed_table == table_name }
     end
@@ -602,8 +605,6 @@ check_sql_privileges() {
     required_service_function_grants(routine_name) as (
       values
         ('mint_native_action_capability'),
-        ('confirm_provider_payment'),
-        ('reject_provider_payment'),
         ('claim_raw_payment_sms_for_parse'),
         ('ingest_raw_payment_sms')
     ),
@@ -712,7 +713,6 @@ expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "dispatch-notifications" => :internal,
   "parse-payment-sms" => :internal,
-  "provider-finality" => :provider_finality,
   "ingest-payment-sms" => :user,
   "send-notification" => :internal,
   "stripe-create-customer" => :user,
@@ -729,13 +729,11 @@ no_verify_functions = [
   "auth-send-whatsapp-otp",
   "dispatch-notifications",
   "parse-payment-sms",
-  "provider-finality",
   "send-notification",
   "stripe-webhook",
 ]
 issues << "JWT verification disabled for unexpected functions: #{(disabled - no_verify_functions).join(", ")}" unless (disabled - no_verify_functions).empty?
 issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
-issues << "provider-finality must have verify_jwt=false because its HMAC contract is authoritative" unless disabled.include?("provider-finality")
 %w[dispatch-notifications parse-payment-sms send-notification].each do |name|
   issues << "#{name} must have verify_jwt=false because custom internal authorization is authoritative" unless disabled.include?(name)
 end
@@ -743,11 +741,6 @@ end
 expected.each do |name, mode|
   path = "supabase/functions/#{name}/index.ts"
   source = File.read(path)
-  if mode == :provider_finality
-    source += File.read("supabase/functions/_shared/provider_finality_handler.ts")
-    source += File.read("supabase/functions/_shared/provider_finality_signature.ts")
-    source += File.read("supabase/functions/_shared/provider_finality_payload.ts")
-  end
   case mode
   when :webhook
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
@@ -756,12 +749,6 @@ expected.each do |name, mode|
     issues << "#{name} must verify STRIPE_WEBHOOK_SECRET" unless source.include?("STRIPE_WEBHOOK_SECRET")
     issues << "#{name} must verify the stripe-signature header" unless source.include?("stripe-signature")
     issues << "#{name} must write webhook events through the service client" unless source.include?("stripe_webhook_events") && source.include?("serviceClient()")
-    issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
-  when :provider_finality
-    issues << "#{name} must require its dedicated current HMAC secret" unless source.include?("PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT")
-    issues << "#{name} must support an optional previous rotation key" unless source.include?("PAYMENT_PROVIDER_FINALITY_SECRET_PREVIOUS")
-    issues << "#{name} must verify signed timestamp/request-id/body bytes" unless source.include?("verifyProviderFinalitySignature(")
-    issues << "#{name} must use the atomic replay-safe database RPC" unless source.include?("process_provider_finality_event")
     issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
   when :internal
     issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
@@ -775,7 +762,7 @@ expected.each do |name, mode|
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-issues << "deploy script must deploy webhook/provider endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("provider-finality") && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
+issues << "deploy script must deploy webhook and internal endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
 
 if issues.any?
   warn issues.join("\n")
@@ -997,9 +984,9 @@ main() {
   "$ROOT_DIR/scripts/collect_admin_security_uat.sh"
   check_edge_function_auth_contract
   check_functions
-  check_secrets
   check_auth_config
   check_platform_settings
+  check_secrets
   check_strict_platform_issues
 
   log "code-owned Supabase readiness checks passed"

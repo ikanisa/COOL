@@ -456,7 +456,9 @@ Date/time: 2026-06-01T12:30:00Z
       isNot(contains('https://cool-admin-212.pages.dev')),
     );
     expect(docs['checklist'], contains('release_owner_signoff'));
-    expect(docs['qa'], contains('510 tests'));
+    expect(docs['qa'], contains('492 tests'));
+    expect(docs['qa'], contains('14 tests'));
+    expect(docs['qa'], contains('11 tests'));
     expect(docs['packet'], contains('Required Final Commands'));
     expect(docs['approval'], contains('RELEASE_APPROVAL_PACKET'));
     expect(docs['approval'], contains('product_signoff'));
@@ -494,13 +496,15 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, isNot(contains('20260602T210133Z')));
     expect(uatManifest, isNot(contains('20260602T050529Z')));
     expect(uatManifest, isNot(contains('20260601T204710Z')));
-    expect(docs['qa'], contains('Full `flutter test -r compact`'));
+    expect(docs['qa'], contains('Flutter non-golden suite'));
     expect(docs['qa'], contains('Supabase contract suite'));
-    expect(docs['qa'], contains('78 migrations'));
-    expect(docs['qa'], contains('Current evidence is synthetic, local'));
+    expect(docs['qa'], contains('79 migrations'));
+    expect(
+      docs['qa'],
+      contains('Current database evidence is synthetic and rollback-only'),
+    );
     expect(docs['qa'], contains('standalone group-contribution system'));
-    expect(docs['qa'], contains('no ledger before'));
-    expect(docs['qa'], contains('provider-finality'));
+    expect(docs['qa'], contains('balanced ledger'));
     expect(docs['checklist'], contains('Collect product-boundary scan'));
     expect(docs['qa'], contains('staged `inProgress` rollout'));
     expect(docs['qa'], contains('version `1.2.2+20`'));
@@ -3830,7 +3834,7 @@ checking Edge Function secret names
           '--device-label',
           'Pixel 4a UAT device',
           '--scenarios',
-          'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,provider_finality,ledger_posting,balance_reconciliation,privacy',
+          'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,balance_reconciliation,privacy',
           '--evidence-summary',
           'Sanitized Android SMS UAT metadata confirms consent, upload, parser, allocation, exception, ledger, retry, and privacy scenarios.',
           '--sanitized-evidence',
@@ -3838,8 +3842,6 @@ checking Edge Function secret names
           '--raw-sms-not-public',
           '--no-phone-or-momo',
           '--no-transaction-ids',
-          '--sms-never-used-as-settlement',
-          '--provider-finality-independently-authenticated',
           '--balances-reconciled',
         ],
       );
@@ -3857,16 +3859,15 @@ checking Edge Function secret names
               as Map<String, dynamic>;
       expect(evidence['status'], 'recorded');
       expect(evidence['approval_status'], 'not_approved_by_recorder');
-      expect(evidence['scenario_count'], 11);
+      expect(evidence['scenario_count'], 10);
       expect(evidence['assertions']['raw_sms_public'], isFalse);
-      expect(evidence['assertions']['sms_never_used_as_settlement'], isTrue);
-      expect(evidence['assertions']['provider_finality_verified'], isTrue);
-      expect(
-        evidence['assertions']['provider_finality_independently_authenticated'],
-        isTrue,
-      );
+      expect(evidence['assertions']['ledger_posting_verified'], isTrue);
       expect(evidence['assertions']['balance_reconciliation_verified'], isTrue);
       expect(evidence['assertions']['balances_reconciled'], isTrue);
+      expect(
+        evidence['financial_evidence_boundary'],
+        contains('one raw receipt, one OpenAI parsed event'),
+      );
 
       final manifest =
           jsonDecode(manifestFile.readAsStringSync()) as Map<String, dynamic>;
@@ -3895,7 +3896,7 @@ checking Edge Function secret names
     }
   });
 
-  test('Android SMS UAT evidence recorder rejects SMS-only settlement proof', () {
+  test('Android SMS UAT evidence requires balance reconciliation', () {
     Directory('.cache').createSync();
     final tempDir = Directory.systemTemp.createTempSync(
       'cool_android_sms_uat_',
@@ -3927,7 +3928,7 @@ checking Edge Function secret names
           '--scenarios',
           'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy',
           '--evidence-summary',
-          'Sanitized SMS-only evidence without independent settlement proof.',
+          'Sanitized Android SMS evidence without balance reconciliation.',
           '--sanitized-evidence',
           '--no-production-customer-data',
           '--raw-sms-not-public',
@@ -3937,17 +3938,7 @@ checking Edge Function secret names
       );
 
       expect(result.exitCode, 1);
-      expect(result.stderr.toString(), contains('provider_finality'));
-      expect(
-        result.stderr.toString(),
-        contains('--sms-never-used-as-settlement is required.'),
-      );
-      expect(
-        result.stderr.toString(),
-        contains(
-          '--provider-finality-independently-authenticated is required.',
-        ),
-      );
+      expect(result.stderr.toString(), contains('balance_reconciliation'));
       expect(
         result.stderr.toString(),
         contains('--balances-reconciled is required.'),
@@ -3991,7 +3982,7 @@ checking Edge Function secret names
           '--device-label',
           'Pixel 4a UAT device',
           '--scenarios',
-          'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,provider_finality,ledger_posting,balance_reconciliation,privacy',
+          'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,balance_reconciliation,privacy',
           '--evidence-summary',
           'Reviewer pasted MoMo transaction id 123456 into the evidence.',
           '--sanitized-evidence',
@@ -3999,8 +3990,6 @@ checking Edge Function secret names
           '--raw-sms-not-public',
           '--no-phone-or-momo',
           '--no-transaction-ids',
-          '--sms-never-used-as-settlement',
-          '--provider-finality-independently-authenticated',
           '--balances-reconciled',
         ],
       );

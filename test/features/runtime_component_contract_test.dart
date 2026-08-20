@@ -952,9 +952,9 @@ void main() {
     expect(find.text('078***3456'), findsOneWidget);
     expect(find.text('Payment intent'), findsNothing);
     expect(find.text('Intent'), findsNothing);
-    expect(find.text('Receipt and provider verification'), findsOneWidget);
+    expect(find.text('Receipt verification'), findsOneWidget);
     expect(
-      find.textContaining('independent provider confirmation'),
+      find.textContaining('OpenAI-parsed receipt posts automatically'),
       findsOneWidget,
     );
     expect(find.text('Recorded'), findsNothing);

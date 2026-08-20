@@ -6,9 +6,9 @@ Product boundary: SMS-first Groups
 
 Current override: the build-14 and earlier build-20 records below are retained
 as historical store/artifact evidence. They predate the current attested group
-creation, provider-finality, atomic SMS ingestion and release-control changes
+creation, atomic SMS ingestion and release-control changes
 and cannot authorize the present source. The current decision is **NO-GO**
-pending authorized production/public deployment, provider reconciliation, fresh
+pending authorized production/public deployment, balance reconciliation, fresh
 artifact-bound physical/TalkBack UAT, Google restricted-SMS/release approval,
 public availability and monitored staged rollout.
 
@@ -22,12 +22,13 @@ signature checks and nine-artifact Android/Admin manifest pass. The mobile
 release gate remains blocked because `android_release_signing_review` is still
 bound to historical build 14 rather than these hashes. No upload occurred.
 
-The current read-only backend recheck is also fail-closed: production has
-321/341 expected schema objects and 10/11 expected Edge Functions. The missing
-Edge Function is `provider-finality`; required-secret name inventory also lacks
-`PAYMENT_PROVIDER_FINALITY_SECRET_CURRENT` and the previously open
-`FCM_SERVICE_ACCOUNT_JSON`. No production mutation or secret-value read was
-performed.
+The production backend recheck completed through the linked Supabase management
+path. Production matches all 79 migrations and all 336 expected schema objects,
+has RLS on 60/60 public tables and 153 policies, and both the linked SMS/ledger
+and Admin security rollback UATs pass. All 19 downloaded files across the 10
+deployed Edge Functions match the repository. Full readiness remains fail-closed
+because `FCM_SERVICE_ACCOUNT_JSON`, `STRIPE_SECRET_KEY`, and
+`STRIPE_WEBHOOK_SECRET` are absent. No secret values were recorded.
 
 Canonical machine-readable inputs:
 
@@ -40,7 +41,7 @@ Canonical machine-readable inputs:
 
 The historical `1.2.2+14` candidate had artifact-bound Android technical
 signing approval. Final accountable release-owner sign-off for a new candidate is intentionally
-**PENDING** until provider setup, physical-device testing, CI, policy/legal
+**PENDING** until physical-device testing, CI, policy/legal
 attestations, and the remaining store-console checks are complete. General
 execution authorization is not treated as final go-live approval.
 
@@ -125,14 +126,15 @@ The current submission status is:
   accessibility, or long-session evidence.
 - GitHub Actions are pinned to immutable commit SHAs. The Ruby dependency audit
   reports no known vulnerabilities with Fastlane 2.237.0 and Excon 1.7.0.
-- Live Supabase reconciliation passes 62/62 migrations, 313/313 schema objects,
-  58/58 RLS-enabled public tables, the 153-policy privilege contract, linked
-  SMS/Admin rollback UAT, and error-level security/performance advisors. All 11
-  Edge Functions were redeployed and their downloaded production source matches
+- Live Supabase reconciliation passes 79/79 migrations, 336/336 schema objects,
+  60/60 RLS-enabled public tables, the 153-policy privilege contract, linked
+  SMS/Admin rollback UAT, and error-level security/performance advisors. All 10
+  deployed Edge Functions were downloaded and their production source matches
   the repository exactly across 19 deployed files.
 - A dedicated Collect APNs key is installed in Supabase. Strict Supabase
-  readiness now stops only on the missing least-privilege FCM service-account
-  JSON; see `docs/release/SUPABASE_PRODUCTION_AUDIT_2026-08-09.md`.
+  readiness now stops on the missing least-privilege FCM service-account JSON
+  and the two Stripe provider secrets required by the deployed diaspora
+  functions; see `docs/release/SUPABASE_PRODUCTION_AUDIT_2026-08-09.md`.
 
 ## Remaining external and acceptance gates
 
@@ -145,9 +147,11 @@ The exact ordered closure list is maintained in
 2. Complete Google Cloud re-verification, create the dedicated least-privilege
    FCM sender, install `FCM_SERVICE_ACCOUNT_JSON`, and prove APNs/FCM foreground,
    background, terminated-state, tap-routing, token-refresh, and denial/recovery
-   delivery. APNs is already configured. Separately, the current SMS-first
-   payment journey requires an approved provider/bank settlement source for the
-   signed finality gateway; SMS alone cannot authorize a balance change.
+   delivery. APNs is already configured. If diaspora contributions remain in
+   release scope, provision `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` and
+   run Stripe create/setup/contribution/webhook UAT. Separately, the current SMS-first
+   payment journey requires the production OpenAI parser, exact-match allocator,
+   and balanced-ledger reconciliation to pass together.
 3. Complete fresh physical Android and iPhone UAT, including native permission
    dialogs, TalkBack/VoiceOver, large text, offline recovery, lifecycle, camera,
    notification, and Android receive-only SMS acceptance. The current physical

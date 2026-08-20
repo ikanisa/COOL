@@ -12,7 +12,7 @@ const collectDefaultAdminUrl = 'https://admin.collect.ikanisa.com';
 const collectDefaultAppDownloadUrl =
     'https://play.google.com/store/apps/details?id=app.cool.mobile';
 const collectDefaultRegulatoryFooterNote =
-    'IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply.';
+    'IKANISA Ltd. operates Collect, a standalone group-contribution record system.';
 const collectDefaultWhatsAppSupportPhone = '250795588248';
 const collectDefaultWhatsAppSupportDisplay = '+250 795 588 248';
 const collectDefaultSupportEmail = 'info@ikanisa.com';

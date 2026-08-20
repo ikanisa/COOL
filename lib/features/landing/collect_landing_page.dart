@@ -4,162 +4,588 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme/collect_colors.dart';
-import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
-import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import 'public_content.dart';
 
 export 'public_content.dart';
 
-part 'collect_public_page.dart';
-part 'collect_public_page_hero.dart';
-part 'collect_public_page_infographic.dart';
-part 'collect_public_page_sections.dart';
-part 'collect_public_page_summary.dart';
-part 'collect_home_hero.dart';
-part 'collect_home_access_trust.dart';
-part 'collect_home_audience_metrics.dart';
-part 'collect_home_customer_action.dart';
-part 'collect_home_footer.dart';
-part 'collect_home_interactions.dart';
-part 'collect_home_offer_sections.dart';
-part 'collect_home_product_media.dart';
-part 'collect_home_phone_preview.dart';
-part 'collect_home_evidence_media.dart';
-part 'collect_home_sections.dart';
-part 'collect_landing_primitives.dart';
-
-const _customerCtaKey = ValueKey<String>('collect-customer-action');
-
-class CollectLandingPage extends StatelessWidget {
+class CollectLandingPage extends ConsumerWidget {
   const CollectLandingPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(collectRuntimeConfigProvider);
+    return Scaffold(
       backgroundColor: CollectColors.brandPaper,
       body: SelectionArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: _LandingHero()),
-            SliverToBoxAdapter(child: _AudienceConversionSection()),
-            SliverToBoxAdapter(child: _AppAccessSection()),
-            SliverToBoxAdapter(child: _TrustProofSection()),
+            SliverAppBar(
+              pinned: true,
+              backgroundColor: CollectColors.brandPaper,
+              foregroundColor: CollectColors.referenceChromeBlack,
+              title: const Text('Collect'),
+              actions: [
+                IconButton(
+                  tooltip: 'How it works',
+                  onPressed: () => context.go('/group-savings'),
+                  icon: const Icon(Icons.menu_book_outlined),
+                ),
+                IconButton(
+                  tooltip: 'Trust and security',
+                  onPressed: () => context.go('/trust'),
+                  icon: const Icon(Icons.shield_outlined),
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
             SliverToBoxAdapter(
-              child: _SectionBand(
-                background: CollectColors.brandPaper,
-                child: _SplitSection(
-                  title: 'The rhythm gap for daily-income earners',
-                  body:
-                      'Income comes daily, but money systems are built for monthly cycles. Collect fits the daily rhythm: save today, insure today, repay today and build a record over time.',
-                  steps: [
-                    LandingStepData(
-                      icon: Icons.person_outline,
-                      title: 'Daily income',
-                      body: 'Small, irregular earnings.',
-                      color: CollectColors.brandDustyRose,
-                    ),
-                    LandingStepData(
-                      icon: Icons.calendar_today_outlined,
-                      title: 'Monthly systems',
-                      body: 'High-friction files and lump-sum expectations.',
-                      color: CollectColors.publicMutedGrey,
-                    ),
-                    LandingStepData(
-                      icon: Icons.lock_outline,
-                      title: 'Access denied',
-                      body: 'Savings, credit and protection stay out of reach.',
-                      color: CollectColors.brandDustyRose,
-                    ),
-                  ],
+              child: _PageWidth(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 72),
+                  child: Wrap(
+                    spacing: 56,
+                    runSpacing: 40,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 620,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'MoMo contributions, captured automatically.',
+                              style: Theme.of(context).textTheme.displayMedium
+                                  ?.copyWith(
+                                    color: CollectColors.referenceChromeBlack,
+                                    fontWeight: CollectTypography.weightBold,
+                                    height: CollectTypography.leadingDisplay,
+                                  ),
+                            ),
+                            const SizedBox(height: 24),
+                            Text(
+                              'Create a group, invite members and contribute through MoMo. On Android, Collect listens only after clear SMS permission, sends opted-in payment receipts to its secure backend, uses OpenAI to extract the receipt facts and updates the group ledger when one exact payer request matches.',
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(
+                                    color: CollectColors.inkSecondary,
+                                    height: CollectTypography.leadingBody,
+                                  ),
+                            ),
+                            const SizedBox(height: 28),
+                            Wrap(
+                              spacing: 12,
+                              runSpacing: 12,
+                              children: [
+                                FilledButton.icon(
+                                  onPressed: () =>
+                                      _openUri(context, config.appDownloadUrl),
+                                  icon: const Icon(Icons.download_rounded),
+                                  label: const Text('Get the App'),
+                                ),
+                                OutlinedButton.icon(
+                                  onPressed: () => context.go('/group-savings'),
+                                  icon: const Icon(Icons.groups_rounded),
+                                  label: const Text('Create Group'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 330, child: _JourneyPreview()),
+                    ],
+                  ),
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: _JourneySection()),
+            const SliverToBoxAdapter(child: _SafetySection()),
             SliverToBoxAdapter(
-              child: _SectionBand(
-                background: CollectColors.publicWhite,
-                child: _SplitSection(
-                  title: 'How ibimina become verified records',
-                  body:
-                      'IKANISA helps trusted groups turn saving discipline into clearer records, statements and credit-readiness signals.',
-                  steps: [
-                    LandingStepData(
-                      icon: Icons.groups_outlined,
-                      title: 'Form a group',
-                      body: 'Members agree on rules and savings goals.',
-                      color: CollectColors.brandPeriwinkle,
-                    ),
-                    LandingStepData(
-                      icon: Icons.savings_outlined,
-                      title: 'Save daily',
-                      body: 'MoMo, app or agent-backed deposits.',
-                      color: CollectColors.brandMintGreen,
-                    ),
-                    LandingStepData(
-                      icon: Icons.receipt_long_outlined,
-                      title: 'Verified ledger',
-                      body:
-                          'Pay-ins, fund movements and decisions in real time.',
-                      color: CollectColors.brandDustyRose,
-                    ),
-                    LandingStepData(
-                      icon: Icons.query_stats_outlined,
-                      title: 'Credit signals',
-                      body: 'Discipline, frequency and tenure build readiness.',
-                      color: CollectColors.brandPeriwinkle,
-                    ),
-                  ],
-                ),
+              child: _PublicFooter(
+                supportEmail: config.supportEmail,
+                supportPhone: config.whatsAppSupportDisplay,
               ),
             ),
-            SliverToBoxAdapter(
-              child: _SectionBand(
-                background: CollectColors.publicMintSurface,
-                child: _SplitSection(
-                  title:
-                      'Diaspora savings with custody records and collateral rules',
-                  body:
-                      'Diaspora groups save together in the host country, maintain custody records, ring-fence agreed collateral and prepare eligible members for Rwanda investment.',
-                  steps: [
-                    LandingStepData(
-                      icon: Icons.people_alt_outlined,
-                      title: 'Diaspora group',
-                      body: 'Members save together in the host country.',
-                      color: CollectColors.brandMintGreen,
-                    ),
-                    LandingStepData(
-                      icon: Icons.account_balance_outlined,
-                      title: 'Custody records',
-                      body: 'Savings records remain clear and traceable.',
-                      color: CollectColors.inkPrimary,
-                    ),
-                    LandingStepData(
-                      icon: Icons.verified_user_outlined,
-                      title: 'Collateral lock',
-                      body: 'An agreed share of the pool is ring-fenced.',
-                      color: CollectColors.brandMintGreen,
-                    ),
-                    LandingStepData(
-                      icon: Icons.location_on_outlined,
-                      title: 'Invest in Rwanda',
-                      body: 'Property, SMEs, startups, agriculture and assets.',
-                      color: CollectColors.brandMintGreen,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(child: _InsuranceSection()),
-            SliverToBoxAdapter(child: _ProductMediaSection()),
-            SliverToBoxAdapter(child: _CraasSection()),
-            SliverToBoxAdapter(child: _StakeholderSection()),
-            SliverToBoxAdapter(child: _CustomerActionSection()),
-            SliverToBoxAdapter(child: _LandingFooter()),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CollectPublicPage extends ConsumerWidget {
+  const CollectPublicPage({required this.data, super.key});
+
+  final CollectPublicPageData data;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(collectRuntimeConfigProvider);
+    return Scaffold(
+      backgroundColor: CollectColors.brandPaper,
+      appBar: AppBar(
+        backgroundColor: CollectColors.brandPaper,
+        title: Text(data.navLabel),
+        leading: IconButton(
+          tooltip: 'Collect home',
+          onPressed: () => context.go('/'),
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        actions: [
+          IconButton(
+            tooltip: 'Get the App',
+            onPressed: () => _openUri(context, config.appDownloadUrl),
+            icon: const Icon(Icons.download_rounded),
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+      body: SelectionArea(
+        child: ListView(
+          padding: const EdgeInsets.only(bottom: 0),
+          children: [
+            _PageWidth(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 56),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      publicSummaryLabel(data),
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: CollectColors.brandPeriwinkle,
+                        fontWeight: CollectTypography.weightBold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      data.title,
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        color: CollectColors.referenceChromeBlack,
+                        fontWeight: CollectTypography.weightBold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 760),
+                      child: Text(
+                        data.intro,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: CollectColors.inkSecondary,
+                          height: CollectTypography.leadingBody,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 36),
+                    for (final section in data.sections)
+                      _PublicSection(section: section),
+                    if (!data.isPolicy)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: FilledButton.icon(
+                          onPressed: () =>
+                              _openUri(context, config.appDownloadUrl),
+                          icon: const Icon(Icons.download_rounded),
+                          label: const Text('Get the App'),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            _PublicFooter(
+              supportEmail: config.supportEmail,
+              supportPhone: config.whatsAppSupportDisplay,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _JourneyPreview extends StatelessWidget {
+  const _JourneyPreview();
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: CollectColors.publicWhite,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Contribution received',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: CollectTypography.weightBold,
+              ),
+            ),
+            const SizedBox(height: 18),
+            const _PreviewRow(label: 'Payment request', value: 'RWF 10,000'),
+            const _PreviewRow(label: 'Receipt', value: 'Captured'),
+            const _PreviewRow(label: 'Match', value: 'Exact'),
+            const Divider(height: 28),
+            const _PreviewRow(label: 'Group balance', value: '+ RWF 10,000'),
+            const _PreviewRow(label: 'Your balance', value: '+ RWF 10,000'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PreviewRow extends StatelessWidget {
+  const _PreviewRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontWeight: CollectTypography.weightBold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _JourneySection extends StatelessWidget {
+  const _JourneySection();
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: CollectColors.publicWhite,
+      child: _PageWidth(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 64),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'One clear contribution journey',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              const SizedBox(height: 28),
+              const Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: [
+                  _StepCard(
+                    number: '1',
+                    title: 'Create or join',
+                    body: 'Use a private link or QR code to join the group.',
+                  ),
+                  _StepCard(
+                    number: '2',
+                    title: 'Request an amount',
+                    body: 'Collect creates one pending request for this payer.',
+                  ),
+                  _StepCard(
+                    number: '3',
+                    title: 'Pay through MoMo',
+                    body: 'The member approves payment outside Collect.',
+                  ),
+                  _StepCard(
+                    number: '4',
+                    title: 'See the ledger update',
+                    body: 'One exact receipt match updates both balances.',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StepCard extends StatelessWidget {
+  const _StepCard({
+    required this.number,
+    required this.title,
+    required this.body,
+  });
+
+  final String number;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 250,
+      child: Card(
+        color: CollectColors.brandPaper,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(child: Text(number)),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(body),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SafetySection extends StatelessWidget {
+  const _SafetySection();
+
+  @override
+  Widget build(BuildContext context) {
+    return _PageWidth(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 64),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Standalone and privacy-first',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: CollectTypography.weightBold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Collect records direct MoMo contributions. It does not hold group funds, sell financial products or ask members to paste receipts and transaction IDs.',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: CollectColors.inkSecondary,
+                height: CollectTypography.leadingBody,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                _SafetyCard(
+                  icon: Icons.sms_outlined,
+                  title: 'Clear SMS permission',
+                  body: 'Android explains access before the system prompt.',
+                ),
+                _SafetyCard(
+                  icon: Icons.auto_awesome_outlined,
+                  title: 'OpenAI extraction',
+                  body: 'The secure backend extracts only receipt facts.',
+                ),
+                _SafetyCard(
+                  icon: Icons.rule_rounded,
+                  title: 'Exact server match',
+                  body: 'Incomplete or ambiguous evidence posts nothing.',
+                ),
+                _SafetyCard(
+                  icon: Icons.balance_rounded,
+                  title: 'Balanced ledger',
+                  body: 'Group and payer balances update together.',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SafetyCard extends StatelessWidget {
+  const _SafetyCard({
+    required this.icon,
+    required this.title,
+    required this.body,
+  });
+
+  final IconData icon;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 250,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, color: CollectColors.brandPeriwinkle),
+              const SizedBox(height: 14),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(body),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PublicSection extends StatelessWidget {
+  const _PublicSection({required this.section});
+
+  final CollectPublicSectionData section;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 32),
+      child: Card(
+        color: CollectColors.publicWhite,
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                section.title,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(section.body),
+              if (section.bullets.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                for (final bullet in section.bullets)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 3),
+                          child: Icon(Icons.check_circle_outline, size: 18),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(child: Text(bullet)),
+                      ],
+                    ),
+                  ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PublicFooter extends StatelessWidget {
+  const _PublicFooter({required this.supportEmail, required this.supportPhone});
+
+  final String supportEmail;
+  final String supportPhone;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: CollectColors.referenceChromeBlack,
+      child: _PageWidth(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 28),
+          child: Wrap(
+            spacing: 20,
+            runSpacing: 12,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                'Collect by IKANISA',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              TextButton(
+                onPressed: () => context.go('/group-savings'),
+                child: const Text('How it works'),
+              ),
+              TextButton(
+                onPressed: () => context.go('/privacy'),
+                child: const Text('Privacy'),
+              ),
+              TextButton(
+                onPressed: () => context.go('/terms'),
+                child: const Text('Terms'),
+              ),
+              Text(
+                '$supportEmail · $supportPhone',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PageWidth extends StatelessWidget {
+  const _PageWidth({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1160),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x6),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+Future<void> _openUri(BuildContext context, String rawUri) async {
+  final uri = Uri.tryParse(rawUri.trim());
+  if (uri != null &&
+      await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+    return;
+  }
+  if (context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('This link is unavailable right now.')),
     );
   }
 }

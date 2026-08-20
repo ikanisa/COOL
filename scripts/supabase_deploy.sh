@@ -14,11 +14,10 @@ EXPECTED_FUNCTIONS=(
   dispatch-notifications
   ingest-payment-sms
   parse-payment-sms
-  provider-finality
   send-notification
   stripe-create-customer
-  stripe-create-setup-intent
   stripe-create-diaspora-contribution
+  stripe-create-setup-intent
   stripe-webhook
   verify-play-integrity
 )
@@ -27,7 +26,6 @@ NO_VERIFY_JWT_FUNCTIONS=(
   auth-send-whatsapp-otp
   dispatch-notifications
   parse-payment-sms
-  provider-finality
   send-notification
   stripe-webhook
 )

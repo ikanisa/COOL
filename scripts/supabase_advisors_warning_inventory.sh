@@ -60,9 +60,11 @@ allowed_security_max = {
   # and GraphQL with RLS-limited published/enabled rows.
   "pg_graphql_anon_table_exposed" => 20,
   # The post-20260804 increases are the two authenticated, own-row request
-  # tables and notification_events. Each remains RLS-scoped; the service-only
-  # notification delivery and attempt tables are explicitly revoked.
-  "pg_graphql_authenticated_table_exposed" => 35,
+  # tables and notification_events. The post-20260812080000 restoration adds
+  # notification_preferences because the mobile client reads and upserts only
+  # the signed-in user's RLS-scoped row. Service-only notification delivery and
+  # attempt tables remain explicitly revoked.
+  "pg_graphql_authenticated_table_exposed" => 36,
   # get_active_policy_document(), list_account_request_reasons(), and
   # collection_is_public_approved() are public read-only helpers. The latter
   # returns one public-approval boolean for RLS policy evaluation; all run with

@@ -164,7 +164,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
         const InfoSecurityBanner(
           title: 'Restricted SMS permission',
           message:
-              'Android SMS access is optional and consent-gated. New MoMo messages are encrypted while queued, uploaded when Collect opens or resumes, and parsed through the server-side OpenAI API. An exact match remains pending until independent provider confirmation; only then can it reach the ledger. Store distribution remains subject to Google Play approval.',
+              'Android SMS access is optional and consent-gated. New MoMo messages are encrypted while queued, uploaded when Collect opens or resumes, and parsed through the server-side OpenAI API. One complete, high-confidence receipt posts automatically only when its transaction, amount, receiver, payer, and pending request match exactly. Incomplete or ambiguous receipts stay in review. Store distribution remains subject to Google Play approval.',
           tone: CollectStatusTone.warning,
         ),
       ],
@@ -218,7 +218,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
             icon: const Icon(CollectIcons.sms),
             title: const Text('Allow MoMo SMS access?'),
             content: const Text(
-              'Collect will capture only new MTN or Airtel mobile-money transaction messages after permission is granted. It does not read inbox history or unrelated SMS. Pending receipts are encrypted on this device and sent through Collect servers to the OpenAI API for structured parsing. They are deleted from the device queue only after durable ingestion and parsing. An exact match creates a review candidate; the contribution and balances post only after independent provider confirmation.',
+              'Collect will capture only new MTN or Airtel mobile-money transaction messages after permission is granted. It does not read inbox history or unrelated SMS. Pending receipts are encrypted on this device and sent through Collect servers to the OpenAI API for structured parsing. They are deleted from the device queue only after durable ingestion and parsing. A complete, high-confidence receipt posts only after one exact match to the receiver, payer, amount, transaction, time window, and pending contribution request; incomplete or ambiguous receipts stay in review.',
             ),
             actions: [
               TextButton(

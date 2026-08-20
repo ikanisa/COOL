@@ -342,43 +342,67 @@ from public.create_contribution_intent(
 \gset
 
 reset role;
-insert into public.payments (
-  payment_intent_id,
+insert into public.raw_payment_sms (
   collection_id,
-  contributor_user_id,
-  contributor_public_id,
   receiver_user_id,
+  raw_sender,
+  raw_body,
+  body_hash,
   receiver_momo_number_hash,
-  amount_rwf,
-  transaction_id,
-  source,
-  status,
-  anonymity_choice,
-  provider_network
+  received_at_device,
+  parse_status
 )
 values (
-  :'intent_id',
-  :'collection_id',
-  :'member_id',
-  '810002',
+  null,
   :'owner_id',
-  encode(extensions.digest('+250788100001', 'sha256'), 'hex'),
-  5000,
-  'GROUP-JOURNEY-UAT-001',
-  'sms_auto',
-  'review',
-  'public_id',
-  'mtn_momo'
-) returning id as payment_id
+  'MTN MOMO',
+  'GROUP-JOURNEY-UAT standalone OpenAI parse result',
+  encode(extensions.digest('GROUP-JOURNEY-UAT standalone OpenAI parse result', 'sha256'), 'hex'),
+  null,
+  now(),
+  'parsed'
+) returning id as raw_sms_id
 \gset
 
-select pg_temp.assert_true(
-  not exists (
-    select 1 from public.ledger_entries entry
-    where entry.payment_id = :'payment_id'
-  ),
-  'SMS-matched review candidates must not affect balances'
-);
+insert into public.parsed_payment_events (
+  raw_sms_id,
+  collection_id,
+  receiver_user_id,
+  is_mobile_money_payment,
+  network,
+  direction,
+  amount_rwf,
+  currency,
+  transaction_id,
+  sender_phone_hash,
+  receiver_phone_hash,
+  detected_user_public_id,
+  confidence,
+  parser_model,
+  parser_schema_version,
+  parsed_json,
+  allocation_status
+)
+values (
+  :'raw_sms_id',
+  null,
+  :'owner_id',
+  true,
+  'mtn_momo',
+  'incoming',
+  5000,
+  'RWF',
+  'GROUP-JOURNEY-UAT-001',
+  encode(extensions.digest('+250788100002', 'sha256'), 'hex'),
+  null,
+  '810002',
+  0.99,
+  'uat-stored-openai-result',
+  'collect.sms_parser.openai.v2',
+  jsonb_build_object('sender_phone', '[hashed]', 'receiver_phone', null),
+  'unallocated'
+) returning id as event_id
+\gset
 
 set local role service_role;
 select set_config(
@@ -386,18 +410,25 @@ select set_config(
   json_build_object('role', 'service_role')::text,
   true
 );
-select public.confirm_provider_payment(
-  :'payment_id',
-  'mtn_momo',
-  'GROUP-JOURNEY-UAT-001',
-  'GROUP-JOURNEY-CONFIRM-001',
-  encode(extensions.digest('+250788100001', 'sha256'), 'hex'),
-  5000,
-  now(),
-  repeat('b', 64)
-);
+select public.allocate_parsed_payment_event(:'event_id') as allocation_status
+\gset
 
 reset role;
+select pg_temp.assert_true(
+  :'allocation_status' = 'allocated',
+  'one exact OpenAI-parsed SMS event must allocate automatically'
+);
+select pg_temp.assert_true(
+  (
+    select count(*) = 2
+    from public.ledger_entries entry
+    join public.payments payment on payment.id = entry.payment_id
+    where payment.parsed_event_id = :'event_id'
+      and entry.entry_type in ('collection_credit', 'member_credit')
+  ),
+  'standalone allocation must atomically create group and payer credits'
+);
+
 set local role authenticated;
 select set_config(
   'request.jwt.claims',

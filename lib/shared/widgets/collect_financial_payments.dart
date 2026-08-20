@@ -189,9 +189,9 @@ class PaymentIntentStatusCard extends StatelessWidget {
           ),
           CollectSpacing.gap16,
           const InfoSecurityBanner(
-            title: 'Receipt and provider verification',
+            title: 'Receipt verification',
             message:
-                'SMS can match this request, but the ledger updates only after independent provider confirmation.',
+                'A complete OpenAI-parsed receipt posts automatically only after one exact match to this pending payer request. Incomplete or ambiguous receipts stay in review.',
             tone: CollectStatusTone.privacy,
           ),
         ],

@@ -755,9 +755,9 @@ void main() {
   test('orange is reserved away from routine CTA and decorative surfaces', () {
     for (final path in <String>[
       'lib/features/landing/collect_landing_page.dart',
-      'lib/features/landing/collect_home_access_trust.dart',
-      'lib/features/landing/collect_home_hero.dart',
-      'lib/features/landing/public_infographic_content.dart',
+      'lib/features/landing/public_marketing_page_content.dart',
+      'lib/features/landing/public_page_content.dart',
+      'lib/features/landing/public_policy_page_content.dart',
     ]) {
       expect(
         File(path).readAsStringSync(),

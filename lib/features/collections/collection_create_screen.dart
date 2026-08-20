@@ -517,7 +517,7 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
                 _permissionError ??
                     (unavailable
                         ? 'Receiver mode is Android-only and requires the approved production SMS capability.'
-                        : 'Collect captures new receipt candidates on this Android device. Ledger balances change only after independent provider confirmation. Collect never reads old messages or sends SMS.'),
+                        : 'Collect captures new MoMo receipts on this Android device. The server-side OpenAI parser posts only one complete, high-confidence receipt that exactly matches a pending payer request. Collect never reads old messages or sends SMS.'),
               ),
               CollectSpacing.gap16,
               if (!_permissionChecking && !unavailable)

@@ -88,19 +88,20 @@ Mobile app routes:
 7. On supported Android builds, the allowlisted native `ACTION_CALL` bridge opens
    only the exact Collect merchant USSD request; the member confirms all carrier,
    PIN, and final payment steps.
-8. MoMo SMS is atomically uploaded to Supabase, leased to the parser and matched
-   to the pending intent as evidence awaiting provider confirmation. SMS alone
-   never changes a balance. Only an authenticated service-side provider finality
-   event posts exactly one collection credit and one payer credit. Server-owned
-   aggregate RPCs expose group and current-payer balances without exposing other
-   payers' private payment rows.
+8. MoMo SMS is atomically uploaded to Supabase and leased to the OpenAI parser.
+   Postgres posts the contribution only when the structured result is complete,
+   high-confidence, and matches exactly one pending request by transaction,
+   receiver ownership, amount, payer identity, and time window. The transaction
+   atomically creates one collection credit and one payer credit; incomplete or
+   ambiguous results stay in review. Server-owned aggregate RPCs expose group
+   and current-payer balances without exposing other payers' private rows.
 
 The current group-journey hardening is the reviewed migration chain from
 `20260815050900_harden_momo_sms_standalone_posting.sql` through
-`20260815084500_revoke_non_dml_table_privileges.sql`. It adds server-attested,
+`20260820160000_restore_momo_sms_standalone.sql`. It adds server-attested,
 request-bound Android creation; owner-derived receiver enforcement; reviewable
 visibility; private rotatable share codes; atomic safe joins; member-gated
-contribution requests; provider-global payment idempotency; provider-finality
+contribution requests; receiver/network/transaction idempotency; atomic balanced
 ledger posting; audited notifications; and privacy-preserving balance summaries.
 
 There is no manual SMS paste, no reported transaction ID field, and no anonymity

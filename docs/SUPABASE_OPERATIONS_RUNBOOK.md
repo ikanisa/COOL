@@ -36,7 +36,7 @@ The reviewed local migration ledger must be compared with production by dry-run.
 At the 2026-08-15 checkpoint it ends at:
 
 ```text
-supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql
+supabase/migrations/20260820160000_restore_momo_sms_standalone.sql
 ```
 
 ## Edge Functions
@@ -48,7 +48,6 @@ auth-send-whatsapp-otp
 dispatch-notifications
 ingest-payment-sms
 parse-payment-sms
-provider-finality
 send-notification
 stripe-create-customer
 stripe-create-diaspora-contribution
@@ -62,9 +61,7 @@ Validate:
 ```sh
 ./scripts/collect_edge_auth_contract_uat.sh
 deno check supabase/functions/parse-payment-sms/index.ts \
-  supabase/functions/ingest-payment-sms/index.ts \
-  supabase/functions/provider-finality/index.ts
-deno test supabase/functions/_shared/provider_finality_*_test.ts
+  supabase/functions/ingest-payment-sms/index.ts
 ```
 
 Deploy active functions through:

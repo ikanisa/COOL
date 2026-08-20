@@ -46,7 +46,7 @@ void main() {
     expect(collection.collectionType, CollectionType.church);
   });
 
-  test('collection type model maps approved market categories', () {
+  test('collection type model maps supported group categories', () {
     final collection = CollectCollection.fromJson(const {
       'id': 'col-sport',
       'slug': 'rayon-away-day',
@@ -56,8 +56,6 @@ void main() {
       'collection_type': 'sport',
       'category_subtype': 'fan_club',
       'purpose_label': 'Away travel',
-      'diaspora_enabled': true,
-      'diaspora_regions': ['eu', 'us'],
       'moderation_status': 'approved',
       'created_at': '2026-06-22T08:00:00Z',
     });
@@ -65,8 +63,6 @@ void main() {
     expect(collection.collectionType, CollectionType.sport);
     expect(collection.categorySubtype, 'fan_club');
     expect(collection.purposeLabel, 'Away travel');
-    expect(collection.diasporaEnabled, isTrue);
-    expect(collection.diasporaRegions, ['eu', 'us']);
     expect(collection.moderationStatus, 'approved');
   });
 
@@ -109,28 +105,23 @@ void main() {
     );
   });
 
-  test(
-    'collection model accepts public visibility and string region aliases',
-    () {
-      final collection = CollectCollection.fromJson(const {
-        'id': 'col-diaspora',
-        'slug': 'diaspora-building-fund',
-        'creator_user_id': 'owner',
-        'title': 'Diaspora building fund',
-        'description': 'Public donor support',
-        'collection_type': 'church',
-        'diaspora_regions': 'eu',
-        'visibility': 'public_approved',
-        'is_member': true,
-        'created_at': '2026-06-22T08:00:00Z',
-      });
+  test('collection model accepts public visibility aliases', () {
+    final collection = CollectCollection.fromJson(const {
+      'id': 'col-community',
+      'slug': 'community-building-fund',
+      'creator_user_id': 'owner',
+      'title': 'Community building fund',
+      'description': 'Public donor support',
+      'collection_type': 'church',
+      'visibility': 'public_approved',
+      'is_member': true,
+      'created_at': '2026-06-22T08:00:00Z',
+    });
 
-      expect(collection.isPublic, isTrue);
-      expect(collection.isCurrentUserMember, isTrue);
-      expect(collection.diasporaRegions, ['eu']);
-      expect(collection.collectionType, CollectionType.church);
-    },
-  );
+    expect(collection.isPublic, isTrue);
+    expect(collection.isCurrentUserMember, isTrue);
+    expect(collection.collectionType, CollectionType.church);
+  });
 
   test('collection model preserves pending visibility and recurring state', () {
     final collection = CollectCollection.fromJson(const {

@@ -13,11 +13,11 @@ Core boundaries:
   generated 6-digit Collect ID.
 - Contributions start as Supabase payment intents, not as app-entered payment
   confirmations.
-- Receiver MoMo SMS is ingested automatically, parsed by OpenAI, and matched to
-  pending payment intents in Postgres as candidate evidence only. It never
-  establishes provider settlement or changes a balance.
-- A separately trusted, signed provider-finality gateway confirms or rejects
-  candidates. Only a confirmed event posts the immutable ledger pair.
+- Receiver MoMo SMS is ingested automatically and parsed by OpenAI. The locked
+  Postgres allocator posts only a complete, high-confidence result that matches
+  exactly one pending payer request and active receiver route.
+- Posting is one atomic database transition: payment, allocation, collection
+  credit, payer credit, intent state, audit record, and notification event.
 - Raw SMS is protected data and is never exposed in member-facing surfaces.
 
 Flutter structure:
@@ -30,7 +30,7 @@ Flutter structure:
 - `features/profile`: Collect ID and MoMo number.
 - `features/collections`: Groups list/create/detail/manage/share/invite.
 - `features/payments`: amount entry, payment intent creation, MoMo dialer launch.
-- `features/ledger`: independently provider-confirmed ledger entries.
+- `features/ledger`: automatically allocated, immutable ledger entries.
 - `admin`: separate Flutter web Admin PWA from `lib/main_admin.dart`.
 
 Mobile workflow:
@@ -46,14 +46,12 @@ Mobile workflow:
 8. App opens the MoMo dialer through `tel:`.
 9. MoMo SMS is uploaded to Supabase.
 10. `parse-payment-sms` extracts structured facts with OpenAI.
-11. `parse-payment-sms` calls the locked Postgres allocator, which creates an
-    awaiting-provider-confirmation candidate without ledger impact.
-12. A trusted connector validates provider/bank settlement and sends an exact
-    HMAC-signed event to `provider-finality`.
-13. The replay-safe gateway confirms or rejects the candidate transactionally.
-    Confirmation alone posts one collection credit and one member credit.
-14. Ambiguous parser/allocation/provider results stay as admin-visible exceptions, not
-    member-entered fallbacks.
+11. `parse-payment-sms` calls the locked Postgres allocator.
+12. Exactly one complete match atomically creates the posted payment,
+    allocation, group credit, payer credit, audit record, and notification.
+13. Duplicate events are idempotent; incomplete, low-confidence, unmatched, or
+    ambiguous results remain admin-visible exceptions without a manual member
+    fallback.
 
 Admin workflow:
 

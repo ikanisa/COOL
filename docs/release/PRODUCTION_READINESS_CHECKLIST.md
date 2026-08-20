@@ -2,12 +2,14 @@
 
 Audit date: 2026-06-01
 
-Current override (2026-08-15): this checklist is a historical June snapshot.
+Current override (2026-08-20): this checklist is a historical June snapshot.
 Use `QA_TEST_REPORT.md`, `GO_LIVE_AUDIT_REPORT.md`, and the group-journey
-`REMEDIATION_PLAN.md` for current status. In particular, production is
-321/341 schema objects and 10/11 Edge Functions; `provider-finality`, its
-current signing-key name, and `FCM_SERVICE_ACCOUNT_JSON` are not configured.
-SMS cannot post a balance without provider finality.
+`REMEDIATION_PLAN.md` for current status. The standalone inventory is 79
+migrations and 10 Edge Functions. Linked production reconciliation now proves
+79/79 migrations, 336/336 schema objects, 60/60 RLS tables, 153 policies, exact
+Edge source parity, and passing rollback-only SMS/ledger and Admin UATs. Full
+readiness still fails on the missing FCM and Stripe provider secrets;
+real-device UAT and Google Play approval remain separate gates.
 
 This checklist reflects the corrected SMS-first Groups product definition. It
 does not carry forward previous unverified Supabase platform blockers. Run
@@ -37,7 +39,7 @@ final production decision.
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed through linked database query mode. |
 | Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passed via linked database query after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
-| Linked Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed. It used linked query/advisor/schema gates because direct pooler lint/dry-run remains unavailable from this network because of Supabase tenant allow-listing. |
+| Linked Supabase readiness | Core pass; provider readiness blocked | Linked migration, schema, RLS, privilege, advisor, Edge auth/source, SMS/ledger, and Admin UAT gates pass. The full script fails closed because `FCM_SERVICE_ACCOUNT_JSON`, `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` are absent. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
 | Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources, checksums were refreshed, and signatures verify; `scripts/release_artifact_manifest.sh --json` passed and wrote `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 | Release worktree review | Re-run on final tree | `scripts/release_worktree_review_gate.sh --json` must pass on the exact final release branch after any recorder, evidence, or release-doc refresh is committed and synced. |
@@ -48,7 +50,8 @@ final production decision.
 Current release-status blocker keys for release readiness are
 `product_signoff`, `android_sms_access_uat`,
 `android_release_signing_review`, `ios_release_scope`, and
-`release_owner_signoff`.
+`release_owner_signoff`, plus FCM/Stripe provider readiness when those features
+are in release scope.
 
 | ID | Blocker | Required action |
 | --- | --- | --- |

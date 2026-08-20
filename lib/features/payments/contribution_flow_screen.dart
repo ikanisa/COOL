@@ -353,7 +353,7 @@ class _ContributionFlowScreenState
       opened = await MomoUssdLauncher().launch(ussdUri);
     } catch (_) {
       // Unsupported platforms and denied Android phone access leave the group
-      // as the source of truth until SMS matching and provider confirmation.
+      // as the source of truth until the incoming SMS is parsed and matched.
     }
     if (!opened && messenger.mounted) {
       messenger.showSnackBar(

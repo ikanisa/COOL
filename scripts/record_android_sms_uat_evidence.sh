@@ -14,7 +14,6 @@ required_scenarios = %w[
   offline_retry
   parser_allocation
   exception_review
-  provider_finality
   ledger_posting
   balance_reconciliation
   privacy
@@ -29,7 +28,7 @@ options = {
 def usage
   warn <<~TEXT
     usage:
-      scripts/record_android_sms_uat_evidence.sh --tester NAME --tested-at ISO8601Z --device-label LABEL --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,provider_finality,ledger_posting,balance_reconciliation,privacy --evidence-summary TEXT --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids --sms-never-used-as-settlement --provider-finality-independently-authenticated --balances-reconciled
+      scripts/record_android_sms_uat_evidence.sh --tester NAME --tested-at ISO8601Z --device-label LABEL --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,balance_reconciliation,privacy --evidence-summary TEXT --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids --balances-reconciled
 
     options:
       --manifest PATH       UAT evidence manifest to update
@@ -44,8 +43,6 @@ def usage
       --raw-sms-not-public
       --no-phone-or-momo
       --no-transaction-ids
-      --sms-never-used-as-settlement
-      --provider-finality-independently-authenticated
       --balances-reconciled
   TEXT
 end
@@ -78,10 +75,6 @@ until args.empty?
     options["contains_phone_or_momo"] = false
   when "--no-transaction-ids"
     options["contains_transaction_ids"] = false
-  when "--sms-never-used-as-settlement"
-    options["sms_never_used_as_settlement"] = true
-  when "--provider-finality-independently-authenticated"
-    options["provider_finality_independently_authenticated"] = true
   when "--balances-reconciled"
     options["balances_reconciled"] = true
   when "--help", "-h"
@@ -151,8 +144,6 @@ errors << "--no-production-customer-data is required." unless options["contains_
 errors << "--raw-sms-not-public is required." unless options["raw_sms_public"] == false
 errors << "--no-phone-or-momo is required." unless options["contains_phone_or_momo"] == false
 errors << "--no-transaction-ids is required." unless options["contains_transaction_ids"] == false
-errors << "--sms-never-used-as-settlement is required." unless options["sms_never_used_as_settlement"] == true
-errors << "--provider-finality-independently-authenticated is required." unless options["provider_finality_independently_authenticated"] == true
 errors << "--balances-reconciled is required." unless options["balances_reconciled"] == true
 
 {
@@ -218,9 +209,6 @@ evidence = {
     "offline_retry_verified" => scenarios.include?("offline_retry"),
     "parser_allocation_verified" => scenarios.include?("parser_allocation"),
     "exception_review_verified" => scenarios.include?("exception_review"),
-    "sms_never_used_as_settlement" => true,
-    "provider_finality_verified" => scenarios.include?("provider_finality"),
-    "provider_finality_independently_authenticated" => true,
     "ledger_posting_verified" => scenarios.include?("ledger_posting"),
     "balance_reconciliation_verified" => scenarios.include?("balance_reconciliation"),
     "balances_reconciled" => true,
@@ -229,6 +217,8 @@ evidence = {
   "evidence_summary" => summary,
   "manifest_persona" => "UAT-05",
   "approval_status" => "not_approved_by_recorder",
+  "financial_evidence_boundary" =>
+    "Reconcile one raw receipt, one OpenAI parsed event, one exact matched intent and payer, one posted payment, one group credit, one payer credit, and the resulting group and payer balances.",
   "secret_handling" =>
     "This evidence is sanitized metadata only. Do not include raw SMS bodies, phone/MoMo numbers, transaction IDs, tokens, service-role keys, provider secrets, signing keys, or production customer data."
 }
