@@ -100,6 +100,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/groups/:id',
             title: 'Group detail',
             rpcName: 'admin_get_collection',
+            backLabel: 'Groups',
           ),
           _listRoute(
             '/admin/members',
@@ -111,6 +112,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/members/:id',
             title: 'Member detail',
             rpcName: 'admin_get_user',
+            backLabel: 'Members',
           ),
           _listRoute(
             '/admin/payment-intents',
@@ -122,6 +124,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/payment-intents/:id',
             title: 'Payment intent detail',
             rpcName: 'admin_get_payment_intent',
+            backLabel: 'Payment intents',
           ),
           _listRoute(
             '/admin/transactions',
@@ -133,6 +136,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/transactions/:id',
             title: 'Transaction detail',
             rpcName: 'admin_get_payment',
+            backLabel: 'Transactions',
           ),
           _listRoute(
             '/admin/payment-events',
@@ -145,6 +149,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/payment-events/:id',
             title: 'Payment event detail',
             rpcName: 'admin_get_payment_event',
+            backLabel: 'SMS parsing',
           ),
           _listRoute(
             '/admin/allocations',
@@ -174,6 +179,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/receivers/:id',
             title: 'Receiver detail',
             rpcName: 'admin_get_receiver',
+            backLabel: 'Receivers',
           ),
           _listRoute(
             '/admin/sms',
@@ -183,8 +189,11 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/admin/sms/:id',
-            builder: (context, state) =>
-                AdminSmsDetailPage(id: state.pathParameters['id']!),
+            builder: (context, state) => AdminSmsDetailPage(
+              id: state.pathParameters['id']!,
+              backPath: '/admin/sms',
+              backLabel: 'SMS metadata',
+            ),
           ),
           _listRoute(
             '/admin/notifications',
@@ -196,6 +205,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/notifications/:id',
             title: 'Notification detail',
             rpcName: 'admin_get_notification',
+            backLabel: 'Notifications',
           ),
           _listRoute(
             '/admin/audit-logs',
@@ -231,6 +241,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/admin-users/:id',
             title: 'Admin user detail',
             rpcName: 'admin_get_admin_user',
+            backLabel: 'Admin users',
           ),
         ],
       ),
@@ -326,13 +337,17 @@ GoRoute _detailRoute(
   String path, {
   required String title,
   required String rpcName,
+  required String backLabel,
 }) {
+  final backPath = path.replaceFirst('/:id', '');
   return GoRoute(
     path: path,
     builder: (context, state) => AdminDetailPage(
       title: title,
       rpcName: rpcName,
       id: state.pathParameters['id']!,
+      backPath: backPath,
+      backLabel: backLabel,
     ),
   );
 }

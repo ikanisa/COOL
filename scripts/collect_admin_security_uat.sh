@@ -207,8 +207,18 @@ begin
      or not coalesce(admin_response->'permissions' ? 'admin_users.manage', false) then
     raise exception 'legacy platform owner did not receive the effective control-plane identity';
   end if;
-  admin_response := admin_list_payment_intents();
-  if jsonb_array_length(coalesce(admin_response->'rows', '[]'::jsonb)) <> 1 then
+  admin_response := admin_list_payment_intents((
+    select intent.contribution_code
+    from payment_intents intent
+    where intent.id = payment_intent.id
+  ));
+  if not exists (
+    select 1
+    from jsonb_array_elements(
+      coalesce(admin_response->'rows', '[]'::jsonb)
+    ) response_row
+    where response_row->>'id' = payment_intent.id::text
+  ) then
     raise exception 'payment intent control-plane list did not return the UAT intent';
   end if;
   perform admin_grant_user_role(

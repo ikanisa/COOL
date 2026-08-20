@@ -5,18 +5,29 @@ class AdminDetailPage extends ConsumerWidget {
     required this.title,
     required this.rpcName,
     required this.id,
+    this.backPath,
+    this.backLabel,
     super.key,
   });
 
   final String title;
   final String rpcName;
   final String id;
+  final String? backPath;
+  final String? backLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(adminRealtimeTickProvider);
     return AdminPage(
       title: title,
+      leading: backPath == null
+          ? null
+          : IconButton(
+              tooltip: 'Back to ${backLabel ?? 'admin list'}',
+              onPressed: () => context.go(backPath!),
+              icon: const Icon(Icons.arrow_back_rounded),
+            ),
       child: FutureBuilder<Map<String, dynamic>>(
         future: ref.read(adminRepositoryProvider).detail(rpcName, id),
         builder: (context, snapshot) {
@@ -55,9 +66,16 @@ class AdminDetailPage extends ConsumerWidget {
 }
 
 class AdminSmsDetailPage extends ConsumerWidget {
-  const AdminSmsDetailPage({required this.id, super.key});
+  const AdminSmsDetailPage({
+    required this.id,
+    this.backPath,
+    this.backLabel,
+    super.key,
+  });
 
   final String id;
+  final String? backPath;
+  final String? backLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,6 +84,13 @@ class AdminSmsDetailPage extends ConsumerWidget {
     return AdminPage(
       title: 'SMS metadata',
       subtitle: 'Raw SMS stays gated.',
+      leading: backPath == null
+          ? null
+          : IconButton(
+              tooltip: 'Back to ${backLabel ?? 'admin list'}',
+              onPressed: () => context.go(backPath!),
+              icon: const Icon(Icons.arrow_back_rounded),
+            ),
       child: FutureBuilder<Map<String, dynamic>>(
         future: ref
             .read(adminRepositoryProvider)

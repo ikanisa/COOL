@@ -1180,6 +1180,8 @@ void main() {
               title: 'Group detail',
               rpcName: 'admin_get_collection',
               id: 'collection-1',
+              backPath: '/admin/groups',
+              backLabel: 'Groups',
             ),
           ),
         ),
@@ -1188,6 +1190,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Group operations profile'), findsOneWidget);
+    expect(find.byTooltip('Back to Groups'), findsOneWidget);
     expect(find.text('Group support status'), findsOneWidget);
     expect(find.semantics.byLabel('Group support status actions'), findsOne);
     expect(find.widgetWithText(OutlinedButton, 'Set private'), findsOneWidget);

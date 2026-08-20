@@ -29,7 +29,7 @@ class _CollectLiveReader {
     }
     final row = await supabase.rpc<dynamic>(
       'ensure_current_profile',
-      params: {'whatsapp_phone': normalizedPhone},
+      params: {'p_whatsapp_phone': normalizedPhone},
     );
     if (row == null) {
       throw StateError('Collect profile could not be created');

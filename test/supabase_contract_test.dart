@@ -2526,7 +2526,7 @@ void main() {
     );
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 56'),
+      contains('"authenticated_security_definer_function_executable" => 70'),
     );
     expect(
       warningInventory,

@@ -2835,13 +2835,16 @@ def site_js
     const shareLanding = document.querySelector('[data-share-landing]');
     if (shareLanding) {
       const segments = window.location.pathname.split('/').filter(Boolean);
+      const search = new URLSearchParams(window.location.search);
       const kind = shareLanding.dataset.shareLanding;
-      const slug = kind === 'group' && segments.length === 2 && segments[0].toLowerCase() === 'c'
-        ? segments[1].toLowerCase()
-        : null;
-      const inviteId = kind === 'app' && segments.length === 2 && segments[0].toLowerCase() === 'invite'
+      const pathSlug = segments.length === 2 && segments[0].toLowerCase() === 'c'
         ? segments[1]
         : null;
+      const pathInviteId = segments.length === 2 && segments[0].toLowerCase() === 'invite'
+        ? segments[1]
+        : null;
+      const slug = kind === 'group' ? (pathSlug || search.get('slug') || '').toLowerCase() : null;
+      const inviteId = kind === 'app' ? (pathInviteId || search.get('publicId')) : null;
       const openLink = document.querySelector('[data-collect-open-link]');
       const code = document.querySelector('[data-share-code]');
       const heading = document.querySelector('[data-share-heading]');
@@ -2866,7 +2869,12 @@ def site_js
       } else {
         openLink.href = 'collect://app';
       }
-      const exactUrl = `${window.location.origin}${window.location.pathname}`;
+      const exactPath = kind === 'group' && safeSlug
+        ? `/c/${encodeURIComponent(safeSlug)}`
+        : kind === 'app' && safeInviteId
+        ? `/invite/${encodeURIComponent(safeInviteId)}`
+        : window.location.pathname;
+      const exactUrl = `${window.location.origin}${exactPath}`;
       if (canonical) canonical.href = exactUrl;
       if (ogUrl) ogUrl.content = exactUrl;
       const copyButton = document.querySelector('[data-collect-copy-link]');
@@ -2944,7 +2952,7 @@ write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(
   File.join(BUILD_DIR, "_redirects"),
-  "/c/* /c/index.html 200\n/invite/* /app/index.html 200\n"
+  "/c/* /group-link/?slug=:splat 302\n/invite/* /app/?publicId=:splat 302\n"
 )
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
 write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
@@ -3010,6 +3018,7 @@ PAGES.each do |page|
 end
 
 write_file(File.join(BUILD_DIR, "c", "index.html"), share_landing_page_html(kind: :group))
+write_file(File.join(BUILD_DIR, "group-link", "index.html"), share_landing_page_html(kind: :group))
 write_file(File.join(BUILD_DIR, "app", "index.html"), share_landing_page_html(kind: :app))
 
 

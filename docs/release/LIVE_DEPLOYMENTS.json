@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T09:59:16Z",
+  "generated_at": "2026-08-20T10:55:42Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,10 +7,10 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "d7608fd6-47bd-4e2f-84aa-b8f7c98a6be9",
-      "rollback_version_id": "5c96e0a5-92c7-4e35-8f6d-f4f537b7770f",
+      "version_id": "7ddcadb8-c8ea-4f5c-9e7a-5c09790cf889",
+      "rollback_version_id": "d7608fd6-47bd-4e2f-84aa-b8f7c98a6be9",
       "live_gate_status": "pass",
-      "evidence": "The static quality gate passed 55/55 with the 8 August 2026 receive-only Android SMS privacy disclosure and the immutable public media hashes. Wrangler deployed Current Version ID d7608fd6-47bd-4e2f-84aa-b8f7c98a6be9; version 5c96e0a5-92c7-4e35-8f6d-f4f537b7770f is retained as the immediate rollback. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com scripts/public_website_live_gate.sh --json passed 34/34 after deployment."
+      "evidence": "The static quality gate passed 56/56 and rendered browser QA passed with 76 screenshots and zero failures. Cloudflare Workers version 7ddcadb8-c8ea-4f5c-9e7a-5c09790cf889 serves public /c/:slug links through a non-overlapping privacy-safe fallback; the previous stable version d7608fd6-47bd-4e2f-84aa-b8f7c98a6be9 is retained as the rollback target. The custom-domain live gate passed 35/35 after deployment."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",
@@ -18,10 +18,10 @@
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
       "branch": "main",
-      "version_id": "36269764-bfde-414a-b1d6-c1ea3a72d084",
-      "rollback_version_id": "54bcf7f7-9885-4ff1-a02b-8ce65a8a4efc",
+      "version_id": "f1e2c19a-08b0-4f7c-8048-615219a33fb2",
+      "rollback_version_id": "36269764-bfde-414a-b1d6-c1ea3a72d084",
       "live_gate_status": "pass",
-      "evidence": "COLLECT_ADMIN_WHATSAPP_PHONE was sourced locally without being recorded; ./scripts/admin_pwa_release_build.sh passed the manifest and hosting gates and produced a fresh 58-file build. npx --yes wrangler@latest deploy --name collect-admin --assets build/web --compatibility-date 2026-08-04 --message \"Deploy Collect Admin 1.2.2+10 from 4c08c158\" --strict deployed Current Version ID 36269764-bfde-414a-b1d6-c1ea3a72d084 at 2026-08-04T19:57:56Z. The immediately preceding live version 54bcf7f7-9885-4ff1-a02b-8ce65a8a4efc is retained as the rollback target. ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com ./scripts/admin_pwa_live_gate.sh --json passed at 2026-08-04T19:58:34Z, including official icon, favicon, manifest, custom service worker, bundle, robots, cache policy, CSP, and security headers."
+      "evidence": "The 1.2.2+21 production Admin PWA passed its manifest and hosting gates and produced a fresh 58-file build. Wrangler 4.124.0 deployed version f1e2c19a-08b0-4f7c-8048-615219a33fb2 directly to collect-admin; the previous stable version 36269764-bfde-414a-b1d6-c1ea3a72d084 is retained as the rollback target. The custom-domain live gate passed, and the live main.dart.js and flutter_bootstrap.js SHA-256 hashes exactly matched the locally validated production build."
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."

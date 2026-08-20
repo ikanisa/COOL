@@ -4,10 +4,17 @@ import '../../../app/theme/collect_colors.dart';
 import '../../../app/theme/collect_typography.dart';
 
 class AdminPage extends StatelessWidget {
-  const AdminPage({required this.title, this.subtitle, this.child, super.key});
+  const AdminPage({
+    required this.title,
+    this.subtitle,
+    this.leading,
+    this.child,
+    super.key,
+  });
 
   final String title;
   final String? subtitle;
+  final Widget? leading;
   final Widget? child;
 
   @override
@@ -19,27 +26,39 @@ class AdminPage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(2, 0, 2, 2),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                  height: CollectTypography.leadingDisplay,
+              if (leading != null) ...[
+                SizedBox.square(dimension: 48, child: leading),
+                const SizedBox(width: 8),
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(
+                            color: colors.textPrimary,
+                            fontWeight: CollectTypography.weightBold,
+                            height: CollectTypography.leadingDisplay,
+                          ),
+                    ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 5),
+                      Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: colors.textSecondary,
+                          height: CollectTypography.leadingSupporting,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 5),
-                Text(
-                  subtitle!,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colors.textSecondary,
-                    height: CollectTypography.leadingSupporting,
-                  ),
-                ),
-              ],
             ],
           ),
         ),

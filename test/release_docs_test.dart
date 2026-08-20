@@ -1058,7 +1058,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['checks']['android_release_signing_review']['current_artifact_version'],
-        '1.2.2+20',
+        '1.2.2+21',
       );
       expect(
         decoded['checks']['android_release_signing_review']['approved_artifact_version'],
@@ -1121,7 +1121,7 @@ Current decision: **NO-GO - Codex responsibility incomplete**
       );
       expect(
         decoded['approvals']['release_owner_signoff']['current_artifact_version'],
-        '1.2.2+20',
+        '1.2.2+21',
       );
       expect(
         decoded['approvals']['release_owner_signoff']['approved_artifact_version'],
@@ -2813,7 +2813,7 @@ checking Edge Function secret names
     );
     expect(
       androidSigning['record_command'],
-      contains('--artifact-version 1.2.2+20'),
+      contains('--artifact-version 1.2.2+21'),
     );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
@@ -2832,7 +2832,7 @@ checking Edge Function secret names
     );
     expect(
       releaseOwner['record_command'],
-      contains('--artifact-version 1.2.2+20'),
+      contains('--artifact-version 1.2.2+21'),
     );
     expect(
       releaseOwner['evidence_to_review'],

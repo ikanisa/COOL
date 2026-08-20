@@ -147,8 +147,8 @@ share_routes_ok =
   app_share_html.include?("Open Collect") &&
   app_share_html.include?('data-share-landing="app"') &&
   app_share_html.include?("collect://app") &&
-  redirects.include?("/c/* /c/index.html 200") &&
-  redirects.include?("/invite/* /app/index.html 200")
+  redirects.include?("/c/* /group-link/?slug=:splat 302") &&
+  redirects.include?("/invite/* /app/?publicId=:splat 302")
 check(
   checks,
   "native_share_link_fallbacks",
@@ -563,7 +563,7 @@ baseline_content_hashes = {
 generated_routes = all_html_paths.map do |path|
   relative = path.delete_prefix(build_dir).delete_suffix("index.html")
   relative.empty? ? "/" : relative
-end.reject { |route| ["/app/", "/c/"].include?(route) }.sort
+end.reject { |route| ["/app/", "/c/", "/group-link/"].include?(route) }.sort
 content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
   html = read(route_index(build_dir, route)).gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
   visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")

@@ -12,7 +12,7 @@ base_url = ARGV.fetch(0).delete_suffix("/")
 canonical_url = ARGV.fetch(1).delete_suffix("/")
 mode = ARGV.fetch(2)
 
-def fetch(url)
+def fetch(url, redirects_left = 3)
   uri = URI(url)
   response = nil
   elapsed = nil
@@ -22,6 +22,12 @@ def fetch(url)
     response = http.request(request)
   end
   elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
+  if response.is_a?(Net::HTTPRedirection) && redirects_left.positive?
+    destination = URI.join(url, response.fetch("location"))
+    raise "Cross-origin redirect rejected for #{url}" unless destination.host == uri.host
+    followed_response, followed_elapsed = fetch(destination.to_s, redirects_left - 1)
+    return [followed_response, elapsed + followed_elapsed]
+  end
   [response, elapsed]
 end
 

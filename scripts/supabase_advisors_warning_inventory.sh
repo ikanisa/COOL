@@ -68,15 +68,17 @@ allowed_security_max = {
   # returns one public-approval boolean for RLS policy evaluation; all run with
   # pinned search paths.
   "anon_security_definer_function_executable" => 5,
-  # The remaining authenticated helpers include admin_runtime_config(), which
-  # filters metadata rows through the signed-in admin's permissions;
-  # get_active_policy_document() and list_account_request_reasons(), which
-  # return published policy content and enabled request reasons;
-  # record_policy_acceptance(), which writes the signed-in user's policy
-  # acceptance event; collection_is_public_approved(), which supports scoped
-  # public reads; and unregister_notification_device(), which can disable only
-  # the signed-in user's hashed APNs token.
-  "authenticated_security_definer_function_executable" => 56,
+  # The post-20260815062536 admin-control-plane and post-20260815082500 group
+  # hardening migrations bring the reviewed final-schema total to 70 callable
+  # signatures. Admin functions call assert_admin_permission(); group and
+  # member functions require auth.uid() plus owner, membership, or one-time
+  # native-capability checks; public-facing reads remain RLS-scoped. Keep this
+  # exact reviewed ceiling so any additional callable signature fails the gate.
+  # Existing reviewed examples remain admin_runtime_config(), which filters by
+  # signed-in admin permissions; get_active_policy_document(), which returns
+  # published content; and record_policy_acceptance(), which writes only the
+  # signed-in user's acceptance event.
+  "authenticated_security_definer_function_executable" => 70,
   "auth_leaked_password_protection" => 1
 }
 
