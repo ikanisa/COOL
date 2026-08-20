@@ -1,6 +1,6 @@
 # Collect MoMo SMS Production QA Report
 
-Audit date: 2026-08-15
+Audit date: 2026-08-20
 
 Scope: the complete standalone SMS-first MoMo journey across Android permission and
 live receipt, encrypted local queuing, Supabase ingestion, OpenAI parsing,
@@ -100,9 +100,9 @@ boundary and does not prove the current capture-to-reconciliation chain.
   owner binding and a server-verified Play Integrity capability request.
 - Fresh local `1.2.2+20` production artifacts were built after the final source
   change. The APK SHA-256 is
-  `ee04c7b1b2afe221a2c38e27133c93383694f75b69edba367d329e502578e109` and
+  `85515923a7ca76dd03cb3443abb07236b609ab321b4e4062b9dd9db5c27e8bdb` and
   the AAB SHA-256 is
-  `d619992f6a2cf62ad985c76c0d53157a35f570bf616f9456800ced82852b0848`.
+  `0922a26c55ce57629a848074b715476a2cf0ce3b13e99b4286eb3669fb30ef74`.
   Embedded production-runtime checks, upload-key signing preflight and APK/AAB
   signature checks pass. These are local candidate artifacts, not approved or
   physically accepted release artifacts.
@@ -112,7 +112,7 @@ boundary and does not prove the current capture-to-reconciliation chain.
 | Verification | Result |
 | --- | --- |
 | `flutter analyze` | Pass; no issues |
-| Full `flutter test -r compact` | Pass; 509 tests |
+| Full `flutter test -r compact` | Pass; 510 tests |
 | Security hygiene focused suite | Pass, including strict dotenv controls |
 | Supabase contract suite | Pass, 68 tests |
 | Provider gateway Deno tests/type check | Pass; 11 tests and `deno check` clean |
@@ -127,6 +127,7 @@ boundary and does not prove the current capture-to-reconciliation chain.
 | Fresh production APK/AAB and artifact manifest | Pass locally; exact hashes recorded above |
 | Mobile release gate | Blocked only on current `android_release_signing_review` approval |
 | Local public website quality gate | Pass; 56 checks |
+| Rendered public group-link browser QA | Pass; 48 route/viewport results, 12 link scenarios, 76 screenshots, no failures |
 | Live public website gate | Fail closed; 33/35, `/c/*` 404 and stale deployed brand hashes |
 | Read-only production schema inventory | Fail closed; 321/341 objects, 20 missing |
 | Admin PWA full 28-route by 3-viewport matrix | Pass; 84/84 screenshots, zero failures |

@@ -1,17 +1,17 @@
 # Collect Go-Live Audit Report
 
-Audit date: 2026-08-15
+Audit date: 2026-08-20
 
 Final decision: **NO-GO**. The current 78-migration/provider-finality source is
 locally hardened but not production-deployed, provider-reconciled,
 public-link-deployed, artifact-frozen, physically accepted or store-approved.
 The June gate table below is retained as historical evidence and must not be
 used as current approval. Current acceptance is governed by
-`QA_TEST_REPORT.md` and the 2026-08-15 group-journey remediation plan.
+`QA_TEST_REPORT.md` and the 2026-08-20 group-journey remediation plan.
 
-## Current 2026-08-15 verification delta
+## Current 2026-08-20 verification delta
 
-- `flutter analyze` is clean; the canonical suite passes 509 tests and the
+- `flutter analyze` is clean; the canonical suite passes 510 tests and the
   governed visual suite passes 14 tests against 13 pinned baselines.
 - A clean local Supabase reset applies all 78 migrations; SQL lint, group,
   linked contribution, Admin security, privacy/provider lifecycle and true
@@ -25,6 +25,12 @@ used as current approval. Current acceptance is governed by
 - The local public website passes 56 checks. The live public gate fails 33/35:
   `/c/production-link-audit` is HTTP 404 and deployed brand-asset hashes are
   stale.
+- Current rendered public-route QA passes 48 route/viewport results covering
+  valid, expired, invalid and oversized group links, with 76 screenshots and
+  no failures. Evidence is in
+  `.cache/group_goal_public_browser_qa/20260820T-current/route_rendered_qa.json`
+  (SHA-256
+  `16f48e47ce575eea6f7665e8c4a7cfc8861193714f54289a041499dbd6507c2c`).
 - Read-only production inventory is 321/341 expected schema objects and misses
   20 current group/payment contracts. Strict readiness also blocks on the
   warning-level advisor inventory. No production mutation was performed.

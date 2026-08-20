@@ -49,8 +49,13 @@ Use the guarded Android SMS recorder for real-device scenario evidence before
 requesting UAT-05 signoff:
 
 ```bash
-make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label 'Pixel 4a UAT device' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"
+make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label 'Pixel 4a UAT device' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,provider_finality,ledger_posting,balance_reconciliation,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids --sms-never-used-as-settlement --provider-finality-independently-authenticated --balances-reconciled"
 ```
+
+Financial evidence boundary: SMS receipt, parsing, and intent allocation are
+candidate evidence only. Ledger posting must follow a separately authenticated
+provider-finality event, and payer plus group balances must reconcile
+independently.
 
 ## Persona Tests
 
@@ -60,7 +65,7 @@ make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8
 | UAT-02 | Android creator | Complete profile, create group, grant SMS access, share link/QR/deep link/SMS. | Receiver MoMo syncs from profile and is editable; SMS consent starts automated MoMo SMS capture. | Local tests and mobile route render. | Automated local pass; Android walkthrough signoff pending. |
 | UAT-03 | iPhone user | Tap group creation action. | Warning is exactly `group creation is available only on Android`. | Widget tests and mobile route render. | Automated local pass; iOS release-scope decision pending. |
 | UAT-04 | Member | Join/open group through share link and contribute with Collect ID-only identity. | User is identified only by Collect ID. | Local tests, mobile route render, and repository contract. | Automated local pass; shared-link human walkthrough pending. |
-| UAT-05 | Android SMS device | Receive MoMo SMS and allow automatic sync. | SMS row reaches Supabase, parser extracts payment fields and Collect ID when present, allocation runs automatically. | Edge/type checks and linked rollback UAT. | Device scenario approval pending; production-flavor Pixel smoke passed. |
+| UAT-05 | Android SMS device | Receive MoMo SMS and allow automatic sync, then process independent provider finality. | SMS row reaches Supabase, parser extracts payment fields and Collect ID when present, allocation creates a candidate only; an independently authenticated provider event posts the ledger and payer/group balances reconcile. | Edge/type checks, provider-gateway tests, and linked rollback UAT. | Device/provider scenario approval pending; production-flavor Pixel smoke passed. |
 | UAT-06 | Admin operator | Monitor groups, intents, SMS parsing, allocations, exceptions, ledger, and audit. | Admin sees operational state without raw SMS by default. | Admin PWA local render, live gate, and linked admin/security UAT. | Admin proof pass; human admin walkthrough/signoff pending. |
 | UAT-07 | Payments admin | Handle ambiguous event. | Reparse/review actions are reason-required and audited; no manual ledger posting shortcut. | Linked admin/security UAT and Admin PWA live gate. | Linked/admin proof pass; human payments-admin signoff pending. |
 | UAT-08 | Compliance admin | Reveal raw SMS through controlled path. | Raw SMS reveal is permission-gated, reason-required, and audited. | Linked admin/security UAT and Admin PWA live gate. | Linked/admin proof pass; sanitized compliance-admin signoff pending. |

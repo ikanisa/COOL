@@ -1,6 +1,6 @@
 # Collect Release Status
 
-Status date: 2026-08-15
+Status date: 2026-08-20
 Release candidate: **none — current source is not artifact-frozen**
 Product boundary: SMS-first Groups
 
@@ -14,9 +14,9 @@ public availability and monitored staged rollout.
 
 Fresh local `1.2.2+20` artifacts now exist for the current source checkpoint:
 APK SHA-256
-`ee04c7b1b2afe221a2c38e27133c93383694f75b69edba367d329e502578e109`
+`85515923a7ca76dd03cb3443abb07236b609ab321b4e4062b9dd9db5c27e8bdb`
 and AAB SHA-256
-`d619992f6a2cf62ad985c76c0d53157a35f570bf616f9456800ced82852b0848`.
+`0922a26c55ce57629a848074b715476a2cf0ce3b13e99b4286eb3669fb30ef74`.
 The production build wrapper, embedded-runtime assertion, upload-key preflight,
 signature checks and nine-artifact Android/Admin manifest pass. The mobile
 release gate remains blocked because `android_release_signing_review` is still

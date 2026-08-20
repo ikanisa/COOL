@@ -99,13 +99,16 @@ def android_sms_uat_evidence_command
     "--tester '<name>'",
     "--tested-at '<ISO-8601 UTC timestamp>'",
     "--device-label '<Android UAT device label>'",
-    "--scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy",
+    "--scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,provider_finality,ledger_posting,balance_reconciliation,privacy",
     "--evidence-summary '<sanitized scenario summary>'",
     "--sanitized-evidence",
     "--no-production-customer-data",
     "--raw-sms-not-public",
     "--no-phone-or-momo",
-    "--no-transaction-ids"
+    "--no-transaction-ids",
+    "--sms-never-used-as-settlement",
+    "--provider-finality-independently-authenticated",
+    "--balances-reconciled"
   ].join(" ")
   "make record-android-sms-uat-evidence ARGS=\"#{args}\""
 end

@@ -43,11 +43,15 @@ Consent and data-handling controls:
   raw receipt, and Postgres may derive a route only from one unique exact
   payer/amount/time intent owned by the same SMS-receiving account. Multiple or
   missing matches stay in review and never post.
+- SMS receipt, parsing, and intent allocation are candidate evidence only.
+  They can never settle a payment or update a payer/group balance. Ledger
+  posting requires a separately authenticated, replay-safe provider-finality
+  event, followed by independent reconciliation of both balances.
 
 Fallback policy:
 
 - There is no manual SMS paste.
 - There is no contributor-reported transaction field.
 - Ambiguous parsed SMS events stay in the admin exception queue for
-  investigation; ledger posting remains automated through payment-intent
-  allocation.
+  investigation; payment-intent allocation never posts the ledger without
+  independently authenticated provider finality.
