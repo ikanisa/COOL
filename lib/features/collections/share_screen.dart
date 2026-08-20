@@ -196,7 +196,7 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                         const InfoSecurityBanner(
                           title: 'Privacy-safe link',
                           message:
-                              'Share the group invitation as a native link or QR code. Receiver MoMo numbers, raw SMS, and private member phones stay hidden.',
+                              'Share the group invitation as a native link or QR code. Bank evidence, private member phones, and reconciliation records stay hidden.',
                           tone: CollectStatusTone.privacy,
                           messageMaxLines: 4,
                         ),

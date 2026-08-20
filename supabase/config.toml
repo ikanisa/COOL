@@ -378,8 +378,14 @@ verify_jwt = false
 [functions.dispatch-notifications]
 verify_jwt = false
 
-[functions.parse-payment-sms]
+[functions.ingest-bank-sms]
+verify_jwt = true
+
+[functions.ingest-bank-email]
 verify_jwt = false
+
+[functions.ingest-bank-statement]
+verify_jwt = true
 
 [functions.send-notification]
 verify_jwt = false

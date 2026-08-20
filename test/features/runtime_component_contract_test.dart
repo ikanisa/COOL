@@ -17,15 +17,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('group creation is Android-only, including production web builds', () {
-    expect(
-      groupCreationPlatformAllowed(
-        isWeb: false,
-        targetPlatform: TargetPlatform.android,
-      ),
-      isTrue,
-    );
+  test('bank-only group creation is available on every client platform', () {
     for (final platform in <TargetPlatform>[
+      TargetPlatform.android,
       TargetPlatform.iOS,
       TargetPlatform.macOS,
       TargetPlatform.linux,
@@ -34,7 +28,7 @@ void main() {
     ]) {
       expect(
         groupCreationPlatformAllowed(isWeb: false, targetPlatform: platform),
-        isFalse,
+        isTrue,
       );
     }
     expect(
@@ -42,7 +36,7 @@ void main() {
         isWeb: true,
         targetPlatform: TargetPlatform.android,
       ),
-      isFalse,
+      isTrue,
     );
     expect(
       groupCreationPlatformAllowed(
@@ -50,7 +44,7 @@ void main() {
         targetPlatform: TargetPlatform.android,
         mobileEvidencePlatform: 'ios',
       ),
-      isFalse,
+      isTrue,
     );
     expect(
       groupCreationPlatformAllowed(
@@ -59,7 +53,7 @@ void main() {
         mobileEvidencePlatform: 'android',
       ),
       isTrue,
-      reason: 'Only an explicit Android evidence build may expose creation.',
+      reason: 'Bank transfers do not require a receiver-device SMS platform.',
     );
   });
 
@@ -239,66 +233,14 @@ void main() {
     openButton.onPressed!();
     await tester.pump();
 
-    expect(find.text('Join options'), findsOneWidget);
+    expect(find.text('Group creation'), findsOneWidget);
     expect(tester.binding.transientCallbackCount, 0);
 
-    Navigator.of(tester.element(find.text('Join options'))).pop();
+    Navigator.of(tester.element(find.text('Group creation'))).pop();
     await tester.pump();
 
-    expect(find.text('Join options'), findsNothing);
+    expect(find.text('Group creation'), findsNothing);
     expect(tester.binding.transientCallbackCount, 0);
-  });
-
-  testWidgets('reduced motion updates amount receiver controls immediately', (
-    tester,
-  ) async {
-    final numberController = TextEditingController();
-    final codeController = TextEditingController();
-    addTearDown(numberController.dispose);
-    addTearDown(codeController.dispose);
-    var mode = CollectMomoReceiverMode.momoNumber;
-
-    await tester.pumpWidget(
-      MaterialApp(
-        theme: AppTheme.light(),
-        home: MediaQuery(
-          data: const MediaQueryData(disableAnimations: true),
-          child: StatefulBuilder(
-            builder: (context, setState) {
-              return Scaffold(
-                body: CollectMomoReceiverCard(
-                  mode: mode,
-                  onChanged: (value) => setState(() => mode = value),
-                  numberController: numberController,
-                  codeController: codeController,
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-
-    await tester.tap(find.text('Code'));
-    await tester.pump();
-
-    expect(mode, CollectMomoReceiverMode.momoPayCode);
-    expect(
-      find.byKey(const ValueKey(CollectMomoReceiverMode.momoPayCode)),
-      findsOneWidget,
-    );
-    await tester.enterText(
-      find.byKey(const ValueKey(CollectMomoReceiverMode.momoPayCode)),
-      '1234567890',
-    );
-    await tester.pump();
-    expect(codeController.text, '123456789');
-    expect(
-      tester
-          .widgetList<AnimatedContainer>(find.byType(AnimatedContainer))
-          .map((container) => container.duration),
-      everyElement(Duration.zero),
-    );
   });
 
   test('Collect uses only the bundled Inter typography family', () {
@@ -901,10 +843,10 @@ void main() {
     expect(_contrastRatio(light.onAccent, light.actionColor), greaterThan(4.5));
   });
 
-  test('RWF amount typography uses tabular numerals', () {
+  test('EUR amount typography uses tabular numerals', () {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
 
-    expect(formatRwf(1250000), 'RWF 1,250,000');
+    expect(formatRwf(1250000), 'EUR 12,500.00');
     expect(style.fontFamily, 'Inter');
     expect(style.fontFeatures, contains(const FontFeature.tabularFigures()));
   });
@@ -933,37 +875,7 @@ void main() {
     );
   });
 
-  testWidgets('payment status card carries SMS trust-boundary copy', (
-    tester,
-  ) async {
-    await _pumpCollect(
-      tester,
-      const PaymentIntentStatusCard(
-        amountRwf: 5000,
-        receiverLabel: 'St Michel treasury',
-        receiverMomoNumber: '0788123456',
-        status: 'pending',
-      ),
-    );
-
-    expect(find.text('RWF 5,000'), findsOneWidget);
-    expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.text('+250788123456'), findsNothing);
-    expect(find.text('078***3456'), findsOneWidget);
-    expect(find.text('Payment intent'), findsNothing);
-    expect(find.text('Intent'), findsNothing);
-    expect(find.text('Receipt verification'), findsOneWidget);
-    expect(
-      find.textContaining('OpenAI-parsed receipt posts automatically'),
-      findsOneWidget,
-    );
-    expect(find.text('Recorded'), findsNothing);
-    expect(find.textContaining('receiver-side MoMo SMS'), findsNothing);
-    expect(find.textContaining('Do not paste SMS'), findsNothing);
-    expect(find.textContaining('Code'), findsNothing);
-  });
-
-  testWidgets('amount hero scales large RWF values in narrow cards', (
+  testWidgets('amount hero scales large EUR values in narrow cards', (
     tester,
   ) async {
     await _pumpCollect(
@@ -973,53 +885,53 @@ void main() {
         child: AmountHero(
           amount: 12500000,
           label: 'Confirmed total',
-          detail: 'SMS verified',
+          detail: 'Statement reconciled',
         ),
       ),
     );
 
-    expect(find.text('RWF 12,500,000'), findsOneWidget);
-    expect(find.text('SMS verified'), findsOneWidget);
+    expect(find.text('EUR 125,000.00'), findsOneWidget);
+    expect(find.text('Statement reconciled'), findsOneWidget);
   });
 
-  testWidgets('payment pipeline exposes semantic progress state', (
+  testWidgets('bank transfer pipeline exposes semantic progress state', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
     try {
       await _pumpCollect(
         tester,
-        const PaymentPipelineIndicator(status: 'pending'),
+        const BankTransferPipelineIndicator(status: 'pending'),
       );
 
       expect(
-        find.bySemanticsLabel('Payment progress: Pending'),
+        find.bySemanticsLabel('Bank transfer progress: Pending'),
         findsOneWidget,
       );
-      expect(find.bySemanticsLabel('Start step complete'), findsOneWidget);
-      expect(find.bySemanticsLabel('Check step current'), findsOneWidget);
+      expect(find.bySemanticsLabel('Prepared step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Evidence step current'), findsOneWidget);
     } finally {
       semantics.dispose();
     }
   });
 
-  testWidgets('payment pipeline marks confirmed payments complete', (
+  testWidgets('bank transfer pipeline marks reconciled transfers complete', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
     try {
       await _pumpCollect(
         tester,
-        const PaymentPipelineIndicator(status: 'confirmed'),
+        const BankTransferPipelineIndicator(status: 'reconciled'),
       );
 
       expect(
-        find.bySemanticsLabel('Payment progress: Confirmed'),
+        find.bySemanticsLabel('Bank transfer progress: Reconciled'),
         findsOneWidget,
       );
-      expect(find.bySemanticsLabel('Start step complete'), findsOneWidget);
-      expect(find.bySemanticsLabel('Check step complete'), findsOneWidget);
-      expect(find.bySemanticsLabel('Done step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Prepared step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Evidence step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Reconciled step complete'), findsOneWidget);
     } finally {
       semantics.dispose();
     }
@@ -1038,27 +950,6 @@ void main() {
     expect(find.textContaining('#'), findsNothing);
   });
 
-  testWidgets('receiver consent card shows SMS access privacy copy', (
-    tester,
-  ) async {
-    await _pumpCollect(
-      tester,
-      ReceiverConsentCard(
-        flagsEnabled: true,
-        consented: false,
-        isSyncing: false,
-        onConsentChanged: (_) {},
-        onSync: () {},
-      ),
-    );
-
-    expect(find.text('Consent'), findsOneWidget);
-    expect(find.text('Required'), findsOneWidget);
-    expect(find.text('Sync'), findsOneWidget);
-    expect(find.textContaining('Raw SMS is never public'), findsNothing);
-    expect(find.textContaining('MoMo confirmation matching'), findsNothing);
-  });
-
   testWidgets('ledger row renders tabular transaction details', (tester) async {
     final semantics = tester.ensureSemantics();
     try {
@@ -1071,16 +962,16 @@ void main() {
             amountRwf: 15000,
             supporterLabel: 'Collect ID 038491',
             createdAt: DateTime(2026),
-            transactionId: 'MTN-001',
+            transactionId: 'BANK-001',
           ),
         ),
       );
 
       expect(find.text('038491'), findsOneWidget);
-      expect(find.text('RWF 15,000'), findsOneWidget);
-      expect(find.text('Ref MTN-001'), findsOneWidget);
+      expect(find.text('EUR 150.00'), findsOneWidget);
+      expect(find.text('Ref BANK-001'), findsOneWidget);
       expect(
-        find.bySemanticsLabel(RegExp(r'Transaction reference MTN-001')),
+        find.bySemanticsLabel(RegExp(r'Transaction reference BANK-001')),
         findsWidgets,
       );
     } finally {
@@ -1099,7 +990,7 @@ void main() {
               child: CollectEmptyState(
                 icon: CollectIcons.collections,
                 title: 'No groups yet',
-                message: 'Create an SMS-first MoMo group.',
+                message: 'Create a group for EUR bank contributions.',
               ),
             ),
             Expanded(
@@ -1455,7 +1346,8 @@ void main() {
       'sport',
       'ikimina',
       'wedding',
-      'momo',
+      'bank',
+      'beneficiary',
       'qr',
       'owner',
       'visibility',

@@ -57,82 +57,7 @@ class AdminDetailPage extends ConsumerWidget {
                 const SizedBox(height: 16),
                 _AdminRoleManagementPanel(userId: id, data: data),
               ],
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class AdminSmsDetailPage extends ConsumerWidget {
-  const AdminSmsDetailPage({
-    required this.id,
-    this.backPath,
-    this.backLabel,
-    super.key,
-  });
-
-  final String id;
-  final String? backPath;
-  final String? backLabel;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(adminRealtimeTickProvider);
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
-    return AdminPage(
-      title: 'SMS metadata',
-      subtitle: 'Raw SMS stays gated.',
-      leading: backPath == null
-          ? null
-          : IconButton(
-              tooltip: 'Back to ${backLabel ?? 'admin list'}',
-              onPressed: () => context.go(backPath!),
-              icon: const Icon(Icons.arrow_back_rounded),
-            ),
-      child: FutureBuilder<Map<String, dynamic>>(
-        future: ref
-            .read(adminRepositoryProvider)
-            .detail('admin_get_sms_metadata', id),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const AdminLoadingState(
-              title: 'Loading SMS metadata',
-              message: 'Fetching metadata.',
-            );
-          }
-          if (snapshot.hasError) {
-            return AdminSafeErrorPanel(error: snapshot.error!);
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _AdminRecordDetailPanel(
-                title: 'SMS metadata',
-                rpcName: 'admin_get_sms_metadata',
-                id: id,
-                data: snapshot.data ?? const {},
-              ),
-              const SizedBox(height: 16),
-              if (identity?.permissions.contains('sms.raw.reveal') == true)
-                AdminSensitiveDataGate(
-                  label: 'Raw SMS',
-                  onReveal: (reason) async {
-                    final response = await ref
-                        .read(adminRepositoryProvider)
-                        .action('admin_reveal_raw_sms', {
-                          'p_sms_id': id,
-                          'p_reason': reason,
-                        });
-                    return (response['message'] as String?) ?? '';
-                  },
-                )
-              else
-                const AdminEmptyState(
-                  title: 'Raw SMS restricted',
-                  message: 'Reveal permission missing.',
-                ),
+              _AdminBankDetailActions(rpcName: rpcName, id: id, data: data),
             ],
           );
         },
@@ -231,25 +156,6 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     ),
                 ],
               ),
-              if (rpcName == 'admin_get_payment_event' &&
-                  _adminHasPermission(identity, 'payment_events.reparse')) ...[
-                const SizedBox(height: 18),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Semantics(
-                    container: true,
-                    button: true,
-                    label: 'Request SMS payment event reparse',
-                    hint:
-                        'Opens a reason dialog before queuing this payment event for parser review.',
-                    child: FilledButton.icon(
-                      onPressed: () => _requestReparse(context, ref),
-                      icon: const Icon(Icons.replay_outlined),
-                      label: const Text('Request reparse'),
-                    ),
-                  ),
-                ),
-              ],
               if (rpcName == 'admin_get_notification' &&
                   _adminHasPermission(identity, 'notifications.manage') &&
                   _detailInt(data['retryable_count']) > 0) ...[
@@ -314,19 +220,6 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _requestReparse(BuildContext context, WidgetRef ref) async {
-    final reason = await showAdminReasonDialog(
-      context,
-      title: 'Request SMS reparse',
-      actionLabel: 'Request reparse',
-    );
-    if (reason == null) return;
-    await ref.read(adminRepositoryProvider).action(
-      'admin_reparse_payment_event',
-      {'p_event_id': id, 'p_reason': reason},
     );
   }
 
@@ -821,12 +714,6 @@ bool _adminCanRecordNote(AdminIdentity? identity, String entityType) {
   return switch (entityType) {
     'collection' => _adminHasPermission(identity, 'collections.read'),
     'profile' => _adminHasPermission(identity, 'users.read'),
-    'payment_intent' => _adminHasPermission(identity, 'payments.read'),
-    'parsed_payment_event' =>
-      _adminHasPermission(identity, 'payment_events.read') ||
-          _adminHasPermission(identity, 'payments.read'),
-    'payment_receiver' => _adminHasPermission(identity, 'collections.read'),
-    'raw_payment_sms' => _adminHasPermission(identity, 'sms.metadata.read'),
     _ => false,
   };
 }

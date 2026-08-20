@@ -31,6 +31,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         onTap: () => context.go('/settings/notifications'),
       ),
       _SettingsTile(
+        leading: Icons.account_balance_rounded,
+        title: 'Bank transfer details',
+        onTap: () => context.go('/settings/bank-transfer'),
+      ),
+      _SettingsTile(
         leading: CollectIcons.shield,
         title: 'App permissions',
         onTap: () => context.go('/settings/permissions'),

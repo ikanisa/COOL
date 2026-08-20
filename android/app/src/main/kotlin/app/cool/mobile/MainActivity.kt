@@ -9,8 +9,6 @@ import android.provider.Settings
 import app.cool.mobile.receiver_sms.SmsQueueEventBus
 import app.cool.mobile.receiver_sms.SmsQueueStore
 import app.cool.mobile.receiver_sms.SmsQueueWorker
-import com.google.android.play.core.integrity.IntegrityManagerFactory
-import com.google.android.play.core.integrity.StandardIntegrityManager
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.EventChannel
@@ -20,12 +18,6 @@ import org.json.JSONObject
 class MainActivity : FlutterActivity() {
     private var pendingSmsAccessResult: MethodChannel.Result? = null
     private var pendingSmsOwnerUserId: String? = null
-    private var pendingMomoUssdResult: MethodChannel.Result? = null
-    private var pendingMomoUssdUri: Uri? = null
-    private var standardIntegrityProvider:
-        StandardIntegrityManager.StandardIntegrityTokenProvider? = null
-    private var pendingIntegrityResults = mutableListOf<Pair<String, MethodChannel.Result>>()
-    private var preparingIntegrityProvider = false
     private var smsQueueEventSink: EventChannel.EventSink? = null
     private val smsQueueListener: (Long) -> Unit = { sequence ->
         runOnUiThread {
@@ -183,48 +175,6 @@ class MainActivity : FlutterActivity() {
             }
         }
 
-        MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            "collect/play_integrity"
-        ).setMethodCallHandler { call, result ->
-            when (call.method) {
-                "requestStandardToken" -> {
-                    val requestHash = call.argument<String>("request_hash")?.trim().orEmpty()
-                    if (requestHash.isEmpty()) {
-                        result.error("play_integrity_bad_request", "request_hash is required", null)
-                        return@setMethodCallHandler
-                    }
-                    requestPlayIntegrityToken(requestHash, result)
-                }
-                else -> result.notImplemented()
-            }
-        }
-
-        MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            "collect/momo_ussd"
-        ).setMethodCallHandler { call, result ->
-            when (call.method) {
-                "launch" -> {
-                    val rawUri = call.argument<String>("uri")?.trim().orEmpty()
-                    val requestedUri = runCatching { Uri.parse(rawUri) }.getOrNull()
-                    val ussdCode = requestedUri?.schemeSpecificPart.orEmpty()
-                    if (
-                        requestedUri?.scheme != "tel" ||
-                        !MOMO_USSD_PATTERN.matches(ussdCode)
-                    ) {
-                        result.error(
-                            "momo_ussd_invalid",
-                            "Unsupported MoMo USSD request",
-                            null
-                        )
-                        return@setMethodCallHandler
-                    }
-                    launchMomoUssd(Uri.fromParts("tel", ussdCode, null), result)
-                }
-                else -> result.notImplemented()
-            }
-        }
     }
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
@@ -261,121 +211,12 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun launchMomoUssd(uri: Uri, result: MethodChannel.Result) {
-        if (checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            try {
-                startActivity(Intent(Intent.ACTION_CALL, uri))
-                result.success(true)
-            } catch (_: Exception) {
-                result.error(
-                    "momo_ussd_unavailable",
-                    "MoMo USSD is unavailable on this device",
-                    null
-                )
-            }
-            return
-        }
-        if (pendingMomoUssdResult != null) {
-            result.error(
-                "momo_ussd_pending",
-                "A MoMo USSD request is already pending",
-                null
-            )
-            return
-        }
-        pendingMomoUssdResult = result
-        pendingMomoUssdUri = uri
-        requestPermissions(
-            arrayOf(Manifest.permission.CALL_PHONE),
-            MOMO_USSD_PERMISSION_REQUEST_CODE
-        )
-    }
-
-    private fun requestPlayIntegrityToken(requestHash: String, result: MethodChannel.Result) {
-        val cloudProjectNumber = BuildConfig.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER
-        if (cloudProjectNumber <= 0L) {
-            result.error(
-                "play_integrity_not_configured",
-                "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER is not configured",
-                null
-            )
-            return
-        }
-        val provider = standardIntegrityProvider
-        if (provider != null) {
-            provider.request(
-                StandardIntegrityManager.StandardIntegrityTokenRequest.builder()
-                    .setRequestHash(requestHash)
-                    .build()
-            )
-                .addOnSuccessListener { token -> result.success(token.token()) }
-                .addOnFailureListener { error ->
-                    result.error(
-                        "play_integrity_token_failed",
-                        error.message ?: "Play Integrity token request failed",
-                        null
-                    )
-                }
-            return
-        }
-
-        pendingIntegrityResults.add(Pair(requestHash, result))
-        if (preparingIntegrityProvider) return
-        preparingIntegrityProvider = true
-        IntegrityManagerFactory.createStandard(applicationContext)
-            .prepareIntegrityToken(
-                StandardIntegrityManager.PrepareIntegrityTokenRequest.builder()
-                    .setCloudProjectNumber(cloudProjectNumber)
-                    .build()
-            )
-            .addOnSuccessListener { prepared ->
-                standardIntegrityProvider = prepared
-                preparingIntegrityProvider = false
-                val pending = pendingIntegrityResults.toList()
-                pendingIntegrityResults.clear()
-                pending.forEach { requestPlayIntegrityToken(it.first, it.second) }
-            }
-            .addOnFailureListener { error ->
-                preparingIntegrityProvider = false
-                val pending = pendingIntegrityResults.toList()
-                pendingIntegrityResults.clear()
-                pending.forEach {
-                    it.second.error(
-                        "play_integrity_prepare_failed",
-                        error.message ?: "Play Integrity token provider preparation failed",
-                        null
-                    )
-                }
-            }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == MOMO_USSD_PERMISSION_REQUEST_CODE) {
-            val result = pendingMomoUssdResult
-            val uri = pendingMomoUssdUri
-            pendingMomoUssdResult = null
-            pendingMomoUssdUri = null
-            if (
-                result != null &&
-                uri != null &&
-                checkSelfPermission(Manifest.permission.CALL_PHONE) ==
-                    PackageManager.PERMISSION_GRANTED
-            ) {
-                launchMomoUssd(uri, result)
-            } else {
-                result?.error(
-                    "momo_call_permission_denied",
-                    "Phone access is required to start the MoMo USSD session",
-                    null
-                )
-            }
-            return
-        }
         if (requestCode != SMS_PERMISSION_REQUEST_CODE) return
 
         val granted = SMS_PERMISSIONS.all { permission ->
@@ -461,10 +302,6 @@ class MainActivity : FlutterActivity() {
         const val SMS_ACCESS_PREFS = "collect_sms_access"
         const val SMS_ACCESS_ENABLED_KEY = "enabled"
         private const val SMS_PERMISSION_REQUEST_CODE = 182
-        private const val MOMO_USSD_PERMISSION_REQUEST_CODE = 183
-        private val MOMO_USSD_PATTERN = Regex(
-            """^\*182\*\*8\*1\*[0-9]{4,9}\*[1-9][0-9]*#$"""
-        )
         private val SMS_PERMISSIONS = arrayOf(
             Manifest.permission.RECEIVE_SMS
         )

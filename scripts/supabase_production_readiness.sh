@@ -12,36 +12,24 @@ cd "$ROOT_DIR"
 EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
   dispatch-notifications
-  ingest-payment-sms
-  parse-payment-sms
+  ingest-bank-email
+  ingest-bank-sms
+  ingest-bank-statement
   send-notification
-  stripe-create-customer
-  stripe-create-setup-intent
-  stripe-create-diaspora-contribution
-  stripe-webhook
-  verify-play-integrity
 )
 
 REQUIRED_SECRETS=(
-  OPENAI_API_KEY
-  OPENAI_MODEL
   WHATSAPP_CLOUD_API_TOKEN
   WHATSAPP_PHONE_NUMBER_ID
   WHATSAPP_AUTH_TEMPLATE_NAME
   SEND_SMS_HOOK_SECRET
   INTERNAL_FUNCTION_SECRET
-  SMS_INGEST_HMAC_SECRET
-  PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON
+  BANK_EMAIL_INGEST_HMAC_SECRET
   APNS_KEY_ID
   APNS_TEAM_ID
   APNS_BUNDLE_ID
   APNS_PRIVATE_KEY_BASE64
   FCM_SERVICE_ACCOUNT_JSON
-)
-
-STRIPE_REQUIRED_SECRETS=(
-  STRIPE_SECRET_KEY
-  STRIPE_WEBHOOK_SECRET
 )
 
 PLATFORM_ISSUES=()
@@ -295,7 +283,17 @@ check_app_contract_columns() {
         ('raw_payment_sms', 'parse_lease_id'),
         ('parsed_payment_events', 'collection_id'),
         ('native_action_capabilities', 'request_payload'),
-        ('payments', 'posted_at')
+        ('payments', 'posted_at'),
+        ('collections', 'bank_transfer_currency'),
+        ('bank_transfer_destinations', 'iban'),
+        ('bank_transfer_intents', 'transfer_reference'),
+        ('raw_payment_evidence', 'body_hash'),
+        ('bank_evidence_events', 'allocation_status'),
+        ('bank_transactions', 'transaction_key'),
+        ('bank_statement_lines', 'match_status'),
+        ('reconciliation_exceptions', 'exception_type'),
+        ('daily_bank_closes', 'variance_minor'),
+        ('journal_lines', 'direction')
     )
     select expected.table_name || '.' || expected.column_name
     from expected
@@ -706,20 +704,122 @@ check_sql_privileges() {
   [[ -z "$missing_column_grants" ]] || fail "SQL column privilege contract violations: $missing_column_grants"
 }
 
+check_bank_sql_privileges() {
+  log "checking bank-transfer SQL privilege boundary"
+  local violations
+  violations="$(db_query "
+    with required_authenticated(routine_name) as (
+      values
+        ('get_bank_transfer_destination'),
+        ('create_bank_transfer_intent'),
+        ('list_current_user_bank_transfer_intents'),
+        ('get_bank_transfer_intent'),
+        ('mark_bank_transfer_handoff_opened'),
+        ('cancel_bank_transfer_intent'),
+        ('list_current_user_bank_contributions'),
+        ('list_current_user_bank_collection_summaries'),
+        ('create_bank_transfer_group'),
+        ('update_bank_transfer_group_profile'),
+        ('admin_propose_bank_destination'),
+        ('admin_review_bank_destination_change'),
+        ('admin_list_bank_destinations'),
+        ('admin_list_bank_destination_change_requests'),
+        ('admin_list_bank_transfer_intents'),
+        ('admin_list_bank_transactions'),
+        ('admin_list_bank_evidence'),
+        ('admin_list_reconciliation_runs'),
+        ('admin_list_reconciliation_exceptions'),
+        ('admin_list_bank_allocation_requests'),
+        ('admin_list_journal_entries'),
+        ('admin_import_bank_statement'),
+        ('admin_run_bank_reconciliation'),
+        ('admin_propose_bank_allocation'),
+        ('admin_review_bank_allocation'),
+        ('admin_resolve_reconciliation_exception'),
+        ('admin_reveal_raw_bank_evidence'),
+        ('admin_reopen_daily_bank_close')
+    ),
+    missing_authenticated as (
+      select 'missing authenticated EXECUTE on ' || required.routine_name issue
+      from required_authenticated required
+      where not exists (
+        select 1 from information_schema.routine_privileges privilege
+        where privilege.specific_schema = 'public'
+          and privilege.routine_name = required.routine_name
+          and privilege.grantee = 'authenticated'
+          and privilege.privilege_type = 'EXECUTE'
+      )
+    ),
+    forbidden_legacy as (
+      select 'retired financial function remains executable: ' || privilege.grantee || ' ' || privilege.routine_name issue
+      from information_schema.routine_privileges privilege
+      where privilege.specific_schema = 'public'
+        and privilege.grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+        and privilege.routine_name in (
+          'create_payment_intent', 'create_contribution_intent',
+          'create_payment_intent_with_instructions',
+          'list_current_user_payment_intents', 'record_sms_access_consent',
+          'create_group_with_owner_attested',
+          'update_collection_profile_and_receiver', 'update_collection_receiver',
+          'ingest_raw_payment_sms', 'claim_raw_payment_sms_for_parse',
+          'allocate_parsed_payment_event', 'post_payment_from_event',
+          'record_provider_finality_and_post',
+          'admin_list_payment_intents', 'admin_get_payment_intent',
+          'admin_list_payments', 'admin_get_payment',
+          'admin_list_payment_events', 'admin_get_payment_event',
+          'admin_list_allocations', 'admin_list_unallocated',
+          'admin_list_ledger', 'admin_list_receivers', 'admin_get_receiver',
+          'admin_list_sms_metadata', 'admin_get_sms_metadata',
+          'admin_reparse_payment_event', 'admin_reveal_raw_sms'
+        )
+    ),
+    forbidden_bank_tables as (
+      select 'direct bank table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name issue
+      from information_schema.role_table_grants grant_row
+      where grant_row.table_schema = 'public'
+        and grant_row.grantee in ('anon', 'authenticated')
+        and grant_row.table_name in (
+          'bank_transfer_destinations', 'bank_destination_change_requests',
+          'bank_transfer_intents', 'raw_payment_evidence', 'bank_evidence_events',
+          'bank_transactions', 'payment_evidence_links',
+          'bank_transaction_allocations', 'bank_statement_imports',
+          'bank_statement_lines', 'reconciliation_runs',
+          'reconciliation_matches', 'reconciliation_exceptions',
+          'daily_bank_closes', 'journal_entries', 'journal_lines',
+          'bank_allocation_change_requests'
+        )
+    ),
+    forbidden_legacy_tables as (
+      select 'legacy financial table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name issue
+      from information_schema.role_table_grants grant_row
+      where grant_row.table_schema = 'public'
+        and grant_row.grantee in ('anon', 'authenticated')
+        and grant_row.table_name in (
+          'payment_intents', 'raw_payment_sms', 'parsed_payment_events',
+          'payments', 'ledger_entries', 'collection_receivers',
+          'public_contributions_view', 'member_contributions_view',
+          'member_collection_summary_view'
+        )
+    )
+    select issue from missing_authenticated
+    union all select issue from forbidden_legacy
+    union all select issue from forbidden_bank_tables
+    union all select issue from forbidden_legacy_tables
+    order by issue;
+  ")"
+  [[ -z "$violations" ]] || fail "Bank-transfer SQL privilege violations: $violations"
+}
+
 check_edge_function_auth_contract() {
   log "checking Edge Function auth contract"
   ruby <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "dispatch-notifications" => :internal,
-  "parse-payment-sms" => :internal,
-  "ingest-payment-sms" => :user,
+  "ingest-bank-email" => :hmac,
+  "ingest-bank-sms" => :user,
+  "ingest-bank-statement" => :user,
   "send-notification" => :internal,
-  "stripe-create-customer" => :user,
-  "stripe-create-setup-intent" => :user,
-  "stripe-create-diaspora-contribution" => :user,
-  "stripe-webhook" => :stripe_webhook,
-  "verify-play-integrity" => :user,
 }
 
 issues = []
@@ -728,13 +828,12 @@ disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*
 no_verify_functions = [
   "auth-send-whatsapp-otp",
   "dispatch-notifications",
-  "parse-payment-sms",
+  "ingest-bank-email",
   "send-notification",
-  "stripe-webhook",
 ]
 issues << "JWT verification disabled for unexpected functions: #{(disabled - no_verify_functions).join(", ")}" unless (disabled - no_verify_functions).empty?
 issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
-%w[dispatch-notifications parse-payment-sms send-notification].each do |name|
+%w[dispatch-notifications send-notification].each do |name|
   issues << "#{name} must have verify_jwt=false because custom internal authorization is authoritative" unless disabled.include?(name)
 end
 
@@ -745,11 +844,10 @@ expected.each do |name, mode|
   when :webhook
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
     issues << "#{name} must verify Standard Webhooks signatures" unless source.include?("standardwebhooks") && source.include?("Webhook")
-  when :stripe_webhook
-    issues << "#{name} must verify STRIPE_WEBHOOK_SECRET" unless source.include?("STRIPE_WEBHOOK_SECRET")
-    issues << "#{name} must verify the stripe-signature header" unless source.include?("stripe-signature")
-    issues << "#{name} must write webhook events through the service client" unless source.include?("stripe_webhook_events") && source.include?("serviceClient()")
-    issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
+  when :hmac
+    issues << "#{name} must verify BANK_EMAIL_INGEST_HMAC_SECRET" unless source.include?("BANK_EMAIL_INGEST_HMAC_SECRET")
+    issues << "#{name} must verify timestamped HMAC" unless source.include?("verifyTimestampedHmac")
+    issues << "#{name} must use service-role ingestion" unless source.include?("serviceClient()")
   when :internal
     issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
   when :user
@@ -762,7 +860,7 @@ expected.each do |name, mode|
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-issues << "deploy script must deploy webhook and internal endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
+issues << "deploy script must deploy HMAC and internal endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("ingest-bank-email") && deploy.include?("--no-verify-jwt")
 
 if issues.any?
   warn issues.join("\n")
@@ -799,7 +897,7 @@ check_functions() {
   grep -q 'Invalid OTP hook payload' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
 
   local fn
-  for fn in ingest-payment-sms parse-payment-sms; do
+  for fn in ingest-bank-sms ingest-bank-statement ingest-bank-email; do
     status="$(curl -sS -o "$body_file" -w '%{http_code}' \
       -X POST "$base_url/$fn" \
       -H 'content-type: application/json' \
@@ -812,11 +910,6 @@ check_functions() {
 check_secrets() {
   log "checking Edge Function secret names"
   local expected_secrets=("${REQUIRED_SECRETS[@]}")
-  if [[ "${SUPABASE_READY_DEFER_STRIPE:-1}" == "1" ]]; then
-    warn "Stripe Edge Function secrets are deferred by current release scope; set SUPABASE_READY_DEFER_STRIPE=0 to require them."
-  else
-    expected_secrets+=("${STRIPE_REQUIRED_SECRETS[@]}")
-  fi
 
   local secret_inventory
   if secret_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli secrets list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
@@ -979,7 +1072,7 @@ main() {
   check_rls
   check_app_contract_columns
   check_explicit_indexes
-  check_sql_privileges
+  check_bank_sql_privileges
   "$ROOT_DIR/scripts/collect_linked_uat.sh"
   "$ROOT_DIR/scripts/collect_admin_security_uat.sh"
   check_edge_function_auth_contract

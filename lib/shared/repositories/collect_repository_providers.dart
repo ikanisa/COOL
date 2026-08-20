@@ -109,7 +109,8 @@ final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
     );
   }
   final contributions = state.contributions;
-  final totals = <String, ({int amountRaisedRwf, int supporterCount, int own})>{};
+  final totals =
+      <String, ({int amountRaisedRwf, int supporterCount, int own})>{};
   for (final contribution in contributions) {
     final current =
         totals[contribution.collectionId] ??

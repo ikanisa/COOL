@@ -36,8 +36,8 @@ class LegalScreen extends ConsumerWidget {
         InfoSecurityBanner(
           title: isPrivacy ? 'Public boundary' : 'Security responsibility',
           message: isPrivacy
-              ? 'Private message content, receiver MoMo numbers, and support evidence are not public group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
-              : 'Confirm the group, receiver label, and amount before approving MoMo. Collect support messages do not request payment credentials or sign-in secrets.',
+              ? 'Private bank evidence and support records are not public group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
+              : 'Confirm the beneficiary, unique reference, and amount before approving a bank transfer. Collect support messages do not request payment credentials or sign-in secrets.',
           tone: isPrivacy
               ? CollectStatusTone.privacy
               : CollectStatusTone.warning,
@@ -147,9 +147,6 @@ class AccountSessionScreen extends ConsumerWidget {
     final profile = ref.watch(
       collectRepositoryProvider.select((state) => state.currentProfile),
     );
-    final maskedMomo = profile?.momoNumber == null
-        ? 'MoMo not linked'
-        : maskMomoNumberForDisplay(profile!.momoNumber!);
     return ScreenScaffold(
       title: 'Account',
       subtitle: profile == null ? 'No active profile' : profile.publicId,
@@ -163,8 +160,8 @@ class AccountSessionScreen extends ConsumerWidget {
             children: [
               CollectListTile(
                 leading: CollectIcons.profile,
-                title: 'Edit profile',
-                subtitle: maskedMomo,
+                title: 'Profile and Collect ID',
+                subtitle: 'Payment beneficiary managed centrally.',
                 onTap: () => context.go('/settings/profile'),
               ),
               CollectListTile(

@@ -131,52 +131,58 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'users.read',
   ),
   _AdminNavDestination(
-    'Payment intents',
-    Icons.payments_outlined,
-    '/admin/payment-intents',
-    'payments.read',
-  ),
-  _AdminNavDestination(
-    'Transactions',
-    Icons.receipt_long_outlined,
-    '/admin/transactions',
-    'payments.read',
-  ),
-  _AdminNavDestination(
-    'SMS parsing',
-    Icons.receipt_long_outlined,
-    '/admin/payment-events',
-    'payment_events.read',
-  ),
-  _AdminNavDestination(
-    'Allocations',
-    Icons.account_tree_outlined,
-    '/admin/allocations',
-    'payment_events.read',
-  ),
-  _AdminNavDestination(
-    'Exceptions',
-    Icons.call_split_outlined,
-    '/admin/exceptions',
-    'payment_events.read',
-  ),
-  _AdminNavDestination(
-    'Ledger',
+    'Bank details',
     Icons.account_balance_outlined,
-    '/admin/ledger',
-    'ledger.read',
+    '/admin/bank-destinations',
+    'bank_details.read',
   ),
   _AdminNavDestination(
-    'Receivers',
-    Icons.settings_phone_outlined,
-    '/admin/receivers',
-    'receivers.read',
+    'Bank detail approvals',
+    Icons.fact_check_outlined,
+    '/admin/bank-destination-requests',
+    'bank_details.read',
   ),
   _AdminNavDestination(
-    'SMS',
-    Icons.sms_outlined,
-    '/admin/sms',
-    'sms.metadata.read',
+    'Transfer requests',
+    Icons.payments_outlined,
+    '/admin/bank-intents',
+    'bank_transactions.read',
+  ),
+  _AdminNavDestination(
+    'Bank transactions',
+    Icons.receipt_long_outlined,
+    '/admin/bank-transactions',
+    'bank_transactions.read',
+  ),
+  _AdminNavDestination(
+    'Bank evidence',
+    Icons.fact_check_outlined,
+    '/admin/bank-evidence',
+    'bank_evidence.read',
+  ),
+  _AdminNavDestination(
+    'Reconciliation',
+    Icons.balance_outlined,
+    '/admin/reconciliation',
+    'bank_reconciliation.read',
+  ),
+  _AdminNavDestination(
+    'Reconciliation exceptions',
+    Icons.report_problem_outlined,
+    '/admin/reconciliation-exceptions',
+    'bank_reconciliation.read',
+  ),
+  _AdminNavDestination(
+    'Allocation approvals',
+    Icons.rule_outlined,
+    '/admin/bank-allocation-requests',
+    'bank_transactions.read',
+  ),
+  _AdminNavDestination(
+    'Bank journal',
+    Icons.menu_book_outlined,
+    '/admin/bank-journal',
+    'bank_reconciliation.read',
   ),
   _AdminNavDestination(
     'Notifications',
@@ -243,7 +249,7 @@ enum _AdminNavSection { workspace, money, people, control }
 
 const _sectionLabels = <_AdminNavSection, String>{
   _AdminNavSection.workspace: 'WORKSPACE',
-  _AdminNavSection.money: 'MONEY OPERATIONS',
+  _AdminNavSection.money: 'BANK OPERATIONS',
   _AdminNavSection.people: 'PEOPLE',
   _AdminNavSection.control: 'CONTROL',
 };
@@ -961,17 +967,11 @@ String? adminRequiredPermissionForPath(
 
 _AdminNavSection _sectionForPath(String path) {
   if (path == '/admin') return _AdminNavSection.workspace;
-  if (path.startsWith('/admin/groups') ||
-      path.startsWith('/admin/members') ||
-      path.startsWith('/admin/receivers')) {
+  if (path.startsWith('/admin/groups') || path.startsWith('/admin/members')) {
     return _AdminNavSection.people;
   }
-  if (path.startsWith('/admin/payment') ||
-      path.startsWith('/admin/transactions') ||
-      path.startsWith('/admin/allocations') ||
-      path.startsWith('/admin/exceptions') ||
-      path.startsWith('/admin/ledger') ||
-      path == '/admin/sms') {
+  if (path.startsWith('/admin/bank-') ||
+      path.startsWith('/admin/reconciliation')) {
     return _AdminNavSection.money;
   }
   return _AdminNavSection.control;
@@ -1037,6 +1037,11 @@ IconData _adminIconForKey(String iconKey) {
     'allocations' || 'account_tree' => Icons.account_tree_outlined,
     'exceptions' || 'call_split' => Icons.call_split_outlined,
     'ledger' || 'account_balance' => Icons.account_balance_outlined,
+    'fact_check' => Icons.fact_check_outlined,
+    'balance' => Icons.balance_outlined,
+    'report_problem' => Icons.report_problem_outlined,
+    'rule' => Icons.rule_outlined,
+    'menu_book' => Icons.menu_book_outlined,
     'receivers' || 'settings_phone' => Icons.settings_phone_outlined,
     'sms' => Icons.sms_outlined,
     'notifications' => Icons.notifications_outlined,

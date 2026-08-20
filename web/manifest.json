@@ -3,7 +3,7 @@
   "short_name": "Collect",
   "start_url": ".",
   "display": "standalone",
-  "description": "SMS-first MoMo group contribution app.",
+  "description": "EUR group contributions by SEPA bank transfer with daily reconciliation.",
   "orientation": "portrait-primary",
   "icons": [
     {

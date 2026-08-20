@@ -8,14 +8,10 @@ ruby <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "dispatch-notifications" => :internal,
-  "parse-payment-sms" => :internal,
-  "ingest-payment-sms" => :user,
+  "ingest-bank-email" => :hmac,
+  "ingest-bank-sms" => :user,
+  "ingest-bank-statement" => :user,
   "send-notification" => :internal,
-  "stripe-create-customer" => :user,
-  "stripe-create-setup-intent" => :user,
-  "stripe-create-diaspora-contribution" => :user,
-  "stripe-webhook" => :stripe_webhook,
-  "verify-play-integrity" => :user,
 }
 
 issues = []
@@ -24,14 +20,13 @@ disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*
 no_verify_functions = [
   "auth-send-whatsapp-otp",
   "dispatch-notifications",
-  "parse-payment-sms",
+  "ingest-bank-email",
   "send-notification",
-  "stripe-webhook",
 ]
 unexpected_disabled = disabled - no_verify_functions
 issues << "JWT verification disabled for unexpected functions: #{unexpected_disabled.join(", ")}" unless unexpected_disabled.empty?
 issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
-%w[dispatch-notifications parse-payment-sms send-notification].each do |name|
+%w[dispatch-notifications send-notification].each do |name|
   issues << "#{name} must have verify_jwt=false because custom internal authorization is authoritative" unless disabled.include?(name)
 end
 
@@ -56,11 +51,10 @@ expected.each do |name, mode|
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
     issues << "#{name} must verify Standard Webhooks signatures" unless source.include?("standardwebhooks") && source.include?("Webhook")
     issues << "#{name} must return 401 for unauthorized hook delivery" unless source.include?('jsonResponse({ error: "Unauthorized" }, 401)')
-  when :stripe_webhook
-    issues << "#{name} must verify STRIPE_WEBHOOK_SECRET" unless source.include?("STRIPE_WEBHOOK_SECRET")
-    issues << "#{name} must verify the stripe-signature header" unless source.include?("stripe-signature")
-    issues << "#{name} must write webhook events through the service client" unless source.include?("stripe_webhook_events") && source.include?("serviceClient()")
-    issues << "#{name} must not use user JWT auth" if source.include?("requireUser(")
+  when :hmac
+    issues << "#{name} must verify BANK_EMAIL_INGEST_HMAC_SECRET" unless source.include?("BANK_EMAIL_INGEST_HMAC_SECRET")
+    issues << "#{name} must verify timestamped request HMAC" unless source.include?("verifyTimestampedHmac")
+    issues << "#{name} must use service-role ingestion after HMAC verification" unless source.include?("serviceClient()")
   when :internal
     issues << "#{name} must call requireInternalRequest(req)" unless source.include?("requireInternalRequest(req)")
     issues << "#{name} must import authErrorStatus" unless source.include?("authErrorStatus")
@@ -75,7 +69,7 @@ expected.each do |name, mode|
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("stripe-webhook") && deploy.include?("--no-verify-jwt")
+unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("ingest-bank-email") && deploy.include?("--no-verify-jwt")
   issues << "deploy script must deploy webhook and internal endpoints with --no-verify-jwt"
 end
 

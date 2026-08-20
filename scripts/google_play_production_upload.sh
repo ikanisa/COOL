@@ -276,7 +276,10 @@ if submit
   packet_path = File.join(Dir.pwd, "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json")
   packet = JSON.parse(File.read(packet_path)) rescue {}
   declaration_status = packet.dig("app_content", "permissions", "sms_permissions_declaration_status")
-  errors << "google_play_sms_permissions_declaration_not_approved" unless declaration_status == "approved"
+  permissions = Array(packet.dig("app_content", "permissions", "production_permissions"))
+  restricted_sms = %w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS]
+  errors << "google_play_restricted_sms_permission_present" unless (permissions & restricted_sms).empty?
+  errors << "google_play_no_sms_declaration_scope_not_recorded" unless declaration_status == "not_required_no_restricted_sms_permissions"
 end
 if status == "inProgress"
   fraction = Float(user_fraction) rescue nil

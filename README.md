@@ -1,161 +1,69 @@
 # Collect
 
-Collect is a Flutter and Supabase platform for SMS-first MoMo group contributions.
-Members contribute through payment intents created in the app; MoMo SMS
-is ingested, parsed with OpenAI, allocated in Supabase, and posted to the ledger.
+Collect is a Flutter and Supabase group-contribution platform. Members create
+an exact EUR transfer request in the app, copy the approved beneficiary details,
+and open Revolut to complete a SEPA bank transfer. Collect never initiates or
+custodies the transfer and has no card, Stripe, direct-debit, or payment-provider
+API integration.
 
-Current product scope is documented in `docs/PRODUCT.md`. Current release
-status is documented in `docs/release/RELEASE_STATUS.md`.
+An incoming bank SMS or email is candidate evidence only. A contribution becomes
+confirmed only after the receipt matches an imported bank statement during the
+daily reconciliation. The resulting debit and credit journal is immutable and
+balanced.
 
-## Product Surface
+The current product source of truth is [docs/PRODUCT.md](docs/PRODUCT.md).
 
-- Mobile app entrypoint: `lib/main.dart`
-- Admin PWA entrypoint: `lib/main_admin.dart`
-- Mobile router: `lib/app/router.dart`
-- Admin router: `lib/admin/admin_router.dart`
-- Shared models/repository: `lib/shared/`
-- Supabase migrations and Edge Functions: `supabase/`
+## Product surfaces
 
-The mobile bottom navigation is `Home`, `Groups`, and `Settings`.
+- Member Flutter app: `lib/main.dart`
+- Admin Flutter web app: `lib/main_admin.dart`
+- Member routes: `lib/app/router.dart`
+- Admin routes: `lib/admin/admin_router.dart`
+- Supabase control plane: `supabase/`
+- Full bank lifecycle rollback UAT: `scripts/bank_transfer_rollback_uat.sql`
 
-Mobile app routes:
+Member navigation remains Home, Groups, and Settings. Bank beneficiary details
+are available in Settings and in every transfer request. The beneficiary is
+centrally governed and cannot be replaced by a group owner.
 
-- `/auth`
-- `/auth/success`
-- `/auth/failure`
-- `/onboarding`
-- `/onboarding/legal`
-- `/home`
-- `/offline`
-- `/sync`
-- `/notifications`
-- `/permissions/sms`
-- `/permissions/sms-denied`
-- `/permissions/device`
-- `/permissions/notifications-denied`
-- `/permissions/camera-denied`
-- `/platform/iphone-create-unavailable`
-- `/groups`
-- `/groups/join`
-- `/groups/scan`
-- `/groups/create`
-- `/groups/:collectionId`
-- `/groups/:collectionId/created`
-- `/groups/:collectionId/joined`
-- `/groups/:collectionId/members`
-- `/groups/:collectionId/owner`
-- `/groups/:collectionId/owner/sms-health`
-- `/groups/:collectionId/owner/receiver`
-- `/groups/:collectionId/manage`
-- `/groups/:collectionId/profile`
-- `/groups/:collectionId/contribute`
-- `/groups/:collectionId/pay/:intentId/handoff`
-- `/groups/:collectionId/pay/:intentId/waiting`
-- `/groups/:collectionId/pay/:intentId/state/:state`
-- `/groups/:collectionId/pay/:intentId`
-- `/groups/:collectionId/support/payment/:intentId`
-- `/groups/:collectionId/share`
-- `/groups/:collectionId/invite`
-- `/groups/:collectionId/ledger`
-- `/c/:slug`
-- `/share/invalid`
-- `/share/expired`
-- `/share/expired/request`
-- `/settings`
-- `/settings/profile`
-- `/settings/readiness`
-- `/settings/account`
-- `/settings/account/delete`
-- `/settings/privacy`
-- `/settings/help`
-- `/settings/legal/terms`
-- `/settings/legal/privacy`
-- `/share/confirmed`
+## Bank contribution lifecycle
 
-## Core Workflow
+1. A member signs in with WhatsApp OTP and joins or creates a group.
+2. The member enters a EUR amount and Collect creates a unique `COL-…` reference.
+3. Collect shows the approved beneficiary name, IBAN, BIC, amount, and reference.
+4. `Open Revolut` deep-links to the Revolut app. The member selects the saved
+   beneficiary, enters the amount/reference, and authorizes the transfer there.
+5. Controlled bank SMS/email ingestion records deterministic, deduplicated
+   evidence. This moves the request only to `received_unreconciled`.
+6. An authorized administrator imports a CSV, JSON, MT940, or CAMT.053 statement.
+7. Daily reconciliation matches bank identifiers, reference, amount, currency,
+   and date; unresolved items become exceptions.
+8. A confirmed receipt posts one bank-cash debit and one group-liability credit,
+   creates one member notification, and contributes to the daily close.
 
-1. User signs in with a WhatsApp number and receives a 6-digit Collect ID.
-2. User stores a MoMo number in Settings/Profile.
-3. Android group creation is allowed only after the production build confirms
-   receive-only MoMo SMS access and the backend confirms the receiver matches
-   the creator's linked MoMo number or 4-to-9-digit merchant code.
-4. iPhone group creation is blocked with `group creation is available only on Android`.
-5. Members join from a revocable high-entropy link or QR code shared through
-   the native Android share sheet. Public groups also support reviewed discovery;
-   private slugs are never treated as invitation credentials.
-6. Member taps `Contribute`, enters amount, and Supabase creates a pending
-   payment intent linked to group, amount, receiver MoMo, user id, and Collect ID.
-7. On supported Android builds, the allowlisted native `ACTION_CALL` bridge opens
-   only the exact Collect merchant USSD request; the member confirms all carrier,
-   PIN, and final payment steps.
-8. MoMo SMS is atomically uploaded to Supabase and leased to the OpenAI parser.
-   Postgres posts the contribution only when the structured result is complete,
-   high-confidence, and matches exactly one pending request by transaction,
-   receiver ownership, amount, payer identity, and time window. The transaction
-   atomically creates one collection credit and one payer credit; incomplete or
-   ambiguous results stay in review. Server-owned aggregate RPCs expose group
-   and current-payer balances without exposing other payers' private rows.
+## Admin control plane
 
-The current group-journey hardening is the reviewed migration chain from
-`20260815050900_harden_momo_sms_standalone_posting.sql` through
-`20260820160000_restore_momo_sms_standalone.sql`. It adds server-attested,
-request-bound Android creation; owner-derived receiver enforcement; reviewable
-visibility; private rotatable share codes; atomic safe joins; member-gated
-contribution requests; receiver/network/transaction idempotency; atomic balanced
-ledger posting; audited notifications; and privacy-preserving balance summaries.
+The Admin PWA manages groups, members, admin users, bank destinations and their
+approvals, transfer requests, canonical bank transactions, SMS/email/statement
+evidence, reconciliation runs, exceptions, maker-checker allocation requests,
+immutable journals, notifications, audit logs, feature flags, settings, and
+system health.
 
-There is no manual SMS paste, no reported transaction ID field, and no anonymity
-picker. Category-specific collection context and diaspora rails are allowed only
-where explicitly implemented and approval-gated; the default Rwanda MoMo flow
-remains non-custodial and Collect-ID-first.
+Bank-detail and manual-allocation changes require separate maker and checker
+accounts. Raw evidence reveal requires a dedicated permission, a reason, and an
+audit record.
 
-## Admin Boundary
-
-The admin PWA is a separate entrypoint. It monitors groups, members, payment
-intents, MoMo SMS rows, parser output, allocation status, ledger entries,
-receivers, audit logs, settings, and exceptions. Client-side admin guards are
-convenience only; Supabase RLS, security-definer RPCs, role tables, and audit
-logs enforce authorization.
-
-Admin routes:
-
-- `/admin/login`
-- `/admin/denied`
-- `/admin`
-- `/admin/groups`
-- `/admin/groups/:id`
-- `/admin/members`
-- `/admin/members/:id`
-- `/admin/payment-intents`
-- `/admin/payment-intents/:id`
-- `/admin/payment-events`
-- `/admin/payment-events/:id`
-- `/admin/allocations`
-- `/admin/exceptions`
-- `/admin/ledger`
-- `/admin/receivers`
-- `/admin/receivers/:id`
-- `/admin/sms`
-- `/admin/sms/:id`
-- `/admin/audit-logs`
-- `/admin/settings`
-- `/admin/feature-flags`
-- `/admin/system-health`
-- `/admin/admin-users`
-
-## Commands
-
-```sh
-make flutter-pub-get
-make format
-make analyze
-make test
-./scripts/migrations/validate_supabase_migrations.sh
-```
-
-Pinned Flutter toolchain:
+## Validation
 
 ```sh
 /Users/jeanbosco/Developer/flutter/bin/flutter analyze
 /Users/jeanbosco/Developer/flutter/bin/flutter test
+./scripts/migrations/validate_supabase_migrations.sh
+COLLECT_SKIP_DOTENV=1 SUPABASE_DB_QUERY_MODE=local ./scripts/collect_linked_uat.sh
+./scripts/collect_edge_auth_contract_uat.sh
 ```
+
+The public production Android flavor has no SMS, inbox, or phone-call
+permission. The separately signed `internal_receiver` flavor is controlled
+operations infrastructure for new beneficiary-bank notification SMS and posts
+to the same production bank-evidence API; it cannot confirm settlement.

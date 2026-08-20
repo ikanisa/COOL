@@ -6,18 +6,20 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
     final repository = ref.watch(adminRepositoryProvider);
     final metricsFuture = repository.overviewMetrics();
     final attentionFuture = repository.list(
-      'admin_list_unallocated',
+      'admin_list_reconciliation_exceptions',
       limit: 3,
       offset: 0,
       sortBy: 'created_at_desc',
     );
     final allocationsFuture = repository.list(
-      'admin_list_allocations',
+      'admin_list_bank_allocation_requests',
       limit: 4,
       offset: 0,
       sortBy: 'created_at_desc',
     );
-    final slaFuture = repository.queueSla('admin_list_payment_events');
+    final slaFuture = repository.queueSla(
+      'admin_list_reconciliation_exceptions',
+    );
     final values = await Future.wait<Object?>([
       metricsFuture,
       attentionFuture,
@@ -82,7 +84,7 @@ class AdminOverviewContent extends ConsumerWidget {
                   final twoColumn = constraints.maxWidth >= 980;
                   final queue = _AttentionQueue(
                     result: data.attention,
-                    totalOverride: _metricInt(data.metrics, 'Review queue'),
+                    totalOverride: _metricInt(data.metrics, 'Open exceptions'),
                   );
                   final health = _QueueHealth(
                     metrics: data.metrics,
@@ -149,7 +151,7 @@ class _OverviewSummary extends StatelessWidget {
             );
             final action = FilledButton.icon(
               key: const Key('admin-review-next-exception'),
-              onPressed: () => context.go('/admin/exceptions'),
+              onPressed: () => context.go('/admin/reconciliation-exceptions'),
               style: FilledButton.styleFrom(
                 backgroundColor: colors.onImagePrimary,
                 foregroundColor: CollectColors.referenceChromeBlack,
@@ -303,7 +305,7 @@ class _AttentionQueue extends StatelessWidget {
               count: total,
               subtitle: 'Exceptions requiring review',
               actionLabel: 'View all exceptions',
-              onAction: () => context.go('/admin/exceptions'),
+              onAction: () => context.go('/admin/reconciliation-exceptions'),
             ),
             Divider(height: 1, color: colors.borderSoft),
             if (rows.isEmpty)
@@ -311,7 +313,7 @@ class _AttentionQueue extends StatelessWidget {
                 padding: EdgeInsets.all(24),
                 child: AdminEmptyState(
                   title: 'Queue is clear',
-                  message: 'No payment events currently require review.',
+                  message: 'No bank reconciliation exceptions require review.',
                 ),
               )
             else
@@ -358,7 +360,8 @@ class _AttentionQueue extends StatelessWidget {
                   const SizedBox(width: 8),
                   IconButton.outlined(
                     tooltip: 'Open full exceptions queue',
-                    onPressed: () => context.go('/admin/exceptions'),
+                    onPressed: () =>
+                        context.go('/admin/reconciliation-exceptions'),
                     icon: const Icon(Icons.chevron_right_rounded),
                   ),
                 ],
@@ -433,8 +436,9 @@ class _AttentionTable extends StatelessWidget {
                           minimumSize: const Size(0, 44),
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                         ),
-                        onPressed: () =>
-                            context.go('/admin/payment-events/${row.id}'),
+                        onPressed: () => context.go(
+                          '/admin/reconciliation-exceptions/${row.id}',
+                        ),
                         child: const Text('Review'),
                       ),
                     ),
@@ -445,8 +449,9 @@ class _AttentionTable extends StatelessWidget {
                         tooltip: 'More record actions',
                         padding: EdgeInsets.zero,
                         iconSize: 18,
-                        onSelected: (_) =>
-                            context.go('/admin/payment-events/${row.id}'),
+                        onSelected: (_) => context.go(
+                          '/admin/reconciliation-exceptions/${row.id}',
+                        ),
                         itemBuilder: (context) => const [
                           PopupMenuItem(
                             value: 'open',
@@ -513,7 +518,8 @@ class _AttentionCompactRow extends StatelessWidget {
               Text(_age(row)),
               const SizedBox(width: 12),
               OutlinedButton(
-                onPressed: () => context.go('/admin/payment-events/${row.id}'),
+                onPressed: () =>
+                    context.go('/admin/reconciliation-exceptions/${row.id}'),
                 child: const Text('Review'),
               ),
             ],
@@ -538,11 +544,16 @@ class _QueueHealth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final parser = _metricValue(metrics, 'Parser health', fallback: '—');
+    final parser = _metricValue(metrics, 'Evidence health', fallback: '—');
     final review = _metricValue(
       metrics,
-      'Review queue',
+      'Open exceptions',
       fallback: '${result.total ?? result.rows.length}',
+    );
+    final approvals = _metricValue(
+      metrics,
+      'Awaiting approvals',
+      fallback: '0',
     );
     final oldest = _oldestAge(result.rows);
     final reviewTotal =
@@ -573,12 +584,12 @@ class _QueueHealth extends StatelessWidget {
               valueColor: colors.warningForeground,
             ),
             _HealthRow(
-              label: 'Parser health',
+              label: 'Evidence health',
               value: parser,
               valueColor: colors.successForeground,
             ),
             const _HealthRow(
-              label: 'Parser status',
+              label: 'Evidence status',
               value: 'active',
               chip: true,
             ),
@@ -588,14 +599,14 @@ class _QueueHealth extends StatelessWidget {
             ),
             _HealthRow(label: 'Total in queue', value: '$reviewTotal'),
             _HealthRow(
-              label: 'Needs review',
+              label: 'Open exceptions',
               value: review,
               valueColor: colors.warningForeground,
             ),
             _HealthRow(
-              label: 'Allocated',
-              value: '0',
-              valueColor: colors.successForeground,
+              label: 'Awaiting approvals',
+              value: approvals,
+              valueColor: colors.warningForeground,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -604,7 +615,7 @@ class _QueueHealth extends StatelessWidget {
             Semantics(
               container: true,
               label:
-                  'Sensitive data gated. Raw SMS access is restricted and audited.',
+                  'Sensitive data gated. Raw bank evidence access is restricted and audited.',
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -616,7 +627,7 @@ class _QueueHealth extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Raw SMS remains gated.\nAccess is restricted and all access is audited.',
+                      'Raw bank evidence remains gated.\nAccess is restricted and all access is audited.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
                         height: CollectTypography.leadingSupporting,
@@ -697,7 +708,7 @@ class _RecentAllocations extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Recent allocation activity',
+                    'Recent allocation approvals',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: CollectTypography.weightBold,
@@ -705,7 +716,7 @@ class _RecentAllocations extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    'Latest successful allocations',
+                    'Maker-checker requests awaiting or recently reviewed',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: colors.textSecondary,
                     ),
@@ -714,10 +725,10 @@ class _RecentAllocations extends StatelessWidget {
               ),
             ),
             TextButton.icon(
-              onPressed: () => context.go('/admin/allocations'),
+              onPressed: () => context.go('/admin/bank-allocation-requests'),
               iconAlignment: IconAlignment.end,
               icon: const Icon(Icons.open_in_new_rounded, size: 17),
-              label: const Text('View all allocations'),
+              label: const Text('View all approvals'),
             ),
           ],
         ),
@@ -728,8 +739,8 @@ class _RecentAllocations extends StatelessWidget {
               ? const Padding(
                   padding: EdgeInsets.all(24),
                   child: AdminEmptyState(
-                    title: 'No allocations yet',
-                    message: 'Successful allocations will appear here.',
+                    title: 'No allocation approvals yet',
+                    message: 'Maker-checker requests will appear here.',
                   ),
                 )
               : LayoutBuilder(
@@ -760,15 +771,16 @@ class _RecentAllocations extends StatelessWidget {
                               ),
                               const Spacer(),
                               TextButton.icon(
-                                onPressed: () =>
-                                    context.go('/admin/allocations'),
+                                onPressed: () => context.go(
+                                  '/admin/bank-allocation-requests',
+                                ),
                                 iconAlignment: IconAlignment.end,
                                 icon: const Icon(
                                   Icons.chevron_right_rounded,
                                   size: 18,
                                 ),
                                 label: Text(
-                                  compact ? 'View all' : 'View all allocations',
+                                  compact ? 'View all' : 'View all approvals',
                                 ),
                               ),
                             ],
@@ -816,9 +828,9 @@ class _AllocationTable extends StatelessWidget {
             _TableHeader('Masked sender'),
             _TableHeader('Amount'),
             _TableHeader('Status'),
-            _TableHeader('Allocated to'),
-            _TableHeader('Allocated'),
-            _TableHeader('Operator'),
+            _TableHeader('Proposed group'),
+            _TableHeader('Requested'),
+            _TableHeader('Maker / checker'),
           ],
         ),
         for (final row in rows)
@@ -1109,10 +1121,13 @@ CollectStatusTone _metricTone(String status) {
 
 IconData _metricIcon(String label) {
   final normalized = label.toLowerCase();
-  if (normalized.contains('allocated')) return Icons.check_circle_outline;
-  if (normalized.contains('parser')) return Icons.monitor_heart_outlined;
-  if (normalized.contains('support')) return Icons.chat_bubble_outline;
-  return Icons.people_outline_rounded;
+  if (normalized.contains('exception')) return Icons.report_problem_outlined;
+  if (normalized.contains('approval')) return Icons.fact_check_outlined;
+  if (normalized.contains('unreconciled')) {
+    return Icons.pending_actions_outlined;
+  }
+  if (normalized.contains('evidence')) return Icons.verified_outlined;
+  return Icons.account_balance_outlined;
 }
 
 String _metricValue(
@@ -1192,17 +1207,11 @@ int _ageMinutes(String value) {
 }
 
 String _amount(AdminTableRowData row) {
-  final match = RegExp(r'(\d+)').firstMatch(row.amount.replaceAll(',', ''));
-  if (match == null) return row.amount.isEmpty ? '—' : row.amount;
-  final value = int.tryParse(match.group(1)!);
-  if (value == null) return row.amount;
-  final digits = value.toString();
-  final buffer = StringBuffer();
-  for (var index = 0; index < digits.length; index++) {
-    if (index > 0 && (digits.length - index) % 3 == 0) buffer.write(',');
-    buffer.write(digits[index]);
-  }
-  return 'RWF $buffer';
+  final raw = row.amount.trim();
+  if (raw.isEmpty) return '—';
+  if (RegExp(r'^[A-Z]{3}\s').hasMatch(raw)) return raw;
+  final minor = int.tryParse(raw.replaceAll(RegExp(r'[^0-9-]'), ''));
+  return minor == null ? raw : formatMoneyMinor(minor);
 }
 
 String _dateTime(DateTime? value) {

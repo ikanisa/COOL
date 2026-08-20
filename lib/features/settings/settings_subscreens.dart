@@ -47,7 +47,7 @@ class _NotificationSettingsScreenState
           children: [
             _SettingsSwitchRow(
               title: 'Contribution confirmations',
-              subtitle: 'Confirmed MoMo contributions and ledger updates.',
+              subtitle: 'Reconciled bank contributions and ledger updates.',
               value: preferences.contributionConfirmations,
               onChanged: state.currentProfile == null || _saving
                   ? null
@@ -215,9 +215,9 @@ class SecuritySettingsScreen extends StatelessWidget {
       ),
       children: [
         const InfoSecurityBanner(
-          title: 'Approve MoMo yourself',
+          title: 'Approve transfers in your bank app',
           message:
-              'Collect never asks for a MoMo PIN, OTP, password, or payment credential.',
+              'Collect never asks for a bank password, PIN, OTP, or payment credential.',
           tone: CollectStatusTone.warning,
         ),
         _SettingsOptionPanel(
@@ -225,21 +225,21 @@ class SecuritySettingsScreen extends StatelessWidget {
             _SettingsLinkRow(
               icon: CollectIcons.lock,
               title: 'Session and profile',
-              subtitle: 'Review account details, linked MoMo, and sign out.',
+              subtitle: 'Review account details, Collect ID, and sign out.',
               onTap: () => context.go('/settings/account'),
             ),
             _SettingsLinkRow(
-              icon: CollectIcons.sms,
+              icon: CollectIcons.bank,
               title: 'Contribution verification',
               subtitle:
-                  'Only provider-confirmed, SMS-matched records reach ledgers.',
+                  'Only statement-reconciled bank receipts reach ledgers.',
               onTap: () => context.go('/activity'),
             ),
             _SettingsLinkRow(
               icon: CollectIcons.privacy,
-              title: 'Receiver privacy',
+              title: 'Bank detail privacy',
               subtitle:
-                  'Full receiver details appear only during payment review.',
+                  'Approved beneficiary details are visible only to signed-in members.',
               onTap: () => context.go('/settings/legal/privacy'),
             ),
             _SettingsLinkRow(

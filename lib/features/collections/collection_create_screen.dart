@@ -6,10 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../core/security/phone_normalizer.dart';
-import '../../core/security/momo_receiver_normalizer.dart';
-import '../../core/security/play_integrity_service.dart';
-import '../../core/security/sms_access_channel.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -26,93 +22,44 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
       _CollectionCreateScreenState();
 }
 
-class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
-    with WidgetsBindingObserver {
-  static const _lastStep = 4;
+class _CollectionCreateScreenState
+    extends ConsumerState<CollectionCreateScreen> {
+  static const _lastStep = 3;
 
   final _title = TextEditingController();
   final _description = TextEditingController();
-  final _receiverNumber = TextEditingController();
-  final _receiverPayCode = TextEditingController();
   final _imagePicker = ImagePicker();
   Uint8List? _groupImageBytes;
   String? _groupImageName;
   String? _groupImageMimeType;
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
-  CollectMomoReceiverMode _receiverMode = CollectMomoReceiverMode.momoNumber;
   CollectionType _collectionType = CollectionType.ikimina;
-  bool _syncedProfileMomo = false;
   bool _creating = false;
   bool _isPublicRequested = false;
-  bool _permissionChecking = false;
-  SmsAccessStatus? _smsStatus;
-  String? _permissionError;
   int _step = 0;
   String? _error;
-
-  TextEditingController get _activeReceiverController {
-    return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? _receiverPayCode
-        : _receiverNumber;
-  }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _title.addListener(_refreshPreview);
-    _receiverNumber.addListener(_refreshPreview);
-    _receiverPayCode.addListener(_refreshPreview);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _refreshSmsPermission();
-    });
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _refreshSmsPermission();
-    }
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _title.removeListener(_refreshPreview);
-    _receiverNumber.removeListener(_refreshPreview);
-    _receiverPayCode.removeListener(_refreshPreview);
     _title.dispose();
     _description.dispose();
-    _receiverNumber.dispose();
-    _receiverPayCode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    final collectionCatalog =
+    final catalog =
         ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
         CollectionTypeCatalogConfig.defaults;
-    final selectedTypeOption = collectionCatalog.optionFor(_collectionType);
-    if (!_syncedProfileMomo && profile != null) {
-      if (profile.momoNumber?.trim().isNotEmpty == true) {
-        _receiverNumber.text = profile.momoNumber!;
-      } else if (profile.momoPayCode?.trim().isNotEmpty == true) {
-        _receiverMode = CollectMomoReceiverMode.momoPayCode;
-        _receiverPayCode.text = profile.momoPayCode!;
-      }
-      _syncedProfileMomo = true;
-    }
-    final canCreate = canCreateGroupsOnThisPlatform();
-    if (!canCreate) {
-      return const SizedBox.shrink();
-    }
-    final liveRepository = ref.read(collectRepositoryProvider.notifier).isLive;
-    if (liveRepository &&
-        (_permissionChecking || _smsStatus?.enabled != true)) {
-      return _buildSmsPermissionGate();
-    }
+    final typeOption = catalog.optionFor(_collectionType);
+    if (!canCreateGroupsOnThisPlatform()) return const SizedBox.shrink();
     return ScreenScaffold(
       title: 'Create group',
       showHeader: false,
@@ -127,10 +74,7 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
             icon: _step == _lastStep
                 ? CollectIcons.check
                 : CollectIcons.arrowForward,
-            onPressed: _creating || !_canUsePrimaryAction
-                ? null
-                : _primaryAction,
-            variant: CollectButtonVariant.primary,
+            onPressed: _creating || !_canContinue ? null : _primaryAction,
             expand: true,
           ),
           if (_step > 0)
@@ -145,7 +89,7 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
       ),
       children: [
         const CollectPlainPageHeader(title: 'Create group'),
-        if (_step == 0) ...[
+        if (_step == 0)
           _MobileCreatePanel(
             error: _error,
             children: [
@@ -167,39 +111,28 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
                 autocorrect: true,
               ),
             ],
-          ),
-        ] else if (_step == 1) ...[
+          )
+        else if (_step == 1)
           _MobileCreatePanel(
             error: _error,
             children: [
               _CollectionTypeGrid(
                 selected: _collectionType,
-                options: collectionCatalog.types,
+                options: catalog.types,
                 onChanged: (type) => setState(() {
                   _collectionType = type;
                   _error = null;
                 }),
               ),
-            ],
-          ),
-        ] else if (_step == 2) ...[
-          _MobileCreatePanel(
-            error: _error,
-            children: [
-              CollectMomoReceiverCard(
-                mode: _receiverMode,
-                onChanged: (mode) => setState(() {
-                  _receiverMode = mode;
-                  _error = null;
-                }),
-                numberController: _receiverNumber,
-                codeController: _receiverPayCode,
-                numberInputLabel: 'Receiver MoMo',
-                codeInputLabel: 'MoMo code',
+              const InfoSecurityBanner(
+                title: 'One governed bank beneficiary',
+                message:
+                    'Every group uses the Collect EUR bank account. Group owners cannot replace the beneficiary or redirect member transfers.',
+                tone: CollectStatusTone.privacy,
               ),
             ],
-          ),
-        ] else if (_step == 3) ...[
+          )
+        else if (_step == 2) ...[
           _MobileCreatePanel(
             error: _error,
             children: [
@@ -216,13 +149,11 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
             onPick: _pickGroupImage,
             onRemove: _groupImageBytes == null
                 ? null
-                : () {
-                    setState(() {
-                      _groupImageBytes = null;
-                      _groupImageName = null;
-                      _groupImageMimeType = null;
-                    });
-                  },
+                : () => setState(() {
+                    _groupImageBytes = null;
+                    _groupImageName = null;
+                    _groupImageMimeType = null;
+                  }),
           ),
           CollectCard(
             emphasis: CollectCardEmphasis.flat,
@@ -242,45 +173,85 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
               ),
             ),
           ),
-        ] else ...[
+        ] else
           _CreateGroupReview(
             title: _title.text.trim(),
             description: _description.text.trim(),
-            collectionTypeOption: selectedTypeOption,
-            receiver: _receiverPreviewLabel,
+            collectionTypeOption: typeOption,
+            receiver: 'Collect EUR bank account · SEPA transfer',
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
             isPublicRequested: _isPublicRequested,
             error: _error,
           ),
-        ],
       ],
     );
   }
 
-  Color get _selectedAccentColor {
-    return CollectColors.brandPrimaryOptions
-        .firstWhere(
-          (option) => option.hex == _accentColorHex,
-          orElse: () => CollectColors.brandPrimaryOptions.first,
-        )
-        .color;
-  }
+  bool get _canContinue => _step != 0 || _title.text.trim().isNotEmpty;
 
-  bool get _canUsePrimaryAction {
-    if (_creating) return false;
-    return switch (_step) {
-      0 => _title.text.trim().isNotEmpty,
-      1 => true,
-      2 => _normalizedReceiverValue().isNotEmpty,
-      3 => true,
-      _ =>
-        _title.text.trim().isNotEmpty && _normalizedReceiverValue().isNotEmpty,
-    };
-  }
+  Color get _selectedAccentColor => CollectColors.brandPrimaryOptions
+      .firstWhere(
+        (option) => option.hex == _accentColorHex,
+        orElse: () => CollectColors.brandPrimaryOptions.first,
+      )
+      .color;
+
+  CollectionTypeCatalogItem get _selectedTypeOption =>
+      (ref.read(collectCollectionTypeCatalogProvider).valueOrNull ??
+              CollectionTypeCatalogConfig.defaults)
+          .optionFor(_collectionType);
 
   void _refreshPreview() {
     if (mounted) setState(() {});
+  }
+
+  Future<void> _primaryAction() async {
+    if (_step == 0 && _title.text.trim().isEmpty) {
+      setState(() => _error = 'Name required.');
+      return;
+    }
+    if (_step < _lastStep) {
+      setState(() {
+        _step += 1;
+        _error = null;
+      });
+      return;
+    }
+    await _create();
+  }
+
+  Future<void> _create() async {
+    try {
+      setState(() {
+        _creating = true;
+        _error = null;
+      });
+      final collection = await ref
+          .read(collectRepositoryProvider.notifier)
+          .createCollection(
+            title: _title.text.trim(),
+            description: _description.text,
+            collectionType: _collectionType,
+            categorySubtype: _selectedTypeOption.defaultCategorySubtype,
+            purposeLabel: _selectedTypeOption.defaultPurposeLabel,
+            accentColorHex: _accentColorHex,
+            imageUrl: _selectedImageDataUri(),
+            isPublic: _isPublicRequested,
+          );
+      if (mounted) context.go('/groups/${collection.id}');
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _creating = false;
+        _error = error is StateError || error is FormatException
+            ? error.toString().replaceFirst(
+                RegExp(r'^(Bad state|FormatException):\s*'),
+                '',
+              )
+            : 'Could not create the group. Check the details and try again.';
+      });
+    }
   }
 
   Future<void> _pickGroupImage() async {
@@ -300,247 +271,17 @@ class _CollectionCreateScreenState extends ConsumerState<CollectionCreateScreen>
         _error = null;
       });
     } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _error = 'Photo upload failed.';
-      });
+      if (mounted) setState(() => _error = 'Photo upload failed.');
     }
-  }
-
-  Future<void> _primaryAction() async {
-    if (_step == 0) {
-      if (_title.text.trim().isEmpty) {
-        setState(() => _error = 'Name required.');
-        return;
-      }
-      setState(() {
-        _step = 1;
-        _error = null;
-      });
-      return;
-    }
-    if (_step == 1) {
-      setState(() {
-        _step = 2;
-        _error = null;
-      });
-      return;
-    }
-    if (_step == 2) {
-      if (_normalizedReceiverValue().isEmpty) {
-        setState(() => _error = _receiverErrorMessage);
-        return;
-      }
-      setState(() {
-        _step = 3;
-        _error = null;
-      });
-      return;
-    }
-    if (_step < _lastStep) {
-      setState(() {
-        _step += 1;
-        _error = null;
-      });
-      return;
-    }
-    await _create();
-  }
-
-  Future<void> _create() async {
-    final title = _title.text.trim();
-    final receiver = _normalizedReceiverValue();
-    if (title.isEmpty || receiver.isEmpty) {
-      setState(() {
-        _error = title.isEmpty ? 'Name required.' : _receiverErrorMessage;
-      });
-      return;
-    }
-    final repository = ref.read(collectRepositoryProvider.notifier);
-    if (repository.isLive) {
-      SmsAccessStatus status;
-      try {
-        status = await repository.refreshSmsAccessStatus();
-      } catch (_) {
-        if (!mounted) return;
-        setState(() {
-          _error =
-              'MoMo SMS access could not be verified. Check your connection.';
-        });
-        return;
-      }
-      if (!mounted) return;
-      setState(() => _smsStatus = status);
-      if (!status.enabled) {
-        setState(() {
-          _error = 'Enable MoMo SMS access before creating a group.';
-        });
-        return;
-      }
-    }
-    try {
-      setState(() {
-        _creating = true;
-        _error = null;
-      });
-      final collection = await ref
-          .read(collectRepositoryProvider.notifier)
-          .createCollection(
-            title: title,
-            description: _description.text,
-            collectionType: _collectionType,
-            categorySubtype: _selectedTypeOption.defaultCategorySubtype,
-            purposeLabel: _selectedTypeOption.defaultPurposeLabel,
-            receiverMomoNumber: receiver,
-            receiverLabel: _receiverDisplayLabel,
-            receiverIsMomoPayCode:
-                _receiverMode == CollectMomoReceiverMode.momoPayCode,
-            accentColorHex: _accentColorHex,
-            imageUrl: _selectedImageDataUri(),
-            isPublic: _isPublicRequested,
-          );
-      if (!mounted) return;
-      context.go('/groups/${collection.id}');
-    } on PlayIntegrityUnavailable catch (error) {
-      if (!mounted) return;
-      setState(() {
-        _creating = false;
-        _error = error.message;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _creating = false;
-        _error = 'Could not create the group. Check the details and try again.';
-      });
-    }
-  }
-
-  String get _receiverDisplayLabel {
-    return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? 'MoMo code'
-        : 'Primary MoMo receiver';
-  }
-
-  CollectionTypeCatalogItem get _selectedTypeOption {
-    return (ref.read(collectCollectionTypeCatalogProvider).valueOrNull ??
-            CollectionTypeCatalogConfig.defaults)
-        .optionFor(_collectionType);
-  }
-
-  String get _receiverErrorMessage {
-    return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? MomoReceiverNormalizer.payCodeErrorMessage
-        : 'Use an MTN MoMo number.';
-  }
-
-  String get _receiverPreviewLabel {
-    final value = _activeReceiverController.text.trim();
-    if (value.isEmpty) return '';
-    return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? 'MoMo code $value'
-        : value;
-  }
-
-  String _normalizedReceiverValue() {
-    final value = _activeReceiverController.text.trim();
-    if (value.isEmpty) return '';
-    if (_receiverMode == CollectMomoReceiverMode.momoPayCode) {
-      return MomoReceiverNormalizer.tryNormalizePayCode(value) ?? '';
-    }
-    return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) ?? '';
   }
 
   String? _selectedImageDataUri() {
     final bytes = _groupImageBytes;
     if (bytes == null || bytes.isEmpty) return null;
-    final mimeType =
+    final mime =
         _groupImageMimeType ??
         _mimeTypeFromName(_groupImageName ?? '') ??
         'image/jpeg';
-    return 'data:$mimeType;base64,${base64Encode(bytes)}';
-  }
-
-  Future<void> _refreshSmsPermission() async {
-    final repository = ref.read(collectRepositoryProvider.notifier);
-    if (!repository.isLive || _permissionChecking) return;
-    setState(() {
-      _permissionChecking = true;
-      _permissionError = null;
-    });
-    try {
-      final status = await repository.refreshSmsAccessStatus();
-      if (!mounted) return;
-      setState(() {
-        _smsStatus = status;
-        _permissionChecking = false;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _permissionChecking = false;
-        _permissionError =
-            'MoMo SMS access could not be verified. Check your connection and try again.';
-      });
-    }
-  }
-
-  Widget _buildSmsPermissionGate() {
-    final status = _smsStatus;
-    final unavailable =
-        status != null && (!status.supported || !status.declared);
-    return ScreenScaffold(
-      title: 'Create group',
-      showHeader: false,
-      children: [
-        const CollectPlainPageHeader(title: 'Create group'),
-        CollectCard(
-          emphasis: CollectCardEmphasis.glow,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                unavailable ? CollectIcons.info : CollectIcons.lock,
-                size: 34,
-              ),
-              CollectSpacing.gap12,
-              Text(
-                _permissionChecking
-                    ? 'Checking MoMo SMS access'
-                    : unavailable
-                    ? 'Group creation is unavailable in this build'
-                    : 'Enable MoMo SMS access first',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              CollectSpacing.gap8,
-              Text(
-                _permissionError ??
-                    (unavailable
-                        ? 'Receiver mode is Android-only and requires the approved production SMS capability.'
-                        : 'Collect captures new MoMo receipts on this Android device. The server-side OpenAI parser posts only one complete, high-confidence receipt that exactly matches a pending payer request. Collect never reads old messages or sends SMS.'),
-              ),
-              CollectSpacing.gap16,
-              if (!_permissionChecking && !unavailable)
-                CollectButton(
-                  label: 'Review MoMo SMS access',
-                  icon: CollectIcons.settings,
-                  onPressed: () => context.push('/settings/permissions'),
-                  expand: true,
-                ),
-              if (!_permissionChecking) ...[
-                CollectSpacing.gap12,
-                CollectButton(
-                  label: 'Check again',
-                  icon: Icons.refresh_rounded,
-                  onPressed: _refreshSmsPermission,
-                  variant: CollectButtonVariant.secondary,
-                  expand: true,
-                ),
-              ],
-            ],
-          ),
-        ),
-      ],
-    );
+    return 'data:$mime;base64,${base64Encode(bytes)}';
   }
 }

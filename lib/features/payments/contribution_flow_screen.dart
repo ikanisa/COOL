@@ -1,21 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/payments/momo_ussd_launcher.dart';
-import '../../core/security/momo_receiver_normalizer.dart';
+import '../../core/payments/revolut_launcher.dart';
+import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_empty_state.dart';
-
-const _mobileEvidenceMode = bool.fromEnvironment(
-  'COLLECT_MOBILE_EVIDENCE_MODE',
-  defaultValue: false,
-);
 
 class ContributionFlowScreen extends ConsumerStatefulWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
@@ -30,30 +24,29 @@ class ContributionFlowScreen extends ConsumerStatefulWidget {
 class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
   final _amount = TextEditingController();
-  final _scrollController = ScrollController();
+  BankTransferDestination? _destination;
+  PaymentIntentModel? _intent;
+  bool _loadingDestination = true;
+  bool _working = false;
+  bool _handoffOpened = false;
   String? _error;
-  bool _reviewing = false;
-  bool _creating = false;
-  PaymentIntentModel? _reviewIntent;
-  bool _reviewReusedExisting = false;
 
   @override
   void initState() {
     super.initState();
+    _loadDestination();
   }
 
   @override
   void dispose() {
     _amount.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final collection = ref
-        .read(collectRepositoryProvider.notifier)
-        .maybeCollectionById(widget.collectionId);
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final collection = repository.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
     if (collection.isArchived) {
       return ArchivedGroupStateScreen(
@@ -70,14 +63,13 @@ class _ContributionFlowScreenState
       return ScreenScaffold(
         title: 'Join required',
         subtitle: collection.title,
-        showHeader: false,
         compact: true,
         children: [
           MinimalStatePanel(
             icon: CollectIcons.people,
             title: 'Join this group before contributing.',
             message:
-                'Membership links the payment request to the right payer and keeps group records controlled.',
+                'Membership links your bank transfer request to the correct group ledger.',
             tone: CollectStatusTone.warning,
             primaryAction: CollectButton(
               label: 'Open group',
@@ -89,324 +81,375 @@ class _ContributionFlowScreenState
         ],
       );
     }
-    final amount = _reviewing ? _amountValue : 0;
-    final activeIntent = _reviewing && amount > 0
-        ? _reviewIntent ?? _activePendingIntent(amountRwf: amount)
-        : null;
-    final expiredIntent = _reviewing && amount > 0
-        ? _latestExpiredIntent(amountRwf: amount)
-        : null;
-    if (profile.momoNumber?.trim().isNotEmpty != true) {
-      return ScreenScaffold(
-        title: 'Profile required',
-        subtitle: collection.title,
-        showHeader: false,
-        compact: true,
-        children: [
-          _ContributionHeader(
-            title: collection.title,
-            stepLabel: 'Setup needed',
-            onBack: () => context.go('/groups/${widget.collectionId}'),
-          ),
-          MinimalStatePanel(
-            icon: CollectIcons.momo,
-            title: 'Link your MoMo number first.',
-            message:
-                'Collect needs your profile MoMo number before starting a group contribution.',
-            tone: CollectStatusTone.warning,
-            primaryAction: CollectButton(
-              label: 'Link MoMo number',
-              icon: CollectIcons.momo,
-              onPressed: () => context.go('/settings/profile'),
-              expand: true,
-            ),
-          ),
-        ],
-      );
-    }
-    if (profile.authenticatedMomoPayerPhone == null) {
-      return ScreenScaffold(
-        title: 'Verified payer required',
-        subtitle: collection.title,
-        showHeader: false,
-        compact: true,
-        children: [
-          _ContributionHeader(
-            title: collection.title,
-            stepLabel: 'Setup needed',
-            onBack: () => context.go('/groups/${widget.collectionId}'),
-          ),
-          MinimalStatePanel(
-            icon: CollectIcons.shield,
-            title: 'Use your verified number.',
-            message:
-                'For safe payment matching, your MoMo payer number must be the same number you verified for WhatsApp sign-in.',
-            tone: CollectStatusTone.warning,
-            primaryAction: CollectButton(
-              label: 'Update MoMo number',
-              icon: CollectIcons.momo,
-              onPressed: () => context.go('/settings/profile'),
-              expand: true,
-            ),
-          ),
-        ],
-      );
-    }
+    final destination = _intent?.destination ?? _destination;
+    final unavailable =
+        destination == null ||
+        !destination.enabled ||
+        destination.isPlaceholder;
     return ScreenScaffold(
-      title: _reviewing ? 'Review' : 'Contribute',
+      title: _intent == null ? 'Bank transfer' : 'Review transfer',
       subtitle: collection.title,
-      showHeader: false,
       compact: true,
-      scrollController: _scrollController,
-      bottomAction: _ContributionActionSurface(
-        children: _reviewing
-            ? [
-                CollectButton(
-                  label: _creating
-                      ? 'Opening MoMo'
-                      : _reviewReusedExisting
-                      ? 'Continue existing contribution'
-                      : 'Contribute with MoMo',
-                  icon: CollectIcons.momo,
-                  onPressed: _creating ? null : _createIntent,
-                  expand: true,
-                ),
-                CollectButton(
-                  label: 'Edit amount',
-                  icon: CollectIcons.tune,
-                  onPressed: _creating
-                      ? null
-                      : () {
-                          setState(() {
-                            _reviewing = false;
-                            _reviewIntent = null;
-                            _reviewReusedExisting = false;
-                            _error = null;
-                          });
-                          _showStartOfCurrentStep();
-                        },
-                  variant: CollectButtonVariant.secondary,
-                  expand: true,
-                ),
-              ]
-            : [
-                CollectButton(
-                  label: 'Review contribution',
-                  icon: CollectIcons.arrowForward,
-                  onPressed: _creating ? null : _reviewContribution,
-                  expand: true,
-                ),
-              ],
-      ),
+      bottomAction: _loadingDestination || unavailable
+          ? null
+          : BottomActionSurface(
+              children: _intent == null
+                  ? [
+                      CollectButton(
+                        label: _working
+                            ? 'Preparing transfer'
+                            : 'Review transfer',
+                        icon: CollectIcons.arrowForward,
+                        onPressed: _working ? null : _prepareTransfer,
+                        expand: true,
+                      ),
+                    ]
+                  : [
+                      CollectButton(
+                        label: _working ? 'Opening Revolut' : 'Open Revolut',
+                        icon: Icons.open_in_new_rounded,
+                        onPressed: _working ? null : _openRevolut,
+                        expand: true,
+                      ),
+                      CollectButton(
+                        label: 'Edit amount',
+                        icon: CollectIcons.tune,
+                        onPressed: _working
+                            ? null
+                            : () => setState(() {
+                                _intent = null;
+                                _handoffOpened = false;
+                                _error = null;
+                              }),
+                        variant: CollectButtonVariant.secondary,
+                        expand: true,
+                      ),
+                    ],
+            ),
       children: [
         _ContributionHeader(
           title: collection.title,
-          stepLabel: _reviewing
-              ? 'Step 2 of 2 · Review'
-              : 'Step 1 of 2 · Amount',
+          stepLabel: _intent == null
+              ? 'Step 1 of 2 · Amount'
+              : 'Step 2 of 2 · Review',
           onBack: () => context.go('/groups/${widget.collectionId}'),
         ),
-        if (!_reviewing) ...[
-          AmountEntryPanel(
-            controller: _amount,
-            amount: _amountValue,
-            quickAmounts: const [],
-            error: _error,
-            label: 'Contribution amount',
-            detail:
-                'For ${collection.title}. You will confirm the MoMo destination next.',
-            showCurrencyChip: true,
-            showQuickAmounts: false,
-            onQuickAmount: (_) {},
-            onSubmitted: _reviewContribution,
-          ),
-        ] else ...[
-          PaymentReviewSummary(
-            amountRwf: amount,
-            groupTitle: collection.title,
-            receiverLabel:
-                activeIntent?.receiverLabel ?? collection.receiverDisplayLabel,
-            receiverMomoNumber:
-                activeIntent?.receiverMomoNumber ?? 'Preparing secure receiver',
-            showFullReceiverNumber: !_mobileEvidenceMode,
-            onEdit: () {
-              setState(() {
-                _reviewing = false;
-                _reviewIntent = null;
-                _reviewReusedExisting = false;
-                _error = null;
-              });
-              _showStartOfCurrentStep();
-            },
-          ),
-          if (expiredIntent != null)
-            const InfoSecurityBanner(
-              title: 'Previous request expired',
-              message:
-                  'A fresh contribution request is ready. The expired request will not be added to the confirmed ledger.',
-              tone: CollectStatusTone.warning,
-            )
-          else if (_reviewReusedExisting && activeIntent != null)
-            const InfoSecurityBanner(
-              title: 'Contribution already pending',
-              message:
-                  'Collect will reuse the active request for this group and amount instead of creating a duplicate ledger entry.',
-              tone: CollectStatusTone.info,
-            ),
-          if (_error != null)
-            InfoSecurityBanner(
-              title: 'Could not start contribution',
-              message: _error!,
-              tone: CollectStatusTone.warning,
-            ),
-          const InfoSecurityBanner(
-            title: 'What happens next',
+        if (_loadingDestination)
+          const CollectScreenLoadingState(
+            title: 'Loading bank details',
+            message: 'Checking the approved beneficiary version.',
+            icon: Icons.account_balance_rounded,
+          )
+        else if (unavailable)
+          const MinimalStatePanel(
+            icon: Icons.account_balance_rounded,
+            title: 'Bank transfers are not active yet.',
             message:
-                'Collect opens the MoMo payment prompt. Your group ledger updates only after the payment is confirmed.',
+                'The beneficiary shown in settings is a non-routable placeholder. Transfers stay disabled until two administrators approve real bank details.',
+            tone: CollectStatusTone.warning,
+          )
+        else if (_intent == null) ...[
+          CollectCard(
+            emphasis: CollectCardEmphasis.normal,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Contribution amount',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                CollectSpacing.gap12,
+                TextField(
+                  controller: _amount,
+                  autofocus: true,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d{0,9}([.,]\d{0,2})?'),
+                    ),
+                  ],
+                  decoration: const InputDecoration(
+                    prefixText: 'EUR ',
+                    hintText: '0.00',
+                    helperText: 'Enter euros and cents.',
+                  ),
+                  onSubmitted: (_) => _prepareTransfer(),
+                ),
+              ],
+            ),
+          ),
+          _BeneficiaryCard(destination: destination),
+        ] else ...[
+          _TransferReviewCard(intent: _intent!, onCopy: _copy),
+          const InfoSecurityBanner(
+            title: 'Confirm inside your bank app',
+            message:
+                'Collect opens Revolut only. Select the saved beneficiary, enter the exact amount and reference, then review and approve the transfer in Revolut. Collect never initiates or signs it.',
             tone: CollectStatusTone.privacy,
           ),
+          if (_handoffOpened)
+            const InfoSecurityBanner(
+              title: 'Waiting for bank confirmation',
+              message:
+                  'Your request remains pending. A bank notification creates evidence; the contribution is confirmed only after statement reconciliation.',
+              tone: CollectStatusTone.info,
+            ),
         ],
+        if (_error != null)
+          InfoSecurityBanner(
+            title: 'Transfer could not continue',
+            message: _error!,
+            tone: CollectStatusTone.warning,
+          ),
       ],
     );
   }
 
-  Future<void> _reviewContribution() async {
-    final enteredAmount = _amountValue;
-    if (enteredAmount <= 0) {
-      setState(() => _error = 'Enter an amount above zero.');
+  Future<void> _loadDestination() async {
+    try {
+      final destination = await ref
+          .read(collectRepositoryProvider.notifier)
+          .getBankTransferDestination();
+      if (mounted) {
+        setState(() {
+          _destination = destination;
+          _loadingDestination = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _loadingDestination = false;
+          _error = 'Approved bank details could not be loaded. Try again.';
+        });
+      }
+    }
+  }
+
+  Future<void> _prepareTransfer() async {
+    final amountMinor = parseEuroMinor(_amount.text);
+    if (amountMinor == null || amountMinor <= 0) {
+      setState(() => _error = 'Enter a valid amount above EUR 0.00.');
       return;
     }
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
-      _creating = true;
+      _working = true;
       _error = null;
     });
     try {
-      final existingIntent = _activePendingIntent(amountRwf: enteredAmount);
       final intent = await ref
           .read(collectRepositoryProvider.notifier)
           .createPaymentIntent(
             PaymentIntentDraft(
               collectionId: widget.collectionId,
-              amountRwf: enteredAmount,
+              amountRwf: amountMinor,
             ),
           );
-      if (!mounted) return;
-      setState(() {
-        _reviewIntent = intent;
-        _reviewReusedExisting = existingIntent?.id == intent.id;
-        _reviewing = true;
-        _creating = false;
-      });
-      _showStartOfCurrentStep();
+      if (mounted) {
+        setState(() {
+          _intent = intent;
+          _working = false;
+        });
+      }
     } catch (error) {
-      if (!mounted) return;
-      setState(() {
-        _creating = false;
-        _error = _safeContributionError(error);
-      });
-    }
-  }
-
-  Future<void> _createIntent() async {
-    final amount = _amountValue;
-    if (amount <= 0) {
-      setState(() {
-        _reviewing = false;
-        _error = 'Enter an amount above zero.';
-      });
-      return;
-    }
-    setState(() => _creating = true);
-    try {
-      final intent = _reviewIntent ?? _activePendingIntent(amountRwf: amount);
-      if (intent == null) {
-        throw StateError('Contribution request expired. Review it again.');
-      }
-      final receiverCode = intent.receiverMomoNumber.trim();
-      if (receiverCode.isEmpty) {
-        throw StateError('Group has no MoMo receiver.');
-      }
-      final ussdUri = momoUssdUri(
-        receiverCode: receiverCode,
-        amountRwf: amount,
-      );
-      if (!mounted) return;
-      final messenger = ScaffoldMessenger.of(context);
-      context.go('/groups/${widget.collectionId}');
-      unawaited(_launchMomoDialer(messenger, ussdUri));
-    } catch (error) {
-      if (!mounted) return;
-      setState(() {
-        _creating = false;
-        _error = _safeContributionError(error);
-      });
-    }
-  }
-
-  Future<void> _launchMomoDialer(
-    ScaffoldMessengerState messenger,
-    Uri ussdUri,
-  ) async {
-    var opened = false;
-    try {
-      opened = await MomoUssdLauncher().launch(ussdUri);
-    } catch (_) {
-      // Unsupported platforms and denied Android phone access leave the group
-      // as the source of truth until the incoming SMS is parsed and matched.
-    }
-    if (!opened && messenger.mounted) {
-      messenger.showSnackBar(
-        const SnackBar(
-          content: Text('MoMo could not open. Try again from this group.'),
-        ),
-      );
-    }
-  }
-
-  PaymentIntentModel? _activePendingIntent({int? amountRwf}) {
-    for (final intent in ref.read(collectRepositoryProvider).paymentIntents) {
-      if (intent.collectionId != widget.collectionId) continue;
-      if (intent.status != 'pending') continue;
-      if (DateTime.now().isAfter(intent.expiresAt)) continue;
-      if (amountRwf != null && intent.expectedAmountRwf != amountRwf) continue;
-      return intent;
-    }
-    return null;
-  }
-
-  PaymentIntentModel? _latestExpiredIntent({required int amountRwf}) {
-    PaymentIntentModel? latest;
-    for (final intent in ref.read(collectRepositoryProvider).paymentIntents) {
-      if (intent.collectionId != widget.collectionId) continue;
-      if (intent.expectedAmountRwf != amountRwf) continue;
-      final expired =
-          intent.status == 'expired' ||
-          (intent.status == 'pending' &&
-              !DateTime.now().isBefore(intent.expiresAt));
-      if (!expired) continue;
-      if (latest == null || intent.createdAt.isAfter(latest.createdAt)) {
-        latest = intent;
+      if (mounted) {
+        setState(() {
+          _working = false;
+          _error = _safeError(error);
+        });
       }
     }
-    return latest;
   }
 
-  String _safeContributionError(Object error) {
-    if (error is FormatException) return error.message.toString();
-    if (error is StateError) return error.message.toString();
-    return 'Contribution setup failed. Check your connection and try again.';
-  }
-
-  int get _amountValue =>
-      int.tryParse(_amount.text.replaceAll(RegExp(r'\D'), '')) ?? 0;
-
-  void _showStartOfCurrentStep() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_scrollController.hasClients) return;
-      _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+  Future<void> _openRevolut() async {
+    final intent = _intent;
+    if (intent == null) return;
+    setState(() {
+      _working = true;
+      _error = null;
     });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .markBankTransferHandoffOpened(intent.id);
+      final opened = await const RevolutLauncher().launch();
+      if (!opened) {
+        throw StateError('Revolut could not open on this device.');
+      }
+      if (mounted) {
+        setState(() {
+          _working = false;
+          _handoffOpened = true;
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _working = false;
+          _error = _safeError(error);
+        });
+      }
+    }
   }
+
+  Future<void> _copy(String label, String value) async {
+    await Clipboard.setData(ClipboardData(text: value));
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('$label copied')));
+  }
+
+  String _safeError(Object error) {
+    if (error is StateError) return error.message.toString();
+    if (error is FormatException) return error.message.toString();
+    return 'Check your connection and try again.';
+  }
+}
+
+@visibleForTesting
+int? parseEuroMinor(String value) {
+  final normalized = value.trim().replaceAll(' ', '').replaceAll(',', '.');
+  if (!RegExp(r'^\d{1,9}(?:\.\d{1,2})?$').hasMatch(normalized)) return null;
+  final parts = normalized.split('.');
+  final whole = int.tryParse(parts[0]);
+  if (whole == null) return null;
+  final cents = parts.length == 1 ? 0 : int.parse(parts[1].padRight(2, '0'));
+  final result = whole * 100 + cents;
+  return result > 0 ? result : null;
+}
+
+class _BeneficiaryCard extends StatelessWidget {
+  const _BeneficiaryCard({required this.destination});
+
+  final BankTransferDestination destination;
+
+  @override
+  Widget build(BuildContext context) => CollectCard(
+    emphasis: CollectCardEmphasis.flat,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Approved beneficiary',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        CollectSpacing.gap12,
+        _BankField(label: 'Name', value: destination.beneficiaryName),
+        _BankField(label: 'IBAN', value: destination.ibanMasked),
+        _BankField(label: 'BIC', value: destination.bic),
+        _BankField(label: 'Bank', value: destination.bankName),
+        _BankField(
+          label: 'Scheme',
+          value: destination.supportsInstant
+              ? 'SEPA · Instant supported'
+              : 'SEPA credit transfer',
+        ),
+      ],
+    ),
+  );
+}
+
+class _TransferReviewCard extends StatelessWidget {
+  const _TransferReviewCard({required this.intent, required this.onCopy});
+
+  final PaymentIntentModel intent;
+  final Future<void> Function(String, String) onCopy;
+
+  @override
+  Widget build(BuildContext context) => CollectCard(
+    emphasis: CollectCardEmphasis.glow,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          formatMoneyMinor(
+            intent.expectedAmountMinor,
+            currency: intent.currency,
+          ),
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        CollectSpacing.gap16,
+        _CopyBankField(
+          label: 'Beneficiary',
+          value: intent.destination.beneficiaryName,
+          onCopy: onCopy,
+        ),
+        _CopyBankField(
+          label: 'IBAN',
+          value: intent.destination.iban,
+          onCopy: onCopy,
+        ),
+        _CopyBankField(
+          label: 'BIC',
+          value: intent.destination.bic,
+          onCopy: onCopy,
+        ),
+        _CopyBankField(
+          label: 'Exact reference',
+          value: intent.transferReference,
+          onCopy: onCopy,
+        ),
+      ],
+    ),
+  );
+}
+
+class _BankField extends StatelessWidget {
+  const _BankField({required this.label, required this.value});
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: CollectSpacing.x2),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 90,
+          child: Text(label, style: Theme.of(context).textTheme.bodySmall),
+        ),
+        Expanded(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: CollectSpacing.iconTarget,
+            ),
+            child: Align(alignment: Alignment.centerLeft, child: Text(value)),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class _CopyBankField extends StatelessWidget {
+  const _CopyBankField({
+    required this.label,
+    required this.value,
+    required this.onCopy,
+  });
+  final String label;
+  final String value;
+  final Future<void> Function(String, String) onCopy;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Expanded(
+        child: _BankField(label: label, value: value),
+      ),
+      IconButton(
+        tooltip: 'Copy $label',
+        onPressed: () => onCopy(label, value),
+        icon: const Icon(CollectIcons.copy),
+      ),
+    ],
+  );
 }
 
 class _ContributionHeader extends StatelessWidget {
@@ -415,96 +458,31 @@ class _ContributionHeader extends StatelessWidget {
     required this.stepLabel,
     required this.onBack,
   });
-
   final String title;
   final String stepLabel;
   final VoidCallback onBack;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final usesAccessibilityText =
-        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
-    final foreground = CollectRuntimeTokens.chromeForeground(colors);
-    final control = CollectRuntimeTokens.chromeControl(colors);
-    final border = CollectRuntimeTokens.chromeControlBorder(colors);
-    return Row(
-      children: [
-        IconButton.filledTonal(
-          tooltip: 'Back to group',
-          style: IconButton.styleFrom(
-            backgroundColor: control,
-            foregroundColor: foreground,
-            side: BorderSide(color: border),
-            fixedSize: const Size(44, 44),
-            minimumSize: const Size(44, 44),
-            padding: EdgeInsets.zero,
-          ),
-          onPressed: onBack,
-          icon: const Icon(Icons.arrow_back_rounded, size: 22),
+  Widget build(BuildContext context) => Row(
+    children: [
+      IconButton.filledTonal(
+        tooltip: 'Back to group',
+        onPressed: onBack,
+        icon: const Icon(Icons.arrow_back_rounded),
+      ),
+      CollectSpacing.gapW12,
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              stepLabel.toUpperCase(),
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
+            Text(title, style: Theme.of(context).textTheme.headlineSmall),
+          ],
         ),
-        CollectSpacing.gapW12,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                stepLabel.toUpperCase(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: CollectTypography.eyebrowLabel(
-                  foreground.withValues(alpha: 0.72),
-                ),
-              ),
-              Semantics(
-                header: true,
-                child: Text(
-                  title,
-                  maxLines: usesAccessibilityText ? 2 : 1,
-                  softWrap: usesAccessibilityText,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: foreground,
-                    fontWeight: CollectTypography.weightBold,
-                    height: CollectTypography.leadingSolid,
-                    letterSpacing: CollectTypography.trackingDefault,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ContributionActionSurface extends StatelessWidget {
-  const _ContributionActionSurface({required this.children});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (var index = 0; index < children.length; index++) ...[
-          children[index],
-          if (index != children.length - 1) CollectSpacing.gap12,
-        ],
-      ],
-    );
-  }
-}
-
-@visibleForTesting
-Uri momoUssdUri({required String receiverCode, required int amountRwf}) {
-  if (amountRwf <= 0) {
-    throw const FormatException('Contribution amount must be above zero.');
-  }
-  final normalizedCode = MomoReceiverNormalizer.normalizePayCode(receiverCode);
-  final ussdCode = '*182**8*1*$normalizedCode*$amountRwf#';
-  return Uri.parse('tel:${Uri.encodeComponent(ussdCode)}');
+      ),
+    ],
+  );
 }

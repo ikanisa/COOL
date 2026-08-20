@@ -49,26 +49,17 @@ void main() {
     }
   });
 
-  test('MoMo launcher pre-fills the complete merchant USSD request', () {
-    expect(
-      momoUssdUri(receiverCode: '2209724', amountRwf: 100).toString(),
-      'tel:*182**8*1*2209724*100%23',
-    );
+  test('bank transfer amount parser stores EUR cents exactly', () {
+    expect(parseEuroMinor('1'), 100);
+    expect(parseEuroMinor('12.34'), 1234);
+    expect(parseEuroMinor('12,30'), 1230);
   });
 
-  test('MoMo launcher normalizes the code and rejects unsafe input', () {
-    expect(
-      momoUssdUri(receiverCode: '220-9724', amountRwf: 6000).toString(),
-      'tel:*182**8*1*2209724*6000%23',
-    );
-    expect(
-      () => momoUssdUri(receiverCode: '123', amountRwf: 100),
-      throwsFormatException,
-    );
-    expect(
-      () => momoUssdUri(receiverCode: '2209724', amountRwf: 0),
-      throwsFormatException,
-    );
+  test('bank transfer amount parser rejects invalid or zero values', () {
+    expect(parseEuroMinor('0'), isNull);
+    expect(parseEuroMinor('12.345'), isNull);
+    expect(parseEuroMinor('-1'), isNull);
+    expect(parseEuroMinor('abc'), isNull);
   });
 
   test('activity labels use compact Collect IDs', () {
@@ -186,7 +177,7 @@ void main() {
       find.text('St Michel emergency medical support group'),
       findsOneWidget,
     );
-    expect(find.text('RWF 12,500,000'), findsOneWidget);
+    expect(find.text('EUR 125,000.00'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
     expect(find.byIcon(CollectIcons.people), findsOneWidget);
     expect(find.text('128'), findsOneWidget);
@@ -230,7 +221,7 @@ void main() {
     expect(find.byType(BackdropFilter), findsNothing);
     expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
     expect(find.text('Total collected'), findsNothing);
-    expect(find.text('RWF 35,000'), findsOneWidget);
+    expect(find.text('EUR 350.00'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
   });
 
@@ -335,10 +326,10 @@ void main() {
       expect(find.byType(Divider), findsOneWidget);
       expect(find.text('St Michel building fund'), findsOneWidget);
       expect(find.text('Church · 2 supporters'), findsOneWidget);
-      expect(find.text('RWF 35,000'), findsOneWidget);
+      expect(find.text('EUR 350.00'), findsOneWidget);
       expect(
         find.bySemanticsLabel(
-          'Kigali Lions away kit, RWF 12,000, 4 supporters',
+          'Kigali Lions away kit, EUR 120.00, 4 supporters',
         ),
         findsOneWidget,
       );
@@ -442,18 +433,18 @@ void main() {
         ),
       ),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.text('Target account'), findsNothing);
-    expect(find.text('Review contribution'), findsOneWidget);
+    expect(find.text('Review transfer'), findsOneWidget);
     await tester.enterText(find.byType(TextField).first, '6000');
     await tester.pump();
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Review contribution'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Review contribution'), findsOneWidget);
-    expect(find.text('Contribute with MoMo'), findsOneWidget);
+    expect(find.text('Review transfer'), findsOneWidget);
+    expect(find.text('Open Revolut'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 }

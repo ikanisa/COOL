@@ -44,7 +44,7 @@ page:
       support_email: info@ikanisa.com
     closing: >-
       For the personal data described in this Policy, IKANISA acts as the data controller unless another organisation
-      is identified as the controller. A partner bank, insurer, payment provider or professional service provider
+      is identified as the controller. A partner bank, insurer or professional service provider
       may act as a separate data controller for the products and services it provides.
   - id: scope
     heading: 2. What this Policy covers
@@ -52,7 +52,7 @@ page:
     bullets:
     - Visit the Collect website
     - Use the Collect Android or iOS application
-    - Use a Collect-supported USSD, SMS or WhatsApp journey
+    - Prepare a SEPA bank transfer and open your banking app
     - Create or join a savings group
     - Use credit-readiness services
     - Submit documents for a loan application
@@ -100,17 +100,17 @@ page:
     - heading: Transaction and ledger information
       bullets:
       - Contribution amount, date and reference
-      - Mobile-money or bank-payment confirmation
+      - Bank-transfer confirmation and statement reconciliation
       - Payer and recipient identifiers
       - Transaction status
       - Refunds, reversals and reconciliations
       - Repayment records
       - Purpose-based savings goals
       closing: >-
-        On Android, a group receiver may choose to allow Collect to process only new MTN or Airtel mobile-money
-        transaction SMS received after consent. Collect does not read inbox history, unrelated messages or SMS from
-        before consent. Transaction evidence may also come from banks, mobile-money providers or other authorised
-        payment partners.
+        A controlled internal bank-evidence receiver may process only new bank-notification SMS received after an
+        authorised operator grants access. The public production app does not request SMS access. Collect does not
+        read inbox history, unrelated messages or SMS from before consent. Transaction evidence may also come from
+        authenticated bank email notifications and imported bank statements.
     - heading: Credit-readiness information
       bullets:
       - Business profile and ownership information
@@ -169,7 +169,7 @@ page:
     - Directly from you
     - From your savings group or authorised group leader
     - From a partner bank or custodian
-    - From a payment or mobile-money provider
+    - From a partner bank, its notification service or statement records
     - From an insurer
     - From a professional service provider you instruct us to coordinate
     - From identity, KYC, fraud or compliance providers
@@ -372,7 +372,7 @@ page:
       - Remove a repayment obligation
       - Cancel an insurance policy
       - Cancel a subscription purchased through an app store
-      - Remove records held independently by a bank, insurer or payment provider
+      - Remove records held independently by a bank or insurer
     - heading: Data we may retain
       bullets:
       - Financial transaction and audit records

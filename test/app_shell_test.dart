@@ -130,7 +130,7 @@ void main() {
   );
 
   testWidgets(
-    'native permission refresh is independent of legacy SMS feature flags',
+    'native permission refresh is independent of internal SMS capture',
     (tester) async {
       final repository = _LifecycleCollectRepository();
       final notifications = _LifecycleNotificationService(enabled: true);
@@ -155,7 +155,7 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(repository.syncCalls, 1);
+      expect(repository.syncCalls, 0);
       expect(notifications.initializeCalls, 2);
       expect(notifications.permissionChecks, 1);
       expect(
@@ -169,7 +169,7 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(repository.syncCalls, 2);
+      expect(repository.syncCalls, 0);
       expect(notifications.initializeCalls, 3);
       expect(notifications.permissionChecks, 2);
       expect(
@@ -275,7 +275,7 @@ void main() {
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump();
       await tester.pump();
-      expect(repository.syncCalls, 1);
+      expect(repository.syncCalls, 2);
 
       notifications.throwOnPermissionCheck = false;
       notifications.enabled = true;
@@ -283,7 +283,7 @@ void main() {
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump();
       await tester.pump();
-      expect(repository.syncCalls, 2);
+      expect(repository.syncCalls, 3);
       expect(
         container.read(notificationPermissionStatusProvider),
         CollectDevicePermissionStatus.granted,
@@ -985,11 +985,10 @@ void main() {
     final contribution = File(
       'lib/features/payments/contribution_flow_screen.dart',
     ).readAsStringSync();
-    expect(contribution, contains('if (!opened && messenger.mounted)'));
-    expect(
-      contribution,
-      contains('MoMo could not open. Try again from this group.'),
-    );
+    expect(contribution, contains("throw StateError('Revolut could not open"));
+    expect(contribution, contains('String _safeError(Object error)'));
+    expect(contribution, contains('Check your connection and try again.'));
+    expect(contribution, isNot(contains('_error = error.toString()')));
   });
 
   test('group card media primitives stay out of the base component barrel', () {
@@ -1072,10 +1071,7 @@ void main() {
       expect(groups, isNot(contains('Visibility')));
       expect(groups, isNot(contains('Sort groups')));
       expect(profile, isNot(contains("label: 'Device permissions'")));
-      expect(
-        profile,
-        contains("CollectPlainPageHeader(title: 'Edit profile')"),
-      );
+      expect(profile, contains("CollectPlainPageHeader(title: 'Profile')"));
       expect(settings, isNot(contains('Ready for group activity')));
       expect(
         statusScreens,

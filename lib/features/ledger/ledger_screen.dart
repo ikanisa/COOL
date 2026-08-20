@@ -110,10 +110,10 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   icon: CollectIcons.ledger,
                   title: 'No ledger activity',
                   message:
-                      'Confirmed MoMo contributions appear here only after independent provider verification.',
+                      'Bank contributions appear here only after daily statement reconciliation.',
                   action: CollectButton(
                     label: 'Contribute now',
-                    icon: CollectIcons.momo,
+                    icon: CollectIcons.bank,
                     onPressed: () =>
                         context.go('/groups/${widget.collectionId}/contribute'),
                   ),

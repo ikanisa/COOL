@@ -1,16 +1,16 @@
-# Privacy And Compliance Notes
+# Privacy and compliance notes
 
-Privacy defaults:
-
-- User-facing identity is anonymous and Collect-ID based.
-- Public views never expose phone number, MOMO number, raw SMS, legal identity, balances, or account numbers.
-- Raw SMS is stored because audit and re-parse workflows need it, but RLS restricts access.
-- Phone and MOMO numbers are hashed where matching can use hashes.
-
-Compliance TODOs before production:
-
-- Rwanda data protection review for SMS content, retention, and subject access.
-- Financial/regulatory review confirming Collect is a transparency and recordkeeping tool, not a money transmitter.
-- Google Play restricted SMS permission approval if production SMS ingestion is desired.
-- WhatsApp Cloud API template approval for authentication messages.
-- Operational support policy for platform admin access to raw SMS during disputes.
+- Public and member surfaces never expose phone numbers, raw bank messages,
+  full payer identity, admin identifiers or another member's records.
+- Beneficiary bank details are visible to authenticated members only when the
+  approved destination is active. The placeholder is non-routable and disabled.
+- SMS/email evidence is data-minimised into channel, masked sender, amount,
+  currency, reference, bank transaction identifier and parsing confidence.
+- Raw evidence is stored separately, cannot be selected by normal app roles and
+  requires an explicit capability, reason and audit event to reveal.
+- Evidence is not settlement. Bank-statement reconciliation is required before
+  ledger or balance updates.
+- Notifications contain status information but never raw evidence, credentials,
+  PINs, OTPs or service-account material.
+- Collect does not store banking-app credentials and does not submit or authorise
+  the external bank transfer.

@@ -19,7 +19,6 @@ CollectState _fixtureCollectState({
     id: 'local-user',
     publicId: '038491',
     whatsappPhone: '+250788123456',
-    momoNumber: '0788123456',
   );
   final church = CollectCollection(
     id: 'col-church',
@@ -31,8 +30,7 @@ CollectState _fixtureCollectState({
     collectionType: CollectionType.church,
     categorySubtype: 'building_fund',
     purposeLabel: 'Building fund',
-    receiverMomoNumber: '0788123456',
-    receiverDisplayLabel: 'St Michel treasury',
+    receiverDisplayLabel: 'Collect EUR bank account',
     isPublic: true,
     createdAt: now.subtract(const Duration(days: 3)),
   );
@@ -46,7 +44,7 @@ CollectState _fixtureCollectState({
     collectionType: CollectionType.sport,
     categorySubtype: 'fan_club',
     purposeLabel: 'Away kit support',
-    receiverMomoNumber: '0788123456',
+    receiverDisplayLabel: 'Collect EUR bank account',
     isPublic: true,
     createdAt: now.subtract(const Duration(days: 1)),
   );
@@ -67,8 +65,7 @@ CollectState _fixtureCollectState({
         collectionType: type,
         categorySubtype: type.storageValue,
         purposeLabel: type.shortPurpose,
-        receiverMomoNumber: '0788123456',
-        receiverDisplayLabel: 'Group $number treasury',
+        receiverDisplayLabel: 'Collect EUR bank account',
         isPublic: index.isEven,
         createdAt: now.subtract(Duration(days: number)),
       );
@@ -84,7 +81,7 @@ CollectState _fixtureCollectState({
       supporterLabel: 'Collect ID 038491',
       isCurrentUserContribution: true,
       createdAt: now.subtract(const Duration(hours: 5)),
-      transactionId: 'MTN12345',
+      transactionId: 'BANK-E2E-12345',
     ),
     Contribution(
       id: 'pay-2',
@@ -93,7 +90,7 @@ CollectState _fixtureCollectState({
       supporterLabel: 'Collect ID 038491',
       isCurrentUserContribution: true,
       createdAt: now.subtract(const Duration(hours: 2)),
-      transactionId: 'MTN12346',
+      transactionId: 'BANK-E2E-12346',
     ),
     for (var index = 0; index < effectiveContributionCount - 2; index++)
       Contribution(
@@ -103,7 +100,7 @@ CollectState _fixtureCollectState({
         supporterLabel:
             'Collect ID ${(100000 + index).toString().padLeft(6, '0')}',
         createdAt: now.subtract(Duration(minutes: (index + 1) * 7)),
-        transactionId: 'FIXTURE${(index + 3).toString().padLeft(5, '0')}',
+        transactionId: 'BANK-FIXTURE-${(index + 3).toString().padLeft(5, '0')}',
       ),
   ];
   return CollectState(
@@ -113,12 +110,19 @@ CollectState _fixtureCollectState({
       PaymentIntentModel(
         id: 'intent-render',
         collectionId: church.id,
-        expectedAmountRwf: 15000,
-        receiverMomoNumber: church.receiverMomoNumber ?? user.momoNumber!,
-        receiverLabel: church.receiverDisplayLabel,
-        network: 'mtn',
-        senderPhoneHash: HashUtils.phoneHash(user.momoNumber!),
-        status: 'pending',
+        expectedAmountMinor: 15000,
+        transferReference: 'COL-FIXTURE001',
+        destination: const BankTransferDestination(
+          id: 'fixture-bank',
+          beneficiaryName: 'IKANISA Collect',
+          iban: 'DE89370400440532013000',
+          ibanMasked: 'DE89••••3000',
+          bic: 'COBADEFFXXX',
+          bankName: 'Collect Bank',
+          status: 'active',
+          enabled: true,
+        ),
+        status: 'awaiting_transfer',
         createdAt: now.subtract(const Duration(minutes: 8)),
         expiresAt: now.add(const Duration(hours: 23)),
       ),
@@ -131,7 +135,7 @@ CollectState _fixtureCollectState({
         collectionId: church.id,
         type: 'contribution_confirmed',
         title: 'Contribution confirmed',
-        body: 'RWF 25,000 was recorded on the ledger.',
+        body: 'EUR 250.00 was reconciled and recorded on the ledger.',
         status: 'read',
         createdAt: now.subtract(const Duration(hours: 5)),
         readAt: now.subtract(const Duration(hours: 4)),
@@ -141,7 +145,7 @@ CollectState _fixtureCollectState({
         userId: user.id,
         type: 'app_update',
         title: 'Collect updated',
-        body: 'Group records refresh after confirmed MoMo SMS matching.',
+        body: 'Group records refresh after bank-statement reconciliation.',
         status: 'queued',
         createdAt: now.subtract(const Duration(minutes: 8)),
       ),
@@ -150,7 +154,7 @@ CollectState _fixtureCollectState({
         userId: user.id,
         type: 'security_notice',
         title: 'Security notice',
-        body: 'Receiver details stay private.',
+        body: 'Bank evidence and payer details stay private.',
         status: 'sent',
         createdAt: now.subtract(const Duration(hours: 1)),
         sentAt: now.subtract(const Duration(hours: 1)),

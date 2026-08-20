@@ -1,70 +1,43 @@
-# Database
+# Collect database
 
-The baseline schema starts at
-`supabase/migrations/202605230001_collect_baseline.sql`. The current reviewed
-SMS-first Groups contract is the complete ordered ledger ending at
-`supabase/migrations/20260820160000_restore_momo_sms_standalone.sql`. Two
-immutable, already-deployed history migrations are retained, and the final
-forward migration removes their runtime objects and restores this standalone
-contract on both existing and fresh databases.
+The production financial model is bank-transfer-only. The authoritative cutover
+is `supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql`.
 
-Core data model:
+## Financial records
 
-- `profiles`: user account, WhatsApp phone, stable 6-digit `public_id`, profile
-  MoMo number.
-- `collections`: product-level Groups. Existing table name remains
-  `collections`; UI copy uses Groups.
-- `collection_members`: group roles and membership.
-- `collection_receivers`: active receiver MoMo numbers and hashes.
-- `payment_intents`: pending expected contributions linked to group, amount,
-  receiver hash, contributor user id, and contributor 6-digit Collect ID.
-- `raw_payment_sms`: MoMo SMS rows uploaded from Android SMS access.
-- `parsed_payment_events`: OpenAI parser output and allocation status. Current
-  parser output does not store payer/receiver names or raw payment reason text.
-- `payments`, `payment_allocations`: posted contributions and their exact SMS
-  allocation evidence.
-- `ledger_entries`: immutable collection/member credits created atomically by
-  one exact standalone allocation.
-- `app_realtime_events`: invalidation stream for mobile/Admin refresh.
+- `bank_transfer_destinations` and `bank_destination_change_requests` govern
+  beneficiary name, IBAN, BIC, bank, SEPA Instant capability, versioning and
+  independent maker-checker approval.
+- `bank_transfer_intents` holds a member, group, EUR minor-unit amount, unique
+  transfer reference and destination snapshot. It is a transfer request, not a
+  claim that money moved.
+- `raw_payment_evidence`, `bank_evidence_events` and
+  `payment_evidence_links` preserve idempotent, protected SMS/email evidence.
+- `bank_transactions` is the canonical receipt record.
+- `bank_statement_imports` and `bank_statement_lines` provide independent bank
+  finality for daily reconciliation.
+- `reconciliation_runs`, `reconciliation_matches`,
+  `reconciliation_exceptions` and `daily_bank_closes` govern matching and close.
+- `bank_allocation_change_requests` enforces maker-checker manual allocation.
+- `journal_entries` and `journal_lines` are immutable, exact-once and balanced.
 
-Product rules in the database:
+## Settlement boundary
 
-- Contribution identity uses generated 6-digit Collect IDs only; product flows
-  do not ask for real names or anonymity choices.
-- `payment_intents.contributor_public_id` stores the member Collect ID used for
-  SMS allocation.
-- Contributors do not update payment intents with payment references.
-- `allocate_parsed_payment_event` matches parsed MoMo SMS to pending payment
-  intents by receiver, amount, time window, and explicit 6-digit Collect ID.
-  One exact, complete match calls the locked posting function, while incomplete,
-  conflicting, duplicate, or ambiguous events post nothing. Member-entered
-  references and contribution codes are not allocation inputs.
-- Ambiguous or low-confidence results remain exceptions and are not posted to
-  the ledger automatically.
+SMS and email can create evidence and a received-but-unreconciled candidate.
+Only a matching imported bank statement can mark a receipt reconciled and post
+the balanced ledger entry. Evidence ingestion never updates member balances.
 
-Important RPCs:
+## Access
 
-- `get_current_profile`
-- `mint_native_action_capability`
-- `create_group_with_owner_attested`
-- `get_group_share_code`
-- `rotate_group_share_code`
-- `join_group_by_share_code`
-- `update_collection_profile_and_receiver`
-- `create_contribution_intent`
-- `ingest_raw_payment_sms`
-- `claim_raw_payment_sms_for_parse`
-- `allocate_parsed_payment_event`
+All financial tables have RLS. Members use scoped RPCs for the active
+beneficiary, transfer-request creation and their own contribution status.
+Admin RPCs require explicit capabilities for bank details, transactions,
+evidence, raw reveal, reconciliation and maker-checker approvals. Raw evidence
+is not directly selectable by app roles.
 
-Removed legacy public surface in the current migration:
+## Retired systems
 
-- `report_payment_intent_paid`
-- `manual_allocate_parsed_payment_event`
-- `admin_manual_allocate_payment`
-- Public group-request review RPCs and views.
-- Payment instruction templates.
-- Caller-asserted receiver consent as authorization for Android-only creation.
-
-RLS is enabled on public tables. Flutter-visible reads go through scoped tables,
-safe views, or security-definer RPCs. Service-only writes use Supabase Edge
-Functions and service role on the server side only.
+The cutover fails closed if Stripe rows need export, then removes Stripe
+persistence. It revokes the former payment-intent, MoMo receiver, SMS-parser and
+allocation functions and removes their admin navigation. Historical migrations
+remain immutable repository history; they are not the active production model.

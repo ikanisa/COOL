@@ -2,87 +2,79 @@
 
 ## SDK
 
-Use the stable Flutter/Dart SDK pinned for this project:
+Use the project Flutter/Dart SDK:
 
 - Flutter: `/Users/jeanbosco/Developer/flutter/bin/flutter`
 - Dart: `/Users/jeanbosco/Developer/flutter/bin/dart`
-- Verified target: Flutter `3.44.4`, Dart `3.12.2`
+- Pinned target: Flutter `3.44.4`, Dart `3.12.2`
 
-Local generated files such as `android/local.properties` should point
-`flutter.sdk` to `/Users/jeanbosco/Developer/flutter`. CI reads `.fvmrc`, which
-resolves to Flutter `3.44.4` through `subosito/flutter-action`; local scripts
-should prefer absolute SDK paths so they do not accidentally use another
-Flutter on `PATH`.
+Local generated files such as `android/local.properties` point `flutter.sdk` to
+that SDK. CI resolves the same version from `.fvmrc`.
 
-Flutter dart defines:
+## Flutter runtime values
 
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
 - `APP_PUBLIC_URL`
 - `APP_ENVIRONMENT`
-- `APNS_ENVIRONMENT` (`sandbox` for development/staging, `production` only for
-  the App Store production Release build)
+- `APNS_ENVIRONMENT`
+- `ENABLE_ADMIN_PANEL`
+- `ENABLE_ADMIN_DEV_TOOLS`
 - `ENABLE_SMS_READER`
 - `ENABLE_ANDROID_SMS_ACCESS`
 
-Supabase function secrets:
+Public production builds set both SMS switches to `false`. Only the controlled
+`internal_receiver` Android flavor may set them to `true`; it collects candidate
+bank-notification evidence and can never confirm settlement or post a ledger.
+
+## Supabase function secrets
+
+Core:
 
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
+- `INTERNAL_FUNCTION_SECRET`
 - `WHATSAPP_CLOUD_API_TOKEN`
 - `WHATSAPP_PHONE_NUMBER_ID`
 - `WHATSAPP_AUTH_TEMPLATE_NAME`
-- `WHATSAPP_GRAPH_API_VERSION` (optional; defaults to `v25.0`)
-- `WHATSAPP_AUTH_TEMPLATE_LANGUAGE` (optional; defaults to `en_US`)
-- `WHATSAPP_CLOUD_DRY_RUN` (optional; `true` skips Meta delivery in non-production smoke tests)
-- `WHATSAPP_CLOUD_OTP_AUTH_BUTTON` (optional; set to `false` for legacy templates without OTP buttons)
-- `WHATSAPP_CLOUD_OTP_BUTTON_SUB_TYPE` (optional; defaults to `url`)
 - `SEND_SMS_HOOK_SECRET`
-- `INTERNAL_FUNCTION_SECRET`
-- `SMS_INGEST_HMAC_SECRET`
-- `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON` (server-only)
-- `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` (server-only fallback for Play Integrity)
-- `APNS_KEY_ID` (server-only Apple push key identifier)
-- `APNS_TEAM_ID` (server-only Apple Developer team identifier)
+
+Bank evidence:
+
+- `BANK_EMAIL_INGEST_HMAC_SECRET` for the controlled email-ingestion adapter
+- `BANK_SMS_INGEST_HMAC_SECRET` only when an external SMS relay is enabled
+
+Push delivery:
+
+- `FCM_SERVICE_ACCOUNT_JSON` containing the dedicated Firebase service-account
+  JSON for Android FCM HTTP v1
+- `APNS_KEY_ID`
+- `APNS_TEAM_ID`
 - `APNS_BUNDLE_ID` (`app.cool.mobile` in production)
-- `APNS_PRIVATE_KEY_BASE64` (server-only base64 encoding of the complete Apple
-  `.p8` private-key PEM file)
-- `FCM_SERVICE_ACCOUNT_JSON` (server-only complete Firebase service-account
-  JSON used by the Android FCM HTTP v1 sender)
+- `APNS_PRIVATE_KEY_BASE64`
 
-The WhatsApp hook also accepts the Mobi/Memories-compatible aliases
-`WHATSAPP_CLOUD_ACCESS_TOKEN`, `WHATSAPP_CLOUD_PHONE_NUMBER_ID`,
-`WHATSAPP_CLOUD_OTP_TEMPLATE_NAME`, `WHATSAPP_CLOUD_API_VERSION`,
-`WHATSAPP_CLOUD_TEMPLATE_LANGUAGE_CODE`, `WABA_ACCESS_TOKEN`,
-`WABA_PHONE_NUMBER_ID`, and `WABA_OTP_TEMPLATE_NAME`.
+Optional WhatsApp aliases and tuning values remain supported by
+`auth-send-whatsapp-otp`; see the function source. Do not place service-role,
+HMAC, WhatsApp, FCM, or APNs secrets in Flutter dart-defines or committed files.
 
-Build flavors:
+## Build flavors
 
-- `dev`: normal development build without restricted SMS permissions.
-- `internal_receiver`: internal Android build with the scoped `RECEIVE_SMS`
-  permission for device testing.
-- `production`: production Android build with the scoped `RECEIVE_SMS`
-  permission. Publishing this flavor is blocked until the Google Play SMS
-  Permissions Declaration is approved for the app's core money-management use
-  case.
+- `dev`: development without restricted SMS permissions.
+- `internal_receiver`: controlled operator build with `RECEIVE_SMS`; new bank
+  messages are encrypted locally and uploaded only from an authenticated
+  operator session.
+- `production`: public member/admin build with no `RECEIVE_SMS`, `READ_SMS`,
+  `SEND_SMS`, or `CALL_PHONE` permission.
 
-The Android receiver does not request `READ_SMS`: it handles only newly
-delivered, provider-filtered financial messages after the user enables access.
-Queued messages are encrypted with an Android Keystore key and are removed only
-after successful ingestion.
+No flavor embeds payment-provider credentials. Collect does not call Stripe,
+Revolut, a bank payment-initiation API, or a mobile-money API. The member copies
+the approved beneficiary details and reference, then opens Revolut through its
+documented application link or web fallback.
 
-Local Supabase notes:
+## Local Supabase
 
-- This repo uses non-default local ports in `supabase/config.toml` to avoid
-  conflicts with other local Supabase projects.
-- Local database/API/auth are sufficient for migration and RLS verification.
-- Storage, Studio, Realtime, local SMTP, and Analytics can be enabled when those
-  local services are needed; they are not required for the current database lint
-  gate.
-- Supabase operator scripts use `SUPABASE_BIN` when set, a `supabase` command
-  on `PATH` when available, or `npx -y supabase` as a local fallback.
-- Supabase linked database scripts use `PSQL_BIN` when set, `psql` on `PATH`
-  when available, or `/Library/PostgreSQL/15/bin/psql` as a local fallback.
+The repository uses non-default ports in `supabase/config.toml`. Local database,
+API, and Auth are sufficient for migrations, RLS, SQL lint, and rollback UAT.
+Operator scripts resolve `SUPABASE_BIN` first, then a local CLI. Linked-database
+scripts similarly resolve `PSQL_BIN` before their documented fallback.

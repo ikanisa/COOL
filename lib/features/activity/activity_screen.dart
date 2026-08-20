@@ -105,7 +105,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   icon: CollectIcons.activity,
                   title: 'No activity yet',
                   message:
-                      'Confirmed MoMo contributions appear here only after independent provider verification.',
+                      'Bank contributions appear here only after daily statement reconciliation.',
                 )
               else if (visible.isEmpty)
                 EmptySearchState(

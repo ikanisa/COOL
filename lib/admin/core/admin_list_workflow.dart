@@ -300,50 +300,39 @@ class _AdminSlaChip extends StatelessWidget {
 
 AdminQueueSla _slaForAdminQueue(String title) {
   return switch (title) {
-    'SMS parsing' => const AdminQueueSla(
-      target: 'Review ambiguous SMS within 4 business hours',
-      owner: 'Payments operations',
-      escalation: 'Escalate failed allocation after same-day retry',
-    ),
-    'Allocations' => const AdminQueueSla(
-      target: 'Clear allocation reviews by next business day',
-      owner: 'Payments operations',
-      escalation: 'Escalate mismatched ledger impact immediately',
-    ),
-    'Exceptions' => const AdminQueueSla(
-      target: 'Triage open exceptions within 4 business hours',
-      owner: 'Payments support',
-      escalation: 'Escalate unresolved member impact same day',
-    ),
-    'SMS metadata' => const AdminQueueSla(
-      target: 'Review failed parser metadata within 1 business day',
-      owner: 'Compliance support',
-      escalation: 'Escalate raw reveal requests to compliance owner',
-    ),
     'Groups' => const AdminQueueSla(
       target: 'Respond to group support requests within 1 business day',
       owner: 'Group operations',
-      escalation: 'Escalate receiver-readiness blockers same day',
+      escalation: 'Escalate beneficiary-readiness blockers same day',
     ),
     'Members' => const AdminQueueSla(
       target: 'Respond to account support requests within 1 business day',
       owner: 'Member support',
       escalation: 'Escalate identity or access risk immediately',
     ),
-    'Payment intents' => const AdminQueueSla(
-      target: 'Review pending or expired intents within 1 business day',
-      owner: 'Payments support',
-      escalation: 'Escalate duplicate or disputed intent same day',
+    'Bank details' || 'Bank detail approvals' => const AdminQueueSla(
+      target: 'Complete independent beneficiary review within 1 business day',
+      owner: 'Bank details checker',
+      escalation: 'Escalate aged requests without bypassing maker-checker',
     ),
-    'Receivers' => const AdminQueueSla(
-      target: 'Review receiver setup changes within 1 business day',
-      owner: 'Group operations',
-      escalation: 'Escalate inactive receiver routes before launch',
+    'Transfer requests' ||
+    'Bank transactions' ||
+    'Bank evidence' => const AdminQueueSla(
+      target: 'Review unmatched bank receipts within 4 business hours',
+      owner: 'Bank operations',
+      escalation: 'Escalate duplicate or unidentified receipts same day',
     ),
-    'Ledger' => const AdminQueueSla(
-      target: 'Review ledger exceptions within 1 business day',
+    'Daily reconciliation' ||
+    'Reconciliation exceptions' ||
+    'Bank journal' => const AdminQueueSla(
+      target: 'Resolve daily reconciliation by next business day',
       owner: 'Finance operations',
-      escalation: 'Escalate correction path before member messaging',
+      escalation: 'Escalate unresolved variance to the platform owner',
+    ),
+    'Allocation approvals' => const AdminQueueSla(
+      target: 'Complete independent allocation review within 1 business day',
+      owner: 'Bank allocation checker',
+      escalation: 'Escalate aged requests without bypassing maker-checker',
     ),
     'Audit logs' => const AdminQueueSla(
       target: 'Review sensitive audit events daily',

@@ -10,6 +10,7 @@ import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import '../shared/repositories/pending_shared_group_intent_store.dart';
 import '../shared/widgets/collect_components.dart';
+import 'env/app_env.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 import 'theme/collect_theme_controller.dart';
@@ -37,26 +38,100 @@ class CollectApp extends ConsumerWidget {
       ),
       child: _PendingSharedGroupIntentRecoveryHost(
         child: _NotificationIntentHost(
-          child: _SmsAccessSyncHost(
-            child: MaterialApp.router(
-              title: 'Collect',
-              debugShowCheckedModeBanner: false,
-              theme: AppTheme.light(),
-              darkTheme: AppTheme.dark(),
-              highContrastTheme: AppTheme.highContrastLight(),
-              highContrastDarkTheme: AppTheme.highContrastDark(),
-              themeMode: themeMode,
-              routerConfig: router,
-              builder: (context, child) {
-                return _CollectConnectivityOverlay(
-                  child: child ?? const SizedBox.shrink(),
-                );
-              },
+          child: _BankEvidenceSmsReceiverHost(
+            child: _NotificationRegistrationHost(
+              child: MaterialApp.router(
+                title: 'Collect',
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.light(),
+                darkTheme: AppTheme.dark(),
+                highContrastTheme: AppTheme.highContrastLight(),
+                highContrastDarkTheme: AppTheme.highContrastDark(),
+                themeMode: themeMode,
+                routerConfig: router,
+                builder: (context, child) {
+                  return _CollectConnectivityOverlay(
+                    child: child ?? const SizedBox.shrink(),
+                  );
+                },
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+/// Runs only in the separately signed `internal_receiver` Android flavor.
+/// Public production builds compile with SMS access disabled and do not
+/// declare RECEIVE_SMS. The controlled receiver posts candidate bank evidence;
+/// only daily statement reconciliation can confirm a contribution.
+class _BankEvidenceSmsReceiverHost extends ConsumerStatefulWidget {
+  const _BankEvidenceSmsReceiverHost({required this.child});
+
+  final Widget child;
+
+  @override
+  ConsumerState<_BankEvidenceSmsReceiverHost> createState() =>
+      _BankEvidenceSmsReceiverHostState();
+}
+
+class _BankEvidenceSmsReceiverHostState
+    extends ConsumerState<_BankEvidenceSmsReceiverHost>
+    with WidgetsBindingObserver {
+  StreamSubscription<void>? _subscription;
+  Future<int>? _syncInFlight;
+  late final bool _enabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _enabled = ref.read(appEnvProvider).enableAndroidSmsAccess;
+    if (!_enabled) return;
+    WidgetsBinding.instance.addObserver(this);
+    _subscription = const SmsAccessChannel().pendingSmsEvents.listen(
+      (_) => _sync(),
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) => _sync());
+  }
+
+  @override
+  void dispose() {
+    if (_enabled) WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _sync();
+  }
+
+  void _sync() {
+    if (!_enabled || _syncInFlight != null) return;
+    final sync = ref
+        .read(collectRepositoryProvider.notifier)
+        .syncPendingSmsAccess();
+    _syncInFlight = sync;
+    unawaited(
+      sync.catchError((_) => 0).whenComplete(() {
+        if (identical(_syncInFlight, sync)) _syncInFlight = null;
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_enabled) {
+      ref.listen<String?>(
+        collectRepositoryProvider.select((state) => state.currentProfile?.id),
+        (_, current) {
+          if (current != null) _sync();
+        },
+      );
+    }
+    return widget.child;
   }
 }
 
@@ -302,18 +377,19 @@ ConnectivityStatus connectivityOverlayStatus(ConnectivityStatus status) {
       : status;
 }
 
-class _SmsAccessSyncHost extends ConsumerStatefulWidget {
-  const _SmsAccessSyncHost({required this.child});
+class _NotificationRegistrationHost extends ConsumerStatefulWidget {
+  const _NotificationRegistrationHost({required this.child});
 
   final Widget child;
 
   @override
-  ConsumerState<_SmsAccessSyncHost> createState() => _SmsAccessSyncHostState();
+  ConsumerState<_NotificationRegistrationHost> createState() =>
+      _NotificationRegistrationHostState();
 }
 
-class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
+class _NotificationRegistrationHostState
+    extends ConsumerState<_NotificationRegistrationHost>
     with WidgetsBindingObserver {
-  StreamSubscription<void>? _smsQueueSubscription;
   Future<void>? _syncInFlight;
   var _syncRequested = false;
   var _wasBackgrounded = false;
@@ -322,27 +398,12 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    unawaited(_startSmsQueueSubscription());
-    WidgetsBinding.instance.addPostFrameCallback((_) => _syncPendingSms());
-  }
-
-  Future<void> _startSmsQueueSubscription() async {
-    const smsAccess = SmsAccessChannel();
-    final status = await smsAccess.status();
-    if (!mounted || !status.supported) return;
-    _smsQueueSubscription = smsAccess.pendingSmsEvents.listen(
-      (_) => _syncPendingSms(),
-      onError: (_) {
-        // Non-Android platforms and flavors without the native event channel
-        // continue to use the startup/resume drain below.
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) => _syncRuntime());
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    unawaited(_smsQueueSubscription?.cancel());
     super.dispose();
   }
 
@@ -356,31 +417,31 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
     }
     if (state == AppLifecycleState.resumed && _wasBackgrounded) {
       _wasBackgrounded = false;
-      _syncPendingSms();
+      _syncRuntime();
     }
   }
 
-  void _syncPendingSms() {
+  void _syncRuntime() {
     if (_syncInFlight != null) {
       _syncRequested = true;
       return;
     }
     _syncRequested = false;
-    final sync = _syncPendingSmsSafely();
+    final sync = _syncNotificationRegistration();
     _syncInFlight = sync;
     unawaited(
       sync.whenComplete(() {
         if (identical(_syncInFlight, sync)) {
           _syncInFlight = null;
           if (_syncRequested && mounted) {
-            _syncPendingSms();
+            _syncRuntime();
           }
         }
       }),
     );
   }
 
-  Future<void> _syncPendingSmsSafely() async {
+  Future<void> _syncNotificationRegistration() async {
     try {
       final notifications = ref.read(collectNotificationServiceProvider);
       await notifications.initialize();
@@ -399,9 +460,8 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
         ref.read(notificationPermissionStatusProvider.notifier).state =
             CollectDevicePermissionStatus.denied;
       }
-      await ref.read(collectRepositoryProvider.notifier).syncPendingSmsAccess();
     } catch (_) {
-      // SMS queue sync is retried on the next resume/realtime refresh.
+      // Device notification registration is retried on the next resume.
     }
   }
 

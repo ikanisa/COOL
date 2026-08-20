@@ -14,7 +14,7 @@ page:
     headline: Clear rules for using Collect.
     supporting_copy: >-
       These Terms explain what Collect provides, what regulated partners provide, your responsibilities and the
-      rules governing your use of the website, app, USSD and related services.
+      rules governing your use of the website, app and related services.
   important_summary:
   - Collect is a financial-technology and service-orchestration platform.
   - Collect does not accept deposits unless separately authorised.
@@ -38,7 +38,7 @@ page:
     - Loan agreements
     - Collateral agreements
     - Insurance policies
-    - Payment-provider terms
+    - Bank-transfer terms
     - Professional-service agreements
     - Product-specific disclosures
     priority_rule: >-
@@ -65,7 +65,7 @@ page:
   - id: what-collect-provides
     heading: 3. What Collect provides
     bullets:
-    - Mobile-app and USSD access
+    - Mobile-app access and bank-transfer handoff
     - Group creation and administration
     - Member and group ledgers
     - Contribution and transaction records
@@ -88,7 +88,7 @@ page:
     - A bank
     - A deposit-taking institution
     - A lender
-    - A mobile-money operator
+    - A payment institution
     - An insurer
     - A broker
     - A credit bureau
@@ -119,8 +119,9 @@ page:
   - id: savings-and-payments
     heading: 6. Savings and payments
     body:
-    - Collect may help initiate, evidence, reconcile or display contributions.
-    - Customer funds are held or processed through licensed financial institutions or payment providers.
+    - Collect may prepare a bank-transfer handoff, evidence, reconcile or display contributions.
+    - You authorise each transfer in your banking app; Collect does not initiate, sign or execute it.
+    - Customer funds are transferred to and held or processed through licensed financial institutions.
     transaction_may_remain_subject_to:
     - Partner confirmation
     - Settlement
@@ -129,7 +130,7 @@ page:
     - Reversal
     - Error correction
     closing: >-
-      You must verify payment references and notify us promptly if a record appears incorrect. Collect ledger information
+      You must verify transfer references and notify us promptly if a record appears incorrect. Collect ledger information
       does not replace the official account record held by the regulated financial institution.
   - id: group-savings
     heading: 7. Group savings
@@ -265,11 +266,11 @@ page:
     - Professional-service fees
     - Partner-product fees
     - Currency-conversion fees
-    - Payment-provider charges
+    - Bank-transfer charges
     - Bank or insurer charges
     zero_fee_clarification: >-
-      A zero-fee savings statement applies only to the specific user charge described. Mobile operators, banks or
-      other providers may impose separate charges unless waived under the product terms.
+      A zero-fee savings statement applies only to the specific user charge described. Banks or banking applications
+      may impose separate charges unless waived under the product terms.
   - id: acceptable-use
     heading: 16. Acceptable use
     intro: 'You must not use Collect to:'
@@ -340,7 +341,7 @@ page:
     availability_may_be_affected_by:
     - Mobile networks
     - Banks
-    - Payment providers
+    - Banking services
     - Insurers
     - App stores
     - Internet providers

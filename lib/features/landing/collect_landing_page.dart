@@ -56,7 +56,7 @@ class CollectLandingPage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'MoMo contributions, captured automatically.',
+                              'Bank contributions, reconciled automatically.',
                               style: Theme.of(context).textTheme.displayMedium
                                   ?.copyWith(
                                     color: CollectColors.referenceChromeBlack,
@@ -66,7 +66,7 @@ class CollectLandingPage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 24),
                             Text(
-                              'Create a group, invite members and contribute through MoMo. On Android, Collect listens only after clear SMS permission, sends opted-in payment receipts to its secure backend, uses OpenAI to extract the receipt facts and updates the group ledger when one exact payer request matches.',
+                              'Create a group, invite members and contribute in EUR by bank transfer. Collect shows the approved beneficiary, creates a unique reference, opens Revolut, and updates the ledger only after bank evidence and the daily statement reconcile.',
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(
                                     color: CollectColors.inkSecondary,
@@ -225,12 +225,12 @@ class _JourneyPreview extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 18),
-            const _PreviewRow(label: 'Payment request', value: 'RWF 10,000'),
-            const _PreviewRow(label: 'Receipt', value: 'Captured'),
-            const _PreviewRow(label: 'Match', value: 'Exact'),
+            const _PreviewRow(label: 'Transfer request', value: 'EUR 100.00'),
+            const _PreviewRow(label: 'Bank evidence', value: 'Captured'),
+            const _PreviewRow(label: 'Statement', value: 'Reconciled'),
             const Divider(height: 28),
-            const _PreviewRow(label: 'Group balance', value: '+ RWF 10,000'),
-            const _PreviewRow(label: 'Your balance', value: '+ RWF 10,000'),
+            const _PreviewRow(label: 'Group balance', value: '+ EUR 100.00'),
+            const _PreviewRow(label: 'Your balance', value: '+ EUR 100.00'),
           ],
         ),
       ),
@@ -296,18 +296,21 @@ class _JourneySection extends StatelessWidget {
                   ),
                   _StepCard(
                     number: '2',
-                    title: 'Request an amount',
-                    body: 'Collect creates one pending request for this payer.',
+                    title: 'Enter an amount',
+                    body:
+                        'Collect creates one EUR request and unique reference.',
                   ),
                   _StepCard(
                     number: '3',
-                    title: 'Pay through MoMo',
-                    body: 'The member approves payment outside Collect.',
+                    title: 'Open Revolut',
+                    body:
+                        'The member sends a bank transfer to the saved beneficiary.',
                   ),
                   _StepCard(
                     number: '4',
                     title: 'See the ledger update',
-                    body: 'One exact receipt match updates both balances.',
+                    body:
+                        'One reconciled statement match updates both balances.',
                   ),
                 ],
               ),
@@ -378,7 +381,7 @@ class _SafetySection extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Collect records direct MoMo contributions. It does not hold group funds, sell financial products or ask members to paste receipts and transaction IDs.',
+              'Collect records EUR bank contributions. It does not embed a payment processor, sell financial products or ask members to paste receipts and transaction IDs.',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: CollectColors.inkSecondary,
                 height: CollectTypography.leadingBody,
@@ -390,18 +393,19 @@ class _SafetySection extends StatelessWidget {
               runSpacing: 16,
               children: [
                 _SafetyCard(
-                  icon: Icons.sms_outlined,
-                  title: 'Clear SMS permission',
-                  body: 'Android explains access before the system prompt.',
+                  icon: Icons.account_balance_outlined,
+                  title: 'Approved beneficiary',
+                  body:
+                      'Maker-checker approval controls every bank-detail change.',
                 ),
                 _SafetyCard(
-                  icon: Icons.auto_awesome_outlined,
-                  title: 'OpenAI extraction',
-                  body: 'The secure backend extracts only receipt facts.',
+                  icon: Icons.fact_check_outlined,
+                  title: 'Controlled evidence',
+                  body: 'SMS, email and statement channels are authenticated.',
                 ),
                 _SafetyCard(
                   icon: Icons.rule_rounded,
-                  title: 'Exact server match',
+                  title: 'Daily reconciliation',
                   body: 'Incomplete or ambiguous evidence posts nothing.',
                 ),
                 _SafetyCard(

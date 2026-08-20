@@ -8,12 +8,14 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../app/theme/collect_colors.dart';
+import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_typography.dart';
 import '../../app/theme/collect_universal_tokens.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
+import '../../core/utils/money_format.dart';
 import '../shared/components/admin_confirm_dialog.dart';
 import '../shared/components/admin_data_table.dart';
 import '../shared/components/admin_empty_state.dart';
@@ -35,6 +37,7 @@ part 'admin_list_runtime.dart';
 part 'admin_detail_specs.dart';
 part 'admin_detail_runtime.dart';
 part 'admin_detail_formatters.dart';
+part 'bank_transfer_admin_runtime.dart';
 
 final adminRepositoryProvider = Provider<AdminRepositoryBase>((ref) {
   return AdminRepository(ref.watch(supabaseClientProvider));

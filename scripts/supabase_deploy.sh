@@ -12,22 +12,27 @@ cd "$ROOT_DIR"
 EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
   dispatch-notifications
-  ingest-payment-sms
-  parse-payment-sms
+  ingest-bank-email
+  ingest-bank-sms
+  ingest-bank-statement
   send-notification
-  stripe-create-customer
-  stripe-create-diaspora-contribution
-  stripe-create-setup-intent
-  stripe-webhook
-  verify-play-integrity
 )
 
 NO_VERIFY_JWT_FUNCTIONS=(
   auth-send-whatsapp-otp
   dispatch-notifications
-  parse-payment-sms
+  ingest-bank-email
   send-notification
+)
+
+RETIRED_FUNCTIONS=(
+  stripe-create-customer
+  stripe-create-diaspora-contribution
+  stripe-create-setup-intent
   stripe-webhook
+  ingest-payment-sms
+  parse-payment-sms
+  verify-play-integrity
 )
 
 if [[ -f .env ]]; then
@@ -79,6 +84,20 @@ log "pushing database migrations"
 SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
   SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
   supabase_cli db push
+
+remote_function_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
+  supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json)"
+for function_name in "${RETIRED_FUNCTIONS[@]}"; do
+  if ruby -r json -e '
+      name = ARGV.fetch(0)
+      exit(JSON.parse(STDIN.read).any? { |row| row["name"] == name } ? 0 : 1)
+    ' "$function_name" <<< "$remote_function_inventory"; then
+    log "deleting retired Edge Function: $function_name"
+    SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
+      supabase_cli functions delete "$function_name" \
+        --project-ref "$SUPABASE_PROJECT_REF" --yes
+  fi
+done
 
 for function_name in "${EXPECTED_FUNCTIONS[@]}"; do
   log "deploying Edge Function: $function_name"

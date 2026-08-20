@@ -4,38 +4,38 @@ const _publicMarketingPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/group-savings',
     navLabel: 'How it works',
-    title: 'Direct MoMo contributions with a clear group ledger.',
+    title: 'SEPA bank contributions with a clear group ledger.',
     intro:
-        'Collect connects one member request to one official MoMo receipt. The group owner receives the payment directly, while Collect keeps the contribution record accurate.',
+        'Collect gives every member a unique EUR transfer reference, opens Revolut for the bank transfer, and records the contribution after statement reconciliation.',
     sections: [
       CollectPublicSectionData(
         title: 'Create the group and invite members',
         body:
-            'An Android group owner completes SMS access setup, creates the group and shares a private link or QR code.',
+            'A member creates the group and shares a private link or QR code. Every group uses the same approved Collect EUR beneficiary.',
         bullets: [
           'Members use six-digit Collect IDs',
-          'The receiving MoMo number comes from the owner profile',
+          'Approved bank details are shown in the app',
           'Private group links can be rotated',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Contribute through MoMo',
+        title: 'Contribute by bank transfer',
         body:
-            'A member enters the amount in Collect, completes the payment through MoMo and waits for the official receipt.',
+            'A member enters the EUR amount, copies the unique reference, opens Revolut and sends a bank transfer to the saved beneficiary.',
         bullets: [
-          'Collect never asks for a PIN or OTP',
-          'Members do not paste receipts or report transaction IDs',
+          'Collect never asks for a bank password, PIN or OTP',
+          'Members do not upload receipts or report transaction IDs',
           'Payment approval stays outside Collect',
         ],
       ),
       CollectPublicSectionData(
         title: 'See one balanced update',
         body:
-            'The receipt posts only when it matches one active request by amount, payer, receiver, time and transaction identity.',
+            'The receipt posts only when bank evidence and the daily statement match one active request by reference, EUR amount and transaction identity.',
         bullets: [
           'The group total and payer total update together',
-          'Duplicate receipts cannot post twice',
-          'Incomplete or ambiguous receipts remain unposted for review',
+          'Duplicate evidence and statement lines cannot post twice',
+          'Incomplete or ambiguous receipts remain in the admin review queue',
         ],
       ),
     ],
@@ -60,7 +60,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Keep private details private',
         body:
-            'Member surfaces use Collect IDs and safe contribution status. Full phone numbers and raw SMS evidence stay out of public pages.',
+            'Member surfaces use Collect IDs and safe contribution status. Full phone numbers and raw bank evidence stay out of public pages.',
         bullets: [
           'Private group access is membership-gated',
           'Payer-level balances are visible only to the payer and authorized group roles',
@@ -72,36 +72,36 @@ const _publicMarketingPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/trust',
     navLabel: 'Trust',
-    title: 'Permission, parsing and posting are separate controlled steps.',
+    title: 'Evidence, reconciliation and posting are separate controls.',
     intro:
-        'Collect explains SMS access before Android asks, uploads only opted-in payment notifications and keeps transaction posting on the server.',
+        'Collect accepts controlled bank SMS, email and statement evidence while keeping transaction posting on the server.',
     sections: [
       CollectPublicSectionData(
-        title: 'SMS access is explicit',
+        title: 'Evidence ingestion is controlled',
         body:
-            'The owner sees why receive-only SMS access is needed and can review or revoke access in device settings.',
+            'Member apps request no SMS permission. Authorized operational channels ingest bank notifications with authenticated endpoints and duplicate protection.',
         bullets: [
-          'No SMS access before in-app consent',
-          'Encrypted offline queue for temporary network loss',
-          'Background and restarted-app recovery are covered by the same consent',
+          'No member inbox access',
+          'SMS and email are candidate evidence, not settlement finality',
+          'Daily bank statements remain authoritative',
         ],
       ),
       CollectPublicSectionData(
-        title: 'OpenAI extracts receipt facts',
+        title: 'Deterministic parsers extract receipt facts',
         body:
-            'The Supabase Edge Function sends redacted receipt content to the OpenAI Responses API with a strict structured-output schema.',
+            'Supabase Edge Functions validate EUR bank evidence into a strict schema without allowing a parser to choose a group or post a balance.',
         bullets: [
-          'The model cannot choose a group or post a balance',
-          'Phone values are hashed before the parsed event is stored',
-          'Failed, outgoing, promotional and balance-only messages do not post',
+          'References, amounts and transaction identifiers are normalized',
+          'Raw evidence has separate audited reveal permission',
+          'Failed, outgoing or incomplete messages do not post',
         ],
       ),
       CollectPublicSectionData(
         title: 'Postgres enforces the match',
         body:
-            'A locked database function checks receiver ownership, payer identity, amount, time window, confidence and transaction uniqueness.',
+            'A locked database function checks the transfer reference, exact EUR amount, transaction uniqueness, daily statement and independent allocation controls.',
         bullets: [
-          'One exact pending request is required',
+          'One exact pending transfer request is required',
           'Group and payer credits are created in one transaction',
           'The audit record and notification are linked to the same payment',
         ],

@@ -2,3437 +2,388 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-String readCollectRepositoryLibrary() {
-  return [
-    'lib/shared/repositories/collect_repository.dart',
-    'lib/shared/repositories/collect_repository_providers.dart',
-    'lib/shared/repositories/collect_repository_state.dart',
-    'lib/shared/repositories/collect_repository_fixture.dart',
-    'lib/shared/repositories/collect_repository_live_reader.dart',
-  ].map((path) => File(path).readAsStringSync()).join('\n');
-}
+String readAll(List<String> paths) =>
+    paths.map((path) => File(path).readAsStringSync()).join('\n');
 
 void main() {
-  final supabaseSharedClient = File(
-    'supabase/functions/_shared/supabase.ts',
-  ).readAsStringSync();
-  final migration = File(
-    'supabase/migrations/202605230001_collect_baseline.sql',
-  ).readAsStringSync();
-  final adminFilterContracts = File(
-    'supabase/migrations/202605230017_admin_list_filter_contracts.sql',
-  ).readAsStringSync();
-  final adminRoleTightening = File(
-    'supabase/migrations/20260523203132_tighten_admin_role_permissions.sql',
-  ).readAsStringSync();
-  final viewSecurityInvoker = File(
-    'supabase/migrations/20260523204235_set_views_security_invoker.sql',
-  ).readAsStringSync();
-  final helperSearchPaths = File(
-    'supabase/migrations/20260523205502_set_helper_function_search_paths.sql',
-  ).readAsStringSync();
-  final splitPermissiveSelectPolicies = File(
-    'supabase/migrations/20260523210723_split_permissive_select_policies.sql',
-  ).readAsStringSync();
-  final revokeAnonPlatformAdminHelper = File(
-    'supabase/migrations/20260523212244_revoke_anon_platform_admin_helper.sql',
-  ).readAsStringSync();
-  final disableGraphqlIntrospection = File(
-    'supabase/migrations/20260523213113_disable_graphql_introspection.sql',
-  ).readAsStringSync();
-  final realtimeInvalidation = File(
-    'supabase/migrations/202605250001_app_realtime_invalidation.sql',
-  ).readAsStringSync();
-  final smsFirstGroupPaymentIntents = File(
-    'supabase/migrations/202605270001_sms_first_group_payment_intents.sql',
-  ).readAsStringSync();
-  final momoSmsHardening = File(
-    'supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql',
-  ).readAsStringSync();
-  final groupJourneyHardening = File(
-    'supabase/migrations/20260815051035_harden_group_creation_journey.sql',
-  ).readAsStringSync();
-  final groupJourneyDatabaseLintCleanup = File(
-    'supabase/migrations/20260815054500_close_group_journey_database_lint.sql',
-  ).readAsStringSync();
-  final contributionPayerIdentityBinding = File(
-    'supabase/migrations/20260815071500_bind_contribution_payer_identity.sql',
-  ).readAsStringSync();
-  final groupAuthorizationPrivacy = File(
-    'supabase/migrations/20260815082500_close_group_authorization_privacy.sql',
-  ).readAsStringSync();
-  final smsParserWorkClaim = File(
-    'supabase/migrations/20260815083500_claim_sms_parser_work.sql',
-  ).readAsStringSync();
-  final atomicSmsIngestion = File(
-    'supabase/migrations/20260815084000_atomic_sms_ingestion.sql',
-  ).readAsStringSync();
-  final revokedNonDmlClientPrivileges = File(
-    'supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql',
-  ).readAsStringSync();
-  final standaloneSmsRestoration = File(
-    'supabase/migrations/20260820160000_restore_momo_sms_standalone.sql',
-  ).readAsStringSync();
-  final completeAdminOperationsControlPlane = File(
-    'supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql',
-  ).readAsStringSync();
-  final adminPaymentEventServerPaging = File(
-    'supabase/migrations/20260612110000_admin_payment_event_server_paging.sql',
-  ).readAsStringSync();
-  final dropLegacyPaymentEventQueueOverloads = File(
-    'supabase/migrations/20260612111500_drop_legacy_payment_event_queue_overloads.sql',
-  ).readAsStringSync();
-  final revokeAnonAdminQueuePaging = File(
-    'supabase/migrations/20260612113000_revoke_anon_admin_queue_paging.sql',
-  ).readAsStringSync();
-  final schemaInventoryScript = File(
-    'scripts/supabase_schema_inventory.sh',
-  ).readAsStringSync();
-  final contributionIntentSenderHash = File(
-    'supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql',
-  ).readAsStringSync();
-  final mobileStateRlsInitPlanHardening = File(
-    'supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql',
-  ).readAsStringSync();
-  final mobileProductionStateSupport = File(
-    'supabase/migrations/20260531190000_mobile_production_state_support.sql',
-  ).readAsStringSync();
-  final mobileRequestOwnReadGrant = File(
-    'supabase/migrations/20260730134500_grant_mobile_request_own_read.sql',
-  ).readAsStringSync();
-  final updateCollectionProfileRpc = File(
-    'supabase/migrations/20260607130500_update_collection_profile_rpc.sql',
-  ).readAsStringSync();
-  final hardenedMobileProfileRpcs = File(
-    'supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql',
-  ).readAsStringSync();
-  final adminWhatsappOperatorLogin = File(
-    'supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql',
-  ).readAsStringSync();
-  final adminWhatsappOperatorPhoneLookup = File(
-    'supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql',
-  ).readAsStringSync();
-  final disabledBrowserAdminBootstrap = File(
-    'supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql',
-  ).readAsStringSync();
-  final hardenedNotificationRlsInitPlan = File(
-    'supabase/migrations/20260611113000_harden_notification_rls_initplan.sql',
-  ).readAsStringSync();
-  final tightenedNotificationRpcGrants = File(
-    'supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql',
-  ).readAsStringSync();
-  final notificationPreferenceGatedEnqueue = File(
-    'supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql',
-  ).readAsStringSync();
-  final restrictedAdminPermissionHelperProbing = File(
-    'supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql',
-  ).readAsStringSync();
-  final hardenedDiasporaStripeTableGrants = File(
-    'supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql',
-  ).readAsStringSync();
-  final adminOperatorNoteRpc = File(
-    'supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql',
-  ).readAsStringSync();
-  final adminQueueSlaPolicies = File(
-    'supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql',
-  ).readAsStringSync();
-  final adminCollectionStatusRpc = File(
-    'supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql',
-  ).readAsStringSync();
-  final adminFeatureFlagToggleRpc = File(
-    'supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql',
-  ).readAsStringSync();
-  final developerAccountSeedData = File(
-    'supabase/migrations/20260701090000_developer_account_seed_data.sql',
-  ).readAsStringSync();
-  final hardenedDeveloperAndGroupRpcs = File(
-    'supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql',
-  ).readAsStringSync();
-  final publicRuntimeConfig = File(
-    'supabase/migrations/20260704100000_public_runtime_config.sql',
-  ).readAsStringSync();
-  final adminRuntimeMetadata = File(
-    'supabase/migrations/20260704110000_admin_runtime_metadata.sql',
-  ).readAsStringSync();
-  final policyDocumentsAccountReasons = File(
-    'supabase/migrations/20260704120000_policy_documents_account_reasons.sql',
-  ).readAsStringSync();
-  final collectionTypeCatalogRuntime = File(
-    'supabase/migrations/20260703224559_collection_type_catalog_runtime.sql',
-  ).readAsStringSync();
-  final notificationTemplatesRuntime = File(
-    'supabase/migrations/20260703225455_notification_templates_runtime.sql',
-  ).readAsStringSync();
-  final nativePushDelivery = File(
-    'supabase/migrations/20260804150000_native_push_delivery.sql',
-  ).readAsStringSync();
-  final mobileNotificationPreferenceGrants = File(
-    'supabase/migrations/20260812080000_restore_mobile_notification_preferences_grants.sql',
-  ).readAsStringSync();
-  final developerDummyDataCleanup = File(
-    'supabase/migrations/20260812100000_remove_developer_dummy_data.sql',
-  ).readAsStringSync();
-  final legacyMockGroupCleanup = File(
-    'supabase/migrations/20260812073431_remove_legacy_mock_groups_and_classify_home.sql',
-  ).readAsStringSync();
-  final androidFcmPushDelivery = File(
-    'supabase/migrations/20260805120000_android_fcm_push_delivery.sql',
-  ).readAsStringSync();
-  final sendNotificationFunction = File(
-    'supabase/functions/send-notification/index.ts',
-  ).readAsStringSync();
-  final dispatchNotificationsFunction = File(
-    'supabase/functions/dispatch-notifications/index.ts',
-  ).readAsStringSync();
-  final apnsTransport = File(
-    'supabase/functions/_shared/apns.ts',
-  ).readAsStringSync();
-  final fcmTransport = File(
-    'supabase/functions/_shared/fcm.ts',
-  ).readAsStringSync();
-  final readiness = File(
-    'scripts/supabase_production_readiness.sh',
-  ).readAsStringSync();
-  final schemaInventory = File(
-    'scripts/supabase_schema_inventory.sh',
-  ).readAsStringSync();
-  final marketExpansion = File(
-    'supabase/migrations/20260622090000_market_expansion_categories_stripe_foundation.sql',
-  ).readAsStringSync();
-  final stripeShared = File(
-    'supabase/functions/_shared/stripe.ts',
-  ).readAsStringSync();
-  final stripeSetupIntentFunction = File(
-    'supabase/functions/stripe-create-setup-intent/index.ts',
-  ).readAsStringSync();
-  final stripeContributionFunction = File(
-    'supabase/functions/stripe-create-diaspora-contribution/index.ts',
-  ).readAsStringSync();
-  final stripeWebhookFunction = File(
-    'supabase/functions/stripe-webhook/index.ts',
-  ).readAsStringSync();
-  final stripeWebhookSignature = File(
-    'supabase/functions/_shared/stripe_webhook_signature.ts',
-  ).readAsStringSync();
+  const migrationPath =
+      'supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql';
+  final cutover = File(migrationPath).readAsStringSync();
+  final config = File('supabase/config.toml').readAsStringSync();
+  final repository = readAll([
+    'lib/shared/repositories/collect_repository.dart',
+    'lib/shared/repositories/collect_repository_live_reader.dart',
+    'lib/shared/repositories/collect_repository_providers.dart',
+  ]);
+  final memberJourney = readAll([
+    'lib/features/payments/contribution_flow_screen.dart',
+    'lib/features/settings/bank_transfer_settings_screen.dart',
+    'lib/core/payments/revolut_launcher.dart',
+  ]);
+  final adminSurface = readAll([
+    'lib/admin/admin_router.dart',
+    'lib/admin/admin_shell.dart',
+    'lib/admin/core/admin_runtime.dart',
+    'lib/admin/core/bank_transfer_admin_runtime.dart',
+    'lib/admin/core/admin_detail_specs.dart',
+  ]);
 
-  String migrationSection(String text, String start, String end) {
-    final startIndex = text.indexOf(start);
-    final endIndex = text.indexOf(end, startIndex + start.length);
-    expect(startIndex, isNonNegative, reason: 'missing section start: $start');
-    expect(endIndex, isNonNegative, reason: 'missing section end: $end');
-    return text.substring(startIndex, endIndex);
-  }
+  test('only the reviewed bank and notification Edge Functions remain', () {
+    final functions =
+        Directory('supabase/functions')
+            .listSync()
+            .whereType<Directory>()
+            .where(
+              (directory) => File('${directory.path}/index.ts').existsSync(),
+            )
+            .map((directory) => directory.path.split('/').last)
+            .toList()
+          ..sort();
 
-  test('Edge Functions pin the shared Supabase client dependency', () {
-    expect(
-      supabaseSharedClient,
-      contains('https://esm.sh/@supabase/supabase-js@2.112.0'),
-    );
-    expect(
-      RegExp(r'@supabase/supabase-js@2["\x27]').hasMatch(supabaseSharedClient),
-      isFalse,
-    );
-  });
-
-  test('Stripe webhook rejects replayed events and supports key rotation', () {
-    expect(stripeWebhookFunction, contains('verifyStripeSignature('));
-    expect(stripeWebhookSignature, contains('DEFAULT_TOLERANCE_SECONDS = 300'));
-    expect(
-      stripeWebhookSignature,
-      contains('Math.abs(nowSeconds - timestamp)'),
-    );
-    expect(stripeWebhookSignature, contains('signatures.some('));
-    expect(stripeWebhookSignature, contains('constantTimeHexEqual'));
-    expect(stripeWebhookSignature, isNot(contains('Object.fromEntries')));
-  });
-
-  test('migration exposes contribution intent RPC without instruction copy', () {
-    final contributionIntentFunction = migrationSection(
-      smsFirstGroupPaymentIntents,
-      'create or replace function create_contribution_intent',
-      'create or replace function join_group_by_slug',
-    );
-    final senderHashMigrationFunction = migrationSection(
-      contributionIntentSenderHash,
-      'create or replace function create_contribution_intent',
-      'revoke execute on function create_contribution_intent',
-    );
-    final contributionIntentReturn = migrationSection(
-      contributionIntentFunction,
-      'returns table (',
-      ')\nlanguage plpgsql',
-    );
-
-    expect(smsFirstGroupPaymentIntents, contains('create_contribution_intent'));
-    expect(smsFirstGroupPaymentIntents, contains('receiver_momo_number text'));
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'grant execute on function create_contribution_intent(uuid, bigint, text)',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'drop function if exists create_payment_intent_with_instructions(uuid, bigint, text, text)',
-      ),
-    );
-    expect(contributionIntentFunction, isNot(contains('p_anonymity_choice')));
-    expect(contributionIntentFunction, isNot(contains('anonymity_choice')));
-    expect(
-      senderHashMigrationFunction,
-      contains("nullif(trim(p_sender_phone_hash), '')"),
-    );
-    expect(
-      senderHashMigrationFunction,
-      contains('intent_row.sender_phone_hash'),
-    );
-    expect(contributionIntentSenderHash, contains('to authenticated'));
-    expect(contributionIntentReturn, isNot(contains('contribution_code')));
-    expect(
-      smsFirstGroupPaymentIntents,
-      isNot(
-        contains(
-          'grant execute on function create_payment_intent_with_instructions',
-        ),
-      ),
-    );
-  });
-
-  test('current group creation RPC does not expose campaign fields', () {
-    final groupCreationFunction = migrationSection(
-      smsFirstGroupPaymentIntents,
-      'create or replace function create_group_with_owner',
-      'create or replace function create_payment_intent',
-    );
-
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create or replace function create_group_with_owner'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'grant execute on function create_group_with_owner(text, text, text, text, text)',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke execute on function create_collection_with_owner'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop function if exists create_collection_with_owner'),
-    );
-    expect(groupCreationFunction, isNot(contains('target_amount_rwf')));
-    expect(groupCreationFunction, isNot(contains('cover_image_url')));
-  });
-
-  test('group creation requires a request-bound native capability', () {
-    final integrityFunction = File(
-      'supabase/functions/verify-play-integrity/index.ts',
-    ).readAsStringSync();
-    final repository = readCollectRepositoryLibrary();
-
-    expect(
-      groupAuthorizationPrivacy,
-      contains('create table if not exists public.native_action_capabilities'),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains('revoke all on public.native_action_capabilities'),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains("coalesce(auth.role(), '') <> 'service_role'"),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains("clean_package_name <> 'app.cool.mobile'"),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains("clean_app_verdict <> 'PLAY_RECOGNIZED'"),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains("consent.created_at >= now() - interval '10 minutes'"),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains('capability_row.request_payload <> jsonb_build_object('),
-    );
-    expect(groupAuthorizationPrivacy, contains('set consumed_at = now()'));
-    expect(
-      groupAuthorizationPrivacy,
-      contains('revoke execute on function public.create_group_with_owner('),
-    );
-    expect(
-      groupAuthorizationPrivacy,
-      contains('create_group_with_owner_attested'),
-    );
-    expect(groupAuthorizationPrivacy, contains('to authenticated'));
-    expect(integrityFunction, contains('group_request: groupRequest'));
-    expect(
-      integrityFunction,
-      contains('capability_request_payload: groupRequest'),
-    );
-    expect(
-      integrityFunction,
-      contains(
-        'untrustedGroupRequest.receiver_momo_number_hash !== receiverHash',
-      ),
-    );
-    expect(repository, contains("'create_group_with_owner_attested'"));
-    expect(repository, contains('groupRequest: groupRequest'));
-    expect(repository, contains("'native_capability':"));
-  });
-
-  test(
-    'group mutation, join, privacy, and admin state controls are closed',
-    () {
-      expect(
-        groupAuthorizationPrivacy,
-        contains('collection_row.creator_user_id <> auth.uid()'),
-      );
-      expect(
-        groupAuthorizationPrivacy,
-        contains(
-          "raise exception 'Only the group owner can update the receiver'",
-        ),
-      );
-      expect(
-        groupAuthorizationPrivacy,
-        contains("encode(digest(canonical_receiver, 'sha256'), 'hex')"),
-      );
-      expect(
-        groupAuthorizationPrivacy,
-        contains('update_collection_profile_and_receiver'),
-      );
-      expect(
-        groupAuthorizationPrivacy,
-        contains('where collection_members.status <> \'active\''),
-      );
-      expect(
-        groupAuthorizationPrivacy,
-        contains('returning true into newly_joined'),
-      );
-      expect(groupAuthorizationPrivacy, contains('if newly_joined then'));
-      expect(
-        groupAuthorizationPrivacy,
-        contains("when payment.anonymity_choice = 'public_id'"),
-      );
-      expect(groupAuthorizationPrivacy, contains("else 'Anonymous supporter'"));
-      expect(groupAuthorizationPrivacy, contains('count(distinct coalesce('));
-      for (final field in [
-        "'visibility', collection.visibility",
-        "'public_status', collection.public_status",
-        "'status', case",
-        "'archived_at', collection.archived_at",
-      ]) {
-        expect(groupAuthorizationPrivacy, contains(field));
-      }
-    },
-  );
-
-  test('standalone SMS allocation posts the balanced ledger atomically', () {
-    final allocationFunction = migrationSection(
-      standaloneSmsRestoration,
-      'create or replace function public.allocate_parsed_payment_event(',
-      'comment on function public.allocate_parsed_payment_event',
-    );
-    final postingFunction = migrationSection(
-      standaloneSmsRestoration,
-      'create or replace function public.post_payment_from_event(',
-      'create or replace function public.allocate_parsed_payment_event(',
-    );
-
-    expect(
-      standaloneSmsRestoration,
-      contains('Standalone SMS restoration requires zero unposted'),
-    );
-    expect(
-      standaloneSmsRestoration,
-      contains('drop table if exists public.payment_provider_confirmations'),
-    );
-    expect(
-      standaloneSmsRestoration,
-      contains('drop table if exists public.provider_finality_requests'),
-    );
-    expect(
-      standaloneSmsRestoration,
-      contains('payments_receiver_network_transaction_unique'),
-    );
-    expect(allocationFunction, contains("return 'allocated'"));
-    expect(allocationFunction, contains('perform post_payment_from_event('));
-    expect(allocationFunction, contains("allocation_status = 'ambiguous'"));
-    expect(allocationFunction, contains("allocation_status = 'needs_review'"));
-    expect(postingFunction, contains('source, anonymity_choice'));
-    expect(postingFunction, contains("'sms_auto'"));
-    expect(postingFunction, contains("'auto_native_sms'"));
-    expect(postingFunction, contains("'collection_credit'"));
-    expect(postingFunction, contains("'member_credit'"));
-    expect(postingFunction, contains("set status = 'matched'"));
-    expect(postingFunction, contains("allocation_status = 'allocated'"));
-  });
-
-  test(
-    'standalone deploy inventory contains only the ten reviewed functions',
-    () {
-      final functions =
-          Directory('supabase/functions')
-              .listSync()
-              .whereType<Directory>()
-              .where(
-                (directory) => File('${directory.path}/index.ts').existsSync(),
-              )
-              .map((directory) => directory.path.split('/').last)
-              .toList()
-            ..sort();
-
-      expect(functions, hasLength(10));
-      expect(
-        functions,
-        containsAll(<String>[
-          'ingest-payment-sms',
-          'parse-payment-sms',
-          'dispatch-notifications',
-        ]),
-      );
-    },
-  );
-
-  test('browser roles cannot retain schema-level table mutation powers', () {
-    expect(
-      revokedNonDmlClientPrivileges,
-      contains(
-        'revoke references, trigger, truncate on all tables in schema public',
-      ),
-    );
-    expect(revokedNonDmlClientPrivileges, contains('from anon, authenticated'));
-    expect(
-      revokedNonDmlClientPrivileges,
-      contains('alter default privileges in schema public'),
-    );
-    expect(
-      revokedNonDmlClientPrivileges,
-      contains(
-        'revoke references, trigger, truncate on tables from anon, authenticated',
-      ),
-    );
-  });
-
-  test(
-    'market expansion reintroduces approved collection categories safely',
-    () {
-      expect(marketExpansion, contains('collection_type text not null'));
-      for (final type in ['ikimina', 'sport', 'church', 'wedding', 'other']) {
-        expect(marketExpansion, contains("'$type'"));
-      }
-      expect(marketExpansion, contains('group_collection_type text default'));
-      expect(marketExpansion, contains('c.collection_type'));
-      expect(marketExpansion, contains('c.category_subtype'));
-      expect(marketExpansion, contains('c.purpose_label'));
-      expect(marketExpansion, contains('c.diaspora_enabled'));
-      expect(marketExpansion, isNot(contains('anonymity_choice')));
-      expect(marketExpansion, isNot(contains('display_name')));
-      expect(marketExpansion, isNot(contains('avatar_url')));
-    },
-  );
-
-  test('collection type catalog is dynamic and server-validated', () {
-    final collectModels = File(
-      'lib/shared/models/collect_models.dart',
-    ).readAsStringSync();
-    final repositoryProviders = File(
-      'lib/shared/repositories/collect_repository_providers.dart',
-    ).readAsStringSync();
-    final createScreen = File(
-      'lib/features/collections/collection_create_screen.dart',
-    ).readAsStringSync();
-    final createWidgets = File(
-      'lib/features/collections/collection_create_widgets.dart',
-    ).readAsStringSync();
-    final profileScreen = File(
-      'lib/features/collections/group_profile_screen.dart',
-    ).readAsStringSync();
-    final profileControls = File(
-      'lib/features/collections/group_profile_form_controls.dart',
-    ).readAsStringSync();
-    final foundation = File(
-      'lib/shared/widgets/collect_foundation.dart',
-    ).readAsStringSync();
-
-    for (final table in [
-      'collection_type_catalog',
-      'collection_category_subtypes',
-      'collection_purpose_templates',
-      'collection_type_country_rules',
+    expect(functions, [
+      'auth-send-whatsapp-otp',
+      'dispatch-notifications',
+      'ingest-bank-email',
+      'ingest-bank-sms',
+      'ingest-bank-statement',
+      'send-notification',
+    ]);
+    for (final retired in [
+      'stripe-create-customer',
+      'stripe-create-diaspora-contribution',
+      'stripe-create-setup-intent',
+      'stripe-webhook',
+      'ingest-payment-sms',
+      'parse-payment-sms',
+      'verify-play-integrity',
     ]) {
       expect(
-        collectionTypeCatalogRuntime,
-        contains('create table if not exists $table'),
-      );
-      expect(
-        collectionTypeCatalogRuntime,
-        contains('alter table $table enable row level security'),
+        File('supabase/functions/$retired/index.ts').existsSync(),
+        isFalse,
       );
     }
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('create or replace function get_collection_type_catalog'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('create or replace function resolve_collection_catalog_choice'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('create or replace function create_group_with_owner'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('create or replace function update_collection_profile'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('catalog_choice := resolve_collection_catalog_choice'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains("raise exception 'Unsupported collection subtype'"),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains("raise exception 'Unsupported collection purpose'"),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('grant execute on function get_collection_type_catalog'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains(
-        'grant select on collection_type_catalog to anon, authenticated',
-      ),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('grant insert, update, delete on collection_type_catalog'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains('create or replace function audit_collection_catalog_change()'),
-    );
-    expect(
-      collectionTypeCatalogRuntime,
-      contains("execute function emit_app_realtime_event('settings')"),
-    );
-    expect(collectionTypeCatalogRuntime, contains("'fan_club', 'Fan club'"));
-    expect(
-      collectionTypeCatalogRuntime,
-      contains("'church', 'offering_and_donations'"),
-    );
-
-    expect(collectModels, contains('class CollectionTypeCatalogConfig'));
-    expect(collectModels, contains('class CollectionTypeCatalogItem'));
-    expect(collectModels, contains('class CollectionCatalogOption'));
-    expect(
-      repositoryProviders,
-      contains('collectCollectionTypeCatalogProvider'),
-    );
-    expect(repositoryProviders, contains("'get_collection_type_catalog'"));
-    expect(foundation, contains('List<CollectionTypeCatalogItem>? options'));
-    expect(createWidgets, isNot(contains('_defaultCategorySubtype')));
-    expect(profileControls, isNot(contains('_defaultProfileCategorySubtype')));
-    expect(createScreen, contains('collectCollectionTypeCatalogProvider'));
-    expect(createScreen, contains('defaultCategorySubtype'));
-    expect(createScreen, contains('defaultPurposeLabel'));
-    expect(profileScreen, contains('collectCollectionTypeCatalogProvider'));
-    expect(profileScreen, contains('defaultCategorySubtype'));
-    expect(profileScreen, contains('defaultPurposeLabel'));
   });
 
-  test('notification enqueue respects mobile preference toggles', () {
-    expect(
-      notificationPreferenceGatedEnqueue,
-      contains('create or replace function enqueue_notification_event'),
-    );
-    expect(
-      notificationPreferenceGatedEnqueue,
-      contains('contribution_confirmations'),
-    );
-    expect(notificationPreferenceGatedEnqueue, contains('payment_reminders'));
-    expect(notificationPreferenceGatedEnqueue, contains('group_updates'));
-    expect(notificationPreferenceGatedEnqueue, contains('security_notices'));
-    expect(notificationPreferenceGatedEnqueue, contains('return null'));
-    expect(notificationPreferenceGatedEnqueue, contains('to service_role'));
-    expect(sendNotificationFunction, contains('skipped: data === null'));
-    expect(sendNotificationFunction, contains('notification_event_id: data'));
-  });
-
-  test('notification templates are dynamic and service-enqueued', () {
-    for (final table in [
-      'notification_channels',
-      'notification_event_types',
-      'notification_templates',
-      'notification_template_versions',
-    ]) {
-      expect(
-        notificationTemplatesRuntime,
-        contains('create table if not exists $table'),
-      );
-      expect(
-        notificationTemplatesRuntime,
-        contains('alter table $table enable row level security'),
-      );
-    }
-    expect(
-      notificationTemplatesRuntime,
-      contains('create or replace function get_notification_runtime_config'),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains(
-        'create or replace function enqueue_notification_template_event',
-      ),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains('create or replace function render_notification_template'),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains('grant execute on function get_notification_runtime_config'),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains('grant execute on function enqueue_notification_template_event'),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains('grant select on notification_channels to anon, authenticated'),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains('grant insert, update, delete on notification_templates'),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains(
-        'create or replace function audit_notification_runtime_change()',
-      ),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains("execute function emit_app_realtime_event('settings')"),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains("'contribution.confirmed.default'"),
-    );
-    expect(
-      notificationTemplatesRuntime,
-      contains("'payment.reminder.default'"),
-    );
-    expect(notificationTemplatesRuntime, contains('notification_preferences'));
-    expect(notificationTemplatesRuntime, contains('return null'));
-    expect(sendNotificationFunction, contains('template_key?: string'));
-    expect(
-      sendNotificationFunction,
-      contains('"enqueue_notification_template_event"'),
-    );
-    expect(sendNotificationFunction, contains('p_template_key: templateKey'));
-    expect(sendNotificationFunction, contains('payload.context ?? {}'));
-  });
-
-  test('native APNs delivery is durable, preference-gated, and observable', () {
-    expect(
-      nativePushDelivery,
-      contains('provider in (\'legacy_local\', \'apns\')'),
-    );
-    expect(nativePushDelivery, contains('legacy_token_not_deliverable'));
-    expect(
-      nativePushDelivery,
-      contains('notification_device_tokens_provider_hash_uidx'),
-    );
-    expect(
-      nativePushDelivery,
-      contains('revoke all on notification_device_tokens'),
-    );
-    expect(
-      nativePushDelivery,
-      contains('create table if not exists notification_deliveries'),
-    );
-    expect(
-      nativePushDelivery,
-      contains('create table if not exists notification_delivery_attempts'),
-    );
-    expect(nativePushDelivery, contains('for update of delivery skip locked'));
-    expect(nativePushDelivery, contains('claim_timeout'));
-    expect(nativePushDelivery, contains('complete_notification_delivery'));
-    expect(nativePushDelivery, contains("'BadDeviceToken'"));
-    expect(
-      nativePushDelivery,
-      contains('enqueue_contribution_confirmation_notification'),
-    );
-    expect(nativePushDelivery, contains('contribution.confirmed.default'));
-    expect(
-      dispatchNotificationsFunction,
-      contains('requireInternalRequest(req)'),
-    );
-    expect(
-      dispatchNotificationsFunction,
-      contains('claim_notification_deliveries'),
-    );
-    expect(
-      dispatchNotificationsFunction,
-      contains('complete_notification_delivery'),
-    );
-    expect(dispatchNotificationsFunction, isNot(contains('console.log')));
-    expect(apnsTransport, contains('https://api.push.apple.com'));
-    expect(apnsTransport, contains('https://api.sandbox.push.apple.com'));
-    expect(apnsTransport, contains('apns-push-type'));
-    expect(sendNotificationFunction, contains('dispatch_requested'));
-  });
-
-  test('mobile notification preferences retain owner-scoped table grants', () {
-    expect(
-      mobileNotificationPreferenceGrants,
-      contains('revoke all on table public.notification_preferences from anon'),
-    );
-    expect(
-      mobileNotificationPreferenceGrants,
-      contains(
-        'grant select, insert, update on table public.notification_preferences',
-      ),
-    );
-    expect(mobileNotificationPreferenceGrants, isNot(contains('grant delete')));
-    expect(
-      readiness,
-      contains("('authenticated', 'notification_preferences', 'SELECT')"),
-    );
-  });
-
-  test('developer dummy data is retired without deleting real profiles', () {
-    final repository = readCollectRepositoryLibrary();
-
-    expect(repository, isNot(contains('ensure_developer_account_data')));
-    expect(
-      developerDummyDataCleanup,
-      contains(
-        'drop function if exists public.ensure_developer_account_data()',
-      ),
-    );
-    expect(
-      developerDummyDataCleanup,
-      contains('delete from public.collections'),
-    );
-    expect(developerDummyDataCleanup, contains('delete from public.payments'));
-    expect(
-      developerDummyDataCleanup,
-      contains('delete from public.ledger_entries'),
-    );
-    expect(
-      developerDummyDataCleanup,
-      isNot(contains('delete from public.profiles')),
-    );
-    expect(
-      developerDummyDataCleanup,
-      isNot(contains('delete from auth.users')),
-    );
-    expect(
-      readiness,
-      isNot(
-        contains(
-          "('authenticated', 'ensure_developer_account_data', 'EXECUTE')",
-        ),
-      ),
-    );
-  });
-
-  test('legacy mock groups are retired and home groups are classified', () {
-    expect(legacyMockGroupCleanup, contains('mock-parity-public-member'));
-    expect(
-      legacyMockGroupCleanup,
-      contains('Legacy mock groups have payment evidence'),
-    );
-    expect(legacyMockGroupCleanup, contains('delete from public.collections'));
-    expect(
-      legacyMockGroupCleanup,
-      isNot(contains('delete from public.profiles')),
-    );
-    expect(legacyMockGroupCleanup, isNot(contains('delete from auth.users')));
-    expect(
-      legacyMockGroupCleanup,
-      contains("c.public_status = 'public_approved' as is_public"),
-    );
-    expect(legacyMockGroupCleanup, contains(') as is_member'));
-    expect(legacyMockGroupCleanup, contains('with (security_invoker = true)'));
-  });
-
-  test('native Android FCM delivery is registered, routed, and observable', () {
-    expect(
-      androidFcmPushDelivery,
-      contains("provider in ('legacy_local', 'apns', 'fcm')"),
-    );
-    expect(
-      androidFcmPushDelivery,
-      contains("clean_platform = 'android' and clean_provider = 'fcm'"),
-    );
-    expect(
-      androidFcmPushDelivery,
-      contains('device.provider in (\'apns\', \'fcm\')'),
-    );
-    expect(androidFcmPushDelivery, contains('device.provider,'));
-    expect(androidFcmPushDelivery, contains("'UNREGISTERED'"));
-    expect(dispatchNotificationsFunction, contains('createFcmAccessToken'));
-    expect(dispatchNotificationsFunction, contains('sendFcmMessage'));
-    expect(dispatchNotificationsFunction, contains('delivery.provider'));
-    expect(fcmTransport, contains('firebase.messaging'));
-    expect(fcmTransport, contains('fcm.googleapis.com/v1/projects'));
-    expect(fcmTransport, contains('collect_contributions'));
-    expect(fcmTransport, contains('visibility: "PRIVATE"'));
-  });
-
-  test(
-    'stripe diaspora foundation keeps raw bank data out of client tables',
-    () {
-      expect(
-        marketExpansion,
-        contains('create table if not exists stripe_customers'),
-      );
-      expect(
-        marketExpansion,
-        contains('create table if not exists stripe_payment_methods'),
-      );
-      expect(
-        marketExpansion,
-        contains('create table if not exists diaspora_contribution_intents'),
-      );
-      expect(
-        marketExpansion,
-        contains('create table if not exists stripe_webhook_events'),
-      );
-      for (final method in [
-        'us_bank_account',
-        'acss_debit',
-        'customer_balance_eur_bank_transfer',
-        'customer_balance_gbp_bank_transfer',
-      ]) {
-        expect(marketExpansion, contains("'$method'"));
-      }
-      expect(marketExpansion, contains("'GBP'"));
-      expect(marketExpansion, contains("'gb'"));
-      expect(marketExpansion, contains("'CAD'"));
-      expect(marketExpansion, contains("'ca'"));
-      expect(
-        marketExpansion,
-        contains('diaspora_contribution_intents_domestic_currency_check'),
-      );
-      expect(
-        marketExpansion,
-        contains('stripe_payment_methods_domestic_currency_check'),
-      );
-      expect(
-        marketExpansion,
-        contains(
-          "region = 'ca' and currency = 'CAD' and method_type = 'acss_debit'",
-        ),
-      );
-      expect(marketExpansion, isNot(contains('sepa_debit')));
-      expect(marketExpansion, contains('stripe_payment_methods_owner_select'));
-      expect(
-        marketExpansion,
-        contains('diaspora_contribution_intents_participant_select'),
-      );
-      expect(marketExpansion, contains('display_last4'));
-      expect(marketExpansion, isNot(contains('account_number')));
-      expect(marketExpansion, isNot(contains('routing_number')));
-      expect(marketExpansion, isNot(contains('iban')));
-    },
-  );
-
-  test('diaspora Stripe tables are service-role only after hardening', () {
+  test('Stripe persistence is retired with a fail-closed data guard', () {
+    expect(cutover, contains('Stripe retirement requires a reviewed export'));
     for (final table in [
       'stripe_customers',
       'stripe_payment_methods',
       'diaspora_contribution_intents',
       'stripe_webhook_events',
     ]) {
+      expect(cutover, contains('drop table if exists public.$table'));
+    }
+    expect(File('supabase/functions/_shared/stripe.ts').existsSync(), isFalse);
+  });
+
+  test('bank-transfer control plane owns all financial evidence and state', () {
+    for (final table in [
+      'bank_transfer_destinations',
+      'bank_destination_change_requests',
+      'bank_transfer_intents',
+      'raw_payment_evidence',
+      'bank_evidence_events',
+      'bank_transactions',
+      'payment_evidence_links',
+      'bank_transaction_allocations',
+      'bank_statement_imports',
+      'bank_statement_lines',
+      'reconciliation_runs',
+      'reconciliation_matches',
+      'reconciliation_exceptions',
+      'daily_bank_closes',
+      'journal_entries',
+      'journal_lines',
+      'bank_allocation_change_requests',
+    ]) {
+      expect(cutover, contains('create table public.$table'));
       expect(
-        hardenedDiasporaStripeTableGrants,
-        contains('revoke select on $table from anon, authenticated'),
-      );
-      expect(
-        hardenedDiasporaStripeTableGrants,
-        contains('grant all on $table to service_role'),
-      );
-      expect(
-        hardenedDiasporaStripeTableGrants,
-        contains('comment on table $table is'),
+        cutover,
+        contains('alter table public.$table enable row level security'),
       );
     }
-  });
-
-  test('admin operator notes are persisted through audited RPC', () {
-    expect(adminOperatorNoteRpc, contains('admin_record_operator_note'));
-    expect(adminOperatorNoteRpc, contains('insert into admin_notes'));
-    expect(adminOperatorNoteRpc, contains('admin.operator_note.recorded'));
-    expect(adminOperatorNoteRpc, contains('create_audit_log'));
-    expect(
-      adminOperatorNoteRpc,
-      contains(
-        "when 'parsed_payment_event' then perform assert_admin_permission('payment_events.read')",
-      ),
-    );
-    expect(
-      adminOperatorNoteRpc,
-      contains(
-        'revoke execute on function admin_record_operator_note(text, uuid, text)',
-      ),
-    );
-    expect(
-      adminOperatorNoteRpc,
-      contains(
-        'grant execute on function admin_record_operator_note(text, uuid, text)',
-      ),
-    );
-  });
-
-  test('admin queue SLA policies are persisted and permission scoped', () {
-    expect(
-      adminQueueSlaPolicies,
-      contains('create table if not exists admin_queue_sla_policies'),
-    );
-    expect(
-      adminQueueSlaPolicies,
-      contains(
-        'revoke all on admin_queue_sla_policies from anon, authenticated',
-      ),
-    );
-    expect(
-      adminQueueSlaPolicies,
-      contains('grant all on admin_queue_sla_policies to service_role'),
-    );
-    expect(adminQueueSlaPolicies, contains('admin_get_queue_sla'));
-    expect(
-      adminQueueSlaPolicies,
-      contains(
-        "when 'admin_list_payment_events' then perform assert_admin_permission('payment_events.read')",
-      ),
-    );
-    expect(
-      adminQueueSlaPolicies,
-      contains(
-        "when 'admin_list_settings' then perform assert_admin_permission('settings.read')",
-      ),
-    );
-    expect(
-      adminQueueSlaPolicies,
-      contains('grant execute on function admin_get_queue_sla(text)'),
-    );
-  });
-
-  test('admin collection support status write is audited and scoped', () {
-    expect(
-      adminCollectionStatusRpc,
-      contains('admin_update_collection_support_status'),
-    );
-    expect(
-      adminCollectionStatusRpc,
-      contains("perform assert_admin_permission('collections.moderate')"),
-    );
-    expect(adminCollectionStatusRpc, contains('Reason is required'));
-    expect(
-      adminCollectionStatusRpc,
-      contains("p_status not in ('private', 'public_rejected', 'archived')"),
-    );
-    expect(adminCollectionStatusRpc, contains('update collections'));
-    expect(
-      adminCollectionStatusRpc,
-      contains("'collection.support_status.updated'"),
-    );
-    expect(adminCollectionStatusRpc, contains('create_audit_log'));
-    expect(
-      adminCollectionStatusRpc,
-      contains(
-        'revoke execute on function admin_update_collection_support_status(uuid, text, text)',
-      ),
-    );
-    expect(
-      adminCollectionStatusRpc,
-      contains(
-        'grant execute on function admin_update_collection_support_status(uuid, text, text)',
-      ),
-    );
-  });
-
-  test('group creation journey is permission, membership, and balance safe', () {
-    expect(
-      groupJourneyHardening,
-      contains('create table if not exists public.collection_share_secrets'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('revoke all on table public.collection_share_secrets'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('Enable MoMo SMS access before creating a group'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains(
-        'Group receiver must match the MoMo receiver linked to your profile',
-      ),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('create or replace function public.join_group_by_share_code'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('Membership was removed by a group admin'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('create or replace function public.rotate_group_share_code'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('list_current_user_collection_summaries'),
-    );
-    expect(groupJourneyHardening, contains('current_user_balance_rwf bigint'));
-    expect(
-      groupJourneyHardening,
-      contains('Join this group before creating a contribution request'),
-    );
-    expect(
-      groupJourneyHardening,
-      contains(
-        "p_status not in ('private', 'public_approved', 'public_rejected', 'archived')",
-      ),
-    );
-    expect(
-      groupJourneyHardening,
-      contains("('group_ops_admin', 'public_requests.review')"),
-    );
-    expect(
-      groupJourneyHardening,
-      contains('intent.collection_id = requested_collection_id'),
-    );
-    expect(groupJourneyHardening, contains('intent.status = \'pending\''));
-  });
-
-  test('group journey database lint cleanup preserves safe RPC contracts', () {
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      contains('create or replace function public.admin_list_sms_metadata'),
-    );
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      contains("search_term text := nullif(btrim(p_search), '')"),
-    );
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      contains('coalesce(public.mask_phone(sms.raw_sender), \'SMS\')'),
-    );
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      isNot(contains('sms.raw_body ilike')),
-    );
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      contains('create or replace function public.create_payment_intent'),
-    );
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      contains('from public.create_contribution_intent('),
-    );
-    expect(groupJourneyDatabaseLintCleanup, contains('sender_phone_hash'));
-    expect(
-      groupJourneyDatabaseLintCleanup,
-      contains('and intent.contributor_user_id = auth.uid()'),
-    );
+    expect(cutover, contains("'bank_transfer_v1'"));
+    expect(cutover, contains("'EUR'"));
+    expect(cutover, contains("'sepa_credit_transfer'"));
   });
 
   test(
-    'contribution intents bind payer identity to the authenticated profile',
+    'placeholder bank details stay disabled until maker-checker approval',
     () {
+      expect(cutover, contains("'PLACEHOLDER — DO NOT TRANSFER'"));
+      expect(cutover, contains("'PLACEHOLDER BANK'"));
+      expect(cutover, contains("'bank_transfer_v1',"));
+      expect(cutover, contains('admin_propose_bank_destination'));
+      expect(cutover, contains('admin_review_bank_destination_change'));
+      expect(cutover, contains('proposed_by'));
+      expect(cutover, contains('reviewed_by <> proposed_by'));
+      expect(cutover, contains('request.proposed_by = auth.uid()'));
       expect(
-        contributionPayerIdentityBinding,
-        contains(
-          'create or replace function public._authenticated_momo_phone_hash',
-        ),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains(
-          'verified_sender_phone_hash := public._authenticated_momo_phone_hash(auth.uid())',
-        ),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains('auth_user.phone_confirmed_at'),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains('canonical_profile_phone <> canonical_auth_phone'),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains('Contributor MoMo identity verification failed'),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains("set status = 'cancelled'"),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains('intent.sender_phone_hash = verified_sender_phone_hash'),
-      );
-      expect(
-        contributionPayerIdentityBinding,
-        contains(
-          'revoke all on function public._authenticated_momo_phone_hash(uuid)',
-        ),
+        cutover,
+        contains('prohibits approving your own bank destination'),
       );
     },
   );
 
-  test('admin feature flag toggle is audited and manage-scoped', () {
-    expect(adminFeatureFlagToggleRpc, contains('admin_set_feature_flag'));
-    expect(
-      adminFeatureFlagToggleRpc,
-      contains("perform assert_admin_permission('feature_flags.manage')"),
-    );
-    expect(
-      adminFeatureFlagToggleRpc,
-      contains('Feature flag change reason is required'),
-    );
-    expect(adminFeatureFlagToggleRpc, contains('update feature_flags'));
-    expect(adminFeatureFlagToggleRpc, contains("'admin.feature_flag.updated'"));
-    expect(adminFeatureFlagToggleRpc, contains('create_audit_log'));
-    expect(
-      adminFeatureFlagToggleRpc,
-      contains(
-        'revoke execute on function admin_set_feature_flag(text, boolean, text)',
-      ),
-    );
-    expect(
-      adminFeatureFlagToggleRpc,
-      contains(
-        'grant execute on function admin_set_feature_flag(text, boolean, text)',
-      ),
-    );
-  });
-
-  test('public runtime config is readable but admin-managed', () {
-    for (final table in [
-      'brand_entities',
-      'support_channels',
-      'payment_entrypoints',
-    ]) {
-      expect(
-        publicRuntimeConfig,
-        contains('create table if not exists $table'),
-      );
-      expect(
-        publicRuntimeConfig,
-        contains('alter table $table enable row level security'),
-      );
-      expect(
-        publicRuntimeConfig,
-        contains('grant select on $table to anon, authenticated'),
-      );
-      expect(
-        publicRuntimeConfig,
-        contains('grant insert, update, delete on $table to authenticated'),
-      );
-      expect(
-        publicRuntimeConfig,
-        contains("public.has_admin_permission('settings.manage'"),
-      );
-    }
-    expect(
-      publicRuntimeConfig,
-      contains('create or replace function get_public_runtime_config()'),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains('returns jsonb\nlanguage sql\nstable\nset search_path = public'),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains(
-        'revoke execute on function get_public_runtime_config() from public',
-      ),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains(
-        'grant execute on function get_public_runtime_config() to anon, authenticated',
-      ),
-    );
-    expect(publicRuntimeConfig, contains("'support.whatsapp'"));
-    expect(publicRuntimeConfig, contains("'rw.mtn_momo.ussd.collect_2000'"));
-    expect(
-      publicRuntimeConfig,
-      isNot(contains('COLLECT_ADMIN_WHATSAPP_PHONE')),
-    );
-  });
-
-  test('admin runtime metadata is table-backed and permission-scoped', () {
-    final adminShell = File('lib/admin/admin_shell.dart').readAsStringSync();
-    final adminRuntime = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
-    final adminListRuntime = File(
-      'lib/admin/core/admin_list_runtime.dart',
-    ).readAsStringSync();
-    final adminListSpecs = File(
-      'lib/admin/core/admin_list_specs.dart',
-    ).readAsStringSync();
-    final adminModels = File(
-      'lib/admin/core/admin_models.dart',
-    ).readAsStringSync();
-
-    for (final table in [
-      'admin_navigation_items',
-      'admin_queue_specs',
-      'admin_queue_filter_options',
-      'admin_queue_signals',
-    ]) {
-      expect(
-        adminRuntimeMetadata,
-        contains('create table if not exists $table'),
-      );
-      expect(
-        adminRuntimeMetadata,
-        contains('alter table $table enable row level security'),
-      );
-      expect(
-        adminRuntimeMetadata,
-        contains('grant select, insert, update, delete on $table'),
-      );
-    }
-    expect(
-      adminRuntimeMetadata,
-      contains('create or replace function admin_runtime_config()'),
-    );
-    expect(adminRuntimeMetadata, contains('security definer'));
-    expect(
-      adminRuntimeMetadata,
-      contains(
-        'public.has_admin_permission(n.required_permission, auth.uid())',
-      ),
-    );
-    expect(
-      adminRuntimeMetadata,
-      contains(
-        'public.has_admin_permission(q.required_permission, auth.uid())',
-      ),
-    );
-    expect(
-      adminRuntimeMetadata,
-      contains('revoke execute on function admin_runtime_config()'),
-    );
-    expect(
-      adminRuntimeMetadata,
-      contains(
-        'grant execute on function admin_runtime_config() to authenticated',
-      ),
-    );
-    expect(
-      adminRuntimeMetadata,
-      contains(
-        'create or replace function audit_admin_runtime_metadata_change()',
-      ),
-    );
-    expect(
-      adminRuntimeMetadata,
-      contains("execute function emit_app_realtime_event('settings')"),
-    );
-    expect(adminRuntimeMetadata, contains("'admin_list_payment_events'"));
-    expect(adminRuntimeMetadata, contains("'feature_flags', 'Feature flags'"));
-
-    expect(adminModels, contains('class AdminRuntimeConfig'));
-    expect(adminModels, contains('class AdminNavigationItemConfig'));
-    expect(adminModels, contains('class AdminQueueSpecConfig'));
-    expect(adminRuntime, contains('adminRuntimeConfigProvider'));
-    expect(adminRuntime, contains("rpcMap('admin_runtime_config')"));
-    expect(adminRuntime, contains('_isMissingRuntimeConfigError'));
-    expect(adminShell, contains('runtimeConfig: runtimeConfig'));
-    expect(adminShell, contains('_AdminNavDestination.fromConfig'));
-    expect(adminListRuntime, contains('adminRuntimeConfigProvider'));
-    expect(adminListSpecs, contains('_AdminListSpec.fromConfig'));
-  });
-
-  test('policy documents and account reasons are dynamic and versioned', () {
-    final accountLegalScreens = File(
-      'lib/features/status/account_legal_screens.dart',
-    ).readAsStringSync();
-    final repositoryProviders = File(
-      'lib/shared/repositories/collect_repository_providers.dart',
-    ).readAsStringSync();
-    final collectModels = File(
-      'lib/shared/models/collect_models.dart',
-    ).readAsStringSync();
-
-    for (final table in [
-      'policy_documents',
-      'policy_document_sections',
-      'policy_acceptance_events',
-      'account_request_reason_options',
-    ]) {
-      expect(
-        policyDocumentsAccountReasons,
-        contains('create table if not exists $table'),
-      );
-      expect(
-        policyDocumentsAccountReasons,
-        contains('alter table $table enable row level security'),
-      );
-    }
-    expect(
-      policyDocumentsAccountReasons,
-      contains('create or replace function get_active_policy_document'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('create or replace function list_account_request_reasons'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('create or replace function record_policy_acceptance'),
-    );
-    expect(policyDocumentsAccountReasons, contains('security definer'));
-    expect(
-      policyDocumentsAccountReasons,
-      contains('grant execute on function get_active_policy_document'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('grant execute on function list_account_request_reasons'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('grant execute on function record_policy_acceptance'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('grant select on policy_documents to anon, authenticated'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains(
-        'grant select, insert on policy_acceptance_events to authenticated',
-      ),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('policy documents public published read'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('policy acceptance own insert'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('account request reasons public enabled read'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains('create or replace function audit_policy_runtime_change()'),
-    );
-    expect(
-      policyDocumentsAccountReasons,
-      contains("execute function emit_app_realtime_event('settings')"),
-    );
-    expect(policyDocumentsAccountReasons, contains("'Privacy Policy'"));
-    expect(policyDocumentsAccountReasons, contains("'Terms & Conditions'"));
-    expect(
-      policyDocumentsAccountReasons,
-      contains("'I no longer use Collect'"),
-    );
-
-    expect(collectModels, contains('class CollectPolicyDocument'));
-    expect(collectModels, contains('class CollectPolicySection'));
-    expect(collectModels, contains('class AccountRequestReasonOption'));
-    expect(repositoryProviders, contains('collectPolicyDocumentProvider'));
-    expect(repositoryProviders, contains("'get_active_policy_document'"));
-    expect(
-      repositoryProviders,
-      contains('collectAccountDeletionReasonsProvider'),
-    );
-    expect(repositoryProviders, contains("'list_account_request_reasons'"));
-    expect(accountLegalScreens, contains('CollectPolicyDocument.defaults'));
-    expect(
-      accountLegalScreens,
-      contains('collectAccountDeletionReasonsProvider'),
-    );
-    expect(accountLegalScreens, isNot(contains('static const _reasonOptions')));
-  });
-
-  test('stripe functions use current bank-debit-first APIs', () {
-    expect(stripeShared, contains('2026-02-25.clover'));
-    expect(stripeShared, contains('us_bank_account'));
-    expect(stripeShared, contains('acss_debit'));
-    expect(stripeShared, contains('customer_balance_eur_bank_transfer'));
-    expect(stripeShared, contains('customer_balance_gbp_bank_transfer'));
-    expect(stripeShared, contains('eu_bank_transfer'));
-    expect(stripeShared, contains('gb_bank_transfer'));
-    expect(stripeShared, contains('"CAD"'));
-    expect(stripeShared, contains('"ca"'));
-    expect(
-      stripeShared,
-      contains(
-        'payment_method_options[acss_debit][mandate_options][payment_schedule]',
-      ),
-    );
-    expect(
-      stripeShared,
-      contains(
-        'payment_method_options[acss_debit][mandate_options][transaction_type]',
-      ),
-    );
-    expect(stripeShared, contains('"microdeposits"'));
-    expect(stripeShared, isNot(contains('sepa_debit')));
-    expect(stripeSetupIntentFunction, contains('"setup_intents"'));
-    expect(
-      stripeSetupIntentFunction,
-      contains('region !== "us" && region !== "ca"'),
-    );
-    expect(
-      stripeSetupIntentFunction,
-      contains('"payment_method_types[]", "acss_debit"'),
-    );
-    expect(stripeSetupIntentFunction, contains('"microdeposits"'));
-    expect(stripeContributionFunction, contains('"payment_intents"'));
-    expect(
-      stripeContributionFunction,
-      contains('appendPaymentIntentRailOptions'),
-    );
-    expect(stripeWebhookFunction, contains('stripe-signature'));
-    expect(stripeWebhookFunction, contains('STRIPE_WEBHOOK_SECRET'));
-    final stripeSurface = [
-      stripeShared,
-      stripeSetupIntentFunction,
-      stripeContributionFunction,
-      stripeWebhookFunction,
-    ].join('\n');
-    expect(stripeSurface, isNot(contains('/v1/charges')));
-    expect(stripeSurface, isNot(contains('/v1/sources')));
-    expect(stripeSurface, isNot(contains('/v1/tokens')));
-    expect(
-      stripeSurface.toLowerCase(),
-      isNot(contains('financial_connections')),
-    );
-    expect(
-      stripeSurface.toLowerCase(),
-      isNot(contains('verification_method]", "instant"')),
-    );
-    expect(
-      stripeSurface.toLowerCase(),
-      isNot(contains('verification_method]", "automatic"')),
-    );
-  });
-
-  test('public profile and contribution views expose only Collect IDs', () {
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains("'Collect ID ' || public_id as public_label"),
-    );
-    expect(smsFirstGroupPaymentIntents, contains('null::text as avatar_url'));
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains("'Collect ID ' || p.contributor_public_id"),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke update (display_name, avatar_url, anonymity_default)'),
-    );
-  });
-
-  test('profile grants keep raw identity fields off broad public reads', () {
-    expect(
-      migration,
-      contains('create or replace function get_current_profile'),
-    );
-    expect(
-      migration,
-      contains('revoke all on profiles from anon, authenticated'),
-    );
-    expect(migration, isNot(contains('grant select (')));
-    expect(
-      migration,
-      contains(
-        'grant execute on function get_current_profile() to authenticated',
-      ),
-    );
-  });
-
-  test('database function execution is explicitly scoped', () {
-    expect(
-      migration,
-      contains(
-        'revoke execute on all functions in schema public from public, anon, authenticated',
-      ),
-    );
-    expect(
-      migration,
-      contains(
-        'grant execute on all functions in schema public to service_role',
-      ),
-    );
-    expect(
-      migration,
-      contains(
-        'grant execute on function public.user_can_read_collection(uuid, uuid) to anon, authenticated',
-      ),
-    );
-    expect(
-      revokeAnonPlatformAdminHelper,
-      contains(
-        'revoke execute on function public.current_user_is_platform_admin() from anon',
-      ),
-    );
-    expect(
-      migration,
-      contains(
-        'create or replace function allocate_parsed_payment_event(event_id uuid)',
-      ),
-    );
-    expect(
-      migration,
-      isNot(
-        contains(
-          'grant execute on function allocate_parsed_payment_event(uuid) to authenticated',
-        ),
-      ),
-    );
-  });
-
-  test('migration keeps raw SMS and ledger protected', () {
-    expect(
-      migration,
-      contains('alter table raw_payment_sms enable row level security'),
-    );
-    expect(migration, contains('create policy "raw sms service writes"'));
-    expect(migration, contains('create trigger ledger_entries_prevent_update'));
-    expect(migration, contains('create trigger ledger_entries_prevent_delete'));
-  });
-
-  test('SMS ingestion always requires an authorized receiver controller', () {
-    final ingest = File(
-      'supabase/functions/ingest-payment-sms/index.ts',
-    ).readAsStringSync();
-
-    expect(momoSmsHardening, contains('user_can_ingest_receiver_sms'));
-    expect(ingest, contains('p_receiver_momo_number_hash: receiverMomoHash'));
-    expect(ingest, contains('receiverNumber == null'));
-    expect(ingest, contains('p_collection_id: collectionId'));
-    expect(
-      ingest,
-      isNot(contains('receiver_momo_number or collection_id is required')),
-    );
-    expect(ingest, contains('ingest_raw_payment_sms'));
-    expect(ingest, contains('Receiver or SMS consent is not authorized'));
-    expect(ingest, contains('client_envelope_id'));
-    expect(ingest, isNot(contains('check_sms_ingest_rate_limit')));
-    expect(
-      atomicSmsIngestion,
-      contains('if not public.user_can_ingest_receiver_sms('),
-    );
-    expect(atomicSmsIngestion, contains("'sms-ingest:' || p_receiver_user_id"));
-    expect(atomicSmsIngestion, contains("'replay', true"));
-    expect(atomicSmsIngestion, contains('hourly_count >= 60'));
-    expect(atomicSmsIngestion, contains('daily_count >= 250'));
-    expect(atomicSmsIngestion, contains('from public, anon, authenticated'));
-    expect(atomicSmsIngestion, contains('to service_role'));
-    expect(momoSmsHardening, contains('receiver_user_id, client_envelope_id'));
-    expect(
-      momoSmsHardening,
-      contains(
-        'grant select, insert, update on table public.raw_payment_sms to service_role',
-      ),
-    );
-    expect(
-      momoSmsHardening,
-      contains('or receiver.momo_number_hash = receiver_hash'),
-    );
-    expect(
-      momoSmsHardening,
-      contains('route.receiver_user_id = event_row.receiver_user_id'),
-    );
-    expect(
-      momoSmsHardening,
-      contains('if event_row.receiver_phone_hash is null then'),
-    );
-    expect(
-      momoSmsHardening,
-      contains(
-        'grant select, insert, update on table public.parsed_payment_events to service_role',
-      ),
-    );
-  });
-
-  test('service-only and OTP hook functions require shared secrets', () {
-    final shared = File(
-      'supabase/functions/_shared/supabase.ts',
-    ).readAsStringSync();
-    final otp = File(
-      'supabase/functions/auth-send-whatsapp-otp/index.ts',
-    ).readAsStringSync();
-    final config = File('supabase/config.toml').readAsStringSync();
-    final ingest = File(
-      'supabase/functions/ingest-payment-sms/index.ts',
-    ).readAsStringSync();
-
-    expect(shared, contains('requireEnv("INTERNAL_FUNCTION_SECRET")'));
-    expect(shared, isNot(contains('if (!expected) return')));
-    expect(otp, contains('requireEnv("SEND_SMS_HOOK_SECRET")'));
-    expect(otp, contains('new Webhook(standardWebhookSecret).verify'));
-    expect(otp, contains('payload.sms?.otp'));
-    expect(otp, contains('whatsappAuthTemplateComponents'));
-    expect(otp, contains('otpDeliveryUnavailable'));
-    expect(otp, contains('PublicHookError'));
-    expect(otp, contains('Invalid OTP hook payload'));
-    expect(otp, contains('console.error("WhatsApp OTP hook failed"'));
-    expect(otp, isNot(contains('error: safeErrorMessage(error)')));
-    expect(otp, contains('defaultWhatsAppGraphApiVersion = "v25.0"'));
-    expect(otp, contains('defaultWhatsAppTemplateLanguage = "en_US"'));
-    expect(otp, contains('WHATSAPP_GRAPH_API_VERSION'));
-    expect(otp, contains('WHATSAPP_CLOUD_API_VERSION'));
-    expect(otp, contains('WHATSAPP_AUTH_TEMPLATE_LANGUAGE'));
-    expect(otp, contains('WHATSAPP_CLOUD_TEMPLATE_LANGUAGE_CODE'));
-    expect(otp, contains('WHATSAPP_CLOUD_DRY_RUN'));
-    expect(otp, contains('WHATSAPP_CLOUD_OTP_AUTH_BUTTON'));
-    expect(otp, contains('WHATSAPP_CLOUD_OTP_BUTTON_SUB_TYPE'));
-    expect(otp, contains('WHATSAPP_CLOUD_ACCESS_TOKEN'));
-    expect(otp, contains('WHATSAPP_CLOUD_PHONE_NUMBER_ID'));
-    expect(otp, contains('WHATSAPP_CLOUD_OTP_TEMPLATE_NAME'));
-    expect(otp, contains('WABA_ACCESS_TOKEN'));
-    expect(otp, contains('WABA_PHONE_NUMBER_ID'));
-    expect(otp, contains('WABA_OTP_TEMPLATE_NAME'));
-    expect(otp, contains('WHATSAPP_ACCESS_TOKEN'));
-    expect(otp, contains('includeButton: false'));
-    expect(otp, contains('buttonSetting === null'));
-    expect(otp, contains('graph_api_error: responseBody.slice(0, 1000)'));
-    expect(otp, isNot(contains('graph.facebook.com/v19.0')));
-    expect(
-      otp,
-      contains('sub_type: envValue("WHATSAPP_CLOUD_OTP_BUTTON_SUB_TYPE")'),
-    );
-    expect(otp, contains('index: "0"'));
-    expect(config, contains('[functions.auth-send-whatsapp-otp]'));
-    expect(config, contains('verify_jwt = false'));
-    expect(
-      File('scripts/supabase_apply_auth_hardening.sh').readAsStringSync(),
-      contains('sms_otp_exp: 600'),
-    );
-    expect(
-      File('scripts/supabase_production_readiness.sh').readAsStringSync(),
-      contains('Phone OTP expiry must be 600 seconds'),
-    );
-    expect(
-      ingest,
-      contains('"x-collect-signature": requireEnv("INTERNAL_FUNCTION_SECRET")'),
-    );
-  });
-
-  test('admin WhatsApp OTP login does not bootstrap platform owner in browser', () {
-    final adminRuntime = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
-
-    expect(adminRuntime, isNot(contains('COLLECT_ADMIN_WHATSAPP_PHONE')));
-    expect(adminRuntime, isNot(contains("'+250788767816'")));
-    expect(adminRuntime, contains('OtpChannel.whatsapp'));
-    expect(adminRuntime, isNot(contains('admin_bootstrap_whatsapp_operator')));
-    expect(
-      adminRuntime,
-      contains('PhoneNormalizer.normalizeInternational(phone)'),
-    );
-    expect(adminRuntime, isNot(contains('registered admin WhatsApp number')));
-
-    expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
-    expect(developerAccountSeedData, contains("'+250788767816'"));
-    expect(
-      developerAccountSeedData,
-      contains('create or replace function ensure_developer_account_data()'),
-    );
-    expect(developerAccountSeedData, contains('auth.uid()'));
-    expect(developerAccountSeedData, contains('from auth.users u'));
-    expect(developerAccountSeedData, contains('developer-parish-support'));
-    expect(developerAccountSeedData, contains('developer-ikimina-savings'));
-    expect(
-      hardenedDeveloperAndGroupRpcs,
-      contains(
-        "collection_church constant uuid := '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001'::uuid",
-      ),
-    );
-    expect(
-      hardenedDeveloperAndGroupRpcs,
-      contains('on conflict (id) do nothing'),
-    );
-    expect(
-      hardenedDeveloperAndGroupRpcs,
-      isNot(contains('payment_id = excluded.payment_id')),
-    );
-    expect(
-      hardenedDeveloperAndGroupRpcs,
-      contains('create or replace function archive_group(collection uuid)'),
-    );
-    expect(hardenedDeveloperAndGroupRpcs, contains('security invoker'));
-    expect(
-      hardenedDeveloperAndGroupRpcs,
-      contains('create or replace function transfer_group_ownership('),
-    );
-    expect(
-      developerAccountSeedData,
-      contains(
-        'grant execute on function ensure_developer_account_data() to authenticated',
-      ),
-    );
-    expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
-    expect(
-      disabledBrowserAdminBootstrap,
-      contains(
-        'create or replace function admin_bootstrap_whatsapp_operator()',
-      ),
-    );
-    expect(
-      disabledBrowserAdminBootstrap,
-      contains('from public, anon, authenticated'),
-    );
-    expect(disabledBrowserAdminBootstrap, contains('to service_role'));
-    expect(
-      disabledBrowserAdminBootstrap,
-      contains('admin_bootstrap_whatsapp_operator is disabled'),
-    );
-  });
-
-  test('admin control plane separates domains and gates operator actions', () {
-    final controlPlane = completeAdminOperationsControlPlane;
-    for (final functionName in [
-      'admin_list_payment_intents',
-      'admin_get_payment_intent',
-      'admin_list_payments',
-      'admin_get_payment',
-      'admin_list_notifications',
-      'admin_get_notification',
-      'admin_retry_notification',
-      'admin_list_admin_users',
-      'admin_get_admin_user',
-      'admin_grant_user_role',
-      'admin_revoke_user_role',
-    ]) {
-      expect(controlPlane, contains('function public.$functionName'));
-    }
-    expect(controlPlane, contains("assert_admin_permission('payments.read')"));
-    expect(
-      controlPlane,
-      contains("assert_admin_permission('notifications.manage')"),
-    );
-    expect(
-      controlPlane,
-      contains("assert_admin_permission('admin_users.manage')"),
-    );
-    expect(controlPlane, contains('The last platform owner cannot be revoked'));
-    expect(controlPlane, contains('p_reason text'));
-    expect(controlPlane, contains("'notification.delivery.retried'"));
-    expect(controlPlane, contains("'admin.role.granted'"));
-    expect(controlPlane, contains("'admin.role.revoked'"));
-    expect(controlPlane, isNot(contains('device.token')));
-  });
-
   test(
-    'admin control plane closes helper probing and emits realtime updates',
+    'member journey creates unique EUR references and exposes masked IBAN',
     () {
-      final controlPlane = completeAdminOperationsControlPlane;
-      expect(
-        controlPlane,
-        contains('user_uuid is not distinct from auth.uid()'),
-      );
-      expect(controlPlane, contains("auth.role() = 'service_role'"));
-      expect(
-        controlPlane,
-        contains(
-          'grant execute on function public.user_can_read_collection(uuid, uuid) to anon, authenticated, service_role',
-        ),
-      );
-      expect(controlPlane, contains("'notifications'"));
-      expect(
-        controlPlane,
-        contains(
-          "execute function public.emit_app_realtime_event('notifications')",
-        ),
-      );
-      expect(controlPlane, contains("'queued_notifications'"));
-      expect(controlPlane, contains("'failed_notifications'"));
+      for (final rpc in [
+        'get_bank_transfer_destination',
+        'create_bank_transfer_intent',
+        'list_current_user_bank_transfer_intents',
+        'get_bank_transfer_intent',
+        'mark_bank_transfer_handoff_opened',
+        'cancel_bank_transfer_intent',
+        'list_current_user_bank_contributions',
+        'list_current_user_bank_collection_summaries',
+      ]) {
+        expect(cutover, contains('function public.$rpc'));
+      }
+      expect(cutover, contains('normalize_iban'));
+      expect(cutover, contains('mask_iban'));
+      expect(cutover, contains('transfer_reference text unique not null'));
+      expect(cutover, contains("and status = 'active'"));
+      expect(cutover, contains('and not is_placeholder'));
+      expect(repository, contains("'create_bank_transfer_intent'"));
+      expect(repository, contains("'get_bank_transfer_destination'"));
+      expect(repository, contains("'mark_bank_transfer_handoff_opened'"));
+      expect(repository, contains("'list_current_user_bank_contributions'"));
     },
   );
 
-  test('WhatsApp OTP auth can pass CAPTCHA tokens when enabled', () {
-    final authScreen = File(
-      'lib/features/auth/auth_screen.dart',
-    ).readAsStringSync();
-    final appEnv = File('lib/app/env/app_env.dart').readAsStringSync();
+  test(
+    'Revolut handoff opens the app without fabricating a payment result',
+    () {
+      expect(memberJourney, contains("Uri.parse('revolut://')"));
+      expect(memberJourney, contains('LaunchMode.externalApplication'));
+      expect(memberJourney, contains('https://www.revolut.com/app/'));
+      expect(memberJourney, contains('markBankTransferHandoffOpened'));
+      expect(memberJourney, contains("label: 'IBAN'"));
+      expect(memberJourney, contains("label: 'Exact reference'"));
+      expect(memberJourney, isNot(contains('sepa_debit')));
+      expect(memberJourney, isNot(contains('Payment successful')));
+    },
+  );
 
-    expect(appEnv, contains('AUTH_CAPTCHA_ENABLED'));
-    expect(appEnv, contains('AUTH_CAPTCHA_PROVIDER'));
-    expect(appEnv, contains('AUTH_CAPTCHA_SITE_KEY'));
-    expect(authScreen, contains('env.authCaptchaEnabled'));
-    expect(authScreen, contains('captchaToken: captchaToken.isEmpty'));
-    expect(authScreen, contains('Complete CAPTCHA verification first.'));
-  });
+  test(
+    'production Android app has no financial SMS or phone-call permission',
+    () {
+      final manifest = File(
+        'android/app/src/production/AndroidManifest.xml',
+      ).readAsStringSync();
+      final activity = File(
+        'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
+      ).readAsStringSync();
+      final gradle = File('android/app/build.gradle.kts').readAsStringSync();
 
-  test('Supabase CAPTCHA hardening requires complete provider inputs', () {
-    final hardening = File(
-      'scripts/supabase_apply_auth_hardening.sh',
-    ).readAsStringSync();
-    final readiness = File(
-      'scripts/supabase_production_readiness.sh',
-    ).readAsStringSync();
-
-    expect(
-      hardening,
-      contains('AUTH_CAPTCHA_PROVIDER is required when AUTH_CAPTCHA_SECRET'),
-    );
-    expect(
-      hardening,
-      contains('AUTH_CAPTCHA_SITE_KEY is required when AUTH_CAPTCHA_SECRET'),
-    );
-    expect(hardening, contains('hcaptcha|turnstile'));
-    expect(hardening, contains('password_hibp_enabled: true'));
-    expect(
-      hardening,
-      contains('leaked-password protection may require a paid Supabase plan'),
-    );
-    expect(
-      readiness,
-      contains('leaked-credential protection is disabled; treat as optional'),
-    );
-    expect(
-      readiness,
-      contains(
-        'AUTH_CAPTCHA_SITE_KEY is missing for CAPTCHA-enabled client builds.',
-      ),
-    );
-    expect(
-      readiness,
-      contains(
-        'AUTH_CAPTCHA_PROVIDER does not match live Supabase CAPTCHA provider.',
-      ),
-    );
-    expect(
-      readiness,
-      contains(
-        'Supabase organization is on the Free plan; treat as operational capacity',
-      ),
-    );
-  });
-
-  test('PITR add-on helper requires explicit billable confirmation', () {
-    final makefile = File('Makefile').readAsStringSync();
-    final pitr = File('scripts/supabase_apply_pitr.sh').readAsStringSync();
-
-    expect(makefile, contains('supabase-pitr-enable:'));
-    expect(
-      pitr,
-      contains(r'PITR_ADDON_VARIANT="${PITR_ADDON_VARIANT:-pitr_7}"'),
-    );
-    expect(pitr, contains('CONFIRM_ENABLE_PITR'));
-    expect(
-      pitr,
-      contains('PITR is billable. Re-run with CONFIRM_ENABLE_PITR='),
-    );
-    expect(pitr, contains(r'\"addon_type\":\"pitr\"'));
-  });
-
-  test('operational report covers database health and performance signals', () {
-    final makefile = File('Makefile').readAsStringSync();
-    final report = File(
-      'scripts/supabase_operational_report.sh',
-    ).readAsStringSync();
-
-    expect(makefile, contains('supabase-operational-report:'));
-    expect(report, contains('pg_stat_user_tables'));
-    expect(report, contains('pg_stat_user_indexes'));
-    expect(report, contains('pg_statio_user_tables'));
-    expect(report, contains('pg_stat_statements'));
-    expect(report, contains('indexes_without_scans'));
-    expect(report, contains('slow_queries'));
-  });
-
-  test('admin list RPC filters consume shared table controls', () {
-    for (final functionName in [
-      'admin_list_users',
-      'admin_list_unallocated',
-      'admin_list_ledger',
-      'admin_list_receivers',
-      'admin_list_audit_logs',
-      'admin_list_feature_flags',
-      'admin_list_settings',
-      'admin_list_admin_users',
-    ]) {
+      expect(manifest, isNot(contains('android.permission.RECEIVE_SMS')));
+      expect(manifest, isNot(contains('android.permission.READ_SMS')));
+      expect(manifest, isNot(contains('android.permission.CALL_PHONE')));
+      expect(activity, isNot(contains('collect/ussd')));
+      expect(activity, isNot(contains('collect/play_integrity')));
+      expect(gradle, isNot(contains('com.google.android.play:integrity')));
       expect(
-        adminFilterContracts,
-        contains('create or replace function $functionName'),
+        File('lib/core/payments/momo_ussd_launcher.dart').existsSync(),
+        isFalse,
       );
-    }
-
-    expect(adminFilterContracts, contains("p_status = 'admin'"));
-    expect(adminFilterContracts, contains("p_status = 'enabled'"));
-    expect(adminFilterContracts, contains("p_status = 'sensitive'"));
-    expect(adminFilterContracts, contains("p_status = 'logged'"));
-    expect(adminFilterContracts, contains('or ar.name = p_status'));
-    expect(adminFilterContracts, contains("'id', coalesce(nullif(p_id, '')"));
-  });
-
-  test('payment event admin queues expose server paging contract', () {
-    for (final functionName in [
-      'admin_list_payment_events',
-      'admin_list_allocations',
-      'admin_list_unallocated',
-    ]) {
       expect(
-        adminPaymentEventServerPaging,
-        contains('create or replace function $functionName('),
+        File('lib/core/security/play_integrity_service.dart').existsSync(),
+        isFalse,
       );
-    }
+    },
+  );
 
-    expect(
-      adminPaymentEventServerPaging,
-      contains('p_limit integer default 25'),
-    );
-    expect(
-      adminPaymentEventServerPaging,
-      contains('p_offset integer default 0'),
-    );
-    expect(
-      adminPaymentEventServerPaging,
-      contains("p_sort text default 'created_at_desc'"),
-    );
-    expect(adminPaymentEventServerPaging, contains('limit v_limit'));
-    expect(adminPaymentEventServerPaging, contains('offset v_offset'));
-    expect(adminPaymentEventServerPaging, contains("'total'"));
-    expect(adminPaymentEventServerPaging, contains("'amount_desc'"));
-    expect(
-      adminPaymentEventServerPaging,
-      contains(
-        'grant execute on function admin_list_payment_events(text, text, integer, integer, text)',
-      ),
-    );
-    expect(
-      dropLegacyPaymentEventQueueOverloads,
-      contains('drop function if exists admin_list_payment_events(text, text)'),
-    );
-    expect(
-      dropLegacyPaymentEventQueueOverloads,
-      contains('drop function if exists admin_list_allocations(text, text)'),
-    );
-    expect(
-      dropLegacyPaymentEventQueueOverloads,
-      contains('drop function if exists admin_list_unallocated(text, text)'),
-    );
-    expect(
-      revokeAnonAdminQueuePaging,
-      contains(
-        'revoke execute on function admin_list_payment_events(text, text, integer, integer, text)',
-      ),
-    );
-    expect(revokeAnonAdminQueuePaging, contains('from public, anon'));
-    expect(
-      revokeAnonAdminQueuePaging,
-      contains(
-        'grant execute on function admin_list_payment_events(text, text, integer, integer, text)',
-      ),
-    );
-    expect(revokeAnonAdminQueuePaging, contains('to authenticated'));
-    expect(
-      schemaInventoryScript,
-      contains('"function|admin_list_payment_events"'),
-    );
-    expect(
-      schemaInventoryScript,
-      contains('logical_overload_replacements.include?(object_key)'),
-    );
-  });
-
-  test('admin roles are least-privilege by operational lane', () {
-    final readiness = File(
-      'scripts/supabase_production_readiness.sh',
+  test('bank SMS is admin-authenticated and bank email requires HMAC', () {
+    final sharedHmac = File(
+      'supabase/functions/_shared/hmac.ts',
     ).readAsStringSync();
-    final adminUat = File(
-      'scripts/collect_admin_security_uat.sh',
+    final email = File(
+      'supabase/functions/ingest-bank-email/index.ts',
+    ).readAsStringSync();
+    final sms = File(
+      'supabase/functions/ingest-bank-sms/index.ts',
     ).readAsStringSync();
 
-    expect(
-      adminRoleTightening,
-      contains("'compliance_admin', 'sms.raw.reveal'"),
-    );
-    expect(
-      adminRoleTightening,
-      contains("'payments_admin', 'payment_events.reparse'"),
-    );
-    expect(adminRoleTightening, contains("'read_only_admin', 'settings.read'"));
-    expect(
-      adminRoleTightening,
-      isNot(contains("'read_only_admin', 'payments.allocate'")),
-    );
-    expect(
-      adminRoleTightening,
-      isNot(contains("'support_admin', 'sms.raw.reveal'")),
-    );
-    expect(
-      adminRoleTightening,
-      isNot(contains("'operations_admin', 'payments.allocate'")),
-    );
-    expect(
-      adminRoleTightening,
-      isNot(contains("'moderation_admin', 'payment_events.reparse'")),
-    );
-    expect(smsFirstGroupPaymentIntents, contains("'payments.allocate'"));
-    expect(readiness, isNot(contains("'payments.allocate', 'EXECUTE'")));
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke execute on function admin_review_public_request'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke execute on function admin_moderate_collection'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop function if exists admin_moderate_collection'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop function if exists admin_list_public_requests'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop table if exists public_collection_requests'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create or replace function admin_list_collections'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create or replace function admin_get_collection'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains("'Collect ID ' || p.public_id"),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      isNot(contains('coalesce(p.display_name')),
-    );
-    expect(smsFirstGroupPaymentIntents, contains("'Pending payment intents'"));
-    expect(smsFirstGroupPaymentIntents, contains("'SMS exceptions'"));
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create or replace function admin_list_allocations'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        "return admin_list_payment_events(p_search, coalesce(p_status, 'allocated'))",
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        "e.allocation_status in ('unallocated', 'ambiguous', 'needs_review')",
-      ),
-    );
-    expect(smsFirstGroupPaymentIntents, contains("'public_requests.read'"));
-    expect(smsFirstGroupPaymentIntents, contains("name = 'group_ops_admin'"));
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('delete from admin_permissions'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      isNot(contains('Pending public requests')),
-    );
-    expect(
-      readiness,
-      isNot(contains("'admin_moderate_collection', 'EXECUTE'")),
-    );
-    expect(
-      adminRoleTightening,
-      contains('select public.is_platform_admin(auth.uid())'),
-    );
-    expect(readiness, contains('collect_admin_security_uat.sh'));
-    expect(
-      restrictedAdminPermissionHelperProbing,
-      contains("auth.role() = 'service_role' or user_uuid = auth.uid()"),
-    );
-    expect(
-      restrictedAdminPermissionHelperProbing,
-      contains('current_user_has_admin_permission(permission text)'),
-    );
-    expect(
-      restrictedAdminPermissionHelperProbing,
-      contains(
-        'Authenticated callers may evaluate only auth.uid(); service_role may evaluate arbitrary users',
-      ),
-    );
-    expect(
-      readiness,
-      contains(
-        "('authenticated', 'current_user_has_admin_permission', 'EXECUTE')",
-      ),
-    );
-    expect(adminUat, contains('support_admin unexpectedly revealed raw SMS'));
-    expect(
-      adminUat,
-      contains('read_only_admin unexpectedly requested reparse'),
-    );
-    expect(adminUat, contains('Rollback UAT payments admin reparse'));
-    expect(adminUat, contains('rollback admin/security UAT passed'));
+    expect(sharedHmac, contains('verifyTimestampedHmac'));
+    expect(sharedHmac, contains('constantTimeEqual'));
+    expect(sharedHmac, contains('5 * 60 * 1000'));
+    expect(email, contains('BANK_EMAIL_INGEST_HMAC_SECRET'));
+    expect(sms, contains('requireUser'));
+    expect(email, contains('ingest_bank_evidence'));
+    expect(sms, contains('ingest_bank_evidence'));
+    expect(email, isNot(contains('OPENAI_API_KEY')));
+    expect(sms, isNot(contains('OPENAI_API_KEY')));
   });
 
-  test('public payment feeds use safe views instead of base table reads', () {
-    final repository = readCollectRepositoryLibrary();
-
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop view if exists public_contributions_view'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create view public_contributions_view'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop view if exists member_contributions_view'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create view member_contributions_view'),
-    );
-    expect(repository, contains("from('public_contributions_view')"));
-    expect(repository, contains("from('member_contributions_view')"));
-    expect(repository, isNot(contains("from('payments')")));
+  test('evidence parsing is deterministic and data-minimising', () {
+    final parser = File(
+      'supabase/functions/_shared/bank_evidence.ts',
+    ).readAsStringSync();
+    expect(parser, contains('parseBankEvidence'));
+    expect(parser, contains('amount_minor'));
+    expect(parser, contains('currency'));
+    expect(parser, contains('transfer_reference'));
+    expect(parser, contains('bank_transaction_id'));
+    expect(parser, isNot(contains('api.openai.com')));
+    expect(parser, isNot(contains('sender_name')));
   });
 
-  test('member data views expose SMS-first group fields only', () {
-    final memberSummaryView = migrationSection(
-      smsFirstGroupPaymentIntents,
-      'create view member_collection_summary_view',
-      'create view member_collections_view',
-    );
-    final memberCollectionsView = migrationSection(
-      smsFirstGroupPaymentIntents,
-      'create view member_collections_view',
-      'create view member_contributions_view',
-    );
-    final memberContributionsView = migrationSection(
-      smsFirstGroupPaymentIntents,
-      'create view member_contributions_view',
-      'revoke update (display_name, avatar_url, anonymity_default)',
-    );
+  test(
+    'raw evidence ingestion is idempotent and links independent sources',
+    () {
+      expect(cutover, contains('body_hash'));
+      expect(cutover, contains('unique (channel, body_hash)'));
+      expect(cutover, contains('bank_transaction_id'));
+      expect(cutover, contains('payment_evidence_links'));
+      expect(cutover, contains('on conflict'));
+      expect(cutover, contains('ingest_bank_evidence'));
+      expect(cutover, contains('raw_body'));
+      expect(cutover, contains('revoke all on public.raw_payment_evidence'));
+    },
+  );
 
-    for (final viewSql in [
-      memberSummaryView,
-      memberCollectionsView,
-      memberContributionsView,
+  test('daily reconciliation controls confirmation and balanced posting', () {
+    expect(cutover, contains('run_daily_bank_reconciliation'));
+    expect(cutover, contains("set status = 'reconciled'"));
+    expect(cutover, contains("'bank_receipt'"));
+    expect(cutover, contains("'debit'"));
+    expect(cutover, contains("'credit'"));
+    expect(cutover, contains('journal_entries_immutable'));
+    expect(cutover, contains('journal_lines_immutable'));
+    expect(cutover, contains('Posted financial journals are immutable'));
+    expect(cutover, contains('reconciliation_exceptions'));
+    expect(cutover, contains('daily_bank_closes'));
+    expect(cutover, contains('admin_reopen_daily_bank_close'));
+    expect(cutover, contains('cron.schedule'));
+  });
+
+  test('manual allocations require separate proposer and approver', () {
+    expect(cutover, contains('admin_propose_bank_allocation'));
+    expect(cutover, contains('admin_review_bank_allocation'));
+    expect(cutover, contains('bank_allocation_change_requests'));
+    expect(cutover, contains('bank_allocations.propose'));
+    expect(cutover, contains('bank_allocations.approve'));
+    expect(cutover, contains('prohibits approving your own allocation'));
+  });
+
+  test(
+    'raw evidence reveal and exception handling are permissioned and audited',
+    () {
+      expect(cutover, contains('admin_reveal_raw_bank_evidence'));
+      expect(cutover, contains('bank_evidence.raw.reveal'));
+      expect(cutover, contains('admin_resolve_reconciliation_exception'));
+      expect(cutover, contains('bank_reconciliation.manage'));
+      expect(cutover, contains('create_audit_log'));
+      expect(cutover, contains('p_reason'));
+    },
+  );
+
+  test('admin routes cover destinations through immutable journals', () {
+    for (final route in [
+      '/admin/bank-destinations',
+      '/admin/bank-destination-requests',
+      '/admin/bank-intents',
+      '/admin/bank-transactions',
+      '/admin/bank-evidence',
+      '/admin/reconciliation',
+      '/admin/reconciliation-exceptions',
+      '/admin/bank-allocation-requests',
+      '/admin/bank-journal',
     ]) {
-      expect(viewSql, isNot(contains('category')));
-      expect(viewSql, isNot(contains('cover_image_url')));
-      expect(viewSql, isNot(contains('target_amount_rwf')));
-      expect(viewSql, isNot(contains('public_status')));
-      expect(viewSql, isNot(contains('is_recurring')));
-      expect(viewSql, isNot(contains('recurring_rule')));
-      expect(viewSql, isNot(contains('anonymity_choice')));
-      expect(viewSql, isNot(contains('display_name')));
-      expect(viewSql, isNot(contains('avatar_url')));
+      expect(adminSurface, contains(route));
+      expect(cutover, contains(route));
     }
-
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke select (display_name, avatar_url, anonymity_default)'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke select (anonymity_choice)'),
-    );
-  });
-
-  test('Supabase advisor security errors are gated', () {
-    final makefile = File('Makefile').readAsStringSync();
-    final readiness = File(
-      'scripts/supabase_production_readiness.sh',
-    ).readAsStringSync();
-    final config = File('supabase/config.toml').readAsStringSync();
-    final advisorGate = File(
-      'scripts/supabase_advisors_gate.sh',
-    ).readAsStringSync();
-    final warningInventory = File(
-      'scripts/supabase_advisors_warning_inventory.sh',
-    ).readAsStringSync();
-    final schemaInventory = File(
-      'scripts/supabase_schema_inventory.sh',
-    ).readAsStringSync();
-    final evidenceBundle = File(
-      'scripts/supabase_go_live_evidence_bundle.sh',
-    ).readAsStringSync();
-    final edgeAuthUat = File(
-      'scripts/collect_edge_auth_contract_uat.sh',
-    ).readAsStringSync();
-    final goLiveGate = File(
-      'scripts/supabase_go_live_gate.sh',
-    ).readAsStringSync();
-    final postOperatorChecklist = File(
-      'scripts/supabase_post_operator_checklist.sh',
-    ).readAsStringSync();
-    final acceptanceMatrix = File(
-      'scripts/supabase_acceptance_matrix.sh',
-    ).readAsStringSync();
-    final runbook = File(
-      'docs/SUPABASE_OPERATIONS_RUNBOOK.md',
-    ).readAsStringSync();
-    final checklist = File(
-      'docs/release/PRODUCTION_READINESS_CHECKLIST.md',
-    ).readAsStringSync();
-
-    for (final viewName in [
-      'public_profiles_view',
-      'public_contributions_view',
-      'member_collection_summary_view',
-      'member_collections_view',
-      'member_contributions_view',
+    for (final action in [
+      'admin_propose_bank_destination',
+      'admin_review_bank_destination_change',
+      'ingest-bank-statement',
+      'admin_run_bank_reconciliation',
+      'admin_propose_bank_allocation',
+      'admin_review_bank_allocation',
+      'admin_resolve_reconciliation_exception',
+      'admin_reveal_raw_bank_evidence',
+      'admin_reopen_daily_bank_close',
     ]) {
-      expect(
-        viewSecurityInvoker,
-        contains('alter view public.$viewName set (security_invoker = true);'),
-      );
+      expect(adminSurface, contains(action));
     }
-
-    expect(makefile, contains('supabase-advisors:'));
-    expect(makefile, contains('supabase-advisor-warnings:'));
-    expect(makefile, contains('supabase-schema-inventory:'));
-    expect(makefile, contains('supabase-schema-inventory-json:'));
-    expect(makefile, contains('supabase-go-live-evidence:'));
-    expect(makefile, contains('supabase-go-live-gate:'));
-    expect(makefile, contains('supabase-go-live-gate-json:'));
-    expect(makefile, contains('supabase-edge-auth-uat:'));
-    expect(makefile, contains('supabase-post-operator-checklist:'));
-    expect(makefile, contains('supabase-post-operator-checklist-json:'));
-    expect(makefile, contains('supabase-acceptance-matrix:'));
-    expect(makefile, contains('supabase-acceptance-matrix-json:'));
-    expect(readiness, contains('scripts/supabase_advisors_gate.sh'));
-    expect(
-      readiness,
-      contains('scripts/supabase_advisors_warning_inventory.sh'),
-    );
-    expect(readiness, contains('check_db_lint'));
-    expect(readiness, contains('check_migration_history'));
-    expect(readiness, contains('SUPABASE_READY_REQUIRE_POOLER_COMMANDS'));
-    expect(readiness, contains('SUPABASE_READY_DEFER_STRIPE'));
-    expect(readiness, contains('STRIPE_REQUIRED_SECRETS'));
-    expect(readiness, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
-    expect(readiness, contains('scripts/supabase_schema_inventory.sh'));
-    expect(readiness, contains('send-notification'));
-    expect(readiness, contains('dispatch-notifications'));
-    expect(
-      readiness,
-      contains("('authenticated', 'app_realtime_events', 'SELECT')"),
-    );
-    for (final table in [
-      'account_request_reason_options',
-      'admin_navigation_items',
-      'admin_queue_filter_options',
-      'admin_queue_signals',
-      'admin_queue_specs',
-      'brand_entities',
-      'payment_entrypoints',
-      'policy_document_sections',
-      'policy_documents',
-      'support_channels',
-    ]) {
-      expect(readiness, contains("('authenticated', '$table', 'SELECT')"));
-      expect(readiness, contains("('authenticated', '$table', 'INSERT')"));
-      expect(readiness, contains("('authenticated', '$table', 'UPDATE')"));
-      expect(readiness, contains("('authenticated', '$table', 'DELETE')"));
-    }
-    for (final table in [
-      'account_request_reason_options',
-      'brand_entities',
-      'payment_entrypoints',
-      'policy_document_sections',
-      'policy_documents',
-      'support_channels',
-    ]) {
-      expect(readiness, contains("('anon', '$table', 'SELECT')"));
-    }
-    expect(
-      readiness,
-      contains("('authenticated', 'policy_acceptance_events', 'SELECT')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'policy_acceptance_events', 'INSERT')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'admin_get_queue_sla', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'admin_record_operator_note', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'admin_set_feature_flag', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains(
-        "('authenticated', 'admin_update_collection_support_status', 'EXECUTE')",
-      ),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'admin_runtime_config', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'archive_group', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'transfer_group_ownership', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('anon', 'get_public_runtime_config', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('anon', 'get_active_policy_document', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('anon', 'list_account_request_reasons', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'get_public_runtime_config', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'get_active_policy_document', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'list_account_request_reasons', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'record_policy_acceptance', 'EXECUTE')"),
-    );
-    expect(readiness, contains('information_schema.column_privileges'));
-    expect(readiness, contains('missing column grant:'));
-    expect(advisorGate, contains('supabase_cli db advisors'));
-    expect(advisorGate, contains(r'--type "$type"'));
-    expect(advisorGate, contains('SUPABASE_ADVISORS_LEVEL:-error'));
-    expect(advisorGate, contains('SUPABASE_ADVISORS_FAIL_ON:-error'));
-    expect(warningInventory, contains('allowed_security_max'));
-    expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
-    expect(
-      warningInventory,
-      contains('"anon_security_definer_function_executable" => 5'),
-    );
-    expect(
-      warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 70'),
-    );
-    expect(
-      warningInventory,
-      isNot(contains('ensure_developer_account_data()')),
-    );
-    expect(warningInventory, contains('admin_runtime_config()'));
-    expect(warningInventory, contains('get_active_policy_document()'));
-    expect(warningInventory, contains('record_policy_acceptance'));
-    expect(warningInventory, contains('performance warnings=0'));
-    expect(schemaInventory, contains('pg_policies'));
-    expect(schemaInventory, contains('information_schema.role_table_grants'));
-    expect(schemaInventory, contains('search_path_pinned'));
-    expect(schemaInventory, contains('extra_objects'));
-    expect(schemaInventory, contains('missing_objects'));
-    expect(schemaInventory, isNot(contains('select * from')));
-    expect(evidenceBundle, contains('release_status.json'));
-    expect(evidenceBundle, contains('release_status_json_retry'));
-    expect(evidenceBundle, contains('database_connectivity'));
-    expect(evidenceBundle, contains('go_live_gate.json'));
-    expect(evidenceBundle, contains('platform_packet.json'));
-    expect(evidenceBundle, contains('post_operator_checklist.json'));
-    expect(evidenceBundle, contains('acceptance_matrix.json'));
-    expect(evidenceBundle, contains('schema_inventory.json'));
-    expect(evidenceBundle, contains('advisor_warnings.txt'));
-    expect(evidenceBundle, contains('operational_report.json'));
-    expect(evidenceBundle, contains('supabase_ready.txt'));
-    expect(evidenceBundle, contains('edge_auth_contract_uat.txt'));
-    expect(evidenceBundle, contains('release_secret_scan.txt'));
-    expect(evidenceBundle, contains('commands.tsv'));
-    expect(evidenceBundle, contains('summary.json'));
-    expect(evidenceBundle, contains('go_live_gate'));
-    expect(evidenceBundle, contains('post_operator_checklist'));
-    expect(evidenceBundle, contains('acceptance_matrix'));
-    expect(evidenceBundle, contains('.cache/supabase_go_live_evidence'));
-    expect(evidenceBundle, isNot(contains(r'cat .env')));
-    expect(edgeAuthUat, contains('"send-notification" => :internal'));
-    expect(edgeAuthUat, contains('"dispatch-notifications" => :internal'));
-    expect(goLiveGate, contains('go_live_approved'));
-    expect(goLiveGate, contains('SUPABASE_GO_LIVE_STATUS_JSON'));
-    expect(goLiveGate, contains('SUPABASE_GO_LIVE_READINESS_JSON'));
-    expect(goLiveGate, contains('scripts/supabase_production_readiness.sh'));
-    expect(goLiveGate, contains('linked_supabase_production_readiness'));
-    expect(goLiveGate, contains('linked_supabase_sms_first_migration'));
-    expect(
-      goLiveGate,
-      contains('20260601230000_preserve_contribution_sender_hash.sql'),
-    );
-    expect(
-      postOperatorChecklist,
-      contains('SUPABASE_POST_OPERATOR_STATUS_JSON'),
-    );
-    expect(postOperatorChecklist, contains('android_sms_access_uat'));
-    expect(postOperatorChecklist, contains('evidence_record_command'));
-    expect(
-      postOperatorChecklist,
-      contains('make record-android-sms-uat-evidence ARGS='),
-    );
-    expect(postOperatorChecklist, contains('--raw-sms-not-public'));
-    expect(postOperatorChecklist, contains('--no-phone-or-momo'));
-    expect(postOperatorChecklist, contains('--no-transaction-ids'));
-    expect(postOperatorChecklist, contains('record_command'));
-    expect(
-      postOperatorChecklist,
-      contains('make record-release-approval ARGS='),
-    );
-    expect(postOperatorChecklist, contains('--sanitized-evidence'));
-    expect(postOperatorChecklist, contains('--no-production-customer-data'));
-    expect(postOperatorChecklist, contains('record_out_of_scope_command'));
-    expect(
-      postOperatorChecklist,
-      contains('linked_supabase_sms_first_migration'),
-    );
-    expect(
-      postOperatorChecklist,
-      contains('20260601230000_preserve_contribution_sender_hash.sql'),
-    );
-    expect(postOperatorChecklist, contains('admin_pwa_live_url'));
-    expect(postOperatorChecklist, contains('final_verification'));
-    expect(
-      postOperatorChecklist,
-      isNot(contains(r'echo "$AUTH_CAPTCHA_SECRET"')),
-    );
-    expect(acceptanceMatrix, contains('SUPA-001'));
-    expect(acceptanceMatrix, contains('edge_auth_contract_uat'));
-    expect(
-      acceptanceMatrix,
-      contains(
-        'Remote public schema contains only repo-owned required objects',
-      ),
-    );
-    expect(
-      acceptanceMatrix,
-      contains('Every public base table has row-level security enabled'),
-    );
-    expect(
-      acceptanceMatrix,
-      contains('Final Supabase go-live gate approves release'),
-    );
-    expect(
-      acceptanceMatrix,
-      contains('Acceptance matrix references redacted evidence files'),
-    );
-    expect(acceptanceMatrix, isNot(contains(r'cat .env')));
-    expect(edgeAuthUat, contains('auth-send-whatsapp-otp'));
-    expect(edgeAuthUat, contains('verify_jwt'));
-    expect(edgeAuthUat, contains('authErrorStatus'));
-    expect(edgeAuthUat, contains('requireInternalRequest(req)'));
-    expect(edgeAuthUat, contains('requireUser('));
-    expect(edgeAuthUat, contains('Edge Function auth contract UAT passed'));
-    expect(runbook, contains('scripts/collect_linked_uat.sh'));
-    expect(runbook, contains('make supabase-go-live-gate-json'));
-    expect(runbook, contains('make supabase-post-operator-checklist'));
-    expect(runbook, contains('Android SMS Access UAT'));
-    expect(checklist, contains('Current Readiness'));
-    expect(checklist, contains('Production Blockers'));
-    expect(checklist, contains('release_owner_signoff'));
-    expect(config, contains('schemas = ["public"]'));
-    expect(config, isNot(contains('"graphql_public"')));
-    expect(
-      disableGraphqlIntrospection,
-      contains(
-        'comment on schema public is e\'@graphql({"introspection": false})\'',
-      ),
-    );
-    expect(viewSecurityInvoker, contains('grant select ('));
-    expect(viewSecurityInvoker, contains('on public.profiles to anon'));
-    expect(viewSecurityInvoker, contains('payments public posted or scoped'));
-    expect(
-      viewSecurityInvoker,
-      contains('ledger public collection credit or scoped'),
-    );
-    for (final functionName in [
-      'mask_phone(text)',
-      '_admin_row(uuid, text, text, text, text, timestamptz, jsonb)',
-      'normalize_slug(text)',
-      'touch_updated_at()',
-      'generate_public_id()',
-      'generate_contribution_code()',
-      'prevent_client_admin_escalation()',
-      'prevent_ledger_mutation()',
-    ]) {
-      expect(
-        helperSearchPaths,
-        contains('alter function public.$functionName set search_path'),
-      );
-    }
-    expect(
-      splitPermissiveSelectPolicies,
-      contains('alter policy "admin user roles read admins"'),
-    );
-    expect(
-      splitPermissiveSelectPolicies,
-      contains('alter policy "raw sms metadata scoped read"'),
-    );
-    for (final policyName in [
-      'members manage admins',
-      'receivers manage admins',
-      'invites manage admins',
-      'recurring periods manage admins',
-      'obligations manage admins',
-    ]) {
-      expect(
-        splitPermissiveSelectPolicies,
-        contains('drop policy if exists "$policyName"'),
-      );
-    }
-    expect(splitPermissiveSelectPolicies, isNot(contains('for all')));
   });
 
-  test('Flutter client reads scoped views instead of private base tables', () {
-    final repository = readCollectRepositoryLibrary();
-    final readiness = File(
-      'scripts/supabase_production_readiness.sh',
-    ).readAsStringSync();
-
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create view member_collections_view'),
-    );
-    expect(smsFirstGroupPaymentIntents, contains('record_sms_access_consent'));
-    expect(repository, contains("from('member_collections_view')"));
-    expect(repository, contains("'update_collection_profile_and_receiver'"));
-    expect(
-      repository,
-      isNot(contains(".rpc<void>('update_collection_profile',")),
-    );
-    expect(
-      repository,
-      isNot(contains("from('parsed_payment_events_review_view')")),
-    );
-    expect(repository, contains("'record_sms_access_consent'"));
-    expect(repository, isNot(contains("from('collections')")));
-    expect(repository, isNot(contains("from('public_collection_requests')")));
-    expect(repository, isNot(contains("from('receiver_mode_consents')")));
-    expect(readiness, contains("'member_collections_view', 'SELECT'"));
-    expect(readiness, contains("'member_contributions_view', 'SELECT'"));
-    expect(
-      readiness,
-      isNot(contains("'parsed_payment_events_review_view', 'SELECT'")),
-    );
-    expect(
-      readiness,
-      isNot(contains("'member_public_collection_requests_view', 'SELECT'")),
-    );
-    expect(readiness, contains("'record_sms_access_consent', 'EXECUTE'"));
-  });
-
-  test('payment intents require exact standalone SMS matching', () {
-    final repository = readCollectRepositoryLibrary();
-
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('add column if not exists contributor_public_id char(6)'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'create index if not exists payment_intents_member_sms_match_idx',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('create or replace function allocate_parsed_payment_event'),
-    );
-    expect(smsFirstGroupPaymentIntents, contains('auto_member_intent'));
-    expect(smsFirstGroupPaymentIntents, isNot(contains('auto_code')));
-    expect(
-      smsFirstGroupPaymentIntents,
-      isNot(contains('detected_collection_code')),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('alter column contribution_code drop not null'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      isNot(contains('generate_contribution_code()')),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'revoke execute on function report_payment_intent_paid(uuid, text)',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'revoke execute on function manual_allocate_parsed_payment_event(uuid, uuid, uuid, text)',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop function if exists manual_allocate_parsed_payment_event'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains(
-        'revoke execute on function admin_manual_allocate_payment(uuid, uuid, uuid, text)',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop function if exists admin_manual_allocate_payment'),
-    );
-    expect(repository, isNot(contains("'report_payment_intent_paid'")));
-    expect(repository, isNot(contains("'request-public-collection'")));
-    expect(
-      repository,
-      isNot(contains(".from('payment_intents')\n          .update")),
-    );
-  });
-
-  test('payment posting binds events and intents to target collection', () {
-    expect(
-      migration,
-      contains('Payment intent does not belong to target collection'),
-    );
-    expect(
-      migration,
-      contains('Parsed event receiver is not configured for target collection'),
-    );
-    expect(
-      migration,
-      contains('cr.receiver_user_id = event_row.receiver_user_id'),
-    );
-    expect(
-      migration,
-      contains('cr.momo_number_hash = event_row.receiver_phone_hash'),
-    );
-  });
-
-  test('linked rollback UAT covers payment edge-case safety', () {
-    final linkedUat = File('scripts/collect_linked_uat.sh').readAsStringSync();
-
-    expect(
-      linkedUat,
-      contains('missing receiver authorization unexpectedly passed'),
-    );
-    expect(linkedUat, contains('allocation was not idempotent'));
-    expect(linkedUat, contains("allocation_status <> 'allocated'"));
-    expect(linkedUat, contains('both balanced ledger entries'));
-    expect(
-      linkedUat,
-      contains(
-        'from create_contribution_intent(uat_group_id, 5000, contributor_hash)',
-      ),
-    );
-    expect(linkedUat, contains('payment intent sender hash was not stored'));
-    expect(linkedUat, contains("expires_at = now() - interval '3 hours'"));
-    expect(linkedUat, contains('expired intent should not auto-match'));
-    expect(linkedUat, contains('ambiguous event was posted automatically'));
-    expect(linkedUat, contains('SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS'));
-    expect(linkedUat, contains('run_with_timeout'));
-  });
-
-  test('local join concurrency UAT proves exactly-once side effects', () {
-    final concurrentJoinUat = File(
-      'scripts/local_concurrent_join_uat.sh',
-    ).readAsStringSync();
-
-    expect(concurrentJoinUat, contains('join_one_pid'));
-    expect(concurrentJoinUat, contains('join_two_pid'));
-    expect(concurrentJoinUat, contains("action = 'group.joined'"));
-    expect(concurrentJoinUat, contains("type = 'group_update'"));
-    expect(concurrentJoinUat, contains('membership_count <> 1'));
-    expect(concurrentJoinUat, contains('audit_count <> 1'));
-    expect(concurrentJoinUat, contains('notification_count <> 1'));
-    expect(concurrentJoinUat, contains('LOCAL_CONCURRENT_JOIN_UAT_PASS'));
-  });
-
-  test('parsed payment review events are collection-scoped', () {
-    final repository = readCollectRepositoryLibrary();
-    final ledger = File(
-      'lib/features/ledger/ledger_screen.dart',
+  test('bank statement import supports reviewed machine-readable formats', () {
+    final parser = File(
+      'supabase/functions/_shared/bank_statement.ts',
     ).readAsStringSync();
     final ingest = File(
-      'supabase/functions/ingest-payment-sms/index.ts',
+      'supabase/functions/ingest-bank-statement/index.ts',
     ).readAsStringSync();
-    final parser = File(
-      'supabase/functions/parse-payment-sms/index.ts',
-    ).readAsStringSync();
-
-    expect(
-      migration,
-      contains(
-        'collection_id uuid references collections(id) on delete set null',
-      ),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('drop view if exists parsed_payment_events_review_view'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('revoke all on parsed_payment_events_review_view'),
-    );
-    expect(
-      repository,
-      isNot(contains("from('parsed_payment_events_review_view')")),
-    );
-    expect(
-      ledger,
-      contains('contributionsForCollectionProvider(widget.collectionId)'),
-    );
-    expect(repository, contains('if (item.collectionId == collectionId) item'));
-    expect(ingest, contains('collection_id: collectionId'));
-    expect(parser, contains('collection_id: rawSms.collection_id'));
+    expect(parser, contains('parseBankStatement'));
+    expect(parser, contains('CSV'));
+    expect(parser, contains('MT940'));
+    expect(parser, contains('CAMT'));
+    expect(ingest, contains('admin_import_bank_statement'));
+    expect(ingest, contains('requireUser'));
   });
 
-  test('SMS parser and admin queues do not record payer names', () {
-    final parser = File(
-      'supabase/functions/parse-payment-sms/index.ts',
-    ).readAsStringSync();
-    final parserSchema = File(
-      'supabase/functions/_shared/sms_schema.ts',
-    ).readAsStringSync();
-    final models = File(
-      'lib/shared/models/collect_models.dart',
-    ).readAsStringSync();
-
-    expect(parserSchema, isNot(contains('sender_name')));
-    expect(parserSchema, isNot(contains('receiver_name')));
-    expect(parserSchema, isNot(contains('raw_reference')));
-    expect(parserSchema, isNot(contains('explanation')));
-    expect(parser, contains('sender_name: null'));
-    expect(parser, contains('api.openai.com/v1/responses'));
-    expect(parser, contains('Do not extract names'));
-    expect(parser, contains('sanitizeParsedJson(parsed)'));
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains('update parsed_payment_events\nset sender_name = null'),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains("select to_jsonb(e) - 'sender_name'"),
-    );
-    expect(
-      smsFirstGroupPaymentIntents,
-      isNot(contains("coalesce(e.sender_name, 'Unknown sender')")),
-    );
-    expect(smsFirstGroupPaymentIntents, isNot(contains('e.sender_name ilike')));
-    expect(models, contains("senderLabel: 'MoMo SMS'"));
-  });
-
-  test(
-    'member summary view is scoped and public directory summary is removed',
-    () {
-      expect(
-        smsFirstGroupPaymentIntents,
-        contains('drop view if exists collection_summary_view'),
-      );
-      expect(
-        smsFirstGroupPaymentIntents,
-        contains('create view member_collection_summary_view'),
-      );
-      expect(
-        smsFirstGroupPaymentIntents,
-        contains('where public.user_can_read_collection(c.id, auth.uid())'),
-      );
-    },
-  );
-
-  test('collection receiver details are hydrated separately under RLS', () {
-    final repository = readCollectRepositoryLibrary();
-
-    expect(repository, contains('attachAuthorizedReceivers'));
-    expect(repository, contains("from('collection_receivers')"));
-    expect(repository, isNot(contains("select('*, collection_receivers")));
-  });
-
-  test('Edge Functions are present for critical backend operations', () {
-    for (final name in [
-      'auth-send-whatsapp-otp',
-      'ingest-payment-sms',
-      'parse-payment-sms',
-    ]) {
-      expect(File('supabase/functions/$name/index.ts').existsSync(), isTrue);
-    }
-    for (final name in [
-      'manual-allocate-payment',
-      'allocate-payment',
-      'request-public-collection',
-      'review-public-collection',
-    ]) {
-      expect(File('supabase/functions/$name/index.ts').existsSync(), isFalse);
-    }
-  });
-
-  test('SMS parser function does not persist raw parsed phone fields', () {
-    final parser = File(
-      'supabase/functions/parse-payment-sms/index.ts',
-    ).readAsStringSync();
-
-    expect(parser, contains('sanitizeParsedJson(parsed)'));
-    expect(parser, contains('sender_phone: parsed.sender_phone ? "[hashed]"'));
-    expect(
-      parser,
-      contains('receiver_phone: parsed.receiver_phone ? "[hashed]"'),
-    );
-  });
-
-  test(
-    'SMS parser uses OpenAI structured output and exact allocation controls',
-    () {
-      final parser = File(
-        'supabase/functions/parse-payment-sms/index.ts',
-      ).readAsStringSync();
-      final parserSchema = File(
-        'supabase/functions/_shared/sms_schema.ts',
-      ).readAsStringSync();
-      final liveParserUat = File(
-        'scripts/collect_live_parser_uat.sh',
-      ).readAsStringSync();
-
-      expect(parser, contains('https://api.openai.com/v1/responses'));
-      expect(parser, contains('requireEnv("OPENAI_API_KEY")'));
-      expect(parser, contains('requireEnv("OPENAI_MODEL")'));
-      expect(parser, contains('type: "json_schema"'));
-      expect(parser, contains('strict: true'));
-      expect(parser, contains('schema: smsParserJsonSchema'));
-      expect(parser, contains('store: false'));
-      expect(parser, contains('OPENAI_TIMEOUT_MS'));
-      expect(parser, contains('OpenAI refused SMS parsing'));
-      expect(parser, contains('validateParsedSms'));
-      expect(parser, isNot(contains('parseDeterministicMomoSms')));
-      expect(parser, isNot(contains('detected_collection_code')));
-      expect(parserSchema, isNot(contains('detected_collection_code')));
-      expect(parserSchema, contains('collect.sms_parser.openai.v2'));
-      expect(
-        parser,
-        contains(
-          'const receiverHash = typeof rawSms.receiver_momo_number_hash === "string"',
-        ),
-      );
-      expect(parser, contains('claim_raw_payment_sms_for_parse'));
-      expect(parser, contains('p_lease_id: parseLeaseId'));
-      expect(parser, contains('.eq("parse_lease_id", parseLeaseId)'));
-      expect(parser, contains('allocation_status: "processing"'));
-      expect(smsParserWorkClaim, contains("parse_status = 'processing'"));
-      expect(smsParserWorkClaim, contains("interval '60 seconds'"));
-      expect(smsParserWorkClaim, contains('to service_role'));
-      expect(parser, contains('allocation_status: allocationStatus'));
-      expect(parser, contains('allocationStatus === "allocated"'));
-      expect(
-        parser,
-        contains('existingEvent.allocation_status === "unallocated"'),
-      );
-      expect(
-        parser,
-        contains('await allocateEvent(supabase, existingEvent.id)'),
-      );
-      expect(parser, contains('allocationStatus === "already_allocated"'));
-      expect(parser, contains('error: rawStatusError'));
-      expect(momoSmsHardening, contains("'auto_native_sms'"));
-      expect(momoSmsHardening, isNot(contains("'auto_exact_txn'")));
-      expect(momoSmsHardening, isNot(contains("'auto_code'")));
-      expect(momoSmsHardening, isNot(contains("'manual_sms_review'")));
-      expect(momoSmsHardening, isNot(contains("'system_exception'")));
-      expect(momoSmsHardening, contains("return 'allocated'"));
-      expect(momoSmsHardening, contains("'collection_credit'"));
-      expect(momoSmsHardening, contains("'member_credit'"));
-      expect(liveParserUat, contains('live parser UAT passed'));
-      expect(liveParserUat, contains('standalone pipeline'));
-      expect(liveParserUat, contains('stored OpenAI result'));
-      expect(liveParserUat, contains('uat-stored-openai-result'));
-      expect(liveParserUat, isNot(contains('OpenAI returned 429')));
-      expect(liveParserUat, contains('ledger_count'));
-    },
-  );
-
-  test('Android SMS receiver is consent gated, encrypted, and retry safe', () {
-    final receiver = File(
-      'android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt',
-    ).readAsStringSync();
-    final mainActivity = File(
-      'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
-    ).readAsStringSync();
-    final channel = File(
-      'lib/core/security/sms_access_channel.dart',
-    ).readAsStringSync();
-    final repository = readCollectRepositoryLibrary();
-    final repositoryHelpers = File(
-      'lib/shared/repositories/collect_repository_helpers.dart',
-    ).readAsStringSync();
-
-    final queueStore = File(
-      'android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt',
-    ).readAsStringSync();
-
-    expect(receiver, contains('SmsQueueStore.SMS_ACCESS_ENABLED_KEY'));
-    expect(receiver, contains('SmsQueueStore(context.applicationContext)'));
-    expect(receiver, contains('envelopeIdFor'));
-    expect(receiver, contains('goAsync()'));
-    expect(receiver, contains('SmsQueueWorker.execute'));
-    expect(queueStore, contains('AES/GCM/NoPadding'));
-    expect(queueStore, contains('AndroidKeyStore'));
-    expect(queueStore, contains('pending_sms_encrypted_v1'));
-    expect(receiver, isNot(contains('Log.i("CollectSmsReceiver", body')));
-    expect(mainActivity, contains('"collect/sms_access"'));
-    expect(mainActivity, contains('"collect/sms_access/events"'));
-    expect(mainActivity, isNot(contains('injectDebugTestSms')));
-    expect(mainActivity, contains('"setEnabled"'));
-    expect(mainActivity, contains('requestPermissions(SMS_PERMISSIONS'));
-    expect(mainActivity, contains('onRequestPermissionsResult'));
-    expect(mainActivity, contains('"readPendingSms"'));
-    expect(mainActivity, contains('"ackPendingSms"'));
-    expect(mainActivity, contains('.acknowledge(ids)'));
-    expect(mainActivity, contains('runSmsQueueTask'));
-    expect(channel, contains("MethodChannel('collect/sms_access')"));
-    expect(channel, contains("'collect/sms_access/events'"));
-    expect(repository, contains('syncPendingSmsAccess'));
-    expect(repository, contains('readPendingSms'));
-    expect(repository, contains('acknowledgePendingSms'));
-    expect(repository, contains('_smsSyncInFlight'));
-    expect(repository, contains('_smsSyncRequested'));
-    expect(repository, contains('receivedAtDevice'));
-    expect(repositoryHelpers, contains('authorizedGroupReceivers.length == 1'));
-    expect(repositoryHelpers, contains('labeledReceiver'));
-    expect(receiver, contains('PROVIDER_SENDER.matches(sender)'));
-    expect(queueStore, contains('appendIfCapacity'));
-    expect(queueStore, contains('fun acknowledge(ids: Set<String>)'));
-    expect(queueStore, contains('SMS_QUEUE_OVERFLOW_KEY'));
-    expect(receiver, contains('Instant.ofEpochMilli'));
-    final app = File('lib/app/app.dart').readAsStringSync();
-    expect(app, contains('WidgetsBindingObserver'));
-    expect(app, contains('AppLifecycleState.resumed'));
-    expect(app, contains('syncPendingSmsAccess'));
-    expect(repository, contains('refreshSmsAccessStatus'));
-    expect(repository, contains('unawaited(syncPendingSmsAccess())'));
-  });
-
-  test('MoMo code persistence accepts exactly 4 to 9 digits', () {
-    final migration = File(
-      'supabase/migrations/20260812090000_expand_momo_pay_code_length.sql',
-    ).readAsStringSync();
-    final repositoryHelpers = File(
-      'lib/shared/repositories/collect_repository_helpers.dart',
-    ).readAsStringSync();
-    final receiverInput = File(
-      'lib/shared/widgets/collect_action_controls.dart',
-    ).readAsStringSync();
-
-    expect(migration, contains(r"momo_pay_code ~ '^[0-9]{4,9}$'"));
-    expect(
-      repositoryHelpers,
-      contains('MomoReceiverNormalizer.normalizePayCode'),
-    );
-    expect(receiverInput, contains('MomoReceiverNormalizer.maxPayCodeLength'));
-  });
-
-  test('Play Integrity uses native token requests and server verification', () {
-    final mainActivity = File(
-      'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
-    ).readAsStringSync();
-    final androidGradle = File(
-      'android/app/build.gradle.kts',
-    ).readAsStringSync();
-    final flutterService = File(
-      'lib/core/security/play_integrity_service.dart',
-    ).readAsStringSync();
-    final edgeFunction = File(
-      'supabase/functions/verify-play-integrity/index.ts',
-    ).readAsStringSync();
-
-    expect(androidGradle, contains('com.google.android.play:integrity:1.6.0'));
-    expect(androidGradle, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER'));
-    expect(mainActivity, contains('"collect/play_integrity"'));
-    expect(mainActivity, contains('requestStandardToken'));
-    expect(mainActivity, contains('StandardIntegrityTokenRequest.builder()'));
-    expect(mainActivity, contains('setRequestHash(requestHash)'));
-    expect(flutterService, contains("MethodChannel('collect/play_integrity')"));
-    expect(flutterService, contains('verify-play-integrity'));
-    expect(flutterService, contains('buildRequestHash'));
-    expect(edgeFunction, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
-    expect(edgeFunction, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
-    expect(edgeFunction, contains('decodeIntegrityToken'));
-    expect(
-      edgeFunction,
-      contains('https://www.googleapis.com/auth/playintegrity'),
-    );
-    expect(edgeFunction, contains('appRecognitionVerdict'));
-    expect(edgeFunction, contains('MEETS_DEVICE_INTEGRITY'));
-    expect(edgeFunction, contains('request_hash_mismatch'));
-    expect(edgeFunction, isNot(contains('console.log')));
-    expect(edgeFunction, isNot(contains('integrity_token: integrityToken')));
-  });
-
-  test('Supabase realtime uses safe invalidation events only', () {
-    final mobileRepository = readCollectRepositoryLibrary();
-    final adminRuntime = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
-    final realtimeClient = File(
+  test('member and admin bank records are realtime invalidation areas', () {
+    final realtime = File(
       'lib/core/supabase/realtime_invalidation.dart',
     ).readAsStringSync();
-
-    expect(
-      realtimeInvalidation,
-      contains('create table if not exists app_realtime_events'),
-    );
-    expect(
-      realtimeInvalidation,
-      contains('alter table app_realtime_events enable row level security'),
-    );
-    expect(
-      realtimeInvalidation,
-      contains('grant select on app_realtime_events to authenticated'),
-    );
-    expect(
-      realtimeInvalidation,
-      contains(
-        'revoke execute on function emit_app_realtime_event() from public, anon, authenticated',
-      ),
-    );
-    expect(
-      schemaInventory,
-      contains('create policy\\s+"?([^"\\n]+?)"?\\s+on\\s+'),
-    );
-    expect(schemaInventory, contains('events.sort_by(&:first)'));
-    expect(schemaInventory, contains('drop function(?: if exists)?'));
-    expect(
-      File('scripts/supabase_advisors_warning_inventory.sh').readAsStringSync(),
-      contains('"pg_graphql_authenticated_table_exposed" => 36'),
-    );
-    expect(
-      realtimeInvalidation,
-      contains(
-        'alter publication supabase_realtime add table public.app_realtime_events',
-      ),
-    );
-    expect(
-      realtimeInvalidation,
-      isNot(contains('add table public.raw_payment_sms')),
-    );
-    expect(realtimeInvalidation, isNot(contains('record_id')));
-    expect(realtimeInvalidation, isNot(contains('source_table')));
-    expect(realtimeInvalidation, isNot(contains('tg_table_name')));
-    expect(
-      realtimeInvalidation,
-      contains(
-        "select attach_app_realtime_event_trigger('raw_payment_sms', 'sms_events')",
-      ),
-    );
-    expect(
-      realtimeInvalidation,
-      contains(
-        "select attach_app_realtime_event_trigger('parsed_payment_events', 'sms_events')",
-      ),
-    );
-    expect(
-      realtimeInvalidation,
-      contains(
-        "select attach_app_realtime_event_trigger('payment_allocations', 'allocations')",
-      ),
-    );
-    expect(
-      realtimeInvalidation,
-      contains(
-        "select attach_app_realtime_event_trigger('admin_user_roles', 'admin_roles')",
-      ),
-    );
-    expect(
-      realtimeInvalidation,
-      contains(
-        "select attach_app_realtime_event_trigger('system_settings', 'settings')",
-      ),
-    );
-
-    expect(realtimeClient, contains("table: 'app_realtime_events'"));
-    expect(realtimeClient, contains('PostgresChangeEvent.insert'));
-    expect(realtimeClient, contains('collectMobileRealtimeAreas'));
-    expect(realtimeClient, contains('collectAdminRealtimeAreas'));
-    expect(realtimeClient, contains('_invalidateRequested'));
-    expect(realtimeClient, isNot(contains('raw_body')));
-    expect(realtimeClient, isNot(contains('momo_number')));
-
-    expect(mobileRepository, contains('_ensureRealtimeSync'));
-    expect(mobileRepository, contains('collectMobileRealtimeAreas'));
-    expect(mobileRepository, contains('loadInitial()'));
-    expect(adminRuntime, contains('adminRealtimeSubscriptionProvider'));
-    expect(adminRuntime, contains('adminRealtimeTickProvider'));
-    expect(adminRuntime, contains('collectAdminRealtimeAreas'));
+    expect(realtime, contains('bank_intents'));
+    expect(realtime, contains('bank_transactions'));
+    expect(realtime, contains('bank_reconciliation'));
+    expect(realtime, contains('bank_evidence'));
+    expect(repository, contains('RealtimeInvalidationSubscription'));
   });
 
-  test('mobile production state RPCs stay authenticated and safe', () {
-    final repository = readCollectRepositoryLibrary();
-    expect(repository, contains('supabase == null'));
-    expect(repository, contains('CollectRepository(supabase: supabase)'));
-    expect(
-      repository,
-      isNot(contains('CollectRepository.fixture(\n        supabase:')),
-    );
+  test(
+    'notification dispatch supports FCM and APNs without logging credentials',
+    () {
+      final dispatch = File(
+        'supabase/functions/dispatch-notifications/index.ts',
+      ).readAsStringSync();
+      final fcm = File('supabase/functions/_shared/fcm.ts').readAsStringSync();
+      final apns = File(
+        'supabase/functions/_shared/apns.ts',
+      ).readAsStringSync();
+      expect(dispatch, contains('createFcmAccessToken'));
+      expect(dispatch, contains('sendFcmMessage'));
+      expect(dispatch, contains('sendApnsMessage'));
+      expect(dispatch, contains('FCM_SERVICE_ACCOUNT_JSON'));
+      expect(fcm, contains('fcm.googleapis.com/v1/projects'));
+      expect(apns, contains('privateKeyBase64'));
+      expect(dispatch, contains('APNS_PRIVATE_KEY_BASE64'));
+      expect(dispatch, isNot(contains('console.log(secret')));
+    },
+  );
 
-    expect(
-      mobileProductionStateSupport,
-      contains('create table if not exists mobile_account_deletion_requests'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains('create table if not exists mobile_support_requests'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains('create or replace function ensure_current_profile'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains('create or replace function request_account_deletion'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains('create or replace function create_mobile_support_request'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains('create or replace function list_collection_collect_ids'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains('create or replace function update_collection_receiver'),
-    );
-    expect(
-      updateCollectionProfileRpc,
-      contains('create or replace function update_collection_profile'),
-    );
-    expect(
-      hardenedMobileProfileRpcs,
-      contains('create or replace function ensure_current_profile'),
-    );
-    expect(
-      hardenedMobileProfileRpcs,
-      contains('set whatsapp_phone = trim(p_whatsapp_phone)'),
-    );
-    expect(
-      hardenedMobileProfileRpcs,
-      contains('create or replace function update_collection_profile'),
-    );
-    expect(hardenedMobileProfileRpcs, contains('accent_color_hex'));
-    expect(hardenedMobileProfileRpcs, contains('recurring_cadence'));
-    expect(
-      hardenedMobileProfileRpcs,
-      contains('public_status = next_public_status'),
-    );
-    expect(
-      hardenedMobileProfileRpcs,
-      contains('visibility = next_public_status'),
-    );
-    expect(hardenedMobileProfileRpcs, isNot(contains('is_public =')));
-    expect(
-      updateCollectionProfileRpc,
-      contains(
-        'grant execute on function update_collection_profile(uuid, text, text, text, text, boolean, text)',
-      ),
-    );
-    expect(
-      hardenedNotificationRlsInitPlan,
-      contains('user_id = (select auth.uid())'),
-    );
-    expect(
-      hardenedNotificationRlsInitPlan,
-      isNot(contains('user_id = auth.uid()')),
-    );
-    expect(
-      tightenedNotificationRpcGrants,
-      contains(
-        'revoke execute on function enqueue_notification_event(uuid, text, text, text, uuid, text)',
-      ),
-    );
-    expect(
-      tightenedNotificationRpcGrants,
-      contains(
-        'grant execute on function enqueue_notification_event(uuid, text, text, text, uuid, text)',
-      ),
-    );
-    expect(tightenedNotificationRpcGrants, contains('to service_role'));
-    expect(
-      mobileProductionStateSupport,
-      contains('create or replace function get_owner_group_health'),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'ensure_current_profile', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'create_mobile_support_request', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'register_notification_device', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'mark_notification_event_read', 'EXECUTE')"),
-    );
-    expect(
-      readiness,
-      isNot(contains("('authenticated', 'enqueue_notification_event'")),
-    );
-    expect(
-      readiness,
-      contains("('authenticated', 'get_owner_group_health', 'EXECUTE')"),
-    );
-    expect(
-      mobileStateRlsInitPlanHardening,
-      contains('user_id = (select auth.uid())'),
-    );
-    expect(
-      mobileStateRlsInitPlanHardening,
-      contains('is_platform_admin((select auth.uid()))'),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains(
-        'grant execute on function ensure_current_profile(text) to authenticated',
-      ),
-    );
-    expect(
-      mobileProductionStateSupport,
-      contains(
-        'grant execute on function request_account_deletion(text) to authenticated',
-      ),
-    );
-    expect(
-      mobileRequestOwnReadGrant,
-      contains(
-        'grant select on table public.mobile_account_deletion_requests to authenticated',
-      ),
-    );
-    expect(
-      mobileRequestOwnReadGrant,
-      contains(
-        'grant select on table public.mobile_support_requests to authenticated',
-      ),
-    );
-    expect(
-      mobileRequestOwnReadGrant,
-      contains(
-        'create or replace function public.collection_is_public_approved',
-      ),
-    );
-    expect(
-      mobileRequestOwnReadGrant,
-      contains('and public.collection_is_public_approved(collection_id)'),
-    );
-    expect(
-      mobileRequestOwnReadGrant,
-      isNot(contains('grant select (public_status)')),
-    );
-    expect(mobileProductionStateSupport, isNot(contains('raw_body')));
-    expect(mobileProductionStateSupport, isNot(contains('display_name')));
+  test('Edge auth configuration matches each ingestion boundary', () {
+    expect(config, contains('[functions.ingest-bank-sms]'));
+    expect(config, contains('[functions.ingest-bank-email]'));
+    expect(config, contains('[functions.ingest-bank-statement]'));
+    expect(config, isNot(contains('[functions.stripe-webhook]')));
+    expect(config, isNot(contains('[functions.ingest-payment-sms]')));
   });
 
-  test('public runtime config is table-backed and client-safe', () {
-    final repository = readCollectRepositoryLibrary();
-    final landingSources = [
-      'lib/features/landing/collect_landing_page.dart',
-      'lib/features/landing/public_marketing_page_content.dart',
-      'lib/features/landing/public_page_content.dart',
-      'lib/features/landing/public_policy_page_content.dart',
-    ].map((path) => File(path).readAsStringSync()).join('\n');
-    final supportContact = File(
-      'lib/shared/utils/support_contact.dart',
+  test('production scripts require bank and notification secrets only', () {
+    final readiness = File(
+      'scripts/supabase_production_readiness.sh',
     ).readAsStringSync();
+    final deploy = File('scripts/supabase_deploy.sh').readAsStringSync();
+    final authContract = File(
+      'scripts/collect_edge_auth_contract_uat.sh',
+    ).readAsStringSync();
+    final scripts = '$readiness\n$deploy\n$authContract';
 
-    for (final table in [
-      'brand_entities',
-      'support_channels',
-      'payment_entrypoints',
-    ]) {
-      expect(
-        publicRuntimeConfig,
-        contains('create table if not exists $table'),
-      );
-      expect(
-        publicRuntimeConfig,
-        contains('alter table $table enable row level security'),
-      );
-      expect(publicRuntimeConfig, contains('grant select on $table'));
-    }
-    expect(
-      publicRuntimeConfig,
-      contains('create or replace function get_public_runtime_config()'),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains('revoke execute on function get_public_runtime_config()'),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains(
-        'grant execute on function get_public_runtime_config() to anon, authenticated',
-      ),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains(
-        'create or replace function audit_public_runtime_config_change()',
-      ),
-    );
-    expect(
-      publicRuntimeConfig,
-      contains("execute function emit_app_realtime_event('settings')"),
-    );
-    expect(publicRuntimeConfig, contains("'support.whatsapp'"));
-    expect(publicRuntimeConfig, contains("'rw.mtn_momo.ussd.collect_2000'"));
-
-    expect(repository, contains('collectPublicRuntimeConfigProvider'));
-    expect(repository, contains("rpc<dynamic>('get_public_runtime_config')"));
-    expect(repository, contains('collectRuntimeConfigProvider'));
-    expect(landingSources, contains('collectRuntimeConfigProvider'));
-    expect(landingSources, contains('ref.watch(collectRuntimeConfigProvider)'));
-    expect(landingSources, isNot(contains('const _collectUssdCode')));
-    expect(landingSources, isNot(contains('const _collectWhatsAppNumber')));
-    expect(landingSources, isNot(contains('const _collectContactEmail')));
-    expect(supportContact, contains('collectDefaultWhatsAppSupportPhone'));
-    expect(
-      supportContact,
-      isNot(contains('const collectWhatsAppSupportPhone')),
-    );
+    expect(scripts, contains('BANK_EMAIL_INGEST_HMAC_SECRET'));
+    expect(scripts, contains('ingest-bank-sms'));
+    expect(scripts, contains('ingest-bank-statement'));
+    expect(scripts, contains('FCM_SERVICE_ACCOUNT_JSON'));
+    expect(scripts, isNot(contains('STRIPE_SECRET_KEY')));
+    expect(scripts, isNot(contains('STRIPE_WEBHOOK_SECRET')));
+    expect(scripts, isNot(contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON')));
+    expect(deploy, contains('ingest-bank-email'));
+    expect(deploy, contains('ingest-bank-sms'));
+    expect(deploy, contains('ingest-bank-statement'));
   });
 }

@@ -58,7 +58,7 @@ CollectPublicPageData publicPageForPath(String path) {
 
 String publicSummaryLabel(CollectPublicPageData data) {
   return switch (data.path) {
-    '/group-savings' => 'MoMo group contributions',
+    '/group-savings' => 'EUR bank contributions',
     '/community-groups' => 'Groups of every kind',
     '/trust' => 'Trust and security',
     '/privacy' => 'Customer information',

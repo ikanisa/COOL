@@ -107,11 +107,6 @@ void main() {
         timeout: const Duration(seconds: 120),
       );
       final authoritative = _ControlledNetworkRepository();
-      await authoritative.updateCollectionReceiver(
-        collectionId: 'col-church',
-        receiverMomoNumber: '0788000111',
-        receiverLabel: 'Restored treasury',
-      );
       final restoredIntent = await authoritative.createPaymentIntent(
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 31000),
       );

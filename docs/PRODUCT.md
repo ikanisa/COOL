@@ -1,86 +1,99 @@
-# Collect Product Source Of Truth
+# Collect Product Source of Truth
 
-Status: Current working product definition
-Last reviewed: 2026-08-15
+Status: approved implementation baseline
+Effective: 2026-08-20
 
-Collect is a Flutter and Supabase platform for SMS-first MoMo group
-contributions. Members create payment intents in the app and complete payment
-through MoMo off app. Official MoMo SMS is ingested and parsed by the OpenAI API
-inside a Supabase Edge Function. A complete, high-confidence result that matches
-exactly one pending payer request posts the immutable payer/group ledger pair in
-one database transaction; incomplete or ambiguous results stay in review.
+Collect organizes group contributions paid by EUR SEPA bank transfer. It does
+not operate a wallet, acquire cards, debit bank accounts, initiate payments, or
+move money through an API. Stripe and the former member MoMo/USSD contribution
+rail are retired.
 
-## Core Rules
+## Non-negotiable rules
 
-- Identity is Collect ID-first. Member-facing flows do not require real names.
-- The app is non-custodial for the Rwanda MoMo workflow. The group owner
-  receives MoMo payments directly.
-- Group creation is Android-only because owner-side SMS access is required for
-  automated contribution capture.
-- iPhone users can join and contribute but cannot create groups. The blocked
-  create message is exactly `group creation is available only on Android`.
-- Contributors do not paste SMS, report transaction IDs, or manually confirm
-  payments.
-- The native app, browsers, group owners, and admins cannot directly post
-  balances. Only the locked server-side allocator can perform the atomic post.
-- Raw SMS, full phone numbers, MoMo numbers, PINs, OTPs, service-role keys,
-  provider tokens, and production customer data must not appear in member
-  surfaces or public evidence.
+- Member identity remains Collect ID-first; payer and sign-in details are not
+  exposed in public or ordinary group surfaces.
+- One centrally approved Collect beneficiary bank account serves all groups.
+- Bank details are activated only through independent maker-checker approval.
+- The app displays beneficiary name, IBAN, BIC, amount, and a unique transfer
+  reference. Placeholder details are disabled and cannot accept transfers.
+- `Open Revolut` is a handoff only. Collect never marks a transfer successful
+  because another app opened or because the member returned.
+- SMS and email are candidate receipt evidence. They can allocate an exact
+  transfer request but cannot finalize settlement or change confirmed balances.
+- Only a matching bank statement can reconcile a receipt and post the journal.
+- Every financial post is idempotent, balanced, immutable, and auditable.
+- Ambiguous, duplicate, missing, returned, or inconsistent evidence posts
+  nothing and enters the appropriate admin exception queue.
+- A manual allocation requires an exact amount/currency match and independent
+  maker-checker approval.
+- Raw bank evidence is separately permissioned and every reveal records a
+  reason in sensitive-access and audit logs.
 
-## Core Workflow
+## Member journey
 
-1. User signs in with WhatsApp OTP and receives a 6-digit Collect ID.
-2. User stores a MoMo number in profile/settings.
-3. Android group creator creates a group; the receiver MoMo is derived from the
-   creator's confirmed profile. Receiver changes are owner-only,
-   profile-derived, atomic, audited, and blocked while protected intents exist.
-4. Members join through link, QR code, chat app, SMS, or deep link.
-5. Contributor taps `Contribute`, enters amount, and Supabase creates a pending
-   payment intent linked to group, amount, receiver MoMo, user id, and Collect
-   ID.
-6. The app opens the MoMo dialer through `tel:`.
-7. Official MoMo SMS is durably uploaded and parsed by OpenAI using a strict
-   structured schema.
-8. Postgres validates the parsed transaction, receiver ownership, amount, payer,
-   time window, confidence, and uniqueness. One exact match atomically posts one
-   group credit and one member credit; incomplete, conflicting, duplicate, or
-   ambiguous evidence posts nothing and stays reviewable.
+1. Sign in through WhatsApp OTP and receive a six-digit Collect ID.
+2. Create or join a group on Android or iPhone. Group creation is no longer
+   tied to SMS permission, a receiver phone, or Play Integrity payment proof.
+3. Tap Contribute and enter a positive EUR amount.
+4. Supabase creates or reuses an unexpired transfer request containing the
+   group, member, approved destination snapshot, amount, and unique `COL-…`
+   reference.
+5. Copy the beneficiary fields and open Revolut. Add/select the beneficiary,
+   enter the amount and exact reference, and authorize the bank transfer.
+6. Return to Collect. The request stays pending until controlled bank evidence
+   arrives and then remains `received_unreconciled` until statement matching.
+7. After reconciliation, Collect shows the confirmed contribution and sends a
+   preference-gated notification.
 
-## Category And Diaspora Scope
+## Evidence and reconciliation
 
-The simplified SMS-first product originally removed categories, targets, cover
-images, public-directory behavior, and campaign-style contribution context.
+Controlled channels accept beneficiary-bank SMS, bank email webhooks, and bank
+statement exports. Deterministic rules extract direction, EUR amount, Collect
+reference, provider transaction/end-to-end identifiers, timestamps, and
+limited payer metadata. No AI service is used to decide financial allocation.
 
-On 2026-06-21, owner direction approved reintroducing first-class collection
-categories and a Stripe-powered diaspora rail as an explicitly governed product
-expansion. That approval does not weaken the core privacy and non-custodial
-rules above.
+Evidence is deduplicated by source identifier and body hash. Canonical bank
+transactions are deduplicated by provider identifiers and transaction key.
+Daily statement imports support CSV, JSON, MT940, and CAMT.053, are
+SHA-256-deduplicated, and automatically run reconciliation for the declared
+period end.
 
-Current wording for implementation and QA:
+Matching prioritizes bank transaction ID, then end-to-end ID, then exact
+reference + amount + currency within the controlled date window. Confirmed
+receipts post:
 
-- Category-specific collection context is allowed only where it is explicitly
-  implemented and approval-gated.
-- Rwanda MoMo remains the default payment workflow.
-- Stripe diaspora rails must stay sandbox/governance-gated until legal,
-  provider, privacy, Data safety, and release-owner approval is recorded.
-- Do not add public directory, public campaign claims, credit approval,
-  insurance coverage, regulated-status claims, or provider/compliance claims
-  without explicit recorded approval.
+- debit `bank_cash:EUR`;
+- credit `collection_liability`.
 
-## Admin Boundary
+Daily closes record statement total, reconciled total, variance, transaction
+count, exception count, and balanced/exception state. Reopening a close requires
+permission, a reason, and an audit record.
 
-The Admin PWA is an operational monitoring and control surface. It monitors
-groups, members, payment intents, MoMo SMS rows, parser output, allocation
-status, ledger entries, receivers, audit logs, settings, and exceptions.
+## Admin scope
 
-Client-side admin guards are convenience only. Supabase RLS, security-definer
-RPCs, role tables, and audit logs enforce authorization.
+The Admin PWA manages:
 
-## Related Files
+- users, members, groups, and admin users/roles;
+- beneficiary versions and maker-checker change requests;
+- transfer requests and bank transactions;
+- SMS, email, and statement evidence with gated raw reveal;
+- statement imports, daily reconciliation, closes, and exceptions;
+- maker-checker manual allocations;
+- immutable double-entry journals;
+- notification queues and FCM/APNs delivery evidence;
+- feature flags, runtime settings, audit logs, and system health.
 
-- `README.md`: route and command overview.
-- `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`: historical product
-  definition record and detailed journey notes.
-- `docs/PRODUCT.md`:
-  detailed expansion goal and governance constraints.
-- `docs/release/RELEASE_STATUS.md`: current release/governance status.
+Client routing is not an authorization boundary. PostgreSQL permissions,
+security-definer RPCs, RLS, role permissions, immutable triggers, and audit logs
+enforce the control plane.
+
+## Release boundary
+
+The production Android member app declares no SMS or phone-call permission.
+The `internal_receiver` Android flavor is a separately identified operations
+build that can capture only new, bank-like EUR notification SMS after explicit
+enablement by an authenticated operator with `bank_evidence.ingest`. It sends
+candidate evidence to production and cannot bypass statement finality.
+
+FCM uses a dedicated Google service-account JSON stored only in Supabase Edge
+Function secrets. The credential is never bundled with Flutter or committed.

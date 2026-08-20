@@ -26,22 +26,25 @@ const _evidenceAdmin = AdminIdentity(
     'public_requests.read',
     'collections.read',
     'users.read',
-    'receivers.read',
-    'sms.metadata.read',
-    'sms.raw.reveal',
-    'payment_events.read',
-    'payment_events.reparse',
-    'payments.read',
-    'payments.allocate',
-    'ledger.read',
+    'bank_details.read',
+    'bank_details.propose',
+    'bank_details.approve',
+    'bank_transactions.read',
+    'bank_evidence.read',
+    'bank_evidence.raw.reveal',
+    'bank_reconciliation.read',
+    'bank_reconciliation.manage',
+    'bank_allocations.propose',
+    'bank_allocations.approve',
+    'notifications.read',
+    'notifications.manage',
     'audit.read',
     'feature_flags.read',
+    'feature_flags.manage',
     'settings.read',
     'system_health.read',
     'admin_users.read',
     'admin_users.manage',
-    'notifications.read',
-    'notifications.manage',
   ],
 );
 
@@ -53,8 +56,8 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     String rpcName,
     Map<String, dynamic> params,
   ) async {
-    if (rpcName == 'admin_reveal_raw_sms') {
-      return {'message': 'Raw message hidden in route evidence.'};
+    if (rpcName == 'admin_reveal_raw_bank_evidence') {
+      return {'message': 'Raw bank evidence hidden in route evidence.'};
     }
     return {'status': 'queued'};
   }
@@ -64,8 +67,127 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
 
   @override
   Future<Map<String, dynamic>> detail(String rpcName, String id) async {
-    if (rpcName == 'admin_get_admin_user') {
-      return {
+    const createdAt = '2026-08-20T06:30:00Z';
+    return switch (rpcName) {
+      'admin_get_bank_destination' => {
+        'id': id,
+        'version': 2,
+        'beneficiary_name': 'Collect Europe Operations',
+        'iban_masked': 'LT•• •••• •••• 6816',
+        'bic': 'REVOLT21',
+        'bank_name': 'Revolut Bank UAB',
+        'currency': 'EUR',
+        'supports_instant': true,
+        'status': 'active',
+        'approved_at': createdAt,
+      },
+      'admin_get_bank_destination_change_request' => {
+        'id': id,
+        'beneficiary_name': 'Collect Europe Operations',
+        'iban_masked': 'LT•• •••• •••• 6816',
+        'bic': 'REVOLT21',
+        'bank_name': 'Revolut Bank UAB',
+        'supports_instant': true,
+        'reason': 'Activate verified production beneficiary details',
+        'proposed_by': 'Maker A.',
+        'reviewed_by': 'Checker B.',
+        'status': 'pending',
+      },
+      'admin_get_bank_transfer_intent' => {
+        'id': id,
+        'transfer_reference': 'COLLECT-AB1234-6816',
+        'collection_title': 'St Michael building fund',
+        'contributor_user_id': 'member-evidence-1',
+        'amount_minor': 24500,
+        'currency': 'EUR',
+        'status': 'received_unreconciled',
+        'expires_at': '2026-08-27T06:30:00Z',
+        'evidence_received_at': createdAt,
+        'reconciled_at': null,
+      },
+      'admin_get_bank_transaction' => {
+        'id': id,
+        'bank_transaction_id': 'REV-20260820-6816',
+        'end_to_end_id': 'E2E-6816-20260820',
+        'transfer_reference': 'COLLECT-AB1234-6816',
+        'payer_name': 'Masked payer ••4321',
+        'amount_minor': 24500,
+        'currency': 'EUR',
+        'value_date': '2026-08-20',
+        'status': 'received',
+      },
+      'admin_get_bank_evidence' => {
+        'id': id,
+        'channel': 'email',
+        'sender': 'bank-notification@••••',
+        'transfer_reference': 'COLLECT-AB1234-6816',
+        'bank_transaction_id': 'REV-20260820-6816',
+        'amount_minor': 24500,
+        'currency': 'EUR',
+        'confidence': 'exact',
+        'parse_status': 'parsed',
+        'allocation_status': 'needs_review',
+        'received_at': createdAt,
+      },
+      'admin_get_reconciliation_run' => {
+        'id': id,
+        'run_date': '2026-08-20',
+        'currency': 'EUR',
+        'statement_line_count': 18,
+        'matched_count': 16,
+        'exception_count': 2,
+        'matched_total_minor': 184250,
+        'status': 'completed_with_exceptions',
+        'completed_at': createdAt,
+      },
+      'admin_get_reconciliation_exception' => {
+        'id': id,
+        'exception_type': 'unmatched_statement_line',
+        'bank_transaction_id': 'bank-transaction-evidence-1',
+        'bank_transfer_intent_id': null,
+        'details': 'Reference requires controlled operator review.',
+        'status': 'open',
+        'resolution_note': null,
+        'resolved_at': null,
+      },
+      'admin_get_bank_allocation_request' => {
+        'id': id,
+        'bank_transaction_id': 'bank-transaction-evidence-1',
+        'bank_transfer_intent_id': 'bank-intent-evidence-1',
+        'reason': 'Exact EUR amount and member reference verified',
+        'proposed_by': 'Maker A.',
+        'reviewed_by': null,
+        'status': 'pending',
+        'created_at': createdAt,
+      },
+      'admin_get_journal_entry' => {
+        'id': id,
+        'entry_type': 'bank_receipt',
+        'currency': 'EUR',
+        'total_debit_minor': 24500,
+        'total_credit_minor': 24500,
+        'reference': 'COLLECT-AB1234-6816',
+        'posted_at': createdAt,
+        'status': 'posted',
+      },
+      'admin_get_collection' => {
+        'id': id,
+        'name': 'St Michael building fund',
+        'public_id': 'AB1234',
+        'visibility': 'private',
+        'member_count': 24,
+        'total_raised': 'EUR 1,842.50',
+        'created_at': createdAt,
+      },
+      'admin_get_user' => {
+        'id': id,
+        'collect_id': 'CM6816',
+        'display_name': 'Evidence member',
+        'phone_masked': '+250***4321',
+        'status': 'active',
+        'created_at': createdAt,
+      },
+      'admin_get_admin_user' => {
         'id': id,
         'public_id': 'CA6816',
         'phone_masked': '+250***6816',
@@ -81,45 +203,32 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
           'read_only_admin',
         ],
         'legacy_platform_owner': false,
-        'created_at': '2026-06-15T12:00:00Z',
-      };
-    }
-    if (rpcName == 'admin_get_notification') {
-      return {
+        'created_at': createdAt,
+      },
+      'admin_get_notification' => {
         'id': id,
-        'type': 'contribution_confirmed',
-        'title': 'Contribution received',
+        'type': 'bank_contribution_reconciled',
+        'title': 'Bank contribution reconciled',
         'collect_id': 'AB1234',
         'status': 'failed',
         'delivery_statuses': 'failed: 1',
         'retryable_count': 1,
         'last_error_code': 'provider_unavailable',
-        'created_at': '2026-06-15T12:00:00Z',
-      };
-    }
-    if (rpcName == 'admin_system_health') {
-      return {
+        'created_at': createdAt,
+      },
+      'admin_system_health' => {
         'id': id,
         'database': 'reachable',
         'auth': 'authenticated',
-        'parser_pending_sms': 2,
-        'failed_sms_parse': 1,
-        'unallocated_events': 6,
+        'bank_evidence_pending': 2,
+        'reconciliation_exceptions': 3,
+        'allocation_approvals_pending': 4,
         'queued_notifications': 4,
         'processing_notifications': 1,
         'failed_notifications': 2,
-        'checked_at': '2026-08-15T06:30:00Z',
-      };
-    }
-    return {
-      'id': id,
-      'transaction_id': 'MOMO-EVIDENCE-001',
-      'amount': 'RWF 24,500',
-      'sender_masked': '+250***4321',
-      'receiver_masked': '+250***1222',
-      'payment_intent_id': 'intent-evidence',
-      'status': 'needs_review',
-      'created_at': '2026-06-15T12:00:00Z',
+        'checked_at': createdAt,
+      },
+      _ => {'id': id, 'status': 'active', 'created_at': createdAt},
     };
   }
 
@@ -132,62 +241,60 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     int? offset,
     String? sortBy,
   }) async {
-    final rowCount = switch (rpcName) {
-      'admin_list_allocations' => 42,
-      'admin_list_unallocated' => 6,
-      _ => 30,
-    };
     final allRows = [
-      for (var index = 1; index <= rowCount; index += 1)
+      for (var index = 1; index <= _rowCount(rpcName); index += 1)
         AdminTableRowData(
           id: _rowId(rpcName, index),
           title: _rowTitle(rpcName, index),
           subtitle: _rowSubtitle(rpcName),
           status: _rowStatus(rpcName, index),
           amount: _rowAmount(rpcName, index),
-          createdAt: _rowCreatedAt(rpcName, index),
+          createdAt: _rowCreatedAt(index),
           extra: {
-            'sender_masked': _maskedSender(
-              _displayedEventIndex(rpcName, index),
-            ),
-            'reference':
-                'Ref MTN${12345 + _displayedEventIndex(rpcName, index)}',
+            'sender_masked': _maskedPayer(index),
+            'reference': 'COLLECT-AB${1200 + index}-${6800 + index}',
             'age': _rowAge(index),
             'allocated_to': 'St Michael building fund',
-            'operator': index <= 2 ? 'Alex K.' : 'Grace M.',
+            'operator': index.isEven ? 'Checker B.' : 'Maker A.',
           },
         ),
     ];
     final normalizedSearch = search?.trim().toLowerCase() ?? '';
-    final rows = normalizedSearch.isEmpty
-        ? allRows
-        : allRows
-              .where(
-                (row) =>
-                    row.title.toLowerCase().contains(normalizedSearch) ||
-                    row.subtitle.toLowerCase().contains(normalizedSearch) ||
-                    row.id.toLowerCase().contains(normalizedSearch),
-              )
-              .toList(growable: false);
-    final start = (offset ?? 0).clamp(0, rows.length);
-    final pageLimit = limit ?? 25;
-    final end = (start + pageLimit).clamp(start, rows.length);
-    return AdminListResult(total: rows.length, rows: rows.sublist(start, end));
+    final normalizedStatus = status?.trim().toLowerCase() ?? '';
+    final filtered = allRows
+        .where((row) {
+          final matchesSearch =
+              normalizedSearch.isEmpty ||
+              row.title.toLowerCase().contains(normalizedSearch) ||
+              row.subtitle.toLowerCase().contains(normalizedSearch) ||
+              row.id.toLowerCase().contains(normalizedSearch);
+          final matchesStatus =
+              normalizedStatus.isEmpty ||
+              row.status.toLowerCase() == normalizedStatus;
+          return matchesSearch && matchesStatus;
+        })
+        .toList(growable: false);
+    final start = (offset ?? 0).clamp(0, filtered.length);
+    final end = (start + (limit ?? 25)).clamp(start, filtered.length);
+    return AdminListResult(
+      total: filtered.length,
+      rows: filtered.sublist(start, end),
+    );
   }
 
   @override
   Future<List<AdminMetric>> overviewMetrics() async => const [
-    AdminMetric(label: 'Review queue', value: '6', status: 'needs_review'),
-    AdminMetric(label: 'Allocated today', value: '42', status: 'allocated'),
-    AdminMetric(label: 'Parser health', value: '99%', status: 'active'),
-    AdminMetric(label: 'Open support notes', value: '3', status: 'pending'),
+    AdminMetric(label: 'Open exceptions', value: '3', status: 'needs_review'),
+    AdminMetric(label: 'Awaiting approvals', value: '4', status: 'pending'),
+    AdminMetric(label: 'Unreconciled transfers', value: '2', status: 'pending'),
+    AdminMetric(label: 'Evidence health', value: '100%', status: 'active'),
   ];
 
   @override
   Future<AdminQueueSla?> queueSla(String queueKey) async => const AdminQueueSla(
-    target: '< 15m',
-    owner: 'Money operations',
-    escalation: 'Review immediately when the target is exceeded',
+    target: '< 1 business day',
+    owner: 'Bank reconciliation operations',
+    escalation: 'Escalate unresolved variances to the platform owner',
   );
 
   @override
@@ -203,14 +310,31 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   }) async => _evidenceAdmin;
 }
 
+int _rowCount(String rpcName) => switch (rpcName) {
+  'admin_list_bank_destinations' => 2,
+  'admin_list_bank_destination_change_requests' => 4,
+  'admin_list_bank_transfer_intents' => 12,
+  'admin_list_bank_transactions' => 8,
+  'admin_list_bank_evidence' => 8,
+  'admin_list_reconciliation_runs' => 7,
+  'admin_list_reconciliation_exceptions' => 3,
+  'admin_list_bank_allocation_requests' => 4,
+  'admin_list_journal_entries' => 10,
+  _ => 30,
+};
+
 String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_users' => 'user-$index',
   'admin_list_collections' => 'collection-$index',
-  'admin_list_payment_events' => 'event-$index',
-  'admin_list_allocations' => 'event-$index',
-  'admin_list_unallocated' => 'event-$index',
-  'admin_list_sms_metadata' => 'sms-$index',
-  'admin_list_receivers' => 'receiver-$index',
+  'admin_list_bank_destinations' => 'bank-destination-$index',
+  'admin_list_bank_destination_change_requests' => 'destination-request-$index',
+  'admin_list_bank_transfer_intents' => 'bank-intent-$index',
+  'admin_list_bank_transactions' => 'bank-transaction-$index',
+  'admin_list_bank_evidence' => 'bank-evidence-$index',
+  'admin_list_reconciliation_runs' => 'reconciliation-run-$index',
+  'admin_list_reconciliation_exceptions' => 'reconciliation-exception-$index',
+  'admin_list_bank_allocation_requests' => 'allocation-request-$index',
+  'admin_list_journal_entries' => 'journal-entry-$index',
   'admin_list_admin_users' => 'admin-user-$index',
   'admin_list_notifications' => 'notification-$index',
   _ => 'admin-row-$index',
@@ -218,89 +342,103 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
 
 String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_users' => 'Member profile $index',
-  'admin_list_collections' => 'Public group $index',
-  'admin_list_payment_events' => 'Parsed MoMo event $index',
-  'admin_list_allocations' => 'Parsed MoMo event ${index * 2}',
-  'admin_list_unallocated' => 'Parsed MoMo event ${(index * 2) - 1}',
-  'admin_list_sms_metadata' => 'SMS metadata $index',
-  'admin_list_receivers' => 'Masked receiver $index',
-  'admin_list_payment_intents' => 'Intent C${1000 + index}',
-  'admin_list_payments' => 'MOMO-EVIDENCE-${1000 + index}',
+  'admin_list_collections' => 'Verified group $index',
+  'admin_list_bank_destinations' => 'EUR beneficiary version $index',
+  'admin_list_bank_destination_change_requests' =>
+    'Beneficiary approval request $index',
+  'admin_list_bank_transfer_intents' => 'Transfer request ${1200 + index}',
+  'admin_list_bank_transactions' => 'Incoming bank transfer ${6800 + index}',
+  'admin_list_bank_evidence' => 'Bank evidence event ${6800 + index}',
+  'admin_list_reconciliation_runs' =>
+    'Daily reconciliation 2026-08-${21 - index}',
+  'admin_list_reconciliation_exceptions' =>
+    'Unmatched statement line ${6800 + index}',
+  'admin_list_bank_allocation_requests' =>
+    'Manual allocation approval ${6800 + index}',
+  'admin_list_journal_entries' => 'Balanced bank receipt ${6800 + index}',
   'admin_list_admin_users' => 'Collect ID CA${6800 + index}',
-  'admin_list_notifications' => 'Contribution confirmed',
+  'admin_list_notifications' => 'Bank contribution reconciled',
+  'admin_list_audit_logs' => 'Controlled operation $index',
+  'admin_list_settings' => 'Bank transfer setting $index',
+  'admin_list_feature_flags' => 'bank_transfer_v1',
   _ => 'Operational record $index',
 };
 
 String _rowSubtitle(String rpcName) => switch (rpcName) {
   'admin_list_users' => 'Collect ID and permission-safe account state',
-  'admin_list_collections' => 'Verified group activity and owner controls',
-  'admin_list_payment_events' => 'Masked sender and allocation review',
-  'admin_list_allocations' => 'Successful masked payment allocation',
-  'admin_list_unallocated' => 'Masked sender and allocation review',
-  'admin_list_sms_metadata' => 'Metadata only; raw body is gated',
-  'admin_list_receivers' => 'Masked MoMo receiver and review state',
-  'admin_list_payment_intents' => 'Contribution intent lifecycle',
-  'admin_list_payments' => 'Posted MoMo transaction',
+  'admin_list_collections' => 'Member, role, and group management controls',
+  'admin_list_bank_destinations' => 'Approved beneficiary and IBAN version',
+  'admin_list_bank_destination_change_requests' =>
+    'Independent maker-checker review required',
+  'admin_list_bank_transfer_intents' => 'Exact EUR reference lifecycle',
+  'admin_list_bank_transactions' => 'Canonical incoming bank receipt',
+  'admin_list_bank_evidence' => 'Protected SMS or email evidence metadata',
+  'admin_list_reconciliation_runs' => 'Daily statement matching and close',
+  'admin_list_reconciliation_exceptions' =>
+    'Controlled reconciliation resolution required',
+  'admin_list_bank_allocation_requests' =>
+    'Exact amount and currency maker-checker request',
+  'admin_list_journal_entries' => 'Immutable balanced debit and credit entry',
   'admin_list_admin_users' => 'platform_owner • compliance_admin',
   'admin_list_notifications' => 'Collect ID AB1234 • 1 delivery',
+  'admin_list_audit_logs' => 'Reason, actor, timestamp, and target',
+  'admin_list_settings' => 'Governed bank control-plane configuration',
+  'admin_list_feature_flags' => 'Production bank-transfer availability',
   _ => 'Admin evidence row with masked test data',
 };
 
 String _rowStatus(String rpcName, int index) => switch (rpcName) {
-  'admin_list_allocations' => 'allocated',
-  'admin_list_unallocated' => 'needs_review',
-  'admin_list_payment_intents' => index.isEven ? 'matched' : 'pending',
-  'admin_list_payments' => index.isEven ? 'posted' : 'review',
+  'admin_list_bank_destinations' => index == 1 ? 'active' : 'retired',
+  'admin_list_bank_destination_change_requests' =>
+    index.isEven ? 'approved' : 'pending',
+  'admin_list_bank_transfer_intents' =>
+    index.isEven ? 'reconciled' : 'received_unreconciled',
+  'admin_list_bank_transactions' => index.isEven ? 'reconciled' : 'received',
+  'admin_list_bank_evidence' => index.isEven ? 'allocated' : 'needs_review',
+  'admin_list_reconciliation_runs' =>
+    index.isEven ? 'completed' : 'completed_with_exceptions',
+  'admin_list_reconciliation_exceptions' => 'open',
+  'admin_list_bank_allocation_requests' =>
+    index.isEven ? 'approved' : 'pending',
+  'admin_list_journal_entries' => 'bank_receipt',
   'admin_list_admin_users' => 'active',
   'admin_list_notifications' => index.isEven ? 'sent' : 'failed',
-  _ => index.isEven ? 'allocated' : 'needs_review',
+  'admin_list_feature_flags' => 'enabled',
+  _ => 'active',
 };
 
-String _maskedSender(int index) {
-  const senders = [
-    '0786 **** 341',
-    '0789 **** 662',
-    '0724 **** 152',
-    '0720 **** 775',
-    '0781 **** 908',
-    '0783 **** 114',
-    '0728 **** 440',
-    '0731 **** 229',
-  ];
-  return senders[(index - 1) % senders.length];
-}
-
-String _rowAge(int index) {
-  const ages = ['38m', '2h 14m', '4h 27m', '5h 05m', '6h 12m'];
-  return ages[(index - 1) % ages.length];
-}
-
 String _rowAmount(String rpcName, int index) {
-  if (rpcName == 'admin_list_notifications') return '1 failed';
+  if (rpcName == 'admin_list_notifications') return '1 delivery';
   if (rpcName == 'admin_list_admin_users') return '2 roles';
+  if (rpcName == 'admin_list_collections') return '${10 + index} members';
   if (rpcName == 'admin_list_users' ||
-      rpcName == 'admin_list_sms_metadata' ||
+      rpcName == 'admin_list_bank_destinations' ||
+      rpcName == 'admin_list_bank_destination_change_requests' ||
+      rpcName == 'admin_list_reconciliation_runs' ||
+      rpcName == 'admin_list_reconciliation_exceptions' ||
       rpcName == 'admin_list_audit_logs' ||
       rpcName == 'admin_list_settings' ||
       rpcName == 'admin_list_feature_flags') {
     return '';
   }
-  if (rpcName == 'admin_list_receivers') return 'mtn_momo';
-  if (rpcName == 'admin_list_collections') return '${10 + index} members';
-  return 'RWF ${_displayedEventIndex(rpcName, index) * 2500}';
+  return 'EUR ${(index * 24.50).toStringAsFixed(2)}';
 }
 
-int _displayedEventIndex(String rpcName, int index) => switch (rpcName) {
-  'admin_list_allocations' => index * 2,
-  'admin_list_unallocated' => (index * 2) - 1,
-  _ => index,
-};
+String _maskedPayer(int index) {
+  const payers = [
+    'Payer ••4321',
+    'Payer ••7662',
+    'Payer ••9152',
+    'Payer ••1775',
+  ];
+  return payers[(index - 1) % payers.length];
+}
 
-DateTime _rowCreatedAt(String rpcName, int index) {
-  if (rpcName == 'admin_list_allocations') {
-    const times = [(21, 0), (18, 0), (16, 45), (15, 30)];
-    final time = times[(index - 1) % times.length];
-    return DateTime.utc(2026, 7, 24, time.$1, time.$2);
-  }
-  return DateTime.utc(2026, 7, 24, 22 - (index % 8), index.isEven ? 0 : 30);
+String _rowAge(int index) {
+  const ages = ['38m', '2h 14m', '4h 27m', '5h 05m'];
+  return ages[(index - 1) % ages.length];
+}
+
+DateTime _rowCreatedAt(int index) {
+  return DateTime.utc(2026, 8, 20, 22 - (index % 8), index.isEven ? 0 : 30);
 }

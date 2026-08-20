@@ -109,9 +109,10 @@ class AdminQueueSla {
 
   factory AdminQueueSla.fromJson(Map<String, dynamic> json) {
     return AdminQueueSla(
-      target: (json['target'] as String?) ?? 'Review queue daily',
-      owner: (json['owner'] as String?) ?? 'Operations',
-      escalation: (json['escalation'] as String?) ?? 'Escalate stale items',
+      target: (json['target'] as String?) ?? 'Review bank queue daily',
+      owner: (json['owner'] as String?) ?? 'Bank operations',
+      escalation:
+          (json['escalation'] as String?) ?? 'Escalate stale bank items',
     );
   }
 }

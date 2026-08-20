@@ -326,6 +326,12 @@ const _routeSpecs = <_RouteSpec>[
     expectedText: 'Account details',
   ),
   _RouteSpec(
+    'settings-bank-transfer',
+    '/settings/bank-transfer',
+    'workflow',
+    expectedText: 'Bank transfer details',
+  ),
+  _RouteSpec(
     'settings-permissions',
     '/settings/permissions',
     'utility',

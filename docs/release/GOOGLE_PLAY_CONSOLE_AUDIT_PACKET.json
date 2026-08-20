@@ -7,7 +7,7 @@
     "track": "production",
     "release_name": "Collect 1.2.2 (20)",
     "release_notes": {
-      "en-US": "Adds secure receive-only MoMo SMS capture, OpenAI-powered payment parsing, exact contribution matching, reliable balances, and transaction notifications."
+      "en-US": "Adds governed EUR bank-transfer requests, exact Collect references, statement reconciliation, reliable ledgers, and contribution notifications."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
     "aab_sha256": "4202a07f970886c0f8c8eff13f6d89aaa5cdae77c23b4681df7f37cf6a1b4c36",
@@ -33,7 +33,7 @@
     "default_language": "en-US",
     "app_name": "Collect",
     "short_description": "Group savings, contribution records, and credit-readiness support.",
-    "full_description": "Collect helps savings groups organize members, track contributions, review group activity, and prepare credit-readiness records. Members can follow group rules, view contribution status, request support, and keep account and deletion choices accessible from the app. On Android, a group receiver can optionally allow Collect to receive only new MTN or Airtel mobile-money transaction SMS so contributions can be matched automatically. Collect does not read inbox history or unrelated messages. This access is explained before Android's permission prompt, can be denied, and can be turned off at any time from App permissions. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.",
+    "full_description": "Collect helps savings groups organize members, track EUR bank-transfer contributions, review reconciled group activity, and prepare credit-readiness records. Members can copy the approved beneficiary, IBAN, exact Collect reference, and amount before opening Revolut or another bank app. Collect does not initiate, authorize, or custody a transfer and the public Android app does not request SMS or Call Log access. A contribution becomes confirmed only after governed bank-statement reconciliation. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.",
     "category": "FINANCE",
     "tags_to_confirm_in_console": [
       "Savings",
@@ -143,7 +143,7 @@
     "app_access": {
       "reviewer_access_required": true,
       "status": "verified_and_submitted_in_play_console_2026_08_15",
-      "notes": "Play Sign in details declares restricted access and contains bare reviewer credentials plus explicit WhatsApp OTP and MoMo SMS permission navigation instructions. The credentials were verified against live production auth; secret values are not retained in this packet or test evidence."
+      "notes": "Play Sign in details declares restricted access and contains bare reviewer credentials plus WhatsApp OTP navigation instructions. The credentials were verified against live production auth; secret values are not retained in this packet or test evidence."
     },
     "data_safety": {
       "collected_data_categories": [
@@ -222,13 +222,12 @@
         "android.permission.INTERNET",
         "android.permission.CAMERA",
         "android.permission.POST_NOTIFICATIONS",
-        "android.permission.RECEIVE_SMS",
         "android.permission.VIBRATE",
         "android.permission.ACCESS_NETWORK_STATE"
       ],
-      "restricted_sms_permissions_in_production": true,
-      "sms_permissions_declaration_status": "submitted_with_production_v20_review_pending_google_approval",
-      "sms_receiver_scope": "Production is receive-only for new consented MTN/Airtel mobile-money broadcasts. It never requests READ_SMS, SEND_SMS, inbox history, Call Log, contacts, or storage access. Public distribution remains blocked until Google Play accepts the declaration."
+      "restricted_sms_permissions_in_production": false,
+      "sms_permissions_declaration_status": "not_required_no_restricted_sms_permissions",
+      "sms_receiver_scope": "The public production artifact requests no RECEIVE_SMS, READ_SMS, SEND_SMS, BROADCAST_SMS, or Call Log permission. Controlled bank-notification capture is isolated to a non-public internal receiver flavor."
     }
   },
   "play_console_surfaces": {
@@ -283,6 +282,6 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "target_v20_and_current_screenshots_in_google_review_app_access_verified_sms_declaration_pending_google_approval",
+  "console_completion_status": "bank_transfer_cutover_requires_new_artifact_and_console_readback",
   "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
 }

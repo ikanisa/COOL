@@ -8,7 +8,6 @@ import 'package:uuid/uuid.dart';
 import '../../core/security/hash_utils.dart';
 import '../../core/security/momo_receiver_normalizer.dart';
 import '../../core/security/phone_normalizer.dart';
-import '../../core/security/play_integrity_service.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
 import '../../core/supabase/realtime_invalidation.dart';
@@ -26,12 +25,10 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-    PlayIntegrityService playIntegrityService = const PlayIntegrityService(),
     CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
          smsAccessChannel,
-         playIntegrityService,
          _emptyCollectState(),
          false,
          offlineCache ?? const CollectOfflineCache(),
@@ -40,7 +37,6 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository.fixture({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-    PlayIntegrityService playIntegrityService = const PlayIntegrityService(),
     bool seeded = true,
     DateTime? fixtureNow,
     int fixtureCollectionCount = 2,
@@ -49,7 +45,6 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) : this._(
          supabase,
          smsAccessChannel,
-         playIntegrityService,
          seeded
              ? _fixtureCollectState(
                  fixtureNow: fixtureNow,
@@ -64,7 +59,6 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository._(
     this._supabase,
     this._smsAccessChannel,
-    this._playIntegrityService,
     CollectState initialState,
     this._allowLocalWrites,
     this._offlineCache,
@@ -73,7 +67,6 @@ class CollectRepository extends StateNotifier<CollectState> {
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
   final SmsAccessChannel _smsAccessChannel;
-  final PlayIntegrityService _playIntegrityService;
   final bool _allowLocalWrites;
   final CollectOfflineCache _offlineCache;
   RealtimeInvalidationSubscription? _realtimeSync;
@@ -87,7 +80,7 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   bool get isLive => _supabase?.auth.currentUser != null;
 
-  Future<void> loadInitial({bool syncPendingSms = true}) async {
+  Future<void> loadInitial({bool syncPendingSms = false}) async {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase == null || user == null) return;
@@ -118,7 +111,6 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       unawaited(_offlineCache.save(_offlineSnapshotFromState()));
       _ensureRealtimeSync();
-      if (syncPendingSms) unawaited(syncPendingSmsAccess());
     } catch (error) {
       final restored = await restoreOfflineSnapshot(reason: error.toString());
       if (!restored) {
@@ -390,10 +382,10 @@ class CollectRepository extends StateNotifier<CollectState> {
       intent = null;
     }
     return createSupportRequest(
-      subject: 'Payment review: $issueType',
+      subject: 'Bank transfer review: $issueType',
       message: [
         'Group: ${collection.title}',
-        'Intent: ${intent?.id ?? intentId}',
+        'Transfer request: ${intent?.id ?? intentId}',
         if (intent != null) 'Amount: ${intent.expectedAmountRwf}',
         if (intent != null) 'Status: ${intent.status}',
         'Note: ${note.trim()}',
@@ -419,28 +411,14 @@ class CollectRepository extends StateNotifier<CollectState> {
   Future<CollectCollection> createCollection({
     required String title,
     required String description,
-    required String receiverMomoNumber,
     CollectionType collectionType = CollectionType.ikimina,
     String? categorySubtype,
     String? purposeLabel,
-    String receiverLabel = 'Primary MoMo receiver',
-    bool receiverIsMomoPayCode = false,
     String? accentColorHex,
     String? imageUrl,
     bool isPublic = false,
   }) async {
-    final normalizedReceiver = receiverIsMomoPayCode
-        ? _normalizeMomoPayCode(receiverMomoNumber)
-        : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
-    final normalizedLabel = receiverLabel.trim().isEmpty
-        ? receiverIsMomoPayCode
-              ? 'MoMo code'
-              : 'Primary MoMo receiver'
-        : receiverLabel.trim();
-    final receiverHash = HashUtils.momoReceiverHash(
-      normalizedReceiver,
-      isMomoPayCode: receiverIsMomoPayCode,
-    );
+    const normalizedLabel = 'Collect EUR bank account';
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -451,86 +429,21 @@ class CollectRepository extends StateNotifier<CollectState> {
           'Refresh your signed-in profile before creating a group.',
         );
       }
-      final smsStatus = await _smsAccessChannel.status();
-      if (!smsStatus.supported ||
-          !smsStatus.declared ||
-          !smsStatus.granted ||
-          !smsStatus.enabled) {
-        throw StateError(
-          'Enable current MoMo SMS access before creating a group.',
-        );
-      }
-
-      // Refresh the receiver-specific consent immediately before attestation.
-      // The server capability mint requires this recent record and still treats
-      // the Play-verified capability—not this caller assertion—as authority.
-      await supabase.rpc<void>(
-        'record_sms_access_consent',
-        params: {
-          'enabled': true,
-          'momo_number_hash': receiverHash,
-          'build_channel': 'android_group_create_attested',
-          'device_label': 'flutter_android_play_integrity',
-        },
-      );
-
-      final nonce = _uuid.v4();
-      final groupRequest = <String, Object?>{
-        'group_name': title.trim(),
-        'group_description': description.trim(),
-        'receiver_momo_number': normalizedReceiver,
-        'receiver_momo_number_hash': receiverHash,
-        'receiver_label': normalizedLabel,
-        'group_collection_type': collectionType.storageValue,
-        'group_category_subtype': categorySubtype?.trim().isEmpty == true
-            ? null
-            : categorySubtype?.trim(),
-        'group_purpose_label': purposeLabel?.trim().isEmpty == true
-            ? null
-            : purposeLabel?.trim(),
-        'group_is_public': isPublic,
-      };
-      final requestHash = _playIntegrityService.buildGroupCreationRequestHash(
-        subjectId: user.id,
-        nonce: nonce,
-        receiverMomoNumberHash: receiverHash,
-        smsPermissionGranted: smsStatus.granted,
-        smsAccessEnabled: smsStatus.enabled,
-        groupRequest: groupRequest,
-      );
-      final integrityToken = await _playIntegrityService.requestStandardToken(
-        requestHash: requestHash,
-      );
-      if (integrityToken == null || integrityToken.isEmpty) {
-        throw const PlayIntegrityUnavailable(
-          'play_integrity_required',
-          'This production Android build cannot be verified right now.',
-        );
-      }
-      final integrityVerdict = await _playIntegrityService.verifyWithServer(
-        supabase: supabase,
-        action: 'group.create',
-        requestHash: requestHash,
-        integrityToken: integrityToken,
-        subjectId: user.id,
-        nonce: nonce,
-        receiverMomoNumberHash: receiverHash,
-        smsPermissionGranted: smsStatus.granted,
-        smsAccessEnabled: smsStatus.enabled,
-        groupRequest: groupRequest,
-      );
-      if (integrityVerdict?.hasUsableNativeCapability != true) {
-        throw const PlayIntegrityUnavailable(
-          'play_integrity_rejected',
-          'Android verification did not pass. Install the approved Play build and try again.',
-        );
-      }
-
       final collectionId = await supabase.rpc<String>(
-        'create_group_with_owner_attested',
+        'create_bank_transfer_group',
         params: {
-          ...groupRequest,
-          'native_capability': integrityVerdict!.nativeCapability,
+          'p_group_name': title.trim(),
+          'p_group_description': description.trim(),
+          'p_group_collection_type': collectionType.storageValue,
+          'p_group_category_subtype': categorySubtype?.trim().isEmpty == true
+              ? null
+              : categorySubtype?.trim(),
+          'p_group_purpose_label': purposeLabel?.trim().isEmpty == true
+              ? null
+              : purposeLabel?.trim(),
+          'p_group_is_public': isPublic,
+          'p_cover_image_url': imageUrl,
+          'p_accent_color_hex': accentColorHex,
         },
       );
       final collection = await _liveReader.fetchCollection(collectionId);
@@ -565,7 +478,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       purposeLabel: purposeLabel?.trim().isEmpty == true
           ? null
           : purposeLabel?.trim(),
-      receiverMomoNumber: normalizedReceiver,
+      receiverMomoNumber: null,
       receiverDisplayLabel: normalizedLabel,
       accentColorHex: accentColorHex,
       imageUrl: imageUrl,
@@ -577,65 +490,10 @@ class CollectRepository extends StateNotifier<CollectState> {
     return collection;
   }
 
-  Future<CollectCollection> updateCollectionReceiver({
-    required String collectionId,
-    required String receiverMomoNumber,
-    String receiverLabel = 'Primary MoMo receiver',
-    bool receiverIsMomoPayCode = false,
-  }) async {
-    final collection = _requireActiveCollection(collectionId);
-    _requireCollectionOwner(
-      collection,
-      action: 'update group receiver details',
-    );
-    final normalizedReceiver = receiverIsMomoPayCode
-        ? _normalizeMomoPayCode(receiverMomoNumber)
-        : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
-    final cleanReceiverLabel = receiverLabel.trim().isEmpty
-        ? receiverIsMomoPayCode
-              ? 'MoMo code'
-              : 'Primary MoMo receiver'
-        : receiverLabel.trim();
-    final supabase = _supabase;
-
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase.rpc<void>(
-        'update_collection_receiver',
-        params: {
-          'collection': collectionId,
-          'receiver_momo_number': normalizedReceiver,
-          'receiver_momo_number_hash': HashUtils.momoReceiverHash(
-            normalizedReceiver,
-            isMomoPayCode: receiverIsMomoPayCode,
-          ),
-          'receiver_label': cleanReceiverLabel,
-        },
-      );
-      final collection = await _liveReader.fetchCollection(collectionId);
-      await loadInitial();
-      return collection;
-    }
-    if (!_allowLocalWrites) {
-      throw StateError('Sign in before updating group receiver details.');
-    }
-
-    final collections = [...state.collections];
-    final index = collections.indexWhere((item) => item.id == collectionId);
-    if (index == -1) throw StateError('Group not found');
-    collections[index] = collections[index].copyWith(
-      receiverMomoNumber: normalizedReceiver,
-      receiverDisplayLabel: cleanReceiverLabel,
-    );
-    state = state.copyWith(collections: collections);
-    return collections[index];
-  }
-
   Future<CollectCollection> updateCollectionProfile({
     required String collectionId,
     required String title,
     required String description,
-    required String receiverMomoNumber,
-    required String receiverLabel,
     required String recurringCadence,
     CollectionType? collectionType,
     String? categorySubtype,
@@ -644,22 +502,14 @@ class CollectRepository extends StateNotifier<CollectState> {
     String? imageUrl,
     required bool isPublic,
     bool isRecurring = true,
-    bool receiverIsMomoPayCode = false,
   }) async {
     final collection = _requireActiveCollection(collectionId);
     _requireCollectionOwner(collection, action: 'update group details');
-    final normalizedReceiver = receiverIsMomoPayCode
-        ? _normalizeMomoPayCode(receiverMomoNumber)
-        : PhoneNormalizer.normalizeMtnMomoLocal(receiverMomoNumber);
     final cleanTitle = title.trim();
     if (cleanTitle.isEmpty) {
       throw const FormatException('Group name is required.');
     }
-    final cleanReceiverLabel = receiverLabel.trim().isEmpty
-        ? receiverIsMomoPayCode
-              ? 'MoMo code'
-              : 'Primary MoMo receiver'
-        : receiverLabel.trim();
+    const cleanReceiverLabel = 'Collect EUR bank account';
     final cadence = recurringCadence.trim().isEmpty
         ? 'monthly'
         : recurringCadence.trim();
@@ -667,25 +517,19 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
-        'update_collection_profile_and_receiver',
+        'update_bank_transfer_group_profile',
         params: {
-          'collection': collectionId,
-          'group_name': cleanTitle,
-          'group_description': description.trim(),
-          'group_image_url': imageUrl,
-          'group_accent_color_hex': accentColorHex,
-          'group_is_public': isPublic,
-          'group_recurring_cadence': cadence,
-          'group_collection_type': collectionType?.storageValue,
-          'group_category_subtype': categorySubtype?.trim(),
-          'group_purpose_label': purposeLabel?.trim(),
-          'group_is_recurring': isRecurring,
-          'receiver_momo_number': normalizedReceiver,
-          'receiver_momo_number_hash': HashUtils.momoReceiverHash(
-            normalizedReceiver,
-            isMomoPayCode: receiverIsMomoPayCode,
-          ),
-          'receiver_label': cleanReceiverLabel,
+          'p_collection_id': collectionId,
+          'p_group_name': cleanTitle,
+          'p_group_description': description.trim(),
+          'p_group_image_url': imageUrl,
+          'p_group_accent_color_hex': accentColorHex,
+          'p_group_is_public': isPublic,
+          'p_group_recurring_cadence': cadence,
+          'p_group_collection_type': collectionType?.storageValue,
+          'p_group_category_subtype': categorySubtype?.trim(),
+          'p_group_purpose_label': purposeLabel?.trim(),
+          'p_group_is_recurring': isRecurring,
         },
       );
       final collection = await _liveReader.fetchCollection(collectionId);
@@ -702,7 +546,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     collections[index] = collections[index].copyWith(
       title: cleanTitle,
       description: description.trim(),
-      receiverMomoNumber: normalizedReceiver,
+      receiverMomoNumber: null,
       receiverDisplayLabel: cleanReceiverLabel,
       collectionType: collectionType,
       categorySubtype: categorySubtype?.trim().isEmpty == true
@@ -729,30 +573,17 @@ class CollectRepository extends StateNotifier<CollectState> {
       throw const FormatException('Contribution amount must be above zero');
     }
     final profile = _requireProfile();
-    final contributorMomoNumber = profile.momoNumber?.trim();
-    if (contributorMomoNumber == null || contributorMomoNumber.isEmpty) {
-      throw StateError('Link your MoMo number before contributing.');
-    }
-    final authenticatedPayerPhone = profile.authenticatedMomoPayerPhone;
-    if (authenticatedPayerPhone == null) {
-      throw StateError(
-        'Use your verified WhatsApp number as your MoMo payer number before contributing.',
-      );
-    }
     final collection = _requireActiveCollection(draft.collectionId);
     if (!collection.isCurrentUserMember &&
         collection.creatorUserId != profile.id) {
       throw StateError('Join this group before contributing.');
     }
     final now = DateTime.now();
-    final senderPhoneHash = HashUtils.phoneHash(authenticatedPayerPhone);
     for (final intent in state.paymentIntents) {
       if (intent.collectionId == collection.id &&
           intent.expectedAmountRwf == draft.amountRwf &&
-          intent.senderPhoneHash == senderPhoneHash &&
-          intent.receiverMomoNumber.trim().isNotEmpty &&
-          intent.status == 'pending' &&
-          now.isBefore(intent.expiresAt)) {
+          intent.isAwaitingTransfer &&
+          now.isBefore(intent.expiresAt.toLocal())) {
         return intent;
       }
     }
@@ -760,69 +591,126 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     if (supabase != null && supabase.auth.currentUser != null) {
       final response = await supabase.rpc<dynamic>(
-        'create_contribution_intent',
+        'create_bank_transfer_intent',
         params: {
-          'collection': draft.collectionId,
-          'p_expected_amount_rwf': draft.amountRwf,
-          'p_sender_phone_hash': senderPhoneHash,
+          'p_collection_id': draft.collectionId,
+          'p_amount_minor': draft.amountMinor,
         },
       );
-      final row = _singleRpcRow(response);
       final intent = PaymentIntentModel.fromJson(
-        Map<String, dynamic>.from(row),
+        Map<String, dynamic>.from(response as Map),
       );
-      state = state.copyWith(paymentIntents: [...state.paymentIntents, intent]);
+      state = state.copyWith(paymentIntents: [intent, ...state.paymentIntents]);
       return intent;
     }
     if (!_allowLocalWrites) {
       throw StateError('Sign in before starting a contribution.');
     }
 
-    final receiver = collection.receiverMomoNumber;
-    if (receiver == null) throw StateError('Group has no MoMo receiver');
     final intent = PaymentIntentModel(
       id: _uuid.v4(),
       collectionId: collection.id,
-      expectedAmountRwf: draft.amountRwf,
-      receiverMomoNumber: receiver,
-      receiverLabel: collection.receiverDisplayLabel,
-      senderPhoneHash: senderPhoneHash,
-      status: 'pending',
+      expectedAmountMinor: draft.amountMinor,
+      transferReference:
+          'COL-${_uuid.v4().replaceAll('-', '').substring(0, 10).toUpperCase()}',
+      destination: const BankTransferDestination(
+        id: 'fixture-bank',
+        beneficiaryName: 'IKANISA Collect',
+        iban: 'DE89370400440532013000',
+        ibanMasked: 'DE89••••3000',
+        bic: 'COBADEFFXXX',
+        bankName: 'Collect Bank',
+        status: 'active',
+        enabled: true,
+      ),
+      status: 'awaiting_transfer',
       createdAt: DateTime.now(),
-      expiresAt: DateTime.now().add(const Duration(hours: 24)),
+      expiresAt: DateTime.now().add(const Duration(hours: 48)),
     );
     state = state.copyWith(paymentIntents: [...state.paymentIntents, intent]);
     return intent;
   }
 
-  Future<void> ingestReceiverSms(
+  Future<void> ingestBankNotificationSms(
     String body, {
     String? clientEnvelopeId,
     String rawSender = 'android_sms',
-    String? receiverMomoNumber,
     String? receivedAtDevice,
     bool refreshAfterIngest = true,
   }) async {
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.functions.invoke(
-        'ingest-payment-sms',
+        'ingest-bank-sms',
         body: {
+          'source_uid': clientEnvelopeId ?? _uuid.v4(),
           'raw_sender': rawSender,
           'raw_body': body,
-          'client_envelope_id': clientEnvelopeId,
-          'receiver_momo_number': receiverMomoNumber,
-          'received_at_device': receivedAtDevice,
+          'received_at': receivedAtDevice,
         },
       );
       if (refreshAfterIngest) await loadInitial();
     }
   }
 
+  Future<BankTransferDestination> getBankTransferDestination() async {
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      final response = await supabase.rpc<dynamic>(
+        'get_bank_transfer_destination',
+      );
+      return BankTransferDestination.fromJson(
+        Map<String, dynamic>.from(response as Map),
+      );
+    }
+    return const BankTransferDestination(
+      id: 'fixture-bank',
+      beneficiaryName: 'IKANISA Collect',
+      iban: 'DE89370400440532013000',
+      ibanMasked: 'DE89••••3000',
+      bic: 'COBADEFFXXX',
+      bankName: 'Collect Bank',
+      status: 'active',
+      enabled: true,
+    );
+  }
+
+  Future<void> markBankTransferHandoffOpened(String intentId) async {
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'mark_bank_transfer_handoff_opened',
+        params: {'p_intent_id': intentId},
+      );
+      await loadInitial();
+      return;
+    }
+    final intents = [
+      for (final intent in state.paymentIntents)
+        if (intent.id == intentId)
+          PaymentIntentModel(
+            id: intent.id,
+            collectionId: intent.collectionId,
+            expectedAmountMinor: intent.expectedAmountMinor,
+            transferReference: intent.transferReference,
+            destination: intent.destination,
+            currency: intent.currency,
+            status: 'handoff_opened',
+            createdAt: intent.createdAt,
+            expiresAt: intent.expiresAt,
+          )
+        else
+          intent,
+    ];
+    state = state.copyWith(paymentIntents: intents);
+  }
+
   Future<bool> setSmsAccess(bool enabled) async {
     final profile = state.currentProfile;
     if (enabled && profile == null) {
-      throw StateError('Sign in before enabling MoMo SMS access.');
+      throw StateError(
+        'Sign in with an authorized operations account before enabling bank SMS evidence access.',
+      );
     }
     final supabase = _supabase;
     final granted = await _smsAccessChannel.setEnabled(
@@ -831,18 +719,8 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
     final consentEnabled = enabled && granted;
     try {
-      if (supabase != null &&
-          supabase.auth.currentUser != null &&
-          profile != null) {
-        await supabase.rpc<void>(
-          'record_sms_access_consent',
-          params: {
-            'enabled': consentEnabled,
-            'momo_number_hash': _profileSmsReceiverHash(profile),
-            'build_channel': 'android_sms_access',
-            'device_label': 'flutter_app',
-          },
-        );
+      if (enabled && (supabase == null || supabase.auth.currentUser == null)) {
+        throw StateError('An authenticated operations session is required.');
       }
     } catch (_) {
       if (enabled) {
@@ -929,15 +807,10 @@ class CollectRepository extends StateNotifier<CollectState> {
           'Queued SMS belongs to a different account and was quarantined.',
         );
       }
-      await ingestReceiverSms(
+      await ingestBankNotificationSms(
         item.rawBody,
         clientEnvelopeId: item.id,
         rawSender: item.rawSender,
-        receiverMomoNumber: _resolveSmsReceiver(
-          profile,
-          state.collections,
-          item.rawBody,
-        ),
         receivedAtDevice: item.receivedAtDevice.trim().isEmpty
             ? null
             : item.receivedAtDevice,
@@ -1061,12 +934,13 @@ class CollectRepository extends StateNotifier<CollectState> {
       }
       return intentById(id);
     }
-    final row = await supabase
-        .from('payment_intents')
-        .select()
-        .eq('id', id)
-        .single();
-    final intent = PaymentIntentModel.fromJson(Map<String, dynamic>.from(row));
+    final row = await supabase.rpc<dynamic>(
+      'get_bank_transfer_intent',
+      params: {'p_id': id},
+    );
+    final intent = PaymentIntentModel.fromJson(
+      Map<String, dynamic>.from(row as Map),
+    );
     final intents = [...state.paymentIntents];
     final index = intents.indexWhere((item) => item.id == id);
     if (index == -1) {

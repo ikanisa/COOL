@@ -23,6 +23,7 @@ import '../features/payments/contribute_entry_screen.dart';
 import '../features/profile/profile_edit_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/settings/app_permissions_screen.dart';
+import '../features/settings/bank_transfer_settings_screen.dart';
 import '../features/settings/settings_subscreens.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/repositories/collect_repository.dart';
@@ -79,6 +80,7 @@ const collectRoutePaths = <String>[
   '/settings',
   '/settings/profile',
   '/settings/notifications',
+  '/settings/bank-transfer',
   '/settings/permissions',
   '/settings/appearance',
   '/settings/security',
@@ -348,6 +350,15 @@ GoRouter createAppRouter({
                       context,
                       state,
                       const NotificationSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'bank-transfer',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const BankTransferSettingsScreen(),
                       transition: _CollectRouteTransition.detail,
                     ),
                   ),

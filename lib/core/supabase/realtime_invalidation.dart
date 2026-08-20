@@ -8,12 +8,10 @@ const collectMobileRealtimeAreas = <String>{
   'profiles',
   'collections',
   'members',
-  'payment_intents',
-  'payments',
-  'allocations',
-  'ledger',
-  'receivers',
-  'sms_events',
+  'bank_intents',
+  'bank_transactions',
+  'bank_reconciliation',
+  'bank_details',
 };
 
 const collectAdminRealtimeAreas = <String>{
@@ -24,6 +22,7 @@ const collectAdminRealtimeAreas = <String>{
   'settings',
   'system_health',
   'notifications',
+  'bank_evidence',
 };
 
 class RealtimeInvalidationSubscription {

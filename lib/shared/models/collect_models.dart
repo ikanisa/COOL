@@ -16,13 +16,13 @@ const collectDefaultRegulatoryFooterNote =
 const collectDefaultWhatsAppSupportPhone = '250795588248';
 const collectDefaultWhatsAppSupportDisplay = '+250 795 588 248';
 const collectDefaultSupportEmail = 'info@ikanisa.com';
-const collectDefaultUssdCode = '*182**8*1*41258*2000#';
+const collectDefaultUssdCode = '';
 
 const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Data we collect',
     body:
-        'Collect stores your Collect ID, WhatsApp sign-in phone, optional MoMo account, group memberships, group profile details, payment requests, contribution records, and permission status. Group owners may allow Collect to process MoMo SMS evidence for payment matching.',
+        'Collect stores your Collect ID, WhatsApp sign-in phone, group memberships, group profile details, bank transfer requests, contribution records, and permission status. Beneficiary-bank notifications are processed only by controlled operations channels.',
   ),
   CollectPolicySection(
     title: 'How we use data',
@@ -32,17 +32,17 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'What stays private',
     body:
-        'Receiver MoMo numbers, private confirmation text, sign-in phones, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe payment status.',
+        'Sign-in phones, payer details, raw bank notification text, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe transfer status.',
   ),
   CollectPolicySection(
     title: 'Sharing',
     body:
-        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or payment verification. Opted-in MoMo SMS content is sent from Collect servers to the OpenAI API for structured payment parsing. We do not sell personal data.',
+        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or bank-transfer verification. We do not sell personal data.',
   ),
   CollectPolicySection(
     title: 'Choices and retention',
     body:
-        'You can update your MoMo account, request account deletion, leave groups where supported, and contact support for correction requests. Ledger records may be retained where needed for audit, security, dispute, and legal reasons.',
+        'You can request account deletion, leave groups where supported, and contact support for correction requests. Ledger and reconciliation records may be retained where needed for audit, security, dispute, and legal reasons.',
   ),
 ];
 
@@ -53,19 +53,19 @@ const collectDefaultTermsSections = [
         'Collect helps groups organize contributions, create payment requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, and payment information.',
   ),
   CollectPolicySection(
-    title: 'MoMo payments',
+    title: 'Bank transfers',
     body:
-        'Payments are approved outside Collect through MoMo or the mobile money flow shown on your device. Collect does not ask for payment credentials or sign-in secrets.',
+        'Transfers are approved outside Collect in your banking app. Collect shows the beneficiary, amount, and unique reference, but never asks for bank credentials, card details, or banking-app sign-in secrets.',
   ),
   CollectPolicySection(
     title: 'Group ownership',
     body:
-        'Group owners are responsible for group profile details, receiver setup, recurring settings, member management, and permission readiness. Android SMS access may be required for owner-side payment verification.',
+        'Group owners are responsible for group profile details, recurring settings, and member management. Collect centrally governs the beneficiary account and daily reconciliation.',
   ),
   CollectPolicySection(
     title: 'Disputes and corrections',
     body:
-        'If a payment is missing, duplicated, incorrect, or needs review, contact support. Collect may use payment status, transaction references, SMS evidence, and audit logs to investigate.',
+        'If a transfer is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use transfer status, bank references, controlled notification evidence, statements, and audit logs to investigate.',
   ),
   CollectPolicySection(
     title: 'Acceptable use',
@@ -764,6 +764,70 @@ class PaymentIntentDraft {
 
   final String collectionId;
   final int amountRwf;
+
+  /// Compatibility name retained while stored and transmitted values are EUR
+  /// minor units (cents), not Rwanda francs.
+  int get amountMinor => amountRwf;
+}
+
+@immutable
+class BankTransferDestination {
+  const BankTransferDestination({
+    required this.id,
+    required this.beneficiaryName,
+    required this.iban,
+    required this.ibanMasked,
+    required this.bic,
+    required this.bankName,
+    this.currency = 'EUR',
+    this.transferScheme = 'sepa_credit_transfer',
+    this.supportsInstant = true,
+    this.status = 'draft',
+    this.isPlaceholder = false,
+    this.enabled = false,
+  });
+
+  static const placeholder = BankTransferDestination(
+    id: 'placeholder',
+    beneficiaryName: 'PLACEHOLDER — DO NOT TRANSFER',
+    iban: 'XX00PLACEHOLDER0000000000',
+    ibanMasked: 'XX00••••0000',
+    bic: 'PLACEHOL',
+    bankName: 'PLACEHOLDER BANK',
+    isPlaceholder: true,
+  );
+
+  final String id;
+  final String beneficiaryName;
+  final String iban;
+  final String ibanMasked;
+  final String bic;
+  final String bankName;
+  final String currency;
+  final String transferScheme;
+  final bool supportsInstant;
+  final String status;
+  final bool isPlaceholder;
+  final bool enabled;
+
+  factory BankTransferDestination.fromJson(Map<String, dynamic> json) {
+    return BankTransferDestination(
+      id: (json['id'] as String?) ?? 'unavailable',
+      beneficiaryName:
+          (json['beneficiary_name'] as String?) ?? 'Beneficiary unavailable',
+      iban: (json['iban'] as String?) ?? '',
+      ibanMasked: (json['iban_masked'] as String?) ?? '',
+      bic: (json['bic'] as String?) ?? '',
+      bankName: (json['bank_name'] as String?) ?? '',
+      currency: (json['currency'] as String?) ?? 'EUR',
+      transferScheme:
+          (json['transfer_scheme'] as String?) ?? 'sepa_credit_transfer',
+      supportsInstant: json['supports_instant'] != false,
+      status: (json['status'] as String?) ?? 'draft',
+      isPlaceholder: json['is_placeholder'] == true,
+      enabled: json['enabled'] == true,
+    );
+  }
 }
 
 @immutable
@@ -771,49 +835,71 @@ class PaymentIntentModel {
   const PaymentIntentModel({
     required this.id,
     required this.collectionId,
-    required this.expectedAmountRwf,
-    required this.receiverMomoNumber,
-    this.receiverLabel = 'Primary MoMo receiver',
-    this.network = 'unknown',
+    int? expectedAmountMinor,
+    int? expectedAmountRwf,
+    String? receiverMomoNumber,
+    String? receiverLabel,
+    String? network,
     this.senderPhoneHash,
+    this.transferReference = '',
+    this.destination = BankTransferDestination.placeholder,
+    this.currency = 'EUR',
     required this.status,
     required this.createdAt,
     required this.expiresAt,
-  });
+  }) : expectedAmountMinor = expectedAmountMinor ?? expectedAmountRwf ?? 0;
 
   final String id;
   final String collectionId;
-  final int expectedAmountRwf;
-  final String receiverMomoNumber;
-  final String receiverLabel;
-  final String network;
+  final int expectedAmountMinor;
+  final String transferReference;
+  final BankTransferDestination destination;
+  final String currency;
   final String? senderPhoneHash;
   final String status;
   final DateTime createdAt;
   final DateTime expiresAt;
 
+  int get expectedAmountRwf => expectedAmountMinor;
+  String get receiverMomoNumber => destination.iban;
+  String get receiverLabel => destination.beneficiaryName;
+  String get network => 'sepa';
+
+  bool get isAwaitingTransfer =>
+      const {
+        'awaiting_transfer',
+        'handoff_opened',
+        'awaiting_bank_evidence',
+        'received_unreconciled',
+      }.contains(status) &&
+      DateTime.now().toUtc().isBefore(expiresAt.toUtc());
+
   factory PaymentIntentModel.fromJson(Map<String, dynamic> json) {
-    final receiverLabel =
-        (json['receiver_label'] as String?) ?? 'Primary MoMo receiver';
     final createdAt = _dateTime(json['created_at']);
     final expiresAt = _dateTime(json['expires_at']);
-    final storedStatus = (json['status'] as String?) ?? 'pending';
+    final storedStatus = (json['status'] as String?) ?? 'awaiting_transfer';
+    final destinationJson = json['destination'] ?? json['destination_snapshot'];
     return PaymentIntentModel(
       id: json['id'] as String,
       collectionId: json['collection_id'] as String,
-      expectedAmountRwf: (json['expected_amount_rwf'] as num?)?.toInt() ?? 0,
-      receiverMomoNumber:
-          _localMomoUnlessCode(
-            (json['receiver_momo_number'] as String?) ??
-                (json['receiver_momo_number_hash'] as String? ?? ''),
-            receiverLabel,
-          ) ??
-          '',
-      receiverLabel: receiverLabel,
-      network: (json['network'] as String?) ?? 'unknown',
+      expectedAmountMinor:
+          (json['amount_minor'] as num?)?.toInt() ??
+          (json['expected_amount_rwf'] as num?)?.toInt() ??
+          0,
+      transferReference: (json['transfer_reference'] as String?) ?? '',
+      destination: destinationJson is Map
+          ? BankTransferDestination.fromJson(
+              Map<String, dynamic>.from(destinationJson),
+            )
+          : BankTransferDestination.placeholder,
+      currency: (json['currency'] as String?) ?? 'EUR',
       senderPhoneHash: json['sender_phone_hash'] as String?,
       status:
-          storedStatus == 'pending' &&
+          const {
+                'awaiting_transfer',
+                'handoff_opened',
+                'awaiting_bank_evidence',
+              }.contains(storedStatus) &&
               !expiresAt.isAfter(DateTime.now().toUtc())
           ? 'expired'
           : storedStatus,
@@ -840,6 +926,7 @@ class Contribution {
     required this.id,
     required this.collectionId,
     required this.amountRwf,
+    this.currency = 'EUR',
     required this.supporterLabel,
     required this.createdAt,
     this.transactionId,
@@ -849,16 +936,23 @@ class Contribution {
   final String id;
   final String collectionId;
   final int amountRwf;
+  final String currency;
   final String supporterLabel;
   final DateTime createdAt;
   final String? transactionId;
   final bool isCurrentUserContribution;
 
+  int get amountMinor => amountRwf;
+
   factory Contribution.fromJson(Map<String, dynamic> json) {
     return Contribution(
       id: (json['payment_id'] as String?) ?? json['id'] as String,
       collectionId: json['collection_id'] as String,
-      amountRwf: (json['amount_rwf'] as num).toInt(),
+      amountRwf:
+          (json['amount_minor'] as num?)?.toInt() ??
+          (json['amount_rwf'] as num?)?.toInt() ??
+          0,
+      currency: (json['currency'] as String?) ?? 'EUR',
       supporterLabel:
           (json['supporter_label'] as String?) ??
           (json['contributor_public_id'] == null
@@ -913,18 +1007,29 @@ class CollectionSummary {
     required this.amountRaisedRwf,
     required this.supporterCount,
     this.currentUserBalanceRwf = 0,
+    this.currency = 'EUR',
   });
 
   final int amountRaisedRwf;
   final int supporterCount;
   final int currentUserBalanceRwf;
+  final String currency;
+
+  int get amountRaisedMinor => amountRaisedRwf;
+  int get currentUserBalanceMinor => currentUserBalanceRwf;
 
   factory CollectionSummary.fromJson(Map<String, dynamic> json) {
     return CollectionSummary(
-      amountRaisedRwf: (json['amount_raised_rwf'] as num?)?.toInt() ?? 0,
+      amountRaisedRwf:
+          (json['amount_raised_minor'] as num?)?.toInt() ??
+          (json['amount_raised_rwf'] as num?)?.toInt() ??
+          0,
       supporterCount: (json['supporter_count'] as num?)?.toInt() ?? 0,
       currentUserBalanceRwf:
-          (json['current_user_balance_rwf'] as num?)?.toInt() ?? 0,
+          (json['current_user_balance_minor'] as num?)?.toInt() ??
+          (json['current_user_balance_rwf'] as num?)?.toInt() ??
+          0,
+      currency: (json['currency'] as String?) ?? 'EUR',
     );
   }
 }

@@ -60,7 +60,7 @@ pages:
         support_email: info@ikanisa.com
       closing: >-
         For the personal data described in this Policy, IKANISA acts as the data controller unless another organisation
-        is identified as the controller. A partner bank, insurer, payment provider or professional service provider
+        is identified as the controller. A partner bank, insurer or professional service provider
         may act as a separate data controller for the products and services it provides.
     - id: scope
       heading: 2. What this Policy covers
@@ -68,7 +68,7 @@ pages:
       bullets:
       - Visit the Collect website
       - Use the Collect Android or iOS application
-      - Use a Collect-supported USSD, SMS or WhatsApp journey
+      - Prepare a SEPA bank transfer and open your banking app
       - Create or join a savings group
       - Use credit-readiness services
       - Submit documents for a loan application
@@ -117,15 +117,17 @@ pages:
       - heading: Transaction and ledger information
         bullets:
         - Contribution amount, date and reference
-        - Mobile-money or bank-payment confirmation
+        - Bank-transfer confirmation and statement reconciliation
         - Payer and recipient identifiers
         - Transaction status
         - Refunds, reversals and reconciliations
         - Repayment records
         - Purpose-based savings goals
         closing: >-
-          Collect may receive transaction evidence from banks, mobile-money providers or other authorised payment
-          partners. Collect does not require access to unrelated messages stored on your device.
+          A controlled internal bank-evidence receiver may process only new bank-notification SMS after authorised
+          operator consent. The public production app does not request SMS access. Collect may also receive
+          authenticated bank email notifications and imported bank statements, and does not require access to
+          unrelated messages stored on a device.
       - heading: Credit-readiness information
         bullets:
         - Business profile and ownership information
@@ -184,7 +186,7 @@ pages:
       - Directly from you
       - From your savings group or authorised group leader
       - From a partner bank or custodian
-      - From a payment or mobile-money provider
+      - From a partner bank, its notification service or statement records
       - From an insurer
       - From a professional service provider you instruct us to coordinate
       - From identity, KYC, fraud or compliance providers
@@ -387,7 +389,7 @@ pages:
         - Remove a repayment obligation
         - Cancel an insurance policy
         - Cancel a subscription purchased through an app store
-        - Remove records held independently by a bank, insurer or payment provider
+        - Remove records held independently by a bank or insurer
       - heading: Data we may retain
         bullets:
         - Financial transaction and audit records
@@ -476,7 +478,7 @@ pages:
       headline: Clear rules for using Collect.
       supporting_copy: >-
         These Terms explain what Collect provides, what regulated partners provide, your responsibilities and the
-        rules governing your use of the website, app, USSD and related services.
+        rules governing your use of the website, app and related services.
     important_summary:
     - Collect is a financial-technology and service-orchestration platform.
     - Collect does not accept deposits unless separately authorised.
@@ -500,7 +502,7 @@ pages:
       - Loan agreements
       - Collateral agreements
       - Insurance policies
-      - Payment-provider terms
+      - Bank-transfer terms
       - Professional-service agreements
       - Product-specific disclosures
       priority_rule: >-
@@ -527,7 +529,7 @@ pages:
     - id: what-collect-provides
       heading: 3. What Collect provides
       bullets:
-      - Mobile-app and USSD access
+      - Mobile-app access and bank-transfer handoff
       - Group creation and administration
       - Member and group ledgers
       - Contribution and transaction records
@@ -550,7 +552,7 @@ pages:
       - A bank
       - A deposit-taking institution
       - A lender
-      - A mobile-money operator
+      - A payment institution
       - An insurer
       - A broker
       - A credit bureau
@@ -581,8 +583,9 @@ pages:
     - id: savings-and-payments
       heading: 6. Savings and payments
       body:
-      - Collect may help initiate, evidence, reconcile or display contributions.
-      - Customer funds are held or processed through licensed financial institutions or payment providers.
+      - Collect may prepare a bank-transfer handoff, evidence, reconcile or display contributions.
+      - You authorise each transfer in your banking app; Collect does not initiate, sign or execute it.
+      - Customer funds are transferred to and held or processed through licensed financial institutions.
       transaction_may_remain_subject_to:
       - Partner confirmation
       - Settlement
@@ -591,7 +594,7 @@ pages:
       - Reversal
       - Error correction
       closing: >-
-        You must verify payment references and notify us promptly if a record appears incorrect. Collect ledger
+        You must verify transfer references and notify us promptly if a record appears incorrect. Collect ledger
         information does not replace the official account record held by the regulated financial institution.
     - id: group-savings
       heading: 7. Group savings
@@ -727,11 +730,11 @@ pages:
       - Professional-service fees
       - Partner-product fees
       - Currency-conversion fees
-      - Payment-provider charges
+      - Bank-transfer charges
       - Bank or insurer charges
       zero_fee_clarification: >-
-        A zero-fee savings statement applies only to the specific user charge described. Mobile operators, banks
-        or other providers may impose separate charges unless waived under the product terms.
+        A zero-fee savings statement applies only to the specific user charge described. Banks or banking applications
+        may impose separate charges unless waived under the product terms.
     - id: acceptable-use
       heading: 16. Acceptable use
       intro: 'You must not use Collect to:'
@@ -802,7 +805,7 @@ pages:
       availability_may_be_affected_by:
       - Mobile networks
       - Banks
-      - Payment providers
+      - Banking services
       - Insurers
       - App stores
       - Internet providers

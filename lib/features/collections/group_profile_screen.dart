@@ -27,8 +27,6 @@ class GroupProfileScreen extends ConsumerStatefulWidget {
 class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   final _name = TextEditingController();
   final _description = TextEditingController();
-  final _receiver = TextEditingController();
-  final _receiverPayCode = TextEditingController();
   final _imagePicker = ImagePicker();
 
   Uint8List? _imageBytes;
@@ -38,7 +36,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   String _cadence = 'monthly';
   CollectionType _collectionType = CollectionType.ikimina;
-  CollectMomoReceiverMode _receiverMode = CollectMomoReceiverMode.momoNumber;
   bool _isPublic = false;
   bool _recurringEnabled = true;
   bool _loaded = false;
@@ -49,8 +46,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   void dispose() {
     _name.dispose();
     _description.dispose();
-    _receiver.dispose();
-    _receiverPayCode.dispose();
     super.dispose();
   }
 
@@ -76,7 +71,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             icon: CollectIcons.lock,
             title: 'Owner only',
             message:
-                'Only the current group owner can change the group profile or contribution receiver.',
+                'Only the current group owner can change the group profile. Bank details are governed centrally.',
             tone: CollectStatusTone.privacy,
           ),
           CollectButton(
@@ -174,18 +169,13 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             ),
           ],
         ),
-        _GroupProfileEditSection(
+        const _GroupProfileEditSection(
           children: [
-            CollectMomoReceiverCard(
-              mode: _receiverMode,
-              onChanged: (mode) => setState(() {
-                _receiverMode = mode;
-                _error = null;
-              }),
-              numberController: _receiver,
-              codeController: _receiverPayCode,
-              numberInputLabel: 'Receiver MoMo',
-              codeInputLabel: 'MoMo code',
+            InfoSecurityBanner(
+              title: 'One governed EUR beneficiary',
+              message:
+                  'Every group uses the approved Collect bank account. Group owners cannot replace the beneficiary or redirect member payments.',
+              tone: CollectStatusTone.privacy,
             ),
           ],
         ),
@@ -215,16 +205,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _loaded = true;
     _name.text = collection.title;
     _description.text = collection.description;
-    final receiverValue = collection.receiverMomoNumber ?? '';
-    if (_isMomoPayCodeLabel(collection.receiverDisplayLabel)) {
-      _receiverMode = CollectMomoReceiverMode.momoPayCode;
-      _receiverPayCode.text = receiverValue;
-      _receiver.clear();
-    } else {
-      _receiverMode = CollectMomoReceiverMode.momoNumber;
-      _receiver.text = receiverValue;
-      _receiverPayCode.clear();
-    }
     _accentColorHex =
         collection.accentColorHex ??
         CollectColors.brandPrimaryOptions.first.hex;
@@ -268,20 +248,12 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       final imageUrl = _removeExistingImage
           ? null
           : _selectedImageDataUri() ?? collection.imageUrl;
-      final receiverIsMomoPayCode =
-          _receiverMode == CollectMomoReceiverMode.momoPayCode;
       await ref
           .read(collectRepositoryProvider.notifier)
           .updateCollectionProfile(
             collectionId: collection.id,
             title: _name.text,
             description: _description.text,
-            receiverMomoNumber: receiverIsMomoPayCode
-                ? _receiverPayCode.text
-                : _receiver.text,
-            receiverLabel: receiverIsMomoPayCode
-                ? 'MoMo code'
-                : 'Primary MoMo receiver',
             recurringCadence: _recurringEnabled ? _cadence : 'monthly',
             collectionType: _collectionType,
             categorySubtype: _selectedTypeOption.defaultCategorySubtype,
@@ -290,7 +262,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             imageUrl: imageUrl,
             isPublic: _isPublic,
             isRecurring: _recurringEnabled,
-            receiverIsMomoPayCode: receiverIsMomoPayCode,
           );
       if (!mounted) return;
       context.go('/groups/${collection.id}/manage');
@@ -334,8 +305,4 @@ String _visibilityHelperText(
     'public_rejected' => 'The previous public request was not approved.',
     _ => 'Private until an administrator approves the request.',
   };
-}
-
-bool _isMomoPayCodeLabel(String label) {
-  return label.trim().toLowerCase().contains('code');
 }

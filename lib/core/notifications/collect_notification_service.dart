@@ -152,7 +152,7 @@ class CollectNotificationService {
     AndroidNotificationChannel(
       _androidContributionChannelId,
       'Contribution confirmations',
-      description: 'Confirmed MoMo contributions and ledger updates.',
+      description: 'Reconciled bank contributions and ledger updates.',
       importance: Importance.high,
     ),
     AndroidNotificationChannel(

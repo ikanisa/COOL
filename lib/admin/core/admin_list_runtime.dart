@@ -62,6 +62,10 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          _AdminBankQueueActions(
+            rpcName: widget.rpcName,
+            onDone: () => _refresh(resetPage: true),
+          ),
           AdminFilterBar(
             searchController: _search,
             status: _status,
@@ -190,11 +194,13 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
 
 String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
   'admin_list_collections' => 'Members',
-  'admin_list_receivers' => 'Network',
   'admin_list_notifications' => 'Deliveries',
   'admin_list_admin_users' => 'Roles',
+  'admin_list_bank_destinations' ||
+  'admin_list_bank_destination_change_requests' ||
+  'admin_list_reconciliation_runs' ||
+  'admin_list_reconciliation_exceptions' => 'Detail',
   'admin_list_users' ||
-  'admin_list_sms_metadata' ||
   'admin_list_audit_logs' ||
   'admin_list_settings' ||
   'admin_list_feature_flags' => 'Detail',
@@ -354,20 +360,6 @@ class _AdminRowActions extends ConsumerWidget {
     return Wrap(
       spacing: 8,
       children: switch (actionKind) {
-        'payment_event_reparse'
-            when _adminHasPermission(identity, 'payment_events.reparse') =>
-          [
-            Semantics(
-              container: true,
-              button: true,
-              label: 'Request SMS reparse for ${row.title}',
-              hint: 'Opens a reason dialog before queuing a reparse action.',
-              child: TextButton(
-                onPressed: () => _reparse(context, ref),
-                child: const Text('Reparse'),
-              ),
-            ),
-          ],
         'feature_flag_toggle'
             when _adminHasPermission(identity, 'feature_flags.manage') =>
           [
@@ -390,20 +382,6 @@ class _AdminRowActions extends ConsumerWidget {
         _ => const [],
       },
     );
-  }
-
-  Future<void> _reparse(BuildContext context, WidgetRef ref) async {
-    final reason = await showAdminReasonDialog(
-      context,
-      title: 'Request SMS reparse',
-      actionLabel: 'Request reparse',
-    );
-    if (reason == null) return;
-    await ref.read(adminRepositoryProvider).action(
-      'admin_reparse_payment_event',
-      {'p_event_id': row.id, 'p_reason': reason},
-    );
-    onDone();
   }
 
   Future<void> _setFeatureFlag(

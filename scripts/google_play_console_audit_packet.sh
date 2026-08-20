@@ -194,19 +194,19 @@ production_permissions = Array(dig_value(packet, ["app_content", "permissions", 
 restricted_sms = %w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS]
 restricted_present = production_permissions & restricted_sms
 checks["permissions_scope"] =
-  if restricted_present == ["android.permission.RECEIVE_SMS"] && dig_value(packet, ["app_content", "permissions", "restricted_sms_permissions_in_production"]) == true
-    check("pass", "Production Play packet declares receive-only SMS access without inbox-history or send permissions.", "production_permissions" => production_permissions)
+  if restricted_present.empty? && dig_value(packet, ["app_content", "permissions", "restricted_sms_permissions_in_production"]) == false
+    check("pass", "Production Play packet declares no restricted SMS permission.", "production_permissions" => production_permissions)
   else
-    check("fail", "Production restricted SMS scope must be exactly RECEIVE_SMS.", "restricted_present" => restricted_present)
+    check("fail", "Production restricted SMS scope must be empty.", "restricted_present" => restricted_present)
   end
 
 
 sms_declaration_status = dig_value(packet, ["app_content", "permissions", "sms_permissions_declaration_status"]).to_s
 checks["sms_permissions_declaration"] =
-  if sms_declaration_status == "approved"
-    check("pass", "Google Play restricted-SMS declaration approval is recorded.")
+  if sms_declaration_status == "not_required_no_restricted_sms_permissions"
+    check("pass", "No restricted-SMS declaration is required for public production.")
   else
-    check("blocked", "Google Play restricted-SMS declaration acceptance is required before public distribution.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
+    check("fail", "The packet must record the no-restricted-SMS production scope.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
   end
 
 surfaces = packet.fetch("play_console_surfaces", {})

@@ -1,82 +1,22 @@
-# Supabase Production Readiness Plan
+# Supabase production readiness plan
 
-Updated: 2026-06-02
+Collect deploys directly to production; there is no staging environment. Every
+deployment therefore runs the complete local gate before mutating production.
 
-This plan is aligned to the corrected SMS-first Groups product. It replaces the
-older platform-blocker framing from the previous release packet.
+## Required gate
 
-## Current Decision
+1. Flutter format, static analysis, complete tests and reviewed golden images.
+2. Deno type checks and tests for the exact six Edge Functions.
+3. Local Supabase reset plus bank-transfer rollback UAT proving RLS,
+   maker-checker, idempotency, statement finality and balanced exact-once ledger.
+4. Production secret inventory without printing values:
+   `BANK_EMAIL_INGEST_HMAC_SECRET`, `FCM_SERVICE_ACCOUNT_JSON` and any configured
+   APNs material.
+5. Apply the reviewed bank-only migration and record its version.
+6. Deploy the six allowlisted functions and delete every retired function.
+7. Run linked production inventory, privilege, RLS and read-only readiness checks.
+8. Build and deploy public web/Admin and verify production URLs.
 
-Current Supabase backend status is **green for linked SMS-first rollback UAT**.
-Overall release remains **NO-GO** until Android SMS device UAT, release
-signing/scope evidence, product signoff, and release-owner signoff are
-complete.
-
-Fresh evidence:
-
-- Local migration validation passes.
-- Edge Function auth contract passes.
-- Parser, ingestion, and allocation functions type-check.
-- Linked admin/security rollback UAT passes.
-- Linked contribution/allocation rollback UAT passes after applying
-  `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
-  through `supabase db query --linked`.
-- `scripts/supabase_production_readiness.sh` passes after applying and
-  recording the linked migration history plus
-  `supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql`.
-- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/release_status.sh --json`
-  now reports `linked_sms_first_uat=1`.
-- Legacy Edge Functions for manual allocation and public-collection requests
-  were removed from the linked project.
-
-Older CAPTCHA/HIBP/plan/PITR findings are not current release blockers unless a
-fresh readiness run reproduces them.
-
-## Required Backend Work
-
-1. Keep linked rollback UAT green after any backend change by rerunning
-   `scripts/collect_linked_uat.sh`.
-2. Deploy only the 10 functions in `EXPECTED_FUNCTIONS` within
-   `scripts/supabase_deploy.sh`. The deploy script is the canonical inventory.
-3. Run Android SMS access UAT so the backend receives real MoMo SMS rows,
-   OpenAI parser output, exact allocation or review outcomes, exactly-once
-   ledger entries, notifications, and reconciled payer/group balances.
-
-## Current Validation Commands
-
-```sh
-./scripts/migrations/validate_supabase_migrations.sh
-./scripts/collect_edge_auth_contract_uat.sh
-deno check supabase/functions/parse-payment-sms/index.ts \
-  supabase/functions/ingest-payment-sms/index.ts
-./scripts/collect_admin_security_uat.sh
-./scripts/collect_linked_uat.sh
-./scripts/supabase_production_readiness.sh
-```
-
-## Release Gate Semantics
-
-Release status now reports only current SMS-first blockers:
-
-- `product_signoff`
-- `android_sms_access_uat`
-- `android_release_signing_review`
-- `ios_release_scope`
-- `admin_pwa_live_url`
-- `release_owner_signoff`
-
-Use:
-
-```sh
-make release-status-json
-make supabase-go-live-gate-json
-make supabase-platform-packet-json
-```
-
-## Data And Privacy Requirements
-
-- Use Collect ID, payment intent, amount, receiver, and timing for allocation.
-- Keep raw SMS private by default.
-- Keep ambiguous events in exception queues.
-- Do not reintroduce manual SMS paste, contributor-reported transaction IDs,
-  public campaign review, or manual ledger posting shortcuts.
+Provider, bank-statement, real-device, store and accountable approval evidence
+remain distinct from local automation and must not be inferred from a passing
+build.

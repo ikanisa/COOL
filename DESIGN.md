@@ -228,7 +228,7 @@ Secondary color gates:
 ### Official Visual Asset Contract
 
 - The canonical Collect logo is the immutable pre-audit PNG at `assets/brand/collect_runtime/app_icons/app-icon-rule.png`, SHA-256 `c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209`.
-- The only approved source media under `assets/brand/collect_runtime/` are that logo plus `media/group-momentum.png`, `media/mobile-money-ussd-signal.png`, and `media/qr-share.png`.
+- The only approved runtime brand source is the governed Collect logo. Financial journeys use native bank-transfer UI and do not use payment-provider promotional media.
 - Flutter launch, in-app brand marks, Android launcher/splash resources, iOS AppIcon resources, public-web favicon, and PWA manifests must use exact official PNG derivatives from that source history. Platform derivatives may resize or flatten the official source for packaging, but must not redraw or reinterpret it.
 - Handcrafted or generated brand substitutes are forbidden. This includes an invented letter `C`, CSS art, text art, emoji, inline or file-backed SVG logos, fabricated wordmarks, placeholder logos, and semantic UI icons presented as the Collect brand.
 - Material or Cupertino icon libraries may be used only for truthful semantic interface actions and states, never as the Collect logo.

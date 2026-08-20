@@ -6,7 +6,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     navLabel: 'Privacy',
     title: 'Privacy Policy and Data Deletion',
     intro:
-        'Collect uses the minimum account, group and payment evidence needed to operate direct MoMo contribution records.',
+        'Collect uses the minimum account, group and bank evidence needed to operate reconciled contribution records.',
     sections: [
       CollectPublicSectionData(
         title: 'Information Collect uses',
@@ -14,18 +14,18 @@ const _publicPolicyPages = <CollectPublicPageData>[
             'Collect stores account identifiers, group membership, payment requests, contribution records, notification preferences and audit evidence.',
         bullets: [
           'WhatsApp sign-in phone and six-digit Collect ID',
-          'Optional profile MoMo number and group receiving route',
-          'Opted-in MoMo receipt content and structured receipt facts',
+          'Approved beneficiary version and member transfer references',
+          'Controlled bank SMS, email and statement evidence',
         ],
       ),
       CollectPublicSectionData(
-        title: 'How receipt data is handled',
+        title: 'How bank evidence is handled',
         body:
-            'Opted-in receipt content is sent to Collect servers and the OpenAI API for structured extraction. Raw receipts and full phone values are not displayed publicly.',
+            'Bank notifications and statement lines are sent to Collect servers for structured extraction and reconciliation. Raw evidence and full phone values are not displayed publicly.',
         bullets: [
-          'OpenAI is used only for receipt extraction in this journey',
-          'The model cannot update balances',
-          'Server logs and public evidence must not contain receipt bodies, PINs or OTPs',
+          'Parsers cannot update balances',
+          'Daily statements determine settlement finality',
+          'Server logs and public evidence must not contain raw bank messages, PINs or OTPs',
         ],
       ),
       CollectPublicSectionData(
@@ -45,7 +45,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
         bullets: [
           'Requests are verified before account data is changed',
           'Collect explains any record that cannot be deleted immediately',
-          'SMS access can be revoked separately in Android settings',
+          'Notification permission can be revoked separately in device settings',
         ],
       ),
     ],
@@ -87,7 +87,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
             'Contact info@ikanisa.com and identify the Collect account using a safe verification method requested by support.',
         bullets: [
           'Never send a PIN or OTP',
-          'Do not email raw receipt screenshots unless support provides a protected channel',
+          'Do not email raw bank screenshots unless support provides a protected channel',
           'You will receive an explanation of the completed action',
         ],
       ),
@@ -98,22 +98,22 @@ const _publicPolicyPages = <CollectPublicPageData>[
     navLabel: 'Terms',
     title: 'Collect Terms of Service',
     intro:
-        'These terms cover account access, groups, direct MoMo contributions and the contribution ledger.',
+        'These terms cover account access, groups, EUR bank contributions and the contribution ledger.',
     sections: [
       CollectPublicSectionData(
         title: 'Using Collect',
         body:
-            'Use accurate group, receiver and payment information. Do not impersonate others, create misleading groups or submit false payment claims.',
+            'Use accurate group and transfer information. Do not impersonate others, create misleading groups or submit false payment claims.',
         bullets: [
-          'Group owners manage membership and receiving setup',
-          'Members approve MoMo payments outside Collect',
+          'Group owners manage membership; Collect governs the bank beneficiary',
+          'Members approve bank transfers outside Collect',
           'Collect may hold incomplete or disputed evidence for review',
         ],
       ),
       CollectPublicSectionData(
         title: 'Contribution records',
         body:
-            'A ledger entry is created only after the server matches an official receipt to one pending payer request.',
+            'A ledger entry is created only after the server reconciles an incoming bank transaction to one pending member request.',
         bullets: [
           'Duplicate transaction evidence cannot post twice',
           'Corrections and reversals remain audited',

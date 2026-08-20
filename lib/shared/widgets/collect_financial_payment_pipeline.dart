@@ -1,7 +1,7 @@
 part of 'collect_financial_components.dart';
 
-class PaymentPipelineIndicator extends StatelessWidget {
-  const PaymentPipelineIndicator({required this.status, super.key});
+class BankTransferPipelineIndicator extends StatelessWidget {
+  const BankTransferPipelineIndicator({required this.status, super.key});
 
   final String status;
 
@@ -9,14 +9,14 @@ class PaymentPipelineIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final activeStep = _pipelineStep(status);
     const stages = [
-      (label: 'Start', icon: CollectIcons.pending),
-      (label: 'Check', icon: CollectIcons.sms),
-      (label: 'Done', icon: CollectIcons.ledger),
+      (label: 'Prepared', icon: CollectIcons.pending),
+      (label: 'Evidence', icon: CollectIcons.sms),
+      (label: 'Reconciled', icon: CollectIcons.ledger),
     ];
     return Semantics(
       container: true,
       explicitChildNodes: true,
-      label: 'Payment progress: ${paymentStatusLabel(status)}',
+      label: 'Bank transfer progress: ${paymentStatusLabel(status)}',
       child: CollectCard(
         emphasis: CollectCardEmphasis.flat,
         padding: const EdgeInsets.all(CollectSpacing.x4),
@@ -43,8 +43,8 @@ class PaymentPipelineIndicator extends StatelessWidget {
 
 int _pipelineStep(String status) {
   return switch (status) {
-    'matched' || 'confirmed' || 'paid' => 3,
-    'needs_review' || 'review' => 2,
+    'reconciled' || 'confirmed' => 3,
+    'received_unreconciled' || 'needs_review' || 'review' => 2,
     'expired' || 'failed' => 1,
     _ => 1,
   };

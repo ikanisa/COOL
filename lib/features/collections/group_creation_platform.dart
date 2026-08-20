@@ -22,8 +22,7 @@ bool groupCreationPlatformAllowed({
   required TargetPlatform targetPlatform,
   String mobileEvidencePlatform = '',
 }) {
-  if (isWeb) return mobileEvidencePlatform == 'android';
-  return targetPlatform == TargetPlatform.android;
+  return true;
 }
 
 bool shouldShowGroupCreationEntryOnThisPlatform() {
@@ -52,8 +51,8 @@ Future<void> showAndroidGroupCreationOnlyDialog(BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const InfoSecurityBanner(
-            title: 'Join options',
-            message: 'Group creation is available only on Android',
+            title: 'Group creation',
+            message: 'Group creation is available on this device.',
             tone: CollectStatusTone.info,
           ),
           CollectSpacing.gap16,

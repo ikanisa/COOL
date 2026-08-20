@@ -328,7 +328,11 @@ bool _hasMaterialControlAncestor(Element candidate) {
         widget is Slider ||
         widget is SegmentedButton ||
         widget is DropdownButton ||
-        widget is PopupMenuButton;
+        widget is PopupMenuButton ||
+        // Flutter's text-selection handle is a framework-owned 22 dp
+        // GestureDetector inside this region. The editable field remains the
+        // actual user target and is measured independently by the route test.
+        widget is TextFieldTapRegion;
     return !found;
   });
   return found;
@@ -343,9 +347,18 @@ void _recordCustomTargetFailure(
   final size = tester.getSize(find.byWidget(candidate.widget));
   if (size.width + 0.01 < CollectSpacing.iconTarget ||
       size.height + 0.01 < CollectSpacing.iconTarget) {
+    final ancestors = <String>[];
+    candidate.visitAncestorElements((ancestor) {
+      if (ancestors.length < 16) {
+        ancestors.add(ancestor.widget.toStringShort());
+      }
+      return ancestors.length < 16;
+    });
     failures.add(
       '$label ${size.width.toStringAsFixed(1)} x '
-      '${size.height.toStringAsFixed(1)}',
+      '${size.height.toStringAsFixed(1)} '
+      '(widget: ${candidate.widget.runtimeType}; '
+      'ancestors: ${ancestors.join(' > ')})',
     );
   }
 }

@@ -71,16 +71,20 @@ allowed_security_max = {
   # pinned search paths.
   "anon_security_definer_function_executable" => 5,
   # The post-20260815062536 admin-control-plane and post-20260815082500 group
-  # hardening migrations bring the reviewed final-schema total to 70 callable
-  # signatures. Admin functions call assert_admin_permission(); group and
-  # member functions require auth.uid() plus owner, membership, or one-time
-  # native-capability checks; public-facing reads remain RLS-scoped. Keep this
-  # exact reviewed ceiling so any additional callable signature fails the gate.
+  # hardening migrations brought the reviewed schema to 70 callable
+  # signatures. The 20260820162240 bank-transfer cutover retires the legacy
+  # Stripe/MoMo control plane and leaves a net 16 additional reviewed
+  # signatures: member functions bind auth.uid() to the caller's own intents,
+  # groups, and contributions; evidence/reconciliation functions require the
+  # service role or an explicit bank permission; and every bank admin function
+  # calls assert_admin_permission(). Public-facing reads remain RLS-scoped.
+  # Keep this exact reviewed ceiling so any later callable signature fails the
+  # gate.
   # Existing reviewed examples remain admin_runtime_config(), which filters by
   # signed-in admin permissions; get_active_policy_document(), which returns
   # published content; and record_policy_acceptance(), which writes only the
   # signed-in user's acceptance event.
-  "authenticated_security_definer_function_executable" => 70,
+  "authenticated_security_definer_function_executable" => 86,
   "auth_leaked_password_protection" => 1
 }
 

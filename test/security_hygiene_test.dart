@@ -96,7 +96,7 @@ void main() {
     }
   });
 
-  test('production Android limits SMS access to new consented messages', () {
+  test('production Android excludes financial SMS permissions and receivers', () {
     final mainManifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
@@ -135,17 +135,13 @@ void main() {
       hasLength(2),
     );
     expect(productionManifest, isNot(contains('android.permission.READ_SMS')));
-    expect(productionManifest, contains('android.permission.RECEIVE_SMS'));
     expect(
       productionManifest,
-      contains('android:name="android.hardware.telephony"'),
+      isNot(contains('android.permission.RECEIVE_SMS')),
     );
-    expect(productionManifest, contains('android:required="false"'));
-    expect(productionManifest, contains('.receiver_sms.CollectSmsReceiver'));
-    expect(productionManifest, contains('android:exported="true"'));
     expect(
       productionManifest,
-      contains('android:permission="android.permission.BROADCAST_SMS"'),
+      isNot(contains('.receiver_sms.CollectSmsReceiver')),
     );
     expect(
       internalReceiverManifest,
@@ -166,17 +162,18 @@ void main() {
       contains('android:permission="android.permission.BROADCAST_SMS"'),
     );
     expect(receiver, contains('Secure SMS queue unavailable'));
-    expect(receiver, contains('wakiriye'));
-    expect(playGate, contains('restricted_sms_play_approval'));
-    expect(playGate, contains('expected_apk_restricted'));
+    expect(receiver, contains('isLikelyBankNotification'));
+    expect(receiver, contains('CURRENCY_HINT'));
+    expect(playGate, contains('production_permissions'));
+    expect(playGate, contains('expected_apk_restricted = []'));
     expect(
       playUpload,
-      contains('google_play_sms_permissions_declaration_not_approved'),
+      contains('google_play_restricted_sms_permission_present'),
     );
     expect(
       ((playPacket['app_content'] as Map<String, dynamic>)['permissions']
           as Map<String, dynamic>)['sms_permissions_declaration_status'],
-      'submitted_with_production_v20_review_pending_google_approval',
+      'not_required_no_restricted_sms_permissions',
     );
   });
 
@@ -465,33 +462,23 @@ void main() {
     }
   });
 
-  test(
-    'Play Integrity implementation keeps token and key material out of logs',
-    () {
-      final mainActivity = File(
-        'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
-      ).readAsStringSync();
-      final service = File(
-        'lib/core/security/play_integrity_service.dart',
-      ).readAsStringSync();
-      final edgeFunction = File(
-        'supabase/functions/verify-play-integrity/index.ts',
-      ).readAsStringSync();
-      final playGate = File(
-        'scripts/google_play_optimization_gate.sh',
-      ).readAsStringSync();
+  test('retired payment attestation code and credentials are absent', () {
+    final mainActivity = File(
+      'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
+    ).readAsStringSync();
+    final gradle = File('android/app/build.gradle.kts').readAsStringSync();
 
-      expect(mainActivity, contains('play_integrity_not_configured'));
-      expect(service, contains('MissingPluginException'));
-      expect(edgeFunction, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
-      expect(edgeFunction, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
-      expect(edgeFunction, isNot(contains('-----BEGIN PRIVATE KEY-----')));
-      expect(edgeFunction, isNot(contains('console.log')));
-      expect(edgeFunction, isNot(contains('console.error')));
-      expect(playGate, contains('play_integrity_implementation'));
-      expect(playGate, contains('has_secret_material'));
-    },
-  );
+    expect(mainActivity, isNot(contains('collect/play_integrity')));
+    expect(gradle, isNot(contains('com.google.android.play:integrity')));
+    expect(
+      File('lib/core/security/play_integrity_service.dart').existsSync(),
+      isFalse,
+    );
+    expect(
+      File('supabase/functions/verify-play-integrity/index.ts').existsSync(),
+      isFalse,
+    );
+  });
 
   test('Collect product boundary scan rejects forbidden app concepts', () {
     final result = runProcessSync(

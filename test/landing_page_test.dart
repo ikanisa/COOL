@@ -26,7 +26,7 @@ String visibleText() => find
     .toLowerCase();
 
 void main() {
-  testWidgets('landing page presents only the standalone MoMo product', (
+  testWidgets('landing page presents only the bank-transfer product', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1440, 1800);
@@ -37,20 +37,20 @@ void main() {
     await tester.pumpWidget(publicHarness(const CollectLandingPage()));
 
     expect(
-      find.text('MoMo contributions, captured automatically.'),
+      find.text('Bank contributions, reconciled automatically.'),
       findsOneWidget,
     );
     expect(find.text('Get the App'), findsWidgets);
     expect(find.text('Create Group'), findsOneWidget);
     expect(find.text('One clear contribution journey'), findsOneWidget);
     expect(find.text('Standalone and privacy-first'), findsOneWidget);
-    expect(find.text('OpenAI extraction'), findsOneWidget);
+    expect(find.text('Approved beneficiary'), findsOneWidget);
+    expect(find.text('Controlled evidence'), findsOneWidget);
+    expect(find.text('Daily reconciliation'), findsOneWidget);
     expect(find.text('Balanced ledger'), findsOneWidget);
 
     final text = visibleText();
     for (final removed in const [
-      'banking',
-      'bank-ready',
       'credit-readiness',
       'insurance',
       'insurer',
@@ -58,6 +58,7 @@ void main() {
       'loan',
       'diaspora',
       'stripe',
+      'momo',
       'collateral',
     ]) {
       expect(text, isNot(contains(removed)));
@@ -106,7 +107,7 @@ void main() {
     }
   });
 
-  testWidgets('privacy page covers SMS, OpenAI and deletion controls', (
+  testWidgets('privacy page covers bank evidence and deletion controls', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1200, 1700);
@@ -119,12 +120,13 @@ void main() {
     );
 
     expect(find.text('Privacy Policy and Data Deletion'), findsOneWidget);
-    expect(find.text('How receipt data is handled'), findsOneWidget);
+    expect(find.text('How bank evidence is handled'), findsOneWidget);
     expect(find.text('Account deletion request'), findsOneWidget);
     expect(find.text('Data deletion and correction request'), findsOneWidget);
     expect(find.textContaining('info@ikanisa.com'), findsWidgets);
     expect(find.textContaining('+250 795 588 248'), findsWidgets);
-    expect(find.textContaining('OpenAI API'), findsOneWidget);
+    expect(find.textContaining('Daily statements determine'), findsOneWidget);
+    expect(find.textContaining('OpenAI'), findsNothing);
   });
 
   testWidgets('public pages remain usable at 320 px and 200 percent text', (

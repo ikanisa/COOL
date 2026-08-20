@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../core/notifications/collect_notification_service.dart';
 import '../../core/security/sms_access_channel.dart';
+import '../../app/env/app_env.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -21,13 +21,11 @@ class AppPermissionsScreen extends ConsumerStatefulWidget {
 
 class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     with WidgetsBindingObserver {
-  final SmsAccessChannel _smsAccess = const SmsAccessChannel();
   bool _loading = true;
   bool _notificationsEnabled = false;
+  SmsAccessStatus _bankSmsStatus = const SmsAccessStatus.unavailable();
   permissions.PermissionStatus _cameraStatus =
       permissions.PermissionStatus.denied;
-  SmsAccessStatus _smsStatus = const SmsAccessStatus.unavailable();
-  String? _smsError;
 
   @override
   void initState() {
@@ -49,26 +47,48 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final repositoryState = ref.watch(collectRepositoryProvider);
-    final isAndroid =
-        !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    final receiverMode = ref.watch(appEnvProvider).enableAndroidSmsAccess;
     return ScreenScaffold(
       title: 'App permissions',
       subtitle: 'Control only the device access Collect needs.',
       compact: true,
       onRefresh: _refresh,
       children: [
-        const InfoSecurityBanner(
-          title: 'You stay in control',
-          message:
-              'Collect asks at the moment a feature needs access. You can deny, disable, or review every permission in phone settings.',
+        InfoSecurityBanner(
+          title: receiverMode
+              ? 'Controlled bank-evidence receiver'
+              : 'No payment or SMS permission',
+          message: receiverMode
+              ? 'This separately signed operations build can capture new beneficiary-bank notification SMS. Messages are candidate evidence only and never confirm a contribution without daily statement reconciliation.'
+              : 'Bank transfers are completed in your banking app. Collect does not request SMS, phone, contacts, card, or bank-account access from members.',
           tone: CollectStatusTone.privacy,
         ),
+        if (receiverMode)
+          _PermissionCard(
+            icon: CollectIcons.shield,
+            title: 'Bank notification SMS',
+            explanation:
+                'Capture only new incoming EUR bank-transfer notifications on this controlled operations device.',
+            status: _loading
+                ? 'Checking'
+                : _bankSmsStatus.enabled
+                ? 'Allowed'
+                : 'Not allowed',
+            tone: _bankSmsStatus.enabled
+                ? CollectStatusTone.success
+                : CollectStatusTone.warning,
+            actionLabel: _bankSmsStatus.enabled ? 'Phone settings' : 'Allow',
+            onAction: _loading
+                ? null
+                : _bankSmsStatus.enabled || _bankSmsStatus.permanentlyDenied
+                ? const SmsAccessChannel().openAppSettings
+                : _requestBankSms,
+          ),
         _PermissionCard(
           icon: CollectIcons.pending,
           title: 'Notifications',
           explanation:
-              'Payment reminders, contribution confirmations, group updates, and security notices.',
+              'Reconciliation confirmations, contribution reminders, group updates, and security notices.',
           status: _loading
               ? 'Checking'
               : _notificationsEnabled
@@ -81,14 +101,14 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
           onAction: _loading
               ? null
               : _notificationsEnabled
-              ? _openSystemSettings
+              ? permissions.openAppSettings
               : _requestNotifications,
         ),
         _PermissionCard(
           icon: CollectIcons.qr,
           title: 'Camera',
           explanation:
-              'Scan a group QR code. Collect does not need gallery or photo-library access for scanning.',
+              'Scan a group QR code. Collect does not need gallery access for scanning.',
           status: _loading
               ? 'Checking'
               : _cameraStatus.isGranted
@@ -104,68 +124,8 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
           onAction: _loading
               ? null
               : _cameraStatus.isGranted || _cameraStatus.isPermanentlyDenied
-              ? _openSystemSettings
+              ? permissions.openAppSettings
               : _requestCamera,
-        ),
-        if (isAndroid)
-          _PermissionCard(
-            icon: CollectIcons.sms,
-            title: 'MoMo SMS access',
-            explanation: _smsStatus.declared
-                ? 'Read only new MTN or Airtel mobile-money transaction messages after you opt in. Inbox history and unrelated SMS are not read.'
-                : 'This Android build does not include the restricted SMS receiver.',
-            status: _loading
-                ? 'Checking'
-                : !_smsStatus.supported
-                ? 'Unavailable'
-                : _smsStatus.enabled
-                ? 'Allowed and on'
-                : _smsStatus.permanentlyDenied
-                ? 'Blocked in settings'
-                : 'Off',
-            tone: _smsStatus.enabled
-                ? CollectStatusTone.success
-                : _smsStatus.supported
-                ? CollectStatusTone.warning
-                : CollectStatusTone.info,
-            actionLabel: _smsStatus.enabled
-                ? 'Turn off'
-                : _smsStatus.permanentlyDenied
-                ? 'Phone settings'
-                : 'Review and allow',
-            onAction: _loading || !_smsStatus.supported
-                ? null
-                : _smsStatus.enabled
-                ? _disableSms
-                : _smsStatus.permanentlyDenied
-                ? _openSmsSettings
-                : _reviewAndRequestSms,
-          ),
-        if (_smsStatus.queueOverflowed || repositoryState.smsQueueOverflowed)
-          const InfoSecurityBanner(
-            title: 'SMS queue needs attention',
-            message:
-                'The protected on-device queue reached capacity. Existing receipts were preserved; keep Collect open and contact support before relying on missing receipts.',
-            tone: CollectStatusTone.warning,
-          ),
-        if (repositoryState.smsSyncNeedsAttention)
-          const InfoSecurityBanner(
-            title: 'A receipt is waiting to sync',
-            message:
-                'The protected receipt remains queued and will retry automatically. Keep Collect online and open this screen again if the warning continues.',
-            tone: CollectStatusTone.warning,
-          ),
-        if (_smsError != null)
-          InfoSecurityBanner(
-            title: 'SMS access was not changed',
-            message: _smsError!,
-            tone: CollectStatusTone.warning,
-          ),
-        const InfoSecurityBanner(
-          title: 'Restricted SMS permission',
-          message:
-              'Android SMS access is optional and consent-gated. New MoMo messages are encrypted while queued, uploaded when Collect opens or resumes, and parsed through the server-side OpenAI API. One complete, high-confidence receipt posts automatically only when its transaction, amount, receiver, payer, and pending request match exactly. Incomplete or ambiguous receipts stay in review. Store distribution remains subject to Google Play approval.',
-          tone: CollectStatusTone.warning,
         ),
       ],
     );
@@ -173,17 +133,21 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   Future<void> _refresh() async {
     if (mounted) setState(() => _loading = true);
-    final notificationService = ref.read(collectNotificationServiceProvider);
+    final service = ref.read(collectNotificationServiceProvider);
+    final receiverMode = ref.read(appEnvProvider).enableAndroidSmsAccess;
     final results = await Future.wait<Object>([
-      notificationService.areNotificationsEnabled(),
+      service.areNotificationsEnabled(),
       permissions.Permission.camera.status,
-      _smsAccess.status(),
+      if (receiverMode)
+        ref.read(collectRepositoryProvider.notifier).refreshSmsAccessStatus(),
     ]);
     if (!mounted) return;
     setState(() {
       _notificationsEnabled = results[0] as bool;
       _cameraStatus = results[1] as permissions.PermissionStatus;
-      _smsStatus = results[2] as SmsAccessStatus;
+      _bankSmsStatus = receiverMode
+          ? results[2] as SmsAccessStatus
+          : const SmsAccessStatus.unavailable();
       _loading = false;
     });
   }
@@ -192,13 +156,8 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     final service = ref.read(collectNotificationServiceProvider);
     final granted = await service.requestPermission();
     if (granted) {
-      final repository = ref.read(collectRepositoryProvider.notifier);
-      unawaited(service.registerDevice(repository));
-      await service.showNotification(
-        title: 'Collect notifications enabled',
-        body: 'You can manage each notification category in phone settings.',
-        payload: '/settings/notifications',
-        eventType: 'security.permission_enabled',
+      unawaited(
+        service.registerDevice(ref.read(collectRepositoryProvider.notifier)),
       );
     }
     await _refresh();
@@ -209,66 +168,9 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     await _refresh();
   }
 
-  Future<void> _reviewAndRequestSms() async {
-    final accepted =
-        await showDialog<bool>(
-          context: context,
-          animationStyle: CollectMotion.animationStyle(context),
-          builder: (dialogContext) => AlertDialog(
-            icon: const Icon(CollectIcons.sms),
-            title: const Text('Allow MoMo SMS access?'),
-            content: const Text(
-              'Collect will capture only new MTN or Airtel mobile-money transaction messages after permission is granted. It does not read inbox history or unrelated SMS. Pending receipts are encrypted on this device and sent through Collect servers to the OpenAI API for structured parsing. They are deleted from the device queue only after durable ingestion and parsing. A complete, high-confidence receipt posts only after one exact match to the receiver, payer, amount, transaction, time window, and pending contribution request; incomplete or ambiguous receipts stay in review.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: const Text('Not now'),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.of(dialogContext).pop(true),
-                child: const Text('Continue'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-    if (!accepted || !mounted) return;
-    try {
-      await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
-      if (mounted) setState(() => _smsError = null);
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _smsError =
-              'Collect could not record an account-bound consent. SMS capture remains off.';
-        });
-      }
-    }
+  Future<void> _requestBankSms() async {
+    await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
     await _refresh();
-  }
-
-  Future<void> _disableSms() async {
-    try {
-      await ref.read(collectRepositoryProvider.notifier).setSmsAccess(false);
-      if (mounted) setState(() => _smsError = null);
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _smsError =
-              'Local SMS capture is off, but the server consent audit could not be updated. Try again when online.';
-        });
-      }
-    }
-    await _refresh();
-  }
-
-  Future<void> _openSmsSettings() async {
-    await _smsAccess.openAppSettings();
-  }
-
-  Future<void> _openSystemSettings() async {
-    await permissions.openAppSettings();
   }
 }
 
@@ -289,56 +191,37 @@ class _PermissionCard extends StatelessWidget {
   final String status;
   final CollectStatusTone tone;
   final String actionLabel;
-  final VoidCallback? onAction;
+  final FutureOr<void> Function()? onAction;
 
   @override
-  Widget build(BuildContext context) {
-    return CollectCard(
-      padding: CollectSpacing.cardPaddingComfortable,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CollectToneIcon(icon: icon, tone: tone),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: Theme.of(context).textTheme.titleMedium),
-                    CollectSpacing.gap8,
-                    Text(
-                      explanation,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: context.collectColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
+  Widget build(BuildContext context) => CollectCard(
+    emphasis: CollectCardEmphasis.normal,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon),
+            CollectSpacing.gapW12,
+            Expanded(
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-            ],
-          ),
-          CollectSpacing.gap16,
-          Wrap(
-            spacing: CollectSpacing.x2,
-            runSpacing: CollectSpacing.x2,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              CollectStatusChip(label: status, tone: tone, icon: icon),
-              CollectButton(
-                label: actionLabel,
-                icon: onAction == null
-                    ? CollectIcons.pending
-                    : CollectIcons.settings,
-                variant: CollectButtonVariant.secondary,
-                onPressed: onAction,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+            ),
+            Text(status, style: Theme.of(context).textTheme.labelMedium),
+          ],
+        ),
+        CollectSpacing.gap12,
+        Text(explanation),
+        CollectSpacing.gap16,
+        CollectButton(
+          label: actionLabel,
+          onPressed: onAction,
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
+      ],
+    ),
+  );
 }
