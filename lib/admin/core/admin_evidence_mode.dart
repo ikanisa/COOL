@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/security/phone_normalizer.dart';
 import 'admin_auth_guard.dart';
 import 'admin_repository_base.dart';
+import 'admin_review_credentials.dart';
 
-const adminPwaEvidenceMode = bool.fromEnvironment('ADMIN_PWA_EVIDENCE_MODE');
+export 'admin_review_credentials.dart';
 
 List<Override> adminEvidenceOverrides() {
   if (!adminPwaEvidenceMode) return const [];
@@ -57,7 +59,10 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     Map<String, dynamic> params,
   ) async {
     if (rpcName == 'admin_reveal_raw_bank_evidence') {
-      return {'message': 'Raw bank evidence hidden in route evidence.'};
+      return {
+        'sender': 'Bank evidence',
+        'body': 'Raw bank evidence hidden in route evidence.',
+      };
     }
     return {'status': 'queued'};
   }
@@ -298,7 +303,9 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   );
 
   @override
-  Future<void> sendOtp({required String phone}) async {}
+  Future<void> sendOtp({required String phone}) async {
+    _requireReviewPhone(phone);
+  }
 
   @override
   Future<void> signOut() async {}
@@ -307,7 +314,22 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   Future<AdminIdentity?> verifyOtp({
     required String phone,
     required String otp,
-  }) async => _evidenceAdmin;
+  }) async {
+    _requireReviewPhone(phone);
+    if (otp.trim() != adminEvidenceOtp) {
+      throw const FormatException('Developer OTP token is invalid.');
+    }
+    return _evidenceAdmin;
+  }
+}
+
+void _requireReviewPhone(String phone) {
+  final normalized = PhoneNormalizer.normalizeInternational(phone);
+  if (normalized != adminEvidenceWhatsAppPhone) {
+    throw const FormatException(
+      'Use the dedicated developer admin WhatsApp phone.',
+    );
+  }
 }
 
 int _rowCount(String rpcName) => switch (rpcName) {

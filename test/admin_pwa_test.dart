@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/admin_shell.dart';
+import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -133,5 +134,91 @@ void main() {
     expect(source, contains('/admin/reconciliation-exceptions'));
     expect(source, contains('/admin/bank-allocation-requests'));
     expect(source, isNot(contains('/admin/payment-events')));
+  });
+
+  test(
+    'evidence admin accepts only the dedicated local review credentials',
+    () async {
+      const repository = AdminEvidenceRepository();
+
+      await repository.sendOtp(phone: adminEvidenceWhatsAppPhone);
+      final identity = await repository.verifyOtp(
+        phone: adminEvidenceWhatsAppPhone,
+        otp: adminEvidenceOtp,
+      );
+
+      expect(identity?.phoneMasked, '+250***6816');
+      expect(
+        await repository.action('admin_reveal_raw_bank_evidence', const {}),
+        {
+          'sender': 'Bank evidence',
+          'body': 'Raw bank evidence hidden in route evidence.',
+        },
+      );
+      await expectLater(
+        repository.sendOtp(phone: '+250788000000'),
+        throwsFormatException,
+      );
+      await expectLater(
+        repository.verifyOtp(phone: adminEvidenceWhatsAppPhone, otp: '000000'),
+        throwsFormatException,
+      );
+    },
+  );
+
+  test(
+    'local Supabase review auth is isolated from production provisioning',
+    () {
+      final config = File('supabase/config.toml').readAsStringSync();
+      final seed = File('supabase/seed.sql').readAsStringSync();
+      final productionBoundary = File(
+        'supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql',
+      ).readAsStringSync();
+
+      expect(config, contains('[auth.sms.test_otp]'));
+      expect(config, contains('250788767816 = "123456"'));
+      expect(seed, contains('local_seed_review_admin_access'));
+      expect(seed, contains("where name = 'platform_owner'"));
+      expect(seed, contains('Local Admin PWA review account'));
+      expect(
+        productionBoundary,
+        contains('admin_bootstrap_whatsapp_operator is disabled'),
+      );
+      expect(productionBoundary, contains('to service_role'));
+    },
+  );
+
+  test('authenticated browser QA covers the current admin route matrix', () {
+    final browserQa = File(
+      'scripts/admin_pwa_browser_qa.mjs',
+    ).readAsStringSync();
+    final renderSmoke = File(
+      'scripts/admin_pwa_authenticated_render_smoke.sh',
+    ).readAsStringSync();
+
+    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 33);
+    for (final route in <String>[
+      '/admin/bank-destinations',
+      '/admin/bank-destination-requests',
+      '/admin/bank-intents',
+      '/admin/bank-transactions',
+      '/admin/bank-evidence',
+      '/admin/reconciliation',
+      '/admin/reconciliation-exceptions',
+      '/admin/bank-allocation-requests',
+      '/admin/bank-journal',
+    ]) {
+      expect(browserQa, contains("path: '$route'"), reason: route);
+    }
+    for (final retired in <String>[
+      '/admin/payment-intents',
+      '/admin/payment-events',
+      '/admin/sms',
+      '/admin/receivers',
+    ]) {
+      expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
+    }
+    expect(renderSmoke, contains('routeCount") == 33'));
+    expect(renderSmoke, contains('screenshotCount") == 99'));
   });
 }

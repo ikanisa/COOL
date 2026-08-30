@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-ruby <<'RUBY'
+ruby -E UTF-8:UTF-8 <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "dispatch-notifications" => :internal,

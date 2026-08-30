@@ -31,7 +31,6 @@ resolve_adb() {
 ADB="$(resolve_adb)"
 JAVA_HOME="${JAVA_HOME:-/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home}"
 ANDROID_DEVICE_ID="${ANDROID_UAT_DEVICE_ID:-13111JEC215558}"
-COLLECT_ADMIN_WHATSAPP_PHONE="${COLLECT_ADMIN_WHATSAPP_PHONE:-250795588248}"
 
 output_format="text"
 if [[ "${1:-}" == "--json" ]]; then
@@ -552,7 +551,7 @@ else
   run_capture "android_release_signing_preflight" "android_release_signing_preflight.json" "$ROOT_DIR/scripts/android_release_signing_preflight.sh" --json
   run_capture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json" "$ROOT_DIR/scripts/android_kotlin_plugin_compat_gate.sh" --json
   run_capture "release_worktree_review" "worktree_review.json" "$ROOT_DIR/scripts/release_worktree_review_gate.sh" --json
-  run_capture "admin_pwa_build" "admin_pwa_build.txt" env COLLECT_ADMIN_WHATSAPP_PHONE="$COLLECT_ADMIN_WHATSAPP_PHONE" "$ROOT_DIR/scripts/admin_pwa_release_build.sh"
+  run_capture "admin_pwa_build" "admin_pwa_build.txt" "$ROOT_DIR/scripts/admin_pwa_release_build.sh"
   run_capture "admin_pwa_manifest_gate" "admin_pwa_manifest_gate.txt" /bin/bash "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
   run_capture "admin_pwa_hosting_gate" "admin_pwa_hosting_gate.json" "$ROOT_DIR/scripts/admin_pwa_hosting_gate.sh" --json
   run_capture "admin_pwa_live_gate" "admin_pwa_live_gate.json" "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json

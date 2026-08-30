@@ -151,9 +151,9 @@ capture_route() {
 
 capture_route "admin-overview" "/admin" "$VIEWPORT_DESKTOP"
 capture_route "admin-groups-list" "/admin/groups" "$VIEWPORT_DESKTOP"
-capture_route "admin-payment-events" "/admin/payment-events" "$VIEWPORT_MOBILE"
-capture_route "admin-payment-intents" "/admin/payment-intents" "$VIEWPORT_DESKTOP"
-capture_route "admin-sms-detail" "/admin/sms/sms-1" "$VIEWPORT_DESKTOP"
+capture_route "admin-bank-evidence" "/admin/bank-evidence" "$VIEWPORT_MOBILE"
+capture_route "admin-bank-intents" "/admin/bank-intents" "$VIEWPORT_DESKTOP"
+capture_route "admin-bank-evidence-detail" "/admin/bank-evidence/bank-evidence-1" "$VIEWPORT_DESKTOP"
 capture_route "admin-system-health" "/admin/system-health" "$VIEWPORT_DESKTOP"
 
 browser_qa_dir="$EVIDENCE_DIR/browser-qa"
@@ -168,9 +168,9 @@ ruby -r json -r time -e '
   browser_report = JSON.parse(File.read(browser_report_path))
   abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
   abort("Admin browser QA was not a full release matrix") unless browser_report.fetch("releaseAdmissible") == true
-  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 28
+  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 33
   abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 3
-  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 84
+  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 99
   abort("Admin evidence-mode marker was not verified") unless browser_report.fetch("evidenceModeMarkerVerified") == true
   File.write(
     File.join(evidence_dir, "summary.json"),
@@ -190,7 +190,7 @@ ruby -r json -r time -e '
         "browser_qa_viewport_count" => browser_report.fetch("viewportCount"),
         "browser_qa_screenshot_count" => browser_report.fetch("screenshotCount"),
         "captures" => captures,
-        "privacy" => "Evidence-mode Admin PWA uses masked deterministic test data only; no production Supabase session, service-role key, raw SMS body, OTP, PIN, or real customer phone is present."
+        "privacy" => "Evidence-mode Admin PWA uses masked deterministic test data and fixed local review credentials only; no production Supabase session, service-role key, production OTP, PIN, or real customer phone is present."
       }
     ) + "\n"
   )

@@ -44,7 +44,7 @@ should_scan_file() {
 
 scan_file() {
   local path="$1"
-  perl -0777 -e '
+  LC_ALL=C perl -0777 -e '
     my $file = shift @ARGV;
     open my $fh, "<:raw", $file or exit 0;
     local $/;

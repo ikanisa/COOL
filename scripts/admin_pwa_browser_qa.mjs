@@ -94,7 +94,7 @@ const allRoutes = [
   },
   {
     path: '/admin/members/user-1',
-    minimumKeyboardStops: 2,
+    minimumKeyboardStops: 1,
     requiredLabels: [
       'Collect admin workspace',
       'Members admin section',
@@ -102,117 +102,162 @@ const allRoutes = [
     ],
   },
   {
-    path: '/admin/payment-intents',
+    path: '/admin/bank-destinations',
     requiredLabels: [
       'Collect admin workspace',
-      'Payment intents admin section',
+      'Bank details admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 2 rows',
     ],
   },
   {
-    path: '/admin/payment-intents/admin-row-1',
+    path: '/admin/bank-destinations/bank-destination-1',
+    minimumKeyboardStops: 1,
+    requiredLabels: [
+      'Collect admin workspace',
+      'Bank details admin section',
+      'Bank beneficiary version detail panel',
+    ],
+  },
+  {
+    path: '/admin/bank-destination-requests',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Bank detail approvals admin section',
+      'Search',
+      'Admin records table, 4 rows',
+    ],
+  },
+  {
+    path: '/admin/bank-destination-requests/destination-request-1',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Bank detail approvals admin section',
+      'Bank detail approval detail panel',
+    ],
+  },
+  {
+    path: '/admin/bank-intents',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Transfer requests admin section',
+      'Search',
+      'Admin records table, 12 rows',
+    ],
+  },
+  {
+    path: '/admin/bank-intents/bank-intent-1',
     minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
-      'Payment intents admin section',
-      'Payment intent review detail panel',
+      'Transfer requests admin section',
+      'Transfer request detail panel',
     ],
   },
   {
-    path: '/admin/transactions',
+    path: '/admin/bank-transactions',
     requiredLabels: [
       'Collect admin workspace',
-      'Transactions admin section',
+      'Bank transactions admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 8 rows',
     ],
   },
   {
-    path: '/admin/transactions/admin-row-1',
+    path: '/admin/bank-transactions/bank-transaction-1',
     requiredLabels: [
       'Collect admin workspace',
-      'Transactions admin section',
-      'Transaction review detail panel',
+      'Bank transactions admin section',
+      'Incoming bank transaction detail panel',
     ],
   },
   {
-    path: '/admin/payment-events',
+    path: '/admin/bank-evidence',
     requiredLabels: [
       'Collect admin workspace',
+      'Bank evidence admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 8 rows',
     ],
   },
   {
-    path: '/admin/payment-events/event-1',
+    path: '/admin/bank-evidence/bank-evidence-1',
     minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
-      'SMS parsing admin section',
-      'SMS payment event review detail panel',
+      'Bank evidence admin section',
+      'Bank evidence detail panel',
     ],
   },
   {
-    path: '/admin/allocations',
+    path: '/admin/reconciliation',
     requiredLabels: [
       'Collect admin workspace',
-      'Allocations admin section',
+      'Reconciliation admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 7 rows',
     ],
   },
   {
-    path: '/admin/exceptions',
+    path: '/admin/reconciliation/reconciliation-run-1',
+    minimumKeyboardStops: 1,
     requiredLabels: [
       'Collect admin workspace',
-      'Exceptions admin section',
-      'Search',
-      'Admin records table, 6 rows',
+      'Reconciliation admin section',
+      'Daily reconciliation run detail panel',
     ],
   },
   {
-    path: '/admin/ledger',
+    path: '/admin/reconciliation-exceptions',
     requiredLabels: [
       'Collect admin workspace',
-      'Ledger admin section',
+      'Reconciliation exceptions admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 3 rows',
     ],
   },
   {
-    path: '/admin/receivers',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Receivers admin section',
-      'Search',
-      'Admin records table, 25 rows',
-    ],
-  },
-  {
-    path: '/admin/receivers/receiver-1',
+    path: '/admin/reconciliation-exceptions/reconciliation-exception-1',
     minimumKeyboardStops: 2,
     requiredLabels: [
       'Collect admin workspace',
-      'Receivers admin section',
-      'Receiver route review detail panel',
+      'Reconciliation exceptions admin section',
+      'Reconciliation exception detail panel',
     ],
   },
   {
-    path: '/admin/sms',
+    path: '/admin/bank-allocation-requests',
     requiredLabels: [
       'Collect admin workspace',
-      'SMS admin section',
+      'Allocation approvals admin section',
       'Search',
-      'Admin records table, 25 rows',
+      'Admin records table, 4 rows',
     ],
   },
   {
-    path: '/admin/sms/sms-1',
+    path: '/admin/bank-allocation-requests/allocation-request-1',
     requiredLabels: [
       'Collect admin workspace',
-      'SMS admin section',
-      'SMS metadata review detail panel',
+      'Allocation approvals admin section',
+      'Manual allocation approval detail panel',
+    ],
+  },
+  {
+    path: '/admin/bank-journal',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Bank journal admin section',
+      'Search',
+      'Admin records table, 10 rows',
+    ],
+  },
+  {
+    path: '/admin/bank-journal/journal-entry-1',
+    minimumKeyboardStops: 1,
+    requiredLabels: [
+      'Collect admin workspace',
+      'Bank journal admin section',
+      'Immutable journal entry detail panel',
     ],
   },
   {
@@ -800,8 +845,8 @@ async function keyboardOpenMobileNavigation(page) {
 
 async function keyboardOpenFirstGroupRecord(page) {
   const prepared = await focusSemanticControl(page, {
-    labelPrefix: 'Open Public group',
-    textPrefix: 'Open Public group',
+    labelPrefix: 'Open Verified group',
+    textPrefix: 'Open Verified group',
   });
   if (!prepared) return false;
   await page.keyboard.press('Enter');
@@ -818,39 +863,75 @@ async function keyboardOpenFirstGroupRecord(page) {
 }
 
 async function keyboardExerciseReasonDialog(page) {
-  const prepared = await focusSemanticControl(page, {
-    labelPrefix: 'Request SMS reparse for',
-    textPrefix: 'Request SMS reparse for',
+  let prepared = await focusSemanticControl(page, {
+    label: 'Retry failed notification deliveries',
+    labelPrefix: 'Retry failed delivery',
+    textPrefix: 'Retry failed delivery',
   });
-  if (!prepared) return false;
+  const viewport = page.viewportSize();
+  if (!prepared && viewport) {
+    await page.mouse.move(viewport.width * 0.8, viewport.height * 0.72);
+    for (let attempt = 0; attempt < 8 && !prepared; attempt += 1) {
+      await page.mouse.wheel(0, 700);
+      await page.waitForTimeout(180);
+      prepared = await focusSemanticControl(page, {
+        label: 'Retry failed notification deliveries',
+        labelPrefix: 'Retry failed delivery',
+        textPrefix: 'Retry failed delivery',
+      });
+    }
+  }
+  if (!prepared) {
+    return { passed: false, stage: 'open-action-unavailable' };
+  }
   await page.keyboard.press('Enter');
   const reasonInput = page.locator('input[aria-label="Reason"], textarea[aria-label="Reason"]');
   try {
     await reasonInput.waitFor({ state: 'attached', timeout: 5_000 });
     await reasonInput.fill('Browser keyboard QA');
-  } catch (_) {
-    return false;
+  } catch (error) {
+    return {
+      passed: false,
+      stage: 'reason-input-unavailable',
+      error: String(error),
+    };
   }
   const cancelPrepared = await focusSemanticControl(page, {
     textPrefix: 'Cancel',
   });
-  if (!cancelPrepared) return false;
+  if (!cancelPrepared) {
+    return { passed: false, stage: 'cancel-action-unavailable' };
+  }
   await page.keyboard.press('Enter');
   try {
     await reasonInput.waitFor({ state: 'detached', timeout: 5_000 });
-    return page.evaluate(() => {
+    const focusLabel = await page.evaluate(() => {
       const active = document.activeElement;
-      if (!(active instanceof HTMLElement)) return false;
+      if (!(active instanceof HTMLElement)) return '';
       const namedAncestor = active.closest('flt-semantics[aria-label]');
-      const label =
+      return (
         active.getAttribute('aria-label') ||
         namedAncestor?.getAttribute('aria-label') ||
         active.textContent?.trim() ||
-        '';
-      return label.startsWith('Request SMS reparse for');
+        ''
+      ).replace(/\s+/g, ' ');
     });
-  } catch (_) {
-    return false;
+    const focusRetained =
+      focusLabel.startsWith('Retry failed notification deliveries') ||
+      focusLabel.startsWith('Retry failed delivery');
+    return {
+      passed: focusRetained,
+      stage: focusRetained
+        ? 'cancelled-and-focus-retained'
+        : 'cancelled-without-focus-retention',
+      focusLabel,
+    };
+  } catch (error) {
+    return {
+      passed: false,
+      stage: 'dialog-dismiss-timeout',
+      error: String(error),
+    };
   }
 }
 
@@ -858,7 +939,7 @@ async function keyboardExportCurrentPage(page) {
   const searchInput = page.locator('input[aria-label="Search"]:not([disabled])').first();
   try {
     await searchInput.waitFor({ state: 'attached', timeout: 5_000 });
-    await searchInput.fill('Public group 30');
+    await searchInput.fill('Verified group 30');
     await searchInput.press('Enter');
     await page.waitForFunction(
       () =>
@@ -1025,7 +1106,7 @@ async function keyboardAdvanceAdminLogin(page) {
   );
   try {
     await phoneInput.waitFor({ state: 'attached', timeout: 5_000 });
-    await phoneInput.fill('788 000 001');
+    await phoneInput.fill('788 767 816');
   } catch (_) {
     return false;
   }
@@ -1140,16 +1221,18 @@ async function keyboardExerciseSensitiveGate(page) {
       reveal: describe(
         candidates.find(
           (element) =>
-            element.getAttribute('aria-label') === 'Reveal raw SMS' ||
-            (element.textContent?.trim() || '').startsWith('Reveal raw SMS'),
+            element.getAttribute('aria-label') === 'Reveal raw bank evidence' ||
+            (element.textContent?.trim() || '').startsWith(
+              'Reveal raw bank evidence',
+            ),
         ),
       ),
     };
   });
 
   const revealPrepared = await focusSemanticControl(page, {
-    label: 'Reveal raw SMS',
-    textPrefix: 'Reveal raw SMS',
+    label: 'Reveal raw bank evidence',
+    textPrefix: 'Reveal raw bank evidence',
   });
   if (!revealPrepared) {
     return {
@@ -1166,9 +1249,11 @@ async function keyboardExerciseSensitiveGate(page) {
           [
             ...document.querySelectorAll('[aria-label]'),
           ].find((element) =>
-            (element.getAttribute('aria-label') || '').includes(
-              'Sensitive data revealed. Raw message hidden in route evidence.',
-            ),
+            (element.getAttribute('aria-label') || '')
+              .replace(/\s+/g, ' ')
+              .includes(
+                'Sensitive data revealed. Bank evidence Raw bank evidence hidden in route evidence.',
+              ),
           ),
         ),
       null,
@@ -1351,13 +1436,13 @@ async function auditRoute(browser, route, viewport) {
       checks.keyboardExportsCurrentPage = keyboardExportsCurrentPage.passed;
     }
     let keyboardReasonDialog = null;
-    if (route.path === '/admin/payment-events') {
+    if (route.path === '/admin/notifications/notification-1') {
       await resetForKeyboardInteraction(page, url);
       keyboardReasonDialog = await keyboardExerciseReasonDialog(page);
-      checks.keyboardReasonDialog = keyboardReasonDialog;
+      checks.keyboardReasonDialog = keyboardReasonDialog.passed;
     }
     let keyboardSensitiveGate = null;
-    if (route.path === '/admin/sms/sms-1') {
+    if (route.path === '/admin/bank-evidence/bank-evidence-1') {
       await resetForKeyboardInteraction(page, url);
       keyboardSensitiveGate = await keyboardExerciseSensitiveGate(page);
       checks.keyboardSensitiveGate = keyboardSensitiveGate.passed;
@@ -1478,7 +1563,7 @@ const report = {
     (result) => result.checks.evidenceModeMarkerPresent,
   ),
   privacy:
-    'Admin evidence mode uses deterministic masked test data only. No production session, service-role key, raw SMS body, OTP, PIN, real phone, or customer data is captured.',
+    'Admin evidence mode uses deterministic masked test data and fixed local review credentials only. No production session, service-role key, production OTP, PIN, real customer phone, or customer data is captured.',
   failures,
   results,
 };

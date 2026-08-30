@@ -14,7 +14,7 @@ case "${1:-}" in
     ;;
 esac
 
-ROOT_DIR="$ROOT_DIR" OUTPUT_FORMAT="$output_format" ruby -r digest -r json -r open3 -r time <<'RUBY'
+ROOT_DIR="$ROOT_DIR" OUTPUT_FORMAT="$output_format" ruby -E UTF-8:UTF-8 -r digest -r json -r open3 -r time <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 

@@ -27,6 +27,7 @@ import '../shared/components/admin_status_chip.dart';
 import 'admin_auth_guard.dart';
 import 'admin_error_boundary.dart';
 import 'admin_repository_base.dart';
+import 'admin_review_credentials.dart';
 
 part 'admin_login_runtime.dart';
 part 'admin_overview_runtime.dart';

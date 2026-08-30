@@ -119,6 +119,33 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 height: CollectTypography.leadingBody,
                               ),
                             ),
+                            if (adminPwaEvidenceMode) ...[
+                              const SizedBox(height: 16),
+                              Container(
+                                padding: const EdgeInsets.all(14),
+                                decoration: BoxDecoration(
+                                  color: colors.infoContainer,
+                                  borderRadius: BorderRadius.circular(
+                                    CollectRadius.md,
+                                  ),
+                                  border: Border.all(
+                                    color: colors.infoForeground.withValues(
+                                      alpha: 0.24,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Local review credentials\n'
+                                  '$adminEvidenceWhatsAppPhone • OTP $adminEvidenceOtp',
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    color: colors.textPrimary,
+                                    fontWeight:
+                                        CollectTypography.weightSemibold,
+                                    height: CollectTypography.leadingBody,
+                                  ),
+                                ),
+                              ),
+                            ],
                             const SizedBox(height: 28),
                             Text(
                               'WhatsApp phone',
@@ -245,6 +272,12 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
 
   String _adminLoginErrorMessage(Object error) {
     final message = error.toString().toLowerCase();
+    if (adminPwaEvidenceMode && message.contains('dedicated developer')) {
+      return 'Use the local review number $adminEvidenceWhatsAppPhone.';
+    }
+    if (adminPwaEvidenceMode && message.contains('developer otp')) {
+      return 'Use the local review OTP $adminEvidenceOtp.';
+    }
     if (message.contains('status code returned from hook') ||
         message.contains('authretryablefetchexception') ||
         message.contains('error sending confirmation') ||

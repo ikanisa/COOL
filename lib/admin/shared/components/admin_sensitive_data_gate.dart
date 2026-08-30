@@ -45,7 +45,7 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Reveal only for support, compliance, or audit work. The reason is written to the audit trail.',
+              'Reveal bank evidence only for support, compliance, or audit work. The reason is written to the audit trail.',
             ),
             const SizedBox(height: 12),
             Text(
@@ -78,7 +78,7 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
                   ? null
                   : () => _reveal(_selectedReason!),
               icon: const Icon(Icons.visibility),
-              label: const Text('Reveal raw SMS'),
+              label: const Text('Reveal raw bank evidence'),
             ),
             if (_error != null) ...[
               const SizedBox(height: 12),
