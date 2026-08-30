@@ -1,1 +1,1 @@
-savings groups,contributions,ledger,MoMo,credit readiness,Rwanda,IKANISA,finance
+savings groups,contributions,ledger,bank transfer,SEPA,credit readiness,Rwanda,finance

@@ -49,14 +49,12 @@ void main() {
         router.routeInformationProvider.value.uri.path,
         '/groups/col-church/contribute',
       );
-      expect(find.text('Review contribution'), findsWidgets);
-      await tester.enterText(find.byType(TextField).first, '12345');
+      expect(find.text('Review transfer'), findsWidgets);
+      await tester.enterText(find.byType(TextField).first, '12.34');
       await tester.pump();
-      await tester.tap(
-        find.widgetWithText(FilledButton, 'Review contribution'),
-      );
+      await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
       await _pumpFrames(tester);
-      expect(find.textContaining('12,345'), findsOneWidget);
+      expect(find.textContaining('EUR 12.34'), findsOneWidget);
       expect(find.text('Edit amount'), findsWidgets);
 
       _mark('ready-for-background');
@@ -72,9 +70,9 @@ void main() {
         router.routeInformationProvider.value.uri.path,
         '/groups/col-church/contribute',
       );
-      expect(find.textContaining('12,345'), findsOneWidget);
+      expect(find.textContaining('EUR 12.34'), findsOneWidget);
       expect(find.text('Edit amount'), findsWidgets);
-      expect(find.text('Contribute with MoMo'), findsOneWidget);
+      expect(find.text('Open Revolut'), findsOneWidget);
       expect(tester.takeException(), isNull);
       _mark('contribution-review-preserved');
       _mark('pass');

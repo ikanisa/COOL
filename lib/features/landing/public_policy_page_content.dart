@@ -11,9 +11,11 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Information Collect uses',
         body:
-            'Collect stores account identifiers, group membership, payment requests, contribution records, notification preferences and audit evidence.',
+            'Collect stores account identifiers, profile details, group membership, bank-transfer requests, contribution records, notification preferences and audit evidence.',
         bullets: [
           'WhatsApp sign-in phone and six-digit Collect ID',
+          'Display name, user-confirmed country and country-derived local currency',
+          'Revolut name when required in its supported European region',
           'Approved beneficiary version and member transfer references',
           'Controlled bank SMS, email and statement evidence',
         ],
@@ -103,7 +105,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Using Collect',
         body:
-            'Use accurate group and transfer information. Do not impersonate others, create misleading groups or submit false payment claims.',
+            'Use accurate group and transfer information. Do not impersonate others, create misleading groups or submit false transfer claims.',
         bullets: [
           'Group owners manage membership; Collect governs the bank beneficiary',
           'Members approve bank transfers outside Collect',

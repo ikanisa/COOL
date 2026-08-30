@@ -17,17 +17,20 @@ class _CollectLiveReader {
 
   Future<CollectProfile> ensureLiveProfile(
     String userId,
-    String normalizedPhone,
-  ) async {
-    final existing = await fetchProfile(userId);
-    if (existing != null) return existing;
+    String normalizedPhone, {
+    String? countryCode,
+  }) async {
     final supabase = _supabase;
-    if (supabase == null || supabase.auth.currentUser == null) {
+    final currentUser = supabase?.auth.currentUser;
+    if (supabase == null || currentUser == null || currentUser.id != userId) {
       throw StateError('Sign in first');
     }
     final row = await supabase.rpc<dynamic>(
       'ensure_current_profile',
-      params: {'p_whatsapp_phone': normalizedPhone},
+      params: {
+        'p_whatsapp_phone': normalizedPhone,
+        'p_country_code': countryCode,
+      },
     );
     if (row == null) {
       throw StateError('Collect profile could not be created');

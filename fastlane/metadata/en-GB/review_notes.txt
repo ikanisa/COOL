@@ -1,0 +1,5 @@
+Use the dedicated least-privilege review account supplied in Sign-In Information. Open Sign in, enter the review phone number, request the WhatsApp code, and enter the supplied review OTP. Authentication uses the same production server flow as every user; no reviewer credential or bypass is embedded in the app.
+
+Use synthetic review data only. Collect has no in-app payment integration and never initiates or signs a transfer. On the contribution screen, the app shows an approved beneficiary, amount, and unique reference, then opens Revolut at its root. The reviewer selects the beneficiary and authorizes any transfer entirely in the banking app. Do not send real funds during review. Bank SMS and email are candidate evidence only; the ledger changes only after independently imported daily statement evidence reconciles the transfer.
+
+Account deletion is available from Settings. The iOS app does not request SMS inbox access.

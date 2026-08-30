@@ -245,7 +245,7 @@ RUBY
 check_pending_migrations() {
   if [[ "${SUPABASE_READY_REQUIRE_POOLER_COMMANDS:-0}" == "1" || "${SUPABASE_DB_QUERY_MODE:-linked}" == "direct" ]]; then
     local dry_run
-    dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" supabase_cli db push --dry-run)"
+    dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" supabase_cli db push --dry-run --skip-vault)"
     printf '%s\n' "$dry_run"
     if [[ "$dry_run" == *"Would push these migrations:"* ]]; then
       fail "Pending remote migrations detected"
@@ -285,6 +285,9 @@ check_app_contract_columns() {
         ('native_action_capabilities', 'request_payload'),
         ('payments', 'posted_at'),
         ('collections', 'bank_transfer_currency'),
+        ('profiles', 'country_code'),
+        ('profiles', 'currency_code'),
+        ('profiles', 'revolut_name'),
         ('bank_transfer_destinations', 'iban'),
         ('bank_transfer_intents', 'transfer_reference'),
         ('raw_payment_evidence', 'body_hash'),
@@ -377,6 +380,7 @@ check_sql_privileges() {
         ('anon', 'payment_entrypoints', 'SELECT'),
         ('anon', 'policy_document_sections', 'SELECT'),
         ('anon', 'policy_documents', 'SELECT'),
+        ('anon', 'profile_country_rules', 'SELECT'),
         ('anon', 'public_contributions_view', 'SELECT'),
         ('anon', 'public_profiles_view', 'SELECT'),
         ('anon', 'support_channels', 'SELECT'),
@@ -462,6 +466,7 @@ check_sql_privileges() {
         ('authenticated', 'policy_documents', 'INSERT'),
         ('authenticated', 'policy_documents', 'SELECT'),
         ('authenticated', 'policy_documents', 'UPDATE'),
+        ('authenticated', 'profile_country_rules', 'SELECT'),
         ('authenticated', 'public_contributions_view', 'SELECT'),
         ('authenticated', 'public_profiles_view', 'SELECT'),
         ('authenticated', 'support_channels', 'DELETE'),
@@ -569,6 +574,7 @@ check_sql_privileges() {
         ('authenticated', 'rotate_group_share_code', 'EXECUTE'),
         ('authenticated', 'transfer_group_ownership', 'EXECUTE'),
         ('authenticated', 'unregister_notification_device', 'EXECUTE'),
+        ('authenticated', 'update_current_profile', 'EXECUTE'),
         ('authenticated', 'update_collection_profile_and_receiver', 'EXECUTE'),
         ('authenticated', 'update_collection_receiver', 'EXECUTE'),
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),

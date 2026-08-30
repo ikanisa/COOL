@@ -8,7 +8,10 @@ require "tempfile"
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
 COLLECT_IOS_APPLE_ID = "6783960331"
 COLLECT_IOS_TEAM_ID = "63STJ5N27W"
-COLLECT_IOS_VERSION = "1.2.2"
+COLLECT_PACKAGE_VERSION = File.read(File.expand_path("../pubspec.yaml", __dir__))[/^version:\s*([^\s]+)/, 1]
+UI.user_error!("pubspec.yaml version is missing") if COLLECT_PACKAGE_VERSION.to_s.empty?
+COLLECT_IOS_VERSION, COLLECT_IOS_BUILD_NUMBER = COLLECT_PACKAGE_VERSION.split("+", 2)
+UI.user_error!("pubspec.yaml version must include a build number") if COLLECT_IOS_BUILD_NUMBER.to_s.empty?
 COLLECT_PRODUCTION_SUPABASE_URL = "https://lhbowpbcpwoiparwnwgt.supabase.co"
 
 def collect_required_env(name)
@@ -140,6 +143,8 @@ platform :ios do
     review_otp = collect_review_otp
     prepare_app_store_assets
 
+    review_notes = File.read("metadata/en-GB/review_notes.txt").strip
+
     deliver(
       api_key: api_key,
       app_identifier: COLLECT_IOS_APP_IDENTIFIER,
@@ -153,7 +158,7 @@ platform :ios do
       submit_for_review: false,
       run_precheck_before_submit: false,
       overwrite_screenshots: true,
-      automatic_release: false,
+      automatic_release: true,
       force: true,
       app_review_information: {
         first_name: "IKANISA",
@@ -162,8 +167,33 @@ platform :ios do
         email_address: "info@ikanisa.com",
         demo_user: review_phone,
         demo_password: review_otp,
-        notes: "Use the dedicated least-privilege review account. Open Sign in, enter the provided review phone number, request the WhatsApp code, and enter the provided review OTP. The submitted binary uses the same server-authenticated flow as the public app; no reviewer credential is embedded in the app."
+        notes: review_notes
       }
+    )
+  end
+
+  desc "Replace App Store screenshots with the already-reviewed repository assets"
+  lane :upload_existing_app_store_screenshots do
+    api_key = collect_app_store_connect_api_key
+    iphone_sources = Dir["screenshots/en-GB/iphone65-*.png"].sort
+    ipad_sources = Dir["screenshots/en-GB/ipadPro129-*.png"].sort
+    UI.user_error!("Expected exactly 5 reviewed iPhone screenshots.") unless iphone_sources.length == 5
+    UI.user_error!("Expected exactly 5 reviewed iPad screenshots.") unless ipad_sources.length == 5
+
+    deliver(
+      api_key: api_key,
+      app_identifier: COLLECT_IOS_APP_IDENTIFIER,
+      app: COLLECT_IOS_APPLE_ID,
+      app_version: COLLECT_IOS_VERSION,
+      screenshots_path: "screenshots",
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: false,
+      submit_for_review: false,
+      run_precheck_before_submit: false,
+      overwrite_screenshots: true,
+      automatic_release: true,
+      force: true
     )
   end
 
@@ -203,12 +233,14 @@ platform :ios do
     api_key = collect_app_store_connect_api_key
     ipa_path = Dir[File.expand_path("../build/ios/ipa/**/*.ipa", __dir__)].max_by { |path| File.mtime(path) }
     UI.user_error!("No IPA found under build/ios/ipa. Run fastlane ios build_review_ipa first.") if ipa_path.to_s.empty?
+    release_notes = File.read("metadata/en-GB/release_notes.txt").strip
 
     pilot(
       api_key: api_key,
       app_identifier: COLLECT_IOS_APP_IDENTIFIER,
       app_platform: "ios",
       ipa: ipa_path,
+      changelog: release_notes,
       skip_waiting_for_build_processing: false,
       distribute_external: false
     )

@@ -34,7 +34,6 @@ void main() {
       );
       final online = _ControlledNetworkRepository(offlineCache: cache);
       await online.signInWithOtp(phone: '+250788123456', otp: '123456');
-      await online.updateProfile(momoNumber: '+250788123456');
       final intent = await online.createPaymentIntent(
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 21000),
       );

@@ -19,7 +19,7 @@ Future<void> showSmsAccessSheet(
     icon: CollectIcons.sms,
     title: 'SMS access',
     message:
-        'Collect uses Android SMS access only for new mobile-money transaction messages after you opt in. It does not read inbox history or unrelated SMS.',
+        'This separately signed operations build uses Android SMS access only for new beneficiary-bank notifications after you opt in. It does not read inbox history or unrelated SMS.',
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
@@ -71,7 +71,7 @@ Future<void> showNotificationSettingsSheet(
     icon: CollectIcons.pending,
     title: 'Notifications',
     message:
-        'Notifications keep payment reminders, group updates, and security notices visible when the app is closed.',
+        'Notifications keep contribution reminders, group updates, and security notices visible when the app is closed.',
     tone: CollectStatusTone.info,
     primaryLabel: 'Enable',
     primaryIcon: CollectIcons.pending,
@@ -133,7 +133,8 @@ Future<bool> requestNativeNotifications(WidgetRef ref) async {
   unawaited(service.registerDevice(repository));
   await service.showNotification(
     title: 'Collect notifications enabled',
-    body: 'Payment reminders, group updates, and security notices are enabled.',
+    body:
+        'Contribution reminders, group updates, and security notices are enabled.',
     payload: '/home',
   );
   return true;

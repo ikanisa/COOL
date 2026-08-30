@@ -7,7 +7,8 @@ import '../models/collect_models.dart';
 class CollectOfflineCache {
   const CollectOfflineCache({this.preferencesKey = _defaultKey});
 
-  static const _defaultKey = 'collect.offline_snapshot.v1';
+  static const _defaultKey = 'collect.offline_snapshot.v2';
+  static const _legacyPaymentCacheKey = 'collect.offline_snapshot.v1';
   static const _retiredNonProductionCollectionIds = <String>{
     '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001',
     '8db1f114-4f2b-4a6a-aec9-a0e33a1f1002',
@@ -22,6 +23,9 @@ class CollectOfflineCache {
 
   Future<CollectOfflineSnapshot?> read() async {
     final preferences = await SharedPreferences.getInstance();
+    if (preferencesKey == _defaultKey) {
+      await preferences.remove(_legacyPaymentCacheKey);
+    }
     final raw = preferences.getString(preferencesKey);
     if (raw == null || raw.trim().isEmpty) return null;
     try {
@@ -45,12 +49,18 @@ class CollectOfflineCache {
 
   Future<void> save(CollectOfflineSnapshot snapshot) async {
     final preferences = await SharedPreferences.getInstance();
+    if (preferencesKey == _defaultKey) {
+      await preferences.remove(_legacyPaymentCacheKey);
+    }
     await preferences.setString(preferencesKey, jsonEncode(snapshot.toJson()));
   }
 
   Future<void> clear() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(preferencesKey);
+    if (preferencesKey == _defaultKey) {
+      await preferences.remove(_legacyPaymentCacheKey);
+    }
   }
 }
 
@@ -134,7 +144,7 @@ class CollectOfflineSnapshot {
 
   Map<String, dynamic> toJson() {
     return {
-      'version': 1,
+      'version': 2,
       'saved_at': savedAt.toUtc().toIso8601String(),
       'current_profile': currentProfile == null
           ? null
@@ -180,8 +190,10 @@ Map<String, dynamic> _profileToJson(CollectProfile profile) {
     'id': profile.id,
     'public_id': profile.publicId,
     'whatsapp_phone': profile.whatsappPhone,
-    'momo_number': profile.momoNumber,
-    'momo_pay_code': profile.momoPayCode,
+    'display_name': profile.displayName,
+    'country_code': profile.countryCode,
+    'currency_code': profile.currencyCode,
+    'revolut_name': profile.revolutName,
   };
 }
 
@@ -195,7 +207,6 @@ Map<String, dynamic> _collectionToJson(CollectCollection collection) {
     'collection_type': collection.collectionType.storageValue,
     'category_subtype': collection.categorySubtype,
     'purpose_label': collection.purposeLabel,
-    'receiver_momo_number': collection.receiverMomoNumber,
     'receiver_display_label': collection.receiverDisplayLabel,
     'image_url': collection.imageUrl,
     'accent_color_hex': collection.accentColorHex,
@@ -216,14 +227,32 @@ Map<String, dynamic> _paymentIntentToJson(PaymentIntentModel intent) {
   return {
     'id': intent.id,
     'collection_id': intent.collectionId,
-    'expected_amount_rwf': intent.expectedAmountRwf,
-    'receiver_momo_number': intent.receiverMomoNumber,
-    'receiver_label': intent.receiverLabel,
-    'network': intent.network,
-    'sender_phone_hash': intent.senderPhoneHash,
+    'amount_minor': intent.expectedAmountMinor,
+    'currency': intent.currency,
+    'transfer_reference': intent.transferReference,
+    'destination_snapshot': _bankDestinationToJson(intent.destination),
     'status': intent.status,
     'created_at': intent.createdAt.toUtc().toIso8601String(),
     'expires_at': intent.expiresAt.toUtc().toIso8601String(),
+  };
+}
+
+Map<String, dynamic> _bankDestinationToJson(
+  BankTransferDestination destination,
+) {
+  return {
+    'id': destination.id,
+    'beneficiary_name': destination.beneficiaryName,
+    'iban': destination.iban,
+    'iban_masked': destination.ibanMasked,
+    'bic': destination.bic,
+    'bank_name': destination.bankName,
+    'currency': destination.currency,
+    'transfer_scheme': destination.transferScheme,
+    'supports_instant': destination.supportsInstant,
+    'status': destination.status,
+    'is_placeholder': destination.isPlaceholder,
+    'enabled': destination.enabled,
   };
 }
 

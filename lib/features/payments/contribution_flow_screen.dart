@@ -23,6 +23,9 @@ class ContributionFlowScreen extends ConsumerStatefulWidget {
 
 class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
+  static const _invalidAmountMessage =
+      'Enter a valid amount above EUR 0.00.';
+
   final _amount = TextEditingController();
   BankTransferDestination? _destination;
   PaymentIntentModel? _intent;
@@ -170,10 +173,11 @@ class _ContributionFlowScreenState
                       RegExp(r'^\d{0,9}([.,]\d{0,2})?'),
                     ),
                   ],
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     prefixText: 'EUR ',
                     hintText: '0.00',
                     helperText: 'Enter euros and cents.',
+                    errorText: _error == _invalidAmountMessage ? _error : null,
                   ),
                   onSubmitted: (_) => _prepareTransfer(),
                 ),
@@ -197,7 +201,7 @@ class _ContributionFlowScreenState
               tone: CollectStatusTone.info,
             ),
         ],
-        if (_error != null)
+        if (_error != null && _error != _invalidAmountMessage)
           InfoSecurityBanner(
             title: 'Transfer could not continue',
             message: _error!,
@@ -231,7 +235,7 @@ class _ContributionFlowScreenState
   Future<void> _prepareTransfer() async {
     final amountMinor = parseEuroMinor(_amount.text);
     if (amountMinor == null || amountMinor <= 0) {
-      setState(() => _error = 'Enter a valid amount above EUR 0.00.');
+      setState(() => _error = _invalidAmountMessage);
       return;
     }
     FocusManager.instance.primaryFocus?.unfocus();

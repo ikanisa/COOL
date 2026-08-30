@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/env/app_env.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/supabase/auth_otp_gateway.dart';
+import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import 'widgets/auth_screen_widgets.dart';
@@ -48,6 +49,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     } on FormatException {
       return null;
     }
+  }
+
+  String get _profileCountryCode {
+    final raw = _phone.text.trim();
+    if (raw.startsWith('+') || raw.startsWith('00')) {
+      return CollectProfileCountryRules.inferCountryCodeFromPhone(
+        _phoneForAuth,
+        fallback: _selectedCountry.countryCode,
+      );
+    }
+    return _selectedCountry.countryCode;
   }
 
   bool get _captchaReady {
@@ -189,7 +201,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       if (!mounted) return;
       await ref
           .read(collectRepositoryProvider.notifier)
-          .signInWithOtp(phone: phone, otp: _otp.text);
+          .signInWithOtp(
+            phone: phone,
+            otp: _otp.text,
+            countryCode: _profileCountryCode,
+          );
       if (!mounted) return;
       context.go('/home');
     } catch (error) {

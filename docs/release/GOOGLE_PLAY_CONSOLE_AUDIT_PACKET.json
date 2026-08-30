@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-08-15T05:42:23Z",
+  "generated_at": "2026-08-20T21:45:00Z",
   "package_name": "app.cool.mobile",
   "target_release": {
-    "version_name": "1.2.2",
-    "version_code": 20,
+    "version_name": "1.2.3",
+    "version_code": 22,
     "track": "production",
-    "release_name": "Collect 1.2.2 (20)",
+    "release_name": "Collect 1.2.3 (22)",
     "release_notes": {
-      "en-US": "Adds governed EUR bank-transfer requests, exact Collect references, statement reconciliation, reliable ledgers, and contribution notifications."
+      "en-US": "Uses the approved Collect icon on Google Play and one black native Android Collect splash, then opens the app directly without a Flutter splash."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "4202a07f970886c0f8c8eff13f6d89aaa5cdae77c23b4681df7f37cf6a1b4c36",
-    "play_console_state": "version_20_in_google_review_automated_checks_complete",
+    "aab_sha256": null,
+    "play_console_state": "version_21_live_version_22_icon_and_single_splash_hotfix_prepared",
     "rollout_percentage": 100,
-    "review_submitted_at": "2026-08-15T05:42:23Z",
+    "review_submitted_at": null,
     "device_catalog_delta": {
       "phones_removed": 0,
       "tablets_removed": 0,
@@ -29,11 +29,32 @@
       "superseded_version_code": 3
     }
   },
+  "live_audit_2026_08_20": {
+    "dashboard_app_name": "Cool",
+    "package_name": "app.cool.mobile",
+    "rejection": {
+      "date": "2026-08-18",
+      "issue": "Permissions and APIs that Access Sensitive Information policy: Issue with test credentials",
+      "remediation": "The dedicated reviewer phone and fixed OTP were verified against production Auth on 2026-08-20, then the Play Sign in details entry was replaced with current phone-plus-WhatsApp-OTP navigation instructions. Secret values are excluded from this packet."
+    },
+    "obsolete_unsent_changes": [
+      "Production rollout for Collect 1.2.2 (20)",
+      "Phone screenshots",
+      "7-inch tablet screenshots",
+      "10-inch tablet screenshots"
+    ],
+    "restricted_permission_artifacts": [
+      "Production version code 20",
+      "Internal testing version code 12"
+    ],
+    "required_resolution": "Do not submit version 20. Upload the no-restricted-SMS version 21 artifact, supersede every active restricted-permission artifact, refresh all screenshots, then read back the production and app-content state before review submission.",
+    "managed_publishing": false
+  },
   "store_listing": {
     "default_language": "en-US",
     "app_name": "Collect",
     "short_description": "Group savings, contribution records, and credit-readiness support.",
-    "full_description": "Collect helps savings groups organize members, track EUR bank-transfer contributions, review reconciled group activity, and prepare credit-readiness records. Members can copy the approved beneficiary, IBAN, exact Collect reference, and amount before opening Revolut or another bank app. Collect does not initiate, authorize, or custody a transfer and the public Android app does not request SMS or Call Log access. A contribution becomes confirmed only after governed bank-statement reconciliation. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.",
+    "full_description": "Collect helps savings groups organize members, record contributions, review reconciled group activity, and prepare credit-readiness records.\n\nMembers can view the approved beneficiary, IBAN, BIC, exact Collect reference, and amount before opening Revolut or another banking app. Collect does not initiate, authorize, process, or custody a bank transfer. The user selects the beneficiary and authorizes the transfer entirely in their banking app.\n\nIncoming bank notification SMS and email are treated only as candidate evidence. A contribution becomes confirmed, changes a balance, and posts to the group ledger only after governed bank-statement reconciliation. The public Google Play app does not request SMS or Call Log permissions.\n\nCollect keeps account support and deletion controls accessible in the app and is operated by IKANISA for group savings, support, and credit-readiness workflows.",
     "category": "FINANCE",
     "tags_to_confirm_in_console": [
       "Savings",
@@ -48,8 +69,10 @@
     "assets": {
       "launcher_icon": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
       "launcher_icon_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265",
-      "brand_icon_source": "assets/brand/collect_runtime/app_icons/app-icon-rule.png",
-      "brand_icon_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+      "brand_icon_source": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "brand_icon_sha256": "25fabc042f4e2b90ba385388542cfbea764b34e0e8cbeaa18dda12045f277738",
+      "play_store_icon": "fastlane/metadata/android/en-US/images/icon.png",
+      "play_store_icon_sha256": "211362791b75bb0e3959d9671532e4736c4dcb545dcc77699ad1d88c6cae9206",
       "feature_graphic": {
         "status": "approved_official_asset",
         "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",
@@ -63,51 +86,65 @@
         "minimum_required": 2,
         "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
         "exported_count": 6,
-        "source": "native_product_capture_only",
-        "capture_evidence": ".cache/android_device_uat/20260805-legacy-eradication-accepted-emulator",
-        "capture_target": "Android 16 API 36 emulator, app.cool.mobile.dev fixture-only final legacy-eradication source",
-        "dimensions": "1080x2340",
-        "sanitization": "Reviewed Home, Auth, Groups, Group detail, Ledger, and contribution-review captures; no production customer, payment, SMS, OTP, credential, or private receiver data. Native 1080x2340 pixels are retained without altering app content.",
+        "source": "physical_pixel_4a_native_product_capture",
+        "capture_evidence": ".cache/android_device_uat/google-play-20260821-store-release-1.2.2-21-bank-transfer/phone-1080x1920",
+        "capture_target": "Physical Pixel 4a on Android 13, 1080x1920 display profile at physical density 440, fixture-only bank-transfer source",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "alpha": false,
+        "route_matrix": "37/37 routes passed with 37 native screenshots; manifest aa89b43a6d7b347e406fc5683a1b4ae1acd5de3e51338aea76e733d9cb83e4cf",
+        "sanitization": "Reviewed Home, Groups, Group detail, Bank transfer details, Ledger, and Share captures. Fixtures contain no production customer, credential, OTP, private member phone, live bank account, raw SMS, email, or reconciliation evidence. All frames are bank-transfer-only and were padded with black pixels to 1080x1920 before JPEG export without altering app content.",
         "sha256": {
-          "01-home.png": "20cac9f5b44837441f7e0f12d6aef750e2fcdedb712146c1f9f9d17f18be658d",
-          "02-auth.png": "00e8e04d8659c622fd792661d6deed38a098f69c390eecb8522ddee40e668ab2",
-          "03-groups.png": "ad0cad7af9d733bceb3ea50f0c4979990b1304e0104fbc99c5ce46fadc6e0f05",
-          "04-group-detail.png": "129e31ad30fc3d7334b422b6c4bfbb21eea4f124fbfdcaf4edf8d88a14b7348c",
-          "05-ledger.png": "21ebd6c90d6c3c9c5fa4be3fa2b251fd40b5db63b45ae7a9f73298f0bd62372b",
-          "06-contribution-review.png": "b0dbdadc770f6b886ae39dc90337607286e78d8f1223dcf25f2372da887f37fe"
+          "01-home.jpg": "9c65e19fef7a2fdf9309ec58315d19c6ee4bc5f944963eb7aa37f72b61f3d30e",
+          "02-groups.jpg": "5ef0b25fb95becb056473ad87ea049cda99da6fd67c21422e6cf5562ad19a5e3",
+          "03-group-detail.jpg": "b784fc613cd111098e6a030c53d0e1f90df6d6d3af11b881fe677b488c41bea2",
+          "04-bank-transfer.jpg": "6041c8611925d0a809762bb08bc096c5780fe50d8056684f15eb680311593f8d",
+          "05-ledger.jpg": "4d3c0a9037c9d26cc402da429f2fe9b1e142804f3d4611511d2e3e0ae7623686",
+          "06-share.jpg": "aafc34111c8ddbfb31f2ce6889172e0dfff3f25c1ccd4cfb99b405e09ddff796"
         }
       },
       "seven_inch_screenshots": {
         "status": "current_product_capture",
-        "minimum_required": 1,
+        "minimum_required": 4,
         "path": "fastlane/metadata/android/en-US/images/sevenInchScreenshots",
-        "exported_count": 5,
-        "source": "native_product_capture_only",
-        "capture_evidence": ".cache/google_play_store_screenshots/20260805-legacy-eradication-accepted/seven-inch",
-        "dimensions": "600x960",
+        "exported_count": 6,
+        "source": "physical_pixel_4a_adaptive_native_product_capture",
+        "capture_evidence": ".cache/android_device_uat/google-play-20260821-store-release-1.2.2-21-bank-transfer/seven-inch-1080x1920",
+        "capture_target": "Physical Pixel 4a on Android 13, 1080x1920 display profile at density 280 (about 617 logical pixels wide), fixture-only bank-transfer source",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "alpha": false,
+        "route_matrix": "37/37 routes passed with 37 native screenshots; manifest 52ffc1c4d5129106db96392ccc4e10b3a60af6f8fd017c8be93aebd42c84b503",
+        "sanitization": "Same six reviewed fixture-only product surfaces as the phone set; no live customer, bank, messaging, credential, or reconciliation data. Black-only padding and JPEG export did not alter app content.",
         "sha256": {
-          "01-home.png": "f89de3ec8b75d33176814721567004ae8bc4f62f2d2d5f07ec3705dd379725c1",
-          "02-groups.png": "0f840012115bffcbf6bc607487dd5e52fa069ae09f8498a166f3c01d7e3ccc49",
-          "03-group-detail.png": "ad8cbebec863b4a2c3f9f48784d6971ab75d91b3b8e36d0a7530c0cd0f3a4240",
-          "04-ledger.png": "6a8498baea8ab45b5475f701197dea16a864f6fe5c4f84e262bd78b90ef977cd",
-          "05-share.png": "f279461d044398d7bf3ee6af321b7116ee08fbe1a640fd0fafe49e5f3389f867"
+          "01-home.jpg": "09e1fc9532642702d3cfebdf324c7581cfb88f6ca1e4898b9ebb3304a2a9429e",
+          "02-groups.jpg": "2a0fd7c9221b942bd7ecac93e31a3ab4b42093b3e416222a3699bfbc2abbdcc6",
+          "03-group-detail.jpg": "94661642a74777ebfe93627b87edc6267a41aedb1f2a3b8dc149de6ca4e0aa5c",
+          "04-bank-transfer.jpg": "867575ccd677bc0e6f386c503d90960c864acb2deb43049744513de07a69f7ba",
+          "05-ledger.jpg": "b033a2a1d446507f60db6404ba8befb9064d223c3dbf15b382f6cf266343110e",
+          "06-share.jpg": "747be7f53bf2b4df5e049f7f487008c2e6ebd9eb35cbb7b757fd6e051d85288c"
         }
       },
       "ten_inch_screenshots": {
         "status": "current_product_capture",
-        "minimum_required": 1,
+        "minimum_required": 4,
         "path": "fastlane/metadata/android/en-US/images/tenInchScreenshots",
-        "exported_count": 5,
-        "source": "native_product_capture_only",
-        "capture_evidence": ".cache/google_play_store_screenshots/20260805-legacy-eradication-accepted/ten-inch",
-        "store_upload_transform": "Aspect-preserving 1080x1440 export used for the 2026-08-09 Google Play upload because Play rejected the 1024-pixel short side.",
-        "dimensions": "1080x1440",
+        "exported_count": 6,
+        "source": "physical_pixel_4a_adaptive_native_product_capture",
+        "capture_evidence": ".cache/android_device_uat/google-play-20260821-store-release-1.2.2-21-bank-transfer/ten-inch-1080x1920",
+        "capture_target": "Physical Pixel 4a on Android 13, 1080x1920 display profile at density 160 (1080 logical pixels wide), fixture-only bank-transfer source",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "alpha": false,
+        "route_matrix": "37/37 routes passed with 37 native screenshots; manifest 57f4b0832e8cc6eda7bd7e870d7fc9b75c7a28daec768a82e6b8d62272f4da99",
+        "sanitization": "Same six reviewed fixture-only product surfaces as the phone and seven-inch sets; no live customer, bank, messaging, credential, or reconciliation data. Black-only padding and JPEG export did not alter app content.",
         "sha256": {
-          "01-home.png": "c3d8f7dc822348aabf08df9218e5583a57b432f7bdc0fa9e40cfa48bef8d8cc7",
-          "02-groups.png": "bea9ce21311876b3d4a3da29efedbeb7f180f72b23afa32bddcf449f5ea101a7",
-          "03-group-detail.png": "be63c6d97271ac5d33e0826070da23cb2f66d6454df905f0cd16925118a7bca1",
-          "04-ledger.png": "5a6a5e0340a569ffa60655b99d0343c2d1ddb2183fdfb160d5d52c3b75d0bb58",
-          "05-share.png": "c64078f46dc75b42b4f9d62a5a58959135721aba654cc7894ca1704ac42020dd"
+          "01-home.jpg": "326893afe42eaae842d362781ee16b110ef4f2314cc959dd244e100ba29836bf",
+          "02-groups.jpg": "7cfbe1b0210cace06a266ab98d3317ec6ae99c4d7b72fbba13d8b2b0db24ef77",
+          "03-group-detail.jpg": "2e328a386931402e3bf0d01f849f154d9b21a529706dce7ab91e99cbd034c409",
+          "04-bank-transfer.jpg": "b375ddf7219eb173ad2918bd878773044bed9984a6ed53b550296f521ca84727",
+          "05-ledger.jpg": "b18f850c96d2fd5091d6d9b3e0b80f07af175fb10e7619760f17172a4bc4308c",
+          "06-share.jpg": "10f2174ae2d428e3e6044dd1c25cb85728baafbf024725eb75f752793e4e0a2d"
         }
       }
     },
@@ -142,8 +179,9 @@
     "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
     "app_access": {
       "reviewer_access_required": true,
-      "status": "verified_and_submitted_in_play_console_2026_08_15",
-      "notes": "Play Sign in details declares restricted access and contains bare reviewer credentials plus WhatsApp OTP navigation instructions. The credentials were verified against live production auth; secret values are not retained in this packet or test evidence."
+      "status": "production_verified_and_console_corrected_2026_08_20_pending_review_submission",
+      "account_creation_method": "Phone number plus WhatsApp one-time password (username and other authentication in Play terminology).",
+      "notes": "Play Sign in details declares restricted access and contains the dedicated reviewer phone, fixed OTP, and exact WhatsApp OTP navigation instructions. The credentials were verified against live production Auth on 2026-08-20; secret values are not retained in this packet or test evidence."
     },
     "data_safety": {
       "collected_data_categories": [
@@ -165,7 +203,7 @@
           "category": "Financial info",
           "examples": [
             "group contribution records",
-            "payment references",
+            "bank-transfer intent references",
             "credit-readiness records"
           ],
           "purpose": [
@@ -200,7 +238,7 @@
       ],
       "sharing": {
         "status": "confirm_in_console",
-        "expected_answer": "Only share data with service providers or partners required to operate savings, support, payment verification, credit-readiness, fraud prevention, legal, audit, or customer-requested workflows."
+        "expected_answer": "Only share data with service providers or partners required to operate savings, support, bank reconciliation, credit-readiness, fraud prevention, legal, audit, or customer-requested workflows."
       },
       "security_practices": {
         "data_encrypted_in_transit": "confirm_in_console",
@@ -212,7 +250,7 @@
       "ads": "No ads dependency found; confirm no ads in Play Console.",
       "target_audience": "Adults and general savings-group users; confirm children are not the target audience.",
       "content_rating": "Complete questionnaire as finance/productivity style app; record certificate after submission.",
-      "financial_features": "Group savings, contribution records, support, credit-readiness records; no Play Billing dependency found.",
+      "financial_features": "Group savings and reconciled contribution records; Collect does not initiate, authorize, process, or custody bank transfers and has no Play Billing dependency.",
       "health": "Not a health app.",
       "news": "Not a news app.",
       "government": "Not a government app."
@@ -227,7 +265,7 @@
       ],
       "restricted_sms_permissions_in_production": false,
       "sms_permissions_declaration_status": "not_required_no_restricted_sms_permissions",
-      "sms_receiver_scope": "The public production artifact requests no RECEIVE_SMS, READ_SMS, SEND_SMS, BROADCAST_SMS, or Call Log permission. Controlled bank-notification capture is isolated to a non-public internal receiver flavor."
+      "sms_receiver_scope": "The version-21 public production artifact requests no RECEIVE_SMS, READ_SMS, SEND_SMS, BROADCAST_SMS, or Call Log permission. The obsolete production version 20 and internal version 12 must be superseded before the no-restricted-SMS declaration becomes true in the live Console. Controlled bank-notification capture remains isolated from the public Play artifact."
     }
   },
   "play_console_surfaces": {
@@ -282,6 +320,6 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "bank_transfer_cutover_requires_new_artifact_and_console_readback",
+  "console_completion_status": "version_21_build_qa_upload_console_correction_and_final_review_submission_pending",
   "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
 }

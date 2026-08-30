@@ -1,0 +1,1 @@
+Adds the bank-transfer-only contribution journey, approved beneficiary details, unique transfer references, Revolut handoff, reconciled contribution status, reliable group ledgers, notification preferences, and account deletion controls.

@@ -45,7 +45,7 @@ void main() {
         timeout: const Duration(seconds: 30),
       );
 
-      expect(find.text('MoMo SMS access'), findsOneWidget);
+      expect(find.text('Bank notification SMS'), findsOneWidget);
       final reviewButton = find.widgetWithText(
         OutlinedButton,
         'Review and allow',
@@ -59,10 +59,13 @@ void main() {
       await tester.tap(reviewButton);
       await _pumpUntil(
         tester,
-        () => find.text('Allow MoMo SMS access?').evaluate().isNotEmpty,
+        () => find
+            .text('Allow bank notification SMS access?')
+            .evaluate()
+            .isNotEmpty,
         timeout: const Duration(seconds: 10),
       );
-      expect(find.text('Allow MoMo SMS access?'), findsOneWidget);
+      expect(find.text('Allow bank notification SMS access?'), findsOneWidget);
       expect(
         find.textContaining('does not read inbox history'),
         findsOneWidget,

@@ -83,6 +83,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           : [
               _ProfileIdentityHeader(
                 publicId: profile?.publicId ?? 'Collect',
+                isComplete: profile?.isComplete ?? false,
                 onTap: () => context.go('/settings/profile'),
               ),
               _SettingsCluster(children: settingsEntries),
@@ -93,9 +94,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 }
 
 class _ProfileIdentityHeader extends StatelessWidget {
-  const _ProfileIdentityHeader({required this.publicId, required this.onTap});
+  const _ProfileIdentityHeader({
+    required this.publicId,
+    required this.isComplete,
+    required this.onTap,
+  });
 
   final String publicId;
+  final bool isComplete;
   final VoidCallback onTap;
 
   @override
@@ -143,7 +149,7 @@ class _ProfileIdentityHeader extends StatelessWidget {
               ),
               CollectSpacing.gap8,
               Text(
-                'Collect profile',
+                isComplete ? 'Collect profile' : 'Complete your profile',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: muted,
                   fontWeight: CollectTypography.weightMedium,

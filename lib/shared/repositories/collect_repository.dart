@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../core/security/hash_utils.dart';
-import '../../core/security/momo_receiver_normalizer.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
@@ -160,15 +158,27 @@ class CollectRepository extends StateNotifier<CollectState> {
   Future<CollectProfile> signInWithOtp({
     required String phone,
     required String otp,
+    String? countryCode,
   }) async {
     if (otp.trim().length < 4) {
       throw const FormatException('Enter the WhatsApp OTP code');
     }
     final normalized = PhoneNormalizer.normalizeInternational(phone);
+    final requestedCountry = CollectProfileCountryRules.normalizeCountryCode(
+      countryCode,
+    );
+    final initialCountry =
+        CollectProfileCountryRules.isSupportedCountry(requestedCountry)
+        ? requestedCountry
+        : CollectProfileCountryRules.inferCountryCodeFromPhone(normalized);
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase != null && user != null) {
-      final profile = await _liveReader.ensureLiveProfile(user.id, normalized);
+      final profile = await _liveReader.ensureLiveProfile(
+        user.id,
+        normalized,
+        countryCode: initialCountry,
+      );
       state = state.copyWith(currentProfile: profile);
       unawaited(loadInitial());
       return profile;
@@ -180,58 +190,28 @@ class CollectRepository extends StateNotifier<CollectState> {
     final existingIds = state.currentProfile == null
         ? <String>{}
         : {state.currentProfile!.publicId};
-    final profile =
-        state.currentProfile ??
-        CollectProfile(
-          id: _uuid.v4(),
-          publicId: _publicIds.generate(existingIds),
-          whatsappPhone: normalized,
-          momoNumber: PhoneNormalizer.tryNormalizeMtnMomoLocal(normalized),
-        );
+    final existingProfile = state.currentProfile;
+    final profile = existingProfile == null
+        ? CollectProfile(
+            id: _uuid.v4(),
+            publicId: _publicIds.generate(existingIds),
+            whatsappPhone: normalized,
+            countryCode: initialCountry,
+            currencyCode: CollectProfileCountryRules.currencyForCountry(
+              initialCountry,
+            ),
+          )
+        : existingProfile.countryCode.trim().isEmpty
+        ? existingProfile.copyWith(
+            countryCode: initialCountry,
+            currencyCode: CollectProfileCountryRules.currencyForCountry(
+              initialCountry,
+            ),
+          )
+        : existingProfile;
     state = state.copyWith(currentProfile: profile);
+    unawaited(_offlineCache.save(_offlineSnapshotFromState()));
     return profile;
-  }
-
-  Future<void> updateProfile({String? momoNumber, String? momoPayCode}) async {
-    final profile = _requireProfile();
-    final normalizedMomo = momoNumber == null
-        ? profile.momoNumber
-        : momoNumber.trim().isEmpty
-        ? null
-        : PhoneNormalizer.normalizeMtnMomoLocal(momoNumber);
-    final normalizedMomoPayCode = momoPayCode == null
-        ? profile.momoPayCode
-        : momoPayCode.trim().isEmpty
-        ? null
-        : _normalizeMomoPayCode(momoPayCode);
-    final supabase = _supabase;
-
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase
-          .from('profiles')
-          .update({
-            'momo_number': normalizedMomo,
-            'momo_number_hash': normalizedMomo == null
-                ? null
-                : HashUtils.phoneHash(normalizedMomo),
-            'momo_pay_code': normalizedMomoPayCode,
-          })
-          .eq('id', profile.id);
-      state = state.copyWith(
-        currentProfile: await _liveReader.fetchProfile(profile.id),
-      );
-      return;
-    }
-    if (!_allowLocalWrites) {
-      throw StateError('Sign in before updating your profile.');
-    }
-
-    state = state.copyWith(
-      currentProfile: profile.copyWith(
-        momoNumber: normalizedMomo,
-        momoPayCode: normalizedMomoPayCode,
-      ),
-    );
   }
 
   Future<void> signOut() async {
@@ -289,6 +269,67 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
     }
     state = state.copyWith(currentProfile: profile);
+  }
+
+  Future<CollectProfile> updateCurrentProfile({
+    required String displayName,
+    required String countryCode,
+    String? revolutName,
+  }) async {
+    final current = _requireProfile();
+    final cleanDisplayName = displayName.trim();
+    if (cleanDisplayName.length < 2 || cleanDisplayName.length > 80) {
+      throw const FormatException('Enter a name between 2 and 80 characters.');
+    }
+    final cleanCountry = CollectProfileCountryRules.normalizeCountryCode(
+      countryCode,
+    );
+    if (!CollectProfileCountryRules.isSupportedCountry(cleanCountry)) {
+      throw const FormatException('Choose a supported profile country.');
+    }
+    final isEuropean = CollectProfileCountryRules.isEuropeanCountry(
+      cleanCountry,
+    );
+    final cleanRevolutName = revolutName?.trim() ?? '';
+    if (isEuropean &&
+        (cleanRevolutName.length < 2 || cleanRevolutName.length > 100)) {
+      throw const FormatException(
+        'Enter the Revolut name shown on your supported European account.',
+      );
+    }
+
+    final supabase = _supabase;
+    late final CollectProfile updated;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      final row = await supabase.rpc<dynamic>(
+        'update_current_profile',
+        params: {
+          'p_display_name': cleanDisplayName,
+          'p_country_code': cleanCountry,
+          'p_revolut_name': isEuropean ? cleanRevolutName : null,
+        },
+      );
+      if (row is! Map) {
+        throw StateError('Collect profile could not be updated.');
+      }
+      updated = CollectProfile.fromJson(Map<String, dynamic>.from(row));
+    } else {
+      if (!_allowLocalWrites) {
+        throw StateError('Connect to Collect before updating your profile.');
+      }
+      updated = current.copyWith(
+        displayName: cleanDisplayName,
+        countryCode: cleanCountry,
+        currencyCode: CollectProfileCountryRules.currencyForCountry(
+          cleanCountry,
+        ),
+        revolutName: isEuropean ? cleanRevolutName : '',
+      );
+    }
+
+    state = state.copyWith(currentProfile: updated);
+    await _offlineCache.save(_offlineSnapshotFromState());
+    return updated;
   }
 
   Future<void> updateNotificationPreferences(
@@ -478,7 +519,6 @@ class CollectRepository extends StateNotifier<CollectState> {
       purposeLabel: purposeLabel?.trim().isEmpty == true
           ? null
           : purposeLabel?.trim(),
-      receiverMomoNumber: null,
       receiverDisplayLabel: normalizedLabel,
       accentColorHex: accentColorHex,
       imageUrl: imageUrl,
@@ -546,7 +586,6 @@ class CollectRepository extends StateNotifier<CollectState> {
     collections[index] = collections[index].copyWith(
       title: cleanTitle,
       description: description.trim(),
-      receiverMomoNumber: null,
       receiverDisplayLabel: cleanReceiverLabel,
       collectionType: collectionType,
       categorySubtype: categorySubtype?.trim().isEmpty == true
@@ -930,7 +969,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
     if (supabase == null || supabase.auth.currentUser == null) {
       if (!_allowLocalWrites) {
-        throw StateError('Sign in before refreshing payment status.');
+        throw StateError('Sign in before refreshing transfer status.');
       }
       return intentById(id);
     }
@@ -1090,7 +1129,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {
-    final collection = collectionById(collectionId);
+    collectionById(collectionId);
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       final row = await supabase.rpc<dynamic>(
@@ -1099,10 +1138,14 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       return OwnerGroupHealth.fromJson(Map<String, dynamic>.from(row as Map));
     }
+    final destination = await getBankTransferDestination();
     return OwnerGroupHealth(
       collectionId: collectionId,
       smsAccessEnabled: state.smsAccessEnabled,
-      receiverConfigured: collection.receiverMomoNumber?.isNotEmpty == true,
+      receiverConfigured:
+          destination.enabled &&
+          !destination.isPlaceholder &&
+          destination.iban.trim().isNotEmpty,
       pendingPaymentIntents: state.paymentIntents
           .where(
             (item) =>

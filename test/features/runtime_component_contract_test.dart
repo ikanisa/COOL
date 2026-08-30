@@ -306,6 +306,11 @@ void main() {
     }
     expect(launch, contains('SizedBox.expand'));
     expect(launch, contains('CollectRuntimeAssets.officialLogo'));
+    expect(launch, contains("Text(\n                        'Collect'"));
+    expect(launch, contains('LinearProgressIndicator'));
+    expect(launch, contains('backgroundColor: CollectColors.brandPaper'));
+    expect(launch, contains('color: CollectColors.brandPaper'));
+    expect(launch, contains('CollectColors.referenceChromeBlack'));
     expect(libSources, contains('Image.asset'));
     expect(libSources, isNot(contains('AssetImage')));
     expect(libSources, isNot(contains('SvgPicture')));
@@ -563,7 +568,7 @@ void main() {
     );
   });
 
-  test('native Android launch and launcher use the official Collect mark', () {
+  test('Android launch visually continues the iOS Collect splash', () {
     final manifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
@@ -656,7 +661,7 @@ void main() {
         text,
         contains(
           '<item name="android:windowSplashScreenAnimatedIcon">'
-          '@drawable/collect_launcher_icon</item>',
+          '@drawable/transparent</item>',
         ),
         reason: path,
       );
@@ -705,13 +710,12 @@ void main() {
       final text = File(path).readAsStringSync();
       expect(text, contains('@color/collect_launch_background'), reason: path);
       expect(text, isNot(contains('@color/collect_paper')), reason: path);
-      expect(text, contains('<bitmap'), reason: path);
+      expect(text, isNot(contains('<bitmap')), reason: path);
       expect(
         text,
-        isNot(contains('@drawable/collect_splash_logo')),
+        isNot(contains('@drawable/collect_launcher_icon')),
         reason: path,
       );
-      expect(text, contains('@drawable/collect_launcher_icon'), reason: path);
     }
 
     for (final path in <String>[
@@ -719,8 +723,38 @@ void main() {
       'android/app/src/main/res/values-night-v31/styles.xml',
     ]) {
       final text = File(path).readAsStringSync();
-      expect(text, contains('@drawable/collect_launcher_icon'), reason: path);
+      expect(text, contains('@drawable/transparent'), reason: path);
+      expect(
+        text,
+        isNot(contains('@drawable/collect_launcher_icon')),
+        reason: path,
+      );
     }
+
+    final colors = File(
+      'android/app/src/main/res/values/colors.xml',
+    ).readAsStringSync();
+    expect(
+      colors,
+      contains('<color name="collect_launch_background">#FAF8F5</color>'),
+    );
+
+    final playStoreIcon = File(
+      'fastlane/metadata/android/en-US/images/icon.png',
+    );
+    final iosAppIcon = File(
+      'ios/Runner/Assets.xcassets/AppIcon.appiconset/'
+      'Icon-App-1024x1024@1x.png',
+    );
+    expect(playStoreIcon.existsSync(), isTrue);
+    expect(
+      sha256.convert(playStoreIcon.readAsBytesSync()).toString(),
+      '211362791b75bb0e3959d9671532e4736c4dcb545dcc77699ad1d88c6cae9206',
+    );
+    expect(
+      sha256.convert(iosAppIcon.readAsBytesSync()).toString(),
+      '25fabc042f4e2b90ba385388542cfbea764b34e0e8cbeaa18dda12045f277738',
+    );
   });
 
   testWidgets('brand mark renders the official Collect image asset', (

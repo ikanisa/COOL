@@ -4,8 +4,8 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
+import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
-import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -191,34 +191,39 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
       return;
     case 'contribution-entry-valid':
     case 'contribution-review':
-    case 'contribution-review-existing':
+    case 'contribution-invalid-amount':
+      await _pumpUntilVisible(tester, _amountTextField());
       final amountController = tester
-          .widget<TextField>(_amountTextField())
+          .widget<TextField>(_amountTextField().first)
           .controller;
       expect(amountController, isNotNull);
-      final amountText = spec.name == 'contribution-review-existing'
-          ? '15,000'
-          : '12,345';
+      final amountText = spec.name == 'contribution-invalid-amount'
+          ? '0.00'
+          : '12.34';
       amountController!.value = TextEditingValue(
         text: amountText,
         selection: TextSelection.collapsed(offset: amountText.length),
       );
       await _pumpFrames(tester, count: 3);
       if (spec.name != 'contribution-entry-valid') {
-        final reviewButton = tester.widget<FilledButton>(
-          find.widgetWithText(FilledButton, 'Review contribution'),
-        );
-        expect(reviewButton.onPressed, isNotNull);
-        reviewButton.onPressed!.call();
-        await _pumpFrames(tester, count: 5);
-        if (spec.name == 'contribution-review-existing') {
-          await tester.scrollUntilVisible(
-            find.text('Contribution already pending'),
-            240,
-            scrollable: find.byType(Scrollable).first,
+        if (spec.name == 'contribution-invalid-amount') {
+          final amountField = tester.widget<TextField>(
+            _amountTextField().first,
           );
-          await _pumpFrames(tester, count: 3);
+          expect(amountField.controller?.text, amountText);
+          expect(amountField.onSubmitted, isNotNull);
+          amountField.onSubmitted!.call(amountText);
+          await _pumpFrames(tester, count: 5);
+          return;
         }
+        final reviewButton = find.widgetWithText(
+          FilledButton,
+          'Review transfer',
+        );
+        expect(reviewButton, findsOneWidget);
+        await tester.ensureVisible(reviewButton);
+        await tester.tap(reviewButton);
+        await _pumpFrames(tester, count: 5);
       }
       return;
     case 'account-delete-enabled':
@@ -235,7 +240,7 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
 }
 
 Finder _amountTextField() => find.descendant(
-  of: find.byType(AmountEntryPanel),
+  of: find.byType(ContributionFlowScreen),
   matching: find.byType(TextField),
 );
 
@@ -243,6 +248,18 @@ Future<void> _pumpFrames(WidgetTester tester, {int count = 14}) async {
   for (var index = 0; index < count; index += 1) {
     await tester.pump(const Duration(milliseconds: 100));
   }
+}
+
+Future<void> _pumpUntilVisible(
+  WidgetTester tester,
+  Finder finder, {
+  int maxFrames = 30,
+}) async {
+  for (var index = 0; index < maxFrames; index += 1) {
+    if (finder.evaluate().isNotEmpty) return;
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+  expect(finder, findsWidgets);
 }
 
 const _uatVariantName = String.fromEnvironment(
@@ -330,23 +347,23 @@ const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'contribution-entry-empty',
     '/groups/col-church/contribute',
-    'Review contribution',
+    'Review transfer',
   ),
   _StateSpec(
     'contribution-entry-valid',
     '/groups/col-church/contribute',
-    'Review contribution',
-    expectedFieldValue: '12,345',
+    'Review transfer',
+    expectedFieldValue: '12.34',
   ),
   _StateSpec(
     'contribution-review',
     '/groups/col-church/contribute',
-    'Contribute with MoMo',
+    'Open Revolut',
   ),
   _StateSpec(
-    'contribution-review-existing',
+    'contribution-invalid-amount',
     '/groups/col-church/contribute',
-    'Contribution already pending',
+    'Enter a valid amount above EUR 0.00.',
   ),
   _StateSpec(
     'account-delete-disabled',

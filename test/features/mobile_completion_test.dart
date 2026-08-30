@@ -896,7 +896,7 @@ void main() {
 
       expect(find.text('Create group'), findsWidgets);
       expect(find.text('Profile setup'), findsNothing);
-      expect(repository.state.currentProfile?.momoNumber, isNull);
+      expect(repository.state.currentProfile?.whatsappPhone, '+250720000001');
 
       await tester.enterText(
         textFieldWithLabel('Group name'),
@@ -1048,9 +1048,74 @@ void main() {
     await tester.pump();
 
     expect(find.text('Profile'), findsWidgets);
+    await tester.scrollUntilVisible(
+      find.text('Payment details are centrally governed'),
+      240,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pump();
     expect(find.text('Payment details are centrally governed'), findsOneWidget);
     expect(find.text('Number'), findsNothing);
   });
+
+  testWidgets(
+    'profile country updates currency without changing verified WhatsApp',
+    (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      final repository = CollectRepository.fixture();
+      final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
+      await pumpRoute(
+        tester,
+        '/settings/profile',
+        repository: repository,
+        legalConsentAccepted: true,
+      );
+
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('profile_country_picker')),
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
+      expect(find.text('Verified WhatsApp'), findsOneWidget);
+      expect(find.textContaining(verifiedWhatsApp), findsOneWidget);
+      expect(find.textContaining('RWF · Updated'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('profile_revolut_name_input')),
+        findsNothing,
+      );
+
+      await tester.tap(find.byKey(const ValueKey('profile_country_picker')));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byKey(const ValueKey('auth_country_search_input')),
+        'United Kingdom',
+      );
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('auth_country_row_GB_44')));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('GBP · Updated'), findsOneWidget);
+      final revolutField = find.descendant(
+        of: find.byKey(const ValueKey('profile_revolut_name_input')),
+        matching: find.byType(TextField),
+      );
+      expect(revolutField, findsOneWidget);
+      await tester.enterText(revolutField, 'Jean Bosco');
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('profile_save_button')));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump(const Duration(milliseconds: 300));
+
+      final updated = repository.state.currentProfile!;
+      expect(updated.whatsappPhone, verifiedWhatsApp);
+      expect(updated.countryCode, 'GB');
+      expect(updated.currencyCode, 'GBP');
+      expect(updated.revolutName, 'Jean Bosco');
+      expect(find.text('Profile saved.'), findsOneWidget);
+    },
+  );
 
   testWidgets('home groups and activity sections support large text', (
     tester,

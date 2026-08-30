@@ -10,8 +10,13 @@ if [[ ! -x "$FLUTTER_BIN" ]]; then
   exit 2
 fi
 readonly FLUTTER_BIN
-BUILD_NAME="${COLLECT_ANDROID_BUILD_NAME:-1.2.2}"
-BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-21}"
+PACKAGE_VERSION="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)"
+[[ "$PACKAGE_VERSION" == *+* ]] || {
+  printf 'pubspec.yaml version must include a build number.\n' >&2
+  exit 2
+}
+BUILD_NAME="${COLLECT_ANDROID_BUILD_NAME:-${PACKAGE_VERSION%%+*}}"
+BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-${PACKAGE_VERSION##*+}}"
 readonly EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"
 SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
 SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"

@@ -104,8 +104,6 @@ final profileReadinessProvider = Provider<ProfileReadiness>((ref) {
   );
   return ProfileReadiness(
     hasProfile: profile != null,
-    hasMomoNumber: profile?.momoNumber?.trim().isNotEmpty == true,
-    hasAuthenticatedMomoPayer: profile?.authenticatedMomoPayerPhone != null,
     collectId: profile?.publicId,
   );
 });
@@ -196,21 +194,13 @@ final groupMembersProvider = FutureProvider.family<List<CollectMember>, String>(
 final shareConfirmationProvider = StateProvider<String?>((ref) => null);
 
 class ProfileReadiness {
-  const ProfileReadiness({
-    required this.hasProfile,
-    required this.hasMomoNumber,
-    required this.hasAuthenticatedMomoPayer,
-    required this.collectId,
-  });
+  const ProfileReadiness({required this.hasProfile, required this.collectId});
 
   final bool hasProfile;
-  final bool hasMomoNumber;
-  final bool hasAuthenticatedMomoPayer;
   final String? collectId;
 
-  bool get readyForContribution =>
-      hasProfile && hasMomoNumber && hasAuthenticatedMomoPayer;
-  bool get readyForGroupCreation => hasProfile && hasMomoNumber;
+  bool get readyForContribution => hasProfile;
+  bool get readyForGroupCreation => hasProfile;
 }
 
 class PaymentStatusKey {

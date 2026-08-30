@@ -1,17 +1,23 @@
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   test('fixture groups use the single governed EUR beneficiary', () {
     final repository = CollectRepository.fixture();
 
     expect(repository.state.collections, isNotEmpty);
     for (final group in repository.state.collections) {
-      expect(group.receiverMomoNumber, isNull);
       expect(group.receiverDisplayLabel, 'Collect EUR bank account');
     }
-    expect(repository.state.currentProfile?.momoNumber, isNull);
+    expect(repository.state.currentProfile?.whatsappPhone, isNotEmpty);
   });
 
   test('fixture destination is active, routable, and EUR SEPA', () async {
@@ -25,6 +31,50 @@ void main() {
     expect(destination.transferScheme, 'sepa_credit_transfer');
     expect(destination.iban, isNotEmpty);
     expect(destination.beneficiaryName, isNotEmpty);
+  });
+
+  test(
+    'profile country and currency change without changing WhatsApp identity',
+    () async {
+      final repository = CollectRepository.fixture();
+      final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
+
+      final european = await repository.updateCurrentProfile(
+        displayName: 'Jean Bosco',
+        countryCode: 'GB',
+        revolutName: 'Jean Bosco',
+      );
+
+      expect(european.whatsappPhone, verifiedWhatsApp);
+      expect(european.countryCode, 'GB');
+      expect(european.currencyCode, 'GBP');
+      expect(european.revolutName, 'Jean Bosco');
+      expect(european.isEuropean, isTrue);
+      expect(european.isComplete, isTrue);
+
+      final rwanda = await repository.updateCurrentProfile(
+        displayName: 'Jean Bosco',
+        countryCode: 'RW',
+      );
+
+      expect(rwanda.whatsappPhone, verifiedWhatsApp);
+      expect(rwanda.countryCode, 'RW');
+      expect(rwanda.currencyCode, 'RWF');
+      expect(rwanda.revolutName, isEmpty);
+      expect(rwanda.isEuropean, isFalse);
+    },
+  );
+
+  test('European profiles require a Revolut name', () async {
+    final repository = CollectRepository.fixture();
+
+    await expectLater(
+      repository.updateCurrentProfile(
+        displayName: 'Jean Bosco',
+        countryCode: 'DE',
+      ),
+      throwsA(isA<FormatException>()),
+    );
   });
 
   test(
@@ -96,7 +146,6 @@ void main() {
       isPublic: true,
     );
 
-    expect(group.receiverMomoNumber, isNull);
     expect(group.receiverDisplayLabel, 'Collect EUR bank account');
     expect(group.isPublic, isFalse);
     expect(group.visibilityStatus, 'public_requested');

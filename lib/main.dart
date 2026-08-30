@@ -9,6 +9,7 @@ import 'app/router.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
 import 'core/notifications/collect_notification_service.dart';
+import 'core/supabase/supabase_module.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ Future<void> main() async {
   );
 
   final env = AppEnv.fromEnvironment();
+  final supabase = await createSupabaseClientFromEnvironment(environment: env);
   AppLogger.instance.i('Collect starting in ${env.environmentName} mode');
 
   const mobileEvidenceMode = bool.fromEnvironment(
@@ -38,6 +40,7 @@ Future<void> main() async {
     ProviderScope(
       overrides: [
         appEnvProvider.overrideWithValue(env),
+        supabaseClientProvider.overrideWithValue(supabase),
         collectIncomingAppLinksProvider.overrideWithValue(
           AppLinks().uriLinkStream,
         ),

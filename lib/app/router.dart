@@ -616,7 +616,7 @@ class _RouteNotFoundScreen extends StatelessWidget {
           icon: CollectIcons.warning,
           title: 'This screen is unavailable.',
           message:
-              'Return to Groups or Home without exposing receiver information.',
+              'Return to Groups or Home without exposing bank information.',
           tone: CollectStatusTone.warning,
         ),
         CollectButton(

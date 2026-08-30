@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-import '../../core/security/phone_normalizer.dart';
+import 'collect_profile_country_rules.dart';
+export 'collect_profile_country_rules.dart';
 
 part 'collect_model_json_helpers.dart';
 
-const _unsetProfileField = Object();
 const collectDefaultBrandDisplayName = 'Collect by IKANISA';
 const collectDefaultLegalName = 'IKANISA Ltd.';
 const collectDefaultPublicUrl = 'https://collect.ikanisa.com';
@@ -16,18 +16,16 @@ const collectDefaultRegulatoryFooterNote =
 const collectDefaultWhatsAppSupportPhone = '250795588248';
 const collectDefaultWhatsAppSupportDisplay = '+250 795 588 248';
 const collectDefaultSupportEmail = 'info@ikanisa.com';
-const collectDefaultUssdCode = '';
-
 const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Data we collect',
     body:
-        'Collect stores your Collect ID, WhatsApp sign-in phone, group memberships, group profile details, bank transfer requests, contribution records, and permission status. Beneficiary-bank notifications are processed only by controlled operations channels.',
+        'Collect stores your Collect ID, display name, independently selected profile country and local currency, WhatsApp sign-in phone, conditional Revolut name in its supported European region, group memberships, group profile details, bank transfer requests, contribution records, and permission status. Beneficiary-bank notifications are processed only by controlled operations channels.',
   ),
   CollectPolicySection(
     title: 'How we use data',
     body:
-        'We use this data to create and join groups, verify contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain audit records for payment disputes.',
+        'We use this data to create and join groups, verify contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain audit records for bank-transfer disputes.',
   ),
   CollectPolicySection(
     title: 'What stays private',
@@ -50,7 +48,7 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Using Collect',
     body:
-        'Collect helps groups organize contributions, create payment requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, and payment information.',
+        'Collect helps groups organize contributions, prepare bank-transfer requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, beneficiary, and transfer information.',
   ),
   CollectPolicySection(
     title: 'Bank transfers',
@@ -70,7 +68,7 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Acceptable use',
     body:
-        'Do not create misleading groups, impersonate another person, abuse QR links, submit false payment claims, or use Collect to request illegal or unauthorized payments.',
+        'Do not create misleading groups, impersonate another person, abuse QR links, submit false transfer claims, or use Collect to request illegal or unauthorized transfers.',
   ),
 ];
 
@@ -262,8 +260,6 @@ class CollectRuntimeConfig {
     required this.whatsAppSupportPhone,
     required this.whatsAppSupportDisplay,
     required this.supportEmail,
-    required this.ussdCode,
-    required this.ussdDisplayCode,
   });
 
   static const defaults = CollectRuntimeConfig(
@@ -276,8 +272,6 @@ class CollectRuntimeConfig {
     whatsAppSupportPhone: collectDefaultWhatsAppSupportPhone,
     whatsAppSupportDisplay: collectDefaultWhatsAppSupportDisplay,
     supportEmail: collectDefaultSupportEmail,
-    ussdCode: collectDefaultUssdCode,
-    ussdDisplayCode: collectDefaultUssdCode,
   );
 
   final String brandDisplayName;
@@ -289,19 +283,12 @@ class CollectRuntimeConfig {
   final String whatsAppSupportPhone;
   final String whatsAppSupportDisplay;
   final String supportEmail;
-  final String ussdCode;
-  final String ussdDisplayCode;
 
   factory CollectRuntimeConfig.fromJson(Map<String, dynamic> json) {
     final brand = _mapValue(json['brand']);
     final supportChannels = _mapList(json['support_channels']);
-    final paymentEntrypoints = _mapList(json['payment_entrypoints']);
     final whatsApp = _firstByKey(supportChannels, 'support.whatsapp');
     final email = _firstByKey(supportChannels, 'support.email');
-    final ussd = paymentEntrypoints.firstWhere(
-      (item) => item['key'] == 'rw.mtn_momo.ussd.collect_2000',
-      orElse: () => const <String, dynamic>{},
-    );
     const defaults = CollectRuntimeConfig.defaults;
 
     return CollectRuntimeConfig(
@@ -329,11 +316,6 @@ class CollectRuntimeConfig {
         defaults.whatsAppSupportDisplay,
       ),
       supportEmail: _nonEmpty(email['value'], defaults.supportEmail),
-      ussdCode: _nonEmpty(ussd['code'], defaults.ussdCode),
-      ussdDisplayCode: _nonEmpty(
-        ussd['display_code'],
-        _nonEmpty(ussd['code'], defaults.ussdDisplayCode),
-      ),
     );
   }
 }
@@ -541,60 +523,71 @@ class CollectProfile {
     required this.id,
     required this.publicId,
     required this.whatsappPhone,
-    this.momoNumber,
-    this.momoPayCode,
+    this.displayName = '',
+    this.countryCode = '',
+    this.currencyCode = '',
+    this.revolutName = '',
   });
 
   final String id;
   final String publicId;
   final String whatsappPhone;
-  final String? momoNumber;
-  final String? momoPayCode;
+  final String displayName;
+  final String countryCode;
+  final String currencyCode;
+  final String revolutName;
 
   factory CollectProfile.fromJson(Map<String, dynamic> json) {
+    final whatsappPhone = (json['whatsapp_phone'] as String?)?.trim() ?? '';
+    final countryCode = CollectProfileCountryRules.resolveCountryCode(
+      storedCountryCode: json['country_code']?.toString(),
+      whatsappPhone: whatsappPhone,
+    );
+    final storedCurrency = (json['currency_code'] as String?)
+        ?.trim()
+        .toUpperCase();
     return CollectProfile(
       id: json['id'] as String,
       publicId: json['public_id'] as String,
-      whatsappPhone: (json['whatsapp_phone'] as String?) ?? '',
-      momoNumber: _localMomoNumber(json['momo_number'] as String?),
-      momoPayCode: json['momo_pay_code'] as String?,
+      whatsappPhone: whatsappPhone,
+      displayName: (json['display_name'] as String?)?.trim() ?? '',
+      countryCode: countryCode,
+      currencyCode: storedCurrency?.length == 3
+          ? storedCurrency!
+          : CollectProfileCountryRules.currencyForCountry(countryCode),
+      revolutName: (json['revolut_name'] as String?)?.trim() ?? '',
     );
   }
 
-  String get safeAlias => 'Collect ID $publicId';
+  bool get isEuropean =>
+      CollectProfileCountryRules.isEuropeanCountry(countryCode);
 
-  /// Returns the canonical payer phone only when the saved MoMo number is the
-  /// same Rwanda phone confirmed during authentication. A separately owned
-  /// payer number needs its own verification flow and must not be trusted from
-  /// an editable profile field.
-  String? get authenticatedMomoPayerPhone {
-    final savedMomoNumber = momoNumber?.trim();
-    if (savedMomoNumber == null || savedMomoNumber.isEmpty) return null;
-    try {
-      final authenticatedPhone = PhoneNormalizer.normalizeRwanda(whatsappPhone);
-      final payerPhone = PhoneNormalizer.normalizeRwanda(savedMomoNumber);
-      return payerPhone == authenticatedPhone ? authenticatedPhone : null;
-    } on FormatException {
-      return null;
-    }
-  }
+  bool get isComplete =>
+      displayName.trim().length >= 2 &&
+      whatsappPhone.trim().isNotEmpty &&
+      CollectProfileCountryRules.isSupportedCountry(countryCode) &&
+      currencyCode.trim().toUpperCase() ==
+          CollectProfileCountryRules.currencyForCountry(countryCode) &&
+      (!isEuropean || revolutName.trim().length >= 2);
 
   CollectProfile copyWith({
-    Object? momoNumber = _unsetProfileField,
-    Object? momoPayCode = _unsetProfileField,
+    String? displayName,
+    String? countryCode,
+    String? currencyCode,
+    String? revolutName,
   }) {
     return CollectProfile(
       id: id,
       publicId: publicId,
       whatsappPhone: whatsappPhone,
-      momoNumber: identical(momoNumber, _unsetProfileField)
-          ? this.momoNumber
-          : momoNumber as String?,
-      momoPayCode: identical(momoPayCode, _unsetProfileField)
-          ? this.momoPayCode
-          : momoPayCode as String?,
+      displayName: displayName ?? this.displayName,
+      countryCode: countryCode ?? this.countryCode,
+      currencyCode: currencyCode ?? this.currencyCode,
+      revolutName: revolutName ?? this.revolutName,
     );
   }
+
+  String get safeAlias => 'Collect ID $publicId';
 }
 
 @immutable
@@ -608,8 +601,7 @@ class CollectCollection {
     this.collectionType = CollectionType.ikimina,
     this.categorySubtype,
     this.purposeLabel,
-    this.receiverMomoNumber,
-    this.receiverDisplayLabel = 'Primary MoMo receiver',
+    this.receiverDisplayLabel = 'Collect EUR bank account',
     this.imageUrl,
     this.accentColorHex,
     this.isPublic = false,
@@ -633,7 +625,6 @@ class CollectCollection {
   final CollectionType collectionType;
   final String? categorySubtype;
   final String? purposeLabel;
-  final String? receiverMomoNumber;
   final String receiverDisplayLabel;
   final String? imageUrl;
   final String? accentColorHex;
@@ -659,7 +650,7 @@ class CollectCollection {
     final receiverDisplayLabel =
         (receiver?['label'] as String?) ??
         (json['receiver_display_label'] as String?) ??
-        'Primary MoMo receiver';
+        'Collect EUR bank account';
     return CollectCollection(
       id: json['id'] as String,
       slug: json['slug'] as String,
@@ -671,11 +662,6 @@ class CollectCollection {
       ),
       categorySubtype: json['category_subtype'] as String?,
       purposeLabel: json['purpose_label'] as String?,
-      receiverMomoNumber: _localMomoUnlessCode(
-        (receiver?['momo_number'] as String?) ??
-            json['receiver_momo_number'] as String?,
-        receiverDisplayLabel,
-      ),
       receiverDisplayLabel: receiverDisplayLabel,
       imageUrl:
           (json['image_url'] as String?) ??
@@ -714,7 +700,6 @@ class CollectCollection {
     CollectionType? collectionType,
     String? categorySubtype,
     String? purposeLabel,
-    String? receiverMomoNumber,
     String? receiverDisplayLabel,
     String? imageUrl,
     String? accentColorHex,
@@ -737,7 +722,6 @@ class CollectCollection {
       collectionType: collectionType ?? this.collectionType,
       categorySubtype: categorySubtype ?? this.categorySubtype,
       purposeLabel: purposeLabel ?? this.purposeLabel,
-      receiverMomoNumber: receiverMomoNumber ?? this.receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel ?? this.receiverDisplayLabel,
       imageUrl: imageUrl ?? this.imageUrl,
       accentColorHex: accentColorHex ?? this.accentColorHex,
@@ -837,10 +821,6 @@ class PaymentIntentModel {
     required this.collectionId,
     int? expectedAmountMinor,
     int? expectedAmountRwf,
-    String? receiverMomoNumber,
-    String? receiverLabel,
-    String? network,
-    this.senderPhoneHash,
     this.transferReference = '',
     this.destination = BankTransferDestination.placeholder,
     this.currency = 'EUR',
@@ -855,13 +835,11 @@ class PaymentIntentModel {
   final String transferReference;
   final BankTransferDestination destination;
   final String currency;
-  final String? senderPhoneHash;
   final String status;
   final DateTime createdAt;
   final DateTime expiresAt;
 
   int get expectedAmountRwf => expectedAmountMinor;
-  String get receiverMomoNumber => destination.iban;
   String get receiverLabel => destination.beneficiaryName;
   String get network => 'sepa';
 
@@ -893,7 +871,6 @@ class PaymentIntentModel {
             )
           : BankTransferDestination.placeholder,
       currency: (json['currency'] as String?) ?? 'EUR',
-      senderPhoneHash: json['sender_phone_hash'] as String?,
       status:
           const {
                 'awaiting_transfer',
@@ -907,17 +884,6 @@ class PaymentIntentModel {
       expiresAt: expiresAt,
     );
   }
-}
-
-String? _localMomoUnlessCode(String? value, String label) {
-  if (value == null || value.trim().isEmpty) return value;
-  if (label.trim().toLowerCase().contains('code')) return value.trim();
-  return _localMomoNumber(value);
-}
-
-String? _localMomoNumber(String? value) {
-  if (value == null || value.trim().isEmpty) return value;
-  return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) ?? value.trim();
 }
 
 @immutable
@@ -992,7 +958,7 @@ class ParsedPaymentEvent {
       id: json['id'] as String,
       amountRwf: (json['amount_rwf'] as num?)?.toInt() ?? 0,
       transactionId: json['transaction_id'] as String?,
-      senderLabel: 'MoMo SMS',
+      senderLabel: 'Bank SMS',
       allocationStatus: (json['allocation_status'] as String?) ?? 'unallocated',
       confidence: (json['confidence'] as num?)?.toDouble() ?? 0,
       createdAt: _dateTime(json['created_at']),

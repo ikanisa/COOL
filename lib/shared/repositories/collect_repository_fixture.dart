@@ -19,6 +19,9 @@ CollectState _fixtureCollectState({
     id: 'local-user',
     publicId: '038491',
     whatsappPhone: '+250788123456',
+    displayName: 'Collect member',
+    countryCode: 'RW',
+    currencyCode: 'RWF',
   );
   final church = CollectCollection(
     id: 'col-church',

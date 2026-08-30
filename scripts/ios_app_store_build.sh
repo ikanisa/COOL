@@ -5,8 +5,15 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
-BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-1.2.2}"
-BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-16}"
+PACKAGE_VERSION="$(awk '/^version:[[:space:]]*/ { print $2; exit }' pubspec.yaml)"
+[[ "$PACKAGE_VERSION" == *+* ]] || {
+  printf 'pubspec.yaml version must include a build number.\n' >&2
+  exit 2
+}
+DEFAULT_BUILD_NAME="${PACKAGE_VERSION%%+*}"
+DEFAULT_BUILD_NUMBER="${PACKAGE_VERSION##*+}"
+BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-$DEFAULT_BUILD_NAME}"
+BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-$DEFAULT_BUILD_NUMBER}"
 readonly EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"
 SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
 SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"

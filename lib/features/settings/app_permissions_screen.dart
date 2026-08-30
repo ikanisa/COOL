@@ -57,7 +57,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
         InfoSecurityBanner(
           title: receiverMode
               ? 'Controlled bank-evidence receiver'
-              : 'No payment or SMS permission',
+              : 'No bank-account or SMS access',
           message: receiverMode
               ? 'This separately signed operations build can capture new beneficiary-bank notification SMS. Messages are candidate evidence only and never confirm a contribution without daily statement reconciliation.'
               : 'Bank transfers are completed in your banking app. Collect does not request SMS, phone, contacts, card, or bank-account access from members.',

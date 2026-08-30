@@ -56,7 +56,7 @@ class _NotificationSettingsScreenState
                     ),
             ),
             _SettingsSwitchRow(
-              title: 'Payment reminders',
+              title: 'Contribution reminders',
               subtitle: 'Pending contribution reminders before expiry.',
               value: preferences.paymentReminders,
               onChanged: state.currentProfile == null || _saving
@@ -210,14 +210,14 @@ class SecuritySettingsScreen extends StatelessWidget {
       ),
       hero: const CollectScreenHero(
         title: 'Security',
-        subtitle: 'Account, payment, and privacy safeguards',
+        subtitle: 'Account, bank-transfer, and privacy safeguards',
         icon: CollectIcons.shield,
       ),
       children: [
         const InfoSecurityBanner(
           title: 'Approve transfers in your bank app',
           message:
-              'Collect never asks for a bank password, PIN, OTP, or payment credential.',
+              'Collect never asks for a bank password, PIN, OTP, card detail, or banking-app credential.',
           tone: CollectStatusTone.warning,
         ),
         _SettingsOptionPanel(

@@ -79,6 +79,12 @@ grep -q '^APS_ENVIRONMENT=production$' ios/Flutter/Release-production.xcconfig |
   fail 'Production Release APNs environment is not production.'
 grep -q 'APNS_ENVIRONMENT' fastlane/Fastfile ||
   fail 'Fastlane production Dart environment does not declare APNs production.'
+grep -q -- '-t tool/main_store_preview.dart' scripts/app_store_ios_capture_assets.sh ||
+  fail 'App Store screenshots are not bound to the dedicated synthetic preview target.'
+if rg -n 'main_store_preview\.dart|CollectRepository\.fixture' \
+  scripts/ios_app_store_build.sh fastlane/Fastfile ios/Runner.xcodeproj/project.pbxproj; then
+  fail 'The store-preview fixture target is referenced by a production build path.'
+fi
 
 plutil -convert json -o - ios/Runner/PrivacyInfo.xcprivacy | ruby -r json -e '
   manifest = JSON.parse($stdin.read)
@@ -121,11 +127,24 @@ for metadata in \
   fastlane/metadata/en-GB/marketing_url.txt \
   fastlane/metadata/en-GB/privacy_url.txt \
   fastlane/metadata/en-GB/promotional_text.txt \
+  fastlane/metadata/en-GB/release_notes.txt \
+  fastlane/metadata/en-GB/review_notes.txt \
   fastlane/metadata/en-GB/subtitle.txt \
   fastlane/metadata/en-GB/support_url.txt \
   fastlane/metadata/copyright.txt; do
   [[ -s "$metadata" ]] || fail "Missing App Store metadata: $metadata."
 done
+
+if rg -n -i '\b(?:stripe|momo|mobile money|card payment|direct debit)\b' \
+  fastlane/metadata/en-GB; then
+  fail 'Current App Store metadata still references a retired payment rail.'
+fi
+
+package_version="$(awk '/^version:[[:space:]]*/ { print $2; exit }' pubspec.yaml)"
+package_build_number="${package_version##*+}"
+grep -q 'DEFAULT_BUILD_NUMBER="${PACKAGE_VERSION##\*+}"' scripts/ios_app_store_build.sh ||
+  fail 'The iOS production wrapper does not derive its default build from pubspec.yaml.'
+[[ "$package_build_number" =~ ^[0-9]+$ ]] || fail 'The pubspec build number is invalid.'
 
 ruby -r json -e '
   path = "fastlane/app_privacy_details.json"
@@ -133,10 +152,12 @@ ruby -r json -e '
   abort("App Privacy details must be a non-empty array.") unless rows.is_a?(Array) && !rows.empty?
   categories = rows.map { |row| row.fetch("category") }
   abort("App Privacy categories must be unique.") unless categories.uniq.length == categories.length
-  required = %w[CUSTOMER_SUPPORT DEVICE_ID OTHER_FINANCIAL_INFO OTHER_USER_CONTENT PAYMENT_INFORMATION PHONE_NUMBER PHOTOS_OR_VIDEOS USER_ID]
+  required = %w[CUSTOMER_SUPPORT DEVICE_ID NAME OTHER_DATA_TYPES OTHER_FINANCIAL_INFO OTHER_USER_CONTENT PHONE_NUMBER PHOTOS_OR_VIDEOS USER_ID]
   missing = required - categories
   abort("Missing App Privacy categories: #{missing.join(", ")}") unless missing.empty?
+  abort("Payment information must not be declared because banking details stay outside Collect.") if categories.include?("PAYMENT_INFORMATION")
 ' || fail "App Privacy details are incomplete or invalid."
+privacy_type_count="$(ruby -r json -e 'puts JSON.parse(File.read("fastlane/app_privacy_details.json")).length')"
 
 for build_contract in \
   'SUPABASE_PRODUCTION_URL' \
@@ -151,7 +172,7 @@ if rg -q 'APP_REVIEW_AUTH_(ENABLED|PHONE|OTP)|signInForAppReview|appReviewDemo' 
 fi
 
 if [[ "$output_format" == "json" ]]; then
-  ruby -r json -r time -e '
+  PRIVACY_TYPE_COUNT="$privacy_type_count" ruby -r json -r time -e '
     puts JSON.pretty_generate(
       {
         "generated_at" => Time.now.utc.iso8601,
@@ -159,12 +180,12 @@ if [[ "$output_format" == "json" ]]; then
         "screenshots" => 10,
         "icons" => 15,
         "plists" => 4,
-        "metadata_fields" => 8,
-        "privacy_types" => 8,
+        "metadata_fields" => 10,
+        "privacy_types" => Integer(ENV.fetch("PRIVACY_TYPE_COUNT")),
         "failures" => []
       }
     )
   '
 else
-  printf '[ios-app-store-readiness] pass screenshots=10 icons=15 plists=4 metadata=8 privacy_types=8\n'
+  printf '[ios-app-store-readiness] pass screenshots=10 icons=15 plists=4 metadata=10 privacy_types=%s\n' "$privacy_type_count"
 fi

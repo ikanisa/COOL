@@ -51,28 +51,37 @@ void main() {
     expect(normalizeNotificationDeepLink('/groups/group-1/share'), isNull);
   });
 
-  testWidgets('app opens with Collect launch splash', (tester) async {
-    final semantics = tester.ensureSemantics();
-    try {
-      await tester.pumpWidget(const ProviderScope(child: CollectApp()));
-      await tester.pump();
+  testWidgets(
+    'app shows the iOS-matched Collect splash before authentication',
+    (tester) async {
+      final semantics = tester.ensureSemantics();
+      try {
+        await tester.pumpWidget(const ProviderScope(child: CollectApp()));
+        await tester.pump();
 
-      expect(find.text('Collect'), findsOneWidget);
-      expect(find.text('Groups. MoMo. Done.'), findsNothing);
-      expect(find.byTooltip('Open profile'), findsNothing);
-      expect(find.text('TOTAL COLLECTED'), findsNothing);
-      expect(find.text('Home'), findsNothing);
-      expect(find.text('Settings'), findsNothing);
-      expect(find.text('CONFIRMED'), findsNothing);
-      expect(find.text('PENDING'), findsNothing);
-      expect(find.text('FAILED'), findsNothing);
-      expect(find.text('Platform admin'), findsNothing);
-      expect(find.textContaining('BioPay'), findsNothing);
-      expect(find.textContaining('wallet'), findsNothing);
-    } finally {
-      semantics.dispose();
-    }
-  });
+        expect(find.text('Collect'), findsOneWidget);
+        expect(find.byType(LinearProgressIndicator), findsOneWidget);
+
+        await tester.pumpAndSettle();
+
+        expect(find.text("Let's get started!"), findsOneWidget);
+        expect(find.byType(LinearProgressIndicator), findsNothing);
+        expect(find.text('Groups. MoMo. Done.'), findsNothing);
+        expect(find.byTooltip('Open profile'), findsNothing);
+        expect(find.text('TOTAL COLLECTED'), findsNothing);
+        expect(find.text('Home'), findsNothing);
+        expect(find.text('Settings'), findsNothing);
+        expect(find.text('CONFIRMED'), findsNothing);
+        expect(find.text('PENDING'), findsNothing);
+        expect(find.text('FAILED'), findsNothing);
+        expect(find.text('Platform admin'), findsNothing);
+        expect(find.textContaining('BioPay'), findsNothing);
+        expect(find.textContaining('wallet'), findsNothing);
+      } finally {
+        semantics.dispose();
+      }
+    },
+  );
 
   testWidgets('app boots with persisted dark-first theme mode', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
@@ -907,6 +916,25 @@ void main() {
       ).readAsStringSync(),
       contains('_emptyCollectState(),\n         true'),
     );
+  });
+
+  test('App Store artwork uses an isolated synthetic preview target', () {
+    final captureScript = File(
+      'scripts/app_store_ios_capture_assets.sh',
+    ).readAsStringSync();
+    final preview = File('tool/main_store_preview.dart').readAsStringSync();
+    final productionBuild = File(
+      'scripts/ios_app_store_build.sh',
+    ).readAsStringSync();
+    final fastfile = File('fastlane/Fastfile').readAsStringSync();
+
+    expect(captureScript, contains('-t tool/main_store_preview.dart'));
+    expect(preview, contains('CollectRepository.fixture'));
+    expect(preview, contains("environmentName: 'store-preview'"));
+    expect(preview, contains('supabaseUrl: \'\''));
+    expect(preview, contains('supabaseAnonKey: \'\''));
+    expect(productionBuild, isNot(contains('main_store_preview.dart')));
+    expect(fastfile, isNot(contains('main_store_preview.dart')));
   });
 
   test('primary mobile screens use their reference chrome patterns', () {

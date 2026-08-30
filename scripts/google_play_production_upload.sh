@@ -7,15 +7,30 @@ cd "$ROOT_DIR"
 
 PACKAGE_NAME="${PACKAGE_NAME:-app.cool.mobile}"
 TRACK="${TRACK:-production}"
-STATUS="${STATUS:-inProgress}"
-USER_FRACTION="${USER_FRACTION:-0.05}"
+STATUS="${STATUS:-completed}"
+USER_FRACTION="${USER_FRACTION:-}"
 AAB_PATH="${AAB_PATH:-build/app/outputs/bundle/productionRelease/app-production-release.aab}"
-RELEASE_NAME="${RELEASE_NAME:-Collect 1.2.2 (20)}"
-RELEASE_NOTES="${RELEASE_NOTES:-Adds native notification controls and optional receive-only MoMo SMS matching, removes embedded reviewer access, and hardens release security.}"
+PACKAGE_VERSION="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)"
+[[ "$PACKAGE_VERSION" == *+* ]] || {
+  printf '[google-play-production-upload][FAIL] pubspec.yaml version must include a build number.\n' >&2
+  exit 2
+}
+BUILD_NAME="${PACKAGE_VERSION%%+*}"
+BUILD_NUMBER="${PACKAGE_VERSION##*+}"
+RELEASE_NAME="${RELEASE_NAME:-Collect $BUILD_NAME ($BUILD_NUMBER)}"
+CHANGELOG_PATH="fastlane/metadata/android/en-US/changelogs/${BUILD_NUMBER}.txt"
+if [[ -z "${RELEASE_NOTES:-}" ]]; then
+  [[ -s "$CHANGELOG_PATH" ]] || {
+    printf '[google-play-production-upload][FAIL] Missing release notes: %s\n' "$CHANGELOG_PATH" >&2
+    exit 2
+  }
+  RELEASE_NOTES="$(<"$CHANGELOG_PATH")"
+fi
 OUTPUT_PATH="${OUTPUT_PATH:-}"
 OUTPUT_FORMAT="text"
 SUBMIT="false"
 CHANGES_NOT_SENT_FOR_REVIEW="false"
+REPLACE_INTERNAL_RESTRICTED_ARTIFACTS="${REPLACE_INTERNAL_RESTRICTED_ARTIFACTS:-true}"
 
 usage() {
   cat <<'USAGE'
@@ -28,15 +43,18 @@ Play edit.
 Environment:
   PACKAGE_NAME                         default: app.cool.mobile
   TRACK                                default: production
-  STATUS                               fixed to inProgress for --submit
-  USER_FRACTION                        default: 0.05; must be > 0 and < 1
+  STATUS                               fixed to completed for direct production
+  USER_FRACTION                        unused for direct production
   AAB_PATH                             default: build/app/outputs/bundle/productionRelease/app-production-release.aab
-  RELEASE_NAME                         default: Collect 1.2.2 (20)
-  RELEASE_NOTES                        default release notes
-  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v20.json
+  RELEASE_NAME                         default: Collect version/build from pubspec.yaml
+  RELEASE_NOTES                        defaults to the matching Fastlane changelog
+  OUTPUT_PATH                          default: .cache/google_play_optimization/android_publisher_upload_v<pubspec build>.json
   ANDROID_PUBLISHER_ACCESS_TOKEN       optional bearer token; never printed
   ANDROID_PUBLISHER_ACCESS_TOKEN_CMD   optional command that prints a bearer token
   GOOGLE_APPLICATION_CREDENTIALS       service-account JSON is supported directly
+  REPLACE_INTERNAL_RESTRICTED_ARTIFACTS default: true; replaces the active legacy
+                                        SMS-permission internal artifact with the
+                                        same reviewed no-SMS bundle uploaded here
 USAGE
 }
 
@@ -68,9 +86,9 @@ done
 
 if [[ -z "$OUTPUT_PATH" ]]; then
   if [[ "$SUBMIT" == "true" ]]; then
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v20.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v${BUILD_NUMBER}.json"
   else
-    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v20_dry_run.json"
+    OUTPUT_PATH=".cache/google_play_optimization/android_publisher_upload_v${BUILD_NUMBER}_dry_run.json"
   fi
 fi
 
@@ -91,12 +109,12 @@ if [[ "$SUBMIT" == "true" ]]; then
     printf '[google-play-production-upload][FAIL] --submit is pinned to app.cool.mobile.\n' >&2
     exit 1
   }
-  [[ "$TRACK" == "production" && "$STATUS" == "inProgress" ]] || {
-    printf '[google-play-production-upload][FAIL] --submit requires a staged production rollout.\n' >&2
+  [[ "$TRACK" == "production" && "$STATUS" == "completed" ]] || {
+    printf '[google-play-production-upload][FAIL] --submit requires a direct full production rollout.\n' >&2
     exit 1
   }
-  ruby -e 'fraction = Float(ARGV.fetch(0)); exit(fraction.positive? && fraction < 1 ? 0 : 1)' "$USER_FRACTION" || {
-    printf '[google-play-production-upload][FAIL] --submit USER_FRACTION must be greater than 0 and less than 1.\n' >&2
+  [[ -z "$USER_FRACTION" ]] || {
+    printf '[google-play-production-upload][FAIL] --submit does not accept USER_FRACTION for direct production.\n' >&2
     exit 1
   }
   resolved_aab="$(AAB_PATH="$AAB_PATH" ruby -e 'puts File.expand_path(ENV.fetch("AAB_PATH"))')"
@@ -124,6 +142,7 @@ OUTPUT_PATH="$OUTPUT_PATH" \
 OUTPUT_FORMAT="$OUTPUT_FORMAT" \
 SUBMIT="$SUBMIT" \
 CHANGES_NOT_SENT_FOR_REVIEW="$CHANGES_NOT_SENT_FOR_REVIEW" \
+REPLACE_INTERNAL_RESTRICTED_ARTIFACTS="$REPLACE_INTERNAL_RESTRICTED_ARTIFACTS" \
 GATED_AAB_SHA256="${gated_aab_sha256:-}" \
 ruby -r json -r net/http -r uri -r open3 -r time -r fileutils -r openssl -r base64 -r digest -r shellwords <<'RUBY'
 SCOPE = "https://www.googleapis.com/auth/androidpublisher"
@@ -140,6 +159,7 @@ output_path = ENV.fetch("OUTPUT_PATH")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 submit = ENV.fetch("SUBMIT") == "true"
 changes_not_sent_for_review = ENV.fetch("CHANGES_NOT_SENT_FOR_REVIEW") == "true"
+replace_internal_restricted_artifacts = ENV.fetch("REPLACE_INTERNAL_RESTRICTED_ARTIFACTS") == "true"
 gated_aab_sha256 = ENV.fetch("GATED_AAB_SHA256", "")
 
 if submit
@@ -352,6 +372,12 @@ begin
   code, before_track = http_json("Get", "#{base}/edits/#{edit_id}/tracks/#{track}", token: token)
   observations << { "step" => "edits.tracks.get", "code" => code }
 
+  before_internal_track = nil
+  if replace_internal_restricted_artifacts
+    code, before_internal_track = http_json("Get", "#{base}/edits/#{edit_id}/tracks/internal", token: token)
+    observations << { "step" => "edits.tracks.get.internal", "code" => code }
+  end
+
   code, upload = http_json(
     "Post",
     "#{upload_base}/edits/#{edit_id}/bundles?uploadType=media",
@@ -374,12 +400,32 @@ begin
     ]
   }
   release["userFraction"] = user_fraction.to_f if status == "inProgress"
-  prior_releases = Array(before_track["releases"]).reject do |prior_release|
+  prior_releases = Array(before_track["releases"]).select do |prior_release|
+    prior_release["status"] == "completed"
+  end.reject do |prior_release|
     Array(prior_release["versionCodes"]).map(&:to_s).include?(uploaded_version)
   end
   body = JSON.generate({ "track" => track, "releases" => prior_releases + [release] })
   code, updated_track = http_json("Put", "#{base}/edits/#{edit_id}/tracks/#{track}", token: token, body: body)
   observations << { "step" => "edits.tracks.update", "code" => code }
+
+  updated_internal_track = nil
+  if replace_internal_restricted_artifacts
+    internal_release = {
+      "name" => "#{release_name} internal",
+      "versionCodes" => [uploaded_version],
+      "status" => "completed",
+      "releaseNotes" => [
+        {
+          "language" => "en-US",
+          "text" => release_notes
+        }
+      ]
+    }
+    internal_body = JSON.generate({ "track" => "internal", "releases" => [internal_release] })
+    code, updated_internal_track = http_json("Put", "#{base}/edits/#{edit_id}/tracks/internal", token: token, body: internal_body)
+    observations << { "step" => "edits.tracks.update.internal", "code" => code }
+  end
 
   commit_url = "#{base}/edits/#{edit_id}:commit"
   commit_url += "?changesNotSentForReview=true" if changes_not_sent_for_review
@@ -397,9 +443,17 @@ begin
       "version_codes" => Array(before_track["releases"]).flat_map { |release_item| Array(release_item["versionCodes"]) }.map(&:to_s).uniq,
       "statuses" => Array(before_track["releases"]).map { |release_item| release_item["status"] }.compact.uniq
     },
+    "internal_track_before" => before_internal_track && {
+      "version_codes" => Array(before_internal_track["releases"]).flat_map { |release_item| Array(release_item["versionCodes"]) }.map(&:to_s).uniq,
+      "statuses" => Array(before_internal_track["releases"]).map { |release_item| release_item["status"] }.compact.uniq
+    },
     "submitted_track" => {
       "track" => updated_track["track"],
       "releases" => Array(updated_track["releases"]).map { |release_item| sanitized_release(release_item) }
+    },
+    "submitted_internal_track" => updated_internal_track && {
+      "track" => updated_internal_track["track"],
+      "releases" => Array(updated_internal_track["releases"]).map { |release_item| sanitized_release(release_item) }
     },
     "commit_response_keys" => commit.keys.sort,
     "observations" => observations,

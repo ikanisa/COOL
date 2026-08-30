@@ -447,6 +447,37 @@ void main() {
     expect(find.text('Open Revolut'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
+
+  testWidgets('contribution flow rejects a zero bank transfer amount', (
+    tester,
+  ) async {
+    final repo = CollectRepository.fixture();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ContributionFlowScreen(collectionId: 'col-church'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField).first, '0.00');
+    expect(
+      tester.widget<TextField>(find.byType(TextField).first).controller?.text,
+      '0.00',
+    );
+    final reviewButton = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Review transfer'),
+    );
+    expect(reviewButton.onPressed, isNotNull);
+    reviewButton.onPressed!.call();
+    await tester.pump();
+
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.text('Enter a valid amount above EUR 0.00.'), findsOneWidget);
+    expect(find.text('Open Revolut'), findsNothing);
+  });
 }
 
 String _readGroupCardLibrary() {

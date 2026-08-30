@@ -17,8 +17,8 @@ IPAD_FINAL_DIR="$OUTPUT_ROOT/final/ipadPro129"
 
 routes=(
   "01-home|home"
-  "02-groups|groups"
-  "03-group-detail|group-detail"
+  "02-contribute|contribution"
+  "03-bank-details|settings-bank-transfer"
   "04-ledger|ledger"
   "05-share|share"
 )
@@ -33,9 +33,9 @@ run_capture() {
   local evidence_dir="$2"
 
   MOBILE_ROUTE_RENDER_EVIDENCE_DIR="$evidence_dir" \
-    MOBILE_ROUTE_RENDER_ROUTE_FILTER="home,groups,group-detail,ledger,share" \
+    MOBILE_ROUTE_RENDER_ROUTE_FILTER="home,contribution,settings-bank-transfer,ledger,share" \
     MOBILE_ROUTE_RENDER_VIEWPORT="$viewport" \
-    MOBILE_ROUTE_RENDER_BUILD_ARGS="--release --no-wasm-dry-run --no-pub --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true --dart-define=COLLECT_MOBILE_EVIDENCE_PLATFORM=ios" \
+    MOBILE_ROUTE_RENDER_BUILD_ARGS="--release --no-wasm-dry-run --no-pub -t tool/main_store_preview.dart --dart-define=COLLECT_MOBILE_EVIDENCE_PLATFORM=ios" \
     "$ROOT_DIR/scripts/mobile_route_render_smoke.sh"
 }
 
@@ -106,8 +106,8 @@ ruby -r json -r time -e '
   manifest = {
     "status" => "pass",
     "generated_at" => Time.now.utc.iso8601,
-    "source" => "Current Flutter iOS-platform fixture rendered in web evidence mode",
-    "capture_boundary" => "Store artwork generated from current Flutter widgets with iOS-only product controls enabled; this is not physical-device or native-runtime evidence.",
+    "source" => "Current Flutter iOS-platform synthetic store preview",
+    "capture_boundary" => "Store artwork generated from the dedicated tool/main_store_preview.dart target with deterministic synthetic data and iOS-only product controls enabled. The target is not referenced by any production build wrapper, Xcode configuration, or application entry point; this is not physical-device or native-runtime evidence.",
     "apple_rejection" => {
       "submission_id" => "e6cd1894-6497-4a83-acec-c59ef3bb584a",
       "guideline" => "2.3.3",
@@ -117,8 +117,8 @@ ruby -r json -r time -e '
     },
     "routes" => [
       { "slot" => "01-home", "route" => "/home", "purpose" => "collections overview and featured groups" },
-      { "slot" => "02-groups", "route" => "/groups", "purpose" => "group discovery and member collections" },
-      { "slot" => "03-group-detail", "route" => "/groups/col-church", "purpose" => "group balance, actions, and activity" },
+      { "slot" => "02-contribute", "route" => "/groups/col-church/contribute", "purpose" => "bank-transfer request, approved beneficiary, and external banking handoff" },
+      { "slot" => "03-bank-details", "route" => "/settings/bank-transfer", "purpose" => "approved beneficiary and reusable bank details" },
       { "slot" => "04-ledger", "route" => "/groups/col-church/ledger", "purpose" => "collection ledger and transactions" },
       { "slot" => "05-share", "route" => "/groups/col-church/share", "purpose" => "shareable collection QR and link" }
     ],

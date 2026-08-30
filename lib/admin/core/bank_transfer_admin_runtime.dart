@@ -484,7 +484,7 @@ class _AdminBankDetailActions extends ConsumerWidget {
     } else if (rpcName == 'admin_get_bank_evidence') {
       child = _adminHasPermission(identity, 'bank_evidence.raw.reveal')
           ? AdminSensitiveDataGate(
-              label: 'Raw payment evidence',
+              label: 'Raw bank evidence',
               onReveal: (reason) async {
                 final response = await ref.read(adminRepositoryProvider).action(
                   'admin_reveal_raw_bank_evidence',

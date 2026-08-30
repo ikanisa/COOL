@@ -36,12 +36,12 @@ class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
-    final foreground = CollectRuntimeTokens.chromeForeground(colors);
+    const foreground = CollectColors.referenceChromeBlack;
     return Scaffold(
-      backgroundColor: colors.transparent,
-      body: CollectGradientBackground(
+      backgroundColor: CollectColors.brandPaper,
+      body: ColoredBox(
+        color: CollectColors.brandPaper,
         child: SizedBox.expand(
           child: SafeArea(
             child: LayoutBuilder(

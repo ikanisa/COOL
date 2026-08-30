@@ -1,14 +1,16 @@
 # Supabase Operations Runbook
 
-Updated: 2026-05-27
+Updated: 2026-08-28
 
-This runbook covers operational steps for the SMS-first Groups backend. It
-intentionally avoids the older release-packet platform-blocker model.
+This runbook covers the bank-transfer-only Groups backend. Collect does not
+initiate payments. Beneficiary-bank SMS and email are candidate evidence; only
+independently imported daily statements can finalize reconciliation and ledger
+posting.
 
 ## Safe Command Rules
 
-- Do not print service-role keys, OpenAI keys, WhatsApp hook secrets, raw SMS,
-  MoMo numbers, or customer phone numbers.
+- Do not print service-role keys, notification-provider keys, WhatsApp hook
+  secrets, raw bank evidence, payer details, or customer phone numbers.
 - Use synthetic data and rollback transactions for automated UAT.
 - Apply database changes only from an allow-listed database network.
 
@@ -23,20 +25,31 @@ Validate locally:
 Dry-run from an allow-listed network:
 
 ```sh
-supabase db push --dry-run
+supabase db push --dry-run --skip-vault
 ```
 
 Apply after review:
 
 ```sh
-supabase db push
+supabase db push --skip-vault
 ```
 
 The reviewed local migration ledger must be compared with production by dry-run.
-At the 2026-08-15 checkpoint it ends at:
+The explicit `--skip-vault` flag keeps this schema-only release from changing
+configured Vault secrets as a side effect of a current Supabase CLI `db push`.
+At the confirmed 2026-08-20 production checkpoint it ends at:
 
 ```text
-supabase/migrations/20260820160000_restore_momo_sms_standalone.sql
+supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql
+```
+
+The later local migration below adds independent profile country/currency,
+conditional European Revolut identity, and the profile update RPC. Treat it as
+pending until a dry-run, controlled push, migration-history readback, and RPC
+UAT prove it on the linked project:
+
+```text
+supabase/migrations/20260828100000_profile_country_session_independence.sql
 ```
 
 ## Edge Functions
@@ -46,22 +59,19 @@ Active functions:
 ```text
 auth-send-whatsapp-otp
 dispatch-notifications
-ingest-payment-sms
-parse-payment-sms
+ingest-bank-email
+ingest-bank-sms
+ingest-bank-statement
 send-notification
-stripe-create-customer
-stripe-create-diaspora-contribution
-stripe-create-setup-intent
-stripe-webhook
-verify-play-integrity
 ```
 
 Validate:
 
 ```sh
 ./scripts/collect_edge_auth_contract_uat.sh
-deno check supabase/functions/parse-payment-sms/index.ts \
-  supabase/functions/ingest-payment-sms/index.ts
+deno check supabase/functions/ingest-bank-email/index.ts \
+  supabase/functions/ingest-bank-sms/index.ts \
+  supabase/functions/ingest-bank-statement/index.ts
 ```
 
 Deploy active functions through:
@@ -78,27 +88,28 @@ Admin/security:
 ./scripts/collect_admin_security_uat.sh
 ```
 
-Contribution/allocation:
+Bank-transfer reconciliation and allocation:
 
 ```sh
 ./scripts/collect_linked_uat.sh
 ```
 
-If contribution/allocation UAT fails because the linked project lacks `create_group_with_owner`, the linked project is behind the local migration.
+The rollback UAT proves maker-checker beneficiary governance, exact-once bank
+evidence, statement finality, balanced ledger posting, daily close, and rollback.
 
-## Android SMS Access UAT
+## Controlled Bank Evidence UAT
 
 Run with sanitized evidence:
 
-1. Android creator completes profile with receiver MoMo.
-2. Creator creates a group and grants SMS access.
-3. Contributor creates payment intent and pays through MoMo USSD.
-4. Receiver phone receives MoMo SMS.
-5. SMS row appears in Supabase.
-6. Parser creates structured transaction fields.
-7. Allocation matches the payment intent and Collect ID where present.
-8. Ledger entry posts once.
-9. Ambiguous/expired/unauthorized events stay in exceptions.
+1. Two independent administrators approve the real EUR beneficiary.
+2. A member creates a bank-transfer contribution request.
+3. The member authorizes the transfer outside Collect in their banking app.
+4. Controlled SMS or email creates candidate evidence.
+5. The parser extracts bounded transaction fields and deduplicates the event.
+6. Candidate evidence never changes the member or group balance.
+7. A controlled daily statement import provides bank finality.
+8. Reconciliation matches the unique Collect reference and posts one balanced ledger transaction.
+9. Ambiguous, duplicate, unmatched, or unauthorized events remain in exceptions.
 
 ## Admin PWA
 

@@ -78,12 +78,12 @@ SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli projects list -o jso
   '
 SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
   SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
-  supabase_cli db push --dry-run
+  supabase_cli db push --dry-run --skip-vault
 
 log "pushing database migrations"
 SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
   SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
-  supabase_cli db push
+  supabase_cli db push --skip-vault
 
 remote_function_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
   supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json)"

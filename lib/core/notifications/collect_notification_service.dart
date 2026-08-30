@@ -69,7 +69,7 @@ class CollectNotificationService {
   static const _androidChannelId = 'collect_group_updates';
   static const _androidChannelName = 'Collect group updates';
   static const _androidChannelDescription =
-      'Contribution confirmations, payment reminders, group updates, and security notices.';
+      'Contribution confirmations, transfer reminders, group updates, and security notices.';
   static const _androidContributionChannelId = 'collect_contributions';
   static const _androidReminderChannelId = 'collect_reminders';
   static const _androidSecurityChannelId = 'collect_security';
@@ -157,7 +157,7 @@ class CollectNotificationService {
     ),
     AndroidNotificationChannel(
       _androidReminderChannelId,
-      'Payment reminders',
+      'Contribution reminders',
       description: 'Time-sensitive contribution reminders.',
       importance: Importance.defaultImportance,
     ),

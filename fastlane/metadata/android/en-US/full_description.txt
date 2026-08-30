@@ -1,1 +1,7 @@
-Collect helps savings groups organize members, track contributions, review group activity, and prepare credit-readiness records. Members can follow group rules, view contribution status, request support, and keep account and deletion choices accessible from the app. On Android, a group receiver can optionally allow Collect to receive only new MTN or Airtel mobile-money transaction SMS so contributions can be matched automatically. Collect does not read inbox history or unrelated messages. This access is explained before Android's permission prompt, can be denied, and can be turned off at any time from App permissions. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.
+Collect helps savings groups organize members, record contributions, review reconciled group activity, and prepare credit-readiness records.
+
+Members can view the approved beneficiary, IBAN, BIC, exact Collect reference, and amount before opening Revolut or another banking app. Collect does not initiate, authorize, process, or custody a bank transfer. The user selects the beneficiary and authorizes the transfer entirely in their banking app.
+
+Incoming bank notification SMS and email are treated only as candidate evidence. A contribution becomes confirmed, changes a balance, and posts to the group ledger only after governed bank-statement reconciliation. The public Google Play app does not request SMS or Call Log permissions.
+
+Collect keeps account support and deletion controls accessible in the app and is operated by IKANISA for group savings, support, and credit-readiness workflows.

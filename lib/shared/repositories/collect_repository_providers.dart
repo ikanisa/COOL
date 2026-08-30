@@ -81,12 +81,21 @@ final collectAccountDeletionReasonsProvider =
 final collectCollectionTypeCatalogProvider =
     FutureProvider<CollectionTypeCatalogConfig>((ref) async {
       const fallback = CollectionTypeCatalogConfig.defaults;
+      final profileCountry = ref.watch(
+        collectRepositoryProvider.select(
+          (state) => state.currentProfile?.countryCode,
+        ),
+      );
+      final countryCode =
+          CollectProfileCountryRules.isSupportedCountry(profileCountry)
+          ? CollectProfileCountryRules.normalizeCountryCode(profileCountry)
+          : fallback.countryCode;
       final supabase = ref.watch(supabaseClientProvider);
       if (supabase == null) return fallback;
       try {
         final payload = await supabase.rpc<dynamic>(
           'get_collection_type_catalog',
-          params: {'p_country_code': fallback.countryCode, 'p_locale': 'en'},
+          params: {'p_country_code': countryCode, 'p_locale': 'en'},
         );
         if (payload is Map) {
           return CollectionTypeCatalogConfig.fromJson(

@@ -31,11 +31,35 @@ def artifact(root, relative)
   }
 end
 
-def png_dimensions(path)
-  bytes = File.binread(path, 24)
-  return nil unless bytes.byteslice(0, 8) == "\x89PNG\r\n\x1A\n".b
+def image_dimensions(path)
+  bytes = File.binread(path)
+  if bytes.byteslice(0, 8) == "\x89PNG\r\n\x1A\n".b
+    return bytes.byteslice(16, 8).unpack("NN")
+  end
 
-  bytes.byteslice(16, 8).unpack("NN")
+  return nil unless bytes.byteslice(0, 2) == "\xFF\xD8".b
+
+  offset = 2
+  sof_markers = [0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF]
+  while offset < bytes.bytesize
+    offset += 1 while offset < bytes.bytesize && bytes.getbyte(offset) == 0xFF
+    break if offset >= bytes.bytesize
+
+    marker = bytes.getbyte(offset)
+    offset += 1
+    next if marker == 0xD8 || marker == 0xD9
+    break if offset + 1 >= bytes.bytesize
+
+    segment_length = bytes.byteslice(offset, 2).unpack1("n")
+    return nil if segment_length < 2 || offset + segment_length > bytes.bytesize
+    if sof_markers.include?(marker)
+      height = bytes.byteslice(offset + 3, 2).unpack1("n")
+      width = bytes.byteslice(offset + 5, 2).unpack1("n")
+      return [width, height]
+    end
+    offset += segment_length
+  end
+  nil
 rescue StandardError
   nil
 end
@@ -328,6 +352,7 @@ metadata_files = {
   "title" => "fastlane/metadata/android/en-US/title.txt",
   "short_description" => "fastlane/metadata/android/en-US/short_description.txt",
   "full_description" => "fastlane/metadata/android/en-US/full_description.txt",
+  "play_store_icon" => "fastlane/metadata/android/en-US/images/icon.png",
   "changelog" => "fastlane/metadata/android/en-US/changelogs/#{package["version_code"]}.txt"
 }
 metadata_items = metadata_files.transform_values do |relative|
@@ -360,12 +385,12 @@ screenshot_policies = {
 }
 screenshot_sets = screenshot_policies.transform_values do |policy|
   export_path = policy["path"].to_s
-  paths = export_path.empty? ? [] : Dir.glob(File.join(root, export_path, "*.png")).sort
+  paths = export_path.empty? ? [] : Dir.glob(File.join(root, export_path, "*.{png,jpg,jpeg}")).sort
   expected_hashes = policy["sha256"].is_a?(Hash) ? policy["sha256"] : {}
   expected_dimensions = policy["dimensions"].to_s.split("x").map(&:to_i)
   dimensions_valid =
     expected_dimensions.length == 2 && expected_dimensions.all?(&:positive?) &&
-    paths.all? { |path| png_dimensions(path) == expected_dimensions }
+    paths.all? { |path| image_dimensions(path) == expected_dimensions }
   hashes_valid =
     !expected_hashes.empty? &&
     paths.length == expected_hashes.length &&
@@ -383,18 +408,22 @@ screenshot_sets = screenshot_policies.transform_values do |policy|
   }
 end
 brand_icon_path = File.join(root, play_assets["brand_icon_source"].to_s)
+play_store_icon_path = File.join(root, play_assets["play_store_icon"].to_s)
 launcher_icon_path = File.join(root, play_assets["launcher_icon"].to_s)
 official_icon_policy =
-  play_assets["brand_icon_source"] == "assets/brand/collect_runtime/app_icons/app-icon-rule.png" &&
+  play_assets["brand_icon_source"] == "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" &&
+  play_assets["play_store_icon"] == "fastlane/metadata/android/en-US/images/icon.png" &&
   File.file?(brand_icon_path) &&
   Digest::SHA256.file(brand_icon_path).hexdigest == play_assets["brand_icon_sha256"].to_s &&
+  File.file?(play_store_icon_path) &&
+  Digest::SHA256.file(play_store_icon_path).hexdigest == play_assets["play_store_icon_sha256"].to_s &&
   File.file?(launcher_icon_path) &&
   Digest::SHA256.file(launcher_icon_path).hexdigest == play_assets["launcher_icon_sha256"].to_s
 current_visual_exports =
   feature_graphic_valid &&
   screenshot_sets.values.all? do |set|
     set["status"] == "current_product_capture" &&
-      set["source"] == "native_product_capture_only" &&
+      set["source"].to_s.end_with?("native_product_capture") &&
       set["hashes_valid"] &&
       set["dimensions_valid"] &&
       set["count"] >= set["minimum_required"]

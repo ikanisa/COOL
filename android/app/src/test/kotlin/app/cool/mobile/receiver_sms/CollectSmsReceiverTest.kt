@@ -11,71 +11,65 @@ class CollectSmsReceiverTest {
     private val receiver = CollectSmsReceiver()
 
     @Test
-    fun acceptsScopedEnglishMomoTransaction() {
+    fun acceptsScopedEnglishBankCredit() {
         assertTrue(
-            receiver.isLikelyMobileMoney(
-                "MTN MoMo",
-                "You received RWF 5,000 from a customer.",
+            receiver.isLikelyBankNotification(
+                "Revolut",
+                "Incoming transfer received: EUR 50.00. Reference COL-ABC1234567.",
             ),
         )
     }
 
     @Test
-    fun acceptsScopedFrenchAndKinyarwandaTransactions() {
+    fun acceptsScopedFrenchAndGermanBankCredits() {
         assertTrue(
-            receiver.isLikelyMobileMoney(
-                "Airtel Money",
-                "Paiement reçu: 2 500 FRW.",
+            receiver.isLikelyBankNotification(
+                "Collect Bank",
+                "Paiement reçu: EUR 25.00. Référence COL-ABC1234567.",
             ),
         )
         assertTrue(
-            receiver.isLikelyMobileMoney(
-                "M-Money",
-                "Konti yawe yakiriye amafaranga 4,500 RWF.",
+            receiver.isLikelyBankNotification(
+                "SEPA Credit",
+                "Gutschrift EUR 45,00. End-to-end reference COL-ABC1234567.",
             ),
         )
     }
 
     @Test
-    fun acceptsProviderTransactionWithAmountAndReferenceWithoutCurrencyMarker() {
-        assertTrue(
-            receiver.isLikelyMobileMoney(
-                "M-Money",
-                "You have received 5000. Financial Transaction Id: 123456789.",
+    fun rejectsCreditsWithoutCurrencyOrReference() {
+        assertFalse(
+            receiver.isLikelyBankNotification(
+                "Revolut",
+                "Incoming transfer received: 50.00. Reference COL-ABC1234567.",
             ),
         )
-        assertTrue(
-            receiver.isLikelyMobileMoney(
-                "M-Money",
-                "Wakiriye RWF 3,000 kuri MTN Mobile Money.",
+        assertFalse(
+            receiver.isLikelyBankNotification(
+                "Revolut",
+                "Incoming transfer received: EUR 50.00.",
             ),
         )
     }
 
     @Test
-    fun rejectsProviderMarketingAndUnrelatedFinancialSms() {
+    fun rejectsMarketingAndUnrelatedFinancialSms() {
         assertFalse(
-            receiver.isLikelyMobileMoney(
-                "MTN",
-                "Buy a weekly bundle today for RWF 1,000.",
+            receiver.isLikelyBankNotification(
+                "Revolut",
+                "Promotion: invite a friend and earn EUR 10.00. Ref BONUS10.",
             ),
         )
         assertFalse(
-            receiver.isLikelyMobileMoney(
-                "Bank",
-                "Payment received: RWF 10,000.",
+            receiver.isLikelyBankNotification(
+                "Courier",
+                "Package received. Reference COL-ABC1234567. EUR 10.00.",
             ),
         )
         assertFalse(
-            receiver.isLikelyMobileMoney(
-                "Airtel Money",
-                "Payment received successfully.",
-            ),
-        )
-        assertFalse(
-            receiver.isLikelyMobileMoney(
-                "MTN MoMo",
-                "Promotion: buy a bundle today and pay only RWF 1,000.",
+            receiver.isLikelyBankNotification(
+                "Collect Bank",
+                "Transfer pending: EUR 10.00. Reference COL-ABC1234567.",
             ),
         )
     }
@@ -84,20 +78,20 @@ class CollectSmsReceiverTest {
     fun envelopeIdIsStableForDuplicateBroadcastsAndChangesWithTimestamp() {
         val first = receiver.envelopeIdFor(
             "user-1",
-            "M-Money",
-            "You received RWF 5,000. Transaction Id: ABC1234.",
+            "Revolut",
+            "Incoming transfer received: EUR 50.00. Reference COL-ABC1234567.",
             1_700_000_000_000,
         )
         val duplicate = receiver.envelopeIdFor(
             "user-1",
-            "M-Money",
-            "You received RWF 5,000. Transaction Id: ABC1234.",
+            "Revolut",
+            "Incoming transfer received: EUR 50.00. Reference COL-ABC1234567.",
             1_700_000_000_000,
         )
         val later = receiver.envelopeIdFor(
             "user-1",
-            "M-Money",
-            "You received RWF 5,000. Transaction Id: ABC1234.",
+            "Revolut",
+            "Incoming transfer received: EUR 50.00. Reference COL-ABC1234567.",
             1_700_000_001_000,
         )
 

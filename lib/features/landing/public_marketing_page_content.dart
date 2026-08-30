@@ -103,7 +103,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
         bullets: [
           'One exact pending transfer request is required',
           'Group and payer credits are created in one transaction',
-          'The audit record and notification are linked to the same payment',
+          'The audit record and notification are linked to the same contribution',
         ],
       ),
     ],

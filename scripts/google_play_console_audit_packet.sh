@@ -93,6 +93,7 @@ checks["store_listing_lengths"] =
 artifact_paths = {
   "aab" => dig_value(packet, ["target_release", "aab_path"]),
   "brand_icon_source" => dig_value(packet, ["store_listing", "assets", "brand_icon_source"]),
+  "play_store_icon" => dig_value(packet, ["store_listing", "assets", "play_store_icon"]),
   "launcher_icon" => dig_value(packet, ["store_listing", "assets", "launcher_icon"])
 }
 artifact_items = artifact_paths.transform_values do |relative|
@@ -107,6 +108,7 @@ missing_artifacts = artifact_items.select { |_name, item| item["exists"] != true
 assets = dig_value(packet, ["store_listing", "assets"]) || {}
 expected_asset_hashes = {
   "brand_icon_source" => assets["brand_icon_sha256"].to_s,
+  "play_store_icon" => assets["play_store_icon_sha256"].to_s,
   "launcher_icon" => assets["launcher_icon_sha256"].to_s
 }
 asset_hash_failures = expected_asset_hashes.each_with_object([]) do |(name, expected), failures|
@@ -130,12 +132,14 @@ feature_graphic_valid =
   File.file?(feature_graphic_path) &&
   Digest::SHA256.file(feature_graphic_path).hexdigest == feature_graphic["sha256"].to_s
 official_icon_policy =
-  assets["brand_icon_source"] == "assets/brand/collect_runtime/app_icons/app-icon-rule.png" &&
-  assets["brand_icon_sha256"] == "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209" &&
+  assets["brand_icon_source"] == "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" &&
+  assets["play_store_icon"] == "fastlane/metadata/android/en-US/images/icon.png" &&
+  assets["brand_icon_sha256"] == "25fabc042f4e2b90ba385388542cfbea764b34e0e8cbeaa18dda12045f277738" &&
+  assets["play_store_icon_sha256"] == "211362791b75bb0e3959d9671532e4736c4dcb545dcc77699ad1d88c6cae9206" &&
   asset_hash_failures.empty?
 screenshots_path = phone_screenshot_policy["path"].to_s
 screenshots_dir = screenshots_path.empty? ? "" : File.join(root, screenshots_path)
-phone_screenshots = screenshots_dir.empty? ? [] : Dir.glob(File.join(screenshots_dir, "*.png")).sort.map do |path|
+phone_screenshots = screenshots_dir.empty? ? [] : Dir.glob(File.join(screenshots_dir, "*.{png,jpg,jpeg}")).sort.map do |path|
   {
     "path" => path.sub(%r{\A#{Regexp.escape(root)}/?}, ""),
     "bytes" => File.size(path)
@@ -153,7 +157,7 @@ phone_screenshot_hashes_valid =
 minimum_screenshots = phone_screenshot_policy["minimum_required"].to_i
 current_screenshots =
   phone_screenshot_policy["status"] == "current_product_capture" &&
-  phone_screenshot_policy["source"] == "native_product_capture_only" &&
+  phone_screenshot_policy["source"].to_s.end_with?("native_product_capture") &&
   phone_screenshot_hashes_valid
 official_feature_graphic = feature_graphic_valid
 checks["store_graphics"] =
@@ -246,7 +250,7 @@ result = {
   "checks" => checks,
   "next_console_actions" => [
     "Upload the AAB to the production draft release after Android Publisher API auth or browser file upload is available.",
-    "Complete and obtain Google Play acceptance of the receive-only SMS Permissions Declaration before public distribution.",
+    "Supersede the obsolete production and internal-test artifacts that still request restricted SMS permissions with the reviewed version-21 no-SMS artifact, then record that the public app requires no SMS or Call Log declaration.",
     "Record live Play Console evidence for publishing overview, production track, app content, store listing, deep links, Android vitals, pre-launch report, app integrity, device catalog, testing tracks, and reporting exports.",
     "Keep any reviewer credentials, service account JSON, cookies, bearer tokens, signing keys, raw SMS, payment identifiers, and customer data out of this packet and out of evidence logs."
   ],

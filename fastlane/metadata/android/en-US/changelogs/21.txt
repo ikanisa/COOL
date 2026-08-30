@@ -1,0 +1,1 @@
+Adds governed EUR bank-transfer requests, exact Collect references, statement reconciliation, reliable ledgers, and contribution notifications.

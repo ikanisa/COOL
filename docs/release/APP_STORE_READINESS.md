@@ -1,8 +1,36 @@
 # Collect Google Play and Apple App Store Readiness
 
-Status date: 2026-08-09
-Release candidate: `1.2.2+14`
-Product boundary: SMS-first Groups
+Status date: 2026-08-20
+Release candidate: `1.2.2+21`
+Product boundary: bank-transfer-only Groups; no payment-initiation API
+
+## Live App Store Connect audit — 2026-08-20
+
+- Version `1.2.2` is `Prepare for Submission`; no item is currently submitted.
+- App Store version `1.2.2` still has build 14 selected.
+- TestFlight builds 14, 15, and 16 are processed; build 16 is the newest upload,
+  is assigned to the Internal group with three testers, and has no recorded
+  installs, sessions, crashes, or feedback.
+- Current production source is build 21. Build 21 has not yet been uploaded or
+  selected, so build 14 must not be submitted as the current product.
+- The previous 5 August submission is `Removed`.
+- Five iPhone screenshots and five iPad screenshots are populated, but they
+  must be regenerated from the bank-transfer-only build before submission.
+- App Privacy is published with eight linked-to-user data types. It must be
+  rechecked against the bank evidence, payer-name/account-last-four, support,
+  device token, and user-content paths before republishing.
+- App Accessibility has unpublished iPhone and iPad drafts. Claimed features
+  remain subject to physical VoiceOver and accessibility evidence.
+- App availability is not configured (`Set Up Availability`). Apple Silicon
+  Mac and Vision Pro distribution are enabled without recorded compatibility
+  testing and must be reviewed before release.
+- The app is currently marked DSA non-trader. The Account Holder must make and
+  document the legal status decision; repository automation must not change it.
+- Manual release remains selected. `Add for Review` was not used during this
+  audit.
+
+The build-14 statements below are retained as historical evidence only. They
+do not describe the current build-21 candidate.
 
 This is the ordered completion list for full submission. A checked local item
 does not clear a provider, physical-device, legal, submission, approval, or
@@ -57,8 +85,8 @@ public-release item.
   team keys, install all four required APNs values in Supabase, redeploy the
   notification functions, verify the secret-name inventory, and remove the
   one-time local private-key download.
-- [ ] Create a least-privilege Firebase/Google service account and set
-  `FCM_SERVICE_ACCOUNT_JSON` in Supabase secrets.
+- [x] Create a least-privilege Firebase/Google service account in the existing
+  May2026 project and set `FCM_SERVICE_ACCOUNT_JSON` in production Supabase.
 - [ ] Validate APNs and FCM token registration, rotation, sign-out cleanup,
   foreground display, background/terminated delivery, tap routing, deep-link
   routing, collapse/deduplication, opt-out, denial, and settings recovery.

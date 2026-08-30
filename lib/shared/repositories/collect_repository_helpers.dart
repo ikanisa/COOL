@@ -1,9 +1,5 @@
 part of 'collect_repository.dart';
 
-String _normalizeMomoPayCode(String value) {
-  return MomoReceiverNormalizer.normalizePayCode(value);
-}
-
 String _slug(String title) {
   final slug = title
       .toLowerCase()

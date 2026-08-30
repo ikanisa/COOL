@@ -18,7 +18,7 @@
     ]
   },
   {
-    "category": "OTHER_FINANCIAL_INFO",
+    "category": "NAME",
     "purposes": [
       "APP_FUNCTIONALITY"
     ],
@@ -27,7 +27,16 @@
     ]
   },
   {
-    "category": "PAYMENT_INFORMATION",
+    "category": "OTHER_DATA_TYPES",
+    "purposes": [
+      "APP_FUNCTIONALITY"
+    ],
+    "data_protections": [
+      "DATA_LINKED_TO_YOU"
+    ]
+  },
+  {
+    "category": "OTHER_FINANCIAL_INFO",
     "purposes": [
       "APP_FUNCTIONALITY"
     ],
