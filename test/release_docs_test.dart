@@ -167,6 +167,35 @@ void main() {
     expect(adminUat, contains('supabase_management_query_file'));
   });
 
+  test('current bank queues have permission-gated SLA support', () {
+    final migration = File(
+      'supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql',
+    ).readAsStringSync();
+
+    for (final queue in <String>[
+      'admin_list_bank_destinations',
+      'admin_list_bank_destination_change_requests',
+      'admin_list_bank_transfer_intents',
+      'admin_list_bank_transactions',
+      'admin_list_bank_evidence',
+      'admin_list_reconciliation_runs',
+      'admin_list_reconciliation_exceptions',
+      'admin_list_bank_allocation_requests',
+      'admin_list_journal_entries',
+    ]) {
+      expect(migration, contains("when '$queue'"), reason: queue);
+    }
+    expect(migration, contains("assert_admin_permission('bank_details.read')"));
+    expect(
+      migration,
+      contains("assert_admin_permission('bank_transactions.read')"),
+    );
+    expect(
+      migration,
+      contains("assert_admin_permission('bank_reconciliation.read')"),
+    );
+  });
+
   test('Google Play packet records no restricted SMS in public production', () {
     final packet =
         jsonDecode(

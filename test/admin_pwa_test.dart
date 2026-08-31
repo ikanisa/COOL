@@ -262,4 +262,15 @@ void main() {
       contains('must not precache Cloudflare _headers metadata'),
     );
   });
+
+  test(
+    'Admin queue SLA compatibility fails soft for an older hosted function',
+    () {
+      final runtime = File(
+        'lib/admin/core/admin_runtime.dart',
+      ).readAsStringSync();
+
+      expect(runtime, contains('unsupported admin queue sla key'));
+    },
+  );
 }

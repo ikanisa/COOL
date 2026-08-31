@@ -261,7 +261,8 @@ class AdminRepository extends AdminRepositoryBase {
     final message =
         '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
             .toLowerCase();
-    return message.contains('p_queue_key') ||
+    return message.contains('unsupported admin queue sla key') ||
+        message.contains('p_queue_key') ||
         message.contains('admin_get_queue_sla') ||
         message.contains('function') && message.contains('not found') ||
         error.code == 'PGRST202';
