@@ -293,7 +293,6 @@ checks["no_legacy_member_or_admin_chrome"] = {
 failures.concat(legacy_design_hits) unless legacy_design_hits.empty?
 
 adaptive_page_header_paths = %w[
-  lib/features/launch/launch_splash_screen.dart
   lib/features/activity/activity_screen.dart
   lib/features/payments/contribution_flow_screen.dart
   lib/features/settings/settings_subscreens.dart
@@ -316,6 +315,34 @@ checks["adaptive_page_header_contrast"] = {
   "hits" => adaptive_page_header_hits
 }
 failures.concat(adaptive_page_header_hits) unless adaptive_page_header_hits.empty?
+
+launch_splash_path = "lib/features/launch/launch_splash_screen.dart"
+launch_splash_text = File.read(File.join(root_dir, launch_splash_path))
+launch_splash_issues = []
+{
+  "missing_neutral_paper_canvas" => /backgroundColor:\s*CollectColors\.brandPaper/,
+  "missing_neutral_paper_body" => /color:\s*CollectColors\.brandPaper/,
+  "missing_high_contrast_foreground" => /CollectColors\.referenceChromeBlack/
+}.each do |check, pattern|
+  next if launch_splash_text.match?(pattern)
+
+  launch_splash_issues << {
+    "check" => check,
+    "path" => launch_splash_path
+  }
+end
+if launch_splash_text.match?(/CollectGradientBackground|\.onImagePrimary\b/)
+  launch_splash_issues << {
+    "check" => "launch_splash_uses_adaptive_image_chrome",
+    "path" => launch_splash_path
+  }
+end
+checks["launch_splash_neutral_canvas"] = {
+  "status" => launch_splash_issues.empty? ? "pass" : "fail",
+  "path" => launch_splash_path,
+  "hits" => launch_splash_issues
+}
+failures.concat(launch_splash_issues) unless launch_splash_issues.empty?
 
 typography_scope = tracked_and_untracked_files(
   root_dir,
