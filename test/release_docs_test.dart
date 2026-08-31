@@ -106,9 +106,32 @@ void main() {
     expect(readiness, contains('FCM_SERVICE_ACCOUNT_JSON'));
     expect(readiness, contains('APNS_PRIVATE_KEY_BASE64'));
     expect(readiness, contains('check_bank_sql_privileges'));
+    expect(readiness, contains('Production Auth has a fixed SMS test OTP'));
+    expect(readiness, contains('sms_test_otp_valid_until'));
     expect(readiness, isNot(contains('STRIPE_SECRET_KEY')));
     expect(readiness, isNot(contains('STRIPE_WEBHOOK_SECRET')));
     expect(readiness, isNot(contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON')));
+  });
+
+  test('production Auth hardening clears fixed OTP overrides', () {
+    final hardening = File(
+      'scripts/supabase_apply_auth_hardening.sh',
+    ).readAsStringSync();
+
+    expect(hardening, contains('sms_test_otp: nil'));
+    expect(hardening, contains('sms_test_otp_valid_until: nil'));
+  });
+
+  test('advisor inventory pins the reviewed current RPC ceiling', () {
+    final inventory = File(
+      'scripts/supabase_advisors_warning_inventory.sh',
+    ).readAsStringSync();
+
+    expect(
+      inventory,
+      contains('"authenticated_security_definer_function_executable" => 87'),
+    );
+    expect(inventory, contains('update_current_profile()'));
   });
 
   test(
@@ -130,6 +153,19 @@ void main() {
       expect(uat, contains('stripe_customers'));
     },
   );
+
+  test('linked database UAT has an HTTPS Management API fallback', () {
+    final helpers = File('scripts/supabase_cli_helpers.sh').readAsStringSync();
+    final linkedUat = File('scripts/collect_linked_uat.sh').readAsStringSync();
+    final adminUat = File(
+      'scripts/collect_admin_security_uat.sh',
+    ).readAsStringSync();
+
+    expect(helpers, contains('supabase_management_query_file'));
+    expect(helpers, contains('/database/query'));
+    expect(linkedUat, contains('supabase_management_query_file'));
+    expect(adminUat, contains('supabase_management_query_file'));
+  });
 
   test('Google Play packet records no restricted SMS in public production', () {
     final packet =

@@ -44,7 +44,10 @@ function sleep(ms) {
 async function fetchJson(url, options = {}) {
   let response;
   try {
-    response = await fetch(url, options);
+    response = await fetch(url, {
+      ...options,
+      signal: options.signal || AbortSignal.timeout(15000),
+    });
   } catch (error) {
     throw new Error(`${options.method || 'GET'} ${url} failed: ${error.message}`);
   }
@@ -89,9 +92,18 @@ class CdpClient {
 
   connect() {
     return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Timed out connecting to the Chrome DevTools target'));
+      }, 30000);
       this.ws = new WebSocket(this.wsUrl);
-      this.ws.addEventListener('open', () => resolve());
-      this.ws.addEventListener('error', (event) => reject(new Error(String(event.message || event.type))));
+      this.ws.addEventListener('open', () => {
+        clearTimeout(timeout);
+        resolve();
+      });
+      this.ws.addEventListener('error', (event) => {
+        clearTimeout(timeout);
+        reject(new Error(String(event.message || event.type)));
+      });
       this.ws.addEventListener('message', (event) => this.handleMessage(event.data));
     });
   }
@@ -99,8 +111,9 @@ class CdpClient {
   handleMessage(raw) {
     const message = JSON.parse(String(raw));
     if (message.id && this.pending.has(message.id)) {
-      const { resolve, reject } = this.pending.get(message.id);
+      const { resolve, reject, timeout } = this.pending.get(message.id);
       this.pending.delete(message.id);
+      clearTimeout(timeout);
       if (message.error) {
         reject(new Error(message.error.message || JSON.stringify(message.error)));
       } else {
@@ -138,12 +151,16 @@ class CdpClient {
     }
   }
 
-  send(method, params = {}) {
+  send(method, params = {}, timeoutMs = 30000) {
     const id = this.nextId;
     this.nextId += 1;
     this.ws.send(JSON.stringify({ id, method, params }));
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      const timeout = setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error(`Timed out waiting for ${method} response`));
+      }, timeoutMs);
+      this.pending.set(id, { resolve, reject, timeout });
     });
   }
 
@@ -164,6 +181,11 @@ class CdpClient {
   }
 
   close() {
+    for (const { reject, timeout } of this.pending.values()) {
+      clearTimeout(timeout);
+      reject(new Error('CDP connection closed'));
+    }
+    this.pending.clear();
     if (this.ws) {
       this.ws.close();
     }
@@ -199,7 +221,9 @@ async function evaluateRuntime(cdp) {
         return result;
       }
 
-      let registration = await navigator.serviceWorker.getRegistration();
+      let registration = await navigator.serviceWorker.getRegistration(
+        new URL('/', location.origin).href,
+      );
       if (!registration) {
         const ready = await Promise.race([navigator.serviceWorker.ready, timeout(5000, 'serviceWorker.ready')]);
         if (!ready.__timeout) {
@@ -214,7 +238,16 @@ async function evaluateRuntime(cdp) {
       result.cacheKeys = await caches.keys();
 
       for (const url of requiredCacheUrls) {
-        result.cached[url] = Boolean(await caches.match(url, { ignoreSearch: true }));
+        const absoluteUrl = new URL(url, new URL('/', location.origin)).href;
+        let matched = false;
+        for (const key of result.cacheKeys) {
+          const cache = await caches.open(key);
+          if (await cache.match(absoluteUrl, { ignoreSearch: true })) {
+            matched = true;
+            break;
+          }
+        }
+        result.cached[url] = matched;
       }
 
       result.ok = Boolean(
@@ -340,6 +373,13 @@ try {
   }
   if (chromeProcess.exitCode === null && chromeProcess.signalCode === null) {
     chromeProcess.kill('SIGTERM');
+    await Promise.race([
+      new Promise((resolve) => chromeProcess.once('exit', resolve)),
+      sleep(2000),
+    ]);
+  }
+  if (chromeProcess.exitCode === null && chromeProcess.signalCode === null) {
+    chromeProcess.kill('SIGKILL');
     await Promise.race([
       new Promise((resolve) => chromeProcess.once('exit', resolve)),
       sleep(2000),

@@ -60,8 +60,15 @@ if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
     printf '[collect-linked-uat] bank-transfer rollback UAT passed via linked database query\n'
     exit 0
   fi
-  printf '[collect-linked-uat][WARN] Linked query failed after %ss; falling back to the readiness database URL.\n' \
+  printf '[collect-linked-uat][WARN] Linked query failed after %ss; trying the Management API query path.\n' \
     "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" >&2
+
+  if [[ -n "${SUPABASE_ACCESS_TOKEN:-}" && -n "${SUPABASE_PROJECT_REF:-}" ]] &&
+    supabase_management_query_file "$UAT_SQL" >/dev/null; then
+    printf '[collect-linked-uat] bank-transfer rollback UAT passed via Supabase Management API query\n'
+    exit 0
+  fi
+  printf '[collect-linked-uat][WARN] Management API query failed; falling back to the readiness database URL.\n' >&2
 fi
 
 psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$UAT_SQL"

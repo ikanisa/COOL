@@ -98,7 +98,16 @@ File.write(index_path, index)
 
 cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
   .select { |path| File.file?(path) }
-  .reject { |path| path.end_with?(".DS_Store", ".last_build_id", "custom-sw.js", "flutter_service_worker.js") }
+  .reject do |path|
+    path.end_with?(
+      ".DS_Store",
+      ".last_build_id",
+      "_headers",
+      "_redirects",
+      "custom-sw.js",
+      "flutter_service_worker.js"
+    )
+  end
   .map { |path| path.sub(%r{\Abuild/web/}, "") }
   .sort
 
@@ -188,6 +197,10 @@ File.write(
     });
   JAVASCRIPT
 )
+
+generated_service_worker = File.read(service_worker_path)
+abort("custom-sw.js must not precache Cloudflare _headers metadata") if generated_service_worker.include?('"./_headers"')
+abort("custom-sw.js must not precache Cloudflare _redirects metadata") if generated_service_worker.include?('"./_redirects"')
 RUBY
 
 /bin/bash "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"

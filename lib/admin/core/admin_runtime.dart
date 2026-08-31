@@ -81,6 +81,7 @@ class AdminRepository extends AdminRepositoryBase {
     await _requireClient().auth.signInWithOtp(
       phone: normalizedPhone,
       channel: OtpChannel.whatsapp,
+      shouldCreateUser: false,
     );
   }
 

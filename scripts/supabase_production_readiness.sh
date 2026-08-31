@@ -164,7 +164,11 @@ db_query_file() {
       db_query_json_rows <<< "$output"
       return 0
     fi
-    warn "Linked database query failed; falling back to READINESS_DATABASE_URL."
+    warn "Linked database query failed; trying the Supabase Management API query path."
+    if supabase_management_query_rows_file "$query_file"; then
+      return 0
+    fi
+    warn "Management API query failed; falling back to READINESS_DATABASE_URL."
   fi
 
   psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$query_file"
@@ -975,6 +979,12 @@ expected_sms_hook_uri = "#{ENV.fetch("SUPABASE_URL")}/functions/v1/auth-send-wha
 issues << "Phone auth is disabled; WhatsApp OTP login cannot work." if data["external_phone_enabled"] != true
 issues << "Send SMS Auth hook is disabled; WhatsApp OTP delivery will not use the Collect hook." if data["hook_send_sms_enabled"] != true
 issues << "Phone OTP expiry must be 600 seconds for the 10 minute admin WhatsApp login window." if data["sms_otp_exp"].to_i != 600
+unless data["sms_test_otp"].to_s.empty?
+  abort("[supabase-ready][FAIL] Production Auth has a fixed SMS test OTP mapping configured.")
+end
+unless data["sms_test_otp_valid_until"].to_s.empty?
+  abort("[supabase-ready][FAIL] Production Auth retains an SMS test OTP validity override.")
+end
 if data["hook_send_sms_uri"].to_s != expected_sms_hook_uri
   issues << "Send SMS Auth hook URI does not point to the deployed WhatsApp OTP function."
 end

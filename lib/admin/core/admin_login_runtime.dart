@@ -12,7 +12,10 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   final _otp = TextEditingController();
   var _otpSent = false;
   var _isBusy = false;
+  var _resendSecondsRemaining = 0;
   String? _error;
+  String? _statusMessage;
+  Timer? _resendTimer;
 
   String get _phoneForAuth {
     final raw = _phone.text.trim();
@@ -25,6 +28,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
 
   @override
   void dispose() {
+    _resendTimer?.cancel();
     _phone.dispose();
     _otp.dispose();
     super.dispose();
@@ -172,6 +176,20 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                               const SizedBox(height: 14),
                               _AdminLoginError(message: _error!),
                             ],
+                            if (_statusMessage != null) ...[
+                              const SizedBox(height: 14),
+                              Semantics(
+                                liveRegion: true,
+                                child: Text(
+                                  _statusMessage!,
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    color: colors.successForeground,
+                                    fontWeight:
+                                        CollectTypography.weightSemibold,
+                                  ),
+                                ),
+                              ),
+                            ],
                             const SizedBox(height: 24),
                             Semantics(
                               button: true,
@@ -223,6 +241,29 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 ),
                               ),
                             ),
+                            if (_otpSent) ...[
+                              const SizedBox(height: 10),
+                              Semantics(
+                                button: true,
+                                label: _resendSecondsRemaining > 0
+                                    ? 'Resend admin WhatsApp OTP available in $_resendSecondsRemaining seconds'
+                                    : 'Resend admin WhatsApp OTP',
+                                enabled:
+                                    !_isBusy && _resendSecondsRemaining == 0,
+                                child: TextButton.icon(
+                                  onPressed:
+                                      _isBusy || _resendSecondsRemaining > 0
+                                      ? null
+                                      : _resendOtp,
+                                  icon: const Icon(Icons.refresh_rounded),
+                                  label: Text(
+                                    _resendSecondsRemaining > 0
+                                        ? 'Resend code in ${_resendSecondsRemaining}s'
+                                        : 'Resend WhatsApp OTP',
+                                  ),
+                                ),
+                              ),
+                            ],
                             const SizedBox(height: 18),
                             const _AdminLoginAssuranceRow(),
                           ],
@@ -243,12 +284,19 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     setState(() {
       _isBusy = true;
       _error = null;
+      _statusMessage = null;
     });
     try {
       final repository = ref.read(adminRepositoryProvider);
       if (!_otpSent) {
         await repository.sendOtp(phone: _phoneForAuth);
-        if (mounted) setState(() => _otpSent = true);
+        if (mounted) {
+          setState(() {
+            _otpSent = true;
+            _statusMessage = 'WhatsApp OTP sent. It expires in 10 minutes.';
+          });
+          _startResendCooldown();
+        }
       } else {
         final identity = await repository.verifyOtp(
           phone: _phoneForAuth,
@@ -258,7 +306,13 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
         ref.invalidate(adminIdentityProvider);
         if (!mounted) return;
         if (identity == null) {
-          setState(() => _error = 'This account is not authorized for admin.');
+          await repository.signOut();
+          ref.invalidate(adminAuthGuardProvider);
+          if (mounted) {
+            setState(
+              () => _error = 'This account is not authorized for admin.',
+            );
+          }
         } else {
           context.go('/admin');
         }
@@ -268,6 +322,44 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     } finally {
       if (mounted) setState(() => _isBusy = false);
     }
+  }
+
+  Future<void> _resendOtp() async {
+    setState(() {
+      _isBusy = true;
+      _error = null;
+      _statusMessage = null;
+    });
+    try {
+      await ref.read(adminRepositoryProvider).sendOtp(phone: _phoneForAuth);
+      if (!mounted) return;
+      setState(
+        () => _statusMessage =
+            'A new WhatsApp OTP was sent. Earlier codes are no longer accepted.',
+      );
+      _startResendCooldown();
+    } catch (error) {
+      if (mounted) setState(() => _error = _adminLoginErrorMessage(error));
+    } finally {
+      if (mounted) setState(() => _isBusy = false);
+    }
+  }
+
+  void _startResendCooldown() {
+    _resendTimer?.cancel();
+    setState(() => _resendSecondsRemaining = 60);
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      if (_resendSecondsRemaining <= 1) {
+        timer.cancel();
+        setState(() => _resendSecondsRemaining = 0);
+      } else {
+        setState(() => _resendSecondsRemaining -= 1);
+      }
+    });
   }
 
   String _adminLoginErrorMessage(Object error) {

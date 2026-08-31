@@ -67,7 +67,12 @@ payload="$(
       security_update_password_require_reauthentication: true,
       sms_otp_exp: 600,
       sms_otp_length: 6,
-      sms_max_frequency: 30
+      sms_max_frequency: 30,
+      # Fixed OTP mappings are local-development fixtures only. Explicitly
+      # clear both fields so a stale Dashboard override cannot bypass the
+      # production WhatsApp delivery path.
+      sms_test_otp: nil,
+      sms_test_otp_valid_until: nil
     }
 
     if ENV["AUTH_CAPTCHA_SECRET"] && !ENV["AUTH_CAPTCHA_SECRET"].empty?
@@ -131,6 +136,8 @@ ruby -r json -e '
       sms_otp_exp
       sms_otp_length
       sms_max_frequency
+      sms_test_otp
+      sms_test_otp_valid_until
     ].each { |key| puts "#{key}=#{data[key].inspect}" if data.key?(key) }
     puts "hook_send_sms_secrets=<redacted>" if data.key?("hook_send_sms_secrets")
   ' <"$response_file"

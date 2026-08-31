@@ -37,11 +37,20 @@ declare
   raw_sms_id uuid;
   payment_intent record;
   parsed_event_id uuid;
+  notification_event_id uuid;
   reparse_response jsonb;
   metadata_response jsonb;
   reveal_response jsonb;
   admin_response jsonb;
   role_id uuid;
+  role_matrix_user_id uuid;
+  role_row record;
+  permission_row record;
+  expected_permission boolean;
+  actual_permission boolean;
+  role_index integer := 0;
+  feature_flag_key text;
+  feature_flag_enabled boolean;
   raw_body text := 'You have received 7,777 RWF from Admin UAT Sender +250788654321. Financial Transaction Id: ADMIN-UAT-001. New balance is 900,000 RWF.';
   receiver_phone text := '+250788111222';
   receiver_hash text := encode(extensions.digest('+250788111222', 'sha256'), 'hex');
@@ -121,6 +130,95 @@ begin
     insert into admin_user_roles (user_id, role_id, granted_by, reason)
     values (read_only_admin_id, role_id, owner_id, 'Rollback UAT read-only role');
   end loop;
+
+  for role_row in select id, name from admin_roles order by name loop
+    role_index := role_index + 1;
+    role_matrix_user_id := gen_random_uuid();
+    insert into auth.users (
+      id,
+      aud,
+      role,
+      phone,
+      phone_confirmed_at,
+      raw_app_meta_data,
+      raw_user_meta_data,
+      created_at,
+      updated_at
+    ) values (
+      role_matrix_user_id,
+      'authenticated',
+      'authenticated',
+      '+2507891' || lpad(role_index::text, 5, '0'),
+      now(),
+      '{}'::jsonb,
+      '{}'::jsonb,
+      now(),
+      now()
+    );
+    insert into admin_user_roles (user_id, role_id, granted_by, reason)
+    values (
+      role_matrix_user_id,
+      role_row.id,
+      owner_id,
+      'Rollback UAT exhaustive role matrix'
+    );
+
+    perform set_config('request.jwt.claim.sub', role_matrix_user_id::text, true);
+    for permission_row in select name from admin_permissions order by name loop
+      select exists (
+        select 1
+        from admin_role_permissions matrix_permission
+        where matrix_permission.role_id = role_row.id
+          and matrix_permission.permission_name = permission_row.name
+      ) into expected_permission;
+      actual_permission := current_user_has_admin_permission(
+        permission_row.name
+      );
+      if actual_permission is distinct from expected_permission then
+        raise exception 'Role matrix mismatch: role %, permission %, expected %, actual %',
+          role_row.name,
+          permission_row.name,
+          expected_permission,
+          actual_permission;
+      end if;
+    end loop;
+
+    admin_response := admin_current_user();
+    if not coalesce(admin_response->'roles' ? role_row.name, false) then
+      raise exception 'Admin identity omitted active role %', role_row.name;
+    end if;
+    if jsonb_array_length(coalesce(admin_response->'permissions', '[]'::jsonb))
+       <> (
+         select count(*)
+         from admin_role_permissions matrix_permission
+         where matrix_permission.role_id = role_row.id
+       ) then
+      raise exception 'Admin identity permission count mismatch for role %',
+        role_row.name;
+    end if;
+  end loop;
+
+  perform set_config('request.jwt.claim.sub', contributor_id::text, true);
+  if admin_current_user() <> '{}'::jsonb then
+    raise exception 'Non-admin identity unexpectedly entered the admin control plane';
+  end if;
+  if exists (
+    select 1
+    from admin_permissions permission
+    where current_user_has_admin_permission(permission.name)
+  ) then
+    raise exception 'Non-admin identity unexpectedly received an admin permission';
+  end if;
+  if exists (
+    select 1
+    from pg_proc procedure
+    join pg_namespace namespace on namespace.oid = procedure.pronamespace
+    where namespace.nspname = 'public'
+      and left(procedure.proname, 6) = 'admin_'
+      and has_function_privilege('anon', procedure.oid, 'EXECUTE')
+  ) then
+    raise exception 'Anonymous role can execute an admin function';
+  end if;
 
   perform set_config('request.jwt.claim.sub', owner_id::text, true);
   collection_id := create_group_with_owner(
@@ -245,6 +343,135 @@ begin
     raise exception 'admin role-management audit trail is incomplete';
   end if;
 
+  select key, enabled
+  into feature_flag_key, feature_flag_enabled
+  from feature_flags
+  order by key
+  limit 1;
+  if feature_flag_key is null then
+    raise exception 'Feature flag control-plane UAT requires at least one flag';
+  end if;
+  begin
+    perform admin_set_feature_flag(feature_flag_key, feature_flag_enabled, '');
+    raise exception 'Feature flag update unexpectedly accepted a blank reason';
+  exception
+    when others then
+      if sqlerrm not like 'Feature flag change reason is required%' then
+        raise exception 'unexpected feature flag reason error: %', sqlerrm;
+      end if;
+  end;
+  perform admin_set_feature_flag(
+    feature_flag_key,
+    feature_flag_enabled,
+    'Rollback UAT feature flag review'
+  );
+  if not exists (
+    select 1 from audit_logs
+    where actor_user_id = owner_id
+      and action = 'admin.feature_flag.updated'
+      and metadata->>'reason' = 'Rollback UAT feature flag review'
+  ) then
+    raise exception 'Feature flag audit trail is incomplete';
+  end if;
+
+  begin
+    perform admin_update_collection_support_status(collection_id, 'private', '');
+    raise exception 'Collection moderation unexpectedly accepted a blank reason';
+  exception
+    when others then
+      if sqlerrm not like 'Reason is required%' then
+        raise exception 'unexpected collection moderation reason error: %', sqlerrm;
+      end if;
+  end;
+  perform admin_update_collection_support_status(
+    collection_id,
+    'private',
+    'Rollback UAT group moderation'
+  );
+  if not exists (
+    select 1 from audit_logs
+    where actor_user_id = owner_id
+      and entity_id = collection_id
+      and action = 'collection.support_status.updated'
+      and metadata->>'reason' = 'Rollback UAT group moderation'
+  ) then
+    raise exception 'Collection moderation audit trail is incomplete';
+  end if;
+
+  insert into notification_device_tokens (
+    user_id,
+    platform,
+    provider,
+    token,
+    token_hash,
+    token_last_four,
+    environment,
+    enabled
+  ) values (
+    owner_id,
+    'ios',
+    'apns',
+    repeat(md5(owner_id::text), 2),
+    encode(
+      extensions.digest(repeat(md5(owner_id::text), 2), 'sha256'),
+      'hex'
+    ),
+    right(repeat(md5(owner_id::text), 2), 4),
+    'sandbox',
+    true
+  );
+  insert into notification_events (
+    user_id,
+    collection_id,
+    type,
+    title,
+    body,
+    status,
+    last_error_code
+  ) values (
+    owner_id,
+    collection_id,
+    'security_notice',
+    'Rollback UAT notification',
+    'Synthetic rollback-only notification retry.',
+    'failed',
+    'rollback_uat'
+  ) returning id into notification_event_id;
+  update notification_deliveries
+  set status = 'failed',
+      attempt_count = 2,
+      last_error_code = 'rollback_uat'
+  where event_id = notification_event_id;
+
+  begin
+    perform admin_retry_notification(notification_event_id, '');
+    raise exception 'Notification retry unexpectedly accepted a blank reason';
+  exception
+    when others then
+      if sqlerrm not like 'Reason is required%' then
+        raise exception 'unexpected notification retry reason error: %', sqlerrm;
+      end if;
+  end;
+  perform admin_retry_notification(
+    notification_event_id,
+    'Rollback UAT notification retry'
+  );
+  if not exists (
+    select 1 from notification_deliveries
+    where event_id = notification_event_id
+      and status = 'queued'
+      and prior_attempt_count = 2
+      and attempt_count = 0
+  ) or not exists (
+    select 1 from audit_logs
+    where actor_user_id = owner_id
+      and entity_id = notification_event_id
+      and action = 'notification.delivery.retried'
+      and metadata->>'reason' = 'Rollback UAT notification retry'
+  ) then
+    raise exception 'Notification retry state or audit trail is incomplete';
+  end if;
+
   insert into parsed_payment_events (
     raw_sms_id,
     collection_id,
@@ -331,11 +558,18 @@ if [[ "$SUPABASE_DB_QUERY_MODE" == "local" ]]; then
 fi
 
 if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
-  if SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null; then
+  if (SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null); then
     printf '[collect-admin-uat] rollback admin/security UAT passed via linked database query\n'
     exit 0
   fi
-  printf '[collect-admin-uat][WARN] Linked database query failed; falling back to READINESS_DATABASE_URL.\n' >&2
+  printf '[collect-admin-uat][WARN] Linked database query failed; trying the Management API query path.\n' >&2
+
+  if [[ -n "${SUPABASE_ACCESS_TOKEN:-}" && -n "${SUPABASE_PROJECT_REF:-}" ]] &&
+    supabase_management_query_file "$tmp_sql" >/dev/null; then
+    printf '[collect-admin-uat] rollback admin/security UAT passed via Supabase Management API query\n'
+    exit 0
+  fi
+  printf '[collect-admin-uat][WARN] Management API query failed; falling back to READINESS_DATABASE_URL.\n' >&2
 fi
 
 psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$tmp_sql"

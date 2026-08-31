@@ -83,8 +83,11 @@ allowed_security_max = {
   # Existing reviewed examples remain admin_runtime_config(), which filters by
   # signed-in admin permissions; get_active_policy_document(), which returns
   # published content; and record_policy_acceptance(), which writes only the
-  # signed-in user's acceptance event.
-  "authenticated_security_definer_function_executable" => 86,
+  # signed-in user's acceptance event. The 20260828100000 profile-country
+  # migration adds update_current_profile(), which is bound to auth.uid(),
+  # validates country/name inputs, and writes an audit event for that same
+  # profile. This brings the exact reviewed ceiling to 87.
+  "authenticated_security_definer_function_executable" => 87,
   "auth_leaked_password_protection" => 1
 }
 

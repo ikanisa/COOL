@@ -34,3 +34,45 @@ psql_cli() {
     exit 1
   fi
 }
+
+supabase_management_query_file() {
+  local query_file="$1"
+  : "${SUPABASE_ACCESS_TOKEN:?SUPABASE_ACCESS_TOKEN is required}"
+  : "${SUPABASE_PROJECT_REF:?SUPABASE_PROJECT_REF is required}"
+
+  local payload response http_status body
+  payload="$(ruby -r json - "$query_file" <<'RUBY'
+path = ARGV.fetch(0)
+print JSON.generate(query: File.read(path), parameters: [])
+RUBY
+)"
+  response="$(curl -sS -w '\n%{http_code}' \
+    -X POST "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/database/query" \
+    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+    -H "Content-Type: application/json" \
+    --data-binary "$payload")"
+  http_status="${response##*$'\n'}"
+  body="${response%$'\n'*}"
+
+  if [[ "$http_status" != "200" && "$http_status" != "201" ]]; then
+    printf '[supabase-management-query][FAIL] Management API database query returned HTTP %s.\n' "$http_status" >&2
+    return 1
+  fi
+
+  printf '%s\n' "$body"
+}
+
+supabase_management_query_rows_file() {
+  local query_file="$1"
+  local output
+  output="$(supabase_management_query_file "$query_file")" || return $?
+  QUERY_JSON_OUTPUT="$output" ruby -r json <<'RUBY'
+rows = JSON.parse(ENV.fetch("QUERY_JSON_OUTPUT"))
+abort("Management API database query did not return a row array") unless rows.is_a?(Array)
+rows.each do |row|
+  abort("Management API database query returned a non-object row") unless row.is_a?(Hash)
+  values = row.values
+  puts(values.length == 1 ? values.first.to_s : values.map(&:to_s).join("\t"))
+end
+RUBY
+}

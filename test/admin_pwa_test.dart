@@ -166,6 +166,24 @@ void main() {
     },
   );
 
+  test('production admin OTP is enrollment-safe and supports resend', () {
+    final repository = File(
+      'lib/admin/core/admin_runtime.dart',
+    ).readAsStringSync();
+    final login = File(
+      'lib/admin/core/admin_login_runtime.dart',
+    ).readAsStringSync();
+    final guard = File(
+      'lib/admin/core/admin_auth_guard.dart',
+    ).readAsStringSync();
+
+    expect(repository, contains('shouldCreateUser: false'));
+    expect(login, contains('Resend WhatsApp OTP'));
+    expect(login, contains('_startResendCooldown'));
+    expect(login, contains('await repository.signOut()'));
+    expect(guard, contains('onAuthStateChange'));
+  });
+
   test(
     'local Supabase review auth is isolated from production provisioning',
     () {
@@ -220,5 +238,28 @@ void main() {
     }
     expect(renderSmoke, contains('routeCount") == 33'));
     expect(renderSmoke, contains('screenshotCount") == 99'));
+  });
+
+  test('Admin PWA runtime probe fails closed on stalled CDP commands', () {
+    final runtime = File(
+      'scripts/admin_pwa_runtime_smoke.mjs',
+    ).readAsStringSync();
+
+    expect(runtime, contains(r'Timed out waiting for ${method} response'));
+    expect(runtime, contains('this.pending.delete(id)'));
+    expect(runtime, contains('clearTimeout(timeout)'));
+  });
+
+  test('Admin PWA cache excludes Cloudflare deployment metadata', () {
+    final releaseBuild = File(
+      'scripts/admin_pwa_release_build.sh',
+    ).readAsStringSync();
+
+    expect(releaseBuild, contains('"_headers"'));
+    expect(releaseBuild, contains('"_redirects"'));
+    expect(
+      releaseBuild,
+      contains('must not precache Cloudflare _headers metadata'),
+    );
   });
 }
