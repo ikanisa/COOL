@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T09:14:32Z",
+  "generated_at": "2026-08-31T09:31:05Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -18,10 +18,10 @@
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
       "branch": "main",
-      "version_id": "f3b75543-a8cb-4257-98a2-a7b417021a59",
-      "rollback_version_id": "06657def-fd8a-4766-8db8-9b24f0464c2a",
+      "version_id": "2c458f3c-0f33-47ae-898a-13d4acf096cb",
+      "rollback_version_id": "f3b75543-a8cb-4257-98a2-a7b417021a59",
       "live_gate_status": "pass",
-      "evidence": "The exact isolated release commit passed static analysis, all 288 Flutter tests, the Admin manifest and hosting gates, and local and custom-domain PWA runtime probes. Wrangler 4.124.0 deployed version f3b75543-a8cb-4257-98a2-a7b417021a59 directly to collect-admin at 100% traffic; version 06657def-fd8a-4766-8db8-9b24f0464c2a is retained as the rollback target. The custom-domain live gate passed with no blockers or failures and all required assets returned HTTP 200 with the expected security headers. In the authenticated Codex web view, all 19 workspace routes rendered after deployment with zero console errors or warnings, and all nine bank queues returned admin_get_queue_sla HTTP 200 with zero HTTP failures or runtime exceptions."
+      "evidence": "The exact isolated release commit passed static analysis, all 288 Flutter tests, the Admin manifest and hosting gates, and local and custom-domain PWA runtime probes. Wrangler 4.124.0 deployed logout-hardening version 2c458f3c-0f33-47ae-898a-13d4acf096cb directly to collect-admin at 100% traffic; version f3b75543-a8cb-4257-98a2-a7b417021a59 is retained as the rollback target. The custom-domain live gate passed with no blockers or failures and all required assets returned HTTP 200 with the expected security headers. In the authenticated Codex web view before the logout-hardening redeploy, all 19 workspace routes rendered with zero console errors or warnings, and all nine bank queues returned admin_get_queue_sla HTTP 200 with zero HTTP failures or runtime exceptions. A fresh OTP session is required to complete live readback of the deployed logout hardening."
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."
