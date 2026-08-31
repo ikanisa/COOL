@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T05:34:14Z",
+  "generated_at": "2026-08-31T09:14:32Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -18,10 +18,10 @@
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
       "branch": "main",
-      "version_id": "06657def-fd8a-4766-8db8-9b24f0464c2a",
-      "rollback_version_id": "0896721e-a9b1-479d-969d-8c6ca5b30929",
+      "version_id": "f3b75543-a8cb-4257-98a2-a7b417021a59",
+      "rollback_version_id": "06657def-fd8a-4766-8db8-9b24f0464c2a",
       "live_gate_status": "pass",
-      "evidence": "The hardened Admin PWA passed its manifest and hosting gates, the 33-route by 3-viewport browser matrix passed 99/99, and the production service-worker runtime probe passed after excluding Cloudflare deployment metadata from the precache list. Wrangler 4.124.0 deployed version 06657def-fd8a-4766-8db8-9b24f0464c2a directly to collect-admin at 100% traffic; stable version 0896721e-a9b1-479d-969d-8c6ca5b30929 is retained as the rollback target. The custom-domain live gate passed on 2026-08-31 with no blockers or failures and all required assets returning HTTP 200 with the expected security headers."
+      "evidence": "The exact isolated release commit passed static analysis, all 288 Flutter tests, the Admin manifest and hosting gates, and local and custom-domain PWA runtime probes. Wrangler 4.124.0 deployed version f3b75543-a8cb-4257-98a2-a7b417021a59 directly to collect-admin at 100% traffic; version 06657def-fd8a-4766-8db8-9b24f0464c2a is retained as the rollback target. The custom-domain live gate passed with no blockers or failures and all required assets returned HTTP 200 with the expected security headers. In the authenticated Codex web view, all 19 workspace routes rendered after deployment with zero console errors or warnings, and all nine bank queues returned admin_get_queue_sla HTTP 200 with zero HTTP failures or runtime exceptions."
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."
