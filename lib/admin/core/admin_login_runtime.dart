@@ -206,7 +206,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                   minimumSize: const Size.fromHeight(58),
                                   backgroundColor:
                                       CollectColors.referenceChromeBlack,
-                                  foregroundColor: colors.surfaceReadable,
+                                  foregroundColor: colors.onImagePrimary,
                                   disabledBackgroundColor:
                                       colors.neutralContainer,
                                   disabledForegroundColor: colors.textMuted,
@@ -225,7 +225,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                         height: 18,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
-                                          color: colors.surfaceReadable,
+                                          color: colors.onImagePrimary,
                                         ),
                                       )
                                     : Icon(

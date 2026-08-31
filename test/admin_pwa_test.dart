@@ -4,6 +4,7 @@ import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/admin_shell.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
+import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -186,6 +187,19 @@ void main() {
     expect(shell, contains('ref.invalidate(adminAuthStateProvider)'));
     expect(shell, contains('ref.invalidate(adminAuthGuardProvider)'));
     expect(shell, contains('ref.invalidate(adminIdentityProvider)'));
+  });
+
+  test('admin login primary action keeps readable dark-surface contrast', () {
+    final login = File(
+      'lib/admin/core/admin_login_runtime.dart',
+    ).readAsStringSync();
+    final foreground = CollectColors.brandPaper.computeLuminance();
+    final background = CollectColors.referenceChromeBlack.computeLuminance();
+    final contrastRatio = (foreground + 0.05) / (background + 0.05);
+
+    expect(login, contains('foregroundColor: colors.onImagePrimary'));
+    expect(login, contains('color: colors.onImagePrimary'));
+    expect(contrastRatio, greaterThanOrEqualTo(4.5));
   });
 
   test(
