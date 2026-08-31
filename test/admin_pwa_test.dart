@@ -176,12 +176,16 @@ void main() {
     final guard = File(
       'lib/admin/core/admin_auth_guard.dart',
     ).readAsStringSync();
+    final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
 
     expect(repository, contains('shouldCreateUser: false'));
     expect(login, contains('Resend WhatsApp OTP'));
     expect(login, contains('_startResendCooldown'));
     expect(login, contains('await repository.signOut()'));
     expect(guard, contains('onAuthStateChange'));
+    expect(shell, contains('ref.invalidate(adminAuthStateProvider)'));
+    expect(shell, contains('ref.invalidate(adminAuthGuardProvider)'));
+    expect(shell, contains('ref.invalidate(adminIdentityProvider)'));
   });
 
   test(

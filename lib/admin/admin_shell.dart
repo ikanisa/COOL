@@ -6,6 +6,7 @@ import '../app/env/app_env.dart';
 import '../app/theme/collect_colors.dart';
 import '../app/theme/collect_spacing.dart';
 import '../app/theme/collect_typography.dart';
+import 'core/admin_auth_guard.dart';
 import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
 import 'shared/components/admin_loading_state.dart';
@@ -765,6 +766,9 @@ class _AdminTopbar extends ConsumerWidget {
                       onSelected: (value) async {
                         if (value != 'sign-out') return;
                         await ref.read(adminRepositoryProvider).signOut();
+                        ref.invalidate(adminAuthStateProvider);
+                        ref.invalidate(adminAuthGuardProvider);
+                        ref.invalidate(adminIdentityProvider);
                         if (context.mounted) context.go('/admin/login');
                       },
                       itemBuilder: (context) => const [
