@@ -18,6 +18,8 @@ const adminRoutePaths = <String>[
   '/admin',
   '/admin/groups',
   '/admin/groups/:id',
+  '/admin/users',
+  '/admin/users/:id',
   '/admin/members',
   '/admin/members/:id',
   '/admin/payees',
@@ -95,9 +97,21 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             backLabel: 'Groups',
           ),
           _listRoute(
+            '/admin/users',
+            title: 'Users',
+            rpcName: 'admin_list_non_member_users',
+            detailPathPrefix: '/admin/users',
+          ),
+          _detailRoute(
+            '/admin/users/:id',
+            title: 'User detail',
+            rpcName: 'admin_get_user',
+            backLabel: 'Users',
+          ),
+          _listRoute(
             '/admin/members',
             title: 'Members',
-            rpcName: 'admin_list_users',
+            rpcName: 'admin_list_members',
             detailPathPrefix: '/admin/members',
           ),
           _detailRoute(

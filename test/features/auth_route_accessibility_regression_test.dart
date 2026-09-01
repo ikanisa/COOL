@@ -150,6 +150,7 @@ void main() {
     expect(redirect('/home'), '/auth');
     expect(redirect('/groups/create'), '/auth');
     expect(redirect('/settings/account'), '/auth');
+    expect(redirect('/'), '/auth');
     expect(redirect('/auth'), isNull);
     expect(redirect('/c/public-group'), isNull);
   });

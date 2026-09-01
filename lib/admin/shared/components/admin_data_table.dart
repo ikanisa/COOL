@@ -67,11 +67,36 @@ class AdminDataTable extends StatelessWidget {
                     columnSpacing: 24,
                     columns: [
                       if (trailingBuilder != null)
-                        const DataColumn(label: Text('Actions')),
-                      const DataColumn(label: Text('Record')),
-                      const DataColumn(label: Text('Status')),
-                      DataColumn(label: Text(valueLabel)),
-                      const DataColumn(label: Text('Created')),
+                        const DataColumn(
+                          label: _AdminDataColumnLabel(
+                            icon: Icons.tune_outlined,
+                            label: 'Actions',
+                          ),
+                        ),
+                      const DataColumn(
+                        label: _AdminDataColumnLabel(
+                          icon: Icons.folder_open_outlined,
+                          label: 'Record',
+                        ),
+                      ),
+                      const DataColumn(
+                        label: _AdminDataColumnLabel(
+                          icon: Icons.verified_outlined,
+                          label: 'Status',
+                        ),
+                      ),
+                      DataColumn(
+                        label: _AdminDataColumnLabel(
+                          icon: _adminValueIcon(valueLabel),
+                          label: valueLabel,
+                        ),
+                      ),
+                      const DataColumn(
+                        label: _AdminDataColumnLabel(
+                          icon: Icons.calendar_today_outlined,
+                          label: 'Created',
+                        ),
+                      ),
                     ],
                     rows: [
                       for (final row in rows)
@@ -93,9 +118,7 @@ class AdminDataTable extends StatelessWidget {
                                     ),
                             ),
                             DataCell(AdminStatusChip(label: row.status)),
-                            DataCell(
-                              Text(row.amount.isEmpty ? '-' : row.amount),
-                            ),
+                            DataCell(Text(_adminDisplayValue(row, valueLabel))),
                             DataCell(Text(_date(row.createdAt))),
                           ],
                         ),
@@ -191,13 +214,15 @@ class _AdminCompactRecordCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _CompactValue(
+                    icon: _adminValueIcon(valueLabel),
                     label: valueLabel,
-                    value: row.amount.isEmpty ? '-' : row.amount,
+                    value: _adminDisplayValue(row, valueLabel),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: _CompactValue(
+                    icon: Icons.calendar_today_outlined,
                     label: 'Created',
                     value: _date(row.createdAt),
                   ),
@@ -213,15 +238,10 @@ class _AdminCompactRecordCard extends StatelessWidget {
                 children: [
                   ?trailing,
                   if (onOpen != null)
-                    TextButton.icon(
+                    IconButton.filledTonal(
+                      tooltip: 'Open ${row.title}',
                       onPressed: () => onOpen!(row),
                       icon: const Icon(Icons.open_in_new, size: 18),
-                      label: Semantics(
-                        label: 'Open ${row.title}',
-                        hint: 'Opens this admin record.',
-                        excludeSemantics: true,
-                        child: const Text('Open record'),
-                      ),
                     ),
                 ],
               ),
@@ -234,29 +254,79 @@ class _AdminCompactRecordCard extends StatelessWidget {
 }
 
 class _CompactValue extends StatelessWidget {
-  const _CompactValue({required this.label, required this.value});
+  const _CompactValue({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
+  final IconData icon;
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.labelMedium),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: CollectTypography.weightBold,
-          ),
+    return Tooltip(
+      message: label,
+      excludeFromSemantics: true,
+      child: Semantics(
+        label: '$label: $value',
+        excludeSemantics: true,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 18),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                value,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
+}
+
+class _AdminDataColumnLabel extends StatelessWidget {
+  const _AdminDataColumnLabel({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: label,
+      excludeFromSemantics: true,
+      child: Semantics(
+        label: label,
+        excludeSemantics: true,
+        child: Icon(icon, size: 18),
+      ),
+    );
+  }
+}
+
+IconData _adminValueIcon(String label) => switch (label.toLowerCase()) {
+  'members' => Icons.groups_outlined,
+  'deliveries' => Icons.notifications_active_outlined,
+  'roles' => Icons.admin_panel_settings_outlined,
+  'detail' => Icons.info_outline,
+  _ => Icons.payments_outlined,
+};
+
+String _adminDisplayValue(AdminTableRowData row, String label) {
+  if (label == 'Payment route' && row.extra['rail'] == 'rw_momo') {
+    return 'RW · MoMo';
+  }
+  return row.amount.isEmpty ? '—' : row.amount;
 }
 
 class _RecordCell extends StatelessWidget {

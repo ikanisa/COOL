@@ -18,6 +18,15 @@ void main() {
   final nativeAttestation = File(
     'supabase/migrations/20260815082500_close_group_authorization_privacy.sql',
   ).readAsStringSync();
+  final officialPayees = File(
+    'supabase/migrations/20260901160000_collect_admin_payee_management.sql',
+  ).readAsStringSync();
+  final adminGroupLifecycle = File(
+    'supabase/migrations/20260901193000_admin_group_lifecycle.sql',
+  ).readAsStringSync();
+  final adminPeople = File(
+    'supabase/migrations/20260901194500_admin_users_and_members.sql',
+  ).readAsStringSync();
   final config = File('supabase/config.toml').readAsStringSync();
   final repository = readAll([
     'lib/shared/repositories/collect_repository.dart',
@@ -147,6 +156,32 @@ void main() {
     expect(repository, contains("'create_private_group_with_owner_attested'"));
     expect(repository, contains("'group_is_public': false"));
     expect(repository, isNot(contains("'request_public_collection'")));
+  });
+
+  test('admin group creation stays public-sponsored and route-immutable', () {
+    expect(adminGroupLifecycle, contains('admin_create_platform_public_group'));
+    expect(adminGroupLifecycle, contains("'public_approved'"));
+    expect(adminGroupLifecycle, contains('is_platform_sponsored'));
+    expect(adminGroupLifecycle, contains('admin_set_group_active'));
+    expect(adminGroupLifecycle, contains('route_immutable'));
+    expect(
+      adminGroupLifecycle,
+      contains('admin_update_platform_public_group_metadata'),
+    );
+  });
+
+  test('admin separates registered users from active group members', () {
+    expect(adminPeople, contains('admin_list_non_member_users'));
+    expect(adminPeople, contains('admin_list_members'));
+    expect(
+      adminPeople,
+      contains('coalesce(member_count.active_groups, 0) = 0'),
+    );
+    expect(
+      adminPeople,
+      contains('coalesce(member_count.active_groups, 0) > 0'),
+    );
+    expect(adminPeople, contains('collection.archived_at is null'));
   });
 
   test(
@@ -365,6 +400,39 @@ void main() {
     expect(collectAdminOperations, contains('post_payment_from_event'));
     expect(cutover, contains('admin_propose_bank_allocation'));
     expect(cutover, contains('bank_evidence.raw.reveal'));
+  });
+
+  test('official payees are manageable while MoMo routes stay immutable', () {
+    for (final rpc in [
+      'admin_list_collect_payees',
+      'admin_list_platform_payee_candidates',
+      'admin_create_collect_payee',
+      'admin_update_collect_payee',
+      'admin_set_collect_payee_status',
+    ]) {
+      expect(officialPayees, contains('function public.$rpc'), reason: rpc);
+    }
+    expect(officialPayees, contains("'receivers.manage'"));
+    expect(officialPayees, contains("'route_immutable', true"));
+    expect(officialPayees, contains('p_momo_code text'));
+    expect(officialPayees, contains('enforce_official_payee_route_immutable'));
+    expect(
+      officialPayees,
+      contains('before update of momo_number, momo_number_hash, network'),
+    );
+
+    final updateFunction = RegExp(
+      r'create or replace function public\.admin_update_collect_payee\([\s\S]*?\n\$\$;',
+    ).firstMatch(officialPayees)?.group(0);
+    expect(updateFunction, isNotNull);
+    expect(updateFunction, isNot(contains('p_momo_code')));
+    expect(updateFunction, isNot(contains('p_network')));
+    expect(updateFunction, isNot(contains('set momo_number')));
+    expect(updateFunction, isNot(contains('set network')));
+    expect(
+      officialPayees,
+      isNot(contains('where collection_id = collection_id')),
+    );
   });
 
   test('bank statement import supports reviewed machine-readable formats', () {

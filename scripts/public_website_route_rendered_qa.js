@@ -335,7 +335,9 @@ async function auditGroupShareScenario(page, scenario, viewport, shareHtml) {
 
   const metrics = await page.evaluate(() => {
     const openLink = document.querySelector("[data-collect-open-link]");
-    const installLink = [...document.querySelectorAll("a")].find((link) => link.textContent.trim() === "Install on Android");
+    const installLink = document.querySelector("[data-collect-store-link]");
+    const appStoreLink = document.querySelector('a[href="https://apps.apple.com/app/id6783960331"]');
+    const playStoreLink = document.querySelector('a[href="https://play.google.com/store/apps/details?id=app.cool.mobile"]');
     const copyButton = document.querySelector("[data-collect-copy-link]");
     const code = document.querySelector("[data-share-code]");
     const status = document.querySelector("[data-share-status]");
@@ -344,6 +346,7 @@ async function auditGroupShareScenario(page, scenario, viewport, shareHtml) {
       openHref: openLink?.getAttribute("href") || null,
       openDisabled: openLink?.getAttribute("aria-disabled") === "true",
       installHref: installLink?.getAttribute("href") || "",
+      hasExactStoreOptions: Boolean(appStoreLink && playStoreLink),
       codeText: code?.textContent.trim() || "",
       statusText: status?.textContent.trim() || "",
       hasValidityCopy: bodyText.includes("Expired, revoked or invalid links cannot join a group."),
@@ -377,7 +380,7 @@ async function auditGroupShareScenario(page, scenario, viewport, shareHtml) {
     nativeAction: scenario.nativeHref === null
       ? metrics.openHref === null && metrics.openDisabled === scenario.disabled
       : metrics.openHref === scenario.nativeHref && metrics.openDisabled === scenario.disabled,
-    noAppFallback: metrics.installHref.includes("play.google.com") && metrics.hasCopyAction &&
+    noAppFallback: metrics.installHref.includes("play.google.com") && metrics.hasExactStoreOptions && metrics.hasCopyAction &&
       metrics.actionRects.slice(1).every((rect) => rect && rect.width > 0 && rect.height >= 44 &&
         rect.display !== "none" && rect.visibility === "visible" && Number.parseFloat(rect.opacity) > 0),
     nativeActionVisible: Boolean(metrics.actionRects[0] && metrics.actionRects[0].width > 0 &&

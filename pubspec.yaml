@@ -34,6 +34,7 @@ dependencies:
   firebase_messaging: ^16.5.0
   shared_preferences: ^2.5.5
   country_picker: ^2.0.28
+  font_awesome_flutter: ^11.0.0
 
 dev_dependencies:
   integration_test:

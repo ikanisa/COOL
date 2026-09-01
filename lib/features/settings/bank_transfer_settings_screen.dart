@@ -97,12 +97,6 @@ class _BankTransferSettingsScreenState
                   ],
                 ),
               ),
-              const InfoSecurityBanner(
-                title: 'Revolut setup',
-                message:
-                    'Add the beneficiary in Revolut once. When contributing, Collect opens Revolut at its root; you select that beneficiary and enter the exact amount and Collect reference yourself.',
-                tone: CollectStatusTone.info,
-              ),
             ],
           );
         },

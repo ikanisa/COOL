@@ -182,12 +182,7 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                               tone: CollectStatusTone.info,
                               icon: CollectIcons.ledger,
                             ),
-                            CollectStatusChip(
-                              label:
-                                  '${summary.supporterCount} ${summary.supporterCount == 1 ? 'supporter' : 'supporters'}',
-                              tone: CollectStatusTone.neutral,
-                              icon: CollectIcons.people,
-                            ),
+                            CollectPeopleCount(count: summary.supporterCount),
                           ],
                         ),
                         CollectSpacing.gap16,

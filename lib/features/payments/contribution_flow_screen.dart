@@ -66,7 +66,7 @@ class _RwandaMomoContributionFlowState
         profile != null &&
         (collection.creatorUserId == profile.id ||
             collection.isCurrentUserMember);
-    if (!isMember) {
+    if (!collection.isPublic && !isMember) {
       return ScreenScaffold(
         title: 'Join required',
         subtitle: collection.title,
@@ -322,7 +322,7 @@ class _DiasporaBankContributionFlowState
         profile != null &&
         (collection.creatorUserId == profile.id ||
             collection.isCurrentUserMember);
-    if (!isMember) {
+    if (!collection.isPublic && !isMember) {
       return ScreenScaffold(
         title: 'Join required',
         subtitle: collection.title,

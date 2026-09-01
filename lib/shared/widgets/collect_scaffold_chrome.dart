@@ -347,9 +347,11 @@ class CollectHeroQuickAction {
 
 class CollectScreenHero extends StatelessWidget {
   const CollectScreenHero({
-    required this.title,
+    this.title,
     this.eyebrow,
     this.subtitle,
+    this.subtitleWidget,
+    this.subtitleSemanticLabel,
     this.metric,
     this.primaryAction,
     this.quickActions = const [],
@@ -357,11 +359,14 @@ class CollectScreenHero extends StatelessWidget {
     this.semanticLabel,
     this.centerGap = CollectSpacing.x5,
     super.key,
-  });
+  }) : assert(metric != null || title != null),
+       assert(subtitle == null || subtitleWidget == null);
 
-  final String title;
+  final String? title;
   final String? eyebrow;
   final String? subtitle;
+  final Widget? subtitleWidget;
+  final String? subtitleSemanticLabel;
   final String? metric;
   final Widget? primaryAction;
   final List<CollectHeroQuickAction> quickActions;
@@ -393,7 +398,7 @@ class CollectScreenHero extends StatelessWidget {
                 if (eyebrow != null) eyebrow,
                 title,
                 if (metric != null) metric,
-                if (subtitle != null) subtitle,
+                subtitleSemanticLabel ?? subtitle,
               ].whereType<String>().join(', '),
           child: ExcludeSemantics(
             child: Column(
@@ -429,7 +434,7 @@ class CollectScreenHero extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    metric ?? title,
+                    metric ?? title!,
                     textAlign: TextAlign.center,
                     style:
                         (metric == null
@@ -448,10 +453,10 @@ class CollectScreenHero extends StatelessWidget {
                     softWrap: false,
                   ),
                 ),
-                if (metric != null) ...[
+                if (metric != null && title != null) ...[
                   scaledGap,
                   Text(
-                    title,
+                    title!,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: foreground,
@@ -476,6 +481,10 @@ class CollectScreenHero extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                ],
+                if (subtitleWidget != null) ...[
+                  CollectSpacing.gap8,
+                  subtitleWidget!,
                 ],
                 if (primaryAction != null) ...[
                   CollectSpacing.gap20,

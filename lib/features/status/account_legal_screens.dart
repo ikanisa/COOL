@@ -36,7 +36,7 @@ class LegalScreen extends ConsumerWidget {
         InfoSecurityBanner(
           title: isPrivacy ? 'Public boundary' : 'Security responsibility',
           message: isPrivacy
-              ? 'Private bank evidence and support records are not public group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
+              ? 'Private bank evidence and support records are not public-group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
               : 'Confirm the beneficiary, unique reference, and amount before approving a bank transfer. Collect support messages do not request payment credentials or sign-in secrets.',
           tone: isPrivacy
               ? CollectStatusTone.privacy

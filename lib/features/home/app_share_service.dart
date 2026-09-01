@@ -19,7 +19,8 @@ String collectAppInviteLinkFor(AppEnv env, CollectProfile? profile) {
 
 String collectAppShareMessageFor(AppEnv env, CollectProfile? profile) {
   final link = collectAppInviteLinkFor(env, profile);
-  return 'Join me on Collect for group contributions in Rwanda: $link';
+  return 'Join me on Collect for group contributions in Rwanda. '
+      'Open the app or get it for your phone: $link';
 }
 
 Future<void> shareCollectApp({
@@ -35,6 +36,7 @@ Future<void> shareCollectApp({
     await SharePlus.instance.share(
       ShareParams(
         title: 'Collect',
+        subject: 'Join me on Collect',
         text: message,
         sharePositionOrigin: collectSharePositionOrigin(context),
         downloadFallbackEnabled: true,

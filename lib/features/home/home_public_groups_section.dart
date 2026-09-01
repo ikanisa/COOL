@@ -20,7 +20,7 @@ class _PublicGroupsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          title: 'Public sponsored groups',
+          title: 'Public groups',
           actionLabel: 'View all',
           onAction: () => context.go('/groups'),
         ),
@@ -52,8 +52,9 @@ class _PublicGroupsSection extends StatelessWidget {
                     variant: GroupCardVariant.publicDiscovery,
                     onTap: () => context.go('/groups/${collection.id}'),
                     primaryAction: _HomeContributeIconButton(
-                      tooltip: 'View group',
-                      onPressed: () => context.go('/groups/${collection.id}'),
+                      tooltip: 'Contribute to ${collection.title}',
+                      onPressed: () =>
+                          context.go('/groups/${collection.id}/contribute'),
                     ),
                   );
                 },
@@ -82,8 +83,9 @@ class _PublicGroupsSection extends StatelessWidget {
                       variant: GroupCardVariant.publicDiscovery,
                       onTap: () => context.go('/groups/${collection.id}'),
                       primaryAction: _HomeContributeIconButton(
-                        tooltip: 'View group',
-                        onPressed: () => context.go('/groups/${collection.id}'),
+                        tooltip: 'Contribute to ${collection.title}',
+                        onPressed: () =>
+                            context.go('/groups/${collection.id}/contribute'),
                       ),
                     ),
                   );
@@ -128,7 +130,7 @@ class _HomeContributeIconButton extends StatelessWidget {
         padding: EdgeInsets.zero,
       ),
       onPressed: onPressed,
-      icon: const Icon(CollectIcons.arrowForward),
+      icon: const Icon(CollectIcons.donate),
     );
   }
 }

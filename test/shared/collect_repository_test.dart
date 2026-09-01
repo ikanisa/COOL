@@ -40,6 +40,43 @@ void main() {
     expect(repository.state.currentProfile?.whatsappPhone, isNotEmpty);
   });
 
+  test('public directory rows parse without exposing an owner profile', () {
+    final group = CollectCollection.fromJson(const {
+      'id': 'public-id',
+      'slug': 'public-slug',
+      'title': 'Public group',
+      'description': 'Database catalogue row',
+      'collection_type': 'ikimina',
+      'is_platform_sponsored': true,
+      'created_at': '2026-09-01T00:00:00Z',
+    });
+
+    expect(group.creatorUserId, isEmpty);
+    expect(group.isPublic, isTrue);
+    expect(group.isPlatformSponsored, isTrue);
+  });
+
+  test('public group accepts a contribution without membership', () async {
+    final repository = CollectRepository.fixture();
+    final publicGroup = repository.state.collections.firstWhere(
+      (group) => group.isPublic && !group.isCurrentUserMember,
+    );
+
+    final intent = await repository.createPaymentIntent(
+      PaymentIntentDraft(collectionId: publicGroup.id, amountRwf: 5000),
+    );
+
+    expect(intent.collectionId, publicGroup.id);
+    expect(intent.receiverMomoNumber, isNotEmpty);
+    expect(intent.status, 'pending');
+    expect(
+      repository.state.collections
+          .firstWhere((group) => group.id == publicGroup.id)
+          .isCurrentUserMember,
+      isTrue,
+    );
+  });
+
   test('fixture destination is active, routable, and EUR SEPA', () async {
     final repository = CollectRepository.fixture();
 

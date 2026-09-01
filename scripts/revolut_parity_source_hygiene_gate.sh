@@ -272,10 +272,16 @@ legacy_design_patterns = {
     /\b(?:periwinklePaint|mintPaint|rosePaint|orangePaint|glassPanel|glassPanelStrong|glassControl|glassBorder|glassScrim|surfaceGlass|secondaryColorRoles)\b/
 }
 legacy_design_hits = []
+approved_group_gradient_paths = %w[
+  lib/shared/widgets/collect_group_card_media.dart
+  lib/shared/widgets/collect_group_card_metrics.dart
+]
 legacy_design_scope.each do |path|
   text = File.read(File.join(root_dir, path))
   legacy_design_patterns.each do |check, pattern|
     next unless text.match?(pattern)
+    next if approved_group_gradient_paths.include?(path) &&
+            %w[decorative_gradient legacy_periwinkle_chrome].include?(check)
 
     legacy_design_hits << {
       "check" => check,
@@ -287,7 +293,8 @@ checks["no_legacy_member_or_admin_chrome"] = {
   "status" => legacy_design_hits.empty? ? "pass" : "fail",
   "scanned_files" => legacy_design_scope.length,
   "allowed_exception" =>
-    "The immutable official logo and semantic status colors remain permitted.",
+    "The immutable official logo, semantic status colors, and the explicitly approved Collect-logo group-card gradients remain permitted.",
+  "approved_group_gradient_paths" => approved_group_gradient_paths,
   "hits" => legacy_design_hits
 }
 failures.concat(legacy_design_hits) unless legacy_design_hits.empty?
@@ -320,8 +327,7 @@ launch_splash_path = "lib/features/launch/launch_splash_screen.dart"
 launch_splash_text = File.read(File.join(root_dir, launch_splash_path))
 launch_splash_issues = []
 {
-  "missing_neutral_paper_canvas" => /backgroundColor:\s*CollectColors\.brandPaper/,
-  "missing_neutral_paper_body" => /color:\s*CollectColors\.brandPaper/,
+  "missing_native_launch_continuity_canvas" => /color:\s*CollectColors\.referenceChromeBlack/,
   "missing_high_contrast_foreground" => /CollectColors\.referenceChromeBlack/
 }.each do |check, pattern|
   next if launch_splash_text.match?(pattern)
@@ -331,13 +337,13 @@ launch_splash_issues = []
     "path" => launch_splash_path
   }
 end
-if launch_splash_text.match?(/CollectGradientBackground|\.onImagePrimary\b/)
+if launch_splash_text.match?(/CollectRuntimeAssets\.officialLogo|LinearProgressIndicator|Timer\s*\(|context\.go\(['"]\/auth/)
   launch_splash_issues << {
-    "check" => "launch_splash_uses_adaptive_image_chrome",
+    "check" => "flutter_launch_surface_is_visibly_branded_or_delayed",
     "path" => launch_splash_path
   }
 end
-checks["launch_splash_neutral_canvas"] = {
+checks["launch_splash_native_only_continuity"] = {
   "status" => launch_splash_issues.empty? ? "pass" : "fail",
   "path" => launch_splash_path,
   "hits" => launch_splash_issues

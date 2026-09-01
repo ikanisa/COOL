@@ -53,7 +53,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           if (query.isEmpty || _matchesQuery(collection, query)) collection,
     ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
-    final pageTitle = showContributedOnly ? 'Supported groups' : 'Groups';
+    final pageTitle = showContributedOnly ? 'My groups' : 'Groups';
     if (isInitialLoading) {
       return ScreenScaffold(
         title: 'Groups',
@@ -129,7 +129,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             ),
           CollectChromeAction(
             icon: CollectIcons.filter,
-            tooltip: showContributedOnly ? 'Show all groups' : 'Supported',
+            tooltip: showContributedOnly ? 'Show all groups' : 'My groups',
             onPressed: () => context.go(
               showContributedOnly ? '/groups' : '/groups?filter=contributed',
             ),
@@ -157,7 +157,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           )
         else if (showContributedOnly)
           EmptySearchState(
-            title: 'No supported groups yet',
+            title: 'No groups yet',
             message:
                 'Confirmed contributions will place active groups in this view.',
             onClear: () => context.go('/groups'),
@@ -205,13 +205,6 @@ class _GroupsCardGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 640) {
-          return GroupListPanel(
-            collections: collections,
-            summaries: summaries,
-            onGroupTap: (collection) => context.go('/groups/${collection.id}'),
-          );
-        }
         final columns = constraints.maxWidth >= 640 ? 2 : 1;
         const gap = CollectSpacing.x3;
         final columnWidth =
@@ -237,12 +230,47 @@ class _GroupsCardGrid extends StatelessWidget {
                     amountRaisedRwf: 0,
                     supporterCount: 0,
                   ),
-              variant: GroupCardVariant.compact,
+              variant: GroupCardVariant.publicDiscovery,
               onTap: () => context.go('/groups/${collection.id}'),
+              primaryAction: collection.isPublic
+                  ? _GroupsContributeIconButton(
+                      groupTitle: collection.title,
+                      onPressed: () =>
+                          context.go('/groups/${collection.id}/contribute'),
+                    )
+                  : null,
             );
           },
         );
       },
+    );
+  }
+}
+
+class _GroupsContributeIconButton extends StatelessWidget {
+  const _GroupsContributeIconButton({
+    required this.groupTitle,
+    required this.onPressed,
+  });
+
+  final String groupTitle;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return IconButton.filledTonal(
+      tooltip: 'Contribute to $groupTitle',
+      style: IconButton.styleFrom(
+        backgroundColor: colors.textPrimary.withValues(alpha: 0.10),
+        foregroundColor: colors.textPrimary,
+        side: BorderSide(color: colors.textPrimary.withValues(alpha: 0.14)),
+        fixedSize: const Size.square(CollectSpacing.iconTarget),
+        minimumSize: const Size.square(CollectSpacing.iconTarget),
+        padding: EdgeInsets.zero,
+      ),
+      onPressed: onPressed,
+      icon: const Icon(CollectIcons.donate),
     );
   }
 }

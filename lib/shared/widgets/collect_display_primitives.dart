@@ -115,6 +115,47 @@ class CollectStatusChip extends StatelessWidget {
   }
 }
 
+class CollectPeopleCount extends StatelessWidget {
+  const CollectPeopleCount({
+    required this.count,
+    this.color,
+    this.iconSize = 16,
+    this.textStyle,
+    super.key,
+  });
+
+  final int count;
+  final Color? color;
+  final double iconSize;
+  final TextStyle? textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final resolvedColor = color ?? context.collectColors.textSecondary;
+    return Semantics(
+      label: '$count ${count == 1 ? 'contributor' : 'contributors'}',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(CollectIcons.people, size: iconSize, color: resolvedColor),
+            CollectSpacing.gapW4,
+            Text(
+              '$count',
+              style:
+                  textStyle ??
+                  Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: resolvedColor,
+                    fontWeight: CollectTypography.weightMedium,
+                  ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class CollectAvatar extends StatelessWidget {
   const CollectAvatar({
     required this.label,

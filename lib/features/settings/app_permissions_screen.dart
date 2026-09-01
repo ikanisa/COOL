@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../core/notifications/collect_notification_service.dart';
 import '../../core/security/sms_access_channel.dart';
+import '../status/native_permission_sheets.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -77,10 +78,16 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
             tone: _momoSmsStatus.enabled
                 ? CollectStatusTone.success
                 : CollectStatusTone.warning,
-            actionLabel: _momoSmsStatus.enabled ? 'Phone settings' : 'Allow',
+            actionLabel: _momoSmsStatus.enabled
+                ? 'Turn off'
+                : _momoSmsStatus.permanentlyDenied
+                ? 'Phone settings'
+                : 'Review and allow',
             onAction: _loading
                 ? null
-                : _momoSmsStatus.enabled || _momoSmsStatus.permanentlyDenied
+                : _momoSmsStatus.enabled
+                ? _disableMomoSms
+                : _momoSmsStatus.permanentlyDenied
                 ? const SmsAccessChannel().openAppSettings
                 : _requestMomoSms,
           ),
@@ -170,7 +177,71 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   }
 
   Future<void> _requestMomoSms() async {
-    await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      useRootNavigator: true,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: context.collectColors.transparent,
+      barrierColor: CollectColors.publicBlack.withValues(alpha: 0.64),
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
+      builder: (sheetContext) => Padding(
+        padding: EdgeInsets.fromLTRB(
+          CollectSpacing.x4,
+          CollectSpacing.x2,
+          CollectSpacing.x4,
+          MediaQuery.viewInsetsOf(sheetContext).bottom + CollectSpacing.x4,
+        ),
+        child: CollectBottomSheet(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CollectPermissionEducationSheet(
+                icon: CollectIcons.sms,
+                title: 'Allow MoMo receipt SMS access?',
+                message: 'Only new Rwanda MoMo receipt messages.',
+                education:
+                    'Collect does not read inbox history or unrelated SMS. '
+                    'New likely MoMo receipts are encrypted on this device, '
+                    'bound to your signed-in account, and sent for secure '
+                    'parsing and reconciliation.',
+                tone: CollectStatusTone.warning,
+              ),
+              CollectSpacing.gap16,
+              CollectButton(
+                label: 'Continue',
+                icon: CollectIcons.shield,
+                onPressed: () => Navigator.of(sheetContext).pop(true),
+                expand: true,
+              ),
+              CollectButton(
+                label: 'Not now',
+                onPressed: () => Navigator.of(sheetContext).pop(false),
+                variant: CollectButtonVariant.secondary,
+                expand: true,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    try {
+      await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('MoMo receipt SMS access was not enabled.'),
+          ),
+        );
+      }
+    }
+    await _refresh();
+  }
+
+  Future<void> _disableMomoSms() async {
+    await ref.read(collectRepositoryProvider.notifier).setSmsAccess(false);
     await _refresh();
   }
 }

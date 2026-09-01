@@ -310,6 +310,11 @@ AdminQueueSla _slaForAdminQueue(String title) {
       owner: 'Member support',
       escalation: 'Escalate identity or access risk immediately',
     ),
+    'Users' => const AdminQueueSla(
+      target: 'Respond to onboarding support requests within 1 business day',
+      owner: 'Member onboarding',
+      escalation: 'Escalate identity or access risk immediately',
+    ),
     'Bank details' || 'Bank detail approvals' => const AdminQueueSla(
       target: 'Complete independent beneficiary review within 1 business day',
       owner: 'Bank details checker',

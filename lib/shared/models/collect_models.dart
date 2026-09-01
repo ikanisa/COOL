@@ -9,8 +9,12 @@ const collectDefaultBrandDisplayName = 'Collect by IKANISA';
 const collectDefaultLegalName = 'IKANISA Ltd.';
 const collectDefaultPublicUrl = 'https://collect.ikanisa.com';
 const collectDefaultAdminUrl = 'https://admin.collect.ikanisa.com';
-const collectDefaultAppDownloadUrl =
+const collectGooglePlayUrl =
     'https://play.google.com/store/apps/details?id=app.cool.mobile';
+const collectAppleAppStoreId = '6783960331';
+const collectAppleAppStoreUrl =
+    'https://apps.apple.com/app/id$collectAppleAppStoreId';
+const collectDefaultAppDownloadUrl = collectGooglePlayUrl;
 const collectDefaultRegulatoryFooterNote =
     'IKANISA Ltd. operates Collect, a standalone group-contribution record system.';
 const collectDefaultWhatsAppSupportPhone = '250795588248';
@@ -649,6 +653,7 @@ class CollectCollection {
     this.imageUrl,
     this.accentColorHex,
     this.isPublic = false,
+    this.isPlatformSponsored = false,
     this.isCurrentUserMember = false,
     this.isRecurring = true,
     this.recurringCadence = 'monthly',
@@ -675,6 +680,7 @@ class CollectCollection {
   final String? imageUrl;
   final String? accentColorHex;
   final bool isPublic;
+  final bool isPlatformSponsored;
   final bool isCurrentUserMember;
   final bool isRecurring;
   final String recurringCadence;
@@ -700,7 +706,7 @@ class CollectCollection {
     return CollectCollection(
       id: json['id'] as String,
       slug: json['slug'] as String,
-      creatorUserId: json['creator_user_id'] as String,
+      creatorUserId: (json['creator_user_id'] as String?) ?? '',
       title: json['title'] as String,
       description: (json['description'] as String?) ?? '',
       collectionType: CollectionType.fromJson(
@@ -725,6 +731,7 @@ class CollectCollection {
           (json['card_color_hex'] as String?) ??
           (json['color_hex'] as String?),
       isPublic: _collectionIsPublic(json),
+      isPlatformSponsored: (json['is_platform_sponsored'] as bool?) ?? false,
       isCurrentUserMember: (json['is_member'] as bool?) ?? false,
       isRecurring: (json['is_recurring'] as bool?) ?? true,
       recurringCadence:
@@ -759,6 +766,7 @@ class CollectCollection {
     String? imageUrl,
     String? accentColorHex,
     bool? isPublic,
+    bool? isPlatformSponsored,
     bool? isCurrentUserMember,
     bool? isRecurring,
     String? recurringCadence,
@@ -783,6 +791,7 @@ class CollectCollection {
       imageUrl: imageUrl ?? this.imageUrl,
       accentColorHex: accentColorHex ?? this.accentColorHex,
       isPublic: isPublic ?? this.isPublic,
+      isPlatformSponsored: isPlatformSponsored ?? this.isPlatformSponsored,
       isCurrentUserMember: isCurrentUserMember ?? this.isCurrentUserMember,
       isRecurring: isRecurring ?? this.isRecurring,
       recurringCadence: recurringCadence ?? this.recurringCadence,

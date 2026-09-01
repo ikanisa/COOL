@@ -34,13 +34,30 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
     final state = ref.watch(collectRepositoryProvider);
     final collections = ref.watch(activeCollectionsProvider);
     final summaries = ref.watch(collectionSummariesProvider);
+    final profile = state.currentProfile;
     final query = _query.trim().toLowerCase();
-    final visibleCollections = collections.where((collection) {
-      if (query.isEmpty) return true;
-      return collection.title.toLowerCase().contains(query) ||
-          collection.collectionType.label.toLowerCase().contains(query) ||
-          (collection.purposeLabel ?? '').toLowerCase().contains(query);
+    final privateCollections = collections.where((collection) {
+      return !collection.isPublic &&
+          profile != null &&
+          (collection.creatorUserId == profile.id ||
+              collection.isCurrentUserMember);
     }).toList()..sort(_compareCollections);
+    final publicCollections =
+        collections.where((collection) => collection.isPublic).toList()
+          ..sort(_compareCollections);
+    final visiblePrivateCollections = _matchingCollections(
+      privateCollections,
+      query,
+    );
+    final visiblePublicCollections = _matchingCollections(
+      publicCollections,
+      query,
+    );
+    final hasAvailableGroups =
+        privateCollections.isNotEmpty || publicCollections.isNotEmpty;
+    final hasVisibleGroups =
+        visiblePrivateCollections.isNotEmpty ||
+        visiblePublicCollections.isNotEmpty;
     final isInitialLoading = state.isLoading && collections.isEmpty;
 
     return ScreenScaffold(
@@ -53,13 +70,6 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
         searchLabel: 'Search groups',
         onAvatarTap: () => context.go('/settings'),
         onSearchTap: _beginSearch,
-        actions: [
-          CollectChromeAction(
-            icon: CollectIcons.qr,
-            tooltip: 'Scan group QR',
-            onPressed: () => context.go('/groups/scan'),
-          ),
-        ],
       ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
@@ -67,7 +77,7 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
           ? const [
               CollectScreenLoadingState(
                 title: 'Loading groups',
-                message: 'Refreshing the groups you can support.',
+                message: 'Refreshing the groups you can contribute to.',
                 icon: CollectIcons.donate,
                 skeletonCount: 3,
               ),
@@ -81,19 +91,19 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
                   label: 'Search group or purpose',
                   onChanged: (value) => setState(() => _query = value),
                 ),
-              if (collections.isEmpty)
+              if (!hasAvailableGroups)
                 EmptyIllustrationState(
-                  icon: CollectIcons.donate,
-                  title: 'No groups available',
+                  icon: CollectIcons.public,
+                  title: 'Explore public groups',
                   message:
-                      'Scan a group QR to find the group you want to support.',
+                      'Browse public groups and choose one to contribute to.',
                   action: CollectButton(
-                    label: 'Scan group QR',
-                    icon: CollectIcons.qr,
-                    onPressed: () => context.go('/groups/scan'),
+                    label: 'Explore public groups',
+                    icon: CollectIcons.public,
+                    onPressed: () => context.go('/groups'),
                   ),
                 )
-              else if (visibleCollections.isEmpty)
+              else if (!hasVisibleGroups)
                 EmptySearchState(
                   title: 'No matching groups',
                   message: 'Try another group name, type, or purpose.',
@@ -102,13 +112,26 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
                     _query = '';
                   }),
                 )
-              else
-                GroupListPanel(
-                  collections: visibleCollections,
-                  summaries: summaries,
-                  onGroupTap: (collection) =>
-                      context.go('/groups/${collection.id}/contribute'),
-                ),
+              else ...[
+                if (visiblePrivateCollections.isNotEmpty) ...[
+                  const SectionHeader(title: 'Your groups'),
+                  GroupListPanel(
+                    collections: visiblePrivateCollections,
+                    summaries: summaries,
+                    onGroupTap: (collection) =>
+                        context.go('/groups/${collection.id}/contribute'),
+                  ),
+                ],
+                if (visiblePublicCollections.isNotEmpty) ...[
+                  const SectionHeader(title: 'Public groups'),
+                  GroupListPanel(
+                    collections: visiblePublicCollections,
+                    summaries: summaries,
+                    onGroupTap: (collection) =>
+                        context.go('/groups/${collection.id}/contribute'),
+                  ),
+                ],
+              ],
             ],
     );
   }
@@ -121,6 +144,20 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
       if (mounted) _searchFocus.requestFocus();
     });
   }
+}
+
+List<CollectCollection> _matchingCollections(
+  List<CollectCollection> collections,
+  String query,
+) {
+  if (query.isEmpty) return collections;
+  return [
+    for (final collection in collections)
+      if (collection.title.toLowerCase().contains(query) ||
+          collection.collectionType.label.toLowerCase().contains(query) ||
+          (collection.purposeLabel ?? '').toLowerCase().contains(query))
+        collection,
+  ];
 }
 
 int _compareCollections(CollectCollection left, CollectCollection right) {

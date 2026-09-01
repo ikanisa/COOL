@@ -32,4 +32,24 @@ void main() {
     expect(association, contains('"/invite/*"'));
     expect(association, contains('"/app"'));
   });
+
+  test('public share landing selects the exact production store listing', () {
+    final builder = File(
+      'scripts/public_static_site_build.rb',
+    ).readAsStringSync();
+
+    expect(
+      builder,
+      contains('https://play.google.com/store/apps/details?id=app.cool.mobile'),
+    );
+    expect(builder, contains('APPLE_APP_STORE_ID = "6783960331"'));
+    expect(
+      builder,
+      contains('https://apps.apple.com/app/id#{APPLE_APP_STORE_ID}'),
+    );
+    expect(builder, contains('data-collect-store-link'));
+    expect(builder, contains('const isIOS ='));
+    expect(builder, contains('const isAndroid ='));
+    expect(builder, contains('name="apple-itunes-app"'));
+  });
 }

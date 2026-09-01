@@ -16,12 +16,11 @@ void main() {
     (tester) async {
       const smsAccess = SmsAccessChannel();
       final router = createAppRouter(initialLocation: '/settings/permissions');
+      final repository = _DeviceSmsPermissionRepository(smsAccess);
       final container = ProviderContainer(
         overrides: [
           appRouterProvider.overrideWithValue(router),
-          collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
-          ),
+          collectRepositoryProvider.overrideWith((ref) => repository),
           collectThemeModeProvider.overrideWith(
             (ref) => CollectThemeModeController(
               initialMode: ThemeMode.dark,
@@ -45,7 +44,7 @@ void main() {
         timeout: const Duration(seconds: 30),
       );
 
-      expect(find.text('Bank notification SMS'), findsOneWidget);
+      expect(find.text('MoMo receipt SMS'), findsOneWidget);
       final reviewButton = find.widgetWithText(
         OutlinedButton,
         'Review and allow',
@@ -59,13 +58,10 @@ void main() {
       await tester.tap(reviewButton);
       await _pumpUntil(
         tester,
-        () => find
-            .text('Allow bank notification SMS access?')
-            .evaluate()
-            .isNotEmpty,
+        () => find.text('Allow MoMo receipt SMS access?').evaluate().isNotEmpty,
         timeout: const Duration(seconds: 10),
       );
-      expect(find.text('Allow bank notification SMS access?'), findsOneWidget);
+      expect(find.text('Allow MoMo receipt SMS access?'), findsOneWidget);
       expect(
         find.textContaining('does not read inbox history'),
         findsOneWidget,
@@ -108,6 +104,27 @@ void main() {
     },
     timeout: const Timeout(Duration(minutes: 5)),
   );
+}
+
+class _DeviceSmsPermissionRepository extends CollectRepository {
+  _DeviceSmsPermissionRepository(this._smsAccess) : super.fixture();
+
+  final SmsAccessChannel _smsAccess;
+
+  @override
+  Future<bool> setSmsAccess(bool enabled) async {
+    final profile = state.currentProfile;
+    final granted = await _smsAccess.setEnabled(
+      enabled,
+      ownerUserId: profile?.id,
+    );
+    final consentEnabled = enabled && granted;
+    state = state.copyWith(
+      smsAccessEnabled: consentEnabled,
+      smsAccessDenied: enabled && !granted,
+    );
+    return consentEnabled;
+  }
 }
 
 Future<void> _pumpUntil(

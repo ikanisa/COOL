@@ -1,5 +1,11 @@
 part of 'collect_group_cards.dart';
 
+const _groupCoverPalette = <Color>[
+  CollectColors.brandPeriwinkle,
+  CollectColors.brandDustyRose,
+  CollectColors.brandOrangeRed,
+];
+
 class _GroupCoverMedia extends StatelessWidget {
   const _GroupCoverMedia({required this.collection});
 
@@ -67,9 +73,21 @@ class _GroupCoverScrim extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    const deep = CollectColors.publicBlack;
-    final bottomAlpha = isDark ? 0.78 : 0.82;
-    return ColoredBox(color: deep.withValues(alpha: bottomAlpha));
+    final bottomAlpha = isDark ? 0.72 : 0.64;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            CollectColors.transparentColor,
+            CollectColors.publicBlack.withValues(alpha: 0.08),
+            CollectColors.publicBlack.withValues(alpha: bottomAlpha),
+          ],
+          stops: const [0, 0.48, 1],
+        ),
+      ),
+    );
   }
 }
 
@@ -197,12 +215,63 @@ class _GeneratedGroupCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ColoredBox(
-      color: isDark ? colors.surfaceMuted : CollectColors.publicBlack,
+    final seed = _groupVisualSeed(collection);
+    final palette = _rotatedBrandPalette(seed);
+    final softPalette = [
+      for (final color in palette)
+        Color.lerp(CollectColors.brandPaper, color, 0.48)!,
+    ];
+    final begins = <Alignment>[
+      Alignment.topLeft,
+      Alignment.topRight,
+      Alignment.bottomRight,
+      Alignment.bottomLeft,
+    ];
+    final begin = begins[seed % begins.length];
+    final end = Alignment(-begin.x, -begin.y);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: begin,
+          end: end,
+          colors: softPalette,
+          stops: const [0, 0.5, 1],
+        ),
+      ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: seed.isEven
+                ? const Alignment(0.72, -0.78)
+                : const Alignment(-0.72, -0.78),
+            radius: 1.10,
+            colors: [
+              CollectColors.brandPaper.withValues(alpha: 0.52),
+              CollectColors.transparentColor,
+            ],
+            stops: const [0, 1],
+          ),
+        ),
+      ),
     );
   }
+}
+
+int _groupVisualSeed(CollectCollection collection) {
+  final key = '${collection.slug}:${collection.title}';
+  return key.codeUnits.fold<int>(
+    0,
+    (value, unit) => ((value * 31) + unit) & 0x7fffffff,
+  );
+}
+
+List<Color> _rotatedBrandPalette(int seed) {
+  const source = _groupCoverPalette;
+  final offset = seed % source.length;
+  return [
+    for (var index = 0; index < source.length; index += 1)
+      source[(index + offset) % source.length],
+  ];
 }
 
 class _PrivacyGlyph extends StatelessWidget {

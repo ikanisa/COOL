@@ -76,8 +76,7 @@ class _CollectionManageScreenState
         MoneyHeroCard(
           amount: summary.amountRaisedRwf,
           label: collection.title,
-          detail:
-              '${summary.supporterCount} ${summary.supporterCount == 1 ? 'confirmed supporter' : 'confirmed supporters'}',
+          chips: [CollectPeopleCount(count: summary.supporterCount)],
         ),
         _SettingsSection(
           children: [

@@ -35,6 +35,7 @@ extension CollectAdminOperationSpec on CollectAdminOperation {
   };
 
   String? get actionKind => switch (this) {
+    CollectAdminOperation.payees => 'collect_payee_manage',
     CollectAdminOperation.reconciliations => 'collect_allocate',
     _ => null,
   };
@@ -126,12 +127,29 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
       widget.rpcName,
       runtimeConfig: runtimeConfig,
     );
+    final usesOperationsTable =
+        widget.rpcName == 'admin_list_collect_transactions' ||
+        widget.rpcName == 'admin_list_collections' ||
+        widget.rpcName == 'admin_list_members' ||
+        widget.rpcName == 'admin_list_non_member_users';
     return AdminPage(
       title: widget.title,
       subtitle: widget.subtitleOverride ?? spec.subtitle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (widget.rpcName == 'admin_list_collect_payees') ...[
+            _AdminPayeeWorkspaceActions(
+              onDone: () => _refresh(resetPage: true),
+            ),
+            const SizedBox(height: 16),
+          ],
+          if (widget.rpcName == 'admin_list_collections') ...[
+            _AdminGroupWorkspaceActions(
+              onDone: () => _refresh(resetPage: true),
+            ),
+            const SizedBox(height: 16),
+          ],
           if (!widget.minimal)
             _AdminBankQueueActions(
               rpcName: widget.rpcName,
@@ -156,7 +174,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             onRefresh: () => _refresh(resetPage: true),
           ),
           const SizedBox(height: 16),
-          if (!widget.minimal) ...[
+          if (!widget.minimal && !usesOperationsTable) ...[
             _AdminQueueSummary(spec: spec),
             const SizedBox(height: 16),
           ],
@@ -190,20 +208,41 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AdminDataTable(
-                    rows: rows,
-                    onOpen: _openRow,
-                    valueLabel:
-                        widget.valueLabelOverride ??
-                        _adminQueueValueLabel(widget.rpcName),
-                    trailingBuilder: widget.actionKind == null
-                        ? null
-                        : (row) => _AdminRowActions(
-                            row: row,
-                            actionKind: widget.actionKind!,
-                            onDone: () => _refresh(),
-                          ),
-                  ),
+                  if (widget.rpcName == 'admin_list_collect_transactions')
+                    _AdminTransactionWorkspace(
+                      rows: rows,
+                      onOpen: widget.detailPathPrefix == null ? null : _openRow,
+                    )
+                  else if (widget.rpcName == 'admin_list_collections')
+                    _AdminGroupsWorkspace(
+                      rows: rows,
+                      onOpen: widget.detailPathPrefix == null ? null : _openRow,
+                    )
+                  else if (widget.rpcName == 'admin_list_members' ||
+                      widget.rpcName == 'admin_list_non_member_users')
+                    _AdminMembersWorkspace(
+                      rows: rows,
+                      onOpen: widget.detailPathPrefix == null ? null : _openRow,
+                      scopeLabel:
+                          widget.rpcName == 'admin_list_non_member_users'
+                          ? 'Users'
+                          : 'Members',
+                    )
+                  else
+                    AdminDataTable(
+                      rows: rows,
+                      onOpen: widget.detailPathPrefix == null ? null : _openRow,
+                      valueLabel:
+                          widget.valueLabelOverride ??
+                          _adminQueueValueLabel(widget.rpcName),
+                      trailingBuilder: widget.actionKind == null
+                          ? null
+                          : (row) => _AdminRowActions(
+                              row: row,
+                              actionKind: widget.actionKind!,
+                              onDone: () => _refresh(),
+                            ),
+                    ),
                   if (!widget.minimal) ...[
                     const SizedBox(height: 12),
                     _AdminQueueExportBar(spec: spec, rows: rows),
@@ -280,6 +319,8 @@ String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
   'admin_list_reconciliation_runs' ||
   'admin_list_reconciliation_exceptions' => 'Detail',
   'admin_list_users' ||
+  'admin_list_members' ||
+  'admin_list_non_member_users' ||
   'admin_list_audit_logs' ||
   'admin_list_settings' ||
   'admin_list_feature_flags' => 'Detail',
@@ -436,54 +477,92 @@ class _AdminRowActions extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
-    return Wrap(
-      spacing: 8,
-      children: switch (actionKind) {
-        'payment_event_reparse'
-            when _adminHasPermission(identity, 'payment_events.reparse') =>
-          [
-            TextButton(
-              onPressed: () => _reparse(context, ref),
-              child: const Text('Reparse'),
+    final List<Widget> actions = switch (actionKind) {
+      'payment_event_reparse'
+          when _adminHasPermission(identity, 'payment_events.reparse') =>
+        [
+          IconButton.filledTonal(
+            tooltip: 'Reparse ${row.title}',
+            onPressed: () => _reparse(context, ref),
+            icon: const Icon(Icons.refresh_outlined, size: 18),
+          ),
+        ],
+      'feature_flag_toggle'
+          when _adminHasPermission(identity, 'feature_flags.manage') =>
+        [
+          IconButton.filledTonal(
+            tooltip:
+                '${row.status == 'enabled' ? 'Disable' : 'Enable'} feature flag ${row.title}',
+            onPressed: () =>
+                _setFeatureFlag(context, ref, enabled: row.status != 'enabled'),
+            icon: Icon(
+              row.status == 'enabled'
+                  ? Icons.toggle_off_outlined
+                  : Icons.toggle_on_outlined,
+              size: 18,
             ),
-          ],
-        'feature_flag_toggle'
-            when _adminHasPermission(identity, 'feature_flags.manage') =>
-          [
-            Semantics(
-              container: true,
-              button: true,
-              label:
-                  '${row.status == 'enabled' ? 'Disable' : 'Enable'} feature flag ${row.title}',
-              hint: 'Opens a reason dialog before changing this feature flag.',
-              child: TextButton(
-                onPressed: () => _setFeatureFlag(
-                  context,
-                  ref,
-                  enabled: row.status != 'enabled',
-                ),
-                child: Text(row.status == 'enabled' ? 'Disable' : 'Enable'),
+          ),
+        ],
+      'collect_allocate'
+          when (_adminHasPermission(identity, 'payments.allocate') ||
+                  _adminHasPermission(identity, 'bank_allocations.propose')) &&
+              (row.extra['can_allocate'] == true ||
+                  '${row.extra['event_id'] ?? ''}'.isNotEmpty ||
+                  '${row.extra['transaction_id'] ?? ''}'.isNotEmpty) =>
+        [
+          IconButton.filledTonal(
+            tooltip: 'Allocate ${row.title}',
+            onPressed: () => _allocate(context, ref),
+            icon: const Icon(Icons.account_tree_outlined, size: 18),
+          ),
+        ],
+      'collect_payee_manage'
+          when _adminHasPermission(identity, 'receivers.manage') =>
+        [
+          IconButton.outlined(
+            tooltip: 'Edit ${row.title}',
+            onPressed: () =>
+                editAdminPayee(context, ref, row: row, onDone: onDone),
+            icon: const Icon(Icons.edit_outlined, size: 18),
+          ),
+          IconButton.outlined(
+            tooltip:
+                '${row.status == 'active' ? 'Deactivate' : 'Activate'} ${row.title}',
+            style: IconButton.styleFrom(
+              foregroundColor: row.status == 'active'
+                  ? context.collectColors.dangerForeground
+                  : context.collectColors.successForeground,
+              side: BorderSide(
+                color: row.status == 'active'
+                    ? context.collectColors.dangerForeground
+                    : context.collectColors.successForeground,
               ),
             ),
-          ],
-        'collect_allocate'
-            when (_adminHasPermission(identity, 'payments.allocate') ||
-                    _adminHasPermission(
-                      identity,
-                      'bank_allocations.propose',
-                    )) &&
-                (row.extra['can_allocate'] == true ||
-                    '${row.extra['event_id'] ?? ''}'.isNotEmpty ||
-                    '${row.extra['transaction_id'] ?? ''}'.isNotEmpty) =>
-          [
-            FilledButton.tonalIcon(
-              onPressed: () => _allocate(context, ref),
-              icon: const Icon(Icons.account_tree_outlined, size: 18),
-              label: const Text('Allocate'),
+            onPressed: () => setAdminPayeeActive(
+              context,
+              ref,
+              row: row,
+              active: row.status != 'active',
+              onDone: onDone,
             ),
-          ],
-        _ => const [],
-      },
+            icon: Icon(
+              row.status == 'active'
+                  ? Icons.pause_circle_outline
+                  : Icons.play_circle_outline,
+              size: 18,
+            ),
+          ),
+        ],
+      _ => const [],
+    };
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var index = 0; index < actions.length; index++) ...[
+          if (index > 0) const SizedBox(width: 8),
+          actions[index],
+        ],
+      ],
     );
   }
 

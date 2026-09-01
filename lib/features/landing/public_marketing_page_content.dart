@@ -11,7 +11,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Create the group and invite members',
         body:
-            'Android members can create a private group and share its link or QR code. Public discovery is reserved for platform-sponsored groups such as Buri Munsi and Gikundiro.',
+            'Android members can create a private group and share its link or QR code. Public discovery is reserved for approved platform-sponsored groups loaded from Collect.',
         bullets: [
           'Members use six-digit Collect IDs',
           'Rwanda groups show their approved MoMo receiver',

@@ -487,6 +487,7 @@ String? collectAuthenticationRedirect({
     return null;
   }
 
+  if (uri.path == '/') return '/auth';
   if (!_isPublicUnauthenticatedPath(uri.path)) return '/auth';
   return null;
 }

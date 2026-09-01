@@ -51,37 +51,36 @@ void main() {
     expect(normalizeNotificationDeepLink('/groups/group-1/share'), isNull);
   });
 
-  testWidgets(
-    'app shows the iOS-matched Collect splash before authentication',
-    (tester) async {
-      final semantics = tester.ensureSemantics();
-      try {
-        await tester.pumpWidget(const ProviderScope(child: CollectApp()));
-        await tester.pump();
+  testWidgets('app opens authentication without a second Flutter splash', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(const ProviderScope(child: CollectApp()));
+      await tester.pump();
 
-        expect(find.text('Collect'), findsOneWidget);
-        expect(find.byType(LinearProgressIndicator), findsOneWidget);
+      expect(find.text('Collect'), findsNothing);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
 
-        await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
-        expect(find.text("Let's get started!"), findsOneWidget);
-        expect(find.byType(LinearProgressIndicator), findsNothing);
-        expect(find.text('Groups. MoMo. Done.'), findsNothing);
-        expect(find.byTooltip('Open profile'), findsNothing);
-        expect(find.text('TOTAL COLLECTED'), findsNothing);
-        expect(find.text('Home'), findsNothing);
-        expect(find.text('Settings'), findsNothing);
-        expect(find.text('CONFIRMED'), findsNothing);
-        expect(find.text('PENDING'), findsNothing);
-        expect(find.text('FAILED'), findsNothing);
-        expect(find.text('Platform admin'), findsNothing);
-        expect(find.textContaining('BioPay'), findsNothing);
-        expect(find.textContaining('wallet'), findsNothing);
-      } finally {
-        semantics.dispose();
-      }
-    },
-  );
+      expect(find.text("Let's get started!"), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+      expect(find.text('Groups. MoMo. Done.'), findsNothing);
+      expect(find.byTooltip('Open profile'), findsNothing);
+      expect(find.text('TOTAL COLLECTED'), findsNothing);
+      expect(find.text('Home'), findsNothing);
+      expect(find.text('Settings'), findsNothing);
+      expect(find.text('CONFIRMED'), findsNothing);
+      expect(find.text('PENDING'), findsNothing);
+      expect(find.text('FAILED'), findsNothing);
+      expect(find.text('Platform admin'), findsNothing);
+      expect(find.textContaining('BioPay'), findsNothing);
+      expect(find.textContaining('wallet'), findsNothing);
+    } finally {
+      semantics.dispose();
+    }
+  });
 
   testWidgets('app boots with persisted dark-first theme mode', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
@@ -414,7 +413,7 @@ void main() {
     expect(router.configuration.routes, isNotEmpty);
   });
 
-  testWidgets('large-width shell uses five-destination navigation rail', (
+  testWidgets('large-width shell uses consolidated four-destination rail', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1200, 1000);
@@ -432,12 +431,28 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.byType(NavigationRail), findsOneWidget);
-    expect(find.text('Home'), findsOneWidget);
-    expect(find.text('Groups'), findsOneWidget);
-    expect(find.text('Contribute'), findsOneWidget);
-    expect(find.text('Activity'), findsOneWidget);
-    expect(find.text('Profile'), findsOneWidget);
+    final rail = find.byType(NavigationRail);
+    expect(rail, findsOneWidget);
+    expect(
+      find.descendant(of: rail, matching: find.text('Home')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: rail, matching: find.text('Groups')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: rail, matching: find.text('Contribute')),
+      findsNothing,
+    );
+    expect(
+      find.descendant(of: rail, matching: find.text('Activity')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: rail, matching: find.text('Profile')),
+      findsOneWidget,
+    );
     expect(find.text('Admin'), findsNothing);
     expect(
       tester.getSize(find.byType(ListView).first).width,
@@ -490,11 +505,14 @@ void main() {
     );
     expect(routerSource, isNot(contains('ShellRoute(')));
     expect(shellSource, contains('StatefulNavigationShell? navigationShell'));
-    expect(shellSource, contains('navigationShell?.currentIndex'));
+    expect(shellSource, contains('_destinationIndexForBranch('));
+    expect(shellSource, contains('navigationShell!.currentIndex'));
     expect(shellSource, contains('statefulShell.goBranch('));
     expect(
       shellSource,
-      contains('initialLocation: index == statefulShell.currentIndex'),
+      contains(
+        'initialLocation: destination.branchIndex == statefulShell.currentIndex',
+      ),
     );
 
     final recoveryScreens = File(
@@ -782,6 +800,10 @@ void main() {
     expect(groupCardMedia, isNot(contains('brandAction,')));
     expect(groupCardMedia, isNot(contains('rosePaint')));
     expect(groupCardMedia, isNot(contains('periwinklePaint')));
+    expect(groupCardMedia, isNot(contains('CollectColors.brandMintGreen')));
+    expect(groupCardMedia, contains('CollectColors.brandPeriwinkle'));
+    expect(groupCardMedia, contains('CollectColors.brandDustyRose'));
+    expect(groupCardMedia, contains('CollectColors.brandOrangeRed'));
 
     final staticSite = File(
       'scripts/public_static_site_build.rb',
@@ -1041,7 +1063,8 @@ void main() {
     expect(home, contains('widgets/collect_group_cards.dart'));
     expect(home, contains('GroupListPanel('));
     expect(groups, contains('widgets/collect_group_cards.dart'));
-    expect(groups, contains('GroupListPanel('));
+    expect(groups, contains('_GroupsCardGrid('));
+    expect(groups, contains('GroupCard('));
   });
 
   test(

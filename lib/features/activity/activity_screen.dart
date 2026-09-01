@@ -250,14 +250,23 @@ class _ActivityTitleRow extends StatelessWidget {
             letterSpacing: CollectTypography.trackingDefault,
           ),
         ),
-        Text(
-          '$groupLabel · $count confirmed',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: muted,
-            fontWeight: CollectTypography.weightSemibold,
-          ),
-          maxLines: largeText ? 2 : 1,
-          overflow: TextOverflow.ellipsis,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                '$groupLabel · $count',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: muted,
+                  fontWeight: CollectTypography.weightSemibold,
+                ),
+                maxLines: largeText ? 2 : 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            CollectSpacing.gap4,
+            Icon(CollectIcons.check, size: 14, color: muted),
+          ],
         ),
       ],
     );

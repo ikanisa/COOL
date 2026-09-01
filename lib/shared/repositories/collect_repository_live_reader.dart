@@ -49,6 +49,17 @@ class _CollectLiveReader {
     return [for (final row in mappedRows) CollectCollection.fromJson(row)];
   }
 
+  Future<List<CollectCollection>> fetchPublicCollections() async {
+    final rows = await _supabase!
+        .from('public_collections_view')
+        .select()
+        .order('created_at', ascending: false);
+    return [
+      for (final row in rows)
+        CollectCollection.fromJson(Map<String, dynamic>.from(row as Map)),
+    ];
+  }
+
   Future<CollectCollection> fetchCollection(String id) async {
     final row = await _supabase!
         .from('member_collections_view')

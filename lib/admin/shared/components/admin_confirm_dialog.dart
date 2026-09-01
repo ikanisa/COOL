@@ -17,13 +17,22 @@ Future<String?> showAdminReasonDialog(
   BuildContext context, {
   required String title,
   required String actionLabel,
-}) {
-  return showDialog<String>(
+}) async {
+  final returnFocus = FocusManager.instance.primaryFocus;
+  final result = await showDialog<String>(
     context: context,
     animationStyle: CollectMotion.animationStyle(context),
     builder: (context) =>
         _AdminReasonDialog(title: title, actionLabel: actionLabel),
   );
+  if (context.mounted && returnFocus != null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (returnFocus.context != null && returnFocus.canRequestFocus) {
+        returnFocus.requestFocus();
+      }
+    });
+  }
+  return result;
 }
 
 class _AdminReasonDialog extends StatefulWidget {

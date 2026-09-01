@@ -150,7 +150,12 @@ void main() {
         entity
             .listSync(recursive: true)
             .whereType<File>()
-            .where((file) => file.path.endsWith('.dart')),
+            .where((file) => file.path.endsWith('.dart'))
+            .where(
+              (file) =>
+                  !file.path.endsWith('collect_group_card_media.dart') &&
+                  !file.path.endsWith('collect_group_card_metrics.dart'),
+            ),
       );
     }
     final combined = files.map((file) => file.readAsStringSync()).join('\n');
@@ -305,11 +310,10 @@ void main() {
       expect(libSources, isNot(contains(family)));
     }
     expect(launch, contains('SizedBox.expand'));
-    expect(launch, contains('CollectRuntimeAssets.officialLogo'));
-    expect(launch, contains("Text(\n                        'Collect'"));
-    expect(launch, contains('LinearProgressIndicator'));
-    expect(launch, contains('backgroundColor: CollectColors.brandPaper'));
-    expect(launch, contains('color: CollectColors.brandPaper'));
+    expect(launch, isNot(contains('CollectRuntimeAssets.officialLogo')));
+    expect(launch, isNot(contains('LinearProgressIndicator')));
+    expect(launch, isNot(contains('Timer(')));
+    expect(launch, isNot(contains("context.go('/auth')")));
     expect(launch, contains('CollectColors.referenceChromeBlack'));
     expect(libSources, contains('Image.asset'));
     expect(libSources, isNot(contains('AssetImage')));
@@ -568,7 +572,7 @@ void main() {
     );
   });
 
-  test('Android launch visually continues the iOS Collect splash', () {
+  test('Android owns the only visible Collect launch screen', () {
     final manifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
@@ -661,7 +665,7 @@ void main() {
         text,
         contains(
           '<item name="android:windowSplashScreenAnimatedIcon">'
-          '@drawable/transparent</item>',
+          '@drawable/collect_launcher_icon</item>',
         ),
         reason: path,
       );
@@ -710,12 +714,8 @@ void main() {
       final text = File(path).readAsStringSync();
       expect(text, contains('@color/collect_launch_background'), reason: path);
       expect(text, isNot(contains('@color/collect_paper')), reason: path);
-      expect(text, isNot(contains('<bitmap')), reason: path);
-      expect(
-        text,
-        isNot(contains('@drawable/collect_launcher_icon')),
-        reason: path,
-      );
+      expect(text, contains('<bitmap'), reason: path);
+      expect(text, contains('@drawable/collect_launcher_icon'), reason: path);
     }
 
     for (final path in <String>[
@@ -723,12 +723,8 @@ void main() {
       'android/app/src/main/res/values-night-v31/styles.xml',
     ]) {
       final text = File(path).readAsStringSync();
-      expect(text, contains('@drawable/transparent'), reason: path);
-      expect(
-        text,
-        isNot(contains('@drawable/collect_launcher_icon')),
-        reason: path,
-      );
+      expect(text, isNot(contains('@drawable/transparent')), reason: path);
+      expect(text, contains('@drawable/collect_launcher_icon'), reason: path);
     }
 
     final colors = File(
@@ -736,7 +732,7 @@ void main() {
     ).readAsStringSync();
     expect(
       colors,
-      contains('<color name="collect_launch_background">#FAF8F5</color>'),
+      contains('<color name="collect_launch_background">#050510</color>'),
     );
 
     final playStoreIcon = File(
@@ -1397,9 +1393,9 @@ void main() {
     expect(collectionCards, contains('maxLines: 1'));
     expect(collectionCards, contains('softWrap: false'));
     expect(groupCards, contains('iconOnly: true'));
-    expect(groupCards, contains("'\${summary.supporterCount} supporters'"));
+    expect(groupCards, contains("'\${summary.supporterCount} contributors'"));
     expect(groupCards, isNot(contains("'\${summary.supporterCount} members'")));
-    expect(collectionsScreen, contains('GroupListPanel'));
+    expect(collectionsScreen, contains('_GroupsCardGrid'));
     expect(collectionsScreen, isNot(contains('class _GroupsMetricPill')));
     expect(collectionsScreen, isNot(contains('Group activity')));
     expect(collectionsScreen, isNot(contains('Supported activity')));

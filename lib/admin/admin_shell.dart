@@ -126,6 +126,12 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'collections.read',
   ),
   _AdminNavDestination(
+    'Users',
+    Icons.person_outline,
+    '/admin/users',
+    'users.read',
+  ),
+  _AdminNavDestination(
     'Members',
     Icons.people_outline,
     '/admin/members',
@@ -941,7 +947,9 @@ String? adminRequiredPermissionForPath(
 
 _AdminNavSection _sectionForPath(String path) {
   if (path == '/admin') return _AdminNavSection.workspace;
-  if (path.startsWith('/admin/groups') || path.startsWith('/admin/members')) {
+  if (path.startsWith('/admin/groups') ||
+      path.startsWith('/admin/users') ||
+      path.startsWith('/admin/members')) {
     return _AdminNavSection.people;
   }
   if (path.startsWith('/admin/payees') ||
@@ -1007,6 +1015,7 @@ IconData _adminIconForKey(String iconKey) {
   return switch (iconKey.trim().toLowerCase()) {
     'dashboard' || 'dashboard_outlined' => Icons.home_rounded,
     'groups' || 'folder_copy' => Icons.folder_copy_outlined,
+    'person' || 'users' => Icons.person_outline,
     'members' || 'people' => Icons.people_outline,
     'payees' || 'person_pin_circle' => Icons.person_pin_circle_outlined,
     'transactions' => Icons.receipt_long_outlined,

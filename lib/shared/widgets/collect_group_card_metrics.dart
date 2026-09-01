@@ -1,9 +1,19 @@
 part of 'collect_group_cards.dart';
 
-BoxDecoration _groupFooterDecoration(BuildContext context) {
+BoxDecoration _groupFooterDecoration(BuildContext context, {Color? accent}) {
   final colors = context.collectColors;
+  final surface = colors.surfaceReadable;
+  final tint = accent ?? colors.defaultGroupAccent;
+  final isDark = Theme.of(context).brightness == Brightness.dark;
   return BoxDecoration(
-    color: colors.surfaceReadable,
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color.alphaBlend(tint.withValues(alpha: isDark ? 0.15 : 0.10), surface),
+        surface,
+      ],
+    ),
     border: Border(
       top: BorderSide(color: colors.border.withValues(alpha: 0.60)),
     ),
@@ -77,7 +87,7 @@ class _GroupMetaIconRow extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       label:
-          '${collection.collectionType.label}, ${summary.supporterCount} supporters, ${collection.isPublic ? 'public' : 'private'}',
+          '${collection.collectionType.label}, ${summary.supporterCount} contributors, ${collection.isPublic ? 'public' : 'private'}',
       child: ExcludeSemantics(
         child: Row(
           mainAxisSize: MainAxisSize.min,

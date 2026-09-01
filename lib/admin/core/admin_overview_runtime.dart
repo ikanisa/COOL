@@ -402,7 +402,7 @@ class _AttentionTable extends StatelessWidget {
           ),
           children: const [
             _TableHeader('Record'),
-            _TableHeader('Masked sender'),
+            _TableHeader('MoMo number'),
             _TableHeader('Amount'),
             _TableHeader('Status'),
             _TableHeader('Age'),
@@ -818,7 +818,7 @@ class _AllocationTable extends StatelessWidget {
           ),
           children: const [
             _TableHeader('Record'),
-            _TableHeader('Masked sender'),
+            _TableHeader('MoMo number'),
             _TableHeader('Amount'),
             _TableHeader('Status'),
             _TableHeader('Proposed group'),
@@ -1009,18 +1009,35 @@ class _TableHeader extends StatelessWidget {
     final colors = context.collectColors;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-      child: Text(
-        label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: colors.textSecondary,
-          fontWeight: CollectTypography.weightBold,
+      child: Tooltip(
+        message: label,
+        excludeFromSemantics: true,
+        child: Semantics(
+          label: label,
+          excludeSemantics: true,
+          child: Icon(
+            _adminOverviewHeaderIcon(label),
+            size: 17,
+            color: colors.textSecondary,
+          ),
         ),
       ),
     );
   }
 }
+
+IconData _adminOverviewHeaderIcon(String label) => switch (label) {
+  'Record' => Icons.receipt_long_outlined,
+  'MoMo number' => Icons.phone_android_outlined,
+  'Amount' => Icons.payments_outlined,
+  'Status' => Icons.fact_check_outlined,
+  'Age' => Icons.schedule_outlined,
+  'Action' => Icons.tune_outlined,
+  'Proposed group' => Icons.groups_outlined,
+  'Requested' => Icons.calendar_today_outlined,
+  'Maker / checker' => Icons.verified_user_outlined,
+  _ => Icons.info_outline,
+};
 
 class _TableValue extends StatelessWidget {
   const _TableValue(this.value, {this.strong = false});
@@ -1147,7 +1164,8 @@ String _extraString(AdminTableRowData row, String key, String fallback) {
 }
 
 String _sender(AdminTableRowData row) {
-  return _extraString(row, 'sender_masked', 'Masked sender');
+  if (_rail(row) != 'rw_momo') return '—';
+  return _momoSender(row);
 }
 
 String _reference(AdminTableRowData row) {
@@ -1200,11 +1218,7 @@ int _ageMinutes(String value) {
 }
 
 String _amount(AdminTableRowData row) {
-  final raw = row.amount.trim();
-  if (raw.isEmpty) return '—';
-  if (RegExp(r'^[A-Z]{3}\s').hasMatch(raw)) return raw;
-  final minor = int.tryParse(raw.replaceAll(RegExp(r'[^0-9-]'), ''));
-  return minor == null ? raw : formatMoneyMinor(minor);
+  return _transactionDisplayAmount(row);
 }
 
 String _dateTime(DateTime? value) {

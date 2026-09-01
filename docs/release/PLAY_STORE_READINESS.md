@@ -1,6 +1,6 @@
 # Play Store Readiness
 
-Status date: 2026-07-24
+Status date: 2026-09-01
 
 Use this file as the concise Play readiness index. Store metadata lives under
 `fastlane/metadata/android/en-US/`, and structured Play Console evidence lives
@@ -29,14 +29,29 @@ Integrity request and verification chain:
 - security contracts keep tokens, service-account JSON, and private keys out
   of repository logs and artifacts.
 
-This proves implementation presence, not an operational production rollout.
-Before release, the owner must verify the Play Console/Google Cloud project
-link, deploy and configure the verification function through the approved
-Supabase path, confirm service-account access without copying credentials into
-the repository, exercise genuine/failed/replayed verdict paths on a
-Play-installed build, and review verdict telemetry. Enforcement must be
-introduced gradually with a fail-safe rollback; it must not be inferred from a
-successful local APK build.
+Live control-plane readback on 2026-09-01 confirms that Collect package
+`app.cool.mobile` is linked in Play Console to Google Cloud project `easymoai`
+(project number `423260854848`), the Play Integrity API is enabled, and the
+core app-licensing, application-integrity, and device-integrity verdicts are
+enabled. The dedicated
+`collect-play-integrity@easymoai.iam.gserviceaccount.com` identity has no
+unrelated project role or user/admin impersonation grant and has exactly one
+active Google-managed key. Its JSON credential is configured only as the
+`GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` Supabase secret in project
+`lhbowpbcpwoiparwnwgt`; OAuth authentication succeeded and an authenticated
+request reached the package-specific decode endpoint, which returned the
+expected `INVALID_ARGUMENT` response for a deliberately invalid test token.
+The downloaded JSON and temporary upload file were overwritten and removed
+after that verification.
+
+This closes the missing server credential and linked-project configuration
+gate. It does not prove a genuine attestation verdict or production rollout.
+Before release, exercise genuine, failed, and replayed verdict paths from a
+Play-installed Android build, confirm the authenticated Edge Function result
+and capability mint on the physical-device journey, and review verdict
+telemetry. Enforcement must be introduced gradually with a fail-safe rollback;
+it must not be inferred from a successful local APK build or invalid-token
+probe.
 
 The current Developer Reporting API snapshot and live Play Console surfaces
 remain separate account-controlled evidence gates.

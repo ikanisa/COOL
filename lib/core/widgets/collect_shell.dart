@@ -26,8 +26,9 @@ class CollectShell extends StatelessWidget {
     final path = currentPath ?? GoRouterState.of(context).uri.path;
     final showNav = !_isStandalone(path);
     final useRail = showNav && MediaQuery.sizeOf(context).width >= 720;
-    final selectedIndex =
-        navigationShell?.currentIndex ?? _selectedIndexForPath(path);
+    final selectedIndex = navigationShell == null
+        ? _selectedIndexForPath(path)
+        : _destinationIndexForBranch(navigationShell!.currentIndex);
     final body = navigationShell ?? child!;
     return CollectGradientBackground(
       child: Scaffold(
@@ -67,31 +68,23 @@ class CollectShell extends StatelessWidget {
     );
   }
 
-  static const _paths = <String>[
-    '/home',
-    '/groups',
-    '/contribute',
-    '/activity',
-    '/settings',
-  ];
-
   void _navigateToIndex(BuildContext context, int index) {
-    final destination = _paths[index];
+    final destination = _collectNavDestinations[index];
     CollectHaptics.selection();
     final handler = onNavigate;
     if (handler != null) {
-      handler(destination);
+      handler(destination.path);
       return;
     }
     final statefulShell = navigationShell;
     if (statefulShell != null) {
       statefulShell.goBranch(
-        index,
-        initialLocation: index == statefulShell.currentIndex,
+        destination.branchIndex,
+        initialLocation: destination.branchIndex == statefulShell.currentIndex,
       );
       return;
     }
-    context.go(destination);
+    context.go(destination.path);
   }
 
   bool _isStandalone(String path) {
@@ -110,20 +103,27 @@ class CollectShell extends StatelessWidget {
         path.startsWith('/settings/legal/');
   }
 
-  int _selectedIndexForPath(String path) {
+  int? _selectedIndexForPath(String path) {
     if (path.startsWith('/groups')) {
       return 1;
     }
     if (path.startsWith('/settings')) {
-      return 4;
-    }
-    if (path.startsWith('/contribute')) {
-      return 2;
-    }
-    if (path.startsWith('/activity')) {
       return 3;
     }
+    if (path.startsWith('/contribute')) {
+      return null;
+    }
+    if (path.startsWith('/activity')) {
+      return 2;
+    }
     return 0;
+  }
+
+  int? _destinationIndexForBranch(int branchIndex) {
+    final index = _collectNavDestinations.indexWhere(
+      (destination) => destination.branchIndex == branchIndex,
+    );
+    return index < 0 ? null : index;
   }
 }
 
@@ -133,7 +133,7 @@ class _CollectBottomNav extends StatelessWidget {
     required this.onDestinationSelected,
   });
 
-  final int selectedIndex;
+  final int? selectedIndex;
   final void Function(BuildContext context, int index) onDestinationSelected;
 
   @override
@@ -174,7 +174,7 @@ class _CollectNavigationRail extends StatelessWidget {
     required this.onDestinationSelected,
   });
 
-  final int selectedIndex;
+  final int? selectedIndex;
   final void Function(BuildContext context, int index) onDestinationSelected;
 
   @override
@@ -321,26 +321,29 @@ const _collectNavDestinations = <_CollectNavDestination>[
     label: 'Home',
     icon: CollectIcons.homeOutline,
     selectedIcon: CollectIcons.home,
+    path: '/home',
+    branchIndex: 0,
   ),
   _CollectNavDestination(
     label: 'Groups',
     icon: CollectIcons.people,
     selectedIcon: CollectIcons.people,
-  ),
-  _CollectNavDestination(
-    label: 'Contribute',
-    icon: CollectIcons.donate,
-    selectedIcon: CollectIcons.money,
+    path: '/groups',
+    branchIndex: 1,
   ),
   _CollectNavDestination(
     label: 'Activity',
     icon: CollectIcons.activity,
     selectedIcon: CollectIcons.ledger,
+    path: '/activity',
+    branchIndex: 3,
   ),
   _CollectNavDestination(
     label: 'Profile',
     icon: CollectIcons.settingsOutline,
     selectedIcon: CollectIcons.profile,
+    path: '/settings',
+    branchIndex: 4,
   ),
 ];
 
@@ -349,9 +352,13 @@ class _CollectNavDestination {
     required this.label,
     required this.icon,
     required this.selectedIcon,
+    required this.path,
+    required this.branchIndex,
   });
 
   final String label;
   final IconData icon;
   final IconData selectedIcon;
+  final String path;
+  final int branchIndex;
 }

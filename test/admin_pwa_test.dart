@@ -13,6 +13,7 @@ void main() {
       adminRoutePaths,
       containsAll(<String>[
         '/admin/groups',
+        '/admin/users',
         '/admin/members',
         '/admin/payees',
         '/admin/transactions',
@@ -46,6 +47,8 @@ void main() {
 
   test('admin operations paths require least-privilege capabilities', () {
     expect(adminRequiredPermissionForPath('/admin/payees'), 'receivers.read');
+    expect(adminRequiredPermissionForPath('/admin/users'), 'users.read');
+    expect(adminRequiredPermissionForPath('/admin/members'), 'users.read');
     expect(
       adminRequiredPermissionForPath('/admin/transactions/transaction-1'),
       'payments.read',
@@ -122,6 +125,197 @@ void main() {
     expect(source, contains('/admin/reconciliations'));
     expect(source, contains('admin_list_collect_ledgers'));
     expect(source, isNot(contains('/admin/payment-events')));
+  });
+
+  test('payees workspace exposes the two confirmed official routes', () async {
+    const repository = AdminEvidenceRepository();
+    final result = await repository.list('admin_list_collect_payees');
+    final payeeRuntime = File(
+      'lib/admin/core/admin_payee_runtime.dart',
+    ).readAsStringSync();
+
+    expect(result.total, 2);
+    expect(result.rows.map((row) => row.title), [
+      'IKANISA LTD',
+      'Rayon Sports FC',
+    ]);
+    expect(result.rows[0].subtitle, contains('Buri Munsi'));
+    expect(result.rows[0].subtitle, contains('code 41258'));
+    expect(result.rows[1].subtitle, contains('Gikundiro'));
+    expect(result.rows[1].subtitle, contains('code 008000'));
+    expect(result.rows.every((row) => row.status == 'active'), isTrue);
+    expect(payeeRuntime, contains('Create payee'));
+    expect(
+      payeeRuntime,
+      contains('Only the official payee name can be edited'),
+    );
+    expect(payeeRuntime, contains('They can never be edited afterward'));
+  });
+
+  test(
+    'operations workspaces expose complete permission-safe row context',
+    () async {
+      const repository = AdminEvidenceRepository();
+      final transactions = await repository.list(
+        'admin_list_collect_transactions',
+      );
+      final groups = await repository.list('admin_list_collections');
+      final members = await repository.list('admin_list_members');
+      final users = await repository.list('admin_list_non_member_users');
+      final tableSource = File(
+        'lib/admin/core/admin_operation_tables.dart',
+      ).readAsStringSync();
+      final migration = File(
+        'supabase/migrations/20260901183000_admin_operations_tables.sql',
+      ).readAsStringSync();
+
+      expect(transactions.rows, hasLength(12));
+      expect(transactions.rows.first.extra['reference'], isNotNull);
+      expect(transactions.rows.first.extra['sender_masked'], isNotNull);
+      expect(transactions.rows.first.extra['group_name'], isNotNull);
+      expect(transactions.rows.first.extra['payee_label'], isNotNull);
+      expect(transactions.rows.first.extra['rail'], 'rw_momo');
+
+      expect(groups.rows.first.title, 'Buri Munsi');
+      expect(groups.rows[1].title, 'Gikundiro');
+      expect(
+        groups.rows.take(2).every((row) => row.status == 'public_approved'),
+        isTrue,
+      );
+      expect(groups.rows.skip(2).first.status, 'private');
+      expect(groups.rows.first.extra['active_members'], isNotNull);
+      expect(groups.rows.first.extra['receiver_label'], 'IKANISA LTD');
+
+      expect(members.rows.first.title, startsWith('Collect ID '));
+      expect(members.rows.first.extra['whatsapp_masked'], contains('•••'));
+      expect(members.rows.first.extra['country_code'], 'RW');
+      expect(members.rows.first.extra['active_groups'], isNotNull);
+      expect(members.rows.first.extra['active_groups'], greaterThan(0));
+      expect(members.rows.first.extra, isNot(contains('revolut_account')));
+      expect(users.rows, hasLength(4));
+      expect(
+        users.rows.every((row) => row.extra['active_groups'] == 0),
+        isTrue,
+      );
+
+      for (final label in <String>[
+        'Reference',
+        'MoMo number',
+        'Destination',
+        'Access',
+        'Owner',
+        'Payment profile',
+      ]) {
+        expect(tableSource, contains("label: '$label'"), reason: label);
+      }
+      expect(tableSource, isNot(contains("label: 'Collect ID'")));
+      for (final iconOnlyLabel in <String>[
+        'WhatsApp',
+        'Country',
+        'Payment profile',
+        'Groups',
+      ]) {
+        expect(
+          tableSource,
+          contains("label: '$iconOnlyLabel',\n            iconOnly: true"),
+          reason: iconOnlyLabel,
+        );
+      }
+      expect(tableSource, contains('IconButton.filledTonal'));
+      expect(tableSource, contains('FontAwesomeIcons.whatsapp'));
+      expect(tableSource, contains('_transactionDisplayAmount(row)'));
+      expect(tableSource, contains('hidePrimaryText: true'));
+      expect(tableSource, contains('iconOnlyFields: true'));
+      expect(tableSource, contains("label: '\${data.label}: \$value'"));
+      expect(tableSource, contains('message: data.label'));
+      expect(migration, contains('public.mask_phone(profile.whatsapp_phone)'));
+      expect(migration, contains('public.mask_phone(profile.momo_number)'));
+      expect(
+        migration,
+        isNot(contains("'revolut_account', profile.revolut_account")),
+      );
+    },
+  );
+
+  test(
+    'admin record surfaces use icon-led labels without losing semantics',
+    () {
+      final operations = File(
+        'lib/admin/core/admin_operation_tables.dart',
+      ).readAsStringSync();
+      final genericTable = File(
+        'lib/admin/shared/components/admin_data_table.dart',
+      ).readAsStringSync();
+      final listRuntime = File(
+        'lib/admin/core/admin_list_runtime.dart',
+      ).readAsStringSync();
+      final detail = File(
+        'lib/admin/core/admin_detail_runtime.dart',
+      ).readAsStringSync();
+
+      expect(operations, contains('this.iconOnly = true'));
+      expect(operations, contains('subtitleIcon: _groupPurposeIcon(row)'));
+      expect(operations, contains('iconOnlyFields: true'));
+      expect(operations, contains(': const SizedBox.shrink()'));
+      expect(genericTable, contains('class _AdminDataColumnLabel'));
+      expect(genericTable, contains("label: '\$label: \$value'"));
+      expect(
+        genericTable,
+        isNot(contains("DataColumn(label: Text('Record'))")),
+      );
+      expect(genericTable, isNot(contains("child: const Text('Open record')")));
+      expect(detail, contains('_adminDetailFieldGlyph('));
+      expect(detail, contains('label: label'));
+      expect(detail, contains('value: value'));
+      expect(listRuntime, contains('IconButton.outlined'));
+      expect(listRuntime, contains('IconButton.filledTonal'));
+      expect(listRuntime, isNot(contains("child: const Text('Edit')")));
+      expect(listRuntime, isNot(contains("child: const Text('Reparse')")));
+    },
+  );
+
+  test('group admin supports create, detail, activate, and deactivate', () {
+    final router = File('lib/admin/admin_router.dart').readAsStringSync();
+    final listRuntime = File(
+      'lib/admin/core/admin_list_runtime.dart',
+    ).readAsStringSync();
+    final groupRuntime = File(
+      'lib/admin/core/admin_group_runtime.dart',
+    ).readAsStringSync();
+    final detailRuntime = File(
+      'lib/admin/core/admin_detail_runtime.dart',
+    ).readAsStringSync();
+    final migration = File(
+      'supabase/migrations/20260901193000_admin_group_lifecycle.sql',
+    ).readAsStringSync();
+
+    expect(router, contains("'/admin/groups/:id'"));
+    expect(listRuntime, contains('_AdminGroupWorkspaceActions'));
+    expect(groupRuntime, contains('Create public group'));
+    expect(groupRuntime, contains('admin_create_platform_public_group'));
+    expect(groupRuntime, contains('locked permanently after creation'));
+    expect(detailRuntime, contains('admin_set_group_active'));
+    expect(detailRuntime, contains("label: 'Activate'"));
+    expect(detailRuntime, contains("label: 'Deactivate'"));
+    expect(migration, contains('collection.platform_public.created'));
+    expect(migration, contains('collection.activated'));
+    expect(migration, contains('collection.deactivated'));
+    expect(migration, contains('route_immutable'));
+  });
+
+  test('users and members are separate admin populations', () {
+    final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final router = File('lib/admin/admin_router.dart').readAsStringSync();
+    final migration = File(
+      'supabase/migrations/20260901194500_admin_users_and_members.sql',
+    ).readAsStringSync();
+
+    expect(shell, contains("'Users'"));
+    expect(shell, contains("'/admin/users'"));
+    expect(router, contains('admin_list_non_member_users'));
+    expect(router, contains('admin_list_members'));
+    expect(migration, contains('coalesce(member_count.active_groups, 0) = 0'));
+    expect(migration, contains('coalesce(member_count.active_groups, 0) > 0'));
   });
 
   test(

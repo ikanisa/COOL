@@ -295,13 +295,6 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                   ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
                 ),
               ],
-              if (_detailValue(data, const ['status']).isNotEmpty) ...[
-                const SizedBox(height: 8),
-                SelectableText(
-                  '"status": "${_detailValue(data, const ['status'])}"',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
               const SizedBox(height: 16),
               Wrap(
                 spacing: 12,
@@ -370,7 +363,14 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     'visibility',
                     'status',
                   ]),
+                  isPlatformSponsored: data['is_platform_sponsored'] == true,
                 ),
+              ],
+              if (rpcName == 'admin_get_collection' &&
+                  _adminHasPermission(identity, 'collections.moderate') &&
+                  data['is_platform_sponsored'] == true) ...[
+                const SizedBox(height: 12),
+                _AdminPlatformPublicGroupEditor(collectionId: id, data: data),
               ],
               const SizedBox(height: 18),
               _AdminDetailWorkflowPanel(spec: spec),
@@ -421,6 +421,7 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       'admin_record_operator_note',
       {'p_entity_type': entityType, 'p_entity_id': id, 'p_body': note},
     );
+    ref.read(adminRealtimeTickProvider.notifier).state += 1;
     if (!context.mounted) return;
     ScaffoldMessenger.of(
       context,
@@ -593,6 +594,12 @@ String _adminActionErrorMessage(Object error) {
   if (message.contains('no retryable failed deliveries')) {
     return 'No active failed delivery is eligible for retry.';
   }
+  if (message.contains('activate an official payee')) {
+    return 'Activate an official payee before activating this public group.';
+  }
+  if (message.contains('collect profile')) {
+    return 'The signed-in admin needs a Collect profile before creating a public group.';
+  }
   return 'The admin action failed. Refresh and try again.';
 }
 
@@ -600,10 +607,12 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
   const _AdminCollectionStatusActions({
     required this.collectionId,
     required this.currentStatus,
+    required this.isPlatformSponsored,
   });
 
   final String collectionId;
   final String currentStatus;
+  final bool isPlatformSponsored;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -611,8 +620,8 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
     return Semantics(
       container: true,
       explicitChildNodes: true,
-      label: 'Group support status actions',
-      hint: 'Updates group public support status with an audited reason.',
+      label: 'Group lifecycle actions',
+      hint: 'Activates or deactivates the group with an audited reason.',
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.surfaceMuted.withValues(alpha: 0.84),
@@ -625,7 +634,7 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Group support status',
+                'Group lifecycle',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: colors.textPrimary,
                   fontWeight: CollectTypography.weightBold,
@@ -633,7 +642,9 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Reason-gated actions update the group state and audit trail.',
+                isPlatformSponsored
+                    ? 'Edit the public catalogue details, then use a reason-gated action to activate or deactivate this sponsored group.'
+                    : 'Review the private group details, then use a reason-gated action to activate or deactivate it.',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: colors.textSecondary,
                   fontWeight: CollectTypography.weightBold,
@@ -658,19 +669,21 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
                       icon: Icons.block_outlined,
                     ),
                   ],
-                  _AdminCollectionStatusButton(
-                    collectionId: collectionId,
-                    status: 'private',
-                    label: 'Set private',
-                    icon: Icons.lock_outline,
-                  ),
-                  _AdminCollectionStatusButton(
-                    collectionId: collectionId,
-                    status: 'archived',
-                    label: 'Archive',
-                    icon: Icons.archive_outlined,
-                    destructive: true,
-                  ),
+                  if (currentStatus == 'archived')
+                    _AdminCollectionStatusButton(
+                      collectionId: collectionId,
+                      status: 'active',
+                      label: 'Activate',
+                      icon: Icons.play_circle_outline,
+                    )
+                  else
+                    _AdminCollectionStatusButton(
+                      collectionId: collectionId,
+                      status: 'inactive',
+                      label: 'Deactivate',
+                      icon: Icons.pause_circle_outline,
+                      destructive: true,
+                    ),
                 ],
               ),
             ],
@@ -722,14 +735,305 @@ class _AdminCollectionStatusButton extends ConsumerWidget {
       actionLabel: label,
     );
     if (reason == null) return;
-    await ref.read(adminRepositoryProvider).action(
-      'admin_update_collection_support_status',
-      {'p_collection_id': collectionId, 'p_status': status, 'p_reason': reason},
+    final lifecycleAction = status == 'active' || status == 'inactive';
+    try {
+      await ref
+          .read(adminRepositoryProvider)
+          .action(
+            lifecycleAction
+                ? 'admin_set_group_active'
+                : 'admin_update_collection_support_status',
+            lifecycleAction
+                ? {
+                    'p_collection_id': collectionId,
+                    'p_active': status == 'active',
+                    'p_reason': reason,
+                  }
+                : {
+                    'p_collection_id': collectionId,
+                    'p_status': status,
+                    'p_reason': reason,
+                  },
+          );
+      ref.read(adminRealtimeTickProvider.notifier).state += 1;
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Group updated: $label')));
+    } catch (error) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
+    }
+  }
+}
+
+class _AdminPlatformPublicGroupEditor extends ConsumerStatefulWidget {
+  const _AdminPlatformPublicGroupEditor({
+    required this.collectionId,
+    required this.data,
+  });
+
+  final String collectionId;
+  final Map<String, dynamic> data;
+
+  @override
+  ConsumerState<_AdminPlatformPublicGroupEditor> createState() =>
+      _AdminPlatformPublicGroupEditorState();
+}
+
+class _AdminPlatformPublicGroupEditorState
+    extends ConsumerState<_AdminPlatformPublicGroupEditor> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _title;
+  late final TextEditingController _description;
+  late final TextEditingController _categorySubtype;
+  late final TextEditingController _purposeLabel;
+  late final TextEditingController _receiverLabel;
+  late String _collectionType;
+  bool _working = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _title = TextEditingController(text: '${widget.data['title'] ?? ''}');
+    _description = TextEditingController(
+      text: '${widget.data['description'] ?? ''}',
     );
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(
+    _categorySubtype = TextEditingController(
+      text: '${widget.data['category_subtype'] ?? ''}',
+    );
+    _purposeLabel = TextEditingController(
+      text: '${widget.data['purpose_label'] ?? ''}',
+    );
+    _receiverLabel = TextEditingController(
+      text: '${widget.data['receiver_display_label'] ?? ''}',
+    );
+    final type = '${widget.data['collection_type'] ?? 'other'}';
+    _collectionType =
+        const {'ikimina', 'sport', 'church', 'wedding', 'other'}.contains(type)
+        ? type
+        : 'other';
+  }
+
+  @override
+  void dispose() {
+    _title.dispose();
+    _description.dispose();
+    _categorySubtype.dispose();
+    _purposeLabel.dispose();
+    _receiverLabel.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: 'Edit database-managed public group',
+      hint:
+          'Updates public group catalogue metadata. The payee MoMo route remains locked.',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceMuted.withValues(alpha: 0.84),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: colors.borderAccent),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Public group catalogue',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: CollectTypography.weightBold,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'These values are stored in Supabase and shown in the member app. Manage the immutable MoMo route from Payees.',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+                ),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    _publicGroupTextField(
+                      controller: _title,
+                      label: 'Group name',
+                      validator: (value) => (value ?? '').trim().length < 3
+                          ? 'Enter at least 3 characters'
+                          : null,
+                    ),
+                    _publicGroupTextField(
+                      controller: _description,
+                      label: 'Description',
+                      maxLines: 2,
+                    ),
+                    _publicGroupDropdown(
+                      label: 'Collection type',
+                      value: _collectionType,
+                      items: const {
+                        'ikimina': 'Group savings',
+                        'sport': 'Sport',
+                        'church': 'Church',
+                        'wedding': 'Wedding',
+                        'other': 'Other',
+                      },
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() => _collectionType = value);
+                        }
+                      },
+                    ),
+                    _publicGroupTextField(
+                      controller: _categorySubtype,
+                      label: 'Category key',
+                    ),
+                    _publicGroupTextField(
+                      controller: _purposeLabel,
+                      label: 'Purpose label',
+                    ),
+                    _publicGroupTextField(
+                      controller: _receiverLabel,
+                      label: 'Receiver name',
+                      validator: (value) => (value ?? '').trim().isEmpty
+                          ? 'Receiver name is required'
+                          : null,
+                    ),
+                    _AdminImmutablePayeeRoute(data: widget.data),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                FilledButton.icon(
+                  onPressed: _working ? null : _save,
+                  icon: _working
+                      ? const SizedBox.square(
+                          dimension: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.save_outlined),
+                  label: Text(_working ? 'Saving…' : 'Save public group'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _publicGroupTextField({
+    required TextEditingController controller,
+    required String label,
+    int maxLines = 1,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
+    return SizedBox(
+      width: 300,
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(labelText: label),
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        validator: validator,
+      ),
+    );
+  }
+
+  Widget _publicGroupDropdown({
+    required String label,
+    required String value,
+    required Map<String, String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return SizedBox(
+      width: 300,
+      child: DropdownButtonFormField<String>(
+        initialValue: value,
+        decoration: InputDecoration(labelText: label),
+        items: [
+          for (final item in items.entries)
+            DropdownMenuItem(value: item.key, child: Text(item.value)),
+        ],
+        onChanged: onChanged,
+      ),
+    );
+  }
+
+  Future<void> _save() async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    final reason = await showAdminReasonDialog(
       context,
-    ).showSnackBar(SnackBar(content: Text('Group status updated: $label')));
+      title: 'Update public group',
+      actionLabel: 'Save changes',
+    );
+    if (reason == null || !mounted) return;
+    setState(() => _working = true);
+    try {
+      await ref
+          .read(adminRepositoryProvider)
+          .action('admin_update_platform_public_group_metadata', {
+            'p_collection_id': widget.collectionId,
+            'p_title': _title.text.trim(),
+            'p_description': _description.text.trim(),
+            'p_collection_type': _collectionType,
+            'p_category_subtype': _categorySubtype.text.trim(),
+            'p_purpose_label': _purposeLabel.text.trim(),
+            'p_receiver_label': _receiverLabel.text.trim(),
+            'p_reason': reason,
+          });
+      ref.read(adminRealtimeTickProvider.notifier).state += 1;
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Public group updated in Supabase')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
+    } finally {
+      if (mounted) setState(() => _working = false);
+    }
+  }
+}
+
+class _AdminImmutablePayeeRoute extends StatelessWidget {
+  const _AdminImmutablePayeeRoute({required this.data});
+
+  final Map<String, dynamic> data;
+
+  @override
+  Widget build(BuildContext context) {
+    final code = '${data['receiver_momo_code'] ?? 'Not configured'}';
+    final network = '${data['receiver_network'] ?? 'Not configured'}';
+    return Semantics(
+      container: true,
+      readOnly: true,
+      label: 'Immutable payee route. MoMo code $code. Network $network.',
+      child: SizedBox(
+        width: 300,
+        child: InputDecorator(
+          decoration: const InputDecoration(
+            labelText: 'MoMo route (locked)',
+            helperText: 'The MoMo number or code can never be edited.',
+          ),
+          child: Text('$network · $code'),
+        ),
+      ),
+    );
   }
 }
 
@@ -757,22 +1061,25 @@ class _AdminDetailFieldCard extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    label,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  Tooltip(
+                    message: label,
+                    excludeFromSemantics: true,
+                    child: _adminDetailFieldGlyph(
+                      label,
                       color: colors.textSecondary,
-                      fontWeight: CollectTypography.weightBold,
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  SelectableText(
-                    value,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: CollectTypography.weightBold,
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: SelectableText(
+                      value,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: colors.textPrimary,
+                        fontWeight: CollectTypography.weightBold,
+                      ),
                     ),
                   ),
                 ],
@@ -783,6 +1090,59 @@ class _AdminDetailFieldCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _adminDetailFieldGlyph(String label, {required Color color}) {
+  if (label.toLowerCase().contains('whatsapp')) {
+    return FaIcon(FontAwesomeIcons.whatsapp, size: 19, color: color);
+  }
+  return Icon(_adminDetailFieldIcon(label), size: 19, color: color);
+}
+
+IconData _adminDetailFieldIcon(String label) {
+  final normalized = label.toLowerCase();
+  if (normalized.contains('phone') || normalized.contains('sender')) {
+    return Icons.phone_outlined;
+  }
+  if (normalized.contains('amount') ||
+      normalized.contains('currency') ||
+      normalized.contains('raised')) {
+    return Icons.payments_outlined;
+  }
+  if (normalized.contains('status') || normalized.contains('active')) {
+    return Icons.verified_outlined;
+  }
+  if (normalized.contains('created') ||
+      normalized.contains('received') ||
+      normalized.contains('expires')) {
+    return Icons.schedule_outlined;
+  }
+  if (normalized.contains('group') || normalized.contains('collection')) {
+    return Icons.groups_outlined;
+  }
+  if (normalized.contains('user') ||
+      normalized.contains('member') ||
+      normalized.contains('contributor') ||
+      normalized.contains('owner')) {
+    return Icons.person_outline;
+  }
+  if (normalized.contains('payee') || normalized.contains('receiver')) {
+    return Icons.location_on_outlined;
+  }
+  if (normalized.contains('provider') ||
+      normalized.contains('network') ||
+      normalized.contains('route') ||
+      normalized.contains('source')) {
+    return Icons.swap_horiz_outlined;
+  }
+  if (normalized.contains('role')) return Icons.admin_panel_settings_outlined;
+  if (normalized.contains('error')) return Icons.error_outline;
+  if (normalized.contains('id') ||
+      normalized.contains('reference') ||
+      normalized.contains('code')) {
+    return Icons.tag_outlined;
+  }
+  return Icons.info_outline;
 }
 
 class _AdminDetailWorkflowPanel extends StatelessWidget {

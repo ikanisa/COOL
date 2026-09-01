@@ -149,7 +149,10 @@ void main() {
     await pumpRoute(tester, '/contribute', legalConsentAccepted: true);
 
     expect(find.text('Choose a group'), findsOneWidget);
-    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Your groups'), findsOneWidget);
+    expect(find.text('Public groups'), findsOneWidget);
+    expect(find.text('Scan group QR'), findsNothing);
+    expect(find.text('Contribute'), findsNothing);
     expect(find.text('Activity'), findsOneWidget);
 
     await tester.tap(find.text('St Michel building fund').first);
@@ -160,6 +163,21 @@ void main() {
     expect(find.text('Continue to MoMo'), findsOneWidget);
     expect(find.text('Choose a group'), findsNothing);
     expect(find.text('Profile'), findsNothing);
+  });
+
+  testWidgets('Contribute prioritizes public discovery when data is empty', (
+    tester,
+  ) async {
+    await pumpRoute(
+      tester,
+      '/contribute',
+      legalConsentAccepted: true,
+      repository: CollectRepository(),
+    );
+
+    expect(find.text('Explore public groups'), findsWidgets);
+    expect(find.text('No groups available'), findsNothing);
+    expect(find.text('Scan group QR'), findsNothing);
   });
 
   testWidgets('global Activity renders confirmed records but not intents', (
@@ -173,6 +191,8 @@ void main() {
     expect(find.text('RWF 10,000'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsNothing);
     expect(find.textContaining('intent-render'), findsNothing);
+    expect(find.textContaining('confirmed'), findsNothing);
+    expect(find.byIcon(CollectIcons.check), findsOneWidget);
   });
 
   testWidgets('dense Activity avoids a viewport-spanning backdrop filter', (
@@ -548,7 +568,7 @@ void main() {
     }
   });
 
-  testWidgets('supported-groups filter has a clear empty recovery state', (
+  testWidgets('my-groups filter has a clear empty recovery state', (
     tester,
   ) async {
     final repository = CollectRepository.fixture();
@@ -560,7 +580,7 @@ void main() {
       repository: repository,
     );
 
-    expect(find.text('No supported groups yet'), findsOneWidget);
+    expect(find.text('No groups yet'), findsOneWidget);
     expect(find.text('Show all groups'), findsOneWidget);
     await tester.tap(find.text('Show all groups'));
     await tester.pumpAndSettle();
@@ -801,7 +821,9 @@ void main() {
     await tester.tap(find.text('Verify and continue'));
     await tester.pumpAndSettle();
 
-    expect(find.text('My confirmed contributions'), findsOneWidget);
+    expect(find.text('My confirmed contributions'), findsNothing);
+    expect(find.byIcon(CollectIcons.people), findsWidgets);
+    expect(find.text('0 supported groups'), findsNothing);
     expect(find.text('WhatsApp verified.'), findsNothing);
     expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
     expect(repository.state.collections, isEmpty);
@@ -976,23 +998,43 @@ void main() {
   testWidgets('home keeps scan as the only join entry', (tester) async {
     await pumpRoute(tester, '/home', legalConsentAccepted: true);
 
+    final quickActions = find.byType(CollectHeroQuickActionRow);
+    expect(quickActions, findsOneWidget);
+    expect(
+      find.descendant(of: quickActions, matching: find.text('Contribute')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: quickActions, matching: find.text('Groups')),
+      findsNothing,
+    );
+    expect(
+      find.descendant(of: quickActions, matching: find.text('Supported')),
+      findsNothing,
+    );
     expect(find.text('Join'), findsNothing);
     expect(find.text('Scan QR'), findsOneWidget);
+    expect(find.text('Share'), findsOneWidget);
     expect(find.text('Join with a code.'), findsNothing);
     expect(find.text('Group code'), findsNothing);
     expect(find.text('Group code or link'), findsNothing);
+
+    await tester.tap(
+      find.descendant(of: quickActions, matching: find.text('Contribute')),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Choose a group'), findsOneWidget);
   });
 
   testWidgets('groups low-data route keeps actions in chrome', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
     await pumpRoute(tester, '/groups', legalConsentAccepted: true);
 
     expect(find.text('Groups'), findsWidgets);
-    expect(
-      find.bySemanticsLabel(
-        'St Michel building fund, RWF 35,000, 2 supporters',
-      ),
-      findsOneWidget,
-    );
+    expect(find.byIcon(CollectIcons.people), findsWidgets);
     expect(find.text('Scan'), findsNothing);
     expect(find.text('Supported'), findsNothing);
     expect(find.text('Home'), findsOneWidget);

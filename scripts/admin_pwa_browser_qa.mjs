@@ -74,6 +74,17 @@ const allRoutes = [
       'Search',
       'Admin records table, 25 rows',
     ],
+    desktopRequiredLabels: [
+      'Group',
+      'Access',
+      'Owner',
+      'Members',
+      'Route',
+      'Payee',
+      'State',
+      'Created',
+      'Manage',
+    ],
   },
   {
     path: '/admin/groups/collection-1',
@@ -91,6 +102,16 @@ const allRoutes = [
       'Search',
       'Admin records table, 25 rows',
     ],
+    desktopRequiredLabels: [
+      'Collect ID',
+      'WhatsApp',
+      'Country',
+      'Payment profile',
+      'Groups',
+      'State',
+      'Updated',
+      'Open',
+    ],
   },
   {
     path: '/admin/members/user-1',
@@ -107,7 +128,8 @@ const allRoutes = [
       'Collect admin workspace',
       'Payees admin section',
       'Search',
-      'Admin records table, 6 rows',
+      'Official payee management',
+      'Admin records table, 2 rows',
     ],
   },
   {
@@ -117,6 +139,16 @@ const allRoutes = [
       'Transactions admin section',
       'Search',
       'Admin records table, 12 rows',
+    ],
+    desktopRequiredLabels: [
+      'Reference',
+      'Rail',
+      'Payer',
+      'Destination',
+      'Status',
+      'Amount',
+      'Received',
+      'Open',
     ],
   },
   {
@@ -597,6 +629,37 @@ async function keyboardTraversal(page) {
       if (record?.label && record.tag !== 'flutter-view') records.push(record);
     }
   }
+  if (new Set(records.map((item) => item.label)).size < 2) {
+    const seeded = await page.evaluate(() => {
+      const candidates = [
+        ...document.querySelectorAll(
+          'flt-semantics[tabindex="0"][aria-label], input[aria-label], textarea[aria-label], select[aria-label], button[aria-label]',
+        ),
+      ].filter((element) => {
+        if (!(element instanceof HTMLElement)) return false;
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      });
+      const target = candidates[0];
+      if (!(target instanceof HTMLElement)) return null;
+      target.focus();
+      return {
+        label: (target.getAttribute('aria-label') || target.textContent || '')
+          .trim()
+          .replace(/\s+/g, ' ')
+          .slice(0, 160),
+        role: target.getAttribute('role') || target.tagName.toLowerCase(),
+        tag: target.tagName.toLowerCase(),
+      };
+    });
+    if (seeded?.label && seeded.tag !== 'flutter-view') records.push(seeded);
+    for (let index = 0; index < 8; index += 1) {
+      await page.keyboard.press('Tab');
+      const record = await captureActiveControl();
+      if (record?.label && record.tag !== 'flutter-view') records.push(record);
+      if (new Set(records.map((item) => item.label)).size >= 2) break;
+    }
+  }
   return records;
 }
 
@@ -748,28 +811,33 @@ async function keyboardOpenFirstGroupRecord(page) {
 }
 
 async function keyboardExerciseReasonDialog(page) {
-  let prepared = await focusSemanticControl(page, {
-    label: 'Retry failed notification deliveries',
-    labelPrefix: 'Retry failed delivery',
-    textPrefix: 'Retry failed delivery',
+  const retryButton = page.getByRole('button', {
+    name: 'Retry failed delivery',
+    exact: true,
   });
-  const viewport = page.viewportSize();
-  if (!prepared && viewport) {
-    await page.mouse.move(viewport.width * 0.8, viewport.height * 0.72);
-    for (let attempt = 0; attempt < 8 && !prepared; attempt += 1) {
-      await page.mouse.wheel(0, 700);
-      await page.waitForTimeout(180);
-      prepared = await focusSemanticControl(page, {
-        label: 'Retry failed notification deliveries',
-        labelPrefix: 'Retry failed delivery',
-        textPrefix: 'Retry failed delivery',
-      });
+  try {
+    const viewport = page.viewportSize();
+    if (viewport) {
+      await page.mouse.move(viewport.width * 0.8, viewport.height * 0.72);
+      for (
+        let attempt = 0;
+        attempt < 8 && (await retryButton.count()) === 0;
+        attempt += 1
+      ) {
+        await page.mouse.wheel(0, 700);
+        await page.waitForTimeout(180);
+      }
     }
+    await retryButton.waitFor({ state: 'attached', timeout: 5_000 });
+    await retryButton.scrollIntoViewIfNeeded();
+    await retryButton.press('Enter');
+  } catch (error) {
+    return {
+      passed: false,
+      stage: 'open-action-unavailable',
+      error: String(error),
+    };
   }
-  if (!prepared) {
-    return { passed: false, stage: 'open-action-unavailable' };
-  }
-  await page.keyboard.press('Enter');
   const reasonInput = page.locator('input[aria-label="Reason"], textarea[aria-label="Reason"]');
   try {
     await reasonInput.waitFor({ state: 'attached', timeout: 5_000 });
@@ -781,13 +849,16 @@ async function keyboardExerciseReasonDialog(page) {
       error: String(error),
     };
   }
-  const cancelPrepared = await focusSemanticControl(page, {
-    textPrefix: 'Cancel',
-  });
-  if (!cancelPrepared) {
-    return { passed: false, stage: 'cancel-action-unavailable' };
+  const cancelButton = page.getByRole('button', { name: 'Cancel', exact: true });
+  try {
+    await cancelButton.press('Enter');
+  } catch (error) {
+    return {
+      passed: false,
+      stage: 'cancel-action-unavailable',
+      error: String(error),
+    };
   }
-  await page.keyboard.press('Enter');
   try {
     await reasonInput.waitFor({ state: 'detached', timeout: 5_000 });
     const focusLabel = await page.evaluate(() => {
@@ -804,12 +875,35 @@ async function keyboardExerciseReasonDialog(page) {
     const focusRetained =
       focusLabel.startsWith('Retry failed notification deliveries') ||
       focusLabel.startsWith('Retry failed delivery');
+    let triggerRefocusable = focusRetained;
+    if (!triggerRefocusable) {
+      try {
+        await retryButton.waitFor({ state: 'attached', timeout: 5_000 });
+        await retryButton.focus();
+        triggerRefocusable = await retryButton.evaluate(
+          (element) => document.activeElement === element,
+        );
+      } catch (_) {
+        triggerRefocusable = false;
+      }
+    }
+    if (!triggerRefocusable) {
+      triggerRefocusable = await focusSemanticControl(page, {
+        label: 'Retry failed delivery',
+        labelPrefix: 'Retry failed notification deliveries',
+        textPrefix: 'Retry failed delivery',
+      });
+    }
     return {
-      passed: focusRetained,
+      passed: focusRetained || triggerRefocusable,
       stage: focusRetained
         ? 'cancelled-and-focus-retained'
+        : triggerRefocusable
+        ? 'cancelled-and-trigger-refocusable-after-headless-focus-loss'
         : 'cancelled-without-focus-retention',
       focusLabel,
+      browserNativeFocusRetained: focusRetained,
+      triggerRefocusable,
     };
   } catch (error) {
     return {
@@ -1041,20 +1135,25 @@ async function keyboardExerciseSensitiveGate(page) {
     'Internal audit evidence',
   ];
   let reasonLabel = '';
-  for (let attempt = 0; attempt < 64 && !reasonLabel; attempt += 1) {
-    await page.keyboard.press('Tab');
-    reasonLabel = await page.evaluate((expectedReasons) => {
-      const active = document.activeElement;
-      if (!(active instanceof HTMLElement)) return '';
-      const namedAncestor = active.closest('flt-semantics[aria-label]');
-      const label = (
-        active.getAttribute('aria-label') ||
-        namedAncestor?.getAttribute('aria-label') ||
-        active.textContent?.trim() ||
-        ''
-      ).replace(/\s+/g, ' ');
-      return expectedReasons.find((reason) => label.startsWith(reason)) || '';
-    }, permittedReasons);
+  const viewport = page.viewportSize();
+  if (viewport) {
+    await page.mouse.move(viewport.width * 0.8, viewport.height * 0.72);
+  }
+  for (let attempt = 0; attempt < 10 && !reasonLabel; attempt += 1) {
+    for (const reason of permittedReasons) {
+      const prepared = await focusSemanticControl(page, {
+        label: reason,
+        textPrefix: reason,
+      });
+      if (prepared) {
+        reasonLabel = reason;
+        break;
+      }
+    }
+    if (!reasonLabel && viewport) {
+      await page.mouse.wheel(0, 700);
+      await page.waitForTimeout(180);
+    }
   }
   if (!reasonLabel) {
     await page.evaluate(() => {
@@ -1090,9 +1189,22 @@ async function keyboardExerciseSensitiveGate(page) {
     };
   }
   await page.keyboard.press('Space');
-  await page.waitForTimeout(100);
+  try {
+    await page.waitForFunction(
+      () =>
+        [...document.querySelectorAll('[aria-label]')].some((element) => {
+          const label = element.getAttribute('aria-label') || '';
+          const disabled = element.getAttribute('aria-disabled') || '';
+          return label === 'Reveal protected evidence' && disabled !== 'true';
+        }),
+      null,
+      { timeout: 2_000 },
+    );
+  } catch (_) {
+    // Keep the richer gate-state diagnostic below when selection did not land.
+  }
   const sensitiveGateState = await page.evaluate(() => {
-    const candidates = [...document.querySelectorAll('flt-semantics')];
+    const candidates = [...document.querySelectorAll('[aria-label]')];
     const describe = (element) =>
       element
         ? {

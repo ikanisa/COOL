@@ -85,7 +85,31 @@ class CollectRepository extends StateNotifier<CollectState> {
   Future<void> loadInitial({bool syncPendingSms = false}) async {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
-    if (supabase == null || user == null) return;
+    if (supabase == null) return;
+
+    if (user == null) {
+      state = state.copyWith(isLoading: true, usingStaleCache: false);
+      try {
+        final publicCollections = await _liveReader.fetchPublicCollections();
+        state = state.copyWith(
+          currentProfile: null,
+          collections: publicCollections,
+          paymentIntents: const [],
+          contributions: const [],
+          collectionSummaries: const {},
+          isLoading: false,
+          usingStaleCache: false,
+          lastSuccessfulSyncAt: DateTime.now().toUtc(),
+        );
+      } catch (error) {
+        state = state.copyWith(
+          isLoading: false,
+          usingStaleCache: false,
+          lastError: error.toString(),
+        );
+      }
+      return;
+    }
 
     state = state.copyWith(isLoading: true, usingStaleCache: false);
     try {
@@ -726,7 +750,8 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
     final profile = _requireProfile();
     final collection = _requireActiveCollection(draft.collectionId);
-    if (!collection.isCurrentUserMember &&
+    if (!collection.isPublic &&
+        !collection.isCurrentUserMember &&
         collection.creatorUserId != profile.id) {
       throw StateError('Join this group before contributing.');
     }
@@ -765,7 +790,16 @@ class CollectRepository extends StateNotifier<CollectState> {
       final intent = PaymentIntentModel.fromJson(
         Map<String, dynamic>.from(responseRow as Map),
       );
-      state = state.copyWith(paymentIntents: [intent, ...state.paymentIntents]);
+      state = state.copyWith(
+        paymentIntents: [intent, ...state.paymentIntents],
+        collections: [
+          for (final item in state.collections)
+            if (item.id == collection.id && collection.isPublic)
+              item.copyWith(isCurrentUserMember: true)
+            else
+              item,
+        ],
+      );
       return intent;
     }
     if (!_allowLocalWrites) {
@@ -807,7 +841,16 @@ class CollectRepository extends StateNotifier<CollectState> {
             createdAt: DateTime.now(),
             expiresAt: DateTime.now().add(const Duration(hours: 48)),
           );
-    state = state.copyWith(paymentIntents: [...state.paymentIntents, intent]);
+    state = state.copyWith(
+      paymentIntents: [...state.paymentIntents, intent],
+      collections: [
+        for (final item in state.collections)
+          if (item.id == collection.id && collection.isPublic)
+            item.copyWith(isCurrentUserMember: true)
+          else
+            item,
+      ],
+    );
     return intent;
   }
 

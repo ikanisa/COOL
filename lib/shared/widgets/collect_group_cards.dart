@@ -164,16 +164,50 @@ class _GroupListRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,
-                Text(
-                  '${collection.collectionType.label} · '
-                  '${summary.supporterCount} supporters',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: CollectTypography.weightRegular,
-                    letterSpacing: CollectTypography.trackingDefault,
+                Semantics(
+                  label:
+                      '${collection.collectionType.label}, '
+                      '${summary.supporterCount} contributors',
+                  child: ExcludeSemantics(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            collection.collectionType.label,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: colors.textSecondary,
+                                  fontWeight: CollectTypography.weightRegular,
+                                  letterSpacing:
+                                      CollectTypography.trackingDefault,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          ' · ',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: colors.textSecondary),
+                        ),
+                        Icon(
+                          CollectSemanticIcons.forKeyword('members'),
+                          size: 15,
+                          color: colors.textSecondary,
+                        ),
+                        CollectSpacing.gapW4,
+                        Text(
+                          '${summary.supporterCount}',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: colors.textSecondary,
+                                fontWeight: CollectTypography.weightRegular,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -208,7 +242,7 @@ class _GroupListRow extends StatelessWidget {
       button: onTap != null,
       label:
           '${collection.title}, $formattedAmount, '
-          '${summary.supporterCount} supporters',
+          '${summary.supporterCount} contributors',
       child: ExcludeSemantics(
         child: onTap == null
             ? row
@@ -292,7 +326,7 @@ class _OwnedGroupCard extends StatelessWidget {
                 child: _GroupIconMetric(
                   icon: CollectIcons.people,
                   value: '${summary.supporterCount}',
-                  semanticLabel: '${summary.supporterCount} group supporters',
+                  semanticLabel: '${summary.supporterCount} group contributors',
                   accent: colors.success,
                 ),
               ),
@@ -359,7 +393,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: DecoratedBox(
-                    decoration: _groupFooterDecoration(context),
+                    decoration: _groupFooterDecoration(context, accent: accent),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
                         CollectSpacing.x3,
@@ -385,7 +419,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                               icon: CollectIcons.people,
                               value: '${summary.supporterCount}',
                               semanticLabel:
-                                  '${summary.supporterCount} group supporters',
+                                  '${summary.supporterCount} group contributors',
                               accent: colors.success,
                             ),
                           ),
@@ -582,7 +616,7 @@ class _VisualGroupCard extends StatelessWidget {
                             icon: CollectIcons.people,
                             value: '${summary.supporterCount}',
                             semanticLabel:
-                                '${summary.supporterCount} group supporters',
+                                '${summary.supporterCount} group contributors',
                             accent: colors.success,
                           ),
                         ),

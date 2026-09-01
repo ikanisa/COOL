@@ -53,7 +53,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.byTooltip('Copy IBAN'), findsOneWidget);
-    expect(find.text('Revolut setup'), findsOneWidget);
+    expect(find.text('Revolut setup'), findsNothing);
   });
 
   testWidgets('member reviews exact transfer before opening Revolut', (

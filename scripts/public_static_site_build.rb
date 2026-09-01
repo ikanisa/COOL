@@ -11,7 +11,10 @@ ROOT = File.expand_path("..", __dir__)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
 PUBLIC_URL = "https://collect.ikanisa.com"
 ASSET_VERSION = "20260630-ui-dev-audit-5"
-APP_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
+GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
+APPLE_APP_STORE_ID = "6783960331"
+APPLE_APP_STORE_URL = "https://apps.apple.com/app/id#{APPLE_APP_STORE_ID}"
+APP_DOWNLOAD_URL = GOOGLE_PLAY_URL
 WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
 USSD_CODE = "*182**8*1*41258*2000#"
@@ -1912,7 +1915,7 @@ def share_landing_page_html(kind:)
   intro = if group_link
     "This privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding."
   else
-    "Continue in the native Collect app. If Collect is not installed, use the official Android listing below."
+    "Continue in the native Collect app. If Collect is not installed, use the official store for this phone."
   end
   native_link = group_link ? "collect://group/shared-group" : "collect://app"
   share_schema = JSON.generate(
@@ -1943,6 +1946,7 @@ def share_landing_page_html(kind:)
       <meta name="description" content="#{esc(description)}">
       <meta name="robots" content="noindex, nofollow">
       <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
+      <meta name="apple-itunes-app" content="app-id=#{APPLE_APP_STORE_ID}, app-argument=#{PUBLIC_URL}#{canonical_path}" data-share-smart-banner>
       <link rel="canonical" href="#{PUBLIC_URL}#{canonical_path}" data-share-canonical>
       <link rel="icon" href="/icons/collect.png" type="image/png">
       <link rel="manifest" href="/manifest.json">
@@ -1969,7 +1973,7 @@ def share_landing_page_html(kind:)
           <a class="nav-link" href="/trust/">Trust &amp; Security</a>
         </nav>
         <div class="header-actions">
-          <a class="button secondary" href="#{APP_DOWNLOAD_URL}">Get the App</a>
+          <a class="button secondary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a>
         </div>
       </header>
 
@@ -1983,9 +1987,14 @@ def share_landing_page_html(kind:)
             #{group_link ? '<p class="share-link-validity">Collect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.</p>' : ''}
             <div class="hero-actions">
               <a class="button primary" href="#{native_link}" data-collect-open-link>Open in Collect</a>
-              <a class="button ghost" href="#{APP_DOWNLOAD_URL}">Install on Android</a>
+              <a class="button ghost" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a>
               <button class="button ghost" type="button" data-collect-copy-link>Copy link</button>
             </div>
+            <p class="share-link-store-options">
+              <a href="#{APPLE_APP_STORE_URL}" aria-label="Get Collect on the Apple App Store">App Store</a>
+              <span aria-hidden="true">&middot;</span>
+              <a href="#{GOOGLE_PLAY_URL}" aria-label="Get Collect on Google Play">Google Play</a>
+            </p>
             <p class="share-link-status" data-share-status role="status" aria-live="polite"></p>
           </div>
           <div class="hero-device">
@@ -2851,6 +2860,25 @@ def site_js
       const status = document.querySelector('[data-share-status]');
       const canonical = document.querySelector('[data-share-canonical]');
       const ogUrl = document.querySelector('[data-share-og-url]');
+      const smartBanner = document.querySelector('[data-share-smart-banner]');
+      const googlePlayUrl = '#{GOOGLE_PLAY_URL}';
+      const appleAppStoreUrl = '#{APPLE_APP_STORE_URL}';
+      const userAgent = navigator.userAgent || '';
+      const platform = navigator.userAgentData?.platform || navigator.platform || '';
+      const isIPadOS = platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      const isIOS = /iPad|iPhone|iPod/i.test(userAgent) || isIPadOS;
+      const isAndroid = /Android/i.test(userAgent);
+      const storeUrl = isIOS ? appleAppStoreUrl : googlePlayUrl;
+      const storeLabel = isIOS ? 'Get on the App Store' : isAndroid ? 'Get it on Google Play' : 'Get Collect';
+      document.querySelectorAll('[data-collect-store-link]').forEach((link) => {
+        link.href = storeUrl;
+        link.textContent = storeLabel;
+        link.setAttribute('aria-label', isIOS
+          ? 'Get Collect on the Apple App Store'
+          : isAndroid
+          ? 'Get Collect on Google Play'
+          : 'Get Collect for this device');
+      });
       const safeSlug = slug && slug.length <= 140 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : null;
       const safeInviteId = inviteId && /^[A-Za-z0-9_-]{1,64}$/.test(inviteId) ? inviteId : null;
       if (kind === 'group') {
@@ -2877,6 +2905,19 @@ def site_js
       const exactUrl = `${window.location.origin}${exactPath}`;
       if (canonical) canonical.href = exactUrl;
       if (ogUrl) ogUrl.content = exactUrl;
+      if (smartBanner) {
+        smartBanner.content = `app-id=#{APPLE_APP_STORE_ID}, app-argument=${exactUrl}`;
+      }
+      if (openLink && openLink.hasAttribute('href')) {
+        openLink.addEventListener('click', () => {
+          if (!isIOS && !isAndroid) return;
+          const startedAt = Date.now();
+          window.setTimeout(() => {
+            const stillHere = document.visibilityState === 'visible' && Date.now() - startedAt < 3000;
+            if (stillHere) window.location.assign(storeUrl);
+          }, 1400);
+        });
+      }
       const copyButton = document.querySelector('[data-collect-copy-link]');
       if (copyButton) {
         copyButton.addEventListener('click', async () => {

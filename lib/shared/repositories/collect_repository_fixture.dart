@@ -44,38 +44,38 @@ CollectState _fixtureCollectState({
     isCurrentUserMember: true,
     createdAt: now.subtract(const Duration(days: 3)),
   );
-  final team = CollectCollection(
-    id: 'col-team',
-    slug: 'gikundiro',
+  final publicSportFixture = CollectCollection(
+    id: 'col-public-sport-fixture',
+    slug: 'public-sport-fixture',
     creatorUserId: 'platform',
     title: 'Gikundiro',
-    description:
-        'A platform-sponsored public supporters group for transparent club contributions.',
+    description: 'Official Rayon Sports supporter group open to everyone.',
     collectionType: CollectionType.sport,
     categorySubtype: 'fan_club',
     purposeLabel: 'Club support',
-    receiverMomoNumber: '0788123456',
-    receiverDisplayLabel: 'Gikundiro MTN MoMo',
+    receiverMomoNumber: '008000',
+    receiverDisplayLabel: 'Rayon Sports FC',
     receiverNetwork: 'mtn_momo',
     isPublic: true,
-    isCurrentUserMember: true,
+    isPlatformSponsored: true,
+    isCurrentUserMember: false,
     createdAt: now.subtract(const Duration(days: 1)),
   );
-  final buriMunsi = CollectCollection(
-    id: 'col-buri-munsi',
-    slug: 'buri-munsi',
+  final publicSavingsFixture = CollectCollection(
+    id: 'col-public-savings-fixture',
+    slug: 'public-savings-fixture',
     creatorUserId: 'platform',
     title: 'Buri Munsi',
-    description:
-        'A platform-sponsored public group with transparent contribution updates.',
-    collectionType: CollectionType.church,
-    categorySubtype: 'building_fund',
-    purposeLabel: 'Community support',
-    receiverMomoNumber: '0788123456',
-    receiverDisplayLabel: 'Buri Munsi MTN MoMo',
+    description: 'Platform-sponsored group savings open to everyone.',
+    collectionType: CollectionType.ikimina,
+    categorySubtype: 'group_savings',
+    purposeLabel: 'Group savings',
+    receiverMomoNumber: '41258',
+    receiverDisplayLabel: 'IKANISA LTD',
     receiverNetwork: 'mtn_momo',
     isPublic: true,
-    isCurrentUserMember: true,
+    isPlatformSponsored: true,
+    isCurrentUserMember: false,
     createdAt: now.subtract(const Duration(days: 2)),
   );
   final effectiveCollectionCount = max(3, collectionCount);
@@ -104,7 +104,12 @@ CollectState _fixtureCollectState({
     },
     growable: false,
   );
-  final collections = [church, team, buriMunsi, ...denseCollections];
+  final collections = [
+    church,
+    publicSportFixture,
+    publicSavingsFixture,
+    ...denseCollections,
+  ];
   final contributions = <Contribution>[
     Contribution(
       id: 'pay-1',

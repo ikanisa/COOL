@@ -147,6 +147,10 @@ share_routes_ok =
   app_share_html.include?("Open Collect") &&
   app_share_html.include?('data-share-landing="app"') &&
   app_share_html.include?("collect://app") &&
+  app_share_html.include?('data-collect-store-link') &&
+  app_share_html.include?('name="apple-itunes-app"') &&
+  app_share_html.include?("https://apps.apple.com/app/id6783960331") &&
+  app_share_html.include?("https://play.google.com/store/apps/details?id=app.cool.mobile") &&
   redirects.include?("/c/* /group-link/?slug=:splat 302") &&
   redirects.include?("/invite/* /app/?publicId=:splat 302")
 check(

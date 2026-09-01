@@ -24,8 +24,6 @@ class CollectionDetailScreen extends ConsumerStatefulWidget {
 
 class _CollectionDetailScreenState
     extends ConsumerState<CollectionDetailScreen> {
-  bool _joining = false;
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
@@ -60,6 +58,7 @@ class _CollectionDetailScreenState
     final profile = state.currentProfile;
     final isAdmin = profile != null && collection.creatorUserId == profile.id;
     final isMember = isAdmin || collection.isCurrentUserMember;
+    final canContribute = collection.isPublic || isMember;
 
     return ScreenScaffold(
       title: 'Collect',
@@ -71,26 +70,32 @@ class _CollectionDetailScreenState
         eyebrow: collection.collectionType.name.toUpperCase(),
         title: collection.title,
         metric: formatRwf(summary.amountRaisedRwf),
-        subtitle:
-            '${summary.supporterCount} '
-            '${summary.supporterCount == 1 ? 'supporter' : 'supporters'}',
+        subtitleWidget: CollectPeopleCount(
+          count: summary.supporterCount,
+          color: CollectRuntimeTokens.chromeMutedForeground(
+            context.collectColors,
+          ),
+        ),
+        subtitleSemanticLabel: '${summary.supporterCount} contributors',
         icon: collectionTypeIcon(collection.collectionType),
         semanticLabel:
             '${collection.title}, ${formatRwf(summary.amountRaisedRwf)} raised, '
-            '${summary.supporterCount} confirmed supporters',
+            '${summary.supporterCount} confirmed contributors',
         quickActions: [
-          if (isMember) ...[
+          if (canContribute) ...[
             CollectHeroQuickAction(
               icon: CollectIcons.donate,
               label: 'Contribute',
               onTap: () =>
                   context.go('/groups/${widget.collectionId}/contribute'),
             ),
-            CollectHeroQuickAction(
-              icon: CollectIcons.people,
-              label: 'Members',
-              onTap: () => context.go('/groups/${widget.collectionId}/members'),
-            ),
+            if (isMember)
+              CollectHeroQuickAction(
+                icon: CollectIcons.people,
+                label: 'Members',
+                onTap: () =>
+                    context.go('/groups/${widget.collectionId}/members'),
+              ),
             CollectHeroQuickAction(
               icon: CollectIcons.share,
               label: 'Share',
@@ -99,8 +104,8 @@ class _CollectionDetailScreenState
           ] else
             CollectHeroQuickAction(
               icon: CollectIcons.people,
-              label: _joining ? 'Joining' : 'Join',
-              onTap: _joining ? null : () => _joinPublicGroup(collection),
+              label: 'Join',
+              onTap: () => _joinPrivateGroup(collection),
             ),
           if (isAdmin)
             CollectHeroQuickAction(
@@ -115,18 +120,12 @@ class _CollectionDetailScreenState
       bottomAction: isAdmin
           ? null
           : CollectButton(
-              label: isMember
-                  ? 'Contribute'
-                  : _joining
-                  ? 'Joining group'
-                  : 'Join group',
-              icon: isMember ? CollectIcons.donate : CollectIcons.people,
-              onPressed: isMember
+              label: canContribute ? 'Contribute' : 'Join group',
+              icon: canContribute ? CollectIcons.donate : CollectIcons.people,
+              onPressed: canContribute
                   ? () =>
                         context.go('/groups/${widget.collectionId}/contribute')
-                  : _joining
-                  ? null
-                  : () => _joinPublicGroup(collection),
+                  : () => _joinPrivateGroup(collection),
               expand: true,
             ),
       children: [
@@ -136,11 +135,17 @@ class _CollectionDetailScreenState
             message: formatRwf(summary.currentUserBalanceRwf),
             tone: CollectStatusTone.info,
           )
+        else if (collection.isPublic)
+          const InfoSecurityBanner(
+            title: 'Open to everyone',
+            message:
+                'You can contribute directly. Your first contribution also joins you to this group.',
+            tone: CollectStatusTone.info,
+          )
         else
           const InfoSecurityBanner(
-            title: 'Public preview',
-            message:
-                'Join the group before creating a contribution request or viewing member-only details.',
+            title: 'Private group',
+            message: 'Use a valid group invitation to join this private group.',
             tone: CollectStatusTone.privacy,
           ),
         CollectSpacing.gap16,
@@ -153,7 +158,7 @@ class _CollectionDetailScreenState
         if (visibleContributions.isEmpty)
           const EmptyIllustrationState(
             icon: CollectIcons.activity,
-            title: 'No support yet',
+            title: 'No contributions yet',
             message:
                 'Confirmed contributions appear only after independent provider verification.',
           )
@@ -163,9 +168,7 @@ class _CollectionDetailScreenState
     );
   }
 
-  Future<void> _joinPublicGroup(CollectCollection collection) async {
-    if (_joining) return;
-    setState(() => _joining = true);
+  Future<void> _joinPrivateGroup(CollectCollection collection) async {
     try {
       await ref
           .read(collectRepositoryProvider.notifier)
@@ -179,8 +182,6 @@ class _CollectionDetailScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Could not join this group.')),
       );
-    } finally {
-      if (mounted) setState(() => _joining = false);
     }
   }
 }

@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/repositories/pending_shared_group_intent_store.dart';
+import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -160,11 +161,9 @@ bool _shouldOpenStoreFallback() {
 
 Uri _storeFallbackUri() {
   if (defaultTargetPlatform == TargetPlatform.iOS) {
-    return Uri.parse('https://apps.apple.com/search?term=Collect%20Ikanisa');
+    return Uri.parse(collectAppleAppStoreUrl);
   }
-  return Uri.parse(
-    'https://play.google.com/store/apps/details?id=app.cool.mobile',
-  );
+  return Uri.parse(collectGooglePlayUrl);
 }
 
 String collectGroupSlugFromInput(String input) {

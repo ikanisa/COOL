@@ -114,8 +114,13 @@ class _AdminListSpec {
       ),
       'admin_list_collections' => const _AdminListSpec(
         title: 'Groups',
-        subtitle: 'Support group operations.',
-        statusOptions: _defaultStatuses,
+        subtitle: 'Private groups and database-managed public groups.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'public_approved', label: 'Public'),
+          AdminFilterOption(value: 'private', label: 'Private'),
+          AdminFilterOption(value: 'archived', label: 'Archived'),
+        ],
         sortOptions: _defaultSorts,
         prioritySignals: [
           _AdminQueueSignal(Icons.folder_copy_outlined, 'Group profile'),
@@ -131,10 +136,14 @@ class _AdminListSpec {
           _AdminQueueSignal(Icons.note_alt_outlined, 'Record support decision'),
         ],
       ),
-      'admin_list_users' => const _AdminListSpec(
+      'admin_list_members' || 'admin_list_users' => const _AdminListSpec(
         title: 'Members',
-        subtitle: 'Support member accounts.',
-        statusOptions: _defaultStatuses,
+        subtitle: 'Users with at least one active group membership.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'active', label: 'Active'),
+          AdminFilterOption(value: 'admin', label: 'Admin'),
+        ],
         sortOptions: _defaultSorts,
         prioritySignals: [
           _AdminQueueSignal(Icons.badge_outlined, 'Collect ID first'),
@@ -151,6 +160,26 @@ class _AdminListSpec {
             Icons.support_agent_outlined,
             'Escalate support path',
           ),
+        ],
+      ),
+      'admin_list_non_member_users' => const _AdminListSpec(
+        title: 'Users',
+        subtitle: 'Registered users who have not joined any group yet.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'registered', label: 'Registered'),
+          AdminFilterOption(value: 'admin', label: 'Admin'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.person_outline, 'Registered profile'),
+          _AdminQueueSignal(Icons.phone_android_outlined, 'WhatsApp masked'),
+          _AdminQueueSignal(Icons.group_off_outlined, 'No active groups'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Open user detail'),
+          _AdminQueueSignal(Icons.privacy_tip_outlined, 'Keep data minimized'),
+          _AdminQueueSignal(Icons.support_agent_outlined, 'Support onboarding'),
         ],
       ),
       'admin_list_payment_intents' => const _AdminListSpec(

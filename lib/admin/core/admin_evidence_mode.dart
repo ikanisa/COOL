@@ -27,12 +27,14 @@ const _evidenceAdmin = AdminIdentity(
     'overview.read',
     'public_requests.read',
     'collections.read',
+    'collections.moderate',
     'users.read',
     'payments.read',
     'payments.allocate',
     'payment_events.read',
     'ledger.read',
     'receivers.read',
+    'receivers.manage',
     'sms.metadata.read',
     'sms.raw.read',
     'sms.raw.reveal',
@@ -266,11 +268,42 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
       },
       'admin_get_collection' => {
         'id': id,
-        'name': 'St Michael building fund',
+        'name': id == 'collection-1'
+            ? 'Buri Munsi'
+            : id == 'collection-2'
+            ? 'Gikundiro'
+            : 'Private community group',
+        'title': id == 'collection-1'
+            ? 'Buri Munsi'
+            : id == 'collection-2'
+            ? 'Gikundiro'
+            : 'Private community group',
         'public_id': 'AB1234',
-        'visibility': 'private',
-        'member_count': 24,
-        'total_raised': 'EUR 1,842.50',
+        'visibility': id == 'collection-1' || id == 'collection-2'
+            ? 'public_approved'
+            : 'private',
+        'public_status': id == 'collection-1' || id == 'collection-2'
+            ? 'public_approved'
+            : 'private',
+        'status': 'active',
+        'is_platform_sponsored': id == 'collection-1' || id == 'collection-2',
+        'description': id == 'collection-2'
+            ? 'Official Rayon Sports supporter group open to everyone.'
+            : 'Group savings open to everyone.',
+        'collection_type': id == 'collection-2' ? 'sport' : 'ikimina',
+        'category_subtype': id == 'collection-2'
+            ? 'team_support'
+            : 'group_savings',
+        'purpose_label': id == 'collection-2'
+            ? 'Team support'
+            : 'Group savings',
+        'receiver_display_label': id == 'collection-2'
+            ? 'Rayon Sports FC'
+            : 'IKANISA LTD',
+        'receiver_momo_code': id == 'collection-2' ? '008000' : '41258',
+        'receiver_network': 'mtn_momo',
+        'member_count': id == 'collection-2' ? 12 : 11,
+        'total_raised': 'RWF 1,842,500',
         'created_at': createdAt,
       },
       'admin_get_user' => {
@@ -340,7 +373,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         AdminTableRowData(
           id: _rowId(rpcName, index),
           title: _rowTitle(rpcName, index),
-          subtitle: _rowSubtitle(rpcName),
+          subtitle: _rowSubtitle(rpcName, index),
           status: _rowStatus(rpcName, index),
           amount: _rowAmount(rpcName, index),
           createdAt: _rowCreatedAt(index),
@@ -350,11 +383,18 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
             'age': _rowAge(index),
             'allocated_to': 'St Michael building fund',
             'operator': index.isEven ? 'Checker B.' : 'Maker A.',
-            'rail': index.isEven ? 'diaspora_account' : 'rw_momo',
+            'rail': rpcName == 'admin_list_collect_payees'
+                ? 'rw_momo'
+                : index.isEven
+                ? 'diaspora_account'
+                : 'rw_momo',
             'event_id': '00000000-0000-0000-0000-00000000681$index',
             'transaction_id': '00000000-0000-0000-0000-00000000781$index',
-            'collection_id': '00000000-0000-0000-0000-00000000881$index',
+            'collection_id': rpcName == 'admin_list_platform_payee_candidates'
+                ? _rowId(rpcName, index)
+                : '00000000-0000-0000-0000-00000000881$index',
             'payment_intent_id': '00000000-0000-0000-0000-00000000981$index',
+            ..._rowExtra(rpcName, index),
           },
         ),
     ];
@@ -394,7 +434,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
       status: 'pending',
     ),
     AdminMetric(label: 'Balanced ledgers', value: '10', status: 'active'),
-    AdminMetric(label: 'Active payees', value: '6', status: 'active'),
+    AdminMetric(label: 'Active payees', value: '2', status: 'active'),
   ];
 
   @override
@@ -435,10 +475,13 @@ void _requireReviewPhone(String phone) {
 }
 
 int _rowCount(String rpcName) => switch (rpcName) {
-  'admin_list_collect_payees' => 6,
+  'admin_list_collect_payees' => 2,
+  'admin_list_platform_payee_candidates' => 1,
   'admin_list_collect_transactions' => 12,
   'admin_list_collect_reconciliations' => 4,
   'admin_list_collect_ledgers' => 10,
+  'admin_list_members' => 21,
+  'admin_list_non_member_users' => 4,
   'admin_list_payment_intents' => 12,
   'admin_list_payments' => 10,
   'admin_list_payment_events' => 8,
@@ -460,13 +503,18 @@ int _rowCount(String rpcName) => switch (rpcName) {
 };
 
 String _rowId(String rpcName, int index) => switch (rpcName) {
-  'admin_list_collect_payees' => 'payee-$index',
+  'admin_list_collect_payees' =>
+    'momo:00000000-0000-0000-0000-00000000${index == 1 ? '4125' : '8000'}',
+  'admin_list_platform_payee_candidates' =>
+    '00000000-0000-0000-0000-00000000c001',
   'admin_list_collect_transactions' =>
     '${index.isEven ? 'diaspora' : 'momo'}:transaction-$index',
   'admin_list_collect_reconciliations' =>
     '${index.isEven ? 'diaspora' : 'momo'}:exception-$index',
   'admin_list_collect_ledgers' => 'ledger-$index',
-  'admin_list_users' => 'user-$index',
+  'admin_list_users' ||
+  'admin_list_members' ||
+  'admin_list_non_member_users' => 'user-$index',
   'admin_list_collections' => 'collection-$index',
   'admin_list_payment_intents' => 'momo-intent-$index',
   'admin_list_payments' => 'momo-transaction-$index',
@@ -491,16 +539,20 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
 };
 
 String _rowTitle(String rpcName, int index) => switch (rpcName) {
-  'admin_list_collect_payees' =>
-    index.isEven
-        ? 'Collect diaspora payee $index'
-        : 'St Michael group payee $index',
+  'admin_list_collect_payees' => index == 1 ? 'IKANISA LTD' : 'Rayon Sports FC',
+  'admin_list_platform_payee_candidates' => 'Sponsored group awaiting payee',
   'admin_list_collect_transactions' => 'Transaction ${681600 + index}',
   'admin_list_collect_reconciliations' =>
     'Unallocated transaction ${681600 + index}',
   'admin_list_collect_ledgers' => 'Ledger entry ${681600 + index}',
-  'admin_list_users' => 'Member profile $index',
-  'admin_list_collections' => 'Verified group $index',
+  'admin_list_users' ||
+  'admin_list_members' ||
+  'admin_list_non_member_users' => 'Collect ID ${38490 + index}',
+  'admin_list_collections' => switch (index) {
+    1 => 'Buri Munsi',
+    2 => 'Gikundiro',
+    _ => 'Verified group $index',
+  },
   'admin_list_payment_intents' => 'MoMo intent COL-RW-${6800 + index}',
   'admin_list_payments' => 'MoMo transaction ${681600 + index}',
   'admin_list_payment_events' => 'Parsed MoMo receipt ${681600 + index}',
@@ -530,17 +582,27 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   _ => 'Operational record $index',
 };
 
-String _rowSubtitle(String rpcName) => switch (rpcName) {
+String _rowSubtitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_payees' =>
-    'Group payee • MTN MoMo • 0788••••16 or diaspora account ••••6816',
+    index == 1
+        ? 'Buri Munsi • MTN MoMo • code 41258 • route locked'
+        : 'Gikundiro • MTN MoMo • code 008000 • route locked',
+  'admin_list_platform_payee_candidates' =>
+    'Platform-sponsored public group with no payee route',
   'admin_list_collect_transactions' =>
     'Received message • parsed payer • linked group payee',
   'admin_list_collect_reconciliations' =>
     'Payment received • payee allocation required',
   'admin_list_collect_ledgers' =>
     'Debit payment clearing • credit group payable',
-  'admin_list_users' => 'Collect ID and permission-safe account state',
-  'admin_list_collections' => 'Member, role, and group management controls',
+  'admin_list_users' ||
+  'admin_list_members' ||
+  'admin_list_non_member_users' => 'WhatsApp +250 78•••${(4300 + index)}',
+  'admin_list_collections' => switch (index) {
+    1 => 'Platform-sponsored savings group',
+    2 => 'Platform-sponsored Rayon Sports group',
+    _ => 'Member-created private group',
+  },
   'admin_list_payment_intents' => 'Pending Rwanda payer intent and expiry',
   'admin_list_payments' => 'Posted RWF MoMo contribution',
   'admin_list_payment_events' => 'Deterministically parsed receipt metadata',
@@ -571,11 +633,20 @@ String _rowSubtitle(String rpcName) => switch (rpcName) {
 
 String _rowStatus(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_payees' => 'active',
+  'admin_list_platform_payee_candidates' => 'eligible',
   'admin_list_collect_transactions' =>
     index % 3 == 0 ? 'needs_review' : 'allocated',
   'admin_list_collect_reconciliations' =>
     index.isEven ? 'ambiguous' : 'unallocated',
   'admin_list_collect_ledgers' => 'balanced',
+  'admin_list_collections' => switch (index) {
+    1 || 2 => 'public_approved',
+    _ when index % 9 == 0 => 'archived',
+    _ => 'private',
+  },
+  'admin_list_users' ||
+  'admin_list_members' => index == 10 ? 'admin' : 'active',
+  'admin_list_non_member_users' => index == 4 ? 'admin' : 'registered',
   'admin_list_payment_intents' => index.isEven ? 'matched' : 'pending',
   'admin_list_payments' => 'posted',
   'admin_list_payment_events' => index.isEven ? 'allocated' : 'needs_review',
@@ -605,7 +676,7 @@ String _rowStatus(String rpcName, int index) => switch (rpcName) {
 
 String _rowAmount(String rpcName, int index) {
   if (rpcName == 'admin_list_collect_payees') {
-    return index.isEven ? 'Diaspora • EUR account' : 'Rwanda • MoMo';
+    return 'RW • MoMo';
   }
   if (rpcName == 'admin_list_collect_transactions' ||
       rpcName == 'admin_list_collect_reconciliations') {
@@ -632,6 +703,8 @@ String _rowAmount(String rpcName, int index) {
     return 'RWF ${index * 25000}';
   }
   if (rpcName == 'admin_list_users' ||
+      rpcName == 'admin_list_members' ||
+      rpcName == 'admin_list_non_member_users' ||
       rpcName == 'admin_list_bank_destinations' ||
       rpcName == 'admin_list_bank_destination_change_requests' ||
       rpcName == 'admin_list_reconciliation_runs' ||
@@ -644,13 +717,79 @@ String _rowAmount(String rpcName, int index) {
   return 'EUR ${(index * 24.50).toStringAsFixed(2)}';
 }
 
+Map<String, dynamic> _rowExtra(String rpcName, int index) {
+  if (rpcName == 'admin_list_collect_transactions') {
+    final momo = index.isOdd;
+    final groupName = switch (index % 3) {
+      1 => 'Buri Munsi',
+      2 => 'Gikundiro',
+      _ => 'Community building fund',
+    };
+    return {
+      'source_label': momo ? 'MTN MoMo receipt SMS' : 'Revolut EUR account',
+      'group_name': groupName,
+      'payee_label': switch (groupName) {
+        'Buri Munsi' => 'IKANISA LTD',
+        'Gikundiro' => 'Rayon Sports FC',
+        _ => 'Member MoMo receiver',
+      },
+    };
+  }
+  if (rpcName == 'admin_list_collections') {
+    final publicGroup = index <= 2;
+    return {
+      'collection_type': index == 2 ? 'sport' : 'ikimina',
+      'purpose_label': switch (index) {
+        1 => 'Group savings',
+        2 => 'Club support',
+        _ => 'Member community support',
+      },
+      'visibility': publicGroup ? 'public' : 'private',
+      'is_platform_sponsored': publicGroup,
+      'creator_label': publicGroup
+          ? 'Collect platform'
+          : 'Collect ID ${38490 + index}',
+      'active_members': 10 + index,
+      'receiver_label': switch (index) {
+        1 => 'IKANISA LTD',
+        2 => 'Rayon Sports FC',
+        _ => 'Member MoMo receiver',
+      },
+      'momo_code': switch (index) {
+        1 => '41258',
+        2 => '008000',
+        _ => '0788${(120000 + index).toString().padLeft(6, '0')}',
+      },
+      'receiver_network': 'mtn_momo',
+    };
+  }
+  if (rpcName == 'admin_list_users' ||
+      rpcName == 'admin_list_members' ||
+      rpcName == 'admin_list_non_member_users') {
+    final rwanda = index % 3 != 0;
+    final hasMembership = rpcName != 'admin_list_non_member_users';
+    return {
+      'public_id': '${38490 + index}',
+      'display_name': hasMembership ? 'Member $index' : 'User $index',
+      'whatsapp_masked': rwanda
+          ? '+250 78•••${(4300 + index)}'
+          : '+44 7•••${(4300 + index)}',
+      'country_code': rwanda ? 'RW' : 'GB',
+      'currency_code': rwanda ? 'RWF' : 'GBP',
+      'momo_provider': rwanda ? 'mtn_momo' : null,
+      'momo_masked': rwanda ? '078•••••${(10 + index) % 100}' : null,
+      'has_revolut_profile': !rwanda,
+      'account_last4': rwanda ? null : '${8200 + index}',
+      'active_groups': hasMembership ? 1 + (index % 4) : 0,
+      'updated_at': _rowCreatedAt(index).add(const Duration(hours: 3)),
+      'is_platform_admin': hasMembership ? index == 10 : index == 4,
+    };
+  }
+  return const {};
+}
+
 String _maskedPayer(int index) {
-  const payers = [
-    'Payer ••4321',
-    'Payer ••7662',
-    'Payer ••9152',
-    'Payer ••1775',
-  ];
+  const payers = ['078•••4321', '078•••7662', '072•••9152', '073•••1775'];
   return payers[(index - 1) % payers.length];
 }
 

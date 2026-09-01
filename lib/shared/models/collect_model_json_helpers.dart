@@ -45,6 +45,7 @@ bool _collectionIsPublic(Map<String, dynamic> json) {
       json['is_publicly_visible'] ??
       json['listed_publicly'];
   if (explicit is bool) return explicit;
+  if (json['is_platform_sponsored'] == true) return true;
   final visibility = (json['public_status'] ?? json['visibility'])
       ?.toString()
       .toLowerCase();
