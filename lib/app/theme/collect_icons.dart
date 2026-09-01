@@ -13,6 +13,7 @@ class CollectIcons {
   static const settingsOutline = Icons.settings_outlined;
   static const add = Icons.add_rounded;
   static const money = Icons.payments_rounded;
+  static const momo = Icons.phone_android_rounded;
   static const donate = Icons.volunteer_activism_rounded;
   static const shield = Icons.verified_user_rounded;
   static const privacy = Icons.visibility_off_rounded;

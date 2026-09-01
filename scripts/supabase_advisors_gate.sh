@@ -9,7 +9,7 @@ cd "$ROOT_DIR"
 # shellcheck source=scripts/load_dotenv_strict.sh
 . "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
-if [[ -f .env ]]; then
+if [[ -f .env && "${COLLECT_SKIP_DOTENV:-0}" != "1" ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 

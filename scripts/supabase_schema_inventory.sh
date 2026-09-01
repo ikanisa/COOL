@@ -165,13 +165,19 @@ SQL
 
 run_query() {
   if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]]; then
-    if output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes 2>"$tmp_err")"; then
-      grep -Ev '^(A new version of Supabase CLI is available|We recommend updating regularly)' "$tmp_err" >&2 || true
-      printf '%s\n' "$output"
+    if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" == "linked" ]]; then
+      if output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes 2>"$tmp_err")"; then
+        grep -Ev '^(A new version of Supabase CLI is available|We recommend updating regularly)' "$tmp_err" >&2 || true
+        printf '%s\n' "$output"
+        return 0
+      fi
+      cat "$tmp_err" >&2
+      printf '[schema-inventory][WARN] Linked database query failed; trying the Supabase Management API query path.\n' >&2
+    fi
+    if supabase_management_query_file "$tmp_sql"; then
       return 0
     fi
-    cat "$tmp_err" >&2
-    printf '[schema-inventory][WARN] Linked database query failed; falling back to READINESS_DATABASE_URL.\n' >&2
+    printf '[schema-inventory][WARN] Management API query failed; falling back to READINESS_DATABASE_URL.\n' >&2
   fi
 
   psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$tmp_sql"
@@ -182,10 +188,10 @@ inventory_output="$(run_query)"
 INVENTORY_OUTPUT="$inventory_output" ruby -r json - "$output_format" "$SUPABASE_PROJECT_REF" <<'RUBY'
 format, project_ref = ARGV
 input = ENV.fetch("INVENTORY_OUTPUT")
-start = input.index("{")
+start = [input.index("["), input.index("{")].compact.min
 abort("schema inventory did not return JSON") unless start
 
-depth = 0
+stack = []
 in_string = false
 escape = false
 finish = nil
@@ -206,11 +212,12 @@ input.chars.each_with_index do |char, index|
   case char
   when '"'
     in_string = true
-  when "{"
-    depth += 1
-  when "}"
-    depth -= 1
-    if depth == 0
+  when "{", "["
+    stack << char
+  when "}", "]"
+    expected_open = char == "}" ? "{" : "["
+    abort("schema inventory JSON delimiters were invalid") unless stack.pop == expected_open
+    if stack.empty?
       finish = index
       break
     end
@@ -219,7 +226,13 @@ end
 
 abort("schema inventory JSON was incomplete") unless finish
 data = JSON.parse(input[start..finish])
-row = data.fetch("rows").first || {}
+row = if data.is_a?(Array)
+  data.first || {}
+elsif data.is_a?(Hash) && data["rows"].is_a?(Array)
+  data["rows"].first || {}
+else
+  data
+end
 inventory = row.fetch("inventory", row)
 
 expected = []

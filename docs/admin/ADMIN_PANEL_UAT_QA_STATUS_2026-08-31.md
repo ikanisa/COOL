@@ -6,6 +6,25 @@ Date: 2026-08-31
 
 The code-owned and hosted Collect Admin release gates pass. The panel is not yet eligible for an unconditional production-readiness **GO** because the remaining gates require independent human operators, additional real or approved staging records, physical devices and non-Chromium browsers, and accountable operational risk acceptance. The current release verdict is therefore **CONDITIONAL NO-GO**.
 
+## Current local hybrid delta
+
+The hosted evidence below is historical evidence for commit `116d2819`; it does
+not validate the newer uncommitted hybrid-rail source. The current local Admin
+surface has been consolidated to 20 routes and a 60-screenshot deterministic
+matrix. Under Operations it exposes only Payees, Transactions,
+Reconciliations and Ledgers, with Groups and Members kept separate. The matching
+Supabase migration is `20260831095454_collect_admin_operations_model.sql`.
+
+This delta is locally implemented. The release-style evidence build passes all
+20 routes at compact, tablet and desktop sizes (60/60 screenshots, zero
+failures) under
+`.cache/admin_pwa_authenticated_render_smoke/20260831-hybrid-operations-final-2/`.
+That is deterministic evidence mode, not live authentication or production
+acceptance. It has not been deployed, read back from hosted migration history,
+exercised through a fresh authenticated hosted session or approved for release. The historical
+33-route/99-screenshot and deployment rows below must not be reused as evidence
+for the current source.
+
 ## Completed evidence
 
 | Gate | Status | Evidence |

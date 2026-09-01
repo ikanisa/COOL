@@ -1,5 +1,163 @@
 part of 'admin_runtime.dart';
 
+class AdminCollectTransactionDetailPage extends ConsumerWidget {
+  const AdminCollectTransactionDetailPage({required this.id, super.key});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(adminRealtimeTickProvider);
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    return AdminPage(
+      title: 'Transaction detail',
+      leading: IconButton(
+        tooltip: 'Back to Transactions',
+        onPressed: () => context.go('/admin/transactions'),
+        icon: const Icon(Icons.arrow_back_rounded),
+      ),
+      child: FutureBuilder<Map<String, dynamic>>(
+        future: ref
+            .read(adminRepositoryProvider)
+            .detail('admin_get_collect_transaction', id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const AdminLoadingState(
+              title: 'Loading transaction',
+              message: 'Fetching parsed payment and payee details.',
+            );
+          }
+          if (snapshot.hasError) {
+            return AdminSafeErrorPanel(error: snapshot.error!);
+          }
+          final data = snapshot.data ?? const {};
+          if (data.isEmpty) {
+            return const AdminEmptyState(title: 'Transaction not found');
+          }
+          final rawSmsId = '${data['raw_sms_id'] ?? ''}'.trim();
+          final rawBankEventId = '${data['raw_bank_event_id'] ?? ''}'.trim();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _AdminRecordDetailPanel(
+                title: 'Transaction detail',
+                rpcName: 'admin_get_collect_transaction',
+                id: id,
+                data: data,
+              ),
+              if (rawSmsId.isNotEmpty &&
+                  _adminHasPermission(identity, 'sms.raw.reveal')) ...[
+                const SizedBox(height: 16),
+                AdminSensitiveDataGate(
+                  label: 'Raw transaction message',
+                  onReveal: (reason) async {
+                    final response = await ref
+                        .read(adminRepositoryProvider)
+                        .action('admin_reveal_raw_sms', {
+                          'p_sms_id': rawSmsId,
+                          'p_reason': reason,
+                        });
+                    return '${response['message'] ?? ''}';
+                  },
+                ),
+              ],
+              if (rawBankEventId.isNotEmpty &&
+                  _adminHasPermission(
+                    identity,
+                    'bank_evidence.raw.reveal',
+                  )) ...[
+                const SizedBox(height: 16),
+                AdminSensitiveDataGate(
+                  label: 'Raw diaspora account message',
+                  onReveal: (reason) async {
+                    final response = await ref
+                        .read(adminRepositoryProvider)
+                        .action('admin_reveal_raw_bank_evidence', {
+                          'p_event_id': rawBankEventId,
+                          'p_reason': reason,
+                        });
+                    return '${response['body'] ?? ''}';
+                  },
+                ),
+              ],
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AdminSmsDetailPage extends ConsumerWidget {
+  const AdminSmsDetailPage({
+    required this.id,
+    this.backPath,
+    this.backLabel,
+    super.key,
+  });
+
+  final String id;
+  final String? backPath;
+  final String? backLabel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    return AdminPage(
+      title: 'SMS metadata detail',
+      leading: backPath == null
+          ? null
+          : IconButton(
+              tooltip: 'Back to ${backLabel ?? 'SMS metadata'}',
+              onPressed: () => context.go(backPath!),
+              icon: const Icon(Icons.arrow_back_rounded),
+            ),
+      child: FutureBuilder<Map<String, dynamic>>(
+        future: ref
+            .read(adminRepositoryProvider)
+            .detail('admin_get_sms_metadata', id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const AdminLoadingState(
+              title: 'Loading SMS metadata',
+              message: 'Fetching protected receipt metadata.',
+            );
+          }
+          if (snapshot.hasError) {
+            return AdminSafeErrorPanel(error: snapshot.error!);
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _AdminRecordDetailPanel(
+                title: 'SMS metadata detail',
+                rpcName: 'admin_get_sms_metadata',
+                id: id,
+                data: snapshot.data ?? const {},
+              ),
+              if (identity?.permissions.contains('sms.raw.reveal') == true) ...[
+                const SizedBox(height: 16),
+                AdminSensitiveDataGate(
+                  label: 'Raw MoMo receipt SMS',
+                  onReveal: (reason) async {
+                    final response = await ref
+                        .read(adminRepositoryProvider)
+                        .action('admin_reveal_raw_sms', {
+                          'p_sms_id': id,
+                          'p_reason': reason,
+                        });
+                    return (response['message'] as String?) ?? '';
+                  },
+                ),
+              ],
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
 class AdminDetailPage extends ConsumerWidget {
   const AdminDetailPage({
     required this.title,

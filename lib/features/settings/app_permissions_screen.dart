@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../core/notifications/collect_notification_service.dart';
 import '../../core/security/sms_access_channel.dart';
-import '../../app/env/app_env.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -23,7 +22,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     with WidgetsBindingObserver {
   bool _loading = true;
   bool _notificationsEnabled = false;
-  SmsAccessStatus _bankSmsStatus = const SmsAccessStatus.unavailable();
+  SmsAccessStatus _momoSmsStatus = const SmsAccessStatus.unavailable();
   permissions.PermissionStatus _cameraStatus =
       permissions.PermissionStatus.denied;
 
@@ -47,7 +46,8 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final receiverMode = ref.watch(appEnvProvider).enableAndroidSmsAccess;
+    final receiverMode =
+        ref.watch(collectRepositoryProvider).currentProfile?.isRwanda == true;
     return ScreenScaffold(
       title: 'App permissions',
       subtitle: 'Control only the device access Collect needs.',
@@ -56,33 +56,33 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
       children: [
         InfoSecurityBanner(
           title: receiverMode
-              ? 'Controlled bank-evidence receiver'
-              : 'No bank-account or SMS access',
+              ? 'Rwanda MoMo receipts only'
+              : 'No SMS access for diaspora',
           message: receiverMode
-              ? 'This separately signed operations build can capture new beneficiary-bank notification SMS. Messages are candidate evidence only and never confirm a contribution without daily statement reconciliation.'
-              : 'Bank transfers are completed in your banking app. Collect does not request SMS, phone, contacts, card, or bank-account access from members.',
+              ? 'With your consent, Android captures only likely MoMo receipt messages. The protected receipt is parsed and matched to a pending RWF contribution; exceptions go to audited admin reconciliation.'
+              : 'Diaspora bank transfers are completed in your banking app. Collect does not request SMS, contacts, card, or bank-account access for that rail.',
           tone: CollectStatusTone.privacy,
         ),
         if (receiverMode)
           _PermissionCard(
             icon: CollectIcons.shield,
-            title: 'Bank notification SMS',
+            title: 'MoMo receipt SMS',
             explanation:
-                'Capture only new incoming EUR bank-transfer notifications on this controlled operations device.',
+                'Capture only new incoming Rwanda MoMo receipts on this Android device.',
             status: _loading
                 ? 'Checking'
-                : _bankSmsStatus.enabled
+                : _momoSmsStatus.enabled
                 ? 'Allowed'
                 : 'Not allowed',
-            tone: _bankSmsStatus.enabled
+            tone: _momoSmsStatus.enabled
                 ? CollectStatusTone.success
                 : CollectStatusTone.warning,
-            actionLabel: _bankSmsStatus.enabled ? 'Phone settings' : 'Allow',
+            actionLabel: _momoSmsStatus.enabled ? 'Phone settings' : 'Allow',
             onAction: _loading
                 ? null
-                : _bankSmsStatus.enabled || _bankSmsStatus.permanentlyDenied
+                : _momoSmsStatus.enabled || _momoSmsStatus.permanentlyDenied
                 ? const SmsAccessChannel().openAppSettings
-                : _requestBankSms,
+                : _requestMomoSms,
           ),
         _PermissionCard(
           icon: CollectIcons.pending,
@@ -134,7 +134,8 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   Future<void> _refresh() async {
     if (mounted) setState(() => _loading = true);
     final service = ref.read(collectNotificationServiceProvider);
-    final receiverMode = ref.read(appEnvProvider).enableAndroidSmsAccess;
+    final receiverMode =
+        ref.read(collectRepositoryProvider).currentProfile?.isRwanda == true;
     final results = await Future.wait<Object>([
       service.areNotificationsEnabled(),
       permissions.Permission.camera.status,
@@ -145,7 +146,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     setState(() {
       _notificationsEnabled = results[0] as bool;
       _cameraStatus = results[1] as permissions.PermissionStatus;
-      _bankSmsStatus = receiverMode
+      _momoSmsStatus = receiverMode
           ? results[2] as SmsAccessStatus
           : const SmsAccessStatus.unavailable();
       _loading = false;
@@ -168,7 +169,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     await _refresh();
   }
 
-  Future<void> _requestBankSms() async {
+  Future<void> _requestMomoSms() async {
     await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
     await _refresh();
   }

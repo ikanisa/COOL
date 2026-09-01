@@ -30,7 +30,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
             null,
         ).orEmpty().trim()
         if (ownerUserId.isEmpty() || body.isEmpty() || body.length > MAX_SMS_BODY_CHARS ||
-            !isLikelyBankNotification(sender, body)
+            !isLikelyMomoReceipt(sender, body)
         ) return
 
         val receivedAtMillis = messages.minOfOrNull { it.timestampMillis }
@@ -54,7 +54,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
                         SmsQueueStore.AppendResult.STORED -> {
                             // Never log sender, message body, phone number, amount,
                             // transaction ID, or the device-local envelope ID.
-                            Log.i(TAG, "Consented bank notification queued for secure ingestion")
+                            Log.i(TAG, "Consented MoMo receipt queued for secure ingestion")
                             SmsQueueEventBus.notifyQueueChanged()
                         }
                         SmsQueueStore.AppendResult.DUPLICATE -> {
@@ -101,9 +101,9 @@ class CollectSmsReceiver : BroadcastReceiver() {
         return UUID(bytes.long, bytes.long).toString()
     }
 
-    internal fun isLikelyBankNotification(sender: String, body: String): Boolean {
+    internal fun isLikelyMomoReceipt(sender: String, body: String): Boolean {
         val allowedSender = sender.length in 2..160 &&
-            (BANK_SENDER_HINT.containsMatchIn(sender) || BANK_CONTEXT_HINT.containsMatchIn(body))
+            (MOMO_SENDER_HINT.containsMatchIn(sender) || MOMO_CONTEXT_HINT.containsMatchIn(body))
         val moneyHint = CURRENCY_HINT.containsMatchIn(body) && AMOUNT_HINT.containsMatchIn(body)
         val transactionHint = TRANSACTION_ID_HINT.containsMatchIn(body)
         val incomingHint = INCOMING_HINT.containsMatchIn(body)
@@ -116,23 +116,22 @@ class CollectSmsReceiver : BroadcastReceiver() {
         private const val MAX_PENDING_SMS = 100
         private const val MAX_SMS_SEGMENTS = 10
         private const val MAX_SMS_BODY_CHARS = 2_000
-        private val BANK_SENDER_HINT = Regex(
-            "(?:revolut|bank|sepa|credit|transfer|collect)",
+        private val MOMO_SENDER_HINT = Regex(
+            "(?:momo|m[- ]?money|mobile[- ]?money|mtn|airtel)",
             RegexOption.IGNORE_CASE,
         )
-        private val BANK_CONTEXT_HINT = Regex(
-            "(?:bank|sepa|iban|account|transfer)",
+        private val MOMO_CONTEXT_HINT = Regex(
+            "(?:momo|mobile money|mtn|airtel)",
             RegexOption.IGNORE_CASE,
         )
-        private val CURRENCY_HINT = Regex("(?:EUR|€)", RegexOption.IGNORE_CASE)
+        private val CURRENCY_HINT = Regex("(?:RWF|FRW)", RegexOption.IGNORE_CASE)
         private val AMOUNT_HINT = Regex("(?:^|\\D)[0-9][0-9 ,.]{0,18}(?:$|\\D)")
         private val TRANSACTION_ID_HINT = Regex(
-            "(?:COL-[A-Z0-9]{10}|transaction|trans(?:action)?\\s*id|txn|txid|end[- ]to[- ]end|e2e|reference|ref\\b)",
+            "(?:transaction|trans(?:action)?\\s*id|txn|txid|financial transaction id|reference|ref\\b)",
             RegexOption.IGNORE_CASE,
         )
         private val INCOMING_HINT = Regex(
-            "(?:received|credited|incoming|credit received|payment received|transfer received|" +
-                "funds received|re(?:c|ç)u|paiement re(?:c|ç)u|eingang|gutschrift)",
+            "(?:received|credited|incoming|payment received|you have received|wakiriye|wahawe)",
             RegexOption.IGNORE_CASE,
         )
         private val PROMOTIONAL_HINT = Regex(

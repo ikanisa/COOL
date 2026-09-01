@@ -9,7 +9,7 @@ cd "$ROOT_DIR"
 # shellcheck source=scripts/load_dotenv_strict.sh
 . "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
-if [[ -f .env ]]; then
+if [[ -f .env && "${COLLECT_SKIP_DOTENV:-0}" != "1" ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
@@ -86,8 +86,14 @@ allowed_security_max = {
   # signed-in user's acceptance event. The 20260828100000 profile-country
   # migration adds update_current_profile(), which is bound to auth.uid(),
   # validates country/name inputs, and writes an audit event for that same
-  # profile. This brings the exact reviewed ceiling to 87.
-  "authenticated_security_definer_function_executable" => 87,
+  # profile. The 20260831084646 hybrid migration restores 14 previously
+  # reviewed Rwanda Admin signatures and adds three auth.uid()-bound profile /
+  # private-group signatures. The 20260831095454 Admin consolidation adds six
+  # explicit-permission RPCs plus the filtered overview and queue-SLA readers.
+  # All 25 additions pin search_path; Admin functions call
+  # assert_admin_permission(), and member functions bind auth.uid(). This
+  # brings the exact reviewed ceiling to 112.
+  "authenticated_security_definer_function_executable" => 112,
   "auth_leaked_password_protection" => 1
 }
 

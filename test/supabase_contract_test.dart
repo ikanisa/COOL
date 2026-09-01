@@ -9,6 +9,15 @@ void main() {
   const migrationPath =
       'supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql';
   final cutover = File(migrationPath).readAsStringSync();
+  final hybrid = File(
+    'supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql',
+  ).readAsStringSync();
+  final collectAdminOperations = File(
+    'supabase/migrations/20260831095454_collect_admin_operations_model.sql',
+  ).readAsStringSync();
+  final nativeAttestation = File(
+    'supabase/migrations/20260815082500_close_group_authorization_privacy.sql',
+  ).readAsStringSync();
   final config = File('supabase/config.toml').readAsStringSync();
   final repository = readAll([
     'lib/shared/repositories/collect_repository.dart',
@@ -27,8 +36,12 @@ void main() {
     'lib/admin/core/bank_transfer_admin_runtime.dart',
     'lib/admin/core/admin_detail_specs.dart',
   ]);
+  final adminRouting = readAll([
+    'lib/admin/admin_router.dart',
+    'lib/admin/admin_shell.dart',
+  ]);
 
-  test('only the reviewed bank and notification Edge Functions remain', () {
+  test('only the reviewed hybrid-rail Edge Functions remain', () {
     final functions =
         Directory('supabase/functions')
             .listSync()
@@ -46,16 +59,16 @@ void main() {
       'ingest-bank-email',
       'ingest-bank-sms',
       'ingest-bank-statement',
+      'ingest-payment-sms',
+      'parse-payment-sms',
       'send-notification',
+      'verify-play-integrity',
     ]);
     for (final retired in [
       'stripe-create-customer',
       'stripe-create-diaspora-contribution',
       'stripe-create-setup-intent',
       'stripe-webhook',
-      'ingest-payment-sms',
-      'parse-payment-sms',
-      'verify-play-integrity',
     ]) {
       expect(
         File('supabase/functions/$retired/index.ts').existsSync(),
@@ -77,7 +90,7 @@ void main() {
     expect(File('supabase/functions/_shared/stripe.ts').existsSync(), isFalse);
   });
 
-  test('bank-transfer control plane owns all financial evidence and state', () {
+  test('diaspora bank control plane owns bank evidence and state', () {
     for (final table in [
       'bank_transfer_destinations',
       'bank_destination_change_requests',
@@ -106,6 +119,34 @@ void main() {
     expect(cutover, contains("'bank_transfer_v1'"));
     expect(cutover, contains("'EUR'"));
     expect(cutover, contains("'sepa_credit_transfer'"));
+  });
+
+  test('member-created groups are Android-attested and private in SQL', () {
+    expect(hybrid, contains('create_private_group_with_owner_attested'));
+    expect(nativeAttestation, contains("'group.create'"));
+    expect(hybrid, contains('false,'));
+    expect(
+      hybrid,
+      allOf(
+        contains("'request_public_collection'"),
+        contains(
+          "'revoke all on function %s from public, anon, authenticated'",
+        ),
+      ),
+    );
+    expect(
+      hybrid,
+      contains(
+        'revoke insert, update, delete on public.collections from anon, authenticated',
+      ),
+    );
+    expect(
+      hybrid,
+      contains("and public_status = 'private'::public.collection_visibility"),
+    );
+    expect(repository, contains("'create_private_group_with_owner_attested'"));
+    expect(repository, contains("'group_is_public': false"));
+    expect(repository, isNot(contains("'request_public_collection'")));
   });
 
   test(
@@ -167,33 +208,30 @@ void main() {
     },
   );
 
-  test(
-    'production Android app has no financial SMS or phone-call permission',
-    () {
-      final manifest = File(
-        'android/app/src/production/AndroidManifest.xml',
-      ).readAsStringSync();
-      final activity = File(
-        'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
-      ).readAsStringSync();
-      final gradle = File('android/app/build.gradle.kts').readAsStringSync();
+  test('production Android app scopes receipt SMS, USSD, and attestation', () {
+    final manifest = File(
+      'android/app/src/main/AndroidManifest.xml',
+    ).readAsStringSync();
+    final activity = File(
+      'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
+    ).readAsStringSync();
+    final gradle = File('android/app/build.gradle.kts').readAsStringSync();
 
-      expect(manifest, isNot(contains('android.permission.RECEIVE_SMS')));
-      expect(manifest, isNot(contains('android.permission.READ_SMS')));
-      expect(manifest, isNot(contains('android.permission.CALL_PHONE')));
-      expect(activity, isNot(contains('collect/ussd')));
-      expect(activity, isNot(contains('collect/play_integrity')));
-      expect(gradle, isNot(contains('com.google.android.play:integrity')));
-      expect(
-        File('lib/core/payments/momo_ussd_launcher.dart').existsSync(),
-        isFalse,
-      );
-      expect(
-        File('lib/core/security/play_integrity_service.dart').existsSync(),
-        isFalse,
-      );
-    },
-  );
+    expect(manifest, contains('android.permission.RECEIVE_SMS'));
+    expect(manifest, isNot(contains('android.permission.READ_SMS')));
+    expect(manifest, contains('android.permission.CALL_PHONE'));
+    expect(activity, contains('collect/momo_ussd'));
+    expect(activity, contains('collect/play_integrity'));
+    expect(gradle, contains('com.google.android.play:integrity'));
+    expect(
+      File('lib/core/payments/momo_ussd_launcher.dart').existsSync(),
+      isTrue,
+    );
+    expect(
+      File('lib/core/security/play_integrity_service.dart').existsSync(),
+      isTrue,
+    );
+  });
 
   test('bank SMS is admin-authenticated and bank email requires HMAC', () {
     final sharedHmac = File(
@@ -280,20 +318,26 @@ void main() {
     },
   );
 
-  test('admin routes cover destinations through immutable journals', () {
+  test('admin financial routes are consolidated without removing controls', () {
     for (final route in [
+      '/admin/payees',
+      '/admin/transactions',
+      '/admin/reconciliations',
+      '/admin/ledgers',
+    ]) {
+      expect(adminRouting, contains(route));
+      expect(collectAdminOperations, contains(route));
+    }
+    for (final retiredRoute in [
+      '/admin/momo-intents',
+      '/admin/momo-transactions',
+      '/admin/momo-parsing',
       '/admin/bank-destinations',
-      '/admin/bank-destination-requests',
-      '/admin/bank-intents',
       '/admin/bank-transactions',
       '/admin/bank-evidence',
-      '/admin/reconciliation',
-      '/admin/reconciliation-exceptions',
-      '/admin/bank-allocation-requests',
       '/admin/bank-journal',
     ]) {
-      expect(adminSurface, contains(route));
-      expect(cutover, contains(route));
+      expect(adminRouting, isNot(contains(retiredRoute)));
     }
     for (final action in [
       'admin_propose_bank_destination',
@@ -308,6 +352,19 @@ void main() {
     ]) {
       expect(adminSurface, contains(action));
     }
+    for (final rpc in [
+      'admin_list_collect_payees',
+      'admin_list_collect_transactions',
+      'admin_get_collect_transaction',
+      'admin_list_collect_reconciliations',
+      'admin_list_collect_ledgers',
+    ]) {
+      expect(collectAdminOperations, contains(rpc));
+    }
+    expect(collectAdminOperations, contains('admin_manual_allocate_payment'));
+    expect(collectAdminOperations, contains('post_payment_from_event'));
+    expect(cutover, contains('admin_propose_bank_allocation'));
+    expect(cutover, contains('bank_evidence.raw.reveal'));
   });
 
   test('bank statement import supports reviewed machine-readable formats', () {
@@ -361,11 +418,13 @@ void main() {
     expect(config, contains('[functions.ingest-bank-sms]'));
     expect(config, contains('[functions.ingest-bank-email]'));
     expect(config, contains('[functions.ingest-bank-statement]'));
+    expect(config, contains('[functions.ingest-payment-sms]'));
+    expect(config, contains('[functions.parse-payment-sms]'));
+    expect(config, contains('[functions.verify-play-integrity]'));
     expect(config, isNot(contains('[functions.stripe-webhook]')));
-    expect(config, isNot(contains('[functions.ingest-payment-sms]')));
   });
 
-  test('production scripts require bank and notification secrets only', () {
+  test('production scripts require hybrid rail and notification secrets', () {
     final readiness = File(
       'scripts/supabase_production_readiness.sh',
     ).readAsStringSync();
@@ -379,6 +438,9 @@ void main() {
     expect(scripts, contains('ingest-bank-sms'));
     expect(scripts, contains('ingest-bank-statement'));
     expect(scripts, contains('FCM_SERVICE_ACCOUNT_JSON'));
+    expect(scripts, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
+    expect(scripts, contains('ingest-payment-sms'));
+    expect(scripts, contains('parse-payment-sms'));
     expect(scripts, isNot(contains('STRIPE_SECRET_KEY')));
     expect(scripts, isNot(contains('STRIPE_WEBHOOK_SECRET')));
     expect(scripts, isNot(contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON')));

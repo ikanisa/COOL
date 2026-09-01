@@ -9,8 +9,11 @@ import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
+
   Widget appFor(Widget child, CollectRepository repository) {
     return ProviderScope(
       overrides: [collectRepositoryProvider.overrideWith((ref) => repository)],
@@ -18,12 +21,13 @@ void main() {
     );
   }
 
-  test('member settings routes to governed bank and permission screens', () {
+  test('member settings route by Rwanda and diaspora profile', () {
     final source = File(
       'lib/features/settings/settings_screen.dart',
     ).readAsStringSync();
 
-    expect(source, contains("title: 'Bank transfer details'"));
+    expect(source, contains("title: 'MoMo and USSD'"));
+    expect(source, contains("title: 'Diaspora bank transfer details'"));
     expect(source, contains("context.go('/settings/bank-transfer')"));
     expect(source, contains("title: 'Notifications'"));
     expect(source, contains("title: 'App permissions'"));
@@ -61,6 +65,17 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     final repository = CollectRepository.fixture(
       fixtureNow: DateTime.now().toUtc(),
+      profileOverride: const CollectProfile(
+        id: 'local-user',
+        publicId: '038491',
+        whatsappPhone: '+250788123456',
+        displayName: 'Jean Bosco',
+        countryCode: 'DE',
+        currencyCode: 'EUR',
+        revolutName: 'Jean Bosco',
+        revolutLink: 'https://revolut.me/jeanbosco',
+        revolutAccount: 'Personal EUR account',
+      ),
     );
     await tester.pumpWidget(
       appFor(
@@ -108,13 +123,13 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('EUR 350.00'), findsWidgets);
-      expect(find.text('EUR 99.99'), findsNothing);
-      expect(find.textContaining('BANK-E2E'), findsWidgets);
+      expect(find.text('RWF 35,000'), findsWidgets);
+      expect(find.text('RWF 9,999'), findsNothing);
+      expect(find.textContaining('MOMO-E2E'), findsWidgets);
     },
   );
 
-  test('member product surfaces contain no payment-provider flow', () {
+  test('member product surfaces expose both geographic handoffs', () {
     final paths = <String>[
       'lib/features/payments/contribution_flow_screen.dart',
       'lib/features/settings/bank_transfer_settings_screen.dart',
@@ -130,22 +145,22 @@ void main() {
     expect(source, contains('Open Revolut'));
     expect(source, contains('statement reconciliation'));
     expect(source.toLowerCase(), isNot(contains('stripe')));
-    expect(source, isNot(contains('Contribute with MoMo')));
-    expect(source, isNot(contains('Open MoMo')));
-    expect(source, isNot(contains('USSD')));
+    expect(source, contains('Open MoMo'));
+    expect(source, contains('USSD'));
   });
 
   test(
-    'public production manifest has no financial SMS or call permission',
+    'Android production limits native permissions to MoMo receipt and USSD',
     () {
       final manifest = File(
-        'android/app/src/production/AndroidManifest.xml',
+        'android/app/src/main/AndroidManifest.xml',
       ).readAsStringSync();
 
-      expect(manifest, isNot(contains('android.permission.RECEIVE_SMS')));
+      expect(manifest, contains('android.permission.RECEIVE_SMS'));
       expect(manifest, isNot(contains('android.permission.READ_SMS')));
-      expect(manifest, isNot(contains('android.permission.CALL_PHONE')));
-      expect(manifest, isNot(contains('CollectSmsReceiver')));
+      expect(manifest, isNot(contains('android.permission.SEND_SMS')));
+      expect(manifest, contains('android.permission.CALL_PHONE'));
+      expect(manifest, contains('CollectSmsReceiver'));
     },
   );
 }

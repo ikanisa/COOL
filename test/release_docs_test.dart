@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('current product documents define the bank-transfer-only boundary', () {
+  test('current product documents define the geographic payment boundary', () {
     final product = File('docs/PRODUCT.md').readAsStringSync();
     final revised = File(
       'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md',
@@ -12,6 +12,9 @@ void main() {
     final readme = File('README.md').readAsStringSync();
 
     for (final source in [product, revised, readme]) {
+      expect(source, contains('MoMo'));
+      expect(source, contains('Rwanda'));
+      expect(source.toLowerCase(), contains('android'));
       expect(source, contains('SEPA'));
       expect(source, contains('Revolut'));
       expect(source.toLowerCase(), contains('bank transfer'));
@@ -22,7 +25,7 @@ void main() {
       product.replaceAll(RegExp(r'\s+'), ' '),
       contains('does not operate a wallet'),
     );
-    expect(product, contains('initiate payments'));
+    expect(product, contains('does not operate a wallet'));
     expect(revised, contains('non-routable placeholder'));
     expect(revised, contains('maker-checker'));
   });
@@ -35,17 +38,36 @@ void main() {
       'BANK_EMAIL_INGEST_HMAC_SECRET',
       'FCM_SERVICE_ACCOUNT_JSON',
       'APNS_PRIVATE_KEY_BASE64',
+      'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
     ]) {
       expect(environment, contains(secret));
       expect(example, contains('$secret='));
     }
     expect(
       environment,
-      contains('Public production builds set both SMS switches to `false`'),
+      contains('Android production builds set both SMS switches to `true`'),
     );
-    expect(environment, contains('no `RECEIVE_SMS`, `READ_SMS`'));
+    expect(environment, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER'));
+    expect(example, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER='));
+    expect(environment, contains('no `READ_SMS`, `SEND_SMS`'));
     expect(environment, isNot(contains('STRIPE_SECRET_KEY')));
     expect(environment, isNot(contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON')));
+  });
+
+  test('Android production build requires the linked Play project number', () {
+    final build = File(
+      'scripts/android_play_store_build.sh',
+    ).readAsStringSync();
+
+    expect(build, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE'));
+    expect(
+      build,
+      contains('must be the positive project number linked to Collect'),
+    );
+    expect(
+      build,
+      contains('export PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER='),
+    );
   });
 
   test('Edge Function documentation and config expose the exact allowlist', () {
@@ -58,6 +80,9 @@ void main() {
       'ingest-bank-statement',
       'send-notification',
       'dispatch-notifications',
+      'ingest-payment-sms',
+      'parse-payment-sms',
+      'verify-play-integrity',
     ];
 
     for (final function in expected) {
@@ -67,9 +92,6 @@ void main() {
     for (final retired in <String>[
       'stripe-webhook',
       'stripe-create-customer',
-      'ingest-payment-sms',
-      'parse-payment-sms',
-      'verify-play-integrity',
     ]) {
       expect(config, isNot(contains('[functions.$retired]')), reason: retired);
     }
@@ -85,19 +107,21 @@ void main() {
         'ingest-bank-email',
         'ingest-bank-sms',
         'ingest-bank-statement',
+        'ingest-payment-sms',
+        'parse-payment-sms',
         'send-notification',
+        'verify-play-integrity',
       ]) {
         expect(deploy, contains(function), reason: function);
       }
       expect(deploy, contains('RETIRED_FUNCTIONS'));
       expect(deploy, contains('stripe-webhook'));
-      expect(deploy, contains('ingest-payment-sms'));
-      expect(deploy, contains('verify-play-integrity'));
+      expect(deploy, contains('parse-payment-sms'));
       expect(deploy, contains('functions delete'));
     },
   );
 
-  test('production readiness requires bank and push secrets only', () {
+  test('production readiness requires bank, push, and Play secrets', () {
     final readiness = File(
       'scripts/supabase_production_readiness.sh',
     ).readAsStringSync();
@@ -105,6 +129,7 @@ void main() {
     expect(readiness, contains('BANK_EMAIL_INGEST_HMAC_SECRET'));
     expect(readiness, contains('FCM_SERVICE_ACCOUNT_JSON'));
     expect(readiness, contains('APNS_PRIVATE_KEY_BASE64'));
+    expect(readiness, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
     expect(readiness, contains('check_bank_sql_privileges'));
     expect(readiness, contains('Production Auth has a fixed SMS test OTP'));
     expect(readiness, contains('sms_test_otp_valid_until'));
@@ -129,7 +154,7 @@ void main() {
 
     expect(
       inventory,
-      contains('"authenticated_security_definer_function_executable" => 87'),
+      contains('"authenticated_security_definer_function_executable" => 112'),
     );
     expect(inventory, contains('update_current_profile()'));
   });
@@ -196,7 +221,7 @@ void main() {
     );
   });
 
-  test('Google Play packet records no restricted SMS in public production', () {
+  test('Google Play packet records the pending Rwanda SMS approval gate', () {
     final packet =
         jsonDecode(
               File(
@@ -212,14 +237,14 @@ void main() {
       permissions['production_permissions'] as List,
     );
 
-    expect(permissions['restricted_sms_permissions_in_production'], isFalse);
+    expect(permissions['restricted_sms_permissions_in_production'], isTrue);
     expect(
       permissions['sms_permissions_declaration_status'],
-      'not_required_no_restricted_sms_permissions',
+      'required_pending_play_approval',
     );
-    expect(values, isNot(contains('android.permission.RECEIVE_SMS')));
+    expect(values, contains('android.permission.RECEIVE_SMS'));
     expect(values, isNot(contains('android.permission.READ_SMS')));
-    expect(values, isNot(contains('android.permission.CALL_PHONE')));
+    expect(values, contains('android.permission.CALL_PHONE'));
   });
 
   test('release gates distinguish public production and internal receiver', () {
@@ -233,10 +258,13 @@ void main() {
       'scripts/google_play_production_upload.sh',
     ).readAsStringSync();
 
-    expect(play, contains('expected_apk_restricted = []'));
-    expect(play, contains('no_restricted_sms_declaration_required'));
-    expect(play, contains('payment_attestation_removed'));
-    expect(mobile, contains('production_none_internal_receive_only'));
-    expect(upload, contains('google_play_restricted_sms_permission_present'));
+    expect(
+      play,
+      contains('expected_apk_restricted = ["android.permission.RECEIVE_SMS"]'),
+    );
+    expect(play, contains('restricted_sms_declaration'));
+    expect(play, contains('android_group_creation_attestation'));
+    expect(mobile, contains('production_receive_only'));
+    expect(upload, contains('google_play_sms_declaration_not_approved'));
   });
 }

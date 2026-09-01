@@ -1,39 +1,42 @@
 # Collect architecture
 
-Collect prepares and records group contributions made through external EUR bank
-transfers. It is not a wallet, payment processor or custodian.
+Collect prepares and records group contributions through two external rails:
+Rwanda MoMo USSD and diaspora EUR bank/Revolut transfer. It is not a wallet,
+payment processor or custodian.
 
 ## Member journey
 
-1. A member chooses a group and enters a EUR amount.
-2. Supabase creates a bank transfer request with an exact reference and an
-   approved beneficiary snapshot.
-3. The app shows copyable beneficiary name, IBAN, BIC, bank, amount and reference.
-4. The app opens Revolut when available, otherwise its HTTPS app page. The user
-   selects the saved beneficiary and authorises the transfer in the banking app.
-5. Collect records only that the handoff opened; it never fabricates success.
-6. Bank SMS or email creates protected candidate evidence.
-7. The daily statement independently confirms the receipt.
-8. Reconciliation posts one balanced immutable journal and updates the member
-   and group contribution state exactly once.
+1. WhatsApp verification suggests the profile country and, for Rwanda numbers,
+   the local MoMo provider/number. The member may edit those profile details.
+2. A Rwanda member enters a whole-RWF amount; Supabase creates an exact MoMo
+   intent and Android opens the governed USSD request. The PIN stays in MoMo.
+3. With explicit consent, Android captures only likely incoming MoMo receipts.
+   Edge parsing extracts bounded facts and the database performs the unique
+   member/group allocation and exact-once ledger post.
+4. A diaspora member receives an exact EUR bank-transfer request, approved
+   beneficiary snapshot and reference, then authorises outside Collect in
+   Revolut or a banking app.
+5. Controlled bank evidence creates a candidate; daily statement
+   reconciliation provides finality and posts the balanced journal once.
 
 ## Runtime surfaces
 
-- Flutter member app and public web: groups, members, transfer requests,
-  beneficiary settings, contribution status, notifications and ledger views.
-- Flutter Admin PWA: users, admin users, groups, beneficiary maker-checker,
-  transfer requests, bank transactions, evidence, statements, reconciliation,
-  exceptions, allocation approvals, journal, notifications, settings, flags,
-  health and audit logs.
+- Flutter member app and public web: profiles, private/public groups, regional
+  contribution instructions, status, notifications and ledger views.
+- Flutter Admin PWA: Groups and Members plus four normalized financial
+  Operations pages—Payees, Transactions, Reconciliations and Ledgers. The
+  underlying Rwanda parsing/allocation and diaspora maker-checker/statement
+  controls remain rail-specific and auditable.
 - Supabase Postgres: RLS, scoped RPCs, idempotency, reconciliation and ledger.
-- Edge Functions: WhatsApp OTP, bank SMS/email/statement ingestion and
-  notification dispatch only.
+- Edge Functions: WhatsApp OTP, authenticated MoMo receipt ingestion/parsing,
+  Play Integrity verification, bank evidence ingestion and notifications.
 - Firebase Cloud Messaging: device notification delivery; no financial finality.
 
 ## Security boundaries
 
-The public Android flavour has no SMS-reading, SMS-receiving or phone-call
-permission. A separately governed internal receiver flavour may capture bank
-notification SMS after explicit operator consent. Bank email ingestion requires
-a timestamped HMAC. Raw evidence reveal is capability-gated, reason-gated and
-audited. Placeholder bank details remain disabled until independently approved.
+Android requests `RECEIVE_SMS` only for consented Rwanda MoMo receipt capture;
+it never requests inbox history (`READ_SMS`) or message sending. USSD uses the
+phone permission, and Android-only group creation is bound to Play Integrity.
+Raw SMS stays in a protected device queue until authenticated ingestion and is
+never logged. Bank email ingestion requires a timestamped HMAC. Raw evidence
+reveal is capability-gated, reason-gated and audited.

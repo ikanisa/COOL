@@ -15,7 +15,10 @@ EXPECTED_FUNCTIONS=(
   ingest-bank-email
   ingest-bank-sms
   ingest-bank-statement
+  ingest-payment-sms
+  parse-payment-sms
   send-notification
+  verify-play-integrity
 )
 
 REQUIRED_SECRETS=(
@@ -30,6 +33,7 @@ REQUIRED_SECRETS=(
   APNS_BUNDLE_ID
   APNS_PRIVATE_KEY_BASE64
   FCM_SERVICE_ACCOUNT_JSON
+  GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 )
 
 PLATFORM_ISSUES=()
@@ -74,7 +78,7 @@ check_strict_platform_issues() {
 }
 
 load_env() {
-  if [[ -f .env ]]; then
+  if [[ -f .env && "${COLLECT_SKIP_DOTENV:-0}" != "1" ]]; then
     collect_load_dotenv_strict "$ROOT_DIR/.env"
   fi
 
@@ -160,11 +164,13 @@ db_query_file() {
   local query_file="$1"
   if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]]; then
     local output
-    if output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$query_file" -o json --agent=yes 2>&1)"; then
-      db_query_json_rows <<< "$output"
-      return 0
+    if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" == "linked" ]]; then
+      if output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$query_file" -o json --agent=yes 2>&1)"; then
+        db_query_json_rows <<< "$output"
+        return 0
+      fi
+      warn "Linked database query failed; trying the Supabase Management API query path."
     fi
-    warn "Linked database query failed; trying the Supabase Management API query path."
     if supabase_management_query_rows_file "$query_file"; then
       return 0
     fi
@@ -201,6 +207,11 @@ RUBY
 
 check_db_lint() {
   log "checking remote SQL lint"
+  if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" == "management" ]]; then
+    warn "Supabase db lint requires the direct pooler path and is unavailable from this runner; running local migration validation and linked schema/advisor gates instead."
+    "$ROOT_DIR/scripts/migrations/validate_supabase_migrations.sh"
+    return 0
+  fi
   local lint_output
   set +e
   lint_output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db lint --linked --schema public --fail-on error 2>&1)"
@@ -715,7 +726,7 @@ check_sql_privileges() {
 }
 
 check_bank_sql_privileges() {
-  log "checking bank-transfer SQL privilege boundary"
+  log "checking hybrid Rwanda MoMo and diaspora bank SQL privilege boundary"
   local violations
   violations="$(db_query "
     with required_authenticated(routine_name) as (
@@ -728,8 +739,11 @@ check_bank_sql_privileges() {
         ('cancel_bank_transfer_intent'),
         ('list_current_user_bank_contributions'),
         ('list_current_user_bank_collection_summaries'),
-        ('create_bank_transfer_group'),
         ('update_bank_transfer_group_profile'),
+        ('create_private_group_with_owner_attested'),
+        ('create_contribution_intent'),
+        ('list_current_user_payment_intents'),
+        ('record_sms_access_consent'),
         ('admin_propose_bank_destination'),
         ('admin_review_bank_destination_change'),
         ('admin_list_bank_destinations'),
@@ -760,11 +774,11 @@ check_bank_sql_privileges() {
           and privilege.privilege_type = 'EXECUTE'
       )
     ),
-    forbidden_legacy as (
-      select 'retired financial function remains executable: ' || privilege.grantee || ' ' || privilege.routine_name issue
+    forbidden_public_momo as (
+      select 'public MoMo function grant: ' || privilege.grantee || ' ' || privilege.routine_name issue
       from information_schema.routine_privileges privilege
       where privilege.specific_schema = 'public'
-        and privilege.grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+        and privilege.grantee in ('PUBLIC', 'anon')
         and privilege.routine_name in (
           'create_payment_intent', 'create_contribution_intent',
           'create_payment_intent_with_instructions',
@@ -781,6 +795,16 @@ check_bank_sql_privileges() {
           'admin_list_ledger', 'admin_list_receivers', 'admin_get_receiver',
           'admin_list_sms_metadata', 'admin_get_sms_metadata',
           'admin_reparse_payment_event', 'admin_reveal_raw_sms'
+        )
+    ),
+    forbidden_client_service_functions as (
+      select 'client grant on service-only MoMo function: ' || privilege.grantee || ' ' || privilege.routine_name issue
+      from information_schema.routine_privileges privilege
+      where privilege.specific_schema = 'public'
+        and privilege.grantee = 'authenticated'
+        and privilege.routine_name in (
+          'ingest_raw_payment_sms', 'claim_raw_payment_sms_for_parse',
+          'allocate_parsed_payment_event', 'post_payment_from_event'
         )
     ),
     forbidden_bank_tables as (
@@ -807,17 +831,17 @@ check_bank_sql_privileges() {
         and grant_row.table_name in (
           'payment_intents', 'raw_payment_sms', 'parsed_payment_events',
           'payments', 'ledger_entries', 'collection_receivers',
-          'public_contributions_view', 'member_contributions_view',
-          'member_collection_summary_view'
+          'public_contributions_view'
         )
     )
     select issue from missing_authenticated
-    union all select issue from forbidden_legacy
+    union all select issue from forbidden_public_momo
+    union all select issue from forbidden_client_service_functions
     union all select issue from forbidden_bank_tables
     union all select issue from forbidden_legacy_tables
     order by issue;
   ")"
-  [[ -z "$violations" ]] || fail "Bank-transfer SQL privilege violations: $violations"
+  [[ -z "$violations" ]] || fail "Hybrid payment SQL privilege violations: $violations"
 }
 
 check_edge_function_auth_contract() {
@@ -829,7 +853,10 @@ expected = {
   "ingest-bank-email" => :hmac,
   "ingest-bank-sms" => :user,
   "ingest-bank-statement" => :user,
+  "ingest-payment-sms" => :user,
+  "parse-payment-sms" => :internal,
   "send-notification" => :internal,
+  "verify-play-integrity" => :user,
 }
 
 issues = []
@@ -839,6 +866,7 @@ no_verify_functions = [
   "auth-send-whatsapp-otp",
   "dispatch-notifications",
   "ingest-bank-email",
+  "parse-payment-sms",
   "send-notification",
 ]
 issues << "JWT verification disabled for unexpected functions: #{(disabled - no_verify_functions).join(", ")}" unless (disabled - no_verify_functions).empty?
@@ -907,7 +935,7 @@ check_functions() {
   grep -q 'Invalid OTP hook payload' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
 
   local fn
-  for fn in ingest-bank-sms ingest-bank-statement ingest-bank-email; do
+  for fn in ingest-bank-sms ingest-bank-statement ingest-bank-email ingest-payment-sms parse-payment-sms verify-play-integrity; do
     status="$(curl -sS -o "$body_file" -w '%{http_code}' \
       -X POST "$base_url/$fn" \
       -H 'content-type: application/json' \

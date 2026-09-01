@@ -15,13 +15,17 @@ EXPECTED_FUNCTIONS=(
   ingest-bank-email
   ingest-bank-sms
   ingest-bank-statement
+  ingest-payment-sms
+  parse-payment-sms
   send-notification
+  verify-play-integrity
 )
 
 NO_VERIFY_JWT_FUNCTIONS=(
   auth-send-whatsapp-otp
   dispatch-notifications
   ingest-bank-email
+  parse-payment-sms
   send-notification
 )
 
@@ -30,12 +34,9 @@ RETIRED_FUNCTIONS=(
   stripe-create-diaspora-contribution
   stripe-create-setup-intent
   stripe-webhook
-  ingest-payment-sms
-  parse-payment-sms
-  verify-play-integrity
 )
 
-if [[ -f .env ]]; then
+if [[ -f .env && "${COLLECT_SKIP_DOTENV:-0}" != "1" ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 

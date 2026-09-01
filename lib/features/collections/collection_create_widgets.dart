@@ -42,7 +42,7 @@ class _CreateGroupReview extends StatelessWidget {
             subtitle: description,
           ),
           CollectListTile(
-            leading: CollectIcons.bank,
+            leading: CollectIcons.momo,
             title: receiver.isEmpty ? 'Receiver missing' : receiver,
           ),
           CollectListTile(

@@ -22,10 +22,15 @@ that SDK. CI resolves the same version from `.fvmrc`.
 - `ENABLE_ADMIN_DEV_TOOLS`
 - `ENABLE_SMS_READER`
 - `ENABLE_ANDROID_SMS_ACCESS`
+- `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` (non-secret Google Cloud project number
+  linked to Collect under Play Integrity API settings)
 
-Public production builds set both SMS switches to `false`. Only the controlled
-`internal_receiver` Android flavor may set them to `true`; it collects candidate
-bank-notification evidence and can never confirm settlement or post a ledger.
+Android production builds set both SMS switches to `true`, but receipt access
+remains off until an authenticated Rwanda member explicitly consents. Diaspora
+profiles do not use the SMS path. The app never requests `READ_SMS`. The
+production Android build fails closed unless the linked Play Integrity project
+number is present; do not substitute the Firebase project number unless Play
+Console confirms that it is the linked project.
 
 ## Supabase function secrets
 
@@ -45,6 +50,11 @@ Bank evidence:
 - `BANK_EMAIL_INGEST_HMAC_SECRET` for the controlled email-ingestion adapter
 - `BANK_SMS_INGEST_HMAC_SECRET` only when an external SMS relay is enabled
 
+Android device verification:
+
+- `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` for server-side Play Integrity decoding
+  before a user can create an Android-only private group
+
 Push delivery:
 
 - `FCM_SERVICE_ACCOUNT_JSON` containing the dedicated Firebase service-account
@@ -60,17 +70,16 @@ HMAC, WhatsApp, FCM, or APNs secrets in Flutter dart-defines or committed files.
 
 ## Build flavors
 
-- `dev`: development without restricted SMS permissions.
-- `internal_receiver`: controlled operator build with `RECEIVE_SMS`; new bank
-  messages are encrypted locally and uploaded only from an authenticated
-  operator session.
-- `production`: public member/admin build with no `RECEIVE_SMS`, `READ_SMS`,
-  `SEND_SMS`, or `CALL_PHONE` permission.
+- `dev`: development with the same Android-native bridges; runtime use still
+  requires an authenticated Rwanda profile and explicit consent.
+- `internal_receiver`: retained for controlled compatibility testing.
+- `production`: Android member build with `RECEIVE_SMS` and `CALL_PHONE` for
+  Rwanda MoMo only; it has no `READ_SMS`, `SEND_SMS`, or Call Log permission.
 
-No flavor embeds payment-provider credentials. Collect does not call Stripe,
-Revolut, a bank payment-initiation API, or a mobile-money API. The member copies
-the approved beneficiary details and reference, then opens Revolut through its
-documented application link or web fallback.
+No flavor embeds payment-provider credentials. Rwanda members approve a
+pre-filled MTN MoMo request or the Airtel merchant menu in USSD and enter their
+PIN only there. Diaspora members use the approved beneficiary and reference,
+then open Revolut through its application link or web fallback.
 
 ## Local Supabase
 

@@ -87,17 +87,25 @@ begin
 
   update profiles
     set display_name = 'Admin UAT Owner',
-        momo_number = receiver_phone,
+        country_code = 'RW',
+        currency_code = 'RWF',
+        momo_provider = 'mtn_momo',
+        momo_number = '0788111222',
         momo_number_hash = receiver_hash,
+        momo_number_verified_at = now(),
         is_platform_admin = true
     where id = owner_id;
 
   update profiles
-    set momo_number = '+250781100002',
+    set country_code = 'RW',
+        currency_code = 'RWF',
+        momo_provider = 'mtn_momo',
+        momo_number = '0781100002',
         momo_number_hash = encode(
           extensions.digest('+250781100002', 'sha256'),
           'hex'
-        )
+        ),
+        momo_number_verified_at = now()
     where id = contributor_id;
 
   insert into receiver_mode_consents (
@@ -558,11 +566,13 @@ if [[ "$SUPABASE_DB_QUERY_MODE" == "local" ]]; then
 fi
 
 if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
-  if (SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null); then
-    printf '[collect-admin-uat] rollback admin/security UAT passed via linked database query\n'
-    exit 0
+  if [[ "$SUPABASE_DB_QUERY_MODE" == "linked" ]]; then
+    if (SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null); then
+      printf '[collect-admin-uat] rollback admin/security UAT passed via linked database query\n'
+      exit 0
+    fi
+    printf '[collect-admin-uat][WARN] Linked database query failed; trying the Management API query path.\n' >&2
   fi
-  printf '[collect-admin-uat][WARN] Linked database query failed; trying the Management API query path.\n' >&2
 
   if [[ -n "${SUPABASE_ACCESS_TOKEN:-}" && -n "${SUPABASE_PROJECT_REF:-}" ]] &&
     supabase_management_query_file "$tmp_sql" >/dev/null; then

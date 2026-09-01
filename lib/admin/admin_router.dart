@@ -20,24 +20,11 @@ const adminRoutePaths = <String>[
   '/admin/groups/:id',
   '/admin/members',
   '/admin/members/:id',
-  '/admin/bank-destinations',
-  '/admin/bank-destinations/:id',
-  '/admin/bank-destination-requests',
-  '/admin/bank-destination-requests/:id',
-  '/admin/bank-intents',
-  '/admin/bank-intents/:id',
-  '/admin/bank-transactions',
-  '/admin/bank-transactions/:id',
-  '/admin/bank-evidence',
-  '/admin/bank-evidence/:id',
-  '/admin/reconciliation',
-  '/admin/reconciliation/:id',
-  '/admin/reconciliation-exceptions',
-  '/admin/reconciliation-exceptions/:id',
-  '/admin/bank-allocation-requests',
-  '/admin/bank-allocation-requests/:id',
-  '/admin/bank-journal',
-  '/admin/bank-journal/:id',
+  '/admin/payees',
+  '/admin/transactions',
+  '/admin/transactions/:id',
+  '/admin/reconciliations',
+  '/admin/ledgers',
   '/admin/notifications',
   '/admin/notifications/:id',
   '/admin/audit-logs',
@@ -119,114 +106,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             rpcName: 'admin_get_user',
             backLabel: 'Members',
           ),
-          _listRoute(
-            '/admin/bank-destinations',
-            title: 'Bank details',
-            rpcName: 'admin_list_bank_destinations',
-            detailPathPrefix: '/admin/bank-destinations',
-          ),
-          _detailRoute(
-            '/admin/bank-destinations/:id',
-            title: 'Bank destination detail',
-            rpcName: 'admin_get_bank_destination',
-            backLabel: 'Bank details',
-          ),
-          _listRoute(
-            '/admin/bank-destination-requests',
-            title: 'Bank detail approvals',
-            rpcName: 'admin_list_bank_destination_change_requests',
-            detailPathPrefix: '/admin/bank-destination-requests',
-          ),
-          _detailRoute(
-            '/admin/bank-destination-requests/:id',
-            title: 'Bank detail approval',
-            rpcName: 'admin_get_bank_destination_change_request',
-            backLabel: 'Bank detail approvals',
-          ),
-          _listRoute(
-            '/admin/bank-intents',
-            title: 'Transfer requests',
-            rpcName: 'admin_list_bank_transfer_intents',
-            detailPathPrefix: '/admin/bank-intents',
-          ),
-          _detailRoute(
-            '/admin/bank-intents/:id',
-            title: 'Transfer request detail',
-            rpcName: 'admin_get_bank_transfer_intent',
-            backLabel: 'Transfer requests',
-          ),
-          _listRoute(
-            '/admin/bank-transactions',
-            title: 'Bank transactions',
-            rpcName: 'admin_list_bank_transactions',
-            detailPathPrefix: '/admin/bank-transactions',
-          ),
-          _detailRoute(
-            '/admin/bank-transactions/:id',
-            title: 'Bank transaction detail',
-            rpcName: 'admin_get_bank_transaction',
-            backLabel: 'Bank transactions',
-          ),
-          _listRoute(
-            '/admin/bank-evidence',
-            title: 'Bank evidence',
-            rpcName: 'admin_list_bank_evidence',
-            detailPathPrefix: '/admin/bank-evidence',
-          ),
-          _detailRoute(
-            '/admin/bank-evidence/:id',
-            title: 'Bank evidence detail',
-            rpcName: 'admin_get_bank_evidence',
-            backLabel: 'Bank evidence',
-          ),
-          _listRoute(
-            '/admin/reconciliation',
-            title: 'Daily reconciliation',
-            rpcName: 'admin_list_reconciliation_runs',
-            detailPathPrefix: '/admin/reconciliation',
-          ),
-          _detailRoute(
-            '/admin/reconciliation/:id',
-            title: 'Reconciliation run',
-            rpcName: 'admin_get_reconciliation_run',
-            backLabel: 'Daily reconciliation',
-          ),
-          _listRoute(
-            '/admin/reconciliation-exceptions',
-            title: 'Reconciliation exceptions',
-            rpcName: 'admin_list_reconciliation_exceptions',
-            detailPathPrefix: '/admin/reconciliation-exceptions',
-          ),
-          _detailRoute(
-            '/admin/reconciliation-exceptions/:id',
-            title: 'Reconciliation exception',
-            rpcName: 'admin_get_reconciliation_exception',
-            backLabel: 'Reconciliation exceptions',
-          ),
-          _listRoute(
-            '/admin/bank-allocation-requests',
-            title: 'Allocation approvals',
-            rpcName: 'admin_list_bank_allocation_requests',
-            detailPathPrefix: '/admin/bank-allocation-requests',
-          ),
-          _detailRoute(
-            '/admin/bank-allocation-requests/:id',
-            title: 'Allocation approval',
-            rpcName: 'admin_get_bank_allocation_request',
-            backLabel: 'Allocation approvals',
-          ),
-          _listRoute(
-            '/admin/bank-journal',
-            title: 'Bank journal',
-            rpcName: 'admin_list_journal_entries',
-            detailPathPrefix: '/admin/bank-journal',
-          ),
-          _detailRoute(
-            '/admin/bank-journal/:id',
-            title: 'Journal entry',
-            rpcName: 'admin_get_journal_entry',
-            backLabel: 'Bank journal',
-          ),
+          ..._financialAdminRoutes,
           _listRoute(
             '/admin/notifications',
             title: 'Notifications',
@@ -282,6 +162,38 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
         AdminUnknownRoutePage(location: state.uri.path),
   );
 });
+
+List<RouteBase> get _financialAdminRoutes => [
+  GoRoute(
+    path: '/admin/payees',
+    builder: (context, state) => const AdminCollectOperationsPage(
+      operation: CollectAdminOperation.payees,
+    ),
+  ),
+  GoRoute(
+    path: '/admin/transactions',
+    builder: (context, state) => const AdminCollectOperationsPage(
+      operation: CollectAdminOperation.transactions,
+    ),
+  ),
+  GoRoute(
+    path: '/admin/transactions/:id',
+    builder: (context, state) =>
+        AdminCollectTransactionDetailPage(id: state.pathParameters['id']!),
+  ),
+  GoRoute(
+    path: '/admin/reconciliations',
+    builder: (context, state) => const AdminCollectOperationsPage(
+      operation: CollectAdminOperation.reconciliations,
+    ),
+  ),
+  GoRoute(
+    path: '/admin/ledgers',
+    builder: (context, state) => const AdminCollectOperationsPage(
+      operation: CollectAdminOperation.ledgers,
+    ),
+  ),
+];
 
 bool _shouldShowPublicLandingHome() {
   if (!publicLandingHome) return false;

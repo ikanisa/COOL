@@ -69,6 +69,49 @@ class _AdminListSpec {
       return _AdminListSpec.fromConfig(configured.first);
     }
     return switch (rpcName) {
+      'admin_list_collect_payees' => const _AdminListSpec(
+        title: 'Payees',
+        subtitle: 'Collect payees and their payment routes.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'active', label: 'Active'),
+          AdminFilterOption(value: 'inactive', label: 'Inactive'),
+        ],
+        sortOptions: _defaultSorts,
+      ),
+      'admin_list_collect_transactions' => const _AdminListSpec(
+        title: 'Transactions',
+        subtitle: 'Received payment messages and parsed details.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'allocated', label: 'Allocated'),
+          AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
+          AdminFilterOption(value: 'needs_review', label: 'Review'),
+          AdminFilterOption(value: 'parse_failed', label: 'Parse failed'),
+        ],
+        sortOptions: _defaultSorts,
+      ),
+      'admin_list_collect_reconciliations' => const _AdminListSpec(
+        title: 'Reconciliations',
+        subtitle: 'Unresolved payment and allocation exceptions.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
+          AdminFilterOption(value: 'ambiguous', label: 'Ambiguous'),
+          AdminFilterOption(value: 'needs_review', label: 'Review'),
+        ],
+        sortOptions: _defaultSorts,
+      ),
+      'admin_list_collect_ledgers' => const _AdminListSpec(
+        title: 'Ledgers',
+        subtitle: 'Debit and credit entries for allocated transactions.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'balanced', label: 'Balanced'),
+          AdminFilterOption(value: 'unbalanced', label: 'Unbalanced'),
+        ],
+        sortOptions: _defaultSorts,
+      ),
       'admin_list_collections' => const _AdminListSpec(
         title: 'Groups',
         subtitle: 'Support group operations.',
@@ -108,6 +151,148 @@ class _AdminListSpec {
             Icons.support_agent_outlined,
             'Escalate support path',
           ),
+        ],
+      ),
+      'admin_list_payment_intents' => const _AdminListSpec(
+        title: 'MoMo intents',
+        subtitle: 'Rwanda payer intents awaiting exact receipt matching.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'pending', label: 'Pending'),
+          AdminFilterOption(value: 'matched', label: 'Matched'),
+          AdminFilterOption(value: 'expired', label: 'Expired'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.schedule_outlined, 'Matching window'),
+          _AdminQueueSignal(Icons.phone_android_outlined, 'Rwanda payer'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Review intent'),
+          _AdminQueueSignal(Icons.compare_arrows_outlined, 'Compare receipt'),
+          _AdminQueueSignal(Icons.policy_outlined, 'Escalate ambiguity'),
+        ],
+      ),
+      'admin_list_payments' => const _AdminListSpec(
+        title: 'MoMo transactions',
+        subtitle: 'Posted RWF receipts and linked contribution intents.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'posted', label: 'Posted'),
+          AdminFilterOption(value: 'review', label: 'Review'),
+          AdminFilterOption(value: 'reversed', label: 'Reversed'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.receipt_long_outlined, 'MoMo receipt'),
+          _AdminQueueSignal(Icons.link_outlined, 'Intent link'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Review transaction'),
+          _AdminQueueSignal(Icons.account_tree_outlined, 'Check allocation'),
+          _AdminQueueSignal(Icons.menu_book_outlined, 'Check ledger'),
+        ],
+      ),
+      'admin_list_payment_events' => const _AdminListSpec(
+        title: 'MoMo SMS parsing',
+        subtitle: 'Deterministic receipt parsing with masked identities.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'allocated', label: 'Allocated'),
+          AdminFilterOption(value: 'needs_review', label: 'Needs review'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.sms_outlined, 'Parsed receipt'),
+          _AdminQueueSignal(Icons.privacy_tip_outlined, 'Masked evidence'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.search_outlined, 'Review parsed fields'),
+          _AdminQueueSignal(Icons.compare_arrows_outlined, 'Check intent'),
+          _AdminQueueSignal(Icons.rule_outlined, 'Reparse with reason'),
+        ],
+      ),
+      'admin_list_allocations' => const _AdminListSpec(
+        title: 'MoMo allocations',
+        subtitle: 'Receipt allocation across payer, member, and group.',
+        statusOptions: _defaultStatuses,
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.account_tree_outlined, 'Allocation chain'),
+          _AdminQueueSignal(Icons.done_all_outlined, 'Exact match'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.compare_arrows_outlined, 'Verify receipt'),
+          _AdminQueueSignal(Icons.groups_outlined, 'Verify group'),
+          _AdminQueueSignal(Icons.menu_book_outlined, 'Verify posting'),
+        ],
+      ),
+      'admin_list_unallocated' => const _AdminListSpec(
+        title: 'MoMo exceptions',
+        subtitle: 'Unallocated or ambiguous receipts requiring review.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'needs_review', label: 'Needs review'),
+          AdminFilterOption(value: 'ambiguous', label: 'Ambiguous'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.report_problem_outlined, 'Open exception'),
+          _AdminQueueSignal(Icons.policy_outlined, 'Reason required'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.search_outlined, 'Review evidence'),
+          _AdminQueueSignal(Icons.compare_arrows_outlined, 'Find exact intent'),
+          _AdminQueueSignal(Icons.note_alt_outlined, 'Record decision'),
+        ],
+      ),
+      'admin_list_ledger' => const _AdminListSpec(
+        title: 'Rwanda ledger',
+        subtitle: 'Immutable balanced RWF contribution postings.',
+        statusOptions: _defaultStatuses,
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.menu_book_outlined, 'Immutable entry'),
+          _AdminQueueSignal(Icons.balance_outlined, 'Balanced posting'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.search_outlined, 'Review source'),
+          _AdminQueueSignal(Icons.compare_arrows_outlined, 'Verify balance'),
+          _AdminQueueSignal(Icons.history_outlined, 'Review audit chain'),
+        ],
+      ),
+      'admin_list_receivers' => const _AdminListSpec(
+        title: 'MoMo receivers',
+        subtitle: 'Consented Rwanda group receivers with masked numbers.',
+        statusOptions: _defaultStatuses,
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.settings_phone_outlined, 'Receiver status'),
+          _AdminQueueSignal(Icons.privacy_tip_outlined, 'Masked number'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Review receiver'),
+          _AdminQueueSignal(Icons.verified_user_outlined, 'Check consent'),
+          _AdminQueueSignal(Icons.groups_outlined, 'Check group assignment'),
+        ],
+      ),
+      'admin_list_sms_metadata' => const _AdminListSpec(
+        title: 'Raw SMS metadata',
+        subtitle: 'Receipt hashes and parse state; raw body is gated.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'parsed', label: 'Parsed'),
+          AdminFilterOption(value: 'needs_review', label: 'Needs review'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.sms_failed_outlined, 'Receipt metadata'),
+          _AdminQueueSignal(Icons.security_outlined, 'Raw reveal audited'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.search_outlined, 'Review metadata'),
+          _AdminQueueSignal(Icons.security_outlined, 'Gate raw reveal'),
+          _AdminQueueSignal(Icons.policy_outlined, 'Record access reason'),
         ],
       ),
       'admin_list_bank_destinations' => const _AdminListSpec(

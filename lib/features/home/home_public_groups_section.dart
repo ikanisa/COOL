@@ -20,7 +20,7 @@ class _PublicGroupsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          title: 'Featured Groups',
+          title: 'Public sponsored groups',
           actionLabel: 'View all',
           onAction: () => context.go('/groups'),
         ),

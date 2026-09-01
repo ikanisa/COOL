@@ -3,6 +3,7 @@ import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
@@ -38,6 +39,25 @@ class _TestAuthOtpGateway implements AuthOtpGateway {
       throw const FormatException('Invalid OTP');
     }
   }
+}
+
+const _diasporaProfile = CollectProfile(
+  id: 'local-user',
+  publicId: '038491',
+  whatsappPhone: '+250788123456',
+  displayName: 'Collect member',
+  countryCode: 'GB',
+  currencyCode: 'GBP',
+  revolutName: 'Collect member',
+  revolutLink: 'https://revolut.me/collectmember',
+  revolutAccount: 'Personal EUR account',
+);
+
+class _TestSmsAccessChannel extends SmsAccessChannel {
+  const _TestSmsAccessChannel();
+
+  @override
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
 }
 
 void main() {
@@ -123,24 +143,24 @@ void main() {
     }
   });
 
-  testWidgets(
-    'global Contribute selects a group and opens bank transfer flow',
-    (tester) async {
-      await pumpRoute(tester, '/contribute', legalConsentAccepted: true);
+  testWidgets('global Contribute selects a group and opens Rwanda MoMo flow', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/contribute', legalConsentAccepted: true);
 
-      expect(find.text('Choose a group'), findsOneWidget);
-      expect(find.text('Contribute'), findsWidgets);
-      expect(find.text('Activity'), findsOneWidget);
+    expect(find.text('Choose a group'), findsOneWidget);
+    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Activity'), findsOneWidget);
 
-      await tester.tap(find.text('St Michel building fund').first);
-      await tester.pumpAndSettle();
+    await tester.tap(find.text('St Michel building fund').first);
+    await tester.pumpAndSettle();
 
-      expect(find.text('Contribution amount'), findsOneWidget);
-      expect(find.text('Approved beneficiary'), findsOneWidget);
-      expect(find.text('Choose a group'), findsNothing);
-      expect(find.text('Profile'), findsNothing);
-    },
-  );
+    expect(find.text('Contribution amount'), findsOneWidget);
+    expect(find.text('MTN MoMo receiver'), findsOneWidget);
+    expect(find.text('Continue to MoMo'), findsOneWidget);
+    expect(find.text('Choose a group'), findsNothing);
+    expect(find.text('Profile'), findsNothing);
+  });
 
   testWidgets('global Activity renders confirmed records but not intents', (
     tester,
@@ -149,9 +169,9 @@ void main() {
 
     expect(find.text('Activity'), findsWidgets);
     expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('EUR 250.00'), findsOneWidget);
-    expect(find.text('EUR 100.00'), findsOneWidget);
-    expect(find.text('EUR 150.00'), findsNothing);
+    expect(find.text('RWF 25,000'), findsOneWidget);
+    expect(find.text('RWF 10,000'), findsOneWidget);
+    expect(find.text('RWF 15,000'), findsNothing);
     expect(find.textContaining('intent-render'), findsNothing);
   });
 
@@ -501,7 +521,7 @@ void main() {
       );
       expect(find.text('St Michel building fund'), findsNothing, reason: route);
       if (route != '/home') {
-        expect(find.text('Kigali Lions away kit'), findsWidgets, reason: route);
+        expect(find.text('Gikundiro'), findsWidgets, reason: route);
       }
     }
 
@@ -544,7 +564,7 @@ void main() {
     expect(find.text('Show all groups'), findsOneWidget);
     await tester.tap(find.text('Show all groups'));
     await tester.pumpAndSettle();
-    expect(find.text('Kigali Lions away kit'), findsOneWidget);
+    expect(find.text('Gikundiro'), findsOneWidget);
   });
 
   testWidgets('group admin sheet validates, announces, and completes safely', (
@@ -602,7 +622,12 @@ void main() {
   testWidgets('contribution review reuses an exact pending bank request', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture();
+    final repository = CollectRepository.fixture(
+      profileOverride: _diasporaProfile,
+    );
+    final pendingIntent = await repository.createPaymentIntent(
+      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 15000),
+    );
     await pumpRoute(
       tester,
       '/groups/col-church/contribute',
@@ -616,9 +641,9 @@ void main() {
     await tester.pump();
 
     expect(find.text('Review transfer'), findsWidgets);
-    expect(find.text('COL-FIXTURE001'), findsOneWidget);
+    expect(find.text(pendingIntent.transferReference), findsOneWidget);
     expect(find.text('Open Revolut'), findsOneWidget);
-    expect(repository.state.paymentIntents, hasLength(1));
+    expect(repository.state.paymentIntents, hasLength(2));
   });
 
   testWidgets('contribution review replaces an expired bank request', (
@@ -628,7 +653,7 @@ void main() {
     const cache = CollectOfflineCache(
       preferencesKey: 'collect.offline_snapshot.expired_intent_widget_test',
     );
-    final seeded = CollectRepository.fixture();
+    final seeded = CollectRepository.fixture(profileOverride: _diasporaProfile);
     final now = DateTime.now();
     await cache.save(
       CollectOfflineSnapshot(
@@ -640,6 +665,7 @@ void main() {
             id: 'expired-intent',
             collectionId: 'col-church',
             expectedAmountMinor: 15000,
+            rail: 'diaspora_bank',
             transferReference: 'COL-EXPIRED001',
             destination: const BankTransferDestination(
               id: 'fixture-bank',
@@ -881,43 +907,43 @@ void main() {
     expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
   });
 
-  testWidgets(
-    'group creation uses the central beneficiary without receiver fields',
-    (tester) async {
-      final repository = CollectRepository.fixture(seeded: false);
-      await repository.signInWithOtp(phone: '+250720000001', otp: '123456');
+  testWidgets('group creation uses the Rwanda profile MoMo receiver', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture(seeded: false);
+    await repository.signInWithOtp(phone: '+250720000001', otp: '123456');
 
-      await pumpRoute(
-        tester,
-        '/groups/create',
-        legalConsentAccepted: true,
-        repository: repository,
-      );
+    await pumpRoute(
+      tester,
+      '/groups/create',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
 
-      expect(find.text('Create group'), findsWidgets);
-      expect(find.text('Profile setup'), findsNothing);
-      expect(repository.state.currentProfile?.whatsappPhone, '+250720000001');
+    expect(find.text('Create group'), findsWidgets);
+    expect(find.text('Profile setup'), findsNothing);
+    expect(repository.state.currentProfile?.whatsappPhone, '+250720000001');
 
-      await tester.enterText(
-        textFieldWithLabel('Group name'),
-        'Parish support',
-      );
-      await tester.pumpAndSettle();
-      await pressFilledButton(tester, 'Continue');
-      await pressFilledButton(tester, 'Continue');
+    await tester.enterText(textFieldWithLabel('Group name'), 'Parish support');
+    await tester.pumpAndSettle();
+    await pressFilledButton(tester, 'Continue');
+    await pressFilledButton(tester, 'Continue');
 
-      expect(find.text('Group color'), findsOneWidget);
-      expect(find.text('Number'), findsNothing);
-      expect(find.text('Code'), findsNothing);
-      expect(find.text('0788123456'), findsNothing);
-      final colorStepButton = tester.widget<FilledButton>(
-        find.widgetWithText(FilledButton, 'Continue'),
-      );
-      expect(colorStepButton.onPressed, isNotNull);
-    },
-  );
+    expect(find.text('Airtel Money receiver'), findsOneWidget);
+    expect(find.text('0720000001'), findsOneWidget);
+    await pressFilledButton(tester, 'Continue');
 
-  testWidgets('group creation without profile has no receiver entry step', (
+    expect(find.text('Group color'), findsOneWidget);
+    expect(find.text('Number'), findsNothing);
+    expect(find.text('Code'), findsNothing);
+    expect(find.text('0788123456'), findsNothing);
+    final colorStepButton = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Continue'),
+    );
+    expect(colorStepButton.onPressed, isNotNull);
+  });
+
+  testWidgets('group creation without profile blocks at receiver setup', (
     tester,
   ) async {
     final repository = CollectRepository();
@@ -939,13 +965,12 @@ void main() {
     await pressFilledButton(tester, 'Continue');
     await pressFilledButton(tester, 'Continue');
 
-    expect(find.text('Group color'), findsOneWidget);
-    expect(find.text('Number'), findsNothing);
-    expect(find.text('Code'), findsNothing);
-    final colorStepButton = tester.widget<FilledButton>(
+    expect(find.text('MTN MoMo receiver'), findsOneWidget);
+    expect(find.text('Group color'), findsNothing);
+    final receiverStepButton = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Continue'),
     );
-    expect(colorStepButton.onPressed, isNotNull);
+    expect(receiverStepButton.onPressed, isNull);
   });
 
   testWidgets('home keeps scan as the only join entry', (tester) async {
@@ -964,7 +989,7 @@ void main() {
     expect(find.text('Groups'), findsWidgets);
     expect(
       find.bySemanticsLabel(
-        'St Michel building fund, EUR 350.00, 2 supporters',
+        'St Michel building fund, RWF 35,000, 2 supporters',
       ),
       findsOneWidget,
     );
@@ -1049,20 +1074,22 @@ void main() {
 
     expect(find.text('Profile'), findsWidgets);
     await tester.scrollUntilVisible(
-      find.text('Payment details are centrally governed'),
+      find.text('Rwanda uses MoMo'),
       240,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pump();
-    expect(find.text('Payment details are centrally governed'), findsOneWidget);
-    expect(find.text('Number'), findsNothing);
+    expect(find.text('Rwanda uses MoMo'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets(
     'profile country updates currency without changing verified WhatsApp',
     (tester) async {
       SharedPreferences.setMockInitialValues({});
-      final repository = CollectRepository.fixture();
+      final repository = CollectRepository.fixture(
+        smsAccessChannel: const _TestSmsAccessChannel(),
+      );
       final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
       await pumpRoute(
         tester,
@@ -1079,7 +1106,10 @@ void main() {
       await tester.pump();
       expect(find.text('Verified WhatsApp'), findsOneWidget);
       expect(find.textContaining(verifiedWhatsApp), findsOneWidget);
-      expect(find.textContaining('RWF · Updated'), findsOneWidget);
+      expect(
+        find.textContaining('RWF · Rwanda contributions use MoMo USSD.'),
+        findsOneWidget,
+      );
       expect(
         find.byKey(const ValueKey('profile_revolut_name_input')),
         findsNothing,
@@ -1095,25 +1125,36 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('auth_country_row_GB_44')));
       await tester.pumpAndSettle();
 
-      expect(find.textContaining('GBP · Updated'), findsOneWidget);
+      expect(find.textContaining('GBP profile'), findsOneWidget);
       final revolutField = find.descendant(
         of: find.byKey(const ValueKey('profile_revolut_name_input')),
         matching: find.byType(TextField),
       );
       expect(revolutField, findsOneWidget);
       await tester.enterText(revolutField, 'Jean Bosco');
+      await tester.enterText(
+        find.descendant(
+          of: find.byKey(const ValueKey('profile_revolut_link_input')),
+          matching: find.byType(TextField),
+        ),
+        'https://revolut.me/jeanbosco',
+      );
+      await tester.enterText(
+        find.descendant(
+          of: find.byKey(const ValueKey('profile_revolut_account_input')),
+          matching: find.byType(TextField),
+        ),
+        'Personal EUR account',
+      );
       await tester.pump();
-      await tester.tap(find.byKey(const ValueKey('profile_save_button')));
-      await tester.pump();
-      await tester.pump(const Duration(seconds: 1));
-      await tester.pump(const Duration(milliseconds: 300));
+      await pressFilledButton(tester, 'Save profile');
+      expect(find.text('Profile saved.'), findsOneWidget);
 
       final updated = repository.state.currentProfile!;
       expect(updated.whatsappPhone, verifiedWhatsApp);
       expect(updated.countryCode, 'GB');
       expect(updated.currencyCode, 'GBP');
       expect(updated.revolutName, 'Jean Bosco');
-      expect(find.text('Profile saved.'), findsOneWidget);
     },
   );
 
@@ -1180,7 +1221,7 @@ void main() {
     expect(find.byType(CollectApp), findsOneWidget);
   });
 
-  testWidgets('create group walks through four bank-only setup steps', (
+  testWidgets('Android create group walks through five MoMo setup steps', (
     tester,
   ) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
@@ -1203,6 +1244,10 @@ void main() {
       expect(find.textContaining('Savings cycles'), findsNothing);
       await pressFilledButton(tester, 'Continue');
 
+      expect(find.text('MTN MoMo receiver'), findsOneWidget);
+      expect(find.text('Enable MoMo receipt SMS'), findsOneWidget);
+      await pressFilledButton(tester, 'Continue');
+
       expect(find.text('Group color'), findsOneWidget);
       expect(find.text('Number'), findsNothing);
       expect(find.text('Code'), findsNothing);
@@ -1211,6 +1256,7 @@ void main() {
 
       expect(find.text('SMS readiness check.'), findsNothing);
       expect(find.text('Review group'), findsOneWidget);
+      expect(find.text('Private group'), findsOneWidget);
     } finally {
       debugDefaultTargetPlatformOverride = null;
     }

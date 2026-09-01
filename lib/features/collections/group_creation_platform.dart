@@ -22,7 +22,10 @@ bool groupCreationPlatformAllowed({
   required TargetPlatform targetPlatform,
   String mobileEvidencePlatform = '',
 }) {
-  return true;
+  if (isWeb) {
+    return mobileEvidencePlatform.trim().toLowerCase() == 'android';
+  }
+  return targetPlatform == TargetPlatform.android;
 }
 
 bool shouldShowGroupCreationEntryOnThisPlatform() {
@@ -51,8 +54,9 @@ Future<void> showAndroidGroupCreationOnlyDialog(BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const InfoSecurityBanner(
-            title: 'Group creation',
-            message: 'Group creation is available on this device.',
+            title: 'Android required',
+            message:
+                'Only the Collect Android app can create a private group because group setup binds the MoMo receiver, SMS consent, and device verification.',
             tone: CollectStatusTone.info,
           ),
           CollectSpacing.gap16,

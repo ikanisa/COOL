@@ -26,7 +26,7 @@ String visibleText() => find
     .toLowerCase();
 
 void main() {
-  testWidgets('landing page presents only the bank-transfer product', (
+  testWidgets('landing page presents Rwanda MoMo and diaspora bank rails', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1440, 1800);
@@ -37,7 +37,7 @@ void main() {
     await tester.pumpWidget(publicHarness(const CollectLandingPage()));
 
     expect(
-      find.text('Bank contributions, reconciled automatically.'),
+      find.text('MoMo at home. Bank transfer in the diaspora.'),
       findsOneWidget,
     );
     expect(find.text('Get the App'), findsWidgets);
@@ -56,9 +56,7 @@ void main() {
       'insurer',
       'lending',
       'loan',
-      'diaspora',
       'stripe',
-      'momo',
       'collateral',
     ]) {
       expect(text, isNot(contains(removed)));
@@ -107,7 +105,7 @@ void main() {
     }
   });
 
-  testWidgets('privacy page covers bank evidence and deletion controls', (
+  testWidgets('privacy page covers payment evidence and deletion controls', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1200, 1700);
@@ -120,12 +118,15 @@ void main() {
     );
 
     expect(find.text('Privacy Policy and Data Deletion'), findsOneWidget);
-    expect(find.text('How bank evidence is handled'), findsOneWidget);
+    expect(find.text('How payment evidence is handled'), findsOneWidget);
     expect(find.text('Account deletion request'), findsOneWidget);
     expect(find.text('Data deletion and correction request'), findsOneWidget);
     expect(find.textContaining('info@ikanisa.com'), findsWidgets);
     expect(find.textContaining('+250 795 588 248'), findsWidgets);
-    expect(find.textContaining('Daily statements determine'), findsOneWidget);
+    expect(
+      find.textContaining('Diaspora daily statements determine'),
+      findsOneWidget,
+    );
     expect(find.textContaining('OpenAI'), findsNothing);
   });
 

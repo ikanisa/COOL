@@ -6,20 +6,18 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
     final repository = ref.watch(adminRepositoryProvider);
     final metricsFuture = repository.overviewMetrics();
     final attentionFuture = repository.list(
-      'admin_list_reconciliation_exceptions',
+      'admin_list_collect_reconciliations',
       limit: 3,
       offset: 0,
       sortBy: 'created_at_desc',
     );
     final allocationsFuture = repository.list(
-      'admin_list_bank_allocation_requests',
+      'admin_list_collect_ledgers',
       limit: 4,
       offset: 0,
       sortBy: 'created_at_desc',
     );
-    final slaFuture = repository.queueSla(
-      'admin_list_reconciliation_exceptions',
-    );
+    final slaFuture = repository.queueSla('admin_list_collect_reconciliations');
     final values = await Future.wait<Object?>([
       metricsFuture,
       attentionFuture,
@@ -84,7 +82,10 @@ class AdminOverviewContent extends ConsumerWidget {
                   final twoColumn = constraints.maxWidth >= 980;
                   final queue = _AttentionQueue(
                     result: data.attention,
-                    totalOverride: _metricInt(data.metrics, 'Open exceptions'),
+                    totalOverride: _metricInt(
+                      data.metrics,
+                      'Open reconciliations',
+                    ),
                   );
                   final health = _QueueHealth(
                     metrics: data.metrics,
@@ -151,7 +152,7 @@ class _OverviewSummary extends StatelessWidget {
             );
             final action = FilledButton.icon(
               key: const Key('admin-review-next-exception'),
-              onPressed: () => context.go('/admin/reconciliation-exceptions'),
+              onPressed: () => context.go('/admin/reconciliations'),
               style: FilledButton.styleFrom(
                 backgroundColor: colors.onImagePrimary,
                 foregroundColor: CollectColors.referenceChromeBlack,
@@ -305,7 +306,7 @@ class _AttentionQueue extends StatelessWidget {
               count: total,
               subtitle: 'Exceptions requiring review',
               actionLabel: 'View all exceptions',
-              onAction: () => context.go('/admin/reconciliation-exceptions'),
+              onAction: () => context.go('/admin/reconciliations'),
             ),
             Divider(height: 1, color: colors.borderSoft),
             if (rows.isEmpty)
@@ -313,7 +314,7 @@ class _AttentionQueue extends StatelessWidget {
                 padding: EdgeInsets.all(24),
                 child: AdminEmptyState(
                   title: 'Queue is clear',
-                  message: 'No bank reconciliation exceptions require review.',
+                  message: 'No payment allocation exceptions require review.',
                 ),
               )
             else
@@ -360,8 +361,7 @@ class _AttentionQueue extends StatelessWidget {
                   const SizedBox(width: 8),
                   IconButton.outlined(
                     tooltip: 'Open full exceptions queue',
-                    onPressed: () =>
-                        context.go('/admin/reconciliation-exceptions'),
+                    onPressed: () => context.go('/admin/reconciliations'),
                     icon: const Icon(Icons.chevron_right_rounded),
                   ),
                 ],
@@ -436,9 +436,7 @@ class _AttentionTable extends StatelessWidget {
                           minimumSize: const Size(0, 44),
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                         ),
-                        onPressed: () => context.go(
-                          '/admin/reconciliation-exceptions/${row.id}',
-                        ),
+                        onPressed: () => context.go('/admin/reconciliations'),
                         child: const Text('Review'),
                       ),
                     ),
@@ -449,9 +447,7 @@ class _AttentionTable extends StatelessWidget {
                         tooltip: 'More record actions',
                         padding: EdgeInsets.zero,
                         iconSize: 18,
-                        onSelected: (_) => context.go(
-                          '/admin/reconciliation-exceptions/${row.id}',
-                        ),
+                        onSelected: (_) => context.go('/admin/reconciliations'),
                         itemBuilder: (context) => const [
                           PopupMenuItem(
                             value: 'open',
@@ -518,8 +514,7 @@ class _AttentionCompactRow extends StatelessWidget {
               Text(_age(row)),
               const SizedBox(width: 12),
               OutlinedButton(
-                onPressed: () =>
-                    context.go('/admin/reconciliation-exceptions/${row.id}'),
+                onPressed: () => context.go('/admin/reconciliations'),
                 child: const Text('Review'),
               ),
             ],
@@ -615,7 +610,7 @@ class _QueueHealth extends StatelessWidget {
             Semantics(
               container: true,
               label:
-                  'Sensitive data gated. Raw bank evidence access is restricted and audited.',
+                  'Sensitive data gated. Raw transaction messages are restricted and audited.',
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -627,7 +622,7 @@ class _QueueHealth extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Raw bank evidence remains gated.\nAccess is restricted and all access is audited.',
+                      'Raw transaction messages remain gated.\nAccess is restricted and all access is audited.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
                         height: CollectTypography.leadingSupporting,
@@ -708,7 +703,7 @@ class _RecentAllocations extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Recent allocation approvals',
+                    'Recent ledger allocations',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: CollectTypography.weightBold,
@@ -716,7 +711,7 @@ class _RecentAllocations extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    'Maker-checker requests awaiting or recently reviewed',
+                    'Latest balanced postings for allocated transactions',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: colors.textSecondary,
                     ),
@@ -725,10 +720,10 @@ class _RecentAllocations extends StatelessWidget {
               ),
             ),
             TextButton.icon(
-              onPressed: () => context.go('/admin/bank-allocation-requests'),
+              onPressed: () => context.go('/admin/ledgers'),
               iconAlignment: IconAlignment.end,
               icon: const Icon(Icons.open_in_new_rounded, size: 17),
-              label: const Text('View all approvals'),
+              label: const Text('View all ledgers'),
             ),
           ],
         ),
@@ -739,8 +734,8 @@ class _RecentAllocations extends StatelessWidget {
               ? const Padding(
                   padding: EdgeInsets.all(24),
                   child: AdminEmptyState(
-                    title: 'No allocation approvals yet',
-                    message: 'Maker-checker requests will appear here.',
+                    title: 'No ledger allocations yet',
+                    message: 'Allocated transactions will appear here.',
                   ),
                 )
               : LayoutBuilder(
@@ -771,16 +766,14 @@ class _RecentAllocations extends StatelessWidget {
                               ),
                               const Spacer(),
                               TextButton.icon(
-                                onPressed: () => context.go(
-                                  '/admin/bank-allocation-requests',
-                                ),
+                                onPressed: () => context.go('/admin/ledgers'),
                                 iconAlignment: IconAlignment.end,
                                 icon: const Icon(
                                   Icons.chevron_right_rounded,
                                   size: 18,
                                 ),
                                 label: Text(
-                                  compact ? 'View all' : 'View all approvals',
+                                  compact ? 'View all' : 'View all ledgers',
                                 ),
                               ),
                             ],

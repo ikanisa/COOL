@@ -15,16 +15,20 @@ void main() {
     expect(launcher, isNot(contains('ACTION_CALL')));
   });
 
-  test('production Android exposes no USSD bridge or call permission', () {
-    final manifest = File(
-      'android/app/src/production/AndroidManifest.xml',
-    ).readAsStringSync();
-    final activity = File(
-      'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
-    ).readAsStringSync();
+  test(
+    'production Android exposes validated MoMo USSD and call permission',
+    () {
+      final manifest = File(
+        'android/app/src/main/AndroidManifest.xml',
+      ).readAsStringSync();
+      final activity = File(
+        'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
+      ).readAsStringSync();
 
-    expect(manifest, isNot(contains('android.permission.CALL_PHONE')));
-    expect(activity, isNot(contains('collect/momo_ussd')));
-    expect(activity, isNot(contains('Intent.ACTION_CALL')));
-  });
+      expect(manifest, contains('android.permission.CALL_PHONE'));
+      expect(activity, contains('collect/momo_ussd'));
+      expect(activity, contains('MOMO_USSD_PATTERN'));
+      expect(activity, contains('Intent.ACTION_CALL'));
+    },
+  );
 }

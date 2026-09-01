@@ -54,7 +54,7 @@ Environment:
   GOOGLE_APPLICATION_CREDENTIALS       service-account JSON is supported directly
   REPLACE_INTERNAL_RESTRICTED_ARTIFACTS default: true; replaces the active legacy
                                         SMS-permission internal artifact with the
-                                        same reviewed no-SMS bundle uploaded here
+                                        same reviewed Rwanda MoMo bundle uploaded here
 USAGE
 }
 
@@ -298,8 +298,8 @@ if submit
   declaration_status = packet.dig("app_content", "permissions", "sms_permissions_declaration_status")
   permissions = Array(packet.dig("app_content", "permissions", "production_permissions"))
   restricted_sms = %w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS]
-  errors << "google_play_restricted_sms_permission_present" unless (permissions & restricted_sms).empty?
-  errors << "google_play_no_sms_declaration_scope_not_recorded" unless declaration_status == "not_required_no_restricted_sms_permissions"
+  errors << "google_play_sms_permission_scope_mismatch" unless (permissions & restricted_sms) == ["android.permission.RECEIVE_SMS"]
+  errors << "google_play_sms_declaration_not_approved" unless declaration_status == "approved_for_core_functionality"
 end
 if status == "inProgress"
   fraction = Float(user_fraction) rescue nil

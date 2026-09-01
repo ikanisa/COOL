@@ -316,11 +316,11 @@ restricted_permissions = %w[
 ]
 
 restricted_in_main = restricted_permissions.select { |permission| main_manifest.include?(permission) }
-checks["base_manifest_restricted_sms_permissions_absent"] =
-  if restricted_in_main.empty?
-    check("pass", "Base Android manifest excludes restricted SMS permissions.")
+checks["base_manifest_restricted_sms_permissions_scoped"] =
+  if restricted_in_main == ["android.permission.RECEIVE_SMS"]
+    check("pass", "Base Android manifest limits restricted SMS access to RECEIVE_SMS.")
   else
-    check("fail", "Base Android manifest includes restricted SMS permissions.", "permissions" => restricted_in_main)
+    check("fail", "Base Android manifest must contain RECEIVE_SMS without READ_SMS.", "permissions" => restricted_in_main)
   end
 
 receiver_has_receive = receiver_manifest.include?("android.permission.RECEIVE_SMS")
@@ -339,24 +339,26 @@ checks["internal_receiver_sms_permissions_present"] =
 
 production_has_receive = production_manifest.include?("android.permission.RECEIVE_SMS")
 production_has_read = production_manifest.include?("android.permission.READ_SMS")
+production_effective_receive = production_has_receive || main_manifest.include?("android.permission.RECEIVE_SMS")
+production_effective_read = production_has_read || main_manifest.include?("android.permission.READ_SMS")
 checks["production_sms_permissions_minimized"] =
-  if !production_has_receive && !production_has_read
-    check("pass", "Public production declares no restricted SMS permission.")
+  if production_effective_receive && !production_effective_read
+    check("pass", "Android production declares RECEIVE_SMS without inbox-history READ_SMS access.")
   else
     check(
       "fail",
-      "Public production must not declare RECEIVE_SMS or READ_SMS.",
-      "receive_sms_present" => production_has_receive,
-      "read_sms_present" => production_has_read
+      "Android production must declare RECEIVE_SMS and exclude READ_SMS.",
+      "receive_sms_present" => production_effective_receive,
+      "read_sms_present" => production_effective_read
     )
   end
 
 telephony_optional_pattern = /android:name=["']android\.hardware\.telephony["'][^>]*android:required=["']false["']/m
 checks["sms_telephony_feature_optional"] =
-  if !production_manifest.match?(telephony_optional_pattern) && receiver_manifest.match?(telephony_optional_pattern)
-    check("pass", "Only the internal receiver flavor declares optional telephony hardware.")
+  if main_manifest.match?(telephony_optional_pattern) && receiver_manifest.match?(telephony_optional_pattern)
+    check("pass", "Telephony hardware remains optional for MoMo receipt and USSD support.")
   else
-    check("fail", "Telephony hardware must be optional and isolated to the internal receiver flavor.")
+    check("fail", "Telephony hardware must remain optional for Android builds.")
   end
 
 checks["android_sms_runtime_permission_request"] =
@@ -567,9 +569,9 @@ result = {
     "application_id" => "app.cool.mobile",
     "production_flavor" => "production",
     "restricted_sms_permissions_scope" =>
-      restricted_in_main.empty? &&
+      restricted_in_main == ["android.permission.RECEIVE_SMS"] &&
       receiver_has_receive && !receiver_has_read &&
-      !production_has_receive && !production_has_read ? "production_none_internal_receive_only" : "invalid",
+      production_effective_receive && !production_effective_read ? "production_receive_only" : "invalid",
     "artifacts" => artifacts
   },
   "ios" => {

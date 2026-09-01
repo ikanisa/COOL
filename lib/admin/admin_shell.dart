@@ -132,58 +132,28 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'users.read',
   ),
   _AdminNavDestination(
-    'Bank details',
-    Icons.account_balance_outlined,
-    '/admin/bank-destinations',
-    'bank_details.read',
+    'Payees',
+    Icons.person_pin_circle_outlined,
+    '/admin/payees',
+    'receivers.read',
   ),
   _AdminNavDestination(
-    'Bank detail approvals',
-    Icons.fact_check_outlined,
-    '/admin/bank-destination-requests',
-    'bank_details.read',
-  ),
-  _AdminNavDestination(
-    'Transfer requests',
-    Icons.payments_outlined,
-    '/admin/bank-intents',
-    'bank_transactions.read',
-  ),
-  _AdminNavDestination(
-    'Bank transactions',
+    'Transactions',
     Icons.receipt_long_outlined,
-    '/admin/bank-transactions',
-    'bank_transactions.read',
+    '/admin/transactions',
+    'payments.read',
   ),
   _AdminNavDestination(
-    'Bank evidence',
-    Icons.fact_check_outlined,
-    '/admin/bank-evidence',
-    'bank_evidence.read',
-  ),
-  _AdminNavDestination(
-    'Reconciliation',
+    'Reconciliations',
     Icons.balance_outlined,
-    '/admin/reconciliation',
-    'bank_reconciliation.read',
+    '/admin/reconciliations',
+    'payment_events.read',
   ),
   _AdminNavDestination(
-    'Reconciliation exceptions',
-    Icons.report_problem_outlined,
-    '/admin/reconciliation-exceptions',
-    'bank_reconciliation.read',
-  ),
-  _AdminNavDestination(
-    'Allocation approvals',
-    Icons.rule_outlined,
-    '/admin/bank-allocation-requests',
-    'bank_transactions.read',
-  ),
-  _AdminNavDestination(
-    'Bank journal',
+    'Ledgers',
     Icons.menu_book_outlined,
-    '/admin/bank-journal',
-    'bank_reconciliation.read',
+    '/admin/ledgers',
+    'ledger.read',
   ),
   _AdminNavDestination(
     'Notifications',
@@ -246,12 +216,12 @@ class _AdminNavDestination {
   }
 }
 
-enum _AdminNavSection { workspace, money, people, control }
+enum _AdminNavSection { workspace, people, operations, control }
 
 const _sectionLabels = <_AdminNavSection, String>{
   _AdminNavSection.workspace: 'WORKSPACE',
-  _AdminNavSection.money: 'BANK OPERATIONS',
   _AdminNavSection.people: 'PEOPLE',
+  _AdminNavSection.operations: 'OPERATIONS',
   _AdminNavSection.control: 'CONTROL',
 };
 
@@ -974,9 +944,11 @@ _AdminNavSection _sectionForPath(String path) {
   if (path.startsWith('/admin/groups') || path.startsWith('/admin/members')) {
     return _AdminNavSection.people;
   }
-  if (path.startsWith('/admin/bank-') ||
-      path.startsWith('/admin/reconciliation')) {
-    return _AdminNavSection.money;
+  if (path.startsWith('/admin/payees') ||
+      path.startsWith('/admin/transactions') ||
+      path.startsWith('/admin/reconciliations') ||
+      path.startsWith('/admin/ledgers')) {
+    return _AdminNavSection.operations;
   }
   return _AdminNavSection.control;
 }
@@ -1036,6 +1008,10 @@ IconData _adminIconForKey(String iconKey) {
     'dashboard' || 'dashboard_outlined' => Icons.home_rounded,
     'groups' || 'folder_copy' => Icons.folder_copy_outlined,
     'members' || 'people' => Icons.people_outline,
+    'payees' || 'person_pin_circle' => Icons.person_pin_circle_outlined,
+    'transactions' => Icons.receipt_long_outlined,
+    'reconciliations' => Icons.balance_outlined,
+    'ledgers' => Icons.menu_book_outlined,
     'payments' || 'payment_intents' => Icons.payments_outlined,
     'sms_parsing' || 'receipt_long' => Icons.receipt_long_outlined,
     'allocations' || 'account_tree' => Icons.account_tree_outlined,

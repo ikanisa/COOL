@@ -20,6 +20,7 @@ BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-${PACKAGE_VERSION##*+}}"
 readonly EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"
 SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
 SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"
+PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE="${PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER:-}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 
 if [[ $# -ne 0 ]]; then
@@ -36,6 +37,12 @@ if [[ "$SUPABASE_URL_VALUE" != "$EXPECTED_PRODUCTION_SUPABASE_URL" ]]; then
   printf 'SUPABASE_PRODUCTION_URL does not match the reviewed Collect production project.\n' >&2
   exit 2
 fi
+
+if [[ ! "$PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE" =~ ^[1-9][0-9]+$ ]]; then
+  printf 'PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER must be the positive project number linked to Collect in Play Console.\n' >&2
+  exit 2
+fi
+export PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER="$PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE"
 
 umask 077
 BUILD_LOCK_DIR="${COLLECT_ANDROID_BUILD_LOCK_DIR:-$ROOT_DIR/.dart_tool/collect-android-play-store-build.lock}"
@@ -72,6 +79,8 @@ File.write(
     "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_ANON_KEY_VALUE"),
     "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com"),
     "APP_ENVIRONMENT" => "production",
+    "ENABLE_SMS_READER" => "true",
+    "ENABLE_ANDROID_SMS_ACCESS" => "true",
     "COLLECT_MOBILE_EVIDENCE_MODE" => "false"
   )
 )

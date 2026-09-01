@@ -18,7 +18,11 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _displayName = TextEditingController();
+  final _momoNumber = TextEditingController();
   final _revolutName = TextEditingController();
+  final _revolutLink = TextEditingController();
+  final _revolutAccount = TextEditingController();
+  String _momoProvider = 'mtn_momo';
   Country? _selectedCountry;
   String? _hydratedProfileId;
   String? _error;
@@ -30,16 +34,25 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   void initState() {
     super.initState();
     _displayName.addListener(_markDirty);
+    _momoNumber.addListener(_markDirty);
     _revolutName.addListener(_markDirty);
+    _revolutLink.addListener(_markDirty);
+    _revolutAccount.addListener(_markDirty);
     _hydrate(ref.read(collectRepositoryProvider).currentProfile);
   }
 
   @override
   void dispose() {
     _displayName.removeListener(_markDirty);
+    _momoNumber.removeListener(_markDirty);
     _revolutName.removeListener(_markDirty);
+    _revolutLink.removeListener(_markDirty);
+    _revolutAccount.removeListener(_markDirty);
     _displayName.dispose();
+    _momoNumber.dispose();
     _revolutName.dispose();
+    _revolutLink.dispose();
+    _revolutAccount.dispose();
     super.dispose();
   }
 
@@ -58,9 +71,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         _selectedCountry ??
         Country.tryParse(profile?.countryCode ?? '') ??
         Country.parse('RW');
-    final isEuropean = CollectProfileCountryRules.isEuropeanCountry(
-      selectedCountry.countryCode,
-    );
+    final isRwanda = selectedCountry.countryCode == 'RW';
     final currencyCode = CollectProfileCountryRules.currencyForCountry(
       selectedCountry.countryCode,
     );
@@ -125,10 +136,13 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                 'Your WhatsApp calling code suggests the first country only. Changing your profile country updates local currency and regional fields without changing your verified WhatsApp number.',
             tone: CollectStatusTone.info,
           ),
-          const InfoSecurityBanner(
-            title: 'Payment details are centrally governed',
-            message:
-                'Your local profile currency does not change settlement. Every contribution still uses the approved EUR bank beneficiary shown in Settings.',
+          InfoSecurityBanner(
+            title: isRwanda
+                ? 'Rwanda uses MoMo'
+                : 'Diaspora uses bank transfer',
+            message: isRwanda
+                ? 'Contributions open the Rwanda MoMo USSD flow in RWF. Consented receipt SMS keeps the group ledger reconciled.'
+                : 'Your Revolut details prepare the diaspora bank-transfer hand-off. Rwanda members never see this bank journey.',
             tone: CollectStatusTone.privacy,
           ),
           CollectIdDisplay(
@@ -169,18 +183,78 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                 CollectListTile(
                   leading: CollectIcons.money,
                   title: 'Local profile currency',
-                  subtitle:
-                      '$currencyCode · Updated from profile country. Transfers remain EUR.',
+                  subtitle: isRwanda
+                      ? '$currencyCode · Rwanda contributions use MoMo USSD.'
+                      : '$currencyCode profile · Contributions use the governed diaspora bank rail.',
                 ),
-                if (isEuropean) ...[
+                if (isRwanda) ...[
+                  CollectSpacing.gap16,
+                  DropdownButtonFormField<String>(
+                    key: const ValueKey('profile_momo_provider_input'),
+                    initialValue: _momoProvider,
+                    decoration: collectInputDecoration(
+                      context,
+                      label: 'Mobile Money provider',
+                      helper: 'Used for your Rwanda contribution instructions.',
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'mtn_momo',
+                        child: Text('MTN MoMo'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'airtel_money',
+                        child: Text('Airtel Money'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        _momoProvider = value;
+                        _dirty = true;
+                        _error = null;
+                      });
+                    },
+                  ),
+                  CollectSpacing.gap16,
+                  CollectTextInput(
+                    key: const ValueKey('profile_momo_number_input'),
+                    controller: _momoNumber,
+                    label: 'MoMo number',
+                    helper:
+                        'Defaults from WhatsApp. You can change it using 07XXXXXXXX.',
+                    keyboardType: TextInputType.phone,
+                    textInputAction: TextInputAction.done,
+                    autocorrect: false,
+                  ),
+                ] else ...[
                   CollectSpacing.gap16,
                   CollectTextInput(
                     key: const ValueKey('profile_revolut_name_input'),
                     controller: _revolutName,
                     label: 'Revolut name',
-                    helper:
-                        'Required in Revolut’s supported European region. This identifies you; it never authorizes a transfer.',
+                    helper: 'Name shown on your diaspora Revolut account.',
                     textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.done,
+                    autocorrect: false,
+                  ),
+                  CollectSpacing.gap16,
+                  CollectTextInput(
+                    key: const ValueKey('profile_revolut_link_input'),
+                    controller: _revolutLink,
+                    label: 'Revolut.me link',
+                    helper: 'For example https://revolut.me/yourname',
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.next,
+                    autocorrect: false,
+                  ),
+                  CollectSpacing.gap16,
+                  CollectTextInput(
+                    key: const ValueKey('profile_revolut_account_input'),
+                    controller: _revolutAccount,
+                    label: 'Revolut account details',
+                    helper:
+                        'Your account label or approved account identifier.',
                     textInputAction: TextInputAction.done,
                     autocorrect: false,
                     onSubmitted: (_) {
@@ -194,12 +268,20 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           CollectCard(
             child: Column(
               children: [
-                CollectListTile(
-                  leading: CollectIcons.bank,
-                  title: 'Bank transfer details',
-                  subtitle: 'Review the approved beneficiary and IBAN.',
-                  onTap: () => context.go('/settings/bank-transfer'),
-                ),
+                if (isRwanda)
+                  CollectListTile(
+                    leading: CollectIcons.sms,
+                    title: 'MoMo receipt access',
+                    subtitle: 'Manage consented SMS reconciliation.',
+                    onTap: () => context.go('/settings/permissions'),
+                  )
+                else
+                  CollectListTile(
+                    leading: CollectIcons.bank,
+                    title: 'Diaspora bank transfer details',
+                    subtitle: 'Review the approved beneficiary and IBAN.',
+                    onTap: () => context.go('/settings/bank-transfer'),
+                  ),
                 CollectListTile(
                   leading: CollectIcons.lock,
                   title: 'Account and session',
@@ -219,7 +301,13 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     _hydrating = true;
     _hydratedProfileId = profile.id;
     _displayName.text = profile.displayName;
+    _momoNumber.text = profile.momoNumber;
+    _momoProvider = profile.momoProvider.isEmpty
+        ? 'mtn_momo'
+        : profile.momoProvider;
     _revolutName.text = profile.revolutName;
+    _revolutLink.text = profile.revolutLink;
+    _revolutAccount.text = profile.revolutAccount;
     _selectedCountry =
         Country.tryParse(profile.countryCode) ??
         Country.parse(
@@ -263,7 +351,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           .updateCurrentProfile(
             displayName: _displayName.text,
             countryCode: selectedCountry.countryCode,
+            momoProvider: _momoProvider,
+            momoNumber: _momoNumber.text,
             revolutName: _revolutName.text,
+            revolutLink: _revolutLink.text,
+            revolutAccount: _revolutAccount.text,
           );
       if (!mounted) return;
       _hydratedProfileId = null;

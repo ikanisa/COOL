@@ -24,18 +24,20 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
 
 class _CollectionCreateScreenState
     extends ConsumerState<CollectionCreateScreen> {
-  static const _lastStep = 3;
+  static const _lastStep = 4;
 
   final _title = TextEditingController();
   final _description = TextEditingController();
+  final _receiverNumber = TextEditingController();
   final _imagePicker = ImagePicker();
   Uint8List? _groupImageBytes;
   String? _groupImageName;
   String? _groupImageMimeType;
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   CollectionType _collectionType = CollectionType.ikimina;
+  String _receiverProvider = 'mtn_momo';
   bool _creating = false;
-  bool _isPublicRequested = false;
+  bool _enablingSms = false;
   int _step = 0;
   String? _error;
 
@@ -50,6 +52,7 @@ class _CollectionCreateScreenState
     _title.removeListener(_refreshPreview);
     _title.dispose();
     _description.dispose();
+    _receiverNumber.dispose();
     super.dispose();
   }
 
@@ -59,6 +62,13 @@ class _CollectionCreateScreenState
         ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
         CollectionTypeCatalogConfig.defaults;
     final typeOption = catalog.optionFor(_collectionType);
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    if (profile != null && _receiverNumber.text != profile.momoNumber) {
+      _receiverNumber.text = profile.momoNumber;
+      _receiverProvider = profile.momoProvider.isEmpty
+          ? 'mtn_momo'
+          : profile.momoProvider;
+    }
     if (!canCreateGroupsOnThisPlatform()) return const SizedBox.shrink();
     return ScreenScaffold(
       title: 'Create group',
@@ -124,15 +134,43 @@ class _CollectionCreateScreenState
                   _error = null;
                 }),
               ),
-              const InfoSecurityBanner(
-                title: 'One governed bank beneficiary',
-                message:
-                    'Every group uses the Collect EUR bank account. Group owners cannot replace the beneficiary or redirect member transfers.',
-                tone: CollectStatusTone.privacy,
-              ),
             ],
           )
         else if (_step == 2) ...[
+          _MobileCreatePanel(
+            error: _error,
+            children: [
+              CollectListTile(
+                leading: CollectIcons.momo,
+                title: _receiverProvider == 'airtel_money'
+                    ? 'Airtel Money receiver'
+                    : 'MTN MoMo receiver',
+                subtitle: _receiverNumber.text.trim(),
+                trailing: const Icon(CollectIcons.chevron),
+                onTap: () => context.push('/settings/profile'),
+              ),
+              Text(
+                'The receiver is your Rwanda MoMo profile. Tap it to change provider or number before creating this group.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const InfoSecurityBanner(
+                title: 'Android receipt reconciliation',
+                message:
+                    'Collect asks for SMS access only to capture MoMo receipts for this private group. Raw SMS stays protected and admin review is audited.',
+                tone: CollectStatusTone.privacy,
+              ),
+              CollectButton(
+                label: _enablingSms
+                    ? 'Checking SMS access'
+                    : 'Enable MoMo receipt SMS',
+                icon: CollectIcons.sms,
+                onPressed: _enablingSms ? null : _enableSmsAccess,
+                variant: CollectButtonVariant.secondary,
+                expand: true,
+              ),
+            ],
+          ),
+        ] else if (_step == 3) ...[
           _MobileCreatePanel(
             error: _error,
             children: [
@@ -155,40 +193,31 @@ class _CollectionCreateScreenState
                     _groupImageMimeType = null;
                   }),
           ),
-          CollectCard(
-            emphasis: CollectCardEmphasis.flat,
-            child: Material(
-              color: context.collectColors.transparent,
-              child: SwitchListTile.adaptive(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Request a public group'),
-                subtitle: const Text(
-                  'Private is immediate. Public groups appear in discovery only after review.',
-                ),
-                value: _isPublicRequested,
-                onChanged: (value) => setState(() {
-                  _isPublicRequested = value;
-                  _error = null;
-                }),
-              ),
-            ),
-          ),
         ] else
           _CreateGroupReview(
             title: _title.text.trim(),
             description: _description.text.trim(),
             collectionTypeOption: typeOption,
-            receiver: 'Collect EUR bank account · SEPA transfer',
+            receiver:
+                '${_receiverProvider == 'airtel_money' ? 'Airtel Money' : 'MTN MoMo'} · ${_receiverNumber.text.trim()}',
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
-            isPublicRequested: _isPublicRequested,
+            isPublicRequested: false,
             error: _error,
           ),
       ],
     );
   }
 
-  bool get _canContinue => _step != 0 || _title.text.trim().isNotEmpty;
+  bool get _canContinue => switch (_step) {
+    0 => _title.text.trim().isNotEmpty,
+    2 =>
+      (_receiverProvider == 'mtn_momo'
+              ? RegExp(r'^(?:\+?250|0)?7[89][0-9]{7}$')
+              : RegExp(r'^(?:\+?250|0)?7[23][0-9]{7}$'))
+          .hasMatch(_receiverNumber.text.replaceAll(RegExp(r'\s'), '')),
+    _ => true,
+  };
 
   Color get _selectedAccentColor => CollectColors.brandPrimaryOptions
       .firstWhere(
@@ -209,6 +238,14 @@ class _CollectionCreateScreenState
   Future<void> _primaryAction() async {
     if (_step == 0 && _title.text.trim().isEmpty) {
       setState(() => _error = 'Name required.');
+      return;
+    }
+    if (_step == 2 && !_canContinue) {
+      setState(
+        () => _error = _receiverProvider == 'airtel_money'
+            ? 'Use an Airtel Money number such as 073XXXXXXX.'
+            : 'Use an MTN MoMo number such as 078XXXXXXX.',
+      );
       return;
     }
     if (_step < _lastStep) {
@@ -237,21 +274,54 @@ class _CollectionCreateScreenState
             purposeLabel: _selectedTypeOption.defaultPurposeLabel,
             accentColorHex: _accentColorHex,
             imageUrl: _selectedImageDataUri(),
-            isPublic: _isPublicRequested,
+            receiverMomoNumber: _receiverNumber.text,
+            receiverProvider: _receiverProvider,
+            isPublic: false,
           );
       if (mounted) context.go('/groups/${collection.id}');
     } catch (error) {
       if (!mounted) return;
       setState(() {
         _creating = false;
-        _error = error is StateError || error is FormatException
-            ? error.toString().replaceFirst(
-                RegExp(r'^(Bad state|FormatException):\s*'),
-                '',
-              )
-            : 'Could not create the group. Check the details and try again.';
+        _error = _safeGroupCreateError(error);
       });
     }
+  }
+
+  Future<void> _enableSmsAccess() async {
+    setState(() {
+      _enablingSms = true;
+      _error = null;
+    });
+    try {
+      final enabled = await ref
+          .read(collectRepositoryProvider.notifier)
+          .setSmsAccess(true);
+      if (!enabled) {
+        throw StateError(
+          'Android SMS permission was not granted. Enable it to reconcile MoMo receipts.',
+        );
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('MoMo receipt SMS enabled.')),
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _error = _safeGroupCreateError(error);
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _enablingSms = false);
+    }
+  }
+
+  String _safeGroupCreateError(Object error) {
+    if (error is StateError) return error.message.toString();
+    if (error is FormatException) return error.message.toString();
+    return 'Could not create the group. Check the details and try again.';
   }
 
   Future<void> _pickGroupImage() async {

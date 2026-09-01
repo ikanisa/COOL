@@ -116,6 +116,13 @@ void main() {
         );
         await _precacheOfficialLogo(tester);
         await _pumpStableFrames(tester);
+        if (surface.key == 'contribution_review') {
+          await tester.enterText(find.byType(TextField).first, '10000');
+          await tester.tap(
+            find.widgetWithText(FilledButton, 'Continue to MoMo'),
+          );
+          await _pumpStableFrames(tester);
+        }
 
         expect(tester.takeException(), isNull, reason: surface.value);
         await expectLater(
@@ -175,6 +182,11 @@ void main() {
           'settings.read',
           'system_health.read',
           'admin_users.read',
+          'payments.read',
+          'payment_events.read',
+          'ledger.read',
+          'receivers.read',
+          'sms.metadata.read',
         ],
       );
 

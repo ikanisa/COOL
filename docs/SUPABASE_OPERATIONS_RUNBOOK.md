@@ -1,11 +1,11 @@
 # Supabase Operations Runbook
 
-Updated: 2026-08-28
+Updated: 2026-08-31
 
-This runbook covers the bank-transfer-only Groups backend. Collect does not
-initiate payments. Beneficiary-bank SMS and email are candidate evidence; only
-independently imported daily statements can finalize reconciliation and ledger
-posting.
+This runbook covers the geographic Groups backend: Rwanda MoMo USSD with
+consented Android receipt evidence, plus diaspora bank/Revolut transfers.
+Collect never accepts a MoMo PIN or bank credential and never treats opening an
+external payment surface as success.
 
 ## Safe Command Rules
 
@@ -43,13 +43,13 @@ At the confirmed 2026-08-20 production checkpoint it ends at:
 supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql
 ```
 
-The later local migration below adds independent profile country/currency,
-conditional European Revolut identity, and the profile update RPC. Treat it as
-pending until a dry-run, controlled push, migration-history readback, and RPC
-UAT prove it on the linked project:
+The local chain below remains pending until a dry-run, controlled push,
+migration-history readback, and RPC UAT prove it on the linked project:
 
 ```text
 supabase/migrations/20260828100000_profile_country_session_independence.sql
+supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql
+supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql
 ```
 
 ## Edge Functions
@@ -62,6 +62,9 @@ dispatch-notifications
 ingest-bank-email
 ingest-bank-sms
 ingest-bank-statement
+ingest-payment-sms
+parse-payment-sms
+verify-play-integrity
 send-notification
 ```
 
@@ -71,7 +74,10 @@ Validate:
 ./scripts/collect_edge_auth_contract_uat.sh
 deno check supabase/functions/ingest-bank-email/index.ts \
   supabase/functions/ingest-bank-sms/index.ts \
-  supabase/functions/ingest-bank-statement/index.ts
+  supabase/functions/ingest-bank-statement/index.ts \
+  supabase/functions/ingest-payment-sms/index.ts \
+  supabase/functions/parse-payment-sms/index.ts \
+  supabase/functions/verify-play-integrity/index.ts
 ```
 
 Deploy active functions through:
@@ -88,14 +94,24 @@ Admin/security:
 ./scripts/collect_admin_security_uat.sh
 ```
 
-Bank-transfer reconciliation and allocation:
+MoMo and bank reconciliation/allocation:
 
 ```sh
 ./scripts/collect_linked_uat.sh
 ```
 
-The rollback UAT proves maker-checker beneficiary governance, exact-once bank
-evidence, statement finality, balanced ledger posting, daily close, and rollback.
+The rollback UAT must prove scoped MoMo parsing/allocation plus maker-checker
+bank governance, statement finality, balanced ledger posting and rollback.
+
+## Controlled Rwanda MoMo UAT
+
+1. Verify WhatsApp-derived Rwanda country/provider/07 number, then edit and save it.
+2. Create a private group on a Play-Integrity-approved Android build.
+3. Grant receipt access and verify the app has `RECEIVE_SMS` but no `READ_SMS`.
+4. Create one exact RWF intent and approve it only in MoMo USSD.
+5. Receive a synthetic safe receipt, verify authenticated ingestion and bounded parsing.
+6. Prove one unique member/group allocation and one balanced ledger post.
+7. Prove duplicates are idempotent and ambiguous/unmatched receipts remain in the admin queue.
 
 ## Controlled Bank Evidence UAT
 
@@ -135,9 +151,9 @@ make supabase-platform-packet-json
 make supabase-post-operator-checklist-json
 ```
 
-Current release blockers are limited to current SMS-first evidence gaps:
-product signoff, linked migration/UAT, Android SMS UAT, Admin PWA live proof,
-current Android release APK/AAB artifacts, and release-owner signoff.
+Current blockers include linked migration/UAT, real Android SMS/USSD acceptance,
+Google Play restricted-SMS approval, Play Integrity configuration, diaspora bank
+acceptance, Admin PWA live proof, current store artifacts and accountable signoff.
 
 ## Incident Handling
 

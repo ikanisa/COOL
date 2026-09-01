@@ -6,6 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/security/phone_normalizer.dart';
+import '../../core/security/hash_utils.dart';
+import '../../core/security/play_integrity_service.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
 import '../../core/supabase/realtime_invalidation.dart';
@@ -39,6 +41,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     DateTime? fixtureNow,
     int fixtureCollectionCount = 2,
     int fixtureContributionCount = 2,
+    CollectProfile? profileOverride,
     CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
@@ -48,6 +51,7 @@ class CollectRepository extends StateNotifier<CollectState> {
                  fixtureNow: fixtureNow,
                  collectionCount: fixtureCollectionCount,
                  contributionCount: fixtureContributionCount,
+                 profileOverride: profileOverride,
                )
              : _emptyCollectState(),
          true,
@@ -87,9 +91,11 @@ class CollectRepository extends StateNotifier<CollectState> {
     try {
       final profile = await _liveReader.fetchProfile(user.id);
       final collections = await _liveReader.fetchCollections();
-      final paymentIntents = await _liveReader.fetchPaymentIntents();
-      final contributions = await _liveReader.fetchContributions();
-      final collectionSummaries = await _liveReader.fetchCollectionSummaries();
+      final paymentIntents = await _liveReader.fetchPaymentIntents(profile);
+      final contributions = await _liveReader.fetchContributions(profile);
+      final collectionSummaries = await _liveReader.fetchCollectionSummaries(
+        profile,
+      );
       final notificationPreferences = await _liveReader
           .fetchNotificationPreferences(profile);
       final notificationEvents = await _liveReader.fetchNotificationEvents(
@@ -200,6 +206,12 @@ class CollectRepository extends StateNotifier<CollectState> {
             currencyCode: CollectProfileCountryRules.currencyForCountry(
               initialCountry,
             ),
+            momoProvider: initialCountry == 'RW'
+                ? _defaultMomoProviderFromPhone(normalized)
+                : '',
+            momoNumber: initialCountry == 'RW'
+                ? _defaultLocalMomoFromPhone(normalized)
+                : '',
           )
         : existingProfile.countryCode.trim().isEmpty
         ? existingProfile.copyWith(
@@ -274,7 +286,11 @@ class CollectRepository extends StateNotifier<CollectState> {
   Future<CollectProfile> updateCurrentProfile({
     required String displayName,
     required String countryCode,
+    String? momoProvider,
+    String? momoNumber,
     String? revolutName,
+    String? revolutLink,
+    String? revolutAccount,
   }) async {
     final current = _requireProfile();
     final cleanDisplayName = displayName.trim();
@@ -287,14 +303,35 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (!CollectProfileCountryRules.isSupportedCountry(cleanCountry)) {
       throw const FormatException('Choose a supported profile country.');
     }
-    final isEuropean = CollectProfileCountryRules.isEuropeanCountry(
-      cleanCountry,
-    );
+    final isRwanda = cleanCountry == 'RW';
+    final cleanMomoProvider = (momoProvider ?? '').trim().toLowerCase();
+    final cleanMomoNumber = isRwanda
+        ? _normalizeLocalRwandaMomo(momoNumber ?? '')
+        : '';
     final cleanRevolutName = revolutName?.trim() ?? '';
-    if (isEuropean &&
-        (cleanRevolutName.length < 2 || cleanRevolutName.length > 100)) {
+    final cleanRevolutLink = revolutLink?.trim() ?? '';
+    final cleanRevolutAccount = revolutAccount?.trim() ?? '';
+    if (isRwanda &&
+        !const {'mtn_momo', 'airtel_money'}.contains(cleanMomoProvider)) {
+      throw const FormatException('Choose MTN MoMo or Airtel Money.');
+    }
+    if (isRwanda &&
+        !(cleanMomoProvider == 'mtn_momo'
+            ? RegExp(r'^07[89][0-9]{7}$').hasMatch(cleanMomoNumber)
+            : RegExp(r'^07[23][0-9]{7}$').hasMatch(cleanMomoNumber))) {
       throw const FormatException(
-        'Enter the Revolut name shown on your supported European account.',
+        'The MoMo provider does not match that Rwanda mobile number.',
+      );
+    }
+    if (!isRwanda &&
+        (cleanRevolutName.length < 2 ||
+            cleanRevolutName.length > 100 ||
+            Uri.tryParse(cleanRevolutLink)?.host.endsWith('revolut.me') !=
+                true ||
+            cleanRevolutAccount.length < 4 ||
+            cleanRevolutAccount.length > 120)) {
+      throw const FormatException(
+        'Diaspora profiles need a Revolut name, Revolut.me link, and account details.',
       );
     }
 
@@ -306,7 +343,11 @@ class CollectRepository extends StateNotifier<CollectState> {
         params: {
           'p_display_name': cleanDisplayName,
           'p_country_code': cleanCountry,
-          'p_revolut_name': isEuropean ? cleanRevolutName : null,
+          'p_momo_provider': isRwanda ? cleanMomoProvider : null,
+          'p_momo_number': isRwanda ? cleanMomoNumber : null,
+          'p_revolut_name': isRwanda ? null : cleanRevolutName,
+          'p_revolut_link': isRwanda ? null : cleanRevolutLink,
+          'p_revolut_account': isRwanda ? null : cleanRevolutAccount,
         },
       );
       if (row is! Map) {
@@ -323,10 +364,20 @@ class CollectRepository extends StateNotifier<CollectState> {
         currencyCode: CollectProfileCountryRules.currencyForCountry(
           cleanCountry,
         ),
-        revolutName: isEuropean ? cleanRevolutName : '',
+        momoProvider: isRwanda ? cleanMomoProvider : '',
+        momoNumber: isRwanda ? cleanMomoNumber : '',
+        revolutName: isRwanda ? '' : cleanRevolutName,
+        revolutLink: isRwanda ? '' : cleanRevolutLink,
+        revolutAccount: isRwanda ? '' : cleanRevolutAccount,
       );
     }
 
+    if (current.isRwanda &&
+        (!updated.isRwanda ||
+            current.momoNumber != updated.momoNumber ||
+            current.momoProvider != updated.momoProvider)) {
+      await setSmsAccess(false);
+    }
     state = state.copyWith(currentProfile: updated);
     await _offlineCache.save(_offlineSnapshotFromState());
     return updated;
@@ -423,7 +474,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       intent = null;
     }
     return createSupportRequest(
-      subject: 'Bank transfer review: $issueType',
+      subject: 'Contribution review: $issueType',
       message: [
         'Group: ${collection.title}',
         'Transfer request: ${intent?.id ?? intentId}',
@@ -457,9 +508,20 @@ class CollectRepository extends StateNotifier<CollectState> {
     String? purposeLabel,
     String? accentColorHex,
     String? imageUrl,
+    String? receiverMomoNumber,
+    String receiverProvider = 'mtn_momo',
     bool isPublic = false,
   }) async {
-    const normalizedLabel = 'Collect EUR bank account';
+    final normalizedReceiver = _normalizeLocalRwandaMomo(
+      receiverMomoNumber ?? state.currentProfile?.momoNumber ?? '',
+    );
+    final normalizedProvider = receiverProvider == 'airtel_money'
+        ? 'airtel_money'
+        : 'mtn_momo';
+    final normalizedLabel = normalizedProvider == 'airtel_money'
+        ? 'Airtel Money receiver'
+        : 'MTN MoMo receiver';
+    final receiverHash = HashUtils.phoneHash(normalizedReceiver);
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -470,21 +532,71 @@ class CollectRepository extends StateNotifier<CollectState> {
           'Refresh your signed-in profile before creating a group.',
         );
       }
-      final collectionId = await supabase.rpc<String>(
-        'create_bank_transfer_group',
+      final smsStatus = await refreshSmsAccessStatus();
+      if (!smsStatus.enabled || !smsStatus.granted) {
+        throw StateError(
+          'Enable MoMo receipt SMS access before creating a group.',
+        );
+      }
+      await supabase.rpc<void>(
+        'record_sms_access_consent',
         params: {
-          'p_group_name': title.trim(),
-          'p_group_description': description.trim(),
-          'p_group_collection_type': collectionType.storageValue,
-          'p_group_category_subtype': categorySubtype?.trim().isEmpty == true
-              ? null
-              : categorySubtype?.trim(),
-          'p_group_purpose_label': purposeLabel?.trim().isEmpty == true
-              ? null
-              : purposeLabel?.trim(),
-          'p_group_is_public': isPublic,
-          'p_cover_image_url': imageUrl,
-          'p_accent_color_hex': accentColorHex,
+          'enabled': true,
+          'momo_number_hash': receiverHash,
+          'build_channel': 'android_group_create_attested',
+          'device_label': 'flutter_android_play_integrity',
+        },
+      );
+      final nonce = _uuid.v4();
+      final groupRequest = <String, Object?>{
+        'group_name': title.trim(),
+        'group_description': description.trim(),
+        'receiver_momo_number': normalizedReceiver,
+        'receiver_momo_number_hash': receiverHash,
+        'receiver_label': normalizedLabel,
+        'group_collection_type': collectionType.storageValue,
+        'group_category_subtype': categorySubtype?.trim().isEmpty == true
+            ? null
+            : categorySubtype?.trim(),
+        'group_purpose_label': purposeLabel?.trim().isEmpty == true
+            ? null
+            : purposeLabel?.trim(),
+        'group_is_public': false,
+      };
+      const integrity = PlayIntegrityService();
+      final requestHash = integrity.buildGroupCreationRequestHash(
+        subjectId: user.id,
+        nonce: nonce,
+        receiverMomoNumberHash: receiverHash,
+        smsPermissionGranted: true,
+        smsAccessEnabled: true,
+        groupRequest: groupRequest,
+      );
+      final token = await integrity.requestStandardToken(
+        requestHash: requestHash,
+      );
+      if (token == null || token.isEmpty) {
+        throw StateError(
+          'Install the approved Android build before creating a group.',
+        );
+      }
+      final verdict = await integrity.verifyWithServer(
+        supabase: supabase,
+        requestHash: requestHash,
+        integrityToken: token,
+        subjectId: user.id,
+        nonce: nonce,
+        receiverMomoNumberHash: receiverHash,
+        groupRequest: groupRequest,
+      );
+      if (verdict?.hasUsableNativeCapability != true) {
+        throw StateError('Android device verification did not pass.');
+      }
+      final collectionId = await supabase.rpc<String>(
+        'create_private_group_with_owner_attested',
+        params: {
+          ...groupRequest..remove('group_is_public'),
+          'native_capability': verdict!.nativeCapability,
         },
       );
       final collection = await _liveReader.fetchCollection(collectionId);
@@ -519,11 +631,13 @@ class CollectRepository extends StateNotifier<CollectState> {
       purposeLabel: purposeLabel?.trim().isEmpty == true
           ? null
           : purposeLabel?.trim(),
+      receiverMomoNumber: normalizedReceiver,
       receiverDisplayLabel: normalizedLabel,
+      receiverNetwork: normalizedProvider,
       accentColorHex: accentColorHex,
       imageUrl: imageUrl,
       isPublic: false,
-      visibilityStatus: isPublic ? 'public_requested' : 'private',
+      visibilityStatus: 'private',
       createdAt: DateTime.now(),
     );
     state = state.copyWith(collections: [...state.collections, collection]);
@@ -549,7 +663,6 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (cleanTitle.isEmpty) {
       throw const FormatException('Group name is required.');
     }
-    const cleanReceiverLabel = 'Collect EUR bank account';
     final cadence = recurringCadence.trim().isEmpty
         ? 'monthly'
         : recurringCadence.trim();
@@ -586,7 +699,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     collections[index] = collections[index].copyWith(
       title: cleanTitle,
       description: description.trim(),
-      receiverDisplayLabel: cleanReceiverLabel,
+      receiverDisplayLabel: collection.receiverDisplayLabel,
       collectionType: collectionType,
       categorySubtype: categorySubtype?.trim().isEmpty == true
           ? null
@@ -596,9 +709,9 @@ class CollectRepository extends StateNotifier<CollectState> {
           : purposeLabel?.trim(),
       imageUrl: imageUrl,
       accentColorHex: accentColorHex,
-      isPublic: isPublic,
+      isPublic: false,
       isRecurring: isRecurring,
-      visibilityStatus: isPublic ? 'public_requested' : 'private',
+      visibilityStatus: 'private',
       recurringCadence: cadence,
     );
     state = state.copyWith(collections: collections);
@@ -621,6 +734,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     for (final intent in state.paymentIntents) {
       if (intent.collectionId == collection.id &&
           intent.expectedAmountRwf == draft.amountRwf &&
+          intent.isRwandaMomo == profile.isRwanda &&
           intent.isAwaitingTransfer &&
           now.isBefore(intent.expiresAt.toLocal())) {
         return intent;
@@ -629,15 +743,27 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
-      final response = await supabase.rpc<dynamic>(
-        'create_bank_transfer_intent',
-        params: {
-          'p_collection_id': draft.collectionId,
-          'p_amount_minor': draft.amountMinor,
-        },
-      );
+      final response = profile.isRwanda
+          ? await supabase.rpc<dynamic>(
+              'create_contribution_intent',
+              params: {
+                'collection': draft.collectionId,
+                'p_expected_amount_rwf': draft.amountRwf,
+                'p_sender_phone_hash': HashUtils.phoneHash(profile.momoNumber),
+              },
+            )
+          : await supabase.rpc<dynamic>(
+              'create_bank_transfer_intent',
+              params: {
+                'p_collection_id': draft.collectionId,
+                'p_amount_minor': draft.amountMinor,
+              },
+            );
+      final responseRow = response is List && response.isNotEmpty
+          ? response.first
+          : response;
       final intent = PaymentIntentModel.fromJson(
-        Map<String, dynamic>.from(response as Map),
+        Map<String, dynamic>.from(responseRow as Map),
       );
       state = state.copyWith(paymentIntents: [intent, ...state.paymentIntents]);
       return intent;
@@ -646,26 +772,41 @@ class CollectRepository extends StateNotifier<CollectState> {
       throw StateError('Sign in before starting a contribution.');
     }
 
-    final intent = PaymentIntentModel(
-      id: _uuid.v4(),
-      collectionId: collection.id,
-      expectedAmountMinor: draft.amountMinor,
-      transferReference:
-          'COL-${_uuid.v4().replaceAll('-', '').substring(0, 10).toUpperCase()}',
-      destination: const BankTransferDestination(
-        id: 'fixture-bank',
-        beneficiaryName: 'IKANISA Collect',
-        iban: 'DE89370400440532013000',
-        ibanMasked: 'DE89••••3000',
-        bic: 'COBADEFFXXX',
-        bankName: 'Collect Bank',
-        status: 'active',
-        enabled: true,
-      ),
-      status: 'awaiting_transfer',
-      createdAt: DateTime.now(),
-      expiresAt: DateTime.now().add(const Duration(hours: 48)),
-    );
+    final intent = profile.isRwanda
+        ? PaymentIntentModel(
+            id: _uuid.v4(),
+            collectionId: collection.id,
+            expectedAmountRwf: draft.amountRwf,
+            rail: 'rwanda_momo',
+            receiverMomoNumber: collection.receiverMomoNumber ?? '',
+            receiverMomoLabel: collection.receiverDisplayLabel,
+            momoNetwork: collection.receiverNetwork,
+            senderPhoneHash: HashUtils.phoneHash(profile.momoNumber),
+            currency: 'RWF',
+            status: 'pending',
+            createdAt: DateTime.now(),
+            expiresAt: DateTime.now().add(const Duration(hours: 24)),
+          )
+        : PaymentIntentModel(
+            id: _uuid.v4(),
+            collectionId: collection.id,
+            expectedAmountMinor: draft.amountMinor,
+            transferReference:
+                'COL-${_uuid.v4().replaceAll('-', '').substring(0, 10).toUpperCase()}',
+            destination: const BankTransferDestination(
+              id: 'fixture-bank',
+              beneficiaryName: 'IKANISA Collect',
+              iban: 'DE89370400440532013000',
+              ibanMasked: 'DE89••••3000',
+              bic: 'COBADEFFXXX',
+              bankName: 'Collect Bank',
+              status: 'active',
+              enabled: true,
+            ),
+            status: 'awaiting_transfer',
+            createdAt: DateTime.now(),
+            expiresAt: DateTime.now().add(const Duration(hours: 48)),
+          );
     state = state.copyWith(paymentIntents: [...state.paymentIntents, intent]);
     return intent;
   }
@@ -679,13 +820,16 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) async {
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
+      final profile = state.currentProfile;
+      if (profile?.isRwanda != true) return;
       await supabase.functions.invoke(
-        'ingest-bank-sms',
+        'ingest-payment-sms',
         body: {
-          'source_uid': clientEnvelopeId ?? _uuid.v4(),
+          'client_envelope_id': clientEnvelopeId ?? _uuid.v4(),
           'raw_sender': rawSender,
           'raw_body': body,
-          'received_at': receivedAtDevice,
+          'receiver_momo_number': profile!.momoNumber,
+          'received_at_device': receivedAtDevice,
         },
       );
       if (refreshAfterIngest) await loadInitial();
@@ -746,9 +890,9 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<bool> setSmsAccess(bool enabled) async {
     final profile = state.currentProfile;
-    if (enabled && profile == null) {
+    if (enabled && (profile == null || !profile.isRwanda)) {
       throw StateError(
-        'Sign in with an authorized operations account before enabling bank SMS evidence access.',
+        'MoMo receipt SMS access is available only for Rwanda profiles.',
       );
     }
     final supabase = _supabase;
@@ -758,8 +902,22 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
     final consentEnabled = enabled && granted;
     try {
-      if (enabled && (supabase == null || supabase.auth.currentUser == null)) {
-        throw StateError('An authenticated operations session is required.');
+      if (supabase != null &&
+          supabase.auth.currentUser != null &&
+          profile != null) {
+        await supabase.rpc<void>(
+          'record_sms_access_consent',
+          params: {
+            'enabled': consentEnabled,
+            'momo_number_hash': profile.momoNumber.trim().isEmpty
+                ? null
+                : HashUtils.phoneHash(profile.momoNumber),
+            'build_channel': 'android_sms_access',
+            'device_label': 'flutter_app',
+          },
+        );
+      } else if (enabled) {
+        throw StateError('An authenticated Rwanda session is required.');
       }
     } catch (_) {
       if (enabled) {

@@ -10,13 +10,33 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('fixture groups use the single governed EUR beneficiary', () {
+  test('fixture public groups are platform-sponsored MoMo groups', () {
     final repository = CollectRepository.fixture();
 
     expect(repository.state.collections, isNotEmpty);
-    for (final group in repository.state.collections) {
-      expect(group.receiverDisplayLabel, 'Collect EUR bank account');
-    }
+    final publicGroups = repository.state.collections
+        .where((group) => group.isPublic)
+        .toList();
+    expect(
+      publicGroups.map((group) => group.title),
+      containsAll(['Buri Munsi', 'Gikundiro']),
+    );
+    expect(
+      publicGroups,
+      everyElement(
+        predicate<CollectCollection>(
+          (group) => group.creatorUserId == 'platform',
+        ),
+      ),
+    );
+    expect(
+      publicGroups,
+      everyElement(
+        predicate<CollectCollection>(
+          (group) => group.receiverNetwork == 'mtn_momo',
+        ),
+      ),
+    );
     expect(repository.state.currentProfile?.whatsappPhone, isNotEmpty);
   });
 
@@ -43,6 +63,8 @@ void main() {
         displayName: 'Jean Bosco',
         countryCode: 'GB',
         revolutName: 'Jean Bosco',
+        revolutLink: 'https://revolut.me/jeanbosco',
+        revolutAccount: 'Personal EUR account',
       );
 
       expect(european.whatsappPhone, verifiedWhatsApp);
@@ -55,6 +77,8 @@ void main() {
       final rwanda = await repository.updateCurrentProfile(
         displayName: 'Jean Bosco',
         countryCode: 'RW',
+        momoProvider: 'mtn_momo',
+        momoNumber: '0788123456',
       );
 
       expect(rwanda.whatsappPhone, verifiedWhatsApp);
@@ -78,10 +102,17 @@ void main() {
   });
 
   test(
-    'bank transfer request snapshots destination and exact reference',
+    'diaspora bank request snapshots destination and exact reference',
     () async {
       final repository = CollectRepository.fixture(
         fixtureNow: DateTime.now().toUtc(),
+      );
+      await repository.updateCurrentProfile(
+        displayName: 'Jean Bosco',
+        countryCode: 'DE',
+        revolutName: 'Jean Bosco',
+        revolutLink: 'https://revolut.me/jeanbosco',
+        revolutAccount: 'Personal EUR account',
       );
 
       final intent = await repository.createPaymentIntent(
@@ -124,6 +155,13 @@ void main() {
         fixtureNow: DateTime.now().toUtc(),
       );
       final contributionCount = repository.state.contributions.length;
+      await repository.updateCurrentProfile(
+        displayName: 'Jean Bosco',
+        countryCode: 'DE',
+        revolutName: 'Jean Bosco',
+        revolutLink: 'https://revolut.me/jeanbosco',
+        revolutAccount: 'Personal EUR account',
+      );
       final intent = await repository.createPaymentIntent(
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5050),
       );
@@ -137,19 +175,25 @@ void main() {
     },
   );
 
-  test('group creation uses the governed bank destination', () async {
-    final repository = CollectRepository.fixture();
+  test(
+    'user group creation is private and uses the profile MoMo receiver',
+    () async {
+      final repository = CollectRepository.fixture();
 
-    final group = await repository.createCollection(
-      title: 'EUR savings circle',
-      description: 'Bank-transfer-only group',
-      isPublic: true,
-    );
+      final group = await repository.createCollection(
+        title: 'RWF savings circle',
+        description: 'Private Rwanda MoMo group',
+        receiverMomoNumber: '0788123456',
+        receiverProvider: 'mtn_momo',
+        isPublic: true,
+      );
 
-    expect(group.receiverDisplayLabel, 'Collect EUR bank account');
-    expect(group.isPublic, isFalse);
-    expect(group.visibilityStatus, 'public_requested');
-  });
+      expect(group.receiverDisplayLabel, 'MTN MoMo receiver');
+      expect(group.receiverMomoNumber, '0788123456');
+      expect(group.isPublic, isFalse);
+      expect(group.visibilityStatus, 'private');
+    },
+  );
 
   test('bank models parse minor units and destination snapshot', () {
     final intent = PaymentIntentModel.fromJson(const {

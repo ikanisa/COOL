@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/payments/revolut_launcher.dart';
+import '../../core/payments/momo_ussd_launcher.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -11,20 +12,279 @@ import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_empty_state.dart';
 
-class ContributionFlowScreen extends ConsumerStatefulWidget {
+class ContributionFlowScreen extends ConsumerWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
 
   final String collectionId;
 
   @override
-  ConsumerState<ContributionFlowScreen> createState() =>
-      _ContributionFlowScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    return profile?.isRwanda == true
+        ? _RwandaMomoContributionFlow(collectionId: collectionId)
+        : _DiasporaBankContributionFlow(collectionId: collectionId);
+  }
 }
 
-class _ContributionFlowScreenState
-    extends ConsumerState<ContributionFlowScreen> {
-  static const _invalidAmountMessage =
-      'Enter a valid amount above EUR 0.00.';
+class _RwandaMomoContributionFlow extends ConsumerStatefulWidget {
+  const _RwandaMomoContributionFlow({required this.collectionId});
+
+  final String collectionId;
+
+  @override
+  ConsumerState<_RwandaMomoContributionFlow> createState() =>
+      _RwandaMomoContributionFlowState();
+}
+
+class _RwandaMomoContributionFlowState
+    extends ConsumerState<_RwandaMomoContributionFlow> {
+  final _amount = TextEditingController();
+  PaymentIntentModel? _intent;
+  bool _working = false;
+  bool _ussdOpened = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _amount.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final collection = repository.maybeCollectionById(widget.collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
+    if (collection.isArchived) {
+      return ArchivedGroupStateScreen(
+        collectionId: widget.collectionId,
+        groupTitle: collection.title,
+      );
+    }
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final isMember =
+        profile != null &&
+        (collection.creatorUserId == profile.id ||
+            collection.isCurrentUserMember);
+    if (!isMember) {
+      return ScreenScaffold(
+        title: 'Join required',
+        subtitle: collection.title,
+        compact: true,
+        children: [
+          MinimalStatePanel(
+            icon: CollectIcons.people,
+            title: 'Join this group before contributing.',
+            message:
+                'Membership links your MoMo receipt to the correct private group ledger.',
+            tone: CollectStatusTone.warning,
+            primaryAction: CollectButton(
+              label: 'Open group',
+              icon: CollectIcons.arrowForward,
+              onPressed: () => context.go('/groups/${widget.collectionId}'),
+              expand: true,
+            ),
+          ),
+        ],
+      );
+    }
+    final receiver =
+        _intent?.receiverMomoNumber ?? collection.receiverMomoNumber ?? '';
+    return ScreenScaffold(
+      title: _intent == null ? 'MoMo contribution' : 'Confirm in MoMo',
+      subtitle: collection.title,
+      compact: true,
+      bottomAction: BottomActionSurface(
+        children: [
+          if (_intent == null)
+            CollectButton(
+              label: _working ? 'Preparing MoMo' : 'Continue to MoMo',
+              icon: CollectIcons.arrowForward,
+              onPressed: _working ? null : _prepare,
+              expand: true,
+            )
+          else
+            CollectButton(
+              label: _working ? 'Opening MoMo' : 'Open MoMo USSD',
+              icon: CollectIcons.momo,
+              onPressed: _working ? null : _openUssd,
+              expand: true,
+            ),
+          if (_intent != null)
+            CollectButton(
+              label: 'Edit amount',
+              icon: CollectIcons.tune,
+              onPressed: _working
+                  ? null
+                  : () => setState(() {
+                      _intent = null;
+                      _ussdOpened = false;
+                      _error = null;
+                    }),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
+        ],
+      ),
+      children: [
+        _ContributionHeader(
+          title: collection.title,
+          stepLabel: _intent == null
+              ? 'Step 1 of 2 · RWF amount'
+              : 'Step 2 of 2 · MoMo approval',
+          onBack: () => context.go('/groups/${widget.collectionId}'),
+        ),
+        if (_intent == null)
+          CollectCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Contribution amount',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                CollectSpacing.gap12,
+                TextField(
+                  controller: _amount,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: InputDecoration(
+                    prefixText: 'RWF ',
+                    hintText: '10,000',
+                    helperText: 'Enter whole Rwanda francs.',
+                    errorText: _error == 'Enter an amount above RWF 0.'
+                        ? _error
+                        : null,
+                  ),
+                  onSubmitted: (_) => _prepare(),
+                ),
+                CollectSpacing.gap16,
+                CollectListTile(
+                  leading: CollectIcons.momo,
+                  title: receiver.isEmpty
+                      ? collection.receiverDisplayLabel
+                      : receiver,
+                  subtitle: collection.receiverNetwork == 'airtel_money'
+                      ? 'Airtel Money receiver'
+                      : 'MTN MoMo receiver',
+                ),
+              ],
+            ),
+          )
+        else ...[
+          CollectCard(
+            emphasis: CollectCardEmphasis.glow,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  formatRwf(_intent!.expectedAmountRwf),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                CollectSpacing.gap12,
+                CollectListTile(
+                  leading: CollectIcons.momo,
+                  title: receiver,
+                  subtitle: 'Exact group receiver',
+                ),
+              ],
+            ),
+          ),
+          const InfoSecurityBanner(
+            title: 'Approve only inside MoMo',
+            message:
+                'Collect opens the USSD request with the exact receiver and amount. Review it and enter your PIN only in the mobile-network prompt.',
+            tone: CollectStatusTone.privacy,
+          ),
+          if (_ussdOpened)
+            const InfoSecurityBanner(
+              title: 'Waiting for the receipt SMS',
+              message:
+                  'The contribution stays pending until the consented Android receipt is parsed and allocated, or an administrator reconciles an exception.',
+              tone: CollectStatusTone.info,
+            ),
+        ],
+        if (_error != null && _error != 'Enter an amount above RWF 0.')
+          InfoSecurityBanner(
+            title: 'MoMo could not continue',
+            message: _error!,
+            tone: CollectStatusTone.warning,
+          ),
+      ],
+    );
+  }
+
+  Future<void> _prepare() async {
+    final amount = int.tryParse(_amount.text.replaceAll(RegExp(r'\D'), ''));
+    if (amount == null || amount <= 0) {
+      setState(() => _error = 'Enter an amount above RWF 0.');
+      return;
+    }
+    setState(() {
+      _working = true;
+      _error = null;
+    });
+    try {
+      final intent = await ref
+          .read(collectRepositoryProvider.notifier)
+          .createPaymentIntent(
+            PaymentIntentDraft(
+              collectionId: widget.collectionId,
+              amountRwf: amount,
+            ),
+          );
+      if (mounted) setState(() => _intent = intent);
+    } catch (error) {
+      if (mounted) setState(() => _error = _safeFlowError(error));
+    } finally {
+      if (mounted) setState(() => _working = false);
+    }
+  }
+
+  Future<void> _openUssd() async {
+    final intent = _intent;
+    if (intent == null) return;
+    setState(() {
+      _working = true;
+      _error = null;
+    });
+    try {
+      final receiver = intent.receiverMomoNumber.replaceAll(RegExp(r'\D'), '');
+      final opened = await const MomoUssdLauncher().launch(
+        receiver: receiver,
+        amountRwf: intent.expectedAmountRwf,
+        provider: intent.momoNetwork,
+      );
+      if (!opened) throw StateError('MoMo USSD could not open.');
+      if (mounted) setState(() => _ussdOpened = true);
+    } catch (error) {
+      if (mounted) setState(() => _error = _safeFlowError(error));
+    } finally {
+      if (mounted) setState(() => _working = false);
+    }
+  }
+
+  String _safeFlowError(Object error) {
+    if (error is StateError) return error.message.toString();
+    if (error is FormatException) return error.message.toString();
+    return 'Check your connection and try again.';
+  }
+}
+
+class _DiasporaBankContributionFlow extends ConsumerStatefulWidget {
+  const _DiasporaBankContributionFlow({required this.collectionId});
+
+  final String collectionId;
+
+  @override
+  ConsumerState<_DiasporaBankContributionFlow> createState() =>
+      _DiasporaBankContributionFlowState();
+}
+
+class _DiasporaBankContributionFlowState
+    extends ConsumerState<_DiasporaBankContributionFlow> {
+  static const _invalidAmountMessage = 'Enter a valid amount above EUR 0.00.';
 
   final _amount = TextEditingController();
   BankTransferDestination? _destination;

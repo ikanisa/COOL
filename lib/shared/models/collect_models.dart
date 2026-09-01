@@ -20,22 +20,22 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Data we collect',
     body:
-        'Collect stores your Collect ID, display name, independently selected profile country and local currency, WhatsApp sign-in phone, conditional Revolut name in its supported European region, group memberships, group profile details, bank transfer requests, contribution records, and permission status. Beneficiary-bank notifications are processed only by controlled operations channels.',
+        'Collect stores your Collect ID, display name, selected country and local currency, WhatsApp sign-in phone, Rwanda MoMo provider and number, diaspora Revolut details, group memberships, contribution requests, ledger records, and permission status. On Android in Rwanda, MoMo receipt SMS is processed only with consent.',
   ),
   CollectPolicySection(
     title: 'How we use data',
     body:
-        'We use this data to create and join groups, verify contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain audit records for bank-transfer disputes.',
+        'We use this data to create and join groups, verify MoMo or diaspora bank contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain reconciliation audit records.',
   ),
   CollectPolicySection(
     title: 'What stays private',
     body:
-        'Sign-in phones, payer details, raw bank notification text, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe transfer status.',
+        'Sign-in phones, MoMo numbers, diaspora account details, payer details, raw receipt text, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe contribution status.',
   ),
   CollectPolicySection(
     title: 'Sharing',
     body:
-        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or bank-transfer verification. We do not sell personal data.',
+        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or contribution verification. We do not sell personal data.',
   ),
   CollectPolicySection(
     title: 'Choices and retention',
@@ -48,27 +48,27 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Using Collect',
     body:
-        'Collect helps groups organize contributions, prepare bank-transfer requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, beneficiary, and transfer information.',
+        'Collect helps groups organize contributions, open Rwanda MoMo USSD, prepare diaspora bank-transfer requests, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information.',
   ),
   CollectPolicySection(
-    title: 'Bank transfers',
+    title: 'Contribution rails',
     body:
-        'Transfers are approved outside Collect in your banking app. Collect shows the beneficiary, amount, and unique reference, but never asks for bank credentials, card details, or banking-app sign-in secrets.',
+        'Rwanda members approve MoMo payments in USSD; diaspora members approve bank transfers outside Collect in Revolut or their banking app. Collect never asks for a MoMo PIN, bank credentials, card details, OTP, or banking-app sign-in secrets.',
   ),
   CollectPolicySection(
     title: 'Group ownership',
     body:
-        'Group owners are responsible for group profile details, recurring settings, and member management. Collect centrally governs the beneficiary account and daily reconciliation.',
+        'Every member-created group is private and can be created only in the Android app. Group owners manage profile details and membership. Public groups are platform-sponsored and approved by Collect.',
   ),
   CollectPolicySection(
     title: 'Disputes and corrections',
     body:
-        'If a transfer is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use transfer status, bank references, controlled notification evidence, statements, and audit logs to investigate.',
+        'If a contribution is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use request status, MoMo receipt facts, diaspora bank references, statements, and audit logs to investigate.',
   ),
   CollectPolicySection(
     title: 'Acceptable use',
     body:
-        'Do not create misleading groups, impersonate another person, abuse QR links, submit false transfer claims, or use Collect to request illegal or unauthorized transfers.',
+        'Do not create misleading groups, impersonate another person, abuse QR links, submit false contribution claims, or use Collect to request illegal or unauthorized transfers.',
   ),
 ];
 
@@ -517,6 +517,16 @@ class AccountRequestReasonOption {
   }
 }
 
+String _defaultRwandaMomoNumber(String whatsappPhone, String countryCode) {
+  if (countryCode.trim().toUpperCase() != 'RW') return '';
+  final digits = whatsappPhone.replaceAll(RegExp(r'\D'), '');
+  if (RegExp(r'^2507[2389][0-9]{7}$').hasMatch(digits)) {
+    return '0${digits.substring(3)}';
+  }
+  if (RegExp(r'^07[2389][0-9]{7}$').hasMatch(digits)) return digits;
+  return '';
+}
+
 @immutable
 class CollectProfile {
   const CollectProfile({
@@ -526,7 +536,11 @@ class CollectProfile {
     this.displayName = '',
     this.countryCode = '',
     this.currencyCode = '',
+    this.momoProvider = '',
+    this.momoNumber = '',
     this.revolutName = '',
+    this.revolutLink = '',
+    this.revolutAccount = '',
   });
 
   final String id;
@@ -535,7 +549,11 @@ class CollectProfile {
   final String displayName;
   final String countryCode;
   final String currencyCode;
+  final String momoProvider;
+  final String momoNumber;
   final String revolutName;
+  final String revolutLink;
+  final String revolutAccount;
 
   factory CollectProfile.fromJson(Map<String, dynamic> json) {
     final whatsappPhone = (json['whatsapp_phone'] as String?)?.trim() ?? '';
@@ -555,10 +573,18 @@ class CollectProfile {
       currencyCode: storedCurrency?.length == 3
           ? storedCurrency!
           : CollectProfileCountryRules.currencyForCountry(countryCode),
+      momoProvider: (json['momo_provider'] as String?)?.trim() ?? '',
+      momoNumber:
+          (json['momo_number'] as String?)?.trim() ??
+          _defaultRwandaMomoNumber(whatsappPhone, countryCode),
       revolutName: (json['revolut_name'] as String?)?.trim() ?? '',
+      revolutLink: (json['revolut_link'] as String?)?.trim() ?? '',
+      revolutAccount: (json['revolut_account'] as String?)?.trim() ?? '',
     );
   }
 
+  bool get isRwanda => countryCode.trim().toUpperCase() == 'RW';
+  bool get isDiaspora => !isRwanda;
   bool get isEuropean =>
       CollectProfileCountryRules.isEuropeanCountry(countryCode);
 
@@ -568,13 +594,25 @@ class CollectProfile {
       CollectProfileCountryRules.isSupportedCountry(countryCode) &&
       currencyCode.trim().toUpperCase() ==
           CollectProfileCountryRules.currencyForCountry(countryCode) &&
-      (!isEuropean || revolutName.trim().length >= 2);
+      (isRwanda
+          ? const {'mtn_momo', 'airtel_money'}.contains(momoProvider) &&
+                (momoProvider == 'mtn_momo'
+                    ? RegExp(r'^07[89][0-9]{7}$').hasMatch(momoNumber)
+                    : RegExp(r'^07[23][0-9]{7}$').hasMatch(momoNumber))
+          : revolutName.trim().length >= 2 &&
+                Uri.tryParse(revolutLink)?.host.endsWith('revolut.me') ==
+                    true &&
+                revolutAccount.trim().length >= 4);
 
   CollectProfile copyWith({
     String? displayName,
     String? countryCode,
     String? currencyCode,
+    String? momoProvider,
+    String? momoNumber,
     String? revolutName,
+    String? revolutLink,
+    String? revolutAccount,
   }) {
     return CollectProfile(
       id: id,
@@ -583,7 +621,11 @@ class CollectProfile {
       displayName: displayName ?? this.displayName,
       countryCode: countryCode ?? this.countryCode,
       currencyCode: currencyCode ?? this.currencyCode,
+      momoProvider: momoProvider ?? this.momoProvider,
+      momoNumber: momoNumber ?? this.momoNumber,
       revolutName: revolutName ?? this.revolutName,
+      revolutLink: revolutLink ?? this.revolutLink,
+      revolutAccount: revolutAccount ?? this.revolutAccount,
     );
   }
 
@@ -601,7 +643,9 @@ class CollectCollection {
     this.collectionType = CollectionType.ikimina,
     this.categorySubtype,
     this.purposeLabel,
-    this.receiverDisplayLabel = 'Collect EUR bank account',
+    this.receiverMomoNumber,
+    this.receiverDisplayLabel = 'Primary MoMo receiver',
+    this.receiverNetwork = 'mtn_momo',
     this.imageUrl,
     this.accentColorHex,
     this.isPublic = false,
@@ -625,7 +669,9 @@ class CollectCollection {
   final CollectionType collectionType;
   final String? categorySubtype;
   final String? purposeLabel;
+  final String? receiverMomoNumber;
   final String receiverDisplayLabel;
+  final String receiverNetwork;
   final String? imageUrl;
   final String? accentColorHex;
   final bool isPublic;
@@ -650,7 +696,7 @@ class CollectCollection {
     final receiverDisplayLabel =
         (receiver?['label'] as String?) ??
         (json['receiver_display_label'] as String?) ??
-        'Collect EUR bank account';
+        'Primary MoMo receiver';
     return CollectCollection(
       id: json['id'] as String,
       slug: json['slug'] as String,
@@ -662,7 +708,14 @@ class CollectCollection {
       ),
       categorySubtype: json['category_subtype'] as String?,
       purposeLabel: json['purpose_label'] as String?,
+      receiverMomoNumber:
+          (receiver?['momo_number'] as String?) ??
+          (json['receiver_momo_number'] as String?),
       receiverDisplayLabel: receiverDisplayLabel,
+      receiverNetwork:
+          (receiver?['network'] as String?) ??
+          (json['receiver_network'] as String?) ??
+          'mtn_momo',
       imageUrl:
           (json['image_url'] as String?) ??
           (json['cover_image_url'] as String?) ??
@@ -700,7 +753,9 @@ class CollectCollection {
     CollectionType? collectionType,
     String? categorySubtype,
     String? purposeLabel,
+    String? receiverMomoNumber,
     String? receiverDisplayLabel,
+    String? receiverNetwork,
     String? imageUrl,
     String? accentColorHex,
     bool? isPublic,
@@ -722,7 +777,9 @@ class CollectCollection {
       collectionType: collectionType ?? this.collectionType,
       categorySubtype: categorySubtype ?? this.categorySubtype,
       purposeLabel: purposeLabel ?? this.purposeLabel,
+      receiverMomoNumber: receiverMomoNumber ?? this.receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel ?? this.receiverDisplayLabel,
+      receiverNetwork: receiverNetwork ?? this.receiverNetwork,
       imageUrl: imageUrl ?? this.imageUrl,
       accentColorHex: accentColorHex ?? this.accentColorHex,
       isPublic: isPublic ?? this.isPublic,
@@ -749,8 +806,8 @@ class PaymentIntentDraft {
   final String collectionId;
   final int amountRwf;
 
-  /// Compatibility name retained while stored and transmitted values are EUR
-  /// minor units (cents), not Rwanda francs.
+  /// Compatibility name retained for APIs that expose a generic minor amount.
+  /// Rwanda values are whole RWF; diaspora values are currency minor units.
   int get amountMinor => amountRwf;
 }
 
@@ -821,6 +878,12 @@ class PaymentIntentModel {
     required this.collectionId,
     int? expectedAmountMinor,
     int? expectedAmountRwf,
+    this.rail = 'diaspora_bank',
+    this.receiverMomoNumber = '',
+    this.receiverMomoNumberHash = '',
+    this.receiverMomoLabel = '',
+    this.momoNetwork = 'mtn_momo',
+    this.senderPhoneHash = '',
     this.transferReference = '',
     this.destination = BankTransferDestination.placeholder,
     this.currency = 'EUR',
@@ -832,6 +895,12 @@ class PaymentIntentModel {
   final String id;
   final String collectionId;
   final int expectedAmountMinor;
+  final String rail;
+  final String receiverMomoNumber;
+  final String receiverMomoNumberHash;
+  final String receiverMomoLabel;
+  final String momoNetwork;
+  final String senderPhoneHash;
   final String transferReference;
   final BankTransferDestination destination;
   final String currency;
@@ -840,16 +909,21 @@ class PaymentIntentModel {
   final DateTime expiresAt;
 
   int get expectedAmountRwf => expectedAmountMinor;
-  String get receiverLabel => destination.beneficiaryName;
-  String get network => 'sepa';
+  bool get isRwandaMomo => rail == 'rwanda_momo';
+  String get receiverLabel =>
+      isRwandaMomo ? receiverMomoLabel : destination.beneficiaryName;
+  String get network => isRwandaMomo ? momoNetwork : 'sepa';
 
   bool get isAwaitingTransfer =>
-      const {
-        'awaiting_transfer',
-        'handoff_opened',
-        'awaiting_bank_evidence',
-        'received_unreconciled',
-      }.contains(status) &&
+      (isRwandaMomo
+              ? const {'pending'}
+              : const {
+                  'awaiting_transfer',
+                  'handoff_opened',
+                  'awaiting_bank_evidence',
+                  'received_unreconciled',
+                })
+          .contains(status) &&
       DateTime.now().toUtc().isBefore(expiresAt.toUtc());
 
   factory PaymentIntentModel.fromJson(Map<String, dynamic> json) {
@@ -864,6 +938,18 @@ class PaymentIntentModel {
           (json['amount_minor'] as num?)?.toInt() ??
           (json['expected_amount_rwf'] as num?)?.toInt() ??
           0,
+      rail:
+          json['rail']?.toString() ??
+          (json['receiver_momo_number'] != null
+              ? 'rwanda_momo'
+              : 'diaspora_bank'),
+      receiverMomoNumber:
+          (json['receiver_momo_number'] as String?)?.trim() ?? '',
+      receiverMomoNumberHash:
+          (json['receiver_momo_number_hash'] as String?)?.trim() ?? '',
+      receiverMomoLabel: (json['receiver_label'] as String?)?.trim() ?? '',
+      momoNetwork: (json['network'] as String?)?.trim() ?? 'mtn_momo',
+      senderPhoneHash: (json['sender_phone_hash'] as String?)?.trim() ?? '',
       transferReference: (json['transfer_reference'] as String?) ?? '',
       destination: destinationJson is Map
           ? BankTransferDestination.fromJson(

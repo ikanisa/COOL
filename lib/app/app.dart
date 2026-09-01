@@ -38,7 +38,7 @@ class CollectApp extends ConsumerWidget {
       ),
       child: _PendingSharedGroupIntentRecoveryHost(
         child: _NotificationIntentHost(
-          child: _BankEvidenceSmsReceiverHost(
+          child: _MomoReceiptSmsReceiverHost(
             child: _NotificationRegistrationHost(
               child: MaterialApp.router(
                 title: 'Collect',
@@ -63,22 +63,20 @@ class CollectApp extends ConsumerWidget {
   }
 }
 
-/// Runs only in the separately signed `internal_receiver` Android flavor.
-/// Public production builds compile with SMS access disabled and do not
-/// declare RECEIVE_SMS. The controlled receiver posts candidate bank evidence;
-/// only daily statement reconciliation can confirm a contribution.
-class _BankEvidenceSmsReceiverHost extends ConsumerStatefulWidget {
-  const _BankEvidenceSmsReceiverHost({required this.child});
+/// Runs in Android builds that enable Rwanda MoMo receipt reconciliation.
+/// Access remains off until an authenticated Rwanda member gives consent.
+class _MomoReceiptSmsReceiverHost extends ConsumerStatefulWidget {
+  const _MomoReceiptSmsReceiverHost({required this.child});
 
   final Widget child;
 
   @override
-  ConsumerState<_BankEvidenceSmsReceiverHost> createState() =>
-      _BankEvidenceSmsReceiverHostState();
+  ConsumerState<_MomoReceiptSmsReceiverHost> createState() =>
+      _MomoReceiptSmsReceiverHostState();
 }
 
-class _BankEvidenceSmsReceiverHostState
-    extends ConsumerState<_BankEvidenceSmsReceiverHost>
+class _MomoReceiptSmsReceiverHostState
+    extends ConsumerState<_MomoReceiptSmsReceiverHost>
     with WidgetsBindingObserver {
   StreamSubscription<void>? _subscription;
   Future<int>? _syncInFlight;

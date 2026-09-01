@@ -151,9 +151,9 @@ capture_route() {
 
 capture_route "admin-overview" "/admin" "$VIEWPORT_DESKTOP"
 capture_route "admin-groups-list" "/admin/groups" "$VIEWPORT_DESKTOP"
-capture_route "admin-bank-evidence" "/admin/bank-evidence" "$VIEWPORT_MOBILE"
-capture_route "admin-bank-intents" "/admin/bank-intents" "$VIEWPORT_DESKTOP"
-capture_route "admin-bank-evidence-detail" "/admin/bank-evidence/bank-evidence-1" "$VIEWPORT_DESKTOP"
+capture_route "admin-payees" "/admin/payees" "$VIEWPORT_MOBILE"
+capture_route "admin-reconciliations" "/admin/reconciliations" "$VIEWPORT_DESKTOP"
+capture_route "admin-transaction-detail" "/admin/transactions/momo:transaction-1" "$VIEWPORT_DESKTOP"
 capture_route "admin-system-health" "/admin/system-health" "$VIEWPORT_DESKTOP"
 
 browser_qa_dir="$EVIDENCE_DIR/browser-qa"
@@ -168,9 +168,9 @@ ruby -r json -r time -e '
   browser_report = JSON.parse(File.read(browser_report_path))
   abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
   abort("Admin browser QA was not a full release matrix") unless browser_report.fetch("releaseAdmissible") == true
-  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 33
+  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 20
   abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 3
-  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 99
+  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 60
   abort("Admin evidence-mode marker was not verified") unless browser_report.fetch("evidenceModeMarkerVerified") == true
   File.write(
     File.join(evidence_dir, "summary.json"),

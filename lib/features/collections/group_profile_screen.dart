@@ -36,7 +36,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   String _cadence = 'monthly';
   CollectionType _collectionType = CollectionType.ikimina;
-  bool _isPublic = false;
   bool _recurringEnabled = true;
   bool _loaded = false;
   bool _saving = false;
@@ -148,17 +147,14 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               options: collectionCatalog.types,
               onChanged: (value) => setState(() => _collectionType = value),
             ),
-            Material(
-              color: context.collectColors.transparent,
-              child: SwitchListTile.adaptive(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Request public discovery'),
-                subtitle: Text(
-                  _visibilityHelperText(collection, requestedPublic: _isPublic),
-                ),
-                value: _isPublic,
-                onChanged: (value) => setState(() => _isPublic = value),
-              ),
+            InfoSecurityBanner(
+              title: collection.isPublic
+                  ? 'Platform-sponsored public group'
+                  : 'Private group',
+              message: collection.isPublic
+                  ? 'Public visibility is managed by Collect administrators and is preserved when you edit this profile.'
+                  : 'User-created groups stay private. Invite members with the group link or QR code.',
+              tone: CollectStatusTone.privacy,
             ),
             _RecurringCadenceControl(
               enabled: _recurringEnabled,
@@ -169,14 +165,20 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             ),
           ],
         ),
-        const _GroupProfileEditSection(
+        _GroupProfileEditSection(
           children: [
-            InfoSecurityBanner(
-              title: 'One governed EUR beneficiary',
+            const InfoSecurityBanner(
+              title: 'Rwanda MoMo receiver',
               message:
-                  'Every group uses the approved Collect bank account. Group owners cannot replace the beneficiary or redirect member payments.',
+                  'Rwanda members contribute through MoMo USSD. Diaspora members use the separate governed bank-transfer journey.',
               tone: CollectStatusTone.privacy,
             ),
+            if (collection.receiverMomoNumber != null)
+              CollectListTile(
+                leading: CollectIcons.momo,
+                title: collection.receiverDisplayLabel,
+                subtitle: collection.receiverMomoNumber,
+              ),
           ],
         ),
         _GroupProfileEditSection(
@@ -211,9 +213,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _cadence = collection.recurringCadence;
     _recurringEnabled = collection.isRecurring;
     _collectionType = collection.collectionType;
-    _isPublic =
-        collection.visibilityStatus == 'public_requested' ||
-        collection.visibilityStatus == 'public_approved';
   }
 
   Future<void> _pickImage() async {
@@ -260,7 +259,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             purposeLabel: _selectedTypeOption.defaultPurposeLabel,
             accentColorHex: _accentColorHex,
             imageUrl: imageUrl,
-            isPublic: _isPublic,
+            isPublic: collection.isPublic,
             isRecurring: _recurringEnabled,
           );
       if (!mounted) return;
@@ -288,21 +287,4 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             CollectionTypeCatalogConfig.defaults)
         .optionFor(_collectionType);
   }
-}
-
-String _visibilityHelperText(
-  CollectCollection collection, {
-  required bool requestedPublic,
-}) {
-  if (!requestedPublic) {
-    return collection.visibilityStatus == 'public_approved'
-        ? 'Saving will remove this group from public discovery.'
-        : 'The group will remain private.';
-  }
-  return switch (collection.visibilityStatus) {
-    'public_approved' => 'Approved and visible in public discovery.',
-    'public_requested' => 'Review pending; the group remains private.',
-    'public_rejected' => 'The previous public request was not approved.',
-    _ => 'Private until an administrator approves the request.',
-  };
 }

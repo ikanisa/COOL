@@ -93,7 +93,7 @@
         "format": "JPEG",
         "alpha": false,
         "route_matrix": "37/37 routes passed with 37 native screenshots; manifest aa89b43a6d7b347e406fc5683a1b4ae1acd5de3e51338aea76e733d9cb83e4cf",
-        "sanitization": "Reviewed Home, Groups, Group detail, Bank transfer details, Ledger, and Share captures. Fixtures contain no production customer, credential, OTP, private member phone, live bank account, raw SMS, email, or reconciliation evidence. All frames are bank-transfer-only and were padded with black pixels to 1080x1920 before JPEG export without altering app content.",
+        "sanitization": "Reviewed Home, Groups, Group detail, Rwanda MoMo contribution, diaspora bank details, Ledger, and Share captures. Fixtures contain no production customer, credential, OTP, private member phone, live bank account, raw SMS, email, or reconciliation evidence. Frames represent the geographic payment rails and were padded with black pixels to 1080x1920 before JPEG export without altering app content.",
         "sha256": {
           "01-home.jpg": "9c65e19fef7a2fdf9309ec58315d19c6ee4bc5f944963eb7aa37f72b61f3d30e",
           "02-groups.jpg": "5ef0b25fb95becb056473ad87ea049cda99da6fd67c21422e6cf5562ad19a5e3",
@@ -260,12 +260,14 @@
         "android.permission.INTERNET",
         "android.permission.CAMERA",
         "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECEIVE_SMS",
+        "android.permission.CALL_PHONE",
         "android.permission.VIBRATE",
         "android.permission.ACCESS_NETWORK_STATE"
       ],
-      "restricted_sms_permissions_in_production": false,
-      "sms_permissions_declaration_status": "not_required_no_restricted_sms_permissions",
-      "sms_receiver_scope": "The version-21 public production artifact requests no RECEIVE_SMS, READ_SMS, SEND_SMS, BROADCAST_SMS, or Call Log permission. The obsolete production version 20 and internal version 12 must be superseded before the no-restricted-SMS declaration becomes true in the live Console. Controlled bank-notification capture remains isolated from the public Play artifact."
+      "restricted_sms_permissions_in_production": true,
+      "sms_permissions_declaration_status": "required_pending_play_approval",
+      "sms_receiver_scope": "The next Android production artifact requests RECEIVE_SMS solely for opt-in Rwanda MoMo receipt reconciliation and CALL_PHONE solely to open the reviewed USSD route. It requests no READ_SMS, SEND_SMS, BROADCAST_SMS, or Call Log permission. Google Play restricted-permission approval and live-console readback are open release gates."
     }
   },
   "play_console_surfaces": {

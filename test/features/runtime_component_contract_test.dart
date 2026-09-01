@@ -17,7 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('bank-only group creation is available on every client platform', () {
+  test('private group creation is available only on Android', () {
     for (final platform in <TargetPlatform>[
       TargetPlatform.android,
       TargetPlatform.iOS,
@@ -28,7 +28,7 @@ void main() {
     ]) {
       expect(
         groupCreationPlatformAllowed(isWeb: false, targetPlatform: platform),
-        isTrue,
+        platform == TargetPlatform.android,
       );
     }
     expect(
@@ -36,7 +36,7 @@ void main() {
         isWeb: true,
         targetPlatform: TargetPlatform.android,
       ),
-      isTrue,
+      isFalse,
     );
     expect(
       groupCreationPlatformAllowed(
@@ -44,7 +44,7 @@ void main() {
         targetPlatform: TargetPlatform.android,
         mobileEvidencePlatform: 'ios',
       ),
-      isTrue,
+      isFalse,
     );
     expect(
       groupCreationPlatformAllowed(
@@ -53,7 +53,7 @@ void main() {
         mobileEvidencePlatform: 'android',
       ),
       isTrue,
-      reason: 'Bank transfers do not require a receiver-device SMS platform.',
+      reason: 'Android evidence mode represents the Android-only journey.',
     );
   });
 
@@ -233,13 +233,13 @@ void main() {
     openButton.onPressed!();
     await tester.pump();
 
-    expect(find.text('Group creation'), findsOneWidget);
+    expect(find.text('Android required'), findsOneWidget);
     expect(tester.binding.transientCallbackCount, 0);
 
-    Navigator.of(tester.element(find.text('Group creation'))).pop();
+    Navigator.of(tester.element(find.text('Android required'))).pop();
     await tester.pump();
 
-    expect(find.text('Group creation'), findsNothing);
+    expect(find.text('Android required'), findsNothing);
     expect(tester.binding.transientCallbackCount, 0);
   });
 
@@ -877,10 +877,10 @@ void main() {
     expect(_contrastRatio(light.onAccent, light.actionColor), greaterThan(4.5));
   });
 
-  test('EUR amount typography uses tabular numerals', () {
+  test('RWF amount typography uses tabular numerals', () {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
 
-    expect(formatRwf(1250000), 'EUR 12,500.00');
+    expect(formatRwf(1250000), 'RWF 1,250,000');
     expect(style.fontFamily, 'Inter');
     expect(style.fontFeatures, contains(const FontFeature.tabularFigures()));
   });
@@ -909,7 +909,7 @@ void main() {
     );
   });
 
-  testWidgets('amount hero scales large EUR values in narrow cards', (
+  testWidgets('amount hero scales large RWF values in narrow cards', (
     tester,
   ) async {
     await _pumpCollect(
@@ -924,7 +924,7 @@ void main() {
       ),
     );
 
-    expect(find.text('EUR 125,000.00'), findsOneWidget);
+    expect(find.text('RWF 12,500,000'), findsOneWidget);
     expect(find.text('Statement reconciled'), findsOneWidget);
   });
 
@@ -996,16 +996,17 @@ void main() {
             amountRwf: 15000,
             supporterLabel: 'Collect ID 038491',
             createdAt: DateTime(2026),
-            transactionId: 'BANK-001',
+            transactionId: 'MOMO-001',
+            currency: 'RWF',
           ),
         ),
       );
 
       expect(find.text('038491'), findsOneWidget);
-      expect(find.text('EUR 150.00'), findsOneWidget);
-      expect(find.text('Ref BANK-001'), findsOneWidget);
+      expect(find.text('RWF 15,000'), findsOneWidget);
+      expect(find.text('Ref MOMO-001'), findsOneWidget);
       expect(
-        find.bySemanticsLabel(RegExp(r'Transaction reference BANK-001')),
+        find.bySemanticsLabel(RegExp(r'Transaction reference MOMO-001')),
         findsWidgets,
       );
     } finally {

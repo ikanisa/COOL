@@ -179,10 +179,10 @@ production_declares_read = production_manifest.include?("android.permission.READ
 receiver_declares_receive = receiver_manifest.include?("android.permission.RECEIVE_SMS")
 receiver_declares_read = receiver_manifest.include?("android.permission.READ_SMS")
 telephony_optional_pattern = /android:name=["']android\.hardware\.telephony["'][^>]*android:required=["']false["']/m
-production_telephony_optional = production_manifest.match?(telephony_optional_pattern)
+production_telephony_optional = manifest.match?(telephony_optional_pattern)
 receiver_telephony_optional = receiver_manifest.match?(telephony_optional_pattern)
 apk_restricted = Array(package["permissions"]) & restricted_sms
-expected_apk_restricted = []
+expected_apk_restricted = ["android.permission.RECEIVE_SMS"]
 expected_play_fingerprint = "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92"
 expected_upload_fingerprint = "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
 
@@ -202,8 +202,8 @@ checks["target_api"] =
   end
 
 checks["sms_device_compatibility"] =
-  if !production_telephony_optional && receiver_telephony_optional
-    check("pass", "Only the internal receiver flavor declares optional telephony hardware; the public production flavor is not SMS-capable.")
+  if production_telephony_optional && receiver_telephony_optional
+    check("pass", "Telephony hardware remains optional for Android MoMo receipt and USSD support.")
   else
     check("fail", "Telephony hardware must be optional and isolated to the internal receiver flavor.")
   end
@@ -257,21 +257,23 @@ checks["sixteen_kb_alignment"] =
   end
 
 checks["production_permissions"] =
-  if main_restricted.empty? &&
-      !production_declares_receive && !production_declares_read &&
+  if main_restricted == expected_apk_restricted &&
+      !production_declares_read &&
       receiver_declares_receive && !receiver_declares_read &&
       apk_restricted == expected_apk_restricted
-    check("pass", "Public production contains no restricted SMS or Call Log permission; RECEIVE_SMS is isolated to the non-public internal receiver.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted)
+    check("pass", "Android production contains only the reviewed RECEIVE_SMS restricted permission and no READ/SEND SMS or Call Log permission.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted)
   else
     check("fail", "Restricted SMS permission scope is invalid.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted)
   end
 
 sms_declaration_status = console_audit_packet.dig("app_content", "permissions", "sms_permissions_declaration_status").to_s
-checks["no_restricted_sms_declaration_required"] =
-  if sms_declaration_status == "not_required_no_restricted_sms_permissions"
-    check("pass", "The release packet records that no restricted-SMS declaration is required for the public production artifact.")
+checks["restricted_sms_declaration"] =
+  if sms_declaration_status == "approved_for_core_functionality"
+    check("pass", "Google Play restricted-SMS approval is recorded for the core Rwanda MoMo receipt feature.")
+  elsif sms_declaration_status == "required_pending_play_approval"
+    check("blocked", "Google Play restricted-SMS approval is still pending.", "declaration_status" => sms_declaration_status)
   else
-    check("fail", "The release packet must record the no-restricted-SMS production scope.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
+    check("fail", "The release packet must record the restricted-SMS review state.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
   end
 
 checks["android_app_links"] =
@@ -340,8 +342,8 @@ checks["play_console_readiness_packet"] =
       console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/privacy/" &&
       console_audit_packet.dig("app_content", "account_deletion_url").to_s == "https://collect.ikanisa.com/account-deletion/" &&
       console_audit_packet.dig("app_content", "data_deletion_url").to_s == "https://collect.ikanisa.com/data-deletion/" &&
-      console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == false &&
-      !console_audit_packet.dig("app_content", "permissions", "production_permissions").to_a.include?("android.permission.RECEIVE_SMS") &&
+      console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == true &&
+      console_audit_packet.dig("app_content", "permissions", "production_permissions").to_a.include?("android.permission.RECEIVE_SMS") &&
       packet_surface_missing.empty?
     check("pass", "Repo-owned Play Console audit packet is complete for listing, app content, policy, release, and account-controlled audit prompts.", "packet_path" => console_audit_packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "console_completion_status" => console_audit_packet["console_completion_status"])
   else
@@ -458,13 +460,13 @@ checks["play_upload_tooling"] =
     check("blocked", "Fastlane supply upload tooling is missing or would require unsafe credential handling.", "missing_or_invalid" => fastlane_missing, "files" => fastlane_items)
   end
 
-retired_integrity_sources = {
+required_integrity_sources = {
   "android_gradle" => "android/app/build.gradle.kts",
   "main_activity" => "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
   "flutter_service" => "lib/core/security/play_integrity_service.dart",
   "supabase_function" => "supabase/functions/verify-play-integrity/index.ts"
 }
-integrity_items = retired_integrity_sources.transform_values do |relative|
+integrity_items = required_integrity_sources.transform_values do |relative|
   path = File.join(root, relative)
   text = File.file?(path) ? File.read(path) : ""
   {
@@ -482,11 +484,11 @@ integrity_present = integrity_items.select do |name, item|
     item["has_integrity_marker"] == true
   end
 end.keys
-checks["payment_attestation_removed"] =
-  if integrity_present.empty? && integrity_items.values.none? { |item| item["has_secret_material"] == true }
-    check("pass", "The retired payment-attestation client, dependency, and Edge Function are absent.", "files" => integrity_items)
+checks["android_group_creation_attestation"] =
+  if integrity_present.sort == required_integrity_sources.keys.sort && integrity_items.values.none? { |item| item["has_secret_material"] == true }
+    check("pass", "Android-only private group creation includes Play Integrity verification without embedded secret material.", "files" => integrity_items)
   else
-    check("fail", "Retired payment-attestation code remains in the production source.", "present" => integrity_present, "files" => integrity_items)
+    check("fail", "Play Integrity group-creation wiring is incomplete or contains secret material.", "present" => integrity_present, "files" => integrity_items)
   end
 
 reporting_snapshot_path = File.join(root, ".cache/google_play_optimization/google_play_reporting_snapshot.json")

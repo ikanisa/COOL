@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Member production builds never receive SMS. A separately governed
-         internal_receiver flavor is retained for beneficiary-bank operations. -->
+    <!-- Production Android supports opt-in Rwanda MoMo receipt ingestion. The
+         runtime remains disabled until the signed-in user gives consent. -->
     <application />
 </manifest>

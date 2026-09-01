@@ -58,9 +58,13 @@ class _CollectLiveReader {
     return CollectCollection.fromJson(Map<String, dynamic>.from(row));
   }
 
-  Future<List<PaymentIntentModel>> fetchPaymentIntents() async {
+  Future<List<PaymentIntentModel>> fetchPaymentIntents(
+    CollectProfile? profile,
+  ) async {
     final response = await _supabase!.rpc<dynamic>(
-      'list_current_user_bank_transfer_intents',
+      profile?.isRwanda == true
+          ? 'list_current_user_payment_intents'
+          : 'list_current_user_bank_transfer_intents',
     );
     final rows = response is List ? response : const [];
     return [
@@ -69,9 +73,11 @@ class _CollectLiveReader {
     ];
   }
 
-  Future<List<Contribution>> fetchContributions() async {
+  Future<List<Contribution>> fetchContributions(CollectProfile? profile) async {
     final response = await _supabase!.rpc<dynamic>(
-      'list_current_user_bank_contributions',
+      profile?.isRwanda == true
+          ? 'list_current_user_contributions'
+          : 'list_current_user_bank_contributions',
     );
     final rows = response is List ? response : const [];
     return [
@@ -80,9 +86,13 @@ class _CollectLiveReader {
     ];
   }
 
-  Future<Map<String, CollectionSummary>> fetchCollectionSummaries() async {
+  Future<Map<String, CollectionSummary>> fetchCollectionSummaries(
+    CollectProfile? profile,
+  ) async {
     final response = await _supabase!.rpc<dynamic>(
-      'list_current_user_bank_collection_summaries',
+      profile?.isRwanda == true
+          ? 'list_current_user_collection_summaries'
+          : 'list_current_user_bank_collection_summaries',
     );
     final rows = response is List ? response : const [];
     return {

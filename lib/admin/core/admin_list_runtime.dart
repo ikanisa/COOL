@@ -1,11 +1,78 @@
 part of 'admin_runtime.dart';
 
+enum CollectAdminOperation { payees, transactions, reconciliations, ledgers }
+
+extension CollectAdminOperationSpec on CollectAdminOperation {
+  String get title => switch (this) {
+    CollectAdminOperation.payees => 'Payees',
+    CollectAdminOperation.transactions => 'Transactions',
+    CollectAdminOperation.reconciliations => 'Reconciliations',
+    CollectAdminOperation.ledgers => 'Ledgers',
+  };
+
+  String get subtitle => switch (this) {
+    CollectAdminOperation.payees =>
+      'Who can receive group contributions and where each payment is sent.',
+    CollectAdminOperation.transactions =>
+      'Every received payment message, its parsed details, and linked payee.',
+    CollectAdminOperation.reconciliations =>
+      'Only exceptions and payments that still need a payee allocation.',
+    CollectAdminOperation.ledgers =>
+      'Balanced debit and credit entries for every allocated transaction.',
+  };
+
+  String get rpcName => switch (this) {
+    CollectAdminOperation.payees => 'admin_list_collect_payees',
+    CollectAdminOperation.transactions => 'admin_list_collect_transactions',
+    CollectAdminOperation.reconciliations =>
+      'admin_list_collect_reconciliations',
+    CollectAdminOperation.ledgers => 'admin_list_collect_ledgers',
+  };
+
+  String? get detailPath => switch (this) {
+    CollectAdminOperation.transactions => '/admin/transactions',
+    _ => null,
+  };
+
+  String? get actionKind => switch (this) {
+    CollectAdminOperation.reconciliations => 'collect_allocate',
+    _ => null,
+  };
+
+  String get valueLabel => switch (this) {
+    CollectAdminOperation.payees => 'Payment route',
+    CollectAdminOperation.transactions ||
+    CollectAdminOperation.reconciliations => 'Amount',
+    CollectAdminOperation.ledgers => 'Debit = credit',
+  };
+}
+
+class AdminCollectOperationsPage extends StatelessWidget {
+  const AdminCollectOperationsPage({required this.operation, super.key});
+
+  final CollectAdminOperation operation;
+
+  @override
+  Widget build(BuildContext context) => AdminRpcListPage(
+    title: operation.title,
+    rpcName: operation.rpcName,
+    detailPathPrefix: operation.detailPath,
+    actionKind: operation.actionKind,
+    subtitleOverride: operation.subtitle,
+    valueLabelOverride: operation.valueLabel,
+    minimal: true,
+  );
+}
+
 class AdminRpcListPage extends ConsumerStatefulWidget {
   const AdminRpcListPage({
     required this.title,
     required this.rpcName,
     this.detailPathPrefix,
     this.actionKind,
+    this.subtitleOverride,
+    this.valueLabelOverride,
+    this.minimal = false,
     super.key,
   });
 
@@ -13,6 +80,9 @@ class AdminRpcListPage extends ConsumerStatefulWidget {
   final String rpcName;
   final String? detailPathPrefix;
   final String? actionKind;
+  final String? subtitleOverride;
+  final String? valueLabelOverride;
+  final bool minimal;
 
   @override
   ConsumerState<AdminRpcListPage> createState() => _AdminRpcListPageState();
@@ -58,14 +128,15 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     );
     return AdminPage(
       title: widget.title,
-      subtitle: spec.subtitle,
+      subtitle: widget.subtitleOverride ?? spec.subtitle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _AdminBankQueueActions(
-            rpcName: widget.rpcName,
-            onDone: () => _refresh(resetPage: true),
-          ),
+          if (!widget.minimal)
+            _AdminBankQueueActions(
+              rpcName: widget.rpcName,
+              onDone: () => _refresh(resetPage: true),
+            ),
           AdminFilterBar(
             searchController: _search,
             status: _status,
@@ -85,8 +156,10 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             onRefresh: () => _refresh(resetPage: true),
           ),
           const SizedBox(height: 16),
-          _AdminQueueSummary(spec: spec),
-          const SizedBox(height: 16),
+          if (!widget.minimal) ...[
+            _AdminQueueSummary(spec: spec),
+            const SizedBox(height: 16),
+          ],
           FutureBuilder<AdminListResult>(
             future: _future,
             builder: (context, snapshot) {
@@ -120,7 +193,9 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                   AdminDataTable(
                     rows: rows,
                     onOpen: _openRow,
-                    valueLabel: _adminQueueValueLabel(widget.rpcName),
+                    valueLabel:
+                        widget.valueLabelOverride ??
+                        _adminQueueValueLabel(widget.rpcName),
                     trailingBuilder: widget.actionKind == null
                         ? null
                         : (row) => _AdminRowActions(
@@ -129,8 +204,10 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                             onDone: () => _refresh(),
                           ),
                   ),
-                  const SizedBox(height: 12),
-                  _AdminQueueExportBar(spec: spec, rows: rows),
+                  if (!widget.minimal) ...[
+                    const SizedBox(height: 12),
+                    _AdminQueueExportBar(spec: spec, rows: rows),
+                  ],
                   const SizedBox(height: 12),
                   _AdminPaginationBar(
                     start: start + 1,
@@ -147,10 +224,12 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                       _future = _load();
                     }),
                   ),
-                  const SizedBox(height: 16),
-                  _AdminWorkflowSteps(spec: spec),
-                  const SizedBox(height: 16),
-                  _AdminSlaPanel(spec: spec, future: _slaFuture),
+                  if (!widget.minimal) ...[
+                    const SizedBox(height: 16),
+                    _AdminWorkflowSteps(spec: spec),
+                    const SizedBox(height: 16),
+                    _AdminSlaPanel(spec: spec, future: _slaFuture),
+                  ],
                 ],
               );
             },
@@ -188,7 +267,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   void _openRow(AdminTableRowData row) {
     final prefix = widget.detailPathPrefix;
     if (prefix == null) return;
-    context.go('$prefix/${row.id}');
+    context.go('$prefix/${Uri.encodeComponent(row.id)}');
   }
 }
 
@@ -360,6 +439,14 @@ class _AdminRowActions extends ConsumerWidget {
     return Wrap(
       spacing: 8,
       children: switch (actionKind) {
+        'payment_event_reparse'
+            when _adminHasPermission(identity, 'payment_events.reparse') =>
+          [
+            TextButton(
+              onPressed: () => _reparse(context, ref),
+              child: const Text('Reparse'),
+            ),
+          ],
         'feature_flag_toggle'
             when _adminHasPermission(identity, 'feature_flags.manage') =>
           [
@@ -379,9 +466,39 @@ class _AdminRowActions extends ConsumerWidget {
               ),
             ),
           ],
+        'collect_allocate'
+            when (_adminHasPermission(identity, 'payments.allocate') ||
+                    _adminHasPermission(
+                      identity,
+                      'bank_allocations.propose',
+                    )) &&
+                (row.extra['can_allocate'] == true ||
+                    '${row.extra['event_id'] ?? ''}'.isNotEmpty ||
+                    '${row.extra['transaction_id'] ?? ''}'.isNotEmpty) =>
+          [
+            FilledButton.tonalIcon(
+              onPressed: () => _allocate(context, ref),
+              icon: const Icon(Icons.account_tree_outlined, size: 18),
+              label: const Text('Allocate'),
+            ),
+          ],
         _ => const [],
       },
     );
+  }
+
+  Future<void> _reparse(BuildContext context, WidgetRef ref) async {
+    final reason = await showAdminReasonDialog(
+      context,
+      title: 'Request MoMo SMS reparse',
+      actionLabel: 'Request reparse',
+    );
+    if (reason == null) return;
+    await ref.read(adminRepositoryProvider).action(
+      'admin_reparse_payment_event',
+      {'p_event_id': row.id, 'p_reason': reason},
+    );
+    onDone();
   }
 
   Future<void> _setFeatureFlag(
@@ -401,5 +518,106 @@ class _AdminRowActions extends ConsumerWidget {
       'p_reason': reason,
     });
     onDone();
+  }
+
+  Future<void> _allocate(BuildContext context, WidgetRef ref) async {
+    final isRwanda = row.extra['rail'] == 'rw_momo';
+    final targetId = TextEditingController(
+      text:
+          '${row.extra[isRwanda ? 'collection_id' : 'payment_intent_id'] ?? ''}',
+    );
+    final reason = TextEditingController();
+    final submitted = await showDialog<bool>(
+      context: context,
+      animationStyle: CollectMotion.animationStyle(context),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(isRwanda ? 'Allocate transaction' : 'Propose allocation'),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: targetId,
+                autocorrect: false,
+                decoration: InputDecoration(
+                  labelText: isRwanda
+                      ? 'Group UUID'
+                      : 'Group contribution intent UUID',
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: reason,
+                minLines: 2,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Allocation reason',
+                  helperText: 'Required for the audit trail.',
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(isRwanda ? 'Allocate' : 'Submit for approval'),
+          ),
+        ],
+      ),
+    );
+    if (submitted != true) {
+      targetId.dispose();
+      reason.dispose();
+      return;
+    }
+    try {
+      if (isRwanda) {
+        await ref
+            .read(adminRepositoryProvider)
+            .action('admin_manual_allocate_payment', {
+              'p_event_id': row.extra['event_id'],
+              'p_collection_id': targetId.text.trim(),
+              'p_payment_intent_id': row.extra['payment_intent_id'],
+              'p_reason': reason.text.trim(),
+            });
+      } else {
+        await ref
+            .read(adminRepositoryProvider)
+            .action('admin_propose_bank_allocation', {
+              'p_bank_transaction_id': row.extra['transaction_id'],
+              'p_bank_transfer_intent_id': targetId.text.trim(),
+              'p_reason': reason.text.trim(),
+            });
+      }
+      onDone();
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isRwanda
+                ? 'Transaction allocated'
+                : 'Allocation submitted for independent approval',
+          ),
+        ),
+      );
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Allocation could not be completed. Review the inputs.',
+          ),
+        ),
+      );
+    } finally {
+      targetId.dispose();
+      reason.dispose();
+    }
   }
 }

@@ -113,7 +113,8 @@ cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
 
 cache_urls = (["./"] + cache_paths.map { |path| "./#{path}" }).uniq
 version_paths = cache_paths.reject { |path| path == "index.html" }
-version_source = version_paths.map { |path| Digest::SHA256.file(File.join("build/web", path)).hexdigest }.join("\n")
+cache_schema_version = "fresh-install-v2"
+version_source = ([cache_schema_version] + version_paths.map { |path| Digest::SHA256.file(File.join("build/web", path)).hexdigest }).join("\n")
 cache_name = "collect-admin-#{Digest::SHA256.hexdigest(version_source)[0, 16]}"
 
 index = File.read(index_path)
@@ -142,7 +143,16 @@ File.write(
     self.addEventListener('install', (event) => {
       event.waitUntil(
         caches.open(CACHE_NAME)
-          .then((cache) => cache.addAll(CACHE_URLS))
+          .then((cache) => Promise.all(
+            CACHE_URLS.map(async (url) => {
+              const request = new Request(url, { cache: 'reload' });
+              const response = await fetch(request);
+              if (!response.ok) {
+                throw new Error(`Failed to refresh ${url}: HTTP ${response.status}`);
+              }
+              await cache.put(request, response);
+            })
+          ))
           .then(() => self.skipWaiting())
       );
     });

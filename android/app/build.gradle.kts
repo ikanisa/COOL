@@ -99,6 +99,13 @@ val signProductionDebugWithPlayKey = (
         ?: "true"
 ).toBoolean()
 
+val playIntegrityCloudProjectNumber =
+    (
+        (findProperty("PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER") as String?)
+            ?: System.getenv("PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER")
+            ?: "-1"
+    ).ifBlank { "-1" }
+
 android {
     namespace = "app.cool.mobile"
     compileSdk = flutter.compileSdkVersion
@@ -120,6 +127,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        buildConfigField(
+            "long",
+            "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER",
+            "${playIntegrityCloudProjectNumber}L",
+        )
     }
 
     signingConfigs {
@@ -212,6 +224,7 @@ gradle.taskGraph.whenReady {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    implementation("com.google.android.play:integrity:1.6.0")
     testImplementation("junit:junit:4.13.2")
 }
 

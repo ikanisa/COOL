@@ -102,162 +102,47 @@ const allRoutes = [
     ],
   },
   {
-    path: '/admin/bank-destinations',
+    path: '/admin/payees',
     requiredLabels: [
       'Collect admin workspace',
-      'Bank details admin section',
+      'Payees admin section',
       'Search',
-      'Admin records table, 2 rows',
+      'Admin records table, 6 rows',
     ],
   },
   {
-    path: '/admin/bank-destinations/bank-destination-1',
-    minimumKeyboardStops: 1,
+    path: '/admin/transactions',
     requiredLabels: [
       'Collect admin workspace',
-      'Bank details admin section',
-      'Bank beneficiary version detail panel',
-    ],
-  },
-  {
-    path: '/admin/bank-destination-requests',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank detail approvals admin section',
-      'Search',
-      'Admin records table, 4 rows',
-    ],
-  },
-  {
-    path: '/admin/bank-destination-requests/destination-request-1',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank detail approvals admin section',
-      'Bank detail approval detail panel',
-    ],
-  },
-  {
-    path: '/admin/bank-intents',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Transfer requests admin section',
+      'Transactions admin section',
       'Search',
       'Admin records table, 12 rows',
     ],
   },
   {
-    path: '/admin/bank-intents/bank-intent-1',
-    minimumKeyboardStops: 2,
+    path: '/admin/transactions/momo:transaction-1',
     requiredLabels: [
       'Collect admin workspace',
-      'Transfer requests admin section',
-      'Transfer request detail panel',
+      'Transactions admin section',
+      'Collect transaction detail panel',
     ],
   },
   {
-    path: '/admin/bank-transactions',
+    path: '/admin/reconciliations',
     requiredLabels: [
       'Collect admin workspace',
-      'Bank transactions admin section',
-      'Search',
-      'Admin records table, 8 rows',
-    ],
-  },
-  {
-    path: '/admin/bank-transactions/bank-transaction-1',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank transactions admin section',
-      'Incoming bank transaction detail panel',
-    ],
-  },
-  {
-    path: '/admin/bank-evidence',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank evidence admin section',
-      'Search',
-      'Admin records table, 8 rows',
-    ],
-  },
-  {
-    path: '/admin/bank-evidence/bank-evidence-1',
-    minimumKeyboardStops: 2,
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank evidence admin section',
-      'Bank evidence detail panel',
-    ],
-  },
-  {
-    path: '/admin/reconciliation',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Reconciliation admin section',
-      'Search',
-      'Admin records table, 7 rows',
-    ],
-  },
-  {
-    path: '/admin/reconciliation/reconciliation-run-1',
-    minimumKeyboardStops: 1,
-    requiredLabels: [
-      'Collect admin workspace',
-      'Reconciliation admin section',
-      'Daily reconciliation run detail panel',
-    ],
-  },
-  {
-    path: '/admin/reconciliation-exceptions',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Reconciliation exceptions admin section',
-      'Search',
-      'Admin records table, 3 rows',
-    ],
-  },
-  {
-    path: '/admin/reconciliation-exceptions/reconciliation-exception-1',
-    minimumKeyboardStops: 2,
-    requiredLabels: [
-      'Collect admin workspace',
-      'Reconciliation exceptions admin section',
-      'Reconciliation exception detail panel',
-    ],
-  },
-  {
-    path: '/admin/bank-allocation-requests',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Allocation approvals admin section',
+      'Reconciliations admin section',
       'Search',
       'Admin records table, 4 rows',
     ],
   },
   {
-    path: '/admin/bank-allocation-requests/allocation-request-1',
+    path: '/admin/ledgers',
     requiredLabels: [
       'Collect admin workspace',
-      'Allocation approvals admin section',
-      'Manual allocation approval detail panel',
-    ],
-  },
-  {
-    path: '/admin/bank-journal',
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank journal admin section',
+      'Ledgers admin section',
       'Search',
       'Admin records table, 10 rows',
-    ],
-  },
-  {
-    path: '/admin/bank-journal/journal-entry-1',
-    minimumKeyboardStops: 1,
-    requiredLabels: [
-      'Collect admin workspace',
-      'Bank journal admin section',
-      'Immutable journal entry detail panel',
     ],
   },
   {
@@ -1172,6 +1057,21 @@ async function keyboardExerciseSensitiveGate(page) {
     }, permittedReasons);
   }
   if (!reasonLabel) {
+    await page.evaluate(() => {
+      const scrollables = [...document.querySelectorAll('flt-semantics')]
+        .filter(
+          (element) =>
+            element instanceof HTMLElement &&
+            element.scrollHeight > element.clientHeight + 1,
+        )
+        .sort((left, right) => right.clientWidth - left.clientWidth);
+      const contentScroller = scrollables[0];
+      if (contentScroller instanceof HTMLElement) {
+        contentScroller.scrollTop = contentScroller.scrollHeight;
+        contentScroller.dispatchEvent(new Event('scroll', { bubbles: true }));
+      }
+    });
+    await page.waitForTimeout(250);
     for (const reason of permittedReasons) {
       const prepared = await focusSemanticControl(page, {
         label: reason,
@@ -1221,9 +1121,9 @@ async function keyboardExerciseSensitiveGate(page) {
       reveal: describe(
         candidates.find(
           (element) =>
-            element.getAttribute('aria-label') === 'Reveal raw bank evidence' ||
+            element.getAttribute('aria-label') === 'Reveal protected evidence' ||
             (element.textContent?.trim() || '').startsWith(
-              'Reveal raw bank evidence',
+              'Reveal protected evidence',
             ),
         ),
       ),
@@ -1231,8 +1131,8 @@ async function keyboardExerciseSensitiveGate(page) {
   });
 
   const revealPrepared = await focusSemanticControl(page, {
-    label: 'Reveal raw bank evidence',
-    textPrefix: 'Reveal raw bank evidence',
+    label: 'Reveal protected evidence',
+    textPrefix: 'Reveal protected evidence',
   });
   if (!revealPrepared) {
     return {
@@ -1251,9 +1151,7 @@ async function keyboardExerciseSensitiveGate(page) {
           ].find((element) =>
             (element.getAttribute('aria-label') || '')
               .replace(/\s+/g, ' ')
-              .includes(
-                'Sensitive data revealed. Bank evidence Raw bank evidence hidden in route evidence.',
-              ),
+              .includes('Sensitive data revealed.'),
           ),
         ),
       null,
@@ -1442,7 +1340,7 @@ async function auditRoute(browser, route, viewport) {
       checks.keyboardReasonDialog = keyboardReasonDialog.passed;
     }
     let keyboardSensitiveGate = null;
-    if (route.path === '/admin/bank-evidence/bank-evidence-1') {
+    if (route.path === '/admin/transactions/momo:transaction-1') {
       await resetForKeyboardInteraction(page, url);
       keyboardSensitiveGate = await keyboardExerciseSensitiveGate(page);
       checks.keyboardSensitiveGate = keyboardSensitiveGate.passed;

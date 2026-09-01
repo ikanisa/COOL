@@ -85,7 +85,7 @@ void main() {
     },
   );
 
-  test('European profile completion includes Revolut name', () {
+  test('European profile completion includes full Revolut details', () {
     final incomplete = CollectProfile.fromJson(const {
       'id': 'user-2',
       'public_id': '654321',
@@ -94,7 +94,11 @@ void main() {
       'country_code': 'GB',
       'currency_code': 'GBP',
     });
-    final complete = incomplete.copyWith(revolutName: 'Jean Bosco');
+    final complete = incomplete.copyWith(
+      revolutName: 'Jean Bosco',
+      revolutLink: 'https://revolut.me/jeanbosco',
+      revolutAccount: 'Personal EUR account',
+    );
     final mismatchedCurrency = complete.copyWith(currencyCode: 'RWF');
 
     expect(incomplete.isEuropean, isTrue);

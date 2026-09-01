@@ -2,7 +2,7 @@
 
 Status date: 2026-08-20
 Release candidate: `1.2.2+21`
-Product boundary: bank-transfer-only Groups; no payment-initiation API
+Product boundary: Rwanda MoMo USSD and diaspora bank/Revolut Groups; no in-app payment processor
 
 ## Live App Store Connect audit — 2026-08-20
 
@@ -15,7 +15,7 @@ Product boundary: bank-transfer-only Groups; no payment-initiation API
   selected, so build 14 must not be submitted as the current product.
 - The previous 5 August submission is `Removed`.
 - Five iPhone screenshots and five iPad screenshots are populated, but they
-  must be regenerated from the bank-transfer-only build before submission.
+  must be regenerated from the current geographic-rail build before submission.
 - App Privacy is published with eight linked-to-user data types. It must be
   rechecked against the bank evidence, payer-name/account-last-four, support,
   device token, and user-content paths before republishing.

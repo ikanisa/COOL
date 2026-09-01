@@ -56,7 +56,7 @@ class CollectLandingPage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Bank contributions, reconciled automatically.',
+                              'MoMo at home. Bank transfer in the diaspora.',
                               style: Theme.of(context).textTheme.displayMedium
                                   ?.copyWith(
                                     color: CollectColors.referenceChromeBlack,
@@ -66,7 +66,7 @@ class CollectLandingPage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 24),
                             Text(
-                              'Create a group, invite members and contribute in EUR by bank transfer. Collect shows the approved beneficiary, creates a unique reference, opens Revolut, and updates the ledger only after bank evidence and the daily statement reconcile.',
+                              'Rwanda members contribute in RWF through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect updates the ledger only after the correct payment evidence is reconciled.',
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(
                                     color: CollectColors.inkSecondary,
@@ -225,12 +225,12 @@ class _JourneyPreview extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 18),
-            const _PreviewRow(label: 'Transfer request', value: 'EUR 100.00'),
-            const _PreviewRow(label: 'Bank evidence', value: 'Captured'),
-            const _PreviewRow(label: 'Statement', value: 'Reconciled'),
+            const _PreviewRow(label: 'MoMo request', value: 'RWF 25,000'),
+            const _PreviewRow(label: 'Receipt SMS', value: 'Matched'),
+            const _PreviewRow(label: 'Allocation', value: 'Reconciled'),
             const Divider(height: 28),
-            const _PreviewRow(label: 'Group balance', value: '+ EUR 100.00'),
-            const _PreviewRow(label: 'Your balance', value: '+ EUR 100.00'),
+            const _PreviewRow(label: 'Group balance', value: '+ RWF 25,000'),
+            const _PreviewRow(label: 'Your balance', value: '+ RWF 25,000'),
           ],
         ),
       ),
@@ -298,19 +298,18 @@ class _JourneySection extends StatelessWidget {
                     number: '2',
                     title: 'Enter an amount',
                     body:
-                        'Collect creates one EUR request and unique reference.',
+                        'Collect creates one request on your country’s payment rail.',
                   ),
                   _StepCard(
                     number: '3',
-                    title: 'Open Revolut',
+                    title: 'Approve outside Collect',
                     body:
-                        'The member sends a bank transfer to the saved beneficiary.',
+                        'Rwanda opens MoMo USSD; diaspora opens Revolut or a bank app.',
                   ),
                   _StepCard(
                     number: '4',
                     title: 'See the ledger update',
-                    body:
-                        'One reconciled statement match updates both balances.',
+                    body: 'One exact reconciled match updates both balances.',
                   ),
                 ],
               ),
@@ -381,7 +380,7 @@ class _SafetySection extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Collect records EUR bank contributions. It does not embed a payment processor, sell financial products or ask members to paste receipts and transaction IDs.',
+              'Collect records Rwanda MoMo and diaspora bank contributions. It does not ask for MoMo PINs, banking credentials, OTPs or pasted transaction IDs.',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: CollectColors.inkSecondary,
                 height: CollectTypography.leadingBody,

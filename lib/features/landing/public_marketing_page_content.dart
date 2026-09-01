@@ -4,34 +4,34 @@ const _publicMarketingPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/group-savings',
     navLabel: 'How it works',
-    title: 'SEPA bank contributions with a clear group ledger.',
+    title: 'Local MoMo and diaspora bank contributions in one clear ledger.',
     intro:
-        'Collect gives every member a unique EUR transfer reference, opens Revolut for the bank transfer, and records the contribution after statement reconciliation.',
+        'Rwanda members contribute through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect records either rail only after matching evidence is reconciled.',
     sections: [
       CollectPublicSectionData(
         title: 'Create the group and invite members',
         body:
-            'A member creates the group and shares a private link or QR code. Every group uses the same approved Collect EUR beneficiary.',
+            'Android members can create a private group and share its link or QR code. Public discovery is reserved for platform-sponsored groups such as Buri Munsi and Gikundiro.',
         bullets: [
           'Members use six-digit Collect IDs',
-          'Approved bank details are shown in the app',
+          'Rwanda groups show their approved MoMo receiver',
           'Private group links can be rotated',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Contribute by bank transfer',
+        title: 'Use the right rail for your country',
         body:
-            'A member enters the EUR amount, copies the unique reference, opens Revolut and sends a bank transfer to the saved beneficiary.',
+            'A Rwanda member enters a whole-RWF amount and opens MoMo USSD. A diaspora member receives the approved beneficiary and reference, then opens Revolut or a banking app.',
         bullets: [
-          'Collect never asks for a bank password, PIN or OTP',
+          'Collect never asks for a MoMo PIN, bank password or OTP',
           'Members do not upload receipts or report transaction IDs',
-          'Payment approval stays outside Collect',
+          'Payment approval stays in USSD or the banking app',
         ],
       ),
       CollectPublicSectionData(
         title: 'See one balanced update',
         body:
-            'The receipt posts only when bank evidence and the daily statement match one active request by reference, EUR amount and transaction identity.',
+            'A receipt posts only when trusted evidence matches one active request by receiver, sender, amount, time window and transaction identity. Diaspora settlement retains its bank-statement control.',
         bullets: [
           'The group total and payer total update together',
           'Duplicate evidence and statement lines cannot post twice',
@@ -60,7 +60,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Keep private details private',
         body:
-            'Member surfaces use Collect IDs and safe contribution status. Full phone numbers and raw bank evidence stay out of public pages.',
+            'Member surfaces use Collect IDs and safe contribution status. Full phone numbers, MoMo receipts and bank evidence stay out of public pages.',
         bullets: [
           'Private group access is membership-gated',
           'Payer-level balances are visible only to the payer and authorized group roles',
@@ -74,22 +74,22 @@ const _publicMarketingPages = <CollectPublicPageData>[
     navLabel: 'Trust',
     title: 'Evidence, reconciliation and posting are separate controls.',
     intro:
-        'Collect accepts controlled bank SMS, email and statement evidence while keeping transaction posting on the server.',
+        'Collect accepts consented Android MoMo receipt SMS in Rwanda and controlled bank evidence for diaspora while keeping transaction posting on the server.',
     sections: [
       CollectPublicSectionData(
         title: 'Evidence ingestion is controlled',
         body:
-            'Member apps request no SMS permission. Authorized operational channels ingest bank notifications with authenticated endpoints and duplicate protection.',
+            'The Android app requests SMS receipt access only for Rwanda MoMo use. Diaspora bank evidence uses controlled operational channels with authenticated endpoints and duplicate protection.',
         bullets: [
-          'No member inbox access',
-          'SMS and email are candidate evidence, not settlement finality',
-          'Daily bank statements remain authoritative',
+          'Consent and permission state are recorded',
+          'Only likely MoMo receipt messages are submitted',
+          'Diaspora bank statements remain authoritative for settlement',
         ],
       ),
       CollectPublicSectionData(
         title: 'Deterministic parsers extract receipt facts',
         body:
-            'Supabase Edge Functions validate EUR bank evidence into a strict schema without allowing a parser to choose a group or post a balance.',
+            'Supabase Edge Functions validate MoMo and diaspora bank evidence into strict schemas without allowing a parser to choose a group or post a balance.',
         bullets: [
           'References, amounts and transaction identifiers are normalized',
           'Raw evidence has separate audited reveal permission',
@@ -99,9 +99,9 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Postgres enforces the match',
         body:
-            'A locked database function checks the transfer reference, exact EUR amount, transaction uniqueness, daily statement and independent allocation controls.',
+            'Locked database functions check the correct rail, receiver, payer, exact amount, time window, transaction uniqueness and independent allocation controls.',
         bullets: [
-          'One exact pending transfer request is required',
+          'One exact pending contribution request is required',
           'Group and payer credits are created in one transaction',
           'The audit record and notification are linked to the same contribution',
         ],

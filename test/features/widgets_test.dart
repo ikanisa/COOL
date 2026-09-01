@@ -177,7 +177,7 @@ void main() {
       find.text('St Michel emergency medical support group'),
       findsOneWidget,
     );
-    expect(find.text('EUR 125,000.00'), findsOneWidget);
+    expect(find.text('RWF 12,500,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
     expect(find.byIcon(CollectIcons.people), findsOneWidget);
     expect(find.text('128'), findsOneWidget);
@@ -221,7 +221,7 @@ void main() {
     expect(find.byType(BackdropFilter), findsNothing);
     expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
     expect(find.text('Total collected'), findsNothing);
-    expect(find.text('EUR 350.00'), findsOneWidget);
+    expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
   });
 
@@ -326,10 +326,10 @@ void main() {
       expect(find.byType(Divider), findsOneWidget);
       expect(find.text('St Michel building fund'), findsOneWidget);
       expect(find.text('Church · 2 supporters'), findsOneWidget);
-      expect(find.text('EUR 350.00'), findsOneWidget);
+      expect(find.text('RWF 35,000'), findsOneWidget);
       expect(
         find.bySemanticsLabel(
-          'Kigali Lions away kit, EUR 120.00, 4 supporters',
+          'Kigali Lions away kit, RWF 12,000, 4 supporters',
         ),
         findsOneWidget,
       );
@@ -422,7 +422,9 @@ void main() {
     );
   });
 
-  testWidgets('contribution flow keeps primary action pinned', (tester) async {
+  testWidgets('Rwanda contribution flow keeps MoMo action pinned', (
+    tester,
+  ) async {
     final repo = CollectRepository.fixture();
     await tester.pumpWidget(
       ProviderScope(
@@ -436,19 +438,19 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Target account'), findsNothing);
-    expect(find.text('Review transfer'), findsOneWidget);
+    expect(find.text('Continue to MoMo'), findsOneWidget);
     await tester.enterText(find.byType(TextField).first, '6000');
     await tester.pump();
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Review transfer'), findsOneWidget);
-    expect(find.text('Open Revolut'), findsOneWidget);
+    expect(find.text('Confirm in MoMo'), findsOneWidget);
+    expect(find.text('Open MoMo USSD'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 
-  testWidgets('contribution flow rejects a zero bank transfer amount', (
+  testWidgets('Rwanda contribution flow rejects a zero MoMo amount', (
     tester,
   ) async {
     final repo = CollectRepository.fixture();
@@ -465,18 +467,18 @@ void main() {
     await tester.enterText(find.byType(TextField).first, '0.00');
     expect(
       tester.widget<TextField>(find.byType(TextField).first).controller?.text,
-      '0.00',
+      '000',
     );
     final reviewButton = tester.widget<FilledButton>(
-      find.widgetWithText(FilledButton, 'Review transfer'),
+      find.widgetWithText(FilledButton, 'Continue to MoMo'),
     );
     expect(reviewButton.onPressed, isNotNull);
     reviewButton.onPressed!.call();
     await tester.pump();
 
     expect(find.byType(TextField), findsOneWidget);
-    expect(find.text('Enter a valid amount above EUR 0.00.'), findsOneWidget);
-    expect(find.text('Open Revolut'), findsNothing);
+    expect(find.text('Enter an amount above RWF 0.'), findsOneWidget);
+    expect(find.text('Open MoMo USSD'), findsNothing);
   });
 }
 

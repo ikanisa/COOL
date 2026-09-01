@@ -11,7 +11,10 @@ expected = {
   "ingest-bank-email" => :hmac,
   "ingest-bank-sms" => :user,
   "ingest-bank-statement" => :user,
+  "ingest-payment-sms" => :user,
+  "parse-payment-sms" => :internal,
   "send-notification" => :internal,
+  "verify-play-integrity" => :user,
 }
 
 issues = []
@@ -21,6 +24,7 @@ no_verify_functions = [
   "auth-send-whatsapp-otp",
   "dispatch-notifications",
   "ingest-bank-email",
+  "parse-payment-sms",
   "send-notification",
 ]
 unexpected_disabled = disabled - no_verify_functions

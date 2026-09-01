@@ -198,19 +198,21 @@ production_permissions = Array(dig_value(packet, ["app_content", "permissions", 
 restricted_sms = %w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS]
 restricted_present = production_permissions & restricted_sms
 checks["permissions_scope"] =
-  if restricted_present.empty? && dig_value(packet, ["app_content", "permissions", "restricted_sms_permissions_in_production"]) == false
-    check("pass", "Production Play packet declares no restricted SMS permission.", "production_permissions" => production_permissions)
+  if restricted_present == ["android.permission.RECEIVE_SMS"] && dig_value(packet, ["app_content", "permissions", "restricted_sms_permissions_in_production"]) == true
+    check("pass", "Production Play packet limits restricted SMS scope to RECEIVE_SMS.", "production_permissions" => production_permissions)
   else
-    check("fail", "Production restricted SMS scope must be empty.", "restricted_present" => restricted_present)
+    check("fail", "Production restricted SMS scope must contain RECEIVE_SMS only.", "restricted_present" => restricted_present)
   end
 
 
 sms_declaration_status = dig_value(packet, ["app_content", "permissions", "sms_permissions_declaration_status"]).to_s
 checks["sms_permissions_declaration"] =
-  if sms_declaration_status == "not_required_no_restricted_sms_permissions"
-    check("pass", "No restricted-SMS declaration is required for public production.")
+  if sms_declaration_status == "approved_for_core_functionality"
+    check("pass", "Google Play restricted-SMS approval is recorded.")
+  elsif sms_declaration_status == "required_pending_play_approval"
+    check("blocked", "Google Play restricted-SMS approval is pending.", "declaration_status" => sms_declaration_status)
   else
-    check("fail", "The packet must record the no-restricted-SMS production scope.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
+    check("fail", "The packet must record the restricted-SMS review state.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
   end
 
 surfaces = packet.fetch("play_console_surfaces", {})
@@ -250,7 +252,7 @@ result = {
   "checks" => checks,
   "next_console_actions" => [
     "Upload the AAB to the production draft release after Android Publisher API auth or browser file upload is available.",
-    "Supersede the obsolete production and internal-test artifacts that still request restricted SMS permissions with the reviewed version-21 no-SMS artifact, then record that the public app requires no SMS or Call Log declaration.",
+    "Submit and obtain Google Play approval for RECEIVE_SMS as a core Rwanda MoMo receipt-reconciliation feature before production rollout.",
     "Record live Play Console evidence for publishing overview, production track, app content, store listing, deep links, Android vitals, pre-launch report, app integrity, device catalog, testing tracks, and reporting exports.",
     "Keep any reviewer credentials, service account JSON, cookies, bearer tokens, signing keys, raw SMS, payment identifiers, and customer data out of this packet and out of evidence logs."
   ],

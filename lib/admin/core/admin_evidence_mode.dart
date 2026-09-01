@@ -28,6 +28,14 @@ const _evidenceAdmin = AdminIdentity(
     'public_requests.read',
     'collections.read',
     'users.read',
+    'payments.read',
+    'payments.allocate',
+    'payment_events.read',
+    'ledger.read',
+    'receivers.read',
+    'sms.metadata.read',
+    'sms.raw.read',
+    'sms.raw.reveal',
     'bank_details.read',
     'bank_details.propose',
     'bank_details.approve',
@@ -64,6 +72,12 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'body': 'Raw bank evidence hidden in route evidence.',
       };
     }
+    if (rpcName == 'admin_reveal_raw_sms') {
+      return {
+        'message':
+            'You have received RWF 25,000 from Evidence payer. Transaction ID 681601.',
+      };
+    }
     return {'status': 'queued'};
   }
 
@@ -74,6 +88,81 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   Future<Map<String, dynamic>> detail(String rpcName, String id) async {
     const createdAt = '2026-08-20T06:30:00Z';
     return switch (rpcName) {
+      'admin_get_collect_transaction' => {
+        'id': id,
+        'transaction_id': '681601',
+        'payment_route': id.startsWith('diaspora:')
+            ? 'Diaspora account'
+            : 'Rwanda MoMo',
+        'raw_sms_id': id.startsWith('momo:')
+            ? '00000000-0000-0000-0000-000000006816'
+            : null,
+        'sms_sender': id.startsWith('momo:') ? 'MTN MoMo' : null,
+        'parse_status': 'parsed',
+        'sender_name': 'Evidence payer',
+        'network': id.startsWith('momo:') ? 'MTN MoMo' : 'Diaspora account',
+        'reference': 'COLLECT-AB1234-6816',
+        'amount': id.startsWith('momo:') ? 'RWF 25,000' : 'EUR 24.50',
+        'payee': id.startsWith('momo:')
+            ? 'St Michael group payee ••6816'
+            : 'Collect diaspora payee ••6816',
+        'group_name': 'St Michael building fund',
+        'allocation_status': 'allocated',
+        'status': 'allocated',
+        'received_at': createdAt,
+      },
+      'admin_get_payment_intent' => {
+        'id': id,
+        'collection_id': 'collection-1',
+        'contributor_user_id': 'member-evidence-1',
+        'contribution_code': 'COL-RW-6816',
+        'expected_amount_rwf': 25000,
+        'reported_transaction_id': null,
+        'status': 'pending',
+        'created_at': createdAt,
+        'expires_at': '2026-08-20T06:45:00Z',
+      },
+      'admin_get_payment' => {
+        'id': id,
+        'collection_id': 'collection-1',
+        'payment_intent_id': 'momo-intent-1',
+        'transaction_id': '123456789012',
+        'source': 'momo_sms',
+        'amount_rwf': 25000,
+        'currency': 'RWF',
+        'status': 'posted',
+        'created_at': createdAt,
+      },
+      'admin_get_payment_event' => {
+        'id': id,
+        'provider': 'mtn_momo',
+        'transaction_id': '123456789012',
+        'sender_phone_masked': '+250***4321',
+        'receiver_phone_masked': '+250***6816',
+        'amount_rwf': 25000,
+        'currency': 'RWF',
+        'parse_status': 'parsed',
+        'allocation_status': 'needs_review',
+        'received_at': createdAt,
+      },
+      'admin_get_receiver' => {
+        'id': id,
+        'collection_id': 'collection-1',
+        'receiver_user_id': 'member-evidence-1',
+        'momo_number_masked': '+250***6816',
+        'network': 'mtn_momo',
+        'label': 'Primary MoMo receiver',
+        'is_active': true,
+        'created_at': createdAt,
+      },
+      'admin_get_sms_metadata' => {
+        'id': id,
+        'sender_masked': 'MTN MoMo',
+        'body_hash': 'sha256:••••6816',
+        'parse_status': 'parsed',
+        'received_at': createdAt,
+        'raw_body': 'Hidden; audited permission required',
+      },
       'admin_get_bank_destination' => {
         'id': id,
         'version': 2,
@@ -261,6 +350,11 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
             'age': _rowAge(index),
             'allocated_to': 'St Michael building fund',
             'operator': index.isEven ? 'Checker B.' : 'Maker A.',
+            'rail': index.isEven ? 'diaspora_account' : 'rw_momo',
+            'event_id': '00000000-0000-0000-0000-00000000681$index',
+            'transaction_id': '00000000-0000-0000-0000-00000000781$index',
+            'collection_id': '00000000-0000-0000-0000-00000000881$index',
+            'payment_intent_id': '00000000-0000-0000-0000-00000000981$index',
           },
         ),
     ];
@@ -289,17 +383,25 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
 
   @override
   Future<List<AdminMetric>> overviewMetrics() async => const [
-    AdminMetric(label: 'Open exceptions', value: '3', status: 'needs_review'),
-    AdminMetric(label: 'Awaiting approvals', value: '4', status: 'pending'),
-    AdminMetric(label: 'Unreconciled transfers', value: '2', status: 'pending'),
-    AdminMetric(label: 'Evidence health', value: '100%', status: 'active'),
+    AdminMetric(
+      label: 'Open reconciliations',
+      value: '3',
+      status: 'needs_review',
+    ),
+    AdminMetric(
+      label: 'Unallocated transactions',
+      value: '2',
+      status: 'pending',
+    ),
+    AdminMetric(label: 'Balanced ledgers', value: '10', status: 'active'),
+    AdminMetric(label: 'Active payees', value: '6', status: 'active'),
   ];
 
   @override
   Future<AdminQueueSla?> queueSla(String queueKey) async => const AdminQueueSla(
     target: '< 1 business day',
-    owner: 'Bank reconciliation operations',
-    escalation: 'Escalate unresolved variances to the platform owner',
+    owner: 'Collect operations',
+    escalation: 'Escalate unresolved allocations to the platform owner',
   );
 
   @override
@@ -333,6 +435,18 @@ void _requireReviewPhone(String phone) {
 }
 
 int _rowCount(String rpcName) => switch (rpcName) {
+  'admin_list_collect_payees' => 6,
+  'admin_list_collect_transactions' => 12,
+  'admin_list_collect_reconciliations' => 4,
+  'admin_list_collect_ledgers' => 10,
+  'admin_list_payment_intents' => 12,
+  'admin_list_payments' => 10,
+  'admin_list_payment_events' => 8,
+  'admin_list_allocations' => 8,
+  'admin_list_unallocated' => 3,
+  'admin_list_ledger' => 10,
+  'admin_list_receivers' => 6,
+  'admin_list_sms_metadata' => 8,
   'admin_list_bank_destinations' => 2,
   'admin_list_bank_destination_change_requests' => 4,
   'admin_list_bank_transfer_intents' => 12,
@@ -346,8 +460,22 @@ int _rowCount(String rpcName) => switch (rpcName) {
 };
 
 String _rowId(String rpcName, int index) => switch (rpcName) {
+  'admin_list_collect_payees' => 'payee-$index',
+  'admin_list_collect_transactions' =>
+    '${index.isEven ? 'diaspora' : 'momo'}:transaction-$index',
+  'admin_list_collect_reconciliations' =>
+    '${index.isEven ? 'diaspora' : 'momo'}:exception-$index',
+  'admin_list_collect_ledgers' => 'ledger-$index',
   'admin_list_users' => 'user-$index',
   'admin_list_collections' => 'collection-$index',
+  'admin_list_payment_intents' => 'momo-intent-$index',
+  'admin_list_payments' => 'momo-transaction-$index',
+  'admin_list_payment_events' => 'momo-event-$index',
+  'admin_list_allocations' => 'momo-allocation-$index',
+  'admin_list_unallocated' => 'momo-exception-$index',
+  'admin_list_ledger' => 'momo-ledger-$index',
+  'admin_list_receivers' => 'momo-receiver-$index',
+  'admin_list_sms_metadata' => 'momo-sms-$index',
   'admin_list_bank_destinations' => 'bank-destination-$index',
   'admin_list_bank_destination_change_requests' => 'destination-request-$index',
   'admin_list_bank_transfer_intents' => 'bank-intent-$index',
@@ -363,8 +491,24 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
 };
 
 String _rowTitle(String rpcName, int index) => switch (rpcName) {
+  'admin_list_collect_payees' =>
+    index.isEven
+        ? 'Collect diaspora payee $index'
+        : 'St Michael group payee $index',
+  'admin_list_collect_transactions' => 'Transaction ${681600 + index}',
+  'admin_list_collect_reconciliations' =>
+    'Unallocated transaction ${681600 + index}',
+  'admin_list_collect_ledgers' => 'Ledger entry ${681600 + index}',
   'admin_list_users' => 'Member profile $index',
   'admin_list_collections' => 'Verified group $index',
+  'admin_list_payment_intents' => 'MoMo intent COL-RW-${6800 + index}',
+  'admin_list_payments' => 'MoMo transaction ${681600 + index}',
+  'admin_list_payment_events' => 'Parsed MoMo receipt ${681600 + index}',
+  'admin_list_allocations' => 'MoMo allocation ${681600 + index}',
+  'admin_list_unallocated' => 'Unallocated MoMo receipt ${681600 + index}',
+  'admin_list_ledger' => 'Rwanda ledger posting ${681600 + index}',
+  'admin_list_receivers' => 'MoMo receiver ••${6800 + index}',
+  'admin_list_sms_metadata' => 'Receipt SMS metadata ${681600 + index}',
   'admin_list_bank_destinations' => 'EUR beneficiary version $index',
   'admin_list_bank_destination_change_requests' =>
     'Beneficiary approval request $index',
@@ -387,8 +531,24 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
 };
 
 String _rowSubtitle(String rpcName) => switch (rpcName) {
+  'admin_list_collect_payees' =>
+    'Group payee • MTN MoMo • 0788••••16 or diaspora account ••••6816',
+  'admin_list_collect_transactions' =>
+    'Received message • parsed payer • linked group payee',
+  'admin_list_collect_reconciliations' =>
+    'Payment received • payee allocation required',
+  'admin_list_collect_ledgers' =>
+    'Debit payment clearing • credit group payable',
   'admin_list_users' => 'Collect ID and permission-safe account state',
   'admin_list_collections' => 'Member, role, and group management controls',
+  'admin_list_payment_intents' => 'Pending Rwanda payer intent and expiry',
+  'admin_list_payments' => 'Posted RWF MoMo contribution',
+  'admin_list_payment_events' => 'Deterministically parsed receipt metadata',
+  'admin_list_allocations' => 'Receipt-to-member and group allocation',
+  'admin_list_unallocated' => 'Receipt requiring controlled review',
+  'admin_list_ledger' => 'Balanced immutable RWF posting',
+  'admin_list_receivers' => 'Consented group receiver with masked number',
+  'admin_list_sms_metadata' => 'Raw body hidden behind audited reveal',
   'admin_list_bank_destinations' => 'Approved beneficiary and IBAN version',
   'admin_list_bank_destination_change_requests' =>
     'Independent maker-checker review required',
@@ -410,6 +570,20 @@ String _rowSubtitle(String rpcName) => switch (rpcName) {
 };
 
 String _rowStatus(String rpcName, int index) => switch (rpcName) {
+  'admin_list_collect_payees' => 'active',
+  'admin_list_collect_transactions' =>
+    index % 3 == 0 ? 'needs_review' : 'allocated',
+  'admin_list_collect_reconciliations' =>
+    index.isEven ? 'ambiguous' : 'unallocated',
+  'admin_list_collect_ledgers' => 'balanced',
+  'admin_list_payment_intents' => index.isEven ? 'matched' : 'pending',
+  'admin_list_payments' => 'posted',
+  'admin_list_payment_events' => index.isEven ? 'allocated' : 'needs_review',
+  'admin_list_allocations' => 'allocated',
+  'admin_list_unallocated' => 'needs_review',
+  'admin_list_ledger' => 'posted',
+  'admin_list_receivers' => 'active',
+  'admin_list_sms_metadata' => index.isEven ? 'parsed' : 'needs_review',
   'admin_list_bank_destinations' => index == 1 ? 'active' : 'retired',
   'admin_list_bank_destination_change_requests' =>
     index.isEven ? 'approved' : 'pending',
@@ -430,9 +604,33 @@ String _rowStatus(String rpcName, int index) => switch (rpcName) {
 };
 
 String _rowAmount(String rpcName, int index) {
+  if (rpcName == 'admin_list_collect_payees') {
+    return index.isEven ? 'Diaspora • EUR account' : 'Rwanda • MoMo';
+  }
+  if (rpcName == 'admin_list_collect_transactions' ||
+      rpcName == 'admin_list_collect_reconciliations') {
+    return index.isEven
+        ? 'EUR ${(index * 24.50).toStringAsFixed(2)}'
+        : 'RWF ${index * 25000}';
+  }
+  if (rpcName == 'admin_list_collect_ledgers') {
+    return index.isEven
+        ? 'EUR ${(index * 24.50).toStringAsFixed(2)} ='
+        : 'RWF ${index * 25000} =';
+  }
   if (rpcName == 'admin_list_notifications') return '1 delivery';
   if (rpcName == 'admin_list_admin_users') return '2 roles';
   if (rpcName == 'admin_list_collections') return '${10 + index} members';
+  if (rpcName == 'admin_list_receivers' ||
+      rpcName == 'admin_list_sms_metadata') {
+    return '';
+  }
+  if (rpcName.startsWith('admin_list_payment') ||
+      rpcName == 'admin_list_allocations' ||
+      rpcName == 'admin_list_unallocated' ||
+      rpcName == 'admin_list_ledger') {
+    return 'RWF ${index * 25000}';
+  }
   if (rpcName == 'admin_list_users' ||
       rpcName == 'admin_list_bank_destinations' ||
       rpcName == 'admin_list_bank_destination_change_requests' ||

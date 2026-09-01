@@ -1,53 +1,66 @@
 # Collect Product Source of Truth
 
 Status: approved implementation baseline
-Effective: 2026-08-20
+Effective: 2026-08-31
 
-Collect organizes group contributions paid by EUR SEPA bank transfer. It does
-not operate a wallet, acquire cards, debit bank accounts, initiate payments, or
-move money through an API. Stripe and the former member MoMo/USSD contribution
-rail are retired.
+Collect organizes group contributions on geography-specific rails. Rwanda is
+RWF MoMo USSD with consented Android receipt SMS; the diaspora is Revolut/SEPA
+bank transfer. Collect does not operate a wallet, acquire cards, hold funds, or
+ask for MoMo PINs, banking credentials, card details, or OTPs.
 
 ## Non-negotiable rules
 
 - Member identity remains Collect ID-first; payer and sign-in details are not
   exposed in public or ordinary group surfaces.
-- One centrally approved Collect beneficiary bank account serves all groups.
+- WhatsApp suggests the initial country and Rwanda MoMo number; members may edit
+  country, provider, MoMo number, or diaspora Revolut details.
+- Every user-created group is private and may be created only on Android after
+  SMS consent and Play Integrity verification.
+- Public groups are created or approved only by the platform, including Buri
+  Munsi, Gikundiro, and other sponsored groups.
+- Rwanda groups use the owner's configured MoMo receiver. Diaspora transfers use
+  the centrally approved Collect beneficiary bank account.
 - Bank details are activated only through independent maker-checker approval.
 - The app displays beneficiary name, IBAN, BIC, amount, and a unique transfer
   reference. Placeholder details are disabled and cannot accept transfers.
 - `Open Revolut` is a handoff only. Collect never marks a transfer successful
   because another app opened or because the member returned.
-- SMS and email are candidate receipt evidence. They can allocate an exact
-  transfer request but cannot finalize settlement or change confirmed balances.
-- Only a matching bank statement can reconcile a receipt and post the journal.
+- Rwanda MoMo SMS can post only after an exact payer, receiver, RWF amount,
+  transaction ID, and time-window match to one pending intent.
+- Diaspora SMS/email is candidate evidence; only a matching bank statement can
+  finalize its settlement and post the journal.
 - Every financial post is idempotent, balanced, immutable, and auditable.
 - Ambiguous, duplicate, missing, returned, or inconsistent evidence posts
   nothing and enters the appropriate admin exception queue.
 - A manual allocation requires an exact amount/currency match and independent
   maker-checker approval.
-- Raw bank evidence is separately permissioned and every reveal records a
+- Raw MoMo and bank evidence is separately permissioned and every reveal records a
   reason in sensitive-access and audit logs.
 
 ## Member journey
 
 1. Sign in through WhatsApp OTP and receive a six-digit Collect ID.
-2. Create or join a group on Android or iPhone. Group creation is no longer
-   tied to SMS permission, a receiver phone, or Play Integrity payment proof.
-3. Tap Contribute and enter a positive EUR amount.
-4. Supabase creates or reuses an unexpired transfer request containing the
-   group, member, approved destination snapshot, amount, and unique `COL-…`
-   reference.
-5. Copy the beneficiary fields and open Revolut. Add/select the beneficiary,
-   enter the amount and exact reference, and authorize the bank transfer.
-6. Return to Collect. The request stays pending until controlled bank evidence
-   arrives and then remains `received_unreconciled` until statement matching.
-7. After reconciliation, Collect shows the confirmed contribution and sends a
-   preference-gated notification.
+2. Confirm or edit the suggested country and regional payment details.
+3. Join a group on any supported client. Create a private group only on Android,
+   with SMS consent and device verification.
+4. In Rwanda, enter a whole-RWF amount, review the exact receiver, open MoMo
+   USSD, and enter the PIN only in the provider prompt.
+5. In the diaspora, enter a currency amount, review the approved beneficiary and
+   unique reference, then authorize the transfer in Revolut or a banking app.
+6. Return to Collect. The request stays pending until its rail-specific evidence
+   is reconciled.
+7. Collect shows only confirmed contributions and sends a preference-gated
+   notification.
 
 ## Evidence and reconciliation
 
-Controlled channels accept beneficiary-bank SMS, bank email webhooks, and bank
+On a consented Rwanda receiver device, Android captures only new likely MoMo
+receipt broadcasts. The message is encrypted in a bounded device queue, uploaded
+from the matching authenticated account, deterministically parsed, and matched
+by server-only functions. Ambiguous, incomplete, duplicate, reversed, or
+unmatched evidence posts nothing and enters the MoMo admin queue.
+
+For diaspora, controlled channels accept beneficiary-bank SMS, bank email webhooks, and bank
 statement exports. Deterministic rules extract direction, EUR amount, Collect
 reference, provider transaction/end-to-end identifiers, timestamps, and
 limited payer metadata. No AI service is used to decide financial allocation.
@@ -74,12 +87,15 @@ permission, a reason, and an audit record.
 The Admin PWA manages:
 
 - users, members, groups, and admin users/roles;
-- beneficiary versions and maker-checker change requests;
-- transfer requests and bank transactions;
-- SMS, email, and statement evidence with gated raw reveal;
-- statement imports, daily reconciliation, closes, and exceptions;
-- maker-checker manual allocations;
-- immutable double-entry journals;
+- one Payees page for Rwanda MoMo receivers and diaspora account payees;
+- one Transactions page for received SMS/account messages, parsed details and
+  linked payees;
+- one Reconciliations page for exceptions and unallocated payments, retaining
+  strict Rwanda matching and diaspora maker-checker actions;
+- one Ledgers page for balanced Rwanda allocation and diaspora journal views;
+- protected raw SMS, email and statement evidence with gated reveal;
+- the underlying beneficiary approvals, statement reconciliation and immutable
+  journals without exposing separate rail-specific menu bundles;
 - notification queues and FCM/APNs delivery evidence;
 - feature flags, runtime settings, audit logs, and system health.
 
@@ -89,11 +105,11 @@ enforce the control plane.
 
 ## Release boundary
 
-The production Android member app declares no SMS or phone-call permission.
-The `internal_receiver` Android flavor is a separately identified operations
-build that can capture only new, bank-like EUR notification SMS after explicit
-enablement by an authenticated operator with `bank_evidence.ingest`. It sends
-candidate evidence to production and cannot bypass statement finality.
+The production Android member app declares `RECEIVE_SMS` and `CALL_PHONE` for
+the Rwanda MoMo route, while excluding `READ_SMS`, `SEND_SMS`, and Call Log
+permissions. The runtime remains disabled until a signed-in Rwanda member gives
+consent. Google Play restricted-permission approval and real-device evidence are
+mandatory release gates.
 
 FCM uses a dedicated Google service-account JSON stored only in Supabase Edge
 Function secrets. The credential is never bundled with Flutter or committed.

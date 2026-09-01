@@ -8,21 +8,17 @@ import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('admin routes cover the bank control plane exactly', () {
+  test('admin routes expose only four essential operations pages', () {
     expect(
       adminRoutePaths,
       containsAll(<String>[
         '/admin/groups',
         '/admin/members',
-        '/admin/bank-destinations',
-        '/admin/bank-destination-requests',
-        '/admin/bank-intents',
-        '/admin/bank-transactions',
-        '/admin/bank-evidence',
-        '/admin/reconciliation',
-        '/admin/reconciliation-exceptions',
-        '/admin/bank-allocation-requests',
-        '/admin/bank-journal',
+        '/admin/payees',
+        '/admin/transactions',
+        '/admin/transactions/:id',
+        '/admin/reconciliations',
+        '/admin/ledgers',
         '/admin/notifications',
         '/admin/audit-logs',
         '/admin/settings',
@@ -33,38 +29,35 @@ void main() {
     );
     for (final retired in <String>[
       '/admin/payment-intents',
-      '/admin/transactions',
       '/admin/payment-events',
       '/admin/allocations',
       '/admin/exceptions',
       '/admin/ledger',
       '/admin/receivers',
       '/admin/sms',
+      '/admin/momo-intents',
+      '/admin/bank-destinations',
+      '/admin/bank-transactions',
+      '/admin/bank-journal',
     ]) {
       expect(adminRoutePaths, isNot(contains(retired)), reason: retired);
     }
   });
 
-  test('admin bank paths require their least-privilege capabilities', () {
+  test('admin operations paths require least-privilege capabilities', () {
+    expect(adminRequiredPermissionForPath('/admin/payees'), 'receivers.read');
     expect(
-      adminRequiredPermissionForPath('/admin/bank-destinations'),
-      'bank_details.read',
+      adminRequiredPermissionForPath('/admin/transactions/transaction-1'),
+      'payments.read',
     );
     expect(
-      adminRequiredPermissionForPath('/admin/bank-evidence/evidence-1'),
-      'bank_evidence.read',
+      adminRequiredPermissionForPath('/admin/reconciliations'),
+      'payment_events.read',
     );
-    expect(
-      adminRequiredPermissionForPath('/admin/reconciliation'),
-      'bank_reconciliation.read',
-    );
-    expect(
-      adminRequiredPermissionForPath('/admin/bank-journal/entry-1'),
-      'bank_reconciliation.read',
-    );
+    expect(adminRequiredPermissionForPath('/admin/ledgers'), 'ledger.read');
   });
 
-  test('admin permission guard rejects an unauthorized bank queue', () {
+  test('admin permission guard rejects an unauthorized operations queue', () {
     const identity = AdminIdentity(
       userId: 'admin-1',
       displayName: 'Group operator',
@@ -73,8 +66,8 @@ void main() {
     );
 
     expect(adminCanOpenPath(identity, '/admin/groups'), isTrue);
-    expect(adminCanOpenPath(identity, '/admin/bank-evidence'), isFalse);
-    expect(adminCanOpenPath(identity, '/admin/reconciliation'), isFalse);
+    expect(adminCanOpenPath(identity, '/admin/payees'), isFalse);
+    expect(adminCanOpenPath(identity, '/admin/reconciliations'), isFalse);
   });
 
   test(
@@ -102,38 +95,32 @@ void main() {
     },
   );
 
-  test(
-    'admin shell exposes all bank operations without legacy payment queues',
-    () {
-      final source = File('lib/admin/admin_shell.dart').readAsStringSync();
+  test('admin shell keeps the essential operations navigation clean', () {
+    final source = File('lib/admin/admin_shell.dart').readAsStringSync();
 
-      for (final label in <String>[
-        'Bank details',
-        'Bank detail approvals',
-        'Transfer requests',
-        'Bank transactions',
-        'Bank evidence',
-        'Reconciliation',
-        'Reconciliation exceptions',
-        'Allocation approvals',
-        'Bank journal',
-      ]) {
-        expect(source, contains("'$label'"), reason: label);
-      }
-      expect(source, isNot(contains("'/admin/payment-intents'")));
-      expect(source, isNot(contains("'/admin/sms'")));
-      expect(source, isNot(contains("'/admin/receivers'")));
-    },
-  );
+    for (final label in <String>[
+      'Payees',
+      'Transactions',
+      'Reconciliations',
+      'Ledgers',
+    ]) {
+      expect(source, contains("'$label'"), reason: label);
+    }
+    expect(source, isNot(contains("'/admin/payment-intents'")));
+    expect(source, isNot(contains("'/admin/sms'")));
+    expect(source, isNot(contains("'/admin/receivers'")));
+    expect(source, isNot(contains("'/admin/bank-destinations'")));
+    expect(source, isNot(contains("'/admin/momo-intents'")));
+  });
 
-  test('admin overview reads bank exception and approval metrics', () {
+  test('admin overview reads reconciliations and balanced ledgers', () {
     final source = File(
       'lib/admin/core/admin_overview_runtime.dart',
     ).readAsStringSync();
 
-    expect(source, contains('admin_list_reconciliation_exceptions'));
-    expect(source, contains('/admin/reconciliation-exceptions'));
-    expect(source, contains('/admin/bank-allocation-requests'));
+    expect(source, contains('admin_list_collect_reconciliations'));
+    expect(source, contains('/admin/reconciliations'));
+    expect(source, contains('admin_list_collect_ledgers'));
     expect(source, isNot(contains('/admin/payment-events')));
   });
 
@@ -203,6 +190,22 @@ void main() {
   });
 
   test(
+    'admin PWA refreshes immutable bundles during service-worker install',
+    () {
+      final releaseBuild = File(
+        'scripts/admin_pwa_release_build.sh',
+      ).readAsStringSync();
+
+      expect(
+        releaseBuild,
+        contains('cache_schema_version = "fresh-install-v2"'),
+      );
+      expect(releaseBuild, contains("cache: 'reload'"));
+      expect(releaseBuild, contains('await cache.put(request, response)'));
+    },
+  );
+
+  test(
     'local Supabase review auth is isolated from production provisioning',
     () {
       final config = File('supabase/config.toml').readAsStringSync();
@@ -232,17 +235,12 @@ void main() {
       'scripts/admin_pwa_authenticated_render_smoke.sh',
     ).readAsStringSync();
 
-    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 33);
+    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 20);
     for (final route in <String>[
-      '/admin/bank-destinations',
-      '/admin/bank-destination-requests',
-      '/admin/bank-intents',
-      '/admin/bank-transactions',
-      '/admin/bank-evidence',
-      '/admin/reconciliation',
-      '/admin/reconciliation-exceptions',
-      '/admin/bank-allocation-requests',
-      '/admin/bank-journal',
+      '/admin/payees',
+      '/admin/transactions',
+      '/admin/reconciliations',
+      '/admin/ledgers',
     ]) {
       expect(browserQa, contains("path: '$route'"), reason: route);
     }
@@ -251,11 +249,13 @@ void main() {
       '/admin/payment-events',
       '/admin/sms',
       '/admin/receivers',
+      '/admin/momo-intents',
+      '/admin/bank-destinations',
     ]) {
       expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
     }
-    expect(renderSmoke, contains('routeCount") == 33'));
-    expect(renderSmoke, contains('screenshotCount") == 99'));
+    expect(renderSmoke, contains('routeCount") == 20'));
+    expect(renderSmoke, contains('screenshotCount") == 60'));
   });
 
   test('Admin PWA runtime probe fails closed on stalled CDP commands', () {

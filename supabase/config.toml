@@ -383,6 +383,15 @@ verify_jwt = false
 [functions.ingest-bank-sms]
 verify_jwt = true
 
+[functions.ingest-payment-sms]
+verify_jwt = true
+
+[functions.parse-payment-sms]
+verify_jwt = false
+
+[functions.verify-play-integrity]
+verify_jwt = true
+
 [functions.ingest-bank-email]
 verify_jwt = false
 

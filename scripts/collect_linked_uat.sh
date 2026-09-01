@@ -55,13 +55,15 @@ READINESS_DATABASE_URL="${SUPABASE_READINESS_DATABASE_URL:-${DATABASE_POOLER_URL
 
 if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
   export SUPABASE_ACCESS_TOKEN="${SUPABASE_ACCESS_TOKEN:-}"
-  if run_with_timeout "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" \
-    supabase_cli db query --linked -f "$UAT_SQL" -o json --agent=yes >/dev/null; then
-    printf '[collect-linked-uat] bank-transfer rollback UAT passed via linked database query\n'
-    exit 0
+  if [[ "$SUPABASE_DB_QUERY_MODE" == "linked" ]]; then
+    if run_with_timeout "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" \
+      supabase_cli db query --linked -f "$UAT_SQL" -o json --agent=yes >/dev/null; then
+      printf '[collect-linked-uat] bank-transfer rollback UAT passed via linked database query\n'
+      exit 0
+    fi
+    printf '[collect-linked-uat][WARN] Linked query failed after %ss; trying the Management API query path.\n' \
+      "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" >&2
   fi
-  printf '[collect-linked-uat][WARN] Linked query failed after %ss; trying the Management API query path.\n' \
-    "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" >&2
 
   if [[ -n "${SUPABASE_ACCESS_TOKEN:-}" && -n "${SUPABASE_PROJECT_REF:-}" ]] &&
     supabase_management_query_file "$UAT_SQL" >/dev/null; then

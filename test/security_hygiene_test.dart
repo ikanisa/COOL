@@ -96,7 +96,7 @@ void main() {
     }
   });
 
-  test('production Android excludes financial SMS permissions and receivers', () {
+  test('production Android scopes MoMo SMS and USSD permissions', () {
     final mainManifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
@@ -124,7 +124,8 @@ void main() {
             as Map<String, dynamic>;
 
     expect(mainManifest, isNot(contains('android.permission.READ_SMS')));
-    expect(mainManifest, isNot(contains('android.permission.RECEIVE_SMS')));
+    expect(mainManifest, contains('android.permission.RECEIVE_SMS'));
+    expect(mainManifest, contains('android.permission.CALL_PHONE'));
     expect(mainManifest, contains('android.permission.READ_EXTERNAL_STORAGE'));
     expect(mainManifest, contains('android.permission.WRITE_EXTERNAL_STORAGE'));
     expect(
@@ -135,14 +136,6 @@ void main() {
       hasLength(2),
     );
     expect(productionManifest, isNot(contains('android.permission.READ_SMS')));
-    expect(
-      productionManifest,
-      isNot(contains('android.permission.RECEIVE_SMS')),
-    );
-    expect(
-      productionManifest,
-      isNot(contains('.receiver_sms.CollectSmsReceiver')),
-    );
     expect(
       internalReceiverManifest,
       isNot(contains('android.permission.READ_SMS')),
@@ -162,18 +155,19 @@ void main() {
       contains('android:permission="android.permission.BROADCAST_SMS"'),
     );
     expect(receiver, contains('Secure SMS queue unavailable'));
-    expect(receiver, contains('isLikelyBankNotification'));
+    expect(receiver, contains('isLikelyMomoReceipt'));
     expect(receiver, contains('CURRENCY_HINT'));
     expect(playGate, contains('production_permissions'));
-    expect(playGate, contains('expected_apk_restricted = []'));
     expect(
-      playUpload,
-      contains('google_play_restricted_sms_permission_present'),
+      playGate,
+      contains('expected_apk_restricted = ["android.permission.RECEIVE_SMS"]'),
     );
+    expect(playUpload, contains('google_play_sms_permission_scope_mismatch'));
+    expect(playUpload, contains('google_play_sms_declaration_not_approved'));
     expect(
       ((playPacket['app_content'] as Map<String, dynamic>)['permissions']
           as Map<String, dynamic>)['sms_permissions_declaration_status'],
-      'not_required_no_restricted_sms_permissions',
+      'required_pending_play_approval',
     );
   });
 
@@ -325,6 +319,7 @@ void main() {
     expect(script, contains('--dart-define-from-file'));
     expect(script, contains('SUPABASE_PRODUCTION_URL'));
     expect(script, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+    expect(script, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER'));
     expect(
       script,
       contains(
@@ -462,21 +457,21 @@ void main() {
     }
   });
 
-  test('retired payment attestation code and credentials are absent', () {
+  test('Play Integrity group attestation is present without credentials', () {
     final mainActivity = File(
       'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
     ).readAsStringSync();
     final gradle = File('android/app/build.gradle.kts').readAsStringSync();
 
-    expect(mainActivity, isNot(contains('collect/play_integrity')));
-    expect(gradle, isNot(contains('com.google.android.play:integrity')));
+    expect(mainActivity, contains('collect/play_integrity'));
+    expect(gradle, contains('com.google.android.play:integrity'));
     expect(
       File('lib/core/security/play_integrity_service.dart').existsSync(),
-      isFalse,
+      isTrue,
     );
     expect(
       File('supabase/functions/verify-play-integrity/index.ts').existsSync(),
-      isFalse,
+      isTrue,
     );
   });
 
