@@ -67,9 +67,11 @@ allowed_security_max = {
   "pg_graphql_authenticated_table_exposed" => 36,
   # get_active_policy_document(), list_account_request_reasons(), and
   # collection_is_public_approved() are public read-only helpers. The latter
-  # returns one public-approval boolean for RLS policy evaluation; all run with
-  # pinned search paths.
-  "anon_security_definer_function_executable" => 5,
+  # returns one public-approval boolean for RLS policy evaluation. The
+  # 20260901200000 route helper adds only the contribution-ready public route
+  # for an approved platform group and excludes receiver ownership and hashes.
+  # All run with pinned search paths.
+  "anon_security_definer_function_executable" => 6,
   # The post-20260815062536 admin-control-plane and post-20260815082500 group
   # hardening migrations brought the reviewed schema to 70 callable
   # signatures. The 20260820162240 bank-transfer cutover retires the legacy
@@ -92,8 +94,14 @@ allowed_security_max = {
   # explicit-permission RPCs plus the filtered overview and queue-SLA readers.
   # All 25 additions pin search_path; Admin functions call
   # assert_admin_permission(), and member functions bind auth.uid(). This
-  # brings the exact reviewed ceiling to 112.
-  "authenticated_security_definer_function_executable" => 112,
+  # brings the exact reviewed ceiling to 112. The 20260901 Admin completion
+  # migrations add 13 reviewed callable signatures for official-payee CRUD,
+  # operational lists, public-group lifecycle, the users/members split, the
+  # single Admin access contract, and country-scoped list dispatch. Every Admin
+  # entry point either calls assert_admin_permission() directly or delegates
+  # only to an Admin RPC that does; member/public reads remain minimum-field and
+  # RLS-safe. This brings the exact reviewed ceiling to 125.
+  "authenticated_security_definer_function_executable" => 125,
   "auth_leaked_password_protection" => 1
 }
 

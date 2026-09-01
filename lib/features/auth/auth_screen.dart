@@ -45,7 +45,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   String? get _normalizedPhoneOrNull {
     try {
-      return PhoneNormalizer.normalizeInternational(_phoneForAuth);
+      return PhoneNormalizer.normalizeForCountry(
+        input: _phone.text,
+        phoneCode: _selectedCountry.phoneCode,
+        exampleNationalNumber: _selectedCountry.example,
+      );
     } on FormatException {
       return null;
     }
@@ -97,7 +101,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
-    final displayPhone = _maskedPhoneForDisplay(_phoneForAuth);
+    final displayPhone = _maskedPhoneForDisplay(
+      _normalizedPhoneOrNull ?? _phoneForAuth,
+    );
     return Scaffold(
       backgroundColor: CollectColors.referenceChromeBlack,
       body: DecoratedBox(
@@ -167,7 +173,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     if (_submitting) return;
     setState(() => _error = null);
     try {
-      final phone = PhoneNormalizer.normalizeInternational(_phoneForAuth);
+      final phone = _normalizedPhoneOrNull;
+      if (phone == null) {
+        throw const FormatException(
+          'Enter the complete WhatsApp phone number for the selected country.',
+        );
+      }
       final otpGateway = ref.read(authOtpGatewayProvider);
       final captchaToken = env.authCaptchaEnabled
           ? _captchaToken.text.trim()
@@ -207,10 +218,26 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             countryCode: _profileCountryCode,
           );
       if (!mounted) return;
-      context.go('/home');
+      context.go(_safePostAuthTarget(context) ?? '/home');
     } catch (error) {
       _showAuthError(error);
     }
+  }
+
+  String? _safePostAuthTarget(BuildContext context) {
+    final raw = GoRouterState.of(context).uri.queryParameters['next'];
+    if (raw == null || raw.isEmpty) return null;
+    final target = Uri.tryParse(raw);
+    if (target == null ||
+        target.hasScheme ||
+        target.hasAuthority ||
+        !target.path.startsWith('/') ||
+        target.path.startsWith('//') ||
+        target.path == '/' ||
+        target.path == '/auth') {
+      return null;
+    }
+    return target.toString();
   }
 
   Future<bool> _confirmPhoneNumber(String phone) async {
@@ -232,7 +259,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       _otp.clear();
     });
     try {
-      final phone = PhoneNormalizer.normalizeInternational(_phoneForAuth);
+      final phone = _normalizedPhoneOrNull;
+      if (phone == null) {
+        throw const FormatException(
+          'Enter the complete WhatsApp phone number for the selected country.',
+        );
+      }
       final captchaToken = env.authCaptchaEnabled
           ? _captchaToken.text.trim()
           : '';

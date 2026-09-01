@@ -16,26 +16,35 @@ List<_AdminDetailFieldValue> _adminDetailFields(
   for (final field in spec.fields) {
     final value = _detailValue(data, field.keys, usedKeys: usedKeys);
     if (value.isNotEmpty) {
-      fields.add(_AdminDetailFieldValue(label: field.label, value: value));
-    }
-  }
-  final extras = data.entries
-      .where((entry) {
-        return !usedKeys.contains(entry.key) && _isSafeDetailKey(entry.key);
-      })
-      .take(6);
-  for (final entry in extras) {
-    final value = _formatDetailValue(entry.value);
-    if (value.isNotEmpty) {
       fields.add(
         _AdminDetailFieldValue(
-          label: _labelizeDetailKey(entry.key),
-          value: value,
+          label: field.label,
+          value: _formatDetailFieldValue(field.label, value),
         ),
       );
     }
   }
   return fields;
+}
+
+String _formatDetailFieldValue(String label, String value) {
+  if (label == 'Reference') {
+    return adminCompactTransactionReference(value);
+  }
+  final count = int.tryParse(value);
+  if (count == null) return value;
+  return switch (label) {
+    'Members' => '$count ${count == 1 ? 'member' : 'members'}',
+    'Groups' => '$count ${count == 1 ? 'group' : 'groups'}',
+    'Attempts' => '$count ${count == 1 ? 'retry' : 'retries'} available',
+    'Bank evidence' => '$count pending',
+    'Reconciliation exceptions' => '$count open',
+    'Allocation approvals' => '$count pending',
+    'Queued notifications' => '$count queued',
+    'Processing notifications' => '$count processing',
+    'Failed notifications' => '$count failed',
+    _ => value,
+  };
 }
 
 String _detailValue(
@@ -63,14 +72,21 @@ String _formatDetailValue(Object? value) {
     return value.map(_formatDetailValue).where((v) => v.isNotEmpty).join(', ');
   }
   if (value is Map) return '';
-  return value.toString().trim();
-}
-
-String _labelizeDetailKey(String key) {
-  final words = key.split('_').where((word) => word.isNotEmpty).toList();
-  if (words.isEmpty) return 'Field';
-  final label = words.join(' ');
-  return label[0].toUpperCase() + label.substring(1);
+  final text = value.toString().trim();
+  if (text.isEmpty) return '';
+  final date = DateTime.tryParse(text);
+  if (date != null && (text.contains('T') || text.endsWith('Z'))) {
+    return _formatDetailDate(date.toLocal(), includeTime: true);
+  }
+  return switch (text.toLowerCase()) {
+    'mtn_momo' => 'MTN MoMo',
+    'airtel_money' => 'Airtel Money',
+    'public_approved' => 'Public',
+    'private' => 'Private',
+    'provider_unavailable' => 'Provider unavailable',
+    _ when text.contains('_') => _humanizeDetailValue(text),
+    _ => text,
+  };
 }
 
 bool _isSafeDetailKey(String key) {
@@ -84,8 +100,58 @@ bool _isSafeDetailKey(String key) {
       !normalized.contains('pin');
 }
 
-String _formatDetailDate(DateTime value) {
-  return '${value.year.toString().padLeft(4, '0')}-'
-      '${value.month.toString().padLeft(2, '0')}-'
-      '${value.day.toString().padLeft(2, '0')}';
+String _formatDetailDate(DateTime value, {bool includeTime = false}) {
+  const months = <String>[
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  final date = '${value.day} ${months[value.month - 1]} ${value.year}';
+  if (!includeTime) return date;
+  final time =
+      '${value.hour.toString().padLeft(2, '0')}:'
+      '${value.minute.toString().padLeft(2, '0')}';
+  return '$date · $time';
+}
+
+String _humanizeDetailValue(String value) {
+  final text = value.replaceAll('_', ' ').trim();
+  if (text.isEmpty) return '';
+  return '${text[0].toUpperCase()}${text.substring(1)}';
+}
+
+String _adminDetailHeading(
+  String rpcName,
+  String pageTitle,
+  String fallback,
+  Map<String, dynamic> data,
+) {
+  String first(List<String> keys) {
+    for (final key in keys) {
+      final value = _formatDetailValue(data[key]);
+      if (value.isNotEmpty) return value;
+    }
+    return '';
+  }
+
+  return switch (rpcName) {
+    'admin_get_collection' => first(const ['name', 'title']),
+    'admin_get_user' => first(const ['phone_masked', 'phone']),
+    'admin_get_notification' => first(const ['title', 'type']),
+    'admin_get_admin_user' => first(const ['phone_masked', 'public_id']),
+    'admin_get_collect_transaction' => adminCompactTransactionReference(
+      first(const ['reference']),
+    ),
+    'admin_system_health' => 'Current health',
+    _ => fallback.isNotEmpty ? fallback : pageTitle,
+  };
 }

@@ -11,59 +11,16 @@ class _AdminGroupWorkspaceActions extends ConsumerWidget {
     final canManage =
         _adminHasPermission(identity, 'collections.moderate') &&
         _adminHasPermission(identity, 'receivers.manage');
-    final colors = context.collectColors;
+    if (!canManage) return const SizedBox.shrink();
     return Semantics(
-      container: true,
-      explicitChildNodes: true,
+      button: true,
       label: 'Group management',
       hint:
-          'Create Collect-sponsored public groups and open each group to edit details, activate, or deactivate it.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceMuted.withValues(alpha: 0.86),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Wrap(
-            spacing: 16,
-            runSpacing: 12,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 680),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Group controls',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Create and manage Collect-sponsored public groups here. Member-created groups remain private and can be created only in the Android app.',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (canManage)
-                FilledButton.icon(
-                  onPressed: () =>
-                      createAdminPublicGroup(context, ref, onDone: onDone),
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('Create public group'),
-                ),
-            ],
-          ),
-        ),
+          'Create a Collect-sponsored public group. Member-created groups remain private and Android-only.',
+      child: IconButton.filled(
+        tooltip: 'Create public group',
+        onPressed: () => createAdminPublicGroup(context, ref, onDone: onDone),
+        icon: const Icon(Icons.create_new_folder_outlined),
       ),
     );
   }

@@ -11,14 +11,11 @@ extension CollectAdminOperationSpec on CollectAdminOperation {
   };
 
   String get subtitle => switch (this) {
-    CollectAdminOperation.payees =>
-      'Who can receive group contributions and where each payment is sent.',
+    CollectAdminOperation.payees => 'Official receivers for public groups.',
     CollectAdminOperation.transactions =>
-      'Every received payment message, its parsed details, and linked payee.',
-    CollectAdminOperation.reconciliations =>
-      'Only exceptions and payments that still need a payee allocation.',
-    CollectAdminOperation.ledgers =>
-      'Balanced debit and credit entries for every allocated transaction.',
+      'Received payments and allocation state.',
+    CollectAdminOperation.reconciliations => 'Payments needing allocation.',
+    CollectAdminOperation.ledgers => 'Balanced postings.',
   };
 
   String get rpcName => switch (this) {
@@ -97,14 +94,14 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   var _sortBy = 'created_at_desc';
   var _page = 0;
   late Future<AdminListResult> _future;
-  late Future<AdminQueueSla?> _slaFuture;
   var _lastRealtimeTick = 0;
+  late AdminCountryScope _lastCountryScope;
 
   @override
   void initState() {
     super.initState();
+    _lastCountryScope = ref.read(adminCountryScopeProvider);
     _future = _load();
-    _slaFuture = _loadSla();
   }
 
   @override
@@ -116,10 +113,17 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   @override
   Widget build(BuildContext context) {
     final realtimeTick = ref.watch(adminRealtimeTickProvider);
+    final countryScope = ref.watch(adminCountryScopeProvider);
     if (_lastRealtimeTick != realtimeTick) {
       _lastRealtimeTick = realtimeTick;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _refresh();
+      });
+    }
+    if (_lastCountryScope != countryScope) {
+      _lastCountryScope = countryScope;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _refresh(resetPage: true);
       });
     }
     final runtimeConfig = ref.watch(adminRuntimeConfigProvider).valueOrNull;
@@ -127,29 +131,21 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
       widget.rpcName,
       runtimeConfig: runtimeConfig,
     );
-    final usesOperationsTable =
-        widget.rpcName == 'admin_list_collect_transactions' ||
-        widget.rpcName == 'admin_list_collections' ||
-        widget.rpcName == 'admin_list_members' ||
-        widget.rpcName == 'admin_list_non_member_users';
     return AdminPage(
       title: widget.title,
       subtitle: widget.subtitleOverride ?? spec.subtitle,
+      trailing: switch (widget.rpcName) {
+        'admin_list_collect_payees' => _AdminPayeeWorkspaceActions(
+          onDone: () => _refresh(resetPage: true),
+        ),
+        'admin_list_collections' => _AdminGroupWorkspaceActions(
+          onDone: () => _refresh(resetPage: true),
+        ),
+        _ => null,
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.rpcName == 'admin_list_collect_payees') ...[
-            _AdminPayeeWorkspaceActions(
-              onDone: () => _refresh(resetPage: true),
-            ),
-            const SizedBox(height: 16),
-          ],
-          if (widget.rpcName == 'admin_list_collections') ...[
-            _AdminGroupWorkspaceActions(
-              onDone: () => _refresh(resetPage: true),
-            ),
-            const SizedBox(height: 16),
-          ],
           if (!widget.minimal)
             _AdminBankQueueActions(
               rpcName: widget.rpcName,
@@ -174,10 +170,6 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             onRefresh: () => _refresh(resetPage: true),
           ),
           const SizedBox(height: 16),
-          if (!widget.minimal && !usesOperationsTable) ...[
-            _AdminQueueSummary(spec: spec),
-            const SizedBox(height: 16),
-          ],
           FutureBuilder<AdminListResult>(
             future: _future,
             builder: (context, snapshot) {
@@ -191,18 +183,42 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                 return AdminSafeErrorPanel(error: snapshot.error!);
               }
               final result = snapshot.data;
-              final rows = result?.rows ?? const [];
-              if (rows.isEmpty) {
-                return AdminEmptyState(
-                  title: 'No ${widget.title.toLowerCase()}',
-                  message: 'Try another filter or refresh this queue.',
-                );
-              }
-              final total = result?.total ?? rows.length;
+              final loadedRows = result?.rows ?? const <AdminTableRowData>[];
+              final scoped =
+                  adminRpcUsesCountryScope(widget.rpcName) &&
+                  countryScope != AdminCountryScope.all;
+              final countryRows = scoped
+                  ? loadedRows
+                        .where(
+                          (row) =>
+                              adminRowMatchesCountryScope(row, countryScope),
+                        )
+                        .toList(growable: false)
+                  : loadedRows;
+              final total = scoped
+                  ? countryRows.length
+                  : result?.total ?? countryRows.length;
               final maxPage = total == 0
                   ? 0
                   : ((total - 1) / _pageSize).floor();
               final page = _page.clamp(0, maxPage);
+              final pageStart = scoped
+                  ? (page * _pageSize).clamp(0, countryRows.length)
+                  : 0;
+              final pageEnd = scoped
+                  ? (pageStart + _pageSize).clamp(pageStart, countryRows.length)
+                  : countryRows.length;
+              final rows = countryRows.sublist(pageStart, pageEnd);
+              if (rows.isEmpty) {
+                return AdminEmptyState(
+                  title: scoped
+                      ? 'No ${widget.title.toLowerCase()} in ${countryScope.label}'
+                      : 'No ${widget.title.toLowerCase()}',
+                  message: scoped
+                      ? 'Choose another country or refresh.'
+                      : _adminEmptyMessage(widget.rpcName),
+                );
+              }
               final start = page * _pageSize;
               final end = (start + rows.length).clamp(0, total);
               return Column(
@@ -231,6 +247,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                   else
                     AdminDataTable(
                       rows: rows,
+                      rpcName: widget.rpcName,
                       onOpen: widget.detailPathPrefix == null ? null : _openRow,
                       valueLabel:
                           widget.valueLabelOverride ??
@@ -243,31 +260,23 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                               onDone: () => _refresh(),
                             ),
                     ),
-                  if (!widget.minimal) ...[
+                  if (total > _pageSize) ...[
                     const SizedBox(height: 12),
-                    _AdminQueueExportBar(spec: spec, rows: rows),
-                  ],
-                  const SizedBox(height: 12),
-                  _AdminPaginationBar(
-                    start: start + 1,
-                    end: end,
-                    total: total,
-                    canGoBack: page > 0,
-                    canGoNext: page < maxPage,
-                    onPrevious: () => setState(() {
-                      _page = page - 1;
-                      _future = _load();
-                    }),
-                    onNext: () => setState(() {
-                      _page = page + 1;
-                      _future = _load();
-                    }),
-                  ),
-                  if (!widget.minimal) ...[
-                    const SizedBox(height: 16),
-                    _AdminWorkflowSteps(spec: spec),
-                    const SizedBox(height: 16),
-                    _AdminSlaPanel(spec: spec, future: _slaFuture),
+                    _AdminPaginationBar(
+                      start: start + 1,
+                      end: end,
+                      total: total,
+                      canGoBack: page > 0,
+                      canGoNext: page < maxPage,
+                      onPrevious: () => setState(() {
+                        _page = page - 1;
+                        _future = _load();
+                      }),
+                      onNext: () => setState(() {
+                        _page = page + 1;
+                        _future = _load();
+                      }),
+                    ),
                   ],
                 ],
               );
@@ -279,27 +288,27 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   }
 
   Future<AdminListResult> _load() {
+    final countryScope = ref.read(adminCountryScopeProvider);
+    final scoped =
+        adminRpcUsesCountryScope(widget.rpcName) &&
+        countryScope != AdminCountryScope.all;
     return ref
         .read(adminRepositoryProvider)
         .list(
           widget.rpcName,
           search: _search.text,
           status: _status,
-          limit: _pageSize,
-          offset: _page * _pageSize,
+          limit: scoped ? 100 : _pageSize,
+          offset: scoped ? 0 : _page * _pageSize,
           sortBy: _sortBy,
+          countryCode: countryScope.rpcCode,
         );
-  }
-
-  Future<AdminQueueSla?> _loadSla() {
-    return ref.read(adminRepositoryProvider).queueSla(widget.rpcName);
   }
 
   void _refresh({bool resetPage = false}) {
     setState(() {
       if (resetPage) _page = 0;
       _future = _load();
-      _slaFuture = _loadSla();
     });
   }
 
@@ -310,10 +319,16 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   }
 }
 
+String _adminEmptyMessage(String rpcName) => switch (rpcName) {
+  'admin_list_collect_ledgers' => 'Balanced postings appear here.',
+  'admin_list_notifications' => 'Delivery activity appears here.',
+  _ => 'No records match the current view.',
+};
+
 String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
   'admin_list_collections' => 'Members',
   'admin_list_notifications' => 'Deliveries',
-  'admin_list_admin_users' => 'Roles',
+  'admin_list_admin_users' => 'Access',
   'admin_list_bank_destinations' ||
   'admin_list_bank_destination_change_requests' ||
   'admin_list_reconciliation_runs' ||
@@ -326,67 +341,6 @@ String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
   'admin_list_feature_flags' => 'Detail',
   _ => 'Amount',
 };
-
-class _AdminQueueExportBar extends StatelessWidget {
-  const _AdminQueueExportBar({required this.spec, required this.rows});
-
-  final _AdminListSpec spec;
-  final List<AdminTableRowData> rows;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceReadable.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: colors.borderAccent),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                '${spec.title} export: current page CSV',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colors.textSecondary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-            ),
-            Semantics(
-              button: true,
-              label: 'Export ${spec.title} current page CSV',
-              hint: 'Copies the currently loaded admin queue rows as CSV.',
-              child: OutlinedButton.icon(
-                onPressed: rows.isEmpty
-                    ? null
-                    : () => _copyQueueCsv(context, spec.title, rows),
-                icon: const Icon(Icons.download_outlined),
-                label: const Text('Export CSV'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _copyQueueCsv(
-    BuildContext context,
-    String title,
-    List<AdminTableRowData> rows,
-  ) async {
-    await Clipboard.setData(ClipboardData(text: _adminRowsToCsv(rows)));
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('$title CSV copied for export')));
-  }
-}
 
 class _AdminPaginationBar extends StatelessWidget {
   const _AdminPaginationBar({

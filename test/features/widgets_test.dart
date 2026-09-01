@@ -452,7 +452,8 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Confirm in MoMo'), findsOneWidget);
+    expect(find.text('Review contribution'), findsOneWidget);
+    expect(find.text('RWF 6,000'), findsOneWidget);
     expect(find.text('Open MoMo USSD'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });

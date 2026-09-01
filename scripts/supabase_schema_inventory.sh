@@ -252,7 +252,9 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
   ].each do |pattern, kind|
     sql.to_enum(:scan, pattern).each do
       match = Regexp.last_match
-      events << [match.begin(0), :add, "#{kind}|#{match[1].sub(/^public\./, "")}"]
+      qualified_name = match[1]
+      next if qualified_name.include?(".") && !qualified_name.start_with?("public.")
+      events << [match.begin(0), :add, "#{kind}|#{qualified_name.sub(/^public\./, "")}"]
     end
   end
   [
@@ -262,16 +264,22 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
   ].each do |pattern, kind|
     sql.to_enum(:scan, pattern).each do
       match = Regexp.last_match
-      events << [match.begin(0), :delete, "#{kind}|#{match[1].sub(/^public\./, "")}"]
+      qualified_name = match[1]
+      next if qualified_name.include?(".") && !qualified_name.start_with?("public.")
+      events << [match.begin(0), :delete, "#{kind}|#{qualified_name.sub(/^public\./, "")}"]
     end
   end
   sql.to_enum(:scan, /^create policy\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/im).each do
     match = Regexp.last_match
-    events << [match.begin(0), :add, "policy|#{match[2].sub(/^public\./, "")}|#{match[1]}"]
+    qualified_name = match[2]
+    next if qualified_name.include?(".") && !qualified_name.start_with?("public.")
+    events << [match.begin(0), :add, "policy|#{qualified_name.sub(/^public\./, "")}|#{match[1]}"]
   end
   sql.to_enum(:scan, /^drop policy(?: if exists)?\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/im).each do
     match = Regexp.last_match
-    events << [match.begin(0), :delete, "policy|#{match[2].sub(/^public\./, "")}|#{match[1]}"]
+    qualified_name = match[2]
+    next if qualified_name.include?(".") && !qualified_name.start_with?("public.")
+    events << [match.begin(0), :delete, "policy|#{qualified_name.sub(/^public\./, "")}|#{match[1]}"]
   end
   events.sort_by(&:first).each do |_position, action, object_key|
     if action == :add

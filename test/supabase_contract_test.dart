@@ -27,6 +27,12 @@ void main() {
   final adminPeople = File(
     'supabase/migrations/20260901194500_admin_users_and_members.sql',
   ).readAsStringSync();
+  final publicPaymentRoutes = File(
+    'supabase/migrations/20260901200000_localize_public_group_payment_routes.sql',
+  ).readAsStringSync();
+  final adminCountryScope = File(
+    'supabase/migrations/20260901220000_admin_country_scope_contract.sql',
+  ).readAsStringSync();
   final config = File('supabase/config.toml').readAsStringSync();
   final repository = readAll([
     'lib/shared/repositories/collect_repository.dart',
@@ -184,6 +190,52 @@ void main() {
     expect(adminPeople, contains('collection.archived_at is null'));
   });
 
+  test('admin country scope is resolved server-side before pagination', () {
+    expect(
+      adminCountryScope,
+      contains('function public.admin_list_country_scoped'),
+    );
+    expect(
+      adminCountryScope,
+      contains("v_country not in ('RW', 'MT', 'OTHER')"),
+    );
+    expect(adminCountryScope, contains('jsonb_array_elements(v_all_rows)'));
+    expect(
+      adminCountryScope,
+      contains('private.collect_admin_country_for_row'),
+    );
+    expect(adminCountryScope, contains('public.bank_transfer_intents'));
+    expect(adminCountryScope, contains('public.bank_transaction_allocations'));
+    expect(adminCountryScope, contains('public.notification_events'));
+    expect(adminCountryScope, contains("set search_path = ''"));
+    expect(adminCountryScope, contains('from public, anon'));
+    expect(adminCountryScope, contains('to authenticated, service_role'));
+  });
+
+  test('public group directory exposes only its safe active payment route', () {
+    expect(
+      publicPaymentRoutes,
+      contains('function public.public_collection_payment_route'),
+    );
+    expect(publicPaymentRoutes, contains("set search_path = ''"));
+    expect(
+      publicPaymentRoutes,
+      contains(
+        'revoke all on function public.public_collection_payment_route(uuid)',
+      ),
+    );
+    expect(
+      publicPaymentRoutes,
+      contains("collection.public_status = 'public_approved'"),
+    );
+    expect(publicPaymentRoutes, contains('collection.is_platform_sponsored'));
+    expect(publicPaymentRoutes, contains('route.receiver_momo_number'));
+    expect(publicPaymentRoutes, contains('route.receiver_display_label'));
+    expect(publicPaymentRoutes, contains('route.receiver_network'));
+    expect(publicPaymentRoutes, isNot(contains('route.momo_number_hash')));
+    expect(publicPaymentRoutes, isNot(contains('route.receiver_user_id')));
+  });
+
   test(
     'placeholder bank details stay disabled until maker-checker approval',
     () {
@@ -236,8 +288,8 @@ void main() {
       expect(memberJourney, contains('LaunchMode.externalApplication'));
       expect(memberJourney, contains('https://www.revolut.com/app/'));
       expect(memberJourney, contains('markBankTransferHandoffOpened'));
-      expect(memberJourney, contains("label: 'IBAN'"));
-      expect(memberJourney, contains("label: 'Exact reference'"));
+      expect(memberJourney, contains(".text('iban')"));
+      expect(memberJourney, contains(".text('exactReference')"));
       expect(memberJourney, isNot(contains('sepa_debit')));
       expect(memberJourney, isNot(contains('Payment successful')));
     },
@@ -515,5 +567,31 @@ void main() {
     expect(deploy, contains('ingest-bank-email'));
     expect(deploy, contains('ingest-bank-sms'));
     expect(deploy, contains('ingest-bank-statement'));
+  });
+
+  test('live Admin UAT fixes preserve Gikundiro identity and ledger keys', () {
+    final migration = File(
+      'supabase/migrations/20260901223000_live_admin_uat_fixes.sql',
+    ).readAsStringSync();
+
+    expect(migration, contains("title = 'Gikundiro'"));
+    expect(migration, contains("slug = 'gikundiro'"));
+    expect(migration, contains("label = 'Rayon Sports FC'"));
+    expect(migration, contains('as amount'));
+    expect(migration, contains("'amount', amount"));
+    expect(migration, contains("assert_admin_permission('ledger.read')"));
+  });
+
+  test('Admin people detail omits placeholder identity labels', () {
+    final migration = File(
+      'supabase/migrations/20260901230000_admin_people_detail_contract.sql',
+    ).readAsStringSync();
+
+    expect(migration, contains("'phone_masked'"));
+    expect(migration, contains("'country_code'"));
+    expect(migration, contains("'payment_profile'"));
+    expect(migration, contains("'active_groups'"));
+    expect(migration, isNot(contains("'public_id'")));
+    expect(migration, isNot(contains("'display_name'")));
   });
 }

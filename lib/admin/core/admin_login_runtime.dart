@@ -100,8 +100,6 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                     size: 21,
                                   ),
                                 ),
-                                const Spacer(),
-                                _AdminLoginStatusChip(colors: colors),
                               ],
                             ),
                             const SizedBox(height: 28),
@@ -111,16 +109,6 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 color: colors.textPrimary,
                                 fontWeight: CollectTypography.weightBold,
                                 height: CollectTypography.leadingDisplayRelaxed,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'Admin WhatsApp sign-in.',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: textTheme.bodyLarge?.copyWith(
-                                color: colors.textSecondary,
-                                height: CollectTypography.leadingBody,
                               ),
                             ),
                             if (adminPwaEvidenceMode) ...[
@@ -503,44 +491,6 @@ class _AdminOtpInput extends StatelessWidget {
               color: tokens.focusRing,
               width: tokens.focusRingWidth,
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AdminLoginStatusChip extends StatelessWidget {
-  const _AdminLoginStatusChip({required this.colors});
-
-  final CollectColors colors;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: 'Secure admin area',
-      hint: 'Restricted console with audited operator activity.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.successContainer,
-          borderRadius: CollectRadius.pillBorder,
-          border: Border.all(color: colors.success.withValues(alpha: 0.18)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.shield_outlined, size: 16, color: colors.success),
-              const SizedBox(width: 6),
-              Text(
-                'Secure',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: colors.success,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-            ],
           ),
         ),
       ),

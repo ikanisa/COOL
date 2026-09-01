@@ -75,14 +75,13 @@ class _AdminGroupsWorkspace extends StatelessWidget {
         .where((row) => !_isArchivedGroup(row) && _isPublicGroup(row))
         .length;
     final privateCount = rows.length - publicCount - archived;
-    final ready = rows.where(_hasGroupPaymentRoute).length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _AdminOperationsSummary(
           semanticLabel:
               'Group page summary, ${rows.length} groups, $publicCount public, '
-              '$privateCount private, $archived archived, $ready payment ready',
+              '$privateCount private and $archived archived',
           items: [
             _AdminOperationsSummaryItem(
               icon: Icons.folder_copy_outlined,
@@ -99,11 +98,12 @@ class _AdminGroupsWorkspace extends StatelessWidget {
               value: '$privateCount',
               label: 'Private',
             ),
-            _AdminOperationsSummaryItem(
-              icon: Icons.verified_outlined,
-              value: '$ready',
-              label: 'Payment ready',
-            ),
+            if (archived > 0)
+              _AdminOperationsSummaryItem(
+                icon: Icons.archive_outlined,
+                value: '$archived',
+                label: 'Archived',
+              ),
           ],
         ),
         const SizedBox(height: 12),
@@ -164,11 +164,12 @@ class _AdminMembersWorkspace extends StatelessWidget {
               value: '$diaspora',
               label: 'Diaspora',
             ),
-            _AdminOperationsSummaryItem(
-              icon: Icons.admin_panel_settings_outlined,
-              value: '$admins',
-              label: 'Admins',
-            ),
+            if (admins > 0)
+              _AdminOperationsSummaryItem(
+                icon: Icons.admin_panel_settings_outlined,
+                value: '$admins',
+                label: 'Admins',
+              ),
           ],
         ),
         const SizedBox(height: 12),
@@ -179,9 +180,17 @@ class _AdminMembersWorkspace extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               if (constraints.maxWidth < 920) {
-                return _AdminMemberCards(rows: rows, onOpen: onOpen);
+                return _AdminMemberCards(
+                  rows: rows,
+                  onOpen: onOpen,
+                  scopeLabel: scopeLabel,
+                );
               }
-              return _AdminMemberTable(rows: rows, onOpen: onOpen);
+              return _AdminMemberTable(
+                rows: rows,
+                onOpen: onOpen,
+                scopeLabel: scopeLabel,
+              );
             },
           ),
         ),
@@ -420,58 +429,68 @@ class _AdminGroupTable extends StatelessWidget {
 }
 
 class _AdminMemberTable extends StatelessWidget {
-  const _AdminMemberTable({required this.rows, required this.onOpen});
+  const _AdminMemberTable({
+    required this.rows,
+    required this.onOpen,
+    required this.scopeLabel,
+  });
 
   final List<AdminTableRowData> rows;
   final ValueChanged<AdminTableRowData>? onOpen;
+  final String scopeLabel;
 
   @override
   Widget build(BuildContext context) {
+    final showGroups = scopeLabel == 'Members';
+    final showAdminState = rows.any((row) => row.status == 'admin');
+    final accountLabel = showGroups ? 'member' : 'user';
     return _AdminPremiumTable(
       minimumWidth: 900,
-      columns: const [
-        DataColumn(
+      columns: [
+        const DataColumn(
           label: _AdminColumnLabel.brand(
             brandIcon: FontAwesomeIcons.whatsapp,
             label: 'WhatsApp',
             iconOnly: true,
           ),
         ),
-        DataColumn(
+        const DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.public_outlined,
             label: 'Country',
             iconOnly: true,
           ),
         ),
-        DataColumn(
+        const DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.account_balance_wallet_outlined,
             label: 'Payment profile',
             iconOnly: true,
           ),
         ),
-        DataColumn(
-          numeric: true,
-          label: _AdminColumnLabel(
-            icon: Icons.groups_outlined,
-            label: 'Groups',
-            iconOnly: true,
+        if (showGroups)
+          const DataColumn(
+            numeric: true,
+            label: _AdminColumnLabel(
+              icon: Icons.groups_outlined,
+              label: 'Groups',
+              iconOnly: true,
+            ),
           ),
-        ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.verified_user_outlined,
-            label: 'State',
+        if (showAdminState)
+          const DataColumn(
+            label: _AdminColumnLabel(
+              icon: Icons.verified_user_outlined,
+              label: 'Admin access',
+            ),
           ),
-        ),
-        DataColumn(
+        const DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.update_outlined,
             label: 'Updated',
           ),
         ),
-        DataColumn(
+        const DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.open_in_new_outlined,
             label: 'Open',
@@ -491,20 +510,32 @@ class _AdminMemberTable extends StatelessWidget {
               ),
               DataCell(_AdminCountryLabel(countryCode: _country(row))),
               DataCell(_AdminMemberPaymentLabel(row: row)),
-              DataCell(
-                _AdminSingleValue(
-                  '${_extraInt(row, 'active_groups')}',
-                  alignEnd: true,
+              if (showGroups)
+                DataCell(
+                  _AdminSingleValue(
+                    '${_extraInt(row, 'active_groups')}',
+                    alignEnd: true,
+                  ),
                 ),
-              ),
-              DataCell(AdminStatusChip(label: row.status)),
+              if (showAdminState)
+                DataCell(
+                  row.status == 'admin'
+                      ? const AdminStatusChip(label: 'admin')
+                      : const SizedBox.shrink(),
+                ),
               DataCell(
                 _AdminDateTimeValue(
                   _extraDate(row, 'updated_at') ?? row.createdAt,
                   dateOnly: true,
                 ),
               ),
-              DataCell(_AdminOpenButton(row: row, onOpen: onOpen)),
+              DataCell(
+                _AdminOpenButton(
+                  row: row,
+                  onOpen: onOpen,
+                  label: 'Open $accountLabel account',
+                ),
+              ),
             ],
           ),
       ],
@@ -528,9 +559,9 @@ class _AdminTransactionCards extends StatelessWidget {
             title: _transactionReference(row),
             subtitle: '',
             iconOnlyFields: true,
-            status: row.status,
+            status: row.status == 'allocated' ? '' : row.status,
             onOpen: onOpen == null ? null : () => onOpen!(row),
-            openLabel: 'Open ${row.title}',
+            openLabel: 'Open transaction ${_transactionReference(row)}',
             fields: [
               if (_rail(row) == 'rw_momo')
                 _AdminOperationsFieldData(
@@ -592,11 +623,6 @@ class _AdminGroupCards extends StatelessWidget {
             openLabel: 'Open ${row.title}',
             fields: [
               _AdminOperationsFieldData(
-                Icons.visibility_outlined,
-                'Access',
-                _isPublicGroup(row) ? 'Public' : 'Private',
-              ),
-              _AdminOperationsFieldData(
                 Icons.groups_outlined,
                 'Members',
                 '${_groupMemberCount(row)}',
@@ -619,35 +645,31 @@ class _AdminGroupCards extends StatelessWidget {
 }
 
 class _AdminMemberCards extends StatelessWidget {
-  const _AdminMemberCards({required this.rows, required this.onOpen});
+  const _AdminMemberCards({
+    required this.rows,
+    required this.onOpen,
+    required this.scopeLabel,
+  });
 
   final List<AdminTableRowData> rows;
   final ValueChanged<AdminTableRowData>? onOpen;
+  final String scopeLabel;
 
   @override
   Widget build(BuildContext context) {
+    final accountLabel = scopeLabel == 'Members' ? 'member' : 'user';
     return _AdminOperationsCardList(
       children: [
         for (final row in rows)
           _AdminOperationsCard(
-            leading: const Icon(Icons.person_outline),
-            title: _memberCollectId(row),
-            subtitle: _extraText(
-              row,
-              'display_name',
-              fallback: 'Member profile',
-            ),
-            hidePrimaryText: true,
+            leading: const FaIcon(FontAwesomeIcons.whatsapp, size: 18),
+            title: _extraText(row, 'whatsapp_masked', fallback: row.subtitle),
+            subtitle: '',
             iconOnlyFields: true,
-            status: row.status,
+            status: row.status == 'admin' ? row.status : '',
             onOpen: onOpen == null ? null : () => onOpen!(row),
-            openLabel: 'Open ${row.title}',
+            openLabel: 'Open $accountLabel account',
             fields: [
-              _AdminOperationsFieldData.brand(
-                FontAwesomeIcons.whatsapp,
-                'WhatsApp',
-                _extraText(row, 'whatsapp_masked', fallback: row.subtitle),
-              ),
               _AdminOperationsFieldData(
                 Icons.public_outlined,
                 'Country',
@@ -658,11 +680,12 @@ class _AdminMemberCards extends StatelessWidget {
                 'Payment',
                 _memberPaymentLabel(row),
               ),
-              _AdminOperationsFieldData(
-                Icons.groups_outlined,
-                'Groups',
-                '${_extraInt(row, 'active_groups')}',
-              ),
+              if (scopeLabel == 'Members')
+                _AdminOperationsFieldData(
+                  Icons.groups_outlined,
+                  'Groups',
+                  '${_extraInt(row, 'active_groups')}',
+                ),
             ],
           ),
       ],
@@ -898,15 +921,16 @@ class _AdminDateTimeValue extends StatelessWidget {
 }
 
 class _AdminOpenButton extends StatelessWidget {
-  const _AdminOpenButton({required this.row, required this.onOpen});
+  const _AdminOpenButton({required this.row, required this.onOpen, this.label});
 
   final AdminTableRowData row;
   final ValueChanged<AdminTableRowData>? onOpen;
+  final String? label;
 
   @override
   Widget build(BuildContext context) {
     return IconButton.filledTonal(
-      tooltip: 'Open ${row.title}',
+      tooltip: label ?? 'Open ${row.title}',
       onPressed: onOpen == null ? null : () => onOpen!(row),
       icon: const Icon(Icons.arrow_outward, size: 18),
     );
@@ -1180,7 +1204,6 @@ class _AdminOperationsCard extends StatelessWidget {
     required this.onOpen,
     required this.openLabel,
     this.subtitleIcon,
-    this.hidePrimaryText = false,
     this.iconOnlyFields = false,
   });
 
@@ -1192,7 +1215,6 @@ class _AdminOperationsCard extends StatelessWidget {
   final VoidCallback? onOpen;
   final String openLabel;
   final IconData? subtitleIcon;
-  final bool hidePrimaryText;
   final bool iconOnlyFields;
 
   @override
@@ -1212,26 +1234,23 @@ class _AdminOperationsCard extends StatelessWidget {
             Row(
               children: [
                 Tooltip(
-                  message: hidePrimaryText ? 'Member record' : title,
+                  message: title,
                   child: SizedBox.square(
                     dimension: 38,
                     child: Center(child: leading),
                   ),
                 ),
-                if (!hidePrimaryText) ...[
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _AdminPrimaryCell(
-                      title: title,
-                      subtitle: subtitle,
-                      subtitleIcon: subtitleIcon,
-                      maxWidth: double.infinity,
-                    ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _AdminPrimaryCell(
+                    title: title,
+                    subtitle: subtitle,
+                    subtitleIcon: subtitleIcon,
+                    maxWidth: double.infinity,
                   ),
-                ] else
-                  const Spacer(),
+                ),
                 const SizedBox(width: 8),
-                AdminStatusChip(label: status),
+                if (status.isNotEmpty) AdminStatusChip(label: status),
                 if (onOpen != null) ...[
                   const SizedBox(width: 6),
                   IconButton.filledTonal(
@@ -1274,14 +1293,9 @@ class _AdminOperationsCard extends StatelessWidget {
 }
 
 class _AdminOperationsFieldData {
-  const _AdminOperationsFieldData(this.icon, this.label, this.value)
-    : brandIcon = null;
+  const _AdminOperationsFieldData(this.icon, this.label, this.value);
 
-  const _AdminOperationsFieldData.brand(this.brandIcon, this.label, this.value)
-    : icon = null;
-
-  final IconData? icon;
-  final FaIconData? brandIcon;
+  final IconData icon;
   final String label;
   final String value;
 }
@@ -1307,13 +1321,7 @@ class _AdminOperationsField extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(top: iconOnly ? 1 : 0),
-              child: data.brandIcon != null
-                  ? FaIcon(
-                      data.brandIcon!,
-                      size: 17,
-                      color: colors.textSecondary,
-                    )
-                  : Icon(data.icon, size: 17, color: colors.textSecondary),
+              child: Icon(data.icon, size: 17, color: colors.textSecondary),
             ),
             const SizedBox(width: 8),
             Expanded(
@@ -1360,7 +1368,9 @@ String _rail(AdminTableRowData row) => _extraText(
 );
 
 String _transactionReference(AdminTableRowData row) =>
-    _extraText(row, 'reference', fallback: row.title);
+    adminCompactTransactionReference(
+      _extraText(row, 'reference', fallback: row.title),
+    );
 
 String _momoSender(AdminTableRowData row) {
   final masked = _extraText(row, 'sender_masked').trim();
@@ -1444,12 +1454,6 @@ String _maskedReceiver(AdminTableRowData row) {
   return '${digits.substring(0, 2)}••••••${digits.substring(digits.length - 2)}';
 }
 
-String _memberCollectId(AdminTableRowData row) {
-  final publicId = _extraText(row, 'public_id');
-  if (publicId.isNotEmpty) return 'Collect ID $publicId';
-  return row.title;
-}
-
 String _country(AdminTableRowData row) =>
     _extraText(row, 'country_code', fallback: 'RW').toUpperCase();
 
@@ -1494,10 +1498,21 @@ DateTime? _extraDate(AdminTableRowData row, String key) {
 String _adminDateTime(DateTime? value, {bool dateOnly = false}) {
   if (value == null) return '—';
   final local = value.toLocal();
-  final date =
-      '${local.year.toString().padLeft(4, '0')}-'
-      '${local.month.toString().padLeft(2, '0')}-'
-      '${local.day.toString().padLeft(2, '0')}';
+  const months = <String>[
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  final date = '${local.day} ${months[local.month - 1]} ${local.year}';
   if (dateOnly) return date;
   final time =
       '${local.hour.toString().padLeft(2, '0')}:'

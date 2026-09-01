@@ -29,6 +29,41 @@ void main() {
     );
   });
 
+  test('validates WhatsApp number length against the selected country', () {
+    expect(
+      PhoneNormalizer.normalizeForCountry(
+        input: '0788 123 456',
+        phoneCode: '250',
+        exampleNationalNumber: '720123456',
+      ),
+      '+250788123456',
+    );
+    expect(
+      PhoneNormalizer.normalizeForCountry(
+        input: '+44 7400 123456',
+        phoneCode: '44',
+        exampleNationalNumber: '7400123456',
+      ),
+      '+447400123456',
+    );
+    expect(
+      () => PhoneNormalizer.normalizeForCountry(
+        input: '78812345',
+        phoneCode: '250',
+        exampleNationalNumber: '720123456',
+      ),
+      throwsFormatException,
+    );
+    expect(
+      () => PhoneNormalizer.normalizeForCountry(
+        input: '+44 7400 123456',
+        phoneCode: '250',
+        exampleNationalNumber: '720123456',
+      ),
+      throwsFormatException,
+    );
+  });
+
   test('generates unique 6-digit public IDs with retry', () {
     final generator = PublicIdGenerator(random: Random(7));
     final seen = <String>{};

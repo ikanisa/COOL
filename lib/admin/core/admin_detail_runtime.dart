@@ -211,10 +211,6 @@ class AdminDetailPage extends ConsumerWidget {
                 id: id,
                 data: data,
               ),
-              if (rpcName == 'admin_get_admin_user') ...[
-                const SizedBox(height: 16),
-                _AdminRoleManagementPanel(userId: id, data: data),
-              ],
               _AdminBankDetailActions(rpcName: rpcName, id: id, data: data),
             ],
           );
@@ -240,13 +236,37 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final spec = _AdminDetailSpec.forRpc(rpcName, title);
-    final fields = _adminDetailFields(spec, data);
+    final fields = _adminDetailFields(spec, data)
+        .where((field) {
+          if (rpcName == 'admin_get_user' && field.label == 'WhatsApp') {
+            return false;
+          }
+          if (rpcName == 'admin_get_user' &&
+              title == 'User detail' &&
+              field.label == 'Groups') {
+            return false;
+          }
+          if (rpcName == 'admin_get_admin_user' && field.label == 'Phone') {
+            return false;
+          }
+          if (rpcName == 'admin_get_collect_transaction' &&
+              field.label == 'Reference') {
+            return false;
+          }
+          if (rpcName == 'admin_get_notification' &&
+              field.label == 'Delivery statuses') {
+            return false;
+          }
+          return true;
+        })
+        .toList(growable: false);
+    final heading = _adminDetailHeading(rpcName, title, spec.heading, data);
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
     final colors = context.collectColors;
     return Semantics(
       container: true,
       explicitChildNodes: true,
-      label: '${spec.heading} detail panel',
+      label: '$heading detail panel',
       hint: spec.subtitle,
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -272,7 +292,7 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Text(
-                    spec.heading,
+                    heading,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: CollectTypography.weightBold,
@@ -318,10 +338,32 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     label: 'Retry failed notification deliveries',
                     hint:
                         'Opens a reason dialog before returning failed deliveries to the queue.',
-                    child: FilledButton.icon(
+                    child: IconButton.filled(
+                      tooltip: 'Retry failed delivery',
                       onPressed: () => _retryNotification(context, ref),
                       icon: const Icon(Icons.replay_outlined),
-                      label: const Text('Retry failed delivery'),
+                    ),
+                  ),
+                ),
+              ],
+              if (rpcName == 'admin_get_admin_user' &&
+                  _adminHasPermission(identity, 'admin_users.manage')) ...[
+                const SizedBox(height: 18),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton.filledTonal(
+                    tooltip: _adminAccessIsActive(data)
+                        ? 'Deactivate Admin access'
+                        : 'Activate Admin access',
+                    onPressed: () => _changeAdminAccess(
+                      context,
+                      ref,
+                      active: _adminAccessIsActive(data),
+                    ),
+                    icon: Icon(
+                      _adminAccessIsActive(data)
+                          ? Icons.person_remove_outlined
+                          : Icons.person_add_alt_1_outlined,
                     ),
                   ),
                 ),
@@ -340,14 +382,14 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     onTap: () =>
                         _recordOperatorNote(context, ref, spec.noteEntityType!),
                     child: ExcludeSemantics(
-                      child: OutlinedButton.icon(
+                      child: IconButton.outlined(
+                        tooltip: 'Record note',
                         onPressed: () => _recordOperatorNote(
                           context,
                           ref,
                           spec.noteEntityType!,
                         ),
                         icon: const Icon(Icons.note_add_outlined),
-                        label: const Text('Record note'),
                       ),
                     ),
                   ),
@@ -363,7 +405,6 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                     'visibility',
                     'status',
                   ]),
-                  isPlatformSponsored: data['is_platform_sponsored'] == true,
                 ),
               ],
               if (rpcName == 'admin_get_collection' &&
@@ -372,8 +413,6 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _AdminPlatformPublicGroupEditor(collectionId: id, data: data),
               ],
-              const SizedBox(height: 18),
-              _AdminDetailWorkflowPanel(spec: spec),
             ],
           ),
         ),
@@ -427,137 +466,32 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       context,
     ).showSnackBar(const SnackBar(content: Text('Operator note recorded')));
   }
-}
 
-class _AdminRoleManagementPanel extends ConsumerWidget {
-  const _AdminRoleManagementPanel({required this.userId, required this.data});
-
-  final String userId;
-  final Map<String, dynamic> data;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
-    final canManage = _adminHasPermission(identity, 'admin_users.manage');
-    final activeRoles = _detailStringList(data['active_roles']);
-    final availableRoles = _detailStringList(data['available_roles']);
-    final colors = context.collectColors;
-    return Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: 'Admin role management',
-      hint: canManage
-          ? 'Grant or revoke roles with a required audit reason.'
-          : 'Read-only role visibility.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceReadable.withValues(alpha: 0.96),
-          borderRadius: BorderRadius.circular(26),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Role access',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                canManage
-                    ? 'Every change requires a reason and is written to the audit log.'
-                    : 'You can review roles but do not have role-management permission.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
-              ),
-              const SizedBox(height: 16),
-              if (availableRoles.isEmpty)
-                const AdminEmptyState(title: 'No roles available')
-              else
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    for (final role in availableRoles)
-                      _AdminRoleActionChip(
-                        userId: userId,
-                        role: role,
-                        active: activeRoles.contains(role),
-                        canManage: canManage,
-                      ),
-                  ],
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AdminRoleActionChip extends ConsumerWidget {
-  const _AdminRoleActionChip({
-    required this.userId,
-    required this.role,
-    required this.active,
-    required this.canManage,
-  });
-
-  final String userId;
-  final String role;
-  final bool active;
-  final bool canManage;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final label = _labelizeDetailKey(role);
-    final colors = context.collectColors;
-    return Semantics(
-      button: canManage,
-      enabled: canManage,
-      label: active ? '$label role active' : '$label role inactive',
-      hint: canManage
-          ? '${active ? 'Revoke' : 'Grant'} this role with a reason.'
-          : 'Role-management permission is required.',
-      child: active
-          ? OutlinedButton.icon(
-              onPressed: canManage ? () => _changeRole(context, ref) : null,
-              icon: const Icon(Icons.verified_user_outlined),
-              label: Text('$label · Revoke'),
-              style: OutlinedButton.styleFrom(foregroundColor: colors.danger),
-            )
-          : OutlinedButton.icon(
-              onPressed: canManage ? () => _changeRole(context, ref) : null,
-              icon: const Icon(Icons.person_add_alt_1_outlined),
-              label: Text('$label · Grant'),
-            ),
-    );
-  }
-
-  Future<void> _changeRole(BuildContext context, WidgetRef ref) async {
-    final verb = active ? 'Revoke' : 'Grant';
+  Future<void> _changeAdminAccess(
+    BuildContext context,
+    WidgetRef ref, {
+    required bool active,
+  }) async {
+    final verb = active ? 'Deactivate' : 'Activate';
     final reason = await showAdminReasonDialog(
       context,
-      title: '$verb ${_labelizeDetailKey(role)} role',
-      actionLabel: '$verb role',
+      title: '$verb Admin access',
+      actionLabel: verb,
     );
     if (reason == null) return;
     try {
-      await ref.read(adminRepositoryProvider).action(
-        active ? 'admin_revoke_user_role' : 'admin_grant_user_role',
-        {'p_user_id': userId, 'p_role_name': role, 'p_reason': reason},
-      );
+      await ref.read(adminRepositoryProvider).action('admin_set_user_access', {
+        'p_user_id': id,
+        'p_active': !active,
+        'p_reason': reason,
+      });
       ref.read(adminRealtimeTickProvider.notifier).state += 1;
       ref.invalidate(adminIdentityProvider);
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$role role ${active ? 'revoked' : 'granted'}')),
+        SnackBar(
+          content: Text('Admin access ${active ? 'deactivated' : 'activated'}'),
+        ),
       );
     } catch (error) {
       if (!context.mounted) return;
@@ -566,6 +500,13 @@ class _AdminRoleActionChip extends ConsumerWidget {
       ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
     }
   }
+}
+
+bool _adminAccessIsActive(Map<String, dynamic> data) {
+  final status = '${data['status'] ?? ''}'.trim().toLowerCase();
+  if (status == 'active') return true;
+  final roles = _detailStringList(data['active_roles']);
+  return roles.contains('admin') || roles.contains('platform_owner');
 }
 
 int _detailInt(Object? value) {
@@ -584,13 +525,17 @@ List<String> _detailStringList(Object? value) {
 
 String _adminActionErrorMessage(Object error) {
   final message = error.toString().toLowerCase();
-  if (message.contains('last platform owner')) {
-    return 'The last platform owner cannot be revoked.';
+  if (message.contains('last platform owner') ||
+      message.contains('last admin')) {
+    return 'The last Admin cannot be deactivated.';
   }
-  if (message.contains('your own platform owner')) {
-    return 'You cannot revoke your own platform owner role.';
+  if (message.contains('your own platform owner') ||
+      message.contains('your own admin access')) {
+    return 'You cannot deactivate your own Admin access.';
   }
-  if (message.contains('already active')) return 'That role is already active.';
+  if (message.contains('already active')) {
+    return 'Admin access is already active.';
+  }
   if (message.contains('no retryable failed deliveries')) {
     return 'No active failed delivery is eligible for retry.';
   }
@@ -607,88 +552,52 @@ class _AdminCollectionStatusActions extends ConsumerWidget {
   const _AdminCollectionStatusActions({
     required this.collectionId,
     required this.currentStatus,
-    required this.isPlatformSponsored,
   });
 
   final String collectionId;
   final String currentStatus;
-  final bool isPlatformSponsored;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.collectColors;
     return Semantics(
       container: true,
       explicitChildNodes: true,
       label: 'Group lifecycle actions',
       hint: 'Activates or deactivates the group with an audited reason.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceMuted.withValues(alpha: 0.84),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Group lifecycle',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                isPlatformSponsored
-                    ? 'Edit the public catalogue details, then use a reason-gated action to activate or deactivate this sponsored group.'
-                    : 'Review the private group details, then use a reason-gated action to activate or deactivate it.',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colors.textSecondary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  if (currentStatus == 'public_requested') ...[
-                    _AdminCollectionStatusButton(
-                      collectionId: collectionId,
-                      status: 'public_approved',
-                      label: 'Approve public',
-                      icon: Icons.public_rounded,
-                    ),
-                    _AdminCollectionStatusButton(
-                      collectionId: collectionId,
-                      status: 'public_rejected',
-                      label: 'Reject public',
-                      icon: Icons.block_outlined,
-                    ),
-                  ],
-                  if (currentStatus == 'archived')
-                    _AdminCollectionStatusButton(
-                      collectionId: collectionId,
-                      status: 'active',
-                      label: 'Activate',
-                      icon: Icons.play_circle_outline,
-                    )
-                  else
-                    _AdminCollectionStatusButton(
-                      collectionId: collectionId,
-                      status: 'inactive',
-                      label: 'Deactivate',
-                      icon: Icons.pause_circle_outline,
-                      destructive: true,
-                    ),
-                ],
-              ),
-            ],
-          ),
-        ),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          if (currentStatus == 'public_requested') ...[
+            _AdminCollectionStatusButton(
+              collectionId: collectionId,
+              status: 'public_approved',
+              label: 'Approve public',
+              icon: Icons.public_rounded,
+            ),
+            _AdminCollectionStatusButton(
+              collectionId: collectionId,
+              status: 'public_rejected',
+              label: 'Reject public',
+              icon: Icons.block_outlined,
+            ),
+          ],
+          if (currentStatus == 'archived' || currentStatus == 'inactive')
+            _AdminCollectionStatusButton(
+              collectionId: collectionId,
+              status: 'active',
+              label: 'Activate',
+              icon: Icons.play_circle_outline,
+            )
+          else
+            _AdminCollectionStatusButton(
+              collectionId: collectionId,
+              status: 'inactive',
+              label: 'Deactivate',
+              icon: Icons.pause_circle_outline,
+              destructive: true,
+            ),
+        ],
       ),
     );
   }
@@ -712,12 +621,12 @@ class _AdminCollectionStatusButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.collectColors;
-    final button = OutlinedButton.icon(
+    final button = IconButton.outlined(
+      tooltip: label,
       onPressed: () => _updateStatus(context, ref),
       icon: Icon(icon),
-      label: Text(label),
       style: destructive
-          ? OutlinedButton.styleFrom(foregroundColor: colors.danger)
+          ? IconButton.styleFrom(foregroundColor: colors.danger)
           : null,
     );
     return Semantics(
@@ -850,18 +759,11 @@ class _AdminPlatformPublicGroupEditorState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Public group catalogue',
+                  'Edit group',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     color: colors.textPrimary,
                     fontWeight: CollectTypography.weightBold,
                   ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'These values are stored in Supabase and shown in the member app. Manage the immutable MoMo route from Payees.',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
                 ),
                 const SizedBox(height: 12),
                 Wrap(
@@ -897,10 +799,6 @@ class _AdminPlatformPublicGroupEditorState
                       },
                     ),
                     _publicGroupTextField(
-                      controller: _categorySubtype,
-                      label: 'Category key',
-                    ),
-                    _publicGroupTextField(
                       controller: _purposeLabel,
                       label: 'Purpose label',
                     ),
@@ -915,7 +813,8 @@ class _AdminPlatformPublicGroupEditorState
                   ],
                 ),
                 const SizedBox(height: 14),
-                FilledButton.icon(
+                IconButton.filled(
+                  tooltip: 'Save group changes',
                   onPressed: _working ? null : _save,
                   icon: _working
                       ? const SizedBox.square(
@@ -923,7 +822,6 @@ class _AdminPlatformPublicGroupEditorState
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.save_outlined),
-                  label: Text(_working ? 'Saving…' : 'Save public group'),
                 ),
               ],
             ),
@@ -1104,6 +1002,21 @@ IconData _adminDetailFieldIcon(String label) {
   if (normalized.contains('phone') || normalized.contains('sender')) {
     return Icons.phone_outlined;
   }
+  if (normalized.contains('database')) return Icons.storage_outlined;
+  if (normalized.contains('authentication')) {
+    return Icons.verified_user_outlined;
+  }
+  if (normalized.contains('failed')) return Icons.error_outline_rounded;
+  if (normalized.contains('processing')) return Icons.sync_rounded;
+  if (normalized.contains('queued')) return Icons.schedule_send_outlined;
+  if (normalized.contains('notification')) {
+    return Icons.notifications_outlined;
+  }
+  if (normalized.contains('reconciliation') ||
+      normalized.contains('exception')) {
+    return Icons.balance_outlined;
+  }
+  if (normalized.contains('allocation')) return Icons.call_split_outlined;
   if (normalized.contains('amount') ||
       normalized.contains('currency') ||
       normalized.contains('raised')) {
@@ -1112,8 +1025,17 @@ IconData _adminDetailFieldIcon(String label) {
   if (normalized.contains('status') || normalized.contains('active')) {
     return Icons.verified_outlined;
   }
+  if (normalized.contains('country') || normalized.contains('visibility')) {
+    return Icons.public_outlined;
+  }
+  if (normalized.contains('payment')) {
+    return Icons.account_balance_wallet_outlined;
+  }
+  if (normalized.contains('purpose')) return Icons.category_outlined;
   if (normalized.contains('created') ||
       normalized.contains('received') ||
+      normalized.contains('checked') ||
+      normalized.contains('updated') ||
       normalized.contains('expires')) {
     return Icons.schedule_outlined;
   }
@@ -1143,85 +1065,6 @@ IconData _adminDetailFieldIcon(String label) {
     return Icons.tag_outlined;
   }
   return Icons.info_outline;
-}
-
-class _AdminDetailWorkflowPanel extends StatelessWidget {
-  const _AdminDetailWorkflowPanel({required this.spec});
-
-  final _AdminDetailSpec spec;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      container: true,
-      label: '${spec.heading} operator next steps',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.textPrimary.withValues(alpha: 0.94),
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(
-            color: colors.surfaceReadable.withValues(alpha: 0.12),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              for (final action in spec.actions)
-                _AdminDetailActionChip(action: action),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AdminDetailActionChip extends StatelessWidget {
-  const _AdminDetailActionChip({required this.action});
-
-  final _AdminDetailAction action;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceReadable.withValues(alpha: 0.11),
-          borderRadius: BorderRadius.circular(CollectRadius.md),
-          border: Border.all(
-            color: colors.surfaceReadable.withValues(alpha: 0.14),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(action.icon, size: 18, color: colors.surfaceReadable),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  action.label,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: colors.surfaceReadable,
-                    fontWeight: CollectTypography.weightBold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 bool _adminHasPermission(AdminIdentity? identity, String permission) {

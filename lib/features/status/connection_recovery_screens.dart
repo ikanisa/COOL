@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -13,7 +12,7 @@ class OfflineRecoveryScreen extends StatelessWidget {
     return const _ConnectionRecoveryScreen(
       title: 'Offline mode',
       subtitle: 'Saved data is available',
-      bannerStatus: ConnectivityStatus.offlineStale,
+      tone: CollectStatusTone.warning,
       heroIcon: CollectIcons.sync,
       heroTitle: 'You are offline',
       heroMessage:
@@ -47,7 +46,7 @@ class SyncRecoveryScreen extends StatelessWidget {
     return const _ConnectionRecoveryScreen(
       title: 'Sync status',
       subtitle: 'Latest changes are pending',
-      bannerStatus: ConnectivityStatus.degraded,
+      tone: CollectStatusTone.info,
       heroIcon: CollectIcons.pending,
       heroTitle: 'Sync needs attention',
       heroMessage:
@@ -77,7 +76,7 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
   const _ConnectionRecoveryScreen({
     required this.title,
     required this.subtitle,
-    required this.bannerStatus,
+    required this.tone,
     required this.heroIcon,
     required this.heroTitle,
     required this.heroMessage,
@@ -89,7 +88,7 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
 
   final String title;
   final String subtitle;
-  final ConnectivityStatus bannerStatus;
+  final CollectStatusTone tone;
   final IconData heroIcon;
   final String heroTitle;
   final String heroMessage;
@@ -105,15 +104,12 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
       subtitle: subtitle,
       showHeader: false,
       compact: true,
-      persistentPill: CollectConnectivityBanner(status: bannerStatus),
       children: [
         MinimalStatePanel(
           icon: heroIcon,
           title: heroTitle,
           message: heroMessage,
-          tone: bannerStatus == ConnectivityStatus.offlineStale
-              ? CollectStatusTone.warning
-              : CollectStatusTone.info,
+          tone: tone,
         ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,

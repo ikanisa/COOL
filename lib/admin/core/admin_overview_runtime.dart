@@ -3,35 +3,117 @@ part of 'admin_runtime.dart';
 final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
   (ref) async {
     ref.watch(adminRealtimeTickProvider);
+    final countryScope = ref.watch(adminCountryScopeProvider);
     final repository = ref.watch(adminRepositoryProvider);
     final metricsFuture = repository.overviewMetrics();
     final attentionFuture = repository.list(
       'admin_list_collect_reconciliations',
-      limit: 3,
+      limit: countryScope == AdminCountryScope.all ? 3 : 100,
       offset: 0,
       sortBy: 'created_at_desc',
+      countryCode: countryScope.rpcCode,
     );
     final allocationsFuture = repository.list(
       'admin_list_collect_ledgers',
-      limit: 4,
+      limit: countryScope == AdminCountryScope.all ? 4 : 100,
       offset: 0,
       sortBy: 'created_at_desc',
+      countryCode: countryScope.rpcCode,
+    );
+    final payeesFuture = repository.list(
+      'admin_list_collect_payees',
+      limit: 100,
+      offset: 0,
+      sortBy: 'created_at_desc',
+      countryCode: countryScope.rpcCode,
     );
     final slaFuture = repository.queueSla('admin_list_collect_reconciliations');
     final values = await Future.wait<Object?>([
       metricsFuture,
       attentionFuture,
       allocationsFuture,
+      payeesFuture,
       slaFuture,
     ]);
+    final rawMetrics = values[0]! as List<AdminMetric>;
+    final rawAttention = values[1]! as AdminListResult;
+    final rawAllocations = values[2]! as AdminListResult;
+    final rawPayees = values[3]! as AdminListResult;
+    final attention = _scopeOverviewResult(
+      rawAttention,
+      countryScope,
+      visibleLimit: 3,
+    );
+    final allocations = _scopeOverviewResult(
+      rawAllocations,
+      countryScope,
+      visibleLimit: 4,
+    );
+    final payees = _scopeOverviewResult(
+      rawPayees,
+      countryScope,
+      visibleLimit: 100,
+    );
     return _AdminOverviewWorkspace(
-      metrics: values[0]! as List<AdminMetric>,
-      attention: values[1]! as AdminListResult,
-      allocations: values[2]! as AdminListResult,
-      sla: values[3] as AdminQueueSla?,
+      metrics: countryScope == AdminCountryScope.all
+          ? rawMetrics
+          : _scopedOverviewMetrics(
+              rawMetrics,
+              openReconciliations: attention.total ?? attention.rows.length,
+              unallocatedTransactions: rawAttention.rows
+                  .where(
+                    (row) =>
+                        adminRowMatchesCountryScope(row, countryScope) &&
+                        row.status == 'unallocated',
+                  )
+                  .length,
+              allocations: allocations.total ?? allocations.rows.length,
+              payees: payees.total ?? payees.rows.length,
+            ),
+      attention: attention,
+      allocations: allocations,
+      sla: values[4] as AdminQueueSla?,
     );
   },
 );
+
+AdminListResult _scopeOverviewResult(
+  AdminListResult result,
+  AdminCountryScope scope, {
+  required int visibleLimit,
+}) {
+  if (scope == AdminCountryScope.all) return result;
+  final matching = result.rows
+      .where((row) => adminRowMatchesCountryScope(row, scope))
+      .toList(growable: false);
+  return AdminListResult(
+    rows: matching.take(visibleLimit).toList(growable: false),
+    total: matching.length,
+  );
+}
+
+List<AdminMetric> _scopedOverviewMetrics(
+  List<AdminMetric> source, {
+  required int openReconciliations,
+  required int unallocatedTransactions,
+  required int allocations,
+  required int payees,
+}) {
+  return [
+    for (final metric in source)
+      AdminMetric(
+        label: metric.label,
+        value: switch (metric.label) {
+          'Open reconciliations' => '$openReconciliations',
+          'Unallocated transactions' => '$unallocatedTransactions',
+          'Balanced ledgers' => '$allocations',
+          'Active payees' => '$payees',
+          _ => metric.value,
+        },
+        status: metric.status,
+      ),
+  ];
+}
 
 class _AdminOverviewWorkspace {
   const _AdminOverviewWorkspace({
@@ -150,25 +232,20 @@ class _OverviewSummary extends StatelessWidget {
                   ),
               ],
             );
-            final action = FilledButton.icon(
+            final action = IconButton.filled(
               key: const Key('admin-review-next-exception'),
+              tooltip: 'Review next exception',
               onPressed: () => context.go('/admin/reconciliations'),
-              style: FilledButton.styleFrom(
+              style: IconButton.styleFrom(
                 backgroundColor: colors.onImagePrimary,
                 foregroundColor: CollectColors.referenceChromeBlack,
-                minimumSize: const Size(198, 48),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
               ),
-              iconAlignment: IconAlignment.end,
               icon: const Icon(Icons.arrow_forward_rounded, size: 19),
-              label: const Text('Review next exception'),
             );
             if (compact) {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [metricsWrap, const SizedBox(height: 14), action],
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [metricsWrap, const SizedBox(height: 10), action],
               );
             }
             final metricsRow = Row(
@@ -304,7 +381,7 @@ class _AttentionQueue extends StatelessWidget {
             _PanelHeading(
               title: 'Needs attention',
               count: total,
-              subtitle: 'Exceptions requiring review',
+              subtitle: '',
               actionLabel: 'View all exceptions',
               onAction: () => context.go('/admin/reconciliations'),
             ),
@@ -334,39 +411,23 @@ class _AttentionQueue extends StatelessWidget {
                   return _AttentionTable(rows: rows);
                 },
               ),
-            Divider(height: 1, color: colors.borderSoft),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-              child: Row(
-                children: [
-                  Text(
-                    'Showing ${rows.length} of $total',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelMedium?.copyWith(color: colors.textMuted),
-                  ),
-                  const Spacer(),
-                  const IconButton.outlined(
-                    tooltip: 'Previous queue page',
-                    onPressed: null,
-                    icon: Icon(Icons.chevron_left_rounded),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '1 of ${math.max(1, (total / 3).ceil())}',
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: colors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton.outlined(
+            if (total > rows.length) ...[
+              Divider(height: 1, color: colors.borderSoft),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 8,
+                ),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton.outlined(
                     tooltip: 'Open full exceptions queue',
                     onPressed: () => context.go('/admin/reconciliations'),
                     icon: const Icon(Icons.chevron_right_rounded),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
@@ -412,7 +473,7 @@ class _AttentionTable extends StatelessWidget {
         for (final row in rows)
           TableRow(
             children: [
-              _RecordSummary(row: row),
+              _RecordSummary(row: row, referenceFirst: true),
               _TableValue(_sender(row)),
               _TableValue(_amount(row), strong: true),
               Padding(
@@ -430,15 +491,10 @@ class _AttentionTable extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(0, 44),
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                        ),
-                        onPressed: () => context.go('/admin/reconciliations'),
-                        child: const Text('Review'),
-                      ),
+                    IconButton.outlined(
+                      tooltip: 'Review reconciliation',
+                      onPressed: () => context.go('/admin/reconciliations'),
+                      icon: const Icon(Icons.arrow_outward_rounded, size: 18),
                     ),
                     SizedBox(
                       width: 44,
@@ -483,7 +539,7 @@ class _AttentionCompactRow extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  row.title,
+                  _reference(row),
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     color: colors.textPrimary,
                     fontWeight: CollectTypography.weightBold,
@@ -495,7 +551,7 @@ class _AttentionCompactRow extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            '${_reference(row)} · ${_sender(row)}',
+            _sender(row),
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
@@ -513,9 +569,10 @@ class _AttentionCompactRow extends StatelessWidget {
               const Spacer(),
               Text(_age(row)),
               const SizedBox(width: 12),
-              OutlinedButton(
+              IconButton.outlined(
+                tooltip: 'Review reconciliation',
                 onPressed: () => context.go('/admin/reconciliations'),
-                child: const Text('Review'),
+                icon: const Icon(Icons.arrow_outward_rounded, size: 18),
               ),
             ],
           ),
@@ -539,7 +596,6 @@ class _QueueHealth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final parser = _metricValue(metrics, 'Evidence health', fallback: '—');
     final review = _metricValue(
       metrics,
       'Open exceptions',
@@ -551,8 +607,6 @@ class _QueueHealth extends StatelessWidget {
       fallback: '0',
     );
     final oldest = _oldestAge(result.rows);
-    final reviewTotal =
-        int.tryParse(review) ?? result.total ?? result.rows.length;
     return DecoratedBox(
       decoration: _overviewPanelDecoration(colors),
       child: Padding(
@@ -578,21 +632,10 @@ class _QueueHealth extends StatelessWidget {
               value: oldest,
               valueColor: colors.warningForeground,
             ),
-            _HealthRow(
-              label: 'Evidence health',
-              value: parser,
-              valueColor: colors.successForeground,
-            ),
-            const _HealthRow(
-              label: 'Evidence status',
-              value: 'active',
-              chip: true,
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Divider(color: colors.borderSoft),
             ),
-            _HealthRow(label: 'Total in queue', value: '$reviewTotal'),
             _HealthRow(
               label: 'Open exceptions',
               value: review,
@@ -603,35 +646,6 @@ class _QueueHealth extends StatelessWidget {
               value: approvals,
               valueColor: colors.warningForeground,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Divider(color: colors.borderSoft),
-            ),
-            Semantics(
-              container: true,
-              label:
-                  'Sensitive data gated. Raw transaction messages are restricted and audited.',
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.policy_outlined,
-                    size: 20,
-                    color: colors.textSecondary,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Raw transaction messages remain gated.\nAccess is restricted and all access is audited.',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.textSecondary,
-                        height: CollectTypography.leadingSupporting,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -640,17 +654,11 @@ class _QueueHealth extends StatelessWidget {
 }
 
 class _HealthRow extends StatelessWidget {
-  const _HealthRow({
-    required this.label,
-    required this.value,
-    this.valueColor,
-    this.chip = false,
-  });
+  const _HealthRow({required this.label, required this.value, this.valueColor});
 
   final String label;
   final String value;
   final Color? valueColor;
-  final bool chip;
 
   @override
   Widget build(BuildContext context) {
@@ -660,6 +668,7 @@ class _HealthRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
+            flex: 2,
             child: Text(
               label,
               style: Theme.of(
@@ -667,17 +676,20 @@ class _HealthRow extends StatelessWidget {
               ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
             ),
           ),
-          if (chip)
-            AdminStatusChip(label: value)
-          else
-            Text(
+          const SizedBox(width: 12),
+          Flexible(
+            flex: 3,
+            child: Text(
               value,
+              textAlign: TextAlign.end,
+              softWrap: true,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: valueColor ?? colors.textPrimary,
                 fontWeight: CollectTypography.weightBold,
                 fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
+          ),
         ],
       ),
     );
@@ -699,31 +711,18 @@ class _RecentAllocations extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Recent ledger allocations',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: CollectTypography.weightBold,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    'Latest balanced postings for allocated transactions',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colors.textSecondary,
-                    ),
-                  ),
-                ],
+              child: Text(
+                'Recent allocations',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
+                ),
               ),
             ),
-            TextButton.icon(
+            IconButton(
+              tooltip: 'Open ledgers',
               onPressed: () => context.go('/admin/ledgers'),
-              iconAlignment: IconAlignment.end,
               icon: const Icon(Icons.open_in_new_rounded, size: 17),
-              label: const Text('View all ledgers'),
             ),
           ],
         ),
@@ -751,34 +750,6 @@ class _RecentAllocations extends StatelessWidget {
                           ]
                         else
                           _AllocationTable(rows: rows),
-                        Divider(height: 1, color: colors.borderSoft),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 11,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Showing ${rows.length} of ${result.total ?? rows.length}',
-                                style: Theme.of(context).textTheme.labelMedium
-                                    ?.copyWith(color: colors.textMuted),
-                              ),
-                              const Spacer(),
-                              TextButton.icon(
-                                onPressed: () => context.go('/admin/ledgers'),
-                                iconAlignment: IconAlignment.end,
-                                icon: const Icon(
-                                  Icons.chevron_right_rounded,
-                                  size: 18,
-                                ),
-                                label: Text(
-                                  compact ? 'View all' : 'View all ledgers',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     );
                   },
@@ -975,21 +946,22 @@ class _PanelHeading extends StatelessWidget {
                         ],
                       ],
                     ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.textSecondary,
+                    if (subtitle.isNotEmpty) ...[
+                      const SizedBox(height: 3),
+                      Text(
+                        subtitle,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),
-              TextButton.icon(
+              IconButton(
+                tooltip: actionLabel,
                 onPressed: onAction,
-                iconAlignment: IconAlignment.end,
                 icon: const Icon(Icons.open_in_new_rounded, size: 17),
-                label: Text(compact ? 'View all' : actionLabel),
               ),
             ],
           ),
@@ -1067,9 +1039,10 @@ class _TableValue extends StatelessWidget {
 }
 
 class _RecordSummary extends StatelessWidget {
-  const _RecordSummary({required this.row});
+  const _RecordSummary({required this.row, this.referenceFirst = false});
 
   final AdminTableRowData row;
+  final bool referenceFirst;
 
   @override
   Widget build(BuildContext context) {
@@ -1080,7 +1053,7 @@ class _RecordSummary extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            row.title,
+            referenceFirst ? _reference(row) : row.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -1088,15 +1061,17 @@ class _RecordSummary extends StatelessWidget {
               fontWeight: CollectTypography.weightBold,
             ),
           ),
-          const SizedBox(height: 2),
-          Text(
-            _reference(row),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: colors.textMuted),
-          ),
+          if (!referenceFirst) ...[
+            const SizedBox(height: 2),
+            Text(
+              _reference(row),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(color: colors.textMuted),
+            ),
+          ],
         ],
       ),
     );
@@ -1169,7 +1144,9 @@ String _sender(AdminTableRowData row) {
 }
 
 String _reference(AdminTableRowData row) {
-  return _extraString(row, 'reference', 'Ref ${row.id}');
+  return adminCompactTransactionReference(
+    _extraString(row, 'reference', 'Ref ${row.id}'),
+  );
 }
 
 String _allocatedTo(AdminTableRowData row) {
@@ -1182,7 +1159,7 @@ String _operator(AdminTableRowData row) {
 
 String _age(AdminTableRowData row) {
   final explicit = _extraString(row, 'age', '');
-  if (explicit.isNotEmpty) return explicit;
+  if (explicit.isNotEmpty) return _compactAge(explicit);
   final createdAt = row.createdAt;
   if (createdAt == null) return '—';
   final duration = DateTime.now().toUtc().difference(createdAt);
@@ -1192,6 +1169,21 @@ String _age(AdminTableRowData row) {
     return '${duration.inHours}h ${duration.inMinutes.remainder(60)}m';
   }
   return '${duration.inDays}d';
+}
+
+String _compactAge(String value) {
+  final normalized = value.trim();
+  final postgresInterval = RegExp(
+    r'^(?:(\d+)\s+days?\s+)?(\d{1,2}):(\d{2})(?::\d{2}(?:\.\d+)?)?$',
+  ).firstMatch(normalized);
+  if (postgresInterval == null) return normalized;
+
+  final days = int.tryParse(postgresInterval.group(1) ?? '') ?? 0;
+  final hours = int.tryParse(postgresInterval.group(2) ?? '') ?? 0;
+  final minutes = int.tryParse(postgresInterval.group(3) ?? '') ?? 0;
+  if (days > 0) return '${days}d';
+  if (hours > 0) return '${hours}h ${minutes}m';
+  return '${math.max(1, minutes)}m';
 }
 
 String _oldestAge(List<AdminTableRowData> rows) {
@@ -1247,6 +1239,9 @@ String _month(int value) {
 
 String _compactSla(String? target) {
   if (target == null || target.trim().isEmpty) return '< 4h';
+  if (RegExp(r'next\s+business\s+day', caseSensitive: false).hasMatch(target)) {
+    return 'Next business day';
+  }
   final match = RegExp(
     r'(\d+)\s*(?:business\s*)?hours?',
     caseSensitive: false,

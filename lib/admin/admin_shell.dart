@@ -231,7 +231,7 @@ const _sectionLabels = <_AdminNavSection, String>{
   _AdminNavSection.control: 'CONTROL',
 };
 
-class _AdminSidebar extends StatelessWidget {
+class _AdminSidebar extends StatefulWidget {
   const _AdminSidebar({
     required this.location,
     required this.destinations,
@@ -247,9 +247,44 @@ class _AdminSidebar extends StatelessWidget {
   final VoidCallback onToggle;
 
   @override
+  State<_AdminSidebar> createState() => _AdminSidebarState();
+}
+
+class _AdminSidebarState extends State<_AdminSidebar> {
+  final GlobalKey _selectedDestinationKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _revealSelectedDestination();
+  }
+
+  @override
+  void didUpdateWidget(covariant _AdminSidebar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.location != widget.location ||
+        oldWidget.collapsed != widget.collapsed) {
+      _revealSelectedDestination();
+    }
+  }
+
+  void _revealSelectedDestination() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final selectedContext = _selectedDestinationKey.currentContext;
+      if (!mounted || selectedContext == null) return;
+      Scrollable.ensureVisible(
+        selectedContext,
+        alignment: 0.5,
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final width = collapsed ? 80.0 : 256.0;
+    final width = widget.collapsed ? 80.0 : 256.0;
     return Semantics(
       container: true,
       explicitChildNodes: true,
@@ -263,13 +298,13 @@ class _AdminSidebar extends StatelessWidget {
           child: SafeArea(
             child: Column(
               children: [
-                _AdminBrand(collapsed: collapsed),
+                _AdminBrand(collapsed: widget.collapsed),
                 Expanded(
                   child: ListView(
                     padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
                     children: [
                       for (final section in _AdminNavSection.values) ...[
-                        if (!collapsed)
+                        if (!widget.collapsed)
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 16, 8, 7),
                             child: Text(
@@ -295,12 +330,16 @@ class _AdminSidebar extends StatelessWidget {
                               ),
                             ),
                           ),
-                        for (final destination in destinations)
+                        for (final destination in widget.destinations)
                           if (_sectionForPath(destination.path) == section)
                             _NavItem(
+                              key:
+                                  _isSelected(destination.path, widget.location)
+                                  ? _selectedDestinationKey
+                                  : ValueKey(destination.path),
                               destination,
-                              location,
-                              collapsed: collapsed,
+                              widget.location,
+                              collapsed: widget.collapsed,
                             ),
                       ],
                     ],
@@ -315,22 +354,24 @@ class _AdminSidebar extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: Tooltip(
-                    message: collapsed ? 'Expand navigation' : 'Collapse',
+                    message: widget.collapsed
+                        ? 'Expand navigation'
+                        : 'Collapse',
                     child: TextButton.icon(
-                      onPressed: canToggle ? onToggle : null,
+                      onPressed: widget.canToggle ? widget.onToggle : null,
                       style: TextButton.styleFrom(
                         minimumSize: const Size.fromHeight(48),
                         foregroundColor: colors.onImagePrimary,
-                        alignment: collapsed
+                        alignment: widget.collapsed
                             ? Alignment.center
                             : Alignment.centerLeft,
                       ),
                       icon: Icon(
-                        collapsed
+                        widget.collapsed
                             ? Icons.chevron_right_rounded
                             : Icons.chevron_left_rounded,
                       ),
-                      label: collapsed
+                      label: widget.collapsed
                           ? const SizedBox.shrink()
                           : const Text('Collapse'),
                     ),
@@ -500,7 +541,12 @@ class _AdminMobileNav extends StatelessWidget {
 }
 
 class _NavItem extends StatelessWidget {
-  const _NavItem(this.destination, this.location, {required this.collapsed});
+  const _NavItem(
+    this.destination,
+    this.location, {
+    required this.collapsed,
+    super.key,
+  });
 
   final _AdminNavDestination destination;
   final String location;
@@ -582,7 +628,7 @@ class _AdminTopbar extends ConsumerWidget {
     return Semantics(
       container: true,
       label:
-          'Signed in as ${identity.displayName}. Roles: ${identity.roles.join(', ')}. Environment: $envName.',
+          'Signed in as ${identity.displayName}. Access: Admin. Environment: $envName.',
       child: Material(
         color: CollectColors.referenceChromeBlack,
         child: SafeArea(
@@ -590,7 +636,7 @@ class _AdminTopbar extends ConsumerWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final compact = constraints.maxWidth < 760;
-              final showSearch = constraints.maxWidth >= 620;
+              final showSearch = constraints.maxWidth >= 980;
               final showIdentity = constraints.maxWidth >= 900;
               return Container(
                 constraints: BoxConstraints(minHeight: compact ? 64 : 88),
@@ -736,6 +782,13 @@ class _AdminTopbar extends ConsumerWidget {
                     ],
                     const SizedBox(width: 14),
                     _EnvironmentBadge(envName: envName),
+                    const SizedBox(width: 8),
+                    _AdminCountrySwitcher(
+                      scope: ref.watch(adminCountryScopeProvider),
+                      onSelected: (scope) =>
+                          ref.read(adminCountryScopeProvider.notifier).state =
+                              scope,
+                    ),
                     const SizedBox(width: 12),
                     PopupMenuButton<String>(
                       tooltip: 'Operator menu',
@@ -796,12 +849,7 @@ class _AdminTopbar extends ConsumerWidget {
                                         ),
                                   ),
                                   Text(
-                                    identity.roles.isEmpty
-                                        ? 'Operator'
-                                        : identity.roles.first.replaceAll(
-                                            '_',
-                                            ' ',
-                                          ),
+                                    'Admin',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
@@ -829,6 +877,52 @@ class _AdminTopbar extends ConsumerWidget {
                 ),
               );
             },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminCountrySwitcher extends StatelessWidget {
+  const _AdminCountrySwitcher({required this.scope, required this.onSelected});
+
+  final AdminCountryScope scope;
+  final ValueChanged<AdminCountryScope> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: true,
+      label: 'Country scope: ${scope.label}',
+      hint: 'Filters country-specific Admin operations.',
+      child: PopupMenuButton<AdminCountryScope>(
+        tooltip: 'Country: ${scope.label}',
+        initialValue: scope,
+        onSelected: onSelected,
+        itemBuilder: (context) => [
+          for (final option in AdminCountryScope.values)
+            PopupMenuItem(
+              value: option,
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(option.icon),
+                title: Text(option.label),
+                trailing: option == scope
+                    ? const Icon(Icons.check_rounded)
+                    : null,
+              ),
+            ),
+        ],
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.onImagePrimary.withValues(alpha: 0.10),
+            shape: BoxShape.circle,
+          ),
+          child: SizedBox.square(
+            dimension: 40,
+            child: Icon(scope.icon, size: 20, color: colors.onImagePrimary),
           ),
         ),
       ),
@@ -1006,9 +1100,9 @@ String _clockTime(DateTime time) {
 }
 
 String _workspaceTitle(_AdminNavDestination? destination) {
-  if (destination == null) return 'Admin workspace';
+  if (destination == null) return 'Admin';
   if (destination.path == '/admin') return 'Operations overview';
-  return '${destination.label} workspace';
+  return destination.label;
 }
 
 IconData _adminIconForKey(String iconKey) {

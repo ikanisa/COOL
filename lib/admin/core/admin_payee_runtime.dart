@@ -9,59 +9,16 @@ class _AdminPayeeWorkspaceActions extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
     final canManage = _adminHasPermission(identity, 'receivers.manage');
-    final colors = context.collectColors;
+    if (!canManage) return const SizedBox.shrink();
     return Semantics(
-      container: true,
-      explicitChildNodes: true,
+      button: true,
       label: 'Official payee management',
       hint:
-          'Create, edit, activate, and deactivate official payees. MoMo routes are immutable after creation.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceMuted.withValues(alpha: 0.86),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Wrap(
-            spacing: 16,
-            runSpacing: 12,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 680),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Official payee controls',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Two confirmed official payees are active. A new payee can be created only for an eligible platform-sponsored public group. Its MoMo number or code and provider are locked permanently after creation.',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (canManage)
-                FilledButton.icon(
-                  onPressed: () =>
-                      createAdminPayee(context, ref, onDone: onDone),
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('Create payee'),
-                ),
-            ],
-          ),
-        ),
+          'Create an official payee. The MoMo route is immutable after creation.',
+      child: IconButton.filled(
+        tooltip: 'Create payee',
+        onPressed: () => createAdminPayee(context, ref, onDone: onDone),
+        icon: const Icon(Icons.person_add_alt_1_outlined),
       ),
     );
   }

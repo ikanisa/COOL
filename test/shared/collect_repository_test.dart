@@ -54,6 +54,41 @@ void main() {
     expect(group.creatorUserId, isEmpty);
     expect(group.isPublic, isTrue);
     expect(group.isPlatformSponsored, isTrue);
+    expect(group.contributionRailFor(null), 'unavailable');
+  });
+
+  test('public group payment capabilities are database authoritative', () {
+    final momoOnly = CollectCollection.fromJson(const {
+      'id': 'buri-id',
+      'slug': 'buri-munsi',
+      'title': 'Buri Munsi',
+      'description': 'Database catalogue row',
+      'collection_type': 'ikimina',
+      'is_platform_sponsored': true,
+      'payment_rail': 'rwanda_momo',
+      'settlement_currency': 'RWF',
+      'receiver_momo_number': '41258',
+      'receiver_display_label': 'IKANISA LTD',
+      'receiver_network': 'mtn_momo',
+      'diaspora_enabled': false,
+      'created_at': '2026-09-01T00:00:00Z',
+    });
+    const diaspora = CollectProfile(
+      id: 'diaspora-user',
+      publicId: '123456',
+      whatsappPhone: '+447700900123',
+      countryCode: 'GB',
+      currencyCode: 'GBP',
+    );
+
+    expect(momoOnly.receiverMomoNumber, '41258');
+    expect(momoOnly.receiverDisplayLabel, 'IKANISA LTD');
+    expect(momoOnly.settlementCurrency, 'RWF');
+    expect(momoOnly.contributionRailFor(null), 'rwanda_momo');
+    expect(momoOnly.contributionRailFor(diaspora), 'rwanda_momo');
+
+    final dualRail = momoOnly.copyWith(diasporaEnabled: true);
+    expect(dualRail.contributionRailFor(diaspora), 'diaspora_bank');
   });
 
   test('public group accepts a contribution without membership', () async {

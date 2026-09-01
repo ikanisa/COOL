@@ -114,7 +114,7 @@ class _AdminListSpec {
       ),
       'admin_list_collections' => const _AdminListSpec(
         title: 'Groups',
-        subtitle: 'Private groups and database-managed public groups.',
+        subtitle: 'Public and private groups.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'public_approved', label: 'Public'),
@@ -138,7 +138,7 @@ class _AdminListSpec {
       ),
       'admin_list_members' || 'admin_list_users' => const _AdminListSpec(
         title: 'Members',
-        subtitle: 'Users with at least one active group membership.',
+        subtitle: 'Users in at least one group.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'active', label: 'Active'),
@@ -506,7 +506,7 @@ class _AdminListSpec {
       ),
       'admin_list_notifications' => const _AdminListSpec(
         title: 'Notifications',
-        subtitle: 'Monitor event and delivery health.',
+        subtitle: 'Delivery events.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'queued', label: 'Queued'),
@@ -527,7 +527,7 @@ class _AdminListSpec {
       ),
       'admin_list_audit_logs' => const _AdminListSpec(
         title: 'Audit logs',
-        subtitle: 'Review operator and system actions.',
+        subtitle: 'Operator and system actions.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'logged', label: 'Logged'),
@@ -546,7 +546,7 @@ class _AdminListSpec {
       ),
       'admin_list_settings' => const _AdminListSpec(
         title: 'Settings',
-        subtitle: 'Review platform configuration.',
+        subtitle: 'Platform controls.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'enabled', label: 'Enabled'),
@@ -568,7 +568,7 @@ class _AdminListSpec {
       ),
       'admin_list_feature_flags' => const _AdminListSpec(
         title: 'Feature flags',
-        subtitle: 'Review feature rollout controls.',
+        subtitle: 'Rollout controls.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'enabled', label: 'Enabled'),
@@ -593,20 +593,10 @@ class _AdminListSpec {
         subtitle: 'Review operator access.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
-          AdminFilterOption(value: 'admin', label: 'Admin'),
           AdminFilterOption(value: 'active', label: 'Active'),
           AdminFilterOption(value: 'revoked', label: 'Revoked'),
         ],
         sortOptions: _defaultSorts,
-        prioritySignals: [
-          _AdminQueueSignal(Icons.admin_panel_settings_outlined, 'Role scope'),
-          _AdminQueueSignal(Icons.verified_user_outlined, 'Least privilege'),
-        ],
-        workflowSteps: [
-          _AdminQueueSignal(Icons.person_search_outlined, 'Review identity'),
-          _AdminQueueSignal(Icons.rule_outlined, 'Check role matrix'),
-          _AdminQueueSignal(Icons.block_outlined, 'Revoke stale access'),
-        ],
       ),
       _ => const _AdminListSpec(
         title: 'Admin queue',

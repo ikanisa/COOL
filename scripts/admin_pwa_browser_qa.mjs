@@ -114,6 +114,25 @@ const allRoutes = [
     ],
   },
   {
+    path: '/admin/users',
+    requiredLabels: [
+      'Collect admin workspace',
+      'Users admin section',
+      'Search',
+      'Admin records table, 4 rows',
+    ],
+    desktopRequiredLabels: [
+      'Collect ID',
+      'WhatsApp',
+      'Country',
+      'Payment profile',
+      'Groups',
+      'State',
+      'Updated',
+      'Open',
+    ],
+  },
+  {
     path: '/admin/members/user-1',
     minimumKeyboardStops: 1,
     requiredLabels: [
@@ -143,7 +162,7 @@ const allRoutes = [
     desktopRequiredLabels: [
       'Reference',
       'Rail',
-      'Payer',
+      'MoMo number',
       'Destination',
       'Status',
       'Amount',

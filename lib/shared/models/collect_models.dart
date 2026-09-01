@@ -649,7 +649,9 @@ class CollectCollection {
     this.purposeLabel,
     this.receiverMomoNumber,
     this.receiverDisplayLabel = 'Primary MoMo receiver',
-    this.receiverNetwork = 'mtn_momo',
+    this.receiverNetwork = 'unknown',
+    String? primaryPaymentRail,
+    this.settlementCurrency = 'RWF',
     this.imageUrl,
     this.accentColorHex,
     this.isPublic = false,
@@ -663,7 +665,12 @@ class CollectCollection {
     this.diasporaRegions = const [],
     this.moderationStatus = 'not_requested',
     required this.createdAt,
-  }) : visibilityStatus =
+  }) : primaryPaymentRail =
+           primaryPaymentRail ??
+           (receiverMomoNumber != null && receiverNetwork != 'unknown'
+               ? 'rwanda_momo'
+               : 'unavailable'),
+       visibilityStatus =
            visibilityStatus ?? (isPublic ? 'public_approved' : 'private');
 
   final String id;
@@ -677,6 +684,8 @@ class CollectCollection {
   final String? receiverMomoNumber;
   final String receiverDisplayLabel;
   final String receiverNetwork;
+  final String primaryPaymentRail;
+  final String settlementCurrency;
   final String? imageUrl;
   final String? accentColorHex;
   final bool isPublic;
@@ -693,6 +702,29 @@ class CollectCollection {
 
   bool get isArchived => moderationStatus.trim().toLowerCase() == 'archived';
 
+  bool get supportsRwandaMomo =>
+      primaryPaymentRail == 'rwanda_momo' ||
+      receiverNetwork == 'mtn_momo' ||
+      receiverNetwork == 'airtel_money';
+
+  bool get supportsDiasporaBank => diasporaEnabled || !isPlatformSponsored;
+
+  /// Selects a contribution journey from database-owned group capabilities.
+  /// Profile geography only chooses between rails a group actually supports;
+  /// it can never turn a MoMo-only group into a bank-transfer destination.
+  String contributionRailFor(CollectProfile? profile) {
+    if (supportsRwandaMomo &&
+        (!supportsDiasporaBank || profile?.isDiaspora != true)) {
+      return 'rwanda_momo';
+    }
+    if (supportsDiasporaBank && profile?.isDiaspora == true) {
+      return 'diaspora_bank';
+    }
+    if (supportsRwandaMomo) return 'rwanda_momo';
+    if (supportsDiasporaBank) return 'diaspora_bank';
+    return 'unavailable';
+  }
+
   factory CollectCollection.fromJson(Map<String, dynamic> json) {
     final receivers = json['collection_receivers'];
     Map<String, dynamic>? receiver;
@@ -703,6 +735,18 @@ class CollectCollection {
         (receiver?['label'] as String?) ??
         (json['receiver_display_label'] as String?) ??
         'Primary MoMo receiver';
+    final receiverMomoNumber =
+        (receiver?['momo_number'] as String?) ??
+        (json['receiver_momo_number'] as String?);
+    final receiverNetwork =
+        (receiver?['network'] as String?) ??
+        (json['receiver_network'] as String?) ??
+        'unknown';
+    final primaryPaymentRail =
+        (json['payment_rail'] as String?) ??
+        ((receiverNetwork == 'mtn_momo' || receiverNetwork == 'airtel_money')
+            ? 'rwanda_momo'
+            : 'unavailable');
     return CollectCollection(
       id: json['id'] as String,
       slug: json['slug'] as String,
@@ -714,14 +758,14 @@ class CollectCollection {
       ),
       categorySubtype: json['category_subtype'] as String?,
       purposeLabel: json['purpose_label'] as String?,
-      receiverMomoNumber:
-          (receiver?['momo_number'] as String?) ??
-          (json['receiver_momo_number'] as String?),
+      receiverMomoNumber: receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel,
-      receiverNetwork:
-          (receiver?['network'] as String?) ??
-          (json['receiver_network'] as String?) ??
-          'mtn_momo',
+      receiverNetwork: receiverNetwork,
+      primaryPaymentRail: primaryPaymentRail,
+      settlementCurrency:
+          (json['settlement_currency'] as String?) ??
+          (json['currency'] as String?) ??
+          (primaryPaymentRail == 'rwanda_momo' ? 'RWF' : 'XXX'),
       imageUrl:
           (json['image_url'] as String?) ??
           (json['cover_image_url'] as String?) ??
@@ -763,6 +807,8 @@ class CollectCollection {
     String? receiverMomoNumber,
     String? receiverDisplayLabel,
     String? receiverNetwork,
+    String? primaryPaymentRail,
+    String? settlementCurrency,
     String? imageUrl,
     String? accentColorHex,
     bool? isPublic,
@@ -788,6 +834,8 @@ class CollectCollection {
       receiverMomoNumber: receiverMomoNumber ?? this.receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel ?? this.receiverDisplayLabel,
       receiverNetwork: receiverNetwork ?? this.receiverNetwork,
+      primaryPaymentRail: primaryPaymentRail ?? this.primaryPaymentRail,
+      settlementCurrency: settlementCurrency ?? this.settlementCurrency,
       imageUrl: imageUrl ?? this.imageUrl,
       accentColorHex: accentColorHex ?? this.accentColorHex,
       isPublic: isPublic ?? this.isPublic,

@@ -1,4 +1,18 @@
-String formatRwf(int amountRwf) {
+import 'package:intl/intl.dart';
+
+String formatRwf(int amountRwf, {String? localeName}) {
+  if (localeName != null && localeName.trim().isNotEmpty) {
+    try {
+      return NumberFormat.currency(
+        locale: localeName,
+        name: 'RWF',
+        symbol: 'RWF ',
+        decimalDigits: 0,
+      ).format(amountRwf);
+    } on ArgumentError {
+      // A newly introduced device locale must not break a payment surface.
+    }
+  }
   final sign = amountRwf < 0 ? '-' : '';
   final digits = amountRwf.abs().toString();
   final buffer = StringBuffer();
@@ -10,7 +24,23 @@ String formatRwf(int amountRwf) {
   return 'RWF $sign$buffer';
 }
 
-String formatMoneyMinor(int amountMinor, {String currency = 'EUR'}) {
+String formatMoneyMinor(
+  int amountMinor, {
+  String currency = 'EUR',
+  String? localeName,
+}) {
+  if (localeName != null && localeName.trim().isNotEmpty) {
+    try {
+      return NumberFormat.currency(
+        locale: localeName,
+        name: currency.toUpperCase(),
+        symbol: '${currency.toUpperCase()} ',
+        decimalDigits: 2,
+      ).format(amountMinor / 100);
+    } on ArgumentError {
+      // Preserve the deterministic ISO-code fallback below.
+    }
+  }
   final sign = amountMinor < 0 ? '-' : '';
   final absolute = amountMinor.abs();
   final whole = absolute ~/ 100;

@@ -36,8 +36,7 @@ class AdminFilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    Widget searchField({double? width}) => SizedBox(
-      width: width,
+    Widget searchField() => SizedBox(
       child: Semantics(
         textField: true,
         label: 'Search admin queue',
@@ -47,7 +46,7 @@ class AdminFilterBar extends StatelessWidget {
           controller: searchController,
           onSubmitted: (_) => onRefresh(),
           decoration: InputDecoration(
-            labelText: 'Search',
+            hintText: 'Search',
             prefixIcon: const Icon(Icons.search),
             filled: true,
             fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
@@ -57,89 +56,35 @@ class AdminFilterBar extends StatelessWidget {
       ),
     );
 
-    final statusFilter = Semantics(
-      label: 'Admin queue status filter',
-      hint: 'Limits results to the selected queue state.',
-      child: SegmentedButton<String>(
-        style: SegmentedButton.styleFrom(
-          backgroundColor: colors.surfaceRaised.withValues(alpha: 0.62),
-          selectedBackgroundColor: colors.textPrimary,
-          selectedForegroundColor: colors.surfaceReadable,
-          foregroundColor: colors.textPrimary,
-          side: BorderSide(color: CollectRuntimeTokens.controlBorder(colors)),
-        ),
-        segments: [
-          for (final option in statusOptions)
-            ButtonSegment(
-              value: option.value,
-              label: Text(
-                option.label,
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.visible,
-              ),
-            ),
-        ],
-        selected: {status},
-        onSelectionChanged: (value) => onStatusChanged(value.single),
-      ),
-    );
+    String selectedLabel(List<AdminFilterOption> options, String value) {
+      for (final option in options) {
+        if (option.value == value) return option.label;
+      }
+      return '';
+    }
 
-    final compactStatusFilter = Semantics(
-      container: true,
-      label: 'Admin queue status filter',
-      hint: 'Limits results to the selected queue state.',
-      child: DropdownButtonFormField<String>(
-        key: const Key('admin-status-filter-select'),
-        initialValue: status,
-        isExpanded: true,
-        decoration: InputDecoration(
-          labelText: 'Status',
-          prefixIcon: const Icon(Icons.filter_alt_outlined),
-          filled: true,
-          fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        items: [
-          for (final option in statusOptions)
-            DropdownMenuItem(
-              value: option.value,
-              child: Text(
-                option.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-        ],
-        onChanged: (value) {
-          if (value != null) onStatusChanged(value);
-        },
-      ),
+    final statusLabel = selectedLabel(statusOptions, status);
+    final sortLabel = selectedLabel(sortOptions, sortBy);
+    final statusFilter = _AdminFilterMenu(
+      key: const Key('admin-status-filter-select'),
+      tooltip: 'Filter: ${statusLabel.isEmpty ? 'All' : statusLabel}',
+      semanticLabel:
+          'Status filter, ${statusLabel.isEmpty ? 'All' : statusLabel} selected',
+      icon: status.isEmpty
+          ? Icons.filter_alt_outlined
+          : Icons.filter_alt_rounded,
+      selectedValue: status,
+      options: statusOptions,
+      onSelected: onStatusChanged,
     );
-
-    Widget sortField({double? width}) => SizedBox(
-      width: width,
-      child: DropdownButtonFormField<String>(
-        initialValue: sortBy,
-        isExpanded: true,
-        decoration: InputDecoration(
-          labelText: 'Sort',
-          prefixIcon: const Icon(Icons.sort),
-          filled: true,
-          fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        items: [
-          for (final option in sortOptions)
-            DropdownMenuItem(
-              value: option.value,
-              child: Text(option.label, overflow: TextOverflow.ellipsis),
-            ),
-        ],
-        onChanged: (value) {
-          if (value != null) onSortChanged(value);
-        },
-      ),
+    final sortFilter = _AdminFilterMenu(
+      tooltip: 'Sort: ${sortLabel.isEmpty ? 'Newest' : sortLabel}',
+      semanticLabel:
+          'Sort order, ${sortLabel.isEmpty ? 'Newest' : sortLabel} selected',
+      icon: Icons.sort_rounded,
+      selectedValue: sortBy,
+      options: sortOptions,
+      onSelected: onSortChanged,
     );
 
     final refreshButton = IconButton.filled(
@@ -159,40 +104,81 @@ class AdminFilterBar extends StatelessWidget {
         border: Border.all(color: colors.borderSoft),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final compact = constraints.maxWidth < 700;
-            if (compact) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Expanded(child: searchField()),
+            const SizedBox(width: 8),
+            statusFilter,
+            const SizedBox(width: 4),
+            sortFilter,
+            const SizedBox(width: 4),
+            refreshButton,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminFilterMenu extends StatelessWidget {
+  const _AdminFilterMenu({
+    required this.tooltip,
+    required this.semanticLabel,
+    required this.icon,
+    required this.selectedValue,
+    required this.options,
+    required this.onSelected,
+    super.key,
+  });
+
+  final String tooltip;
+  final String semanticLabel;
+  final IconData icon;
+  final String selectedValue;
+  final List<AdminFilterOption> options;
+  final ValueChanged<String> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: PopupMenuButton<String>(
+        tooltip: tooltip,
+        initialValue: selectedValue,
+        onSelected: onSelected,
+        itemBuilder: (context) => [
+          for (final option in options)
+            PopupMenuItem<String>(
+              value: option.value,
+              child: Row(
                 children: [
-                  searchField(),
-                  const SizedBox(height: 12),
-                  compactStatusFilter,
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(child: sortField()),
-                      const SizedBox(width: 12),
-                      refreshButton,
-                    ],
+                  SizedBox(
+                    width: 24,
+                    child: option.value == selectedValue
+                        ? const Icon(Icons.check_rounded, size: 18)
+                        : null,
                   ),
+                  const SizedBox(width: 8),
+                  Text(option.label),
                 ],
-              );
-            }
-            return Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                searchField(width: 320),
-                statusFilter,
-                sortField(width: 220),
-                refreshButton,
-              ],
-            );
-          },
+              ),
+            ),
+        ],
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.surfaceRaised.withValues(alpha: 0.72),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: CollectRuntimeTokens.controlBorder(colors),
+            ),
+          ),
+          child: SizedBox.square(
+            dimension: 46,
+            child: Icon(icon, size: 20, color: colors.textPrimary),
+          ),
         ),
       ),
     );

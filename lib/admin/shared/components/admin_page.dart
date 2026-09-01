@@ -8,6 +8,7 @@ class AdminPage extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.leading,
+    this.trailing,
     this.child,
     super.key,
   });
@@ -15,6 +16,7 @@ class AdminPage extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? leading;
+  final Widget? trailing;
   final Widget? child;
 
   @override
@@ -46,7 +48,7 @@ class AdminPage extends StatelessWidget {
                             height: CollectTypography.leadingDisplay,
                           ),
                     ),
-                    if (subtitle != null) ...[
+                    if (subtitle?.trim().isNotEmpty == true) ...[
                       const SizedBox(height: 5),
                       Text(
                         subtitle!,
@@ -59,6 +61,7 @@ class AdminPage extends StatelessWidget {
                   ],
                 ),
               ),
+              if (trailing != null) ...[const SizedBox(width: 12), trailing!],
             ],
           ),
         ),

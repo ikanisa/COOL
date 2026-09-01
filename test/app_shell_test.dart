@@ -21,18 +21,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('cached-data status is not duplicated in the global overlay', () {
+  test('customer screens do not render global connectivity banners', () {
+    final appSource = File('lib/app/app.dart').readAsStringSync();
+    final feedbackSource = File(
+      'lib/shared/widgets/collect_state_feedback.dart',
+    ).readAsStringSync();
+
+    expect(appSource, isNot(contains('_CollectConnectivityOverlay')));
+    expect(appSource, isNot(contains('CollectConnectivityBanner')));
+    expect(feedbackSource, isNot(contains('Connection needs attention')));
+  });
+
+  test('member frontend omits verbose device-session labels', () {
+    final accountSource = File(
+      'lib/features/status/account_legal_screens.dart',
+    ).readAsStringSync();
+
+    expect(accountSource, isNot(contains('Signed in on this device')));
     expect(
-      connectivityOverlayStatus(ConnectivityStatus.offlineStale),
-      ConnectivityStatus.online,
-    );
-    expect(
-      connectivityOverlayStatus(ConnectivityStatus.offline),
-      ConnectivityStatus.offline,
-    );
-    expect(
-      connectivityOverlayStatus(ConnectivityStatus.degraded),
-      ConnectivityStatus.degraded,
+      accountSource,
+      isNot(contains('restores and refreshes this session')),
     );
   });
 
@@ -518,9 +526,9 @@ void main() {
     final recoveryScreens = File(
       'lib/features/status/connection_recovery_screens.dart',
     ).readAsStringSync();
-    expect(recoveryScreens, contains('CollectConnectivityBanner'));
-    expect(recoveryScreens, contains('ConnectivityStatus.offlineStale'));
-    expect(recoveryScreens, contains('ConnectivityStatus.degraded'));
+    expect(recoveryScreens, isNot(contains('CollectConnectivityBanner')));
+    expect(recoveryScreens, contains('CollectStatusTone.warning'));
+    expect(recoveryScreens, contains('CollectStatusTone.info'));
     expect(recoveryScreens, contains('Privacy in recovery'));
     expect(recoveryScreens, isNot(contains('Privacy stays on')));
     expect(recoveryScreens, contains("primaryLabel: 'Review groups'"));
@@ -1035,9 +1043,13 @@ void main() {
     final contribution = File(
       'lib/features/payments/contribution_flow_screen.dart',
     ).readAsStringSync();
-    expect(contribution, contains("throw StateError('Revolut could not open"));
+    final localizations = File(
+      'lib/l10n/collect_localizations.dart',
+    ).readAsStringSync();
+    expect(contribution, contains('throw StateError(revolutCouldNotOpen);'));
     expect(contribution, contains('String _safeError(Object error)'));
-    expect(contribution, contains('Check your connection and try again.'));
+    expect(localizations, contains('Check your connection and try again.'));
+    expect(localizations, contains('Revolut could not open on this device.'));
     expect(contribution, isNot(contains('_error = error.toString()')));
   });
 

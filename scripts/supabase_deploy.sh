@@ -77,14 +77,31 @@ SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli projects list -o jso
     project = JSON.parse(STDIN.read).find { |row| [row["id"], row["ref"]].include?(ref) }
     abort("confirmed project is not visible to this access token") unless project
   '
-SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
+set +e
+direct_dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
   SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
-  supabase_cli db push --dry-run --skip-vault
+  supabase_cli db push --dry-run --skip-vault 2>&1)"
+direct_dry_run_status=$?
+set -e
 
-log "pushing database migrations"
-SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
-  SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
-  supabase_cli db push --skip-vault
+readiness_strict_platform=1
+if [[ "$direct_dry_run_status" -eq 0 ]]; then
+  printf '%s\n' "$direct_dry_run"
+  log "pushing database migrations through the linked database connection"
+  SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
+    SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
+    supabase_cli db push --skip-vault
+elif [[ "$direct_dry_run" == *"tenant allow_list"* || \
+        "$direct_dry_run" == *"EADDRNOTALLOWED"* || \
+        "$direct_dry_run" == *"failed to connect to postgres"* ]]; then
+  log "linked database connection is restricted; using the governed HTTPS Management API migration path"
+  supabase_management_apply_pending_migrations "$ROOT_DIR/supabase/migrations"
+  readiness_strict_platform=0
+else
+  printf '%s\n' "$direct_dry_run" >&2
+  printf '[supabase-deploy][FAIL] Supabase migration dry run failed outside the approved connectivity fallback.\n' >&2
+  exit "$direct_dry_run_status"
+fi
 
 remote_function_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" \
   supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json)"
@@ -110,4 +127,5 @@ for function_name in "${EXPECTED_FUNCTIONS[@]}"; do
 done
 
 log "running linked readiness gate"
-SUPABASE_READY_STRICT_PLATFORM=1 "$ROOT_DIR/scripts/supabase_production_readiness.sh"
+SUPABASE_READY_STRICT_PLATFORM="$readiness_strict_platform" \
+  "$ROOT_DIR/scripts/supabase_production_readiness.sh"

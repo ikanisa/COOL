@@ -162,7 +162,7 @@ class AuthPhoneEntry extends StatelessWidget {
                     autofillHints: const [AutofillHints.telephoneNumber],
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s-]')),
-                      LengthLimitingTextInputFormatter(15),
+                      LengthLimitingTextInputFormatter(24),
                     ],
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: foreground,

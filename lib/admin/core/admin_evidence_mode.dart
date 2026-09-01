@@ -22,7 +22,7 @@ const _evidenceAdmin = AdminIdentity(
   userId: '00000000-0000-0000-0000-00000000e001',
   displayName: 'Collect evidence admin',
   phoneMasked: '+250***6816',
-  roles: ['platform_owner'],
+  roles: ['admin'],
   permissions: [
     'overview.read',
     'public_requests.read',
@@ -100,6 +100,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
             ? '00000000-0000-0000-0000-000000006816'
             : null,
         'sms_sender': id.startsWith('momo:') ? 'MTN MoMo' : null,
+        'sender_masked': id.startsWith('momo:') ? '078•••4321' : null,
         'parse_status': 'parsed',
         'sender_name': 'Evidence payer',
         'network': id.startsWith('momo:') ? 'MTN MoMo' : 'Diaspora account',
@@ -311,6 +312,10 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'collect_id': 'CM6816',
         'display_name': 'Evidence member',
         'phone_masked': '+250***4321',
+        'country_code': 'RW',
+        'momo_masked': '078•••••11',
+        'payment_profile': '078•••••11',
+        'active_groups': id == 'user-1' ? 0 : 2,
         'status': 'active',
         'created_at': createdAt,
       },
@@ -319,17 +324,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'public_id': 'CA6816',
         'phone_masked': '+250***6816',
         'status': 'active',
-        'active_roles': ['platform_owner', 'compliance_admin'],
-        'available_roles': [
-          'platform_owner',
-          'compliance_admin',
-          'operations_admin',
-          'payments_admin',
-          'group_ops_admin',
-          'support_admin',
-          'read_only_admin',
-        ],
-        'legacy_platform_owner': false,
+        'active_roles': ['admin'],
         'created_at': createdAt,
       },
       'admin_get_notification' => {
@@ -367,6 +362,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     int? limit,
     int? offset,
     String? sortBy,
+    String? countryCode,
   }) async {
     final allRows = [
       for (var index = 1; index <= _rowCount(rpcName); index += 1)
@@ -394,12 +390,14 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
                 ? _rowId(rpcName, index)
                 : '00000000-0000-0000-0000-00000000881$index',
             'payment_intent_id': '00000000-0000-0000-0000-00000000981$index',
+            ..._rowCountryExtra(rpcName, index),
             ..._rowExtra(rpcName, index),
           },
         ),
     ];
     final normalizedSearch = search?.trim().toLowerCase() ?? '';
     final normalizedStatus = status?.trim().toLowerCase() ?? '';
+    final normalizedCountry = countryCode?.trim().toUpperCase() ?? '';
     final filtered = allRows
         .where((row) {
           final matchesSearch =
@@ -410,7 +408,16 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
           final matchesStatus =
               normalizedStatus.isEmpty ||
               row.status.toLowerCase() == normalizedStatus;
-          return matchesSearch && matchesStatus;
+          final rowCountry = '${row.extra['country_code'] ?? ''}'
+              .trim()
+              .toUpperCase();
+          final matchesCountry = switch (normalizedCountry) {
+            '' => true,
+            'OTHER' =>
+              rowCountry.isNotEmpty && rowCountry != 'RW' && rowCountry != 'MT',
+            _ => rowCountry == normalizedCountry,
+          };
+          return matchesSearch && matchesStatus && matchesCountry;
         })
         .toList(growable: false);
     final start = (offset ?? 0).clamp(0, filtered.length);
@@ -499,6 +506,11 @@ int _rowCount(String rpcName) => switch (rpcName) {
   'admin_list_reconciliation_exceptions' => 3,
   'admin_list_bank_allocation_requests' => 4,
   'admin_list_journal_entries' => 10,
+  'admin_list_notifications' => 4,
+  'admin_list_audit_logs' => 8,
+  'admin_list_settings' => 4,
+  'admin_list_feature_flags' => 4,
+  'admin_list_admin_users' => 2,
   _ => 30,
 };
 
@@ -574,11 +586,26 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_bank_allocation_requests' =>
     'Manual allocation approval ${6800 + index}',
   'admin_list_journal_entries' => 'Balanced bank receipt ${6800 + index}',
-  'admin_list_admin_users' => 'Collect ID CA${6800 + index}',
+  'admin_list_admin_users' => '+250 78•••${6800 + index}',
   'admin_list_notifications' => 'Bank contribution reconciled',
-  'admin_list_audit_logs' => 'Controlled operation $index',
-  'admin_list_settings' => 'Bank transfer setting $index',
-  'admin_list_feature_flags' => 'bank_transfer_v1',
+  'admin_list_audit_logs' => switch (index % 4) {
+    1 => 'Payee activated',
+    2 => 'Allocation approved',
+    3 => 'Group updated',
+    _ => 'Admin role updated',
+  },
+  'admin_list_settings' => switch (index) {
+    1 => 'Rwanda MoMo receipts',
+    2 => 'Diaspora bank transfers',
+    3 => 'Reconciliation window',
+    _ => 'Notification retries',
+  },
+  'admin_list_feature_flags' => switch (index) {
+    1 => 'Diaspora bank transfers',
+    2 => 'Android private groups',
+    3 => 'WhatsApp onboarding',
+    _ => 'Notification retries',
+  },
   _ => 'Operational record $index',
 };
 
@@ -595,9 +622,8 @@ String _rowSubtitle(String rpcName, int index) => switch (rpcName) {
     'Payment received • payee allocation required',
   'admin_list_collect_ledgers' =>
     'Debit payment clearing • credit group payable',
-  'admin_list_users' ||
-  'admin_list_members' ||
-  'admin_list_non_member_users' => 'WhatsApp +250 78•••${(4300 + index)}',
+  'admin_list_users' || 'admin_list_members' || 'admin_list_non_member_users' =>
+    'WhatsApp ${_evidenceWhatsAppMasked(_rowCountryCode(rpcName, index), index)}',
   'admin_list_collections' => switch (index) {
     1 => 'Platform-sponsored savings group',
     2 => 'Platform-sponsored Rayon Sports group',
@@ -623,11 +649,20 @@ String _rowSubtitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_bank_allocation_requests' =>
     'Exact amount and currency maker-checker request',
   'admin_list_journal_entries' => 'Immutable balanced debit and credit entry',
-  'admin_list_admin_users' => 'platform_owner • compliance_admin',
+  'admin_list_admin_users' => '',
   'admin_list_notifications' => 'Collect ID AB1234 • 1 delivery',
-  'admin_list_audit_logs' => 'Reason, actor, timestamp, and target',
-  'admin_list_settings' => 'Governed bank control-plane configuration',
-  'admin_list_feature_flags' => 'Production bank-transfer availability',
+  'admin_list_audit_logs' => switch (index % 3) {
+    1 => 'Maker A. • Buri Munsi',
+    2 => 'Checker B. • COLLECT-AB1202-6802',
+    _ => 'Admin • Reason recorded',
+  },
+  'admin_list_settings' => switch (index) {
+    1 => 'MTN MoMo parser active',
+    2 => 'EUR transfer intake active',
+    3 => '1 business day',
+    _ => '3 attempts',
+  },
+  'admin_list_feature_flags' => 'Production',
   _ => 'Admin evidence row with masked test data',
 };
 
@@ -670,6 +705,8 @@ String _rowStatus(String rpcName, int index) => switch (rpcName) {
   'admin_list_journal_entries' => 'bank_receipt',
   'admin_list_admin_users' => 'active',
   'admin_list_notifications' => index.isEven ? 'sent' : 'failed',
+  'admin_list_audit_logs' => 'logged',
+  'admin_list_settings' => 'enabled',
   'admin_list_feature_flags' => 'enabled',
   _ => 'active',
 };
@@ -680,17 +717,23 @@ String _rowAmount(String rpcName, int index) {
   }
   if (rpcName == 'admin_list_collect_transactions' ||
       rpcName == 'admin_list_collect_reconciliations') {
-    return index.isEven
-        ? 'EUR ${(index * 24.50).toStringAsFixed(2)}'
-        : 'RWF ${index * 25000}';
+    final countryCode = _rowCountryCode(rpcName, index);
+    return switch (countryCode) {
+      'MT' => 'EUR ${(index * 24.50).toStringAsFixed(2)}',
+      'GB' => 'GBP ${(index * 24.50).toStringAsFixed(2)}',
+      _ => 'RWF ${index * 25000}',
+    };
   }
   if (rpcName == 'admin_list_collect_ledgers') {
-    return index.isEven
-        ? 'EUR ${(index * 24.50).toStringAsFixed(2)} ='
-        : 'RWF ${index * 25000} =';
+    final countryCode = _rowCountryCode(rpcName, index);
+    return switch (countryCode) {
+      'MT' => 'EUR ${(index * 24.50).toStringAsFixed(2)} =',
+      'GB' => 'GBP ${(index * 24.50).toStringAsFixed(2)} =',
+      _ => 'RWF ${index * 25000} =',
+    };
   }
   if (rpcName == 'admin_list_notifications') return '1 delivery';
-  if (rpcName == 'admin_list_admin_users') return '2 roles';
+  if (rpcName == 'admin_list_admin_users') return 'Admin';
   if (rpcName == 'admin_list_collections') return '${10 + index} members';
   if (rpcName == 'admin_list_receivers' ||
       rpcName == 'admin_list_sms_metadata') {
@@ -720,13 +763,16 @@ String _rowAmount(String rpcName, int index) {
 Map<String, dynamic> _rowExtra(String rpcName, int index) {
   if (rpcName == 'admin_list_collect_transactions') {
     final momo = index.isOdd;
+    final countryCode = _rowCountryCode(rpcName, index);
     final groupName = switch (index % 3) {
       1 => 'Buri Munsi',
       2 => 'Gikundiro',
       _ => 'Community building fund',
     };
     return {
-      'source_label': momo ? 'MTN MoMo receipt SMS' : 'Revolut EUR account',
+      'source_label': momo
+          ? 'MTN MoMo receipt SMS'
+          : 'Revolut ${countryCode == 'MT' ? 'EUR' : 'GBP'} account',
       'group_name': groupName,
       'payee_label': switch (groupName) {
         'Buri Munsi' => 'IKANISA LTD',
@@ -766,16 +812,19 @@ Map<String, dynamic> _rowExtra(String rpcName, int index) {
   if (rpcName == 'admin_list_users' ||
       rpcName == 'admin_list_members' ||
       rpcName == 'admin_list_non_member_users') {
-    final rwanda = index % 3 != 0;
+    final countryCode = _rowCountryCode(rpcName, index);
+    final rwanda = countryCode == 'RW';
     final hasMembership = rpcName != 'admin_list_non_member_users';
     return {
       'public_id': '${38490 + index}',
       'display_name': hasMembership ? 'Member $index' : 'User $index',
-      'whatsapp_masked': rwanda
-          ? '+250 78•••${(4300 + index)}'
-          : '+44 7•••${(4300 + index)}',
-      'country_code': rwanda ? 'RW' : 'GB',
-      'currency_code': rwanda ? 'RWF' : 'GBP',
+      'whatsapp_masked': _evidenceWhatsAppMasked(countryCode, index),
+      'country_code': countryCode,
+      'currency_code': switch (countryCode) {
+        'RW' => 'RWF',
+        'MT' => 'EUR',
+        _ => 'GBP',
+      },
       'momo_provider': rwanda ? 'mtn_momo' : null,
       'momo_masked': rwanda ? '078•••••${(10 + index) % 100}' : null,
       'has_revolut_profile': !rwanda,
@@ -785,8 +834,67 @@ Map<String, dynamic> _rowExtra(String rpcName, int index) {
       'is_platform_admin': hasMembership ? index == 10 : index == 4,
     };
   }
+  if (rpcName == 'admin_list_audit_logs') {
+    return {
+      'actor': index.isEven ? 'Checker B.' : 'Maker A.',
+      'target': index.isEven ? 'COLLECT-AB1202-6802' : 'Buri Munsi',
+      'reason_recorded': true,
+    };
+  }
+  if (rpcName == 'admin_list_settings') {
+    return {
+      'current_value': _rowSubtitle(rpcName, index),
+      'scope': index == 1
+          ? 'RW'
+          : index == 2
+          ? 'Diaspora'
+          : 'Operations',
+    };
+  }
+  if (rpcName == 'admin_list_feature_flags') {
+    return {'scope': 'Production', 'enabled': true};
+  }
+  if (rpcName == 'admin_list_admin_users') {
+    return {
+      'phone_masked': '+250 78•••${6800 + index}',
+      'roles': ['admin'],
+    };
+  }
   return const {};
 }
+
+Map<String, dynamic> _rowCountryExtra(String rpcName, int index) {
+  final countryCode = _rowCountryCode(rpcName, index);
+  return countryCode == null ? const {} : {'country_code': countryCode};
+}
+
+String? _rowCountryCode(String rpcName, int index) => switch (rpcName) {
+  'admin_list_collections' || 'admin_list_collect_payees' => 'RW',
+  'admin_list_collect_transactions' ||
+  'admin_list_collect_reconciliations' ||
+  'admin_list_collect_ledgers' ||
+  'admin_list_notifications' =>
+    index.isOdd
+        ? 'RW'
+        : index % 4 == 2
+        ? 'MT'
+        : 'GB',
+  'admin_list_users' ||
+  'admin_list_members' ||
+  'admin_list_non_member_users' => switch (index % 3) {
+    1 => 'RW',
+    2 => 'MT',
+    _ => 'GB',
+  },
+  _ => null,
+};
+
+String _evidenceWhatsAppMasked(String? countryCode, int index) =>
+    switch (countryCode) {
+      'MT' => '+356 79••${(4300 + index)}',
+      'GB' => '+44 7•••${(4300 + index)}',
+      _ => '+250 78•••${(4300 + index)}',
+    };
 
 String _maskedPayer(int index) {
   const payers = ['078•••4321', '078•••7662', '072•••9152', '073•••1775'];

@@ -96,12 +96,14 @@ void main() {
     expect(find.text('EUR 123.45'), findsOneWidget);
     expect(find.text('Exact reference'), findsOneWidget);
     expect(find.text('Open Revolut'), findsOneWidget);
-    expect(
-      File(
-        'lib/features/payments/contribution_flow_screen.dart',
-      ).readAsStringSync(),
-      contains('Confirm inside your bank app'),
-    );
+    final contributionSource = File(
+      'lib/features/payments/contribution_flow_screen.dart',
+    ).readAsStringSync();
+    final localizationSource = File(
+      'lib/l10n/collect_localizations.dart',
+    ).readAsStringSync();
+    expect(contributionSource, contains("l10n.text('confirmInsideBankApp')"));
+    expect(localizationSource, contains('Confirm inside your bank app'));
     expect(repository.state.contributions, hasLength(2));
   });
 
@@ -137,6 +139,7 @@ void main() {
       'lib/features/collections/group_profile_screen.dart',
       'lib/features/ledger/ledger_screen.dart',
       'lib/features/activity/activity_screen.dart',
+      'lib/l10n/collect_localizations.dart',
     ];
     final source = paths
         .map((path) => File(path).readAsStringSync())

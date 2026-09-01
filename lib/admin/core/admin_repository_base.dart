@@ -26,6 +26,7 @@ abstract class AdminRepositoryBase {
     int? limit,
     int? offset,
     String? sortBy,
+    String? countryCode,
   });
 
   Future<Map<String, dynamic>> detail(String rpcName, String id);

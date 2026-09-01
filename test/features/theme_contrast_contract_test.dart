@@ -266,12 +266,21 @@ void main() {
             find.descendant(of: chip, matching: find.byType(DecoratedBox)),
           );
           final decoration = decorated.decoration as BoxDecoration;
-          final text = tester.widget<Text>(find.text(label));
+          final icon = tester.widget<Icon>(
+            find.descendant(of: chip, matching: find.byType(Icon)),
+          );
           _expectContrast(
             '${theme.key} Admin $label status chip',
-            text.style!.color!,
+            icon.color!,
             decoration.color!,
             _normalTextMinimum,
+          );
+          expect(find.text(label), findsNothing);
+          expect(
+            tester.getSemantics(chip),
+            matchesSemantics(
+              label: 'Status: ${label[0].toUpperCase()}${label.substring(1)}',
+            ),
           );
         }
       });

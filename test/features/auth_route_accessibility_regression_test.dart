@@ -11,6 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+class _SignedOutPublicRepository extends CollectRepository {
+  _SignedOutPublicRepository() : super.fixture() {
+    state = CollectState(
+      currentProfile: null,
+      collections: state.collections,
+      paymentIntents: const [],
+      contributions: const [],
+      collectionSummaries: const {},
+    );
+  }
+}
+
 void main() {
   testWidgets('Pixel auth CTA remains readable at 200 percent text', (
     tester,
@@ -140,6 +152,42 @@ void main() {
     expect(find.text('Home'), findsNothing);
   });
 
+  testWidgets('signed-out visitor can inspect a public MoMo contribution', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final repository = _SignedOutPublicRepository();
+    final router = createAppRouter(
+      initialLocation: '/groups/col-public-savings-fixture/contribute',
+      routeRedirect: (state) => collectAuthenticationRedirect(
+        uri: state.uri,
+        hasProfile: repository.state.currentProfile != null,
+        isLoading: repository.state.isLoading,
+      ),
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+        ],
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('MoMo contribution'), findsOneWidget);
+    expect(find.text('IKANISA LTD'), findsOneWidget);
+    expect(find.text('MTN MoMo receiver · 41258'), findsOneWidget);
+    expect(find.text('Bank transfer'), findsNothing);
+    expect(find.text("Let's get started!"), findsNothing);
+  });
+
   test('route guard preserves only public entry points before sign-in', () {
     String? redirect(String location) => collectAuthenticationRedirect(
       uri: Uri.parse(location),
@@ -153,6 +201,12 @@ void main() {
     expect(redirect('/'), '/auth');
     expect(redirect('/auth'), isNull);
     expect(redirect('/c/public-group'), isNull);
+    expect(redirect('/groups'), isNull);
+    expect(redirect('/contribute'), isNull);
+    expect(redirect('/groups/public-id'), isNull);
+    expect(redirect('/groups/public-id/contribute'), isNull);
+    expect(redirect('/groups/public-id/share'), isNull);
+    expect(redirect('/groups/public-id/manage'), '/auth');
   });
 
   test('route guard holds protected content while profile state loads', () {
@@ -177,6 +231,25 @@ void main() {
     expect(
       collectAuthenticationRedirect(
         uri: heldSplash,
+        hasProfile: true,
+        isLoading: false,
+      ),
+      '/home',
+    );
+  });
+
+  test('successful authentication returns to a safe public contribution', () {
+    expect(
+      collectAuthenticationRedirect(
+        uri: Uri.parse('/auth?next=%2Fgroups%2Fpublic-id%2Fcontribute'),
+        hasProfile: true,
+        isLoading: false,
+      ),
+      '/groups/public-id/contribute',
+    );
+    expect(
+      collectAuthenticationRedirect(
+        uri: Uri.parse('/auth?next=https%3A%2F%2Fevil.example'),
         hasProfile: true,
         isLoading: false,
       ),

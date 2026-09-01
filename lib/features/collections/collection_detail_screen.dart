@@ -59,6 +59,9 @@ class _CollectionDetailScreenState
     final isAdmin = profile != null && collection.creatorUserId == profile.id;
     final isMember = isAdmin || collection.isCurrentUserMember;
     final canContribute = collection.isPublic || isMember;
+    final contributionActionLabel = isMember
+        ? 'Contribute'
+        : 'Contribute & Join';
 
     return ScreenScaffold(
       title: 'Collect',
@@ -67,7 +70,6 @@ class _CollectionDetailScreenState
       compact: true,
       topChrome: const CollectPlainPageHeader(title: 'Group'),
       hero: CollectScreenHero(
-        eyebrow: collection.collectionType.name.toUpperCase(),
         title: collection.title,
         metric: formatRwf(summary.amountRaisedRwf),
         subtitleWidget: CollectPeopleCount(
@@ -85,7 +87,7 @@ class _CollectionDetailScreenState
           if (canContribute) ...[
             CollectHeroQuickAction(
               icon: CollectIcons.donate,
-              label: 'Contribute',
+              label: contributionActionLabel,
               onTap: () =>
                   context.go('/groups/${widget.collectionId}/contribute'),
             ),
@@ -120,7 +122,7 @@ class _CollectionDetailScreenState
       bottomAction: isAdmin
           ? null
           : CollectButton(
-              label: canContribute ? 'Contribute' : 'Join group',
+              label: canContribute ? contributionActionLabel : 'Join group',
               icon: canContribute ? CollectIcons.donate : CollectIcons.people,
               onPressed: canContribute
                   ? () =>
@@ -129,26 +131,21 @@ class _CollectionDetailScreenState
               expand: true,
             ),
       children: [
-        if (isMember)
+        if (isMember) ...[
           InfoSecurityBanner(
             title: 'Your confirmed balance',
             message: formatRwf(summary.currentUserBalanceRwf),
             tone: CollectStatusTone.info,
-          )
-        else if (collection.isPublic)
-          const InfoSecurityBanner(
-            title: 'Open to everyone',
-            message:
-                'You can contribute directly. Your first contribution also joins you to this group.',
-            tone: CollectStatusTone.info,
-          )
-        else
+          ),
+          CollectSpacing.gap16,
+        ] else if (!collection.isPublic) ...[
           const InfoSecurityBanner(
             title: 'Private group',
             message: 'Use a valid group invitation to join this private group.',
             tone: CollectStatusTone.privacy,
           ),
-        CollectSpacing.gap16,
+          CollectSpacing.gap16,
+        ],
         Semantics(
           container: true,
           header: true,

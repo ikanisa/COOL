@@ -151,13 +151,6 @@ class AccountSessionScreen extends ConsumerWidget {
       title: 'Account',
       subtitle: profile == null ? 'No active profile' : profile.publicId,
       children: [
-        if (profile != null)
-          const InfoSecurityBanner(
-            title: 'Signed in on this device',
-            message:
-                'Collect securely restores and refreshes this session. You stay signed in until you choose Sign out, unless access is revoked for account security.',
-            tone: CollectStatusTone.info,
-          ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           accentColor: context.collectColors.statusForeground(

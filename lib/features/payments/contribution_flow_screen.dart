@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/payments/revolut_launcher.dart';
 import '../../core/payments/momo_ussd_launcher.dart';
 import '../../core/utils/money_format.dart';
+import '../../l10n/collect_localizations.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -19,10 +20,47 @@ class ContributionFlowScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final collection = repository.maybeCollectionById(collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    return profile?.isRwanda == true
-        ? _RwandaMomoContributionFlow(collectionId: collectionId)
-        : _DiasporaBankContributionFlow(collectionId: collectionId);
+    return switch (collection.contributionRailFor(profile)) {
+      'rwanda_momo' => _RwandaMomoContributionFlow(collectionId: collectionId),
+      'diaspora_bank' => _DiasporaBankContributionFlow(
+        collectionId: collectionId,
+      ),
+      _ => _UnavailableContributionRoute(collection: collection),
+    };
+  }
+}
+
+class _UnavailableContributionRoute extends StatelessWidget {
+  const _UnavailableContributionRoute({required this.collection});
+
+  final CollectCollection collection;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = CollectLocalizations.of(context);
+    return ScreenScaffold(
+      title: l10n.text('contributionUnavailable'),
+      subtitle: collection.title,
+      compact: true,
+      children: [
+        MinimalStatePanel(
+          icon: CollectIcons.momo,
+          title: l10n.text('noActivePaymentRoute'),
+          message: l10n.text('noApprovedDestination'),
+          tone: CollectStatusTone.warning,
+          primaryAction: CollectButton(
+            label: l10n.text('backToGroup'),
+            icon: Icons.arrow_back_rounded,
+            onPressed: () => context.go('/groups/${collection.id}'),
+            expand: true,
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -52,6 +90,7 @@ class _RwandaMomoContributionFlowState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = CollectLocalizations.of(context);
     final repository = ref.read(collectRepositoryProvider.notifier);
     final collection = repository.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
@@ -68,18 +107,17 @@ class _RwandaMomoContributionFlowState
             collection.isCurrentUserMember);
     if (!collection.isPublic && !isMember) {
       return ScreenScaffold(
-        title: 'Join required',
+        title: l10n.text('joinRequired'),
         subtitle: collection.title,
         compact: true,
         children: [
           MinimalStatePanel(
             icon: CollectIcons.people,
-            title: 'Join this group before contributing.',
-            message:
-                'Membership links your MoMo receipt to the correct private group ledger.',
+            title: l10n.text('joinBeforeContributing'),
+            message: l10n.text('privateMembershipMomo'),
             tone: CollectStatusTone.warning,
             primaryAction: CollectButton(
-              label: 'Open group',
+              label: l10n.text('openGroup'),
               icon: CollectIcons.arrowForward,
               onPressed: () => context.go('/groups/${widget.collectionId}'),
               expand: true,
@@ -90,135 +128,160 @@ class _RwandaMomoContributionFlowState
     }
     final receiver =
         _intent?.receiverMomoNumber ?? collection.receiverMomoNumber ?? '';
-    return ScreenScaffold(
-      title: _intent == null ? 'MoMo contribution' : 'Confirm in MoMo',
-      subtitle: collection.title,
-      compact: true,
-      bottomAction: BottomActionSurface(
-        children: [
-          if (_intent == null)
-            CollectButton(
-              label: _working ? 'Preparing MoMo' : 'Continue to MoMo',
-              icon: CollectIcons.arrowForward,
-              onPressed: _working ? null : _prepare,
-              expand: true,
-            )
-          else
-            CollectButton(
-              label: _working ? 'Opening MoMo' : 'Open MoMo USSD',
-              icon: CollectIcons.momo,
-              onPressed: _working ? null : _openUssd,
-              expand: true,
-            ),
-          if (_intent != null)
-            CollectButton(
-              label: 'Edit amount',
-              icon: CollectIcons.tune,
-              onPressed: _working
-                  ? null
-                  : () => setState(() {
-                      _intent = null;
-                      _ussdOpened = false;
-                      _error = null;
-                    }),
-              variant: CollectButtonVariant.secondary,
-              expand: true,
-            ),
-        ],
-      ),
-      children: [
-        _ContributionHeader(
-          title: collection.title,
-          stepLabel: _intent == null
-              ? 'Step 1 of 2 · RWF amount'
-              : 'Step 2 of 2 · MoMo approval',
-          onBack: () => context.go('/groups/${widget.collectionId}'),
-        ),
-        if (_intent == null)
-          CollectCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Contribution amount',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                CollectSpacing.gap12,
-                TextField(
-                  controller: _amount,
-                  autofocus: true,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: InputDecoration(
-                    prefixText: 'RWF ',
-                    hintText: '10,000',
-                    helperText: 'Enter whole Rwanda francs.',
-                    errorText: _error == 'Enter an amount above RWF 0.'
-                        ? _error
-                        : null,
+    final receiverNetworkLabel = collection.receiverNetwork == 'airtel_money'
+        ? l10n.text('airtelReceiver')
+        : l10n.text('mtnReceiver');
+    final isAmountStep = _intent == null;
+    final amountError = _error == l10n.text('enterAmountAboveZero')
+        ? _error
+        : null;
+    final flowError = _error != null && amountError == null ? _error : null;
+    return Scaffold(
+      backgroundColor: context.collectColors.canvas,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) => Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              key: const ValueKey('native_momo_contribution_flow'),
+              width: constraints.maxWidth.clamp(0, 430).toDouble(),
+              height: constraints.maxHeight,
+              child: Column(
+                children: [
+                  _NativeMomoAppBar(
+                    title: collection.title,
+                    subtitle: l10n.text('momoContribution'),
+                    step: isAmountStep ? 1 : 2,
+                    onBack: () => context.go('/groups/${widget.collectionId}'),
                   ),
-                  onSubmitted: (_) => _prepare(),
-                ),
-                CollectSpacing.gap16,
-                CollectListTile(
-                  leading: CollectIcons.momo,
-                  title: receiver.isEmpty
-                      ? collection.receiverDisplayLabel
-                      : receiver,
-                  subtitle: collection.receiverNetwork == 'airtel_money'
-                      ? 'Airtel Money receiver'
-                      : 'MTN MoMo receiver',
-                ),
-              ],
-            ),
-          )
-        else ...[
-          CollectCard(
-            emphasis: CollectCardEmphasis.glow,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  formatRwf(_intent!.expectedAmountRwf),
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                CollectSpacing.gap12,
-                CollectListTile(
-                  leading: CollectIcons.momo,
-                  title: receiver,
-                  subtitle: 'Exact group receiver',
-                ),
-              ],
+                  Expanded(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 220),
+                      child: ListView(
+                        key: ValueKey(isAmountStep),
+                        padding: const EdgeInsets.fromLTRB(
+                          CollectSpacing.x5,
+                          CollectSpacing.x6,
+                          CollectSpacing.x5,
+                          CollectSpacing.x8,
+                        ),
+                        children: [
+                          if (isAmountStep) ...[
+                            _NativeAmountEntry(
+                              controller: _amount,
+                              errorText: amountError,
+                              onSubmitted: _prepare,
+                              onPreset: _setAmount,
+                            ),
+                          ] else ...[
+                            _NativeAmountReview(
+                              amountRwf: _intent!.expectedAmountRwf,
+                            ),
+                          ],
+                          CollectSpacing.gap32,
+                          Text(
+                            l10n.text('payingTo'),
+                            style: CollectTypography.eyebrowLabel(
+                              context.collectColors.textMuted,
+                            ),
+                          ),
+                          CollectSpacing.gap12,
+                          _NativeMomoReceiverTile(
+                            name: collection.receiverDisplayLabel,
+                            network: receiverNetworkLabel,
+                            receiver: receiver,
+                          ),
+                          CollectSpacing.gap20,
+                          _NativeMomoTrustNote(
+                            title: l10n.text('approveInMomo'),
+                            message: isAmountStep
+                                ? l10n.text('secureMomoApproval')
+                                : l10n.text('approveOnlyInsideMomoMessage'),
+                          ),
+                          if (_ussdOpened) ...[
+                            CollectSpacing.gap16,
+                            _NativeMomoStatus(
+                              title: l10n.text('waitingForReceipt'),
+                              message: l10n.text('waitingForReceiptMessage'),
+                            ),
+                          ],
+                          if (flowError != null) ...[
+                            CollectSpacing.gap16,
+                            _NativeMomoStatus(
+                              title: l10n.text('momoCouldNotContinue'),
+                              message: flowError,
+                              isError: true,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  _NativeMomoBottomBar(
+                    primaryLabel: isAmountStep
+                        ? (_working
+                              ? l10n.text('preparingMomo')
+                              : l10n.text('continueToMomo'))
+                        : (_working
+                              ? l10n.text('openingMomo')
+                              : l10n.text('openMomoUssd')),
+                    primaryIcon: isAmountStep
+                        ? CollectIcons.arrowForward
+                        : CollectIcons.momo,
+                    onPrimary: _working
+                        ? null
+                        : isAmountStep
+                        ? _prepare
+                        : _openUssd,
+                    secondaryLabel: isAmountStep
+                        ? null
+                        : l10n.text('editAmount'),
+                    onSecondary: _working || isAmountStep
+                        ? null
+                        : () => setState(() {
+                            _intent = null;
+                            _ussdOpened = false;
+                            _error = null;
+                          }),
+                  ),
+                ],
+              ),
             ),
           ),
-          const InfoSecurityBanner(
-            title: 'Approve only inside MoMo',
-            message:
-                'Collect opens the USSD request with the exact receiver and amount. Review it and enter your PIN only in the mobile-network prompt.',
-            tone: CollectStatusTone.privacy,
-          ),
-          if (_ussdOpened)
-            const InfoSecurityBanner(
-              title: 'Waiting for the receipt SMS',
-              message:
-                  'The contribution stays pending until the consented Android receipt is parsed and allocated, or an administrator reconciles an exception.',
-              tone: CollectStatusTone.info,
-            ),
-        ],
-        if (_error != null && _error != 'Enter an amount above RWF 0.')
-          InfoSecurityBanner(
-            title: 'MoMo could not continue',
-            message: _error!,
-            tone: CollectStatusTone.warning,
-          ),
-      ],
+        ),
+      ),
     );
   }
 
+  void _setAmount(int amount) {
+    setState(() {
+      _amount.value = TextEditingValue(
+        text: amount.toString(),
+        selection: TextSelection.collapsed(offset: amount.toString().length),
+      );
+      _error = null;
+    });
+  }
+
   Future<void> _prepare() async {
+    if (ref.read(collectRepositoryProvider).currentProfile == null) {
+      context.go(
+        Uri(
+          path: '/auth',
+          queryParameters: {
+            'next': '/groups/${widget.collectionId}/contribute',
+          },
+        ).toString(),
+      );
+      return;
+    }
     final amount = int.tryParse(_amount.text.replaceAll(RegExp(r'\D'), ''));
     if (amount == null || amount <= 0) {
-      setState(() => _error = 'Enter an amount above RWF 0.');
+      setState(
+        () => _error = CollectLocalizations.of(
+          context,
+        ).text('enterAmountAboveZero'),
+      );
       return;
     }
     setState(() {
@@ -268,7 +331,532 @@ class _RwandaMomoContributionFlowState
   String _safeFlowError(Object error) {
     if (error is StateError) return error.message.toString();
     if (error is FormatException) return error.message.toString();
-    return 'Check your connection and try again.';
+    return CollectLocalizations.of(context).text('checkConnection');
+  }
+}
+
+class _NativeMomoAppBar extends StatelessWidget {
+  const _NativeMomoAppBar({
+    required this.title,
+    required this.subtitle,
+    required this.step,
+    required this.onBack,
+  });
+
+  final String title;
+  final String subtitle;
+  final int step;
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        CollectSpacing.x2,
+        CollectSpacing.x2,
+        CollectSpacing.x4,
+        CollectSpacing.x2,
+      ),
+      child: Row(
+        children: [
+          SizedBox.square(
+            dimension: CollectSpacing.target,
+            child: IconButton(
+              tooltip: 'Back',
+              onPressed: onBack,
+              icon: const Icon(CollectIcons.back),
+            ),
+          ),
+          CollectSpacing.gapW8,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: CollectTypography.weightBold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  subtitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelMedium?.copyWith(color: colors.textMuted),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          Semantics(
+            label: 'Step $step of 2',
+            child: ExcludeSemantics(
+              child: Container(
+                constraints: const BoxConstraints(minWidth: 48, minHeight: 32),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: colors.surfaceRaised,
+                  borderRadius: CollectRadius.pillBorder,
+                ),
+                child: Text(
+                  '$step / 2',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: CollectTypography.weightBold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NativeAmountEntry extends StatelessWidget {
+  const _NativeAmountEntry({
+    required this.controller,
+    required this.errorText,
+    required this.onSubmitted,
+    required this.onPreset,
+  });
+
+  final TextEditingController controller;
+  final String? errorText;
+  final VoidCallback onSubmitted;
+  final ValueChanged<int> onPreset;
+
+  static const _presets = [1000, 2000, 5000, 10000];
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final l10n = CollectLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.text('howMuch'),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: colors.textPrimary,
+            fontWeight: CollectTypography.weightBold,
+          ),
+        ),
+        CollectSpacing.gap8,
+        Text(
+          l10n.text('amountPrompt'),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+        ),
+        CollectSpacing.gap24,
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x5,
+            vertical: CollectSpacing.x3,
+          ),
+          decoration: BoxDecoration(
+            color: colors.surfaceReadable,
+            borderRadius: CollectRadius.cardLargeBorder,
+          ),
+          child: Semantics(
+            textField: true,
+            label: l10n.text('contributionAmount'),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'RWF',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: colors.textMuted,
+                    fontWeight: CollectTypography.weightSemibold,
+                  ),
+                ),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    style: CollectTypography.amountHero(colors.textPrimary),
+                    decoration: InputDecoration(
+                      hintText: '10,000',
+                      hintStyle: CollectTypography.amountHero(colors.textMuted),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    onSubmitted: (_) => onSubmitted(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (errorText != null) ...[
+          CollectSpacing.gap8,
+          Text(
+            errorText!,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: colors.dangerForeground,
+              fontWeight: CollectTypography.weightSemibold,
+            ),
+          ),
+        ],
+        CollectSpacing.gap20,
+        Text(
+          l10n.text('quickAmounts'),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: colors.textMuted,
+            fontWeight: CollectTypography.weightSemibold,
+          ),
+        ),
+        CollectSpacing.gap12,
+        Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children: [
+            for (final amount in _presets)
+              _NativeAmountPreset(
+                amount: amount,
+                selected: controller.text == amount.toString(),
+                onTap: () => onPreset(amount),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _NativeAmountPreset extends StatelessWidget {
+  const _NativeAmountPreset({
+    required this.amount,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final int amount;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'RWF $amount',
+      child: Material(
+        color: selected ? colors.textPrimary : colors.surfaceRaised,
+        borderRadius: CollectRadius.pillBorder,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: CollectRadius.pillBorder,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 44),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+                vertical: CollectSpacing.x3,
+              ),
+              child: Text(
+                formatRwf(amount).replaceFirst('RWF ', ''),
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: selected ? colors.canvas : colors.textPrimary,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NativeAmountReview extends StatelessWidget {
+  const _NativeAmountReview({required this.amountRwf});
+
+  final int amountRwf;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final l10n = CollectLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.text('reviewContribution'),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: colors.textPrimary,
+            fontWeight: CollectTypography.weightBold,
+          ),
+        ),
+        CollectSpacing.gap8,
+        Text(
+          l10n.text('youWillContribute'),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+        ),
+        CollectSpacing.gap16,
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            formatRwf(amountRwf),
+            style: CollectTypography.amountHero(colors.textPrimary),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _NativeMomoReceiverTile extends StatelessWidget {
+  const _NativeMomoReceiverTile({
+    required this.name,
+    required this.network,
+    required this.receiver,
+  });
+
+  final String name;
+  final String network;
+  final String receiver;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      label: '$name, $network, $receiver',
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.all(CollectSpacing.x4),
+          decoration: BoxDecoration(
+            color: colors.surfaceReadable,
+            borderRadius: CollectRadius.cardLargeBorder,
+          ),
+          child: Row(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors.statusBackground(CollectStatusTone.info),
+                  border: Border.all(
+                    color: CollectRuntimeTokens.badgeBorder(
+                      colors,
+                      colors.statusForeground(CollectStatusTone.info),
+                    ),
+                  ),
+                ),
+                child: SizedBox.square(
+                  dimension: 48,
+                  child: Icon(
+                    CollectIcons.momo,
+                    color: colors.statusForeground(CollectStatusTone.info),
+                    size: 23,
+                  ),
+                ),
+              ),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            name,
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(
+                                  color: colors.textPrimary,
+                                  fontWeight: CollectTypography.weightBold,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        CollectSpacing.gapW4,
+                        Icon(
+                          CollectIcons.check,
+                          size: 17,
+                          color: colors.textSecondary,
+                        ),
+                      ],
+                    ),
+                    CollectSpacing.gap4,
+                    Text(
+                      receiver.isEmpty ? network : '$network · $receiver',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NativeMomoTrustNote extends StatelessWidget {
+  const _NativeMomoTrustNote({required this.title, required this.message});
+
+  final String title;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: colors.surfaceRaised,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(CollectIcons.lock, size: 18, color: colors.textPrimary),
+        ),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
+                ),
+              ),
+              CollectSpacing.gap4,
+              Text(
+                message,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _NativeMomoStatus extends StatelessWidget {
+  const _NativeMomoStatus({
+    required this.title,
+    required this.message,
+    this.isError = false,
+  });
+
+  final String title;
+  final String message;
+  final bool isError;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Container(
+      padding: const EdgeInsets.all(CollectSpacing.x4),
+      decoration: BoxDecoration(
+        color: isError ? colors.dangerContainer : colors.infoContainer,
+        borderRadius: CollectRadius.cardBorder,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            isError ? CollectIcons.warning : CollectIcons.sms,
+            size: 20,
+            color: isError ? colors.dangerForeground : colors.infoForeground,
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                CollectSpacing.gap4,
+                Text(message, style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NativeMomoBottomBar extends StatelessWidget {
+  const _NativeMomoBottomBar({
+    required this.primaryLabel,
+    required this.primaryIcon,
+    required this.onPrimary,
+    this.secondaryLabel,
+    this.onSecondary,
+  });
+
+  final String primaryLabel;
+  final IconData primaryIcon;
+  final VoidCallback? onPrimary;
+  final String? secondaryLabel;
+  final VoidCallback? onSecondary;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(color: colors.canvas),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          CollectSpacing.x5,
+          CollectSpacing.x3,
+          CollectSpacing.x5,
+          CollectSpacing.x4,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CollectButton(
+              label: primaryLabel,
+              icon: primaryIcon,
+              onPressed: onPrimary,
+              expand: true,
+            ),
+            if (secondaryLabel != null) ...[
+              CollectSpacing.gap8,
+              CollectButton(
+                label: secondaryLabel!,
+                onPressed: onSecondary,
+                variant: CollectButtonVariant.subtle,
+                expand: true,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -284,8 +872,6 @@ class _DiasporaBankContributionFlow extends ConsumerStatefulWidget {
 
 class _DiasporaBankContributionFlowState
     extends ConsumerState<_DiasporaBankContributionFlow> {
-  static const _invalidAmountMessage = 'Enter a valid amount above EUR 0.00.';
-
   final _amount = TextEditingController();
   BankTransferDestination? _destination;
   PaymentIntentModel? _intent;
@@ -308,6 +894,8 @@ class _DiasporaBankContributionFlowState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = CollectLocalizations.of(context);
+    final invalidAmountMessage = l10n.text('enterEuroAboveZero');
     final repository = ref.read(collectRepositoryProvider.notifier);
     final collection = repository.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
@@ -324,18 +912,17 @@ class _DiasporaBankContributionFlowState
             collection.isCurrentUserMember);
     if (!collection.isPublic && !isMember) {
       return ScreenScaffold(
-        title: 'Join required',
+        title: l10n.text('joinRequired'),
         subtitle: collection.title,
         compact: true,
         children: [
           MinimalStatePanel(
             icon: CollectIcons.people,
-            title: 'Join this group before contributing.',
-            message:
-                'Membership links your bank transfer request to the correct group ledger.',
+            title: l10n.text('joinBeforeContributing'),
+            message: l10n.text('privateMembershipBank'),
             tone: CollectStatusTone.warning,
             primaryAction: CollectButton(
-              label: 'Open group',
+              label: l10n.text('openGroup'),
               icon: CollectIcons.arrowForward,
               onPressed: () => context.go('/groups/${widget.collectionId}'),
               expand: true,
@@ -350,7 +937,9 @@ class _DiasporaBankContributionFlowState
         !destination.enabled ||
         destination.isPlaceholder;
     return ScreenScaffold(
-      title: _intent == null ? 'Bank transfer' : 'Review transfer',
+      title: _intent == null
+          ? l10n.text('bankTransfer')
+          : l10n.text('reviewTransfer'),
       subtitle: collection.title,
       compact: true,
       bottomAction: _loadingDestination || unavailable
@@ -360,8 +949,8 @@ class _DiasporaBankContributionFlowState
                   ? [
                       CollectButton(
                         label: _working
-                            ? 'Preparing transfer'
-                            : 'Review transfer',
+                            ? l10n.text('preparingTransfer')
+                            : l10n.text('reviewTransfer'),
                         icon: CollectIcons.arrowForward,
                         onPressed: _working ? null : _prepareTransfer,
                         expand: true,
@@ -369,13 +958,15 @@ class _DiasporaBankContributionFlowState
                     ]
                   : [
                       CollectButton(
-                        label: _working ? 'Opening Revolut' : 'Open Revolut',
+                        label: _working
+                            ? l10n.text('openingRevolut')
+                            : l10n.text('openRevolut'),
                         icon: Icons.open_in_new_rounded,
                         onPressed: _working ? null : _openRevolut,
                         expand: true,
                       ),
                       CollectButton(
-                        label: 'Edit amount',
+                        label: l10n.text('editAmount'),
                         icon: CollectIcons.tune,
                         onPressed: _working
                             ? null
@@ -393,22 +984,21 @@ class _DiasporaBankContributionFlowState
         _ContributionHeader(
           title: collection.title,
           stepLabel: _intent == null
-              ? 'Step 1 of 2 · Amount'
-              : 'Step 2 of 2 · Review',
+              ? l10n.text('step1BankAmount')
+              : l10n.text('step2BankReview'),
           onBack: () => context.go('/groups/${widget.collectionId}'),
         ),
         if (_loadingDestination)
-          const CollectScreenLoadingState(
-            title: 'Loading bank details',
-            message: 'Checking the approved beneficiary version.',
+          CollectScreenLoadingState(
+            title: l10n.text('loadingBankDetails'),
+            message: l10n.text('checkingApprovedBeneficiary'),
             icon: Icons.account_balance_rounded,
           )
         else if (unavailable)
-          const MinimalStatePanel(
+          MinimalStatePanel(
             icon: Icons.account_balance_rounded,
-            title: 'Bank transfers are not active yet.',
-            message:
-                'The beneficiary shown in settings is a non-routable placeholder. Transfers stay disabled until two administrators approve real bank details.',
+            title: l10n.text('bankTransfersInactive'),
+            message: l10n.text('bankTransfersInactiveMessage'),
             tone: CollectStatusTone.warning,
           )
         else if (_intent == null) ...[
@@ -418,7 +1008,7 @@ class _DiasporaBankContributionFlowState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Contribution amount',
+                  l10n.text('contributionAmount'),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 CollectSpacing.gap12,
@@ -436,8 +1026,8 @@ class _DiasporaBankContributionFlowState
                   decoration: InputDecoration(
                     prefixText: 'EUR ',
                     hintText: '0.00',
-                    helperText: 'Enter euros and cents.',
-                    errorText: _error == _invalidAmountMessage ? _error : null,
+                    helperText: l10n.text('enterEurosAndCents'),
+                    errorText: _error == invalidAmountMessage ? _error : null,
                   ),
                   onSubmitted: (_) => _prepareTransfer(),
                 ),
@@ -447,23 +1037,21 @@ class _DiasporaBankContributionFlowState
           _BeneficiaryCard(destination: destination),
         ] else ...[
           _TransferReviewCard(intent: _intent!, onCopy: _copy),
-          const InfoSecurityBanner(
-            title: 'Confirm inside your bank app',
-            message:
-                'Collect opens Revolut only. Select the saved beneficiary, enter the exact amount and reference, then review and approve the transfer in Revolut. Collect never initiates or signs it.',
+          InfoSecurityBanner(
+            title: l10n.text('confirmInsideBankApp'),
+            message: l10n.text('confirmInsideBankAppMessage'),
             tone: CollectStatusTone.privacy,
           ),
           if (_handoffOpened)
-            const InfoSecurityBanner(
-              title: 'Waiting for bank confirmation',
-              message:
-                  'Your request remains pending. A bank notification creates evidence; the contribution is confirmed only after statement reconciliation.',
+            InfoSecurityBanner(
+              title: l10n.text('waitingForBankConfirmation'),
+              message: l10n.text('waitingForBankConfirmationMessage'),
               tone: CollectStatusTone.info,
             ),
         ],
-        if (_error != null && _error != _invalidAmountMessage)
+        if (_error != null && _error != invalidAmountMessage)
           InfoSecurityBanner(
-            title: 'Transfer could not continue',
+            title: l10n.text('transferCouldNotContinue'),
             message: _error!,
             tone: CollectStatusTone.warning,
           ),
@@ -486,7 +1074,9 @@ class _DiasporaBankContributionFlowState
       if (mounted) {
         setState(() {
           _loadingDestination = false;
-          _error = 'Approved bank details could not be loaded. Try again.';
+          _error = CollectLocalizations.of(
+            context,
+          ).text('bankDetailsCouldNotLoad');
         });
       }
     }
@@ -495,7 +1085,11 @@ class _DiasporaBankContributionFlowState
   Future<void> _prepareTransfer() async {
     final amountMinor = parseEuroMinor(_amount.text);
     if (amountMinor == null || amountMinor <= 0) {
-      setState(() => _error = _invalidAmountMessage);
+      setState(
+        () => _error = CollectLocalizations.of(
+          context,
+        ).text('enterEuroAboveZero'),
+      );
       return;
     }
     FocusManager.instance.primaryFocus?.unfocus();
@@ -531,6 +1125,9 @@ class _DiasporaBankContributionFlowState
   Future<void> _openRevolut() async {
     final intent = _intent;
     if (intent == null) return;
+    final revolutCouldNotOpen = CollectLocalizations.of(
+      context,
+    ).text('revolutCouldNotOpen');
     setState(() {
       _working = true;
       _error = null;
@@ -541,7 +1138,7 @@ class _DiasporaBankContributionFlowState
           .markBankTransferHandoffOpened(intent.id);
       final opened = await const RevolutLauncher().launch();
       if (!opened) {
-        throw StateError('Revolut could not open on this device.');
+        throw StateError(revolutCouldNotOpen);
       }
       if (mounted) {
         setState(() {
@@ -562,15 +1159,19 @@ class _DiasporaBankContributionFlowState
   Future<void> _copy(String label, String value) async {
     await Clipboard.setData(ClipboardData(text: value));
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('$label copied')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '$label ${CollectLocalizations.of(context).text('copied')}',
+        ),
+      ),
+    );
   }
 
   String _safeError(Object error) {
     if (error is StateError) return error.message.toString();
     if (error is FormatException) return error.message.toString();
-    return 'Check your connection and try again.';
+    return CollectLocalizations.of(context).text('checkConnection');
   }
 }
 
@@ -598,19 +1199,31 @@ class _BeneficiaryCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Approved beneficiary',
+          CollectLocalizations.of(context).text('approvedBeneficiary'),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         CollectSpacing.gap12,
-        _BankField(label: 'Name', value: destination.beneficiaryName),
-        _BankField(label: 'IBAN', value: destination.ibanMasked),
-        _BankField(label: 'BIC', value: destination.bic),
-        _BankField(label: 'Bank', value: destination.bankName),
         _BankField(
-          label: 'Scheme',
+          label: CollectLocalizations.of(context).text('name'),
+          value: destination.beneficiaryName,
+        ),
+        _BankField(
+          label: CollectLocalizations.of(context).text('iban'),
+          value: destination.ibanMasked,
+        ),
+        _BankField(
+          label: CollectLocalizations.of(context).text('bic'),
+          value: destination.bic,
+        ),
+        _BankField(
+          label: CollectLocalizations.of(context).text('bank'),
+          value: destination.bankName,
+        ),
+        _BankField(
+          label: CollectLocalizations.of(context).text('scheme'),
           value: destination.supportsInstant
-              ? 'SEPA · Instant supported'
-              : 'SEPA credit transfer',
+              ? CollectLocalizations.of(context).text('sepaInstant')
+              : CollectLocalizations.of(context).text('sepaCreditTransfer'),
         ),
       ],
     ),
@@ -633,27 +1246,28 @@ class _TransferReviewCard extends StatelessWidget {
           formatMoneyMinor(
             intent.expectedAmountMinor,
             currency: intent.currency,
+            localeName: Localizations.localeOf(context).toLanguageTag(),
           ),
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         CollectSpacing.gap16,
         _CopyBankField(
-          label: 'Beneficiary',
+          label: CollectLocalizations.of(context).text('beneficiary'),
           value: intent.destination.beneficiaryName,
           onCopy: onCopy,
         ),
         _CopyBankField(
-          label: 'IBAN',
+          label: CollectLocalizations.of(context).text('iban'),
           value: intent.destination.iban,
           onCopy: onCopy,
         ),
         _CopyBankField(
-          label: 'BIC',
+          label: CollectLocalizations.of(context).text('bic'),
           value: intent.destination.bic,
           onCopy: onCopy,
         ),
         _CopyBankField(
-          label: 'Exact reference',
+          label: CollectLocalizations.of(context).text('exactReference'),
           value: intent.transferReference,
           onCopy: onCopy,
         ),

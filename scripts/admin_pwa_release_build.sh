@@ -104,6 +104,7 @@ cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
       ".last_build_id",
       "_headers",
       "_redirects",
+      "index.html",
       "custom-sw.js",
       "flutter_service_worker.js"
     )
@@ -130,6 +131,9 @@ unless bootstrap.include?("__COLLECT_ADMIN_SW_VERSION__")
   abort("flutter_bootstrap.js is missing Collect Admin service worker placeholder")
 end
 bootstrap = bootstrap.gsub("__COLLECT_ADMIN_SW_VERSION__", cache_name)
+unless bootstrap.include?("canvasKitBaseUrl: 'canvaskit/'")
+  abort("flutter_bootstrap.js must self-host CanvasKit")
+end
 File.write(bootstrap_path, bootstrap)
 
 File.write(
@@ -211,6 +215,7 @@ File.write(
 generated_service_worker = File.read(service_worker_path)
 abort("custom-sw.js must not precache Cloudflare _headers metadata") if generated_service_worker.include?('"./_headers"')
 abort("custom-sw.js must not precache Cloudflare _redirects metadata") if generated_service_worker.include?('"./_redirects"')
+abort("custom-sw.js must not precache the redirected /index.html path") if generated_service_worker.include?('"./index.html"')
 RUBY
 
 /bin/bash "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"

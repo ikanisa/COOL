@@ -3,7 +3,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +17,7 @@ import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/widgets/collect_state_panels.dart';
+import 'admin_display_formatters.dart';
 import '../shared/components/admin_confirm_dialog.dart';
 import '../shared/components/admin_data_table.dart';
 import '../shared/components/admin_empty_state.dart';
@@ -34,8 +34,6 @@ import 'admin_review_credentials.dart';
 part 'admin_login_runtime.dart';
 part 'admin_overview_runtime.dart';
 part 'admin_list_specs.dart';
-part 'admin_list_export.dart';
-part 'admin_list_workflow.dart';
 part 'admin_list_runtime.dart';
 part 'admin_operation_tables.dart';
 part 'admin_group_runtime.dart';
@@ -54,6 +52,71 @@ final adminIdentityProvider = FutureProvider<AdminIdentity?>((ref) {
 });
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
+
+enum AdminCountryScope { all, rwanda, malta, other }
+
+extension AdminCountryScopeDisplay on AdminCountryScope {
+  String get label => switch (this) {
+    AdminCountryScope.all => 'All countries',
+    AdminCountryScope.rwanda => 'Rwanda',
+    AdminCountryScope.malta => 'Malta',
+    AdminCountryScope.other => 'Other countries',
+  };
+
+  IconData get icon => switch (this) {
+    AdminCountryScope.all => Icons.public_outlined,
+    AdminCountryScope.rwanda => Icons.cell_tower_outlined,
+    AdminCountryScope.malta => Icons.account_balance_outlined,
+    AdminCountryScope.other => Icons.travel_explore_outlined,
+  };
+
+  String? get rpcCode => switch (this) {
+    AdminCountryScope.all => null,
+    AdminCountryScope.rwanda => 'RW',
+    AdminCountryScope.malta => 'MT',
+    AdminCountryScope.other => 'OTHER',
+  };
+}
+
+final adminCountryScopeProvider = StateProvider<AdminCountryScope>(
+  (_) => AdminCountryScope.all,
+);
+
+bool adminRpcUsesCountryScope(String rpcName) => switch (rpcName) {
+  'admin_list_collections' ||
+  'admin_list_members' ||
+  'admin_list_users' ||
+  'admin_list_non_member_users' ||
+  'admin_list_collect_payees' ||
+  'admin_list_collect_transactions' ||
+  'admin_list_collect_reconciliations' ||
+  'admin_list_collect_ledgers' ||
+  'admin_list_notifications' => true,
+  _ => false,
+};
+
+bool adminRowMatchesCountryScope(
+  AdminTableRowData row,
+  AdminCountryScope scope,
+) {
+  if (scope == AdminCountryScope.all) return true;
+  final explicit = '${row.extra['country_code'] ?? ''}'.trim().toUpperCase();
+  final rail = '${row.extra['rail'] ?? ''}'.trim().toLowerCase();
+  final country = explicit.isNotEmpty
+      ? explicit
+      : rail == 'rw_momo'
+      ? 'RW'
+      : rail == 'diaspora_account'
+      ? 'OTHER'
+      : '';
+  return switch (scope) {
+    AdminCountryScope.all => true,
+    AdminCountryScope.rwanda => country == 'RW',
+    AdminCountryScope.malta => country == 'MT',
+    AdminCountryScope.other =>
+      country.isNotEmpty && country != 'RW' && country != 'MT',
+  };
+}
 
 final adminRuntimeConfigProvider = FutureProvider<AdminRuntimeConfig?>((ref) {
   ref.watch(adminRealtimeTickProvider);
@@ -143,6 +206,7 @@ class AdminRepository extends AdminRepositoryBase {
     int? limit,
     int? offset,
     String? sortBy,
+    String? countryCode,
   }) async {
     final trimmedSearch = search?.trim();
     final normalizedSearch = trimmedSearch?.isEmpty == true
@@ -151,6 +215,29 @@ class AdminRepository extends AdminRepositoryBase {
     final normalizedStatus = status?.trim().isEmpty == true
         ? null
         : status?.trim();
+    final normalizedCountry = countryCode?.trim().toUpperCase();
+    if (normalizedCountry?.isNotEmpty == true &&
+        adminRpcUsesCountryScope(rpcName)) {
+      try {
+        final row = await rpcMap(
+          'admin_list_country_scoped',
+          params: {
+            'p_rpc_name': rpcName,
+            'p_country': normalizedCountry,
+            'p_search': normalizedSearch,
+            'p_status': normalizedStatus,
+            'p_limit': limit ?? 25,
+            'p_offset': offset ?? 0,
+            'p_sort': sortBy?.trim().isEmpty == true
+                ? 'created_at_desc'
+                : sortBy?.trim() ?? 'created_at_desc',
+          },
+        );
+        return AdminListResult.fromJson(row);
+      } on PostgrestException catch (error) {
+        if (!_isMissingCountryScopeRpcError(error)) rethrow;
+      }
+    }
     final wantsServerWindow =
         limit != null || offset != null || sortBy?.trim().isNotEmpty == true;
     if (wantsServerWindow) {
@@ -262,6 +349,16 @@ class AdminRepository extends AdminRepositoryBase {
         error.code == 'PGRST202';
   }
 
+  bool _isMissingCountryScopeRpcError(PostgrestException error) {
+    final message =
+        '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
+            .toLowerCase();
+    return message.contains('admin_list_country_scoped') ||
+        message.contains('function') && message.contains('not found') ||
+        error.code == '42883' ||
+        error.code == 'PGRST202';
+  }
+
   bool _isLegacySlaSignatureError(PostgrestException error) {
     final message =
         '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
@@ -292,30 +389,37 @@ class AdminDeniedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final permission = requiredPermission;
-    return AdminPage(
-      title: 'Admin access required',
-      subtitle: permission == null
-          ? 'Admin permission missing.'
-          : 'Missing $permission.',
-      child: Semantics(
-        container: true,
-        explicitChildNodes: true,
-        label: 'Admin access recovery actions',
-        child: Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: [
-            FilledButton.icon(
-              onPressed: () => context.go('/admin'),
-              icon: const Icon(Icons.dashboard_outlined),
-              label: const Text('Return to operations'),
+    final colors = context.collectColors;
+    return Scaffold(
+      backgroundColor: colors.canvas,
+      body: ColoredBox(
+        color: colors.canvas,
+        child: AdminPage(
+          title: 'Admin access required',
+          subtitle: permission == null
+              ? 'This account does not have Admin access.'
+              : 'Permission required: $permission',
+          child: Semantics(
+            container: true,
+            explicitChildNodes: true,
+            label: 'Admin access recovery actions',
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                IconButton.filled(
+                  tooltip: 'Return to operations',
+                  onPressed: () => context.go('/admin'),
+                  icon: const Icon(Icons.dashboard_outlined),
+                ),
+                IconButton.outlined(
+                  tooltip: 'Admin sign-in',
+                  onPressed: () => context.go('/admin/login'),
+                  icon: const Icon(Icons.login_outlined),
+                ),
+              ],
             ),
-            OutlinedButton.icon(
-              onPressed: () => context.go('/admin/login'),
-              icon: const Icon(Icons.login_outlined),
-              label: const Text('Admin sign-in'),
-            ),
-          ],
+          ),
         ),
       ),
     );

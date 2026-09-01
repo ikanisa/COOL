@@ -158,11 +158,45 @@ void main() {
     await tester.tap(find.text('St Michel building fund').first);
     await tester.pumpAndSettle();
 
-    expect(find.text('Contribution amount'), findsOneWidget);
-    expect(find.text('MTN MoMo receiver'), findsOneWidget);
+    expect(find.text('How much?'), findsOneWidget);
+    expect(find.textContaining('MTN MoMo receiver'), findsOneWidget);
     expect(find.text('Continue to MoMo'), findsOneWidget);
+    expect(
+      tester
+          .getSize(find.byKey(const ValueKey('native_momo_contribution_flow')))
+          .width,
+      lessThanOrEqualTo(430),
+    );
+    expect(find.text('St Michel building fund'), findsOneWidget);
     expect(find.text('Choose a group'), findsNothing);
     expect(find.text('Profile'), findsNothing);
+  });
+
+  testWidgets('Buri Munsi never falls back to bank transfer by profile', (
+    tester,
+  ) async {
+    final repository = CollectRepository.fixture(
+      profileOverride: _diasporaProfile,
+    );
+
+    await pumpRoute(
+      tester,
+      '/groups/col-public-savings-fixture/contribute',
+      legalConsentAccepted: true,
+      repository: repository,
+    );
+
+    expect(find.text('MoMo contribution'), findsOneWidget);
+    expect(find.text('IKANISA LTD'), findsOneWidget);
+    expect(find.text('MTN MoMo receiver · 41258'), findsOneWidget);
+    expect(find.text('1,000'), findsOneWidget);
+    expect(find.text('2,000'), findsOneWidget);
+    expect(find.text('5,000'), findsOneWidget);
+    expect(find.text('10,000'), findsNWidgets(2));
+    expect(find.text('20,000'), findsNothing);
+    expect(find.text('50,000'), findsNothing);
+    expect(find.text('Bank transfer'), findsNothing);
+    expect(find.text('EUR '), findsNothing);
   });
 
   testWidgets('Contribute prioritizes public discovery when data is empty', (
@@ -178,6 +212,20 @@ void main() {
     expect(find.text('Explore public groups'), findsWidgets);
     expect(find.text('No groups available'), findsNothing);
     expect(find.text('Scan group QR'), findsNothing);
+  });
+
+  testWidgets('public group detail omits category and explanatory labels', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/groups/col-public-savings-fixture');
+
+    expect(find.text('Buri Munsi'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.savings), findsWidgets);
+    expect(find.text('IKIMINA'), findsNothing);
+    expect(find.text('Open to everyone'), findsNothing);
+    expect(find.textContaining('first contribution also joins'), findsNothing);
+    expect(find.text('Contribute & Join'), findsWidgets);
+    expect(find.text('Contribute'), findsNothing);
   });
 
   testWidgets('global Activity renders confirmed records but not intents', (
@@ -922,6 +970,11 @@ void main() {
 
     expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
     expect(find.text('Authentication failed'), findsNothing);
+
+    await tester.enterText(find.byType(TextField).first, '78812345');
+    await tester.pump();
+
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
 
     await tester.enterText(find.byType(TextField).first, '788123456');
     await tester.pump();

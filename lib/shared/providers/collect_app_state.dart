@@ -108,6 +108,8 @@ final profileReadinessProvider = Provider<ProfileReadiness>((ref) {
   );
 });
 
+/// Diagnostic connectivity state for explicit recovery flows and device UAT.
+/// This state must not be rendered as a global overlay over customer screens.
 final connectivityStatusProvider = Provider<ConnectivityStatus>((ref) {
   final usingStaleCache = ref.watch(
     collectRepositoryProvider.select((state) => state.usingStaleCache),

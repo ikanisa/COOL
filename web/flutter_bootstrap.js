@@ -14,4 +14,8 @@ window.addEventListener('load', function () {
   }
 });
 
-_flutter.loader.load();
+_flutter.loader.load({
+  config: {
+    canvasKitBaseUrl: 'canvaskit/',
+  },
+});

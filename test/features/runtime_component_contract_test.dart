@@ -1150,31 +1150,6 @@ void main() {
     expect(find.text('7 loaded'), findsOneWidget);
   });
 
-  testWidgets('connectivity banner distinguishes offline status copy', (
-    tester,
-  ) async {
-    final semantics = tester.ensureSemantics();
-    try {
-      await _pumpCollect(
-        tester,
-        const Column(
-          children: [
-            CollectConnectivityBanner(status: ConnectivityStatus.online),
-            CollectConnectivityBanner(status: ConnectivityStatus.degraded),
-            CollectConnectivityBanner(status: ConnectivityStatus.offline),
-            CollectConnectivityBanner(status: ConnectivityStatus.offlineStale),
-          ],
-        ),
-      );
-
-      expect(find.text('Connection needs attention'), findsOneWidget);
-      expect(find.text('No connection'), findsOneWidget);
-      expect(find.text('Showing saved data'), findsOneWidget);
-    } finally {
-      semantics.dispose();
-    }
-  });
-
   testWidgets('permission education sheet explains the native prompt', (
     tester,
   ) async {
@@ -1401,7 +1376,10 @@ void main() {
     expect(collectionsScreen, isNot(contains('Supported activity')));
     expect(collectionsScreen, isNot(contains('Total collected')));
     expect(detailActions, contains("label: 'Members'"));
-    expect(detailActions, contains("label: 'Contribute'"));
+    expect(detailActions, contains('final contributionActionLabel = isMember'));
+    expect(detailActions, contains("? 'Contribute'"));
+    expect(detailActions, contains(": 'Contribute & Join'"));
+    expect(detailActions, contains('label: contributionActionLabel'));
     expect(detailActions, contains("label: 'Share'"));
     expect(detailActions, isNot(contains("label: 'QR'")));
     expect(detailActions, isNot(contains("label: 'People'")));

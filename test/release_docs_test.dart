@@ -64,10 +64,7 @@ void main() {
       build,
       contains('must be the positive project number linked to Collect'),
     );
-    expect(
-      build,
-      contains('export PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER='),
-    );
+    expect(build, contains('export PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER='));
   });
 
   test('Edge Function documentation and config expose the exact allowlist', () {
@@ -154,7 +151,7 @@ void main() {
 
     expect(
       inventory,
-      contains('"authenticated_security_definer_function_executable" => 112'),
+      contains('"authenticated_security_definer_function_executable" => 125'),
     );
     expect(inventory, contains('update_current_profile()'));
   });
@@ -181,6 +178,7 @@ void main() {
 
   test('linked database UAT has an HTTPS Management API fallback', () {
     final helpers = File('scripts/supabase_cli_helpers.sh').readAsStringSync();
+    final deploy = File('scripts/supabase_deploy.sh').readAsStringSync();
     final linkedUat = File('scripts/collect_linked_uat.sh').readAsStringSync();
     final adminUat = File(
       'scripts/collect_admin_security_uat.sh',
@@ -188,6 +186,15 @@ void main() {
 
     expect(helpers, contains('supabase_management_query_file'));
     expect(helpers, contains('/database/query'));
+    expect(helpers, contains('supabase_management_apply_pending_migrations'));
+    expect(helpers, contains('codex-management-api'));
+    expect(helpers, isNot(contains('local version name path body')));
+    expect(
+      helpers,
+      contains('Remote migration version history does not exactly match'),
+    );
+    expect(deploy, contains('tenant allow_list'));
+    expect(deploy, contains('supabase_management_apply_pending_migrations'));
     expect(linkedUat, contains('supabase_management_query_file'));
     expect(adminUat, contains('supabase_management_query_file'));
   });

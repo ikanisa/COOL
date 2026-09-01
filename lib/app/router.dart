@@ -483,7 +483,11 @@ String? collectAuthenticationRedirect({
   }
 
   if (hasProfile) {
-    if (uri.path == '/' || uri.path == '/auth') return '/home';
+    if (uri.path == '/') return '/home';
+    if (uri.path == '/auth') {
+      return _safeInternalRoute(uri.queryParameters['next'])?.toString() ??
+          '/home';
+    }
     return null;
   }
 
@@ -493,7 +497,19 @@ String? collectAuthenticationRedirect({
 }
 
 bool _isPublicUnauthenticatedPath(String path) {
-  return path == '/' || path == '/auth' || path.startsWith('/c/');
+  if (path == '/' ||
+      path == '/auth' ||
+      path == '/groups' ||
+      path == '/contribute' ||
+      path.startsWith('/c/')) {
+    return true;
+  }
+  if (path == '/groups/create' ||
+      path == '/groups/scan' ||
+      path == '/groups/join') {
+    return false;
+  }
+  return RegExp(r'^/groups/[^/]+(?:/contribute|/share)?$').hasMatch(path);
 }
 
 Uri? _safeInternalRoute(String? rawRoute) {

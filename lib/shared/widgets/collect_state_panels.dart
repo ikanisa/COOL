@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/collect_app_state.dart';
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_icons.dart';
 import '../../app/theme/collect_radius.dart';

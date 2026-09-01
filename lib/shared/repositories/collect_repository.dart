@@ -750,6 +750,15 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
     final profile = _requireProfile();
     final collection = _requireActiveCollection(draft.collectionId);
+    final contributionRail = collection.contributionRailFor(profile);
+    if (contributionRail == 'unavailable') {
+      throw StateError('This group has no active payment route.');
+    }
+    if (contributionRail == 'rwanda_momo' && !profile.isRwanda) {
+      throw StateError(
+        'This group accepts Rwanda MoMo contributions. Use a verified Rwanda MoMo profile.',
+      );
+    }
     if (!collection.isPublic &&
         !collection.isCurrentUserMember &&
         collection.creatorUserId != profile.id) {
@@ -759,7 +768,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     for (final intent in state.paymentIntents) {
       if (intent.collectionId == collection.id &&
           intent.expectedAmountRwf == draft.amountRwf &&
-          intent.isRwandaMomo == profile.isRwanda &&
+          intent.rail == contributionRail &&
           intent.isAwaitingTransfer &&
           now.isBefore(intent.expiresAt.toLocal())) {
         return intent;
@@ -768,7 +777,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
-      final response = profile.isRwanda
+      final response = contributionRail == 'rwanda_momo'
           ? await supabase.rpc<dynamic>(
               'create_contribution_intent',
               params: {
@@ -806,7 +815,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       throw StateError('Sign in before starting a contribution.');
     }
 
-    final intent = profile.isRwanda
+    final intent = contributionRail == 'rwanda_momo'
         ? PaymentIntentModel(
             id: _uuid.v4(),
             collectionId: collection.id,

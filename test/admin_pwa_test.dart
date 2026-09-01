@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/admin_shell.dart';
+import 'package:collect_app/admin/core/admin_display_formatters.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
@@ -127,6 +128,106 @@ void main() {
     expect(source, isNot(contains('/admin/payment-events')));
   });
 
+  test('admin overview keeps queue health readable on narrow screens', () {
+    final source = File(
+      'lib/admin/core/admin_overview_runtime.dart',
+    ).readAsStringSync();
+
+    expect(source, contains("return 'Next business day';"));
+    expect(source, contains('textAlign: TextAlign.end'));
+    expect(source, contains('softWrap: true'));
+    expect(source, contains('Flexible('));
+  });
+
+  test('admin access is one combined audited permission set', () {
+    final detail = File(
+      'lib/admin/core/admin_detail_runtime.dart',
+    ).readAsStringSync();
+    final migration = File(
+      'supabase/migrations/20260901210000_admin_single_access_role.sql',
+    ).readAsStringSync();
+
+    expect(detail, contains("'admin_set_user_access'"));
+    expect(detail, contains("'p_active': !active"));
+    expect(detail, isNot(contains('Role access')));
+    expect(detail, isNot(contains('_AdminRoleActionChip')));
+    expect(migration, contains('cross join public.admin_permissions'));
+    expect(migration, contains("role.name <> 'platform_owner'"));
+    expect(migration, contains('admin.access.activated'));
+    expect(migration, contains('admin.access.deactivated'));
+  });
+
+  test('admin country scope covers Rwanda Malta and other countries', () async {
+    expect(AdminCountryScope.values, <AdminCountryScope>[
+      AdminCountryScope.all,
+      AdminCountryScope.rwanda,
+      AdminCountryScope.malta,
+      AdminCountryScope.other,
+    ]);
+
+    final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final listRuntime = File(
+      'lib/admin/core/admin_list_runtime.dart',
+    ).readAsStringSync();
+    expect(shell, contains('_AdminCountrySwitcher'));
+    expect(shell, contains('PopupMenuButton<AdminCountryScope>'));
+    expect(listRuntime, contains('adminRowMatchesCountryScope'));
+    expect(listRuntime, contains('countryCode: countryScope.rpcCode'));
+
+    const repository = AdminEvidenceRepository();
+    final members = await repository.list('admin_list_members', limit: 100);
+    final countries = members.rows
+        .map((row) => row.extra['country_code'])
+        .toSet();
+    expect(countries, containsAll(<String>{'RW', 'MT', 'GB'}));
+    final maltaMembers = await repository.list(
+      'admin_list_members',
+      limit: 100,
+      countryCode: 'MT',
+    );
+    expect(maltaMembers.rows, isNotEmpty);
+    expect(
+      maltaMembers.rows.every((row) => row.extra['country_code'] == 'MT'),
+      isTrue,
+    );
+    expect(
+      members.rows
+          .where(
+            (row) => adminRowMatchesCountryScope(row, AdminCountryScope.rwanda),
+          )
+          .every((row) => row.extra['country_code'] == 'RW'),
+      isTrue,
+    );
+    expect(
+      members.rows
+          .where(
+            (row) => adminRowMatchesCountryScope(row, AdminCountryScope.malta),
+          )
+          .every((row) => row.extra['country_code'] == 'MT'),
+      isTrue,
+    );
+    expect(
+      members.rows
+          .where(
+            (row) => adminRowMatchesCountryScope(row, AdminCountryScope.other),
+          )
+          .every((row) => row.extra['country_code'] == 'GB'),
+      isTrue,
+    );
+  });
+
+  test('admin hides the redundant Collect transaction prefix', () {
+    expect(
+      adminCompactTransactionReference('COLLECT-AB1202-6802'),
+      'AB1202-6802',
+    );
+    expect(
+      adminCompactTransactionReference('Checker B. • COLLECT-AB1202-6802'),
+      'Checker B. • AB1202-6802',
+    );
+    expect(adminCompactTransactionReference('AB1202-6802'), 'AB1202-6802');
+  });
+
   test('payees workspace exposes the two confirmed official routes', () async {
     const repository = AdminEvidenceRepository();
     final result = await repository.list('admin_list_collect_payees');
@@ -216,15 +317,18 @@ void main() {
         'Groups',
       ]) {
         expect(
-          tableSource,
-          contains("label: '$iconOnlyLabel',\n            iconOnly: true"),
+          RegExp(
+            "label: '$iconOnlyLabel',\\s+iconOnly: true",
+          ).hasMatch(tableSource),
+          isTrue,
           reason: iconOnlyLabel,
         );
       }
       expect(tableSource, contains('IconButton.filledTonal'));
       expect(tableSource, contains('FontAwesomeIcons.whatsapp'));
       expect(tableSource, contains('_transactionDisplayAmount(row)'));
-      expect(tableSource, contains('hidePrimaryText: true'));
+      expect(tableSource, contains("'whatsapp_masked'"));
+      expect(tableSource, isNot(contains('hidePrimaryText: true')));
       expect(tableSource, contains('iconOnlyFields: true'));
       expect(tableSource, contains("label: '\${data.label}: \$value'"));
       expect(tableSource, contains('message: data.label'));
@@ -252,13 +356,22 @@ void main() {
       final detail = File(
         'lib/admin/core/admin_detail_runtime.dart',
       ).readAsStringSync();
+      final overview = File(
+        'lib/admin/core/admin_overview_runtime.dart',
+      ).readAsStringSync();
 
       expect(operations, contains('this.iconOnly = true'));
       expect(operations, contains('subtitleIcon: _groupPurposeIcon(row)'));
       expect(operations, contains('iconOnlyFields: true'));
+      expect(operations, contains("'Open \$accountLabel account'"));
+      expect(operations, contains("scopeLabel == 'Members'"));
+      expect(operations, contains("row.status == 'admin'"));
       expect(operations, contains(': const SizedBox.shrink()'));
       expect(genericTable, contains('class _AdminDataColumnLabel'));
       expect(genericTable, contains("label: '\$label: \$value'"));
+      expect(genericTable, contains('_adminFormatCurrency(row.amount)'));
+      expect(genericTable, contains("currency == 'EUR'"));
+      expect(genericTable, contains("label == 'Debit = credit'"));
       expect(
         genericTable,
         isNot(contains("DataColumn(label: Text('Record'))")),
@@ -267,6 +380,9 @@ void main() {
       expect(detail, contains('_adminDetailFieldGlyph('));
       expect(detail, contains('label: label'));
       expect(detail, contains('value: value'));
+      expect(detail, contains('Icons.schedule_send_outlined'));
+      expect(detail, contains('Icons.error_outline_rounded'));
+      expect(overview, contains('String _compactAge(String value)'));
       expect(listRuntime, contains('IconButton.outlined'));
       expect(listRuntime, contains('IconButton.filledTonal'));
       expect(listRuntime, isNot(contains("child: const Text('Edit')")));
@@ -429,8 +545,9 @@ void main() {
       'scripts/admin_pwa_authenticated_render_smoke.sh',
     ).readAsStringSync();
 
-    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 20);
+    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 21);
     for (final route in <String>[
+      '/admin/users',
       '/admin/payees',
       '/admin/transactions',
       '/admin/reconciliations',
@@ -448,8 +565,8 @@ void main() {
     ]) {
       expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
     }
-    expect(renderSmoke, contains('routeCount") == 20'));
-    expect(renderSmoke, contains('screenshotCount") == 60'));
+    expect(renderSmoke, contains('routeCount") == 21'));
+    expect(renderSmoke, contains('screenshotCount") == 63'));
   });
 
   test('Admin PWA runtime probe fails closed on stalled CDP commands', () {
@@ -473,6 +590,20 @@ void main() {
       releaseBuild,
       contains('must not precache Cloudflare _headers metadata'),
     );
+    expect(
+      releaseBuild,
+      contains('must not precache the redirected /index.html path'),
+    );
+  });
+
+  test('Admin PWA self-hosts CanvasKit for reliable first load', () {
+    final bootstrap = File('web/flutter_bootstrap.js').readAsStringSync();
+    final releaseBuild = File(
+      'scripts/admin_pwa_release_build.sh',
+    ).readAsStringSync();
+
+    expect(bootstrap, contains("canvasKitBaseUrl: 'canvaskit/'"));
+    expect(releaseBuild, contains('must self-host CanvasKit'));
   });
 
   test(

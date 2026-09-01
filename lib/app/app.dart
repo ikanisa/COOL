@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/notifications/collect_notification_service.dart';
 import '../core/security/sms_access_channel.dart';
+import '../l10n/collect_localizations.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import '../shared/repositories/pending_shared_group_intent_store.dart';
@@ -48,12 +50,15 @@ class CollectApp extends ConsumerWidget {
                 highContrastTheme: AppTheme.highContrastLight(),
                 highContrastDarkTheme: AppTheme.highContrastDark(),
                 themeMode: themeMode,
+                supportedLocales: CollectLocalizations.supportedLocales,
+                localizationsDelegates: const [
+                  CollectLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                locale: const Locale('en'),
                 routerConfig: router,
-                builder: (context, child) {
-                  return _CollectConnectivityOverlay(
-                    child: child ?? const SizedBox.shrink(),
-                  );
-                },
               ),
             ),
           ),
@@ -318,61 +323,6 @@ class _PendingSharedGroupIntentRecoveryHostState
     });
     return widget.child;
   }
-}
-
-class _CollectConnectivityOverlay extends ConsumerWidget {
-  const _CollectConnectivityOverlay({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final status = ref.watch(connectivityStatusProvider);
-    final overlayStatus = connectivityOverlayStatus(status);
-    final compactWidth = MediaQuery.sizeOf(context).width < 600;
-    final topPadding = compactWidth ? 64.0 : CollectSpacing.x2;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        child,
-        IgnorePointer(
-          child: SafeArea(
-            bottom: false,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  CollectSpacing.x4,
-                  topPadding,
-                  CollectSpacing.x4,
-                  0,
-                ),
-                child: AnimatedSwitcher(
-                  duration: CollectMotion.duration(
-                    context,
-                    CollectMotion.medium,
-                  ),
-                  child: CollectConnectivityBanner(
-                    key: ValueKey<ConnectivityStatus>(overlayStatus),
-                    status: overlayStatus,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-/// Cached-data state is already shown by [ScreenScaffold] in the normal
-/// document flow. Keeping it out of the global overlay avoids covering screen
-/// titles while preserving overlay alerts for degraded and offline failures.
-ConnectivityStatus connectivityOverlayStatus(ConnectivityStatus status) {
-  return status == ConnectivityStatus.offlineStale
-      ? ConnectivityStatus.online
-      : status;
 }
 
 class _NotificationRegistrationHost extends ConsumerStatefulWidget {
