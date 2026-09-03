@@ -9,6 +9,8 @@ class CollectState {
     required this.paymentIntents,
     required this.contributions,
     this.collectionSummaries = const {},
+    this.historyPage,
+    this.pendingIntentCount,
     this.notificationEvents = const [],
     this.notificationPreferences = NotificationPreferences.defaults,
     this.smsAccessEnabled = false,
@@ -26,6 +28,8 @@ class CollectState {
   final List<PaymentIntentModel> paymentIntents;
   final List<Contribution> contributions;
   final Map<String, CollectionSummary> collectionSummaries;
+  final MemberHistoryPage? historyPage;
+  final int? pendingIntentCount;
   final List<NotificationEvent> notificationEvents;
   final NotificationPreferences notificationPreferences;
   final bool smsAccessEnabled;
@@ -37,6 +41,15 @@ class CollectState {
   final DateTime? lastSuccessfulSyncAt;
   final String? lastError;
 
+  bool get hasInitialLoadFailure =>
+      !isLoading &&
+      lastError != null &&
+      !usingStaleCache &&
+      lastSuccessfulSyncAt == null &&
+      collections.isEmpty &&
+      contributions.isEmpty &&
+      paymentIntents.isEmpty;
+
   bool get hasOfflineReadableData {
     return currentProfile != null ||
         collections.isNotEmpty ||
@@ -45,11 +58,13 @@ class CollectState {
   }
 
   CollectState copyWith({
-    CollectProfile? currentProfile,
+    Object? currentProfile = _unsetDateTimeField,
     List<CollectCollection>? collections,
     List<PaymentIntentModel>? paymentIntents,
     List<Contribution>? contributions,
     Map<String, CollectionSummary>? collectionSummaries,
+    Object? historyPage = _unsetDateTimeField,
+    int? pendingIntentCount,
     List<NotificationEvent>? notificationEvents,
     NotificationPreferences? notificationPreferences,
     bool? smsAccessEnabled,
@@ -62,11 +77,17 @@ class CollectState {
     String? lastError,
   }) {
     return CollectState(
-      currentProfile: currentProfile ?? this.currentProfile,
+      currentProfile: identical(currentProfile, _unsetDateTimeField)
+          ? this.currentProfile
+          : currentProfile as CollectProfile?,
       collections: collections ?? this.collections,
       paymentIntents: paymentIntents ?? this.paymentIntents,
       contributions: contributions ?? this.contributions,
       collectionSummaries: collectionSummaries ?? this.collectionSummaries,
+      historyPage: identical(historyPage, _unsetDateTimeField)
+          ? this.historyPage
+          : historyPage as MemberHistoryPage?,
+      pendingIntentCount: pendingIntentCount ?? this.pendingIntentCount,
       notificationEvents: notificationEvents ?? this.notificationEvents,
       notificationPreferences:
           notificationPreferences ?? this.notificationPreferences,

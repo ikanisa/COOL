@@ -475,7 +475,12 @@ void main() {
     await tester.enterText(find.byType(TextField).first, '0.00');
     expect(
       tester.widget<TextField>(find.byType(TextField).first).controller?.text,
-      '000',
+      '',
+    );
+    await tester.enterText(find.byType(TextField).first, '000');
+    expect(
+      tester.widget<TextField>(find.byType(TextField).first).controller?.text,
+      '0',
     );
     final reviewButton = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Continue to MoMo'),

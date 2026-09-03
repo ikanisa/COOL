@@ -232,6 +232,7 @@ Secondary color gates:
 - Flutter launch, in-app brand marks, Android launcher/splash resources, iOS AppIcon resources, public-web favicon, and PWA manifests must use exact official PNG derivatives from that source history. Platform derivatives may resize or flatten the official source for packaging, but must not redraw or reinterpret it.
 - Handcrafted or generated brand substitutes are forbidden. This includes an invented letter `C`, CSS art, text art, emoji, inline or file-backed SVG logos, fabricated wordmarks, placeholder logos, and semantic UI icons presented as the Collect brand.
 - Material or Cupertino icon libraries may be used only for truthful semantic interface actions and states, never as the Collect logo.
+- Bundle the required Cupertino icon font for Apple-platform controls. Icon-font assets are not display/body typefaces: Inter remains the sole text family, and the typography/brand guards must not remove native icon assets.
 - No tracked SVG or SVGZ artwork is permitted in the product asset graph. A new visual asset requires verified product-owner provenance and an explicit addition to this contract before implementation.
 
 ### Spacing And Shape Tokens
@@ -566,6 +567,34 @@ Each exception must include:
 - `expiry_or_review`: date or release when the exception must be revalidated.
 
 Default rule: undocumented deviations fail the design gate.
+
+### Profile editor — 2026-09-02
+
+- Surface / route: member mobile, `/settings/profile`.
+- Standard varied: generic 8 dp panel-radius guidance and tablet expansion.
+- Reason: owner-requested native mobile editing grammar, consistent with the
+  existing compact contribution flow; fields must not become desktop forms.
+- Alternative: existing `CollectRadius.cardBorder` for filled input groups,
+  no idle input underlines, a 430 dp maximum editor width, compact identity,
+  one Save action, and accessible focus outlines. Country and currency share
+  one row; verified WhatsApp stays read-only. Provider selection is removed:
+  complete Rwanda MoMo numbers determine the provider using existing supported
+  mobile prefixes. Validation and backend checks remain authoritative.
+- Risk / safeguards: keyboard and large-text scrolling, disabled/saving states,
+  invalid-number recovery, and discard confirmation on Back are widget-tested.
+  No new brand art, decorative gradients, or provider assets.
+- Owner-requested identity icon: verified WhatsApp uses the unmodified WhatsApp
+  glyph from the existing Font Awesome dependency, in the row's semantic icon
+  color. It identifies WhatsApp only and does not replace the Collect logo.
+- Member identity is the six-digit Collect ID only. Do not collect, display,
+  validate, or cache member names, including a diaspora account-name field.
+  Names parsed from MoMo SMS are Admin reconciliation data, not member UI.
+  Payee/organisation names still identify the actual payment destination.
+- Evidence: `test/features/profile_editor_test.dart` and
+  `test/core/rwanda_momo_number_test.dart`; fixture captures under the Flutter
+  output directory `collect-profile-2026-09-02`. These are local Flutter
+  renderings, not device or store-release certification.
+- Review: next member-app release and any change to supported mobile prefixes.
 
 ## Route Evidence Matrix Template
 

@@ -9,7 +9,7 @@ FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 # shellcheck source=scripts/load_dotenv_strict.sh
 . "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
-if [[ -f .env ]]; then
+if [[ "${COLLECT_SKIP_DOTENV:-0}" != "1" && -f .env ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 

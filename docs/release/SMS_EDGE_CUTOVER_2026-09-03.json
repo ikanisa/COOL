@@ -1,0 +1,93 @@
+{
+  "started_at": "2026-09-03T07:51:00Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "before": [
+    {
+      "slug": "ingest-payment-sms",
+      "version": 3,
+      "verify_jwt": true,
+      "ezbr_sha256": "8e4655394ba4e4bcb2acfb79c664ccf5ea112ddc899dcb5f8209459336d98948"
+    },
+    {
+      "slug": "parse-payment-sms",
+      "version": 4,
+      "verify_jwt": false,
+      "ezbr_sha256": "d61662a87648f521d11e96da29c9cc4f03a8b29e7c34f4375dff71317bf13dd4"
+    }
+  ],
+  "deployments": [
+    {
+      "slug": "ingest-payment-sms",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/hash.ts",
+          "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+        },
+        {
+          "file": "supabase/functions/_shared/raw_sms_input.ts",
+          "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/ingest-payment-sms/index.ts",
+          "sha256": "47cf82e144994557e12823b7cf8a462a52897824b6f74955f385d77c77900419"
+        }
+      ]
+    },
+    {
+      "slug": "parse-payment-sms",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/hash.ts",
+          "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+        },
+        {
+          "file": "supabase/functions/_shared/momo_sms_parser.ts",
+          "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/parse-payment-sms/index.ts",
+          "sha256": "12e0aca95ba5c7666abd375051cf7f4fa792ad841e031f686abadbc4cb6a5533"
+        }
+      ]
+    }
+  ],
+  "provider_sends": 0,
+  "functions_deleted": 0,
+  "secrets_changed": 0,
+  "after": [
+    {
+      "slug": "ingest-payment-sms",
+      "version": 4,
+      "status": "ACTIVE",
+      "verify_jwt": true,
+      "ezbr_sha256": "9fbd292a49d02ff2bec07253becbeb62910763138839b13f957560d343f0ae75"
+    },
+    {
+      "slug": "parse-payment-sms",
+      "version": 5,
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "ezbr_sha256": "707e809d676bb41596ea99355ad1b7f5a119cb8c4bc1a4a00e821ee12fc61926"
+    }
+  ],
+  "result": "TWO_RECEIPT_FUNCTIONS_DEPLOYED_SOURCE_VERIFIED",
+  "finished_at": "2026-09-03T07:51:11Z"
+}

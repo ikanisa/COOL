@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-09-02T21:35:15Z",
+  "mode": "local synthetic rollback only",
+  "checks": [
+    {
+      "args": [
+        "--combined"
+      ],
+      "status": "pass",
+      "markers": [
+        "PLATFORM_ADMIN_ACCESS_CONTRACT_PASS"
+      ],
+      "notice_passes": 54
+    },
+    {
+      "args": [
+        "--combined",
+        "--member-regressions"
+      ],
+      "status": "pass",
+      "markers": [
+        "GROUP_CREATION_JOURNEY_UAT_PASS",
+        "GROUP_ADMIN_CONTRACT_PASS",
+        "PLATFORM_AND_MEMBER_REGRESSIONS_PASS"
+      ],
+      "notice_passes": 0
+    },
+    {
+      "args": [
+        "--combined",
+        "--hybrid-regressions"
+      ],
+      "status": "pass",
+      "markers": [
+        "HYBRID_BACKEND_UAT_PASS: 33 assertions; synthetic rollback only",
+        "COMBINED_HYBRID_REGRESSIONS_PASS"
+      ],
+      "notice_passes": 0
+    }
+  ],
+  "source_sha256": "baa28392fdb92a71b94cd2fee54ab3501b09c70f6eda33208f8dfe6063abb0c7"
+}

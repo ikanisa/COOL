@@ -57,13 +57,16 @@ class _GroupIconMetric extends StatelessWidget {
           children: [
             Icon(icon, color: accent, size: compactLargeText ? 18 : 22),
             SizedBox(height: compactLargeText ? 2 : CollectSpacing.x1),
-            Text(
-              value,
-              style: textStyle,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            for (final line in value.split('\n'))
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  line,
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+              ),
           ],
         ),
       ),
@@ -87,7 +90,7 @@ class _GroupMetaIconRow extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       label:
-          '${collection.collectionType.label}, ${summary.supporterCount} contributors, ${collection.isPublic ? 'public' : 'private'}',
+          '${collection.collectionType.label}, ${summary.supporterCountSemantics}, ${collection.isPublic ? 'public' : 'private'}',
       child: ExcludeSemantics(
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -100,7 +103,7 @@ class _GroupMetaIconRow extends StatelessWidget {
             _GroupMetaIcon(icon: CollectSemanticIcons.forKeyword('members')),
             CollectSpacing.gapW4,
             Text(
-              '${summary.supporterCount}',
+              summary.supporterCountLabel,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: colors.textSecondary,
                 fontWeight: CollectTypography.weightSemibold,

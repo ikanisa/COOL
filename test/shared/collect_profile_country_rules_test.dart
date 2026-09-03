@@ -95,7 +95,6 @@ void main() {
       'currency_code': 'GBP',
     });
     final complete = incomplete.copyWith(
-      revolutName: 'Jean Bosco',
       revolutLink: 'https://revolut.me/jeanbosco',
       revolutAccount: 'Personal EUR account',
     );

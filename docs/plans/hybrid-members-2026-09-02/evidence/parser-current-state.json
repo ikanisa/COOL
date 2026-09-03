@@ -1,0 +1,83 @@
+{
+  "audit": "collect.hybrid_sms.current_state.v1",
+  "executed_at": "2026-09-02T11:00:06.386Z",
+  "scope": "Local source execution with synthetic fixtures only",
+  "runtime": "v24.18.0",
+  "legacy_parser_tests": [
+    {
+      "name": "parses a complete incoming Rwanda MoMo receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "reversed or outgoing messages never become incoming receipts",
+      "result": "PASS"
+    }
+  ],
+  "requested_hybrid_contract": [
+    {
+      "id": "PARSER-01",
+      "description": "Receipt amount is extracted",
+      "result": "PASS",
+      "expected": 1500,
+      "observed": 1500
+    },
+    {
+      "id": "PARSER-02",
+      "description": "Permitted M-Money sender is recognized as MTN MoMo",
+      "result": "GAP",
+      "expected": "mtn_momo",
+      "observed": "unknown"
+    },
+    {
+      "id": "PARSER-03",
+      "description": "Masked payer name is preserved for private matching",
+      "result": "GAP",
+      "expected": "TEST MEMBER A",
+      "observed": null
+    },
+    {
+      "id": "PARSER-04",
+      "description": "Masked payer last three digits are extracted",
+      "result": "GAP",
+      "expected": "456",
+      "observed": null
+    },
+    {
+      "id": "PARSER-05",
+      "description": "Resulting wallet balance is separately extracted",
+      "result": "GAP",
+      "expected": 9500,
+      "observed": null
+    },
+    {
+      "id": "PARSER-06",
+      "description": "Complete masked receipt is not rejected for lacking provider transaction ID",
+      "result": "GAP",
+      "expected": ">= 0.90 under current allocator threshold",
+      "observed": 0.78
+    },
+    {
+      "id": "PARSER-07",
+      "description": "Amount is tied to the receipt clause, not first currency occurrence",
+      "result": "GAP",
+      "expected": 1500,
+      "observed": 9500
+    },
+    {
+      "id": "PARSER-08",
+      "description": "A full destination is not invented from the last three digits",
+      "result": "PASS",
+      "expected": null,
+      "observed": null
+    }
+  ],
+  "summary": {
+    "baseline_passed": 2,
+    "baseline_total": 2,
+    "contract_passed": 2,
+    "contract_gaps": 6,
+    "contract_total": 8,
+    "production_ready": false,
+    "reason": "No offline-member allocation, persistence, authorization or physical SMS UAT executed"
+  }
+}

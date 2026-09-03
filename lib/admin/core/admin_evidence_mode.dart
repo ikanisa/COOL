@@ -68,6 +68,17 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     String rpcName,
     Map<String, dynamic> params,
   ) async {
+    if (rpcName == 'admin_get_whatsapp_approval') {
+      final granted = '${params['p_user_id']}'.startsWith('admin-user-');
+      return {
+        'user_id': params['p_user_id'],
+        'phone_masked': '+***6816',
+        'status': granted ? 'approved' : 'not_approved',
+        'approved': granted,
+        'role_granted': granted,
+        'admin_access': granted,
+      };
+    }
     if (rpcName == 'admin_reveal_raw_bank_evidence') {
       return {
         'sender': 'Bank evidence',

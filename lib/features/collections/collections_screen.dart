@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/collect_group_cards.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_creation_platform.dart';
@@ -104,11 +105,17 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               label: 'Search group name, type, or purpose',
               onChanged: (value) => setState(() => _query = value),
             ),
-          const EmptyIllustrationState(
-            icon: CollectIcons.collections,
-            title: 'No groups yet',
-            message: 'Create a group or scan a group QR to start collecting.',
-          ),
+          if (state.hasInitialLoadFailure)
+            CollectDataLoadFailure(
+              onRetry: () =>
+                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
+            )
+          else
+            const EmptyIllustrationState(
+              icon: CollectIcons.collections,
+              title: 'No groups yet',
+              message: 'Create a group or scan a group QR to start collecting.',
+            ),
         ],
       );
     }
@@ -294,9 +301,19 @@ int _compareGroups(
   final rightSummary =
       summaries[right.id] ??
       const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0);
-  final result = rightSummary.amountRaisedRwf.compareTo(
-    leftSummary.amountRaisedRwf,
-  );
-  if (result != 0) return result;
+  // Compare amounts only when both groups settle in the same single currency.
+  // Mixed-currency groups have no meaningful global monetary ranking.
+  final leftTotals = leftSummary.totalsByCurrency;
+  final rightTotals = rightSummary.totalsByCurrency;
+  final leftKey = (leftTotals.keys.toList()..sort()).join(',');
+  final rightKey = (rightTotals.keys.toList()..sort()).join(',');
+  final currencyOrder = leftKey.compareTo(rightKey);
+  if (currencyOrder != 0) return currencyOrder;
+  if (leftTotals.length == 1 && rightTotals.length == 1) {
+    final result = rightTotals.values.single.compareTo(
+      leftTotals.values.single,
+    );
+    if (result != 0) return result;
+  }
   return left.title.toLowerCase().compareTo(right.title.toLowerCase());
 }

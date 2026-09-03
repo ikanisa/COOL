@@ -30,13 +30,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         title: 'Notifications',
         onTap: () => context.go('/settings/notifications'),
       ),
-      if (profile?.isRwanda == true)
-        _SettingsTile(
-          leading: CollectIcons.momo,
-          title: 'MoMo and USSD',
-          onTap: () => context.go('/settings/permissions'),
-        )
-      else
+      if (profile?.isDiaspora == true)
         _SettingsTile(
           leading: Icons.account_balance_rounded,
           title: 'Diaspora bank transfer details',
@@ -154,15 +148,17 @@ class _ProfileIdentityHeader extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              CollectSpacing.gap8,
-              Text(
-                isComplete ? 'Collect profile' : 'Complete your profile',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: muted,
-                  fontWeight: CollectTypography.weightMedium,
-                  letterSpacing: CollectTypography.trackingDefault,
+              if (!isComplete) ...[
+                CollectSpacing.gap8,
+                Text(
+                  'Complete your profile',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: muted,
+                    fontWeight: CollectTypography.weightMedium,
+                    letterSpacing: CollectTypography.trackingDefault,
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

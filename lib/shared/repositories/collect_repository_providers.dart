@@ -117,28 +117,10 @@ final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
       state.collectionSummaries,
     );
   }
-  final contributions = state.contributions;
-  final totals =
-      <String, ({int amountRaisedRwf, int supporterCount, int own})>{};
-  for (final contribution in contributions) {
-    final current =
-        totals[contribution.collectionId] ??
-        (amountRaisedRwf: 0, supporterCount: 0, own: 0);
-    totals[contribution.collectionId] = (
-      amountRaisedRwf: current.amountRaisedRwf + contribution.amountRwf,
-      supporterCount: current.supporterCount + 1,
-      own:
-          current.own +
-          (contribution.isCurrentUserContribution ? contribution.amountRwf : 0),
-    );
-  }
+  final repo = ref.read(collectRepositoryProvider.notifier);
   return {
-    for (final entry in totals.entries)
-      entry.key: CollectionSummary(
-        amountRaisedRwf: entry.value.amountRaisedRwf,
-        supporterCount: entry.value.supporterCount,
-        currentUserBalanceRwf: entry.value.own,
-      ),
+    for (final collection in state.collections)
+      collection.id: repo.summaryFor(collection.id),
   };
 });
 
@@ -190,28 +172,33 @@ final pendingPaymentCountProvider = Provider<int>((ref) {
   return ref.watch(
     collectRepositoryProvider.select(
       (state) =>
-          state.paymentIntents.where((item) => item.status == 'pending').length,
+          state.pendingIntentCount ??
+          state.paymentIntents.where((item) => item.isAwaitingTransfer).length,
     ),
   );
 });
 
-final raisedTotalProvider = Provider<int>((ref) {
-  return ref.watch(
-    collectRepositoryProvider.select(
-      (state) => state.contributions
-          .where(
-            (item) =>
-                item.isCurrentUserContribution ||
-                (state.currentProfile != null &&
-                    _contributionBelongsToProfile(item, state.currentProfile!)),
-          )
-          .fold<int>(0, (sum, item) => sum + item.amountRwf),
-    ),
-  );
+final raisedTotalsByCurrencyProvider = Provider<Map<String, int>>((ref) {
+  final state = ref.watch(collectRepositoryProvider);
+  if (state.historyPage != null) return state.historyPage!.ownTotals;
+  final totals = <String, int>{};
+  for (final item in state.contributions) {
+    if (item.isCurrentUserContribution ||
+        (state.currentProfile != null &&
+            _contributionBelongsToProfile(item, state.currentProfile!))) {
+      totals.update(
+        item.currency,
+        (value) => value + item.amountMinor,
+        ifAbsent: () => item.amountMinor,
+      );
+    }
+  }
+  return Map.unmodifiable(totals);
 });
 
 final contributedCollectionIdsProvider = Provider<Set<String>>((ref) {
   final state = ref.watch(collectRepositoryProvider);
+  if (state.historyPage != null) return state.historyPage!.ownCollectionIds;
   final profile = state.currentProfile;
   if (profile == null) return const <String>{};
   return Set<String>.unmodifiable({

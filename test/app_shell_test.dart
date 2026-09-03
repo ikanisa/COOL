@@ -1134,7 +1134,11 @@ void main() {
       expect(groups, isNot(contains('Visibility')));
       expect(groups, isNot(contains('Sort groups')));
       expect(profile, isNot(contains("label: 'Device permissions'")));
-      expect(profile, contains("CollectPlainPageHeader(title: 'Profile')"));
+      expect(profile, contains('_ProfileAppBar('));
+      expect(profile, isNot(contains('InfoSecurityBanner(')));
+      expect(profile, isNot(contains('Back to settings')));
+      expect(profile, isNot(contains('MoMo receipt access')));
+      expect(profile, isNot(contains('Account and session')));
       expect(settings, isNot(contains('Ready for group activity')));
       expect(
         statusScreens,

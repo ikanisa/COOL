@@ -1,0 +1,7 @@
+{
+  "name": "collect-admin",
+  "compatibility_date": "2026-08-20",
+  "assets": {
+    "directory": "../build/web"
+  }
+}

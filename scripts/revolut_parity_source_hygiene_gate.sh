@@ -223,7 +223,9 @@ runtime_files = tracked_and_untracked_files(root_dir, runtime_roots)
 runtime_text_files = runtime_files.select { |path| text_file?(path) }
 forbidden_runtime_patterns = {
   "legacy_font_family" => /aeonik|roboto|jetbrains\s*mono/i,
-  "legacy_icon_or_svg_package" => /cupertino_icons|flutter_svg/i,
+  # DESIGN.md permits native semantic Material/Cupertino icons. The Cupertino
+  # asset is required for reachable Apple controls; it is not a text typeface.
+  "unapproved_svg_package" => /flutter_svg/i,
   "inline_or_widget_svg" => /<svg|data:image\/svg|SvgPicture/,
   "legacy_avatar_logo" =>
     /collect_top_chrome_avatar_initial|Text\(\s*["']C["']\s*[,)]/

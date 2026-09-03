@@ -141,14 +141,14 @@ void main() {
 
   test('admin access is one combined audited permission set', () {
     final detail = File(
-      'lib/admin/core/admin_detail_runtime.dart',
+      'lib/admin/core/admin_platform_access.dart',
     ).readAsStringSync();
     final migration = File(
       'supabase/migrations/20260901210000_admin_single_access_role.sql',
     ).readAsStringSync();
 
     expect(detail, contains("'admin_set_user_access'"));
-    expect(detail, contains("'p_active': !active"));
+    expect(detail, contains("'p_active': active"));
     expect(detail, isNot(contains('Role access')));
     expect(detail, isNot(contains('_AdminRoleActionChip')));
     expect(migration, contains('cross join public.admin_permissions'));

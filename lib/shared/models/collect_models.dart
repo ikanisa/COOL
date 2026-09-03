@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 import 'collect_profile_country_rules.dart';
+import 'collect_diaspora_profile_rules.dart';
 export 'collect_profile_country_rules.dart';
+export 'collect_diaspora_profile_rules.dart';
 
 part 'collect_model_json_helpers.dart';
 
@@ -24,7 +26,7 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Data we collect',
     body:
-        'Collect stores your Collect ID, display name, selected country and local currency, WhatsApp sign-in phone, Rwanda MoMo provider and number, diaspora Revolut details, group memberships, contribution requests, ledger records, and permission status. On Android in Rwanda, MoMo receipt SMS is processed only with consent.',
+        'Collect stores your numeric Collect ID, selected country and local currency, WhatsApp sign-in phone, Rwanda MoMo provider and number, diaspora Revolut details, group memberships, contribution requests, ledger records, and permission status. The member app does not request or display personal names. Names contained in consented MoMo receipts remain in access-controlled Admin reconciliation records.',
   ),
   CollectPolicySection(
     title: 'How we use data',
@@ -537,12 +539,10 @@ class CollectProfile {
     required this.id,
     required this.publicId,
     required this.whatsappPhone,
-    this.displayName = '',
     this.countryCode = '',
     this.currencyCode = '',
     this.momoProvider = '',
     this.momoNumber = '',
-    this.revolutName = '',
     this.revolutLink = '',
     this.revolutAccount = '',
   });
@@ -550,12 +550,10 @@ class CollectProfile {
   final String id;
   final String publicId;
   final String whatsappPhone;
-  final String displayName;
   final String countryCode;
   final String currencyCode;
   final String momoProvider;
   final String momoNumber;
-  final String revolutName;
   final String revolutLink;
   final String revolutAccount;
 
@@ -572,7 +570,6 @@ class CollectProfile {
       id: json['id'] as String,
       publicId: json['public_id'] as String,
       whatsappPhone: whatsappPhone,
-      displayName: (json['display_name'] as String?)?.trim() ?? '',
       countryCode: countryCode,
       currencyCode: storedCurrency?.length == 3
           ? storedCurrency!
@@ -581,19 +578,19 @@ class CollectProfile {
       momoNumber:
           (json['momo_number'] as String?)?.trim() ??
           _defaultRwandaMomoNumber(whatsappPhone, countryCode),
-      revolutName: (json['revolut_name'] as String?)?.trim() ?? '',
       revolutLink: (json['revolut_link'] as String?)?.trim() ?? '',
       revolutAccount: (json['revolut_account'] as String?)?.trim() ?? '',
     );
   }
 
   bool get isRwanda => countryCode.trim().toUpperCase() == 'RW';
-  bool get isDiaspora => !isRwanda;
+  bool get isDiaspora =>
+      !isRwanda && CollectProfileCountryRules.isSupportedCountry(countryCode);
   bool get isEuropean =>
       CollectProfileCountryRules.isEuropeanCountry(countryCode);
 
   bool get isComplete =>
-      displayName.trim().length >= 2 &&
+      RegExp(r'^\d{6}$').hasMatch(publicId) &&
       whatsappPhone.trim().isNotEmpty &&
       CollectProfileCountryRules.isSupportedCountry(countryCode) &&
       currencyCode.trim().toUpperCase() ==
@@ -603,18 +600,14 @@ class CollectProfile {
                 (momoProvider == 'mtn_momo'
                     ? RegExp(r'^07[89][0-9]{7}$').hasMatch(momoNumber)
                     : RegExp(r'^07[23][0-9]{7}$').hasMatch(momoNumber))
-          : revolutName.trim().length >= 2 &&
-                Uri.tryParse(revolutLink)?.host.endsWith('revolut.me') ==
-                    true &&
-                revolutAccount.trim().length >= 4);
+          : CollectDiasporaProfileRules.isValidLink(revolutLink) &&
+                CollectDiasporaProfileRules.isValidAccount(revolutAccount));
 
   CollectProfile copyWith({
-    String? displayName,
     String? countryCode,
     String? currencyCode,
     String? momoProvider,
     String? momoNumber,
-    String? revolutName,
     String? revolutLink,
     String? revolutAccount,
   }) {
@@ -622,12 +615,10 @@ class CollectProfile {
       id: id,
       publicId: publicId,
       whatsappPhone: whatsappPhone,
-      displayName: displayName ?? this.displayName,
       countryCode: countryCode ?? this.countryCode,
       currencyCode: currencyCode ?? this.currencyCode,
       momoProvider: momoProvider ?? this.momoProvider,
       momoNumber: momoNumber ?? this.momoNumber,
-      revolutName: revolutName ?? this.revolutName,
       revolutLink: revolutLink ?? this.revolutLink,
       revolutAccount: revolutAccount ?? this.revolutAccount,
     );
@@ -1013,7 +1004,9 @@ class PaymentIntentModel {
               Map<String, dynamic>.from(destinationJson),
             )
           : BankTransferDestination.placeholder,
-      currency: (json['currency'] as String?) ?? 'EUR',
+      currency:
+          (json['currency'] as String?) ??
+          (json['receiver_momo_number'] != null ? 'RWF' : 'EUR'),
       status:
           const {
                 'awaiting_transfer',
@@ -1035,7 +1028,7 @@ class Contribution {
     required this.id,
     required this.collectionId,
     required this.amountRwf,
-    this.currency = 'EUR',
+    this.currency = 'RWF',
     required this.supporterLabel,
     required this.createdAt,
     this.transactionId,
@@ -1061,7 +1054,9 @@ class Contribution {
           (json['amount_minor'] as num?)?.toInt() ??
           (json['amount_rwf'] as num?)?.toInt() ??
           0,
-      currency: (json['currency'] as String?) ?? 'EUR',
+      currency:
+          (json['currency'] as String?) ??
+          (json.containsKey('amount_minor') ? 'EUR' : 'RWF'),
       supporterLabel:
           (json['supporter_label'] as String?) ??
           (json['contributor_public_id'] == null
@@ -1116,18 +1111,80 @@ class CollectionSummary {
     required this.amountRaisedRwf,
     required this.supporterCount,
     this.currentUserBalanceRwf = 0,
-    this.currency = 'EUR',
-  });
+    this.currency = 'RWF',
+  }) : _totals = null,
+       _ownBalances = null;
+
+  CollectionSummary.multiCurrency({
+    required Map<String, int> totals,
+    required Map<String, int> ownBalances,
+    required this.supporterCount,
+    String emptyCurrency = 'RWF',
+  }) : _totals = Map.unmodifiable(totals.isEmpty ? {emptyCurrency: 0} : totals),
+       _ownBalances = Map.unmodifiable({
+         for (final currency in totals.isEmpty ? [emptyCurrency] : totals.keys)
+           currency: ownBalances[currency] ?? 0,
+       }),
+       amountRaisedRwf = totals['RWF'] ?? 0,
+       currentUserBalanceRwf = ownBalances['RWF'] ?? 0,
+       currency = totals.length == 1 ? totals.keys.single : emptyCurrency;
 
   final int amountRaisedRwf;
-  final int supporterCount;
+  final int? supporterCount;
   final int currentUserBalanceRwf;
   final String currency;
+  final Map<String, int>? _totals;
+  final Map<String, int>? _ownBalances;
 
-  int get amountRaisedMinor => amountRaisedRwf;
-  int get currentUserBalanceMinor => currentUserBalanceRwf;
+  Map<String, int> get totalsByCurrency =>
+      _totals ?? {currency: amountRaisedRwf};
+  Map<String, int> get ownBalancesByCurrency =>
+      _ownBalances ?? {currency: currentUserBalanceRwf};
+  String get supporterCountLabel => supporterCount?.toString() ?? '—';
+  String get supporterCountSemantics => supporterCount == null
+      ? 'Contributor count unavailable'
+      : '$supporterCount ${supporterCount == 1 ? 'contributor' : 'contributors'}';
+
+  int get amountRaisedMinor => _singleCurrencyAmount(totalsByCurrency);
+  int get currentUserBalanceMinor =>
+      _singleCurrencyAmount(ownBalancesByCurrency);
+
+  int _singleCurrencyAmount(Map<String, int> amounts) {
+    if (amounts.length > 1) {
+      throw StateError('Choose a settlement currency before reading an amount');
+    }
+    return amounts.values.firstOrNull ?? 0;
+  }
 
   factory CollectionSummary.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('balances')) {
+      final balances = json['balances'];
+      final count = json['supporter_count'];
+      if (balances is! List ||
+          (count != null && (count is! int || count < 0))) {
+        throw const FormatException('Invalid group balances');
+      }
+      final totals = <String, int>{};
+      final own = <String, int>{};
+      for (final row in balances) {
+        if (row is! Map ||
+            !const {'RWF', 'EUR'}.contains(row['currency']) ||
+            row['amount_raised_minor'] is! int ||
+            row['current_user_balance_minor'] is! int ||
+            totals.containsKey(row['currency'])) {
+          throw const FormatException('Invalid settlement balance');
+        }
+        final currency = row['currency'] as String;
+        totals[currency] = row['amount_raised_minor'] as int;
+        own[currency] = row['current_user_balance_minor'] as int;
+      }
+      return CollectionSummary.multiCurrency(
+        totals: totals,
+        ownBalances: own,
+        supporterCount: count as int?,
+        emptyCurrency: json['currency'] as String? ?? 'RWF',
+      );
+    }
     return CollectionSummary(
       amountRaisedRwf:
           (json['amount_raised_minor'] as num?)?.toInt() ??
@@ -1138,7 +1195,9 @@ class CollectionSummary {
           (json['current_user_balance_minor'] as num?)?.toInt() ??
           (json['current_user_balance_rwf'] as num?)?.toInt() ??
           0,
-      currency: (json['currency'] as String?) ?? 'EUR',
+      currency:
+          (json['currency'] as String?) ??
+          (json.containsKey('amount_raised_minor') ? 'EUR' : 'RWF'),
     );
   }
 }
@@ -1264,19 +1323,69 @@ class CollectMember {
     required this.role,
     required this.status,
     required this.joinedAt,
+    this.amountScope = 'hidden',
+    this.contributionTotals = const {},
   });
 
   final String publicId;
   final String role;
   final String status;
   final DateTime joinedAt;
+  final String amountScope;
+  final Map<String, int> contributionTotals;
+
+  String? get contributionCaption => switch (amountScope) {
+    'own' => 'Your contributions',
+    'shared' => 'Shared contributions',
+    _ => null,
+  };
 
   factory CollectMember.fromJson(Map<String, dynamic> json) {
+    final publicId = json['public_id'];
+    final role = json['role'];
+    final status = json['status'];
+    final joinedAt = json['joined_at'];
+    final scope = json['amount_scope'];
+    final amounts = json['contributions'];
+    if (publicId is! String ||
+        !RegExp(r'^[0-9]{6}$').hasMatch(publicId) ||
+        !const {
+          'owner',
+          'admin',
+          'receiver',
+          'member',
+          'contributor',
+          'viewer',
+        }.contains(role) ||
+        !const {'active', 'invited', 'removed', 'left'}.contains(status) ||
+        joinedAt is! String ||
+        DateTime.tryParse(joinedAt) == null ||
+        !const {'own', 'shared', 'hidden'}.contains(scope) ||
+        amounts is! List) {
+      throw const FormatException('Invalid member roster');
+    }
+    final totals = <String, int>{};
+    for (final row in amounts) {
+      if (row is! Map ||
+          !const {'RWF', 'EUR'}.contains(row['currency']) ||
+          row['amount_minor'] is! int ||
+          (row['amount_minor'] as int) <= 0 ||
+          totals.containsKey(row['currency'])) {
+        throw const FormatException('Invalid member contributions');
+      }
+      totals[row['currency'] as String] = row['amount_minor'] as int;
+    }
+    if ((scope == 'hidden' && totals.isNotEmpty) ||
+        (scope == 'shared' && totals.isEmpty)) {
+      throw const FormatException('Invalid member contribution visibility');
+    }
     return CollectMember(
-      publicId: (json['public_id'] as String?) ?? '000000',
-      role: (json['role'] as String?) ?? 'member',
-      status: (json['status'] as String?) ?? 'active',
-      joinedAt: _dateTime(json['joined_at'] ?? json['created_at']),
+      publicId: publicId,
+      role: role as String,
+      status: status as String,
+      joinedAt: DateTime.parse(joinedAt),
+      amountScope: scope as String,
+      contributionTotals: Map.unmodifiable(totals),
     );
   }
 

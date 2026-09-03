@@ -152,7 +152,7 @@ class CollectNotificationService {
     AndroidNotificationChannel(
       _androidContributionChannelId,
       'Contribution confirmations',
-      description: 'Reconciled bank contributions and ledger updates.',
+      description: 'Confirmed contributions and ledger updates.',
       importance: Importance.high,
     ),
     AndroidNotificationChannel(

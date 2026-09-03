@@ -122,7 +122,10 @@ class _GroupListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final accent = _groupAccent(context, collection);
-    final formattedAmount = formatRwf(summary.amountRaisedRwf);
+    final formattedAmount = formatCurrencyTotals(
+      summary.totalsByCurrency,
+      separator: '\n',
+    );
     final row = Padding(
       padding: const EdgeInsets.fromLTRB(
         CollectSpacing.x3,
@@ -167,7 +170,7 @@ class _GroupListRow extends StatelessWidget {
                 Semantics(
                   label:
                       '${collection.collectionType.label}, '
-                      '${summary.supporterCount} contributors',
+                      '${summary.supporterCountSemantics}',
                   child: ExcludeSemantics(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -198,7 +201,7 @@ class _GroupListRow extends StatelessWidget {
                         ),
                         CollectSpacing.gapW4,
                         Text(
-                          '${summary.supporterCount}',
+                          summary.supporterCountLabel,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 color: colors.textSecondary,
@@ -227,7 +230,7 @@ class _GroupListRow extends StatelessWidget {
                     style: CollectTypography.amountCompact(
                       colors.textPrimary,
                     ).copyWith(fontWeight: CollectTypography.weightSemibold),
-                    maxLines: 1,
+                    maxLines: summary.totalsByCurrency.length.clamp(1, 2),
                   ),
                 ),
                 CollectSpacing.gap4,
@@ -242,7 +245,7 @@ class _GroupListRow extends StatelessWidget {
       button: onTap != null,
       label:
           '${collection.title}, $formattedAmount, '
-          '${summary.supporterCount} contributors',
+          '${summary.supporterCountSemantics}',
       child: ExcludeSemantics(
         child: onTap == null
             ? row
@@ -316,17 +319,20 @@ class _OwnedGroupCard extends StatelessWidget {
               Expanded(
                 child: _GroupIconMetric(
                   icon: CollectIcons.money,
-                  value: formatRwf(summary.amountRaisedRwf),
+                  value: formatCurrencyTotals(
+                    summary.totalsByCurrency,
+                    separator: '\n',
+                  ),
                   semanticLabel:
-                      'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                      'Total collected ${formatCurrencyTotals(summary.totalsByCurrency, separator: "\n")}',
                   accent: accent,
                 ),
               ),
               Expanded(
                 child: _GroupIconMetric(
                   icon: CollectIcons.people,
-                  value: '${summary.supporterCount}',
-                  semanticLabel: '${summary.supporterCount} group contributors',
+                  value: summary.supporterCountLabel,
+                  semanticLabel: summary.supporterCountSemantics,
                   accent: colors.success,
                 ),
               ),
@@ -408,18 +414,21 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                             flex: 2,
                             child: _GroupIconMetric(
                               icon: CollectIcons.money,
-                              value: formatRwf(summary.amountRaisedRwf),
+                              value: formatCurrencyTotals(
+                                summary.totalsByCurrency,
+                                separator: '\n',
+                              ),
                               semanticLabel:
-                                  'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                                  'Total collected ${formatCurrencyTotals(summary.totalsByCurrency, separator: "\n")}',
                               accent: accent,
                             ),
                           ),
                           Expanded(
                             child: _GroupIconMetric(
                               icon: CollectIcons.people,
-                              value: '${summary.supporterCount}',
+                              value: summary.supporterCountLabel,
                               semanticLabel:
-                                  '${summary.supporterCount} group contributors',
+                                  summary.supporterCountSemantics,
                               accent: colors.success,
                             ),
                           ),
@@ -517,13 +526,16 @@ class _CompactGroupCard extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerRight,
                   child: Text(
-                    formatRwf(summary.amountRaisedRwf),
+                    formatCurrencyTotals(
+                      summary.totalsByCurrency,
+                      separator: '\n',
+                    ),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: CollectTypography.weightBold,
                       letterSpacing: CollectTypography.trackingDefault,
                     ),
-                    maxLines: 1,
+                    maxLines: summary.totalsByCurrency.length.clamp(1, 2),
                   ),
                 ),
                 CollectSpacing.gap4,
@@ -605,18 +617,20 @@ class _VisualGroupCard extends StatelessWidget {
                         Expanded(
                           child: _GroupIconMetric(
                             icon: CollectIcons.money,
-                            value: formatRwf(summary.amountRaisedRwf),
+                            value: formatCurrencyTotals(
+                              summary.totalsByCurrency,
+                              separator: '\n',
+                            ),
                             semanticLabel:
-                                'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                                'Total collected ${formatCurrencyTotals(summary.totalsByCurrency, separator: "\n")}',
                             accent: accent,
                           ),
                         ),
                         Expanded(
                           child: _GroupIconMetric(
                             icon: CollectIcons.people,
-                            value: '${summary.supporterCount}',
-                            semanticLabel:
-                                '${summary.supporterCount} group contributors',
+                            value: summary.supporterCountLabel,
+                            semanticLabel: summary.supporterCountSemantics,
                             accent: colors.success,
                           ),
                         ),

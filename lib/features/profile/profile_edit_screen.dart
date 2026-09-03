@@ -1,13 +1,16 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/payments/rwanda_momo_number.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
-import '../../shared/widgets/screen_scaffold.dart';
 import '../auth/widgets/auth_screen_widgets.dart';
+
+part 'profile_edit_widgets.dart';
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({super.key});
@@ -17,15 +20,14 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
-  final _displayName = TextEditingController();
   final _momoNumber = TextEditingController();
-  final _revolutName = TextEditingController();
   final _revolutLink = TextEditingController();
   final _revolutAccount = TextEditingController();
-  String _momoProvider = 'mtn_momo';
   Country? _selectedCountry;
   String? _hydratedProfileId;
   String? _error;
+  CollectProfile? _savedProfile;
+  final _scrollController = ScrollController();
   bool _dirty = false;
   bool _hydrating = false;
   bool _saving = false;
@@ -33,9 +35,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   void initState() {
     super.initState();
-    _displayName.addListener(_markDirty);
     _momoNumber.addListener(_markDirty);
-    _revolutName.addListener(_markDirty);
     _revolutLink.addListener(_markDirty);
     _revolutAccount.addListener(_markDirty);
     _hydrate(ref.read(collectRepositoryProvider).currentProfile);
@@ -43,22 +43,20 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
   @override
   void dispose() {
-    _displayName.removeListener(_markDirty);
     _momoNumber.removeListener(_markDirty);
-    _revolutName.removeListener(_markDirty);
     _revolutLink.removeListener(_markDirty);
     _revolutAccount.removeListener(_markDirty);
-    _displayName.dispose();
     _momoNumber.dispose();
-    _revolutName.dispose();
     _revolutLink.dispose();
     _revolutAccount.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final state = ref.watch(collectRepositoryProvider);
+    final profile = state.currentProfile;
     ref.listen<CollectProfile?>(
       collectRepositoryProvider.select((state) => state.currentProfile),
       (_, next) {
@@ -76,236 +74,176 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
       selectedCountry.countryCode,
     );
 
-    return ScreenScaffold(
-      title: 'Profile',
-      showHeader: false,
-      bottomAction: BottomActionSurface(
-        children: [
-          if (profile != null)
-            CollectButton(
-              key: const ValueKey('profile_save_button'),
-              label: _saving ? 'Saving profile' : 'Save profile',
-              icon: CollectIcons.check,
-              onPressed: _saving || !_dirty ? null : _save,
-              expand: true,
-            ),
-          CollectButton(
-            label: profile == null ? 'Sign in' : 'Back to settings',
-            icon: profile == null ? CollectIcons.profile : CollectIcons.chevron,
-            onPressed: _saving
-                ? null
-                : () => context.go(profile == null ? '/auth' : '/settings'),
-            variant: profile == null
-                ? CollectButtonVariant.primary
-                : CollectButtonVariant.secondary,
-            expand: true,
-          ),
-        ],
-      ),
-      children: [
-        const CollectPlainPageHeader(title: 'Profile'),
-        if (profile == null)
-          const MinimalStatePanel(
-            icon: CollectIcons.lock,
-            title: 'Sign in first',
-            message:
-                'Collect creates your private 6-digit ID after WhatsApp verification.',
-            tone: CollectStatusTone.warning,
-          )
-        else ...[
-          InfoSecurityBanner(
-            title: profile.isComplete && !_dirty
-                ? 'Profile complete'
-                : 'Complete your profile',
-            message: profile.isComplete && !_dirty
-                ? 'Your country, local currency and regional identity details are saved.'
-                : 'Add your name, confirm your profile country and complete any regional field shown below.',
-            tone: profile.isComplete && !_dirty
-                ? CollectStatusTone.success
-                : CollectStatusTone.warning,
-          ),
-          if (_error != null)
-            InfoSecurityBanner(
-              title: 'Profile not saved',
-              message: _error!,
-              tone: CollectStatusTone.danger,
-            ),
-          const InfoSecurityBanner(
-            title: 'Country is independent from sign-in',
-            message:
-                'Your WhatsApp calling code suggests the first country only. Changing your profile country updates local currency and regional fields without changing your verified WhatsApp number.',
-            tone: CollectStatusTone.info,
-          ),
-          InfoSecurityBanner(
-            title: isRwanda
-                ? 'Rwanda uses MoMo'
-                : 'Diaspora uses bank transfer',
-            message: isRwanda
-                ? 'Contributions open the Rwanda MoMo USSD flow in RWF. Consented receipt SMS keeps the group ledger reconciled.'
-                : 'Your Revolut details prepare the diaspora bank-transfer hand-off. Rwanda members never see this bank journey.',
-            tone: CollectStatusTone.privacy,
-          ),
-          CollectIdDisplay(
-            publicId: profile.publicId,
-            onCopy: () => copyToClipboard(
-              context,
-              profile.publicId,
-              message: 'Collect ID copied.',
-            ),
-          ),
-          CollectCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CollectTextInput(
-                  key: const ValueKey('profile_display_name_input'),
-                  controller: _displayName,
-                  label: 'Name',
-                  helper: 'Shown only where you choose to use your name.',
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.next,
-                  autocorrect: true,
-                  autofillHints: const [AutofillHints.name],
-                ),
-                CollectSpacing.gap16,
-                _ProfileCountryField(
-                  country: selectedCountry,
-                  currencyCode: currencyCode,
-                  onTap: _showCountryPicker,
-                ),
-                CollectSpacing.gap16,
-                CollectListTile(
-                  leading: CollectIcons.sms,
-                  title: 'Verified WhatsApp',
-                  subtitle:
-                      '${profile.whatsappPhone}\nUsed only for sign-in and kept unchanged when country changes.',
-                ),
-                CollectListTile(
-                  leading: CollectIcons.money,
-                  title: 'Local profile currency',
-                  subtitle: isRwanda
-                      ? '$currencyCode · Rwanda contributions use MoMo USSD.'
-                      : '$currencyCode profile · Contributions use the governed diaspora bank rail.',
-                ),
-                if (isRwanda) ...[
-                  CollectSpacing.gap16,
-                  DropdownButtonFormField<String>(
-                    key: const ValueKey('profile_momo_provider_input'),
-                    initialValue: _momoProvider,
-                    decoration: collectInputDecoration(
-                      context,
-                      label: 'Mobile Money provider',
-                      helper: 'Used for your Rwanda contribution instructions.',
+    return PopScope(
+      canPop: !_dirty && !_saving,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && !_saving) _leave();
+      },
+      child: Scaffold(
+        backgroundColor: context.collectColors.canvas,
+        body: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 430),
+              child: Column(
+                key: const ValueKey('native_profile_editor'),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _ProfileAppBar(onBack: _saving ? null : _leave),
+                  Expanded(
+                    child: profile == null
+                        ? Center(
+                            child: state.isLoading
+                                ? const CircularProgressIndicator(
+                                    semanticsLabel: 'Loading profile',
+                                  )
+                                : const Text('Sign in to edit your profile'),
+                          )
+                        : ListView(
+                            controller: _scrollController,
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
+                            padding: const EdgeInsets.fromLTRB(
+                              CollectSpacing.x5,
+                              CollectSpacing.x3,
+                              CollectSpacing.x5,
+                              CollectSpacing.x6,
+                            ),
+                            children: [
+                              _ProfileIdentity(publicId: profile.publicId),
+                              CollectSpacing.gap24,
+                              if (_error != null) ...[
+                                Semantics(
+                                  liveRegion: true,
+                                  child: Text(
+                                    _error!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: context
+                                              .collectColors
+                                              .dangerForeground,
+                                        ),
+                                  ),
+                                ),
+                                CollectSpacing.gap16,
+                              ],
+                              _ProfileDetails(
+                                country: selectedCountry,
+                                currencyCode: currencyCode,
+                                whatsappPhone: profile.whatsappPhone,
+                                onCountryTap: _saving
+                                    ? null
+                                    : _showCountryPicker,
+                              ),
+                              if (!isRwanda) ...[
+                                CollectSpacing.gap24,
+                                const _ProfileSectionTitle(title: 'Revolut'),
+                              ],
+                              CollectSpacing.gap12,
+                              if (isRwanda) ...[
+                                _ProfileInput(
+                                  key: const ValueKey(
+                                    'profile_momo_number_input',
+                                  ),
+                                  controller: _momoNumber,
+                                  label: 'MoMo number',
+                                  enabled: !_saving,
+                                  keyboardType: TextInputType.phone,
+                                  textInputAction: TextInputAction.done,
+                                  onSubmitted: (_) => _submitIfChanged(),
+                                ),
+                              ] else ...[
+                                _ProfileInput(
+                                  key: const ValueKey(
+                                    'profile_revolut_link_input',
+                                  ),
+                                  controller: _revolutLink,
+                                  label: 'Revolut.me link',
+                                  enabled: !_saving,
+                                  keyboardType: TextInputType.url,
+                                ),
+                                CollectSpacing.gap12,
+                                _ProfileInput(
+                                  key: const ValueKey(
+                                    'profile_revolut_account_input',
+                                  ),
+                                  controller: _revolutAccount,
+                                  label: 'Account details',
+                                  enabled: !_saving,
+                                  textInputAction: TextInputAction.done,
+                                  onSubmitted: (_) => _submitIfChanged(),
+                                ),
+                              ],
+                            ],
+                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      CollectSpacing.x5,
+                      CollectSpacing.x3,
+                      CollectSpacing.x5,
+                      CollectSpacing.x4,
                     ),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'mtn_momo',
-                        child: Text('MTN MoMo'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'airtel_money',
-                        child: Text('Airtel Money'),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _momoProvider = value;
-                        _dirty = true;
-                        _error = null;
-                      });
-                    },
-                  ),
-                  CollectSpacing.gap16,
-                  CollectTextInput(
-                    key: const ValueKey('profile_momo_number_input'),
-                    controller: _momoNumber,
-                    label: 'MoMo number',
-                    helper:
-                        'Defaults from WhatsApp. You can change it using 07XXXXXXXX.',
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.done,
-                    autocorrect: false,
-                  ),
-                ] else ...[
-                  CollectSpacing.gap16,
-                  CollectTextInput(
-                    key: const ValueKey('profile_revolut_name_input'),
-                    controller: _revolutName,
-                    label: 'Revolut name',
-                    helper: 'Name shown on your diaspora Revolut account.',
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.done,
-                    autocorrect: false,
-                  ),
-                  CollectSpacing.gap16,
-                  CollectTextInput(
-                    key: const ValueKey('profile_revolut_link_input'),
-                    controller: _revolutLink,
-                    label: 'Revolut.me link',
-                    helper: 'For example https://revolut.me/yourname',
-                    keyboardType: TextInputType.url,
-                    textInputAction: TextInputAction.next,
-                    autocorrect: false,
-                  ),
-                  CollectSpacing.gap16,
-                  CollectTextInput(
-                    key: const ValueKey('profile_revolut_account_input'),
-                    controller: _revolutAccount,
-                    label: 'Revolut account details',
-                    helper:
-                        'Your account label or approved account identifier.',
-                    textInputAction: TextInputAction.done,
-                    autocorrect: false,
-                    onSubmitted: (_) {
-                      if (!_saving && _dirty) _save();
-                    },
+                    child: CollectButton(
+                      key: const ValueKey('profile_save_button'),
+                      label: profile == null
+                          ? 'Sign in'
+                          : (_saving ? 'Saving…' : 'Save'),
+                      onPressed: profile == null
+                          ? (state.isLoading ? null : () => context.go('/auth'))
+                          : (_saving || !_dirty ? null : _save),
+                      expand: true,
+                    ),
                   ),
                 ],
-              ],
+              ),
             ),
           ),
-          CollectCard(
-            child: Column(
-              children: [
-                if (isRwanda)
-                  CollectListTile(
-                    leading: CollectIcons.sms,
-                    title: 'MoMo receipt access',
-                    subtitle: 'Manage consented SMS reconciliation.',
-                    onTap: () => context.go('/settings/permissions'),
-                  )
-                else
-                  CollectListTile(
-                    leading: CollectIcons.bank,
-                    title: 'Diaspora bank transfer details',
-                    subtitle: 'Review the approved beneficiary and IBAN.',
-                    onTap: () => context.go('/settings/bank-transfer'),
-                  ),
-                CollectListTile(
-                  leading: CollectIcons.lock,
-                  title: 'Account and session',
-                  subtitle: 'Review session controls or sign out.',
-                  onTap: () => context.go('/settings/account'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ],
+        ),
+      ),
     );
+  }
+
+  void _submitIfChanged() {
+    if (_dirty && !_saving) _save();
+  }
+
+  Future<void> _leave() async {
+    if (_saving) return;
+    if (_dirty) {
+      final discard = await showDialog<bool>(
+        context: context,
+        animationStyle: CollectMotion.animationStyle(context),
+        builder: (context) => AlertDialog(
+          title: const Text('Discard changes?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Keep editing'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Discard'),
+            ),
+          ],
+        ),
+      );
+      if (!mounted || discard != true) return;
+    }
+    if (mounted) {
+      setState(() => _dirty = false);
+      context.go('/settings');
+    }
   }
 
   void _hydrate(CollectProfile? profile) {
     if (profile == null || profile.id == _hydratedProfileId) return;
     _hydrating = true;
+    _savedProfile = profile;
     _hydratedProfileId = profile.id;
-    _displayName.text = profile.displayName;
     _momoNumber.text = profile.momoNumber;
-    _momoProvider = profile.momoProvider.isEmpty
-        ? 'mtn_momo'
-        : profile.momoProvider;
-    _revolutName.text = profile.revolutName;
     _revolutLink.text = profile.revolutLink;
     _revolutAccount.text = profile.revolutAccount;
     _selectedCountry =
@@ -320,9 +258,16 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   }
 
   void _markDirty() {
-    if (_hydrating || !mounted || _dirty) return;
+    final saved = _savedProfile;
+    if (_hydrating || !mounted || saved == null) return;
     setState(() {
-      _dirty = true;
+      final countryCode = _selectedCountry?.countryCode;
+      _dirty =
+          countryCode != saved.countryCode ||
+          (countryCode == 'RW'
+              ? _momoNumber.text != saved.momoNumber
+              : _revolutLink.text != saved.revolutLink ||
+                    _revolutAccount.text != saved.revolutAccount);
       _error = null;
     });
   }
@@ -330,11 +275,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   Future<void> _showCountryPicker() async {
     final country = await showCollectCountryPicker(context);
     if (!mounted || country == null) return;
-    setState(() {
-      _selectedCountry = country;
-      _dirty = true;
-      _error = null;
-    });
+    _selectedCountry = country;
+    _markDirty();
   }
 
   Future<void> _save() async {
@@ -346,14 +288,15 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
       _error = null;
     });
     try {
+      final momo = selectedCountry.countryCode == 'RW'
+          ? RwandaMomoNumber.parse(_momoNumber.text)
+          : null;
       final updated = await ref
           .read(collectRepositoryProvider.notifier)
           .updateCurrentProfile(
-            displayName: _displayName.text,
             countryCode: selectedCountry.countryCode,
-            momoProvider: _momoProvider,
-            momoNumber: _momoNumber.text,
-            revolutName: _revolutName.text,
+            momoProvider: momo?.provider,
+            momoNumber: momo?.localNumber,
             revolutLink: _revolutLink.text,
             revolutAccount: _revolutAccount.text,
           );
@@ -372,6 +315,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         _saving = false;
         _error = _safeProfileError(error);
       });
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(0);
+      }
     }
   }
 
@@ -384,57 +330,5 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
       return 'Check your connection and try saving again.';
     }
     return 'Your profile could not be saved. Try again.';
-  }
-}
-
-class _ProfileCountryField extends StatelessWidget {
-  const _ProfileCountryField({
-    required this.country,
-    required this.currencyCode,
-    required this.onTap,
-  });
-
-  final Country country;
-  final String currencyCode;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final countryName = country.getTranslatedName(context) ?? country.name;
-    return Semantics(
-      button: true,
-      label: 'Profile country, $countryName, local currency $currencyCode',
-      child: InkWell(
-        key: const ValueKey('profile_country_picker'),
-        borderRadius: CollectRadius.controlBorder,
-        onTap: onTap,
-        child: InputDecorator(
-          decoration: collectInputDecoration(
-            context,
-            label: 'Profile country',
-            helper: 'Choose where you live, independently from WhatsApp.',
-          ).copyWith(suffixIcon: const Icon(CollectIcons.chevronDown)),
-          child: Row(
-            children: [
-              MediaQuery.withClampedTextScaling(
-                maxScaleFactor: 1,
-                child: Text(
-                  country.flagEmoji,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Text(
-                  '$countryName · $currencyCode',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

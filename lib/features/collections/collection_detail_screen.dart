@@ -7,6 +7,7 @@ import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
 
@@ -51,12 +52,14 @@ class _CollectionDetailScreenState
       );
     }
     final summary = repo.summaryFor(widget.collectionId);
-    final visibleContributions = repo
-        .contributionsFor(widget.collectionId)
-        .take(8)
-        .toList();
+    final historyQuery = MemberHistoryQuery(collectionId: widget.collectionId);
+    final history = ref.watch(memberHistoryProvider(historyQuery));
+    final visibleContributions =
+        history.page?.items.take(8).toList() ?? const <Contribution>[];
     final profile = state.currentProfile;
     final isAdmin = profile != null && collection.creatorUserId == profile.id;
+    final canManage =
+        isAdmin && !collection.isPlatformSponsored && !collection.isPublic;
     final isMember = isAdmin || collection.isCurrentUserMember;
     final canContribute = collection.isPublic || isMember;
     final contributionActionLabel = isMember
@@ -71,18 +74,18 @@ class _CollectionDetailScreenState
       topChrome: const CollectPlainPageHeader(title: 'Group'),
       hero: CollectScreenHero(
         title: collection.title,
-        metric: formatRwf(summary.amountRaisedRwf),
+        metric: formatCurrencyTotals(summary.totalsByCurrency, separator: '\n'),
         subtitleWidget: CollectPeopleCount(
           count: summary.supporterCount,
           color: CollectRuntimeTokens.chromeMutedForeground(
             context.collectColors,
           ),
         ),
-        subtitleSemanticLabel: '${summary.supporterCount} contributors',
+        subtitleSemanticLabel: summary.supporterCountSemantics,
         icon: collectionTypeIcon(collection.collectionType),
         semanticLabel:
-            '${collection.title}, ${formatRwf(summary.amountRaisedRwf)} raised, '
-            '${summary.supporterCount} confirmed contributors',
+            '${collection.title}, ${formatCurrencyTotals(summary.totalsByCurrency, separator: "\n")} raised, '
+            '${summary.supporterCountSemantics}',
         quickActions: [
           if (canContribute) ...[
             CollectHeroQuickAction(
@@ -109,7 +112,7 @@ class _CollectionDetailScreenState
               label: 'Join',
               onTap: () => _joinPrivateGroup(collection),
             ),
-          if (isAdmin)
+          if (canManage)
             CollectHeroQuickAction(
               icon: CollectIcons.settings,
               label: 'Manage',
@@ -119,7 +122,7 @@ class _CollectionDetailScreenState
       ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      bottomAction: isAdmin
+      bottomAction: canManage
           ? null
           : CollectButton(
               label: canContribute ? contributionActionLabel : 'Join group',
@@ -134,7 +137,7 @@ class _CollectionDetailScreenState
         if (isMember) ...[
           InfoSecurityBanner(
             title: 'Your confirmed balance',
-            message: formatRwf(summary.currentUserBalanceRwf),
+            message: formatCurrencyTotals(summary.ownBalancesByCurrency),
             tone: CollectStatusTone.info,
           ),
           CollectSpacing.gap16,
@@ -152,7 +155,15 @@ class _CollectionDetailScreenState
           label: 'Activity',
           child: const SectionHeader(title: 'Activity'),
         ),
-        if (visibleContributions.isEmpty)
+        if (history.loading && history.page == null)
+          const Center(child: CircularProgressIndicator())
+        else if (history.error != null && history.page == null)
+          CollectDataLoadFailure(
+            onRetry: () => ref
+                .read(memberHistoryProvider(historyQuery).notifier)
+                .refresh(),
+          )
+        else if (visibleContributions.isEmpty)
           const EmptyIllustrationState(
             icon: CollectIcons.activity,
             title: 'No contributions yet',

@@ -1,0 +1,70 @@
+{
+  "started_at": "2026-09-03T06:47:32Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "approved_encrypted_database_backup",
+  "migration_applied": false,
+  "database_writes": false,
+  "network_rule": "129.222.149.205/32",
+  "result": "FAILED_NO_MIGRATIONS_APPLIED",
+  "cleanup": {
+    "temporary_network_rule_removed": true,
+    "credential_file_removed": true,
+    "vault_requires_attention": false,
+    "vault_detached_after_followup": true,
+    "detach_followup": "The macOS virtualization file-sharing process retained a directory handle after the read-only client exited. The exact image was force-detached after confirming no database dump or credential file remained. A subsequent hdiutil inventory showed zero CollectRecovery mounts. No other disk or Docker service was stopped. The revised client uses stdin and container tmpfs, with no host bind mount."
+  },
+  "limitations": [
+    "Database archive excludes Storage object bytes, global role passwords and provider configuration",
+    "No production restore or off-site recovery demonstrated",
+    "Recovery key remains in this Mac Keychain; independent key escrow still needed"
+  ],
+  "network_before": {
+    "dbAllowedCidrs": [
+      "129.222.149.163/32",
+      "129.222.149.241/32",
+      "129.222.149.68/32",
+      "129.222.149.84/32"
+    ],
+    "dbAllowedCidrsV6": [
+
+    ]
+  },
+  "database_route": {
+    "host": "aws-1-us-east-2.pooler.supabase.com",
+    "port": 5432,
+    "mode": "session",
+    "tls": "verify-full"
+  },
+  "vault": {
+    "action": "create",
+    "attached": false,
+    "encryption": {
+      "blocksize": 512,
+      "encrypted": true,
+      "max-key-count": 1,
+      "passphrase-count": 1,
+      "private-key-count": 0,
+      "uuid": "0F3BFC33-C4DE-4FC3-B94C-7680187CFFCC",
+      "version": 2
+    },
+    "image": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-production-20260903t064732-e978b9.sparsebundle",
+    "keychain_account": "collect-production-20260903t064732-e978b9",
+    "keychain_service": "app.collect.production-recovery",
+    "mount": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-production-20260903t064732-e978b9.mount",
+    "secret_values_output": false
+  },
+  "network_temporary_applied": true,
+  "error": "tls_certificate_validation_failed",
+  "network_after": {
+    "dbAllowedCidrs": [
+      "129.222.149.163/32",
+      "129.222.149.241/32",
+      "129.222.149.68/32",
+      "129.222.149.84/32"
+    ],
+    "dbAllowedCidrsV6": [
+
+    ]
+  },
+  "finished_at": "2026-09-03T06:47:57Z"
+}

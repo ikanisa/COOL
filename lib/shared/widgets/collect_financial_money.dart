@@ -112,16 +112,22 @@ class FinancialListRow extends StatelessWidget {
     required this.title,
     required this.meta,
     this.amountRwf,
+    this.currency = 'RWF',
+    this.amounts,
+    this.amountCaption,
     this.subtitle,
     this.transactionId,
     this.leading,
     this.tone = CollectStatusTone.success,
     this.onTap,
     super.key,
-  });
+  }) : assert(amountRwf == null || amounts == null);
 
   final String title;
   final int? amountRwf;
+  final String currency;
+  final Map<String, int>? amounts;
+  final String? amountCaption;
   final String meta;
   final String? subtitle;
   final String? transactionId;
@@ -132,17 +138,33 @@ class FinancialListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final hasAmount = amountRwf != null || (amounts?.isNotEmpty ?? false);
     final stackAmount =
-        amountRwf != null &&
+        hasAmount &&
         (MediaQuery.sizeOf(context).width < 340 ||
             MediaQuery.textScalerOf(context).scale(1) > 1.3);
-    final amount = amountRwf == null
+    final amount = !hasAmount
         ? null
-        : Text(
-            formatRwf(amountRwf!),
-            style: CollectTypography.amountCompact(colors.textPrimary),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (amountCaption != null)
+                Text(
+                  amountCaption!,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelSmall?.copyWith(color: colors.textMuted),
+                ),
+              Text(
+                amounts == null
+                    ? formatMoneyMinor(amountRwf!, currency: currency)
+                    : formatCurrencyTotals(amounts!, separator: '\n'),
+                style: CollectTypography.amountCompact(colors.textPrimary),
+                maxLines: amounts?.length ?? 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           );
     return Material(
       color: colors.transparent,
@@ -244,6 +266,8 @@ class CollectIdCard extends StatelessWidget {
 class MoneyHeroCard extends StatelessWidget {
   const MoneyHeroCard({
     required this.amount,
+    this.currency = 'RWF',
+    this.totalsByCurrency,
     required this.label,
     this.detail,
     this.primaryAction,
@@ -253,6 +277,8 @@ class MoneyHeroCard extends StatelessWidget {
   });
 
   final int amount;
+  final String currency;
+  final Map<String, int>? totalsByCurrency;
   final String label;
   final String? detail;
   final Widget? primaryAction;
@@ -298,7 +324,10 @@ class MoneyHeroCard extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    formatRwf(amount),
+                    formatCurrencyTotals(
+                      totalsByCurrency ?? {currency: amount},
+                      separator: '\n',
+                    ),
                     style: CollectTypography.amountHero(colors.textPrimary),
                   ),
                 ),

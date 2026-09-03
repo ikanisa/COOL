@@ -4,6 +4,7 @@ class LedgerRow extends StatelessWidget {
   LedgerRow.confirmed({required Contribution contribution, super.key})
     : title = compactCollectIdLabel(contribution.supporterLabel),
       amountRwf = contribution.amountRwf,
+      currency = contribution.currency,
       meta = formatCollectDateTime(contribution.createdAt),
       transactionId = contribution.transactionId,
       tone = CollectStatusTone.success,
@@ -15,6 +16,7 @@ class LedgerRow extends StatelessWidget {
     super.key,
   }) : title = 'Needs review',
        amountRwf = event.amountRwf,
+       currency = 'RWF',
        meta =
            'Confidence ${(event.confidence * 100).round()}% · ${event.senderLabel}',
        transactionId = event.transactionId,
@@ -22,6 +24,7 @@ class LedgerRow extends StatelessWidget {
 
   final String title;
   final int amountRwf;
+  final String currency;
   final String meta;
   final String? transactionId;
   final CollectStatusTone tone;
@@ -36,6 +39,7 @@ class LedgerRow extends StatelessWidget {
           ActivityFeedItem(
             title: title,
             amount: amountRwf,
+            currency: currency,
             meta: meta,
             transactionId: transactionId,
             tone: tone,
@@ -51,6 +55,7 @@ class ActivityFeedItem extends StatelessWidget {
   const ActivityFeedItem({
     required this.title,
     required this.amount,
+    this.currency = 'RWF',
     required this.meta,
     this.transactionId,
     this.tone = CollectStatusTone.info,
@@ -61,6 +66,7 @@ class ActivityFeedItem extends StatelessWidget {
 
   final String title;
   final int amount;
+  final String currency;
   final String meta;
   final String? transactionId;
   final CollectStatusTone tone;
@@ -77,7 +83,7 @@ class ActivityFeedItem extends StatelessWidget {
         MediaQuery.sizeOf(context).width < 340 ||
         MediaQuery.textScalerOf(context).scale(1) > 1.3;
     final amountText = Text(
-      formatRwf(amount),
+      formatMoneyMinor(amount, currency: currency),
       style: CollectTypography.amountCompact(amountColor),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,

@@ -16,6 +16,7 @@ class ScreenScaffold extends ConsumerWidget {
     this.bottomAction,
     this.onRefresh,
     this.scrollController,
+    this.sliver,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -31,6 +32,9 @@ class ScreenScaffold extends ConsumerWidget {
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
   final ScrollController? scrollController;
+
+  /// Lazy content following the small, static [children] section.
+  final Widget? sliver;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
@@ -60,6 +64,7 @@ class ScreenScaffold extends ConsumerWidget {
       bottomAction: bottomAction,
       onRefresh: onRefresh,
       scrollController: scrollController,
+      sliver: sliver,
       showHeader: showHeader,
       compact: compact,
       children: children,

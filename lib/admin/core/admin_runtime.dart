@@ -40,6 +40,7 @@ part 'admin_group_runtime.dart';
 part 'admin_payee_runtime.dart';
 part 'admin_detail_specs.dart';
 part 'admin_detail_runtime.dart';
+part 'admin_platform_access.dart';
 part 'admin_detail_formatters.dart';
 part 'bank_transfer_admin_runtime.dart';
 
@@ -52,6 +53,10 @@ final adminIdentityProvider = FutureProvider<AdminIdentity?>((ref) {
 });
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
+final adminClockProvider = Provider<DateTime Function()>((_) => DateTime.now);
+final adminLastSuccessfulRefreshProvider = StateProvider<DateTime?>(
+  (_) => null,
+);
 
 enum AdminCountryScope { all, rwanda, malta, other }
 
@@ -234,8 +239,9 @@ class AdminRepository extends AdminRepositoryBase {
           },
         );
         return AdminListResult.fromJson(row);
-      } on PostgrestException catch (error) {
-        if (!_isMissingCountryScopeRpcError(error)) rethrow;
+      } on PostgrestException {
+        // A missing scoped endpoint must not silently substitute all-country data.
+        rethrow;
       }
     }
     final wantsServerWindow =
@@ -346,16 +352,6 @@ class AdminRepository extends AdminRepositoryBase {
         message.contains('p_offset') ||
         message.contains('p_sort') ||
         message.contains('function') && message.contains('not found') ||
-        error.code == 'PGRST202';
-  }
-
-  bool _isMissingCountryScopeRpcError(PostgrestException error) {
-    final message =
-        '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
-            .toLowerCase();
-    return message.contains('admin_list_country_scoped') ||
-        message.contains('function') && message.contains('not found') ||
-        error.code == '42883' ||
         error.code == 'PGRST202';
   }
 

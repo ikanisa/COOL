@@ -3,8 +3,8 @@ import 'package:country_picker/country_picker.dart';
 /// Country-owned profile rules. WhatsApp calling codes are used only as an
 /// initial suggestion and never overwrite an explicitly saved profile country.
 /// Currency uses the Unicode CLDR supplemental-data snapshot read on
-/// 2026-08-28. The European Revolut-name condition uses Revolut's supported
-/// European signup footprint from the same date.
+/// 2026-08-28. European region flags use the supported-country snapshot from
+/// the same date; personal names are not member-profile requirements.
 abstract final class CollectProfileCountryRules {
   static const Map<String, String> _currencyByCountry = {
     'AC': 'SHP',

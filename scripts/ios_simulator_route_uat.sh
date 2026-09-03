@@ -7,6 +7,7 @@ cd "$ROOT_DIR"
 FLUTTER="${FLUTTER:-$(command -v flutter || true)}"
 XCRUN="${XCRUN:-/usr/bin/xcrun}"
 DEVICE_ID="${IOS_UAT_SIMULATOR_ID:-}"
+CONFIRMED_DISPOSABLE_DEVICE_ID="${IOS_UAT_CONFIRM_DISPOSABLE_SIMULATOR:-}"
 TEST_TARGET="${IOS_UAT_TEST_TARGET:-integration_test/mobile_route_matrix_device_uat_test.dart}"
 DRIVER="${IOS_UAT_DRIVER:-test_driver/integration_test.dart}"
 TIMEOUT_SECONDS="${IOS_UAT_TIMEOUT_SECONDS:-900}"
@@ -124,7 +125,7 @@ puts JSON.pretty_generate(
     "item_expected" => 0,
     "item_passes" => 0,
     "screenshot_count" => 0,
-    "secret_handling" => "Fixture-only screenshots and route logs must not contain secrets, raw SMS bodies, raw phone/MoMo receiver data, signing keys, service-role keys, provider tokens, or production customer data."
+    "secret_handling" => "Synthetic fixture IDs, phone numbers and payment details may appear. Never retain secrets, customer SMS, production/customer phone or payment data, signing keys, service-role keys or provider tokens."
   }
 )
 RUBY
@@ -135,7 +136,8 @@ case "${1:-}" in
     ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Environment: FLUTTER XCRUN IOS_UAT_SIMULATOR_ID IOS_UAT_TEST_TARGET IOS_UAT_DRIVER IOS_UAT_TIMEOUT_SECONDS IOS_UAT_BUNDLE_ID IOS_UAT_EVIDENCE_DIR IOS_UAT_MODE IOS_UAT_VARIANT_NAME IOS_UAT_THEME_MODE IOS_UAT_TEXT_SCALE IOS_UAT_HIGH_CONTRAST IOS_UAT_REDUCED_MOTION\n'
+    printf 'Environment: FLUTTER XCRUN IOS_UAT_SIMULATOR_ID IOS_UAT_CONFIRM_DISPOSABLE_SIMULATOR IOS_UAT_TEST_TARGET IOS_UAT_DRIVER IOS_UAT_TIMEOUT_SECONDS IOS_UAT_BUNDLE_ID IOS_UAT_EVIDENCE_DIR IOS_UAT_MODE IOS_UAT_VARIANT_NAME IOS_UAT_THEME_MODE IOS_UAT_TEXT_SCALE IOS_UAT_HIGH_CONTRAST IOS_UAT_REDUCED_MOTION\n'
+    printf 'This fixture runner uninstalls the app. Confirm only an approved disposable simulator by setting IOS_UAT_CONFIRM_DISPOSABLE_SIMULATOR to its exact UDID. Never target an existing signed-in app.\n'
     exit 0
     ;;
   *)
@@ -219,6 +221,12 @@ if [[ "$(ruby -r json -e 'puts JSON.parse(ARGV.fetch(0))["state"]' "$simulator_b
   fail "$reason"
 fi
 
+if [[ "$CONFIRMED_DISPOSABLE_DEVICE_ID" != "$DEVICE_ID" ]]; then
+  reason="Refusing app uninstall: IOS_UAT_CONFIRM_DISPOSABLE_SIMULATOR must match the exact approved disposable simulator UDID."
+  write_early_failure_summary "$reason" "$simulator_before"
+  fail "$reason"
+fi
+
 mkdir -p "$SCREENSHOT_DIR"
 rm -f "$SCREENSHOT_MANIFEST"
 
@@ -228,12 +236,14 @@ rm -f "$SCREENSHOT_MANIFEST"
 "$XCRUN" simctl uninstall "$DEVICE_ID" "$BUNDLE_ID" >/dev/null 2>&1 || true
 
 cmd=(
+  bash
+  "$ROOT_DIR/scripts/ios_uat_build_and_drive.sh"
   "$FLUTTER"
-  drive
-  --no-pub
-  --driver="$DRIVER"
-  --target="$TEST_TARGET"
-  -d "$DEVICE_ID"
+  "$DRIVER"
+  "$TEST_TARGET"
+  "$DEVICE_ID"
+  "$BUNDLE_ID"
+  "$ROOT_DIR/build/ios/iphonesimulator/Collect.app"
   --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
   --dart-define="COLLECT_UAT_VARIANT_NAME=$VARIANT_NAME"
   --dart-define="COLLECT_UAT_THEME_MODE=$THEME_MODE"
@@ -361,7 +371,11 @@ if grep -Eq 'Some tests failed|Test failed\.|TimeoutException after|EXCEPTION CA
 fi
 
 build_failed=0
-if grep -Eq 'Failed to build iOS app|Error \(Xcode\):' "$LOG_FILE"; then
+if grep -Eq 'Failed to build iOS app|Error \(Xcode\):|\[ios-uat-build\]\[FAIL\]' "$LOG_FILE"; then
+  build_failed=1
+  [[ "$rc" -eq 0 ]] && rc=1
+fi
+if ! grep -Fq '[ios-uat-build] fresh-build-ready' "$LOG_FILE"; then
   build_failed=1
   [[ "$rc" -eq 0 ]] && rc=1
 fi
@@ -424,9 +438,16 @@ unique_screenshot_count="$(
     tr -d ' '
 )"
 if [[ "$MODE" == "route" ]]; then
-  minimum_unique_screenshots=$((item_expected - 12))
+  visual_audit="$EVIDENCE_DIR/visual_destinations.json"
+  if ! ruby "$ROOT_DIR/scripts/verify_native_route_screenshots.rb" "$SCREENSHOT_DIR" >"$visual_audit"; then
+    printf '[ios-simulator-route-uat][FAIL] Unexpected duplicate visual destinations.\n' >>"$LOG_FILE"
+    [[ "$rc" -eq 0 ]] && rc=1
+  fi
+  minimum_unique_screenshots="$(ruby -r json -e 'puts JSON.parse(File.read(ARGV[0])).fetch("minimum_distinct_destinations")' "$visual_audit")"
 else
-  minimum_unique_screenshots=$((item_expected - 3))
+  # Every material state differs visibly; duplicate frames cannot stand in for
+  # confirmation dialogs, entered values, validation errors or enabled actions.
+  minimum_unique_screenshots="$item_expected"
 fi
 if [[ "$minimum_unique_screenshots" -lt 1 ]]; then
   minimum_unique_screenshots=1
@@ -561,7 +582,7 @@ puts JSON.pretty_generate(
     "unique_screenshot_count" => unique_screenshot_count,
     "minimum_unique_screenshots" => minimum_unique_screenshots,
     "simulator_booted_after" => simulator_booted_after,
-    "secret_handling" => "Fixture-only screenshots and route logs must not contain secrets, raw SMS bodies, raw phone/MoMo receiver data, signing keys, service-role keys, provider tokens, or production customer data."
+    "secret_handling" => "Synthetic fixture IDs, phone numbers and payment details may appear. Never retain secrets, customer SMS, production/customer phone or payment data, signing keys, service-role keys or provider tokens."
   }
 )
 RUBY

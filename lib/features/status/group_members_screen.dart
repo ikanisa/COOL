@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/date_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/providers/collect_app_state.dart';
-import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -21,7 +20,7 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   final _search = TextEditingController();
   String _query = '';
   _MemberFilter _filter = _MemberFilter.all;
-  _MemberSort _sort = _MemberSort.contribution;
+  _MemberSort _sort = _MemberSort.collectId;
 
   @override
   void dispose() {
@@ -32,20 +31,45 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   @override
   Widget build(BuildContext context) {
     final members = ref.watch(groupMembersProvider(widget.collectionId));
-    final contributions = ref.watch(
-      contributionsForCollectionProvider(widget.collectionId),
-    );
-    final contributionTotals = <String, int>{};
-    for (final contribution in contributions) {
-      contributionTotals.update(
-        contribution.supporterLabel,
-        (amount) => amount + contribution.amountRwf,
-        ifAbsent: () => contribution.amountRwf,
-      );
-    }
+    // Match AsyncValue.when's loading/error/refresh behavior so a failed or
+    // invalidated roster cannot leave rows from a different account visible.
+    final items = members.whenOrNull(data: (items) => items);
+    final query = _query.trim().toLowerCase();
+    final filtered = (items ?? const <CollectMember>[]).where((item) {
+      final matchesQuery =
+          query.isEmpty ||
+          item.safeLabel.toLowerCase().contains(query) ||
+          item.role.toLowerCase().contains(query);
+      return matchesQuery &&
+          switch (_filter) {
+            _MemberFilter.all => true,
+            _MemberFilter.owner => item.role == 'owner',
+            _MemberFilter.active => item.status == 'active',
+          };
+    }).toList()..sort((left, right) => _compareMembers(left, right, _sort));
     return ScreenScaffold(
       title: 'Members',
       showHeader: false,
+      sliver: filtered.isEmpty
+          ? null
+          : CollectSliverCardList(
+              itemCount: filtered.length,
+              itemBuilder: (context, index) {
+                final member = filtered[index];
+                return FinancialListRow(
+                  key: ValueKey(member.publicId),
+                  title: compactCollectIdLabel(member.safeLabel),
+                  amounts: member.contributionTotals,
+                  amountCaption: member.contributionCaption,
+                  meta: formatCollectDateTime(member.joinedAt),
+                  subtitle: _memberSubtitle(member),
+                  leading: CollectIcons.profile,
+                  tone: member.role == 'owner'
+                      ? CollectStatusTone.privacy
+                      : CollectStatusTone.success,
+                );
+              },
+            ),
       children: [
         const _MembersPageHeader(),
         SearchWithClearField(
@@ -63,26 +87,6 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
           onRetry: () =>
               ref.invalidate(groupMembersProvider(widget.collectionId)),
           data: (context, items) {
-            final query = _query.trim().toLowerCase();
-            final visible = query.isEmpty
-                ? items
-                : [
-                    for (final item in items)
-                      if (item.safeLabel.toLowerCase().contains(query) ||
-                          item.role.toLowerCase().contains(query))
-                        item,
-                  ];
-            final filtered =
-                visible.where((item) {
-                  return switch (_filter) {
-                    _MemberFilter.all => true,
-                    _MemberFilter.owner => item.role == 'owner',
-                    _MemberFilter.active => item.status == 'active',
-                  };
-                }).toList()..sort(
-                  (left, right) =>
-                      _compareMembers(left, right, _sort, contributionTotals),
-                );
             if (items.isEmpty) {
               return const EmptyIllustrationState(
                 icon: CollectIcons.people,
@@ -114,24 +118,6 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                 SectionHeader(
                   title: 'Roster',
                   actionLabel: '${filtered.length}',
-                ),
-                CollectCard(
-                  emphasis: CollectCardEmphasis.flat,
-                  child: Column(
-                    children: [
-                      for (final member in filtered)
-                        FinancialListRow(
-                          title: compactCollectIdLabel(member.safeLabel),
-                          amountRwf: contributionTotals[member.safeLabel] ?? 0,
-                          meta: formatCollectDateTime(member.joinedAt),
-                          subtitle: _memberSubtitle(member),
-                          leading: CollectIcons.profile,
-                          tone: member.role == 'owner'
-                              ? CollectStatusTone.privacy
-                              : CollectStatusTone.success,
-                        ),
-                    ],
-                  ),
                 ),
               ],
             );
@@ -459,7 +445,7 @@ class _MemberSheetPill<T> extends StatelessWidget {
 
 enum _MemberFilter { all, owner, active }
 
-enum _MemberSort { contribution, newest, collectId }
+enum _MemberSort { collectId, newest, rwf, eur }
 
 String _memberFilterLabel(_MemberFilter filter) {
   return switch (filter) {
@@ -471,29 +457,40 @@ String _memberFilterLabel(_MemberFilter filter) {
 
 String _memberSortLabel(_MemberSort sort) {
   return switch (sort) {
-    _MemberSort.contribution => 'Top',
+    _MemberSort.rwf => 'RWF amount',
+    _MemberSort.eur => 'EUR amount',
     _MemberSort.newest => 'Newest',
     _MemberSort.collectId => 'Collect ID',
   };
 }
 
-int _compareMembers(
-  CollectMember left,
-  CollectMember right,
-  _MemberSort sort,
-  Map<String, int> totals,
-) {
+int _compareMembers(CollectMember left, CollectMember right, _MemberSort sort) {
   return switch (sort) {
-    _MemberSort.contribution => (totals[right.safeLabel] ?? 0).compareTo(
-      totals[left.safeLabel] ?? 0,
-    ),
-    _MemberSort.newest => right.joinedAt.compareTo(left.joinedAt),
+    _MemberSort.rwf => _compareVisibleAmount(left, right, 'RWF'),
+    _MemberSort.eur => _compareVisibleAmount(left, right, 'EUR'),
+    _MemberSort.newest =>
+      right.joinedAt != left.joinedAt
+          ? right.joinedAt.compareTo(left.joinedAt)
+          : left.publicId.compareTo(right.publicId),
     _MemberSort.collectId => left.publicId.compareTo(right.publicId),
   };
 }
 
+int _compareVisibleAmount(
+  CollectMember left,
+  CollectMember right,
+  String currency,
+) {
+  final a = left.contributionTotals[currency];
+  final b = right.contributionTotals[currency];
+  if (a == null && b != null) return 1;
+  if (a != null && b == null) return -1;
+  final byAmount = a == null || b == null ? 0 : b.compareTo(a);
+  return byAmount != 0 ? byAmount : left.publicId.compareTo(right.publicId);
+}
+
 String _memberSubtitle(CollectMember member) {
-  final role = member.role == 'owner' ? 'Owner' : 'Member';
+  final role = _memberStatusLabel(member.role);
   final status = _memberStatusLabel(member.status);
   return '$role · $status';
 }

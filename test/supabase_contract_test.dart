@@ -277,7 +277,9 @@ void main() {
       expect(repository, contains("'create_bank_transfer_intent'"));
       expect(repository, contains("'get_bank_transfer_destination'"));
       expect(repository, contains("'mark_bank_transfer_handoff_opened'"));
-      expect(repository, contains("'list_current_user_bank_contributions'"));
+      expect(repository, contains("'list_current_member_history_page'"));
+      expect(repository, contains("'list_current_member_recent_intents'"));
+      expect(repository, isNot(contains("'list_current_member_payment_history'")));
     },
   );
 

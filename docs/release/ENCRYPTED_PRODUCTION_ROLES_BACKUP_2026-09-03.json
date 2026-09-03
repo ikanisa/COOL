@@ -1,0 +1,84 @@
+{
+  "started_at": "2026-09-03T06:58:04Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "approved_encrypted_database_backup",
+  "migration_applied": false,
+  "database_writes": false,
+  "network_rule": "129.222.149.205/32",
+  "capture_scope": "global_roles_without_passwords",
+  "result": "DATABASE_ARCHIVE_CAPTURED_NOT_FULL_RECOVERY_ACCEPTANCE",
+  "cleanup": {
+    "credential_tmpfs_destroyed_with_clients": true,
+    "temporary_network_rule_removed": true,
+    "vault_detached": true
+  },
+  "limitations": [
+    "Database archive excludes Storage object bytes, global role passwords and provider configuration",
+    "No production restore or off-site recovery demonstrated",
+    "Recovery key remains in this Mac Keychain; independent key escrow still needed"
+  ],
+  "network_before": {
+    "dbAllowedCidrs": [
+      "129.222.149.163/32",
+      "129.222.149.241/32",
+      "129.222.149.68/32",
+      "129.222.149.84/32"
+    ],
+    "dbAllowedCidrsV6": [
+
+    ]
+  },
+  "database_route": {
+    "host": "aws-1-us-east-2.pooler.supabase.com",
+    "port": 5432,
+    "mode": "session",
+    "tls": "verify-full"
+  },
+  "vault": {
+    "action": "create",
+    "attached": false,
+    "encryption": {
+      "blocksize": 512,
+      "encrypted": true,
+      "max-key-count": 1,
+      "passphrase-count": 1,
+      "private-key-count": 0,
+      "uuid": "8ECAD130-907D-4B5D-A526-D8E97C165E78",
+      "version": 2
+    },
+    "image": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-production-20260903t065804-3b2263.sparsebundle",
+    "keychain_account": "collect-production-20260903t065804-3b2263",
+    "keychain_service": "app.collect.production-recovery",
+    "mount": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-production-20260903t065804-3b2263.mount",
+    "secret_values_output": false
+  },
+  "ca": {
+    "url": "https://supabase-downloads.s3-ap-southeast-1.amazonaws.com/prod/ssl/prod-ca-2021.crt",
+    "der_sha256": "807025ad50d4ed219d2c9c7d299c004f824eb00cf7f65afef607d07b72e6cafa"
+  },
+  "network_temporary_applied": true,
+  "source_check": {
+    "database": "postgres",
+    "version": "17.6",
+    "migrations": 97
+  },
+  "archive": {
+    "bytes": 7008,
+    "sha256": "0acaef8c2682c67331351704f6b1646e9a5cadda385d53665b04bfc8c9afc18a",
+    "roles_without_passwords": true,
+    "role_definitions": 22,
+    "hash_verified_after_remount": true
+  },
+  "network_after": {
+    "dbAllowedCidrs": [
+      "129.222.149.163/32",
+      "129.222.149.241/32",
+      "129.222.149.68/32",
+      "129.222.149.84/32"
+    ],
+    "dbAllowedCidrsV6": [
+
+    ]
+  },
+  "finished_at": "2026-09-03T06:58:45Z"
+}

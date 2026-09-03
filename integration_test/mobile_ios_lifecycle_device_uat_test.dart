@@ -11,7 +11,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets(
-    'physical iOS background and foreground preserve contribution review',
+    'iOS background and foreground preserve the Rwanda contribution review',
     (tester) async {
       final lifecycle = _LifecycleRecorder();
       WidgetsBinding.instance.addObserver(lifecycle);
@@ -49,14 +49,16 @@ void main() {
         router.routeInformationProvider.value.uri.path,
         '/groups/col-church/contribute',
       );
-      expect(find.text('Review transfer'), findsWidgets);
-      await tester.enterText(find.byType(TextField).first, '12.34');
+      expect(find.text('Continue to MoMo'), findsWidgets);
+      await tester.enterText(find.byType(TextField).first, '1234');
       await tester.pump();
-      await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
+      await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
       await _pumpFrames(tester);
-      expect(find.textContaining('EUR 12.34'), findsOneWidget);
+      expect(find.textContaining('RWF 1,234'), findsWidgets);
       expect(find.text('Edit amount'), findsWidgets);
 
+      // Startup/dialog transitions must not satisfy the host-driven test.
+      lifecycle.reset();
       _mark('ready-for-background');
       await _pumpUntil(
         tester,
@@ -70,9 +72,9 @@ void main() {
         router.routeInformationProvider.value.uri.path,
         '/groups/col-church/contribute',
       );
-      expect(find.textContaining('EUR 12.34'), findsOneWidget);
+      expect(find.textContaining('RWF 1,234'), findsWidgets);
       expect(find.text('Edit amount'), findsWidgets);
-      expect(find.text('Open Revolut'), findsOneWidget);
+      expect(find.text('Open MoMo USSD'), findsOneWidget);
       expect(tester.takeException(), isNull);
       _mark('contribution-review-preserved');
       _mark('pass');
@@ -84,6 +86,8 @@ void main() {
 class _LifecycleRecorder with WidgetsBindingObserver {
   final List<AppLifecycleState> _states = <AppLifecycleState>[];
 
+  void reset() => _states.clear();
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _states.add(state);
@@ -92,10 +96,7 @@ class _LifecycleRecorder with WidgetsBindingObserver {
 
   bool hasBackgroundThenResume() {
     final backgroundIndex = _states.indexWhere(
-      (state) =>
-          state == AppLifecycleState.inactive ||
-          state == AppLifecycleState.hidden ||
-          state == AppLifecycleState.paused,
+      (state) => state == AppLifecycleState.paused,
     );
     if (backgroundIndex < 0) return false;
     return _states
@@ -124,7 +125,7 @@ Future<void> _pumpUntil(
     await tester.pump();
   }
   if (predicate()) return;
-  fail('Timed out waiting for a physical iOS background/resume transition.');
+  fail('Timed out waiting for an iOS background/resume transition.');
 }
 
 void _mark(String marker) {

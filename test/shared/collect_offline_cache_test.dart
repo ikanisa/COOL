@@ -2,11 +2,85 @@ import 'dart:convert';
 
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  test(
+    'cached summary preserves EUR minor units and drops untyped legacy totals',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      const cache = CollectOfflineCache();
+      final snapshot = CollectOfflineSnapshot(
+        savedAt: DateTime.utc(2026, 9, 2),
+        currentProfile: null,
+        collections: const [],
+        paymentIntents: const [],
+        contributions: const [],
+        collectionSummaries: const {
+          'bank-group': CollectionSummary(
+            amountRaisedRwf: 12345,
+            supporterCount: 1,
+            currency: 'EUR',
+          ),
+        },
+      );
+      await cache.save(snapshot);
+      final restored = await cache.read();
+      expect(restored!.collectionSummaries['bank-group']!.currency, 'EUR');
+      expect(
+        restored.collectionSummaries['bank-group']!.amountRaisedMinor,
+        12345,
+      );
+      final legacy = snapshot.toJson();
+      ((legacy['collection_summaries'] as Map)['bank-group'] as Map).remove(
+        'currency',
+      );
+      ((legacy['collection_summaries'] as Map)['bank-group'] as Map).remove(
+        'balances',
+      );
+      expect(
+        CollectOfflineSnapshot.fromJson(legacy).collectionSummaries,
+        isEmpty,
+      );
+    },
+  );
+
+  test(
+    'legacy cached names are stripped without deleting the profile',
+    () async {
+      SharedPreferences.setMockInitialValues({
+        'collect.offline_snapshot.v2': jsonEncode({
+          'version': 2,
+          'saved_at': '2026-09-02T10:00:00Z',
+          'current_profile': {
+            'id': 'legacy-user',
+            'public_id': '123456',
+            'whatsapp_phone': '+250788123456',
+            'display_name': 'Private legacy name',
+            'revolut_name': 'Private account name',
+            'country_code': 'RW',
+            'currency_code': 'RWF',
+            'momo_provider': 'mtn_momo',
+            'momo_number': '0788123456',
+          },
+        }),
+      });
+      final restored = await const CollectOfflineCache().read();
+      expect(restored!.currentProfile!.publicId, '123456');
+      expect(restored.currentProfile!.isComplete, isTrue);
+      final preferences = await SharedPreferences.getInstance();
+      expect(preferences.containsKey('collect.offline_snapshot.v2'), isFalse);
+      final raw = preferences.getString('collect.offline_snapshot.v4')!;
+      expect(raw, isNot(contains('Private')));
+      final profile = (jsonDecode(raw) as Map)['current_profile'] as Map;
+      expect(profile.containsKey('display_name'), isFalse);
+      expect(profile.containsKey('revolut_name'), isFalse);
+    },
+  );
 
   test('default cache discards the retired payment snapshot', () async {
     SharedPreferences.setMockInitialValues({
@@ -56,25 +130,31 @@ void main() {
     expect(restoredIntent.momoNetwork, 'mtn_momo');
 
     final preferences = await SharedPreferences.getInstance();
-    final raw = preferences.getString('collect.offline_snapshot.v2');
+    final raw = preferences.getString('collect.offline_snapshot.v4');
     expect(raw, isNotNull);
     final payload = Map<String, dynamic>.from(jsonDecode(raw!) as Map);
-    expect(payload['version'], 2);
+    expect(payload['version'], 4);
     expect(
       Map<String, dynamic>.from(payload['current_profile'] as Map).keys,
       containsAll(<String>[
         'id',
         'public_id',
         'whatsapp_phone',
-        'display_name',
         'country_code',
         'currency_code',
         'momo_provider',
         'momo_number',
-        'revolut_name',
         'revolut_link',
         'revolut_account',
       ]),
+    );
+    expect(
+      (payload['current_profile'] as Map).containsKey('display_name'),
+      isFalse,
+    );
+    expect(
+      (payload['current_profile'] as Map).containsKey('revolut_name'),
+      isFalse,
     );
     expect(restored.currentProfile?.countryCode, 'RW');
     expect(restored.currentProfile?.currencyCode, 'RWF');

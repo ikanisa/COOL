@@ -7,6 +7,8 @@ import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
+import '../../shared/widgets/collect_history_footer.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
 class ActivityScreen extends ConsumerStatefulWidget {
@@ -36,27 +38,24 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     final collectionsById = {
       for (final collection in state.collections) collection.id: collection,
     };
-    final contributions = ref.watch(confirmedContributionActivityProvider);
-    final query = _query.trim().toLowerCase();
-    final visible = contributions.where((contribution) {
-      if (_collectionId != null && contribution.collectionId != _collectionId) {
-        return false;
-      }
-      if (query.isEmpty) return true;
-      final groupTitle =
-          collectionsById[contribution.collectionId]?.title ?? 'Group';
-      return groupTitle.toLowerCase().contains(query) ||
-          contribution.supporterLabel.toLowerCase().contains(query) ||
-          (contribution.transactionId ?? '').toLowerCase().contains(query);
-    }).toList();
-    final total = visible.fold<int>(
-      0,
-      (sum, contribution) => sum + contribution.amountRwf,
+    final query = MemberHistoryQuery(
+      collectionId: _collectionId,
+      search: _query.trim().toLowerCase(),
+    );
+    final feed = ref.watch(memberHistoryProvider(query));
+    final controller = ref.read(memberHistoryProvider(query).notifier);
+    final visible = feed.page?.items ?? const <Contribution>[];
+    final totals = feed.page?.totals ?? const <String, int>{};
+    final total = formatCurrencyTotals(
+      totals,
+      separator: '\n',
+      emptyCurrency: state.currentProfile?.isDiaspora == true ? 'EUR' : 'RWF',
     );
     final isInitialLoading =
-        state.isLoading &&
-        state.collections.isEmpty &&
-        state.contributions.isEmpty;
+        (feed.loading && feed.page == null) ||
+        (state.isLoading &&
+            state.collections.isEmpty &&
+            state.contributions.isEmpty);
 
     return ScreenScaffold(
       title: 'Activity',
@@ -76,84 +75,109 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
           ),
         ],
       ),
-      onRefresh: () =>
-          ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      children: isInitialLoading
-          ? const [
-              CollectScreenLoadingState(
-                title: 'Loading activity',
-                message: 'Refreshing confirmed contribution records.',
-                icon: CollectIcons.activity,
-                skeletonCount: 3,
-              ),
-            ]
-          : [
-              _ActivityTitleRow(
-                total: total,
-                count: visible.length,
-                groupLabel: _selectedGroupLabel(collectionsById),
-              ),
-              if (_searching)
-                SearchWithClearField(
-                  controller: _search,
-                  focusNode: _searchFocus,
-                  label: 'Search group, Collect ID, or transaction',
-                  onChanged: (value) => setState(() => _query = value),
-                ),
-              if (contributions.isEmpty)
-                const EmptyIllustrationState(
-                  icon: CollectIcons.activity,
-                  title: 'No activity yet',
-                  message:
-                      'Bank contributions appear here only after daily statement reconciliation.',
-                )
-              else if (visible.isEmpty)
-                EmptySearchState(
-                  title: 'No matching activity',
-                  message: 'Clear the search or group filter and try again.',
-                  onClear: _clearFilters,
-                )
-              else
-                RepaintBoundary(
-                  child: CollectCard(
-                    emphasis: CollectCardEmphasis.flat,
-                    child: Column(
-                      children: [
-                        for (
-                          var index = 0;
-                          index < visible.length;
-                          index++
-                        ) ...[
-                          ActivityFeedItem(
-                            title:
-                                collectionsById[visible[index].collectionId]
-                                    ?.title ??
-                                'Group contribution',
-                            amount: visible[index].amountRwf,
-                            meta:
-                                '${compactCollectIdLabel(visible[index].supporterLabel)}'
-                                ' · ${formatCollectDateTime(visible[index].createdAt)}',
-                            transactionId: visible[index].transactionId,
-                            tone: CollectStatusTone.success,
-                            prioritizeContext: true,
-                            onTap: () => context.go(
-                              '/groups/${visible[index].collectionId}/ledger',
-                            ),
-                          ),
-                          if (index != visible.length - 1)
-                            Divider(
-                              height: 1,
-                              indent: 56,
-                              color: context.collectColors.border.withValues(
-                                alpha: 0.48,
-                              ),
-                            ),
-                        ],
-                      ],
-                    ),
+      onRefresh: () async {
+        await ref.read(collectRepositoryProvider.notifier).loadInitial();
+        if (mounted) {
+          await ref.read(memberHistoryProvider(query).notifier).refresh();
+        }
+      },
+      sliver: isInitialLoading || state.hasInitialLoadFailure || visible.isEmpty
+          ? null
+          : SliverMainAxisGroup(
+              slivers: [
+                CollectSliverCardList(
+                  topSpacing: CollectSpacing.x3,
+                  itemCount: visible.length,
+                  itemBuilder: (context, index) {
+                    final contribution = visible[index];
+                    return ActivityFeedItem(
+                      key: ValueKey(contribution.id),
+                      title:
+                          collectionsById[contribution.collectionId]?.title ??
+                          'Group contribution',
+                      amount: contribution.amountRwf,
+                      currency: contribution.currency,
+                      meta:
+                          '${compactCollectIdLabel(contribution.supporterLabel)}'
+                          ' · ${formatCollectDateTime(contribution.createdAt)}',
+                      transactionId: contribution.transactionId,
+                      tone: CollectStatusTone.success,
+                      prioritizeContext: true,
+                      onTap: () => context.go(
+                        '/groups/${contribution.collectionId}/ledger',
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Divider(
+                    height: 1,
+                    indent: 56,
+                    color: context.collectColors.border.withValues(alpha: 0.48),
                   ),
                 ),
-            ],
+                SliverToBoxAdapter(
+                  child: CollectHistoryFooter(
+                    feed: feed,
+                    onMore: controller.loadMore,
+                    onRefresh: controller.refresh,
+                  ),
+                ),
+              ],
+            ),
+      children: [
+        if (_searching)
+          SearchWithClearField(
+            controller: _search,
+            focusNode: _searchFocus,
+            label: 'Search group, Collect ID, or transaction',
+            onChanged: (value) => setState(() => _query = value),
+          ),
+        ...(isInitialLoading
+            ? const [
+                CollectScreenLoadingState(
+                  title: 'Loading activity',
+                  message: 'Refreshing confirmed contribution records.',
+                  icon: CollectIcons.activity,
+                  skeletonCount: 3,
+                ),
+              ]
+            : state.hasInitialLoadFailure ||
+                  (feed.error != null && feed.page == null)
+            ? [
+                CollectDataLoadFailure(
+                  onRetry: () async {
+                    await ref
+                        .read(collectRepositoryProvider.notifier)
+                        .loadInitial();
+                    if (mounted) {
+                      await ref
+                          .read(memberHistoryProvider(query).notifier)
+                          .refresh();
+                    }
+                  },
+                ),
+              ]
+            : [
+                _ActivityTitleRow(
+                  total: total,
+                  count: feed.page?.totalCount ?? 0,
+                  groupLabel: _selectedGroupLabel(collectionsById),
+                ),
+                if (visible.isEmpty && query.isDefault)
+                  EmptyIllustrationState(
+                    icon: CollectIcons.activity,
+                    title: 'No activity yet',
+                    message: state.currentProfile?.isRwanda == true
+                        ? 'Confirmed MoMo contributions appear here.'
+                        : 'Bank contributions appear here after statement reconciliation.',
+                  )
+                else if (visible.isEmpty)
+                  EmptySearchState(
+                    title: 'No matching activity',
+                    message: 'Clear the search or group filter and try again.',
+                    onClear: _clearFilters,
+                  ),
+              ]),
+      ],
     );
   }
 
@@ -229,7 +253,7 @@ class _ActivityTitleRow extends StatelessWidget {
     required this.groupLabel,
   });
 
-  final int total;
+  final String total;
   final int count;
   final String groupLabel;
 
@@ -271,12 +295,12 @@ class _ActivityTitleRow extends StatelessWidget {
       ],
     );
     final amount = Text(
-      formatRwf(total),
+      total,
       style: CollectTypography.amountCompact(foreground),
     );
     return Semantics(
       header: true,
-      label: 'Activity, $groupLabel, $count confirmed, ${formatRwf(total)}',
+      label: 'Activity, $groupLabel, $count confirmed, $total',
       child: ExcludeSemantics(
         child: largeText
             ? Column(

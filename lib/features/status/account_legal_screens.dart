@@ -160,8 +160,7 @@ class AccountSessionScreen extends ConsumerWidget {
             children: [
               CollectListTile(
                 leading: CollectIcons.profile,
-                title: 'Profile and Collect ID',
-                subtitle: 'Payment beneficiary managed centrally.',
+                title: 'Profile',
                 onTap: () => context.go('/settings/profile'),
               ),
               CollectListTile(

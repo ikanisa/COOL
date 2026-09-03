@@ -6,17 +6,31 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../profile/profile_edit_screen.dart';
 
-class BankTransferSettingsScreen extends ConsumerStatefulWidget {
+class BankTransferSettingsScreen extends ConsumerWidget {
   const BankTransferSettingsScreen({super.key});
 
   @override
-  ConsumerState<BankTransferSettingsScreen> createState() =>
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    // Also guard direct embedding and profile changes during an in-flight read.
+    // Never initialize a bank destination request for an ineligible profile.
+    if (profile?.isDiaspora != true) return const ProfileEditScreen();
+    return const _DiasporaBankTransferSettings();
+  }
+}
+
+class _DiasporaBankTransferSettings extends ConsumerStatefulWidget {
+  const _DiasporaBankTransferSettings();
+
+  @override
+  ConsumerState<_DiasporaBankTransferSettings> createState() =>
       _BankTransferSettingsScreenState();
 }
 
 class _BankTransferSettingsScreenState
-    extends ConsumerState<BankTransferSettingsScreen> {
+    extends ConsumerState<_DiasporaBankTransferSettings> {
   late Future<BankTransferDestination> _destination;
 
   @override
@@ -31,7 +45,7 @@ class _BankTransferSettingsScreenState
   @override
   Widget build(BuildContext context) => ScreenScaffold(
     title: 'Bank transfer details',
-    subtitle: 'The beneficiary used for every Collect group.',
+    subtitle: 'Approved EUR bank-transfer beneficiary.',
     compact: true,
     onRefresh: () async {
       setState(() => _destination = _load());

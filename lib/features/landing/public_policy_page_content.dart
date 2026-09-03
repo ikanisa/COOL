@@ -14,9 +14,10 @@ const _publicPolicyPages = <CollectPublicPageData>[
             'Collect stores account identifiers, profile details, group membership, MoMo or diaspora bank requests, contribution records, notification preferences and audit evidence.',
         bullets: [
           'WhatsApp sign-in phone and six-digit Collect ID',
-          'Display name, user-confirmed country and country-derived local currency',
+          'User-confirmed country and country-derived local currency',
           'Rwanda MoMo provider and editable local 07 number',
-          'Diaspora Revolut link, account name and account details',
+          'Diaspora Revolut link and account details',
+          'Members are identified by Collect ID; personal names from MoMo receipts stay in access-controlled Admin records',
           'Consented MoMo receipts and controlled bank evidence',
         ],
       ),

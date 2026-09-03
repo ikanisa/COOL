@@ -13,13 +13,17 @@ import '../../core/security/sms_access_channel.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
 import '../models/collect_models.dart';
+import '../models/member_history_page.dart';
 import 'collect_offline_cache.dart';
+
+export '../models/member_history_page.dart';
 
 part 'collect_repository_providers.dart';
 part 'collect_repository_state.dart';
 part 'collect_repository_fixture.dart';
 part 'collect_repository_live_reader.dart';
 part 'collect_repository_helpers.dart';
+part 'collect_repository_history.dart';
 
 class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
@@ -42,6 +46,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     int fixtureCollectionCount = 2,
     int fixtureContributionCount = 2,
     CollectProfile? profileOverride,
+    Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
     CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
@@ -56,6 +61,7 @@ class CollectRepository extends StateNotifier<CollectState> {
              : _emptyCollectState(),
          true,
          offlineCache ?? const CollectOfflineCache(),
+         fixtureAdditionalMembers,
        );
 
   CollectRepository._(
@@ -63,19 +69,27 @@ class CollectRepository extends StateNotifier<CollectState> {
     this._smsAccessChannel,
     CollectState initialState,
     this._allowLocalWrites,
-    this._offlineCache,
-  ) : super(initialState);
+    this._offlineCache, [
+    Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
+  ]) : _fixtureAdditionalMembers = Map.unmodifiable({
+         for (final entry in fixtureAdditionalMembers.entries)
+           entry.key: List<CollectMember>.unmodifiable(entry.value),
+       }),
+       super(initialState);
 
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
   final SmsAccessChannel _smsAccessChannel;
   final bool _allowLocalWrites;
   final CollectOfflineCache _offlineCache;
+  final Map<String, List<CollectMember>> _fixtureAdditionalMembers;
   RealtimeInvalidationSubscription? _realtimeSync;
   String? _registeredNotificationProvider;
   String? _registeredNotificationToken;
   Future<int>? _smsSyncInFlight;
   bool _smsSyncRequested = false;
+  final Map<String, List<CollectMember>> _fixtureRosterOverrides = {};
+  int _loadGeneration = 0;
 
   static const _uuid = Uuid();
   static final _publicIds = PublicIdGenerator(random: Random(491));
@@ -83,25 +97,33 @@ class CollectRepository extends StateNotifier<CollectState> {
   bool get isLive => _supabase?.auth.currentUser != null;
 
   Future<void> loadInitial({bool syncPendingSms = false}) async {
+    final generation = ++_loadGeneration;
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase == null) return;
+    if (state.currentProfile != null && state.currentProfile!.id != user?.id) {
+      state = _emptyCollectState();
+    }
 
     if (user == null) {
       state = state.copyWith(isLoading: true, usingStaleCache: false);
       try {
         final publicCollections = await _liveReader.fetchPublicCollections();
+        if (!_acceptLoad(generation, null)) return;
         state = state.copyWith(
           currentProfile: null,
           collections: publicCollections,
           paymentIntents: const [],
           contributions: const [],
           collectionSummaries: const {},
+          historyPage: null,
+          pendingIntentCount: 0,
           isLoading: false,
           usingStaleCache: false,
           lastSuccessfulSyncAt: DateTime.now().toUtc(),
         );
       } catch (error) {
+        if (!_acceptLoad(generation, null)) return;
         state = state.copyWith(
           isLoading: false,
           usingStaleCache: false,
@@ -115,21 +137,24 @@ class CollectRepository extends StateNotifier<CollectState> {
     try {
       final profile = await _liveReader.fetchProfile(user.id);
       final collections = await _liveReader.fetchCollections();
-      final paymentIntents = await _liveReader.fetchPaymentIntents(profile);
-      final contributions = await _liveReader.fetchContributions(profile);
-      final collectionSummaries = await _liveReader.fetchCollectionSummaries(
-        profile,
+      final intents = await _liveReader.fetchRecentIntents();
+      final history = await _liveReader.fetchHistoryPage(
+        const MemberHistoryQuery(),
       );
+      final collectionSummaries = await _liveReader.fetchCollectionSummaries();
       final notificationPreferences = await _liveReader
           .fetchNotificationPreferences(profile);
       final notificationEvents = await _liveReader.fetchNotificationEvents(
         profile,
       );
+      if (!_acceptLoad(generation, user.id)) return;
       state = state.copyWith(
         currentProfile: profile,
         collections: collections,
-        paymentIntents: paymentIntents,
-        contributions: contributions,
+        paymentIntents: intents.items,
+        pendingIntentCount: intents.pendingCount,
+        contributions: history.items,
+        historyPage: history,
         collectionSummaries: collectionSummaries,
         notificationEvents: notificationEvents,
         notificationPreferences: notificationPreferences,
@@ -140,7 +165,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       unawaited(_offlineCache.save(_offlineSnapshotFromState()));
       _ensureRealtimeSync();
     } catch (error) {
+      if (!_acceptLoad(generation, user.id)) return;
       final restored = await restoreOfflineSnapshot(reason: error.toString());
+      if (!_acceptLoad(generation, user.id)) return;
       if (!restored) {
         state = state.copyWith(
           isLoading: false,
@@ -151,8 +178,95 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
   }
 
+  bool _acceptLoad(int generation, String? userId) =>
+      mounted &&
+      generation == _loadGeneration &&
+      _supabase?.auth.currentUser?.id == userId;
+
+  Future<MemberHistoryPage> fetchHistoryPage(
+    MemberHistoryQuery query, {
+    Map<String, dynamic>? cursor,
+  }) async {
+    if (_allowLocalWrites && !isLive) return localHistoryPage(query);
+    if (state.usingStaleCache || !isLive) {
+      throw StateError('Connect to load history');
+    }
+    final userId = _supabase!.auth.currentUser!.id;
+    final page = await _liveReader.fetchHistoryPage(query, cursor: cursor);
+    if (!mounted || _supabase.auth.currentUser?.id != userId) {
+      throw StateError('Account changed');
+    }
+    return page;
+  }
+
+  MemberHistoryPage localHistoryPage(MemberHistoryQuery query) {
+    final titles = {for (final c in state.collections) c.id: c.title};
+    final needle = query.search.toLowerCase();
+    final rows = state.contributions
+        .where(
+          (c) =>
+              (query.collectionId == null ||
+                  c.collectionId == query.collectionId) &&
+              (needle.isEmpty ||
+                  c.supporterLabel.toLowerCase().contains(needle) ||
+                  (c.transactionId ?? '').toLowerCase().contains(needle) ||
+                  (titles[c.collectionId] ?? '').toLowerCase().contains(
+                    needle,
+                  )),
+        )
+        .toList();
+    rows.sort((a, b) {
+      if (query.sort == 'highest' || query.sort == 'lowest') {
+        final currency = a.currency.compareTo(b.currency);
+        if (currency != 0) return currency;
+        final amount = query.sort == 'highest'
+            ? b.amountMinor.compareTo(a.amountMinor)
+            : a.amountMinor.compareTo(b.amountMinor);
+        if (amount != 0) return amount;
+      }
+      final date = query.sort == 'oldest'
+          ? a.createdAt.compareTo(b.createdAt)
+          : b.createdAt.compareTo(a.createdAt);
+      return date != 0 ? date : a.id.compareTo(b.id);
+    });
+    final totals = <String, int>{}, own = <String, int>{};
+    final groups = <String>{};
+    for (final row in rows) {
+      totals.update(
+        row.currency,
+        (v) => v + row.amountMinor,
+        ifAbsent: () => row.amountMinor,
+      );
+      if (row.isCurrentUserContribution ||
+          (state.currentProfile != null &&
+              _contributionBelongsToProfile(row, state.currentProfile!))) {
+        own.update(
+          row.currency,
+          (v) => v + row.amountMinor,
+          ifAbsent: () => row.amountMinor,
+        );
+        groups.add(row.collectionId);
+      }
+    }
+    return MemberHistoryPage(
+      items: rows,
+      totalCount: rows.length,
+      totals: totals,
+      ownTotals: own,
+      ownCollectionIds: groups,
+      revision: '00000000000000000000000000000000',
+    );
+  }
+
   Future<bool> restoreOfflineSnapshot({required String reason}) async {
+    final generation = _loadGeneration;
+    final initialUserId = _supabase?.auth.currentUser?.id;
     final cached = await _offlineCache.read();
+    if (!mounted ||
+        generation != _loadGeneration ||
+        initialUserId != _supabase?.auth.currentUser?.id) {
+      return false;
+    }
     if (cached == null || !cached.hasReadableData) return false;
     final expectedUserId =
         _supabase?.auth.currentUser?.id ?? state.currentProfile?.id;
@@ -166,6 +280,8 @@ class CollectRepository extends StateNotifier<CollectState> {
       paymentIntents: cached.paymentIntents,
       contributions: cached.contributions,
       collectionSummaries: cached.collectionSummaries,
+      historyPage: cached.historyPage,
+      pendingIntentCount: cached.pendingIntentCount,
       isLoading: false,
       usingStaleCache: true,
       lastSuccessfulSyncAt: cached.savedAt,
@@ -182,6 +298,8 @@ class CollectRepository extends StateNotifier<CollectState> {
       paymentIntents: state.paymentIntents,
       contributions: state.contributions,
       collectionSummaries: state.collectionSummaries,
+      historyPage: state.historyPage,
+      pendingIntentCount: state.pendingIntentCount,
     );
   }
 
@@ -251,6 +369,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   Future<void> signOut() async {
+    ++_loadGeneration;
     final supabase = _supabase;
     final provider = _registeredNotificationProvider;
     final token = _registeredNotificationToken;
@@ -308,19 +427,13 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   Future<CollectProfile> updateCurrentProfile({
-    required String displayName,
     required String countryCode,
     String? momoProvider,
     String? momoNumber,
-    String? revolutName,
     String? revolutLink,
     String? revolutAccount,
   }) async {
     final current = _requireProfile();
-    final cleanDisplayName = displayName.trim();
-    if (cleanDisplayName.length < 2 || cleanDisplayName.length > 80) {
-      throw const FormatException('Enter a name between 2 and 80 characters.');
-    }
     final cleanCountry = CollectProfileCountryRules.normalizeCountryCode(
       countryCode,
     );
@@ -332,7 +445,6 @@ class CollectRepository extends StateNotifier<CollectState> {
     final cleanMomoNumber = isRwanda
         ? _normalizeLocalRwandaMomo(momoNumber ?? '')
         : '';
-    final cleanRevolutName = revolutName?.trim() ?? '';
     final cleanRevolutLink = revolutLink?.trim() ?? '';
     final cleanRevolutAccount = revolutAccount?.trim() ?? '';
     if (isRwanda &&
@@ -348,14 +460,10 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
     }
     if (!isRwanda &&
-        (cleanRevolutName.length < 2 ||
-            cleanRevolutName.length > 100 ||
-            Uri.tryParse(cleanRevolutLink)?.host.endsWith('revolut.me') !=
-                true ||
-            cleanRevolutAccount.length < 4 ||
-            cleanRevolutAccount.length > 120)) {
+        (!CollectDiasporaProfileRules.isValidLink(cleanRevolutLink) ||
+            !CollectDiasporaProfileRules.isValidAccount(cleanRevolutAccount))) {
       throw const FormatException(
-        'Diaspora profiles need a Revolut name, Revolut.me link, and account details.',
+        'Add your Revolut.me link and account details.',
       );
     }
 
@@ -363,13 +471,11 @@ class CollectRepository extends StateNotifier<CollectState> {
     late final CollectProfile updated;
     if (supabase != null && supabase.auth.currentUser != null) {
       final row = await supabase.rpc<dynamic>(
-        'update_current_profile',
+        'update_current_member_profile',
         params: {
-          'p_display_name': cleanDisplayName,
           'p_country_code': cleanCountry,
           'p_momo_provider': isRwanda ? cleanMomoProvider : null,
           'p_momo_number': isRwanda ? cleanMomoNumber : null,
-          'p_revolut_name': isRwanda ? null : cleanRevolutName,
           'p_revolut_link': isRwanda ? null : cleanRevolutLink,
           'p_revolut_account': isRwanda ? null : cleanRevolutAccount,
         },
@@ -383,14 +489,12 @@ class CollectRepository extends StateNotifier<CollectState> {
         throw StateError('Connect to Collect before updating your profile.');
       }
       updated = current.copyWith(
-        displayName: cleanDisplayName,
         countryCode: cleanCountry,
         currencyCode: CollectProfileCountryRules.currencyForCountry(
           cleanCountry,
         ),
         momoProvider: isRwanda ? cleanMomoProvider : '',
         momoNumber: isRwanda ? cleanMomoNumber : '',
-        revolutName: isRwanda ? '' : cleanRevolutName,
         revolutLink: isRwanda ? '' : cleanRevolutLink,
         revolutAccount: isRwanda ? '' : cleanRevolutAccount,
       );
@@ -799,8 +903,14 @@ class CollectRepository extends StateNotifier<CollectState> {
       final intent = PaymentIntentModel.fromJson(
         Map<String, dynamic>.from(responseRow as Map),
       );
+      if (!mounted || supabase.auth.currentUser?.id != profile.id) {
+        throw StateError('Account changed');
+      }
       state = state.copyWith(
-        paymentIntents: [intent, ...state.paymentIntents],
+        paymentIntents: [
+          intent,
+          ...state.paymentIntents.where((old) => old.id != intent.id).take(49),
+        ],
         collections: [
           for (final item in state.collections)
             if (item.id == collection.id && collection.isPublic)
@@ -808,6 +918,11 @@ class CollectRepository extends StateNotifier<CollectState> {
             else
               item,
         ],
+      );
+      // The server may have reused an older active intent, so do not guess a
+      // pending count from the recent window or increment it optimistically.
+      unawaited(
+        refreshPaymentIntent(intent.id).catchError((Object _) => intent),
       );
       return intent;
     }
@@ -890,13 +1005,19 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<BankTransferDestination> getBankTransferDestination() async {
     final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
+    if (supabase != null) {
+      if (supabase.auth.currentUser == null) {
+        throw StateError('Sign in to load approved bank details.');
+      }
       final response = await supabase.rpc<dynamic>(
         'get_bank_transfer_destination',
       );
       return BankTransferDestination.fromJson(
         Map<String, dynamic>.from(response as Map),
       );
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Connect to load approved bank details.');
     }
     return const BankTransferDestination(
       id: 'fixture-bank',
@@ -1166,13 +1287,13 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   PaymentIntentModel intentById(String id) =>
-      state.paymentIntents.firstWhere((intent) => intent.id == id);
+      state.paymentIntents.singleWhere((intent) => intent.id == id);
 
   PaymentIntentModel? maybeIntentById(String id) {
-    for (final intent in state.paymentIntents) {
-      if (intent.id == id) return intent;
-    }
-    return null;
+    final matches = state.paymentIntents
+        .where((intent) => intent.id == id)
+        .toList();
+    return matches.length == 1 ? matches.single : null;
   }
 
   Future<PaymentIntentModel> refreshPaymentIntent(String id) async {
@@ -1183,21 +1304,23 @@ class CollectRepository extends StateNotifier<CollectState> {
       }
       return intentById(id);
     }
-    final row = await supabase.rpc<dynamic>(
-      'get_bank_transfer_intent',
-      params: {'p_id': id},
-    );
-    final intent = PaymentIntentModel.fromJson(
-      Map<String, dynamic>.from(row as Map),
-    );
-    final intents = [...state.paymentIntents];
-    final index = intents.indexWhere((item) => item.id == id);
-    if (index == -1) {
-      intents.insert(0, intent);
-    } else {
-      intents[index] = intent;
+    final userId = supabase.auth.currentUser!.id;
+    final result = await _liveReader.fetchRecentIntents(intentId: id);
+    if (!mounted || supabase.auth.currentUser?.id != userId) {
+      throw StateError('Account changed');
     }
-    state = state.copyWith(paymentIntents: intents);
+    final matches = result.items.where((item) => item.id == id).toList();
+    if (matches.length != 1) {
+      throw StateError('Payment intent is unavailable');
+    }
+    final intent = matches.single;
+    state = state.copyWith(
+      paymentIntents: [
+        intent,
+        ...state.paymentIntents.where((old) => old.id != id).take(49),
+      ],
+      pendingIntentCount: result.pendingCount,
+    );
     return intent;
   }
 
@@ -1206,27 +1329,57 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (collection == null) return const [];
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
-      final rows = await supabase.rpc<List<dynamic>>(
-        'list_collection_collect_ids',
-        params: {'collection': collectionId},
+      final rows = await supabase.rpc<dynamic>(
+        'list_current_member_group_roster',
+        params: {'p_collection_id': collectionId},
       );
-      return [
-        for (final row in rows)
-          CollectMember.fromJson(Map<String, dynamic>.from(row as Map)),
-      ];
+      if (rows is! List || rows.any((row) => row is! Map)) {
+        throw const FormatException('Member roster is unavailable');
+      }
+      final ids = <String>{};
+      final members = <CollectMember>[];
+      for (final row in rows) {
+        final member = CollectMember.fromJson(
+          Map<String, dynamic>.from(row as Map),
+        );
+        if (!ids.add(member.publicId) ||
+            (member.amountScope == 'own' &&
+                member.publicId != state.currentProfile?.publicId)) {
+          throw const FormatException('Invalid member roster');
+        }
+        members.add(member);
+      }
+      return members;
     }
+    if (!_allowLocalWrites || supabase != null) {
+      throw StateError('Sign in to view members.');
+    }
+    final fixtureRoster = _fixtureRosterOverrides[collectionId];
+    if (fixtureRoster != null) return List.unmodifiable(fixtureRoster);
     final profile = state.currentProfile;
     return [
-      if (profile != null)
+      if (profile != null &&
+          (collection.creatorUserId == profile.id ||
+              collection.isCurrentUserMember))
         CollectMember(
           publicId: profile.publicId,
           role: collection.creatorUserId == profile.id ? 'owner' : 'member',
           status: 'active',
           joinedAt: collection.createdAt,
+          amountScope: 'own',
+          contributionTotals: {
+            for (final entry in summaryFor(
+              collectionId,
+            ).ownBalancesByCurrency.entries)
+              if (entry.value > 0) entry.key: entry.value,
+          },
         ),
+      ...?_fixtureAdditionalMembers[collectionId],
     ];
   }
 
+  // Kept as a Dart compatibility name; this promotes an active member directly,
+  // not an invitation or platform Admin enrollment.
   Future<void> inviteCollectionAdmin({
     required String collectionId,
     required String publicId,
@@ -1234,9 +1387,12 @@ class CollectRepository extends StateNotifier<CollectState> {
     final collection = _requireActiveCollection(collectionId);
     final profile = _requireCollectionOwner(
       collection,
-      action: 'invite an admin',
+      action: 'add a group admin',
     );
-    final cleanPublicId = publicId.replaceAll(RegExp(r'\D'), '');
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      throw StateError('Manage this group in Admin.');
+    }
+    final cleanPublicId = publicId.trim();
     if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
       throw const FormatException('Enter a 6 digit Collect ID.');
     }
@@ -1246,31 +1402,81 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
     }
     final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase.rpc<dynamic>(
-        'create_collection_invite',
-        params: {
-          'collection': collectionId,
-          'target_public_id': cleanPublicId,
-          'invite_role': 'admin',
-        },
-      );
-      return;
+    if (supabase != null) {
+      final userId = supabase.auth.currentUser?.id;
+      if (userId == null || userId != profile.id) {
+        throw StateError('Sign in before adding a group admin.');
+      }
+      dynamic result;
+      try {
+        result = await supabase.rpc<dynamic>(
+          'add_group_admin',
+          params: {
+            'collection': collectionId,
+            'member_public_id': cleanPublicId,
+          },
+        );
+      } on PostgrestException catch (error) {
+        if (error.code == '22023') {
+          throw const FormatException('Choose another active group member.');
+        }
+        if (error.code == '42501') {
+          throw StateError('Only the current owner can add a group admin.');
+        }
+        rethrow;
+      }
+      if (!mounted ||
+          supabase.auth.currentUser?.id != userId ||
+          state.currentProfile?.id != userId) {
+        throw StateError('Account changed.');
+      }
+      if (result is! Map ||
+          result.length != 4 ||
+          result['collection_id'] != collectionId ||
+          result['public_id'] != cleanPublicId ||
+          result['role'] != 'admin' ||
+          result['status'] != 'active') {
+        throw const FormatException(
+          'Group admin update could not be verified.',
+        );
+      }
+    } else {
+      if (!_allowLocalWrites) {
+        throw StateError('Sign in before adding a group admin.');
+      }
+      final roster = await membersForCollection(collectionId);
+      if (!roster.any(
+        (member) =>
+            member.publicId == cleanPublicId && member.status == 'active',
+      )) {
+        throw const FormatException('Choose another active group member.');
+      }
+      _fixtureRosterOverrides[collectionId] = [
+        for (final member in roster)
+          if (member.publicId == cleanPublicId)
+            CollectMember(
+              publicId: member.publicId,
+              role: 'admin',
+              status: member.status,
+              joinedAt: member.joinedAt,
+              amountScope: member.amountScope,
+              contributionTotals: member.contributionTotals,
+            )
+          else
+            member,
+      ];
     }
-    if (!_allowLocalWrites) {
-      throw StateError('Sign in before adding an admin.');
-    }
-    state = state.copyWith(
-      collections: [
-        for (final item in state.collections)
-          if (item.id == collection.id) item else item,
-      ],
-    );
+    // Invalidate the account-scoped roster provider. A live roster is fetched
+    // from the server, never optimistically forged from the entered ID.
+    state = state.copyWith(collections: [...state.collections]);
   }
 
   Future<void> archiveCollection(String collectionId) async {
     final collection = _requireActiveCollection(collectionId);
     _requireCollectionOwner(collection, action: 'archive this group');
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      throw StateError('Manage this group in Admin.');
+    }
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
@@ -1303,7 +1509,10 @@ class CollectRepository extends StateNotifier<CollectState> {
       collection,
       action: 'transfer group ownership',
     );
-    final cleanPublicId = publicId.replaceAll(RegExp(r'\D'), '');
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      throw StateError('Manage this group in Admin.');
+    }
+    final cleanPublicId = publicId.trim();
     if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
       throw const FormatException('Enter a 6 digit Collect ID.');
     }
@@ -1327,6 +1536,25 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (!_allowLocalWrites) {
       throw StateError('Sign in before transferring ownership.');
     }
+    final previousRoster = await membersForCollection(collectionId);
+    _fixtureRosterOverrides[collectionId] = [
+      for (final member in previousRoster)
+        if (member.publicId != cleanPublicId)
+          CollectMember(
+            publicId: member.publicId,
+            role: member.publicId == profile.publicId ? 'admin' : member.role,
+            status: member.status,
+            joinedAt: member.joinedAt,
+            amountScope: member.amountScope,
+            contributionTotals: member.contributionTotals,
+          ),
+      CollectMember(
+        publicId: cleanPublicId,
+        role: 'owner',
+        status: 'active',
+        joinedAt: DateTime.now().toUtc(),
+      ),
+    ];
     state = state.copyWith(
       collections: [
         for (final item in state.collections)
@@ -1378,8 +1606,8 @@ class CollectRepository extends StateNotifier<CollectState> {
       client: supabase,
       topic: 'collect:mobile:invalidation',
       areas: collectMobileRealtimeAreas,
-      onInvalidate: () {
-        if (mounted) unawaited(loadInitial());
+      onInvalidate: () async {
+        if (mounted) await loadInitial();
       },
     )..start();
   }
@@ -1394,15 +1622,38 @@ class CollectRepository extends StateNotifier<CollectState> {
     final authoritative = state.collectionSummaries[collectionId];
     if (authoritative != null) return authoritative;
     final contributions = contributionsFor(collectionId);
-    return CollectionSummary(
-      amountRaisedRwf: contributions.fold(
-        0,
-        (sum, item) => sum + item.amountRwf,
-      ),
-      supporterCount: contributions.length,
-      currentUserBalanceRwf: contributions
-          .where((item) => item.isCurrentUserContribution)
-          .fold(0, (sum, item) => sum + item.amountRwf),
+    final currency = maybeCollectionById(collectionId)?.settlementCurrency;
+    final totals = <String, int>{};
+    final own = <String, int>{};
+    final identities = <String>{};
+    var knownCount = true;
+    for (final item in contributions) {
+      totals.update(
+        item.currency,
+        (value) => value + item.amountMinor,
+        ifAbsent: () => item.amountMinor,
+      );
+      if (item.isCurrentUserContribution) {
+        own.update(
+          item.currency,
+          (value) => value + item.amountMinor,
+          ifAbsent: () => item.amountMinor,
+        );
+        identities.add('self');
+      } else if (RegExp(
+        r'^Collect ID [0-9]{6}$',
+      ).hasMatch(item.supporterLabel)) {
+        identities.add(item.supporterLabel);
+      } else {
+        // Masked labels cannot be used as unique person identifiers.
+        knownCount = false;
+      }
+    }
+    return CollectionSummary.multiCurrency(
+      totals: totals,
+      ownBalances: own,
+      emptyCurrency: currency != null && currency != 'XXX' ? currency : 'RWF',
+      supporterCount: knownCount ? identities.length : null,
     );
   }
 

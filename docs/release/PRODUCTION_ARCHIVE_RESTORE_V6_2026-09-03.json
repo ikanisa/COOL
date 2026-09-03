@@ -1,0 +1,60 @@
+{
+  "started_at": "2026-09-03T07:11:59Z",
+  "mode": "isolated_local_production_archive_restore",
+  "source_project": "lhbowpbcpwoiparwnwgt",
+  "container": "collect-recovery-20260903t071159-c6ecd7",
+  "hosted_changes": false,
+  "provider_sends": false,
+  "result": "RESTORE_REHEARSAL_FAILED_NO_HOSTED_CHANGES",
+  "cleanup": {
+    "ram_only_container_removed": true,
+    "evidence_vault_detached": true
+  },
+  "limitations": [
+    "Storage object bytes and provider configuration are outside this database restore",
+    "Global role passwords intentionally omitted from the role archive",
+    "Role and database captures were separate snapshots",
+    "No off-site disaster recovery, key escrow or owner RPO/RTO acceptance established"
+  ],
+  "bootstrap": {
+    "role": "supabase_admin",
+    "already_created_role_statement_omitted": 1,
+    "role_attributes_and_grantors_preserved": true
+  },
+  "source_database_sha256": "20cfe8cb1a099867332a2e65c41104d6879d0858ae2405faf7854e438336e7dd",
+  "source_roles_sha256": "0acaef8c2682c67331351704f6b1646e9a5cadda385d53665b04bfc8c9afc18a",
+  "encrypted_evidence_vault": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-restore-20260903t071159-c6ecd7.sparsebundle",
+  "isolation": {
+    "network": "none",
+    "published_ports": 0,
+    "readonly_rootfs": true,
+    "database_storage": "tmpfs",
+    "container_swap_disabled": true,
+    "http_worker": "bound_to_empty_template1_with_zero_batch_size"
+  },
+  "roles_restored": true,
+  "graphql_bootstrap": {
+    "definition_sha256": "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2",
+    "captured_extension_member_restored_before_its_acl": true,
+    "source_archive_modified": false
+  },
+  "database_restored": true,
+  "migration_count": 97,
+  "extension_versions_match": true,
+  "data_comparison": {
+    "table_copy_sections": 120,
+    "total_rows": 195529,
+    "sequence_statements": 4,
+    "other_data_statements": 0,
+    "all_fingerprints_match": true
+  },
+  "database_properties": {
+    "owner": "postgres",
+    "encoding": "UTF8",
+    "locale_provider": "icu",
+    "locale": "en_US.UTF-8",
+    "icu_locale": "en-US"
+  },
+  "error": "Schema/ACL dump comparison differs; details only in encrypted evidence",
+  "finished_at": "2026-09-03T07:12:12Z"
+}

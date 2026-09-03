@@ -8,21 +8,22 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
     final metricsFuture = repository.overviewMetrics();
     final attentionFuture = repository.list(
       'admin_list_collect_reconciliations',
-      limit: countryScope == AdminCountryScope.all ? 3 : 100,
+      limit: 3,
       offset: 0,
       sortBy: 'created_at_desc',
       countryCode: countryScope.rpcCode,
     );
     final allocationsFuture = repository.list(
       'admin_list_collect_ledgers',
-      limit: countryScope == AdminCountryScope.all ? 4 : 100,
+      limit: 4,
       offset: 0,
       sortBy: 'created_at_desc',
       countryCode: countryScope.rpcCode,
     );
     final payeesFuture = repository.list(
       'admin_list_collect_payees',
-      limit: 100,
+      status: 'active',
+      limit: 1,
       offset: 0,
       sortBy: 'created_at_desc',
       countryCode: countryScope.rpcCode,
@@ -34,11 +35,30 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
       allocationsFuture,
       payeesFuture,
       slaFuture,
+      repository.list(
+        'admin_list_collect_transactions',
+        status: 'unallocated',
+        limit: 1,
+        offset: 0,
+        sortBy: 'created_at_desc',
+        countryCode: countryScope.rpcCode,
+      ),
+      repository.list(
+        'admin_list_collect_ledgers',
+        status: 'balanced',
+        limit: 1,
+        offset: 0,
+        sortBy: 'created_at_desc',
+        countryCode: countryScope.rpcCode,
+      ),
     ]);
     final rawMetrics = values[0]! as List<AdminMetric>;
     final rawAttention = values[1]! as AdminListResult;
     final rawAllocations = values[2]! as AdminListResult;
     final rawPayees = values[3]! as AdminListResult;
+    ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
+      adminClockProvider,
+    )();
     final attention = _scopeOverviewResult(
       rawAttention,
       countryScope,
@@ -60,14 +80,9 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
           : _scopedOverviewMetrics(
               rawMetrics,
               openReconciliations: attention.total ?? attention.rows.length,
-              unallocatedTransactions: rawAttention.rows
-                  .where(
-                    (row) =>
-                        adminRowMatchesCountryScope(row, countryScope) &&
-                        row.status == 'unallocated',
-                  )
-                  .length,
-              allocations: allocations.total ?? allocations.rows.length,
+              unallocatedTransactions:
+                  (values[5]! as AdminListResult).total ?? 0,
+              allocations: (values[6]! as AdminListResult).total ?? 0,
               payees: payees.total ?? payees.rows.length,
             ),
       attention: attention,
@@ -88,7 +103,7 @@ AdminListResult _scopeOverviewResult(
       .toList(growable: false);
   return AdminListResult(
     rows: matching.take(visibleLimit).toList(growable: false),
-    total: matching.length,
+    total: result.total ?? matching.length,
   );
 }
 
@@ -598,7 +613,7 @@ class _QueueHealth extends StatelessWidget {
     final colors = context.collectColors;
     final review = _metricValue(
       metrics,
-      'Open exceptions',
+      'Open reconciliations',
       fallback: '${result.total ?? result.rows.length}',
     );
     final approvals = _metricValue(
@@ -637,7 +652,7 @@ class _QueueHealth extends StatelessWidget {
               child: Divider(color: colors.borderSoft),
             ),
             _HealthRow(
-              label: 'Open exceptions',
+              label: 'Open reconciliations',
               value: review,
               valueColor: colors.warningForeground,
             ),

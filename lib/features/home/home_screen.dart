@@ -7,6 +7,7 @@ import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/collect_group_cards.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'app_share_service.dart';
@@ -31,8 +32,14 @@ class HomeScreen extends ConsumerWidget {
       contributedCollectionIdsProvider.select((ids) => ids.length),
     );
     final summaries = ref.watch(collectionSummariesProvider);
-    final raisedTotal = ref.watch(raisedTotalProvider);
-    final contributions = state.contributions;
+    final raisedTotals = ref.watch(raisedTotalsByCurrencyProvider);
+    // Cached and newly merged receipts need not arrive in display order.
+    // Sort before taking the bounded recent preview without mutating state.
+    final contributions = [...state.contributions]
+      ..sort((a, b) {
+        final byDate = b.createdAt.compareTo(a.createdAt);
+        return byDate != 0 ? byDate : b.id.compareTo(a.id);
+      });
     return ScreenScaffold(
       title: 'Home',
       showHeader: false,
@@ -44,10 +51,14 @@ class HomeScreen extends ConsumerWidget {
         onAvatarTap: () => context.go('/settings'),
         onSearchTap: () => context.go('/groups'),
       ),
-      hero: isInitialLoading
+      hero: isInitialLoading || state.hasInitialLoadFailure
           ? null
           : CollectScreenHero(
-              metric: formatRwf(raisedTotal),
+              metric: formatCurrencyTotals(
+                raisedTotals,
+                separator: '\n',
+                emptyCurrency: profile?.isDiaspora == true ? 'EUR' : 'RWF',
+              ),
               subtitleSemanticLabel: _supportedGroupCountLabel(
                 contributedGroupCount,
               ),
@@ -83,6 +94,13 @@ class HomeScreen extends ConsumerWidget {
                 skeletonCount: 3,
               ),
             ]
+          : state.hasInitialLoadFailure
+          ? [
+              CollectDataLoadFailure(
+                onRetry: () =>
+                    ref.read(collectRepositoryProvider.notifier).loadInitial(),
+              ),
+            ]
           : [
               if (contributions.isNotEmpty) ...[
                 const SectionHeader(title: 'Activity'),
@@ -95,6 +113,7 @@ class HomeScreen extends ConsumerWidget {
                             contribution.supporterLabel,
                           ),
                           amount: contribution.amountRwf,
+                          currency: contribution.currency,
                           meta: formatCollectDateTime(contribution.createdAt),
                           onTap: () => context.go(
                             '/groups/${contribution.collectionId}/ledger',

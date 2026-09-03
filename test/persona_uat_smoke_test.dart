@@ -26,7 +26,8 @@ void main() {
       'lib/features/settings/settings_screen.dart',
     ).readAsStringSync();
 
-    expect(source, contains("title: 'MoMo and USSD'"));
+    expect(source, isNot(contains("title: 'MoMo and USSD'")));
+    expect(source, contains('if (profile?.isDiaspora == true)'));
     expect(source, contains("title: 'Diaspora bank transfer details'"));
     expect(source, contains("context.go('/settings/bank-transfer')"));
     expect(source, contains("title: 'Notifications'"));
@@ -38,7 +39,17 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    final repository = CollectRepository.fixture();
+    final repository = CollectRepository.fixture(
+      profileOverride: const CollectProfile(
+        id: 'local-user',
+        publicId: '038491',
+        whatsappPhone: '+250788123456',
+        countryCode: 'DE',
+        currencyCode: 'EUR',
+        revolutLink: 'https://revolut.me/synthetic',
+        revolutAccount: 'Synthetic account',
+      ),
+    );
     await tester.pumpWidget(
       appFor(const BankTransferSettingsScreen(), repository),
     );
@@ -69,10 +80,8 @@ void main() {
         id: 'local-user',
         publicId: '038491',
         whatsappPhone: '+250788123456',
-        displayName: 'Jean Bosco',
         countryCode: 'DE',
         currencyCode: 'EUR',
-        revolutName: 'Jean Bosco',
         revolutLink: 'https://revolut.me/jeanbosco',
         revolutAccount: 'Personal EUR account',
       ),
@@ -85,7 +94,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Contribution amount'), findsOneWidget);
+    expect(find.text('How much?'), findsOneWidget);
     expect(find.text('Approved beneficiary'), findsOneWidget);
     expect(find.text('Review transfer'), findsOneWidget);
 

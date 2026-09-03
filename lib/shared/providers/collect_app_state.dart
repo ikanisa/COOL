@@ -143,7 +143,22 @@ final realtimeSyncStatusProvider = Provider<RealtimeSyncStatus>((ref) {
   return RealtimeSyncStatus.current;
 });
 
+final momoReceiptCaptureAvailableProvider = Provider<bool>((ref) {
+  return !kIsWeb &&
+      defaultTargetPlatform == TargetPlatform.android &&
+      ref.watch(
+        collectRepositoryProvider.select(
+          (state) => state.currentProfile?.isRwanda == true,
+        ),
+      );
+});
+
 final smsPermissionStatusProvider = Provider<SmsPermissionStatus>((ref) {
+  // A cached consent flag from another device cannot grant this device a
+  // capability its OS (or current country/payment rail) does not support.
+  if (!ref.watch(momoReceiptCaptureAvailableProvider)) {
+    return SmsPermissionStatus.unavailable;
+  }
   final enabled = ref.watch(
     collectRepositoryProvider.select((state) => state.smsAccessEnabled),
   );
@@ -152,9 +167,6 @@ final smsPermissionStatusProvider = Provider<SmsPermissionStatus>((ref) {
   );
   if (enabled) return SmsPermissionStatus.granted;
   if (denied) return SmsPermissionStatus.denied;
-  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
-    return SmsPermissionStatus.unavailable;
-  }
   return SmsPermissionStatus.notRequested;
 });
 
@@ -185,13 +197,25 @@ final ownerGroupHealthProvider =
           .ownerHealthFor(collectionId);
     });
 
-final groupMembersProvider = FutureProvider.family<List<CollectMember>, String>(
-  (ref, collectionId) {
-    return ref
-        .read(collectRepositoryProvider.notifier)
-        .membersForCollection(collectionId);
-  },
-);
+final groupMembersProvider = FutureProvider.family<List<CollectMember>, String>((
+  ref,
+  collectionId,
+) {
+  // A roster belongs to the signed-in account and current membership snapshot.
+  // Invalidate it on sign-out, account changes and successful live refreshes.
+  ref.watch(
+    collectRepositoryProvider.select(
+      (state) => (
+        state.currentProfile?.id,
+        state.lastSuccessfulSyncAt,
+        state.collections,
+      ),
+    ),
+  );
+  return ref
+      .read(collectRepositoryProvider.notifier)
+      .membersForCollection(collectionId);
+});
 
 final shareConfirmationProvider = StateProvider<String?>((ref) => null);
 

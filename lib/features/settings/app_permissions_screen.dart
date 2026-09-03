@@ -8,6 +8,7 @@ import '../../core/notifications/collect_notification_service.dart';
 import '../../core/security/sms_access_channel.dart';
 import '../status/native_permission_sheets.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -47,23 +48,24 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final receiverMode =
-        ref.watch(collectRepositoryProvider).currentProfile?.isRwanda == true;
+    final receiverMode = ref.watch(momoReceiptCaptureAvailableProvider);
+    final diaspora =
+        ref.watch(collectRepositoryProvider).currentProfile?.isDiaspora == true;
     return ScreenScaffold(
       title: 'App permissions',
-      subtitle: 'Control only the device access Collect needs.',
       compact: true,
       onRefresh: _refresh,
       children: [
-        InfoSecurityBanner(
-          title: receiverMode
-              ? 'Rwanda MoMo receipts only'
-              : 'No SMS access for diaspora',
-          message: receiverMode
-              ? 'With your consent, Android captures only likely MoMo receipt messages. The protected receipt is parsed and matched to a pending RWF contribution; exceptions go to audited admin reconciliation.'
-              : 'Diaspora bank transfers are completed in your banking app. Collect does not request SMS, contacts, card, or bank-account access for that rail.',
-          tone: CollectStatusTone.privacy,
-        ),
+        if (receiverMode || diaspora)
+          InfoSecurityBanner(
+            title: receiverMode
+                ? 'Rwanda MoMo receipts only'
+                : 'No SMS access for diaspora',
+            message: receiverMode
+                ? 'With your consent, Android captures only likely MoMo receipt messages. The protected receipt is parsed and matched to a pending RWF contribution; exceptions go to audited admin reconciliation.'
+                : 'Diaspora bank transfers are completed in your banking app. Collect does not request SMS, contacts, card, or bank-account access for that rail.',
+            tone: CollectStatusTone.privacy,
+          ),
         if (receiverMode)
           _PermissionCard(
             icon: CollectIcons.shield,
@@ -141,8 +143,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   Future<void> _refresh() async {
     if (mounted) setState(() => _loading = true);
     final service = ref.read(collectNotificationServiceProvider);
-    final receiverMode =
-        ref.read(collectRepositoryProvider).currentProfile?.isRwanda == true;
+    final receiverMode = ref.read(momoReceiptCaptureAvailableProvider);
     final results = await Future.wait<Object>([
       service.areNotificationsEnabled(),
       permissions.Permission.camera.status,
@@ -177,6 +178,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   }
 
   Future<void> _requestMomoSms() async {
+    if (!ref.read(momoReceiptCaptureAvailableProvider)) return;
     final confirmed = await showModalBottomSheet<bool>(
       context: context,
       useRootNavigator: true,
@@ -225,7 +227,11 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
         ),
       ),
     );
-    if (confirmed != true || !mounted) return;
+    if (confirmed != true ||
+        !mounted ||
+        !ref.read(momoReceiptCaptureAvailableProvider)) {
+      return;
+    }
     try {
       await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
     } catch (_) {
@@ -276,12 +282,19 @@ class _PermissionCard extends StatelessWidget {
             Icon(icon),
             CollectSpacing.gapW12,
             Expanded(
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.titleMedium,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(height: 4),
+                  Text(
+                    status,
+                    key: ValueKey('permission_status_$title'),
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ],
               ),
             ),
-            Text(status, style: Theme.of(context).textTheme.labelMedium),
           ],
         ),
         CollectSpacing.gap12,

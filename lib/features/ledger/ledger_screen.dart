@@ -7,6 +7,8 @@ import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
+import '../../shared/widgets/collect_history_footer.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
 class LedgerScreen extends ConsumerStatefulWidget {
@@ -38,17 +40,18 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
     final summary = repo.summaryFor(widget.collectionId);
-    final contributions = ref.watch(
-      contributionsForCollectionProvider(widget.collectionId),
+    final query = MemberHistoryQuery(
+      collectionId: widget.collectionId,
+      search: _query.trim().toLowerCase(),
+      sort: _sort.name,
     );
-    final isInitialLoading = state.isLoading && contributions.isEmpty;
-    final visible = contributions.where((item) {
-      final query = _query.trim().toLowerCase();
-      if (query.isEmpty) return true;
-      return item.supporterLabel.toLowerCase().contains(query) ||
-          (item.transactionId ?? '').toLowerCase().contains(query);
-    }).toList()..sort((a, b) => _compareContributions(a, b, _sort));
-    final hasAnyLedgerActivity = contributions.isNotEmpty;
+    final feed = ref.watch(memberHistoryProvider(query));
+    final controller = ref.read(memberHistoryProvider(query).notifier);
+    final visible = feed.page?.items ?? const <Contribution>[];
+    final isInitialLoading =
+        (feed.loading && feed.page == null) ||
+        (state.isLoading && feed.page == null);
+    final hasAnyLedgerActivity = visible.isNotEmpty || _query.isNotEmpty;
     final hasVisibleLedgerActivity = visible.isNotEmpty;
 
     return ScreenScaffold(
@@ -75,77 +78,112 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           ),
         ],
       ),
-      onRefresh: () =>
-          ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      children: isInitialLoading
-          ? const [
-              CollectScreenLoadingState(
-                title: 'Loading ledger',
-                message: 'Refreshing confirmed contributions.',
-                icon: CollectIcons.ledger,
-                skeletonCount: 3,
-              ),
-            ]
-          : [
-              _LedgerTitleRow(
-                groupLabel: collection?.title ?? 'Group',
-                total: summary.amountRaisedRwf,
-                count: contributions.length,
-              ),
-              InfoSecurityBanner(
-                title: 'Your confirmed balance',
-                message:
-                    'You have ${formatRwf(summary.currentUserBalanceRwf)} in confirmed contributions.',
-                tone: CollectStatusTone.info,
-              ),
-              if (_searching)
-                SearchWithClearField(
-                  controller: _search,
-                  focusNode: _searchFocus,
-                  label: 'Search Collect ID or transaction',
-                  onChanged: (value) => setState(() => _query = value),
+      onRefresh: () async {
+        await ref.read(collectRepositoryProvider.notifier).loadInitial();
+        if (mounted) {
+          await ref.read(memberHistoryProvider(query).notifier).refresh();
+        }
+      },
+      sliver: isInitialLoading || visible.isEmpty
+          ? null
+          : SliverMainAxisGroup(
+              slivers: [
+                CollectSliverCardList(
+                  topSpacing: CollectSpacing.x3,
+                  itemCount: visible.length,
+                  itemBuilder: (context, index) {
+                    final contribution = visible[index];
+                    return FinancialListRow(
+                      key: ValueKey(contribution.id),
+                      title: compactCollectIdLabel(contribution.supporterLabel),
+                      amountRwf: contribution.amountRwf,
+                      currency: contribution.currency,
+                      meta: formatCollectDateTime(contribution.createdAt),
+                      transactionId: contribution.transactionId,
+                      leading: CollectIcons.ledger,
+                    );
+                  },
                 ),
-              if (!hasAnyLedgerActivity)
-                EmptyIllustrationState(
+                SliverToBoxAdapter(
+                  child: CollectHistoryFooter(
+                    feed: feed,
+                    onMore: controller.loadMore,
+                    onRefresh: controller.refresh,
+                  ),
+                ),
+              ],
+            ),
+      children: [
+        if (_searching)
+          SearchWithClearField(
+            controller: _search,
+            focusNode: _searchFocus,
+            label: 'Search Collect ID or transaction',
+            onChanged: (value) => setState(() => _query = value),
+          ),
+        ...(isInitialLoading
+            ? const [
+                CollectScreenLoadingState(
+                  title: 'Loading ledger',
+                  message: 'Refreshing confirmed contributions.',
                   icon: CollectIcons.ledger,
-                  title: 'No ledger activity',
-                  message:
-                      'Bank contributions appear here only after daily statement reconciliation.',
-                  action: CollectButton(
-                    label: 'Contribute now',
-                    icon: CollectIcons.bank,
-                    onPressed: () =>
-                        context.go('/groups/${widget.collectionId}/contribute'),
-                  ),
-                )
-              else if (!hasVisibleLedgerActivity)
-                EmptySearchState(
-                  title: _emptyTitleForFilter(),
-                  message: _emptyMessageForFilter(),
-                  onClear: () => setState(() {
-                    _search.clear();
-                    _query = '';
-                  }),
-                )
-              else
-                CollectCard(
-                  emphasis: CollectCardEmphasis.flat,
-                  child: Column(
-                    children: [
-                      for (final contribution in visible)
-                        FinancialListRow(
-                          title: compactCollectIdLabel(
-                            contribution.supporterLabel,
-                          ),
-                          amountRwf: contribution.amountRwf,
-                          meta: formatCollectDateTime(contribution.createdAt),
-                          transactionId: contribution.transactionId,
-                          leading: CollectIcons.ledger,
-                        ),
-                    ],
-                  ),
+                  skeletonCount: 3,
                 ),
-            ],
+              ]
+            : state.hasInitialLoadFailure ||
+                  (feed.error != null && feed.page == null)
+            ? [
+                CollectDataLoadFailure(
+                  onRetry: () async {
+                    await ref
+                        .read(collectRepositoryProvider.notifier)
+                        .loadInitial();
+                    if (mounted) {
+                      await ref
+                          .read(memberHistoryProvider(query).notifier)
+                          .refresh();
+                    }
+                  },
+                ),
+              ]
+            : [
+                _LedgerTitleRow(
+                  groupLabel: collection?.title ?? 'Group',
+                  totals: summary.totalsByCurrency,
+                  count: feed.page?.totalCount ?? 0,
+                ),
+                InfoSecurityBanner(
+                  title: 'Your confirmed balance',
+                  message:
+                      'You have ${formatCurrencyTotals(summary.ownBalancesByCurrency)} in confirmed contributions.',
+                  tone: CollectStatusTone.info,
+                ),
+                if (!hasAnyLedgerActivity)
+                  EmptyIllustrationState(
+                    icon: CollectIcons.ledger,
+                    title: 'No ledger activity',
+                    message: collection?.supportsRwandaMomo == true
+                        ? 'Confirmed MoMo contributions appear here.'
+                        : 'Bank contributions appear here only after daily statement reconciliation.',
+                    action: CollectButton(
+                      label: 'Contribute now',
+                      icon: CollectIcons.bank,
+                      onPressed: () => context.go(
+                        '/groups/${widget.collectionId}/contribute',
+                      ),
+                    ),
+                  )
+                else if (!hasVisibleLedgerActivity)
+                  EmptySearchState(
+                    title: _emptyTitleForFilter(),
+                    message: _emptyMessageForFilter(),
+                    onClear: () => setState(() {
+                      _search.clear();
+                      _query = '';
+                    }),
+                  ),
+              ]),
+      ],
     );
   }
 
@@ -216,18 +254,19 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
 class _LedgerTitleRow extends StatelessWidget {
   const _LedgerTitleRow({
     required this.groupLabel,
-    required this.total,
+    required this.totals,
     required this.count,
   });
 
   final String groupLabel;
-  final int total;
+  final Map<String, int> totals;
   final int count;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final stackAmount =
+        totals.length > 1 ||
         MediaQuery.sizeOf(context).width < 390 ||
         MediaQuery.textScalerOf(context).scale(1) > 1.3;
     final title = Text(
@@ -246,9 +285,9 @@ class _LedgerTitleRow extends StatelessWidget {
         alignment: Alignment.centerLeft,
         fit: BoxFit.scaleDown,
         child: Text(
-          formatRwf(total),
+          formatCurrencyTotals(totals, separator: '\n'),
           style: CollectTypography.amountLarge(colors.textPrimary),
-          maxLines: 1,
+          maxLines: totals.length.clamp(1, 2),
         ),
       ),
     );
@@ -256,7 +295,7 @@ class _LedgerTitleRow extends StatelessWidget {
       container: true,
       header: true,
       label:
-          '$groupLabel ledger, ${formatRwf(total)}, $count confirmed entries',
+          '$groupLabel ledger, ${formatCurrencyTotals(totals)}, $count confirmed entries',
       child: ExcludeSemantics(
         child: stackAmount
             ? Column(
@@ -269,7 +308,7 @@ class _LedgerTitleRow extends StatelessWidget {
                   CollectSpacing.gapW12,
                   Flexible(
                     child: Text(
-                      formatRwf(total),
+                      formatCurrencyTotals(totals),
                       style: CollectTypography.amountLarge(colors.textPrimary),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -391,21 +430,8 @@ String _ledgerSortLabel(_LedgerSort sort) {
   return switch (sort) {
     _LedgerSort.newest => 'Newest',
     _LedgerSort.oldest => 'Oldest',
-    _LedgerSort.highest => 'Highest',
-    _LedgerSort.lowest => 'Lowest',
-  };
-}
-
-int _compareContributions(
-  Contribution left,
-  Contribution right,
-  _LedgerSort sort,
-) {
-  return switch (sort) {
-    _LedgerSort.newest => right.createdAt.compareTo(left.createdAt),
-    _LedgerSort.oldest => left.createdAt.compareTo(right.createdAt),
-    _LedgerSort.highest => right.amountRwf.compareTo(left.amountRwf),
-    _LedgerSort.lowest => left.amountRwf.compareTo(right.amountRwf),
+    _LedgerSort.highest => 'Highest by currency',
+    _LedgerSort.lowest => 'Lowest by currency',
   };
 }
 

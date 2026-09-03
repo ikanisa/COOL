@@ -58,8 +58,8 @@ const Map<String, String> _english = {
   'contributionAmount': 'Contribution amount',
   'enterWholeRwf': 'Enter whole Rwanda francs.',
   'enterAmountAboveZero': 'Enter an amount above RWF 0.',
-  'airtelReceiver': 'Airtel Money receiver',
-  'mtnReceiver': 'MTN MoMo receiver',
+  'airtelReceiver': 'Airtel Money',
+  'mtnReceiver': 'MTN MoMo',
   'exactGroupReceiver': 'Exact group receiver',
   'approveOnlyInsideMomo': 'Approve only inside MoMo',
   'approveOnlyInsideMomoMessage':
@@ -71,11 +71,8 @@ const Map<String, String> _english = {
   'checkConnection': 'Check your connection and try again.',
   'payingTo': 'PAYING TO',
   'approveInMomo': 'Approve in MoMo',
-  'secureMomoApproval':
-      'You will review the exact recipient and amount in the secure MTN MoMo prompt.',
   'howMuch': 'How much?',
-  'amountPrompt': 'Enter your contribution in Rwanda francs.',
-  'quickAmounts': 'Quick amounts',
+  'quickAmounts': 'Quick pick',
   'reviewContribution': 'Review contribution',
   'youWillContribute': 'You will contribute',
   'privateMembershipBank':

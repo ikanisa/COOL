@@ -41,7 +41,10 @@ class _TimelineRow extends StatelessWidget {
       contribution.supporterLabel,
     ).replaceFirst('#', '');
     final createdAt = formatCollectDateTime(contribution.createdAt);
-    final amount = formatRwf(contribution.amountRwf);
+    final amount = formatMoneyMinor(
+      contribution.amountMinor,
+      currency: contribution.currency,
+    );
     final semanticLabel = 'Contribution $supporter, $amount, $createdAt';
     return Semantics(
       container: true,

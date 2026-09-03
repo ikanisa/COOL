@@ -181,9 +181,10 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('MoMo contribution'), findsOneWidget);
+    expect(find.text('How much?'), findsOneWidget);
+    expect(find.text('MoMo contribution'), findsNothing);
     expect(find.text('IKANISA LTD'), findsOneWidget);
-    expect(find.text('MTN MoMo receiver · 41258'), findsOneWidget);
+    expect(find.text('MTN MoMo · 41258'), findsOneWidget);
     expect(find.text('Bank transfer'), findsNothing);
     expect(find.text("Let's get started!"), findsNothing);
   });

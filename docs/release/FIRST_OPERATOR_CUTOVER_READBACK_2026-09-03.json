@@ -1,0 +1,21 @@
+{
+  "started_at": "2026-09-03T07:50:43Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "readback",
+  "selected_collect_id": "965511",
+  "verified_existing_identity": true,
+  "combined_role_before": true,
+  "approval_and_role_commit_attempted": false,
+  "provider_sends": 0,
+  "auth_users_created": 0,
+  "sessions_created": 0,
+  "group_roles_changed": 0,
+  "readback": {
+    "approved_identity": true,
+    "combined_role_active": true,
+    "active_approval_count": 1
+  },
+  "fresh_whatsapp_sign_in_required": true,
+  "result": "SELECTED_OPERATOR_ACTIVATED_FRESH_SIGN_IN_PENDING",
+  "finished_at": "2026-09-03T07:50:44Z"
+}

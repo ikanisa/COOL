@@ -330,47 +330,7 @@ check_explicit_indexes() {
   local missing
   local query
   query="$(mktemp)"
-ruby > "$query" <<'RUBY'
-indexes = {}
-Dir["supabase/migrations/*.sql"].sort.each do |path|
-  sql = File.read(path)
-  events = []
-  sql.to_enum(:scan, /^create(?: unique)? index(?: if not exists)?\s+([a-zA-Z_][\w.]*)\s+on\s+([a-zA-Z_][\w.]*)/i).each do
-    match = Regexp.last_match
-    events << [match.begin(0), :add_index, match[1].sub(/^public\./, ""), match[2].sub(/^public\./, "")]
-  end
-  sql.to_enum(:scan, /^drop index(?: if exists)?\s+([a-zA-Z_][\w.]*)/i).each do
-    match = Regexp.last_match
-    events << [match.begin(0), :drop_index, match[1].sub(/^public\./, ""), nil]
-  end
-  sql.to_enum(:scan, /^drop table(?: if exists)?\s+([a-zA-Z_][\w.]*)/i).each do
-    match = Regexp.last_match
-    events << [match.begin(0), :drop_table, nil, match[1].sub(/^public\./, "")]
-  end
-  events.sort_by(&:first).each do |_position, action, index_name, table_name|
-    if action == :add_index
-      indexes[index_name] = table_name
-    elsif action == :drop_index
-      indexes.delete(index_name)
-    else
-      indexes.delete_if { |_name, indexed_table| indexed_table == table_name }
-    end
-  end
-end
-names = indexes.keys.sort
-if names.empty?
-  puts "select null where false;"
-else
-  values = names.map { |name| "('#{name.gsub("'", "''")}')" }.join(",")
-  puts "with expected(indexname) as (values #{values})
-        select expected.indexname
-        from expected
-        left join pg_indexes on pg_indexes.schemaname = 'public'
-          and pg_indexes.indexname = expected.indexname
-        where pg_indexes.indexname is null
-        order by expected.indexname;"
-  end
-RUBY
+  ruby "$ROOT_DIR/scripts/audits/collect_index_inventory.rb" > "$query"
   missing="$(db_query_file "$query")"
   rm -f "$query"
   [[ -z "$missing" ]] || fail "Missing explicit indexes: $missing"
@@ -396,7 +356,7 @@ check_sql_privileges() {
         ('anon', 'policy_document_sections', 'SELECT'),
         ('anon', 'policy_documents', 'SELECT'),
         ('anon', 'profile_country_rules', 'SELECT'),
-        ('anon', 'public_contributions_view', 'SELECT'),
+        ('anon', 'public_collections_view', 'SELECT'),
         ('anon', 'public_profiles_view', 'SELECT'),
         ('anon', 'support_channels', 'SELECT'),
         ('authenticated', 'admin_navigation_items', 'DELETE'),
@@ -432,7 +392,6 @@ check_sql_privileges() {
         ('authenticated', 'collection_purpose_templates', 'INSERT'),
         ('authenticated', 'collection_purpose_templates', 'SELECT'),
         ('authenticated', 'collection_purpose_templates', 'UPDATE'),
-        ('authenticated', 'collection_receivers', 'SELECT'),
         ('authenticated', 'collection_type_catalog', 'DELETE'),
         ('authenticated', 'collection_type_catalog', 'INSERT'),
         ('authenticated', 'collection_type_catalog', 'SELECT'),
@@ -470,7 +429,6 @@ check_sql_privileges() {
         ('authenticated', 'payment_entrypoints', 'INSERT'),
         ('authenticated', 'payment_entrypoints', 'SELECT'),
         ('authenticated', 'payment_entrypoints', 'UPDATE'),
-        ('authenticated', 'payment_intents', 'SELECT'),
         ('authenticated', 'policy_acceptance_events', 'INSERT'),
         ('authenticated', 'policy_acceptance_events', 'SELECT'),
         ('authenticated', 'policy_document_sections', 'DELETE'),
@@ -482,7 +440,7 @@ check_sql_privileges() {
         ('authenticated', 'policy_documents', 'SELECT'),
         ('authenticated', 'policy_documents', 'UPDATE'),
         ('authenticated', 'profile_country_rules', 'SELECT'),
-        ('authenticated', 'public_contributions_view', 'SELECT'),
+        ('authenticated', 'public_collections_view', 'SELECT'),
         ('authenticated', 'public_profiles_view', 'SELECT'),
         ('authenticated', 'support_channels', 'DELETE'),
         ('authenticated', 'support_channels', 'INSERT'),
@@ -530,7 +488,6 @@ check_sql_privileges() {
         ('authenticated', 'admin_get_receiver', 'EXECUTE'),
         ('authenticated', 'admin_get_sms_metadata', 'EXECUTE'),
         ('authenticated', 'admin_get_user', 'EXECUTE'),
-        ('authenticated', 'admin_grant_user_role', 'EXECUTE'),
         ('authenticated', 'admin_list_admin_users', 'EXECUTE'),
         ('authenticated', 'admin_list_allocations', 'EXECUTE'),
         ('authenticated', 'admin_list_audit_logs', 'EXECUTE'),
@@ -551,23 +508,20 @@ check_sql_privileges() {
         ('authenticated', 'admin_reparse_payment_event', 'EXECUTE'),
         ('authenticated', 'admin_reveal_raw_sms', 'EXECUTE'),
         ('authenticated', 'admin_retry_notification', 'EXECUTE'),
-        ('authenticated', 'admin_revoke_user_role', 'EXECUTE'),
         ('authenticated', 'admin_runtime_config', 'EXECUTE'),
         ('authenticated', 'admin_set_feature_flag', 'EXECUTE'),
         ('authenticated', 'admin_system_health', 'EXECUTE'),
         ('authenticated', 'admin_update_collection_support_status', 'EXECUTE'),
         ('authenticated', 'archive_group', 'EXECUTE'),
         ('authenticated', 'create_mobile_support_request', 'EXECUTE'),
-        ('authenticated', 'create_group_with_owner_attested', 'EXECUTE'),
         ('authenticated', 'join_group_by_slug', 'EXECUTE'),
-        ('authenticated', 'create_payment_intent', 'EXECUTE'),
         ('authenticated', 'create_contribution_intent', 'EXECUTE'),
         ('authenticated', 'collection_is_public_approved', 'EXECUTE'),
         ('authenticated', 'current_user_is_platform_admin', 'EXECUTE'),
         ('authenticated', 'current_user_has_admin_permission', 'EXECUTE'),
-        ('authenticated', 'ensure_current_profile', 'EXECUTE'),
+        ('authenticated', 'ensure_current_member_profile', 'EXECUTE'),
         ('authenticated', 'get_owner_group_health', 'EXECUTE'),
-        ('authenticated', 'get_current_profile', 'EXECUTE'),
+        ('authenticated', 'get_current_member_profile', 'EXECUTE'),
         ('authenticated', 'get_group_share_code', 'EXECUTE'),
         ('authenticated', 'get_active_policy_document', 'EXECUTE'),
         ('authenticated', 'get_collection_type_catalog', 'EXECUTE'),
@@ -589,9 +543,83 @@ check_sql_privileges() {
         ('authenticated', 'rotate_group_share_code', 'EXECUTE'),
         ('authenticated', 'transfer_group_ownership', 'EXECUTE'),
         ('authenticated', 'unregister_notification_device', 'EXECUTE'),
-        ('authenticated', 'update_current_profile', 'EXECUTE'),
-        ('authenticated', 'update_collection_profile_and_receiver', 'EXECUTE'),
-        ('authenticated', 'update_collection_receiver', 'EXECUTE'),
+        ('authenticated', 'update_current_member_profile', 'EXECUTE'),
+        ('anon', 'public_collection_payment_route', 'EXECUTE'),
+        ('authenticated', 'add_group_admin', 'EXECUTE'),
+        ('authenticated', 'admin_add_assisted_roster', 'EXECUTE'),
+        ('authenticated', 'admin_approve_whatsapp', 'EXECUTE'),
+        ('authenticated', 'admin_create_assisted_group', 'EXECUTE'),
+        ('authenticated', 'admin_create_collect_payee', 'EXECUTE'),
+        ('authenticated', 'admin_create_platform_public_group', 'EXECUTE'),
+        ('authenticated', 'admin_get_bank_allocation_request', 'EXECUTE'),
+        ('authenticated', 'admin_get_bank_destination', 'EXECUTE'),
+        ('authenticated', 'admin_get_bank_destination_change_request', 'EXECUTE'),
+        ('authenticated', 'admin_get_bank_evidence', 'EXECUTE'),
+        ('authenticated', 'admin_get_bank_transaction', 'EXECUTE'),
+        ('authenticated', 'admin_get_bank_transfer_intent', 'EXECUTE'),
+        ('authenticated', 'admin_get_collect_transaction', 'EXECUTE'),
+        ('authenticated', 'admin_get_journal_entry', 'EXECUTE'),
+        ('authenticated', 'admin_get_reconciliation_exception', 'EXECUTE'),
+        ('authenticated', 'admin_get_reconciliation_run', 'EXECUTE'),
+        ('authenticated', 'admin_get_whatsapp_approval', 'EXECUTE'),
+        ('authenticated', 'admin_import_bank_statement', 'EXECUTE'),
+        ('authenticated', 'admin_list_bank_allocation_requests', 'EXECUTE'),
+        ('authenticated', 'admin_list_bank_destination_change_requests', 'EXECUTE'),
+        ('authenticated', 'admin_list_bank_destinations', 'EXECUTE'),
+        ('authenticated', 'admin_list_bank_evidence', 'EXECUTE'),
+        ('authenticated', 'admin_list_bank_transactions', 'EXECUTE'),
+        ('authenticated', 'admin_list_bank_transfer_intents', 'EXECUTE'),
+        ('authenticated', 'admin_list_collect_ledgers', 'EXECUTE'),
+        ('authenticated', 'admin_list_collect_payees', 'EXECUTE'),
+        ('authenticated', 'admin_list_collect_reconciliations', 'EXECUTE'),
+        ('authenticated', 'admin_list_collect_transactions', 'EXECUTE'),
+        ('authenticated', 'admin_list_country_scoped', 'EXECUTE'),
+        ('authenticated', 'admin_list_journal_entries', 'EXECUTE'),
+        ('authenticated', 'admin_list_members', 'EXECUTE'),
+        ('authenticated', 'admin_list_non_member_users', 'EXECUTE'),
+        ('authenticated', 'admin_list_platform_payee_candidates', 'EXECUTE'),
+        ('authenticated', 'admin_list_reconciliation_exceptions', 'EXECUTE'),
+        ('authenticated', 'admin_list_reconciliation_runs', 'EXECUTE'),
+        ('authenticated', 'admin_manual_allocate_payment', 'EXECUTE'),
+        ('authenticated', 'admin_propose_bank_allocation', 'EXECUTE'),
+        ('authenticated', 'admin_propose_bank_destination', 'EXECUTE'),
+        ('authenticated', 'admin_reopen_daily_bank_close', 'EXECUTE'),
+        ('authenticated', 'admin_resolve_reconciliation_exception', 'EXECUTE'),
+        ('authenticated', 'admin_reveal_raw_bank_evidence', 'EXECUTE'),
+        ('authenticated', 'admin_review_bank_allocation', 'EXECUTE'),
+        ('authenticated', 'admin_review_bank_destination_change', 'EXECUTE'),
+        ('authenticated', 'admin_revoke_whatsapp_approval', 'EXECUTE'),
+        ('authenticated', 'admin_run_bank_reconciliation', 'EXECUTE'),
+        ('authenticated', 'admin_set_collect_payee_status', 'EXECUTE'),
+        ('authenticated', 'admin_set_group_active', 'EXECUTE'),
+        ('authenticated', 'admin_set_user_access', 'EXECUTE'),
+        ('authenticated', 'admin_update_collect_payee', 'EXECUTE'),
+        ('authenticated', 'admin_update_platform_public_group', 'EXECUTE'),
+        ('authenticated', 'admin_update_platform_public_group_metadata', 'EXECUTE'),
+        ('authenticated', 'cancel_bank_transfer_intent', 'EXECUTE'),
+        ('authenticated', 'collect_admin_mask_name', 'EXECUTE'),
+        ('authenticated', 'collect_admin_mask_sender', 'EXECUTE'),
+        ('authenticated', 'create_bank_transfer_intent', 'EXECUTE'),
+        ('authenticated', 'create_private_group_with_owner_attested', 'EXECUTE'),
+        ('authenticated', 'get_bank_transfer_destination', 'EXECUTE'),
+        ('authenticated', 'get_bank_transfer_intent', 'EXECUTE'),
+        ('authenticated', 'ingest_bank_evidence', 'EXECUTE'),
+        ('authenticated', 'list_current_member_collection_balances', 'EXECUTE'),
+        ('authenticated', 'list_current_member_group_roster', 'EXECUTE'),
+        ('authenticated', 'list_current_member_history_page', 'EXECUTE'),
+        ('authenticated', 'list_current_member_payment_history', 'EXECUTE'),
+        ('authenticated', 'list_current_member_payment_intents', 'EXECUTE'),
+        ('authenticated', 'list_current_member_recent_intents', 'EXECUTE'),
+        ('authenticated', 'list_current_user_bank_collection_summaries', 'EXECUTE'),
+        ('authenticated', 'list_current_user_bank_contributions', 'EXECUTE'),
+        ('authenticated', 'list_current_user_bank_transfer_intents', 'EXECUTE'),
+        ('authenticated', 'list_current_user_collections', 'EXECUTE'),
+        ('authenticated', 'list_current_user_contributions', 'EXECUTE'),
+        ('authenticated', 'mark_bank_transfer_handoff_opened', 'EXECUTE'),
+        ('authenticated', 'mask_iban', 'EXECUTE'),
+        ('authenticated', 'public_collection_payment_route', 'EXECUTE'),
+        ('authenticated', 'run_daily_bank_reconciliation', 'EXECUTE'),
+        ('authenticated', 'update_bank_transfer_group_profile', 'EXECUTE'),
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),
         ('authenticated', 'user_is_collection_admin', 'EXECUTE')
     ),
@@ -645,7 +673,10 @@ check_sql_privileges() {
         and (
           (grantee = 'authenticated' and routine_name in (
             'create_group_with_owner',
-            'update_collection_profile'
+            'update_collection_profile',
+            'get_current_profile', 'ensure_current_profile', 'update_current_profile',
+            'admin_grant_user_role', 'admin_revoke_user_role',
+            'admin_bootstrap_whatsapp_approval', 'admin_bootstrap_platform_owner'
           ))
           or (grantee = 'service_role' and routine_name = 'check_sms_ingest_rate_limit')
         )
@@ -683,29 +714,7 @@ check_sql_privileges() {
           ('collections', 'receiver_display_label'),
           ('collections', 'created_at'),
           ('collections', 'updated_at'),
-          ('collections', 'archived_at'),
-          ('payments', 'id'),
-          ('payments', 'parsed_event_id'),
-          ('payments', 'payment_intent_id'),
-          ('payments', 'collection_id'),
-          ('payments', 'contributor_user_id'),
-          ('payments', 'contributor_public_id'),
-          ('payments', 'amount_rwf'),
-          ('payments', 'currency'),
-          ('payments', 'transaction_id'),
-          ('payments', 'source'),
-          ('payments', 'status'),
-          ('payments', 'posted_at'),
-          ('payments', 'created_at'),
-          ('ledger_entries', 'id'),
-          ('ledger_entries', 'payment_id'),
-          ('ledger_entries', 'collection_id'),
-          ('ledger_entries', 'user_id'),
-          ('ledger_entries', 'entry_type'),
-          ('ledger_entries', 'amount_rwf'),
-          ('ledger_entries', 'currency'),
-          ('ledger_entries', 'visibility'),
-          ('ledger_entries', 'created_at')
+          ('collections', 'archived_at')
       ) as expected(table_name, column_name)
     ),
     actual_column_grants as (
@@ -808,8 +817,8 @@ check_bank_sql_privileges() {
         )
     ),
     forbidden_bank_tables as (
-      select 'direct bank table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name issue
-      from information_schema.role_table_grants grant_row
+      select 'direct bank table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name || '.' || grant_row.column_name issue
+      from information_schema.column_privileges grant_row
       where grant_row.table_schema = 'public'
         and grant_row.grantee in ('anon', 'authenticated')
         and grant_row.table_name in (
@@ -824,8 +833,8 @@ check_bank_sql_privileges() {
         )
     ),
     forbidden_legacy_tables as (
-      select 'legacy financial table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name issue
-      from information_schema.role_table_grants grant_row
+      select 'legacy financial table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name || '.' || grant_row.column_name issue
+      from information_schema.column_privileges grant_row
       where grant_row.table_schema = 'public'
         and grant_row.grantee in ('anon', 'authenticated')
         and grant_row.table_name in (
@@ -833,12 +842,27 @@ check_bank_sql_privileges() {
           'payments', 'ledger_entries', 'collection_receivers',
           'public_contributions_view'
         )
+    ),
+    forbidden_member_names as (
+      select 'member name column grant: ' || grantee || ' ' || privilege_type || ' on profiles.' || column_name issue
+      from information_schema.column_privileges
+      where table_schema='public' and table_name='profiles'
+        and column_name in ('display_name','revolut_name')
+        and grantee in ('PUBLIC','anon','authenticated')
+    ),
+    forbidden_private_data as (
+      select 'private identity data grant: ' || grantee || ' ' || privilege_type || ' on ' || table_schema || '.' || table_name || '.' || column_name issue
+      from information_schema.column_privileges
+      where table_schema in ('collect_hybrid','collect_admin_access')
+        and grantee in ('PUBLIC','anon','authenticated')
     )
     select issue from missing_authenticated
     union all select issue from forbidden_public_momo
     union all select issue from forbidden_client_service_functions
     union all select issue from forbidden_bank_tables
     union all select issue from forbidden_legacy_tables
+    union all select issue from forbidden_member_names
+    union all select issue from forbidden_private_data
     order by issue;
   ")"
   [[ -z "$violations" ]] || fail "Hybrid payment SQL privilege violations: $violations"

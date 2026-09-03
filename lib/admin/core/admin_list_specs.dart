@@ -594,6 +594,11 @@ class _AdminListSpec {
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'active', label: 'Active'),
+          AdminFilterOption(
+            value: 'approval_required',
+            label: 'Approval required',
+          ),
+          AdminFilterOption(value: 'approved', label: 'Awaiting activation'),
           AdminFilterOption(value: 'revoked', label: 'Revoked'),
         ],
         sortOptions: _defaultSorts,

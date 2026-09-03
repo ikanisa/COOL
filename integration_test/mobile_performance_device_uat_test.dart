@@ -47,7 +47,7 @@ void main() {
       expect(find.text('Groups'), findsWidgets);
 
       await _measure(recorder, tester, 'dense_groups_scroll', () async {
-        final list = find.byType(ListView).first;
+        final list = find.byType(Scrollable).first;
         await tester.fling(list, const Offset(0, -900), 2200);
         await _pumpAnimationFrames(tester, count: 36);
         await tester.fling(list, const Offset(0, 760), 1900);
@@ -61,7 +61,7 @@ void main() {
       expect(find.text('Activity'), findsWidgets);
 
       await _measure(recorder, tester, 'dense_activity_scroll', () async {
-        final list = find.byType(ListView).first;
+        final list = find.byType(Scrollable).first;
         await tester.fling(list, const Offset(0, -1100), 2400);
         await _pumpAnimationFrames(tester, count: 42);
         await tester.fling(list, const Offset(0, 920), 2100);
@@ -82,7 +82,7 @@ void main() {
 
       router.go('/groups/col-church/contribute');
       await _pumpAnimationFrames(tester, count: 30);
-      expect(find.text('Review contribution'), findsOneWidget);
+      expect(find.text('Continue to MoMo'), findsOneWidget);
 
       await _measure(recorder, tester, 'amount_entry_rebuild', () async {
         final amountField = find.byType(TextField);

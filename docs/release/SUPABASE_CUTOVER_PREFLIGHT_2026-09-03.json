@@ -1,0 +1,311 @@
+{
+  "captured_at": "2026-09-03T07:42:25Z",
+  "credential_source": {
+    "title": "Supabase",
+    "tab": "Sheet1",
+    "column": "G",
+    "project_cell": "G2",
+    "credential_values_saved": false
+  },
+  "mode": "read_only_no_deployment",
+  "project": {
+    "id": "lhbowpbcpwoiparwnwgt",
+    "name": "COOL",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "checks": {
+    "migrations": {
+      "remote_count": 97,
+      "local_count": 111,
+      "remote_only": [
+
+      ],
+      "name_mismatches": [
+        "202605230012",
+        "202605230013",
+        "202605230014"
+      ],
+      "history_holes": [
+
+      ],
+      "pending": [
+        {
+          "version": "20260902073741",
+          "name": "member_profile_numeric_identity",
+          "file": "20260902073741_member_profile_numeric_identity.sql",
+          "sha256": "03efe1a2cfbe4440f779b5b0c08e6cf058deaf01e2d0f957cd5709a5c01bc9d1"
+        },
+        {
+          "version": "20260902075721",
+          "name": "member_collection_read_contract",
+          "file": "20260902075721_member_collection_read_contract.sql",
+          "sha256": "802155823f4d5153439ae74ee9d5a77884476e066daae8c0789a04d969073073"
+        },
+        {
+          "version": "20260902081017",
+          "name": "hybrid_admin_overview_metrics",
+          "file": "20260902081017_hybrid_admin_overview_metrics.sql",
+          "sha256": "a7b8db182ad9a35a8d92240e0336e2a88c51f1a48c3fa201e8cf6b53a2379bca"
+        },
+        {
+          "version": "20260902081830",
+          "name": "member_profile_read_allowlist",
+          "file": "20260902081830_member_profile_read_allowlist.sql",
+          "sha256": "721f0aacbd48d0d38c8ffd4735ac7749667a5ef95746a0c8654b369e763eb9c0"
+        },
+        {
+          "version": "20260902083940",
+          "name": "member_cross_rail_history",
+          "file": "20260902083940_member_cross_rail_history.sql",
+          "sha256": "1cca99ee25e732ac070e9ca43248d3f48685f168c0e15badda07b0bce0dc7af8"
+        },
+        {
+          "version": "20260902090210",
+          "name": "member_group_owner_controls",
+          "file": "20260902090210_member_group_owner_controls.sql",
+          "sha256": "242d6dc4bb6f48c6320265658c5d3973f6d7577226aea2ae0438ac94c44bd241"
+        },
+        {
+          "version": "20260902091314",
+          "name": "member_group_roster",
+          "file": "20260902091314_member_group_roster.sql",
+          "sha256": "79196683ec664b2c02965cc1e9908405740793b3e808911a6707fe3f99a021b8"
+        },
+        {
+          "version": "20260902093609",
+          "name": "member_history_query_plan",
+          "file": "20260902093609_member_history_query_plan.sql",
+          "sha256": "0298cf1b8b9bcf6a15b3009794babd6e9e1c9bab1a5ea89cc670d78834c87b63"
+        },
+        {
+          "version": "20260902100046",
+          "name": "member_bounded_history_pages",
+          "file": "20260902100046_member_bounded_history_pages.sql",
+          "sha256": "2de5086715bd3edb95677521e2025f14bf60b2de7bda2b9ae51a3f2270f2e21c"
+        },
+        {
+          "version": "20260902120435",
+          "name": "hybrid_receipt_capture_contract",
+          "file": "20260902120435_hybrid_receipt_capture_contract.sql",
+          "sha256": "31509ef05d380d039b4ce6f6e801e7149401d5e213a86ad2876d96b14d93d48e"
+        },
+        {
+          "version": "20260902120555",
+          "name": "hybrid_member_registry",
+          "file": "20260902120555_hybrid_member_registry.sql",
+          "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de"
+        },
+        {
+          "version": "20260902134420",
+          "name": "member_add_group_admin",
+          "file": "20260902134420_member_add_group_admin.sql",
+          "sha256": "df81a0a8e566d7c105192811d70d5484a4377ee1f4e0c4a0c1b205b66cd59c77"
+        },
+        {
+          "version": "20260902140151",
+          "name": "platform_admin_whatsapp_approval",
+          "file": "20260902140151_platform_admin_whatsapp_approval.sql",
+          "sha256": "2799ce6ed756cd121042a14f1ea51ea7b72642cbb1c1bd49f4029a320de70caf"
+        },
+        {
+          "version": "20260902212721",
+          "name": "revoke_official_payee_trigger_execute",
+          "file": "20260902212721_revoke_official_payee_trigger_execute.sql",
+          "sha256": "2baccacc309c9a92ffa340f995bac16df61a9ad287fc9d1f78330f704d8e9a36"
+        }
+      ]
+    },
+    "backups": {
+      "pitr_enabled": false,
+      "walg_enabled": true,
+      "listed_backup_count": 0,
+      "physical_backup_metadata_present": false
+    },
+    "functions": [
+      {
+        "slug": "auth-send-whatsapp-otp",
+        "version": 44,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "aa8da63ffb94014a5b69327868b6406b0395baf1ea6d9a973a8b5b299cc714c3",
+        "updated_at": 1788293874712
+      },
+      {
+        "slug": "send-notification",
+        "version": 20,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "7fea052024f5ef54d153feaa657962e3d4d620039f2066a0665641a4d2b73fc9",
+        "updated_at": 1788293892615
+      },
+      {
+        "slug": "dispatch-notifications",
+        "version": 14,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "3fea3e2ee473d1f35c591dda71aaa3bd60d2991c30d9280832d43c7d51a7dfe7",
+        "updated_at": 1788293877090
+      },
+      {
+        "slug": "ingest-bank-email",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "acd620fb8dd88ba558ebb79a0954e079472096e01f59c4101e355e023b2bae9b",
+        "updated_at": 1788293879544
+      },
+      {
+        "slug": "ingest-bank-sms",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "9b8c1d6a7bf2ed35662e5c0df51ff4686c063181b3cb2c838d0f385372ca6227",
+        "updated_at": 1788293882265
+      },
+      {
+        "slug": "ingest-bank-statement",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "517b7d09494e393e77ef7b3f3f7822359ae53a7b34bd79322f3d94b7acd24454",
+        "updated_at": 1788293884933
+      },
+      {
+        "slug": "ingest-payment-sms",
+        "version": 3,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "8e4655394ba4e4bcb2acfb79c664ccf5ea112ddc899dcb5f8209459336d98948",
+        "updated_at": 1788293888186
+      },
+      {
+        "slug": "parse-payment-sms",
+        "version": 4,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "d61662a87648f521d11e96da29c9cc4f03a8b29e7c34f4375dff71317bf13dd4",
+        "updated_at": 1788293890474
+      },
+      {
+        "slug": "verify-play-integrity",
+        "version": 3,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "4119a17a3638c41701a25dfd36ba6eb04351194d9202ca64345e69be775c8cc6",
+        "updated_at": 1788293894678
+      }
+    ],
+    "security_advisors": {
+      "count": 205,
+      "by_level": {
+        "INFO": 22,
+        "WARN": 183
+      },
+      "findings": [
+        {
+          "level": "INFO",
+          "name": "rls_enabled_no_policy",
+          "count": 22
+        },
+        {
+          "level": "WARN",
+          "name": "pg_graphql_anon_table_exposed",
+          "count": 19
+        },
+        {
+          "level": "WARN",
+          "name": "pg_graphql_authenticated_table_exposed",
+          "count": 32
+        },
+        {
+          "level": "WARN",
+          "name": "anon_security_definer_function_executable",
+          "count": 6
+        },
+        {
+          "level": "WARN",
+          "name": "authenticated_security_definer_function_executable",
+          "count": 125
+        },
+        {
+          "level": "WARN",
+          "name": "auth_leaked_password_protection",
+          "count": 1
+        }
+      ]
+    },
+    "performance_advisors": {
+      "count": 89,
+      "by_level": {
+        "INFO": 89
+      },
+      "findings": [
+        {
+          "level": "INFO",
+          "name": "unindexed_foreign_keys",
+          "count": 70
+        },
+        {
+          "level": "INFO",
+          "name": "unused_index",
+          "count": 19
+        }
+      ]
+    },
+    "network_restrictions": {
+      "status": "applied",
+      "ipv4_rule_count": 4,
+      "ipv6_rule_count": 0
+    },
+    "auth_config": {
+      "site_url": "https://easymo.vercel.app",
+      "uri_allow_list": "https://easymo.vercel.app",
+      "disable_signup": false,
+      "external_phone_enabled": true,
+      "jwt_exp": 3600,
+      "sessions_inactivity_timeout": 0,
+      "sessions_timebox": 0,
+      "refresh_token_rotation_enabled": true,
+      "external_anonymous_users_enabled": false,
+      "security_manual_linking_enabled": false,
+      "hook_send_sms_enabled": true,
+      "sms_otp_exp": 600,
+      "sms_test_otp_configured": false,
+      "sms_test_validity_override_configured": false,
+      "whatsapp_hook_target_matches": true
+    },
+    "required_secrets": {
+      "required": [
+        "WHATSAPP_CLOUD_API_TOKEN",
+        "WHATSAPP_PHONE_NUMBER_ID",
+        "WHATSAPP_AUTH_TEMPLATE_NAME",
+        "SEND_SMS_HOOK_SECRET",
+        "INTERNAL_FUNCTION_SECRET",
+        "BANK_EMAIL_INGEST_HMAC_SECRET",
+        "APNS_KEY_ID",
+        "APNS_TEAM_ID",
+        "APNS_BUNDLE_ID",
+        "APNS_PRIVATE_KEY_BASE64",
+        "FCM_SERVICE_ACCOUNT_JSON",
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+      ],
+      "missing": [
+
+      ],
+      "values_validated": false
+    },
+    "runtime_counts": {
+      "auth_users": 72,
+      "sessions": 108,
+      "profiles": 8,
+      "groups": 5,
+      "raw_sms": 3,
+      "active_platform_role_grants": 1,
+      "approval_table": null
+    }
+  },
+  "errors": [
+
+  ]
+}

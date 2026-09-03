@@ -625,6 +625,7 @@ class _AdminTopbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.collectColors;
     final current = _destinationForLocation(location, destinations);
+    final lastRefresh = ref.watch(adminLastSuccessfulRefreshProvider);
     return Semantics(
       container: true,
       label:
@@ -713,7 +714,9 @@ class _AdminTopbar extends ConsumerWidget {
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
-                                  'Last refreshed: ${_clockTime(DateTime.now())}',
+                                  lastRefresh == null
+                                      ? 'Not refreshed'
+                                      : 'Last refreshed: ${_clockTime(lastRefresh)}',
                                   style: Theme.of(context).textTheme.labelMedium
                                       ?.copyWith(
                                         color: colors.onImagePrimary.withValues(

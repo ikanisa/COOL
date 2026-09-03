@@ -34,7 +34,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(refresh.dispose);
   ref.listen(
     collectRepositoryProvider.select(
-      (state) => (state.currentProfile != null, state.isLoading),
+      (state) => (
+        state.currentProfile != null,
+        state.currentProfile?.countryCode,
+        state.isLoading,
+      ),
     ),
     (_, _) => refresh.notify(),
   );
@@ -355,6 +359,15 @@ GoRouter createAppRouter({
                   ),
                   GoRoute(
                     path: 'bank-transfer',
+                    redirect: (context, state) {
+                      final profile = ProviderScope.containerOf(
+                        context,
+                        listen: false,
+                      ).read(collectRepositoryProvider).currentProfile;
+                      return profile?.isDiaspora == true
+                          ? null
+                          : '/settings/profile';
+                    },
                     pageBuilder: (context, state) => _collectPage(
                       context,
                       state,

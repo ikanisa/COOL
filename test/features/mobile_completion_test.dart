@@ -45,10 +45,8 @@ const _diasporaProfile = CollectProfile(
   id: 'local-user',
   publicId: '038491',
   whatsappPhone: '+250788123456',
-  displayName: 'Collect member',
   countryCode: 'GB',
   currencyCode: 'GBP',
-  revolutName: 'Collect member',
   revolutLink: 'https://revolut.me/collectmember',
   revolutAccount: 'Personal EUR account',
 );
@@ -58,6 +56,19 @@ class _TestSmsAccessChannel extends SmsAccessChannel {
 
   @override
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
+}
+
+class _PlatformOwnerRepository extends CollectRepository {
+  _PlatformOwnerRepository() : super.fixture() {
+    state = state.copyWith(
+      collections: [
+        for (final group in state.collections)
+          group.id == 'col-church'
+              ? group.copyWith(isPlatformSponsored: true, isPublic: true)
+              : group,
+      ],
+    );
+  }
 }
 
 void main() {
@@ -159,7 +170,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('How much?'), findsOneWidget);
-    expect(find.textContaining('MTN MoMo receiver'), findsOneWidget);
+    expect(find.textContaining('MTN MoMo ·'), findsOneWidget);
     expect(find.text('Continue to MoMo'), findsOneWidget);
     expect(
       tester
@@ -186,18 +197,116 @@ void main() {
       repository: repository,
     );
 
-    expect(find.text('MoMo contribution'), findsOneWidget);
+    expect(find.text('MoMo contribution'), findsNothing);
+    expect(
+      find.text('Enter your contribution in Rwanda francs.'),
+      findsNothing,
+    );
+    expect(find.text('1 / 2'), findsNothing);
+    expect(find.text('Quick pick'), findsOneWidget);
     expect(find.text('IKANISA LTD'), findsOneWidget);
-    expect(find.text('MTN MoMo receiver · 41258'), findsOneWidget);
+    expect(find.text('MTN MoMo · 41258'), findsOneWidget);
+    expect(find.textContaining('MoMo receiver'), findsNothing);
+    expect(find.text('Approve in MoMo'), findsNothing);
+    expect(find.textContaining('secure MTN MoMo prompt'), findsNothing);
     expect(find.text('1,000'), findsOneWidget);
     expect(find.text('2,000'), findsOneWidget);
     expect(find.text('5,000'), findsOneWidget);
-    expect(find.text('10,000'), findsNWidgets(2));
+    expect(find.text('10,000'), findsOneWidget);
     expect(find.text('20,000'), findsNothing);
     expect(find.text('50,000'), findsNothing);
     expect(find.text('Bank transfer'), findsNothing);
     expect(find.text('EUR '), findsNothing);
   });
+
+  testWidgets('MoMo payee stays complete at narrow width and large text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await pumpRoute(
+      tester,
+      '/groups/col-church/contribute',
+      textScale: 2,
+      repository: CollectRepository.fixture(),
+    );
+    await tester.pumpAndSettle();
+    const payee = 'St Michel MTN MoMo';
+    await tester.scrollUntilVisible(
+      find.text(payee),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(tester.widget<Text>(find.text(payee)).maxLines, isNull);
+    expect(
+      tester.renderObject<RenderParagraph>(find.text(payee)).didExceedMaxLines,
+      isFalse,
+    );
+    await tester.enterText(find.byType(TextField).first, '1000');
+    await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text(payee),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(tester.widget<Text>(find.text(payee)).maxLines, isNull);
+    expect(
+      tester.renderObject<RenderParagraph>(find.text(payee)).didExceedMaxLines,
+      isFalse,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'MoMo groups typed amounts and quick picks without changing value',
+    (tester) async {
+      final repository = CollectRepository.fixture();
+      await pumpRoute(
+        tester,
+        '/groups/col-public-savings-fixture/contribute',
+        legalConsentAccepted: true,
+        repository: repository,
+      );
+      final field = find.byType(TextField).first;
+      expect(tester.widget<TextField>(field).controller!.text, isEmpty);
+      expect(tester.widget<TextField>(field).decoration!.hintText, '0');
+      await tester.enterText(field, '12345');
+      await tester.pump();
+      expect(tester.widget<TextField>(field).controller!.text, '12,345');
+
+      await tester.tap(find.text('2,000'));
+      await tester.pump();
+      expect(tester.widget<TextField>(field).controller!.text, '2,000');
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics &&
+              widget.properties.label == 'RWF 2000' &&
+              widget.properties.selected == true,
+        ),
+        findsOneWidget,
+      );
+
+      await tester.enterText(field, '1234');
+      await tester.pump();
+      expect(tester.widget<TextField>(field).controller!.text, '1,234');
+      await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
+      await tester.pumpAndSettle();
+      expect(find.text('Review contribution'), findsOneWidget);
+      expect(find.text('2 / 2'), findsNothing);
+      expect(
+        repository.state.paymentIntents.any(
+          (intent) =>
+              intent.collectionId == 'col-public-savings-fixture' &&
+              intent.expectedAmountRwf == 1234,
+        ),
+        isTrue,
+      );
+    },
+  );
 
   testWidgets('Contribute prioritizes public discovery when data is empty', (
     tester,
@@ -257,7 +366,7 @@ void main() {
     final activityCard = find
         .ancestor(
           of: find.byType(ActivityFeedItem).first,
-          matching: find.byType(CollectCard),
+          matching: find.byType(CollectSliverCardList),
         )
         .first;
     expect(activityCard, findsOneWidget);
@@ -266,7 +375,14 @@ void main() {
       findsNothing,
       reason: 'Dense activity content must not build a glass blur layer.',
     );
-    expect(find.byType(RepaintBoundary), findsWidgets);
+    expect(
+      find.ancestor(
+        of: find.byType(ActivityFeedItem).first,
+        matching: find.byType(RepaintBoundary),
+      ),
+      findsWidgets,
+    );
+    expect(find.byType(ActivityFeedItem).evaluate().length, lessThan(20));
   });
 
   testWidgets('ledger sort sheet avoids blurred backdrop on performance path', (
@@ -293,6 +409,55 @@ void main() {
       findsNothing,
       reason: 'Performance-critical sort sheet must not animate a blur layer.',
     );
+  });
+
+  testWidgets('settings identity omits redundant profile label', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/settings', legalConsentAccepted: true);
+
+    expect(find.text('038491'), findsOneWidget);
+    expect(find.text('Collect profile'), findsNothing);
+    expect(find.text('Complete your profile'), findsNothing);
+    expect(find.text('Account details'), findsOneWidget);
+    expect(find.text('MoMo and USSD'), findsNothing);
+    expect(find.text('App permissions'), findsOneWidget);
+    await tester.tap(find.text('038491'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('native_profile_editor')), findsOneWidget);
+  });
+
+  testWidgets('settings retains actionable incomplete profile prompt', (
+    tester,
+  ) async {
+    await pumpRoute(
+      tester,
+      '/settings',
+      legalConsentAccepted: true,
+      repository: CollectRepository.fixture(
+        profileOverride: _diasporaProfile.copyWith(revolutLink: ''),
+      ),
+    );
+
+    expect(find.text('Collect profile'), findsNothing);
+    expect(find.text('Complete your profile'), findsOneWidget);
+  });
+
+  testWidgets('account profile row omits redundant labels and still opens', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/settings/account', legalConsentAccepted: true);
+
+    expect(find.text('Profile and Collect ID'), findsNothing);
+    expect(find.text('Payment beneficiary managed centrally.'), findsNothing);
+    final profileRow = find.widgetWithText(CollectListTile, 'Profile');
+    expect(profileRow, findsOneWidget);
+    expect(tester.widget<CollectListTile>(profileRow).subtitle, isNull);
+    expect(find.text('Delete data'), findsOneWidget);
+    expect(find.text('Sign out'), findsOneWidget);
+    await tester.tap(profileRow);
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('native_profile_editor')), findsOneWidget);
   });
 
   testWidgets('notification settings persist repository preferences', (
@@ -326,7 +491,7 @@ void main() {
 
     expect(find.text('Security'), findsOneWidget);
     expect(find.text('Contribution verification'), findsOneWidget);
-    expect(find.text('Bank detail privacy'), findsOneWidget);
+    expect(find.text('Payment privacy'), findsOneWidget);
     expect(find.text('Report fraud'), findsNothing);
     expect(find.text('Lost device'), findsNothing);
     expect(find.text('Profile'), findsNothing);
@@ -635,11 +800,45 @@ void main() {
     expect(find.text('Gikundiro'), findsOneWidget);
   });
 
-  testWidgets('group admin sheet validates, announces, and completes safely', (
+  testWidgets('platform group owner cannot use member management controls', (
+    tester,
+  ) async {
+    await pumpRoute(
+      tester,
+      '/groups/col-church',
+      legalConsentAccepted: true,
+      repository: _PlatformOwnerRepository(),
+    );
+    expect(find.text('Manage'), findsNothing);
+    expect(find.text('Contribute'), findsWidgets);
+    await pumpRoute(
+      tester,
+      '/groups/col-church/manage',
+      legalConsentAccepted: true,
+      repository: _PlatformOwnerRepository(),
+    );
+    expect(find.text('Managed in Admin'), findsOneWidget);
+    expect(find.text('Archive group'), findsNothing);
+    expect(find.text('Transfer ownership'), findsNothing);
+    expect(find.text('Add admin'), findsNothing);
+  });
+
+  testWidgets('group Add admin uses Collect ID, not platform phone approval', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
-    final repository = CollectRepository.fixture();
+    final repository = CollectRepository.fixture(
+      fixtureAdditionalMembers: {
+        'col-church': [
+          CollectMember(
+            publicId: '123456',
+            role: 'member',
+            status: 'active',
+            joinedAt: DateTime.utc(2026, 8, 1),
+          ),
+        ],
+      },
+    );
     try {
       await pumpRoute(
         tester,
@@ -653,16 +852,10 @@ void main() {
         180,
         scrollable: find.byType(Scrollable).first,
       );
-      await tester.drag(
-        find.byType(ListView).first,
-        const Offset(0, -80),
-        warnIfMissed: false,
-      );
-      await tester.pump();
       await tester.tap(find.text('Add admin'));
       await tester.pumpAndSettle();
-
       expect(find.textContaining('six-digit Collect ID'), findsOneWidget);
+      expect(find.textContaining('pre-approved'), findsNothing);
       await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
       await tester.pump();
       expect(find.text('Enter a 6 digit Collect ID.'), findsOneWidget);
@@ -670,18 +863,27 @@ void main() {
         find.bySemanticsLabel(RegExp('Enter a 6 digit Collect ID')),
         findsOneWidget,
       );
-
       await tester.enterText(textFieldWithLabel('Collect ID'), '038491');
       await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
       await tester.pump();
       expect(find.textContaining('already own this group'), findsOneWidget);
-
+      await tester.enterText(textFieldWithLabel('Collect ID'), '654321');
+      await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
+      await tester.pumpAndSettle();
+      expect(find.text('Choose another active group member.'), findsOneWidget);
+      expect(find.text('Group admin added.'), findsNothing);
       await tester.enterText(textFieldWithLabel('Collect ID'), '123456');
       await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
       await tester.pumpAndSettle();
-
-      expect(find.text('Admin invitation created.'), findsOneWidget);
-      expect(find.text('Collect ID'), findsNothing);
+      expect(find.text('Choose another active group member.'), findsNothing);
+      expect(find.textContaining('pre-approved'), findsNothing);
+      expect(find.text('Group admin added.'), findsOneWidget);
+      expect(
+        (await repository.membersForCollection(
+          'col-church',
+        )).singleWhere((member) => member.publicId == '123456').role,
+        'admin',
+      );
     } finally {
       semantics.dispose();
     }
@@ -1169,12 +1371,16 @@ void main() {
 
     expect(find.text('Profile'), findsWidgets);
     await tester.scrollUntilVisible(
-      find.text('Rwanda uses MoMo'),
+      find.byKey(const ValueKey('profile_momo_number_input')),
       240,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pump();
-    expect(find.text('Rwanda uses MoMo'), findsOneWidget);
+    expect(find.text('Rwanda uses MoMo'), findsNothing);
+    expect(
+      find.byKey(const ValueKey('profile_momo_number_input')),
+      findsOneWidget,
+    );
     expect(tester.takeException(), isNull);
   });
 
@@ -1199,12 +1405,9 @@ void main() {
         scrollable: find.byType(Scrollable).first,
       );
       await tester.pump();
-      expect(find.text('Verified WhatsApp'), findsOneWidget);
+      expect(find.text('WhatsApp'), findsOneWidget);
       expect(find.textContaining(verifiedWhatsApp), findsOneWidget);
-      expect(
-        find.textContaining('RWF · Rwanda contributions use MoMo USSD.'),
-        findsOneWidget,
-      );
+      expect(find.text('Rwanda · RWF'), findsOneWidget);
       expect(
         find.byKey(const ValueKey('profile_revolut_name_input')),
         findsNothing,
@@ -1220,19 +1423,29 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('auth_country_row_GB_44')));
       await tester.pumpAndSettle();
 
-      expect(find.textContaining('GBP profile'), findsOneWidget);
-      final revolutField = find.descendant(
-        of: find.byKey(const ValueKey('profile_revolut_name_input')),
-        matching: find.byType(TextField),
+      expect(find.text('United Kingdom · GBP'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('profile_revolut_name_input')),
+        findsNothing,
       );
-      expect(revolutField, findsOneWidget);
-      await tester.enterText(revolutField, 'Jean Bosco');
+      expect(find.text('Name'), findsNothing);
+      expect(find.text('Account name'), findsNothing);
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('profile_revolut_link_input')),
+        160,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.enterText(
         find.descendant(
           of: find.byKey(const ValueKey('profile_revolut_link_input')),
           matching: find.byType(TextField),
         ),
         'https://revolut.me/jeanbosco',
+      );
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('profile_revolut_account_input')),
+        160,
+        scrollable: find.byType(Scrollable).first,
       );
       await tester.enterText(
         find.descendant(
@@ -1242,14 +1455,14 @@ void main() {
         'Personal EUR account',
       );
       await tester.pump();
-      await pressFilledButton(tester, 'Save profile');
+      await pressFilledButton(tester, 'Save');
       expect(find.text('Profile saved.'), findsOneWidget);
 
       final updated = repository.state.currentProfile!;
       expect(updated.whatsappPhone, verifiedWhatsApp);
       expect(updated.countryCode, 'GB');
       expect(updated.currencyCode, 'GBP');
-      expect(updated.revolutName, 'Jean Bosco');
+      expect(updated.isComplete, isTrue);
     },
   );
 

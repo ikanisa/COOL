@@ -132,9 +132,7 @@ void main() {
       final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
 
       final european = await repository.updateCurrentProfile(
-        displayName: 'Jean Bosco',
         countryCode: 'GB',
-        revolutName: 'Jean Bosco',
         revolutLink: 'https://revolut.me/jeanbosco',
         revolutAccount: 'Personal EUR account',
       );
@@ -142,12 +140,11 @@ void main() {
       expect(european.whatsappPhone, verifiedWhatsApp);
       expect(european.countryCode, 'GB');
       expect(european.currencyCode, 'GBP');
-      expect(european.revolutName, 'Jean Bosco');
+      expect(european.publicId, '038491');
       expect(european.isEuropean, isTrue);
       expect(european.isComplete, isTrue);
 
       final rwanda = await repository.updateCurrentProfile(
-        displayName: 'Jean Bosco',
         countryCode: 'RW',
         momoProvider: 'mtn_momo',
         momoNumber: '0788123456',
@@ -156,22 +153,22 @@ void main() {
       expect(rwanda.whatsappPhone, verifiedWhatsApp);
       expect(rwanda.countryCode, 'RW');
       expect(rwanda.currencyCode, 'RWF');
-      expect(rwanda.revolutName, isEmpty);
+      expect(rwanda.isComplete, isTrue);
       expect(rwanda.isEuropean, isFalse);
     },
   );
 
-  test('European profiles require a Revolut name', () async {
-    final repository = CollectRepository.fixture();
+  test(
+    'European profiles require payment details, not a personal name',
+    () async {
+      final repository = CollectRepository.fixture();
 
-    await expectLater(
-      repository.updateCurrentProfile(
-        displayName: 'Jean Bosco',
-        countryCode: 'DE',
-      ),
-      throwsA(isA<FormatException>()),
-    );
-  });
+      await expectLater(
+        repository.updateCurrentProfile(countryCode: 'DE'),
+        throwsA(isA<FormatException>()),
+      );
+    },
+  );
 
   test(
     'diaspora bank request snapshots destination and exact reference',
@@ -180,9 +177,7 @@ void main() {
         fixtureNow: DateTime.now().toUtc(),
       );
       await repository.updateCurrentProfile(
-        displayName: 'Jean Bosco',
         countryCode: 'DE',
-        revolutName: 'Jean Bosco',
         revolutLink: 'https://revolut.me/jeanbosco',
         revolutAccount: 'Personal EUR account',
       );
@@ -228,9 +223,7 @@ void main() {
       );
       final contributionCount = repository.state.contributions.length;
       await repository.updateCurrentProfile(
-        displayName: 'Jean Bosco',
         countryCode: 'DE',
-        revolutName: 'Jean Bosco',
         revolutLink: 'https://revolut.me/jeanbosco',
         revolutAccount: 'Personal EUR account',
       );

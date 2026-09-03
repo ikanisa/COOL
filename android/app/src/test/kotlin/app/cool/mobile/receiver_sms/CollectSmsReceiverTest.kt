@@ -53,6 +53,28 @@ class CollectSmsReceiverTest {
     }
 
     @Test
+    fun acceptsCompleteMaskedReceiptWithoutProviderReference() {
+        val body = "You have received 1,500 RWF from TEST MEMBER A (***456) " +
+            "at 2026-09-02 10:00:00. Your balance: 9,500 RWF."
+        assertTrue(receiver.isLikelyMomoReceipt("M-Money", body))
+        assertTrue(receiver.isLikelyMomoReceipt("M-Money", body.replace("9,500", "0")))
+        assertFalse(receiver.isLikelyMomoReceipt("M-Money", body.replace("***456", "***45")))
+        assertFalse(receiver.isLikelyMomoReceipt("M-Money", "Reversed. $body"))
+        assertFalse(receiver.isLikelyMomoReceipt("M-Money", "Withdrawal. $body"))
+        assertFalse(receiver.isLikelyMomoReceipt("M-Money", "OTP verification code. $body"))
+        assertFalse(receiver.isLikelyMomoReceipt("M-Money", body.substringBefore("Your balance")))
+    }
+
+    @Test
+    fun envelopePreservesExactEvidenceWhitespace() {
+        val body = "You have received 1,500 RWF from TEST MEMBER A (***456). Balance: 9,500 RWF."
+        assertNotEquals(
+            receiver.envelopeIdFor("user-1", "M-Money", body, 1_700_000_000_000),
+            receiver.envelopeIdFor("user-1", "M-Money", " $body\n", 1_700_000_000_000),
+        )
+    }
+
+    @Test
     fun rejectsMarketingAndUnrelatedFinancialSms() {
         assertFalse(
             receiver.isLikelyMomoReceipt(

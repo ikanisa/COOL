@@ -85,7 +85,10 @@ void main() {
         await _setViewport(tester, const Size(390, 844));
         final goldenKey = ValueKey<String>('golden-member-${surface.key}');
         final router = createAppRouter(initialLocation: surface.value);
-        addTearDown(router.dispose);
+        addTearDown(() async {
+          await tester.pumpWidget(const SizedBox.shrink());
+          router.dispose();
+        });
 
         await tester.pumpWidget(
           ProviderScope(
@@ -200,6 +203,9 @@ void main() {
             adminRepositoryProvider.overrideWithValue(
               const AdminEvidenceRepository(),
             ),
+            adminClockProvider.overrideWithValue(
+              () => DateTime(2026, 8, 20, 21, 4),
+            ),
             collectThemeModeProvider.overrideWith(
               (ref) => CollectThemeModeController(
                 initialMode: ThemeMode.dark,
@@ -275,6 +281,7 @@ Future<void> _pumpStableFrames(WidgetTester tester) async {
   for (var frame = 0; frame < 16; frame += 1) {
     await tester.pump(const Duration(milliseconds: 100));
   }
+  await tester.pumpAndSettle();
 }
 
 Future<void> _precacheOfficialLogo(WidgetTester tester) async {

@@ -7,6 +7,7 @@ import {
 } from "../_shared/cors.ts";
 import { requireUser, serviceClient } from "../_shared/supabase.ts";
 import { hashPhone, sha256Hex } from "../_shared/hash.ts";
+import { boundedRawSmsText } from "../_shared/raw_sms_input.ts";
 
 const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -24,13 +25,17 @@ function bounded(value: unknown, field: string, maxBytes: number): string {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (req.method !== "POST") return jsonResponse({ error: "Method not allowed" }, 405);
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+  if (req.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
+  }
   try {
     const { user } = await requireUser(req.headers.get("authorization"));
     const payload = await req.json() as Record<string, unknown>;
-    const rawSender = bounded(payload.raw_sender, "raw_sender", 96);
-    const rawBody = bounded(payload.raw_body, "raw_body", 4_096);
+    const rawSender = boundedRawSmsText(payload.raw_sender, "raw_sender", 96);
+    const rawBody = boundedRawSmsText(payload.raw_body, "raw_body", 4_096);
     const receiver = bounded(
       payload.receiver_momo_number,
       "receiver_momo_number",
@@ -64,10 +69,15 @@ Deno.serve(async (req) => {
     });
     if (error) {
       if (/not authorized/i.test(error.message)) {
-        return jsonResponse({ error: "Receiver or SMS consent is not authorized" }, 403);
+        return jsonResponse({
+          error: "Receiver or SMS consent is not authorized",
+        }, 403);
       }
       if (/rate limit/i.test(error.message)) {
-        return jsonResponse({ error: "SMS ingestion rate limit exceeded" }, 429);
+        return jsonResponse(
+          { error: "SMS ingestion rate limit exceeded" },
+          429,
+        );
       }
       throw error;
     }
@@ -95,8 +105,13 @@ Deno.serve(async (req) => {
       }, 502);
   } catch (error) {
     const authStatus = authErrorStatus(error);
-    if (authStatus) return jsonResponse({ error: safeErrorMessage(error) }, authStatus);
+    if (authStatus) {
+      return jsonResponse({ error: safeErrorMessage(error) }, authStatus);
+    }
     const message = safeErrorMessage(error);
-    return jsonResponse({ error: message }, /required|invalid|limit/i.test(message) ? 400 : 500);
+    return jsonResponse(
+      { error: message },
+      /required|invalid|limit/i.test(message) ? 400 : 500,
+    );
   }
 });

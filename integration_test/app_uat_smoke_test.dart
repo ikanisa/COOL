@@ -79,7 +79,7 @@ void main() {
         repository: repository,
       );
 
-      expect(find.text('Review contribution'), findsWidgets);
+      expect(find.text('Continue to MoMo'), findsWidgets);
       expect(find.text('Initiate payment'), findsNothing);
       expect(find.textContaining('manual'), findsNothing);
 
@@ -87,7 +87,7 @@ void main() {
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
       );
       final router = GoRouter.of(
-        tester.element(find.text('Review contribution').first),
+        tester.element(find.text('Continue to MoMo').first),
       );
       router.go('/groups/col-church');
       await pumpLaunchFrames(tester);

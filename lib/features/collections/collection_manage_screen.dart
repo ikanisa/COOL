@@ -47,6 +47,21 @@ class _CollectionManageScreenState
     final profile = state.currentProfile;
     final isOwner = profile != null && collection.creatorUserId == profile.id;
 
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      return ScreenScaffold(
+        title: 'Group settings',
+        subtitle: collection.title,
+        children: const [
+          MinimalStatePanel(
+            icon: CollectIcons.lock,
+            title: 'Managed in Admin',
+            message: 'This group is managed by Collect.',
+            tone: CollectStatusTone.privacy,
+          ),
+        ],
+      );
+    }
+
     if (!isOwner) {
       return ScreenScaffold(
         title: 'Group settings',
@@ -56,7 +71,7 @@ class _CollectionManageScreenState
             icon: CollectIcons.lock,
             title: 'Owner only',
             message:
-                'Only the current group owner can change group details, invite admins, transfer ownership, or archive this group.',
+                'Only the current group owner can change group details, add group admins, transfer ownership, or archive this group.',
             tone: CollectStatusTone.privacy,
           ),
           CollectButton(
@@ -75,6 +90,8 @@ class _CollectionManageScreenState
       children: [
         MoneyHeroCard(
           amount: summary.amountRaisedRwf,
+          currency: summary.currency,
+          totalsByCurrency: summary.totalsByCurrency,
           label: collection.title,
           chips: [CollectPeopleCount(count: summary.supporterCount)],
         ),
@@ -104,13 +121,15 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.admin,
               title: 'Add admin',
-              subtitle: 'Invite another member to help manage the group',
               onTap: _showAddAdminSheet,
             ),
             _ManageTile(
               icon: CollectIcons.ledger,
               title: 'Ledger',
-              subtitle: formatRwf(summary.amountRaisedRwf),
+              subtitle: formatCurrencyTotals(
+                summary.totalsByCurrency,
+                separator: '\n',
+              ),
               onTap: () => context.go('/groups/${widget.collectionId}/ledger'),
             ),
           ],
@@ -147,8 +166,8 @@ class _CollectionManageScreenState
       controller: _adminPublicId,
       actionLabel: 'Add admin',
       supportingText:
-          'Enter the six-digit Collect ID of the member you want to invite as an admin.',
-      successMessage: 'Admin invitation created.',
+          'Enter the six-digit Collect ID of an active group member.',
+      successMessage: 'Group admin added.',
       onSubmit: (publicId) async {
         await ref
             .read(collectRepositoryProvider.notifier)
@@ -263,6 +282,7 @@ class _CollectionManageScreenState
                       CollectSpacing.gap12,
                       Semantics(
                         liveRegion: true,
+                        excludeSemantics: true,
                         label: error,
                         child: Text(
                           error!,
@@ -353,6 +373,7 @@ class _CollectionManageScreenState
                     CollectSpacing.gap12,
                     Semantics(
                       liveRegion: true,
+                      excludeSemantics: true,
                       label: error,
                       child: Text(
                         error!,

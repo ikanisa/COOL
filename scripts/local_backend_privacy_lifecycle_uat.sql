@@ -52,6 +52,10 @@ display_name = case id
   when :'member_id'::uuid then 'Controlled member'
   when :'outsider_id'::uuid then 'Controlled outsider'
 end,
+country_code = 'RW',
+currency_code = 'RWF',
+momo_provider = 'mtn_momo',
+momo_number_verified_at = now(),
 momo_number = case id
   when :'owner_id'::uuid then '0780000001'
   when :'member_id'::uuid then '0780000002'
@@ -119,7 +123,7 @@ select set_config(
 );
 
 select pg_temp.assert_true(
-  (select count(*) = 0 from public.collection_receivers where collection_id = :'collection_id'),
+  not has_table_privilege('authenticated', 'public.collection_receivers', 'select'),
   'a non-admin member must not directly read receiver details'
 );
 
@@ -132,7 +136,7 @@ from public.create_contribution_intent(
 \gset
 
 select pg_temp.assert_true(
-  (select status = 'pending' from public.payment_intents where id = :'pending_intent_id'),
+  (select status = 'pending' from public.list_current_user_payment_intents() where id = :'pending_intent_id'),
   'a controlled contribution intent must start pending'
 );
 
@@ -156,7 +160,7 @@ select set_config(
 );
 
 select pg_temp.assert_true(
-  (select count(*) = 0 from public.payment_intents where id = :'pending_intent_id'),
+  (select count(*) = 0 from public.list_current_user_payment_intents() where id = :'pending_intent_id'),
   'an outsider must not read another member payment intent'
 );
 
@@ -286,10 +290,13 @@ select set_config(
 );
 
 select pg_temp.assert_true(
-  (select status = 'matched' from public.payment_intents where id = :'pending_intent_id'),
+  (select status = 'matched' from public.list_current_user_payment_intents() where id = :'pending_intent_id'),
   'successful allocation must confirm the pending intent'
 );
 
+-- Inspect exact-once storage as the local test operator. Member-facing reads
+-- above use the scoped RPC; financial base tables remain server-only.
+reset role;
 select pg_temp.assert_true(
   (
     select count(*) = 1
@@ -461,11 +468,11 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select count(*) = 2
-    from public.ledger_entries
-    where user_id = :'member_id'
+    select count(*) = 1
+    from public.list_current_user_contributions()
+    where collection_id = :'collection_id'
   ),
-  'the contributor must read their own group and member ledger credits'
+  'the contributor reads one confirmed contribution through the scoped RPC'
 );
 
 select pg_temp.assert_true(
@@ -481,9 +488,7 @@ select set_config(
 
 select pg_temp.assert_true(
   (
-    select count(*) = 1
-    from public.collection_receivers
-    where collection_id = :'collection_id'
+    select public.list_current_user_collections(:'collection_id')->0->>'receiver_momo_number' = '250780000001'
   ),
   'the collection owner must read the configured receiver'
 );
@@ -511,10 +516,10 @@ select pg_temp.assert_true(
 select pg_temp.assert_true(
   (
     select count(*) = 0
-    from public.ledger_entries
+    from public.list_current_user_contributions()
     where collection_id = :'collection_id'
   ),
-  'an outsider must not read private ledger entries'
+  'an outsider must not read private contribution records'
 );
 
 reset role;

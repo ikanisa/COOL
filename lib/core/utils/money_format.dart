@@ -29,6 +29,9 @@ String formatMoneyMinor(
   String currency = 'EUR',
   String? localeName,
 }) {
+  if (currency.trim().toUpperCase() == 'RWF') {
+    return formatRwf(amountMinor, localeName: localeName);
+  }
   if (localeName != null && localeName.trim().isNotEmpty) {
     try {
       return NumberFormat.currency(
@@ -53,4 +56,19 @@ String formatMoneyMinor(
     if (remaining > 1 && remaining % 3 == 1) buffer.write(',');
   }
   return '${currency.toUpperCase()} $sign$buffer.$fraction';
+}
+
+/// Amounts stay in their settlement currency. This never performs FX conversion.
+String formatCurrencyTotals(
+  Map<String, int> totals, {
+  String emptyCurrency = 'RWF',
+  String separator = ' · ',
+}) {
+  if (totals.isEmpty) return formatMoneyMinor(0, currency: emptyCurrency);
+  final currencies = totals.keys.toList()..sort();
+  return currencies
+      .map(
+        (currency) => formatMoneyMinor(totals[currency]!, currency: currency),
+      )
+      .join(separator);
 }

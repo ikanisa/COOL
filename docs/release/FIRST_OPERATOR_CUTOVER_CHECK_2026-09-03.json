@@ -1,0 +1,15 @@
+{
+  "started_at": "2026-09-03T07:46:58Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "check",
+  "selected_collect_id": "965511",
+  "verified_existing_identity": true,
+  "combined_role_before": false,
+  "approval_and_role_commit_attempted": false,
+  "provider_sends": 0,
+  "auth_users_created": 0,
+  "sessions_created": 0,
+  "group_roles_changed": 0,
+  "result": "SELECTED_OPERATOR_CONFIRMED",
+  "finished_at": "2026-09-03T07:46:58Z"
+}

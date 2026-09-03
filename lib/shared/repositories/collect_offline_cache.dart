@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/collect_models.dart';
+import '../models/member_history_page.dart';
 
 class CollectOfflineCache {
   const CollectOfflineCache({this.preferencesKey = _defaultKey});
 
-  static const _defaultKey = 'collect.offline_snapshot.v2';
+  static const _defaultKey = 'collect.offline_snapshot.v4';
+  static const _completeHistoryCacheKey = 'collect.offline_snapshot.v3';
+  static const _singleCurrencyCacheKey = 'collect.offline_snapshot.v2';
   static const _legacyPaymentCacheKey = 'collect.offline_snapshot.v1';
   static const _retiredNonProductionCollectionIds = <String>{
     '8db1f114-4f2b-4a6a-aec9-a0e33a1f1001',
@@ -20,46 +23,103 @@ class CollectOfflineCache {
   };
 
   final String preferencesKey;
+  static final Map<String, Future<void>> _writes = {};
+  static final Map<String, int> _clearEpochs = {};
+
+  // A sign-out clear must finish after already queued saves, never before them.
+  Future<void> _serialize(Future<void> Function() operation) {
+    final previous = _writes[preferencesKey];
+    final next = previous == null
+        ? operation()
+        : previous.catchError((Object _) {}).then((_) => operation());
+    late final Future<void> tail;
+    tail = next.whenComplete(() {
+      if (identical(_writes[preferencesKey], tail)) {
+        _writes.remove(preferencesKey);
+      }
+    });
+    _writes[preferencesKey] = tail;
+    return tail;
+  }
 
   Future<CollectOfflineSnapshot?> read() async {
+    final epoch = _clearEpochs[preferencesKey];
+    final pending = _writes[preferencesKey];
+    if (pending != null) await pending;
     final preferences = await SharedPreferences.getInstance();
+    if (epoch != _clearEpochs[preferencesKey]) return null;
     if (preferencesKey == _defaultKey) {
       await preferences.remove(_legacyPaymentCacheKey);
     }
-    final raw = preferences.getString(preferencesKey);
+    final sourceKey =
+        preferencesKey == _defaultKey && !preferences.containsKey(_defaultKey)
+        ? preferences.containsKey(_completeHistoryCacheKey)
+              ? _completeHistoryCacheKey
+              : _singleCurrencyCacheKey
+        : preferencesKey;
+    final raw = preferences.getString(sourceKey);
     if (raw == null || raw.trim().isEmpty) return null;
     try {
-      final snapshot = CollectOfflineSnapshot.fromJson(
-        Map<String, dynamic>.from(jsonDecode(raw) as Map),
-      );
+      final payload = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+      final cachedProfile = payload['current_profile'];
+      final containsLegacyNames =
+          cachedProfile is Map &&
+          (cachedProfile.containsKey('display_name') ||
+              cachedProfile.containsKey('revolut_name'));
+      final snapshot = CollectOfflineSnapshot.fromJson(payload);
       final sanitized = snapshot.withoutCollections(
         _retiredNonProductionCollectionIds,
       );
-      if (sanitized.collections.length != snapshot.collections.length ||
+      if (epoch != _clearEpochs[preferencesKey]) return null;
+      if (sourceKey != preferencesKey ||
+          containsLegacyNames ||
+          sanitized.collections.length != snapshot.collections.length ||
           sanitized.paymentIntents.length != snapshot.paymentIntents.length ||
           sanitized.contributions.length != snapshot.contributions.length) {
         await save(sanitized);
       }
       return sanitized;
     } catch (_) {
-      await preferences.remove(preferencesKey);
+      await preferences.remove(sourceKey);
       return null;
     }
   }
 
-  Future<void> save(CollectOfflineSnapshot snapshot) async {
+  Future<void> save(CollectOfflineSnapshot snapshot) =>
+      _serialize(() => _save(snapshot));
+
+  Future<void> _save(CollectOfflineSnapshot snapshot) async {
     final preferences = await SharedPreferences.getInstance();
     if (preferencesKey == _defaultKey) {
       await preferences.remove(_legacyPaymentCacheKey);
     }
-    await preferences.setString(preferencesKey, jsonEncode(snapshot.toJson()));
+    final saved = await preferences.setString(
+      preferencesKey,
+      jsonEncode(snapshot.toJson()),
+    );
+    if (saved && preferencesKey == _defaultKey) {
+      // Older clients must not interpret the new per-currency payload as zero.
+      await preferences.remove(_singleCurrencyCacheKey);
+      await preferences.remove(_completeHistoryCacheKey);
+    }
   }
 
-  Future<void> clear() async {
+  Future<void> clear() {
+    _clearEpochs.update(
+      preferencesKey,
+      (value) => value + 1,
+      ifAbsent: () => 1,
+    );
+    return _serialize(_clear);
+  }
+
+  Future<void> _clear() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(preferencesKey);
     if (preferencesKey == _defaultKey) {
       await preferences.remove(_legacyPaymentCacheKey);
+      await preferences.remove(_singleCurrencyCacheKey);
+      await preferences.remove(_completeHistoryCacheKey);
     }
   }
 }
@@ -72,6 +132,8 @@ class CollectOfflineSnapshot {
     required this.paymentIntents,
     required this.contributions,
     this.collectionSummaries = const {},
+    this.historyPage,
+    this.pendingIntentCount,
   });
 
   final DateTime savedAt;
@@ -80,6 +142,8 @@ class CollectOfflineSnapshot {
   final List<PaymentIntentModel> paymentIntents;
   final List<Contribution> contributions;
   final Map<String, CollectionSummary> collectionSummaries;
+  final MemberHistoryPage? historyPage;
+  final int? pendingIntentCount;
 
   bool get hasReadableData {
     return currentProfile != null ||
@@ -90,9 +154,17 @@ class CollectOfflineSnapshot {
 
   CollectOfflineSnapshot withoutCollections(Set<String> collectionIds) {
     if (collectionIds.isEmpty) return this;
+    if (historyPage != null &&
+        (collections.any((c) => collectionIds.contains(c.id)) ||
+            contributions.any((c) => collectionIds.contains(c.collectionId)))) {
+      // Complete aggregates cannot be adjusted from only a partial cached page.
+      throw const FormatException('Retired groups in paged history cache');
+    }
     return CollectOfflineSnapshot(
       savedAt: savedAt,
       currentProfile: currentProfile,
+      historyPage: historyPage,
+      pendingIntentCount: pendingIntentCount,
       collections: [
         for (final item in collections)
           if (!collectionIds.contains(item.id)) item,
@@ -113,6 +185,10 @@ class CollectOfflineSnapshot {
   }
 
   factory CollectOfflineSnapshot.fromJson(Map<String, dynamic> json) {
+    final contributions = [
+      for (final row in _list(json['contributions']))
+        Contribution.fromJson(Map<String, dynamic>.from(row as Map)),
+    ];
     return CollectOfflineSnapshot(
       savedAt: _dateTime(json['saved_at']),
       currentProfile: json['current_profile'] == null
@@ -128,13 +204,19 @@ class CollectOfflineSnapshot {
         for (final row in _list(json['payment_intents']))
           PaymentIntentModel.fromJson(Map<String, dynamic>.from(row as Map)),
       ],
-      contributions: [
-        for (final row in _list(json['contributions']))
-          Contribution.fromJson(Map<String, dynamic>.from(row as Map)),
-      ],
+      contributions: contributions,
+      historyPage: json['history_page'] == null
+          ? null
+          : MemberHistoryPage.fromJson(
+              Map<String, dynamic>.from(json['history_page'] as Map),
+              contributions,
+            ),
+      pendingIntentCount: json['pending_intent_count'] as int?,
       collectionSummaries: {
         for (final entry in _map(json['collection_summaries']).entries)
-          if (entry.value is Map)
+          if (entry.value is Map &&
+              ((entry.value as Map)['currency'] is String ||
+                  (entry.value as Map)['balances'] is List))
             entry.key: CollectionSummary.fromJson(
               Map<String, dynamic>.from(entry.value as Map),
             ),
@@ -144,7 +226,9 @@ class CollectOfflineSnapshot {
 
   Map<String, dynamic> toJson() {
     return {
-      'version': 2,
+      'version': 4,
+      'history_page': historyPage?.metadata,
+      'pending_intent_count': pendingIntentCount,
       'saved_at': savedAt.toUtc().toIso8601String(),
       'current_profile': currentProfile == null
           ? null
@@ -159,9 +243,17 @@ class CollectOfflineSnapshot {
       'collection_summaries': {
         for (final entry in collectionSummaries.entries)
           entry.key: {
-            'amount_raised_rwf': entry.value.amountRaisedRwf,
+            'currency': entry.value.currency,
             'supporter_count': entry.value.supporterCount,
-            'current_user_balance_rwf': entry.value.currentUserBalanceRwf,
+            'balances': [
+              for (final total in entry.value.totalsByCurrency.entries)
+                {
+                  'currency': total.key,
+                  'amount_raised_minor': total.value,
+                  'current_user_balance_minor':
+                      entry.value.ownBalancesByCurrency[total.key] ?? 0,
+                },
+            ],
           },
       },
     };
@@ -190,12 +282,10 @@ Map<String, dynamic> _profileToJson(CollectProfile profile) {
     'id': profile.id,
     'public_id': profile.publicId,
     'whatsapp_phone': profile.whatsappPhone,
-    'display_name': profile.displayName,
     'country_code': profile.countryCode,
     'currency_code': profile.currencyCode,
     'momo_provider': profile.momoProvider,
     'momo_number': profile.momoNumber,
-    'revolut_name': profile.revolutName,
     'revolut_link': profile.revolutLink,
     'revolut_account': profile.revolutAccount,
   };

@@ -47,7 +47,7 @@ class _NotificationSettingsScreenState
           children: [
             _SettingsSwitchRow(
               title: 'Contribution confirmations',
-              subtitle: 'Reconciled bank contributions and ledger updates.',
+              subtitle: 'Confirmed contributions and ledger updates.',
               value: preferences.contributionConfirmations,
               onChanged: state.currentProfile == null || _saving
                   ? null
@@ -194,11 +194,13 @@ class AppearanceSettingsScreen extends ConsumerWidget {
   }
 }
 
-class SecuritySettingsScreen extends StatelessWidget {
+class SecuritySettingsScreen extends ConsumerWidget {
   const SecuritySettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isRwanda =
+        ref.watch(collectRepositoryProvider).currentProfile?.isRwanda == true;
     return ScreenScaffold(
       title: 'Security',
       showHeader: false,
@@ -210,14 +212,17 @@ class SecuritySettingsScreen extends StatelessWidget {
       ),
       hero: const CollectScreenHero(
         title: 'Security',
-        subtitle: 'Account, bank-transfer, and privacy safeguards',
+        subtitle: 'Account, contribution, and privacy safeguards',
         icon: CollectIcons.shield,
       ),
       children: [
-        const InfoSecurityBanner(
-          title: 'Approve transfers in your bank app',
-          message:
-              'Collect never asks for a bank password, PIN, OTP, card detail, or banking-app credential.',
+        InfoSecurityBanner(
+          title: isRwanda
+              ? 'Approve payments in MoMo'
+              : 'Approve transfers in your bank app',
+          message: isRwanda
+              ? 'Never share your MoMo PIN. Enter it only in your provider’s payment prompt.'
+              : 'Collect never asks for a bank password, PIN, card detail, or banking-app credential.',
           tone: CollectStatusTone.warning,
         ),
         _SettingsOptionPanel(
@@ -229,17 +234,18 @@ class SecuritySettingsScreen extends StatelessWidget {
               onTap: () => context.go('/settings/account'),
             ),
             _SettingsLinkRow(
-              icon: CollectIcons.bank,
+              icon: isRwanda ? Icons.smartphone_rounded : CollectIcons.bank,
               title: 'Contribution verification',
-              subtitle:
-                  'Only statement-reconciled bank receipts reach ledgers.',
+              subtitle: isRwanda
+                  ? 'Confirmed MoMo receipts update your contribution records.'
+                  : 'Only statement-reconciled bank receipts reach ledgers.',
               onTap: () => context.go('/activity'),
             ),
             _SettingsLinkRow(
               icon: CollectIcons.privacy,
-              title: 'Bank detail privacy',
+              title: 'Payment privacy',
               subtitle:
-                  'Approved beneficiary details are visible only to signed-in members.',
+                  'Personal payment details and receipt evidence stay private.',
               onTap: () => context.go('/settings/legal/privacy'),
             ),
             _SettingsLinkRow(

@@ -337,6 +337,72 @@ class CollectCard extends StatelessWidget {
   }
 }
 
+/// A flat card whose read-only rows are built only near the viewport.
+///
+/// Use in ScreenScaffold.sliver, not inside a Column or shrink-wrapped list.
+/// The list retains the normal card's spacing, surface and corner radius.
+class CollectSliverCardList extends StatelessWidget {
+  const CollectSliverCardList({
+    required this.itemCount,
+    required this.itemBuilder,
+    this.separatorBuilder,
+    this.topSpacing = 0,
+    super.key,
+  });
+
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+  final IndexedWidgetBuilder? separatorBuilder;
+  final double topSpacing;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final brightness = Theme.of(context).brightness;
+    const emphasis = CollectRuntimeCardEmphasis.flat;
+    return SliverPadding(
+      padding: EdgeInsets.only(top: topSpacing),
+      sliver: DecoratedSliver(
+        decoration: BoxDecoration(
+          color:
+              CollectRuntimeTokens.cardBackground(
+                colors,
+                brightness,
+                emphasis,
+                null,
+              ).withValues(
+                alpha: CollectRuntimeTokens.cardOpacity(brightness, emphasis),
+              ),
+          borderRadius: CollectRuntimeTokens.cardRadius(emphasis),
+        ),
+        sliver: SliverPadding(
+          padding: CollectSpacing.cardPadding,
+          sliver: SliverList.builder(
+            itemCount: itemCount,
+            addAutomaticKeepAlives: false,
+            itemBuilder: (context, index) {
+              final item = itemBuilder(context, index);
+              return Material(
+                key: item.key,
+                type: MaterialType.transparency,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    item,
+                    if (separatorBuilder != null && index < itemCount - 1)
+                      separatorBuilder!(context, index),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 enum CollectCardEmphasis { flat, normal, hero, tonal, glow, outline, compact }
 
 extension on CollectCardEmphasis {

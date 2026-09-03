@@ -8,6 +8,7 @@ FLUTTER="${FLUTTER:-$(command -v flutter || true)}"
 XCRUN="${XCRUN:-/usr/bin/xcrun}"
 XCODEBUILD="${XCODEBUILD:-/usr/bin/xcodebuild}"
 DEVICE_ID="${IOS_CAMERA_UAT_SIMULATOR_ID:-}"
+CONFIRMED_DISPOSABLE_DEVICE_ID="${IOS_UAT_CONFIRM_DISPOSABLE_SIMULATOR:-}"
 FLAVOR="${IOS_CAMERA_UAT_FLAVOR:-staging}"
 BUNDLE_ID="${IOS_CAMERA_UAT_BUNDLE_ID:-app.cool.mobile.staging}"
 TEST_TARGET="${IOS_CAMERA_UAT_TEST_TARGET:-integration_test/mobile_camera_permission_device_uat_test.dart}"
@@ -105,7 +106,8 @@ case "${1:-}" in
   "") ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Required: IOS_CAMERA_UAT_SIMULATOR_ID (exact booted iOS Simulator ID).\n'
+    printf 'Required: IOS_CAMERA_UAT_SIMULATOR_ID and matching IOS_UAT_CONFIRM_DISPOSABLE_SIMULATOR (approved disposable simulator only).\n'
+    printf 'This runner uninstalls its staging fixture and changes its camera permission; never target an existing signed-in app.\n'
     printf 'Optional: FLUTTER XCRUN XCODEBUILD IOS_CAMERA_UAT_TIMEOUT_SECONDS IOS_CAMERA_UAT_EVIDENCE_DIR.\n'
     exit 0
     ;;
@@ -127,6 +129,11 @@ if [[ ! -x "$XCRUN" || ! -x "$XCODEBUILD" ]]; then
 fi
 if [[ -z "$DEVICE_ID" ]]; then
   reason="IOS_CAMERA_UAT_SIMULATOR_ID is required; the harness never auto-selects a simulator."
+  write_early_failure_summary "$reason"
+  fail "$reason"
+fi
+if [[ "$CONFIRMED_DISPOSABLE_DEVICE_ID" != "$DEVICE_ID" ]]; then
+  reason="Refusing fixture or camera permission changes without exact disposable-simulator confirmation."
   write_early_failure_summary "$reason"
   fail "$reason"
 fi
@@ -197,9 +204,11 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 
 BUILD_DENIED_LOG="$EVIDENCE_DIR/build_denied.txt"
+BUILD_GRANTED_LOG="$EVIDENCE_DIR/build_granted.txt"
 DENIED_LOG="$EVIDENCE_DIR/denied_phase.txt"
 GRANTED_LOG="$EVIDENCE_DIR/granted_phase.txt"
 BUILD_DENIED_RESULT="$EVIDENCE_DIR/build_denied_result.json"
+BUILD_GRANTED_RESULT="$EVIDENCE_DIR/build_granted_result.json"
 DENIED_RESULT="$EVIDENCE_DIR/denied_phase_result.json"
 GRANTED_RESULT="$EVIDENCE_DIR/granted_phase_result.json"
 
@@ -387,6 +396,7 @@ run_phase() {
       --driver="$DRIVER" \
       --target="$TEST_TARGET" \
       -d "$DEVICE_ID" \
+      --use-application-binary="$APP_BINARY" \
       --flavor "$FLAVOR" \
       --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=false \
       --dart-define="COLLECT_CAMERA_PERMISSION_UAT_PHASE=$phase"
@@ -399,6 +409,7 @@ run_phase() {
     --driver="$DRIVER" \
     --target="$TEST_TARGET" \
     -d "$DEVICE_ID" \
+    --use-application-binary="$APP_BINARY" \
     --flavor "$FLAVOR" \
     --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=false \
     --dart-define="COLLECT_CAMERA_PERMISSION_UAT_PHASE=$phase"
@@ -440,12 +451,22 @@ else
 fi
 
 "$XCRUN" simctl terminate "$DEVICE_ID" "$BUNDLE_ID" >/dev/null 2>&1 || true
-if ! record_privacy_action granted grant; then rc=1; fi
 set +e
-run_phase granted "$GRANTED_LOG" "$GRANTED_RESULT"
-granted_rc=$?
+build_phase granted "$BUILD_GRANTED_LOG" "$BUILD_GRANTED_RESULT"
+build_granted_rc=$?
 set -e
-if [[ "$granted_rc" -ne 0 ]] &&
+granted_rc=1
+if [[ "$build_granted_rc" -eq 0 ]] && validate_binary; then
+  if "$XCRUN" simctl install "$DEVICE_ID" "$APP_BINARY" && record_privacy_action granted grant; then
+    set +e
+    run_phase granted "$GRANTED_LOG" "$GRANTED_RESULT"
+    granted_rc=$?
+    set -e
+  fi
+else
+  rc=1
+fi
+if [[ "$granted_rc" -ne 0 && -f "$GRANTED_LOG" ]] &&
   ! grep -Fq 'collect_camera_permission_uat:camera-granted-phase-requested' "$GRANTED_LOG"; then
   # One bounded retry is allowed only when the driver never reached the test
   # phase (for example, an intermittent Simulator VM-service attach failure).
@@ -469,6 +490,8 @@ fi
   [[ -f "$BUILD_DENIED_LOG" ]] && cat "$BUILD_DENIED_LOG"
   printf '\n=== denied phase ===\n'
   [[ -f "$DENIED_LOG" ]] && cat "$DENIED_LOG"
+  printf '\n=== build granted ===\n'
+  [[ -f "$BUILD_GRANTED_LOG" ]] && cat "$BUILD_GRANTED_LOG"
   printf '\n=== granted phase ===\n'
   if [[ -f "$EVIDENCE_DIR/granted_phase_attach_attempt_1.txt" ]]; then
     printf '%s\n' '[bounded attach attempt 1 rejected]'
@@ -553,7 +576,7 @@ else
 fi
 
 timed_out=0
-for result_file in "$BUILD_DENIED_RESULT" "$DENIED_RESULT" "$GRANTED_RESULT"; do
+for result_file in "$BUILD_DENIED_RESULT" "$BUILD_GRANTED_RESULT" "$DENIED_RESULT" "$GRANTED_RESULT"; do
   if [[ -f "$result_file" ]] && ruby -r json -e 'exit(JSON.parse(File.read(ARGV[0]))["timed_out"] ? 0 : 1)' "$result_file"; then
     timed_out=1
     rc=124
@@ -639,7 +662,9 @@ puts JSON.pretty_generate(
       "native_permission_dialog_interaction" => false,
       "physical_iphone" => false,
       "voiceover" => false,
-      "claim" => "This proves iOS Simulator TCC denial, in-app denial recovery UI, and the host-granted Camera path across two controlled staging launches. It does not prove a continuous in-session retry, native permission-dialog interaction, physical-iPhone behavior, or VoiceOver operation."
+      "claim" => status == "pass" && failure_keys.empty? ?
+        "This proves iOS Simulator TCC denial, in-app denial recovery UI, and the host-granted Camera path across two controlled staging launches. It does not prove a continuous in-session retry, native permission-dialog interaction, physical-iPhone behavior, or VoiceOver operation." :
+        "This run is not accepted. Consult failure_keys and individual phases; no complete camera-denial/recovery acceptance is established."
     },
     "secret_handling" => "The retained screenshot contains fixture-only denial recovery UI. No camera frame, photo, gallery image, SMS or OTP content, phone or payment data, credential, signing material, or production customer data is retained."
   }

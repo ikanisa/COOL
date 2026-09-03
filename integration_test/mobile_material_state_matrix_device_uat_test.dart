@@ -6,6 +6,7 @@ import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -165,18 +166,18 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     case 'missing-group':
       return;
     case 'auth-phone-valid':
-      await tester.enterText(find.byType(TextField).first, '+250700000001');
+      await tester.enterText(find.byType(TextField).first, '788123456');
       await _pumpFrames(tester, count: 3);
       return;
     case 'auth-phone-confirmation':
-      await tester.enterText(find.byType(TextField).first, '+250700000001');
+      await tester.enterText(find.byType(TextField).first, '788123456');
       await _pumpFrames(tester, count: 2);
       await tester.tap(find.text('Send WhatsApp code'));
       await _pumpFrames(tester, count: 4);
       return;
     case 'auth-otp-empty':
     case 'auth-otp-invalid':
-      await tester.enterText(find.byType(TextField).first, '+250700000001');
+      await tester.enterText(find.byType(TextField).first, '788123456');
       await _pumpFrames(tester, count: 2);
       await tester.tap(find.text('Send WhatsApp code'));
       await _pumpFrames(tester, count: 4);
@@ -192,21 +193,19 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     case 'contribution-entry-valid':
     case 'contribution-review':
     case 'contribution-invalid-amount':
+    case 'bank-contribution-entry-valid':
+    case 'bank-contribution-review':
+    case 'bank-contribution-invalid-amount':
       await _pumpUntilVisible(tester, _amountTextField());
-      final amountController = tester
-          .widget<TextField>(_amountTextField().first)
-          .controller;
-      expect(amountController, isNotNull);
-      final amountText = spec.name == 'contribution-invalid-amount'
-          ? '0.00'
-          : '12.34';
-      amountController!.value = TextEditingValue(
-        text: amountText,
-        selection: TextSelection.collapsed(offset: amountText.length),
-      );
+      final isBank = spec.repositoryKind == _RepositoryKind.diaspora;
+      final invalid = spec.name.endsWith('invalid-amount');
+      final amountText = invalid
+          ? (isBank ? '0.00' : '0')
+          : (isBank ? '12.34' : '1234');
+      await tester.enterText(_amountTextField().first, amountText);
       await _pumpFrames(tester, count: 3);
-      if (spec.name != 'contribution-entry-valid') {
-        if (spec.name == 'contribution-invalid-amount') {
+      if (!spec.name.endsWith('entry-valid')) {
+        if (invalid) {
           final amountField = tester.widget<TextField>(
             _amountTextField().first,
           );
@@ -218,7 +217,7 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
         }
         final reviewButton = find.widgetWithText(
           FilledButton,
-          'Review transfer',
+          isBank ? 'Review transfer' : 'Continue to MoMo',
         );
         expect(reviewButton, findsOneWidget);
         await tester.ensureVisible(reviewButton);
@@ -347,23 +346,42 @@ const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'contribution-entry-empty',
     '/groups/col-church/contribute',
-    'Review transfer',
+    'Continue to MoMo',
   ),
   _StateSpec(
     'contribution-entry-valid',
     '/groups/col-church/contribute',
-    'Review transfer',
-    expectedFieldValue: '12.34',
+    'Continue to MoMo',
+    expectedFieldValue: '1,234',
   ),
   _StateSpec(
     'contribution-review',
     '/groups/col-church/contribute',
-    'Open Revolut',
+    'Open MoMo USSD',
   ),
   _StateSpec(
     'contribution-invalid-amount',
     '/groups/col-church/contribute',
+    'Enter an amount above RWF 0.',
+  ),
+  _StateSpec(
+    'bank-contribution-entry-valid',
+    '/groups/col-church/contribute',
+    'Review transfer',
+    repositoryKind: _RepositoryKind.diaspora,
+    expectedFieldValue: '12.34',
+  ),
+  _StateSpec(
+    'bank-contribution-review',
+    '/groups/col-church/contribute',
+    'Open Revolut',
+    repositoryKind: _RepositoryKind.diaspora,
+  ),
+  _StateSpec(
+    'bank-contribution-invalid-amount',
+    '/groups/col-church/contribute',
     'Enter a valid amount above EUR 0.00.',
+    repositoryKind: _RepositoryKind.diaspora,
   ),
   _StateSpec(
     'account-delete-disabled',
@@ -389,7 +407,7 @@ const _stateSpecs = <_StateSpec>[
   ),
 ];
 
-enum _RepositoryKind { fixture, empty }
+enum _RepositoryKind { fixture, empty, diaspora }
 
 class _StateSpec {
   const _StateSpec(
@@ -411,6 +429,17 @@ class _StateSpec {
   CollectRepository createRepository() => switch (repositoryKind) {
     _RepositoryKind.fixture => CollectRepository.fixture(),
     _RepositoryKind.empty => CollectRepository.fixture(seeded: false),
+    _RepositoryKind.diaspora => CollectRepository.fixture(
+      profileOverride: const CollectProfile(
+        id: 'local-user',
+        publicId: '038491',
+        whatsappPhone: '+250788123456',
+        countryCode: 'DE',
+        currencyCode: 'EUR',
+        revolutLink: 'https://revolut.me/synthetic',
+        revolutAccount: 'Synthetic account',
+      ),
+    ),
   };
 }
 

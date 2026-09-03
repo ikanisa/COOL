@@ -1,0 +1,47 @@
+{
+  "started_at": "2026-09-03T07:52:36Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "http_checks": [
+    {
+      "check": "public_runtime",
+      "http_status": 200,
+      "pass": true
+    },
+    {
+      "check": "legacy_profile_denied",
+      "http_status": 401,
+      "pass": true
+    },
+    {
+      "check": "member_profile_anonymous_denied",
+      "http_status": 401,
+      "pass": true
+    },
+    {
+      "check": "profile_names_anonymous_denied",
+      "http_status": 401,
+      "pass": true
+    },
+    {
+      "check": "receipt_ingestion_anonymous_denied",
+      "http_status": 401,
+      "pass": true
+    },
+    {
+      "check": "receipt_parser_missing_internal_secret_denied",
+      "http_status": 401,
+      "pass": true
+    }
+  ],
+  "provider_sends": 0,
+  "auth_sessions_created": 0,
+  "database_writes": 0,
+  "database_member_contracts": {
+    "status": "pass",
+    "profiles_checked": 8,
+    "transaction": "READ ONLY / ROLLBACK",
+    "real_authentication_session": false
+  },
+  "result": "PUBLIC_HTTP_AND_READ_ONLY_MEMBER_CONTRACTS_PASS",
+  "finished_at": "2026-09-03T07:52:43Z"
+}

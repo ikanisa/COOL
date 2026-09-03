@@ -178,7 +178,10 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                                   : CollectIcons.lock,
                             ),
                             CollectStatusChip(
-                              label: formatRwf(summary.amountRaisedRwf),
+                              label: formatCurrencyTotals(
+                                summary.totalsByCurrency,
+                                separator: '\n',
+                              ),
                               tone: CollectStatusTone.info,
                               icon: CollectIcons.ledger,
                             ),

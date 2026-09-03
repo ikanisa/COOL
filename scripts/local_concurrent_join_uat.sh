@@ -5,6 +5,11 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 DB_CONTAINER="${SUPABASE_LOCAL_DB_CONTAINER:-supabase_db_collect}"
+DB_NAME="${COLLECT_UAT_DATABASE:-}"
+if [[ "$DB_CONTAINER" != 'supabase_db_collect' || "$DB_NAME" != 'collect_uat_20260902' ]]; then
+  printf '[concurrent-join-uat][FAIL] Explicit disposable Collect UAT database required.\n' >&2
+  exit 1
+fi
 OWNER_ID="10000000-0000-4000-8000-000000000901"
 MEMBER_ID="10000000-0000-4000-8000-000000000902"
 COLLECTION_ID="20000000-0000-4000-8000-000000000901"
@@ -18,7 +23,7 @@ fi
 mkdir -p "$EVIDENCE_DIR"
 
 cleanup() {
-  docker exec -i "$DB_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 >/dev/null <<SQL
+  docker exec -i "$DB_CONTAINER" psql -U postgres -d "$DB_NAME" -v ON_ERROR_STOP=1 >/dev/null <<SQL
 delete from public.audit_logs where entity_id = '$COLLECTION_ID'::uuid;
 delete from public.collections where id = '$COLLECTION_ID'::uuid;
 delete from auth.users where id in ('$OWNER_ID'::uuid, '$MEMBER_ID'::uuid);
@@ -27,7 +32,7 @@ SQL
 trap cleanup EXIT
 cleanup
 
-docker exec -i "$DB_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 >"$EVIDENCE_DIR/setup.log" <<SQL
+docker exec -i "$DB_CONTAINER" psql -U postgres -d "$DB_NAME" -v ON_ERROR_STOP=1 >"$EVIDENCE_DIR/setup.log" <<SQL
 insert into auth.users (
   id, aud, role, phone, phone_confirmed_at,
   raw_app_meta_data, raw_user_meta_data, created_at, updated_at
@@ -66,10 +71,10 @@ select pg_sleep(0.25);
 select public.join_group_by_share_code('$SHARE_CODE');
 commit;"
 
-docker exec "$DB_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+docker exec "$DB_CONTAINER" psql -U postgres -d "$DB_NAME" -v ON_ERROR_STOP=1 \
   -c "$join_sql" >"$EVIDENCE_DIR/join-1.log" 2>&1 &
 join_one_pid=$!
-docker exec "$DB_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+docker exec "$DB_CONTAINER" psql -U postgres -d "$DB_NAME" -v ON_ERROR_STOP=1 \
   -c "$join_sql" >"$EVIDENCE_DIR/join-2.log" 2>&1 &
 join_two_pid=$!
 
@@ -83,7 +88,7 @@ if [[ "$join_status" -ne 0 ]]; then
   exit 1
 fi
 
-docker exec -i "$DB_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 >"$EVIDENCE_DIR/verification.log" <<SQL
+docker exec -i "$DB_CONTAINER" psql -U postgres -d "$DB_NAME" -v ON_ERROR_STOP=1 >"$EVIDENCE_DIR/verification.log" <<SQL
 do \$\$
 declare
   membership_count integer;

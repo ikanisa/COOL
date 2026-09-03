@@ -287,12 +287,12 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     );
   }
 
-  Future<AdminListResult> _load() {
+  Future<AdminListResult> _load() async {
     final countryScope = ref.read(adminCountryScopeProvider);
     final scoped =
         adminRpcUsesCountryScope(widget.rpcName) &&
         countryScope != AdminCountryScope.all;
-    return ref
+    final result = await ref
         .read(adminRepositoryProvider)
         .list(
           widget.rpcName,
@@ -303,6 +303,12 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
           sortBy: _sortBy,
           countryCode: countryScope.rpcCode,
         );
+    if (mounted) {
+      ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
+        adminClockProvider,
+      )();
+    }
+    return result;
   }
 
   void _refresh({bool resetPage = false}) {

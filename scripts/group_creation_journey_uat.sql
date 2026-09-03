@@ -44,6 +44,10 @@ set public_id = case id
       when :'outsider_id'::uuid then '810003'
       when :'admin_id'::uuid then '810004'
     end,
+    country_code = 'RW',
+    currency_code = 'RWF',
+    momo_provider = 'mtn_momo',
+    momo_number_verified_at = now(),
     momo_number = case id
       when :'owner_id'::uuid then '0788100001'
       when :'member_id'::uuid then '0788100002'
@@ -70,7 +74,18 @@ select pg_temp.assert_true(
 insert into public.admin_user_roles (user_id, role_id, granted_by, reason)
 select :'admin_id', role.id, :'admin_id', 'Rollback-only group journey UAT'
 from public.admin_roles role
-where role.name = 'group_ops_admin';
+where role.name = 'platform_owner';
+
+select pg_temp.assert_true(
+  not exists (
+    select 1 from public.admin_user_roles
+    where user_id in (:'owner_id', :'member_id') and revoked_at is null
+  ) and not exists (
+    select 1 from public.profiles
+    where id in (:'owner_id', :'member_id') and coalesce(is_platform_admin, false)
+  ),
+  'ordinary group creator and group admin must have no platform Admin approval or role'
+);
 
 set local role authenticated;
 select set_config(
@@ -82,7 +97,7 @@ select set_config(
 do $$
 begin
   begin
-    perform public.create_group_with_owner_attested(
+    perform public.create_private_group_with_owner_attested(
       'Blocked without consent',
       'UAT',
       '0788100001',
@@ -91,7 +106,6 @@ begin
       'ikimina',
       'group_savings',
       'Group savings',
-      false,
       null
     );
     raise exception 'creation_without_consent_unexpectedly_succeeded';
@@ -138,7 +152,7 @@ select public.mint_native_action_capability(
     'group_collection_type', 'ikimina',
     'group_category_subtype', 'group_savings',
     'group_purpose_label', 'Group savings',
-    'group_is_public', true
+    'group_is_public', false
   ),
   encode(extensions.digest('+250788100001', 'sha256'), 'hex'),
   'app.cool.mobile',
@@ -160,7 +174,7 @@ select set_config('collect.uat.native_capability', :'native_capability', true);
 do $$
 begin
   begin
-    perform public.create_group_with_owner_attested(
+    perform public.create_private_group_with_owner_attested(
       'Capability payload substitution',
       'Rollback-only end-to-end group lifecycle',
       '0788100001',
@@ -169,7 +183,6 @@ begin
       'ikimina',
       'group_savings',
       'Group savings',
-      true,
       current_setting('collect.uat.native_capability')::uuid
     );
     raise exception 'capability_payload_substitution_unexpectedly_succeeded';
@@ -181,7 +194,7 @@ begin
 end;
 $$;
 
-select public.create_group_with_owner_attested(
+select public.create_private_group_with_owner_attested(
   'Group journey UAT',
   'Rollback-only end-to-end group lifecycle',
   '0788100001',
@@ -190,7 +203,6 @@ select public.create_group_with_owner_attested(
   'ikimina',
   'group_savings',
   'Group savings',
-  true,
   :'native_capability'
 ) as collection_id
 \gset
@@ -198,7 +210,7 @@ select public.create_group_with_owner_attested(
 do $$
 begin
   begin
-    perform public.create_group_with_owner_attested(
+    perform public.create_private_group_with_owner_attested(
       'Group journey UAT',
       'Rollback-only end-to-end group lifecycle',
       '0788100001',
@@ -207,7 +219,6 @@ begin
       'ikimina',
       'group_savings',
       'Group savings',
-      true,
       current_setting('collect.uat.native_capability')::uuid
     );
     raise exception 'consumed_capability_reuse_unexpectedly_succeeded';
@@ -228,13 +239,24 @@ select set_config('collect.uat.share_code', :'share_code', true);
 
 select pg_temp.assert_true(
   (
-    select c.public_status = 'public_requested'
+    select c.public_status = 'private'
       and c.visibility = 'private'
       and c.archived_at is null
     from public.collections c
     where c.id = :'collection_id'
   ),
-  'new public groups must remain private while review is pending'
+  'member-created groups must be private by database contract'
+);
+
+select pg_temp.assert_true(
+  exists (
+    select 1 from public.collection_members
+    where collection_id = :'collection_id' and user_id = :'owner_id'
+      and role = 'owner' and status = 'active'
+  ) and not exists (
+    select 1 from public.admin_user_roles where user_id = :'owner_id'
+  ),
+  'ordinary creator becomes group owner without acquiring platform Admin access'
 );
 
 select pg_temp.assert_true(
@@ -303,6 +325,7 @@ begin
     );
     raise exception 'delegated_admin_receiver_redirect_unexpectedly_succeeded';
   exception
+    when insufficient_privilege then null; -- retired direct receiver mutation
     when others then
       if sqlerrm = 'delegated_admin_receiver_redirect_unexpectedly_succeeded' then raise; end if;
       if sqlerrm not like '%Only the group owner%' then raise; end if;
@@ -451,21 +474,25 @@ select set_config(
   json_build_object('sub', :'admin_id', 'role', 'authenticated')::text,
   true
 );
-select public.admin_update_collection_support_status(
-  :'collection_id',
-  'public_approved',
-  'UAT approval contract'
-);
+do $$ begin
+  perform public.admin_update_collection_support_status(
+    current_setting('collect.uat.collection_id')::uuid,
+    'public_approved', 'UAT private group boundary'
+  );
+  raise exception 'private_group_published_unexpectedly';
+exception when others then
+  if sqlerrm <> 'Group does not have a pending public request' then raise; end if;
+end $$;
 
 reset role;
 select pg_temp.assert_true(
   (
-    select c.public_status = 'public_approved'
-      and c.visibility = 'public_approved'
+    select c.public_status = 'private'
+      and c.visibility = 'private'
     from public.collections c
     where c.id = :'collection_id'
   ),
-  'authorized public approval must publish the group'
+  'member-created group must remain private after a rejected publication request'
 );
 
 set local role authenticated;
@@ -488,7 +515,7 @@ begin
   exception
     when others then
       if sqlerrm = 'public_outsider_intent_unexpectedly_succeeded' then raise; end if;
-      if sqlerrm not like '%Join this group%' then raise; end if;
+      if sqlerrm <> 'Private group membership is required' then raise; end if;
   end;
 end;
 $$;

@@ -1,0 +1,40 @@
+{
+  "captured_at": "2026-09-02T21:32:20Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "read_only_no_history_repair",
+  "comparisons": [
+    {
+      "version": "202605230012",
+      "remote_name": "admin_user_receiver_management",
+      "local_file": "202605230012_admin_rpc_grants.sql",
+      "remote_statement_count": 7,
+      "local_sha256": "a870c218f2d470d9df2601f4cde366d8c2e51de305a7ed73d88ab96176e0e815",
+      "remote_joined_sha256": "3293539ce2882501d926c10aef766be5f0e0f6efaba00c356db62be76871222e",
+      "exact_joined_text_match": false,
+      "whitespace_comment_insensitive_match": false
+    },
+    {
+      "version": "202605230013",
+      "remote_name": "admin_role_audit_actions",
+      "local_file": "202605230013_admin_settings_flags.sql",
+      "remote_statement_count": 2,
+      "local_sha256": "f6d931654c03f4698e508d2ebb5add8ccac2eb8344e975ea2ac42d236a38ecf5",
+      "remote_joined_sha256": "312aa02fc54825b121c4e053c04430ea29bbc39c1e5659b142f94704840adb97",
+      "exact_joined_text_match": false,
+      "whitespace_comment_insensitive_match": false
+    },
+    {
+      "version": "202605230014",
+      "remote_name": "admin_new_rpc_privileges",
+      "local_file": "202605230014_admin_review_hardening.sql",
+      "remote_statement_count": 4,
+      "local_sha256": "3eac6eccae5b820234da0f093b1be1980c48d02900d331077529bf8c96d6e54d",
+      "remote_joined_sha256": "1ddc0d562a2ad81c15c2214a7c9ffda6b6d7ad20fd715fe53bdd4c5cf0386897",
+      "exact_joined_text_match": false,
+      "whitespace_comment_insensitive_match": false
+    }
+  ],
+  "limitations": [
+    "Text comparison is not SQL semantic equivalence or a complete deployed-schema diff"
+  ]
+}

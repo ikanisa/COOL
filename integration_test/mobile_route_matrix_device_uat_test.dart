@@ -4,6 +4,7 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,16 +28,26 @@ void main() {
     activeRouter?.dispose();
 
     final route = spec.route;
-    final router = createAppRouter(initialLocation: route);
+    final repository = CollectRepository.fixture(
+      seeded: spec.signedIn,
+      fixtureNow: DateTime.utc(2026, 9, 2, 10),
+      profileOverride: spec.diaspora ? _diasporaProfile : null,
+    );
+    final router = createAppRouter(
+      initialLocation: route,
+      routeRedirect: (state) => collectAuthenticationRedirect(
+        uri: state.uri,
+        hasProfile: repository.state.currentProfile != null,
+        isLoading: repository.state.isLoading,
+      ),
+    );
     activeRouter = router;
     await tester.pumpWidget(
       ProviderScope(
         key: ValueKey('collect-route-harness-${spec.name}'),
         overrides: [
           appRouterProvider.overrideWithValue(router),
-          collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
-          ),
+          collectRepositoryProvider.overrideWith((ref) => repository),
           collectThemeModeProvider.overrideWith(
             (ref) => CollectThemeModeController(
               initialMode: _uatThemeMode,
@@ -140,12 +151,23 @@ void main() {
           );
         }
         expect(find.text('Screen not found'), findsNothing, reason: spec.route);
+        for (final text in spec.forbiddenText) {
+          expect(find.textContaining(text), findsNothing, reason: spec.name);
+        }
         expect(
           find.text('This screen is unavailable.'),
           findsNothing,
           reason: spec.route,
         );
         if (screenshotsEnabled) {
+          // Native keyboard surfaces are outside Flutter's screenshot layer.
+          // Close the keyboard and wait for viewport restoration so the app
+          // capture cannot look clipped with an invisible keyboard below it.
+          FocusManager.instance.primaryFocus?.unfocus();
+          await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+          for (var frame = 0; frame < 6; frame += 1) {
+            await tester.pump(const Duration(milliseconds: 100));
+          }
           try {
             await binding.takeScreenshot('mobile_route_${spec.name}');
           } on MissingPluginException {
@@ -199,16 +221,30 @@ const _routeSpecs = <_RouteSpec>[
     'entry',
     expectedPath: '/auth',
     expectedText: "Let's get started!",
+    signedIn: false,
     extraPumpBeforeAssert: Duration(milliseconds: 1000),
   ),
-  _RouteSpec('auth', '/auth', 'workflow', expectedText: "Let's get started!"),
+  _RouteSpec(
+    'root-signed-in',
+    '/',
+    'entry',
+    expectedPath: '/home',
+    expectedText: 'RWF 35,000',
+  ),
+  _RouteSpec(
+    'auth',
+    '/auth',
+    'workflow',
+    expectedText: "Let's get started!",
+    signedIn: false,
+  ),
   _RouteSpec(
     'profile-edit',
     '/settings/profile',
     'workflow',
     expectedText: 'Profile',
   ),
-  _RouteSpec('home', '/home', 'primary', expectedText: 'EUR 350.00'),
+  _RouteSpec('home', '/home', 'primary', expectedText: 'RWF 35,000'),
   _RouteSpec('offline', '/offline', 'utility', expectedText: 'You are offline'),
   _RouteSpec('sync', '/sync', 'utility', expectedText: 'Sync needs attention'),
   _RouteSpec('groups', '/groups', 'primary', expectedText: 'Groups'),
@@ -259,14 +295,14 @@ const _routeSpecs = <_RouteSpec>[
     '/app',
     'compatibility',
     expectedPath: '/home',
-    expectedText: 'EUR 350.00',
+    expectedText: 'RWF 35,000',
   ),
   _RouteSpec(
     'app-invite-link',
     '/invite/038491',
     'compatibility',
     expectedPath: '/home',
-    expectedText: 'EUR 350.00',
+    expectedText: 'RWF 35,000',
   ),
   _RouteSpec(
     'share-invalid',
@@ -293,7 +329,30 @@ const _routeSpecs = <_RouteSpec>[
     'contribution',
     '/groups/col-church/contribute',
     'workflow',
-    expectedText: 'Bank transfer',
+    expectedText: 'Continue to MoMo',
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'public-buri-momo',
+    '/groups/col-public-savings-fixture/contribute',
+    'workflow',
+    expectedText: 'Continue to MoMo',
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'diaspora-public-buri-momo',
+    '/groups/col-public-savings-fixture/contribute',
+    'workflow',
+    expectedText: 'Continue to MoMo',
+    diaspora: true,
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'diaspora-contribution',
+    '/groups/col-church/contribute',
+    'workflow',
+    expectedText: 'Review transfer',
+    diaspora: true,
   ),
   _RouteSpec(
     'ledger',
@@ -329,6 +388,14 @@ const _routeSpecs = <_RouteSpec>[
     'settings-bank-transfer',
     '/settings/bank-transfer',
     'workflow',
+    expectedPath: '/settings/profile',
+    expectedText: 'Profile',
+  ),
+  _RouteSpec(
+    'diaspora-bank-transfer',
+    '/settings/bank-transfer',
+    'workflow',
+    diaspora: true,
     expectedText: 'Bank transfer details',
   ),
   _RouteSpec(
@@ -399,6 +466,9 @@ class _RouteSpec {
     this.iosResolvedPath,
     this.iosExpectedText,
     this.extraPumpBeforeAssert = Duration.zero,
+    this.signedIn = true,
+    this.diaspora = false,
+    this.forbiddenText = const [],
   });
 
   final String name;
@@ -409,6 +479,9 @@ class _RouteSpec {
   final String? iosResolvedPath;
   final String? iosExpectedText;
   final Duration extraPumpBeforeAssert;
+  final bool signedIn;
+  final bool diaspora;
+  final List<String> forbiddenText;
 
   bool get isProductScreen => routeClass != 'compatibility';
 
@@ -421,3 +494,13 @@ class _RouteSpec {
   String? get expectedVisibleText =>
       _isIos && iosExpectedText != null ? iosExpectedText : expectedText;
 }
+
+const _diasporaProfile = CollectProfile(
+  id: 'local-user',
+  publicId: '038491',
+  whatsappPhone: '+250788123456',
+  countryCode: 'DE',
+  currencyCode: 'EUR',
+  revolutLink: 'https://revolut.me/synthetic',
+  revolutAccount: 'Synthetic account',
+);

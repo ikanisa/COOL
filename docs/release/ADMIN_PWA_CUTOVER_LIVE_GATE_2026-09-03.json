@@ -1,0 +1,126 @@
+{
+  "generated_at": "2026-09-03T07:49:50Z",
+  "status": "pass",
+  "fixture_mode": false,
+  "url": "https://admin.collect.ikanisa.com",
+  "blocker_keys": [
+
+  ],
+  "failure_keys": [
+
+  ],
+  "blockers": [
+
+  ],
+  "failures": [
+
+  ],
+  "responses": {
+    "index": {
+      "url": "https://admin.collect.ikanisa.com/",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "text/html",
+        "cache-control": "no-store",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    "flutter_bootstrap": {
+      "url": "https://admin.collect.ikanisa.com/flutter_bootstrap.js",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    "manifest": {
+      "url": "https://admin.collect.ikanisa.com/manifest.json",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    "official_icon": {
+      "url": "https://admin.collect.ikanisa.com/icons/collect-web-512.png",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=31536000, immutable",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    "service_worker": {
+      "url": "https://admin.collect.ikanisa.com/custom-sw.js",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    "main_bundle": {
+      "url": "https://admin.collect.ikanisa.com/main.dart.js",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=31536000, immutable",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    "robots": {
+      "url": "https://admin.collect.ikanisa.com/robots.txt",
+      "code": 200,
+      "error": null,
+      "headers": {
+        "content-type": "text/plain",
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://fonts.gstatic.com https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    }
+  },
+  "secret_handling": "This gate records response metadata only; it must not print credentials, cookies, or tokens."
+}

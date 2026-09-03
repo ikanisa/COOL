@@ -1,0 +1,50 @@
+{
+  "captured_at": "2026-09-03T06:43:16Z",
+  "mode": "synthetic_only_no_network_no_database_export",
+  "result": "PASS",
+  "checks": [
+    "path_traversal_refused",
+    "unsupported_operation_refused",
+    "encrypted_image_created",
+    "no_secret_output",
+    "overwrite_refused",
+    "private_image_permissions",
+    "keychain_retrieval_and_mount",
+    "duplicate_attach_refused",
+    "fixture_hash_before_detach",
+    "fixture_permissions",
+    "plaintext_unavailable_when_detached",
+    "wrong_password_rejected",
+    "wrong_password_left_image_detached",
+    "fixture_hash_after_keychain_remount",
+    "readonly_remount_rejects_writes",
+    "final_image_detached"
+  ],
+  "fixture_bytes": 983040,
+  "fixture_sha256": "771cca7fdde2909f4b04a8fbaa1469b43764511ea26c9e76d75a86da90fa0cf6",
+  "vault": {
+    "action": "create",
+    "attached": false,
+    "encryption": {
+      "blocksize": 512,
+      "encrypted": true,
+      "max-key-count": 1,
+      "passphrase-count": 1,
+      "private-key-count": 0,
+      "uuid": "DB132307-F346-4EFE-92D6-B1C6FFA2D9D7",
+      "version": 2
+    },
+    "image": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-fixture-20260903t064310-112469bb.sparsebundle",
+    "keychain_account": "collect-fixture-20260903t064310-112469bb",
+    "keychain_service": "app.collect.production-recovery",
+    "mount": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-fixture-20260903t064310-112469bb.mount",
+    "secret_values_output": false
+  },
+  "helper_sha256": "5306c1a5986923fbafb96fea335385e0a6df6d5da3147167222f3fb1a8e8d14b",
+  "limitations": [
+    "No production data copied",
+    "No database restore performed",
+    "Key remains in this Mac Keychain; off-device key escrow not established",
+    "Encrypted disk image is not an off-site backup"
+  ]
+}

@@ -431,28 +431,30 @@ class CollectScreenHero extends StatelessWidget {
                   ),
                   scaledGap,
                 ],
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    metric ?? title!,
-                    textAlign: TextAlign.center,
-                    style:
-                        (metric == null
-                                ? Theme.of(context).textTheme.displaySmall
-                                : CollectTypography.amountDisplay(foreground))
-                            ?.copyWith(
-                              color: foreground,
-                              fontSize: metric == null
-                                  ? CollectTypography.sizePageCompact
-                                  : headlineSize,
-                              fontWeight: CollectTypography.weightBold,
-                              height: CollectTypography.leadingSolid,
-                              letterSpacing: CollectTypography.trackingDefault,
-                            ),
-                    maxLines: 1,
-                    softWrap: false,
+                for (final line in (metric ?? title!).split('\n'))
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      line,
+                      textAlign: TextAlign.center,
+                      style:
+                          (metric == null
+                                  ? Theme.of(context).textTheme.displaySmall
+                                  : CollectTypography.amountDisplay(foreground))
+                              ?.copyWith(
+                                color: foreground,
+                                fontSize: metric == null
+                                    ? CollectTypography.sizePageCompact
+                                    : headlineSize,
+                                fontWeight: CollectTypography.weightBold,
+                                height: CollectTypography.leadingSolid,
+                                letterSpacing:
+                                    CollectTypography.trackingDefault,
+                              ),
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
                   ),
-                ),
                 if (metric != null && title != null) ...[
                   scaledGap,
                   Text(
@@ -635,6 +637,7 @@ class PremiumScaffold extends StatelessWidget {
     this.bottomAction,
     this.onRefresh,
     this.scrollController,
+    this.sliver,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -650,47 +653,61 @@ class PremiumScaffold extends StatelessWidget {
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
   final ScrollController? scrollController;
+  final Widget? sliver;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
 
   @override
   Widget build(BuildContext context) {
-    final listView = ListView(
-      controller: scrollController,
-      physics: onRefresh == null
-          ? null
-          : const AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
-      padding: CollectSpacing.screenPadding.copyWith(
-        bottom: bottomAction == null
-            ? CollectSpacing.screenCompact + 112
-            : CollectSpacing.x3,
-      ),
-      children: [
-        if (persistentPill != null) ...[
-          persistentPill!,
-          compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
-        ],
-        if (showHeader)
-          ScreenHeader(title: title, subtitle: subtitle, actions: actions),
-        if (topChrome != null) ...[
-          if (showHeader) CollectSpacing.gap20,
-          topChrome!,
-        ],
-        if (hero != null) ...[
-          compact ? CollectSpacing.gap20 : CollectSpacing.gap24,
-          hero!,
-        ],
-        if (banner != null) ...[CollectSpacing.gap20, banner!],
-        compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
-        ..._withGaps(
-          children,
-          gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
-        ),
-      ],
+    final physics = onRefresh == null
+        ? null
+        : const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics());
+    final padding = CollectSpacing.screenPadding.copyWith(
+      bottom: bottomAction == null
+          ? CollectSpacing.screenCompact + 112
+          : CollectSpacing.x3,
     );
+    final staticChildren = <Widget>[
+      if (persistentPill != null) ...[
+        persistentPill!,
+        compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
+      ],
+      if (showHeader)
+        ScreenHeader(title: title, subtitle: subtitle, actions: actions),
+      if (topChrome != null) ...[
+        if (showHeader) CollectSpacing.gap20,
+        topChrome!,
+      ],
+      if (hero != null) ...[
+        compact ? CollectSpacing.gap20 : CollectSpacing.gap24,
+        hero!,
+      ],
+      if (banner != null) ...[CollectSpacing.gap20, banner!],
+      compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
+      ..._withGaps(
+        children,
+        gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+      ),
+    ];
+    final listView = sliver == null
+        ? ListView(
+            controller: scrollController,
+            physics: physics,
+            padding: padding,
+            children: staticChildren,
+          )
+        : CustomScrollView(
+            controller: scrollController,
+            physics: physics,
+            slivers: [
+              SliverPadding(
+                padding: padding.copyWith(bottom: 0),
+                sliver: SliverList.list(children: staticChildren),
+              ),
+              SliverPadding(padding: padding.copyWith(top: 0), sliver: sliver!),
+            ],
+          );
     final scrollable = onRefresh == null
         ? listView
         : RefreshIndicator.adaptive(
@@ -758,6 +775,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
     this.bottomAction,
     this.onRefresh,
     this.scrollController,
+    this.sliver,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -773,6 +791,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final Widget? bottomAction;
   final RefreshCallback? onRefresh;
   final ScrollController? scrollController;
+  final Widget? sliver;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
@@ -790,6 +809,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
       bottomAction: bottomAction,
       onRefresh: onRefresh,
       scrollController: scrollController,
+      sliver: sliver,
       showHeader: showHeader,
       compact: compact,
       children: children,

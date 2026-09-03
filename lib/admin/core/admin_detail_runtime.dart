@@ -346,27 +346,11 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                   ),
                 ),
               ],
-              if (rpcName == 'admin_get_admin_user' &&
-                  _adminHasPermission(identity, 'admin_users.manage')) ...[
+              if ((rpcName == 'admin_get_admin_user' ||
+                      rpcName == 'admin_get_user') &&
+                  _adminHasPermission(identity, 'admin_users.read')) ...[
                 const SizedBox(height: 18),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton.filledTonal(
-                    tooltip: _adminAccessIsActive(data)
-                        ? 'Deactivate Admin access'
-                        : 'Activate Admin access',
-                    onPressed: () => _changeAdminAccess(
-                      context,
-                      ref,
-                      active: _adminAccessIsActive(data),
-                    ),
-                    icon: Icon(
-                      _adminAccessIsActive(data)
-                          ? Icons.person_remove_outlined
-                          : Icons.person_add_alt_1_outlined,
-                    ),
-                  ),
-                ),
+                AdminPlatformAccessPanel(userId: id),
               ],
               if (spec.noteEntityType != null &&
                   _adminCanRecordNote(identity, spec.noteEntityType!)) ...[
@@ -466,61 +450,12 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       context,
     ).showSnackBar(const SnackBar(content: Text('Operator note recorded')));
   }
-
-  Future<void> _changeAdminAccess(
-    BuildContext context,
-    WidgetRef ref, {
-    required bool active,
-  }) async {
-    final verb = active ? 'Deactivate' : 'Activate';
-    final reason = await showAdminReasonDialog(
-      context,
-      title: '$verb Admin access',
-      actionLabel: verb,
-    );
-    if (reason == null) return;
-    try {
-      await ref.read(adminRepositoryProvider).action('admin_set_user_access', {
-        'p_user_id': id,
-        'p_active': !active,
-        'p_reason': reason,
-      });
-      ref.read(adminRealtimeTickProvider.notifier).state += 1;
-      ref.invalidate(adminIdentityProvider);
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Admin access ${active ? 'deactivated' : 'activated'}'),
-        ),
-      );
-    } catch (error) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
-    }
-  }
-}
-
-bool _adminAccessIsActive(Map<String, dynamic> data) {
-  final status = '${data['status'] ?? ''}'.trim().toLowerCase();
-  if (status == 'active') return true;
-  final roles = _detailStringList(data['active_roles']);
-  return roles.contains('admin') || roles.contains('platform_owner');
 }
 
 int _detailInt(Object? value) {
   if (value is int) return value;
   if (value is num) return value.toInt();
   return int.tryParse('$value') ?? 0;
-}
-
-List<String> _detailStringList(Object? value) {
-  if (value is! List) return const [];
-  return value
-      .map((item) => '$item'.trim())
-      .where((item) => item.isNotEmpty)
-      .toList(growable: false);
 }
 
 String _adminActionErrorMessage(Object error) {

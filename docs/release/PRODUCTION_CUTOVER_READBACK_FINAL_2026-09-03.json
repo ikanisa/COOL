@@ -1,0 +1,35 @@
+{
+  "started_at": "2026-09-03T07:53:37Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "readback",
+  "result": "PASS",
+  "migration_commit_attempted": false,
+  "provider_sends": 0,
+  "network_mutations": 0,
+  "checks": {
+    "privileges": "pass",
+    "columns": "pass",
+    "rails": "pass",
+    "indexes": "pass",
+    "deployed_migration_sha256": "14 exact source matches",
+    "read_only_api_context": {
+      "current_user": "supabase_read_only_user",
+      "transaction_read_only": "on",
+      "member_rpc_granted": true
+    },
+    "catalog_audit_context": {
+      "current_user": "postgres",
+      "transaction_read_only": "on"
+    },
+    "inventory": {
+      "migrations": 111,
+      "member_records": 8,
+      "operator_approvals": 1,
+      "storage_objects": 182,
+      "storage_buckets": 9,
+      "member_backfill_valid": true,
+      "hybrid_onboarding_remains_off": true
+    }
+  },
+  "finished_at": "2026-09-03T07:53:47Z"
+}

@@ -52,7 +52,7 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
   }
 
   void _handleSemanticAmount(String rawAmount) {
-    const formatter = _RwfAmountInputFormatter();
+    const formatter = RwfAmountInputFormatter();
     final nextValue = formatter.formatEditUpdate(
       widget.controller.value,
       TextEditingValue(
@@ -196,7 +196,7 @@ class _AmountEntryPanelState extends State<AmountEntryPanel> {
                         onSubmitted: widget.onSubmitted == null
                             ? null
                             : (_) => widget.onSubmitted!(),
-                        inputFormatters: const [_RwfAmountInputFormatter()],
+                        inputFormatters: const [RwfAmountInputFormatter()],
                         style: amountStyle,
                         maxLines: 1,
                         decoration: InputDecoration(
@@ -292,8 +292,9 @@ String _compactAmount(int amount) {
   return formatRwf(amount);
 }
 
-class _RwfAmountInputFormatter extends TextInputFormatter {
-  const _RwfAmountInputFormatter();
+/// Formats whole Rwanda francs while retaining the edited digit position.
+class RwfAmountInputFormatter extends TextInputFormatter {
+  const RwfAmountInputFormatter();
 
   static final RegExp _nonDigitPattern = RegExp(r'\D');
 
@@ -302,24 +303,80 @@ class _RwfAmountInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final digits = newValue.text.replaceAll(_nonDigitPattern, '');
+    if (!newValue.composing.isCollapsed) return newValue;
+    // Do not silently turn negative or fractional payments into other amounts.
+    if (!RegExp(r'^[0-9,]*$').hasMatch(newValue.text)) return oldValue;
+
+    var text = newValue.text;
+    var selection = newValue.selection;
+    // Deleting a grouping comma should delete the adjacent digit, not trap
+    // the cursor by immediately putting the same separator back.
+    if (oldValue.selection.isCollapsed &&
+        selection.isCollapsed &&
+        oldValue.text.length == text.length + 1 &&
+        oldValue.text.replaceAll(',', '') == text.replaceAll(',', '')) {
+      final oldOffset = oldValue.selection.extentOffset;
+      final offset = selection.extentOffset;
+      if (offset == oldOffset - 1 &&
+          offset > 0 &&
+          oldValue.text[offset] == ',') {
+        text = text.replaceRange(offset - 1, offset, '');
+        selection = TextSelection.collapsed(offset: offset - 1);
+      } else if (offset == oldOffset &&
+          offset >= 0 &&
+          offset < text.length &&
+          oldValue.text[offset] == ',') {
+        text = text.replaceRange(offset, offset + 1, '');
+      }
+    }
+
+    final rawDigits = text.replaceAll(_nonDigitPattern, '');
+    final digits = rawDigits.replaceFirst(RegExp(r'^0+(?=\d)'), '');
     if (digits.isEmpty) {
       return const TextEditingValue(
         selection: TextSelection.collapsed(offset: 0),
       );
     }
-    final value = int.tryParse(digits);
-    if (value == null) return oldValue;
-    final formatted = _formatPlainNumber(value);
+    final formatted = _formatDigitGroups(digits);
+    final trimmedZeros = rawDigits.length - digits.length;
+    int mapOffset(int offset) {
+      if (offset < 0) return formatted.length;
+      final end = offset.clamp(0, text.length);
+      final digitCount =
+          (text.substring(0, end).replaceAll(_nonDigitPattern, '').length -
+                  trimmedZeros)
+              .clamp(0, digits.length);
+      if (digitCount == 0) return 0;
+      var seen = 0;
+      for (var index = 0; index < formatted.length; index++) {
+        if (formatted[index] != ',') seen++;
+        if (seen == digitCount) {
+          var result = index + 1;
+          if (end > 0 &&
+              text[end - 1] == ',' &&
+              result < formatted.length &&
+              formatted[result] == ',') {
+            result++;
+          }
+          return result;
+        }
+      }
+      return formatted.length;
+    }
+
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
+      selection: TextSelection(
+        baseOffset: mapOffset(selection.baseOffset),
+        extentOffset: mapOffset(selection.extentOffset),
+        affinity: selection.affinity,
+        isDirectional: selection.isDirectional,
+      ),
     );
   }
 }
 
-String _formatPlainNumber(int value) {
-  final raw = value.toString();
+String _formatDigitGroups(String raw) {
   final buffer = StringBuffer();
   for (var index = 0; index < raw.length; index += 1) {
     if (index > 0 && (raw.length - index) % 3 == 0) {

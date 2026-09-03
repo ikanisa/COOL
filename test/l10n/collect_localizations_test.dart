@@ -16,6 +16,9 @@ void main() {
     const localizations = CollectLocalizations(Locale('en'));
     expect(localizations.text('momoContribution'), 'MoMo contribution');
     expect(localizations.text('continueToMomo'), 'Continue to MoMo');
+    expect(localizations.text('mtnReceiver'), 'MTN MoMo');
+    expect(localizations.text('airtelReceiver'), 'Airtel Money');
+    expect(localizations.text('quickAmounts'), 'Quick pick');
     expect(localizations.text('bankTransfer'), 'Bank transfer');
     expect(localizations.text('noActivePaymentRoute'), isNotEmpty);
   });

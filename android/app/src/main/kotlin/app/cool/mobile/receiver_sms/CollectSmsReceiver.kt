@@ -24,7 +24,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
         if (messages.isEmpty() || messages.size > MAX_SMS_SEGMENTS) return
         val sender = messages.firstOrNull()?.originatingAddress.orEmpty().trim()
-        val body = messages.joinToString(separator = "") { it.messageBody.orEmpty() }.trim()
+        val body = messages.joinToString(separator = "") { it.messageBody.orEmpty() }
         val ownerUserId = prefs.getString(
             SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
             null,
@@ -89,7 +89,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
         receivedAtMillis: Long,
     ): String {
         val digest = MessageDigest.getInstance("SHA-256").digest(
-            listOf(ownerUserId.trim(), sender.trim(), receivedAtMillis.toString(), body.trim())
+            listOf(ownerUserId.trim(), sender.trim(), receivedAtMillis.toString(), body)
                 .joinToString("\u0000")
                 .toByteArray(Charsets.UTF_8),
         ).copyOf(16)
@@ -106,9 +106,12 @@ class CollectSmsReceiver : BroadcastReceiver() {
             (MOMO_SENDER_HINT.containsMatchIn(sender) || MOMO_CONTEXT_HINT.containsMatchIn(body))
         val moneyHint = CURRENCY_HINT.containsMatchIn(body) && AMOUNT_HINT.containsMatchIn(body)
         val transactionHint = TRANSACTION_ID_HINT.containsMatchIn(body)
+        val maskedReceiptHint = MASKED_PAYER_HINT.containsMatchIn(body) &&
+            WALLET_BALANCE_HINT.containsMatchIn(body)
         val incomingHint = INCOMING_HINT.containsMatchIn(body)
         val promotionalHint = PROMOTIONAL_HINT.containsMatchIn(body)
-        return allowedSender && moneyHint && transactionHint && incomingHint && !promotionalHint
+        return allowedSender && moneyHint && (transactionHint || maskedReceiptHint) &&
+            incomingHint && !promotionalHint && !EXCLUDED_HINT.containsMatchIn(body)
     }
 
     companion object {
@@ -128,6 +131,21 @@ class CollectSmsReceiver : BroadcastReceiver() {
         private val AMOUNT_HINT = Regex("(?:^|\\D)[0-9][0-9 ,.]{0,18}(?:$|\\D)")
         private val TRANSACTION_ID_HINT = Regex(
             "(?:transaction|trans(?:action)?\\s*id|txn|txid|financial transaction id|reference|ref\\b)",
+            RegexOption.IGNORE_CASE,
+        )
+        // Capture eligibility only. The server validates amounts, identity and
+        // route before posting; a provider reference is optional for this form.
+        private val MASKED_PAYER_HINT = Regex(
+            "\\bfrom\\s+[^()\\r\\n]{2,120}\\s*\\(\\s*\\*{3,}[0-9]{3}\\s*\\)",
+            RegexOption.IGNORE_CASE,
+        )
+        private val WALLET_BALANCE_HINT = Regex(
+            "\\bbalance\\s*(?:is|:|=)?\\s*(?:(?:RWF|FRW)\\s+[0-9]|[0-9][0-9 ,.]*\\s*(?:RWF|FRW))",
+            RegexOption.IGNORE_CASE,
+        )
+        private val EXCLUDED_HINT = Regex(
+            "\\b(?:failed|reversed|reversal|cancelled|pending|declined|you have sent|" +
+                "transferred to|cash.?out|withdraw(?:al|n)?|OTP|verification code|one.time password)\\b",
             RegexOption.IGNORE_CASE,
         )
         private val INCOMING_HINT = Regex(

@@ -1,0 +1,98 @@
+{
+  "started_at": "2026-09-03T07:45:16Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "plan",
+  "result": "PASS",
+  "migration_commit_attempted": false,
+  "provider_sends": 0,
+  "network_mutations": 0,
+  "migrations": [
+    {
+      "version": "20260902073741",
+      "name": "member_profile_numeric_identity",
+      "file": "20260902073741_member_profile_numeric_identity.sql",
+      "sha256": "03efe1a2cfbe4440f779b5b0c08e6cf058deaf01e2d0f957cd5709a5c01bc9d1"
+    },
+    {
+      "version": "20260902075721",
+      "name": "member_collection_read_contract",
+      "file": "20260902075721_member_collection_read_contract.sql",
+      "sha256": "802155823f4d5153439ae74ee9d5a77884476e066daae8c0789a04d969073073"
+    },
+    {
+      "version": "20260902081017",
+      "name": "hybrid_admin_overview_metrics",
+      "file": "20260902081017_hybrid_admin_overview_metrics.sql",
+      "sha256": "a7b8db182ad9a35a8d92240e0336e2a88c51f1a48c3fa201e8cf6b53a2379bca"
+    },
+    {
+      "version": "20260902081830",
+      "name": "member_profile_read_allowlist",
+      "file": "20260902081830_member_profile_read_allowlist.sql",
+      "sha256": "721f0aacbd48d0d38c8ffd4735ac7749667a5ef95746a0c8654b369e763eb9c0"
+    },
+    {
+      "version": "20260902083940",
+      "name": "member_cross_rail_history",
+      "file": "20260902083940_member_cross_rail_history.sql",
+      "sha256": "1cca99ee25e732ac070e9ca43248d3f48685f168c0e15badda07b0bce0dc7af8"
+    },
+    {
+      "version": "20260902090210",
+      "name": "member_group_owner_controls",
+      "file": "20260902090210_member_group_owner_controls.sql",
+      "sha256": "242d6dc4bb6f48c6320265658c5d3973f6d7577226aea2ae0438ac94c44bd241"
+    },
+    {
+      "version": "20260902091314",
+      "name": "member_group_roster",
+      "file": "20260902091314_member_group_roster.sql",
+      "sha256": "79196683ec664b2c02965cc1e9908405740793b3e808911a6707fe3f99a021b8"
+    },
+    {
+      "version": "20260902093609",
+      "name": "member_history_query_plan",
+      "file": "20260902093609_member_history_query_plan.sql",
+      "sha256": "0298cf1b8b9bcf6a15b3009794babd6e9e1c9bab1a5ea89cc670d78834c87b63"
+    },
+    {
+      "version": "20260902100046",
+      "name": "member_bounded_history_pages",
+      "file": "20260902100046_member_bounded_history_pages.sql",
+      "sha256": "2de5086715bd3edb95677521e2025f14bf60b2de7bda2b9ae51a3f2270f2e21c"
+    },
+    {
+      "version": "20260902120435",
+      "name": "hybrid_receipt_capture_contract",
+      "file": "20260902120435_hybrid_receipt_capture_contract.sql",
+      "sha256": "31509ef05d380d039b4ce6f6e801e7149401d5e213a86ad2876d96b14d93d48e"
+    },
+    {
+      "version": "20260902120555",
+      "name": "hybrid_member_registry",
+      "file": "20260902120555_hybrid_member_registry.sql",
+      "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de"
+    },
+    {
+      "version": "20260902134420",
+      "name": "member_add_group_admin",
+      "file": "20260902134420_member_add_group_admin.sql",
+      "sha256": "df81a0a8e566d7c105192811d70d5484a4377ee1f4e0c4a0c1b205b66cd59c77"
+    },
+    {
+      "version": "20260902140151",
+      "name": "platform_admin_whatsapp_approval",
+      "file": "20260902140151_platform_admin_whatsapp_approval.sql",
+      "sha256": "2799ce6ed756cd121042a14f1ea51ea7b72642cbb1c1bd49f4029a320de70caf"
+    },
+    {
+      "version": "20260902212721",
+      "name": "revoke_official_payee_trigger_execute",
+      "file": "20260902212721_revoke_official_payee_trigger_execute.sql",
+      "sha256": "2baccacc309c9a92ffa340f995bac16df61a9ad287fc9d1f78330f704d8e9a36"
+    }
+  ],
+  "atomic_transaction_sha256": "d730c44339cbdf659adf7e252bf922b52bd763275d1960dd5111e2f50a960d14",
+  "baseline_migrations": 97,
+  "finished_at": "2026-09-03T07:45:18Z"
+}

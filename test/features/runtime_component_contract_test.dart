@@ -286,9 +286,6 @@ void main() {
     expect(pubspec, contains('family: Inter'));
     expect(pubspec, contains('assets/typefaces/Inter-Variable.ttf'));
     expect(pubspec, contains('assets/typefaces/OFL-Inter.txt'));
-    const removedPlatformIconPackage =
-        'cupertino'
-        '_icons';
     const removedLegacyFamilies = <String>[
       'Ae'
           'onik',
@@ -297,8 +294,17 @@ void main() {
       'JetBrains'
           ' Mono',
     ];
-    expect(pubspec, isNot(contains(removedPlatformIconPackage)));
-    expect(lockfile, isNot(contains(removedPlatformIconPackage)));
+    // An icon font is not a body/display typeface. Apple-platform controls
+    // require this asset; all text must still use the sole Inter declaration.
+    expect(pubspec, contains('cupertino_icons:'));
+    expect(lockfile, contains('cupertino_icons:'));
+    expect(
+      RegExp(
+        r'^\s*- family:\s*(\S+)',
+        multiLine: true,
+      ).allMatches(pubspec).map((match) => match.group(1)),
+      ['Inter'],
+    );
     expect(pubspec, isNot(contains('Collect Runtime')));
     expect(pubspec, isNot(contains('Collect Display')));
     expect(CollectRuntimeTypography.fontFamily, 'Inter');
@@ -1368,7 +1374,7 @@ void main() {
     expect(collectionCards, contains('maxLines: 1'));
     expect(collectionCards, contains('softWrap: false'));
     expect(groupCards, contains('iconOnly: true'));
-    expect(groupCards, contains("'\${summary.supporterCount} contributors'"));
+    expect(groupCards, contains('summary.supporterCountSemantics'));
     expect(groupCards, isNot(contains("'\${summary.supporterCount} members'")));
     expect(collectionsScreen, contains('_GroupsCardGrid'));
     expect(collectionsScreen, isNot(contains('class _GroupsMetricPill')));

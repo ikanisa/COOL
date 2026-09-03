@@ -124,7 +124,7 @@ class CollectPeopleCount extends StatelessWidget {
     super.key,
   });
 
-  final int count;
+  final int? count;
   final Color? color;
   final double iconSize;
   final TextStyle? textStyle;
@@ -133,7 +133,9 @@ class CollectPeopleCount extends StatelessWidget {
   Widget build(BuildContext context) {
     final resolvedColor = color ?? context.collectColors.textSecondary;
     return Semantics(
-      label: '$count ${count == 1 ? 'contributor' : 'contributors'}',
+      label: count == null
+          ? 'Contributor count unavailable'
+          : '$count ${count == 1 ? 'contributor' : 'contributors'}',
       child: ExcludeSemantics(
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -141,7 +143,7 @@ class CollectPeopleCount extends StatelessWidget {
             Icon(CollectIcons.people, size: iconSize, color: resolvedColor),
             CollectSpacing.gapW4,
             Text(
-              '$count',
+              count?.toString() ?? '—',
               style:
                   textStyle ??
                   Theme.of(context).textTheme.bodyMedium?.copyWith(

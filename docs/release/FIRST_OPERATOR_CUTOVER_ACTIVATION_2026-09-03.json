@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-09-03T07:49:27Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "activate",
+  "selected_collect_id": "965511",
+  "verified_existing_identity": true,
+  "combined_role_before": false,
+  "approval_and_role_commit_attempted": true,
+  "provider_sends": 0,
+  "auth_users_created": 0,
+  "sessions_created": 0,
+  "group_roles_changed": 0,
+  "result": "FAILED_READBACK_REQUIRED_BEFORE_RETRY",
+  "error": "Management API HTTP 400; inspect history before any retry",
+  "finished_at": "2026-09-03T07:49:31Z"
+}
