@@ -41,32 +41,56 @@ Deno.serve(async (req) => {
       "receiver_momo_number",
       40,
     );
+    const nativeCapability = typeof payload.native_capability === "string" &&
+        uuidPattern.test(payload.native_capability)
+      ? payload.native_capability
+      : null;
     const envelope = typeof payload.client_envelope_id === "string" &&
         uuidPattern.test(payload.client_envelope_id)
       ? payload.client_envelope_id
-      : crypto.randomUUID();
+      : null;
     const collectionId = typeof payload.collection_id === "string" &&
         uuidPattern.test(payload.collection_id)
       ? payload.collection_id
       : null;
     const receivedAt = typeof payload.received_at_device === "string" &&
         !Number.isNaN(Date.parse(payload.received_at_device))
-      ? new Date(payload.received_at_device).toISOString()
+      ? payload.received_at_device.trim()
       : null;
     const receiverHash = await hashPhone(receiver);
     if (!receiverHash) return jsonResponse({ error: "Invalid receiver" }, 400);
 
     const supabase = serviceClient();
-    const { data, error } = await supabase.rpc("ingest_raw_payment_sms", {
+    const contract = await supabase.rpc("attested_sms_contract_version");
+    const contractMissing = contract.error?.code === "PGRST202" ||
+      /could not find the function/i.test(contract.error?.message ?? "");
+    if (contract.error && !contractMissing) throw contract.error;
+    const attestationRequired = contract.data === 1;
+    if (attestationRequired && (!nativeCapability || !envelope)) {
+      return jsonResponse({
+        error: "Verified Android SMS envelope is required",
+      }, 400);
+    }
+    const common = {
       p_receiver_user_id: user.id,
       p_collection_id: collectionId,
       p_raw_sender: rawSender,
       p_raw_body: rawBody,
       p_body_hash: await sha256Hex(rawBody),
-      p_client_envelope_id: envelope,
+      p_client_envelope_id: envelope ?? crypto.randomUUID(),
       p_receiver_momo_number_hash: receiverHash,
-      p_received_at_device: receivedAt,
-    });
+    };
+    const ingestion = attestationRequired
+      ? await supabase.rpc("ingest_attested_raw_payment_sms", {
+        p_native_capability_id: nativeCapability,
+        ...common,
+        p_received_at_device: receivedAt,
+      })
+      : await supabase.rpc("ingest_raw_payment_sms", {
+        ...common,
+        p_received_at_device: receivedAt,
+      });
+    const { data, error } = ingestion;
     if (error) {
       if (/not authorized/i.test(error.message)) {
         return jsonResponse({

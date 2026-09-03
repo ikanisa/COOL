@@ -1,0 +1,70 @@
+{
+  "started_at": "2026-09-03T12:00:51Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "plan",
+  "result": "PASS",
+  "targeted_functions": [
+    "verify-play-integrity",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "collect-notification-operator"
+  ],
+  "deployments": [
+
+  ],
+  "provider_sends": 0,
+  "functions_invoked": 0,
+  "functions_deleted": 0,
+  "secrets_changed": 0,
+  "database_mutations": 0,
+  "network_mutations": 0,
+  "auth_config_mutations": 0,
+  "operational_flags_enabled": 0,
+  "disabled_flags_before": [
+    {
+      "key": "hybrid_direct_ussd_allocation",
+      "enabled": false
+    },
+    {
+      "key": "hybrid_member_onboarding",
+      "enabled": false
+    },
+    {
+      "key": "hybrid_sms_notifications",
+      "enabled": false
+    },
+    {
+      "key": "hybrid_verified_account_claim",
+      "enabled": false
+    },
+    {
+      "key": "native_sms_attestation_enforcement",
+      "enabled": false
+    }
+  ],
+  "before": [
+    {
+      "slug": "verify-play-integrity",
+      "version": 3,
+      "status": "ACTIVE",
+      "verify_jwt": true,
+      "ezbr_sha256": "4119a17a3638c41701a25dfd36ba6eb04351194d9202ca64345e69be775c8cc6"
+    },
+    {
+      "slug": "ingest-payment-sms",
+      "version": 4,
+      "status": "ACTIVE",
+      "verify_jwt": true,
+      "ezbr_sha256": "9fbd292a49d02ff2bec07253becbeb62910763138839b13f957560d343f0ae75"
+    },
+    {
+      "slug": "parse-payment-sms",
+      "version": 5,
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "ezbr_sha256": "707e809d676bb41596ea99355ad1b7f5a119cb8c4bc1a4a00e821ee12fc61926"
+    }
+  ],
+  "finished_at": "2026-09-03T12:00:56Z"
+}

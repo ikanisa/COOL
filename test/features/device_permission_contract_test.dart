@@ -32,7 +32,7 @@ void main() {
               countryCode: country,
               currencyCode: country == 'RW' ? 'RWF' : 'EUR',
               revolutLink: 'https://revolut.me/synthetic',
-              revolutAccount: 'Synthetic account',
+              revolutAccount: '000123456789',
             ),
           );
           final router = createAppRouter(

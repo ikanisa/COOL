@@ -1,0 +1,244 @@
+{
+  "captured_at": "2026-09-03T12:02:40Z",
+  "credential_source": {
+    "title": "Supabase",
+    "tab": "Sheet1",
+    "column": "G",
+    "project_cell": "G2",
+    "credential_values_saved": false
+  },
+  "mode": "read_only_no_deployment",
+  "project": {
+    "id": "lhbowpbcpwoiparwnwgt",
+    "name": "COOL",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "checks": {
+    "migrations": {
+      "remote_count": 120,
+      "local_count": 120,
+      "remote_only": [
+
+      ],
+      "name_mismatches": [
+        "202605230012",
+        "202605230013",
+        "202605230014"
+      ],
+      "history_holes": [
+
+      ],
+      "pending": [
+
+      ]
+    },
+    "backups": {
+      "pitr_enabled": false,
+      "walg_enabled": true,
+      "listed_backup_count": 0,
+      "physical_backup_metadata_present": false
+    },
+    "functions": [
+      {
+        "slug": "auth-send-whatsapp-otp",
+        "version": 44,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "aa8da63ffb94014a5b69327868b6406b0395baf1ea6d9a973a8b5b299cc714c3",
+        "updated_at": 1788293874712
+      },
+      {
+        "slug": "send-notification",
+        "version": 20,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "7fea052024f5ef54d153feaa657962e3d4d620039f2066a0665641a4d2b73fc9",
+        "updated_at": 1788293892615
+      },
+      {
+        "slug": "dispatch-notifications",
+        "version": 14,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "3fea3e2ee473d1f35c591dda71aaa3bd60d2991c30d9280832d43c7d51a7dfe7",
+        "updated_at": 1788293877090
+      },
+      {
+        "slug": "ingest-bank-email",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "acd620fb8dd88ba558ebb79a0954e079472096e01f59c4101e355e023b2bae9b",
+        "updated_at": 1788293879544
+      },
+      {
+        "slug": "ingest-bank-sms",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "9b8c1d6a7bf2ed35662e5c0df51ff4686c063181b3cb2c838d0f385372ca6227",
+        "updated_at": 1788293882265
+      },
+      {
+        "slug": "ingest-bank-statement",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "517b7d09494e393e77ef7b3f3f7822359ae53a7b34bd79322f3d94b7acd24454",
+        "updated_at": 1788293884933
+      },
+      {
+        "slug": "ingest-payment-sms",
+        "version": 5,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "b1b90345c76b413dd5d77bddfa4436b052828ab6f9cf17567497bb8eb633f449",
+        "updated_at": 1788436877270
+      },
+      {
+        "slug": "parse-payment-sms",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "93974103ef18f5cc27eee63feec7b75ef125626056ae71417286bfb670fc6c1c",
+        "updated_at": 1788436882806
+      },
+      {
+        "slug": "verify-play-integrity",
+        "version": 4,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "60838247abebbe0493cd4f3a09c10c6bae9219ca1c42433fe3c45c5008af8de4",
+        "updated_at": 1788436871740
+      },
+      {
+        "slug": "prepare-roster-import",
+        "version": 1,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "5b81aaa39c1ea6f74240e08d546e6877d1f2cb1e0dd0b653e1ab951a8be15b77",
+        "updated_at": 1788436887839
+      },
+      {
+        "slug": "collect-notification-operator",
+        "version": 1,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "53975863f5442499b225b3f0ab8bf3ef389e8f231e1229d6c24fd11fb3cfc9ba",
+        "updated_at": 1788436892967
+      }
+    ],
+    "security_advisors": {
+      "count": 236,
+      "by_level": {
+        "INFO": 46,
+        "WARN": 190
+      },
+      "findings": [
+        {
+          "level": "INFO",
+          "name": "rls_enabled_no_policy",
+          "count": 46
+        },
+        {
+          "level": "WARN",
+          "name": "pg_graphql_anon_table_exposed",
+          "count": 19
+        },
+        {
+          "level": "WARN",
+          "name": "pg_graphql_authenticated_table_exposed",
+          "count": 32
+        },
+        {
+          "level": "WARN",
+          "name": "anon_security_definer_function_executable",
+          "count": 6
+        },
+        {
+          "level": "WARN",
+          "name": "authenticated_security_definer_function_executable",
+          "count": 132
+        },
+        {
+          "level": "WARN",
+          "name": "auth_leaked_password_protection",
+          "count": 1
+        }
+      ]
+    },
+    "performance_advisors": {
+      "count": 129,
+      "by_level": {
+        "INFO": 129
+      },
+      "findings": [
+        {
+          "level": "INFO",
+          "name": "unindexed_foreign_keys",
+          "count": 93
+        },
+        {
+          "level": "INFO",
+          "name": "unused_index",
+          "count": 36
+        }
+      ]
+    },
+    "network_restrictions": {
+      "status": "applied",
+      "ipv4_rule_count": 4,
+      "ipv6_rule_count": 0
+    },
+    "auth_config": {
+      "site_url": "https://collect.ikanisa.com",
+      "uri_allow_list": "https://collect.ikanisa.com,https://admin.collect.ikanisa.com",
+      "disable_signup": false,
+      "external_phone_enabled": true,
+      "jwt_exp": 3600,
+      "sessions_inactivity_timeout": 0,
+      "sessions_timebox": 0,
+      "refresh_token_rotation_enabled": true,
+      "external_anonymous_users_enabled": false,
+      "security_manual_linking_enabled": false,
+      "hook_send_sms_enabled": true,
+      "sms_otp_exp": 600,
+      "sms_test_otp_configured": false,
+      "sms_test_validity_override_configured": false,
+      "whatsapp_hook_target_matches": true
+    },
+    "required_secrets": {
+      "required": [
+        "WHATSAPP_CLOUD_API_TOKEN",
+        "WHATSAPP_PHONE_NUMBER_ID",
+        "WHATSAPP_AUTH_TEMPLATE_NAME",
+        "SEND_SMS_HOOK_SECRET",
+        "INTERNAL_FUNCTION_SECRET",
+        "BANK_EMAIL_INGEST_HMAC_SECRET",
+        "APNS_KEY_ID",
+        "APNS_TEAM_ID",
+        "APNS_BUNDLE_ID",
+        "APNS_PRIVATE_KEY_BASE64",
+        "FCM_SERVICE_ACCOUNT_JSON",
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+      ],
+      "missing": [
+
+      ],
+      "values_validated": false
+    },
+    "runtime_counts": {
+      "auth_users": 72,
+      "sessions": 108,
+      "profiles": 8,
+      "groups": 5,
+      "raw_sms": 3,
+      "active_platform_role_grants": 2,
+      "approval_table": "collect_admin_access.whatsapp_approvals"
+    }
+  },
+  "errors": [
+
+  ]
+}

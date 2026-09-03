@@ -1,0 +1,28 @@
+{
+  "captured_at": "2026-09-03T11:01:14Z",
+  "mode": "controlled_exact_auth_redirect_cutover",
+  "project": {
+    "id": "lhbowpbcpwoiparwnwgt",
+    "name": "COOL",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "source": "Google Drive sheet Supabase; credential values not saved",
+  "live_origins": {
+    "https://collect.ikanisa.com": 200,
+    "https://admin.collect.ikanisa.com": 200
+  },
+  "before": {
+    "site_url": "https://easymo.vercel.app",
+    "uri_allow_list": "https://easymo.vercel.app"
+  },
+  "after": {
+    "site_url": "https://collect.ikanisa.com",
+    "uri_allow_list": "https://collect.ikanisa.com,https://admin.collect.ikanisa.com"
+  },
+  "production_mutations": 1,
+  "unrelated_auth_fields_submitted": [
+
+  ],
+  "status": "pass"
+}

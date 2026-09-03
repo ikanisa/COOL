@@ -1,5 +1,5 @@
-/// Matches the server-side member profile contract. A host suffix alone is
-/// insufficient: it accepts look-alike domains, insecure schemes and empty paths.
+/// Account-number syntax shared with the server profile gate. This does not
+/// establish bank ownership or that an account exists.
 abstract final class CollectDiasporaProfileRules {
   static final _link = RegExp(
     r'^https://([a-z0-9-]+\.)?revolut\.me/[A-Za-z0-9._~-]+/?$',
@@ -8,8 +8,11 @@ abstract final class CollectDiasporaProfileRules {
   static bool isValidLink(String value) => _link.hasMatch(value.trim());
 
   static bool isValidAccount(String value) {
-    // PostgreSQL char_length counts Unicode characters, not UTF-16 code units.
-    final length = value.trim().runes.length;
-    return length >= 4 && length <= 120;
+    final account = normalizeAccount(value);
+    return RegExp(r'^[A-Z0-9]{4,34}$').hasMatch(account) &&
+        RegExp(r'[0-9]').hasMatch(account);
   }
+
+  static String normalizeAccount(String value) =>
+      value.trim().replaceAll(RegExp(r'[\s-]'), '').toUpperCase();
 }

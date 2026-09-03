@@ -321,6 +321,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     try {
       await ref.read(adminRepositoryProvider).sendOtp(phone: _phoneForAuth);
       if (!mounted) return;
+      _otp.clear();
       setState(
         () => _statusMessage =
             'A new WhatsApp OTP was sent. Earlier codes are no longer accepted.',
@@ -370,7 +371,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     if (message.contains('token has expired or is invalid') ||
         message.contains('expired or is invalid') ||
         message.contains('invalid token')) {
-      return 'That code is expired or already used. Request a new WhatsApp OTP.';
+      return 'That code could not be verified. Check the latest WhatsApp code or request a new one.';
     }
     if (message.contains('format') || message.contains('phone')) {
       return 'Enter a valid international WhatsApp number.';

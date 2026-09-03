@@ -11,12 +11,14 @@ cd "$ROOT_DIR"
 
 EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
+  collect-notification-operator
   dispatch-notifications
   ingest-bank-email
   ingest-bank-sms
   ingest-bank-statement
   ingest-payment-sms
   parse-payment-sms
+  prepare-roster-import
   send-notification
   verify-play-integrity
 )
@@ -35,6 +37,11 @@ REQUIRED_SECRETS=(
   FCM_SERVICE_ACCOUNT_JSON
   GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 )
+
+# AI extraction is a gated optional roster-import enhancement. Deterministic
+# text/CSV preparation has no provider dependency, and the hosted function
+# rejects all roster imports while hybrid_member_onboarding is disabled.
+AI_ROSTER_SECRETS=(OPENAI_API_KEY)
 
 PLATFORM_ISSUES=()
 
@@ -325,6 +332,271 @@ check_app_contract_columns() {
   [[ -z "$missing" ]] || fail "Missing app-contract columns: $missing"
 }
 
+check_hybrid_financial_core_contract() {
+  log "checking deployed hybrid financial-core invariants"
+  local deployed
+  deployed="$(db_query "
+    select count(*)
+    from supabase_migrations.schema_migrations
+    where version = '20260903084000';
+  ")"
+  if [[ "$deployed" != "1" ]]; then
+    log "hybrid financial-core migration is pending; deployed-object checks skipped"
+    return 0
+  fi
+
+  local violations
+  violations="$(db_query "
+    with issues(issue) as (
+      select 'provider transaction uniqueness is not all-status'
+      where not exists (
+        select 1
+        from pg_index index_row
+        join pg_class index_relation on index_relation.oid = index_row.indexrelid
+        join pg_class table_relation on table_relation.oid = index_row.indrelid
+        join pg_namespace namespace on namespace.oid = table_relation.relnamespace
+        where namespace.nspname = 'public'
+          and table_relation.relname = 'payments'
+          and index_relation.relname = 'payments_provider_transaction_unique'
+          and index_row.indisunique
+          and pg_get_indexdef(index_row.indexrelid) like '%(provider_network, upper(btrim(transaction_id)))%'
+          and pg_get_expr(index_row.indpred, index_row.indrelid) = '(transaction_id IS NOT NULL)'
+      )
+      union all
+      select 'canonical receipt trigger does not cover INSERT and status UPDATE'
+      where not exists (
+        select 1
+        from pg_trigger trigger_row
+        join pg_class table_relation on table_relation.oid = trigger_row.tgrelid
+        join pg_namespace namespace on namespace.oid = table_relation.relnamespace
+        where namespace.nspname = 'public'
+          and table_relation.relname = 'payments'
+          and trigger_row.tgname = 'hybrid_post_momo_receipt_trigger'
+          and not trigger_row.tgisinternal
+          and trigger_row.tgenabled <> 'D'
+          and pg_get_triggerdef(trigger_row.oid) ilike '%AFTER INSERT OR UPDATE OF status%'
+      )
+      union all
+      select 'raw SMS evidence delete guard is missing or disabled'
+      where not exists (
+        select 1
+        from pg_trigger trigger_row
+        join pg_class table_relation on table_relation.oid = trigger_row.tgrelid
+        join pg_namespace namespace on namespace.oid = table_relation.relnamespace
+        where namespace.nspname = 'public'
+          and table_relation.relname = 'raw_payment_sms'
+          and trigger_row.tgname = 'retain_raw_payment_sms_evidence_trigger'
+          and not trigger_row.tgisinternal
+          and trigger_row.tgenabled <> 'D'
+          and pg_get_triggerdef(trigger_row.oid) ilike '%BEFORE DELETE%'
+      )
+      union all
+      select 'raw SMS attestation immutability guard is missing or disabled'
+      where not exists (
+        select 1
+        from pg_trigger trigger_row
+        join pg_class table_relation on table_relation.oid = trigger_row.tgrelid
+        join pg_namespace namespace on namespace.oid = table_relation.relnamespace
+        where namespace.nspname = 'public'
+          and table_relation.relname = 'raw_payment_sms'
+          and trigger_row.tgname = 'protect_raw_payment_sms_attestation_trigger'
+          and not trigger_row.tgisinternal
+          and trigger_row.tgenabled <> 'D'
+          and pg_get_triggerdef(trigger_row.oid) ilike '%BEFORE UPDATE OF native_action_capability_id, attestation_request_hash, device_attested_at%'
+      )
+      union all
+      select 'raw SMS attestation columns are incomplete'
+      where exists (
+        select 1 from (values
+          ('native_action_capability_id'),
+          ('attestation_request_hash'),
+          ('device_attested_at')
+        ) expected(column_name)
+        where not exists (
+          select 1 from information_schema.columns column_row
+          where column_row.table_schema = 'public'
+            and column_row.table_name = 'raw_payment_sms'
+            and column_row.column_name = expected.column_name
+        )
+      )
+      union all
+      select 'direct-USSD allocation feature flag is enabled before external acceptance'
+      where exists (
+        select 1 from public.feature_flags
+        where key = 'hybrid_direct_ussd_allocation' and enabled
+      )
+      union all
+      select 'missing direct-USSD allocation feature flag'
+      where not exists (
+        select 1 from public.feature_flags
+        where key = 'hybrid_direct_ussd_allocation'
+      )
+      union all
+      select 'native SMS attestation enforcement is enabled before compatible-client acceptance'
+      where exists (
+        select 1 from public.feature_flags
+        where key = 'native_sms_attestation_enforcement' and enabled
+      )
+      union all
+      select 'missing native SMS attestation enforcement rollout flag'
+      where not exists (
+        select 1 from public.feature_flags
+        where key = 'native_sms_attestation_enforcement'
+      )
+      union all
+      select 'missing service_role EXECUTE on ' || expected.routine_name
+      from (values
+        ('attested_sms_contract_version'),
+        ('ingest_attested_raw_payment_sms'),
+        ('finalize_attested_payment_sms'),
+        ('confirm_provider_payment'),
+        ('reject_provider_payment'),
+        ('process_provider_finality_event')
+      ) expected(routine_name)
+      where not exists (
+        select 1
+        from information_schema.routine_privileges grant_row
+        where grant_row.specific_schema = 'public'
+          and grant_row.routine_name = expected.routine_name
+          and grant_row.grantee = 'service_role'
+          and grant_row.privilege_type = 'EXECUTE'
+      )
+      union all
+      select 'client/service table grant on collect_hybrid.' || grant_row.table_name || ': ' || grant_row.grantee || ' ' || grant_row.privilege_type
+      from information_schema.role_table_grants grant_row
+      where grant_row.table_schema = 'collect_hybrid'
+        and grant_row.grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+      union all
+      select 'unexpected function grant on collect_hybrid.' || grant_row.routine_name || ': ' || grant_row.grantee || ' ' || grant_row.privilege_type
+      from information_schema.routine_privileges grant_row
+      where grant_row.specific_schema = 'collect_hybrid'
+        and grant_row.grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+    )
+    select issue from issues order by issue;
+  ")"
+  [[ -z "$violations" ]] || fail "Hybrid financial-core contract violations: $violations"
+}
+
+check_hybrid_sms_notification_contract() {
+  log "checking deployed hybrid SMS notification invariants"
+  local deployed
+  deployed="$(db_query "
+    select count(*)
+    from supabase_migrations.schema_migrations
+    where version = '20260903092000';
+  ")"
+  if [[ "$deployed" != "1" ]]; then
+    log "complete hybrid SMS, account-claim and Admin queue migrations are pending; deployed-object checks skipped"
+    return 0
+  fi
+
+  local violations
+  violations="$(db_query "
+    with operator_routines(routine_name) as (
+      values
+        ('collect_notification_health'),
+        ('collect_list_pending_receipts'),
+        ('collect_claim_receipt'),
+        ('collect_get_claimed_receipt'),
+        ('collect_confirm_receipt'),
+        ('collect_record_send_start'),
+        ('collect_record_observed_outcome'),
+        ('collect_release_unsent_claim'),
+        ('collect_worker_heartbeat')
+    ), issues(issue) as (
+      select 'missing hybrid SMS notification feature flag'
+      where not exists (
+        select 1 from public.feature_flags
+        where key = 'hybrid_sms_notifications'
+      )
+      union all
+      select 'hybrid SMS notification flag enabled before carrier acceptance'
+      where exists (
+        select 1 from public.feature_flags
+        where key = 'hybrid_sms_notifications' and enabled
+      )
+      union all
+      select 'missing per-member SMS receipt consent table'
+      where to_regclass('collect_hybrid.sms_receipt_member_consents') is null
+      union all
+      select 'missing durable SMS receipt outbox table'
+      where to_regclass('collect_hybrid.sms_notification_outbox') is null
+      union all
+      select 'missing verified account claim feature flag'
+      where not exists (
+        select 1 from public.feature_flags
+        where key = 'hybrid_verified_account_claim'
+      )
+      union all
+      select 'verified account claim flag enabled before acceptance'
+      where exists (
+        select 1 from public.feature_flags
+        where key = 'hybrid_verified_account_claim' and enabled
+      )
+      union all
+      select 'missing verified member account claim table'
+      where to_regclass('collect_hybrid.member_account_claims') is null
+      union all
+      select 'missing hybrid Admin or account-claim routine: ' || expected.signature
+      from (values
+        ('public.admin_list_hybrid_sms_receipts(text,text,integer,integer,text)'),
+        ('public.admin_get_hybrid_sms_receipt(uuid)'),
+        ('public.claim_verified_current_account()'),
+        ('public.admin_get_member_record(uuid)')
+      ) expected(signature)
+      where to_regprocedure(expected.signature) is null
+      union all
+      select 'missing failed-no-send Admin queue filter'
+      where not exists (
+        select 1 from public.admin_queue_filter_options
+        where rpc_name = 'admin_list_hybrid_sms_receipts'
+          and filter_kind = 'status'
+          and value = 'failed_no_send'
+          and label = 'Failed—no send'
+          and enabled
+      )
+      union all
+      select 'missing SMS receipt enqueue trigger'
+      where not exists (
+        select 1
+        from pg_trigger trigger_row
+        join pg_class table_relation on table_relation.oid = trigger_row.tgrelid
+        join pg_namespace namespace on namespace.oid = table_relation.relnamespace
+        where namespace.nspname = 'collect_hybrid'
+          and table_relation.relname = 'momo_balance_snapshots'
+          and trigger_row.tgname = 'enqueue_sms_receipt_from_snapshot_trigger'
+          and not trigger_row.tgisinternal
+          and trigger_row.tgenabled <> 'D'
+      )
+      union all
+      select 'missing service_role EXECUTE on ' || expected.routine_name
+      from operator_routines expected
+      where not exists (
+        select 1
+        from information_schema.routine_privileges grant_row
+        where grant_row.specific_schema = 'public'
+          and grant_row.routine_name = expected.routine_name
+          and grant_row.grantee = 'service_role'
+          and grant_row.privilege_type = 'EXECUTE'
+      )
+      union all
+      select 'forbidden client EXECUTE on ' || grant_row.routine_name
+      from information_schema.routine_privileges grant_row
+      join operator_routines expected
+        on expected.routine_name = grant_row.routine_name
+      where grant_row.specific_schema = 'public'
+        and grant_row.grantee in ('PUBLIC', 'anon', 'authenticated')
+        and grant_row.privilege_type = 'EXECUTE'
+      union all
+      select 'exact Buri Munsi SMS receipt template differs'
+      where collect_hybrid.render_buri_munsi_receipt(1000, 2000, 3000, 'READY-1') <>
+        'BuriMunsi: Twakiriye ubwizigame bwawe bwa 1,000 RWF. Balance yawe: 2,000 RWF; balance y''itsinda: 3,000 RWF. Ref: READY-1.'
+    )
+    select issue from issues order by issue;
+  ")"
+  [[ -z "$violations" ]] || fail "Hybrid SMS notification contract violations: $violations"
+}
+
 check_explicit_indexes() {
   log "checking explicit migration indexes"
   local missing
@@ -451,7 +723,7 @@ check_sql_privileges() {
       select grantee, table_name, privilege_type
       from information_schema.role_table_grants
       where table_schema = 'public'
-        and grantee in ('anon', 'authenticated')
+        and grantee in ('PUBLIC', 'anon', 'authenticated')
     ),
     unexpected_table_grants as (
       select 'unexpected table grant: ' || grantee || ' ' || privilege_type || ' on ' || table_name as issue
@@ -549,6 +821,7 @@ check_sql_privileges() {
         ('authenticated', 'admin_add_assisted_roster', 'EXECUTE'),
         ('authenticated', 'admin_approve_whatsapp', 'EXECUTE'),
         ('authenticated', 'admin_create_assisted_group', 'EXECUTE'),
+        ('authenticated', 'admin_create_assisted_group_with_roster', 'EXECUTE'),
         ('authenticated', 'admin_create_collect_payee', 'EXECUTE'),
         ('authenticated', 'admin_create_platform_public_group', 'EXECUTE'),
         ('authenticated', 'admin_get_bank_allocation_request', 'EXECUTE'),
@@ -623,6 +896,22 @@ check_sql_privileges() {
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),
         ('authenticated', 'user_is_collection_admin', 'EXECUTE')
     ),
+    optional_function_grants(grantee, routine_name, privilege_type) as (
+      values
+        ('authenticated', 'admin_assign_hybrid_receiving_route', 'EXECUTE'),
+        ('authenticated', 'admin_reverse_momo_payment', 'EXECUTE'),
+        ('authenticated', 'admin_get_hybrid_sms_receipt', 'EXECUTE'),
+        ('authenticated', 'admin_get_member_record', 'EXECUTE'),
+        ('authenticated', 'admin_list_hybrid_sms_receipts', 'EXECUTE'),
+        ('authenticated', 'claim_verified_current_account', 'EXECUTE'),
+        ('authenticated', 'admin_set_sms_receipt_policy', 'EXECUTE'),
+        ('authenticated', 'admin_set_member_sms_receipt_consent', 'EXECUTE')
+    ),
+    recognized_function_grants as (
+      select * from allowed_function_grants
+      union all
+      select * from optional_function_grants
+    ),
     actual_function_grants as (
       select grantee, routine_name, privilege_type
       from information_schema.routine_privileges
@@ -640,7 +929,7 @@ check_sql_privileges() {
       where grantee in ('anon', 'authenticated')
       except
       select 'unexpected function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name
-      from allowed_function_grants
+      from recognized_function_grants
     ),
     missing_function_grants as (
       select 'missing function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name as issue
@@ -649,11 +938,29 @@ check_sql_privileges() {
       select 'missing function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name
       from actual_function_grants
     ),
+    missing_optional_function_grants as (
+      select 'missing optional function grant: ' || expected.grantee || ' ' || expected.privilege_type || ' on ' || expected.routine_name as issue
+      from optional_function_grants expected
+      where exists (
+        select 1
+        from information_schema.routines routine
+        where routine.routine_schema = 'public'
+          and routine.routine_name = expected.routine_name
+      )
+        and not exists (
+          select 1
+          from actual_function_grants actual
+          where actual.grantee = expected.grantee
+            and actual.routine_name = expected.routine_name
+            and actual.privilege_type = expected.privilege_type
+        )
+    ),
     required_service_function_grants(routine_name) as (
       values
         ('mint_native_action_capability'),
         ('claim_raw_payment_sms_for_parse'),
-        ('ingest_raw_payment_sms')
+        ('ingest_raw_payment_sms'),
+        ('allocate_parsed_payment_event')
     ),
     missing_service_function_grants as (
       select 'missing service_role function grant: EXECUTE on ' || routine_name as issue
@@ -686,6 +993,7 @@ check_sql_privileges() {
     union all select issue from public_function_grants
     union all select issue from unexpected_function_grants
     union all select issue from missing_function_grants
+    union all select issue from missing_optional_function_grants
     union all select issue from missing_service_function_grants
     union all select issue from forbidden_function_grants
     order by issue;
@@ -729,6 +1037,13 @@ check_sql_privileges() {
     except
     select 'missing column grant: ' || grantee || ' SELECT on ' || table_name || '.' || column_name
     from actual_column_grants
+    union all
+    select 'forbidden member profile write grant: ' || grantee || ' ' || privilege_type || ' on profiles.' || column_name
+    from information_schema.column_privileges
+    where table_schema = 'public'
+      and table_name = 'profiles'
+      and grantee in ('PUBLIC', 'anon', 'authenticated')
+      and privilege_type in ('INSERT', 'UPDATE')
     order by 1;
   ")"
   [[ -z "$missing_column_grants" ]] || fail "SQL column privilege contract violations: $missing_column_grants"
@@ -795,8 +1110,12 @@ check_bank_sql_privileges() {
           'create_group_with_owner_attested',
           'update_collection_profile_and_receiver', 'update_collection_receiver',
           'ingest_raw_payment_sms', 'claim_raw_payment_sms_for_parse',
+          'attested_sms_contract_version',
+          'ingest_attested_raw_payment_sms', 'finalize_attested_payment_sms',
           'allocate_parsed_payment_event', 'post_payment_from_event',
-          'record_provider_finality_and_post',
+          'record_provider_finality_and_post', 'process_provider_finality_event',
+          'confirm_provider_payment', 'reject_provider_payment',
+          'admin_assign_hybrid_receiving_route', 'admin_reverse_momo_payment',
           'admin_list_payment_intents', 'admin_get_payment_intent',
           'admin_list_payments', 'admin_get_payment',
           'admin_list_payment_events', 'admin_get_payment_event',
@@ -813,7 +1132,11 @@ check_bank_sql_privileges() {
         and privilege.grantee = 'authenticated'
         and privilege.routine_name in (
           'ingest_raw_payment_sms', 'claim_raw_payment_sms_for_parse',
-          'allocate_parsed_payment_event', 'post_payment_from_event'
+          'attested_sms_contract_version',
+          'ingest_attested_raw_payment_sms', 'finalize_attested_payment_sms',
+          'allocate_parsed_payment_event', 'post_payment_from_event',
+          'confirm_provider_payment', 'reject_provider_payment',
+          'process_provider_finality_event'
         )
     ),
     forbidden_bank_tables as (
@@ -840,6 +1163,7 @@ check_bank_sql_privileges() {
         and grant_row.table_name in (
           'payment_intents', 'raw_payment_sms', 'parsed_payment_events',
           'payments', 'ledger_entries', 'collection_receivers',
+          'payment_provider_confirmations', 'provider_finality_requests',
           'public_contributions_view'
         )
     ),
@@ -873,12 +1197,14 @@ check_edge_function_auth_contract() {
   ruby <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
+  "collect-notification-operator" => :user,
   "dispatch-notifications" => :internal,
   "ingest-bank-email" => :hmac,
   "ingest-bank-sms" => :user,
   "ingest-bank-statement" => :user,
   "ingest-payment-sms" => :user,
   "parse-payment-sms" => :internal,
+  "prepare-roster-import" => :user,
   "send-notification" => :internal,
   "verify-play-integrity" => :user,
 }
@@ -916,7 +1242,7 @@ expected.each do |name, mode|
     issues << "#{name} must require an authenticated user" unless source.include?("requireUser(")
     user_auth_401 =
       (source.include?('message === "Authentication required"') && source.include?("401")) ||
-      (source.include?("authErrorStatus") && source.include?("authStatus"))
+      source.include?("authErrorStatus(error)")
     issues << "#{name} must return 401 for missing user auth" unless user_auth_401
   end
 end
@@ -959,7 +1285,7 @@ check_functions() {
   grep -q 'Invalid OTP hook payload' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
 
   local fn
-  for fn in ingest-bank-sms ingest-bank-statement ingest-bank-email ingest-payment-sms parse-payment-sms verify-play-integrity; do
+  for fn in collect-notification-operator ingest-bank-sms ingest-bank-statement ingest-bank-email ingest-payment-sms parse-payment-sms prepare-roster-import verify-play-integrity; do
     status="$(curl -sS -o "$body_file" -w '%{http_code}' \
       -X POST "$base_url/$fn" \
       -H 'content-type: application/json' \
@@ -972,6 +1298,11 @@ check_functions() {
 check_secrets() {
   log "checking Edge Function secret names"
   local expected_secrets=("${REQUIRED_SECRETS[@]}")
+  local ai_roster_enabled
+  ai_roster_enabled="$(db_query "select coalesce((select enabled from public.feature_flags where key='hybrid_member_onboarding'), false);")"
+  if [[ "$ai_roster_enabled" == "t" || "$ai_roster_enabled" == "true" ]]; then
+    expected_secrets+=("${AI_ROSTER_SECRETS[@]}")
+  fi
 
   local secret_inventory
   if secret_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli secrets list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
@@ -1004,20 +1335,22 @@ data = JSON.parse(ARGV.fetch(0))
 
 issues = []
 
+expected_site_url = "https://collect.ikanisa.com"
+expected_redirects = [
+  "https://collect.ikanisa.com",
+  "https://admin.collect.ikanisa.com",
+].sort
 site_url = data["site_url"].to_s
-if site_url.empty?
-  issues << "Auth Site URL is not configured."
-elsif site_url.start_with?("http://localhost", "http://127.0.0.1")
-  issues << "Auth Site URL still points to localhost."
-elsif !site_url.start_with?("https://")
-  issues << "Auth Site URL should use HTTPS in production."
-end
+issues << "Auth Site URL must be the canonical Collect production URL." unless site_url == expected_site_url
 
 uri_allow_list = data["uri_allow_list"].to_s.split(",").map(&:strip).reject(&:empty?)
 localhost_redirects = uri_allow_list.select { |url| url.include?("localhost") || url.include?("127.0.0.1") }
 wildcard_redirects = uri_allow_list.select { |url| url.include?("*") }
 issues << "Auth redirect allowlist includes localhost entries: #{localhost_redirects.join(", ")}" unless localhost_redirects.empty?
 issues << "Auth redirect allowlist includes wildcard entries: #{wildcard_redirects.join(", ")}" unless wildcard_redirects.empty?
+unless uri_allow_list.sort == expected_redirects
+  issues << "Auth redirect allowlist must contain only the exact Collect and Collect Admin production origins."
+end
 
 jwt_exp = data["jwt_exp"].to_i
 issues << "Auth JWT expiry is missing." if jwt_exp <= 0
@@ -1139,6 +1472,9 @@ main() {
   check_schema_contract
   check_rls
   check_app_contract_columns
+  check_sql_privileges
+  check_hybrid_financial_core_contract
+  check_hybrid_sms_notification_contract
   check_explicit_indexes
   check_bank_sql_privileges
   "$ROOT_DIR/scripts/collect_linked_uat.sh"

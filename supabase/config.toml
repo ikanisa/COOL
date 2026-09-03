@@ -380,6 +380,9 @@ verify_jwt = false
 [functions.dispatch-notifications]
 verify_jwt = false
 
+[functions.collect-notification-operator]
+verify_jwt = true
+
 [functions.ingest-bank-sms]
 verify_jwt = true
 
@@ -388,6 +391,9 @@ verify_jwt = true
 
 [functions.parse-payment-sms]
 verify_jwt = false
+
+[functions.prepare-roster-import]
+verify_jwt = true
 
 [functions.verify-play-integrity]
 verify_jwt = true

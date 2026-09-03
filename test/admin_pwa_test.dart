@@ -21,6 +21,8 @@ void main() {
         '/admin/transactions/:id',
         '/admin/reconciliations',
         '/admin/ledgers',
+        '/admin/sms-receipts',
+        '/admin/sms-receipts/:id',
         '/admin/notifications',
         '/admin/audit-logs',
         '/admin/settings',
@@ -59,6 +61,10 @@ void main() {
       'payment_events.read',
     );
     expect(adminRequiredPermissionForPath('/admin/ledgers'), 'ledger.read');
+    expect(
+      adminRequiredPermissionForPath('/admin/sms-receipts/receipt-1'),
+      'notifications.read',
+    );
   });
 
   test('admin permission guard rejects an unauthorized operations queue', () {
@@ -107,6 +113,7 @@ void main() {
       'Transactions',
       'Reconciliations',
       'Ledgers',
+      'SMS receipts',
     ]) {
       expect(source, contains("'$label'"), reason: label);
     }
@@ -115,6 +122,35 @@ void main() {
     expect(source, isNot(contains("'/admin/receivers'")));
     expect(source, isNot(contains("'/admin/bank-destinations'")));
     expect(source, isNot(contains("'/admin/momo-intents'")));
+  });
+
+  test('feature-phone SMS receipt queue stays masked in admin', () async {
+    const repository = AdminEvidenceRepository();
+    final queue = await repository.list('admin_list_hybrid_sms_receipts');
+    final detail = await repository.detail(
+      'admin_get_hybrid_sms_receipt',
+      queue.rows.first.id,
+    );
+    final router = File('lib/admin/admin_router.dart').readAsStringSync();
+    final listSpecs = File(
+      'lib/admin/core/admin_list_specs.dart',
+    ).readAsStringSync();
+    final detailSpecs = File(
+      'lib/admin/core/admin_detail_specs.dart',
+    ).readAsStringSync();
+
+    expect(queue.rows, hasLength(4));
+    expect(queue.rows.first.extra['country_code'], 'RW');
+    expect(queue.rows.first.subtitle, contains('•••'));
+    expect(detail['destination_masked'], '+250•••200');
+    expect(
+      detail['message_body'],
+      'Hidden until a current fenced operator claim',
+    );
+    expect(router, contains('admin_list_hybrid_sms_receipts'));
+    expect(router, contains('admin_get_hybrid_sms_receipt'));
+    expect(listSpecs, contains('Exact body claim-gated'));
+    expect(detailSpecs, contains('current fenced operator claim'));
   });
 
   test('admin overview reads reconciliations and balanced ledgers', () {
@@ -288,7 +324,9 @@ void main() {
       expect(groups.rows.first.extra['receiver_label'], 'IKANISA LTD');
 
       expect(members.rows.first.title, startsWith('Collect ID '));
-      expect(members.rows.first.extra['whatsapp_masked'], contains('•••'));
+      expect(members.rows.first.extra['account_state'], 'feature_phone');
+      expect(members.rows.first.extra['whatsapp_masked'], isNull);
+      expect(members.rows.first.extra['momo_masked'], contains('•••'));
       expect(members.rows.first.extra['country_code'], 'RW');
       expect(members.rows.first.extra['active_groups'], isNotNull);
       expect(members.rows.first.extra['active_groups'], greaterThan(0));
@@ -398,11 +436,23 @@ void main() {
     final groupRuntime = File(
       'lib/admin/core/admin_group_runtime.dart',
     ).readAsStringSync();
+    final rosterFileParser = File(
+      'lib/admin/core/roster_file_parser.dart',
+    ).readAsStringSync();
     final detailRuntime = File(
       'lib/admin/core/admin_detail_runtime.dart',
     ).readAsStringSync();
     final migration = File(
       'supabase/migrations/20260901193000_admin_group_lifecycle.sql',
+    ).readAsStringSync();
+    final assistedMigration = File(
+      'supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql',
+    ).readAsStringSync();
+    final rosterFunction = File(
+      'supabase/functions/prepare-roster-import/index.ts',
+    ).readAsStringSync();
+    final openAiRoster = File(
+      'supabase/functions/_shared/openai_roster.ts',
     ).readAsStringSync();
 
     expect(router, contains("'/admin/groups/:id'"));
@@ -410,6 +460,29 @@ void main() {
     expect(groupRuntime, contains('Create public group'));
     expect(groupRuntime, contains('admin_create_platform_public_group'));
     expect(groupRuntime, contains('locked permanently after creation'));
+    expect(groupRuntime, contains('Create assisted group'));
+    expect(groupRuntime, contains('Prepare preview'));
+    expect(groupRuntime, contains("'csv'"));
+    expect(groupRuntime, contains("'txt'"));
+    expect(groupRuntime, contains("'xlsx'"));
+    expect(groupRuntime, contains("'pdf'"));
+    expect(groupRuntime, contains('Use OpenAI for this file'));
+    expect(groupRuntime, contains('Move extraction to editor'));
+    expect(rosterFileParser, contains('FormulaCellValue'));
+    expect(groupRuntime, contains('admin_create_assisted_group_with_roster'));
+    expect(groupRuntime, contains("'p_group_request_id': const Uuid().v4()"));
+    expect(groupRuntime, contains("'p_roster_request_id': const Uuid().v4()"));
+    expect(
+      assistedMigration,
+      contains('creates a private assisted group, its share code'),
+    );
+    expect(rosterFunction, contains('deterministicSourceTypes'));
+    expect(rosterFunction, contains('OPENAI_API_KEY'));
+    expect(rosterFunction, contains('OPENAI_ROSTER_MODEL'));
+    expect(rosterFunction, contains('ai_consent'));
+    expect(openAiRoster, contains('store: false'));
+    expect(openAiRoster, isNot(contains('tools:')));
+    expect(rosterFunction, contains('processing_method'));
     expect(detailRuntime, contains('admin_set_group_active'));
     expect(detailRuntime, contains("label: 'Activate'"));
     expect(detailRuntime, contains("label: 'Deactivate'"));
@@ -430,8 +503,26 @@ void main() {
     expect(shell, contains("'/admin/users'"));
     expect(router, contains('admin_list_non_member_users'));
     expect(router, contains('admin_list_members'));
+    expect(router, contains('admin_get_member_record'));
     expect(migration, contains('coalesce(member_count.active_groups, 0) = 0'));
     expect(migration, contains('coalesce(member_count.active_groups, 0) > 0'));
+  });
+
+  test('member directory combines app and feature-phone identities safely', () {
+    final migration = File(
+      'supabase/migrations/20260903091500_hybrid_member_directory_views.sql',
+    ).readAsStringSync();
+    final detailSpecs = File(
+      'lib/admin/core/admin_detail_specs.dart',
+    ).readAsStringSync();
+
+    expect(migration, contains("'account_state'"));
+    expect(migration, contains("then 'feature_phone' else 'app'"));
+    expect(migration, contains('public.mask_phone(identity.momo_number)'));
+    expect(migration, contains('collect_hybrid.member_account_claims'));
+    expect(migration, contains("'public_id', roster.public_id"));
+    expect(detailSpecs, contains('Registered MoMo name'));
+    expect(detailSpecs, contains('admin_get_member_record'));
   });
 
   test(
@@ -545,7 +636,9 @@ void main() {
       'scripts/admin_pwa_authenticated_render_smoke.sh',
     ).readAsStringSync();
 
-    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 21);
+    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 23);
+    expect(browserQa, contains("path: '/admin/sms-receipts'"));
+    expect(browserQa, contains("path: '/admin/sms-receipts/sms-receipt-1'"));
     for (final route in <String>[
       '/admin/users',
       '/admin/payees',
@@ -565,8 +658,8 @@ void main() {
     ]) {
       expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
     }
-    expect(renderSmoke, contains('routeCount") == 21'));
-    expect(renderSmoke, contains('screenshotCount") == 63'));
+    expect(renderSmoke, contains('routeCount") == 23'));
+    expect(renderSmoke, contains('screenshotCount") == 69'));
   });
 
   test('Admin PWA runtime probe fails closed on stalled CDP commands', () {

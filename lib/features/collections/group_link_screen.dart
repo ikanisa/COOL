@@ -10,6 +10,7 @@ import '../../shared/repositories/pending_shared_group_intent_store.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../profile/member_profile_gate.dart';
 
 class GroupLinkScreen extends ConsumerStatefulWidget {
   const GroupLinkScreen({required this.slug, super.key});
@@ -39,12 +40,15 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
     }
     final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
     final slug = await pendingIntent.retain(widget.slug);
+    if (!mounted) return;
     final profile = ref.read(collectRepositoryProvider).currentProfile;
     if (profile == null) {
       if (!mounted) return;
       context.go('/auth');
       return;
     }
+    await requireMemberProfileReady(context, ref);
+    if (!mounted) return;
     final collection = await ref
         .read(collectRepositoryProvider.notifier)
         .joinGroupBySlug(slug);
@@ -129,6 +133,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
 }
 
 String _safeGroupLinkError(Object? error) {
+  if (error is FormatException) return error.message;
   final message = error?.toString().toLowerCase() ?? '';
   if (message.contains('removed by a group admin')) {
     return 'Your membership was removed. Contact a group admin if this needs review.';

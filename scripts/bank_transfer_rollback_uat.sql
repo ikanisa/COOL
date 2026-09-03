@@ -6,6 +6,8 @@ declare
   contributor_id uuid := gen_random_uuid();
   maker_id uuid := gen_random_uuid();
   checker_id uuid := gen_random_uuid();
+  maker_session_id uuid := gen_random_uuid();
+  checker_session_id uuid := gen_random_uuid();
   group_id uuid;
   destination_request_id uuid;
   intent_id uuid;
@@ -36,9 +38,26 @@ begin
   cross join public.admin_roles role
   where role.name = 'platform_owner';
 
+  -- Production Admin authorization now requires both the platform role and an
+  -- independently verified WhatsApp approval on a fresh session. These rows
+  -- are synthetic, exist only inside this rollback transaction, and exercise
+  -- the same signed-in permission boundary as the Admin PWA.
+  insert into collect_admin_access.whatsapp_approvals(
+    user_id, phone_e164, approved_by, reason
+  ) values
+    (maker_id, '+250780100003', checker_id, 'Rollback UAT synthetic Admin approval'),
+    (checker_id, '+250780100004', maker_id, 'Rollback UAT synthetic Admin approval');
+  insert into auth.sessions(id, user_id, created_at, updated_at)
+  values
+    (maker_session_id, maker_id, clock_timestamp(), clock_timestamp()),
+    (checker_session_id, checker_id, clock_timestamp(), clock_timestamp());
+
   perform set_config(
     'request.jwt.claims',
-    jsonb_build_object('sub', maker_id, 'role', 'authenticated')::text,
+    jsonb_build_object(
+      'sub', maker_id, 'role', 'authenticated',
+      'session_id', maker_session_id
+    )::text,
     true
   );
   destination_request_id := (
@@ -68,7 +87,10 @@ begin
 
   perform set_config(
     'request.jwt.claims',
-    jsonb_build_object('sub', checker_id, 'role', 'authenticated')::text,
+    jsonb_build_object(
+      'sub', checker_id, 'role', 'authenticated',
+      'session_id', checker_session_id
+    )::text,
     true
   );
   perform public.admin_review_bank_destination_change(
@@ -182,7 +204,10 @@ begin
 
   perform set_config(
     'request.jwt.claims',
-    jsonb_build_object('sub', checker_id, 'role', 'authenticated')::text,
+    jsonb_build_object(
+      'sub', checker_id, 'role', 'authenticated',
+      'session_id', checker_session_id
+    )::text,
     true
   );
   reveal_result := public.admin_reveal_raw_bank_evidence(

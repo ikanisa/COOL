@@ -445,8 +445,9 @@ class CollectRepository extends StateNotifier<CollectState> {
     final cleanMomoNumber = isRwanda
         ? _normalizeLocalRwandaMomo(momoNumber ?? '')
         : '';
-    final cleanRevolutLink = revolutLink?.trim() ?? '';
-    final cleanRevolutAccount = revolutAccount?.trim() ?? '';
+    final cleanRevolutAccount = CollectDiasporaProfileRules.normalizeAccount(
+      revolutAccount ?? '',
+    );
     if (isRwanda &&
         !const {'mtn_momo', 'airtel_money'}.contains(cleanMomoProvider)) {
       throw const FormatException('Choose MTN MoMo or Airtel Money.');
@@ -460,11 +461,8 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
     }
     if (!isRwanda &&
-        (!CollectDiasporaProfileRules.isValidLink(cleanRevolutLink) ||
-            !CollectDiasporaProfileRules.isValidAccount(cleanRevolutAccount))) {
-      throw const FormatException(
-        'Add your Revolut.me link and account details.',
-      );
+        !CollectDiasporaProfileRules.isValidAccount(cleanRevolutAccount)) {
+      throw const FormatException('Enter a valid account number.');
     }
 
     final supabase = _supabase;
@@ -476,7 +474,8 @@ class CollectRepository extends StateNotifier<CollectState> {
           'p_country_code': cleanCountry,
           'p_momo_provider': isRwanda ? cleanMomoProvider : null,
           'p_momo_number': isRwanda ? cleanMomoNumber : null,
-          'p_revolut_link': isRwanda ? null : cleanRevolutLink,
+          // Retain the RPC signature for older clients; links are not required.
+          'p_revolut_link': null,
           'p_revolut_account': isRwanda ? null : cleanRevolutAccount,
         },
       );
@@ -495,7 +494,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         ),
         momoProvider: isRwanda ? cleanMomoProvider : '',
         momoNumber: isRwanda ? cleanMomoNumber : '',
-        revolutLink: isRwanda ? '' : cleanRevolutLink,
+        revolutLink: isRwanda ? '' : current.revolutLink,
         revolutAccount: isRwanda ? '' : cleanRevolutAccount,
       );
     }
@@ -640,6 +639,12 @@ class CollectRepository extends StateNotifier<CollectState> {
     String receiverProvider = 'mtn_momo',
     bool isPublic = false,
   }) async {
+    final creatorProfile = _requireReadyProfile();
+    if (!creatorProfile.isRwanda) {
+      throw const FormatException(
+        'Group creation requires a Rwanda MoMo profile.',
+      );
+    }
     final normalizedReceiver = _normalizeLocalRwandaMomo(
       receiverMomoNumber ?? state.currentProfile?.momoNumber ?? '',
     );
@@ -852,7 +857,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (draft.amountRwf <= 0) {
       throw const FormatException('Contribution amount must be above zero');
     }
-    final profile = _requireProfile();
+    final profile = _requireReadyProfile();
     final collection = _requireActiveCollection(draft.collectionId);
     final contributionRail = collection.contributionRailFor(profile);
     if (contributionRail == 'unavailable') {
@@ -868,9 +873,13 @@ class CollectRepository extends StateNotifier<CollectState> {
         collection.creatorUserId != profile.id) {
       throw StateError('Join this group before contributing.');
     }
+    final supabase = _supabase;
     final now = DateTime.now();
     for (final intent in state.paymentIntents) {
-      if (intent.collectionId == collection.id &&
+      // Live callers must recheck server-owned profile readiness even when
+      // an older intent is cached (for example after another device edits it).
+      if (supabase == null &&
+          intent.collectionId == collection.id &&
           intent.expectedAmountRwf == draft.amountRwf &&
           intent.rail == contributionRail &&
           intent.isAwaitingTransfer &&
@@ -878,8 +887,6 @@ class CollectRepository extends StateNotifier<CollectState> {
         return intent;
       }
     }
-    final supabase = _supabase;
-
     if (supabase != null && supabase.auth.currentUser != null) {
       final response = contributionRail == 'rwanda_momo'
           ? await supabase.rpc<dynamic>(
@@ -989,14 +996,69 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (supabase != null && supabase.auth.currentUser != null) {
       final profile = state.currentProfile;
       if (profile?.isRwanda != true) return;
+      final user = supabase.auth.currentUser!;
+      final cleanBody = body.trim();
+      final cleanSender = rawSender.trim();
+      final envelopeId = clientEnvelopeId ?? _uuid.v4();
+      final parsedReceivedAt = DateTime.tryParse(
+        receivedAtDevice?.trim() ?? '',
+      );
+      final cleanReceivedAt = parsedReceivedAt == null
+          ? null
+          : receivedAtDevice!.trim();
+      final receiverHash = HashUtils.phoneHash(profile!.momoNumber);
+      await supabase.rpc<void>(
+        'record_sms_access_consent',
+        params: {
+          'enabled': true,
+          'momo_number_hash': receiverHash,
+          'build_channel': 'android_sms_ingest_attested',
+          'device_label': 'flutter_android_play_integrity',
+        },
+      );
+      final nonce = _uuid.v4();
+      const integrity = PlayIntegrityService();
+      final requestHash = integrity.buildSmsIngestionRequestHash(
+        subjectId: user.id,
+        nonce: nonce,
+        receiverMomoNumberHash: receiverHash,
+        clientEnvelopeId: envelopeId,
+        rawSender: cleanSender,
+        rawBody: cleanBody,
+        receivedAtDevice: cleanReceivedAt,
+      );
+      final token = await integrity.requestStandardToken(
+        requestHash: requestHash,
+      );
+      if (token == null || token.isEmpty) {
+        throw StateError(
+          'Install the approved Android build to verify MoMo receipt SMS.',
+        );
+      }
+      final verdict = await integrity.verifySmsWithServer(
+        supabase: supabase,
+        requestHash: requestHash,
+        integrityToken: token,
+        subjectId: user.id,
+        nonce: nonce,
+        receiverMomoNumberHash: receiverHash,
+        clientEnvelopeId: envelopeId,
+        rawSender: cleanSender,
+        rawBody: cleanBody,
+        receivedAtDevice: cleanReceivedAt,
+      );
+      if (verdict?.hasUsableNativeCapability != true) {
+        throw StateError('Android receipt verification did not pass.');
+      }
       await supabase.functions.invoke(
         'ingest-payment-sms',
         body: {
-          'client_envelope_id': clientEnvelopeId ?? _uuid.v4(),
-          'raw_sender': rawSender,
-          'raw_body': body,
-          'receiver_momo_number': profile!.momoNumber,
-          'received_at_device': receivedAtDevice,
+          'native_capability': verdict!.nativeCapability,
+          'client_envelope_id': envelopeId,
+          'raw_sender': cleanSender,
+          'raw_body': cleanBody,
+          'receiver_momo_number': profile.momoNumber,
+          'received_at_device': cleanReceivedAt,
         },
       );
       if (refreshAfterIngest) await loadInitial();
@@ -1223,6 +1285,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (normalizedSlug.isEmpty) {
       throw const FormatException('Group link is invalid');
     }
+    _requireReadyProfile();
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -1666,6 +1729,20 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectProfile _requireProfile() {
     final profile = state.currentProfile;
     if (profile == null) throw StateError('Sign in first');
+    return profile;
+  }
+
+  CollectProfile _requireReadyProfile() {
+    final profile = _requireProfile();
+    if (!profile.isComplete) {
+      throw FormatException(
+        profile.isRwanda
+            ? 'Complete your profile with a valid MoMo number first.'
+            : profile.isDiaspora
+            ? 'Complete your profile with an account number first.'
+            : 'Choose your country and complete your profile first.',
+      );
+    }
     return profile;
   }
 

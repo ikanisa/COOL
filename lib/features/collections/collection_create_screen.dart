@@ -11,6 +11,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_creation_platform.dart';
+import '../profile/member_profile_gate.dart';
 
 part 'collection_create_widgets.dart';
 
@@ -260,6 +261,8 @@ class _CollectionCreateScreenState
 
   Future<void> _create() async {
     try {
+      await requireMemberProfileReady(context, ref);
+      if (!mounted) return;
       setState(() {
         _creating = true;
         _error = null;

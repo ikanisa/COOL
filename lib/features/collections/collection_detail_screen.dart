@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../profile/member_profile_gate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -178,6 +179,8 @@ class _CollectionDetailScreenState
 
   Future<void> _joinPrivateGroup(CollectCollection collection) async {
     try {
+      await requireMemberProfileReady(context, ref);
+      if (!mounted) return;
       await ref
           .read(collectRepositoryProvider.notifier)
           .joinGroupBySlug(collection.slug);

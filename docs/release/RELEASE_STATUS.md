@@ -1,5 +1,14 @@
 # Collect Release Status
 
+> **Current authoritative update — 2026-09-03:** The production backend and
+> Admin PWA technical cutovers are complete, and the native candidate has been
+> rebuilt as `1.2.4+23`. Public distribution remains **NO-GO** pending the exact
+> current-artifact Android signing review and final release-owner signoff. Use
+> [PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md](PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md)
+> for the current hashes, production readbacks and approval commands. The
+> dated material below is retained as historical evidence and is not the
+> current release decision.
+
 Status date: 2026-08-20
 Release candidate: **none — current source is not artifact-frozen**
 Product boundary: SMS-first Groups

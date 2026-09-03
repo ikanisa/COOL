@@ -1,0 +1,237 @@
+{
+  "started_at": "2026-09-03T10:37:35Z",
+  "mode": "isolated_local_production_archive_restore",
+  "source_project": "lhbowpbcpwoiparwnwgt",
+  "container": "collect-recovery-20260903t103735-2a2fab",
+  "hosted_changes": false,
+  "provider_sends": false,
+  "result": "DATABASE_RESTORE_AND_UPGRADE_REHEARSAL_PASS_NOT_PRODUCTION_GO",
+  "cleanup": {
+    "ram_only_container_removed": true,
+    "evidence_vault_detached": true
+  },
+  "limitations": [
+    "Storage object bytes and provider configuration are outside this database restore",
+    "Global role passwords intentionally omitted from the role archive",
+    "Role and database captures were separate snapshots",
+    "No off-site disaster recovery, key escrow or owner RPO/RTO acceptance established"
+  ],
+  "bootstrap": {
+    "role": "supabase_admin",
+    "already_created_role_statement_omitted": 1,
+    "role_attributes_and_grantors_preserved": true
+  },
+  "source_database_sha256": "20cfe8cb1a099867332a2e65c41104d6879d0858ae2405faf7854e438336e7dd",
+  "source_roles_sha256": "0acaef8c2682c67331351704f6b1646e9a5cadda385d53665b04bfc8c9afc18a",
+  "encrypted_evidence_vault": "/Users/jeanbosco/Library/Application Support/CollectRecovery/collect-restore-20260903t103735-2a2fab.sparsebundle",
+  "isolation": {
+    "network": "none",
+    "published_ports": 0,
+    "readonly_rootfs": true,
+    "database_storage": "tmpfs",
+    "container_swap_disabled": true,
+    "http_worker": "bound_to_empty_template1_with_zero_batch_size"
+  },
+  "roles_restored": true,
+  "graphql_bootstrap": {
+    "definition_sha256": "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2",
+    "captured_extension_member_restored_before_its_acl": true,
+    "source_archive_modified": false
+  },
+  "database_restored": true,
+  "migration_count": 97,
+  "extension_versions_match": true,
+  "data_comparison": {
+    "table_copy_sections": 120,
+    "total_rows": 195529,
+    "sequence_statements": 4,
+    "other_data_statements": 0,
+    "all_fingerprints_match": true
+  },
+  "database_properties": {
+    "owner": "postgres",
+    "encoding": "UTF8",
+    "locale_provider": "icu",
+    "locale": "en_US.UTF-8",
+    "icu_locale": "en-US"
+  },
+  "schema_comparison": {
+    "sha256": "38e96de0c737787c310844d86779e46522a62980b5dc976226ba612c3e10f300",
+    "match": true,
+    "normalized_only": "tool comments/restrict keys, order of policy roles/adjacent default GRANTs, and one exact redundant CHECK AND grouping"
+  },
+  "roles_comparison": {
+    "match": true,
+    "sha256": "ce6e1d3a7e28f99f85cbb4f86593d0fea380b23b17537b3255a5971f2f801a36"
+  },
+  "migration_rehearsal": {
+    "hosted_changes": false,
+    "migrations": [
+      {
+        "file": "20260902073741_member_profile_numeric_identity.sql",
+        "sha256": "03efe1a2cfbe4440f779b5b0c08e6cf058deaf01e2d0f957cd5709a5c01bc9d1",
+        "status": "pass",
+        "seconds": 0.073
+      },
+      {
+        "file": "20260902075721_member_collection_read_contract.sql",
+        "sha256": "802155823f4d5153439ae74ee9d5a77884476e066daae8c0789a04d969073073",
+        "status": "pass",
+        "seconds": 0.074
+      },
+      {
+        "file": "20260902081017_hybrid_admin_overview_metrics.sql",
+        "sha256": "a7b8db182ad9a35a8d92240e0336e2a88c51f1a48c3fa201e8cf6b53a2379bca",
+        "status": "pass",
+        "seconds": 0.079
+      },
+      {
+        "file": "20260902081830_member_profile_read_allowlist.sql",
+        "sha256": "721f0aacbd48d0d38c8ffd4735ac7749667a5ef95746a0c8654b369e763eb9c0",
+        "status": "pass",
+        "seconds": 0.074
+      },
+      {
+        "file": "20260902083940_member_cross_rail_history.sql",
+        "sha256": "1cca99ee25e732ac070e9ca43248d3f48685f168c0e15badda07b0bce0dc7af8",
+        "status": "pass",
+        "seconds": 0.077
+      },
+      {
+        "file": "20260902090210_member_group_owner_controls.sql",
+        "sha256": "242d6dc4bb6f48c6320265658c5d3973f6d7577226aea2ae0438ac94c44bd241",
+        "status": "pass",
+        "seconds": 0.082
+      },
+      {
+        "file": "20260902091314_member_group_roster.sql",
+        "sha256": "79196683ec664b2c02965cc1e9908405740793b3e808911a6707fe3f99a021b8",
+        "status": "pass",
+        "seconds": 0.128
+      },
+      {
+        "file": "20260902093609_member_history_query_plan.sql",
+        "sha256": "0298cf1b8b9bcf6a15b3009794babd6e9e1c9bab1a5ea89cc670d78834c87b63",
+        "status": "pass",
+        "seconds": 0.153
+      },
+      {
+        "file": "20260902100046_member_bounded_history_pages.sql",
+        "sha256": "2de5086715bd3edb95677521e2025f14bf60b2de7bda2b9ae51a3f2270f2e21c",
+        "status": "pass",
+        "seconds": 0.155
+      },
+      {
+        "file": "20260902120435_hybrid_receipt_capture_contract.sql",
+        "sha256": "31509ef05d380d039b4ce6f6e801e7149401d5e213a86ad2876d96b14d93d48e",
+        "status": "pass",
+        "seconds": 0.159
+      },
+      {
+        "file": "20260902120555_hybrid_member_registry.sql",
+        "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de",
+        "status": "pass",
+        "seconds": 0.231
+      },
+      {
+        "file": "20260902134420_member_add_group_admin.sql",
+        "sha256": "df81a0a8e566d7c105192811d70d5484a4377ee1f4e0c4a0c1b205b66cd59c77",
+        "status": "pass",
+        "seconds": 0.098
+      },
+      {
+        "file": "20260902140151_platform_admin_whatsapp_approval.sql",
+        "sha256": "2799ce6ed756cd121042a14f1ea51ea7b72642cbb1c1bd49f4029a320de70caf",
+        "status": "pass",
+        "seconds": 0.143
+      },
+      {
+        "file": "20260902212721_revoke_official_payee_trigger_execute.sql",
+        "sha256": "2baccacc309c9a92ffa340f995bac16df61a9ad287fc9d1f78330f704d8e9a36",
+        "status": "pass",
+        "seconds": 0.107
+      },
+      {
+        "file": "20260903083947_member_profile_rpc_only_writes.sql",
+        "sha256": "76830e6a6dd32f1b708cefd986470f4b46ae50ad4cba31fca395a5bd1ff3287f",
+        "status": "pass",
+        "seconds": 0.109
+      },
+      {
+        "file": "20260903084000_hybrid_direct_ussd_financial_core.sql",
+        "sha256": "fd61cecfe58cba91303bcd2fceabbcfc3617fab423dd9978364508709ebc94e5",
+        "status": "pass",
+        "seconds": 0.232
+      },
+      {
+        "file": "20260903085000_hybrid_roster_import_control_plane.sql",
+        "sha256": "dfa19ad7cde6ec400558bda9a8e5e068ee912d62f4e9f6dcc3b6d1ebd88023ac",
+        "status": "pass",
+        "seconds": 0.128
+      },
+      {
+        "file": "20260903090000_hybrid_sms_notification_outbox.sql",
+        "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+        "status": "pass",
+        "seconds": 0.212
+      },
+      {
+        "file": "20260903090500_admin_sms_receipt_queue.sql",
+        "sha256": "9048c2079b4222086ab004f25fa7f5441eb3082094a72ed3d53ff2761e074d7a",
+        "status": "pass",
+        "seconds": 0.124
+      },
+      {
+        "file": "20260903091000_hybrid_verified_account_claim.sql",
+        "sha256": "18e4c1ccb18d3d1ae80852ea5d173a0cd57722d7777a0adc824a8df347b5e980",
+        "status": "pass",
+        "seconds": 0.174
+      },
+      {
+        "file": "20260903091500_hybrid_member_directory_views.sql",
+        "sha256": "34c2429840f7bed1999d86cac73e49c60ea5db9cebb047db3fef7ec06ee557e5",
+        "status": "pass",
+        "seconds": 0.1
+      },
+      {
+        "file": "20260903092000_admin_sms_receipt_failed_filter.sql",
+        "sha256": "5a1a55f77f6f7a73eb4484a6312b20eee2cd33d3c2f27b7b0e7a64605a46b514",
+        "status": "pass",
+        "seconds": 0.086
+      }
+    ],
+    "excluded_config_tables": [
+      "supabase_migrations.schema_migrations",
+      "public.feature_flags",
+      "public.admin_queue_filter_options"
+    ],
+    "excluded_audit_timestamp": "public.collections.updated_at only; official origin backfill invokes existing timestamp trigger",
+    "control_metadata": "named candidate rows added; all unrelated rows preserved",
+    "preexisting_data_preserved": {
+      "tables": 116,
+      "rows": 202926,
+      "match": true
+    },
+    "realtime_events": {
+      "existing_rows_preserved": 834,
+      "new_invalidation_events": 27,
+      "areas": {
+        "members": 3,
+        "collections": 2,
+        "feature_flags": 4,
+        "settings": 18
+      }
+    },
+    "permission_and_index_gates": "pass",
+    "identity_backfill_and_default_access": "pass",
+    "member_and_selected_admin_readbacks": "pass_rolled_back_no_provider_sends",
+    "attested_sms_finality_uat": "pass_rolled_back_synthetic_provider_sms_no_external_send",
+    "hybrid_roster_import_uat": "pass_rolled_back_synthetic_admin_and_members_no_external_send",
+    "hybrid_sms_notification_outbox_uat": "pass_rolled_back_synthetic_consent_and_operator_flow_no_external_send",
+    "hybrid_verified_account_claim_uat": "pass_rolled_back_exact_verified_phone_claim_no_external_send",
+    "sequences_preserved": 4,
+    "migration_count": 119,
+    "status": "pass"
+  },
+  "finished_at": "2026-09-03T10:38:01Z"
+}

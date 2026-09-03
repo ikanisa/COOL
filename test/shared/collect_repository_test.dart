@@ -134,7 +134,7 @@ void main() {
       final european = await repository.updateCurrentProfile(
         countryCode: 'GB',
         revolutLink: 'https://revolut.me/jeanbosco',
-        revolutAccount: 'Personal EUR account',
+        revolutAccount: '000123456789',
       );
 
       expect(european.whatsappPhone, verifiedWhatsApp);
@@ -179,7 +179,7 @@ void main() {
       await repository.updateCurrentProfile(
         countryCode: 'DE',
         revolutLink: 'https://revolut.me/jeanbosco',
-        revolutAccount: 'Personal EUR account',
+        revolutAccount: '000123456789',
       );
 
       final intent = await repository.createPaymentIntent(
@@ -225,7 +225,7 @@ void main() {
       await repository.updateCurrentProfile(
         countryCode: 'DE',
         revolutLink: 'https://revolut.me/jeanbosco',
-        revolutAccount: 'Personal EUR account',
+        revolutAccount: '000123456789',
       );
       final intent = await repository.createPaymentIntent(
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5050),

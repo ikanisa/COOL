@@ -1,0 +1,48 @@
+{
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "result": "SECOND_ADMIN_APPROVED_FRESH_SIGN_IN_AND_RELOAD_VERIFIED",
+  "authorization": "Explicit owner request in the current Codex task",
+  "approval_channel": "Authenticated project-owner control plane",
+  "codex_task_id": "01a061c2-adea-76e0-8248-ebce6b0fd787",
+  "second_admin": {
+    "collect_id": "956974",
+    "phone_ending": "7816",
+    "approved_at": "2026-09-03T19:49:58.657943Z",
+    "verified_identity": true,
+    "approval_active": true,
+    "existing_admin_role_active": true,
+    "owner_approval_audit_count": 1
+  },
+  "first_admin": {
+    "collect_id": "965511",
+    "phone_ending": "8248",
+    "approved_at": "2026-09-03T07:49:30.079626Z",
+    "approval_active": true,
+    "existing_admin_role_active": true,
+    "approval_unchanged": true
+  },
+  "independent_readback": {
+    "read_only_connector": "PASS",
+    "private_approved_identity_predicates": "PASS",
+    "active_approvals": 2
+  },
+  "scope": {
+    "approval_rows_inserted": 1,
+    "audit_rows_inserted": 1,
+    "auth_users_created_or_modified": 0,
+    "admin_role_grants_created_or_modified": 0,
+    "sessions_created": 0,
+    "otp_sends_by_this_approval": 0,
+    "authentication_bypassed": false
+  },
+  "subsequent_authenticated_browser_check": {
+    "fresh_otp_sign_in": "PASS",
+    "admin_dashboard": "PASS",
+    "reload_session_persistence": "PASS",
+    "hosted_admin_roster_records": 2,
+    "otp_or_session_token_saved_in_evidence": false
+  },
+  "remaining": [
+    "Separate OTP non-delivery incident remains unresolved"
+  ]
+}

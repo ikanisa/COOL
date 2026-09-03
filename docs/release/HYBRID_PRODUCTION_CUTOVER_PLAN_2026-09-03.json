@@ -1,0 +1,58 @@
+{
+  "started_at": "2026-09-03T11:41:02Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "plan",
+  "result": "PASS",
+  "migration_commit_attempted": false,
+  "provider_sends": 0,
+  "network_mutations": 0,
+  "edge_function_deployments": 0,
+  "operational_flags_enabled": 0,
+  "baseline_migrations": 112,
+  "migrations": [
+    {
+      "version": "20260903084000",
+      "name": "hybrid_direct_ussd_financial_core",
+      "file": "20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+    },
+    {
+      "version": "20260903085000",
+      "name": "hybrid_roster_import_control_plane",
+      "file": "20260903085000_hybrid_roster_import_control_plane.sql",
+      "sha256": "dfa19ad7cde6ec400558bda9a8e5e068ee912d62f4e9f6dcc3b6d1ebd88023ac"
+    },
+    {
+      "version": "20260903090000",
+      "name": "hybrid_sms_notification_outbox",
+      "file": "20260903090000_hybrid_sms_notification_outbox.sql",
+      "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9"
+    },
+    {
+      "version": "20260903090500",
+      "name": "admin_sms_receipt_queue",
+      "file": "20260903090500_admin_sms_receipt_queue.sql",
+      "sha256": "9048c2079b4222086ab004f25fa7f5441eb3082094a72ed3d53ff2761e074d7a"
+    },
+    {
+      "version": "20260903091000",
+      "name": "hybrid_verified_account_claim",
+      "file": "20260903091000_hybrid_verified_account_claim.sql",
+      "sha256": "18e4c1ccb18d3d1ae80852ea5d173a0cd57722d7777a0adc824a8df347b5e980"
+    },
+    {
+      "version": "20260903091500",
+      "name": "hybrid_member_directory_views",
+      "file": "20260903091500_hybrid_member_directory_views.sql",
+      "sha256": "34c2429840f7bed1999d86cac73e49c60ea5db9cebb047db3fef7ec06ee557e5"
+    },
+    {
+      "version": "20260903092000",
+      "name": "admin_sms_receipt_failed_filter",
+      "file": "20260903092000_admin_sms_receipt_failed_filter.sql",
+      "sha256": "5a1a55f77f6f7a73eb4484a6312b20eee2cd33d3c2f27b7b0e7a64605a46b514"
+    }
+  ],
+  "atomic_transaction_sha256": "36f68603e5923bde2392cc5e42741b0f3cca8e97d4cba27da9f1b472d2e5fd7c",
+  "finished_at": "2026-09-03T11:41:03Z"
+}

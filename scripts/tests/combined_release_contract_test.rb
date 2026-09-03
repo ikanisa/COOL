@@ -8,8 +8,8 @@ require_relative '../audits/collect_index_inventory'
 class CombinedReleaseContractTest < Minitest::Test
   ROOT = File.expand_path('../..', __dir__)
   TARGETS = {
-    combined: ['supabase_db_collect', 'collect_release_combined_uat_20260902'],
-    replay: ['supabase_db_collect_release_replay_20260902', 'postgres']
+    combined: ['supabase_db_collect_release_replay_20260902', 'postgres'],
+    replay: ['supabase_db_collect_clean_uat_20260902', 'postgres']
   }.freeze
   READINESS = File.read(ROOT + '/scripts/supabase_production_readiness.sh')
   QUERIES = {
@@ -94,6 +94,33 @@ class CombinedReleaseContractTest < Minitest::Test
     SQL
     assert_includes result, 'missing function grant: authenticated EXECUTE on get_current_member_profile'
     assert_equal 't', sql(:combined, "select has_function_privilege('authenticated','public.get_current_member_profile()','execute');")
+  end
+
+  def test_direct_member_profile_write_grant_is_detected_and_rolled_back
+    result = sql(:combined, <<~SQL)
+      begin;
+      grant update(momo_number_hash) on public.profiles to authenticated;
+      #{QUERIES.fetch(:columns)}
+      rollback;
+    SQL
+    assert_includes result,
+      'forbidden member profile write grant: authenticated UPDATE on profiles.momo_number_hash'
+    # The surrounding transaction must restore the current RPC-only baseline.
+    assert_equal 'f', sql(:combined,
+      "select has_column_privilege('authenticated','public.profiles','momo_number_hash','update');")
+  end
+
+  def test_public_profile_column_write_grant_is_detected_and_rolled_back
+    result = sql(:combined, <<~SQL)
+      begin;
+      grant update(momo_number_hash) on public.profiles to public;
+      #{QUERIES.fetch(:columns)}
+      rollback;
+    SQL
+    assert_includes result,
+      'forbidden member profile write grant: PUBLIC UPDATE on profiles.momo_number_hash'
+    assert_equal 'f', sql(:combined,
+      "select has_column_privilege('public','public.profiles','momo_number_hash','update');")
   end
 
   def test_official_route_is_still_immutable_after_trigger_grant_revocation

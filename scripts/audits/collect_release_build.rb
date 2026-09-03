@@ -31,10 +31,6 @@ module CollectReleaseBuild
     input&.clear
     env = environment(credential)
     env['FLUTTER_BIN']='/Users/jeanbosco/Developer/flutter/bin/flutter'
-    env['COLLECT_ANDROID_BUILD_NAME']='1.2.4'
-    env['COLLECT_ANDROID_BUILD_NUMBER']='23'
-    env['COLLECT_IOS_BUILD_NAME']='1.2.4'
-    env['COLLECT_IOS_BUILD_NUMBER']='23'
     script = {'admin'=>'admin_pwa_release_build.sh','android'=>'android_play_store_build.sh','ios'=>'ios_app_store_build.sh'}.fetch(target)
     raise "#{target} release build failed" unless system(env, 'bash', 'scripts/'+script, chdir: ROOT)
   ensure

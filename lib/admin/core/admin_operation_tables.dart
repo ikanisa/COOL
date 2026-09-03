@@ -447,13 +447,25 @@ class _AdminMemberTable extends StatelessWidget {
     return _AdminPremiumTable(
       minimumWidth: 900,
       columns: [
-        const DataColumn(
-          label: _AdminColumnLabel.brand(
-            brandIcon: FontAwesomeIcons.whatsapp,
-            label: 'WhatsApp',
-            iconOnly: true,
-          ),
+        DataColumn(
+          label: showGroups
+              ? const _AdminColumnLabel(
+                  icon: Icons.badge_outlined,
+                  label: 'Member',
+                )
+              : const _AdminColumnLabel.brand(
+                  brandIcon: FontAwesomeIcons.whatsapp,
+                  label: 'WhatsApp',
+                  iconOnly: true,
+                ),
         ),
+        if (showGroups)
+          const DataColumn(
+            label: _AdminColumnLabel(
+              icon: Icons.phone_android_outlined,
+              label: 'Account / contact',
+            ),
+          ),
         const DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.public_outlined,
@@ -503,11 +515,29 @@ class _AdminMemberTable extends StatelessWidget {
           DataRow(
             cells: [
               DataCell(
-                _AdminSingleValue(
-                  _extraText(row, 'whatsapp_masked', fallback: row.subtitle),
-                  maxWidth: 130,
-                ),
+                showGroups
+                    ? _AdminPrimaryCell(
+                        title: row.title,
+                        subtitle: _extraText(row, 'display_name', fallback: ''),
+                        maxWidth: 200,
+                      )
+                    : _AdminSingleValue(
+                        _extraText(
+                          row,
+                          'whatsapp_masked',
+                          fallback: row.subtitle,
+                        ),
+                        maxWidth: 130,
+                      ),
               ),
+              if (showGroups)
+                DataCell(
+                  _AdminPrimaryCell(
+                    title: _memberAccountLabel(row),
+                    subtitle: _memberContactLabel(row),
+                    maxWidth: 200,
+                  ),
+                ),
               DataCell(_AdminCountryLabel(countryCode: _country(row))),
               DataCell(_AdminMemberPaymentLabel(row: row)),
               if (showGroups)
@@ -533,7 +563,9 @@ class _AdminMemberTable extends StatelessWidget {
                 _AdminOpenButton(
                   row: row,
                   onOpen: onOpen,
-                  label: 'Open $accountLabel account',
+                  label: showGroups
+                      ? 'Open member record ${row.title}'
+                      : 'Open $accountLabel account',
                 ),
               ),
             ],
@@ -657,19 +689,40 @@ class _AdminMemberCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accountLabel = scopeLabel == 'Members' ? 'member' : 'user';
+    final showGroups = scopeLabel == 'Members';
+    final accountLabel = showGroups ? 'member' : 'user';
     return _AdminOperationsCardList(
       children: [
         for (final row in rows)
           _AdminOperationsCard(
-            leading: const FaIcon(FontAwesomeIcons.whatsapp, size: 18),
-            title: _extraText(row, 'whatsapp_masked', fallback: row.subtitle),
-            subtitle: '',
+            leading: showGroups
+                ? const Icon(Icons.badge_outlined, size: 18)
+                : const FaIcon(FontAwesomeIcons.whatsapp, size: 18),
+            title: showGroups
+                ? row.title
+                : _extraText(row, 'whatsapp_masked', fallback: row.subtitle),
+            subtitle: showGroups
+                ? _extraText(row, 'display_name', fallback: '')
+                : '',
             iconOnlyFields: true,
             status: row.status == 'admin' ? row.status : '',
             onOpen: onOpen == null ? null : () => onOpen!(row),
-            openLabel: 'Open $accountLabel account',
+            openLabel: showGroups
+                ? 'Open member record ${row.title}'
+                : 'Open $accountLabel account',
             fields: [
+              if (showGroups) ...[
+                _AdminOperationsFieldData(
+                  Icons.person_outline,
+                  'Account',
+                  _memberAccountLabel(row),
+                ),
+                _AdminOperationsFieldData(
+                  Icons.phone_outlined,
+                  'Contact',
+                  _memberContactLabel(row),
+                ),
+              ],
               _AdminOperationsFieldData(
                 Icons.public_outlined,
                 'Country',
@@ -691,6 +744,22 @@ class _AdminMemberCards extends StatelessWidget {
       ],
     );
   }
+}
+
+String _memberAccountLabel(AdminTableRowData row) =>
+    switch (_extraText(row, 'account_state', fallback: '')) {
+      'feature_phone' => 'Feature phone',
+      'app' => 'App account',
+      'app_claimed' => 'Claimed app account',
+      _ => 'Account not recorded',
+    };
+
+String _memberContactLabel(AdminTableRowData row) {
+  final momo = _extraText(row, 'momo_masked', fallback: '');
+  if (momo.isNotEmpty) return 'MoMo $momo';
+  // Absence of a MoMo identity must not imply a WhatsApp account exists.
+  final whatsapp = _extraText(row, 'whatsapp_masked', fallback: '');
+  return whatsapp.isEmpty ? 'Contact not recorded' : 'WhatsApp $whatsapp';
 }
 
 class _AdminPremiumTable extends StatelessWidget {

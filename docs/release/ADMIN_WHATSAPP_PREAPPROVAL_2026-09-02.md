@@ -1,5 +1,19 @@
 # Platform Admin WhatsApp pre-approval — corrected scope
 
+**3 September authenticated follow-up:** the second approved operator completed
+a fresh OTP sign-in and the dashboard remained authenticated after reload. The
+hosted Admin roster contains both operators. The earlier first-number delivery
+incident is not resolved by this success. See the
+[authenticated UAT report](HYBRID_AUTHENTICATED_ADMIN_UAT_2026-09-03.md).
+
+**3 September second-operator update, 19:49 UTC:** on the owner's explicit
+request, existing verified Collect ID **956974**, phone ending **7816**, now
+has WhatsApp approval. Its existing Admin role was retained; the first Admin's
+approval and role were unchanged. Independent readback confirms **two** active
+approvals and one audited owner-control-plane approval event. No Auth identity,
+session or role was created. Fresh OTP sign-in and the separate delivery incident
+remain open. See [second-operator readback](SECOND_ADMIN_WHATSAPP_APPROVAL_2026-09-03.json).
+
 **3 September cutover update:** the reviewed migration is now deployed. The
 exact owner-selected existing Collect ID 965511 is approved and activated;
 independent readback confirms one active approval. A fresh WhatsApp sign-in is

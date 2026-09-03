@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-03T20:22:11Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "apply",
+  "baseline": 120,
+  "migration": "20260903200322",
+  "source_sha256": "2909300e938a4f09012e025c7d22136953ff53ffd9c4713662a9bc33ffc5c4c1",
+  "transaction_sha256": "59c579e8a65d2bb51511ffe2a1624c28b7e3d5b24cbd8c58a22fc306155973c2",
+  "protected_relations": [
+    "public.profiles",
+    "public.payments",
+    "public.ledger_entries",
+    "public.raw_payment_sms",
+    "public.bank_transactions",
+    "public.bank_transaction_allocations",
+    "public.journal_entries",
+    "public.collection_members",
+    "public.collections",
+    "public.collection_receivers",
+    "public.admin_user_roles",
+    "public.feature_flags",
+    "collect_admin_access.whatsapp_approvals",
+    "collect_hybrid.member_records",
+    "collect_hybrid.member_momo_identities"
+  ],
+  "provider_sends": 0,
+  "commit_attempted": true,
+  "result": "DEPLOYED_AND_VERIFIED",
+  "protected_data_and_acl": "UNCHANGED_IN_ATOMIC_TRANSACTION"
+}

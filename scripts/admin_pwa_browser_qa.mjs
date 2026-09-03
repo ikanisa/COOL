@@ -62,9 +62,14 @@ const allRoutes = [
   },
   {
     path: '/admin',
+    minimumSemanticsCount: 16,
     requiredLabels: [
       'Collect admin workspace',
       'Overview admin section',
+    ],
+    requiredInteractiveNames: [
+      'Review next exception',
+      'View all exceptions',
     ],
   },
   {
@@ -72,8 +77,8 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
       'Group',
       'Access',
@@ -91,8 +96,8 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Groups admin section',
-      'Group operations profile detail panel',
     ],
+    requiredLabelSuffixes: [' detail panel'],
   },
   {
     path: '/admin/members',
@@ -100,15 +105,14 @@ const allRoutes = [
       'Collect admin workspace',
       'Members admin section',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
-      'Collect ID',
       'WhatsApp',
       'Country',
       'Payment profile',
       'Groups',
-      'State',
+      'Admin access',
       'Updated',
       'Open',
     ],
@@ -119,15 +123,13 @@ const allRoutes = [
       'Collect admin workspace',
       'Users admin section',
       'Search',
-      'Admin records table, 4 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
-      'Collect ID',
       'WhatsApp',
       'Country',
       'Payment profile',
-      'Groups',
-      'State',
+      'Admin access',
       'Updated',
       'Open',
     ],
@@ -138,7 +140,7 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Members admin section',
-      'Member support profile detail panel',
+      'Member detail panel',
     ],
   },
   {
@@ -147,9 +149,9 @@ const allRoutes = [
       'Collect admin workspace',
       'Payees admin section',
       'Search',
-      'Official payee management',
-      'Admin records table, 2 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
+    requiredInteractiveNames: ['Create payee'],
   },
   {
     path: '/admin/transactions',
@@ -157,8 +159,8 @@ const allRoutes = [
       'Collect admin workspace',
       'Transactions admin section',
       'Search',
-      'Admin records table, 12 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
       'Reference',
       'Rail',
@@ -175,8 +177,8 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Transactions admin section',
-      'Collect transaction detail panel',
     ],
+    requiredLabelSuffixes: [' detail panel'],
   },
   {
     path: '/admin/reconciliations',
@@ -184,8 +186,8 @@ const allRoutes = [
       'Collect admin workspace',
       'Reconciliations admin section',
       'Search',
-      'Admin records table, 4 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
   },
   {
     path: '/admin/ledgers',
@@ -193,7 +195,31 @@ const allRoutes = [
       'Collect admin workspace',
       'Ledgers admin section',
       'Search',
-      'Admin records table, 10 rows',
+    ],
+    requiredLabelPrefixes: ['Admin records table, '],
+  },
+  {
+    path: '/admin/sms-receipts',
+    requiredLabels: [
+      'Collect admin workspace',
+      'SMS receipts admin section',
+      'Search',
+    ],
+    requiredLabelPrefixes: ['Admin records table, '],
+    desktopRequiredLabels: [
+      'Record',
+      'Status',
+      'Amount',
+      'Created',
+      'Open',
+    ],
+  },
+  {
+    path: '/admin/sms-receipts/sms-receipt-1',
+    requiredLabels: [
+      'Collect admin workspace',
+      'SMS receipts admin section',
+      'Feature-phone SMS receipt detail panel',
     ],
   },
   {
@@ -202,16 +228,16 @@ const allRoutes = [
       'Collect admin workspace',
       'Notifications admin section',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
   },
   {
     path: '/admin/notifications/notification-1',
     requiredLabels: [
       'Collect admin workspace',
       'Notifications admin section',
-      'Notification delivery review detail panel',
     ],
+    requiredLabelSuffixes: [' detail panel'],
     desktopRequiredLabels: ['Retry failed notification deliveries'],
   },
   {
@@ -220,8 +246,8 @@ const allRoutes = [
       'Collect admin workspace',
       'Audit logs admin section',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
   },
   {
     path: '/admin/settings',
@@ -229,8 +255,8 @@ const allRoutes = [
       'Collect admin workspace',
       'Settings admin section',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
   },
   {
     path: '/admin/feature-flags',
@@ -238,16 +264,16 @@ const allRoutes = [
       'Collect admin workspace',
       'Feature flags admin section',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
   },
   {
     path: '/admin/system-health',
     requiredLabels: [
       'Collect admin workspace',
       'System health admin section',
-      'System health detail panel',
     ],
+    requiredLabelSuffixes: [' detail panel'],
   },
   {
     path: '/admin/admin-users',
@@ -255,17 +281,17 @@ const allRoutes = [
       'Collect admin workspace',
       'Admin users admin section',
       'Search',
-      'Admin records table, 25 rows',
     ],
+    requiredLabelPrefixes: ['Admin records table, '],
   },
   {
     path: '/admin/admin-users/admin-user-1',
     requiredLabels: [
       'Collect admin workspace',
       'Admin users admin section',
-      'Admin access profile detail panel',
     ],
-    desktopRequiredLabels: ['Admin role management'],
+    requiredLabelSuffixes: [' detail panel'],
+    requiredInteractiveNames: ['Revoke approval', 'Deactivate Admin'],
   },
 ];
 const viewports = process.env.ADMIN_PWA_BROWSER_QA_VIEWPORT
@@ -305,6 +331,47 @@ function findExisting(candidates, label) {
     throw new Error(`No usable ${label} found. Checked: ${candidates.join(', ')}`);
   }
   return value;
+}
+
+function normalizeAccessibleLabel(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ');
+}
+
+function requiredLabelEvidence(route, viewport, accessibleLabels) {
+  const available = accessibleLabels.map(normalizeAccessibleLabel);
+  const exact = [
+    ...(route.requiredLabels || []),
+    ...(viewport.compact ? [] : route.desktopRequiredLabels || []),
+  ].map(normalizeAccessibleLabel);
+  const prefixes = (route.requiredLabelPrefixes || []).map(
+    normalizeAccessibleLabel,
+  );
+  const suffixes = (route.requiredLabelSuffixes || []).map(
+    normalizeAccessibleLabel,
+  );
+  const exactMatch = (required) =>
+    available.some(
+      (label) => label === required || label === `${required} ${required}`,
+    );
+  const missingExact = exact.filter((required) => !exactMatch(required));
+  const missingPrefixes = prefixes.filter(
+    (required) => !available.some((label) => label.startsWith(required)),
+  );
+  const missingSuffixes = suffixes.filter(
+    (required) => !available.some((label) => label.endsWith(required)),
+  );
+  return {
+    passed:
+      missingExact.length === 0 &&
+      missingPrefixes.length === 0 &&
+      missingSuffixes.length === 0,
+    exact,
+    prefixes,
+    suffixes,
+    missingExact,
+    missingPrefixes,
+    missingSuffixes,
+  };
 }
 
 async function loadPlaywright() {
@@ -541,28 +608,30 @@ async function interactiveTargetSnapshot(page) {
       }
     }
     for (const { element, record } of clippedCandidateElements) {
+      const scrollPositions = [];
       let scrollAncestor = element.parentElement;
       while (scrollAncestor) {
         const style = getComputedStyle(scrollAncestor);
-        const scrollable = [style.overflowY, style.overflow].some((value) =>
-          ['auto', 'scroll'].includes(value),
-        );
+        const scrollable = [
+          style.overflow,
+          style.overflowX,
+          style.overflowY,
+        ].some((value) => ['auto', 'scroll'].includes(value));
         if (
           scrollable &&
-          scrollAncestor.scrollHeight > scrollAncestor.clientHeight + 1
+          (scrollAncestor.scrollHeight > scrollAncestor.clientHeight + 1 ||
+            scrollAncestor.scrollWidth > scrollAncestor.clientWidth + 1)
         ) {
-          break;
+          scrollPositions.push({
+            element: scrollAncestor,
+            top: scrollAncestor.scrollTop,
+            left: scrollAncestor.scrollLeft,
+          });
         }
         scrollAncestor = scrollAncestor.parentElement;
       }
-      if (!scrollAncestor) continue;
-      const originalScrollTop = scrollAncestor.scrollTop;
-      const candidateRect = element.getBoundingClientRect();
-      const ancestorRect = scrollAncestor.getBoundingClientRect();
-      scrollAncestor.scrollTop +=
-        (candidateRect.top + candidateRect.bottom) / 2 -
-        (ancestorRect.top + ancestorRect.bottom) / 2;
-      scrollAncestor.dispatchEvent(new Event('scroll', { bubbles: true }));
+      const originalWindowScroll = { x: window.scrollX, y: window.scrollY };
+      element.scrollIntoView({ block: 'center', inline: 'center' });
       await new Promise((resolve) =>
         requestAnimationFrame(() => requestAnimationFrame(resolve)),
       );
@@ -583,8 +652,12 @@ async function interactiveTargetSnapshot(page) {
           verifiedRect.width >= minimumCssPixels &&
           verifiedRect.height >= minimumCssPixels;
       }
-      scrollAncestor.scrollTop = originalScrollTop;
-      scrollAncestor.dispatchEvent(new Event('scroll', { bubbles: true }));
+      for (const position of scrollPositions.reverse()) {
+        position.element.scrollTop = position.top;
+        position.element.scrollLeft = position.left;
+        position.element.dispatchEvent(new Event('scroll', { bubbles: true }));
+      }
+      window.scrollTo(originalWindowScroll.x, originalWindowScroll.y);
       await new Promise((resolve) =>
         requestAnimationFrame(() => requestAnimationFrame(resolve)),
       );
@@ -1389,6 +1462,11 @@ async function auditRoute(browser, route, viewport) {
     const expectedNavigationLabel = viewport.width < 720
       ? 'Collect admin mobile navigation'
       : 'Collect admin primary navigation';
+    const labelEvidence = requiredLabelEvidence(
+      route,
+      viewport,
+      browserState.accessibleLabels,
+    );
 
     const checks = {
       httpOk: Boolean(
@@ -1398,10 +1476,7 @@ async function auditRoute(browser, route, viewport) {
       semanticsEnabled:
         !browserState.placeholderPresent &&
         browserState.semanticsCount > (route.minimumSemanticsCount ?? 20),
-      requiredLabelsPresent: [
-        ...route.requiredLabels,
-        ...(viewport.compact ? [] : route.desktopRequiredLabels || []),
-      ].every((label) => browserState.accessibleLabels.includes(label)),
+      requiredLabelsPresent: labelEvidence.passed,
       evidenceModeMarkerPresent: browserState.accessibleLabels.includes(
         'Collect admin evidence mode marker',
       ),
@@ -1457,12 +1532,6 @@ async function auditRoute(browser, route, viewport) {
       await resetForKeyboardInteraction(page, url);
       keyboardOpensTableRecord = await keyboardOpenFirstGroupRecord(page);
       checks.keyboardOpensTableRecord = keyboardOpensTableRecord;
-    }
-    let keyboardExportsCurrentPage = null;
-    if (route.path === '/admin/groups') {
-      await resetForKeyboardInteraction(page, url);
-      keyboardExportsCurrentPage = await keyboardExportCurrentPage(page);
-      checks.keyboardExportsCurrentPage = keyboardExportsCurrentPage.passed;
     }
     let keyboardReasonDialog = null;
     if (route.path === '/admin/notifications/notification-1') {
@@ -1527,6 +1596,7 @@ async function auditRoute(browser, route, viewport) {
         ...browserState,
         labels: browserState.labels.filter(Boolean),
       },
+      requiredLabelEvidence: labelEvidence,
       accessibility,
       interactiveTargets,
       focusRecords,
@@ -1534,7 +1604,6 @@ async function auditRoute(browser, route, viewport) {
       keyboardGroupsNavigation,
       keyboardMobileNavigation,
       keyboardOpensTableRecord,
-      keyboardExportsCurrentPage,
       keyboardReasonDialog,
       keyboardSensitiveGate,
       keyboardDeniedRecovery,

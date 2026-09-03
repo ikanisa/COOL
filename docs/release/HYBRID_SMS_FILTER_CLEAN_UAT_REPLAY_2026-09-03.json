@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-09-03T10:36:09Z",
+  "container": "supabase_db_collect_clean_uat_20260902",
+  "mode": "bounded local continuation after 20260903091500; no customer data or provider calls",
+  "server_version": "17.6",
+  "cron_launch_active_jobs": false,
+  "synthetic_bootstrap_owner": false,
+  "migrations": [
+    {
+      "migration": "20260903092000_admin_sms_receipt_failed_filter.sql",
+      "sha256": "5a1a55f77f6f7a73eb4484a6312b20eee2cd33d3c2f27b7b0e7a64605a46b514",
+      "status": "pass",
+      "seconds": 0.07
+    }
+  ],
+  "status": "pass"
+}

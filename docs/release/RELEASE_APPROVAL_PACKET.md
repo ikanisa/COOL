@@ -1,5 +1,12 @@
 # Collect Release Approval Packet
 
+> **Current authoritative update — 2026-09-03:** The exact current
+> `1.2.4+23` hashes, production readbacks, two remaining approvals and current
+> decision are in
+> [PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md](PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md).
+> The generated June material below is retained as historical evidence. Do not
+> reuse its artifact approvals for the current candidate.
+
 - Generated at: `2026-06-21T13:12:21Z`
 - Decision: `GO`
 - Status: `pass`

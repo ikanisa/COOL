@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-09-03T10:33:47Z",
+  "container": "supabase_db_collect_release_replay_20260902",
+  "mode": "bounded local continuation after 20260903085000; no customer data or provider calls",
+  "server_version": "17.6",
+  "cron_launch_active_jobs": false,
+  "synthetic_bootstrap_owner": false,
+  "migrations": [
+    {
+      "migration": "20260903090000_hybrid_sms_notification_outbox.sql",
+      "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "status": "pass",
+      "seconds": 0.1
+    },
+    {
+      "migration": "20260903090500_admin_sms_receipt_queue.sql",
+      "sha256": "9048c2079b4222086ab004f25fa7f5441eb3082094a72ed3d53ff2761e074d7a",
+      "status": "pass",
+      "seconds": 0.086
+    },
+    {
+      "migration": "20260903091000_hybrid_verified_account_claim.sql",
+      "sha256": "18e4c1ccb18d3d1ae80852ea5d173a0cd57722d7777a0adc824a8df347b5e980",
+      "status": "pass",
+      "seconds": 0.094
+    },
+    {
+      "migration": "20260903091500_hybrid_member_directory_views.sql",
+      "sha256": "34c2429840f7bed1999d86cac73e49c60ea5db9cebb047db3fef7ec06ee557e5",
+      "status": "pass",
+      "seconds": 0.073
+    }
+  ],
+  "status": "pass"
+}

@@ -32,7 +32,7 @@ class _BankSettingsRepository extends CollectRepository {
               momoProvider: 'mtn_momo',
               momoNumber: '0788123456',
               revolutLink: 'https://revolut.me/synthetic',
-              revolutAccount: 'Synthetic account',
+              revolutAccount: '000123456789',
             ),
     );
   }

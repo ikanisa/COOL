@@ -282,19 +282,3 @@ class _ProfileDetailRow extends StatelessWidget {
     ),
   );
 }
-
-class _ProfileSectionTitle extends StatelessWidget {
-  const _ProfileSectionTitle({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) => Semantics(
-    header: true,
-    child: Text(
-      title,
-      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-        color: context.collectColors.textSecondary,
-      ),
-    ),
-  );
-}

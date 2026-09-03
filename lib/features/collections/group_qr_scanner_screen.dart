@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../profile/member_profile_gate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -271,19 +272,23 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
       _error = null;
     });
     await _scanner.stop();
+    if (!mounted) return;
     try {
+      await requireMemberProfileReady(context, ref);
+      if (!mounted) return;
       final collection = await ref
           .read(collectRepositoryProvider.notifier)
           .joinGroupBySlug(slug);
       if (!mounted) return;
       context.go('/groups/${collection.id}');
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
       setState(() {
         _joining = false;
         _scanning = false;
-        _error =
-            'Could not open this group. Check the QR code or connection and try again.';
+        _error = error is FormatException
+            ? error.message
+            : 'Could not open this group. Check the QR code or connection and try again.';
       });
     }
   }

@@ -66,10 +66,11 @@ wrappers verify the embedded production backend. Packaging emitted existing
 Kotlin/CocoaPods migration warnings, not build failures; do not treat them as
 future-toolchain compatibility acceptance.
 
-Native artifact hashes and the 305-file source manifest are in
+Native artifact hashes and the source manifest are in
 [native artifact verification](NATIVE_CUTOVER_ARTIFACTS_V2_2026-09-03.json).
-The candidate uses explicit wrapper version overrides; no new release commit
-or store version was created.
+The repository package version is synchronized with the candidate, and the
+release wrapper now derives the Android and iOS versions from that single
+source. No new release commit or store version was created.
 
 ## Audit-tool corrections (no repeated production mutation)
 

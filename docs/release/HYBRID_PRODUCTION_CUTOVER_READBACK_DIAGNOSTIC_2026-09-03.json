@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-09-03T11:42:15Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "readback",
+  "result": "FAILED_REQUIRES_READBACK_BEFORE_RETRY",
+  "migration_commit_attempted": false,
+  "provider_sends": 0,
+  "network_mutations": 0,
+  "edge_function_deployments": 0,
+  "operational_flags_enabled": 0,
+  "error": "Hosted readiness failed: hybrid_financial: unexpected function grant on collect_hybrid.claim_verified_current_account: authenticated EXECUTE; unexpected function grant on collect_hybrid.enqueue_sms_receipt_from_snapshot: PUBLIC EXECUTE",
+  "finished_at": "2026-09-03T11:42:44Z"
+}

@@ -1,0 +1,126 @@
+{
+  "started_at": "2026-09-03T11:56:07Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "apply",
+  "result": "PRIVILEGE_BOUNDARY_REPAIRED_FLAGS_OFF_NOT_FULL_PRODUCTION_GO",
+  "migration_commit_attempted": true,
+  "provider_sends": 0,
+  "network_mutations": 0,
+  "edge_function_deployments": 0,
+  "operational_flags_enabled": 0,
+  "baseline_migrations": 119,
+  "migrations": [
+    {
+      "version": "20260903092500",
+      "name": "revoke_hybrid_internal_function_execute",
+      "file": "20260903092500_revoke_hybrid_internal_function_execute.sql",
+      "sha256": "07c9c0897642c6c0df137c256ffa25e6bdcf754622e26a53ca33b09842766c79"
+    }
+  ],
+  "atomic_transaction_sha256": "fd0a8bc6eebd9c8e51bc19113204868bd938b0218459312ac25173ee18e9c054",
+  "protected_data": {
+    "before": [
+      {
+        "table_name": "bank_transactions",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "ledger_entries",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "payments",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "profiles",
+        "rows": 8,
+        "sha256": "9391242abdbefc4bbd9ad586957512d719ec4eab784cda15a77f2703b744a7d0"
+      },
+      {
+        "table_name": "raw_payment_sms",
+        "rows": 3,
+        "sha256": "a913600ae53fdea8192cc968b1e79fa68a2e9b354f66e18f59d57725a24103d3"
+      }
+    ],
+    "after": [
+      {
+        "table_name": "bank_transactions",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "ledger_entries",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "payments",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "profiles",
+        "rows": 8,
+        "sha256": "9391242abdbefc4bbd9ad586957512d719ec4eab784cda15a77f2703b744a7d0"
+      },
+      {
+        "table_name": "raw_payment_sms",
+        "rows": 3,
+        "sha256": "a913600ae53fdea8192cc968b1e79fa68a2e9b354f66e18f59d57725a24103d3"
+      }
+    ],
+    "unchanged": true
+  },
+  "checks": {
+    "migration_sha256": "07c9c0897642c6c0df137c256ffa25e6bdcf754622e26a53ca33b09842766c79",
+    "function_boundary": {
+      "sms_trigger_internal_only": true,
+      "account_claim_internal_only": true,
+      "authenticated_wrapper_only": true,
+      "wrapper_fixed_path_security_definer": true,
+      "no_collect_hybrid_caller_grants": true
+    },
+    "disabled_flags": [
+      {
+        "key": "hybrid_direct_ussd_allocation",
+        "enabled": false
+      },
+      {
+        "key": "hybrid_member_onboarding",
+        "enabled": false
+      },
+      {
+        "key": "hybrid_sms_notifications",
+        "enabled": false
+      },
+      {
+        "key": "hybrid_verified_account_claim",
+        "enabled": false
+      },
+      {
+        "key": "native_sms_attestation_enforcement",
+        "enabled": false
+      }
+    ],
+    "installed_client_sms_contract_version": 0,
+    "readiness": {
+      "privileges": "pass",
+      "columns": "pass",
+      "rails": "pass",
+      "hybrid_financial": "pass",
+      "hybrid_sms": "pass"
+    },
+    "indexes": "pass",
+    "inventory": {
+      "migrations": 120,
+      "member_records": 8,
+      "platform_whatsapp_approvals": 1,
+      "member_backfill_valid": true
+    }
+  },
+  "finished_at": "2026-09-03T11:56:28Z"
+}

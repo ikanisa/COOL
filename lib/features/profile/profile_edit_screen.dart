@@ -21,7 +21,6 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _momoNumber = TextEditingController();
-  final _revolutLink = TextEditingController();
   final _revolutAccount = TextEditingController();
   Country? _selectedCountry;
   String? _hydratedProfileId;
@@ -36,7 +35,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   void initState() {
     super.initState();
     _momoNumber.addListener(_markDirty);
-    _revolutLink.addListener(_markDirty);
     _revolutAccount.addListener(_markDirty);
     _hydrate(ref.read(collectRepositoryProvider).currentProfile);
   }
@@ -44,10 +42,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   void dispose() {
     _momoNumber.removeListener(_markDirty);
-    _revolutLink.removeListener(_markDirty);
     _revolutAccount.removeListener(_markDirty);
     _momoNumber.dispose();
-    _revolutLink.dispose();
     _revolutAccount.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -137,10 +133,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                     ? null
                                     : _showCountryPicker,
                               ),
-                              if (!isRwanda) ...[
-                                CollectSpacing.gap24,
-                                const _ProfileSectionTitle(title: 'Revolut'),
-                              ],
                               CollectSpacing.gap12,
                               if (isRwanda) ...[
                                 _ProfileInput(
@@ -157,20 +149,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               ] else ...[
                                 _ProfileInput(
                                   key: const ValueKey(
-                                    'profile_revolut_link_input',
-                                  ),
-                                  controller: _revolutLink,
-                                  label: 'Revolut.me link',
-                                  enabled: !_saving,
-                                  keyboardType: TextInputType.url,
-                                ),
-                                CollectSpacing.gap12,
-                                _ProfileInput(
-                                  key: const ValueKey(
                                     'profile_revolut_account_input',
                                   ),
                                   controller: _revolutAccount,
-                                  label: 'Account details',
+                                  label: 'Account number',
                                   enabled: !_saving,
                                   textInputAction: TextInputAction.done,
                                   onSubmitted: (_) => _submitIfChanged(),
@@ -244,7 +226,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     _savedProfile = profile;
     _hydratedProfileId = profile.id;
     _momoNumber.text = profile.momoNumber;
-    _revolutLink.text = profile.revolutLink;
     _revolutAccount.text = profile.revolutAccount;
     _selectedCountry =
         Country.tryParse(profile.countryCode) ??
@@ -266,8 +247,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           countryCode != saved.countryCode ||
           (countryCode == 'RW'
               ? _momoNumber.text != saved.momoNumber
-              : _revolutLink.text != saved.revolutLink ||
-                    _revolutAccount.text != saved.revolutAccount);
+              : _revolutAccount.text != saved.revolutAccount);
       _error = null;
     });
   }
@@ -297,7 +277,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             countryCode: selectedCountry.countryCode,
             momoProvider: momo?.provider,
             momoNumber: momo?.localNumber,
-            revolutLink: _revolutLink.text,
             revolutAccount: _revolutAccount.text,
           );
       if (!mounted) return;

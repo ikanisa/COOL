@@ -51,10 +51,12 @@ SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli secrets set \
 payload="$(
   ruby -r json -e '
     public_url = ENV["APP_PUBLIC_URL"].to_s
-    public_url = "https://easymo.vercel.app" if public_url.empty?
+    public_url = "https://collect.ikanisa.com" if public_url.empty?
+    admin_url = ENV["ADMIN_APP_URL"].to_s
+    admin_url = "https://admin.collect.ikanisa.com" if admin_url.empty?
     payload = {
       site_url: public_url,
-      uri_allow_list: public_url,
+      uri_allow_list: [public_url, admin_url].uniq.join(","),
       external_anonymous_users_enabled: false,
       external_email_enabled: false,
       external_phone_enabled: true,

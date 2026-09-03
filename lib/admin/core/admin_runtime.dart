@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_motion.dart';
@@ -30,6 +33,7 @@ import 'admin_auth_guard.dart';
 import 'admin_error_boundary.dart';
 import 'admin_repository_base.dart';
 import 'admin_review_credentials.dart';
+import 'roster_file_parser.dart';
 
 part 'admin_login_runtime.dart';
 part 'admin_overview_runtime.dart';
@@ -317,6 +321,27 @@ class AdminRepository extends AdminRepositoryBase {
     Map<String, dynamic> params,
   ) {
     return rpcMap(rpcName, params: params);
+  }
+
+  @override
+  Future<Map<String, dynamic>> prepareRosterImport(
+    Map<String, dynamic> body,
+  ) async {
+    final response = await _requireClient().functions.invoke(
+      'prepare-roster-import',
+      body: body,
+    );
+    final data = response.data;
+    final decoded = data is String ? jsonDecode(data) : data;
+    if (decoded is! Map) {
+      throw StateError(
+        'prepare-roster-import returned ${decoded.runtimeType}, expected map',
+      );
+    }
+    final result = Map<String, dynamic>.from(decoded);
+    final error = '${result['error'] ?? ''}'.trim();
+    if (error.isNotEmpty) throw StateError(error);
+    return result;
   }
 
   Future<Map<String, dynamic>> rpcMap(

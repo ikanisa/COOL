@@ -600,8 +600,7 @@ class CollectProfile {
                 (momoProvider == 'mtn_momo'
                     ? RegExp(r'^07[89][0-9]{7}$').hasMatch(momoNumber)
                     : RegExp(r'^07[23][0-9]{7}$').hasMatch(momoNumber))
-          : CollectDiasporaProfileRules.isValidLink(revolutLink) &&
-                CollectDiasporaProfileRules.isValidAccount(revolutAccount));
+          : CollectDiasporaProfileRules.isValidAccount(revolutAccount));
 
   CollectProfile copyWith({
     String? countryCode,

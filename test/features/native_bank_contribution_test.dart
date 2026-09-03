@@ -63,7 +63,7 @@ void main() {
             countryCode: 'DE',
             currencyCode: 'EUR',
             revolutLink: 'https://revolut.me/synthetic',
-            revolutAccount: 'Synthetic account',
+            revolutAccount: '000123456789',
           ),
         );
         String? copied;

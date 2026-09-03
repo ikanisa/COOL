@@ -67,6 +67,32 @@ class PlayIntegrityService {
     return sha256.convert(utf8.encode(payload)).toString();
   }
 
+  String buildSmsIngestionRequestHash({
+    required String subjectId,
+    required String nonce,
+    required String receiverMomoNumberHash,
+    required String clientEnvelopeId,
+    required String rawSender,
+    required String rawBody,
+    required String? receivedAtDevice,
+  }) {
+    final payload = jsonEncode({
+      'action': 'sms.ingest',
+      'subject_id': subjectId,
+      'nonce': nonce,
+      'receiver_momo_number_hash': receiverMomoNumberHash,
+      'sms_permission_granted': true,
+      'sms_access_enabled': true,
+      'sms_request': {
+        'client_envelope_id': clientEnvelopeId,
+        'raw_sender': rawSender,
+        'raw_body_sha256': sha256.convert(utf8.encode(rawBody)).toString(),
+        'received_at_device': receivedAtDevice,
+      },
+    });
+    return sha256.convert(utf8.encode(payload)).toString();
+  }
+
   Future<String?> requestStandardToken({required String requestHash}) async {
     try {
       return await _channel.invokeMethod<String>('requestStandardToken', {
@@ -104,6 +130,43 @@ class PlayIntegrityService {
         'sms_permission_granted': true,
         'sms_access_enabled': true,
         'group_request': groupRequest,
+      },
+    );
+    final data = response.data;
+    return data is Map<dynamic, dynamic>
+        ? PlayIntegrityVerdict.fromMap(data)
+        : null;
+  }
+
+  Future<PlayIntegrityVerdict?> verifySmsWithServer({
+    required SupabaseClient supabase,
+    required String requestHash,
+    required String integrityToken,
+    required String subjectId,
+    required String nonce,
+    required String receiverMomoNumberHash,
+    required String clientEnvelopeId,
+    required String rawSender,
+    required String rawBody,
+    required String? receivedAtDevice,
+  }) async {
+    final response = await supabase.functions.invoke(
+      'verify-play-integrity',
+      body: {
+        'action': 'sms.ingest',
+        'request_hash': requestHash,
+        'integrity_token': integrityToken,
+        'subject_id': subjectId,
+        'nonce': nonce,
+        'receiver_momo_number_hash': receiverMomoNumberHash,
+        'sms_permission_granted': true,
+        'sms_access_enabled': true,
+        'sms_request': {
+          'client_envelope_id': clientEnvelopeId,
+          'raw_sender': rawSender,
+          'raw_body_sha256': sha256.convert(utf8.encode(rawBody)).toString(),
+          'received_at_device': receivedAtDevice,
+        },
       },
     );
     final data = response.data;

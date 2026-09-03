@@ -6,7 +6,7 @@ Decision: **NOT PRODUCTION READY for the new journey**
 
 Scope: Rwanda MoMo/USSD, account-independent members, admin-assisted groups and roster import, receipt allocation, app/SMS routing, Codex operations, QA and UAT.
 
-This started as an architecture analysis, with current-source diagnostics and a limited live admin UX inspection. After the owner accepted send-time confirmation, a local foundation was implemented and tested; see [implementation status](IMPLEMENTATION_STATUS.md). It is not a completed feature release. No production schema, customer record, payment, message, account setting, deployed frontend or automation was changed. Existing dirty work was preserved. Sections describing the original inspection remain a dated baseline, not the current implementation inventory.
+This started as an architecture analysis, with current-source diagnostics and a limited live admin UX inspection. After the owner accepted send-time confirmation, the backend, Admin, Edge operator, MCP and roster-extraction candidate were implemented and tested; see [implementation status](IMPLEMENTATION_STATUS.md). The production backend and Admin PWA have now been deployed and read back, with every hybrid feature flag still OFF. It is not a completed feature release: no live hybrid payment, OpenAI roster request, Messages receipt, store rollout or physical acceptance has occurred. A one-minute Codex heartbeat was created PAUSED and has never sent. Existing dirty work was preserved. Sections describing the original inspection remain a dated baseline, not the current implementation inventory.
 
 ## 1. Recommended product decision
 
@@ -38,11 +38,11 @@ flowchart LR
   S --> E[Observed send evidence or uncertain outcome]
 ~~~
 
-The SMS is the product's external transaction truth. No new bank/provider finality step is proposed for Rwanda receipts. Diaspora bank-rail rules remain separate and unchanged.
+The provider SMS is the Rwanda product's external transaction evidence. Matching and financial finality remain separate internal steps: after deterministic matching, the same fresh device-attested provider receipt can finalize its candidate automatically. No second bank/provider API or human confirmation is required, but an unattested or arbitrary client-supplied body cannot post money. Diaspora bank-rail rules remain separate and unchanged.
 
 ## 2. What exists today — verified evidence
 
-Working tree examined at HEAD 40620f10ffbde3bcbd6a53cc0f493de6e948cc73, with substantial pre-existing changes. Source findings describe that local candidate. Live screenshots describe the hosted admin only; matching source/deployment versions were not independently established.
+This subsection preserves the original 2 September baseline examined at HEAD `40620f10ffbde3bcbd6a53cc0f493de6e948cc73`. It explains why the update was required; it is superseded for current implementation and deployment status by [implementation status](IMPLEMENTATION_STATUS.md) and [goal execution](GOAL_EXECUTION.md).
 
 | Area | Current evidence | Consequence |
 | --- | --- | --- |
@@ -139,7 +139,7 @@ Allow single-row entry, paste-table entry, CSV/XLSX import, and reviewed PDF/ima
 7. In one transaction, lock the source and the affected member/group balance sequence; create payment, allocation, actual debit/credit journal, reconciliation record and immutable receipt balance snapshot. Enqueue the appropriate notification with a unique payment/member/purpose key.
 8. The app and admin read the same authoritative balances. Codex only reads the prepared receipt.
 
-No amount/time-only guess, fabricated pending intent, dependency on app login, or extra provider-confirmation state belongs in the direct-USSD path.
+No amount/time-only guess, fabricated pending intent, dependency on app login, second provider API or human confirmation belongs in the direct-USSD path. The finality record is produced automatically from the same accepted device-attested provider receipt after matching and remains independently auditable.
 
 ### 4.4 Raw evidence and idempotency details
 
@@ -282,4 +282,4 @@ The diagnostic is intentionally not wired into CI as a passing production gate. 
 3. Any exception to private-by-default admin-assisted groups, and explicit per-receiving-account allocation where members belong to multiple groups.
 4. Exact branding/template scope for non-Buri-Munsi groups and treatment of linked accounts with uncertain app reachability.
 
-Next implementation stage: connect the admin roster/import experience and implement receiving assignments plus atomic direct-USSD posting. Keep the sender inactive until its durable queue, confirmation workflow and physical UAT are complete.
+Next stage: the backend and Admin deployment/readback are complete with every hybrid flag OFF. Continue with fresh authenticated Admin UAT, one consented live roster extraction, the governed MCP health/list dry run, duplicate easyMO-dispatcher reconciliation and approved physical Android/feature-phone acceptance. Keep all feature flags and the paused heartbeat inactive until those gates pass, then start with one bounded group under explicit rollout and release-owner approval.

@@ -11,6 +11,23 @@ import { normalizeMomoName, parseMomoSms } from "../_shared/momo_sms_parser.ts";
 const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+async function finalizeIfAvailable(
+  supabase: ReturnType<typeof serviceClient>,
+  rawSmsId: string,
+) {
+  const contract = await supabase.rpc("attested_sms_contract_version");
+  const contractMissing = contract.error?.code === "PGRST202" ||
+    /could not find the function/i.test(contract.error?.message ?? "");
+  if (contract.error && !contractMissing) throw contract.error;
+  if (contract.data !== 1) return { status: "legacy_contract" };
+  const { data, error } = await supabase.rpc(
+    "finalize_attested_payment_sms",
+    { p_raw_sms_id: rawSmsId },
+  );
+  if (error) throw error;
+  return data;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -44,10 +61,12 @@ Deno.serve(async (req) => {
           })
           : { data: existing.allocation_status, error: null };
       if (allocationError) throw allocationError;
+      const finality = await finalizeIfAvailable(supabase, rawSmsId);
       return jsonResponse({
         ok: true,
         parsed_event_id: existing.id,
         allocation_status: allocation,
+        finality,
         replay: true,
       });
     }
@@ -118,10 +137,12 @@ Deno.serve(async (req) => {
       { event_id: event.id },
     );
     if (allocationError) throw allocationError;
+    const finality = await finalizeIfAvailable(supabase, rawSmsId);
     return jsonResponse({
       ok: true,
       parsed_event_id: event.id,
       allocation_status: allocation,
+      finality,
       parser_model: "collect-deterministic-momo-v2",
     });
   } catch (error) {

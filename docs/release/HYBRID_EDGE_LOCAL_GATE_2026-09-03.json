@@ -1,0 +1,194 @@
+{
+  "captured_at": "2026-09-03T12:00:19Z",
+  "mode": "local_only_no_hosted_credentials_or_mutations",
+  "deno": "deno 2.9.5 (stable, release, aarch64-apple-darwin)",
+  "tests": {
+    "files": [
+      "supabase/functions/_shared/apns_test.ts",
+      "supabase/functions/_shared/bank_evidence_test.ts",
+      "supabase/functions/_shared/bank_statement_test.ts",
+      "supabase/functions/_shared/fcm_test.ts",
+      "supabase/functions/_shared/hmac_test.ts",
+      "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+      "supabase/functions/_shared/momo_sms_parser_test.ts",
+      "supabase/functions/_shared/notification_operator_test.ts",
+      "supabase/functions/_shared/openai_roster_test.ts",
+      "supabase/functions/_shared/play_integrity_binding_test.ts",
+      "supabase/functions/_shared/roster_import_test.ts"
+    ],
+    "count": 54,
+    "status": "pass"
+  },
+  "checks": {
+    "entrypoints": [
+      "supabase/functions/verify-play-integrity/index.ts",
+      "supabase/functions/ingest-payment-sms/index.ts",
+      "supabase/functions/parse-payment-sms/index.ts",
+      "supabase/functions/prepare-roster-import/index.ts",
+      "supabase/functions/collect-notification-operator/index.ts"
+    ],
+    "status": "pass"
+  },
+  "verify_jwt": {
+    "verify-play-integrity": true,
+    "ingest-payment-sms": true,
+    "parse-payment-sms": false,
+    "prepare-roster-import": true,
+    "collect-notification-operator": true
+  },
+  "sources": [
+    {
+      "file": "supabase/functions/_shared/apns.ts",
+      "sha256": "7c44ce2989a30751ca8b42f4a0588df965715bb0e00f89f0c58a425633d2c5f4"
+    },
+    {
+      "file": "supabase/functions/_shared/apns_test.ts",
+      "sha256": "21984708d53c8b55fb6be16f61f135e1ed089394061934408e593bb017bb350b"
+    },
+    {
+      "file": "supabase/functions/_shared/bank_evidence.ts",
+      "sha256": "e0d3a269bae251f94f90e424d2e8efff6569ea483ac7c5b6e1851a81dca0d6fa"
+    },
+    {
+      "file": "supabase/functions/_shared/bank_evidence_test.ts",
+      "sha256": "d910a1eaafbc08dedea8931b487fe6b3c2200f0c99143a2587fa8da2897c813c"
+    },
+    {
+      "file": "supabase/functions/_shared/bank_statement.ts",
+      "sha256": "794774659c9fbc5962bc927637caa928fd6d1fcaad6718d35f6ae69633041e3d"
+    },
+    {
+      "file": "supabase/functions/_shared/bank_statement_test.ts",
+      "sha256": "590510c7cd43bdfa52f9d2007eb08cf06b33d201daa797a771b25a4cd7155e22"
+    },
+    {
+      "file": "supabase/functions/_shared/buri_munsi_receipt.ts",
+      "sha256": "393be3a71584c3aba27cf19211ac16a5d95b92d42cf7f928efd4cbe31a7a78eb"
+    },
+    {
+      "file": "supabase/functions/_shared/cors.ts",
+      "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+    },
+    {
+      "file": "supabase/functions/_shared/fcm.ts",
+      "sha256": "48c68d5d374e0dd18b724d3ebde7254afbff4c283fb08c63be8967fda36dd7ad"
+    },
+    {
+      "file": "supabase/functions/_shared/fcm_test.ts",
+      "sha256": "9182e3f69af29a0fe40844518de5bed5dfd85b361954edd25cbb025138f9f9e2"
+    },
+    {
+      "file": "supabase/functions/_shared/hash.ts",
+      "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+    },
+    {
+      "file": "supabase/functions/_shared/hmac.ts",
+      "sha256": "ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace"
+    },
+    {
+      "file": "supabase/functions/_shared/hmac_test.ts",
+      "sha256": "f107f802e955ca20380312ee0282f57cacb79bce19593fd01606f0f66bc7178b"
+    },
+    {
+      "file": "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+      "sha256": "d627b98b5cb655673df3a682e65c51f82b4eeb280cf73f7fed506abab18c58dd"
+    },
+    {
+      "file": "supabase/functions/_shared/momo_sms_parser.ts",
+      "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1"
+    },
+    {
+      "file": "supabase/functions/_shared/momo_sms_parser_test.ts",
+      "sha256": "e7881a50eff5982b47b73896775e93edc524c1c405b3bf8c72babd4ba7f7a365"
+    },
+    {
+      "file": "supabase/functions/_shared/notification_operator.ts",
+      "sha256": "cb848b1475f4fdf53eded4a56da701b239af2bf3ede6fac9c786902811875ab9"
+    },
+    {
+      "file": "supabase/functions/_shared/notification_operator_test.ts",
+      "sha256": "40a07063ad93b426cec4518f92e6d3aef5fc7584d034b0b3f8e58c98955849ac"
+    },
+    {
+      "file": "supabase/functions/_shared/openai_roster.ts",
+      "sha256": "5a0403b74cae6067997d1cfd7d91591a12d99d30f853c2a84fc79f36615bd1c3"
+    },
+    {
+      "file": "supabase/functions/_shared/openai_roster_test.ts",
+      "sha256": "2d3eb7710cf4779ba80c05868caca0f30b4da56684edb50579ff2ee04f6b9993"
+    },
+    {
+      "file": "supabase/functions/_shared/play_integrity_binding.ts",
+      "sha256": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9"
+    },
+    {
+      "file": "supabase/functions/_shared/play_integrity_binding_test.ts",
+      "sha256": "8128a2f0662e28cb744514a70a87ff326a74ab206c92778e7344c68bd713e50c"
+    },
+    {
+      "file": "supabase/functions/_shared/raw_sms_input.ts",
+      "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239"
+    },
+    {
+      "file": "supabase/functions/_shared/roster_import.ts",
+      "sha256": "23c13d636b0106a954a97a9249c22c482586cbc561e807b70919f5026cb19190"
+    },
+    {
+      "file": "supabase/functions/_shared/roster_import_test.ts",
+      "sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089"
+    },
+    {
+      "file": "supabase/functions/_shared/supabase.ts",
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "file": "supabase/functions/_shared/test_assert.ts",
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "file": "supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "sha256": "438a52dc170f4c9957032fccdd15ba3f25e47ed2c0e28784816a7753156ab2c0"
+    },
+    {
+      "file": "supabase/functions/collect-notification-operator/index.ts",
+      "sha256": "2a1463b122315065062f7e8d077decf71dda89462a455850b50bddc88c5f49db"
+    },
+    {
+      "file": "supabase/functions/dispatch-notifications/index.ts",
+      "sha256": "4b86c62b3720dc58cdf3ab11b8a062b36a95c270740549689405830eef2242b0"
+    },
+    {
+      "file": "supabase/functions/ingest-bank-email/index.ts",
+      "sha256": "b5fd3f548f0f84001d66d50bd725b95b7c646b99e545e7d48dad448f1328c554"
+    },
+    {
+      "file": "supabase/functions/ingest-bank-sms/index.ts",
+      "sha256": "8297651e200b1584ec62bd9942e6f85f809381267e5348bee97d50a7196d9e41"
+    },
+    {
+      "file": "supabase/functions/ingest-bank-statement/index.ts",
+      "sha256": "676a2eec8ef0624812d0c545fe4b29b685bfe3f6a9a248e5b803239abadd6f1b"
+    },
+    {
+      "file": "supabase/functions/ingest-payment-sms/index.ts",
+      "sha256": "e5fec4fbf188ffc6a1a966ec2082f60acee741634b22770cd3b4ab7955549f3a"
+    },
+    {
+      "file": "supabase/functions/parse-payment-sms/index.ts",
+      "sha256": "e134b48b3d78763b9fbe85ec399edbb4e21cd5c655c34eb879a93a441f80495b"
+    },
+    {
+      "file": "supabase/functions/prepare-roster-import/index.ts",
+      "sha256": "697475b2098163e06d7b3cdc9042615a3479df5532215c8de112ece364b6eb24"
+    },
+    {
+      "file": "supabase/functions/send-notification/index.ts",
+      "sha256": "c028afd3f264059f8ffb3bf92332db50fe0c11ecb07679c9e139112606a9192b"
+    },
+    {
+      "file": "supabase/functions/verify-play-integrity/index.ts",
+      "sha256": "c5122a22cc464b5cf9a5d7871216add77bff10b686a79a947874ce1bba5d9bf0"
+    }
+  ],
+  "result": "EDGE_FUNCTION_LOCAL_GATE_PASS"
+}

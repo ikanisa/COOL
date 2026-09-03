@@ -1,0 +1,85 @@
+{
+  "captured_at": "2026-09-03T12:10:46Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "migration_count": 120,
+  "uat_file": "scripts/bank_transfer_rollback_uat.sql",
+  "uat_sha256": "98c13660d82f6d244f552ad82f0b952d8d39fffbf96329ba5d0d241db9984309",
+  "transaction_ended_in_rollback": true,
+  "protected_data_unchanged": true,
+  "identity_control_plane_counts_unchanged": true,
+  "protected_fingerprints": {
+    "before": [
+      {
+        "table_name": "bank_transactions",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "ledger_entries",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "payments",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "profiles",
+        "rows": 8,
+        "sha256": "9391242abdbefc4bbd9ad586957512d719ec4eab784cda15a77f2703b744a7d0"
+      },
+      {
+        "table_name": "raw_payment_sms",
+        "rows": 3,
+        "sha256": "a913600ae53fdea8192cc968b1e79fa68a2e9b354f66e18f59d57725a24103d3"
+      }
+    ],
+    "after": [
+      {
+        "table_name": "bank_transactions",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "ledger_entries",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "payments",
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "table_name": "profiles",
+        "rows": 8,
+        "sha256": "9391242abdbefc4bbd9ad586957512d719ec4eab784cda15a77f2703b744a7d0"
+      },
+      {
+        "table_name": "raw_payment_sms",
+        "rows": 3,
+        "sha256": "a913600ae53fdea8192cc968b1e79fa68a2e9b354f66e18f59d57725a24103d3"
+      }
+    ]
+  },
+  "runtime_counts": {
+    "before": {
+      "auth_users": 72,
+      "auth_sessions": 108,
+      "admin_user_roles": 2,
+      "whatsapp_approvals": 1,
+      "audit_logs": 21
+    },
+    "after": {
+      "auth_users": 72,
+      "auth_sessions": 108,
+      "admin_user_roles": 2,
+      "whatsapp_approvals": 1,
+      "audit_logs": 21
+    }
+  },
+  "provider_sends": 0,
+  "operational_flags_enabled": 0,
+  "result": "LINKED_PRODUCTION_ROLLBACK_UAT_PASS"
+}

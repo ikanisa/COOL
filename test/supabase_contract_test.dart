@@ -70,12 +70,14 @@ void main() {
 
     expect(functions, [
       'auth-send-whatsapp-otp',
+      'collect-notification-operator',
       'dispatch-notifications',
       'ingest-bank-email',
       'ingest-bank-sms',
       'ingest-bank-statement',
       'ingest-payment-sms',
       'parse-payment-sms',
+      'prepare-roster-import',
       'send-notification',
       'verify-play-integrity',
     ]);
@@ -279,7 +281,10 @@ void main() {
       expect(repository, contains("'mark_bank_transfer_handoff_opened'"));
       expect(repository, contains("'list_current_member_history_page'"));
       expect(repository, contains("'list_current_member_recent_intents'"));
-      expect(repository, isNot(contains("'list_current_member_payment_history'")));
+      expect(
+        repository,
+        isNot(contains("'list_current_member_payment_history'")),
+      );
     },
   );
 
@@ -542,6 +547,8 @@ void main() {
     expect(config, contains('[functions.ingest-bank-statement]'));
     expect(config, contains('[functions.ingest-payment-sms]'));
     expect(config, contains('[functions.parse-payment-sms]'));
+    expect(config, contains('[functions.prepare-roster-import]'));
+    expect(config, contains('[functions.collect-notification-operator]'));
     expect(config, contains('[functions.verify-play-integrity]'));
     expect(config, isNot(contains('[functions.stripe-webhook]')));
   });
@@ -561,6 +568,9 @@ void main() {
     expect(scripts, contains('ingest-bank-statement'));
     expect(scripts, contains('FCM_SERVICE_ACCOUNT_JSON'));
     expect(scripts, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
+    expect(readiness, contains('OPENAI_API_KEY'));
+    expect(readiness, contains('prepare-roster-import'));
+    expect(readiness, contains('collect-notification-operator'));
     expect(scripts, contains('ingest-payment-sms'));
     expect(scripts, contains('parse-payment-sms'));
     expect(scripts, isNot(contains('STRIPE_SECRET_KEY')));

@@ -10,7 +10,7 @@ import { renderBuriMunsiReceipt } from "./buri_munsi_receipt.ts";
 const receipt =
   "You have received 1,500 RWF from TEST MEMBER A (***456) at 2026-09-02 10:00:00. Your balance: 9,500 RWF.";
 
-Deno.test("Buri Munsi acknowledgement preserves the exact easyMO template", () => {
+Deno.test("Buri Munsi acknowledgement preserves the exact easyMO receipt template", () => {
   assertEquals(
     renderBuriMunsiReceipt({
       amount_rwf: 1500,

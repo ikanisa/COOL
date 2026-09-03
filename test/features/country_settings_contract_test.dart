@@ -22,7 +22,7 @@ void main() {
           momoProvider: 'mtn_momo',
           momoNumber: '0788123456',
           revolutLink: 'https://revolut.me/localtest',
-          revolutAccount: 'Local test account',
+          revolutAccount: '000123456789',
         ),
       );
       final router = createAppRouter(initialLocation: '/settings/security');

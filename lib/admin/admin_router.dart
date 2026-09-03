@@ -27,6 +27,8 @@ const adminRoutePaths = <String>[
   '/admin/transactions/:id',
   '/admin/reconciliations',
   '/admin/ledgers',
+  '/admin/sms-receipts',
+  '/admin/sms-receipts/:id',
   '/admin/notifications',
   '/admin/notifications/:id',
   '/admin/audit-logs',
@@ -117,10 +119,22 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           _detailRoute(
             '/admin/members/:id',
             title: 'Member detail',
-            rpcName: 'admin_get_user',
+            rpcName: 'admin_get_member_record',
             backLabel: 'Members',
           ),
           ..._financialAdminRoutes,
+          _listRoute(
+            '/admin/sms-receipts',
+            title: 'SMS receipts',
+            rpcName: 'admin_list_hybrid_sms_receipts',
+            detailPathPrefix: '/admin/sms-receipts',
+          ),
+          _detailRoute(
+            '/admin/sms-receipts/:id',
+            title: 'SMS receipt detail',
+            rpcName: 'admin_get_hybrid_sms_receipt',
+            backLabel: 'SMS receipts',
+          ),
           _listRoute(
             '/admin/notifications',
             title: 'Notifications',

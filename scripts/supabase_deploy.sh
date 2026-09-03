@@ -11,12 +11,14 @@ cd "$ROOT_DIR"
 
 EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
+  collect-notification-operator
   dispatch-notifications
   ingest-bank-email
   ingest-bank-sms
   ingest-bank-statement
   ingest-payment-sms
   parse-payment-sms
+  prepare-roster-import
   send-notification
   verify-play-integrity
 )

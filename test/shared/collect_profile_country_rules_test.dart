@@ -96,7 +96,7 @@ void main() {
     });
     final complete = incomplete.copyWith(
       revolutLink: 'https://revolut.me/jeanbosco',
-      revolutAccount: 'Personal EUR account',
+      revolutAccount: '000123456789',
     );
     final mismatchedCurrency = complete.copyWith(currencyCode: 'RWF');
 

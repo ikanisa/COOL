@@ -162,6 +162,12 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'ledger.read',
   ),
   _AdminNavDestination(
+    'SMS receipts',
+    Icons.sms_outlined,
+    '/admin/sms-receipts',
+    'notifications.read',
+  ),
+  _AdminNavDestination(
     'Notifications',
     Icons.notifications_outlined,
     '/admin/notifications',
@@ -1052,7 +1058,8 @@ _AdminNavSection _sectionForPath(String path) {
   if (path.startsWith('/admin/payees') ||
       path.startsWith('/admin/transactions') ||
       path.startsWith('/admin/reconciliations') ||
-      path.startsWith('/admin/ledgers')) {
+      path.startsWith('/admin/ledgers') ||
+      path.startsWith('/admin/sms-receipts')) {
     return _AdminNavSection.operations;
   }
   return _AdminNavSection.control;

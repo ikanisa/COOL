@@ -5,9 +5,9 @@ require_relative 'production_upgrade_rehearsal'
 class ProductionUpgradeRehearsalTest < Minitest::Test
   def test_exact_reviewed_manifest
     manifest=ProductionUpgradeRehearsal.manifest(ROOT)
-    assert_equal 14, manifest.length
+    assert_equal 23, manifest.length
     assert_equal '20260902073741',manifest.first.fetch('version')
-    assert_equal '20260902212721',manifest.last.fetch('version')
+    assert_equal '20260903092500',manifest.last.fetch('version')
     assert manifest.all? { |entry| Digest::SHA256.hexdigest(entry.fetch('content'))==entry.fetch('sha256') }
   end
 
@@ -15,9 +15,22 @@ class ProductionUpgradeRehearsalTest < Minitest::Test
     headers=['COPY public.profiles (id, display_name, updated_at) FROM stdin;',
       'COPY public.collections (id, title, updated_at) FROM stdin;',
       'COPY public.feature_flags (key, enabled) FROM stdin;',
+      'COPY public.admin_navigation_items (key, label) FROM stdin;',
+      'COPY public.admin_queue_specs (rpc_name, title) FROM stdin;',
+      'COPY public.admin_queue_filter_options (rpc_name, value) FROM stdin;',
       'COPY public.app_realtime_events (id, area, created_at) FROM stdin;']
-    assert_equal [['public.profiles','id, display_name, updated_at'],['public.collections','id, title']],
+    assert_equal [
+      ['public.profiles','id, display_name, updated_at'],
+      ['public.collections','id, title'],
+      ['public.admin_navigation_items','key, label'],
+      ['public.admin_queue_specs','rpc_name, title']
+    ],
       ProductionUpgradeRehearsal.projection(headers)
+    assert_equal " WHERE key <> 'hybrid_sms_receipts'",
+      ProductionUpgradeRehearsal.projection_predicate('public.admin_navigation_items')
+    assert_equal " WHERE rpc_name <> 'admin_list_hybrid_sms_receipts'",
+      ProductionUpgradeRehearsal.projection_predicate('public.admin_queue_specs')
+    assert_equal '', ProductionUpgradeRehearsal.projection_predicate('public.profiles')
     assert_raises(RuntimeError) { ProductionUpgradeRehearsal.projection(['COPY other; DROP SCHEMA public; (id) FROM stdin;']) }
     assert_raises(RuntimeError) { ProductionUpgradeRehearsal.projection(['COPY public.profiles (id FROM auth.users) FROM stdin;']) }
   end

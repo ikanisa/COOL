@@ -7,12 +7,14 @@ cd "$ROOT_DIR"
 ruby -E UTF-8:UTF-8 <<'RUBY'
 expected = {
   "auth-send-whatsapp-otp" => :webhook,
+  "collect-notification-operator" => :user,
   "dispatch-notifications" => :internal,
   "ingest-bank-email" => :hmac,
   "ingest-bank-sms" => :user,
   "ingest-bank-statement" => :user,
   "ingest-payment-sms" => :user,
   "parse-payment-sms" => :internal,
+  "prepare-roster-import" => :user,
   "send-notification" => :internal,
   "verify-play-integrity" => :user,
 }
@@ -67,7 +69,7 @@ expected.each do |name, mode|
     issues << "#{name} must call requireUser(" unless source.include?("requireUser(")
     user_auth_401 =
       (source.include?('message === "Authentication required"') && source.include?("401")) ||
-      (source.include?("authErrorStatus") && source.include?("authStatus"))
+      source.include?("authErrorStatus(error)")
     issues << "#{name} must return 401 for missing user auth" unless user_auth_401
   end
 end

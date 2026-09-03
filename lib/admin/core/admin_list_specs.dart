@@ -109,6 +109,7 @@ class _AdminListSpec {
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'balanced', label: 'Balanced'),
           AdminFilterOption(value: 'unbalanced', label: 'Unbalanced'),
+          AdminFilterOption(value: 'reversed', label: 'Reversed'),
         ],
         sortOptions: _defaultSorts,
       ),
@@ -138,7 +139,8 @@ class _AdminListSpec {
       ),
       'admin_list_members' || 'admin_list_users' => const _AdminListSpec(
         title: 'Members',
-        subtitle: 'Users in at least one group.',
+        subtitle:
+            'App and feature-phone members with an active group membership.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'active', label: 'Active'),
@@ -523,6 +525,47 @@ class _AdminListSpec {
           _AdminQueueSignal(Icons.open_in_new_outlined, 'Open event detail'),
           _AdminQueueSignal(Icons.replay_outlined, 'Retry with reason'),
           _AdminQueueSignal(Icons.policy_outlined, 'Review audit entry'),
+        ],
+      ),
+      'admin_list_hybrid_sms_receipts' => const _AdminListSpec(
+        title: 'SMS receipts',
+        subtitle:
+            'Feature-phone acknowledgements prepared from immutable posted balances.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'queued', label: 'Queued'),
+          AdminFilterOption(
+            value: 'awaiting_confirmation',
+            label: 'Awaiting confirmation',
+          ),
+          AdminFilterOption(value: 'send_started', label: 'Send started'),
+          AdminFilterOption(value: 'observed_sent', label: 'Observed sent'),
+          AdminFilterOption(value: 'failed_no_send', label: 'Failed—no send'),
+          AdminFilterOption(value: 'uncertain', label: 'Uncertain'),
+          AdminFilterOption(value: 'suppressed', label: 'Suppressed'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(
+            Icons.phone_android_outlined,
+            'Feature-phone member',
+          ),
+          _AdminQueueSignal(Icons.balance_outlined, 'Frozen ledger balances'),
+          _AdminQueueSignal(
+            Icons.privacy_tip_outlined,
+            'Exact body claim-gated',
+          ),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(
+            Icons.visibility_outlined,
+            'Review masked metadata',
+          ),
+          _AdminQueueSignal(
+            Icons.verified_user_outlined,
+            'Verify current consent',
+          ),
+          _AdminQueueSignal(Icons.sms_outlined, 'Send once through Messages'),
         ],
       ),
       'admin_list_audit_logs' => const _AdminListSpec(

@@ -327,12 +327,15 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
 
 String _adminEmptyMessage(String rpcName) => switch (rpcName) {
   'admin_list_collect_ledgers' => 'Balanced postings appear here.',
+  'admin_list_hybrid_sms_receipts' =>
+    'Feature-phone receipt acknowledgements appear here after a posted payment.',
   'admin_list_notifications' => 'Delivery activity appears here.',
   _ => 'No records match the current view.',
 };
 
 String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
   'admin_list_collections' => 'Members',
+  'admin_list_hybrid_sms_receipts' => 'Amount',
   'admin_list_notifications' => 'Deliveries',
   'admin_list_admin_users' => 'Access',
   'admin_list_bank_destinations' ||

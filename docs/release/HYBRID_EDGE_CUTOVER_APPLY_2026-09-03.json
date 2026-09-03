@@ -1,0 +1,375 @@
+{
+  "started_at": "2026-09-03T12:01:06Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "apply",
+  "result": "FIVE_HYBRID_EDGE_FUNCTIONS_DEPLOYED_FLAGS_OFF_NOT_FULL_PRODUCTION_GO",
+  "targeted_functions": [
+    "verify-play-integrity",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "collect-notification-operator"
+  ],
+  "deployments": [
+    {
+      "slug": "verify-play-integrity",
+      "version": 4,
+      "verify_jwt": true,
+      "ezbr_sha256": "60838247abebbe0493cd4f3a09c10c6bae9219ca1c42433fe3c45c5008af8de4",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/play_integrity_binding.ts",
+          "sha256": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/verify-play-integrity/index.ts",
+          "sha256": "c5122a22cc464b5cf9a5d7871216add77bff10b686a79a947874ce1bba5d9bf0"
+        }
+      ]
+    },
+    {
+      "slug": "ingest-payment-sms",
+      "version": 5,
+      "verify_jwt": true,
+      "ezbr_sha256": "b1b90345c76b413dd5d77bddfa4436b052828ab6f9cf17567497bb8eb633f449",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/hash.ts",
+          "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+        },
+        {
+          "file": "supabase/functions/_shared/raw_sms_input.ts",
+          "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/ingest-payment-sms/index.ts",
+          "sha256": "e5fec4fbf188ffc6a1a966ec2082f60acee741634b22770cd3b4ab7955549f3a"
+        }
+      ]
+    },
+    {
+      "slug": "parse-payment-sms",
+      "version": 6,
+      "verify_jwt": false,
+      "ezbr_sha256": "93974103ef18f5cc27eee63feec7b75ef125626056ae71417286bfb670fc6c1c",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/hash.ts",
+          "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+        },
+        {
+          "file": "supabase/functions/_shared/momo_sms_parser.ts",
+          "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/parse-payment-sms/index.ts",
+          "sha256": "e134b48b3d78763b9fbe85ec399edbb4e21cd5c655c34eb879a93a441f80495b"
+        }
+      ]
+    },
+    {
+      "slug": "prepare-roster-import",
+      "version": 1,
+      "verify_jwt": true,
+      "ezbr_sha256": "5b81aaa39c1ea6f74240e08d546e6877d1f2cb1e0dd0b653e1ab951a8be15b77",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/openai_roster.ts",
+          "sha256": "5a0403b74cae6067997d1cfd7d91591a12d99d30f853c2a84fc79f36615bd1c3"
+        },
+        {
+          "file": "supabase/functions/_shared/roster_import.ts",
+          "sha256": "23c13d636b0106a954a97a9249c22c482586cbc561e807b70919f5026cb19190"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/prepare-roster-import/index.ts",
+          "sha256": "697475b2098163e06d7b3cdc9042615a3479df5532215c8de112ece364b6eb24"
+        }
+      ]
+    },
+    {
+      "slug": "collect-notification-operator",
+      "version": 1,
+      "verify_jwt": true,
+      "ezbr_sha256": "53975863f5442499b225b3f0ab8bf3ef389e8f231e1229d6c24fd11fb3cfc9ba",
+      "source_readback": "exact_match",
+      "files": [
+        {
+          "file": "supabase/functions/_shared/cors.ts",
+          "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+        },
+        {
+          "file": "supabase/functions/_shared/notification_operator.ts",
+          "sha256": "cb848b1475f4fdf53eded4a56da701b239af2bf3ede6fac9c786902811875ab9"
+        },
+        {
+          "file": "supabase/functions/_shared/supabase.ts",
+          "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        },
+        {
+          "file": "supabase/functions/collect-notification-operator/index.ts",
+          "sha256": "2a1463b122315065062f7e8d077decf71dda89462a455850b50bddc88c5f49db"
+        }
+      ]
+    }
+  ],
+  "provider_sends": 0,
+  "functions_invoked": 0,
+  "functions_deleted": 0,
+  "secrets_changed": 0,
+  "database_mutations": 0,
+  "network_mutations": 0,
+  "auth_config_mutations": 0,
+  "operational_flags_enabled": 0,
+  "disabled_flags_before": [
+    {
+      "key": "hybrid_direct_ussd_allocation",
+      "enabled": false
+    },
+    {
+      "key": "hybrid_member_onboarding",
+      "enabled": false
+    },
+    {
+      "key": "hybrid_sms_notifications",
+      "enabled": false
+    },
+    {
+      "key": "hybrid_verified_account_claim",
+      "enabled": false
+    },
+    {
+      "key": "native_sms_attestation_enforcement",
+      "enabled": false
+    }
+  ],
+  "before": [
+    {
+      "slug": "verify-play-integrity",
+      "version": 3,
+      "status": "ACTIVE",
+      "verify_jwt": true,
+      "ezbr_sha256": "4119a17a3638c41701a25dfd36ba6eb04351194d9202ca64345e69be775c8cc6"
+    },
+    {
+      "slug": "ingest-payment-sms",
+      "version": 4,
+      "status": "ACTIVE",
+      "verify_jwt": true,
+      "ezbr_sha256": "9fbd292a49d02ff2bec07253becbeb62910763138839b13f957560d343f0ae75"
+    },
+    {
+      "slug": "parse-payment-sms",
+      "version": 5,
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "ezbr_sha256": "707e809d676bb41596ea99355ad1b7f5a119cb8c4bc1a4a00e821ee12fc61926"
+    }
+  ],
+  "checks": {
+    "functions": [
+      {
+        "slug": "verify-play-integrity",
+        "version": 4,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "60838247abebbe0493cd4f3a09c10c6bae9219ca1c42433fe3c45c5008af8de4",
+        "source_readback": "exact_match",
+        "files": [
+          {
+            "file": "supabase/functions/_shared/cors.ts",
+            "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+          },
+          {
+            "file": "supabase/functions/_shared/play_integrity_binding.ts",
+            "sha256": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9"
+          },
+          {
+            "file": "supabase/functions/_shared/supabase.ts",
+            "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+          },
+          {
+            "file": "supabase/functions/verify-play-integrity/index.ts",
+            "sha256": "c5122a22cc464b5cf9a5d7871216add77bff10b686a79a947874ce1bba5d9bf0"
+          }
+        ]
+      },
+      {
+        "slug": "ingest-payment-sms",
+        "version": 5,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "b1b90345c76b413dd5d77bddfa4436b052828ab6f9cf17567497bb8eb633f449",
+        "source_readback": "exact_match",
+        "files": [
+          {
+            "file": "supabase/functions/_shared/cors.ts",
+            "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+          },
+          {
+            "file": "supabase/functions/_shared/hash.ts",
+            "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+          },
+          {
+            "file": "supabase/functions/_shared/raw_sms_input.ts",
+            "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239"
+          },
+          {
+            "file": "supabase/functions/_shared/supabase.ts",
+            "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+          },
+          {
+            "file": "supabase/functions/ingest-payment-sms/index.ts",
+            "sha256": "e5fec4fbf188ffc6a1a966ec2082f60acee741634b22770cd3b4ab7955549f3a"
+          }
+        ]
+      },
+      {
+        "slug": "parse-payment-sms",
+        "version": 6,
+        "status": "ACTIVE",
+        "verify_jwt": false,
+        "ezbr_sha256": "93974103ef18f5cc27eee63feec7b75ef125626056ae71417286bfb670fc6c1c",
+        "source_readback": "exact_match",
+        "files": [
+          {
+            "file": "supabase/functions/_shared/cors.ts",
+            "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+          },
+          {
+            "file": "supabase/functions/_shared/hash.ts",
+            "sha256": "c12396470d83ca338b9af425a3cdea48c6ed0983f43341a36c883c77101e7594"
+          },
+          {
+            "file": "supabase/functions/_shared/momo_sms_parser.ts",
+            "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1"
+          },
+          {
+            "file": "supabase/functions/_shared/supabase.ts",
+            "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+          },
+          {
+            "file": "supabase/functions/parse-payment-sms/index.ts",
+            "sha256": "e134b48b3d78763b9fbe85ec399edbb4e21cd5c655c34eb879a93a441f80495b"
+          }
+        ]
+      },
+      {
+        "slug": "prepare-roster-import",
+        "version": 1,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "5b81aaa39c1ea6f74240e08d546e6877d1f2cb1e0dd0b653e1ab951a8be15b77",
+        "source_readback": "exact_match",
+        "files": [
+          {
+            "file": "supabase/functions/_shared/cors.ts",
+            "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+          },
+          {
+            "file": "supabase/functions/_shared/openai_roster.ts",
+            "sha256": "5a0403b74cae6067997d1cfd7d91591a12d99d30f853c2a84fc79f36615bd1c3"
+          },
+          {
+            "file": "supabase/functions/_shared/roster_import.ts",
+            "sha256": "23c13d636b0106a954a97a9249c22c482586cbc561e807b70919f5026cb19190"
+          },
+          {
+            "file": "supabase/functions/_shared/supabase.ts",
+            "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+          },
+          {
+            "file": "supabase/functions/prepare-roster-import/index.ts",
+            "sha256": "697475b2098163e06d7b3cdc9042615a3479df5532215c8de112ece364b6eb24"
+          }
+        ]
+      },
+      {
+        "slug": "collect-notification-operator",
+        "version": 1,
+        "status": "ACTIVE",
+        "verify_jwt": true,
+        "ezbr_sha256": "53975863f5442499b225b3f0ab8bf3ef389e8f231e1229d6c24fd11fb3cfc9ba",
+        "source_readback": "exact_match",
+        "files": [
+          {
+            "file": "supabase/functions/_shared/cors.ts",
+            "sha256": "b9d9bfb072e053db243354f87cc357d81bff43c8aa870ec9060e03b8b43363a7"
+          },
+          {
+            "file": "supabase/functions/_shared/notification_operator.ts",
+            "sha256": "cb848b1475f4fdf53eded4a56da701b239af2bf3ede6fac9c786902811875ab9"
+          },
+          {
+            "file": "supabase/functions/_shared/supabase.ts",
+            "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+          },
+          {
+            "file": "supabase/functions/collect-notification-operator/index.ts",
+            "sha256": "2a1463b122315065062f7e8d077decf71dda89462a455850b50bddc88c5f49db"
+          }
+        ]
+      }
+    ],
+    "disabled_flags": [
+      {
+        "key": "hybrid_direct_ussd_allocation",
+        "enabled": false
+      },
+      {
+        "key": "hybrid_member_onboarding",
+        "enabled": false
+      },
+      {
+        "key": "hybrid_sms_notifications",
+        "enabled": false
+      },
+      {
+        "key": "hybrid_verified_account_claim",
+        "enabled": false
+      },
+      {
+        "key": "native_sms_attestation_enforcement",
+        "enabled": false
+      }
+    ],
+    "function_count": 11
+  },
+  "finished_at": "2026-09-03T12:01:55Z"
+}

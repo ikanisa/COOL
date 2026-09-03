@@ -613,11 +613,6 @@ void main() {
       );
       expect(
         text,
-        contains('<item name="android:forceDarkAllowed">false</item>'),
-        reason: path,
-      );
-      expect(
-        text,
         contains(
           '<item name="android:statusBarColor">@color/collect_launch_background</item>',
         ),
@@ -637,12 +632,33 @@ void main() {
       );
       expect(
         text,
+        contains('<item name="android:windowFullscreen">true</item>'),
+        reason: path,
+      );
+    }
+
+    for (final path in <String>[
+      'android/app/src/main/res/values-v27/styles.xml',
+      'android/app/src/main/res/values-night-v27/styles.xml',
+      'android/app/src/main/res/values-v29/styles.xml',
+      'android/app/src/main/res/values-night-v29/styles.xml',
+    ]) {
+      final text = File(path).readAsStringSync();
+      expect(
+        text,
         contains('<item name="android:windowLightNavigationBar">false</item>'),
         reason: path,
       );
+    }
+
+    for (final path in <String>[
+      'android/app/src/main/res/values-v29/styles.xml',
+      'android/app/src/main/res/values-night-v29/styles.xml',
+    ]) {
+      final text = File(path).readAsStringSync();
       expect(
         text,
-        contains('<item name="android:windowFullscreen">true</item>'),
+        contains('<item name="android:forceDarkAllowed">false</item>'),
         reason: path,
       );
     }

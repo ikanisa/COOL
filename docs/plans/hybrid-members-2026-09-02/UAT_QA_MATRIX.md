@@ -4,6 +4,13 @@ Date: 2 September 2026
 
 Overall state: **NOT_READY**
 
+Latest continuation: directory deployment and authenticated Keychain/stdio MCP
+health/list PASS. The minute monitor is ACTIVE, read-only/no-send. The verified
+1.2.4+23 APK is installed and the approved Admin's native login has succeeded
+on the connected Pixel 4a. These are deployment/installation/login checks,
+not physical payment/SMS acceptance. See
+[current evidence](../../release/HYBRID_CONTINUATION_DEPLOYED_2026-09-03.md).
+
 These are target acceptance cases, not passing tests. Unless a current-run result is explicitly listed below, status is **NOT RUN**.
 
 ## Original analysis evidence — preserved baseline
@@ -19,21 +26,35 @@ These are target acceptance cases, not passing tests. Unless a current-run resul
 
 The diagnostic's missing field names describe the proposed contract. A later equivalent implementation can use a versioned schema mapping; the gap is absence of the required values/behavior, not merely naming.
 
-## Foundation implementation evidence — 2 September 2026 follow-up
+## Local candidate evidence — 3 September 2026 follow-up
 
-See [implementation status](IMPLEMENTATION_STATUS.md) for exact commands and boundaries. The full 89-case acceptance matrix is still NOT_RUN end to end; these checks must not be promoted to complete journey acceptance.
+See [implementation status](IMPLEMENTATION_STATUS.md) for exact boundaries. The full acceptance matrix is still not run end to end; these checks must not be promoted to hosted, physical or complete-journey acceptance.
 
 | Evidence ID | Actual execution | Result |
 | --- | --- | --- |
-| FOUND-01 | Deno parser/raw-input/template suite | 29/29 passed; includes 2 legacy tests |
-| FOUND-02 | Isolated schema-only PostgreSQL fixture UAT | 33 assertions passed; all fixture writes rolled back |
+| FOUND-01 | Deno parser/raw-input/template/operator/attestation/OpenAI-contract suite | 54/54 passed in production-readiness run; no live OpenAI request |
+| FOUND-02 | Isolated PostgreSQL fixture UAT | 35 direct-USSD, 10 roster, 25 outbox, 20 account-claim and 13 finality assertions passed; writes rolled back |
 | FOUND-03 | Android internal_receiver debug unit tests | 8/8 passed; no handset test |
-| FOUND-04 | Four focused Flutter regression files rerun | 64/64 passed |
-| FOUND-05 | Deno typecheck, formatting/lint and Flutter analyze | Passed locally |
-| FOUND-06 | Supabase security advisors on the isolated database | No warning/error findings; not production security approval |
+| FOUND-04 | Admin, XLSX and Supabase Flutter tests | 56/56 passed in the latest focused run |
+| FOUND-05 | Deno typecheck/format, Flutter analyze and MCP TypeScript check | Passed locally |
+| FOUND-06 | Migration and hosted advisor gates | Local/remote read back at 120 migrations with none pending; reviewed warning inventory matches the gate; not a zero-findings certification |
 | FOUND-07 | Original parser diagnostic rerun | 8/8 checks now pass; original 6 gaps resolved in local source |
+| FOUND-08 | Financial concurrency harness | Distinct and same-event confirmation races serialize to one balanced RWF result |
+| FOUND-09 | Encrypted production-copy upgrade rehearsal | 23 migrations, 116 protected tables and 202,926 rows preserved; not production GO |
+| FOUND-10 | Dedicated MCP client and host registration | TypeScript and 11/11 tests including stdio handshake pass; read-only host profile registered; authenticated runtime credentials remain absent |
+| FOUND-11 | One-minute Codex heartbeat | Created PAUSED; no polling or send occurred |
+| FOUND-12 | Local authenticated-evidence Admin browser matrix | Full 23-route × 3-viewport matrix passes 69/69 with zero failures; [report](/Volumes/PRO-G40/COOL/docs/release/HYBRID_ADMIN_BROWSER_QA_2026-09-03.md) |
+| FOUND-13 | Hosted backend and Admin readback | 120 migrations, five exact-readback hybrid Edge Functions and Admin version `871850eb-a270-489a-b400-b9facf6b5532` live; all five hybrid flags remain OFF |
+| FOUND-14 | Fresh second-Admin OTP sign-in, reload, hosted Members/Groups/form/SMS queue/Admin roster | Read-only hosted flow PASS; 2 approved Admin records; no real roster creation/payment/send |
+| FOUND-15 | Authenticated-audit directory corrections | 562 Flutter tests, 15 isolated database assertions and 11 MCP tests PASS; no analysis/browser error; local evidence preview reviewed; new migration/UI patch UNDEPLOYED |
+| FOUND-16 | Legacy sender overlap check | Two native Buri Munsi services remain active with a configured Shortcuts send path; takeover required before Collect sending |
+| FOUND-17 | Directory production cutover | 121 migrations; exact source hash; 15 protected relations and function ACLs unchanged; Admin version 1b868d4f-1da5-4ecd-8d41-323616b87110 at 100%, live hashes/header gate and signed-in Members/Admin roster PASS |
+| FOUND-18 | Operator session and monitoring | Normal OTP/Keychain connection, independent live preflight and real stdio health/list PASS; 17 tests PASS; minute heartbeat ACTIVE read-only/no-send |
+| FOUND-19 | Physical Android installation | Exact reviewed APK hash installed; app.cool.mobile 1.2.4+23 launched on Pixel 4a / Android 13; RECEIVE_SMS remains ungranted; native login/capture acceptance separate |
+| FOUND-20 | Physical Android authentication | Same fresh user-supplied OTP succeeded after the entry field was cleared; Home/profile readback confirms Collect ID 956974. No OTP persisted. SMS permission/capture remain unproved; further taps stopped when another app became foreground. |
+| FOUND-21 | Deployed assisted-group validation | Form opens, final-create disabled before roster review, empty preview shows name/reason errors; cancelled without record creation; no browser console error entries. Not live AI extraction evidence. |
 
-Database coverage includes private assisted creation, request replay/conflict, offline roster without Auth creation, numeric-ID reservation, invalid batch rollback, duplicate identity checks, API/table permissions, exact body preservation, observed-source deduplication and unchanged receiver-consent enforcement. No direct-USSD ledger posting, real SMS, MCP or frontend import UAT has passed yet.
+Database coverage now includes private assisted creation, request replay/conflict, offline roster without Auth creation, numeric-ID reservation, exact verified-phone account claims, deterministic assignment/allocation, receipt-finality gating, balanced posting/reversal/concurrency, exact body preservation, durable SMS claims/outcomes and unchanged receiver-consent enforcement. Admin/XLSX, MCP source tests and the full local Admin browser matrix pass. Read-only authenticated hosted Admin checks and native login now pass. Complete hosted roster creation/AI extraction, physical receipt capture and real Messages/feature-phone delivery remain unproved; rollout flags therefore remain OFF.
 
 ## Test environment and evidence rules
 

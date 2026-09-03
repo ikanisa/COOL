@@ -39,4 +39,7 @@ abstract class AdminRepositoryBase {
     String rpcName,
     Map<String, dynamic> params,
   );
+
+  Future<Map<String, dynamic>> prepareRosterImport(Map<String, dynamic> body) =>
+      throw UnsupportedError('Roster import preview is not available.');
 }

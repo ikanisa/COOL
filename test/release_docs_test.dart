@@ -142,6 +142,9 @@ void main() {
 
     expect(hardening, contains('sms_test_otp: nil'));
     expect(hardening, contains('sms_test_otp_valid_until: nil'));
+    expect(hardening, contains('https://collect.ikanisa.com'));
+    expect(hardening, contains('https://admin.collect.ikanisa.com'));
+    expect(hardening, isNot(contains('https://easymo.vercel.app')));
   });
 
   test('advisor inventory pins the reviewed current RPC ceiling', () {
@@ -151,7 +154,7 @@ void main() {
 
     expect(
       inventory,
-      contains('"authenticated_security_definer_function_executable" => 125'),
+      contains('"authenticated_security_definer_function_executable" => 132'),
     );
     expect(inventory, contains('update_current_profile()'));
   });

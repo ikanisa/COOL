@@ -1,0 +1,130 @@
+{
+  "captured_at": "2026-09-03T08:56:50Z",
+  "mode": "apply",
+  "project": {
+    "id": "lhbowpbcpwoiparwnwgt",
+    "name": "COOL",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "credential_source": {
+    "title": "Supabase",
+    "tab": "Sheet1",
+    "saved": false
+  },
+  "production_mutations": [
+    "profile ACL migration and one migration history row"
+  ],
+  "plan": {
+    "source": {
+      "file": "20260903083947_member_profile_rpc_only_writes.sql",
+      "sha256": "76830e6a6dd32f1b708cefd986470f4b46ae50ad4cba31fca395a5bd1ff3287f"
+    },
+    "remote_migrations_before": 111,
+    "pending": [
+      "20260903083947_member_profile_rpc_only_writes.sql"
+    ],
+    "acl_before": {
+      "public_table_update": false,
+      "public_column_update": false,
+      "anon_table_update": false,
+      "anon_column_update": false,
+      "authenticated_table_update": false,
+      "authenticated_column_update": true,
+      "member_edit_rpc": true,
+      "legacy_profile_rpc": false,
+      "authenticated_update_columns": [
+        "momo_number",
+        "momo_number_hash",
+        "momo_pay_code",
+        "updated_at"
+      ]
+    },
+    "integrity_before": {
+      "hashed_profiles": 2,
+      "inconsistent_hashes": 0
+    },
+    "fingerprints_before": [
+      {
+        "table_name": "bank_transactions",
+        "row_count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "table_name": "ledger_entries",
+        "row_count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "table_name": "payments",
+        "row_count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "table_name": "profiles",
+        "row_count": 8,
+        "sha256": "3b9a3af614b4a53c74e3f5c38382b7ddc105ed45661fe1a7f2f15589eb6c481f"
+      },
+      {
+        "table_name": "raw_payment_sms",
+        "row_count": 3,
+        "sha256": "6acc49596e19bf34b412a82e81fa8e20d81e8f60cbb21299eb2aa7fcfae388c1"
+      }
+    ]
+  },
+  "fingerprints_after": [
+    {
+      "table_name": "bank_transactions",
+      "row_count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "table_name": "ledger_entries",
+      "row_count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "table_name": "payments",
+      "row_count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "table_name": "profiles",
+      "row_count": 8,
+      "sha256": "3b9a3af614b4a53c74e3f5c38382b7ddc105ed45661fe1a7f2f15589eb6c481f"
+    },
+    {
+      "table_name": "raw_payment_sms",
+      "row_count": 3,
+      "sha256": "6acc49596e19bf34b412a82e81fa8e20d81e8f60cbb21299eb2aa7fcfae388c1"
+    }
+  ],
+  "readback": {
+    "migration": {
+      "version": "20260903083947",
+      "name": "member_profile_rpc_only_writes",
+      "source_sha256": "76830e6a6dd32f1b708cefd986470f4b46ae50ad4cba31fca395a5bd1ff3287f"
+    },
+    "migration_count": 112,
+    "acl_after": {
+      "public_table_update": false,
+      "public_column_update": false,
+      "anon_table_update": false,
+      "anon_column_update": false,
+      "authenticated_table_update": false,
+      "authenticated_column_update": false,
+      "member_edit_rpc": true,
+      "legacy_profile_rpc": false,
+      "authenticated_update_columns": [
+
+      ]
+    },
+    "hash_constraint": {
+      "validated": true
+    },
+    "integrity_after": {
+      "hashed_profiles": 2,
+      "inconsistent_hashes": 0
+    }
+  },
+  "result": "PROFILE_RPC_ONLY_WRITES_DEPLOYED"
+}

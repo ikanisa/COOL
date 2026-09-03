@@ -143,6 +143,41 @@ void main() {
     ('landscape', Size(740, 390), 1.0, ThemeMode.dark, 0.0),
     ('keyboard', Size(390, 844), 1.0, ThemeMode.dark, 300.0),
   ];
+  for (final size in [const Size(320, 740), const Size(1184, 841)]) {
+    testWidgets('diaspora profile has only account number at ${size.width}', (
+      tester,
+    ) async {
+      final repository = await pumpEditor(
+        tester,
+        size: size,
+        profile: const CollectProfile(
+          id: 'diaspora-profile',
+          publicId: '123456',
+          whatsappPhone: '+35699123456',
+          countryCode: 'MT',
+          currencyCode: 'EUR',
+          revolutAccount: '000123456789',
+        ),
+      );
+      expect(find.text('Account number'), findsOneWidget);
+      expect(find.text('Revolut'), findsNothing);
+      expect(find.text('Revolut.me link'), findsNothing);
+      expect(find.text('MoMo number'), findsNothing);
+      expect(find.text('Account name'), findsNothing);
+      expect(tester.takeException(), isNull);
+      await capture(tester, 'diaspora-account-${size.width.toInt()}');
+      await tester.enterText(
+        input('profile_revolut_account_input'),
+        '0001 2345 6790',
+      );
+      await tester.pump();
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(repository.state.currentProfile?.revolutAccount, '000123456790');
+      expect(repository.state.currentProfile?.isComplete, isTrue);
+      expect(tester.takeException(), isNull);
+    });
+  }
   for (final variant in variants) {
     testWidgets('profile editor adapts to ${variant.$1}', (tester) async {
       await pumpEditor(

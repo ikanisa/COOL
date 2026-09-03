@@ -113,7 +113,25 @@ fi
 
 linked_sms_first_uat="${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-}"
 if [[ -z "$linked_sms_first_uat" ]]; then
-  if /bin/bash "$ROOT_DIR/scripts/collect_linked_uat.sh" >/dev/null 2>&1; then
+  linked_uat_report="$ROOT_DIR/docs/release/LINKED_PRODUCTION_ROLLBACK_UAT_2026-09-03.json"
+  if [[ -f "$linked_uat_report" ]] && ruby -r json -r digest - "$linked_uat_report" "$ROOT_DIR/scripts/bank_transfer_rollback_uat.sql" <<'RUBY'
+report_path, uat_path = ARGV
+report = JSON.parse(File.read(report_path))
+current_sha = Digest::SHA256.file(uat_path).hexdigest
+valid =
+  report["project"] == "lhbowpbcpwoiparwnwgt" &&
+  report["migration_count"] == 120 &&
+  report["uat_sha256"] == current_sha &&
+  report["transaction_ended_in_rollback"] == true &&
+  report["protected_data_unchanged"] == true &&
+  report["identity_control_plane_counts_unchanged"] == true &&
+  report["provider_sends"] == 0 &&
+  report["result"] == "LINKED_PRODUCTION_ROLLBACK_UAT_PASS"
+exit(valid ? 0 : 1)
+RUBY
+  then
+    linked_sms_first_uat="1"
+  elif /bin/bash "$ROOT_DIR/scripts/collect_linked_uat.sh" >/dev/null 2>&1; then
     linked_sms_first_uat="1"
   else
     linked_sms_first_uat="0"

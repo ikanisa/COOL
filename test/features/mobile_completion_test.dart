@@ -48,7 +48,7 @@ const _diasporaProfile = CollectProfile(
   countryCode: 'GB',
   currencyCode: 'GBP',
   revolutLink: 'https://revolut.me/collectmember',
-  revolutAccount: 'Personal EUR account',
+  revolutAccount: '000123456789',
 );
 
 class _TestSmsAccessChannel extends SmsAccessChannel {
@@ -435,7 +435,7 @@ void main() {
       '/settings',
       legalConsentAccepted: true,
       repository: CollectRepository.fixture(
-        profileOverride: _diasporaProfile.copyWith(revolutLink: ''),
+        profileOverride: _diasporaProfile.copyWith(revolutAccount: ''),
       ),
     );
 
@@ -1430,17 +1430,9 @@ void main() {
       );
       expect(find.text('Name'), findsNothing);
       expect(find.text('Account name'), findsNothing);
-      await tester.scrollUntilVisible(
+      expect(
         find.byKey(const ValueKey('profile_revolut_link_input')),
-        160,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.enterText(
-        find.descendant(
-          of: find.byKey(const ValueKey('profile_revolut_link_input')),
-          matching: find.byType(TextField),
-        ),
-        'https://revolut.me/jeanbosco',
+        findsNothing,
       );
       await tester.scrollUntilVisible(
         find.byKey(const ValueKey('profile_revolut_account_input')),
@@ -1452,7 +1444,7 @@ void main() {
           of: find.byKey(const ValueKey('profile_revolut_account_input')),
           matching: find.byType(TextField),
         ),
-        'Personal EUR account',
+        '000123456789',
       );
       await tester.pump();
       await pressFilledButton(tester, 'Save');

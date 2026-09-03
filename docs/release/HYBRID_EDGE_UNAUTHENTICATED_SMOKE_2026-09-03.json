@@ -1,0 +1,89 @@
+{
+  "captured_at": "2026-09-03T12:05:52Z",
+  "project": "lhbowpbcpwoiparwnwgt",
+  "mode": "unauthenticated_empty_post_negative_path",
+  "checks": [
+    {
+      "slug": "auth-send-whatsapp-otp",
+      "status": 401,
+      "rejected": true,
+      "error": "Unauthorized",
+      "body_sha256": "3be5b8e53fdc8b0a2996590589456db33504977f3d1ce9bb75016c8a707e1a71"
+    },
+    {
+      "slug": "collect-notification-operator",
+      "status": 401,
+      "rejected": true,
+      "error": "",
+      "body_sha256": "2fa2c84fed16d2ecfffc375515c8095ca6be18d8dabe1f54fd12142d23834634"
+    },
+    {
+      "slug": "dispatch-notifications",
+      "status": 401,
+      "rejected": true,
+      "error": "Internal function authorization failed",
+      "body_sha256": "ffaed10b1e3f510bfb752ffc69051d1caddbfe78f7b16b2a51f53a982249ea0e"
+    },
+    {
+      "slug": "ingest-bank-email",
+      "status": 401,
+      "rejected": true,
+      "error": "Unauthorized",
+      "body_sha256": "3be5b8e53fdc8b0a2996590589456db33504977f3d1ce9bb75016c8a707e1a71"
+    },
+    {
+      "slug": "ingest-bank-sms",
+      "status": 401,
+      "rejected": true,
+      "error": "",
+      "body_sha256": "2fa2c84fed16d2ecfffc375515c8095ca6be18d8dabe1f54fd12142d23834634"
+    },
+    {
+      "slug": "ingest-bank-statement",
+      "status": 401,
+      "rejected": true,
+      "error": "",
+      "body_sha256": "2fa2c84fed16d2ecfffc375515c8095ca6be18d8dabe1f54fd12142d23834634"
+    },
+    {
+      "slug": "ingest-payment-sms",
+      "status": 401,
+      "rejected": true,
+      "error": "",
+      "body_sha256": "2fa2c84fed16d2ecfffc375515c8095ca6be18d8dabe1f54fd12142d23834634"
+    },
+    {
+      "slug": "parse-payment-sms",
+      "status": 401,
+      "rejected": true,
+      "error": "Internal function authorization failed",
+      "body_sha256": "ffaed10b1e3f510bfb752ffc69051d1caddbfe78f7b16b2a51f53a982249ea0e"
+    },
+    {
+      "slug": "prepare-roster-import",
+      "status": 401,
+      "rejected": true,
+      "error": "",
+      "body_sha256": "2fa2c84fed16d2ecfffc375515c8095ca6be18d8dabe1f54fd12142d23834634"
+    },
+    {
+      "slug": "send-notification",
+      "status": 401,
+      "rejected": true,
+      "error": "Internal function authorization failed",
+      "body_sha256": "ffaed10b1e3f510bfb752ffc69051d1caddbfe78f7b16b2a51f53a982249ea0e"
+    },
+    {
+      "slug": "verify-play-integrity",
+      "status": 401,
+      "rejected": true,
+      "error": "",
+      "body_sha256": "2fa2c84fed16d2ecfffc375515c8095ca6be18d8dabe1f54fd12142d23834634"
+    }
+  ],
+  "requests": 11,
+  "authenticated_requests": 0,
+  "provider_sends": 0,
+  "expected_database_mutations": 0,
+  "result": "ALL_EDGE_FUNCTIONS_REJECT_UNAUTHENTICATED_REQUESTS"
+}

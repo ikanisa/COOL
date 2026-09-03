@@ -64,6 +64,51 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   const AdminEvidenceRepository();
 
   @override
+  Future<Map<String, dynamic>> prepareRosterImport(
+    Map<String, dynamic> body,
+  ) async => {
+    'ok': true,
+    'processing_method': 'deterministic',
+    'model': null,
+    'row_count': 2,
+    'ready_count': 2,
+    'error_count': 0,
+    'can_submit': true,
+    'rows': const [
+      {
+        'source_row': 2,
+        'member_name': 'Alice Evidence',
+        'momo_name': 'ALICE EVIDENCE',
+        'momo_number': '+250788000101',
+        'confidence': 1.0,
+        'issues': <String>[],
+        'ready': true,
+      },
+      {
+        'source_row': 3,
+        'member_name': 'Bob Evidence',
+        'momo_name': 'BOB EVIDENCE',
+        'momo_number': '+250788000102',
+        'confidence': 1.0,
+        'issues': <String>[],
+        'ready': true,
+      },
+    ],
+    'normalized_rows': const [
+      {
+        'member_name': 'Alice Evidence',
+        'momo_name': 'ALICE EVIDENCE',
+        'momo_number': '+250788000101',
+      },
+      {
+        'member_name': 'Bob Evidence',
+        'momo_name': 'BOB EVIDENCE',
+        'momo_number': '+250788000102',
+      },
+    ],
+  };
+
+  @override
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,
@@ -330,6 +375,19 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'status': 'active',
         'created_at': createdAt,
       },
+      'admin_get_member_record' => {
+        'id': id,
+        'collect_id': '960200',
+        'member_name': 'Evidence feature-phone member',
+        'momo_registered_name': 'EVIDENCE FEATURE PHONE MEMBER',
+        'momo_masked': '+250•••200',
+        'whatsapp_masked': null,
+        'account_state': 'feature_phone',
+        'origin': 'admin_assisted',
+        'lifecycle': 'active',
+        'active_groups': 1,
+        'created_at': createdAt,
+      },
       'admin_get_admin_user' => {
         'id': id,
         'public_id': 'CA6816',
@@ -348,6 +406,29 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'retryable_count': 1,
         'last_error_code': 'provider_unavailable',
         'created_at': createdAt,
+      },
+      'admin_get_hybrid_sms_receipt' => {
+        'id': id,
+        'state': 'queued',
+        'channel': 'Assisted SMS via Mac Messages',
+        'member_collect_id': '960200',
+        'collection_id': 'collection-1',
+        'collection_title': 'Buri Munsi',
+        'destination_masked': '+250•••200',
+        'amount_rwf': 1500,
+        'member_balance_rwf': 3500,
+        'group_balance_rwf': 12500,
+        'reference': 'SYNTHETIC-001',
+        'template_key': 'buri_munsi.payment_received',
+        'template_version': 1,
+        'message_body': 'Hidden until a current fenced operator claim',
+        'attempt_count': 0,
+        'latest_attempt_state': null,
+        'suppression_reason': null,
+        'created_at': createdAt,
+        'observed_sent_at': null,
+        'delivery_claim':
+            'Observed sent is a Messages UI state, not handset delivery',
       },
       'admin_system_health' => {
         'id': id,
@@ -518,6 +599,7 @@ int _rowCount(String rpcName) => switch (rpcName) {
   'admin_list_bank_allocation_requests' => 4,
   'admin_list_journal_entries' => 10,
   'admin_list_notifications' => 4,
+  'admin_list_hybrid_sms_receipts' => 4,
   'admin_list_audit_logs' => 8,
   'admin_list_settings' => 4,
   'admin_list_feature_flags' => 4,
@@ -558,6 +640,7 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_journal_entries' => 'journal-entry-$index',
   'admin_list_admin_users' => 'admin-user-$index',
   'admin_list_notifications' => 'notification-$index',
+  'admin_list_hybrid_sms_receipts' => 'sms-receipt-$index',
   _ => 'admin-row-$index',
 };
 
@@ -599,6 +682,7 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_journal_entries' => 'Balanced bank receipt ${6800 + index}',
   'admin_list_admin_users' => '+250 78•••${6800 + index}',
   'admin_list_notifications' => 'Bank contribution reconciled',
+  'admin_list_hybrid_sms_receipts' => 'Buri Munsi receipt',
   'admin_list_audit_logs' => switch (index % 4) {
     1 => 'Payee activated',
     2 => 'Allocation approved',
@@ -662,6 +746,8 @@ String _rowSubtitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_journal_entries' => 'Immutable balanced debit and credit entry',
   'admin_list_admin_users' => '',
   'admin_list_notifications' => 'Collect ID AB1234 • 1 delivery',
+  'admin_list_hybrid_sms_receipts' =>
+    'Collect ID ${960199 + index} • +250•••${199 + index}',
   'admin_list_audit_logs' => switch (index % 3) {
     1 => 'Maker A. • Buri Munsi',
     2 => 'Checker B. • COLLECT-AB1202-6802',
@@ -716,6 +802,12 @@ String _rowStatus(String rpcName, int index) => switch (rpcName) {
   'admin_list_journal_entries' => 'bank_receipt',
   'admin_list_admin_users' => 'active',
   'admin_list_notifications' => index.isEven ? 'sent' : 'failed',
+  'admin_list_hybrid_sms_receipts' => switch (index) {
+    1 => 'queued',
+    2 => 'awaiting_confirmation',
+    3 => 'uncertain',
+    _ => 'suppressed',
+  },
   'admin_list_audit_logs' => 'logged',
   'admin_list_settings' => 'enabled',
   'admin_list_feature_flags' => 'enabled',
@@ -744,6 +836,9 @@ String _rowAmount(String rpcName, int index) {
     };
   }
   if (rpcName == 'admin_list_notifications') return '1 delivery';
+  if (rpcName == 'admin_list_hybrid_sms_receipts') {
+    return 'RWF ${index * 1500}';
+  }
   if (rpcName == 'admin_list_admin_users') return 'Admin';
   if (rpcName == 'admin_list_collections') return '${10 + index} members';
   if (rpcName == 'admin_list_receivers' ||
@@ -826,10 +921,14 @@ Map<String, dynamic> _rowExtra(String rpcName, int index) {
     final countryCode = _rowCountryCode(rpcName, index);
     final rwanda = countryCode == 'RW';
     final hasMembership = rpcName != 'admin_list_non_member_users';
+    final featurePhone = hasMembership && rwanda && index.isOdd;
     return {
       'public_id': '${38490 + index}',
       'display_name': hasMembership ? 'Member $index' : 'User $index',
-      'whatsapp_masked': _evidenceWhatsAppMasked(countryCode, index),
+      'whatsapp_masked': featurePhone
+          ? null
+          : _evidenceWhatsAppMasked(countryCode, index),
+      'account_state': featurePhone ? 'feature_phone' : 'app',
       'country_code': countryCode,
       'currency_code': switch (countryCode) {
         'RW' => 'RWF',
@@ -884,7 +983,8 @@ String? _rowCountryCode(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_transactions' ||
   'admin_list_collect_reconciliations' ||
   'admin_list_collect_ledgers' ||
-  'admin_list_notifications' =>
+  'admin_list_notifications' ||
+  'admin_list_hybrid_sms_receipts' =>
     index.isOdd
         ? 'RW'
         : index % 4 == 2

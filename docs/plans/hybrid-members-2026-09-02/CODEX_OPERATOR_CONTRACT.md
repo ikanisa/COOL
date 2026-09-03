@@ -1,8 +1,18 @@
 # Proposed Collect receipt operator contract
 
-Status: **DESIGN ONLY — NOT INSTALLED, NOT SENDING**
+Status: **EDGE DEPLOYED; MCP AUTHENTICATED READ-ONLY; MINUTE MONITOR ACTIVE; SENDING DISABLED**
 
-Owner decision recorded: assisted sending with imminent recipient/content confirmation accepted on 2 September 2026. No specific SMS has been authorized. The MCP bridge and scheduler cutover are still unimplemented; local backend foundation evidence is in [implementation status](IMPLEMENTATION_STATUS.md).
+3 September continuation: the owner reconfirmed full execution authority. A
+normal approved-Admin WhatsApp OTP session is stored in a dedicated device-local
+Keychain item; independent live and actual stdio health/list checks PASS. The
+existing minute heartbeat is ACTIVE in read-only/no-send mode. This supersedes
+the PAUSED/authentication-open snapshots below, without enabling any claim or
+send tool. No refresh token is retained; session expiry requires reauthentication
+and should produce one meaningful alert. The selected route is Buri Munsi / 41258;
+handover occurs immediately before the first fresh pilot payment, after receiving
+device readiness. See [current evidence](../../release/HYBRID_CONTINUATION_DEPLOYED_2026-09-03.md).
+
+Owner decision recorded: assisted sending with imminent recipient/content confirmation accepted on 2 September 2026. No specific SMS has been authorized. The authenticated Edge operator is deployed and its source was read back exactly; the local nine-command MCP bridge is implemented and tested; and the `Collect feature-phone receipts` heartbeat exists in PAUSED state. Governed MCP runtime configuration, an authenticated health/list dry run and physical Messages acceptance remain open; see [implementation status](IMPLEMENTATION_STATUS.md).
 
 Date: 2 September 2026
 
@@ -16,7 +26,9 @@ Use one designated Mac operator at a time. The existing Buri Munsi receipt pipel
 
 ## 2. Narrow MCP surface
 
-These names are proposed commands, not claims that callable tools exist.
+These commands exist in the local dedicated MCP server. The Edge/SQL candidate is deployed; the host profile is now registered with only health and pending-list enabled. Authenticated production reads still require governed runtime credentials. Enable the seven queue-control tools only for an explicitly approved supervised pilot after the authenticated dry run and legacy-sender takeover pass. The recurring heartbeat stays paused until the physical pilot is accepted.
+
+The [operator preflight](/Volumes/PRO-G40/COOL/docs/release/HYBRID_OPERATOR_PREFLIGHT_2026-09-03.md) found active native Buri Munsi receipt/dispatch services despite the paused legacy schedule. Keep Collect sending disabled until an owner-approved takeover resolves both Mac services and the linked iPhone automation.
 
 | Command | Input | Backend-owned output/control |
 | --- | --- | --- |
@@ -24,6 +36,7 @@ These names are proposed commands, not claims that callable tools exist.
 | collect_list_pending_receipts | Cursor and bounded page size | Opaque job IDs, status, timestamps and masked destination; server applies scope |
 | collect_claim_receipt | Job ID, worker ID, idempotency key | Exclusive time-limited claim and fencing token; atomic SKIP LOCKED/CAS equivalent |
 | collect_get_claimed_receipt | Job ID and current claim token | Exact canonical destination/body, template version, payment and balance snapshot, policy/destination revision |
+| collect_confirm_receipt | Current claim, destination revision, body hash, confirmation ID and literal confirmed state | Records the fresh action-specific confirmation for only that exact destination/body; does not send |
 | collect_record_send_start | Claim token and confirmed job/body/destination revisions | Durable attempt ID and pre-send marker; rejects stale, changed, suppressed or unconfirmed jobs |
 | collect_record_observed_outcome | Attempt ID, expected state/version, evidence reference, enumerated result | Idempotent transition to observed_sent, failed_no_send or uncertain; no arbitrary financial writes |
 | collect_release_unsent_claim | Claim token and reason | Requeues only if no send-start marker exists |
@@ -75,9 +88,9 @@ A recipient's reply or content in raw SMS, roster files or admin notes must neve
 
 The requested target is a local thread heartbeat every minute. Minute-based scheduling is documented; the exact account/runtime behavior still needs a controlled run. Keep the Mac powered on, the app running and the project available. [Official scheduled-task guidance](https://learn.chatgpt.com/docs/automations?surface=app).
 
-No schedule was created or updated in this review. Use the native automation tool only after the queue bridge and dry run work, resolving whether to retarget the existing pipeline at an agreed cutover or create a non-overlapping Collect-specific monitor. Preserve unrelated automations.
+The native heartbeat `Collect feature-phone receipts` was created at one-minute cadence in PAUSED state. Do not activate it until the deployed MCP health/list dry run, approved operator identity, duplicate-worker ownership check and Mac/iPhone preflight pass. Preserve unrelated automations.
 
-Suggested initial saved prompt, after those gates:
+The saved prompt follows this operating rule:
 
 > Review the Collect receipt notification queue for the approved Rwanda scope using the dedicated Collect notification tools and this operator contract. Work only in no-send preparation mode until a current, action-specific user confirmation authorizes an imminent receipt send. Never infer recipients, balances or successful sending. Recover due pending work regardless of its age, respect single-flight claims, and never auto-retry an uncertain attempt. Keep payment posting separate from notification operation. Stay quiet while the state is unchanged or non-actionable; notify only about meaningful failures, backlog changes, completion or required user action. Do not expose private member data in task summaries.
 

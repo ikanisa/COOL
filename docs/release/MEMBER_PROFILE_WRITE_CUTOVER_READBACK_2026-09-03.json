@@ -1,0 +1,46 @@
+{
+  "captured_at": "2026-09-03T08:57:11Z",
+  "mode": "readback",
+  "project": {
+    "id": "lhbowpbcpwoiparwnwgt",
+    "name": "COOL",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "credential_source": {
+    "title": "Supabase",
+    "tab": "Sheet1",
+    "saved": false
+  },
+  "production_mutations": [
+
+  ],
+  "readback": {
+    "migration": {
+      "version": "20260903083947",
+      "name": "member_profile_rpc_only_writes",
+      "source_sha256": "76830e6a6dd32f1b708cefd986470f4b46ae50ad4cba31fca395a5bd1ff3287f"
+    },
+    "migration_count": 112,
+    "acl_after": {
+      "public_table_update": false,
+      "public_column_update": false,
+      "anon_table_update": false,
+      "anon_column_update": false,
+      "authenticated_table_update": false,
+      "authenticated_column_update": false,
+      "member_edit_rpc": true,
+      "legacy_profile_rpc": false,
+      "authenticated_update_columns": [
+
+      ]
+    },
+    "hash_constraint": {
+      "validated": true
+    },
+    "integrity_after": {
+      "hashed_profiles": 2,
+      "inconsistent_hashes": 0
+    }
+  },
+  "result": "PROFILE_RPC_ONLY_WRITES_DEPLOYED"
+}

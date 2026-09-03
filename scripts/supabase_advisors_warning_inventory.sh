@@ -100,8 +100,15 @@ allowed_security_max = {
   # single Admin access contract, and country-scoped list dispatch. Every Admin
   # entry point either calls assert_admin_permission() directly or delegates
   # only to an Admin RPC that does; member/public reads remain minimum-field and
-  # RLS-safe. This brings the exact reviewed ceiling to 125.
-  "authenticated_security_definer_function_executable" => 125,
+  # RLS-safe. This brings the exact reviewed ceiling to 125. The 20260903
+  # hybrid foundation adds seven reviewed signed-in entry points: guarded
+  # assisted-roster import, four permission-checked hybrid Admin readers, the
+  # auth.uid()-bound account-claim wrapper, and the member-profile bootstrap
+  # that delegates to the claim only while its rollout flag is enabled.
+  # Internal helpers have no client or service-role EXECUTE grants, and the
+  # account-claim wrapper is fixed-path SECURITY DEFINER. This brings the exact
+  # reviewed ceiling to 132.
+  "authenticated_security_definer_function_executable" => 132,
   "auth_leaked_password_protection" => 1
 }
 
