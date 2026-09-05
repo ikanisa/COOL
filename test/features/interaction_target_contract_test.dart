@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'package:collect_app/admin/admin_shell.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
@@ -113,7 +115,7 @@ void main() {
               overrides: [
                 appRouterProvider.overrideWithValue(router),
                 collectRepositoryProvider.overrideWith(
-                  (ref) => CollectRepository.fixture(),
+                  (ref) => FixtureCollectRepository(),
                 ),
                 collectThemeModeProvider.overrideWith(
                   (ref) => CollectThemeModeController(
@@ -375,20 +377,20 @@ const _memberRoutes = <String>[
   '/activity',
   '/groups/create',
   '/groups/scan',
-  '/groups/col-church',
-  '/groups/col-church/share',
-  '/groups/col-church/invite',
-  '/c/st-michel-building-fund',
+  '/groups/qa-private-group',
+  '/groups/qa-private-group/share',
+  '/groups/qa-private-group/invite',
+  '/c/qa-private-group',
   '/app',
   '/invite/038491',
   '/share/invalid',
   '/share/expired',
   '/share/expired/request',
-  '/groups/col-church/contribute',
-  '/groups/col-church/ledger',
-  '/groups/col-church/manage',
-  '/groups/col-church/profile',
-  '/groups/col-church/members',
+  '/groups/qa-private-group/contribute',
+  '/groups/qa-private-group/ledger',
+  '/groups/qa-private-group/manage',
+  '/groups/qa-private-group/profile',
+  '/groups/qa-private-group/members',
   '/settings',
   '/settings/notifications',
   '/settings/appearance',

@@ -558,15 +558,15 @@ required_mobile_routes = %w[
   /activity
   /groups/create
   /groups/scan
-  /groups/col-church
-  /groups/col-church/share
-  /groups/col-church/invite
-  /c/st-michel-building-fund
-  /groups/col-church/contribute
-  /groups/col-church/ledger
-  /groups/col-church/manage
-  /groups/col-church/profile
-  /groups/col-church/members
+  /groups/qa-private-group
+  /groups/qa-private-group/share
+  /groups/qa-private-group/invite
+  /c/qa-private-group
+  /groups/qa-private-group/contribute
+  /groups/qa-private-group/ledger
+  /groups/qa-private-group/manage
+  /groups/qa-private-group/profile
+  /groups/qa-private-group/members
   /settings
   /settings/notifications
   /settings/appearance

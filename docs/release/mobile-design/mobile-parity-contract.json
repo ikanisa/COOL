@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "rule": "MOBILE-DESIGN-100",
+  "authority": "DESIGN.md",
+  "criteria": ["reference_fidelity", "hierarchy_density", "typography", "colour_elevation", "spacing_shape", "icons_assets", "copy_annotations", "interaction_states", "responsive_keyboard", "accessibility_native"],
+  "route_inventory": "integration_test/mobile_route_matrix_device_uat_test.dart",
+  "original_reference_manifest": "docs/release/mobile-design/original-reference-manifest.json",
+  "reference_paths": ["references/revolut10/IMG_2739-drive-preview.png", "references/revolut10/IMG_2740-drive-preview.png", "references/revolut10/IMG_2741-drive-preview.png", "references/revolut10/IMG_2742-drive-preview.png", "references/revolut10/IMG_2747-drive-preview.png", "references/revolut10/IMG_2748-drive-preview.png", "references/revolut10/IMG_2749-drive-preview.png", "references/revolut10/IMG_2750-drive-preview.png", "references/revolut10/IMG_2751-drive-preview.png", "references/revolut10/IMG_2752-drive-preview.png"],
+  "additional_states": ["home-discovery", "home-joined", "home-mixed", "home-empty", "home-loading", "home-error", "home-offline", "group-member", "group-nonmember", "group-owner", "auth-incomplete-number", "auth-valid-number", "auth-country-picker", "auth-otp", "auth-otp-error", "profile-rwanda", "profile-diaspora", "profile-invalid", "profile-unsaved-sheet", "contribution-amount-invalid", "contribution-quick-pick", "contribution-momo-review", "contribution-bank-review", "contribution-pending", "contribution-failed", "sms-consent-sheet", "camera-denied", "group-search-empty", "group-join", "delete-confirmation"],
+  "variant_cases": ["home", "groups", "profile-edit", "contribution", "diaspora-contribution", "settings", "settings-permissions", "auth"],
+  "variants": ["compact-320", "large-phone-430", "tablet-800", "landscape", "light", "large-text-200", "reduced-motion"],
+  "keyboard_cases": ["auth", "profile-edit", "contribution", "diaspora-contribution", "group-create", "group-join"],
+  "annotations": ["home-cards-member-parity", "no-connectivity-banner", "no-redundant-session-labels", "no-group-category-labels", "no-public-join-explanation", "country-aware-phone-validation", "dynamic-contribute-and-join", "rwanda-momo-diaspora-account", "native-amount-layout", "numeric-grouped-amount", "quick-picks-1000-2000-5000-10000", "no-receiver-word", "no-momo-explanation", "quick-pick-label", "no-contribution-subtitle-or-step", "no-collect-profile-label", "compact-account-labels", "compact-profile-editor", "no-provider-selector", "no-duplicate-settings-links", "whatsapp-brand-icon", "numeric-member-identity-no-names"]
+}

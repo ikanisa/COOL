@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:convert';
 
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -22,8 +24,8 @@ const _own = <String, Object?>{
   ],
 };
 
-class _ChangingRosterRepository extends CollectRepository {
-  _ChangingRosterRepository() : super.fixture();
+class _ChangingRosterRepository extends FixtureCollectRepository {
+  _ChangingRosterRepository() : super();
   int reads = 0;
   @override
   Future<List<CollectMember>> membersForCollection(String collectionId) async {
@@ -61,7 +63,7 @@ Future<SupabaseClient> _client(Object? payload) async {
     authOptions: const AuthClientOptions(autoRefreshToken: false),
     httpClient: MockClient((request) async {
       expect(request.url.path, '/rest/v1/rpc/list_current_member_group_roster');
-      expect(jsonDecode(request.body), {'p_collection_id': 'col-church'});
+      expect(jsonDecode(request.body), {'p_collection_id': 'qa-private-group'});
       return http.Response(
         jsonEncode(payload),
         200,
@@ -165,11 +167,11 @@ void main() {
       'roster RPC rejects malformed, duplicate or misattributed response $i',
       () async {
         final client = await _client(invalidResponses[i]);
-        final repo = CollectRepository.fixture(supabase: client);
+        final repo = FixtureCollectRepository(supabase: client);
         addTearDown(client.dispose);
         addTearDown(repo.dispose);
         await expectLater(
-          repo.membersForCollection('col-church'),
+          repo.membersForCollection('qa-private-group'),
           throwsFormatException,
         );
       },
@@ -177,10 +179,10 @@ void main() {
   }
   test('member repository uses the authorized roster contract', () async {
     final client = await _client([_own]);
-    final repo = CollectRepository.fixture(supabase: client);
+    final repo = FixtureCollectRepository(supabase: client);
     addTearDown(client.dispose);
     addTearDown(repo.dispose);
-    final members = await repo.membersForCollection('col-church');
+    final members = await repo.membersForCollection('qa-private-group');
     expect(members.single.role, 'admin');
     expect(members.single.contributionTotals['EUR'], 12345);
   });
@@ -192,11 +194,11 @@ void main() {
         'local-test-key',
         authOptions: const AuthClientOptions(autoRefreshToken: false),
       );
-      final repo = CollectRepository.fixture(supabase: client);
+      final repo = FixtureCollectRepository(supabase: client);
       addTearDown(client.dispose);
       addTearDown(repo.dispose);
       await expectLater(
-        repo.membersForCollection('col-church'),
+        repo.membersForCollection('qa-private-group'),
         throwsStateError,
       );
     },
@@ -204,13 +206,13 @@ void main() {
   test(
     'synthetic transfer mirrors owner and former-owner roster roles',
     () async {
-      final repo = CollectRepository.fixture();
+      final repo = FixtureCollectRepository();
       addTearDown(repo.dispose);
       await repo.transferCollectionOwnership(
-        collectionId: 'col-church',
+        collectionId: 'qa-private-group',
         publicId: '123456',
       );
-      final members = await repo.membersForCollection('col-church');
+      final members = await repo.membersForCollection('qa-private-group');
       expect(members.map((member) => member.publicId).toSet().length, 2);
       expect(
         members.singleWhere((member) => member.publicId == '038491').role,
@@ -236,7 +238,7 @@ void main() {
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
       );
       addTearDown(container.dispose);
-      final provider = groupMembersProvider('col-church');
+      final provider = groupMembersProvider('qa-private-group');
       expect((await container.read(provider.future)).single.publicId, '038491');
       repo.changeAccount();
       expect((await container.read(provider.future)).single.publicId, '222222');
@@ -248,7 +250,7 @@ void main() {
   test(
     'fixture never invents membership for an unjoined public group',
     () async {
-      final repo = CollectRepository.fixture();
+      final repo = FixtureCollectRepository();
       addTearDown(repo.dispose);
       expect(
         await repo.membersForCollection('col-public-sport-fixture'),

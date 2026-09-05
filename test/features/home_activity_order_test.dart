@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -8,14 +10,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _HomeActivityRepository extends CollectRepository {
-  _HomeActivityRepository() : super.fixture() {
+class _HomeActivityRepository extends FixtureCollectRepository {
+  _HomeActivityRepository() : super() {
     state = state.copyWith(
       contributions: List.generate(
         7,
         (index) => Contribution(
           id: 'momo:$index',
-          collectionId: 'col-church',
+          collectionId: 'qa-private-group',
           amountRwf: (index + 1) * 1000,
           supporterLabel: '038491',
           isCurrentUserContribution: true,

@@ -1,5 +1,11 @@
 # Final Requirement-by-Requirement Completion Audit
 
+> Historical checkpoint, not current mobile release approval. On 2026-09-03,
+> MOBILE-DESIGN-100 reopened native parity acceptance. Current mobile status is
+> **BLOCKED** under repository `DESIGN.md`; see
+> [the current audit](../release/mobile-design/MOBILE_PARITY_AUDIT_2026-09-03.md).
+> Earlier GO decisions and Admin evidence below do not approve a new APK/IPA.
+
 ## Audit status
 
 - Audit date: 2026-08-05

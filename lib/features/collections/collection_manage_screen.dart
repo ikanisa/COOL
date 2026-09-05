@@ -88,13 +88,6 @@ class _CollectionManageScreenState
       title: 'Group settings',
       subtitle: collection.title,
       children: [
-        MoneyHeroCard(
-          amount: summary.amountRaisedRwf,
-          currency: summary.currency,
-          totalsByCurrency: summary.totalsByCurrency,
-          label: collection.title,
-          chips: [CollectPeopleCount(count: summary.supporterCount)],
-        ),
         _SettingsSection(
           children: [
             _ManageTile(
@@ -105,7 +98,6 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.share,
               title: 'Share group',
-              subtitle: 'Share the group link or QR code',
               onTap: () => context.go('/groups/${widget.collectionId}/share'),
             ),
           ],
@@ -115,7 +107,6 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.people,
               title: 'Members',
-              subtitle: 'View and manage active membership',
               onTap: () => context.go('/groups/${widget.collectionId}/members'),
             ),
             _ManageTile(

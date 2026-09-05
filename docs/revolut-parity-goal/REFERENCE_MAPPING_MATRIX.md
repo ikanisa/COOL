@@ -73,20 +73,20 @@ with invented references.
 | activity | `/activity` | R-PAYMENTS | Direct transaction-list archetype with truthful group, public ID, timestamp, status, and amount. |
 | group-create | `/groups/create` | R-INVEST for progressive geometry | No direct group-creation analogue. Collect must preserve its own five-step owner setup and validation. |
 | group-scan | `/groups/scan` | No direct analogue | Use platform QR-scanner conventions and explicit Camera permission education; do not invent a Revolut QR screen. |
-| group-detail | `/groups/col-church` | R-CRYPTO | Direct structural archetype: value hero, group metrics, four actions, status when needed, then activity. |
-| share | `/groups/col-church/share` | No direct analogue | Collect-owned QR/share surface with privacy-bounded public group data. |
-| invite | `/groups/col-church/invite` | Same Collect share disposition | Compatibility route only; it resolves to the approved Collect QR/share screen. |
-| shared-group-link | `/c/st-michel-building-fund` | No direct analogue | Deep-link behavior resolves into the approved group-detail archetype. |
+| group-detail | `/groups/[removed QA fixture]` | R-CRYPTO | Direct structural archetype: value hero, group metrics, four actions, status when needed, then activity. |
+| share | `/groups/[removed QA fixture]/share` | No direct analogue | Collect-owned QR/share surface with privacy-bounded public group data. |
+| invite | `/groups/[removed QA fixture]/invite` | Same Collect share disposition | Compatibility route only; it resolves to the approved Collect QR/share screen. |
+| shared-group-link | `/c/[removed QA fixture]` | No direct analogue | Deep-link behavior resolves into the approved group-detail archetype. |
 | app-share-entry | `/app` | No direct analogue | Compatibility redirect; no independent visual screen is allowed. |
 | app-invite-link | `/invite/038491` | No direct analogue | Compatibility redirect; no independent visual screen is allowed. |
 | share-invalid | `/share/invalid` | R-INVEST recovery geometry | Redirects to Groups. It must not preserve an invalid or fabricated shared object. |
 | share-expired | `/share/expired` | R-INVEST recovery geometry | Redirects to Groups with no stale access claim. |
 | share-expired-request | `/share/expired/request` | R-INVEST recovery geometry | Redirects to Groups; no unsupported renewal flow is invented. |
-| contribution | `/groups/col-church/contribute` | R-CRYPTO summary/status rhythm | Collect keeps receiver, amount, verification status, and explicit MoMo handoff. Direct amount-entry/review capture remains RT-001. |
-| ledger | `/groups/col-church/ledger` | R-PAYMENTS plus R-CRYPTO | Dense confirmed records immediately follow the total; no status controls or fake transactions. |
-| manage | `/groups/col-church/manage` | R-SECURITY grouped-control hierarchy | No direct group-management analogue. Collect uses a compact summary, grouped actions, and explicit destructive confirmation. |
-| group-profile | `/groups/col-church/profile` | R-PROFILE identity grouping | No direct group-edit analogue. Collect retains truthful name, description, category, visibility, and recurrence controls. |
-| members | `/groups/col-church/members` | R-PAYMENTS | Dense searchable roster with role and contribution metadata; private receiver data stays absent. |
+| contribution | `/groups/[removed QA fixture]/contribute` | R-CRYPTO summary/status rhythm | Collect keeps receiver, amount, verification status, and explicit MoMo handoff. Direct amount-entry/review capture remains RT-001. |
+| ledger | `/groups/[removed QA fixture]/ledger` | R-PAYMENTS plus R-CRYPTO | Dense confirmed records immediately follow the total; no status controls or fake transactions. |
+| manage | `/groups/[removed QA fixture]/manage` | R-SECURITY grouped-control hierarchy | No direct group-management analogue. Collect uses a compact summary, grouped actions, and explicit destructive confirmation. |
+| group-profile | `/groups/[removed QA fixture]/profile` | R-PROFILE identity grouping | No direct group-edit analogue. Collect retains truthful name, description, category, visibility, and recurrence controls. |
+| members | `/groups/[removed QA fixture]/members` | R-PAYMENTS | Dense searchable roster with role and contribution metadata; private receiver data stays absent. |
 | settings | `/settings` | R-PROFILE and R-PROFILE-LOWER | Direct profile/settings archetype: identity first, then one compact grouped list. |
 | settings-notifications | `/settings/notifications` | R-PROFILE-LOWER grouped rows | No direct notification-detail capture. Collect uses compact switches and separately managed phone permission. |
 | settings-appearance | `/settings/appearance` | R-THEME | Direct archetype. Collect now shows a live miniature Collect Home preview before compact Dark, Light, and System controls. |

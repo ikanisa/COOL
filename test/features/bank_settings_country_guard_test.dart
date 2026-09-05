@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 
 import 'package:collect_app/app/app.dart';
@@ -11,8 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _BankSettingsRepository extends CollectRepository {
-  _BankSettingsRepository(String? country) : super.fixture() {
+class _BankSettingsRepository extends FixtureCollectRepository {
+  _BankSettingsRepository(String? country) : super() {
     setCountry(country);
   }
 

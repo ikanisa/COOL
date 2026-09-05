@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -24,7 +26,7 @@ void main() {
       testWidgets(
         '$country / $platform only offers supported SMS capture',
         (tester) async {
-          final repository = CollectRepository.fixture(
+          final repository = FixtureCollectRepository(
             profileOverride: CollectProfile(
               id: 'local-user',
               publicId: '038491',
@@ -111,7 +113,7 @@ void main() {
             overrides: [
               appRouterProvider.overrideWithValue(router),
               collectRepositoryProvider.overrideWith(
-                (ref) => CollectRepository.fixture(),
+                (ref) => FixtureCollectRepository(),
               ),
             ],
             child: const CollectApp(),
@@ -153,8 +155,8 @@ void main() {
   }
 }
 
-class _EnabledSmsFixture extends CollectRepository {
-  _EnabledSmsFixture() : super.fixture() {
+class _EnabledSmsFixture extends FixtureCollectRepository {
+  _EnabledSmsFixture() : super() {
     state = state.copyWith(smsAccessEnabled: true);
   }
 }

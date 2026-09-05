@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -13,7 +15,7 @@ void main() {
     'group link and QR open the native Android share surface',
     (tester) async {
       final router = createAppRouter(
-        initialLocation: '/groups/col-church/share',
+        initialLocation: '/groups/qa-private-group/share',
       );
       addTearDown(router.dispose);
       await tester.pumpWidget(
@@ -21,7 +23,7 @@ void main() {
           overrides: [
             appRouterProvider.overrideWithValue(router),
             collectRepositoryProvider.overrideWith(
-              (ref) => CollectRepository.fixture(),
+              (ref) => FixtureCollectRepository(),
             ),
           ],
           child: const CollectApp(),

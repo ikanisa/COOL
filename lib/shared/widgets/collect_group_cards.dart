@@ -175,25 +175,6 @@ class _GroupListRow extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Flexible(
-                          child: Text(
-                            collection.collectionType.label,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: colors.textSecondary,
-                                  fontWeight: CollectTypography.weightRegular,
-                                  letterSpacing:
-                                      CollectTypography.trackingDefault,
-                                ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Text(
-                          ' · ',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: colors.textSecondary),
-                        ),
                         Icon(
                           CollectSemanticIcons.forKeyword('members'),
                           size: 15,
@@ -427,8 +408,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                             child: _GroupIconMetric(
                               icon: CollectIcons.people,
                               value: summary.supporterCountLabel,
-                              semanticLabel:
-                                  summary.supporterCountSemantics,
+                              semanticLabel: summary.supporterCountSemantics,
                               accent: colors.success,
                             ),
                           ),

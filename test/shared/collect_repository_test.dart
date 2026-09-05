@@ -1,5 +1,6 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/shared/models/collect_models.dart';
-import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,7 @@ void main() {
   });
 
   test('fixture public groups are platform-sponsored MoMo groups', () {
-    final repository = CollectRepository.fixture();
+    final repository = FixtureCollectRepository();
 
     expect(repository.state.collections, isNotEmpty);
     final publicGroups = repository.state.collections
@@ -92,7 +93,7 @@ void main() {
   });
 
   test('public group accepts a contribution without membership', () async {
-    final repository = CollectRepository.fixture();
+    final repository = FixtureCollectRepository();
     final publicGroup = repository.state.collections.firstWhere(
       (group) => group.isPublic && !group.isCurrentUserMember,
     );
@@ -113,7 +114,7 @@ void main() {
   });
 
   test('fixture destination is active, routable, and EUR SEPA', () async {
-    final repository = CollectRepository.fixture();
+    final repository = FixtureCollectRepository();
 
     final destination = await repository.getBankTransferDestination();
 
@@ -128,7 +129,7 @@ void main() {
   test(
     'profile country and currency change without changing WhatsApp identity',
     () async {
-      final repository = CollectRepository.fixture();
+      final repository = FixtureCollectRepository();
       final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
 
       final european = await repository.updateCurrentProfile(
@@ -161,7 +162,7 @@ void main() {
   test(
     'European profiles require payment details, not a personal name',
     () async {
-      final repository = CollectRepository.fixture();
+      final repository = FixtureCollectRepository();
 
       await expectLater(
         repository.updateCurrentProfile(countryCode: 'DE'),
@@ -173,7 +174,7 @@ void main() {
   test(
     'diaspora bank request snapshots destination and exact reference',
     () async {
-      final repository = CollectRepository.fixture(
+      final repository = FixtureCollectRepository(
         fixtureNow: DateTime.now().toUtc(),
       );
       await repository.updateCurrentProfile(
@@ -183,7 +184,10 @@ void main() {
       );
 
       final intent = await repository.createPaymentIntent(
-        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 12345),
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 12345,
+        ),
       );
 
       expect(intent.expectedAmountMinor, 12345);
@@ -197,11 +201,11 @@ void main() {
   );
 
   test('active request with the same group and amount is reused', () async {
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       fixtureNow: DateTime.now().toUtc(),
     );
     const draft = PaymentIntentDraft(
-      collectionId: 'col-church',
+      collectionId: 'qa-private-group',
       amountRwf: 9876,
     );
 
@@ -218,7 +222,7 @@ void main() {
   test(
     'Revolut handoff remains pending and does not create a contribution',
     () async {
-      final repository = CollectRepository.fixture(
+      final repository = FixtureCollectRepository(
         fixtureNow: DateTime.now().toUtc(),
       );
       final contributionCount = repository.state.contributions.length;
@@ -228,7 +232,10 @@ void main() {
         revolutAccount: '000123456789',
       );
       final intent = await repository.createPaymentIntent(
-        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5050),
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 5050,
+        ),
       );
 
       await repository.markBankTransferHandoffOpened(intent.id);
@@ -243,7 +250,7 @@ void main() {
   test(
     'user group creation is private and uses the profile MoMo receiver',
     () async {
-      final repository = CollectRepository.fixture();
+      final repository = FixtureCollectRepository();
 
       final group = await repository.createCollection(
         title: 'RWF savings circle',
@@ -263,7 +270,7 @@ void main() {
   test('bank models parse minor units and destination snapshot', () {
     final intent = PaymentIntentModel.fromJson(const {
       'id': 'intent-1',
-      'collection_id': 'col-church',
+      'collection_id': 'qa-private-group',
       'amount_minor': 7500,
       'currency': 'EUR',
       'transfer_reference': 'COL-ABC1234567',
@@ -291,7 +298,7 @@ void main() {
   test('contribution parser uses reconciled bank amount and currency', () {
     final contribution = Contribution.fromJson(const {
       'payment_id': 'bank-transaction-1',
-      'collection_id': 'col-church',
+      'collection_id': 'qa-private-group',
       'amount_minor': 15000,
       'currency': 'EUR',
       'contributor_public_id': '038491',

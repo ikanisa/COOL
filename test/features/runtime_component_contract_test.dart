@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 
 import 'package:collect_app/app/router.dart';
@@ -121,12 +123,17 @@ void main() {
     expect(source, isNot(contains('periwinklePaint')));
   });
 
-  test('customer routes share one clean solid background system', () {
+  test('customer routes share a scoped reference background system', () {
     final source = File(
       'lib/shared/widgets/collect_scaffold_chrome.dart',
     ).readAsStringSync();
 
-    expect(source, contains('ColoredBox(color: context.collectColors.canvas'));
+    expect(source, contains('CollectRuntimeTokens.overviewBackdrop('));
+    expect(source, contains('CollectBackdropScope.of(context)'));
+    expect(
+      source,
+      contains('highContrast: MediaQuery.highContrastOf(context)'),
+    );
     expect(source, isNot(contains('screenGradient')));
   });
 
@@ -537,7 +544,8 @@ void main() {
     final shell = File(
       'lib/core/widgets/collect_shell.dart',
     ).readAsStringSync();
-    expect(shell, contains('final height = showLabels ? 60.0 : 52.0;'));
+    expect(shell, contains("ValueKey('collect-floating-navigation')"));
+    expect(shell, contains('final showLabels = textScale <= 1.3;'));
     expect(shell, contains('size: selected ? 23 : 21'));
     expect(shell, isNot(contains('BackdropFilter')));
     expect(shell, isNot(contains('ImageFilter.blur')));
@@ -1186,7 +1194,7 @@ void main() {
     );
 
     expect(find.text('Camera access'), findsOneWidget);
-    expect(find.text('Before you continue'), findsOneWidget);
+    expect(find.text('Before you continue'), findsNothing);
     expect(
       find.text('Camera access lets Collect scan group QR codes.'),
       findsOneWidget,
@@ -1201,7 +1209,7 @@ void main() {
       overrides: [
         collectNotificationServiceProvider.overrideWithValue(service),
         collectRepositoryProvider.overrideWith(
-          (ref) => CollectRepository.fixture(),
+          (ref) => FixtureCollectRepository(),
         ),
       ],
     );
@@ -1641,7 +1649,7 @@ void main() {
       const SizedBox(
         width: 320,
         child: ScreenHeader(
-          title: 'Collect verified support for St Michel medical group',
+          title: 'Collect verified support for QA medical support group',
           subtitle: 'SMS-first MoMo evidence and private group links.',
           actions: [
             IconButton(onPressed: null, icon: Icon(CollectIcons.share)),
@@ -1654,7 +1662,7 @@ void main() {
     expect(find.byTooltip('Back'), findsOneWidget);
     expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     expect(
-      find.text('Collect verified support for St Michel medical group'),
+      find.text('Collect verified support for QA medical support group'),
       findsOneWidget,
     );
     expect(find.textContaining('SMS-first MoMo'), findsOneWidget);

@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 
 import 'package:collect_app/admin/admin_app.dart';
@@ -43,9 +45,9 @@ void main() {
     'contribute_entry': '/contribute',
     'activity': '/activity',
     'profile': '/settings',
-    'group_detail': '/groups/col-church',
-    'contribution_review': '/groups/col-church/contribute',
-    'ledger': '/groups/col-church/ledger',
+    'group_detail': '/groups/qa-private-group',
+    'contribution_review': '/groups/qa-private-group/contribute',
+    'ledger': '/groups/qa-private-group/ledger',
     'offline': '/offline',
     'appearance': '/settings/appearance',
   };
@@ -95,7 +97,7 @@ void main() {
             overrides: [
               appRouterProvider.overrideWithValue(router),
               collectRepositoryProvider.overrideWith(
-                (ref) => CollectRepository.fixture(
+                (ref) => FixtureCollectRepository(
                   fixtureNow: DateTime.utc(2026, 7, 24, 21),
                 ),
               ),
@@ -121,6 +123,7 @@ void main() {
         await _pumpStableFrames(tester);
         if (surface.key == 'contribution_review') {
           await tester.enterText(find.byType(TextField).first, '10000');
+          await tester.pump();
           await tester.tap(
             find.widgetWithText(FilledButton, 'Continue to MoMo'),
           );

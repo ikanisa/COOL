@@ -253,6 +253,16 @@ collect-product-boundary-scan-json:
 revolut-parity-source-hygiene:
 	@./scripts/revolut_parity_source_hygiene_gate.sh
 
+.PHONY: mobile-design-gate mobile-design-contract mobile-design-gate-test
+mobile-design-gate:
+	@ruby scripts/qa/mobile_design_gate.rb
+
+mobile-design-contract:
+	@ruby scripts/qa/mobile_design_gate.rb --check-contract
+
+mobile-design-gate-test:
+	@ruby scripts/tests/mobile_design_gate_test.rb
+
 revolut-parity-source-hygiene-json:
 	@./scripts/revolut_parity_source_hygiene_gate.sh --json
 

@@ -8,6 +8,7 @@ class AuthInputPanel extends StatelessWidget {
     required this.captchaController,
     required this.env,
     required this.error,
+    required this.errorKey,
     required this.resendRemaining,
     required this.countryCode,
     required this.onCountryTap,
@@ -23,6 +24,7 @@ class AuthInputPanel extends StatelessWidget {
   final TextEditingController captchaController;
   final AppEnv env;
   final String? error;
+  final Key errorKey;
   final int resendRemaining;
   final String countryCode;
   final VoidCallback onCountryTap;
@@ -33,7 +35,7 @@ class AuthInputPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = colors.authForeground;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,7 +73,11 @@ class AuthInputPanel extends StatelessWidget {
         ],
         if (error != null) ...[
           CollectSpacing.gap20,
-          AuthStatusNotice(title: 'Authentication failed', message: error!),
+          AuthStatusNotice(
+            key: errorKey,
+            title: 'Authentication failed',
+            message: error!,
+          ),
         ],
       ],
     );
@@ -95,7 +101,7 @@ class AuthPhoneEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = colors.authForeground;
     final borderColor = foreground.withValues(alpha: 0.14);
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.4,
@@ -174,7 +180,7 @@ class AuthPhoneEntry extends StatelessWidget {
                       hintText: 'Phone number',
                       hintStyle: Theme.of(context).textTheme.titleMedium
                           ?.copyWith(
-                            color: foreground.withValues(alpha: 0.48),
+                            color: colors.authInputHint,
                             fontWeight: CollectTypography.weightMedium,
                           ),
                       border: InputBorder.none,
@@ -235,9 +241,8 @@ class AuthStatusNotice extends StatelessWidget {
                   Text(
                     message,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colors.onImagePrimary.withValues(alpha: 0.82),
+                      color: colors.authForeground.withValues(alpha: 0.82),
                     ),
-                    maxLines: 4,
                   ),
                 ],
               ),

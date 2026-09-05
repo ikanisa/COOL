@@ -150,21 +150,12 @@ final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   );
 });
 
-final publicDiscoveryCollectionsProvider = Provider<List<CollectCollection>>((
-  ref,
-) {
+final featuredCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   final collections = ref.watch(activeCollectionsProvider);
-  final profile = ref.watch(
-    collectRepositoryProvider.select((state) => state.currentProfile),
-  );
+  // Public approval is owned by Supabase. Joining or owning a featured group
+  // must not remove it from Home's public selection.
   return List<CollectCollection>.unmodifiable(
-    collections.where(
-      (collection) =>
-          collection.isPublic &&
-          (profile == null ||
-              (collection.creatorUserId != profile.id &&
-                  !collection.isCurrentUserMember)),
-    ),
+    collections.where((collection) => collection.isPublic),
   );
 });
 

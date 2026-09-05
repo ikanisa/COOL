@@ -15,7 +15,7 @@ class AuthOtpEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = colors.authForeground;
     return AutofillGroup(
       child: Semantics(
         textField: true,

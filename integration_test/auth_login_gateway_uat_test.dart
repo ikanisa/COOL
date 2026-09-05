@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
@@ -18,7 +20,7 @@ void main() {
       const otp = '135790';
       final router = createAppRouter(initialLocation: '/auth');
       addTearDown(router.dispose);
-      final repository = CollectRepository.fixture(seeded: false);
+      final repository = FixtureCollectRepository(seeded: false);
 
       await tester.pumpWidget(
         ProviderScope(

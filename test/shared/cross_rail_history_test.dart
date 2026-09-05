@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:convert';
 
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -270,10 +272,12 @@ void main() {
   });
 
   test('fixture fallback counts repeated own contributions once', () {
-    final repo = CollectRepository.fixture();
+    final repo = FixtureCollectRepository();
     addTearDown(repo.dispose);
-    expect(repo.summaryFor('col-church').supporterCount, 1);
-    expect(repo.summaryFor('col-church').totalsByCurrency, {'RWF': 35000});
+    expect(repo.summaryFor('qa-private-group').supporterCount, 1);
+    expect(repo.summaryFor('qa-private-group').totalsByCurrency, {
+      'RWF': 35000,
+    });
   });
 
   test('zero own balance retains the group settlement currency', () {

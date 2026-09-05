@@ -1,11 +1,16 @@
 part of 'home_screen.dart';
 
-class _PublicGroupsSection extends StatelessWidget {
-  const _PublicGroupsSection({
+// Both discovery and membership use the owner-reviewed card presentation.
+// Joining changes eligibility and CTA semantics, never the design family.
+class _HomeGroupsSection extends StatelessWidget {
+  const _HomeGroupsSection({
+    required this.title,
     required this.collections,
     required this.summaries,
+    super.key,
   });
 
+  final String title;
   final List<CollectCollection> collections;
   final Map<String, CollectionSummary> summaries;
 
@@ -15,87 +20,65 @@ class _PublicGroupsSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final publicGroups = collections.take(4).toList();
+    final visibleGroups = collections.take(4).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          title: 'Public groups',
+          title: title,
           actionLabel: 'View all',
           onAction: () => context.go('/groups'),
         ),
         CollectSpacing.gap12,
         LayoutBuilder(
           builder: (context, constraints) {
-            final wide = constraints.maxWidth >= 720;
-            if (wide) {
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: publicGroups.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: CollectSpacing.x3,
-                  crossAxisSpacing: CollectSpacing.x3,
-                  childAspectRatio: 1.24,
-                ),
-                itemBuilder: (context, index) {
-                  final collection = publicGroups[index];
-                  return GroupCard(
-                    collection: collection,
-                    summary:
-                        summaries[collection.id] ??
-                        const CollectionSummary(
-                          amountRaisedRwf: 0,
-                          supporterCount: 0,
-                        ),
-                    variant: GroupCardVariant.publicDiscovery,
-                    onTap: () => context.go('/groups/${collection.id}'),
-                    primaryAction: _HomeContributeIconButton(
-                      tooltip: 'Contribute to ${collection.title}',
-                      onPressed: () =>
-                          context.go('/groups/${collection.id}/contribute'),
-                    ),
-                  );
-                },
-              );
-            }
-            return SizedBox(
-              height: 204,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                clipBehavior: Clip.none,
-                padding: EdgeInsets.zero,
-                itemCount: publicGroups.length,
-                separatorBuilder: (_, _) => CollectSpacing.gapW12,
-                itemBuilder: (context, index) {
-                  final collection = publicGroups[index];
-                  return SizedBox(
-                    width: 274,
-                    child: GroupCard(
-                      collection: collection,
-                      summary:
-                          summaries[collection.id] ??
-                          const CollectionSummary(
-                            amountRaisedRwf: 0,
-                            supporterCount: 0,
-                          ),
-                      variant: GroupCardVariant.publicDiscovery,
-                      onTap: () => context.go('/groups/${collection.id}'),
-                      primaryAction: _HomeContributeIconButton(
-                        tooltip: 'Contribute to ${collection.title}',
-                        onPressed: () =>
-                            context.go('/groups/${collection.id}/contribute'),
-                      ),
-                    ),
-                  );
-                },
+            // Match the Groups screen: full content width on phones, then
+            // two equal columns on wider layouts. The page owns scrolling.
+            final columns = constraints.maxWidth >= 640 ? 2 : 1;
+            const gap = CollectSpacing.x3;
+            final columnWidth =
+                (constraints.maxWidth - (gap * (columns - 1))) / columns;
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              clipBehavior: Clip.none,
+              itemCount: visibleGroups.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+                crossAxisSpacing: gap,
+                mainAxisSpacing: gap,
+                childAspectRatio: columnWidth / 220,
               ),
+              itemBuilder: (context, index) {
+                final collection = visibleGroups[index];
+                return GroupCard(
+                  collection: collection,
+                  summary:
+                      summaries[collection.id] ??
+                      const CollectionSummary(
+                        amountRaisedRwf: 0,
+                        supporterCount: 0,
+                      ),
+                  variant: GroupCardVariant.publicDiscovery,
+                  onTap: () => context.go('/groups/${collection.id}'),
+                  primaryAction: _HomeContributeIconButton(
+                    tooltip: _contributionLabel(collection),
+                    onPressed: () =>
+                        context.go('/groups/${collection.id}/contribute'),
+                  ),
+                );
+              },
             );
           },
         ),
       ],
     );
+  }
+
+  String _contributionLabel(CollectCollection collection) {
+    return collection.isPublic && !collection.isCurrentUserMember
+        ? 'Contribute & Join ${collection.title}'
+        : 'Contribute to ${collection.title}';
   }
 }
 

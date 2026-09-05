@@ -117,10 +117,10 @@ ruby -r json -r time -e '
     },
     "routes" => [
       { "slot" => "01-home", "route" => "/home", "purpose" => "collections overview and featured groups" },
-      { "slot" => "02-contribute", "route" => "/groups/col-church/contribute", "purpose" => "bank-transfer request, approved beneficiary, and external banking handoff" },
+      { "slot" => "02-contribute", "route" => "/groups/qa-private-group/contribute", "purpose" => "bank-transfer request, approved beneficiary, and external banking handoff" },
       { "slot" => "03-bank-details", "route" => "/settings/bank-transfer", "purpose" => "approved beneficiary and reusable bank details" },
-      { "slot" => "04-ledger", "route" => "/groups/col-church/ledger", "purpose" => "collection ledger and transactions" },
-      { "slot" => "05-share", "route" => "/groups/col-church/share", "purpose" => "shareable collection QR and link" }
+      { "slot" => "04-ledger", "route" => "/groups/qa-private-group/ledger", "purpose" => "collection ledger and transactions" },
+      { "slot" => "05-share", "route" => "/groups/qa-private-group/share", "purpose" => "shareable collection QR and link" }
     ],
     "devices" => {
       "iphone_6_5" => {

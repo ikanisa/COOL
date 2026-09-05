@@ -79,7 +79,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     process.exitCode = 2;
   } else {
     try {
-      const result = await connectionPreflight(await runtimeCredentials(), args.includes("--live-read-only"));
+      const live = args.includes("--live-read-only");
+      const result = await connectionPreflight(await runtimeCredentials(process.env, {allowRefresh: live}), live);
       console.log(JSON.stringify(result, null, 2));
       if (result.status.startsWith("BLOCKED_")) process.exitCode = 2;
     } catch {

@@ -22,6 +22,7 @@ SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
 SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"
 PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE="${PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER:-}"
 BUILD_STARTED_EPOCH="$(date +%s)"
+DESIGN_SOURCE_BEFORE="$(ruby scripts/qa/mobile_design_build_provenance.rb begin android)"
 
 if [[ $# -ne 0 ]]; then
   printf 'This production wrapper accepts no extra Flutter arguments. Update the reviewed script for any build-contract change.\n' >&2
@@ -201,3 +202,6 @@ manifest = {
 File.write(ENV.fetch("ARTIFACT_MANIFEST"), JSON.pretty_generate(manifest) + "\n")
 puts "[android-play-store-build] artifact_manifest=#{ENV.fetch("ARTIFACT_MANIFEST")}"
 RUBY
+
+ruby scripts/qa/mobile_design_build_provenance.rb finish android \
+  "$DESIGN_SOURCE_BEFORE" "${BUILD_NAME}+${BUILD_NUMBER}" "$BUILD_STARTED_EPOCH"

@@ -156,13 +156,21 @@ Future<void> _showNativeSettingsSheet(
   return showModalBottomSheet<void>(
     context: context,
     useRootNavigator: true,
+    useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,
     sheetAnimationStyle: CollectMotion.animationStyle(context),
     builder: (sheetContext) {
-      return SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(CollectSpacing.x4),
+      return Padding(
+        padding: EdgeInsets.fromLTRB(
+          CollectSpacing.x4,
+          CollectSpacing.x4,
+          CollectSpacing.x4,
+          MediaQuery.viewInsetsOf(sheetContext).bottom +
+              MediaQuery.paddingOf(sheetContext).bottom +
+              CollectSpacing.x4,
+        ),
+        child: SingleChildScrollView(
           child: CollectBottomSheet(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -226,11 +234,10 @@ class CollectPermissionEducationSheet extends StatelessWidget {
           messageMaxLines: 2,
         ),
         CollectSpacing.gap12,
-        InfoSecurityBanner(
-          title: 'Before you continue',
-          message: education,
-          tone: CollectStatusTone.info,
-          messageMaxLines: 4,
+        Text(
+          education,
+          style: Theme.of(context).textTheme.bodyMedium,
+          softWrap: true,
         ),
       ],
     );

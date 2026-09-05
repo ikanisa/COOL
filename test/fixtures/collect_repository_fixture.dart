@@ -1,12 +1,36 @@
-part of 'collect_repository.dart';
+import 'dart:math';
 
-CollectState _emptyCollectState() {
-  return const CollectState(
-    currentProfile: null,
-    collections: [],
-    paymentIntents: [],
-    contributions: [],
-  );
+import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
+
+/// Synthetic data for isolated tests and explicit preview targets only.
+/// Never import this file from lib or use these records as a backend fallback.
+class FixtureCollectRepository extends CollectRepository {
+  FixtureCollectRepository({
+    super.supabase,
+    super.smsAccessChannel,
+    bool seeded = true,
+    DateTime? fixtureNow,
+    int fixtureCollectionCount = 2,
+    int fixtureContributionCount = 2,
+    CollectProfile? profileOverride,
+    super.fixtureAdditionalMembers,
+    super.offlineCache,
+  }) : super.fixture(
+         initialState: seeded
+             ? _fixtureCollectState(
+                 fixtureNow: fixtureNow,
+                 collectionCount: fixtureCollectionCount,
+                 contributionCount: fixtureContributionCount,
+                 profileOverride: profileOverride,
+               )
+             : const CollectState(
+                 currentProfile: null,
+                 collections: [],
+                 paymentIntents: [],
+                 contributions: [],
+               ),
+       );
 }
 
 CollectState _fixtureCollectState({
@@ -27,17 +51,17 @@ CollectState _fixtureCollectState({
         momoProvider: 'mtn_momo',
         momoNumber: '0788123456',
       );
-  final church = CollectCollection(
-    id: 'col-church',
-    slug: 'st-michel-building-fund',
+  final ownedQaGroup = CollectCollection(
+    id: 'qa-private-group',
+    slug: 'qa-private-group',
     creatorUserId: user.id,
-    title: 'St Michel building fund',
-    description: 'A member-created private group for parish support.',
+    title: 'QA private group',
+    description: 'Synthetic private group for isolated automated tests only.',
     collectionType: CollectionType.church,
     categorySubtype: 'building_fund',
     purposeLabel: 'Community support',
     receiverMomoNumber: '0788123456',
-    receiverDisplayLabel: 'St Michel MTN MoMo',
+    receiverDisplayLabel: 'QA MoMo receiver',
     receiverNetwork: 'mtn_momo',
     isPublic: false,
     isCurrentUserMember: true,
@@ -104,7 +128,7 @@ CollectState _fixtureCollectState({
     growable: false,
   );
   final collections = [
-    church,
+    ownedQaGroup,
     publicSportFixture,
     publicSavingsFixture,
     ...denseCollections,
@@ -112,7 +136,7 @@ CollectState _fixtureCollectState({
   final contributions = <Contribution>[
     Contribution(
       id: 'pay-1',
-      collectionId: church.id,
+      collectionId: ownedQaGroup.id,
       amountRwf: 25000,
       supporterLabel: 'Collect ID 038491',
       isCurrentUserContribution: true,
@@ -122,7 +146,7 @@ CollectState _fixtureCollectState({
     ),
     Contribution(
       id: 'pay-2',
-      collectionId: church.id,
+      collectionId: ownedQaGroup.id,
       amountRwf: 10000,
       supporterLabel: 'Collect ID 038491',
       isCurrentUserContribution: true,
@@ -148,12 +172,12 @@ CollectState _fixtureCollectState({
     paymentIntents: [
       PaymentIntentModel(
         id: 'intent-render',
-        collectionId: church.id,
+        collectionId: ownedQaGroup.id,
         expectedAmountMinor: 15000,
         rail: 'rwanda_momo',
         receiverMomoNumber: '0788123456',
         receiverMomoNumberHash: 'fixture-receiver-hash',
-        receiverMomoLabel: 'St Michel MTN MoMo',
+        receiverMomoLabel: 'QA MoMo receiver',
         momoNetwork: 'mtn_momo',
         senderPhoneHash: 'fixture-sender-hash',
         currency: 'RWF',
@@ -167,7 +191,7 @@ CollectState _fixtureCollectState({
       NotificationEvent(
         id: 'notif-contribution-confirmed',
         userId: user.id,
-        collectionId: church.id,
+        collectionId: ownedQaGroup.id,
         type: 'contribution_confirmed',
         title: 'Contribution confirmed',
         body: 'RWF 25,000 was reconciled and recorded on the ledger.',

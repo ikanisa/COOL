@@ -1,5 +1,10 @@
 # Remaining Task Register
 
+> Superseded for current mobile acceptance by the 2026-09-03
+> [MOBILE-DESIGN-100 audit](../release/mobile-design/MOBILE_PARITY_AUDIT_2026-09-03.md).
+> Its native artifact/state/visual blockers remain open; the older checkpoint
+> below is retained as history, not current GO evidence.
+
 ## Status through 2026-08-05
 
 E-081 is the current checkpoint. Formatting and static analysis pass; the

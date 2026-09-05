@@ -1,5 +1,10 @@
 # Release Readiness Matrix
 
+> Historical matrix. Current mobile release status is **BLOCKED** by
+> MOBILE-DESIGN-100 in repository `DESIGN.md`. The current
+> [mobile audit](../release/mobile-design/MOBILE_PARITY_AUDIT_2026-09-03.md)
+> supersedes mobile acceptance below, including the old five-destination shell.
+
 | Area | Current status | Current evidence | Closure requirement |
 |---|---|---|---|
 | Goal and scope governance | Partial | Goal, brief, registers, validation plan, fail-closed completion audit, and E-048 source/full evidence consistency gate | Product-owner review and closure or accountable acceptance of every still-open requirement |

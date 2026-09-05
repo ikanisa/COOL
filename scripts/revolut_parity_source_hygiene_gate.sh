@@ -278,12 +278,14 @@ approved_group_gradient_paths = %w[
   lib/shared/widgets/collect_group_card_media.dart
   lib/shared/widgets/collect_group_card_metrics.dart
 ]
+approved_overview_gradient_paths = %w[lib/app/theme/collect_runtime_tokens.dart]
 legacy_design_scope.each do |path|
   text = File.read(File.join(root_dir, path))
   legacy_design_patterns.each do |check, pattern|
     next unless text.match?(pattern)
     next if approved_group_gradient_paths.include?(path) &&
             %w[decorative_gradient legacy_periwinkle_chrome].include?(check)
+    next if approved_overview_gradient_paths.include?(path) && check == "decorative_gradient"
 
     legacy_design_hits << {
       "check" => check,
@@ -295,8 +297,9 @@ checks["no_legacy_member_or_admin_chrome"] = {
   "status" => legacy_design_hits.empty? ? "pass" : "fail",
   "scanned_files" => legacy_design_scope.length,
   "allowed_exception" =>
-    "The immutable official logo, semantic status colors, and the explicitly approved Collect-logo group-card gradients remain permitted.",
+    "Official assets, semantic status colors, reviewed group-card gradients and MOBILE-DESIGN-100 route-scoped overview tokens remain permitted; feature-level decorative gradients remain blocked.",
   "approved_group_gradient_paths" => approved_group_gradient_paths,
+  "approved_overview_gradient_paths" => approved_overview_gradient_paths,
   "hits" => legacy_design_hits
 }
 failures.concat(legacy_design_hits) unless legacy_design_hits.empty?
@@ -427,11 +430,11 @@ fixture_hits = []
 Dir[File.join(root_dir, "lib/**/*.dart")].sort.each do |absolute_path|
   relative_path = relative(root_dir, absolute_path)
   text = File.read(absolute_path)
-  next unless text.include?("CollectRepository.fixture")
-  next if %w[
-    lib/main.dart
-    lib/shared/repositories/collect_repository.dart
-  ].include?(relative_path)
+  imports_fixture_data = text.include?("FixtureCollectRepository") ||
+    text.include?("test/fixtures/") || text.include?("_fixtureCollectState")
+  invokes_fixture = text.include?("CollectRepository.fixture") &&
+    relative_path != "lib/shared/repositories/collect_repository.dart"
+  next unless imports_fixture_data || invokes_fixture
 
   fixture_hits << {
     "check" => "fixture_runtime_leak",

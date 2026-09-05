@@ -177,8 +177,10 @@ class EmptyIllustrationState extends StatelessWidget {
                   child: Text(
                     title,
                     style: theme.textTheme.titleMedium,
-                    maxLines: 1,
-                    softWrap: false,
+                    maxLines: MediaQuery.textScalerOf(context).scale(1) >= 1.3
+                        ? 3
+                        : 1,
+                    softWrap: true,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

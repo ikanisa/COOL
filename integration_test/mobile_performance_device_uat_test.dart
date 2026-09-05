@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'dart:convert';
 
 import 'package:collect_app/app/app.dart';
@@ -21,7 +23,7 @@ void main() {
     'records representative Flutter frame timing across dense mobile flows',
     (tester) async {
       debugPrint('collect_perf_target:$_performanceTargetId');
-      final repository = CollectRepository.fixture(
+      final repository = FixtureCollectRepository(
         fixtureNow: DateTime.utc(2026, 7, 25, 4),
         fixtureCollectionCount: 24,
         fixtureContributionCount: 80,
@@ -68,7 +70,7 @@ void main() {
         await _pumpAnimationFrames(tester, count: 34);
       });
 
-      router.go('/groups/col-church/ledger');
+      router.go('/groups/qa-private-group/ledger');
       await _pumpAnimationFrames(tester, count: 30);
       expect(find.byTooltip('Sort ledger'), findsOneWidget);
 
@@ -80,7 +82,7 @@ void main() {
         await _pumpAnimationFrames(tester, count: 24);
       });
 
-      router.go('/groups/col-church/contribute');
+      router.go('/groups/qa-private-group/contribute');
       await _pumpAnimationFrames(tester, count: 30);
       expect(find.text('Continue to MoMo'), findsOneWidget);
 

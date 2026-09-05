@@ -1,5 +1,13 @@
 # Collect operator connection and legacy-sender preflight
 
+**Current, 4 September Kigali:** the earlier access-only session expired. Queue
+health/list access is blocked, not currently passing. Opt-in Keychain renewal
+now passes local QA but requires a fresh normal OTP login and actual rotation
+readback before live acceptance. The minute monitor remains no-send with only
+two read tools. See [renewal evidence](HYBRID_SESSION_RENEWAL_2026-09-04.md).
+
+The authenticated PASS statements below are historical observations.
+
 **Latest continuation supersedes the earlier snapshot below:** normal approved
 WhatsApp OTP authentication, scoped macOS Keychain provisioning, independent
 live health/list and actual stdio MCP checks now PASS. The existing minute

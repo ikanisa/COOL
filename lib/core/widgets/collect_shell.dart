@@ -30,40 +30,53 @@ class CollectShell extends StatelessWidget {
         ? _selectedIndexForPath(path)
         : _destinationIndexForBranch(navigationShell!.currentIndex);
     final body = navigationShell ?? child!;
-    return CollectGradientBackground(
-      child: Scaffold(
-        backgroundColor: colors.transparent,
-        extendBody: true,
-        body: useRail
-            ? Row(
-                children: [
-                  _CollectNavigationRail(
-                    selectedIndex: selectedIndex,
-                    onDestinationSelected: _navigateToIndex,
-                  ),
-                  Expanded(child: body),
-                ],
-              )
-            : body,
-        bottomNavigationBar: showNav && !useRail
-            ? SafeArea(
-                top: false,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
+    return CollectBackdropScope(
+      tone: switch (path) {
+        '/home' => CollectBackdropTone.account,
+        '/groups' || '/activity' => CollectBackdropTone.discovery,
+        _ => CollectBackdropTone.plain,
+      },
+      child: CollectGradientBackground(
+        child: Scaffold(
+          backgroundColor: colors.transparent,
+          extendBody: true,
+          body: useRail
+              ? Row(
+                  children: [
+                    _CollectNavigationRail(
+                      selectedIndex: selectedIndex,
+                      onDestinationSelected: _navigateToIndex,
+                    ),
+                    Expanded(child: body),
+                  ],
+                )
+              : body,
+          bottomNavigationBar: showNav && !useRail
+              ? SafeArea(
+                  top: false,
+                  minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: Material(
+                    key: const ValueKey('collect-floating-navigation'),
                     color: CollectColors.referenceChromeBlack,
-                    border: Border(
-                      top: BorderSide(
-                        color: colors.onImagePrimary.withValues(alpha: 0.10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: CollectRadius.pillBorder,
+                      side: BorderSide(
+                        color: colors.onImagePrimary.withValues(
+                          alpha: MediaQuery.highContrastOf(context)
+                              ? 0.8
+                              : 0.36,
+                        ),
                       ),
                     ),
+                    clipBehavior: Clip.antiAlias,
+                    child: _CollectBottomNav(
+                      selectedIndex: selectedIndex,
+                      onDestinationSelected: _navigateToIndex,
+                    ),
                   ),
-                  child: _CollectBottomNav(
-                    selectedIndex: selectedIndex,
-                    onDestinationSelected: _navigateToIndex,
-                  ),
-                ),
-              )
-            : null,
+                )
+              : null,
+        ),
       ),
     );
   }
@@ -139,14 +152,17 @@ class _CollectBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final showLabels = textScale <= 1.45;
-    final height = showLabels ? 60.0 : 52.0;
+    final showLabels = textScale <= 1.3;
+    final height = showLabels
+        ? 60.0 + 14 * (textScale - 1).clamp(0, 0.3)
+        : 52.0;
     return Semantics(
       container: true,
       label: 'Primary navigation',
       child: SizedBox(
         height: height,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             for (
               var index = 0;
@@ -272,8 +288,17 @@ class _CollectBottomNavItem extends StatelessWidget {
           onTap: onTap,
           containedInkWell: true,
           highlightShape: BoxShape.rectangle,
-          child: Padding(
+          child: AnimatedContainer(
+            key: ValueKey('collect-nav-${destination.label.toLowerCase()}'),
+            duration: CollectMotion.duration(context, CollectMotion.fast),
+            margin: const EdgeInsets.all(4),
             padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+            decoration: BoxDecoration(
+              color: selected
+                  ? colors.onImagePrimary.withValues(alpha: 0.14)
+                  : colors.transparent,
+              borderRadius: CollectRadius.pillBorder,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -286,7 +311,7 @@ class _CollectBottomNavItem extends StatelessWidget {
                 if (showLabel) ...[
                   const SizedBox(height: 3),
                   SizedBox(
-                    height: 14,
+                    height: 14 * MediaQuery.textScalerOf(context).scale(1),
                     width: double.infinity,
                     child: Text(
                       destination.label,
@@ -334,13 +359,13 @@ const _collectNavDestinations = <_CollectNavDestination>[
   _CollectNavDestination(
     label: 'Activity',
     icon: CollectIcons.activity,
-    selectedIcon: CollectIcons.ledger,
+    selectedIcon: CollectIcons.activity,
     path: '/activity',
     branchIndex: 3,
   ),
   _CollectNavDestination(
     label: 'Profile',
-    icon: CollectIcons.settingsOutline,
+    icon: CollectIcons.profile,
     selectedIcon: CollectIcons.profile,
     path: '/settings',
     branchIndex: 4,

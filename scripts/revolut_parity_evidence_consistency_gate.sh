@@ -273,6 +273,14 @@ expected_audit_sentinel =
   unfinished_tasks.empty? ? "completion result: passed" : "completion result: blocked"
 expected_design_sentinel =
   unfinished_design_tasks.empty? ? "final result: passed" : "final result: blocked"
+# A historical task register cannot approve a newer mobile source snapshot.
+# This check verifies truthful status; MOBILE-DESIGN-100 verifies the native
+# release artifact and current source/annotation acceptance independently.
+mobile_acceptance_path = File.join(root_dir, 'docs/release/mobile-design/mobile-parity-acceptance.json')
+if File.file?(mobile_acceptance_path)
+  mobile_acceptance = JSON.parse(File.read(mobile_acceptance_path)) rescue {}
+  expected_design_sentinel = 'final result: blocked' unless mobile_acceptance['scope'] == 'mobile' && mobile_acceptance['status'] == 'approved'
+end
 sentinels_pass =
   audit_sentinel == expected_audit_sentinel &&
   design_sentinel == expected_design_sentinel

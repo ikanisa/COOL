@@ -1,6 +1,14 @@
 # Proposed Collect receipt operator contract
 
-Status: **EDGE DEPLOYED; MCP AUTHENTICATED READ-ONLY; MINUTE MONITOR ACTIVE; SENDING DISABLED**
+Status: **EDGE DEPLOYED; MCP SESSION EXPIRED; RENEWAL LOCAL QA PASS; SENDING DISABLED**
+
+4 September Kigali: the historical access-only session expired. The host now
+opts into normal rotating-session renewal in its dedicated device-local
+Keychain item, with cross-process serialization, failure tombstones and current
+Admin health revalidation. Fresh OTP provisioning and live rotation remain
+open; see [current evidence](../../release/HYBRID_SESSION_RENEWAL_2026-09-04.md).
+This supersedes the earlier no-refresh implementation described below. It does
+not enable queue-control tools, change send confirmation or grant any new role.
 
 3 September continuation: the owner reconfirmed full execution authority. A
 normal approved-Admin WhatsApp OTP session is stored in a dedicated device-local

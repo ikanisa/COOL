@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
         state.contributions.isEmpty &&
         state.paymentIntents.isEmpty;
     final collections = ref.watch(homeCollectionsProvider);
-    final publicCollections = ref.watch(publicDiscoveryCollectionsProvider);
+    final publicCollections = ref.watch(featuredCollectionsProvider);
     final profile = state.currentProfile;
     final contributedGroupCount = ref.watch(
       contributedCollectionIdsProvider.select((ids) => ids.length),
@@ -124,18 +124,31 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ],
               if (collections.isNotEmpty) ...[
-                const SectionHeader(title: 'My groups'),
-                GroupListPanel(
+                _HomeGroupsSection(
+                  key: const ValueKey('home_my_groups'),
+                  title: 'My groups',
                   collections: collections,
                   summaries: summaries,
-                  onGroupTap: (collection) =>
-                      context.go('/groups/${collection.id}'),
                 ),
               ],
-              _PublicGroupsSection(
+              _HomeGroupsSection(
+                key: const ValueKey('home_featured_groups'),
+                title: 'Featured groups',
                 collections: publicCollections,
                 summaries: summaries,
               ),
+              if (collections.isEmpty && publicCollections.isEmpty)
+                MinimalStatePanel(
+                  icon: CollectIcons.people,
+                  title: 'No groups yet',
+                  message: 'Scan a group QR to join.',
+                  primaryAction: CollectButton(
+                    label: 'Scan QR',
+                    icon: CollectIcons.qr,
+                    onPressed: () => context.go('/groups/scan'),
+                    expand: true,
+                  ),
+                ),
             ],
     );
   }

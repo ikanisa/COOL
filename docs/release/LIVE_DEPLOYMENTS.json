@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T20:23:34Z",
+  "generated_at": "2026-09-04T05:56:51.970904+00:00",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -18,11 +18,12 @@
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
       "branch": "main",
-      "version_id": "1b868d4f-1da5-4ecd-8d41-323616b87110",
-      "rollback_version_id": "871850eb-a270-489a-b400-b9facf6b5532",
-      "deployment_id": "c56f2424-7187-4a5e-8e4d-8a50f97a4c78",
+      "version_id": "b97134af-032b-4e75-8c0c-4c217c97392e",
+      "rollback_version_id": "1b868d4f-1da5-4ecd-8d41-323616b87110",
+      "deployment_id": "dce57c72-02e8-4e28-9936-48c159dd3d3e",
       "live_gate_status": "pass",
-      "evidence": "Inclusive member identity and OTP recovery production build deployed with the existing Worker configuration and variables retained. Independent Wrangler readback confirms version 1b868d4f-1da5-4ecd-8d41-323616b87110 at 100% traffic. The live gate passed at 2026-09-03T20:23:34Z; main bundle, bootstrap, service worker and manifest hashes match the production build. Authenticated browser readback shows Collect IDs, app account state, masked contacts and two effective Admins. The existing browser required a second reload after the new service worker activated. Previous Worker version 871850eb-a270-489a-b400-b9facf6b5532 remains the immediate rollback target. Migration 20260903200322 was separately deployed with exact source readback and protected rows/ACLs unchanged. No Git publication or public-landing redeployment occurred."
+      "evidence": "2026-09-04: production Admin country pagination and unavailable queue-health values deployed. Independent Cloudflare readback confirms 100% traffic. Custom-domain live gate PASS and main bundle, bootstrap, service worker and manifest match local SHA-256. Authenticated browser shows corrected labels and 5 groups (2 public, 3 private); 10 Supabase RPCs HTTP 200. Migration 20260903201326 applied separately, production/local history 122/122, existing function ACLs/owners preserved and no new advisor items. See docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md. Mobile distribution remains blocked.",
+      "source_state": "uncommitted workspace based on 474fc32a; no Git publication"
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."

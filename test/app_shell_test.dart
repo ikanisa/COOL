@@ -1,3 +1,5 @@
+import 'fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 import 'dart:io';
 
@@ -219,7 +221,7 @@ void main() {
         appRouterProvider.overrideWithValue(router),
         appEnvProvider.overrideWithValue(_noSmsAccessEnv),
         collectRepositoryProvider.overrideWith(
-          (ref) => CollectRepository.fixture(),
+          (ref) => FixtureCollectRepository(),
         ),
         collectNotificationServiceProvider.overrideWithValue(notifications),
       ],
@@ -538,7 +540,8 @@ void main() {
       'lib/features/collections/share_screen.dart',
     ).readAsStringSync();
     expect(shareScreen, isNot(contains('const Spacer()')));
-    expect(shareScreen, contains('Privacy-safe link'));
+    expect(shareScreen, isNot(contains('Privacy-safe link')));
+    expect(shareScreen, contains('collection.title'));
     expect(shareScreen, contains('summaryFor(widget.collectionId)'));
   });
 
@@ -546,14 +549,14 @@ void main() {
     tester,
   ) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-    final router = createAppRouter(initialLocation: '/groups/col-church');
+    final router = createAppRouter(initialLocation: '/groups/qa-private-group');
     try {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             appRouterProvider.overrideWithValue(router),
             collectRepositoryProvider.overrideWith(
-              (ref) => CollectRepository.fixture(),
+              (ref) => FixtureCollectRepository(),
             ),
           ],
           child: const CollectApp(),
@@ -561,9 +564,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final detailContext = tester.element(
-        find.text('St Michel building fund').first,
-      );
+      final detailContext = tester.element(find.text('QA private group').first);
       final route = ModalRoute.of(detailContext);
       expect(route?.settings, isA<CupertinoPage<void>>());
       expect((route as PageRoute<void>).popGestureEnabled, isTrue);
@@ -944,7 +945,7 @@ void main() {
       File(
         'lib/shared/repositories/collect_repository.dart',
       ).readAsStringSync(),
-      contains('_emptyCollectState(),\n         true'),
+      contains('required CollectState initialState'),
     );
   });
 
@@ -959,7 +960,11 @@ void main() {
     final fastfile = File('fastlane/Fastfile').readAsStringSync();
 
     expect(captureScript, contains('-t tool/main_store_preview.dart'));
-    expect(preview, contains('CollectRepository.fixture'));
+    expect(preview, contains('FixtureCollectRepository'));
+    expect(
+      preview,
+      contains('../test/fixtures/collect_repository_fixture.dart'),
+    );
     expect(preview, contains("environmentName: 'store-preview'"));
     expect(preview, contains('supabaseUrl: \'\''));
     expect(preview, contains('supabaseAnonKey: \'\''));
@@ -1073,7 +1078,8 @@ void main() {
     expect(groupCards, contains('class GroupListPanel'));
     expect(groupCards, contains('_GroupCoverMedia'));
     expect(home, contains('widgets/collect_group_cards.dart'));
-    expect(home, contains('GroupListPanel('));
+    expect(home, isNot(contains('GroupListPanel(')));
+    expect(home, contains('_HomeGroupsSection('));
     expect(groups, contains('widgets/collect_group_cards.dart'));
     expect(groups, contains('_GroupsCardGrid('));
     expect(groups, contains('GroupCard('));
@@ -1276,11 +1282,11 @@ void main() {
 
 String _materializeRouteForSmoke(String route) {
   return route
-      .replaceAll(':collectionId', 'col-church')
+      .replaceAll(':collectionId', 'qa-private-group')
       .replaceAll(':intentId', 'intent-render')
       .replaceAll(':state', 'pending')
       .replaceAll(':publicId', '038491')
-      .replaceAll(':slug', 'st-michel-building-fund');
+      .replaceAll(':slug', 'qa-private-group');
 }
 
 String _routeSpecsBlock(String script) {
@@ -1324,8 +1330,8 @@ const _noSmsAccessEnv = AppEnv(
   authCaptchaSiteKey: '',
 );
 
-class _LifecycleCollectRepository extends CollectRepository {
-  _LifecycleCollectRepository({this.blockFirstSync = false}) : super.fixture();
+class _LifecycleCollectRepository extends FixtureCollectRepository {
+  _LifecycleCollectRepository({this.blockFirstSync = false});
 
   final bool blockFirstSync;
   final _firstSyncCompleter = Completer<void>();

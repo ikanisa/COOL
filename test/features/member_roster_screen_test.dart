@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -14,8 +16,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _RosterRepository extends CollectRepository {
-  _RosterRepository() : super.fixture(fixtureNow: DateTime.utc(2026, 9, 2));
+class _RosterRepository extends FixtureCollectRepository {
+  _RosterRepository() : super(fixtureNow: DateTime.utc(2026, 9, 2));
   @override
   Future<List<CollectMember>> membersForCollection(String collectionId) async =>
       [
@@ -70,7 +72,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     final router = createAppRouter(
-      initialLocation: '/groups/col-church/members',
+      initialLocation: '/groups/qa-private-group/members',
     );
     final key = GlobalKey();
     await tester.pumpWidget(

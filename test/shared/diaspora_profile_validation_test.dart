@@ -1,5 +1,6 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/shared/models/collect_models.dart';
-import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +39,7 @@ void main() {
       'invalid account is rejected by completeness and save: $account',
       () async {
         expect(profile.copyWith(revolutAccount: account).isComplete, isFalse);
-        final repository = CollectRepository.fixture(profileOverride: profile);
+        final repository = FixtureCollectRepository(profileOverride: profile);
         addTearDown(repository.dispose);
         await expectLater(
           repository.updateCurrentProfile(
@@ -58,7 +59,7 @@ void main() {
   test(
     'account-only save preserves leading zeros and numeric identity',
     () async {
-      final repository = CollectRepository.fixture(profileOverride: profile);
+      final repository = FixtureCollectRepository(profileOverride: profile);
       addTearDown(repository.dispose);
       final saved = await repository.updateCurrentProfile(
         countryCode: 'DE',

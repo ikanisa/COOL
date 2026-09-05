@@ -15,10 +15,32 @@ The configured Mac now also supports `COLLECT_OPERATOR_KEYCHAIN_HELPER`. When
 explicit environment credentials are absent, the server reads only its dedicated
 device-local Keychain item at call time. Normal WhatsApp OTP sign-in through
 `src/operator_login.ts request` / `verify` authenticates the existing approved
-second Admin without signup, verifies health/list, then saves only the public
-config and short-lived user access token. OTP input is hidden. No browser store,
-service key or refresh token is used. Expiry fails closed and requires a normal
-reauthentication; this is not an indefinitely renewable operator identity.
+second Admin without signup and verifies health/list. OTP input is hidden. No
+browser store or service key is used. By default only the short-lived access
+token is saved and expiry requires normal reauthentication.
+
+The configured host now opts into `COLLECT_OPERATOR_SESSION_RENEWAL=keychain`.
+New OTP logins in that environment retain the rotating refresh token in the
+same device-local Keychain item, not in environment variables, output, files or
+MCP config. The earlier access-only item cannot be upgraded without a fresh
+login. Local renewal tests pass; production rotation still requires provisioning
+and independent live evidence. This is not an unlimited service identity.
+
+Renewal happens within two minutes of access expiry, using the normal Auth
+refresh endpoint and preserving the original user and session identity. An
+atomic private-directory lock serializes all readers, refreshers and login
+writers across MCP/preflight processes. A durable non-secret pending marker is
+saved before refresh; a crash, timeout, revoked session, malformed response,
+denied current Admin permission or failed rotation save leaves the session
+blocked for normal reauthentication. The old refresh token is never blindly
+retried. There is no change to server session policies or Admin permissions.
+
+After a fresh login, `src/operator_login.ts renew` provides an explicit real
+rotation test before expiry; it does not alter timestamps or tokens to simulate
+live acceptance. It calls only Auth refresh and operator health/list. A
+leftover `.session-lock` is never stolen or auto-deleted: inspect the exact
+operator processes, establish that no refresh/login is active, then remove only
+the empty lock directory. Never print the Keychain item to diagnose a failure.
 
 `src/stdio_preflight.ts` verifies the real MCP initialize/health/list exchange
 and prints only aggregate status. On 3 September this and the separate
@@ -43,15 +65,16 @@ Function and SQL migration must be deployed before connection testing.
 
 The local Codex profile `collect-notifications` is registered with an absolute
 Node/server path, the verified production project URL, key/token environment-variable forwarding, a 15-second startup timeout
-and a 20-second tool timeout. Its initial allowlist contains only
+and a 45-second tool timeout (including bounded renewal). Its allowlist contains only
 `collect_notification_health` and `collect_list_pending_receipts`. No credential
 value is saved in the host configuration. Registration is not authentication
 or proof that the current task has reloaded the MCP inventory.
 
 Run `pnpm preflight` in the same governed runtime environment. This performs no
 network request and reports only missing variable names or safe issue codes.
-It rejects service-role/secret API keys, non-user tokens, a mismatched issuer and
-tokens with less than 60 seconds remaining. These local claim checks do not
+It does not refresh credentials in offline mode. It rejects service-role/secret
+API keys, non-user tokens, a mismatched issuer and tokens with less than 60
+seconds remaining. These local claim checks do not
 verify a signature or grant access; the deployed Edge validates the session and
 current permissions independently.
 
@@ -64,7 +87,7 @@ The preflight never claims work, records a heartbeat, posts money or sends SMS.
 Requests reject command overrides and credential-bearing/path/query URLs, refuse
 redirects and time out after 15 seconds without retry. A timeout on a future
 mutating command does not prove that the server made no change: reconcile the
-durable state before acting again. A short-lived token needs approved renewal;
+durable state before acting again. A short-lived token needs the opt-in renewal path;
 there is no persistent service-role fallback or browser-session extraction.
 
 Expand queue-control tools only for an explicitly approved supervised pilot

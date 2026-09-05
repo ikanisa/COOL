@@ -10,7 +10,6 @@ String readCollectRepositoryLibrary() {
     'lib/shared/repositories/collect_repository.dart',
     'lib/shared/repositories/collect_repository_providers.dart',
     'lib/shared/repositories/collect_repository_state.dart',
-    'lib/shared/repositories/collect_repository_fixture.dart',
     'lib/shared/repositories/collect_repository_live_reader.dart',
   ].map((path) => File(path).readAsStringSync()).join('\n');
 }
@@ -597,7 +596,10 @@ void main() {
     for (final file in libFiles) {
       final text = file.readAsStringSync();
       final path = file.path;
-      if (path.contains('/shared/repositories/collect_repository')) continue;
+      expect(text, isNot(contains('test/fixtures/')), reason: path);
+      expect(text, isNot(contains('FixtureCollectRepository')), reason: path);
+      expect(text, isNot(contains('_fixtureCollectState')), reason: path);
+      if (path.endsWith('/collect_repository.dart')) continue;
       if (path.endsWith('lib/main.dart')) {
         expect(text, contains("'COLLECT_MOBILE_EVIDENCE_MODE'"), reason: path);
         expect(text, contains('if (mobileEvidenceMode)'), reason: path);
@@ -613,8 +615,7 @@ void main() {
           reason: path,
         );
       }
-      expect(text, isNot(contains('col-church')), reason: path);
-      expect(text, isNot(contains('St Michel')), reason: path);
+      expect(text, isNot(contains('qa-private-group')), reason: path);
       expect(text, isNot(contains('+250788123456')), reason: path);
     }
   });

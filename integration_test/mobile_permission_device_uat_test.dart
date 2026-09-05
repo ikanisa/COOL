@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
@@ -21,7 +23,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
+            (ref) => FixtureCollectRepository(),
           ),
           collectThemeModeProvider.overrideWith(
             (ref) => CollectThemeModeController(

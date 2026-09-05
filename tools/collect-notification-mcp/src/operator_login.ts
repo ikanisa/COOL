@@ -1,8 +1,10 @@
-import {execFile, spawn} from "node:child_process";
+import {execFile} from "node:child_process";
 import {promisify} from "node:util";
 import {pathToFileURL} from "node:url";
 import {connectionPreflight} from "./preflight.ts";
 import {productionOrigin, scopedRuntime} from "./runtime_credentials.ts";
+import {loginSession, resolveStoredSession} from "./session_renewal.ts";
+import {keychainStore, validateKeychainHelper, withSessionLock} from "./keychain_store.ts";
 
 const phone = "+250788767816"; // Existing user-approved second Admin; no signup.
 const cli = "/Users/jeanbosco/.npm/_npx/1517203cdeef2779/node_modules/@supabase/cli-darwin-arm64/bin/supabase";
@@ -46,18 +48,19 @@ async function readOtp():Promise<string> {
   });
 }
 
-async function save(helper:string, value:Record<string,unknown>) {
-  await new Promise<void>((resolve,reject)=>{
-    const child=spawn(helper,["write"],{stdio:["pipe","ignore","ignore"]});
-    child.on("error",()=>reject(new Error("KEYCHAIN_SAVE_FAILED")));
-    child.on("close",code=>code===0?resolve():reject(new Error("KEYCHAIN_SAVE_FAILED")));
-    child.stdin.end(JSON.stringify(value));
-  });
-}
-
 async function main() {
   const mode=process.argv[2];
-  if(!["request","verify"].includes(mode??"") || process.argv.length!==3) throw new Error("USE_REQUEST_OR_VERIFY");
+  if(!["request","verify","renew"].includes(mode??"") || process.argv.length!==3) throw new Error("USE_REQUEST_VERIFY_OR_RENEW");
+  if(mode==="renew"){
+    const helper=process.env.COLLECT_OPERATOR_KEYCHAIN_HELPER;
+    if(!helper) throw new Error("KEYCHAIN_HELPER_REQUIRED");
+    await validateKeychainHelper(helper);
+    const runtime=await withSessionLock(helper,()=>resolveStoredSession(keychainStore(helper),process.env,fetch,Date.now,{refreshNow:true}));
+    const check=await connectionPreflight(runtime,true);
+    if(check.status!=="PASS_AUTHENTICATED_READ_ONLY") throw new Error("OPERATOR_AUTHORIZATION_NOT_ESTABLISHED");
+    console.log(JSON.stringify({status:"KEYCHAIN_SESSION_RENEWED",preflight:check,credentials_printed:false}));
+    return;
+  }
   const key=await publicKey();
   if(mode==="request"){
     await authRequest("/otp",{phone,channel:"whatsapp",create_user:false},key);
@@ -66,15 +69,15 @@ async function main() {
   }
   const helper=process.env.COLLECT_OPERATOR_KEYCHAIN_HELPER;
   if(!helper) throw new Error("KEYCHAIN_HELPER_REQUIRED");
+  await validateKeychainHelper(helper);
   const session=await authRequest("/verify",{phone,token:await readOtp(),type:"sms"},key);
-  // Deliberately discard the refresh token. Expiry requires normal reauthentication;
-  // no permanent service identity or silently renewed Admin credential is created.
-  const stored={origin:productionOrigin,anon_key:key,access_token:session.access_token};
-  const runtime=scopedRuntime(stored,{COLLECT_SUPABASE_URL:productionOrigin});
+  const environment={...process.env,COLLECT_SUPABASE_URL:productionOrigin};
+  const stored=loginSession(session,key,environment);
+  const runtime=scopedRuntime({origin:productionOrigin,anon_key:key,access_token:session.access_token},environment);
   const check=await connectionPreflight(runtime,true);
   if(check.status!=="PASS_AUTHENTICATED_READ_ONLY") throw new Error("OPERATOR_AUTHORIZATION_NOT_ESTABLISHED");
-  await save(helper,stored);
-  console.log(JSON.stringify({status:"KEYCHAIN_SESSION_SAVED",preflight:check,session_expires_at:session.expires_at,refresh_token_stored:false}));
+  await withSessionLock(helper,()=>keychainStore(helper).write(stored));
+  console.log(JSON.stringify({status:"KEYCHAIN_SESSION_SAVED",preflight:check,session_expires_at:session.expires_at,refresh_token_stored:Object.hasOwn(stored,"refresh_token")}));
 }
 
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href){

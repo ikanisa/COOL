@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' show SemanticsAction;
 
@@ -157,9 +159,9 @@ void main() {
             child: CollectionSummaryCard(
               collection: CollectCollection(
                 id: 'c-long',
-                slug: 'st-michel-medical-support',
+                slug: 'qa-medical-support',
                 creatorUserId: 'u1',
-                title: 'St Michel emergency medical support group',
+                title: 'QA emergency medical support group',
                 description: 'Private group',
                 createdAt: DateTime(2026),
               ),
@@ -173,10 +175,7 @@ void main() {
       ),
     );
 
-    expect(
-      find.text('St Michel emergency medical support group'),
-      findsOneWidget,
-    );
+    expect(find.text('QA emergency medical support group'), findsOneWidget);
     expect(find.text('RWF 12,500,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
     expect(find.byIcon(CollectIcons.people), findsOneWidget);
@@ -228,7 +227,7 @@ void main() {
   testWidgets('visual group card keeps title compact without glass chrome', (
     tester,
   ) async {
-    const title = 'St Michel building fund with a longer community name';
+    const title = 'QA private group with a longer community name';
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
@@ -281,7 +280,7 @@ void main() {
           id: 'church',
           slug: 'church',
           creatorUserId: 'u1',
-          title: 'St Michel building fund',
+          title: 'QA private group',
           description: 'Community group',
           collectionType: CollectionType.church,
           createdAt: DateTime(2026),
@@ -324,13 +323,11 @@ void main() {
       expect(find.byType(CollectCard), findsOneWidget);
       expect(find.byType(BackdropFilter), findsNothing);
       expect(find.byType(Divider), findsOneWidget);
-      expect(find.text('St Michel building fund'), findsOneWidget);
-      expect(find.text('Church'), findsOneWidget);
+      expect(find.text('QA private group'), findsOneWidget);
+      expect(find.text('Church'), findsNothing);
       expect(find.text('2'), findsOneWidget);
       expect(
-        find.bySemanticsLabel(
-          'St Michel building fund, RWF 35,000, 2 contributors',
-        ),
+        find.bySemanticsLabel('QA private group, RWF 35,000, 2 contributors'),
         findsOneWidget,
       );
       expect(find.text('RWF 35,000'), findsOneWidget);
@@ -432,13 +429,13 @@ void main() {
   testWidgets('Rwanda contribution flow keeps MoMo action pinned', (
     tester,
   ) async {
-    final repo = CollectRepository.fixture();
+    final repo = FixtureCollectRepository();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
         child: MaterialApp(
           theme: AppTheme.light(),
-          home: const ContributionFlowScreen(collectionId: 'col-church'),
+          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
         ),
       ),
     );
@@ -461,13 +458,13 @@ void main() {
   testWidgets('Rwanda contribution flow rejects a zero MoMo amount', (
     tester,
   ) async {
-    final repo = CollectRepository.fixture();
+    final repo = FixtureCollectRepository();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
         child: MaterialApp(
           theme: AppTheme.light(),
-          home: const ContributionFlowScreen(collectionId: 'col-church'),
+          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
         ),
       ),
     );
@@ -478,6 +475,7 @@ void main() {
       '',
     );
     await tester.enterText(find.byType(TextField).first, '000');
+    await tester.pump();
     expect(
       tester.widget<TextField>(find.byType(TextField).first).controller?.text,
       '0',
@@ -485,8 +483,9 @@ void main() {
     final reviewButton = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Continue to MoMo'),
     );
-    expect(reviewButton.onPressed, isNotNull);
-    reviewButton.onPressed!.call();
+    expect(reviewButton.onPressed, isNull);
+    // The keyboard action must still validate instead of preparing a payment.
+    await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pump();
 
     expect(find.byType(TextField), findsOneWidget);

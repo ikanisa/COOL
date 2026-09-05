@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
@@ -58,12 +60,12 @@ class _TestSmsAccessChannel extends SmsAccessChannel {
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
 }
 
-class _PlatformOwnerRepository extends CollectRepository {
-  _PlatformOwnerRepository() : super.fixture() {
+class _PlatformOwnerRepository extends FixtureCollectRepository {
+  _PlatformOwnerRepository() : super() {
     state = state.copyWith(
       collections: [
         for (final group in state.collections)
-          group.id == 'col-church'
+          group.id == 'qa-private-group'
               ? group.copyWith(isPlatformSponsored: true, isPublic: true)
               : group,
       ],
@@ -101,7 +103,7 @@ void main() {
           if (authOtpGateway != null)
             authOtpGatewayProvider.overrideWithValue(authOtpGateway),
           collectRepositoryProvider.overrideWith(
-            (ref) => repository ?? CollectRepository.fixture(),
+            (ref) => repository ?? FixtureCollectRepository(),
           ),
           legalConsentAcceptedProvider.overrideWith(
             (ref) => legalConsentAccepted,
@@ -142,9 +144,9 @@ void main() {
       '/settings/appearance',
       '/settings/security',
       '/settings/help',
-      '/groups/col-church/contribute',
-      '/groups/col-church/manage',
-      '/groups/col-church/profile',
+      '/groups/qa-private-group/contribute',
+      '/groups/qa-private-group/manage',
+      '/groups/qa-private-group/profile',
     ];
 
     for (final route in routes) {
@@ -166,7 +168,7 @@ void main() {
     expect(find.text('Contribute'), findsNothing);
     expect(find.text('Activity'), findsOneWidget);
 
-    await tester.tap(find.text('St Michel building fund').first);
+    await tester.tap(find.text('QA private group').first);
     await tester.pumpAndSettle();
 
     expect(find.text('How much?'), findsOneWidget);
@@ -178,7 +180,7 @@ void main() {
           .width,
       lessThanOrEqualTo(430),
     );
-    expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.text('QA private group'), findsOneWidget);
     expect(find.text('Choose a group'), findsNothing);
     expect(find.text('Profile'), findsNothing);
   });
@@ -186,7 +188,7 @@ void main() {
   testWidgets('Buri Munsi never falls back to bank transfer by profile', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       profileOverride: _diasporaProfile,
     );
 
@@ -228,12 +230,12 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     await pumpRoute(
       tester,
-      '/groups/col-church/contribute',
+      '/groups/qa-private-group/contribute',
       textScale: 2,
-      repository: CollectRepository.fixture(),
+      repository: FixtureCollectRepository(),
     );
     await tester.pumpAndSettle();
-    const payee = 'St Michel MTN MoMo';
+    const payee = 'QA MoMo receiver';
     await tester.scrollUntilVisible(
       find.text(payee),
       120,
@@ -263,7 +265,7 @@ void main() {
   testWidgets(
     'MoMo groups typed amounts and quick picks without changing value',
     (tester) async {
-      final repository = CollectRepository.fixture();
+      final repository = FixtureCollectRepository();
       await pumpRoute(
         tester,
         '/groups/col-public-savings-fixture/contribute',
@@ -343,7 +345,7 @@ void main() {
     await pumpRoute(tester, '/activity', legalConsentAccepted: true);
 
     expect(find.text('Activity'), findsWidgets);
-    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('QA private group'), findsWidgets);
     expect(find.text('RWF 25,000'), findsOneWidget);
     expect(find.text('RWF 10,000'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsNothing);
@@ -355,7 +357,7 @@ void main() {
   testWidgets('dense Activity avoids a viewport-spanning backdrop filter', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture(fixtureContributionCount: 80);
+    final repository = FixtureCollectRepository(fixtureContributionCount: 80);
     await pumpRoute(
       tester,
       '/activity',
@@ -390,9 +392,9 @@ void main() {
   ) async {
     await pumpRoute(
       tester,
-      '/groups/col-church/ledger',
+      '/groups/qa-private-group/ledger',
       legalConsentAccepted: true,
-      repository: CollectRepository.fixture(fixtureContributionCount: 80),
+      repository: FixtureCollectRepository(fixtureContributionCount: 80),
     );
 
     await tester.tap(find.byTooltip('Sort ledger'));
@@ -434,7 +436,7 @@ void main() {
       tester,
       '/settings',
       legalConsentAccepted: true,
-      repository: CollectRepository.fixture(
+      repository: FixtureCollectRepository(
         profileOverride: _diasporaProfile.copyWith(revolutAccount: ''),
       ),
     );
@@ -463,7 +465,7 @@ void main() {
   testWidgets('notification settings persist repository preferences', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture();
+    final repository = FixtureCollectRepository();
     await pumpRoute(
       tester,
       '/settings/notifications',
@@ -666,7 +668,7 @@ void main() {
       for (final entry in const <String, String>{
         '/home': 'Loading home',
         '/groups': 'Loading groups',
-        '/groups/col-church': 'Loading group',
+        '/groups/qa-private-group': 'Loading group',
         '/settings': 'Loading settings',
       }.entries) {
         final router = createAppRouter(initialLocation: entry.key);
@@ -742,8 +744,8 @@ void main() {
   testWidgets('archived groups leave active surfaces and become read only', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture();
-    await repository.archiveCollection('col-church');
+    final repository = FixtureCollectRepository();
+    await repository.archiveCollection('qa-private-group');
 
     for (final route in const ['/home', '/groups', '/contribute']) {
       await pumpRoute(
@@ -752,18 +754,18 @@ void main() {
         legalConsentAccepted: true,
         repository: repository,
       );
-      expect(find.text('St Michel building fund'), findsNothing, reason: route);
+      expect(find.text('QA private group'), findsNothing, reason: route);
       if (route != '/home') {
         expect(find.text('Gikundiro'), findsWidgets, reason: route);
       }
     }
 
     for (final route in const [
-      '/groups/col-church',
-      '/groups/col-church/contribute',
-      '/groups/col-church/manage',
-      '/groups/col-church/profile',
-      '/groups/col-church/share',
+      '/groups/qa-private-group',
+      '/groups/qa-private-group/contribute',
+      '/groups/qa-private-group/manage',
+      '/groups/qa-private-group/profile',
+      '/groups/qa-private-group/share',
     ]) {
       await pumpRoute(
         tester,
@@ -784,8 +786,8 @@ void main() {
   testWidgets('my-groups filter has a clear empty recovery state', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture();
-    await repository.archiveCollection('col-church');
+    final repository = FixtureCollectRepository();
+    await repository.archiveCollection('qa-private-group');
     await pumpRoute(
       tester,
       '/groups?filter=contributed',
@@ -805,7 +807,7 @@ void main() {
   ) async {
     await pumpRoute(
       tester,
-      '/groups/col-church',
+      '/groups/qa-private-group',
       legalConsentAccepted: true,
       repository: _PlatformOwnerRepository(),
     );
@@ -813,7 +815,7 @@ void main() {
     expect(find.text('Contribute'), findsWidgets);
     await pumpRoute(
       tester,
-      '/groups/col-church/manage',
+      '/groups/qa-private-group/manage',
       legalConsentAccepted: true,
       repository: _PlatformOwnerRepository(),
     );
@@ -827,9 +829,9 @@ void main() {
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       fixtureAdditionalMembers: {
-        'col-church': [
+        'qa-private-group': [
           CollectMember(
             publicId: '123456',
             role: 'member',
@@ -842,7 +844,7 @@ void main() {
     try {
       await pumpRoute(
         tester,
-        '/groups/col-church/manage',
+        '/groups/qa-private-group/manage',
         legalConsentAccepted: true,
         repository: repository,
       );
@@ -880,7 +882,7 @@ void main() {
       expect(find.text('Group admin added.'), findsOneWidget);
       expect(
         (await repository.membersForCollection(
-          'col-church',
+          'qa-private-group',
         )).singleWhere((member) => member.publicId == '123456').role,
         'admin',
       );
@@ -892,15 +894,18 @@ void main() {
   testWidgets('contribution review reuses an exact pending bank request', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       profileOverride: _diasporaProfile,
     );
     final pendingIntent = await repository.createPaymentIntent(
-      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 15000),
+      const PaymentIntentDraft(
+        collectionId: 'qa-private-group',
+        amountRwf: 15000,
+      ),
     );
     await pumpRoute(
       tester,
-      '/groups/col-church/contribute',
+      '/groups/qa-private-group/contribute',
       legalConsentAccepted: true,
       repository: repository,
     );
@@ -923,7 +928,7 @@ void main() {
     const cache = CollectOfflineCache(
       preferencesKey: 'collect.offline_snapshot.expired_intent_widget_test',
     );
-    final seeded = CollectRepository.fixture(profileOverride: _diasporaProfile);
+    final seeded = FixtureCollectRepository(profileOverride: _diasporaProfile);
     final now = DateTime.now();
     await cache.save(
       CollectOfflineSnapshot(
@@ -933,7 +938,7 @@ void main() {
         paymentIntents: [
           PaymentIntentModel(
             id: 'expired-intent',
-            collectionId: 'col-church',
+            collectionId: 'qa-private-group',
             expectedAmountMinor: 15000,
             rail: 'diaspora_bank',
             transferReference: 'COL-EXPIRED001',
@@ -955,7 +960,7 @@ void main() {
         contributions: seeded.state.contributions,
       ),
     );
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       seeded: false,
       offlineCache: cache,
     );
@@ -965,7 +970,7 @@ void main() {
     );
     await pumpRoute(
       tester,
-      '/groups/col-church/contribute',
+      '/groups/qa-private-group/contribute',
       legalConsentAccepted: true,
       repository: repository,
     );
@@ -1013,7 +1018,7 @@ void main() {
   testWidgets('auth uses an injected OTP gateway without a credential bypass', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture(seeded: false);
+    final repository = FixtureCollectRepository(seeded: false);
     final authOtpGateway = _TestAuthOtpGateway();
     await pumpRoute(
       tester,
@@ -1187,7 +1192,7 @@ void main() {
   testWidgets('group creation uses the Rwanda profile MoMo receiver', (
     tester,
   ) async {
-    final repository = CollectRepository.fixture(seeded: false);
+    final repository = FixtureCollectRepository(seeded: false);
     await repository.signInWithOtp(phone: '+250720000001', otp: '123456');
 
     await pumpRoute(
@@ -1293,7 +1298,7 @@ void main() {
     expect(find.text('Scan'), findsNothing);
     expect(find.text('Supported'), findsNothing);
     expect(find.text('Home'), findsOneWidget);
-    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('QA private group'), findsWidgets);
   });
 
   testWidgets('groups empty state does not show home hero actions', (
@@ -1320,7 +1325,7 @@ void main() {
     const cache = CollectOfflineCache(
       preferencesKey: 'collect.offline_snapshot.home_widget_test',
     );
-    final seeded = CollectRepository.fixture();
+    final seeded = FixtureCollectRepository();
     await cache.save(
       CollectOfflineSnapshot(
         savedAt: DateTime.utc(2026, 6, 30, 10, 5),
@@ -1330,7 +1335,7 @@ void main() {
         contributions: seeded.state.contributions,
       ),
     );
-    final staleRepository = CollectRepository.fixture(
+    final staleRepository = FixtureCollectRepository(
       seeded: false,
       offlineCache: cache,
     );
@@ -1347,7 +1352,7 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pump();
-    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('QA private group'), findsWidgets);
   });
 
   testWidgets('profile edit supports 200 percent text scale', (tester) async {
@@ -1358,7 +1363,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
+            (ref) => FixtureCollectRepository(),
           ),
         ],
         child: const MediaQuery(
@@ -1388,7 +1393,7 @@ void main() {
     'profile country updates currency without changing verified WhatsApp',
     (tester) async {
       SharedPreferences.setMockInitialValues({});
-      final repository = CollectRepository.fixture(
+      final repository = FixtureCollectRepository(
         smsAccessChannel: const _TestSmsAccessChannel(),
       );
       final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
@@ -1496,9 +1501,9 @@ void main() {
     tester,
   ) async {
     for (final route in const [
-      '/groups/col-church/manage',
-      '/groups/col-church/profile',
-      '/groups/col-church/contribute',
+      '/groups/qa-private-group/manage',
+      '/groups/qa-private-group/profile',
+      '/groups/qa-private-group/contribute',
     ]) {
       await pumpRoute(tester, route, textScale: 2);
       expect(tester.takeException(), isNull, reason: route);
@@ -1514,7 +1519,11 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await pumpRoute(tester, '/groups/col-church/contribute', textScale: 2);
+    await pumpRoute(
+      tester,
+      '/groups/qa-private-group/contribute',
+      textScale: 2,
+    );
 
     final exception = tester.takeException();
     expect(exception, isNull);
@@ -1572,8 +1581,8 @@ void main() {
   });
 }
 
-class _LoadingCollectRepository extends CollectRepository {
-  _LoadingCollectRepository() : super.fixture(seeded: false) {
+class _LoadingCollectRepository extends FixtureCollectRepository {
+  _LoadingCollectRepository() : super(seeded: false) {
     state = state.copyWith(isLoading: true);
   }
 }

@@ -120,7 +120,7 @@ fi
 record "process_death_verified=true"
 
 start_launcher
-wait_for_text "St Michel building fund" "02-cold-recovered" 120 ||
+wait_for_text "QA private group" "02-cold-recovered" 120 ||
   fail "The cold restart did not restore and open the persisted group intent."
 capture "02-cold-restart-recovered"
 recovered_pid="$("$ADB" -s "$DEVICE_ID" shell pidof "$PACKAGE" | tr -d '\r')"

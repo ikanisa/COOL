@@ -143,7 +143,7 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                                   ),
                                   CollectSpacing.gap4,
                                   Text(
-                                    'Choose a link or QR code',
+                                    collection.title,
                                     style: Theme.of(context).textTheme.bodySmall
                                         ?.copyWith(color: colors.textSecondary),
                                     maxLines: 1,
@@ -190,14 +190,6 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                         ),
                         CollectSpacing.gap16,
                         _BrandedQrCard(data: link),
-                        CollectSpacing.gap16,
-                        const InfoSecurityBanner(
-                          title: 'Privacy-safe link',
-                          message:
-                              'Share the group invitation as a native link or QR code. Bank evidence, private member phones, and reconciliation records stay hidden.',
-                          tone: CollectStatusTone.privacy,
-                          messageMaxLines: 4,
-                        ),
                         CollectSpacing.gap16,
                         CollectButton(
                           label: 'Share link',

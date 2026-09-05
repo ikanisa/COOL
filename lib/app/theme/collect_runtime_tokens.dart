@@ -6,6 +6,54 @@ import 'collect_radius.dart';
 class CollectRuntimeTokens {
   const CollectRuntimeTokens._();
 
+  // Navigation stays dark in both modes; never reuse this on adaptive page text.
+  static Color get navigationForeground => CollectColors.brandPaper;
+
+  static Gradient? overviewBackdrop(
+    CollectColors colors,
+    Brightness brightness,
+    CollectBackdropTone tone, {
+    required bool highContrast,
+  }) {
+    if (tone == CollectBackdropTone.plain || highContrast) return null;
+    final account = tone == CollectBackdropTone.account;
+    if (brightness == Brightness.light) {
+      return LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color.alphaBlend(
+            (account
+                    ? CollectColors.referenceAccountHighlight
+                    : CollectColors.referenceDiscoveryViolet)
+                .withValues(alpha: 0.12),
+            colors.canvas,
+          ),
+          colors.canvas,
+        ],
+        stops: const [0, 0.6],
+      );
+    }
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: account
+          ? const [
+              CollectColors.referenceAccountHighlight,
+              CollectColors.referenceAccountBlue,
+              CollectColors.referenceAccountNavy,
+              CollectColors.referenceChromeBlack,
+            ]
+          : const [
+              CollectColors.referenceDiscoveryViolet,
+              CollectColors.referencePaymentsPurple,
+              CollectColors.referencePaymentsPurple,
+              CollectColors.referenceChromeBlack,
+            ],
+      stops: const [0, 0.22, 0.65, 1],
+    );
+  }
+
   static Color chromeForeground(CollectColors colors) => colors.textPrimary;
 
   static Color chromeMutedForeground(CollectColors colors) {
@@ -147,3 +195,5 @@ enum CollectRuntimeCardEmphasis {
   outline,
   compact,
 }
+
+enum CollectBackdropTone { plain, account, discovery }

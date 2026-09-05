@@ -49,92 +49,74 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   @override
   Widget build(BuildContext context) {
     final receiverMode = ref.watch(momoReceiptCaptureAvailableProvider);
-    final diaspora =
-        ref.watch(collectRepositoryProvider).currentProfile?.isDiaspora == true;
     return ScreenScaffold(
       title: 'App permissions',
       compact: true,
       onRefresh: _refresh,
       children: [
-        if (receiverMode || diaspora)
-          InfoSecurityBanner(
-            title: receiverMode
-                ? 'Rwanda MoMo receipts only'
-                : 'No SMS access for diaspora',
-            message: receiverMode
-                ? 'With your consent, Android captures only likely MoMo receipt messages. The protected receipt is parsed and matched to a pending RWF contribution; exceptions go to audited admin reconciliation.'
-                : 'Diaspora bank transfers are completed in your banking app. Collect does not request SMS, contacts, card, or bank-account access for that rail.',
-            tone: CollectStatusTone.privacy,
+        CollectCard(
+          emphasis: CollectCardEmphasis.normal,
+          padding: const EdgeInsets.all(CollectSpacing.x4),
+          child: Column(
+            children: [
+              if (receiverMode)
+                _PermissionCard(
+                  icon: CollectIcons.shield,
+                  title: 'MoMo receipt SMS',
+                  status: _loading
+                      ? 'Checking'
+                      : _momoSmsStatus.enabled
+                      ? 'Allowed'
+                      : 'Not allowed',
+                  actionLabel: _momoSmsStatus.enabled
+                      ? 'Turn off'
+                      : _momoSmsStatus.permanentlyDenied
+                      ? 'Phone settings'
+                      : 'Review and allow',
+                  onAction: _loading
+                      ? null
+                      : _momoSmsStatus.enabled
+                      ? _disableMomoSms
+                      : _momoSmsStatus.permanentlyDenied
+                      ? const SmsAccessChannel().openAppSettings
+                      : _requestMomoSms,
+                ),
+              _PermissionCard(
+                icon: CollectIcons.pending,
+                title: 'Notifications',
+                status: _loading
+                    ? 'Checking'
+                    : _notificationsEnabled
+                    ? 'Allowed'
+                    : 'Not allowed',
+                actionLabel: _notificationsEnabled ? 'Phone settings' : 'Allow',
+                onAction: _loading
+                    ? null
+                    : _notificationsEnabled
+                    ? permissions.openAppSettings
+                    : _requestNotifications,
+              ),
+              _PermissionCard(
+                icon: CollectIcons.qr,
+                title: 'Camera',
+                status: _loading
+                    ? 'Checking'
+                    : _cameraStatus.isGranted
+                    ? 'Allowed'
+                    : 'Not allowed',
+                actionLabel:
+                    _cameraStatus.isGranted || _cameraStatus.isPermanentlyDenied
+                    ? 'Phone settings'
+                    : 'Allow',
+                onAction: _loading
+                    ? null
+                    : _cameraStatus.isGranted ||
+                          _cameraStatus.isPermanentlyDenied
+                    ? permissions.openAppSettings
+                    : _requestCamera,
+              ),
+            ],
           ),
-        if (receiverMode)
-          _PermissionCard(
-            icon: CollectIcons.shield,
-            title: 'MoMo receipt SMS',
-            explanation:
-                'Capture only new incoming Rwanda MoMo receipts on this Android device.',
-            status: _loading
-                ? 'Checking'
-                : _momoSmsStatus.enabled
-                ? 'Allowed'
-                : 'Not allowed',
-            tone: _momoSmsStatus.enabled
-                ? CollectStatusTone.success
-                : CollectStatusTone.warning,
-            actionLabel: _momoSmsStatus.enabled
-                ? 'Turn off'
-                : _momoSmsStatus.permanentlyDenied
-                ? 'Phone settings'
-                : 'Review and allow',
-            onAction: _loading
-                ? null
-                : _momoSmsStatus.enabled
-                ? _disableMomoSms
-                : _momoSmsStatus.permanentlyDenied
-                ? const SmsAccessChannel().openAppSettings
-                : _requestMomoSms,
-          ),
-        _PermissionCard(
-          icon: CollectIcons.pending,
-          title: 'Notifications',
-          explanation:
-              'Reconciliation confirmations, contribution reminders, group updates, and security notices.',
-          status: _loading
-              ? 'Checking'
-              : _notificationsEnabled
-              ? 'Allowed'
-              : 'Not allowed',
-          tone: _notificationsEnabled
-              ? CollectStatusTone.success
-              : CollectStatusTone.warning,
-          actionLabel: _notificationsEnabled ? 'Phone settings' : 'Allow',
-          onAction: _loading
-              ? null
-              : _notificationsEnabled
-              ? permissions.openAppSettings
-              : _requestNotifications,
-        ),
-        _PermissionCard(
-          icon: CollectIcons.qr,
-          title: 'Camera',
-          explanation:
-              'Scan a group QR code. Collect does not need gallery access for scanning.',
-          status: _loading
-              ? 'Checking'
-              : _cameraStatus.isGranted
-              ? 'Allowed'
-              : 'Not allowed',
-          tone: _cameraStatus.isGranted
-              ? CollectStatusTone.success
-              : CollectStatusTone.warning,
-          actionLabel:
-              _cameraStatus.isGranted || _cameraStatus.isPermanentlyDenied
-              ? 'Phone settings'
-              : 'Allow',
-          onAction: _loading
-              ? null
-              : _cameraStatus.isGranted || _cameraStatus.isPermanentlyDenied
-              ? permissions.openAppSettings
-              : _requestCamera,
         ),
       ],
     );
@@ -194,35 +176,37 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
           CollectSpacing.x4,
           MediaQuery.viewInsetsOf(sheetContext).bottom + CollectSpacing.x4,
         ),
-        child: CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CollectPermissionEducationSheet(
-                icon: CollectIcons.sms,
-                title: 'Allow MoMo receipt SMS access?',
-                message: 'Only new Rwanda MoMo receipt messages.',
-                education:
-                    'Collect does not read inbox history or unrelated SMS. '
-                    'New likely MoMo receipts are encrypted on this device, '
-                    'bound to your signed-in account, and sent for secure '
-                    'parsing and reconciliation.',
-                tone: CollectStatusTone.warning,
-              ),
-              CollectSpacing.gap16,
-              CollectButton(
-                label: 'Continue',
-                icon: CollectIcons.shield,
-                onPressed: () => Navigator.of(sheetContext).pop(true),
-                expand: true,
-              ),
-              CollectButton(
-                label: 'Not now',
-                onPressed: () => Navigator.of(sheetContext).pop(false),
-                variant: CollectButtonVariant.secondary,
-                expand: true,
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: CollectBottomSheet(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CollectPermissionEducationSheet(
+                  icon: CollectIcons.sms,
+                  title: 'Allow MoMo receipt SMS access?',
+                  message: 'Only new Rwanda MoMo receipt messages.',
+                  education:
+                      'Collect does not read inbox history or unrelated SMS. '
+                      'New likely MoMo receipts are encrypted on this device, '
+                      'bound to your signed-in account, and sent for secure '
+                      'parsing and reconciliation.',
+                  tone: CollectStatusTone.warning,
+                ),
+                CollectSpacing.gap16,
+                CollectButton(
+                  label: 'Continue',
+                  icon: CollectIcons.shield,
+                  onPressed: () => Navigator.of(sheetContext).pop(true),
+                  expand: true,
+                ),
+                CollectButton(
+                  label: 'Not now',
+                  onPressed: () => Navigator.of(sheetContext).pop(false),
+                  variant: CollectButtonVariant.secondary,
+                  expand: true,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -256,57 +240,74 @@ class _PermissionCard extends StatelessWidget {
   const _PermissionCard({
     required this.icon,
     required this.title,
-    required this.explanation,
     required this.status,
-    required this.tone,
     required this.actionLabel,
     required this.onAction,
   });
 
   final IconData icon;
   final String title;
-  final String explanation;
   final String status;
-  final CollectStatusTone tone;
   final String actionLabel;
   final FutureOr<void> Function()? onAction;
 
   @override
-  Widget build(BuildContext context) => CollectCard(
-    emphasis: CollectCardEmphasis.normal,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) {
+    final identity = Row(
       children: [
-        Row(
-          children: [
-            Icon(icon),
-            CollectSpacing.gapW12,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 4),
-                  Text(
-                    status,
-                    key: ValueKey('permission_status_$title'),
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                ],
+        Icon(icon, size: 22, color: context.collectColors.textSecondary),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleMedium),
+              CollectSpacing.gap4,
+              Text(
+                status,
+                key: ValueKey('permission_status_$title'),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.collectColors.textSecondary,
+                ),
               ),
-            ),
-          ],
-        ),
-        CollectSpacing.gap12,
-        Text(explanation),
-        CollectSpacing.gap16,
-        CollectButton(
-          label: actionLabel,
-          onPressed: onAction,
-          variant: CollectButtonVariant.secondary,
-          expand: true,
+            ],
+          ),
         ),
       ],
-    ),
-  );
+    );
+    final action = TextButton(
+      onPressed: onAction,
+      style: TextButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        foregroundColor: context.collectColors.textPrimary,
+      ),
+      child: Text(actionLabel),
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Preserve readable titles and touch targets when text is enlarged.
+          final stacked =
+              constraints.maxWidth < 330 ||
+              MediaQuery.textScalerOf(context).scale(16) > 20;
+          return stacked
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    identity,
+                    Align(alignment: Alignment.centerRight, child: action),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Expanded(child: identity),
+                    CollectSpacing.gapW8,
+                    action,
+                  ],
+                );
+        },
+      ),
+    );
+  }
 }

@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 
 import 'package:collect_app/app/app.dart';
@@ -28,7 +30,7 @@ void main() {
     activeRouter?.dispose();
 
     final route = spec.route;
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       seeded: spec.signedIn,
       fixtureNow: DateTime.utc(2026, 9, 2, 10),
       profileOverride: spec.diaspora ? _diasporaProfile : null,
@@ -266,29 +268,29 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('group-scan', '/groups/scan', 'workflow'),
   _RouteSpec(
     'group-detail',
-    '/groups/col-church',
+    '/groups/qa-private-group',
     'workflow',
-    expectedText: 'St Michel building fund',
+    expectedText: 'QA private group',
   ),
   _RouteSpec(
     'share',
-    '/groups/col-church/share',
+    '/groups/qa-private-group/share',
     'workflow',
     expectedText: 'Share group',
   ),
   _RouteSpec(
     'invite',
-    '/groups/col-church/invite',
+    '/groups/qa-private-group/invite',
     'compatibility',
-    expectedPath: '/groups/col-church/share',
+    expectedPath: '/groups/qa-private-group/share',
     expectedText: 'Share group',
   ),
   _RouteSpec(
     'shared-group-link',
-    '/c/st-michel-building-fund',
+    '/c/qa-private-group',
     'entry',
-    expectedPath: '/groups/col-church',
-    expectedText: 'St Michel building fund',
+    expectedPath: '/groups/qa-private-group',
+    expectedText: 'QA private group',
   ),
   _RouteSpec(
     'app-share-entry',
@@ -327,7 +329,7 @@ const _routeSpecs = <_RouteSpec>[
   ),
   _RouteSpec(
     'contribution',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'workflow',
     expectedText: 'Continue to MoMo',
     forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
@@ -349,32 +351,32 @@ const _routeSpecs = <_RouteSpec>[
   ),
   _RouteSpec(
     'diaspora-contribution',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'workflow',
     expectedText: 'Review transfer',
     diaspora: true,
   ),
   _RouteSpec(
     'ledger',
-    '/groups/col-church/ledger',
+    '/groups/qa-private-group/ledger',
     'workflow',
     expectedText: 'Ledger',
   ),
   _RouteSpec(
     'manage',
-    '/groups/col-church/manage',
+    '/groups/qa-private-group/manage',
     'workflow',
     expectedText: 'Group settings',
   ),
   _RouteSpec(
     'group-profile',
-    '/groups/col-church/profile',
+    '/groups/qa-private-group/profile',
     'workflow',
     expectedText: 'Group profile',
   ),
   _RouteSpec(
     'members',
-    '/groups/col-church/members',
+    '/groups/qa-private-group/members',
     'workflow',
     expectedText: 'Members',
   ),
@@ -501,6 +503,5 @@ const _diasporaProfile = CollectProfile(
   whatsappPhone: '+250788123456',
   countryCode: 'DE',
   currencyCode: 'EUR',
-  revolutLink: 'https://revolut.me/synthetic',
-  revolutAccount: 'Synthetic account',
+  revolutAccount: '000123456789',
 );

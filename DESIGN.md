@@ -14,7 +14,7 @@ The standard is intentionally universal. Product teams must replace domain examp
 
 This file is grounded in these evidence inputs:
 
-- Local reference screenshots: `/Users/jeanbosco/Downloads/Revolut10/`, 10 Revolut reference captures at `1170 x 2532` that show account, invest, payments, crypto, rewards, contact detail, and profile surfaces.
+- Original reference screenshots: ten Revolut captures at `1170 x 2532`, recovered from the owner's Google Drive on 2026-09-03 UTC. `docs/release/mobile-design/original-reference-manifest.json` records source URLs and hashes; private originals live in ignored local storage. The old `/Users/jeanbosco/Downloads/Revolut10/` location is historical. Tracked `references/revolut10/*-drive-preview.png` files are full-browser previews, not pixel-fidelity references.
 - Local implementation evidence: `/Volumes/PRO-G40/COOL/DESIGN.md`, COOL route/admin screenshots under `.cache/repo_wide_qa_uat/`, and COOL token seeds in `lib/app/theme/collect_colors.dart`.
 - Prior comparative audits: MOBI Revolut comparison docs under `/Volumes/PRO-G40/MOBI/mobi_app/docs/product/`, especially the reference-gap and Flutter/admin audit reports.
 - Current platform guidance checked on 2026-07-02: Flutter adaptive/responsive design, Flutter accessibility, Flutter focus and shortcuts, Apple Human Interface Guidelines, Apple tvOS HIG, Android TV design/navigation, Material 3 adaptive navigation, and WCAG 2.2.
@@ -62,7 +62,7 @@ World-class benchmark conclusion: the target is not "make it look like one app."
 
 ## Reference Screenshot Lessons
 
-The Revolut screenshot base defines the required interaction grammar for this system. It is not optional inspiration; it is the benchmark for density, hierarchy, motion, contrast, command chrome, navigation, and polish. Use it to extract durable UI rules while replacing all product data, copy, regulated claims, brand marks, icons, and unsupported flows with truthful product-owned content.
+The Revolut screenshot base defines the required interaction grammar for this system. It is not optional inspiration; it is the benchmark for density, hierarchy, motion, contrast, command chrome, navigation, and polish. The owner confirms a Revolut partnership and authorises use of its branding; branding permissions must not be used to dilute this target. Preserve the approved Collect/Buri Munsi identity unless a specific partner-branded surface is requested. Use truthful product data, copy and payment capabilities; the partnership does not imply that unsupported financial features exist.
 
 The visible reference grammar is:
 
@@ -87,6 +87,30 @@ The screenshot base also defines what not to do:
 - Do not mix an unrelated light/blue product subsystem into the same app unless the surface has an explicit, tokenized reason.
 - Do not add fake finance, crypto, rewards, card, or regulated product concepts to mimic a reference screenshot.
 - Do not use decorative gradients, cards, or glass effects without a role in hierarchy, state, or navigation.
+
+For Collect mobile, Home uses the reference account-blue overview depth; Groups
+and Activity use the reference purple discovery depth. Those backdrops are
+scoped to top-level overview routes. Auth, contribution, profile and other
+task/detail screens retain their annotation-approved neutral canvas. Light
+mode uses restrained light equivalents; high contrast removes the gradient.
+Phone navigation is a floating dark pill with a tonal selected destination,
+48dp minimum targets and all four existing destinations. It must not obscure
+the final scroll item, form action or keyboard. Do not enforce a blanket
+"no gradients anywhere" assertion that contradicts this route-scoped rule.
+
+Home's My groups and Featured groups use the same card width, page inset,
+height and spacing as Groups: full content-width cards stacked vertically on
+phones, with the matching two-column layout on wider screens. Do not use a
+narrow horizontal carousel for either Home section.
+
+Section headings give their title the full width when the title and trailing
+action cannot fit together. Move the action below rather than splitting title
+words or shrinking enlarged text; retain the normal compact row when it fits.
+
+Authentication failures reveal the actual inline error in the scroll viewport,
+including at enlarged text sizes. Returning to the page heading must not hide
+the error or its recovery guidance. Keep the notice available as a semantic
+live region and preserve the entered phone number and code for correction.
 
 ## Screen Archetypes
 
@@ -210,10 +234,13 @@ Secondary color gates:
 
 ### Typography Tokens
 
-- The only approved runtime type family is bundled `Inter`, used as the
-  license-safe substitute for the legacy proprietary reference family. The
-  source files are `assets/typefaces/Inter-Variable.ttf` and
-  `assets/typefaces/OFL-Inter.txt`.
+- The current runtime type family is bundled `Inter`. The source files are
+  `assets/typefaces/Inter-Variable.ttf` and `assets/typefaces/OFL-Inter.txt`.
+  The owner's Revolut partnership authorises partner branding; this is not a
+  licensing restriction against its typeface. If supplied partner font assets
+  replace Inter, integrate them through the same central typography authority
+  and re-verify the native reference comparisons; do not approximate a missing
+  partner font or silently introduce a second runtime family.
 - Flutter must resolve display, body, label, financial, admin, and fallback text through `CollectTypography` and `CollectRuntimeTypography`; direct `TextStyle`, `FontWeight`, numeric `fontSize`, numeric `height`, numeric `letterSpacing`, platform-default fonts, and legacy font-family fallbacks are forbidden outside those central typography authorities.
 - Public-site CSS must use the bundled Inter file and central `--type-*` custom properties. Feature selectors must not declare raw font sizes, weights, line heights, tracking, or another font family.
 - The supported Inter weight range is 400-700. Use only regular 400, medium 500, semibold 600, and bold 700; synthetic 750-950 weights are forbidden.
@@ -618,6 +645,62 @@ Every production route must have evidence. Use this template in release docs, QA
 Routes with missing evidence are not design-complete, even if they compile and pass basic tests.
 
 ## Quality Gates
+
+### MOBILE-DESIGN-100 — critical, non-waivable release blocker
+
+Owner instruction, 2026-09-03: all mobile app work must remain aligned with the
+Revolut reference at **100/100**, including the subsequent Codex browser
+annotations. The owner has stated that the Revolut partnership permits brand
+use; brand-permission concerns must not be used to dilute this design target.
+Keep the current product identity unless the owner requests a branding change.
+Do not infer unimplemented banking services from the design reference.
+
+100/100 means **ten criteria each fully satisfied**, not an averaged subjective
+score: (1) reference fidelity, (2) hierarchy/density, (3) typography,
+(4) colour/elevation, (5) spacing/shape, (6) icons/assets, (7) concise copy and
+annotation closure, (8) interaction and state consistency, (9) responsive and
+keyboard behaviour, (10) accessibility and native platform behaviour.
+Each criterion is either 10 or 0. An unknown, missing or partially satisfied
+criterion is 0. A single unresolved applicable finding blocks release.
+
+- `docs/release/mobile-design/mobile-parity-contract.json` inventories required route/state
+  evidence; it implements this rule and is not a second design authority.
+- `docs/release/mobile-design/mobile-parity-acceptance.json` is the mobile-only acceptance
+  record. Admin `design-qa.md`, historical parity reports and generic green
+  tests cannot stand in for it.
+- Bind acceptance to the current source and contract hashes, reference files,
+  app version, exact release artifact hashes, and installed native APK/IPA
+  readback. Any change invalidates the affected release acceptance.
+  Controlled native build wrappers record source-before/source-after and fresh
+  binary hashes in `.cache/mobile-design-build/`. A review cannot bind current
+  source to an older APK/IPA; missing or stale build provenance is a blocker.
+- Capture and inspect all routes, plus guest/member/owner/discovery states,
+  Rwanda/diaspora, small and large phones, light/dark, landscape, keyboard,
+  large text, reduced motion, loading/error/offline, and critical sheets.
+- Review screenshots against the applicable reference/owner annotation with
+  matching state and dimensions. An agent may record its review honestly;
+  it must not manufacture owner approval or claim pixel identity across
+  different product data. Record reference mapping and comparison evidence.
+- Native comparisons must identify the applicable original reference IDs.
+  Distribution requires the actual original PNGs with matching hashes and
+  dimensions, not only browser previews or a source URL. CI validates the
+  tracked manifest without requiring private image pixels; release validation
+  additionally checks those pixels. Never commit or publish the personal
+  financial/contact information visible in private reference screenshots.
+- Every owner annotation needs a regression assertion and verified screen
+  evidence. Category labels removed from one route must not survive in another
+  presentation of the same information.
+- Preserve required consent, transaction details, error recovery and legal
+  text. Concision does not mean hiding material payment or privacy facts.
+- `make mobile-design-gate` is fail-closed. No skip flag or environment bypass
+  may turn an incomplete assessment into release GO. Build-only QA candidates
+  remain allowed so native acceptance can be gathered; distribution is blocked.
+- Do not replace visual baselines simply to silence a failing test. Review
+  changed images against the reference and record the rationale first.
+
+The release remains **BLOCKED**, not "100/100", until the executable gate and
+the actual native visual review both pass. Scripts validate evidence integrity;
+they cannot independently judge aesthetic fidelity or fabricate human review.
 
 A product is not design-complete until all Quality Gates pass:
 

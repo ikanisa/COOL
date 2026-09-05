@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 // Fixture-only follow-up suite. Host must background/foreground the approved
 // disposable simulator when the lifecycle-ready marker is emitted.
 import 'app_uat_smoke_test.dart' as smoke;
@@ -32,7 +34,7 @@ void main() {
           overrides: [
             appRouterProvider.overrideWithValue(router),
             collectRepositoryProvider.overrideWith(
-              (ref) => CollectRepository.fixture(),
+              (ref) => FixtureCollectRepository(),
             ),
             collectThemeModeProvider.overrideWith(
               (ref) => CollectThemeModeController(
@@ -80,7 +82,7 @@ void main() {
     tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     final router = createAppRouter(
-      initialLocation: '/groups/col-church/contribute',
+      initialLocation: '/groups/qa-private-group/contribute',
     );
     addTearDown(router.dispose);
     await tester.pumpWidget(
@@ -88,7 +90,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
+            (ref) => FixtureCollectRepository(),
           ),
           collectThemeModeProvider.overrideWith(
             (ref) => CollectThemeModeController(
@@ -109,7 +111,7 @@ void main() {
       tester.renderObject<RenderParagraph>(find.text('0')).didExceedMaxLines,
       isFalse,
     );
-    const payee = 'St Michel MTN MoMo';
+    const payee = 'QA MoMo receiver';
     await tester.scrollUntilVisible(
       find.text(payee),
       120,

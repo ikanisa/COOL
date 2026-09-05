@@ -3,7 +3,8 @@ import Security
 import LocalAuthentication
 
 // One task-specific Keychain item. No browser store, generic credential lookup,
-// refresh token, phone number, or secret-bearing command argument is used.
+// phone number, or secret-bearing command argument is used. Opt-in rotated
+// session credentials remain inside this same device-local protected item.
 let base: [String: Any] = [
     kSecClass as String: kSecClassGenericPassword,
     kSecAttrService as String: "com.ikanisa.collect.notification-operator",

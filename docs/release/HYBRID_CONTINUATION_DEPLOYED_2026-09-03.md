@@ -1,8 +1,31 @@
 # Collect continuation: deployed Admin and connected queue monitor
 
+**4 September Kigali continuation:** the earlier MCP access-only session has
+expired and current queue reads are blocked. Keychain-based opt-in renewal is
+implemented and locally tested; fresh OTP provisioning and live rotation are
+still open. Pixel RECEIVE_SMS remains granted. The mobile production-design
+gate is blocked independently. See [current renewal and remaining-gate evidence](HYBRID_SESSION_RENEWAL_2026-09-04.md).
+
 Observed: 3 September 2026, evening UTC. User expressly reconfirmed full authority
 to proceed and choose from the existing configuration. Additional approval for
 ordinary scoped deployment/configuration is not a remaining gate.
+
+Latest device continuation: **native SMS opt-in PASS**. The Pixel was back in
+Collect, the in-app receipt-only disclosure and Android permission dialog were
+completed, and the app now shows `MoMo receipt SMS: Allowed`. Package readback
+confirms `RECEIVE_SMS: granted=true`, with neither `READ_SMS` nor `SEND_SMS`
+requested. The generic Android permission dialog's send/view wording does not
+add those undeclared permissions. Backend consent for Collect ID 956974 is
+`enabled=true`, recorded at **2026-09-03T20:54:54.248749Z**, channel
+`android_sms_access`, device label `flutter_app`. Notifications/camera permission
+were left unchanged. The [actual device screenshot](/Volumes/PRO-G40/COOL/.cache/hybrid-hosted-uat-20260903/screenshots/10-pixel-sms-consent-enabled.png)
+was opened and inspected.
+
+No feature flag changed: Android SMS access was already enabled; the four
+`hybrid_*` flags and `native_sms_attestation_enforcement` remain false. Device
+subscription metadata did not expose phone-number values, so the Pixel's link
+to merchant code 41258 remains **unverified**. Permission/consent is not proof of
+receiving the correct line's SMS, a valid attestation, posting, or delivery.
 
 ## Completed
 
@@ -114,7 +137,7 @@ against its approved evidence hash and then installed successfully:
   code field and re-entering the same supplied code succeeded. No replacement
   OTP was requested. Native Home and profile readback confirmed Collect ID
   956974 and the registered Rwanda profile. The code was not saved in evidence.
-- RECEIVE_SMS remains ungranted; no SMS, payment, SIM setting or legacy service
+- At that earlier installation stage RECEIVE_SMS was ungranted; no SMS, payment, SIM setting or legacy service
   change occurred. Before permission setup completed, the device visibly
   switched between screens and another application's foreground activity.
   Further taps stopped to avoid acting in the wrong application; the operator
@@ -127,11 +150,11 @@ installed Flutter standards and existing repository/device tools were used.
 
 ## Still unproven, without blocking independent work
 
-Receiving-device SMS configuration and fresh capture (installation and native
-login now PASS); a real
+Receiving-line identity and fresh capture (installation, native login and SMS
+permission/backend consent now PASS); a real
 feature-phone member's complete registered identity; actual payment allocation
 and balance snapshots; single-sender cutover; exact assisted send and physical
 handset receipt. Hosted assisted-import/AI evaluation, durable session renewal,
 and the separate Git/store publication chain also remain distinct work.
-All five hybrid flags remain OFF and no real receipt SMS was sent. This report
+The four hybrid flags plus native attestation enforcement remain OFF and no real receipt SMS was sent. This report
 establishes deployment and authenticated monitoring, not full production GO.

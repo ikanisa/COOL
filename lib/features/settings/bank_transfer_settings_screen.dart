@@ -45,7 +45,6 @@ class _BankTransferSettingsScreenState
   @override
   Widget build(BuildContext context) => ScreenScaffold(
     title: 'Bank transfer details',
-    subtitle: 'Approved EUR bank-transfer beneficiary.',
     compact: true,
     onRefresh: () async {
       setState(() => _destination = _load());
@@ -79,13 +78,6 @@ class _BankTransferSettingsScreenState
                   message:
                       'These details are deliberately non-routable. Contributions remain disabled until real bank details pass independent maker-checker approval.',
                   tone: CollectStatusTone.warning,
-                )
-              else
-                const InfoSecurityBanner(
-                  title: 'Approved beneficiary',
-                  message:
-                      'Confirm these details in your banking app before every transfer. Collect never asks for banking credentials.',
-                  tone: CollectStatusTone.privacy,
                 ),
               CollectCard(
                 emphasis: CollectCardEmphasis.normal,
@@ -130,11 +122,24 @@ class _CopySettingRow extends StatelessWidget {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 84,
-          child: Text(label, style: Theme.of(context).textTheme.bodySmall),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.collectColors.textSecondary,
+                ),
+              ),
+              CollectSpacing.gap4,
+              SelectableText(
+                value,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
         ),
-        Expanded(child: SelectableText(value)),
         IconButton(
           tooltip: 'Copy $label',
           onPressed: value.isEmpty

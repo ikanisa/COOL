@@ -35,6 +35,7 @@ class _GroupProfileCardTextField extends StatelessWidget {
     this.maxLines = 1,
     this.textCapitalization = TextCapitalization.none,
     this.autocorrect = false,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -42,6 +43,7 @@ class _GroupProfileCardTextField extends StatelessWidget {
   final int maxLines;
   final TextCapitalization textCapitalization;
   final bool autocorrect;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,7 @@ class _GroupProfileCardTextField extends StatelessWidget {
         ),
         child: TextField(
           controller: controller,
+          onChanged: onChanged,
           keyboardType: maxLines > 1 ? TextInputType.multiline : null,
           textInputAction: maxLines > 1
               ? TextInputAction.newline

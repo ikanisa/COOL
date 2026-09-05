@@ -210,7 +210,7 @@ tap_named "Groups"
 # branch root" gesture, so exercise it before measuring the groups list.
 tap_named "Groups"
 capture "02-groups"
-tap_named "St Michel building fund, RWF 35,000, 2 members"
+tap_named "QA private group, RWF 35,000, 2 members"
 capture "03-group-detail"
 
 # Group detail has both an in-flow contribution action and the persistent
@@ -218,7 +218,7 @@ capture "03-group-detail"
 # measured independently before entering the amount flow.
 tap_named "Contribute" 2
 capture "04-contribute-group-selection"
-tap_named "St Michel building fund, RWF 35,000, 2 members"
+tap_named "QA private group, RWF 35,000, 2 members"
 capture "05-contribution-amount"
 
 launch_app

@@ -619,7 +619,7 @@ class _QueueHealth extends StatelessWidget {
     final approvals = _metricValue(
       metrics,
       'Awaiting approvals',
-      fallback: '0',
+      fallback: 'Not available',
     );
     final oldest = _oldestAge(result.rows);
     return DecoratedBox(
@@ -643,7 +643,7 @@ class _QueueHealth extends StatelessWidget {
               valueColor: colors.successForeground,
             ),
             _HealthRow(
-              label: 'Oldest item age',
+              label: 'Oldest visible item',
               value: oldest,
               valueColor: colors.warningForeground,
             ),
@@ -1253,7 +1253,7 @@ String _month(int value) {
 }
 
 String _compactSla(String? target) {
-  if (target == null || target.trim().isEmpty) return '< 4h';
+  if (target == null || target.trim().isEmpty) return 'Not available';
   if (RegExp(r'next\s+business\s+day', caseSensitive: false).hasMatch(target)) {
     return 'Next business day';
   }

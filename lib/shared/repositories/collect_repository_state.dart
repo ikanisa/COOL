@@ -1,5 +1,14 @@
 part of 'collect_repository.dart';
 
+CollectState _emptyCollectState() {
+  return const CollectState(
+    currentProfile: null,
+    collections: [],
+    paymentIntents: [],
+    contributions: [],
+  );
+}
+
 const _unsetDateTimeField = Object();
 
 class CollectState {

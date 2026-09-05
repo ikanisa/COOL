@@ -102,6 +102,7 @@ case "$resolved_output_path" in
 esac
 
 if [[ "$SUBMIT" == "true" ]]; then
+  ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb"
   # The upload path must not be able to bypass the independently pinned
   # production-backend, artifact, SMS-policy, and console-state controls.
   canonical_aab="$ROOT_DIR/build/app/outputs/bundle/productionRelease/app-production-release.aab"

@@ -1,5 +1,6 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/shared/models/collect_models.dart';
-import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +35,7 @@ void main() {
     test(
       'incomplete ${profile.id} cannot join, contribute or create: ${profile.momoNumber}/${profile.momoProvider}/${profile.currencyCode}/${profile.revolutAccount}',
       () async {
-        final repo = CollectRepository.fixture(profileOverride: profile);
+        final repo = FixtureCollectRepository(profileOverride: profile);
         addTearDown(repo.dispose);
         final priorIntents = [...repo.state.paymentIntents];
         final group = repo.state.collections.first;
@@ -61,7 +62,7 @@ void main() {
     test(
       'complete ${profile.id} can join without the other country rail',
       () async {
-        final repo = CollectRepository.fixture(profileOverride: profile);
+        final repo = FixtureCollectRepository(profileOverride: profile);
         addTearDown(repo.dispose);
         final group = repo.state.collections.first;
         expect((await repo.joinGroupBySlug(group.slug)).id, group.id);

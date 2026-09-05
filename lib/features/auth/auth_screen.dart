@@ -25,6 +25,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _otp = TextEditingController();
   final _captchaToken = TextEditingController();
   final _scrollController = ScrollController();
+  final _errorNoticeKey = GlobalKey();
   var _selectedCountry = Country.parse('RW');
   bool _otpSent = false;
   bool _submitting = false;
@@ -105,11 +106,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       _normalizedPhoneOrNull ?? _phoneForAuth,
     );
     return Scaffold(
-      backgroundColor: CollectColors.referenceChromeBlack,
+      backgroundColor: context.collectColors.authCanvas,
       body: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: CollectColors.referenceChromeBlack,
-        ),
+        decoration: BoxDecoration(color: context.collectColors.authCanvas),
         child: SafeArea(
           child: Column(
             children: [
@@ -134,6 +133,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       captchaController: _captchaToken,
                       env: env,
                       error: _error,
+                      errorKey: _errorNoticeKey,
                       resendRemaining: _resendRemaining,
                       countryCode: _countryCode,
                       onCountryTap: _showCountryPicker,
@@ -333,9 +333,26 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       _submitting = false;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_scrollController.hasClients) return;
-      _scrollController.jumpTo(0);
+      _revealAuthError();
     });
+  }
+
+  void _revealAuthError({bool buildOffscreenNotice = true}) {
+    if (!mounted || _error == null || !_scrollController.hasClients) return;
+    final noticeContext = _errorNoticeKey.currentContext;
+    if (noticeContext != null) {
+      // Keep the actual error in view, including when enlarged text puts the
+      // input panel below the heading. The notice is also a semantic live region.
+      unawaited(Scrollable.ensureVisible(noticeContext));
+    } else if (buildOffscreenNotice) {
+      // The lazy form may not have built its final panel yet. Reveal that panel
+      // first, then align the notice using its measured bounds on the next frame.
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _revealAuthError(buildOffscreenNotice: false);
+      });
+      WidgetsBinding.instance.scheduleFrame();
+    }
   }
 
   Future<void> _showCountryPicker() async {

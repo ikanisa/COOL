@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -34,7 +36,7 @@ void main() {
         addTearDown(tester.view.resetPhysicalSize);
         addTearDown(tester.view.resetDevicePixelRatio);
         final router = createAppRouter(
-          initialLocation: '/groups/col-church/manage',
+          initialLocation: '/groups/qa-private-group/manage',
         );
         final key = GlobalKey();
         await tester.pumpWidget(
@@ -42,10 +44,10 @@ void main() {
             overrides: [
               appRouterProvider.overrideWithValue(router),
               collectRepositoryProvider.overrideWith(
-                (ref) => CollectRepository.fixture(
+                (ref) => FixtureCollectRepository(
                   fixtureNow: DateTime.utc(2026, 9, 2),
                   fixtureAdditionalMembers: {
-                    'col-church': [
+                    'qa-private-group': [
                       CollectMember(
                         publicId: '123456',
                         role: 'member',
@@ -145,7 +147,7 @@ void main() {
         await tester.tap(find.widgetWithText(FilledButton, 'Add admin'));
         await tester.pumpAndSettle();
         expect(find.text('Group admin added.'), findsOneWidget);
-        router.go('/groups/col-church/members');
+        router.go('/groups/qa-private-group/members');
         await tester.pumpAndSettle();
         expect(find.text('123456'), findsOneWidget);
         expect(find.text('Admin · Active'), findsOneWidget);

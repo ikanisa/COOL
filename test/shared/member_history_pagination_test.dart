@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -31,7 +33,7 @@ MemberHistoryPage _page(
     for (final i in indexes)
       Contribution(
         id: i == 59 ? 'bank:$i' : 'momo:$i',
-        collectionId: i == 59 ? 'older-group' : 'col-church',
+        collectionId: i == 59 ? 'older-group' : 'qa-private-group',
         amountRwf: i == 59 ? 125 : 1000,
         currency: i == 59 ? 'EUR' : 'RWF',
         supporterLabel: 'Collect ID ${400000 + i}',
@@ -44,15 +46,15 @@ MemberHistoryPage _page(
   ownTotals: count == 1 ? const {'EUR': 125} : const {'RWF': 59000, 'EUR': 125},
   ownCollectionIds: count == 1
       ? const {'older-group'}
-      : const {'col-church', 'older-group'},
+      : const {'qa-private-group', 'older-group'},
   revision: revision,
   nextCursor: more
       ? {'revision': revision, 'after': 'momo:${indexes.last}'}
       : null,
 );
 
-class _PagedRepository extends CollectRepository {
-  _PagedRepository() : super.fixture() {
+class _PagedRepository extends FixtureCollectRepository {
+  _PagedRepository() : super() {
     final first = _page(List.generate(50, (i) => i));
     state = state.copyWith(
       contributions: first.items,
@@ -111,7 +113,7 @@ void main() {
       'EUR': 125,
     });
     expect(container.read(contributedCollectionIdsProvider), {
-      'col-church',
+      'qa-private-group',
       'older-group',
     });
     expect(container.read(pendingPaymentCountProvider), 100);

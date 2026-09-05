@@ -272,6 +272,12 @@ main_activity = read(File.join(root_dir, "android/app/src/main/kotlin/app/cool/m
 release_approvals = release_approval_records(root_dir)
 
 checks = {}
+design_output, design_status = Open3.capture2e('ruby', File.join(root_dir, 'scripts/qa/mobile_design_gate.rb'), '--json')
+checks['mobile_design_100'] = check(
+  design_status.success? ? 'pass' : 'fail',
+  design_status.success? ? 'Current installed Android design acceptance is 100/100.' : 'MOBILE-DESIGN-100 blocks release: native design acceptance is incomplete or stale.',
+  { 'evidence' => (JSON.parse(design_output) rescue { 'error' => design_output }) }
+)
 
 version_match = pubspec.match(/^version:\s*([0-9]+\.[0-9]+\.[0-9]+\+[0-9]+)\s*$/)
 checks["pubspec_version"] =

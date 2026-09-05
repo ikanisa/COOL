@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
@@ -19,7 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  final repository = CollectRepository.fixture(
+  final repository = FixtureCollectRepository(
     fixtureNow: DateTime.utc(2026, 8, 20, 12),
   );
   final router = createAppRouter(initialLocation: '/home');

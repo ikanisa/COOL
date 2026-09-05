@@ -171,7 +171,6 @@ class AccountSessionScreen extends ConsumerWidget {
               CollectListTile(
                 leading: CollectIcons.lock,
                 title: 'Sign out',
-                subtitle: 'Manually end this device session.',
                 onTap: () => _confirmSignOut(context, ref),
               ),
             ],

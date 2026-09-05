@@ -129,18 +129,18 @@ class _AuthNativeActionButton extends StatelessWidget {
         ? (isPrimary ? 76.0 : 64.0)
         : (isPrimary ? 56.0 : 48.0);
     final foreground = isPrimary
-        ? CollectColors.referenceChromeBlack.withValues(
-            alpha: enabled ? 1 : 0.46,
-          )
-        : colors.onImagePrimary.withValues(alpha: enabled ? 0.92 : 0.38);
+        ? colors.authActionForeground.withValues(alpha: enabled ? 1 : 0.46)
+        : colors.authForeground.withValues(alpha: enabled ? 0.92 : 0.38);
     final background = isPrimary
         ? enabled
-              ? colors.onImagePrimary
-              : colors.onImagePrimary.withValues(alpha: 0.46)
+              ? colors.authForeground
+              : colors.authForeground.withValues(alpha: 0.46)
         : CollectColors.transparentColor;
     return SizedBox(
       width: double.infinity,
-      height: buttonHeight,
+      // Larger text may wrap: let the content determine the height instead of
+      // clipping a two-line action inside the normal fixed-height control.
+      height: usesAccessibilityText ? null : buttonHeight,
       child: TextButton(
         style: ButtonStyle(
           minimumSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
@@ -151,8 +151,11 @@ class _AuthNativeActionButton extends StatelessWidget {
           ),
           backgroundColor: WidgetStatePropertyAll(background),
           foregroundColor: WidgetStatePropertyAll(foreground),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: CollectSpacing.x4),
+          padding: WidgetStatePropertyAll(
+            EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x4,
+              vertical: usesAccessibilityText ? CollectSpacing.x3 : 0,
+            ),
           ),
         ),
         onPressed: onPressed,
@@ -173,7 +176,9 @@ class _AuthNativeActionButton extends StatelessWidget {
             Flexible(
               child: Text(
                 label,
-                maxLines: usesAccessibilityText ? 2 : 1,
+                // TextButton's DefaultTextStyle otherwise supplies maxLines: 1.
+                maxLines: usesAccessibilityText ? 3 : 1,
+                textAlign: TextAlign.center,
                 softWrap: usesAccessibilityText,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(

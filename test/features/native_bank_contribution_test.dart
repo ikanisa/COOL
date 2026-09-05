@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -55,7 +57,7 @@ void main() {
         tester.view.devicePixelRatio = 1;
         addTearDown(tester.view.resetPhysicalSize);
         addTearDown(tester.view.resetDevicePixelRatio);
-        final repository = CollectRepository.fixture(
+        final repository = FixtureCollectRepository(
           profileOverride: const CollectProfile(
             id: 'local-user',
             publicId: '038491',
@@ -95,7 +97,9 @@ void main() {
                 ).copyWith(textScaler: TextScaler.linear(textScale)),
                 child: child!,
               ),
-              home: const ContributionFlowScreen(collectionId: 'col-church'),
+              home: const ContributionFlowScreen(
+                collectionId: 'qa-private-group',
+              ),
             ),
           ),
         );
@@ -114,7 +118,24 @@ void main() {
         );
         final field = tester.widget<TextField>(find.byType(TextField));
         expect(field.decoration!.border, InputBorder.none);
+        expect(
+          tester
+              .widget<FilledButton>(
+                find.widgetWithText(FilledButton, 'Review transfer'),
+              )
+              .onPressed,
+          isNull,
+        );
         await tester.enterText(find.byType(TextField), '123.45');
+        await tester.pump();
+        expect(
+          tester
+              .widget<FilledButton>(
+                find.widgetWithText(FilledButton, 'Review transfer'),
+              )
+              .onPressed,
+          isNotNull,
+        );
         await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
@@ -123,6 +144,12 @@ void main() {
         await tester.scrollUntilVisible(
           find.byTooltip('Copy IBAN').hitTestable(),
           100,
+          scrollable: find
+              .descendant(
+                of: find.byType(ListView),
+                matching: find.byType(Scrollable),
+              )
+              .first,
         );
         expect(find.byTooltip('Copy IBAN').hitTestable(), findsOneWidget);
         await tester.tap(find.byTooltip('Copy IBAN'));
@@ -131,6 +158,12 @@ void main() {
         await tester.scrollUntilVisible(
           find.byTooltip('Copy Exact reference').hitTestable(),
           100,
+          scrollable: find
+              .descendant(
+                of: find.byType(ListView),
+                matching: find.byType(Scrollable),
+              )
+              .first,
         );
         expect(
           find.byTooltip('Copy Exact reference').hitTestable(),

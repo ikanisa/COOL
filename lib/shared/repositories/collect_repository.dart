@@ -20,7 +20,6 @@ export '../models/member_history_page.dart';
 
 part 'collect_repository_providers.dart';
 part 'collect_repository_state.dart';
-part 'collect_repository_fixture.dart';
 part 'collect_repository_live_reader.dart';
 part 'collect_repository_helpers.dart';
 part 'collect_repository_history.dart';
@@ -38,27 +37,18 @@ class CollectRepository extends StateNotifier<CollectState> {
          offlineCache ?? const CollectOfflineCache(),
        );
 
+  /// Test harness injection only. App entrypoints use the empty live constructor.
+  /// Synthetic records belong outside lib and must be supplied explicitly.
   CollectRepository.fixture({
+    required CollectState initialState,
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-    bool seeded = true,
-    DateTime? fixtureNow,
-    int fixtureCollectionCount = 2,
-    int fixtureContributionCount = 2,
-    CollectProfile? profileOverride,
     Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
     CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
          smsAccessChannel,
-         seeded
-             ? _fixtureCollectState(
-                 fixtureNow: fixtureNow,
-                 collectionCount: fixtureCollectionCount,
-                 contributionCount: fixtureContributionCount,
-                 profileOverride: profileOverride,
-               )
-             : _emptyCollectState(),
+         initialState,
          true,
          offlineCache ?? const CollectOfflineCache(),
          fixtureAdditionalMembers,

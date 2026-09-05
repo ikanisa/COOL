@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -13,13 +15,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _MixedRailRepository extends CollectRepository {
-  _MixedRailRepository() : super.fixture(fixtureNow: DateTime.utc(2026, 9, 2)) {
+class _MixedRailRepository extends FixtureCollectRepository {
+  _MixedRailRepository() : super(fixtureNow: DateTime.utc(2026, 9, 2)) {
     state = state.copyWith(
       contributions: [
         Contribution(
           id: 'momo:one',
-          collectionId: 'col-church',
+          collectionId: 'qa-private-group',
           amountRwf: 3000,
           currency: 'RWF',
           supporterLabel: 'You',
@@ -28,7 +30,7 @@ class _MixedRailRepository extends CollectRepository {
         ),
         Contribution(
           id: 'bank:two',
-          collectionId: 'col-church',
+          collectionId: 'qa-private-group',
           amountRwf: 12345,
           currency: 'EUR',
           supporterLabel: 'You',
@@ -37,7 +39,7 @@ class _MixedRailRepository extends CollectRepository {
         ),
       ],
       collectionSummaries: {
-        'col-church': CollectionSummary.multiCurrency(
+        'qa-private-group': CollectionSummary.multiCurrency(
           totals: const {'RWF': 3000, 'EUR': 12845},
           ownBalances: const {'RWF': 3000, 'EUR': 12345},
           supporterCount: 2,
@@ -61,10 +63,10 @@ void main() {
     '/home',
     '/activity',
     '/groups',
-    '/groups/col-church',
-    '/groups/col-church/ledger',
-    '/groups/col-church/manage',
-    '/groups/col-church/share',
+    '/groups/qa-private-group',
+    '/groups/qa-private-group/ledger',
+    '/groups/qa-private-group/manage',
+    '/groups/qa-private-group/share',
   ]) {
     for (final width in [320.0, 390.0]) {
       for (final scale in [1.0, 2.0]) {
@@ -110,10 +112,10 @@ void main() {
             expect(find.textContaining('RWF 12,345'), findsNothing);
             if (![
               '/groups',
-              '/groups/col-church/manage',
-              '/groups/col-church/share',
+              '/groups/qa-private-group/manage',
+              '/groups/qa-private-group/share',
             ].contains(route)) {
-              if (route == '/groups/col-church' && scale == 2) {
+              if (route == '/groups/qa-private-group' && scale == 2) {
                 await tester.scrollUntilVisible(
                   find.text('EUR 123.45'),
                   250,
@@ -129,7 +131,7 @@ void main() {
             if (captureDir != null &&
                 width == 390 &&
                 scale == 1 &&
-                route == '/groups/col-church') {
+                route == '/groups/qa-private-group') {
               await tester.runAsync(() async {
                 final boundary =
                     captureKey.currentContext!.findRenderObject()!

@@ -1,14 +1,15 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _receipt = {
-  'collection_id': 'col-church',
+  'collection_id': 'qa-private-group',
   'public_id': '123456',
   'role': 'admin',
   'status': 'active',
@@ -62,7 +63,7 @@ void main() {
         if (request.url.path.endsWith('/add_group_admin')) {
           expect(request.method, 'POST');
           expect(jsonDecode(request.body), {
-            'collection': 'col-church',
+            'collection': 'qa-private-group',
             'member_public_id': '123456',
           });
           grants++;
@@ -87,19 +88,19 @@ void main() {
           200,
         );
       });
-      final repo = CollectRepository.fixture(supabase: client);
+      final repo = FixtureCollectRepository(supabase: client);
       addTearDown(repo.dispose);
       final before = repo.state;
       expect(
-        (await repo.membersForCollection('col-church')).single.role,
+        (await repo.membersForCollection('qa-private-group')).single.role,
         'member',
       );
       await repo.inviteCollectionAdmin(
-        collectionId: 'col-church',
+        collectionId: 'qa-private-group',
         publicId: ' 123456 ',
       );
       expect(
-        (await repo.membersForCollection('col-church')).single.role,
+        (await repo.membersForCollection('qa-private-group')).single.role,
         'admin',
       );
       expect(grants, 1);
@@ -129,12 +130,12 @@ void main() {
         final client = await _client(
           (_) async => http.Response(jsonEncode(badReceipts[index]), 200),
         );
-        final repo = CollectRepository.fixture(supabase: client);
+        final repo = FixtureCollectRepository(supabase: client);
         addTearDown(repo.dispose);
         final before = repo.state;
         await expectLater(
           repo.inviteCollectionAdmin(
-            collectionId: 'col-church',
+            collectionId: 'qa-private-group',
             publicId: '123456',
           ),
           throwsFormatException,
@@ -157,12 +158,12 @@ void main() {
           code == '42501' ? 403 : 400,
         ),
       );
-      final repo = CollectRepository.fixture(supabase: client);
+      final repo = FixtureCollectRepository(supabase: client);
       addTearDown(repo.dispose);
       final before = repo.state;
       await expectLater(
         repo.inviteCollectionAdmin(
-          collectionId: 'col-church',
+          collectionId: 'qa-private-group',
           publicId: '123456',
         ),
         code == '22023'
@@ -187,11 +188,11 @@ void main() {
         started.complete();
         return response.future;
       });
-      final repo = CollectRepository.fixture(supabase: client);
+      final repo = FixtureCollectRepository(supabase: client);
       addTearDown(repo.dispose);
       final before = repo.state;
       final pending = repo.inviteCollectionAdmin(
-        collectionId: 'col-church',
+        collectionId: 'qa-private-group',
         publicId: '123456',
       );
       final assertion = expectLater(pending, throwsStateError);

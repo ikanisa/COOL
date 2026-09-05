@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "capture_kind": "original_mobile_screenshot",
+  "recovered_at": "2026-09-03T22:24:00Z",
+  "privacy": "Private reference pixels may contain personal financial and contact data. Keep them in ignored local storage, never commit or publish them. Tracked browser previews are historical context, not native pixel references.",
+  "images": [
+    {
+      "id": "IMG_2739",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2739.PNG",
+      "sha256": "7fc30f9ef5c3b3016c724ee0ae831e12725ab7320bdf91e59df59190e6b761f6",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1V5wmfWSpTdRZYYlOhIlAQKwpHLpQISId/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2740",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2740.PNG",
+      "sha256": "da613c4784a79e5789c150faaea7a77d73427ede7fbb9714ac9c386514d9ed42",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1lv0sCBpqJ6T0_3zAUPTwNs8wW6sbc7N2/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2741",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2741.PNG",
+      "sha256": "ef4c6e6f2a62dae07da0c7551132e2c370378ca5cbe0062b28b2f4802c3e46f1",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1TMYpT92DBQaN9dumvXr8d4pr9ogSK_Et/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2742",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2742.PNG",
+      "sha256": "2b6534b115728a832dfb5622de0227de72919c4fc68b5e7f85f20be21d9bd9c1",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1PrnV7Y7vjCDJiSnqeRwcwLrNPkw78BIp/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2747",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2747.PNG",
+      "sha256": "204e04a742a1a1bb44aee1f04fc1e582674f11d19c48c44dbcd1f5cd43dbc3f7",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1nBwDndzjrjIXi0ZiVpLxKfQ1K2KtoNAg/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2748",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2748.PNG",
+      "sha256": "0b946ba78f9ce1cb511a17e29c18398e46e892816e8b6869080a7542e04c9325",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/18USJ9UG2wIlf_TPLrwyl7GAWS-_BWyCE/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2749",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2749.PNG",
+      "sha256": "9deffd6200715785850ae0e6b8e12dd59721767cf6887d26c21eeb3c71448c18",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1JqZDQzb5TGCARmT7gEHHYGjpqaG4En5e/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2750",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2750.PNG",
+      "sha256": "7bab66f0daec3f271a1e0801fbd0e4b3ee5c684e160e072b69b6ecb8a6ca6ce2",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1zKlZd5S-5xWJSmCddlysIP-lHqfZvE_m/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2751",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2751.PNG",
+      "sha256": "93315a26df4714bcaaee08cc4ff3e73a6e92711e780a429c9f0a41354de456fd",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1-jKTt9w_W4e08ljVqwHYV4eh4srecfVw/view?usp=drivesdk"
+    },
+    {
+      "id": "IMG_2752",
+      "path": ".cache/design-parity-20260903/reference-originals/IMG_2752.PNG",
+      "sha256": "5db396bbc727706754ee18be9ec861524c0786b8d998d3acb6f34d9ee664409d",
+      "width": 1170,
+      "height": 2532,
+      "source_url": "https://drive.google.com/file/d/1-9ERF-nSByM7cFbwdx5jnb0BoXaNkcne/view?usp=drivesdk"
+    }
+  ]
+}

@@ -30,6 +30,11 @@ OptionParser.new do |parser|
   parser.on("--metadata-path VALUE", "Fastlane locale metadata directory") { |value| options[:metadata_path] = File.expand_path(value) }
 end.parse!
 
+if options[:action] == 'submit'
+  gate = File.expand_path('qa/mobile_design_gate.rb', __dir__)
+  abort 'MOBILE-DESIGN-100 blocks submission' unless system('ruby', gate, '--ios')
+end
+
 key_id = ENV["ASC_KEY_ID"].to_s.strip
 issuer_id = ENV["ASC_ISSUER_ID"].to_s.strip
 private_key_path = ENV["ASC_PRIVATE_KEY_PATH"].to_s.strip

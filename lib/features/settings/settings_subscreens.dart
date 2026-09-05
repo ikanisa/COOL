@@ -183,12 +183,6 @@ class AppearanceSettingsScreen extends ConsumerWidget {
             );
           },
         ),
-        const InfoSecurityBanner(
-          title: 'Saved on this device',
-          message:
-              'Your selected mode stays active the next time Collect opens.',
-          tone: CollectStatusTone.privacy,
-        ),
       ],
     );
   }
@@ -207,12 +201,6 @@ class SecuritySettingsScreen extends ConsumerWidget {
       compact: true,
       topChrome: const _SettingsSubpageHeader(
         title: 'Security',
-        icon: CollectIcons.shield,
-        showHeading: false,
-      ),
-      hero: const CollectScreenHero(
-        title: 'Security',
-        subtitle: 'Account, contribution, and privacy safeguards',
         icon: CollectIcons.shield,
       ),
       children: [
@@ -351,22 +339,15 @@ class HelpSettingsScreen extends ConsumerWidget {
 }
 
 class _SettingsSubpageHeader extends StatelessWidget {
-  const _SettingsSubpageHeader({
-    required this.title,
-    required this.icon,
-    this.showHeading = true,
-  });
+  const _SettingsSubpageHeader({required this.title, required this.icon});
 
   final String title;
   final IconData icon;
-  final bool showHeading;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
-    final control = CollectRuntimeTokens.chromeControl(colors);
-    final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Semantics(
       container: true,
       header: true,
@@ -378,16 +359,12 @@ class _SettingsSubpageHeader extends StatelessWidget {
             onPressed: () => goBackOrHome(context),
             icon: const Icon(Icons.arrow_back_rounded),
             style: IconButton.styleFrom(
-              fixedSize: const Size(44, 44),
-              backgroundColor: control,
+              minimumSize: const Size(48, 48),
               foregroundColor: foreground,
-              side: BorderSide(color: border),
             ),
           ),
-          if (showHeading) ...[
+          ...[
             CollectSpacing.gapW12,
-            Icon(icon, color: foreground, size: 22),
-            CollectSpacing.gapW8,
             Expanded(
               child: Text(
                 title,
@@ -400,8 +377,7 @@ class _SettingsSubpageHeader extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-          ] else
-            const Spacer(),
+          ],
         ],
       ),
     );
@@ -417,7 +393,7 @@ class _SettingsOptionPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return CollectCard(
-      emphasis: CollectCardEmphasis.flat,
+      emphasis: CollectCardEmphasis.normal,
       padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x3),
       child: Column(
         children: [
@@ -453,6 +429,8 @@ class _SettingsSwitchRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       toggled: value,
+      enabled: onChanged != null,
+      onTap: onChanged == null ? null : () => onChanged!(!value),
       label: '$title. $subtitle',
       child: ExcludeSemantics(
         child: Padding(
@@ -467,13 +445,6 @@ class _SettingsSwitchRow extends StatelessWidget {
                       title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: CollectTypography.weightSemibold,
-                      ),
-                    ),
-                    CollectSpacing.gap4,
-                    Text(
-                      subtitle,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: context.collectColors.textSecondary,
                       ),
                     ),
                   ],
@@ -504,11 +475,9 @@ class _SettingsLinkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CollectListTile(
-      leading: icon,
-      title: title,
-      subtitle: subtitle,
-      onTap: onTap,
+    return Semantics(
+      hint: subtitle,
+      child: CollectListTile(leading: icon, title: title, onTap: onTap),
     );
   }
 }
@@ -543,6 +512,12 @@ class _AppearancePreview extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: previewColors.canvas,
+              gradient: CollectRuntimeTokens.overviewBackdrop(
+                previewColors,
+                effectiveBrightness,
+                CollectBackdropTone.account,
+                highContrast: MediaQuery.highContrastOf(context),
+              ),
               borderRadius: CollectRadius.cardLargeBorder,
               border: Border.all(color: previewColors.border),
             ),
@@ -592,20 +567,9 @@ class _AppearancePreview extends StatelessWidget {
                         ),
                       ),
                     ),
-                    CollectSpacing.gapW8,
-                    _AppearancePreviewCircle(
-                      icon: CollectIcons.activity,
-                      colors: previewColors,
-                    ),
                   ],
                 ),
                 CollectSpacing.gap20,
-                Text(
-                  'Total collected',
-                  style: textTheme.labelSmall?.copyWith(
-                    color: previewColors.textSecondary,
-                  ),
-                ),
                 Text(
                   'RWF 35,000',
                   style: textTheme.headlineMedium?.copyWith(
@@ -626,22 +590,15 @@ class _AppearancePreview extends StatelessWidget {
                     ),
                     Expanded(
                       child: _AppearancePreviewAction(
-                        icon: CollectIcons.people,
-                        label: 'Groups',
-                        colors: previewColors,
-                      ),
-                    ),
-                    Expanded(
-                      child: _AppearancePreviewAction(
                         icon: CollectIcons.qr,
-                        label: 'QR',
+                        label: 'Scan QR',
                         colors: previewColors,
                       ),
                     ),
                     Expanded(
                       child: _AppearancePreviewAction(
-                        icon: CollectIcons.settings,
-                        label: 'More',
+                        icon: CollectIcons.share,
+                        label: 'Share',
                         colors: previewColors,
                       ),
                     ),
@@ -660,7 +617,7 @@ class _AppearancePreview extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Recent activity',
+                          'Activity',
                           style: textTheme.titleSmall?.copyWith(
                             color: previewColors.textPrimary,
                             fontWeight: CollectTypography.weightBold,
@@ -687,10 +644,12 @@ class _AppearancePreview extends StatelessWidget {
                     horizontal: CollectSpacing.x3,
                   ),
                   decoration: BoxDecoration(
-                    color: effectiveBrightness == Brightness.dark
-                        ? CollectColors.referenceChromeBlack
-                        : previewColors.surfaceRaised,
-                    borderRadius: CollectRadius.controlBorder,
+                    color: CollectColors.referenceChromeBlack,
+                    borderRadius: CollectRadius.pillBorder,
+                    border: Border.all(
+                      color: CollectRuntimeTokens.navigationForeground
+                          .withValues(alpha: 0.36),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -698,16 +657,27 @@ class _AppearancePreview extends StatelessWidget {
                       for (final icon in const [
                         CollectIcons.home,
                         CollectIcons.people,
-                        CollectIcons.donate,
                         CollectIcons.activity,
                         CollectIcons.profile,
                       ])
-                        Icon(
-                          icon,
-                          size: 16,
-                          color: icon == CollectIcons.home
-                              ? previewColors.info
-                              : previewColors.textMuted,
+                        Container(
+                          width: 40,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: icon == CollectIcons.home
+                                ? CollectRuntimeTokens.navigationForeground
+                                      .withValues(alpha: 0.14)
+                                : previewColors.transparent,
+                            borderRadius: CollectRadius.pillBorder,
+                          ),
+                          child: Icon(
+                            icon,
+                            size: 16,
+                            color: CollectRuntimeTokens.navigationForeground
+                                .withValues(
+                                  alpha: icon == CollectIcons.home ? 1 : 0.72,
+                                ),
+                          ),
                         ),
                     ],
                   ),

@@ -195,20 +195,14 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                         )
                         .toList(growable: false)
                   : loadedRows;
-              final total = scoped
-                  ? countryRows.length
-                  : result?.total ?? countryRows.length;
+              // The scoped RPC has already filtered and paged the result.
+              // Preserve its complete count instead of capping it at one batch.
+              final total = result?.total ?? countryRows.length;
               final maxPage = total == 0
                   ? 0
                   : ((total - 1) / _pageSize).floor();
               final page = _page.clamp(0, maxPage);
-              final pageStart = scoped
-                  ? (page * _pageSize).clamp(0, countryRows.length)
-                  : 0;
-              final pageEnd = scoped
-                  ? (pageStart + _pageSize).clamp(pageStart, countryRows.length)
-                  : countryRows.length;
-              final rows = countryRows.sublist(pageStart, pageEnd);
+              final rows = countryRows;
               if (rows.isEmpty) {
                 return AdminEmptyState(
                   title: scoped
@@ -289,17 +283,14 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
 
   Future<AdminListResult> _load() async {
     final countryScope = ref.read(adminCountryScopeProvider);
-    final scoped =
-        adminRpcUsesCountryScope(widget.rpcName) &&
-        countryScope != AdminCountryScope.all;
     final result = await ref
         .read(adminRepositoryProvider)
         .list(
           widget.rpcName,
           search: _search.text,
           status: _status,
-          limit: scoped ? 100 : _pageSize,
-          offset: scoped ? 0 : _page * _pageSize,
+          limit: _pageSize,
+          offset: _page * _pageSize,
           sortBy: _sortBy,
           countryCode: countryScope.rpcCode,
         );

@@ -69,8 +69,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           const MinimalStatePanel(
             icon: CollectIcons.lock,
             title: 'Owner only',
-            message:
-                'Only the current group owner can change the group profile. Bank details are governed centrally.',
+            message: 'Only the group owner can edit this profile.',
             tone: CollectStatusTone.privacy,
           ),
           CollectButton(
@@ -95,7 +94,10 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           CollectButton(
             label: _saving ? 'Saving' : 'Save',
             icon: CollectIcons.check,
-            onPressed: _saving ? null : () => _save(collection),
+            onPressed:
+                _saving || _name.text.trim().isEmpty || !_hasChanges(collection)
+                ? null
+                : () => _save(collection),
             expand: true,
           ),
         ],
@@ -130,6 +132,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               label: 'Group name',
               textCapitalization: TextCapitalization.words,
               autocorrect: true,
+              onChanged: (_) => setState(() {}),
             ),
             _GroupProfileCardTextField(
               controller: _description,
@@ -137,6 +140,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               maxLines: 3,
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
+              onChanged: (_) => setState(() {}),
             ),
           ],
         ),
@@ -167,12 +171,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         ),
         _GroupProfileEditSection(
           children: [
-            const InfoSecurityBanner(
-              title: 'Rwanda MoMo receiver',
-              message:
-                  'Rwanda members contribute through MoMo USSD. Diaspora members use the separate governed bank-transfer journey.',
-              tone: CollectStatusTone.privacy,
-            ),
+            const SectionHeader(title: 'Paying to'),
             if (collection.receiverMomoNumber != null)
               CollectListTile(
                 leading: CollectIcons.momo,
@@ -201,6 +200,18 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         )
         .color;
   }
+
+  bool _hasChanges(CollectCollection collection) =>
+      _name.text.trim() != collection.title ||
+      _description.text.trim() != collection.description ||
+      _accentColorHex !=
+          (collection.accentColorHex ??
+              CollectColors.brandPrimaryOptions.first.hex) ||
+      _cadence != collection.recurringCadence ||
+      _recurringEnabled != collection.isRecurring ||
+      _collectionType != collection.collectionType ||
+      _imageBytes != null ||
+      _removeExistingImage;
 
   void _loadOnce(CollectCollection collection) {
     if (_loaded) return;

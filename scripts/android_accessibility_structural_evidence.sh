@@ -163,7 +163,7 @@ capture() {
 capture launch_onboarding \
   "$ADB_BIN" -s "$DEVICE_ID" shell am start -W -n "$PACKAGE/.MainActivity"
 capture deeplink_onboarding_guard \
-  "$ADB_BIN" -s "$DEVICE_ID" shell am start -W -a android.intent.action.VIEW -d "https://collect.ikanisa.com/c/st-michel-building-fund" "$PACKAGE"
+  "$ADB_BIN" -s "$DEVICE_ID" shell am start -W -a android.intent.action.VIEW -d "https://collect.ikanisa.com/c/qa-private-group" "$PACKAGE"
 put_setting system font_scale 2.0
 sleep 1
 capture launch_onboarding_200_text \

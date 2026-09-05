@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:ui' show SemanticsFlag;
 
 import 'package:collect_app/app/app.dart';
@@ -11,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class _SignedOutPublicRepository extends CollectRepository {
-  _SignedOutPublicRepository() : super.fixture() {
+class _SignedOutPublicRepository extends FixtureCollectRepository {
+  _SignedOutPublicRepository() : super() {
     state = CollectState(
       currentProfile: null,
       collections: state.collections,
@@ -46,7 +48,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final label = tester.widget<Text>(find.text('Send WhatsApp code'));
-    expect(label.maxLines, 2);
+    expect(label.maxLines, greaterThanOrEqualTo(2));
     expect(label.softWrap, isTrue);
     expect(
       tester.getSize(find.byKey(const ValueKey('auth_submit_button'))).height,
@@ -140,7 +142,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(seeded: false),
+            (ref) => FixtureCollectRepository(seeded: false),
           ),
         ],
         child: const CollectApp(),

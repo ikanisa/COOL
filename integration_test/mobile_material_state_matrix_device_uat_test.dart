@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'dart:async';
 
 import 'package:collect_app/app/app.dart';
@@ -5,9 +7,11 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
+import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -117,7 +121,7 @@ void main() {
         expect(tester.takeException(), isNull, reason: spec.name);
         expect(find.byType(CollectApp), findsOneWidget, reason: spec.name);
         expect(
-          find.textContaining(spec.expectedText),
+          find.textContaining(spec.visibleMarker),
           findsWidgets,
           reason: '${spec.name} visible state marker',
         );
@@ -146,6 +150,92 @@ void main() {
             screenshotsEnabled = false;
           }
         }
+        await _inspectSheetToEnd(tester, binding, spec, screenshotsEnabled);
+        if (spec.name == 'auth-otp-invalid') {
+          final position = tester
+              .state<ScrollableState>(find.byType(Scrollable).first)
+              .position;
+          var page = 0;
+          while (position.extentAfter > 1) {
+            expect(
+              page,
+              lessThan(20),
+              reason: 'bounded error-guidance traversal',
+            );
+            position.jumpTo(
+              (position.pixels + position.viewportDimension * 0.7).clamp(
+                position.minScrollExtent,
+                position.maxScrollExtent,
+              ),
+            );
+            await _pumpFrames(tester, count: 3);
+            page++;
+            if (screenshotsEnabled) {
+              await binding.takeScreenshot(
+                'detail_auth-otp-invalid_scroll_$page',
+              );
+            }
+          }
+          expect(tester.takeException(), isNull);
+          await tester.tap(find.text('Change number'));
+          await _pumpFrames(tester, count: 4);
+          await tester.scrollUntilVisible(
+            find.byKey(const ValueKey('auth_whatsapp_phone_input')),
+            160,
+            scrollable: find.byType(Scrollable).first,
+          );
+          expect(
+            tester
+                .widget<TextField>(find.byType(TextField).first)
+                .controller
+                ?.text,
+            '788123456',
+          );
+          expect(find.text('Authentication failed'), findsNothing);
+          // ignore: avoid_print
+          print(
+            'collect_state_uat:error-end:auth-otp-invalid:pages=$page:change-number=pass',
+          );
+        }
+        if (const [
+          'home-discovery',
+          'home-joined',
+          'home-mixed',
+        ].contains(spec.name)) {
+          await tester.scrollUntilVisible(
+            find.text('Featured groups'),
+            160,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await _pumpFrames(tester, count: 3);
+          expect(find.text('Featured groups').hitTestable(), findsOneWidget);
+          expect(tester.takeException(), isNull);
+          if (screenshotsEnabled) {
+            await binding.takeScreenshot('detail_${spec.name}_featured');
+          }
+          expect(
+            find.byWidgetPredicate(
+              (widget) =>
+                  widget is Scrollable &&
+                  axisDirectionToAxis(widget.axisDirection) == Axis.horizontal,
+            ),
+            findsNothing,
+          );
+          final featuredBuriMunsi = find.descendant(
+            of: find.byKey(const ValueKey('home_featured_groups')),
+            matching: find.text('Buri Munsi'),
+          );
+          await tester.scrollUntilVisible(
+            featuredBuriMunsi,
+            160,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await _pumpFrames(tester, count: 5);
+          expect(find.text('Buri Munsi').hitTestable(), findsWidgets);
+          if (screenshotsEnabled) {
+            await binding.takeScreenshot('detail_${spec.name}_featured_next');
+          }
+        }
         // ignore: avoid_print
         print('collect_state_uat:pass:${spec.name}:${spec.route}');
       }
@@ -155,7 +245,27 @@ void main() {
 }
 
 Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
+  if (spec.usesFakeAuth && spec.name != 'auth-phone-empty') {
+    // On a short 320dp viewport the lazy ListView has not built the phone
+    // field yet. Reach it using the same scroll available to the user.
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('auth_whatsapp_phone_input')),
+      160,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await _pumpFrames(tester, count: 2);
+  }
   switch (spec.name) {
+    case 'camera-recovery-sheet':
+    case 'sms-recovery-sheet':
+      final context = tester.element(find.byType(Scaffold).last);
+      unawaited(
+        spec.name == 'camera-recovery-sheet'
+            ? showCameraAccessSheet(context, onRetry: () {})
+            : showSmsAccessSheet(context, onRetry: () {}),
+      );
+      await _pumpFrames(tester, count: 4);
+      return;
     case 'auth-phone-empty':
     case 'groups-empty':
     case 'activity-empty':
@@ -164,6 +274,38 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     case 'offline-recovery':
     case 'sync-recovery':
     case 'missing-group':
+    case 'home-discovery':
+    case 'home-joined':
+    case 'home-mixed':
+    case 'home-empty':
+    case 'home-loading':
+    case 'home-error':
+    case 'home-offline':
+      return;
+    case 'contribution-quick-pick':
+      await _pumpUntilVisible(tester, _amountTextField());
+      FocusManager.instance.primaryFocus?.unfocus();
+      await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+      await _pumpFrames(tester, count: 6);
+      await tester.ensureVisible(find.text('2,000'));
+      await _pumpFrames(tester, count: 2);
+      await tester.tap(find.text('2,000'));
+      await _pumpFrames(tester, count: 3);
+      expect(
+        tester
+            .widget<FilledButton>(
+              find.widgetWithText(FilledButton, 'Continue to MoMo'),
+            )
+            .onPressed,
+        isNotNull,
+      );
+      return;
+    case 'sms-consent-sheet':
+      if (defaultTargetPlatform != TargetPlatform.android) return;
+      await tester.ensureVisible(find.text('Review and allow'));
+      await tester.tap(find.text('Review and allow'));
+      await _pumpFrames(tester, count: 4);
+      expect(find.text('Not now'), findsOneWidget);
       return;
     case 'auth-phone-valid':
       await tester.enterText(find.byType(TextField).first, '788123456');
@@ -181,13 +323,25 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
       await _pumpFrames(tester, count: 2);
       await tester.tap(find.text('Send WhatsApp code'));
       await _pumpFrames(tester, count: 4);
+      await tester.ensureVisible(find.text('Confirm and send'));
+      await _pumpFrames(tester, count: 2);
       await tester.tap(find.text('Confirm and send'));
       await _pumpFrames(tester, count: 4);
       if (spec.name == 'auth-otp-invalid') {
+        await tester.scrollUntilVisible(
+          find.byKey(const ValueKey('auth_otp_digit_0')),
+          160,
+          scrollable: find.byType(Scrollable).first,
+        );
         await tester.enterText(find.byType(TextField).first, '000000');
         await _pumpFrames(tester, count: 2);
         await tester.tap(find.text('Verify and continue'));
         await _pumpFrames(tester, count: 4);
+        expect(
+          find.text('Authentication failed').hitTestable(),
+          findsOneWidget,
+          reason: 'The OTP failure must be revealed without another scroll.',
+        );
       }
       return;
     case 'contribution-entry-valid':
@@ -230,12 +384,75 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
       await tester.tap(find.text('I no longer use Collect'));
       await _pumpFrames(tester, count: 3);
       if (spec.name == 'account-delete-confirmation') {
+        await tester.ensureVisible(find.widgetWithText(FilledButton, 'Submit'));
         await tester.tap(find.widgetWithText(FilledButton, 'Submit'));
         await _pumpFrames(tester, count: 5);
       }
       return;
   }
   throw StateError('Unsupported material state: ${spec.name}');
+}
+
+// Additional captures retain overlapping viewports through the entire sheet.
+// These are diagnostic fixture interactions, not OS permission or release
+// acceptance evidence. The safe secondary action is the only action invoked.
+Future<void> _inspectSheetToEnd(
+  WidgetTester tester,
+  IntegrationTestWidgetsFlutterBinding binding,
+  _StateSpec spec,
+  bool screenshotsEnabled,
+) async {
+  final secondaryLabel = switch (spec.name) {
+    'sms-consent-sheet' => 'Not now',
+    'account-delete-confirmation' => 'Cancel',
+    'auth-phone-confirmation' => 'Edit number',
+    'camera-recovery-sheet' => 'Scan again',
+    'sms-recovery-sheet' => 'Retry',
+    _ => null,
+  };
+  if (secondaryLabel == null ||
+      (spec.name == 'sms-consent-sheet' &&
+          defaultTargetPlatform != TargetPlatform.android)) {
+    return;
+  }
+  final sheet = find.byType(BottomSheet);
+  final scrollable = find.descendant(
+    of: sheet,
+    matching: find.byType(Scrollable),
+  );
+  expect(scrollable, findsWidgets, reason: '${spec.name} scrollable content');
+  // The first descendant is the sheet's outer scroll view. Selectable phone
+  // text also owns an inner Scrollable that must not drive sheet traversal.
+  final position = tester.state<ScrollableState>(scrollable.first).position;
+  var page = 0;
+  while (position.extentAfter > 1) {
+    expect(page, lessThan(20), reason: 'bounded sheet traversal');
+    final next = (position.pixels + position.viewportDimension * 0.7).clamp(
+      position.minScrollExtent,
+      position.maxScrollExtent,
+    );
+    position.jumpTo(next);
+    await _pumpFrames(tester, count: 3);
+    expect(tester.takeException(), isNull, reason: spec.name);
+    if (screenshotsEnabled) {
+      await binding.takeScreenshot('detail_${spec.name}_scroll_${++page}');
+    } else {
+      page++;
+    }
+  }
+  final secondary = find.descendant(
+    of: sheet,
+    matching: find.text(secondaryLabel),
+  );
+  expect(secondary.hitTestable(), findsOneWidget);
+  await tester.tap(secondary);
+  await _pumpFrames(tester, count: 6);
+  expect(find.byType(BottomSheet), findsNothing);
+  expect(tester.takeException(), isNull, reason: '${spec.name} dismissal');
+  // ignore: avoid_print
+  print(
+    'collect_state_uat:sheet-end:${spec.name}:pages=$page:secondary=$secondaryLabel',
+  );
 }
 
 Finder _amountTextField() => find.descendant(
@@ -296,6 +513,36 @@ ThemeMode get _uatThemeMode => switch (_uatThemeModeName) {
 double get _uatTextScale => double.parse(_uatTextScaleName);
 
 const _stateSpecs = <_StateSpec>[
+  _StateSpec('camera-recovery-sheet', '/settings/permissions', 'Camera access'),
+  _StateSpec('sms-recovery-sheet', '/settings/permissions', 'SMS access'),
+  _StateSpec(
+    'home-discovery',
+    '/home',
+    'Featured groups',
+    homeScenario: 'discovery',
+  ),
+  _StateSpec('home-joined', '/home', 'My groups', homeScenario: 'joined'),
+  _StateSpec('home-mixed', '/home', 'My groups', homeScenario: 'mixed'),
+  _StateSpec('home-empty', '/home', 'No groups yet', homeScenario: 'empty'),
+  _StateSpec('home-loading', '/home', 'Loading', homeScenario: 'loading'),
+  _StateSpec(
+    'home-error',
+    '/home',
+    'Could not load data',
+    homeScenario: 'error',
+  ),
+  _StateSpec('home-offline', '/home', 'Offline', homeScenario: 'offline'),
+  _StateSpec(
+    'contribution-quick-pick',
+    '/groups/qa-private-group/contribute',
+    'Quick pick',
+    expectedFieldValue: '2,000',
+  ),
+  _StateSpec(
+    'sms-consent-sheet',
+    '/settings/permissions',
+    'Allow MoMo receipt SMS access?',
+  ),
   _StateSpec(
     'auth-phone-empty',
     '/auth',
@@ -345,41 +592,41 @@ const _stateSpecs = <_StateSpec>[
   ),
   _StateSpec(
     'contribution-entry-empty',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Continue to MoMo',
   ),
   _StateSpec(
     'contribution-entry-valid',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Continue to MoMo',
     expectedFieldValue: '1,234',
   ),
   _StateSpec(
     'contribution-review',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Open MoMo USSD',
   ),
   _StateSpec(
     'contribution-invalid-amount',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Enter an amount above RWF 0.',
   ),
   _StateSpec(
     'bank-contribution-entry-valid',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Review transfer',
     repositoryKind: _RepositoryKind.diaspora,
     expectedFieldValue: '12.34',
   ),
   _StateSpec(
     'bank-contribution-review',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Open Revolut',
     repositoryKind: _RepositoryKind.diaspora,
   ),
   _StateSpec(
     'bank-contribution-invalid-amount',
-    '/groups/col-church/contribute',
+    '/groups/qa-private-group/contribute',
     'Enter a valid amount above EUR 0.00.',
     repositoryKind: _RepositoryKind.diaspora,
   ),
@@ -417,6 +664,7 @@ class _StateSpec {
     this.repositoryKind = _RepositoryKind.fixture,
     this.usesFakeAuth = false,
     this.expectedFieldValue,
+    this.homeScenario,
   });
 
   final String name;
@@ -425,22 +673,59 @@ class _StateSpec {
   final _RepositoryKind repositoryKind;
   final bool usesFakeAuth;
   final String? expectedFieldValue;
+  final String? homeScenario;
 
-  CollectRepository createRepository() => switch (repositoryKind) {
-    _RepositoryKind.fixture => CollectRepository.fixture(),
-    _RepositoryKind.empty => CollectRepository.fixture(seeded: false),
-    _RepositoryKind.diaspora => CollectRepository.fixture(
-      profileOverride: const CollectProfile(
-        id: 'local-user',
-        publicId: '038491',
-        whatsappPhone: '+250788123456',
-        countryCode: 'DE',
-        currencyCode: 'EUR',
-        revolutLink: 'https://revolut.me/synthetic',
-        revolutAccount: 'Synthetic account',
-      ),
-    ),
-  };
+  String get visibleMarker =>
+      name == 'sms-consent-sheet' &&
+          defaultTargetPlatform != TargetPlatform.android
+      ? 'App permissions'
+      : expectedText;
+
+  CollectRepository createRepository() => homeScenario != null
+      ? _HomeParityRepository(homeScenario!)
+      : switch (repositoryKind) {
+          _RepositoryKind.fixture => FixtureCollectRepository(),
+          _RepositoryKind.empty => FixtureCollectRepository(seeded: false),
+          _RepositoryKind.diaspora => FixtureCollectRepository(
+            profileOverride: const CollectProfile(
+              id: 'local-user',
+              publicId: '038491',
+              whatsappPhone: '+250788123456',
+              countryCode: 'DE',
+              currencyCode: 'EUR',
+              revolutAccount: '000123456789',
+            ),
+          ),
+        };
+}
+
+class _HomeParityRepository extends FixtureCollectRepository {
+  _HomeParityRepository(String scenario) : super() {
+    final publicGroups = state.collections
+        .where((item) => item.isPublic)
+        .toList();
+    state = state.copyWith(
+      contributions: [],
+      paymentIntents: [],
+      collectionSummaries: {},
+      collections: switch (scenario) {
+        'discovery' => publicGroups,
+        'joined' =>
+          publicGroups
+              .map((item) => item.copyWith(isCurrentUserMember: true))
+              .toList(),
+        'mixed' => [
+          publicGroups.first.copyWith(isCurrentUserMember: true),
+          publicGroups.last,
+        ],
+        'empty' || 'loading' || 'error' => [],
+        _ => state.collections,
+      },
+      isLoading: scenario == 'loading',
+      lastError: scenario == 'error' ? 'Fixture read failed' : null,
+      usingStaleCache: scenario == 'offline',
+    );
+  }
 }
 
 class _MaterialStateAuthOtpGateway implements AuthOtpGateway {

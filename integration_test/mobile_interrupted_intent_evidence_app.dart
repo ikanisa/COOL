@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:app_links/app_links.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
@@ -11,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _seedMarkerKey = 'collect.evidence.interrupted_intent_seeded.v1';
-const _seedSlug = 'st-michel-building-fund';
+const _seedSlug = 'qa-private-group';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +35,7 @@ Future<void> main() async {
           AppLinks().uriLinkStream,
         ),
         collectRepositoryProvider.overrideWith(
-          (ref) => CollectRepository.fixture(),
+          (ref) => FixtureCollectRepository(),
         ),
         collectThemeModeProvider.overrideWith(
           (ref) => CollectThemeModeController(

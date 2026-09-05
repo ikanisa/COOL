@@ -11,7 +11,7 @@ lines.on("line",line=>{try{const value=JSON.parse(line);if(typeof value.id==="nu
 let id=0;
 const request=(method:string,params:Record<string,unknown>)=>new Promise<any>((resolve,reject)=>{
   const requestId=++id;
-  const timer=setTimeout(()=>{pending.delete(requestId);reject(new Error("MCP_TIMEOUT"));},20000);
+  const timer=setTimeout(()=>{pending.delete(requestId);reject(new Error("MCP_TIMEOUT"));},45000);
   pending.set(requestId,value=>{clearTimeout(timer);pending.delete(requestId);resolve(value);});
   child.stdin.write(JSON.stringify({jsonrpc:"2.0",id:requestId,method,params})+"\n");
 });
@@ -20,6 +20,7 @@ try{
   if(init.result?.serverInfo?.name!=="collect-notification-operator")throw new Error("WRONG_SERVER");
   child.stdin.write(JSON.stringify({jsonrpc:"2.0",method:"notifications/initialized"})+"\n");
   const health=await request("tools/call",{name:"collect_notification_health",arguments:{}});
+  if(health.error || health.result?.isError)throw new Error("AUTH_OR_TRANSPORT");
   const list=await request("tools/call",{name:"collect_list_pending_receipts",arguments:{limit:1}});
   if(health.error || health.result?.isError || list.error || list.result?.isError)throw new Error("AUTH_OR_TRANSPORT");
   const h=health.result.structuredContent?.result;

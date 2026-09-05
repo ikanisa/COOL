@@ -49,20 +49,20 @@ platform evidence root.
 | 9 | `/activity` | `activity` | tinted activity canvas/cards | neutral activity list and tabular money | Pass |
 | 10 | `/groups/create` | `group-create` | decorative cover placeholder and glass controls | solid placeholder and neutral form controls | Pass |
 | 11 | `/groups/scan` | `group-scan` | purple scanner, gradient beam, overlapping guide | black scanner canvas; unavailable state has no fake guide/beam | Pass |
-| 12 | `/groups/col-church` | `group-detail` | image/gradient hero chrome | neutral balance/detail hierarchy | Pass |
-| 13 | `/groups/col-church/share` | `share` | multicolour framed QR and purple primary action | black-on-white QR and monochrome action hierarchy | Pass |
-| 14 | `/groups/col-church/invite` | `invite` | duplicate legacy invite treatment | canonical current share screen | Pass |
-| 15 | `/c/st-michel-building-fund` | `shared-group-link` | transitional/blank deep-link capture | settled current group detail | Pass |
+| 12 | `/groups/[removed QA fixture]` | `group-detail` | image/gradient hero chrome | neutral balance/detail hierarchy | Pass |
+| 13 | `/groups/[removed QA fixture]/share` | `share` | multicolour framed QR and purple primary action | black-on-white QR and monochrome action hierarchy | Pass |
+| 14 | `/groups/[removed QA fixture]/invite` | `invite` | duplicate legacy invite treatment | canonical current share screen | Pass |
+| 15 | `/c/[removed QA fixture]` | `shared-group-link` | transitional/blank deep-link capture | settled current group detail | Pass |
 | 16 | `/app` | `app-share-entry` | blank compatibility route | settled current home | Pass |
 | 17 | `/invite/038491` | `app-invite-link` | blank compatibility route | settled current home | Pass |
 | 18 | `/share/invalid` | `share-invalid` | blank/error fragment | settled current groups recovery destination | Pass |
 | 19 | `/share/expired` | `share-expired` | blank/error fragment | settled current groups recovery destination | Pass |
 | 20 | `/share/expired/request` | `share-expired-request` | blank/error fragment | settled current groups recovery destination | Pass |
-| 21 | `/groups/col-church/contribute` | `contribution` | gradient amount/review cards | neutral amount and review surfaces | Pass |
-| 22 | `/groups/col-church/ledger` | `ledger` | tinted ledger and filter controls | neutral ledger rows and controls | Pass |
-| 23 | `/groups/col-church/manage` | `manage` | glass settings controls | neutral settings/form controls | Pass |
-| 24 | `/groups/col-church/profile` | `group-profile` | gradient/media placeholders | solid placeholders and neutral editing surfaces | Pass |
-| 25 | `/groups/col-church/members` | `members` | glass chips and tinted member controls | neutral controls and semantic selection | Pass |
+| 21 | `/groups/[removed QA fixture]/contribute` | `contribution` | gradient amount/review cards | neutral amount and review surfaces | Pass |
+| 22 | `/groups/[removed QA fixture]/ledger` | `ledger` | tinted ledger and filter controls | neutral ledger rows and controls | Pass |
+| 23 | `/groups/[removed QA fixture]/manage` | `manage` | glass settings controls | neutral settings/form controls | Pass |
+| 24 | `/groups/[removed QA fixture]/profile` | `group-profile` | gradient/media placeholders | solid placeholders and neutral editing surfaces | Pass |
+| 25 | `/groups/[removed QA fixture]/members` | `members` | glass chips and tinted member controls | neutral controls and semantic selection | Pass |
 | 26 | `/settings` | `settings` | legacy top chrome and tinted sections | solid settings canvas and neutral rows | Pass |
 | 27 | `/settings/notifications` | `settings-notifications` | tinted preference controls | neutral preference controls | Pass |
 | 28 | `/settings/appearance` | `settings-appearance` | gradient appearance preview and blue info treatment | solid preview and neutral information treatment | Pass |

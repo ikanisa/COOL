@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -12,7 +14,7 @@ void main() {
     testWidgets('$country security guidance follows its contribution rail', (
       tester,
     ) async {
-      final repository = CollectRepository.fixture(
+      final repository = FixtureCollectRepository(
         profileOverride: CollectProfile(
           id: 'local-country-contract',
           publicId: '123456',

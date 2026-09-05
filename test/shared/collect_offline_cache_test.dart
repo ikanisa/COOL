@@ -1,7 +1,8 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:convert';
 
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
-import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -106,7 +107,7 @@ void main() {
   test('Rwanda cache round trip preserves MoMo route and receiver', () async {
     SharedPreferences.setMockInitialValues({});
     const cache = CollectOfflineCache();
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       fixtureNow: DateTime.utc(2026, 8, 21, 10),
     );
     final intent = repository.state.paymentIntents.single;

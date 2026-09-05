@@ -141,12 +141,11 @@ class _RwandaMomoContributionFlowState
       backgroundColor: context.collectColors.canvas,
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (context, constraints) => Align(
-            alignment: Alignment.topCenter,
+          builder: (context, constraints) => _KeyboardSafeContributionViewport(
             child: SizedBox(
               key: const ValueKey('native_momo_contribution_flow'),
               width: constraints.maxWidth.clamp(0, 430).toDouble(),
-              height: constraints.maxHeight,
+              height: constraints.maxHeight.clamp(320, double.infinity),
               child: Column(
                 children: [
                   _NativeContributionAppBar(
@@ -155,7 +154,10 @@ class _RwandaMomoContributionFlowState
                   ),
                   Expanded(
                     child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 220),
+                      duration: CollectMotion.duration(
+                        context,
+                        CollectMotion.medium,
+                      ),
                       child: ListView(
                         key: ValueKey(isAmountStep),
                         padding: const EdgeInsets.fromLTRB(
@@ -230,7 +232,14 @@ class _RwandaMomoContributionFlowState
                     primaryIcon: isAmountStep
                         ? CollectIcons.arrowForward
                         : CollectIcons.momo,
-                    onPrimary: _working
+                    onPrimary:
+                        _working ||
+                            (isAmountStep &&
+                                (int.tryParse(
+                                          _amount.text.replaceAll(',', ''),
+                                        ) ??
+                                        0) <=
+                                    0)
                         ? null
                         : isAmountStep
                         ? _prepare
@@ -270,6 +279,7 @@ class _RwandaMomoContributionFlowState
   }
 
   Future<void> _prepare() async {
+    if (_working || _intent != null) return;
     if (ref.read(collectRepositoryProvider).currentProfile == null) {
       context.go(
         Uri(
@@ -341,6 +351,20 @@ class _RwandaMomoContributionFlowState
     if (error is FormatException) return error.message.toString();
     return CollectLocalizations.of(context).text('checkConnection');
   }
+}
+
+/// When a landscape keyboard leaves less room than the fixed header/actions,
+/// keep a usable content viewport and let the entire flow scroll above the IME.
+/// At normal heights this has zero scroll extent and keeps the actions pinned.
+class _KeyboardSafeContributionViewport extends StatelessWidget {
+  const _KeyboardSafeContributionViewport({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => SingleChildScrollView(
+    child: Align(alignment: Alignment.topCenter, child: child),
+  );
 }
 
 class _NativeContributionAppBar extends StatelessWidget {
@@ -431,38 +455,14 @@ class _NativeAmountEntry extends StatelessWidget {
           child: Semantics(
             textField: true,
             label: l10n.text('contributionAmount'),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'RWF',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: colors.textMuted,
-                    fontWeight: CollectTypography.weightSemibold,
-                  ),
-                ),
-                CollectSpacing.gapW12,
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.done,
-                    inputFormatters: const [RwfAmountInputFormatter()],
-                    onChanged: (_) => onChanged(),
-                    style: CollectTypography.amountHero(colors.textPrimary),
-                    decoration: InputDecoration(
-                      hintText: '0',
-                      hintStyle: CollectTypography.amountHero(colors.textMuted),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    onSubmitted: (_) => onSubmitted(),
-                  ),
-                ),
-              ],
+            child: _NativeCurrencyInput(
+              currency: 'RWF',
+              hint: '0',
+              controller: controller,
+              keyboardType: TextInputType.number,
+              formatter: const RwfAmountInputFormatter(),
+              onChanged: onChanged,
+              onSubmitted: onSubmitted,
             ),
           ),
         ),
@@ -562,10 +562,14 @@ class _NativeAmountReview extends StatelessWidget {
       children: [
         Text(
           l10n.text('reviewContribution'),
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: colors.textPrimary,
-            fontWeight: CollectTypography.weightBold,
-          ),
+          style:
+              (MediaQuery.textScalerOf(context).scale(1) >= 1.3
+                      ? Theme.of(context).textTheme.titleLarge
+                      : Theme.of(context).textTheme.headlineMedium)
+                  ?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: CollectTypography.weightBold,
+                  ),
         ),
         CollectSpacing.gap8,
         Text(
@@ -903,12 +907,11 @@ class _DiasporaBankContributionFlowState
       backgroundColor: context.collectColors.canvas,
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (context, constraints) => Align(
-            alignment: Alignment.topCenter,
+          builder: (context, constraints) => _KeyboardSafeContributionViewport(
             child: SizedBox(
               key: const ValueKey('native_bank_contribution_flow'),
               width: constraints.maxWidth.clamp(0, 430).toDouble(),
-              height: constraints.maxHeight,
+              height: constraints.maxHeight.clamp(320, double.infinity),
               child: Column(
                 children: [
                   _NativeContributionAppBar(
@@ -1011,7 +1014,10 @@ class _DiasporaBankContributionFlowState
                       primaryIcon: isAmountStep
                           ? CollectIcons.arrowForward
                           : Icons.open_in_new_rounded,
-                      onPrimary: _working
+                      onPrimary:
+                          _working ||
+                              (isAmountStep &&
+                                  parseEuroMinor(_amount.text) == null)
                           ? null
                           : isAmountStep
                           ? _prepareTransfer
@@ -1221,40 +1227,17 @@ class _NativeEuroAmountEntry extends StatelessWidget {
           child: Semantics(
             textField: true,
             label: l10n.text('contributionAmount'),
-            child: Row(
-              children: [
-                Text(
-                  'EUR',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: colors.textMuted,
-                    fontWeight: CollectTypography.weightSemibold,
-                  ),
-                ),
-                CollectSpacing.gapW12,
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    autofocus: true,
-                    readOnly: working,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    textInputAction: TextInputAction.done,
-                    inputFormatters: const [EuroAmountInputFormatter()],
-                    style: CollectTypography.amountHero(colors.textPrimary),
-                    decoration: InputDecoration(
-                      hintText: '0.00',
-                      hintStyle: CollectTypography.amountHero(colors.textMuted),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    onChanged: (_) => onChanged(),
-                    onSubmitted: (_) => onSubmitted(),
-                  ),
-                ),
-              ],
+            child: _NativeCurrencyInput(
+              currency: 'EUR',
+              hint: '0.00',
+              controller: controller,
+              readOnly: working,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              formatter: const EuroAmountInputFormatter(),
+              onChanged: onChanged,
+              onSubmitted: onSubmitted,
             ),
           ),
         ),
@@ -1267,6 +1250,98 @@ class _NativeEuroAmountEntry extends StatelessWidget {
             ).textTheme.bodySmall?.copyWith(color: colors.dangerForeground),
           ),
         ],
+      ],
+    );
+  }
+}
+
+/// Keep the entire monetary value visible; horizontal clipping can change its
+/// apparent magnitude. Large text gets a separate currency line and a measured
+/// type size rather than a cramped prefix beside a scrolling amount.
+class _NativeCurrencyInput extends StatelessWidget {
+  const _NativeCurrencyInput({
+    required this.currency,
+    required this.hint,
+    required this.controller,
+    required this.keyboardType,
+    required this.formatter,
+    required this.onChanged,
+    required this.onSubmitted,
+    this.readOnly = false,
+  });
+
+  final String currency;
+  final String hint;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final TextInputFormatter formatter;
+  final VoidCallback onChanged;
+  final VoidCallback onSubmitted;
+  final bool readOnly;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final scaler = MediaQuery.textScalerOf(context);
+    final label = Text(
+      currency,
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+        color: colors.textMuted,
+        fontWeight: CollectTypography.weightSemibold,
+      ),
+    );
+    final field = LayoutBuilder(
+      builder: (context, constraints) {
+        var style = CollectTypography.amountHero(colors.textPrimary);
+        final value = controller.text.isEmpty ? hint : controller.text;
+        final painter = TextPainter(
+          textDirection: TextDirection.ltr,
+          textScaler: scaler,
+        );
+        // Leave room for the cursor; recalculate after typing and preset changes.
+        final available = (constraints.maxWidth - 4).clamp(
+          1.0,
+          double.infinity,
+        );
+        for (var attempt = 0; attempt < 40; attempt++) {
+          painter.text = TextSpan(text: value, style: style);
+          painter.layout();
+          if (painter.width <= available) break;
+          style = style.copyWith(fontSize: style.fontSize! * 0.94);
+        }
+        painter.dispose();
+        return TextField(
+          controller: controller,
+          autofocus: true,
+          readOnly: readOnly,
+          keyboardType: keyboardType,
+          textInputAction: TextInputAction.done,
+          inputFormatters: [formatter],
+          onChanged: (_) => onChanged(),
+          style: style,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: style.copyWith(color: colors.textMuted),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+          ),
+          onSubmitted: (_) => onSubmitted(),
+        );
+      },
+    );
+    if (scaler.scale(1) >= 1.3) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [label, CollectSpacing.gap4, field],
+      );
+    }
+    return Row(
+      children: [
+        label,
+        CollectSpacing.gapW12,
+        Expanded(child: field),
       ],
     );
   }

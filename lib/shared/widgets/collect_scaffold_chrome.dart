@@ -613,6 +613,26 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
   }
 }
 
+class CollectBackdropScope extends InheritedWidget {
+  const CollectBackdropScope({
+    required this.tone,
+    required super.child,
+    super.key,
+  });
+
+  final CollectBackdropTone tone;
+
+  static CollectBackdropTone of(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<CollectBackdropScope>()
+          ?.tone ??
+      CollectBackdropTone.plain;
+
+  @override
+  bool updateShouldNotify(CollectBackdropScope oldWidget) =>
+      tone != oldWidget.tone;
+}
+
 class CollectGradientBackground extends StatelessWidget {
   const CollectGradientBackground({required this.child, super.key});
 
@@ -620,7 +640,19 @@ class CollectGradientBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(color: context.collectColors.canvas, child: child);
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.canvas,
+        gradient: CollectRuntimeTokens.overviewBackdrop(
+          colors,
+          Theme.of(context).brightness,
+          CollectBackdropScope.of(context),
+          highContrast: MediaQuery.highContrastOf(context),
+        ),
+      ),
+      child: child,
+    );
   }
 }
 

@@ -1,3 +1,5 @@
+import 'fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -39,7 +41,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       profileOverride: const CollectProfile(
         id: 'local-user',
         publicId: '038491',
@@ -55,7 +57,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Approved beneficiary'), findsOneWidget);
+    expect(find.text('Approved beneficiary'), findsNothing);
     expect(find.text('IKANISA Collect'), findsOneWidget);
     expect(find.text('DE89370400440532013000'), findsOneWidget);
     expect(find.text('EUR'), findsOneWidget);
@@ -74,7 +76,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       fixtureNow: DateTime.now().toUtc(),
       profileOverride: const CollectProfile(
         id: 'local-user',
@@ -88,7 +90,7 @@ void main() {
     );
     await tester.pumpWidget(
       appFor(
-        const ContributionFlowScreen(collectionId: 'col-church'),
+        const ContributionFlowScreen(collectionId: 'qa-private-group'),
         repository,
       ),
     );
@@ -99,6 +101,7 @@ void main() {
     expect(find.text('Review transfer'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).first, '123.45');
+    await tester.pump();
     await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
     await tester.pumpAndSettle();
 
@@ -123,14 +126,20 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
-      final repository = CollectRepository.fixture(
+      final repository = FixtureCollectRepository(
         fixtureNow: DateTime.now().toUtc(),
       );
       await repository.createPaymentIntent(
-        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 9999),
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 9999,
+        ),
       );
       await tester.pumpWidget(
-        appFor(const LedgerScreen(collectionId: 'col-church'), repository),
+        appFor(
+          const LedgerScreen(collectionId: 'qa-private-group'),
+          repository,
+        ),
       );
       await tester.pumpAndSettle();
 

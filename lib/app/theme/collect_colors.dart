@@ -62,6 +62,10 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const brandOrangeRed = Color(0xFFFF5E43);
   static const inkPrimary = Color(0xFF252044);
   static const referenceChromeBlack = Color(0xFF050510);
+  static const referenceAccountHighlight = Color(0xFF304CFF);
+  static const referenceAccountBlue = Color(0xFF0818A0);
+  static const referenceAccountNavy = Color(0xFF000840);
+  static const referenceDiscoveryViolet = Color(0xFF7050E8);
   static const inkSecondary = Color(0xFF4B4664);
   static const inkMuted = Color(0xFF5F5A76);
   static const transparentColor = Color(0x00000000);
@@ -176,6 +180,16 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get selectedOnAccent => onAccent;
   Color get onImagePrimary => brandPaper;
   Color get onImageMuted => brandPaper.withValues(alpha: 0.72);
+  // Auth keeps its reviewed dark values and adapts every foreground together
+  // with its canvas, inputs, and sheets when the user selects light mode.
+  Color get authCanvas => _isDarkPalette ? referenceChromeBlack : canvas;
+  Color get authSheetSurface =>
+      _isDarkPalette ? referenceContentDark : surfaceRaised;
+  Color get authForeground => _isDarkPalette ? onImagePrimary : textPrimary;
+  Color get authActionForeground =>
+      _isDarkPalette ? referenceChromeBlack : brandPaper;
+  Color get authInputHint =>
+      _isDarkPalette ? onImagePrimary.withValues(alpha: 0.48) : textSecondary;
   Color get exportCanvas => brandPaper;
   Color get exportPaint => publicBlack;
   Color get shadowPaint => publicBlack;

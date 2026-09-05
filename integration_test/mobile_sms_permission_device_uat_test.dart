@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
@@ -106,8 +108,8 @@ void main() {
   );
 }
 
-class _DeviceSmsPermissionRepository extends CollectRepository {
-  _DeviceSmsPermissionRepository(this._smsAccess) : super.fixture();
+class _DeviceSmsPermissionRepository extends FixtureCollectRepository {
+  _DeviceSmsPermissionRepository(this._smsAccess) : super();
 
   final SmsAccessChannel _smsAccess;
 

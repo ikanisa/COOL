@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -56,7 +58,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.view.resetViewInsets);
-    final repository = CollectRepository.fixture(
+    final repository = FixtureCollectRepository(
       profileOverride: profile,
       smsAccessChannel: const _FixtureSmsAccess(),
     );

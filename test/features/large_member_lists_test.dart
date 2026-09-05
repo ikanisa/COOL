@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -14,15 +16,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _LargeHistoryRepository extends CollectRepository {
-  _LargeHistoryRepository()
-    : super.fixture(fixtureNow: DateTime.utc(2026, 9, 2)) {
+class _LargeHistoryRepository extends FixtureCollectRepository {
+  _LargeHistoryRepository() : super(fixtureNow: DateTime.utc(2026, 9, 2)) {
     state = state.copyWith(
       contributions: List.generate(
         1000,
         (index) => Contribution(
           id: 'synthetic-$index',
-          collectionId: 'col-church',
+          collectionId: 'qa-private-group',
           amountRwf: index.isEven ? 1000 : 125,
           currency: index.isEven ? 'RWF' : 'EUR',
           supporterLabel: 'Collect ID ${400000 + index}',
@@ -92,8 +93,8 @@ void main() {
 
   for (final route in [
     '/activity',
-    '/groups/col-church/ledger',
-    '/groups/col-church/members',
+    '/groups/qa-private-group/ledger',
+    '/groups/qa-private-group/members',
   ]) {
     testWidgets('$route builds a bounded viewport, not all 1000 rows', (
       tester,
@@ -109,8 +110,8 @@ void main() {
       if (captureDir != null) {
         const names = {
           '/activity': '36-large-activity-390.png',
-          '/groups/col-church/ledger': '37-large-ledger-390.png',
-          '/groups/col-church/members': '38-large-roster-390.png',
+          '/groups/qa-private-group/ledger': '37-large-ledger-390.png',
+          '/groups/qa-private-group/members': '38-large-roster-390.png',
         };
         await tester.runAsync(() async {
           final boundary =
@@ -159,7 +160,7 @@ void main() {
       tester,
     ) async {
       await pumpScreen(tester, route);
-      if (route != '/groups/col-church/members') {
+      if (route != '/groups/qa-private-group/members') {
         await tester.tap(
           find.text(route == '/activity' ? 'Search activity' : 'Search'),
         );
@@ -172,7 +173,7 @@ void main() {
       );
       expect(rows, findsOneWidget);
       expect(find.textContaining('400999'), findsWidgets);
-      if (route != '/groups/col-church/members') {
+      if (route != '/groups/qa-private-group/members') {
         expect(find.text('EUR 1.25'), findsWidgets);
       }
       expect(tester.takeException(), isNull);

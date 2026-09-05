@@ -205,24 +205,33 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final foreground = context.collectColors.textPrimary;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: foreground,
-              fontWeight: CollectTypography.weightBold,
-              letterSpacing: CollectTypography.trackingDefault,
-            ),
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-          ),
+    final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
+    final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
+      color: foreground,
+      fontWeight: CollectTypography.weightBold,
+      letterSpacing: CollectTypography.trackingDefault,
+    );
+    final actionStyle = Theme.of(context).textTheme.labelLarge?.copyWith(
+      fontWeight: CollectTypography.weightBold,
+      letterSpacing: CollectTypography.trackingDefault,
+    );
+    double textWidth(String text, TextStyle? style) {
+      final painter = TextPainter(
+        text: TextSpan(
+          text: text,
+          style: DefaultTextStyle.of(context).style.merge(style),
         ),
-        if (actionLabel != null)
-          TextButton(
+        textDirection: Directionality.of(context),
+        textScaler: MediaQuery.textScalerOf(context),
+      )..layout();
+      final width = painter.width;
+      painter.dispose();
+      return width;
+    }
+
+    final action = actionLabel == null
+        ? null
+        : TextButton(
             onPressed: onAction,
             style: TextButton.styleFrom(
               foregroundColor: foreground,
@@ -231,10 +240,7 @@ class SectionHeader extends StatelessWidget {
                 vertical: CollectSpacing.x1,
               ),
               minimumSize: const Size(0, CollectSpacing.target),
-              textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: CollectTypography.weightBold,
-                letterSpacing: CollectTypography.trackingDefault,
-              ),
+              textStyle: actionStyle,
             ),
             child: Text(
               actionLabel!,
@@ -242,8 +248,39 @@ class SectionHeader extends StatelessWidget {
               softWrap: false,
               overflow: TextOverflow.ellipsis,
             ),
-          ),
-      ],
+          );
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final stacked =
+            action != null &&
+            textWidth(title, titleStyle) +
+                    textWidth(actionLabel!, actionStyle) +
+                    CollectSpacing.x2 * 2 >
+                constraints.maxWidth;
+        final heading = Text(
+          title,
+          style: titleStyle,
+          maxLines: stacked ? null : (largeText ? 3 : 1),
+          softWrap: stacked || largeText,
+          overflow: stacked ? TextOverflow.visible : TextOverflow.ellipsis,
+        );
+        if (stacked) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              heading,
+              Align(alignment: AlignmentDirectional.centerEnd, child: action),
+            ],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(child: heading),
+            ?action,
+          ],
+        );
+      },
     );
   }
 }

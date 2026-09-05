@@ -7,7 +7,8 @@ Overall state: **NOT_READY**
 Latest continuation: directory deployment and authenticated Keychain/stdio MCP
 health/list PASS. The minute monitor is ACTIVE, read-only/no-send. The verified
 1.2.4+23 APK is installed and the approved Admin's native login has succeeded
-on the connected Pixel 4a. These are deployment/installation/login checks,
+on the connected Pixel 4a. Receipt-only permission and backend consent also PASS.
+These are deployment/installation/login/consent checks,
 not physical payment/SMS acceptance. See
 [current evidence](../../release/HYBRID_CONTINUATION_DEPLOYED_2026-09-03.md).
 
@@ -53,6 +54,8 @@ See [implementation status](IMPLEMENTATION_STATUS.md) for exact boundaries. The 
 | FOUND-19 | Physical Android installation | Exact reviewed APK hash installed; app.cool.mobile 1.2.4+23 launched on Pixel 4a / Android 13; RECEIVE_SMS remains ungranted; native login/capture acceptance separate |
 | FOUND-20 | Physical Android authentication | Same fresh user-supplied OTP succeeded after the entry field was cleared; Home/profile readback confirms Collect ID 956974. No OTP persisted. SMS permission/capture remain unproved; further taps stopped when another app became foreground. |
 | FOUND-21 | Deployed assisted-group validation | Form opens, final-create disabled before roster review, empty preview shows name/reason errors; cancelled without record creation; no browser console error entries. Not live AI extraction evidence. |
+| FOUND-22 | Physical Android receipt consent | In-app disclosure and Android permission completed; MoMo receipt SMS Allowed, RECEIVE_SMS granted, no READ_SMS/SEND_SMS requested; backend enabled consent at 2026-09-03T20:54:54.248749Z for Collect ID 956974. Correct receiving SIM/merchant relationship, capture, attestation and payment remain unproved. |
+| FOUND-23 | Monitor session lifetime | Earlier session expired; current queue checks blocked. Opt-in Keychain renewal implemented, TypeScript and 30 MCP tests PASS including actual cross-process lock, crash/no-replay, denied Admin and offline no-network cases. Fresh OTP provisioning and live/scheduled rotation still required. Mobile design release gate independently BLOCKED. |
 
 Database coverage now includes private assisted creation, request replay/conflict, offline roster without Auth creation, numeric-ID reservation, exact verified-phone account claims, deterministic assignment/allocation, receipt-finality gating, balanced posting/reversal/concurrency, exact body preservation, durable SMS claims/outcomes and unchanged receiver-consent enforcement. Admin/XLSX, MCP source tests and the full local Admin browser matrix pass. Read-only authenticated hosted Admin checks and native login now pass. Complete hosted roster creation/AI extraction, physical receipt capture and real Messages/feature-phone delivery remain unproved; rollout flags therefore remain OFF.
 

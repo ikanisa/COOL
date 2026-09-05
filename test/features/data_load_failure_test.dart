@@ -1,3 +1,5 @@
+import '../fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -5,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _FailedInitialReadRepository extends CollectRepository {
-  _FailedInitialReadRepository() : super.fixture(seeded: false) {
+class _FailedInitialReadRepository extends FixtureCollectRepository {
+  _FailedInitialReadRepository() : super(seeded: false) {
     state = state.copyWith(lastError: 'private database permission detail');
   }
 

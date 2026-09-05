@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
@@ -18,13 +20,13 @@ void main() {
       addTearDown(() => WidgetsBinding.instance.removeObserver(lifecycle));
 
       final router = createAppRouter(
-        initialLocation: '/groups/col-church/contribute',
+        initialLocation: '/groups/qa-private-group/contribute',
       );
       final container = ProviderContainer(
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
+            (ref) => FixtureCollectRepository(),
           ),
           collectThemeModeProvider.overrideWith(
             (ref) => CollectThemeModeController(
@@ -47,7 +49,7 @@ void main() {
 
       expect(
         router.routeInformationProvider.value.uri.path,
-        '/groups/col-church/contribute',
+        '/groups/qa-private-group/contribute',
       );
       expect(find.text('Continue to MoMo'), findsWidgets);
       await tester.enterText(find.byType(TextField).first, '1234');
@@ -70,7 +72,7 @@ void main() {
       _mark('ordered-transition:${lifecycle.serializedStates}');
       expect(
         router.routeInformationProvider.value.uri.path,
-        '/groups/col-church/contribute',
+        '/groups/qa-private-group/contribute',
       );
       expect(find.textContaining('RWF 1,234'), findsWidgets);
       expect(find.text('Edit amount'), findsWidgets);

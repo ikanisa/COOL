@@ -1,47 +1,39 @@
-# Collect Admin redesign QA
+# Design QA index
 
-## Source of truth
+Latest build: [cleanup candidate, 5 September](docs/release/mobile-design/CLEANUP_CANDIDATE_2026-09-05.md). Installed hash and live data verified; signed-in acceptance remains pending.
 
-- Selected reference: `/Users/jeanbosco/.codex/generated_images/019fec22-d025-7753-bc3e-5196d0a869ce/exec-ef685d8c-910e-44c9-aabd-0b929fd50b17.png`
-- Reference dimensions: 1487 x 1058, normalized to 1440 x 1024 for comparison.
-- Implementation capture: `output/admin-redesign/qa/implementation-release-ready-1440x1024.png`
-- Mobile capture: `output/admin-redesign/qa/implementation-release-ready-mobile-390x844.png`
-- Combined comparison: `output/admin-redesign/qa/reference-vs-implementation-final.png`
-- Focused comparison: `output/admin-redesign/qa/reference-vs-implementation-focus.png`
-- State: authenticated admin evidence mode, Operations overview.
+Latest cleanup: [fixture data removal](docs/release/mobile-design/FIXTURE_DATA_REMOVAL_2026-09-04.md). Earlier native candidate is stale; distribution remains blocked.
 
-## Fidelity review
+Design authority: `DESIGN.md` only.
 
-| Surface | Result | Evidence |
-| --- | --- | --- |
-| Layout and hierarchy | Passed | Grouped left navigation, two-line command header, four-metric summary, task-first exception queue, queue health, and recent allocation table match the selected hierarchy. |
-| Typography | Passed | Inter remains the exclusive product typeface; hierarchy and weights follow the existing Collect typography tokens. |
-| Color and elevation | Passed | Near-black application chrome, quiet borders, muted secondary copy, white primary action, and semantic green/orange states match the reference. |
-| Spacing and density | Passed | Desktop capture uses the required 1440 x 1024 viewport; table density, panel spacing, and footer placement were tuned against the normalized reference. |
-| Icons and assets | Passed | The reference uses interface symbols rather than custom raster artwork; implementation uses the existing Material icon system and official Collect identity. |
-| Copy and data shape | Passed | Reference labels, masked senders, queue ages, allocation amounts, SLA, and activity rows are represented in deterministic evidence mode while production continues to use live RPC results. |
-| Responsive behavior | Passed | At 390 x 844, metrics remain readable, country-independent text does not clip, cards replace dense desktop rows, and compact navigation remains usable. |
+## Mobile: BLOCKED
 
-## Interaction and runtime review
+The owner requires MOBILE-DESIGN-100. Historical reports and Admin screenshots
+do not establish current mobile acceptance. Run `make mobile-design-gate`.
 
-- `Review next exception` navigated from `/admin` to `/admin/exceptions`.
-- Compact navigation opened at 390 x 844 and `Exceptions` navigated to `/admin/exceptions`.
-- The final in-app browser run recorded zero console warnings and zero console errors.
-- Admin repository access remains permission-scoped; raw SMS remains purpose-gated and audited.
-- Existing secured Supabase RPCs supply overview metrics, unallocated events, allocations, and queue SLA data. No schema migration was required for this redesign.
+- Original audit: `docs/release/mobile-design/MOBILE_PARITY_AUDIT_2026-09-03.md`.
+- Latest continuation: `docs/release/mobile-design/CONTINUATION_2026-09-04.md`.
+- Home Featured groups correction and deployment: `docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md`.
+- Latest Home card width correction: `docs/release/mobile-design/HOME_CARD_WIDTH_2026-09-04.md`.
+- Latest heading, auth recovery and native candidate review: `docs/release/mobile-design/NATIVE_CANDIDATE_2026-09-04.md`.
+- Required evidence: `docs/release/mobile-design/mobile-parity-contract.json`.
+- Current acceptance: `docs/release/mobile-design/mobile-parity-acceptance.json`.
 
-## Iteration history
+All applicable criteria must pass for every required state on the exact native
+release artifact. Missing evidence, unfinished annotations or design drift
+blocks mobile release regardless of unrelated green tests.
 
-1. Replaced the previous generic admin shell with the selected grouped navigation and task-first overview.
-2. Fixed desktop wrapping, table action overflow, status-chip clipping, and incorrect evidence totals.
-3. Fixed mobile metric truncation and compact heading overflow.
-4. Matched the reference summary height, content offset, queue density, allocation footer, masked evidence rows, and SLA presentation.
+## Admin: separately scoped
 
-## Remaining differences
+The previous Admin redesign report is preserved at
+`docs/admin/ADMIN_DESIGN_QA_2026-09-03.md`. Its pass applies only to that report's
+Admin reference and capture; it is not mobile acceptance.
 
-- P3: Evidence mode displays the accountable seeded identity `Collect evidence admin` rather than the concept-only `Alex K.` top-bar identity. Production displays the authenticated operator.
-- P3: The implementation retains the existing `SMS` route in addition to `SMS parsing` so no current operational capability is removed.
+The read-only live data audit and local synchronization fixes are recorded at
+`docs/admin/ADMIN_DATA_SYNC_AUDIT_2026-09-04.md`. Live counts reconcile; the
+content fallbacks and test-labelled records remain explicit gaps. The Admin
+corrections and migration are now deployed and verified; production/local
+migration histories match at 122. See
+`docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md` for current live evidence.
 
-No open P0, P1, or P2 visual, responsive, interaction, or console findings remain.
-
-final result: passed
+final result: blocked

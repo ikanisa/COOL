@@ -18,7 +18,7 @@ class AuthIdentityHeader extends StatelessWidget {
           }
         },
         style: IconButton.styleFrom(
-          foregroundColor: context.collectColors.onImagePrimary,
+          foregroundColor: context.collectColors.authForeground,
           backgroundColor: CollectColors.transparentColor,
           padding: EdgeInsets.zero,
         ),
@@ -36,7 +36,7 @@ class AuthHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = context.collectColors.onImagePrimary;
+    final foreground = context.collectColors.authForeground;
     final textTheme = Theme.of(context).textTheme;
     final usesAccessibilityText =
         MediaQuery.textScalerOf(context).scale(1) >= 1.3;

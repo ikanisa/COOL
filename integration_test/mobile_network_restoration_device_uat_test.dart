@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'dart:io';
 
 import 'package:collect_app/app/app.dart';
@@ -35,7 +37,10 @@ void main() {
       final online = _ControlledNetworkRepository(offlineCache: cache);
       await online.signInWithOtp(phone: '+250788123456', otp: '123456');
       final intent = await online.createPaymentIntent(
-        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 21000),
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 21000,
+        ),
       );
       final savedAt = DateTime.utc(2026, 7, 30, 12);
       await cache.save(_snapshotFrom(online.state, savedAt: savedAt));
@@ -46,7 +51,7 @@ void main() {
       );
       await _pumpCollectApp(
         tester,
-        initialLocation: '/groups/col-church/contribute',
+        initialLocation: '/groups/qa-private-group/contribute',
         repository: online,
       );
       expect(find.text('Review contribution'), findsWidgets);
@@ -66,17 +71,17 @@ void main() {
       expect(restored, isTrue);
       final offlineContainer = await _pumpCollectApp(
         tester,
-        initialLocation: '/groups/col-church/contribute',
+        initialLocation: '/groups/qa-private-group/contribute',
         repository: offline,
       );
 
       expect(find.text('Review contribution'), findsWidgets);
-      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(find.text('QA private group'), findsWidgets);
       expect(find.textContaining('Offline saved data'), findsWidgets);
       expect(offline.state.usingStaleCache, isTrue);
       expect(offline.state.lastSuccessfulSyncAt, savedAt);
       expect(offline.intentById(intent.id).status, 'pending');
-      expect(offline.contributionsFor('col-church'), hasLength(2));
+      expect(offline.contributionsFor('qa-private-group'), hasLength(2));
       expect(
         offline.state.contributions.any((item) => item.transactionId != null),
         isFalse,
@@ -93,7 +98,10 @@ void main() {
       expect(
         offlineContainer.read(
           paymentUiStatusProvider(
-            PaymentStatusKey(collectionId: 'col-church', intentId: intent.id),
+            PaymentStatusKey(
+              collectionId: 'qa-private-group',
+              intentId: intent.id,
+            ),
           ),
         ),
         PaymentUiStatus.pending,
@@ -107,7 +115,10 @@ void main() {
       );
       final authoritative = _ControlledNetworkRepository();
       final restoredIntent = await authoritative.createPaymentIntent(
-        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 31000),
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 31000,
+        ),
       );
       final resyncAt = DateTime.utc(2026, 7, 30, 12, 5);
       authoritative.applyAuthoritativeSync(
@@ -115,18 +126,18 @@ void main() {
       );
       final onlineContainer = await _pumpCollectApp(
         tester,
-        initialLocation: '/groups/col-church/contribute',
+        initialLocation: '/groups/qa-private-group/contribute',
         repository: authoritative,
       );
 
       expect(find.text('Review contribution'), findsWidgets);
-      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(find.text('QA private group'), findsWidgets);
       expect(find.textContaining('Offline saved data'), findsNothing);
       expect(authoritative.state.usingStaleCache, isFalse);
       expect(authoritative.state.lastError, isNull);
       expect(authoritative.state.lastSuccessfulSyncAt, resyncAt);
       expect(
-        authoritative.collectionById('col-church').receiverDisplayLabel,
+        authoritative.collectionById('qa-private-group').receiverDisplayLabel,
         'Restored treasury',
       );
       expect(authoritative.intentById(restoredIntent.id).status, 'pending');
@@ -219,8 +230,8 @@ void _mark(String marker) {
   print('collect_network_uat:$marker');
 }
 
-class _ControlledNetworkRepository extends CollectRepository {
-  _ControlledNetworkRepository({super.offlineCache}) : super.fixture();
+class _ControlledNetworkRepository extends FixtureCollectRepository {
+  _ControlledNetworkRepository({super.offlineCache}) : super();
 
   void applyAuthoritativeSync(CollectOfflineSnapshot snapshot) {
     state = state.copyWith(

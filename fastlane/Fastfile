@@ -92,6 +92,7 @@ platform :android do
 
   desc "Upload Collect production AAB and metadata to Google Play after credentials are available"
   lane :play_production_submit do
+    sh("ruby ./scripts/qa/mobile_design_gate.rb")
     UI.user_error!("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON is required") if ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"].to_s.empty?
     sh("./scripts/google_play_console_audit_packet.sh --json")
     sh("./scripts/google_play_metadata_export.sh --json")
@@ -230,9 +231,12 @@ platform :ios do
 
   desc "Upload the latest signed IPA to TestFlight without submitting for App Review"
   lane :upload_review_build do
+    sh("ruby ./scripts/qa/mobile_design_gate.rb --ios")
     api_key = collect_app_store_connect_api_key
-    ipa_path = Dir[File.expand_path("../build/ios/ipa/**/*.ipa", __dir__)].max_by { |path| File.mtime(path) }
-    UI.user_error!("No IPA found under build/ios/ipa. Run fastlane ios build_review_ipa first.") if ipa_path.to_s.empty?
+    # Upload exactly the artifact whose hash passed MOBILE-DESIGN-100, never
+    # whichever unrelated IPA happens to have the most recent modification.
+    ipa_path = File.expand_path("../build/ios/ipa/Collect.ipa", __dir__)
+    UI.user_error!("Collect.ipa is missing. Run fastlane ios build_review_ipa first.") unless File.file?(ipa_path)
     release_notes = File.read("metadata/en-GB/release_notes.txt").strip
 
     pilot(

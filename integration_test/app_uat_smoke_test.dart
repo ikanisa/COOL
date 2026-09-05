@@ -1,3 +1,5 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -55,7 +57,7 @@ void main() {
       await pumpMainAppAt(
         tester,
         '/groups',
-        repository: CollectRepository.fixture(),
+        repository: FixtureCollectRepository(),
       );
       debugPrint('[uat-smoke] main app pump frames start');
       await pumpLaunchFrames(tester);
@@ -72,10 +74,10 @@ void main() {
   testWidgets(
     'contributor creates intent and waits for receiver SMS allocation',
     (tester) async {
-      final repository = CollectRepository.fixture();
+      final repository = FixtureCollectRepository();
       await pumpMainAppAt(
         tester,
-        '/groups/col-church/contribute',
+        '/groups/qa-private-group/contribute',
         repository: repository,
       );
 
@@ -84,18 +86,21 @@ void main() {
       expect(find.textContaining('manual'), findsNothing);
 
       final intent = await repository.createPaymentIntent(
-        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 5000,
+        ),
       );
       final router = GoRouter.of(
         tester.element(find.text('Continue to MoMo').first),
       );
-      router.go('/groups/col-church');
+      router.go('/groups/qa-private-group');
       await pumpLaunchFrames(tester);
 
       expect(find.text('Payment intent'), findsNothing);
       expect(find.text('Pending payment'), findsNothing);
       expect(intent.status, 'pending');
-      router.go('/groups/col-church/ledger');
+      router.go('/groups/qa-private-group/ledger');
       await pumpLaunchFrames(tester);
 
       expect(find.text('Ledger'), findsWidgets);
@@ -113,14 +118,14 @@ void main() {
     (tester) async {
       await pumpMainAppAt(
         tester,
-        '/groups/col-church/share',
-        repository: CollectRepository.fixture(),
+        '/groups/qa-private-group/share',
+        repository: FixtureCollectRepository(),
       );
 
       expect(find.text('Share group'), findsOneWidget);
       expect(find.text('Share link'), findsOneWidget);
       expect(find.text('Share QR code'), findsOneWidget);
-      expect(find.text('St Michel building fund'), findsNothing);
+      expect(find.text('QA private group'), findsNothing);
       expect(
         find.textContaining('does not include phone numbers'),
         findsNothing,
@@ -128,11 +133,11 @@ void main() {
       expect(find.textContaining('+250788'), findsNothing);
 
       final router = GoRouter.of(tester.element(find.text('Share link')));
-      router.go('/groups/col-church/invite');
+      router.go('/groups/qa-private-group/invite');
       await pumpLaunchFrames(tester);
 
       expect(find.text('Share group'), findsOneWidget);
-      expect(find.text('St Michel building fund'), findsNothing);
+      expect(find.text('QA private group'), findsNothing);
       expect(find.text('Share link'), findsOneWidget);
       expect(find.text('Share QR code'), findsOneWidget);
       expect(find.text('Save QR'), findsOneWidget);

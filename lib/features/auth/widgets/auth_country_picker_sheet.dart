@@ -68,7 +68,7 @@ class _AuthCountryPickerSheetState extends State<AuthCountryPickerSheet> {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = colors.authForeground;
     final media = MediaQuery.of(context);
     final favorite = _searchController.text.isEmpty
         ? _countries.where((country) => country.countryCode == 'RW').firstOrNull
@@ -79,7 +79,7 @@ class _AuthCountryPickerSheetState extends State<AuthCountryPickerSheet> {
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
         child: ColoredBox(
-          color: CollectColors.referenceContentDark,
+          color: colors.authSheetSurface,
           child: SizedBox(
             height: media.size.height * 0.74,
             child: MediaQuery.withClampedTextScaling(
@@ -105,48 +105,54 @@ class _AuthCountryPickerSheetState extends State<AuthCountryPickerSheet> {
                       CollectSpacing.x5,
                       CollectSpacing.x3,
                     ),
-                    child: TextField(
-                      key: const ValueKey('auth_country_search_input'),
+                    child: CollectAccessibleTextField(
                       controller: _searchController,
-                      autofocus: false,
-                      textInputAction: TextInputAction.search,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: foreground,
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Search country',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium
-                            ?.copyWith(
-                              color: foreground.withValues(alpha: 0.48),
-                            ),
-                        prefixIcon: Icon(
-                          CollectIcons.search,
-                          color: foreground.withValues(alpha: 0.72),
-                        ),
-                        filled: true,
-                        fillColor: foreground.withValues(alpha: 0.12),
-                        border: OutlineInputBorder(
-                          borderRadius: CollectRadius.pillBorder,
-                          borderSide: BorderSide(
-                            color: foreground.withValues(alpha: 0.14),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: CollectRadius.pillBorder,
-                          borderSide: BorderSide(
-                            color: foreground.withValues(alpha: 0.14),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: CollectRadius.pillBorder,
-                          borderSide: BorderSide(
-                            color: colors.focusRing,
-                            width: 2,
-                          ),
-                        ),
-                      ),
+                      label: 'Search country',
                       onChanged: _search,
+                      builder: (focusNode) => TextField(
+                        key: const ValueKey('auth_country_search_input'),
+                        focusNode: focusNode,
+                        controller: _searchController,
+                        autofocus: false,
+                        textInputAction: TextInputAction.search,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: foreground,
+                          fontWeight: CollectTypography.weightBold,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Search country',
+                          hintStyle: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: foreground.withValues(alpha: 0.48),
+                              ),
+                          prefixIcon: Icon(
+                            CollectIcons.search,
+                            color: foreground.withValues(alpha: 0.72),
+                          ),
+                          filled: true,
+                          fillColor: foreground.withValues(alpha: 0.12),
+                          border: OutlineInputBorder(
+                            borderRadius: CollectRadius.pillBorder,
+                            borderSide: BorderSide(
+                              color: foreground.withValues(alpha: 0.14),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: CollectRadius.pillBorder,
+                            borderSide: BorderSide(
+                              color: foreground.withValues(alpha: 0.14),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: CollectRadius.pillBorder,
+                            borderSide: BorderSide(
+                              color: colors.focusRing,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        onChanged: _search,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -202,7 +208,7 @@ class _CountryPickerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = colors.authForeground;
     final style = Theme.of(context).textTheme.bodySmall?.copyWith(
       color: foreground,
       fontWeight: CollectTypography.weightBold,
@@ -213,6 +219,7 @@ class _CountryPickerRow extends StatelessWidget {
     return Semantics(
       button: true,
       label: '$localizedName, calling code $phoneCode',
+      onTap: onTap,
       child: ExcludeSemantics(
         child: Material(
           color: CollectColors.transparentColor,

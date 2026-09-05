@@ -48,6 +48,9 @@ jobs:
       - name: Revolut parity evidence consistency
         run: make revolut-parity-evidence-consistency
 
+      - name: Mandatory mobile design contract and fail-closed regression tests
+        run: make mobile-design-contract mobile-design-gate-test
+
       - name: Patch marker scan
         run: |
           MATCHES=$(git grep -n -E '^\*\*\* (Begin Patch|Add File:|Update File:|Delete File:|Move to:|End Patch)$' -- \

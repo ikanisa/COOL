@@ -17,8 +17,8 @@ void main() {
       addTearDown(firstController.dispose);
 
       expect(
-        await firstController.retain(' St-Michel-Building-Fund '),
-        'st-michel-building-fund',
+        await firstController.retain(' QA-Private-Group '),
+        'qa-private-group',
       );
 
       final restartedStore = PendingSharedGroupIntentStore(
@@ -30,7 +30,7 @@ void main() {
       );
       addTearDown(restartedController.dispose);
 
-      expect(await restartedController.current(), 'st-michel-building-fund');
+      expect(await restartedController.current(), 'qa-private-group');
     },
   );
 
@@ -40,7 +40,7 @@ void main() {
       preferences: preferences,
       clock: () => now,
     );
-    await staleStore.saveSlug('st-michel-building-fund');
+    await staleStore.saveSlug('qa-private-group');
 
     final expiredStore = PendingSharedGroupIntentStore(
       preferences: preferences,
@@ -76,13 +76,10 @@ void main() {
       final controller = PendingSharedGroupIntentController(store);
       addTearDown(controller.dispose);
 
-      await controller.retain('st-michel-building-fund');
+      await controller.retain('qa-private-group');
       await controller.retain('kigali-lions-away-kit');
 
-      expect(
-        await controller.clearIfMatches('st-michel-building-fund'),
-        isFalse,
-      );
+      expect(await controller.clearIfMatches('qa-private-group'), isFalse);
       expect(await controller.current(), 'kigali-lions-away-kit');
       expect(await store.readSlug(), 'kigali-lions-away-kit');
 
@@ -104,7 +101,7 @@ void main() {
       addTearDown(controller.dispose);
 
       await expectLater(
-        controller.retain('st-michel-building-fund'),
+        controller.retain('qa-private-group'),
         throwsA(isA<StateError>()),
       );
       expect(await controller.current(), isNull);
@@ -113,8 +110,8 @@ void main() {
 
   test('slug normalization accepts only bounded canonical URL segments', () {
     expect(
-      normalizePendingSharedGroupSlug(' St-Michel-Building-Fund '),
-      'st-michel-building-fund',
+      normalizePendingSharedGroupSlug(' QA-Private-Group '),
+      'qa-private-group',
     );
     expect(normalizePendingSharedGroupSlug('group/path'), isNull);
     expect(normalizePendingSharedGroupSlug('../group'), isNull);
@@ -129,35 +126,33 @@ void main() {
   test('external app links accept only the canonical Collect group origin', () {
     expect(
       pendingSharedGroupSlugFromAppLink(
-        Uri.parse('https://collect.ikanisa.com/c/St-Michel-Building-Fund'),
+        Uri.parse('https://collect.ikanisa.com/c/QA-Private-Group'),
       ),
-      'st-michel-building-fund',
+      'qa-private-group',
     );
     expect(
       pendingSharedGroupSlugFromAppLink(
-        Uri.parse('http://collect.ikanisa.com/c/st-michel-building-fund'),
+        Uri.parse('http://collect.ikanisa.com/c/qa-private-group'),
       ),
       isNull,
     );
     expect(
       pendingSharedGroupSlugFromAppLink(
-        Uri.parse('https://example.com/c/st-michel-building-fund'),
+        Uri.parse('https://example.com/c/qa-private-group'),
       ),
       isNull,
     );
     expect(
       pendingSharedGroupSlugFromAppLink(
-        Uri.parse(
-          'https://collect.ikanisa.com/c/st-michel-building-fund/extra',
-        ),
+        Uri.parse('https://collect.ikanisa.com/c/qa-private-group/extra'),
       ),
       isNull,
     );
     expect(
       pendingSharedGroupSlugFromAppLink(
-        Uri.parse('collect://group/St-Michel-Building-Fund'),
+        Uri.parse('collect://group/QA-Private-Group'),
       ),
-      'st-michel-building-fund',
+      'qa-private-group',
     );
   });
 
