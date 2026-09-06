@@ -24,7 +24,17 @@ class PublicMarketingHero extends StatelessWidget {
         final compact = constraints.maxWidth < 720;
         final enlarged = MediaQuery.textScalerOf(context).scale(1) > 1.3;
         final highContrast = MediaQuery.highContrastOf(context);
-        final copyEdge = ((650 + 48) / constraints.maxWidth).clamp(0.0, 1.0);
+        final gutter = compact
+            ? 20.0
+            : ((constraints.maxWidth - 1080) / 2).clamp(48.0, 240.0);
+        final copyEdge = ((480 + gutter) / constraints.maxWidth).clamp(
+          0.0,
+          1.0,
+        );
+        final headingEdge = ((960 + gutter) / constraints.maxWidth).clamp(
+          0.0,
+          1.0,
+        );
         const white = CollectColors.publicWhite;
         return ColoredBox(
           color: CollectColors.referenceAccountBlue,
@@ -73,34 +83,41 @@ class PublicMarketingHero extends StatelessWidget {
                             ]
                           : [
                               CollectColors.publicHeroScrim.withValues(
-                                alpha: 0.8,
+                                alpha: 0.72,
                               ),
                               CollectColors.publicHeroScrim.withValues(
-                                alpha: 0.68,
+                                alpha: 0.60,
+                              ),
+                              CollectColors.publicHeroScrim.withValues(
+                                alpha: 0.35,
                               ),
                               CollectColors.transparentColor,
                             ],
                       stops: compact
                           ? const [0, 0.6, 0.82, 1]
-                          : [0, copyEdge, 1],
+                          : [0, copyEdge, headingEdge, 1],
                     ),
                   ),
                 ),
               ),
               ConstrainedBox(
-                constraints: BoxConstraints(minHeight: compact ? 1050 : 780),
+                constraints: BoxConstraints(
+                  minHeight: compact
+                      ? 940
+                      : MediaQuery.sizeOf(context).height.clamp(780, 1400),
+                ),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
-                    compact ? 20 : 48,
-                    compact ? 48 : 112,
-                    compact ? 20 : 48,
-                    compact ? 480 : (enlarged ? 360 : 80),
+                    gutter,
+                    compact ? 120 : 144,
+                    gutter,
+                    compact ? 368 : (enlarged ? 360 : 96),
                   ),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxWidth: compact ? 430 : 650,
+                        maxWidth: compact ? 430 : 960,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -118,7 +135,7 @@ class PublicMarketingHero extends StatelessWidget {
                           ),
                           const SizedBox(height: 24),
                           ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 520),
+                            constraints: const BoxConstraints(maxWidth: 480),
                             child: Text(
                               intro,
                               style: CollectTypography.marketingBody(white),

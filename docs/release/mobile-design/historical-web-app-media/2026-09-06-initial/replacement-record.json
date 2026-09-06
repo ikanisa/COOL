@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-06T11:34:13.532563+00:00",
+  "scope": "Earlier website fixture captures retained unchanged for traceability; omitted from new public builds.",
+  "retired": [
+    {
+      "path": "docs/release/mobile-design/historical-web-app-media/2026-09-06-initial/group-detail-16287e1436a4.png",
+      "sha256": "16287e1436a45c4c7c459d021c7f615efdbcb9bac4c415cf7c87566e87e73771",
+      "replacement": "web/public/app-screens/group-detail-aa0624e7c7d5.png"
+    },
+    {
+      "path": "docs/release/mobile-design/historical-web-app-media/2026-09-06-initial/diaspora-contribution-7a52147aba68.png",
+      "sha256": "7a52147aba683c95b3bbd0e5b56eed2a397c726a04ecf5198fba525b38a9a84a",
+      "replacement": "web/public/app-screens/diaspora-contribution-7e087bed1a9c.png"
+    },
+    {
+      "path": "docs/release/mobile-design/historical-web-app-media/2026-09-06-initial/groups-46fe8a87dca0.png",
+      "sha256": "46fe8a87dca069a5fac092fbb5789ee3757a086afd93411c3a32bcdcfc1c4ccf",
+      "replacement": "web/public/app-screens/groups-df9bbb32006b.png"
+    },
+    {
+      "path": "docs/release/mobile-design/historical-web-app-media/2026-09-06-initial/security-f4409dd719f4.png",
+      "sha256": "f4409dd719f471ecfe7d95cf514d08d40467a05a020da1279235b27ff3402b89",
+      "replacement": "web/public/app-screens/security-ab4cafded6f0.png"
+    },
+    {
+      "path": "docs/release/mobile-design/historical-web-app-media/2026-09-06-initial/account-deletion-6c6debdc4117.png",
+      "sha256": "6c6debdc41171f514223d20d36029ff57794b36931e87bc11766762dcd2afe5c",
+      "replacement": "web/public/app-screens/account-deletion-832163ce2213.png"
+    },
+    {
+      "path": "docs/release/mobile-design/historical-web-app-media/2026-09-06-initial/home-fc5d072f4d07.png",
+      "sha256": "fc5d072f4d07d7bc582c702362e13e0a47f83207f8ba5849aaa75d082879eb0e",
+      "replacement": "web/public/app-screens/home-d2e45a8f70f8.png"
+    }
+  ]
+}

@@ -142,6 +142,32 @@ void main() {
     expect(find.textContaining('OpenAI'), findsNothing);
   });
 
+  testWidgets('home navigation stays visible and readable beyond the photo', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(publicHarness(const CollectLandingPage()));
+    await tester.pumpAndSettle();
+    final navigation = find.byWidgetPredicate(
+      (widget) => widget is IconButton && widget.tooltip == 'How it works',
+    );
+    final initialPosition = tester.getCenter(navigation);
+    final initialColor = tester.widget<IconButton>(navigation).color;
+
+    await tester.scrollUntilVisible(
+      find.text('One clear contribution journey'),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    expect(tester.getCenter(navigation), initialPosition);
+    expect(tester.widget<IconButton>(navigation).color, isNot(initialColor));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('public pages remain usable at 320 px and 200 percent text', (
     tester,
   ) async {

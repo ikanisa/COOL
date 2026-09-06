@@ -10,6 +10,7 @@ OUT_DIR="${PUBLIC_WEBSITE_CI_OUT_DIR:-build/public_website_ci}"
 mkdir -p "$OUT_DIR"
 
 run_static() {
+  ruby scripts/tests/public_app_media_test.rb
   bash scripts/public_landing_prepare_build.sh
   bash scripts/public_website_quality_gate.sh --json > "$OUT_DIR/public-quality-gate.json"
   bash scripts/public_website_indexnow_readiness.sh --json > "$OUT_DIR/public-indexnow-readiness.json"

@@ -16,6 +16,11 @@ class PublicAppMedia
     directories = %w[lib android/app/src ios/Runner]
     files = directories.flat_map { |dir| Dir.glob(File.join(@root, dir, '**/*'), File::FNM_DOTMATCH) }
       .select { |path| File.file?(path) && !File.basename(path).start_with?('.') && !File.basename(path).include?('GeneratedPluginRegistrant') }
+    # Android provider configuration is injected outside Git and does not
+    # participate in these iOS fixture images. Its presence must not make a
+    # clean website checkout appear to have changed the captured UI. Native
+    # release provenance still hashes its own complete build inputs.
+    files.reject! { |path| path.delete_prefix(@root + '/').match?(%r{\Aandroid/app/src/[^/]+/google-services\.json\z}) }
     flutter = YAML.safe_load(File.read(File.join(@root, 'pubspec.yaml'))).fetch('flutter', {})
     declared = Array(flutter['assets']).map { |entry| entry.is_a?(Hash) ? entry.fetch('path') : entry }
     declared += Array(flutter['licenses'])

@@ -83,10 +83,14 @@ if [[ "${ADMIN_PWA_AUTH_RENDER_SKIP_BUILD:-0}" == "1" ]]; then
   printf '[admin-pwa-auth-render] reused current evidence build %s\n' "$BUILD_DIR" \
     >"$EVIDENCE_DIR/flutter_build.log"
 else
-  rm -rf "$BUILD_DIR"
+  # Flutter tracks asset output paths in shared incremental build state. A
+  # subsequent build for another target can remove those paths. Compile into
+  # staging, then retain an independent bundle for browser review.
+  STAGING_DIR="$(mktemp -d "$ROOT_DIR/.cache/admin-render-staging.XXXXXX")"
+  trap 'rm -rf "$STAGING_DIR"' EXIT
   "$FLUTTER" build web \
     -t lib/main_admin.dart \
-    --output="$BUILD_DIR" \
+    --output="$STAGING_DIR" \
     --release \
     --no-wasm-dry-run \
     --no-web-resources-cdn \
@@ -96,8 +100,24 @@ else
     --dart-define=ADMIN_PWA_EVIDENCE_MODE=true \
     >"$EVIDENCE_DIR/flutter_build.log" 2>&1
 
+  rm -rf "$BUILD_DIR"
+  cp -R "$STAGING_DIR" "$BUILD_DIR"
+  rm -rf "$STAGING_DIR"
+  trap - EXIT
   touch "$BUILD_DIR/main.dart.js"
 fi
+
+ruby -r json -e '
+  root = ARGV.fetch(0)
+  manifest = File.join(root, "assets", "FontManifest.json")
+  abort("Admin evidence bundle is missing FontManifest.json") unless File.file?(manifest)
+  JSON.parse(File.read(manifest)).each do |family|
+    family.fetch("fonts").each do |font|
+      asset = font.fetch("asset")
+      abort("Admin evidence bundle is missing font #{asset}") unless File.size?(File.join(root, "assets", asset))
+    end
+  end
+' "$BUILD_DIR"
 
 if [[ -z "$PORT" ]]; then
   PORT="$(ruby -rsocket -e 'server = TCPServer.new("127.0.0.1", 0); puts server.addr[1]; server.close')"
@@ -169,8 +189,8 @@ ruby -r json -r time -e '
   abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
   abort("Admin browser QA was not a full release matrix") unless browser_report.fetch("releaseAdmissible") == true
   abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 23
-  abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 3
-  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 69
+  abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 4
+  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 92
   abort("Admin evidence-mode marker was not verified") unless browser_report.fetch("evidenceModeMarkerVerified") == true
   File.write(
     File.join(evidence_dir, "summary.json"),

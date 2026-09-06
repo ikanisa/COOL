@@ -659,7 +659,8 @@ void main() {
       expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
     }
     expect(renderSmoke, contains('routeCount") == 23'));
-    expect(renderSmoke, contains('screenshotCount") == 69'));
+    expect(renderSmoke, contains('viewportCount") == 4'));
+    expect(renderSmoke, contains('screenshotCount") == 92'));
   });
 
   test('Admin PWA runtime probe fails closed on stalled CDP commands', () {

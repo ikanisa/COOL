@@ -21,8 +21,15 @@ try {
       await document.fonts.ready;
       await Promise.all([...document.querySelectorAll('.hero img')].map(image => image.decode()));
     });
-    for (const selector of ['.hero h1', '.hero-intro']) {
-      const target = page.locator(selector);
+    const selectors = [
+      '.hero h1', '.hero-intro', '.hero-actions .cta-app',
+      '.hero-actions .cta-group', '.hero-actions .cta-touch',
+      '.site-header .brand strong', '.site-header .nav-link',
+      '.site-header .cta-app', '.site-header .menu-button',
+    ];
+    for (const selector of selectors) for (const [index, target] of (await page.locator(selector).all()).entries()) {
+      if (!await target.isVisible()) continue;
+      await page.evaluate(() => window.scrollTo({top: 0, behavior: 'instant'}));
       const geometry = await target.evaluate(element => {
         const style = getComputedStyle(element);
         const bounds = element.getBoundingClientRect();
@@ -48,7 +55,7 @@ try {
         return {lines, rgba: [...rgba.slice(0, 3), rgba[3] ?? 1], fontSize, minimum,
           textWidth: bounds.width, textHeight: bounds.height, text: element.textContent.trim()};
       });
-      const name = `${width}-${selector.includes('h1') ? 'heading' : 'intro'}`;
+      const name = `${width}-${selector.replace(/[^a-z0-9]+/gi, '-').replace(/^-/, '')}-${index}`;
       await target.screenshot({path: `${output}/${name}.png`, animations: 'disabled'});
       // Transparent glyph fill leaves layout, images and the real scrim intact.
       const originalStyle = await target.getAttribute('style');

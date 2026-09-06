@@ -327,7 +327,7 @@ class _CompactValue extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: CollectTypography.weightBold,
+                  fontWeight: CollectTypography.weightMedium,
                 ),
               ),
             ),

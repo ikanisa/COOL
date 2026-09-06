@@ -594,8 +594,8 @@ class _AppearancePreview extends StatelessWidget {
                     ),
                     Expanded(
                       child: _AppearancePreviewAction(
-                        icon: CollectIcons.qr,
-                        label: 'Scan QR',
+                        icon: CollectIcons.people,
+                        label: 'Explore Groups',
                         colors: previewColors,
                       ),
                     ),
