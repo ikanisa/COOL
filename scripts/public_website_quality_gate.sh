@@ -550,27 +550,7 @@ check(
 # and real native captures added with Example data captions. The 19-page
 # comparison verifies unchanged copy outside hero artwork. See
 # WEBSITE_AUTHENTIC_APP_MEDIA_2026-09-06.md for capture and content evidence.
-baseline_content_hashes = {
-  # Owner-requested Rwanda photography adds three navigation captions and
-  # arrows. Removing only that reviewed photo section recovers the prior
-  # 93ab5c33... content hash; all existing financial copy is unchanged.
-  "/" => "a0b19e5bd9838068cc6b4dddcc3db7cf169e05702268b77f69a43900c827b56b",
-  "/account-deletion/" => "ef6f3bb7302829b8660e08dba1670ef128c2af2139574ef0a0cfa90e6e6fe4fa",
-  "/community-groups/" => "995ac5664e120c477e6c40df6571b697a46f1f0c1552af2868a5e11f2af2153c",
-  "/craas/" => "87614fa5aa2d7bbe6aedc2f81b9884cef453fe3b5f04403f5ead6899a1369f3d",
-  "/credit-readiness/" => "4e02a5f56ae1bdfb72d427b223f99d26b208fad33a58d9223ad891cecf22887a",
-  "/data-deletion/" => "e6886abc6bdad6758d6e5a186f8a44b0c7fb87a26e7fc73c279f813bc65953cf",
-  "/diaspora/" => "9de7fac20f76b0e62a04973802c6115d09366cd75bc54072e4af611aa863ad77",
-  "/group-savings/" => "72d1d165fd951eeb40a97fc9116b30c6004e03d26d3ae81415c6e12d9e878bce",
-  "/insurance/" => "e2f7043c6c6c0781fc8fd1cfa43b0bfd81993430ec13dc0ba6f7bc501c8cc564",
-  "/our-partners/" => "4f979ff08bcce9812f4753f09ad8ee4178ab8ec76827a2f7dc6a4a9612b86545",
-  "/partners/" => "9c44008205180686e849cca896158df373cb3cbf09b33793e568373d37def52b",
-  "/privacy/" => "e2262fd575e34b7605185f508ec54dabdbe5e12db5307ed4fb786f4b9b167a2d",
-  "/protection/" => "76d64d2361fadee80aac081af5946049195ca789d22e6274b9677fe8469e5457",
-  "/security/" => "1bf5211c20994191a6f14270bd462e2e117c3e8ec60cc5d8e4b2026ebe3a4498",
-  "/terms/" => "5c780ab940cb0cc963232ebfa0b5b0144e6fcc2b58b6060b657f53495f3eff5c",
-  "/trust/" => "81c31ac0a356dfa8bbc9bd7a157b12be935c3900bd17df409836666d1e75689b",
-}
+baseline_content_hashes = JSON.parse(File.read('docs/release/public-website-content-baseline.json')).fetch('hashes')
 generated_routes = all_html_paths.map do |path|
   relative = path.delete_prefix(build_dir).delete_suffix("index.html")
   relative.empty? ? "/" : relative

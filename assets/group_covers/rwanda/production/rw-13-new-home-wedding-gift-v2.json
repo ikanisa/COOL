@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-13-new-home-wedding-gift",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v2.png",
+  "source_sha256": "6b414166e3685b7e26ee1f37fad4a106e60ca218639e39ffdcf07ff3112e9a8b",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "c340839d3b49f3c8e2236d49c7da381c080e48b371b5a7e81bd3d98cf9ed7735",
+  "imported_at_utc": "2026-09-06T12:14:58.247752+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-dddb6cb4-54c2-4341-8636-764f5aeab4f9.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

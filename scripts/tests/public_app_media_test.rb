@@ -56,6 +56,24 @@ class PublicAppMediaTest < Minitest::Test
     end
   end
 
+  def test_injected_android_provider_configuration_does_not_change_ios_media
+    fixture do |root, _|
+      directory = File.join(root, 'android/app/src/production')
+      FileUtils.mkdir_p(directory)
+      File.write(File.join(directory, 'google-services.json'), '{"project_info":{}}')
+      assert_equal '/assets/app-screens/home.png', PublicAppMedia.new(root).screens.fetch('home')['url']
+    end
+  end
+
+  def test_native_application_manifest_change_still_requires_recapture
+    fixture do |root, _|
+      directory = File.join(root, 'android/app/src/main')
+      FileUtils.mkdir_p(directory)
+      File.write(File.join(directory, 'AndroidManifest.xml'), '<manifest/>')
+      assert_match(/runtime changed/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+    end
+  end
+
   def test_fabricated_capture_manifest_is_rejected
     fixture do |root, _|
       path = File.join(root, 'web/public/app-screens/capture-provenance.json')

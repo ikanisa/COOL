@@ -726,18 +726,18 @@ class CollectRepository extends StateNotifier<CollectState> {
         throw StateError('Android device verification did not pass.');
       }
       final collectionId = await supabase.rpc<String>(
-        'create_private_group_with_owner_attested',
+        'create_private_group_with_owner_media_attested',
         params: {
           ...groupRequest..remove('group_is_public'),
           'native_capability': verdict!.nativeCapability,
+          'group_image_url': imageUrl,
+          'group_accent_color_hex': accentColorHex,
         },
       );
       final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();
-      final hydratedCollection = collection.copyWith(
-        accentColorHex: accentColorHex,
-        imageUrl: imageUrl,
-      );
+      // Read the authoritative media saved in the same transaction as creation.
+      final hydratedCollection = collection;
       if (!state.collections.any((item) => item.id == collectionId)) {
         state = state.copyWith(
           collections: [hydratedCollection, ...state.collections],
@@ -841,10 +841,12 @@ class CollectRepository extends StateNotifier<CollectState> {
           ? null
           : purposeLabel?.trim(),
       imageUrl: imageUrl,
+      clearImageUrl: imageUrl == null,
       accentColorHex: accentColorHex,
-      isPublic: false,
+      isPublic: collection.isPublic,
+      isPlatformSponsored: collection.isPlatformSponsored,
       isRecurring: isRecurring,
-      visibilityStatus: 'private',
+      visibilityStatus: collection.visibilityStatus,
       recurringCadence: cadence,
     );
     state = state.copyWith(collections: collections);

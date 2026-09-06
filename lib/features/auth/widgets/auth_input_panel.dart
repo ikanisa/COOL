@@ -103,100 +103,99 @@ class AuthPhoneEntry extends StatelessWidget {
     final colors = context.collectColors;
     final foreground = colors.authForeground;
     final borderColor = foreground.withValues(alpha: 0.14);
-    return MediaQuery.withClampedTextScaling(
-      maxScaleFactor: 1.4,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceRaised,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor),
-        ),
-        child: SizedBox(
-          height: 60,
-          child: Row(
-            children: [
-              Material(
-                color: CollectColors.transparentColor,
-                child: InkWell(
-                  key: const ValueKey('auth_country_code_picker'),
-                  borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(16),
-                  ),
-                  onTap: onCountryTap,
-                  child: SizedBox(
-                    height: 60,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 12),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            countryCode,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: foreground,
-                                  fontWeight: CollectTypography.weightSemibold,
-                                  fontFeatures: const [
-                                    FontFeature.tabularFigures(),
-                                  ],
-                                ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            CollectIcons.chevronDown,
-                            color: foreground.withValues(alpha: 0.58),
-                            size: 16,
-                          ),
-                        ],
-                      ),
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final fieldHeight = 60.0 + ((textScale - 1).clamp(0.0, 1.35) * 24.0);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceRaised,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor),
+      ),
+      child: SizedBox(
+        height: fieldHeight,
+        child: Row(
+          children: [
+            Material(
+              color: CollectColors.transparentColor,
+              child: InkWell(
+                key: const ValueKey('auth_country_code_picker'),
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(16),
+                ),
+                onTap: onCountryTap,
+                child: SizedBox(
+                  height: fieldHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          countryCode,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: foreground,
+                                fontWeight: CollectTypography.weightSemibold,
+                                fontFeatures: const [
+                                  FontFeature.tabularFigures(),
+                                ],
+                              ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          CollectIcons.chevronDown,
+                          color: foreground.withValues(alpha: 0.58),
+                          size: 16,
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              Container(width: 1, height: 28, color: borderColor),
-              Expanded(
-                child: CollectAccessibleTextField(
+            ),
+            Container(width: 1, height: 28, color: borderColor),
+            Expanded(
+              child: CollectAccessibleTextField(
+                controller: controller,
+                label: 'WhatsApp phone number',
+                onChanged: (_) => onChanged(),
+                builder: (focusNode) => TextField(
+                  key: const ValueKey('auth_whatsapp_phone_input'),
+                  focusNode: focusNode,
                   controller: controller,
-                  label: 'WhatsApp phone number',
-                  onChanged: (_) => onChanged(),
-                  builder: (focusNode) => TextField(
-                    key: const ValueKey('auth_whatsapp_phone_input'),
-                    focusNode: focusNode,
-                    controller: controller,
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.done,
-                    autofillHints: const [AutofillHints.telephoneNumber],
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s-]')),
-                      LengthLimitingTextInputFormatter(24),
-                    ],
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: foreground,
-                      fontWeight: CollectTypography.weightSemibold,
-                      fontFeatures: const [FontFeature.tabularFigures()],
-                      letterSpacing: CollectTypography.trackingDefault,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Phone number',
-                      hintStyle: Theme.of(context).textTheme.titleMedium
-                          ?.copyWith(
-                            color: colors.authInputHint,
-                            fontWeight: CollectTypography.weightMedium,
-                          ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 18,
-                      ),
-                    ),
-                    onChanged: (_) => onChanged(),
+                  keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const [AutofillHints.telephoneNumber],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s-]')),
+                    LengthLimitingTextInputFormatter(24),
+                  ],
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: foreground,
+                    fontWeight: CollectTypography.weightSemibold,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                    letterSpacing: CollectTypography.trackingDefault,
                   ),
+                  decoration: InputDecoration(
+                    hintText: 'Phone number',
+                    hintStyle: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(
+                          color: colors.authInputHint,
+                          fontWeight: CollectTypography.weightMedium,
+                        ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                  ),
+                  onChanged: (_) => onChanged(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

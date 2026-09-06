@@ -490,7 +490,8 @@ void main() {
         })
         .toSet();
     expect(productVisualAssets, approvedVisualAssets.keys.toSet());
-    expect(approvedVisualAssets, hasLength(29));
+    // 29 core assets plus eight visually reviewed native website captures.
+    expect(approvedVisualAssets, hasLength(37));
     for (final entry in approvedVisualAssets.entries) {
       expect(
         sha256.convert(File(entry.key).readAsBytesSync()).toString(),

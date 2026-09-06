@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-06",
+  "status": "LOCAL_IMPLEMENTATION_VERIFIED_NOT_DEPLOYED",
+  "concepts": 44,
+  "derivatives": 88,
+  "derivative_bytes": 4651698,
+  "asset_provenance_hashes_verified": 138,
+  "flutter_affected_suites_passed": 134,
+  "flutter_photo_suite_final_rerun_passed": 8,
+  "database": {
+    "passed": 9,
+    "checks": [
+      "Reserved named cover rolls back group and one-use capability consumption",
+      "Creation commits exact cover version and colour with existing Rwanda receiver handling",
+      "Consumed capability cannot be replayed",
+      "Independent database read sees the same persisted media (collection RLS is outside this isolated harness)",
+      "Another subject cannot use the capability",
+      "Geographic readiness remains enforced",
+      "Unknown references rejected and image removal persists",
+      "Named cover requires actual governed slug and platform/public flags",
+      "RPC grants exclude anonymous callers"
+    ],
+    "engine": "Isolated PGlite PostgreSQL 17",
+    "scope": "Real migration and legacy capability/geographic functions; fixture dependency tables, auth and base creation. No deployment or full production/RLS claim."
+  },
+  "focused_analysis": "No issues found",
+  "browser_observations": [
+    "Actual owner form rendered after fresh fixture compilation",
+    "Wedding suggestions display refreshed v2 images",
+    "Selected Gusaba and gukwa gathering, confirmed Use photo and Save",
+    "Saved wedding image appears in actual GroupCard",
+    "Governed Buri munsi and Gikundiro fixture cards show their dedicated images",
+    "Actual create-group first step renders"
+  ],
+  "browser_limits": [
+    "Synthetic in-memory fixture; reload resets data",
+    "Complete create journey and text search verified by widget tests; browser text automation did not enter the search value"
+  ],
+  "mobile_design_gate": "BLOCKED; existing approval/native/source/route evidence gaps and open findings",
+  "deployed": false,
+  "production_data_changed": false,
+  "sha256": {
+    "assets/group_covers/rwanda/runtime-manifest.json": "a8975f6ce08bf183fa790c1b1b8d956cbe8d8ddfb07554126acaaa0ca47e575f",
+    "lib/shared/models/collect_group_cover.dart": "3a37a49b50d69f1d59addfbd7d6a84d3c7734a65672a7453d5c9a19b7e29057b",
+    "lib/shared/models/collect_group_cover_catalog.dart": "9ad1398a0c284bcf9a3eea521d8612632a2b18b959363d41c80962888414249b",
+    "lib/shared/widgets/collect_group_photo_picker.dart": "00e44e9bcc53a839fa00eca0f173bce3d44959e6878b12fd76b145f5922ca0cc",
+    "lib/shared/widgets/collect_group_image.dart": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7",
+    "lib/shared/widgets/collect_group_card_media.dart": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+    "lib/features/collections/collection_create_screen.dart": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+    "lib/features/collections/group_profile_screen.dart": "43a878a11a1ad1c545b9bc56c78c0872a874866388495406d2114c7810483b17",
+    "lib/shared/repositories/collect_repository.dart": "22090651ee147e7399b703fa9ca2e3009b934d2c4939d71fc7f9805671bba50f",
+    "supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql": "79b3b2bc4cd0c9613998ff83a16810a8438dc690bc49d5a8ef14252a732e8180",
+    "integration_test/group_cover_review_app.dart": "aa9f6f15811629628fde14b5a134e18037a7e2aa87a92d82cb5634a77ddc612a",
+    "scripts/assets/build_rwanda_group_runtime.mjs": "1e5dc0135682fd5073ed10c44f553c9d7d34ea64682f1325901c53a5a4d04b32",
+    "scripts/tests/group_cover_persistence_test.mjs": "0b4e414435babd58e0b1054bc9b40e5f8029766252e12955e325b50e6e3fc6ed",
+    "test/features/group_photo_bank_test.dart": "5d5491509c7228ed7614e6464770bd704e63e26f7c370f75ad251a4d64b3663b"
+  },
+  "record_scope": "Historical initial local-integration snapshot; subsequent database deployment and native follow-up are recorded separately.",
+  "follow_up_records": [
+    "DEPLOYMENT-VERIFICATION.json",
+    "DEPLOYMENT-AND-NATIVE-STATUS.md",
+    "NATIVE-VERIFICATION.json"
+  ]
+}

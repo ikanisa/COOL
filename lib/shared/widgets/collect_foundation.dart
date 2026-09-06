@@ -16,9 +16,10 @@ import 'collect_chrome.dart' show CollectBackdropScope;
 /// software keyboard leaves too little height for the usual pinned layout.
 /// The scroll view stays mounted while the viewport changes, retaining focus.
 class CollectFormViewport extends StatelessWidget {
-  const CollectFormViewport({required this.child, super.key});
+  const CollectFormViewport({required this.child, this.controller, super.key});
 
   final Widget child;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class CollectFormViewport extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) => SingleChildScrollView(
         primary: false,
+        controller: controller,
         child: SizedBox(
           width: constraints.maxWidth,
           height: constraints.maxHeight.clamp(320 * scale, double.infinity),

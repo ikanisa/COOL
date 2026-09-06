@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Collect · Rwanda image bank</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b0d10;--panel:#16181d;--ink:#f4f5f7;--muted:#abb2bf;--line:#343a44;--focus:#b8e6ea}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif}
+    main{max-width:1500px;margin:auto;padding:32px clamp(18px,4vw,60px) 64px}
+    header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:24px}
+    .eyebrow{color:#b3d9dc;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+    h1{font-size:clamp(32px,4.8vw,58px);line-height:1.05;letter-spacing:-.045em;margin:14px 0}
+    h2{font-size:18px;line-height:1.35;margin:0}
+    p{margin:8px 0;color:var(--muted)}.intro{max-width:760px}.status{color:var(--ink);font-weight:600}
+    .controls{display:grid;grid-template-columns:2fr 1fr 1fr 1.3fr;gap:16px;align-items:end}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input,select,button{font:inherit;color:var(--ink)}
+    input,select{width:100%;min-height:48px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:10px 12px}
+    button,.button{min-height:48px;border:1px solid var(--line);border-radius:999px;padding:10px 18px;background:var(--panel);text-decoration:none;color:var(--ink);cursor:pointer}
+    button:hover,.button:hover{background:#262b34}button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+    :focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+    .toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:20px 0}
+    .toolbar .label{color:var(--muted);margin-right:4px;font-size:14px}
+    .collections{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 24px}.named-note{color:#b3d9dc!important}
+    .grow{flex:1}.count{margin:8px 0 24px;font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 22px;align-items:start}
+    article{min-width:0}.photo-button{display:block;position:relative;aspect-ratio:358/438;width:100%;padding:0;overflow:hidden;border:0;border-radius:24px;background:#242726;text-align:left}
+    .photo-button img{width:100%;height:100%;object-fit:cover;display:block}
+    .photo-button .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.52),transparent 35%,transparent 48%,rgba(0,0,0,.8))}
+    .photo-button .top{position:absolute;left:16px;right:16px;top:15px;font-size:12px;font-weight:600;line-height:1.35}
+    .photo-button .bottom{position:absolute;bottom:18px;left:16px;right:16px;font-weight:600;font-size:21px;line-height:1.12;letter-spacing:-.025em;text-wrap:balance}
+    .meta{padding:14px 2px 0}.meta p{font-size:13px;overflow-wrap:anywhere}.meta .id{font-size:11px;color:#9ba5b5}
+    .grid[data-crop=square] .photo-button{aspect-ratio:1;border-radius:20px}
+    .grid[data-crop=circle] .photo-button{aspect-ratio:1;border-radius:50%}
+    .grid[data-crop=landscape] .photo-button{aspect-ratio:3/2;border-radius:16px}
+    .grid:not([data-crop=card]) .shade,.grid:not([data-crop=card]) .top,.grid:not([data-crop=card]) .bottom{display:none}
+    .empty{padding:48px 0;border-block:1px solid var(--line);max-width:700px}
+    .empty strong{display:block;font-size:22px}.empty button{margin-top:15px}
+    .footnote{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;max-width:900px;font-size:13px}
+    dialog{max-width:1100px;width:calc(100% - 32px);max-height:94vh;border:1px solid var(--line);border-radius:24px;background:var(--bg);color:var(--ink);padding:20px}
+    dialog::backdrop{background:rgba(0,0,0,.8)}
+    .dialog-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+    .dialog-image{display:block;max-height:66vh;max-width:100%;margin:auto;object-fit:contain;border-radius:12px}
+    .dialog-links{display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin-top:16px}
+    .dialog-links p{flex:1;font-size:12px;overflow-wrap:anywhere}
+    @media(min-width:1450px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+    @media(max-width:1050px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.controls{grid-template-columns:1fr 1fr}}
+    @media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px}.photo-button .bottom{font-size:17px}.controls{gap:12px}}
+    @media(max-width:400px){.grid,.controls{grid-template-columns:1fr}.photo-button .bottom{font-size:23px}}
+    @media(prefers-contrast:more){:root{--muted:#ddd;--line:#ddd}.photo-button .shade{background:linear-gradient(#000a,transparent 40%,#000d)}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Collect / Rwanda collection</div>
+    <h1>Made for the things<br>we do together.</h1>
+    <p class="intro">Original illustrative photography for savings, celebrations, shared support and community life.</p>
+    <p class="status" id="status" role="status">Loading saved images…</p>
+    <p class="intro">Local asset review. Group-creation integration and native visual acceptance are pending.</p>
+  </header>
+  <section aria-label="Image filters">
+    <div class="collections" role="group" aria-label="Image collection">
+      <button type="button" data-set="all" aria-pressed="true">All images</button>
+      <button type="button" data-set="general" aria-pressed="false">General library</button>
+      <button type="button" data-set="buri_munsi" aria-pressed="false">Buri munsi</button>
+      <button type="button" data-set="gikundiro" aria-pressed="false">Gikundiro</button>
+    </div>
+    <div class="controls">
+      <div><label for="search">Search images</label><input id="search" type="search" placeholder="Try ubukwe, savings, school…" autocomplete="off"></div>
+      <div><label for="type">Group type</label><select id="type"><option value="">All group types</option value="ikimina">Ikimina</option><option value="wedding">Wedding</option><option value="church">Church</option><option value="sport">Sport</option><option value="other">Other</option></select></div>
+      <div><label for="family">Image family</label><select id="family"><option value="">All families</option></select></div>
+      <div><label for="context">Specific context</label><select id="context"><option value="">Neutral / chosen group type</option><option value="christian">Christian giving</option><option value="muslim">Muslim giving</option><option value="bereavement">Bereavement support</option><option value="health">Healthcare support</option><option value="new_baby">Welcoming a baby</option><option value="all">All contexts · editorial review</option></select></div>
+    </div>
+    <div class="toolbar" role="group" aria-label="Preview crop">
+      <span class="label">Preview</span>
+      <button type="button" data-crop="card" aria-pressed="true">Group card</button>
+      <button type="button" data-crop="square" aria-pressed="false">Square</button>
+      <button type="button" data-crop="circle" aria-pressed="false">Circle</button>
+      <button type="button" data-crop="landscape" aria-pressed="false">Landscape</button>
+      <span class="grow"></span><button id="refresh" type="button">Refresh saved images</button>
+    </div>
+  </section>
+  <p class="count" id="count" role="status"></p>
+  <section class="grid" data-crop="card" id="grid" aria-label="Generated photographs"></section>
+  <section class="empty" id="empty" hidden><strong>No matching saved images</strong><p id="empty-copy">Try another filter, choose a specific context, or refresh as generation progresses.</p><button type="button" id="clear">Clear filters</button></section>
+  <p class="footnote">Every scene is fictional. Buri munsi and Gikundiro have dedicated proposed covers; the other titles describe image concepts. No financial data is shown. Crops here are browser previews; source PNG pixels remain unchanged. Language drafts, cultural details and final native layouts still require review.</p>
+</main>
+<dialog id="preview" aria-labelledby="preview-title">
+  <div class="dialog-header"><h2 id="preview-title"></h2><button type="button" id="close">Close</button></div>
+  <img class="dialog-image" id="preview-image" alt="">
+  <div class="dialog-links"><a class="button" id="original" target="_blank" rel="noopener">Open original PNG</a><p id="source-path"></p></div>
+</dialog>
+<script>
+  const $ = id => document.getElementById(id);
+  let data, shown = [], lastFocus, activeSet = 'all';
+  const fold = s => s.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const words = s => fold(s).match(/[\p{L}\p{N}]+/gu) || [];
+  function render() {
+    if (!data) return;
+    const type=$('type').value, family=$('family').value, context=$('context').value, query=words($('search').value);
+    const allowed=new Set(context ? [context] : []);
+    if(type==='church') allowed.add('christian');
+    shown=data.assets.filter(a=>{
+      if(activeSet==='general' && a.named_group) return false;
+      if(!['all','general'].includes(activeSet) && a.named_group!==activeSet) return false;
+      if(!a.saved || (type && !a.types.includes(type)) || (family && a.family!==family)) return false;
+      if(context!=='all' && a.context && !allowed.has(a.context)) return false;
+      const bag=new Set(words(Object.values(a.labels).concat(a.terms).join(' ')));
+      return query.every(q=>bag.has(q));
+    }).sort((a,b)=>Number(Boolean(b.named_group))-Number(Boolean(a.named_group)) || a.number-b.number);
+    $('status').textContent=data.saved+' of '+data.planned+' original photographs saved';
+    $('count').textContent=shown.length+' matching saved image'+(shown.length===1?'':'s')+' · tap an image to inspect the original';
+    $('grid').replaceChildren();
+    shown.forEach(a=>{
+      const article=document.createElement('article'), button=document.createElement('button');
+      button.className='photo-button'; button.type='button'; button.setAttribute('aria-label','Inspect '+a.labels.en);
+      const img=document.createElement('img'); img.src=a.image; img.alt=''; img.loading='lazy'; img.decoding='async';
+      img.style.objectPosition=(a.focal.x*100)+'% '+(a.focal.y*100)+'%';
+      img.addEventListener('error',()=>{button.setAttribute('aria-label','Image unavailable: '+a.labels.en);button.disabled=true;});
+      const shade=document.createElement('span');shade.className='shade';shade.setAttribute('aria-hidden','true');
+      const top=document.createElement('span');top.className='top';top.textContent=a.card_eyebrow || data.families.find(f=>f.id===a.family).labels.en;
+      const bottom=document.createElement('span');bottom.className='bottom';bottom.textContent=a.labels.en;
+      top.setAttribute('aria-hidden','true');bottom.setAttribute('aria-hidden','true');
+      button.append(img,shade,top,bottom); button.addEventListener('click',()=>openPreview(a,button));
+      const meta=document.createElement('div');meta.className='meta';
+      const title=document.createElement('h2');title.textContent=String(a.number).padStart(2,'0')+' · '+a.labels.en;
+      const translated=document.createElement('p');translated.textContent=a.labels.rw+' / '+a.labels.fr;
+      const id=document.createElement('p');id.className='id';id.textContent=a.id;
+      meta.append(title,translated,id);
+      if(a.named_group){const note=document.createElement('p');note.className='named-note';note.textContent='Dedicated group cover · platform assignment pending';meta.append(note);}
+      article.append(button,meta);$('grid').append(article);
+    });
+    $('empty').hidden=shown.length>0;
+  }
+  async function refresh() {
+    try {
+      const response=await fetch('/catalog.json',{cache:'no-store'});
+      if(!response.ok) throw new Error('Catalogue unavailable');
+      const oldFamily=$('family').value; data=await response.json();
+      $('family').replaceChildren(new Option('All families',''));
+      data.families.forEach(f=>$('family').add(new Option(f.labels.en,f.id)));
+      $('family').value=oldFamily;render();
+    } catch(error) {
+      $('status').textContent='Could not load the image bank. Use Refresh saved images to retry.';
+    }
+  }
+  function openPreview(a,button) {
+    lastFocus=button;$('preview-title').textContent=a.labels.en;
+    $('preview-image').src=a.image;$('preview-image').alt='Original generated illustration: '+a.labels.en;
+    $('original').href=a.image;$('source-path').textContent=a.source_path;$('preview').showModal();
+  }
+  $('close').addEventListener('click',()=>$('preview').close());
+  $('preview').addEventListener('close',()=>lastFocus?.focus());
+  ['search','type','family','context'].forEach(id=>$(id).addEventListener('input',render));
+  document.querySelectorAll('button[data-crop]').forEach(button=>button.addEventListener('click',()=>{
+    $('grid').dataset.crop=button.dataset.crop;
+    document.querySelectorAll('button[data-crop]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+  }));
+  function selectSet(value){activeSet=value;document.querySelectorAll('button[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.set===value)));}
+  document.querySelectorAll('button[data-set]').forEach(button=>button.addEventListener('click',()=>{
+    selectSet(button.dataset.set);['search','type','family','context'].forEach(id=>$(id).value='');
+    if(activeSet==='all') $('context').value='all';render();
+  }));
+  $('clear').addEventListener('click',()=>{selectSet('all');['search','type','family','context'].forEach(id=>$(id).value='');render();$('search').focus();});
+  $('refresh').addEventListener('click',refresh);refresh();
+</script>
+</body>
+</html>

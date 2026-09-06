@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-29-higher-study-support",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-29-higher-study-support-v1.png",
+  "source_sha256": "c0ae00edca3948dd9b7f8b1de30e0a83aecd887aff0ccaf3b38ae6dddbca8ed3",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "653a4d6069c894db750b179da8a5c82dd59088232f1401660ed4406776a3d420",
+  "imported_at_utc": "2026-09-06T11:22:22.222474+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-3c63b2df-3bd8-4837-8dff-1030bd3b379e.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

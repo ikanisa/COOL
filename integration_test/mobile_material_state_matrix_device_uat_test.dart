@@ -9,6 +9,7 @@ import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/models/collect_group_cover.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/widgets/collect_group_cards.dart';
 import 'package:collect_app/shared/widgets/collect_group_photo_picker.dart';
@@ -527,8 +528,8 @@ Future<void> _inspectSheetToEnd(
     final scrollable = find
         .descendant(of: sheet, matching: find.byType(Scrollable))
         .first;
-    for (final photo in CollectGroupPhoto.collection) {
-      final choice = find.byKey(ValueKey('group-photo-${photo.name}'));
+    for (final photo in CollectGroupCover.suggestions(browseAll: true)) {
+      final choice = find.byKey(ValueKey('group-photo-${photo.id}'));
       await tester.scrollUntilVisible(choice, 160, scrollable: scrollable);
       await _pumpFrames(tester, count: 5);
       expect(choice.hitTestable(), findsOneWidget);

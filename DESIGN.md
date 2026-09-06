@@ -36,6 +36,24 @@ collection and relevant website pages use these assets. Keep their prompts and
 hashes in `assets/marketing/SOURCE.json`; the scenes are illustrations, not
 customer testimonials or evidence of a bank partnership.
 
+The owner's 6 September group-image bank instruction adds 44 original Rwanda
+cover concepts under `assets/group_covers/rwanda/`. Runtime bundles include
+only versioned compressed covers and thumbnails, with a generated metadata
+index; source PNGs, prompts and review records stay outside the bundle.
+Group creation and owner photo editing share a searchable photo sheet in the
+existing appearance step. Current group type supplies suggestions; explicit
+theme/context choices expose additional imagery. Preserve own-photo uploads,
+cancel, selected preview and deliberate confirmation. Named Buri munsi and
+Gikundiro covers are reserved for their platform-sponsored, approved public
+group identities, never inferred from a user-entered name. Saved user media
+keeps priority. Versioned local cover references persist in the existing group
+media field and resolve offline; unknown references retain a readable fallback.
+The catalogue/search pattern uses the September native LIVE-033 reference,
+while photo-card framing uses the owner's Cards.png comparator below. The
+image grid and explicit Use photo action are Collect workflow adaptations.
+Local implementation and agent crop review do not certify cultural review or
+MOBILE-DESIGN-100 acceptance.
+
 The owner's subsequent group-card annotation selects the RevPoints editorial
 cards in `/Users/jeanbosco/Desktop/Revolut/Cards.png` as the component comparator.
 Home's My groups and Featured groups, Groups and their membership filters use

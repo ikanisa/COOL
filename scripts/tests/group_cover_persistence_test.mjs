@@ -1,0 +1,77 @@
+// Isolated PostgreSQL execution. No production connection or user data.
+// deno run --no-config --allow-read --allow-write --allow-env --allow-sys scripts/tests/group_cover_persistence_test.mjs
+import { PGlite } from 'npm:@electric-sql/pglite@0.3.14';
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const db = new PGlite();
+const owner='10000000-0000-0000-0000-000000000001';
+const stranger='10000000-0000-0000-0000-000000000002';
+const capability='20000000-0000-0000-0000-000000000001';
+const receiverHash='a'.repeat(64);
+const cover='collect-cover:rw-09-wedding-committee:v2';
+const checks=[];
+await db.exec(`
+create role anon; create role authenticated;
+create schema auth; create schema collect_profile_access;
+create function auth.uid() returns uuid language sql as $$ select nullif(current_setting('test.user',true),'')::uuid $$;
+create function collect_profile_access.assert_ready(region text) returns void language plpgsql as $$ begin if current_setting('test.ready',true) <> region then raise exception 'Profile not ready'; end if; end $$;
+create table public.profiles(id uuid, momo_provider text, country_code text);
+insert into public.profiles values ('${owner}','mtn_momo','RW'),('${stranger}','mtn_momo','RW');
+create type public.collection_visibility as enum ('private','public_requested','public_approved','public_rejected','archived');
+create table public.collections(id uuid primary key default gen_random_uuid(),slug text not null,title text,creator_user_id uuid,cover_image_url text,accent_color_hex text,is_platform_sponsored boolean default false,public_status public.collection_visibility default 'private',archived_at timestamptz);
+create table public.collection_receivers(collection_id uuid,receiver_user_id uuid,network text);
+create table public.audit_logs(entity_type text,entity_id uuid,action text,metadata jsonb default '{}');
+create table public.native_action_capabilities(id uuid primary key,user_id uuid,action text,receiver_momo_number_hash text,request_payload jsonb,consumed_at timestamptz,expires_at timestamptz,verified_at timestamptz,package_name text,app_verdict text);
+create function public.create_group_with_owner(group_name text,group_description text,receiver_momo_number text,receiver_momo_number_hash text,receiver_label text,group_collection_type text,group_category_subtype text,group_purpose_label text,group_is_public boolean) returns uuid language plpgsql as $$ declare gid uuid; begin
+  if group_is_public then raise exception 'Private only'; end if;
+  insert into public.collections(slug,title,creator_user_id) values ('test-private',group_name,auth.uid()) returning id into gid;
+  insert into public.collection_receivers values(gid,auth.uid(),'pending');
+  return gid;
+end $$;
+`);
+// Execute the real existing capability checks and geographic wrapper. Only
+// auth/session/profile and base table creation dependencies above are fixtures.
+const legacy=await fs.readFile('supabase/migrations/20260815082500_close_group_authorization_privacy.sql','utf8');
+const start=legacy.indexOf('create or replace function public.create_group_with_owner_attested(');
+await db.exec(legacy.slice(start,legacy.indexOf('\n$$;',start)+4));
+const geographic=await fs.readFile('supabase/migrations/20260903201326_geographic_member_profile_gates.sql','utf8');
+const wrapper=geographic.indexOf('CREATE OR REPLACE FUNCTION public.create_private_group_with_owner_attested(');
+await db.exec(geographic.slice(wrapper,geographic.indexOf('\n$function$;',wrapper)+12));
+await db.exec(await fs.readFile('supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql','utf8'));
+const query=(sql,args=[])=>db.query(sql,args);
+const scalar=async(sql,args=[])=>Object.values((await query(sql,args)).rows[0])[0];
+await query("select set_config('test.user',$1,false)",[owner]);
+await query("select set_config('test.ready','rwanda',false)");
+const payload={group_name:'QA wedding',group_description:'Fixture only',receiver_momo_number:'0788123456',receiver_momo_number_hash:receiverHash,receiver_label:'QA receiver',group_collection_type:'wedding',group_category_subtype:'committee',group_purpose_label:'Wedding',group_is_public:false};
+await query(`insert into native_action_capabilities values($1,$2,'group.create',$3,$4,null,now()+interval '5 minutes',now(),'qa.fixture','PLAY_RECOGNIZED')`,[capability,owner,receiverHash,JSON.stringify(payload)]);
+const create = image=>query(`select public.create_private_group_with_owner_media_attested($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) as id`,[payload.group_name,payload.group_description,payload.receiver_momo_number,receiverHash,payload.receiver_label,payload.group_collection_type,payload.group_category_subtype,payload.group_purpose_label,capability,image,'#204050']);
+await assert.rejects(()=>create('collect-cover:rw-42-gikundiro:v1'),/reserved/);
+assert.equal(await scalar('select count(*)::int from collections'),0);
+assert.equal(await scalar('select consumed_at is null from native_action_capabilities'),true);
+checks.push('Reserved named cover rolls back group and one-use capability consumption');
+const created=(await create(cover)).rows[0].id;
+assert.equal(await scalar('select cover_image_url from collections where id=$1',[created]),cover);
+assert.equal(await scalar('select accent_color_hex from collections where id=$1',[created]),'#204050');
+assert.equal(await scalar('select network from collection_receivers where collection_id=$1',[created]),'mtn_momo');
+checks.push('Creation commits exact cover version and colour with existing Rwanda receiver handling');
+await assert.rejects(()=>create(cover),/already used/);checks.push('Consumed capability cannot be replayed');
+await query("select set_config('test.user',$1,false)",[stranger]);
+assert.equal(await scalar('select cover_image_url from collections where id=$1',[created]),cover);
+checks.push('Independent database read sees the same persisted media (collection RLS is outside this isolated harness)');
+await query('update native_action_capabilities set consumed_at=null');
+await assert.rejects(()=>create(cover),/invalid/);checks.push('Another subject cannot use the capability');
+await query("select set_config('test.user',$1,false)",[owner]);
+await query("select set_config('test.ready','diaspora',false)");
+await assert.rejects(()=>create(cover),/Profile not ready/);checks.push('Geographic readiness remains enforced');
+await query("select set_config('test.ready','rwanda',false)");
+await assert.rejects(()=>query('update collections set cover_image_url=$1 where id=$2',['collect-cover:unknown:v99',created]),/Unknown group cover/);
+await query('update collections set cover_image_url=null where id=$1',[created]);
+assert.equal(await scalar('select cover_image_url is null from collections where id=$1',[created]),true);checks.push('Unknown references rejected and image removal persists');
+await query("insert into collections(slug,title,creator_user_id,is_platform_sponsored,public_status,cover_image_url) values('gikundiro','Gikundiro',$1,true,'public_approved','collect-cover:rw-42-gikundiro:v1')",[owner]);
+await assert.rejects(()=>query("insert into collections(slug,title,creator_user_id,is_platform_sponsored,public_status,cover_image_url) values('another-group','Gikundiro',$1,true,'public_approved','collect-cover:rw-42-gikundiro:v1')",[owner]),/reserved/);
+checks.push('Named cover requires actual governed slug and platform/public flags');
+assert.equal(await scalar("select has_function_privilege('anon','public.create_private_group_with_owner_media_attested(text,text,text,text,text,text,text,text,uuid,text,text)','execute')"),false);
+assert.equal(await scalar("select has_function_privilege('authenticated','public.create_private_group_with_owner_media_attested(text,text,text,text,text,text,text,text,uuid,text,text)','execute')"),true);checks.push('RPC grants exclude anonymous callers');
+const report={passed:checks.length,checks,engine:'Isolated PGlite PostgreSQL 17',scope:'Real migration and legacy capability/geographic functions; fixture dependency tables, auth and base creation. No deployment or full production/RLS claim.'};
+await fs.mkdir('.cache/group-cover-integration',{recursive:true});await fs.writeFile('.cache/group-cover-integration/sql-checks.json',JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report,null,2));await db.close();

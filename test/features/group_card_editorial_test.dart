@@ -178,8 +178,13 @@ void main() {
           imageUrl: 'data:image/png;base64,${base64Encode(bytes)}',
         ),
       );
+      final uploadedProvider = tester
+          .widget<Image>(find.byType(Image).first)
+          .image;
       expect(
-        tester.widget<Image>(find.byType(Image).first).image,
+        uploadedProvider is ResizeImage
+            ? uploadedProvider.imageProvider
+            : uploadedProvider,
         isA<MemoryImage>(),
       );
       final uploadedRect = tester.getRect(find.byType(GroupCard));

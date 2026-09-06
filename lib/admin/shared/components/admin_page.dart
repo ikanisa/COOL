@@ -44,7 +44,7 @@ class AdminPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             color: colors.textPrimary,
-                            fontWeight: CollectTypography.weightBold,
+                            fontWeight: CollectTypography.weightSemibold,
                             height: CollectTypography.leadingDisplay,
                           ),
                     ),
@@ -89,7 +89,7 @@ class AdminPageHeader extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: colors.textPrimary,
-              fontWeight: CollectTypography.weightBold,
+              fontWeight: CollectTypography.weightSemibold,
             ),
           ),
           if (subtitle != null) ...[

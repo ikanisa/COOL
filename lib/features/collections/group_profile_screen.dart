@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_group_photo_picker.dart';
+import '../../shared/widgets/collect_group_image.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
 
@@ -31,8 +31,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   final _imagePicker = ImagePicker();
 
   Uint8List? _imageBytes;
-  String? _imageName;
-  String? _imageMimeType;
+  String? _imageValue;
   bool _removeExistingImage = false;
   String _accentColorHex = CollectColors.groupAccentOptions.first.hex;
   String _cadence = 'monthly';
@@ -116,11 +115,10 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           onRemove:
               _imageBytes != null ||
                   (!_removeExistingImage &&
-                      _imageProviderUrl(collection.imageUrl) != null)
+                      collection.imageUrl?.trim().isNotEmpty == true)
               ? () => setState(() {
                   _imageBytes = null;
-                  _imageName = null;
-                  _imageMimeType = null;
+                  _imageValue = null;
                   _removeExistingImage = true;
                 })
               : null,
@@ -233,14 +231,21 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       final image = await pickCollectGroupPhoto(
         context,
         imagePicker: _imagePicker,
+        groupType: _collectionType,
+        selectedReference:
+            _imageValue ??
+            (_removeExistingImage
+                ? null
+                : ref
+                      .read(collectRepositoryProvider.notifier)
+                      .maybeCollectionById(widget.collectionId)
+                      ?.imageUrl),
       );
       if (image == null) return;
-      final bytes = await image.readAsBytes();
       if (!mounted) return;
       setState(() {
-        _imageBytes = bytes;
-        _imageName = image.name;
-        _imageMimeType = image.mimeType ?? _mimeTypeFromName(image.name);
+        _imageBytes = image.bytes;
+        _imageValue = image.value;
         _removeExistingImage = false;
         _error = null;
       });
@@ -258,7 +263,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     try {
       final imageUrl = _removeExistingImage
           ? null
-          : _selectedImageDataUri() ?? collection.imageUrl;
+          : _imageValue ?? collection.imageUrl;
       await ref
           .read(collectRepositoryProvider.notifier)
           .updateCollectionProfile(
@@ -284,14 +289,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             'Could not save the group profile. Check the fields and try again.';
       });
     }
-  }
-
-  String? _selectedImageDataUri() {
-    final bytes = _imageBytes;
-    if (bytes == null || bytes.isEmpty) return null;
-    final mimeType =
-        _imageMimeType ?? _mimeTypeFromName(_imageName ?? '') ?? 'image/jpeg';
-    return 'data:$mimeType;base64,${base64Encode(bytes)}';
   }
 
   CollectionTypeCatalogItem get _selectedTypeOption {

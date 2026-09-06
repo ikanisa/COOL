@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/theme/collect_component_tokens.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -54,6 +55,10 @@ class HomeScreen extends ConsumerWidget {
       hero: isInitialLoading || state.hasInitialLoadFailure
           ? null
           : CollectScreenHero(
+              centerGap: CollectComponentTokens.homeHeroLeading(context),
+              quickActionsGap: CollectComponentTokens.homeHeroActionGap(
+                context,
+              ),
               metric: formatCurrencyTotals(
                 raisedTotals,
                 separator: '\n',

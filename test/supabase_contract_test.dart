@@ -161,7 +161,10 @@ void main() {
       hybrid,
       contains("and public_status = 'private'::public.collection_visibility"),
     );
-    expect(repository, contains("'create_private_group_with_owner_attested'"));
+    expect(
+      repository,
+      contains("'create_private_group_with_owner_media_attested'"),
+    );
     expect(repository, contains("'group_is_public': false"));
     expect(repository, isNot(contains("'request_public_collection'")));
   });

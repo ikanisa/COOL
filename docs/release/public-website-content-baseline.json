@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "scope": "Reviewed visible-content hashes for all 16 public routes. The September 6 owner annotation removes only two commercial-value bullets on Our Partners and its alias; all other visible content is unchanged.",
+  "source_review": "docs/release/mobile-design/WEBSITE_AUTHENTIC_APP_MEDIA_2026-09-06.md",
+  "hashes": {
+    "/": "a0b19e5bd9838068cc6b4dddcc3db7cf169e05702268b77f69a43900c827b56b",
+    "/account-deletion/": "ef6f3bb7302829b8660e08dba1670ef128c2af2139574ef0a0cfa90e6e6fe4fa",
+    "/community-groups/": "995ac5664e120c477e6c40df6571b697a46f1f0c1552af2868a5e11f2af2153c",
+    "/craas/": "87614fa5aa2d7bbe6aedc2f81b9884cef453fe3b5f04403f5ead6899a1369f3d",
+    "/credit-readiness/": "4e02a5f56ae1bdfb72d427b223f99d26b208fad33a58d9223ad891cecf22887a",
+    "/data-deletion/": "e6886abc6bdad6758d6e5a186f8a44b0c7fb87a26e7fc73c279f813bc65953cf",
+    "/diaspora/": "9de7fac20f76b0e62a04973802c6115d09366cd75bc54072e4af611aa863ad77",
+    "/group-savings/": "72d1d165fd951eeb40a97fc9116b30c6004e03d26d3ae81415c6e12d9e878bce",
+    "/insurance/": "e2f7043c6c6c0781fc8fd1cfa43b0bfd81993430ec13dc0ba6f7bc501c8cc564",
+    "/our-partners/": "a2a40140ddbf62dd2e3a41c6452be583cc376e02466a3a262c39c9b1dc396ae5",
+    "/partners/": "f04cf90a38d0a6f49ddd64dae879bc2dde52ce4d6af411897a8bb415487877cf",
+    "/privacy/": "e2262fd575e34b7605185f508ec54dabdbe5e12db5307ed4fb786f4b9b167a2d",
+    "/protection/": "76d64d2361fadee80aac081af5946049195ca789d22e6274b9677fe8469e5457",
+    "/security/": "1bf5211c20994191a6f14270bd462e2e117c3e8ec60cc5d8e4b2026ebe3a4498",
+    "/terms/": "5c780ab940cb0cc963232ebfa0b5b0144e6fcc2b58b6060b657f53495f3eff5c",
+    "/trust/": "81c31ac0a356dfa8bbc9bd7a157b12be935c3900bd17df409836666d1e75689b"
+  },
+  "owner_content_review": "docs/release/mobile-design/WEBSITE_OWNER_LAYOUT_2026-09-06.md",
+  "owner_content_changes": {
+    "routes": [
+      "/our-partners/",
+      "/partners/"
+    ],
+    "removed_bullets": [
+      "Stronger customer retention",
+      "New diaspora banking relationships"
+    ],
+    "retained_commercial_value_bullets": 4
+  }
+}

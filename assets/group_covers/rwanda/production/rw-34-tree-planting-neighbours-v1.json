@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-34-tree-planting-neighbours",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-34-tree-planting-neighbours-v1.png",
+  "source_sha256": "b372d9786c620198ad2ceac1fe2cc7232a3d13c32affa22744d69ca822696707",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "9e0b83523092db09e37b16fe3bb4712fdf36c68adc65c1baa7af4710fd4815f5",
+  "imported_at_utc": "2026-09-06T11:23:56.078084+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-c2b23fc5-f250-4852-b925-7a86c502a1c9.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

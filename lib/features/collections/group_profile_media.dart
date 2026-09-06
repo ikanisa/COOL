@@ -20,7 +20,7 @@ class _GroupProfileMediaRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final hasImage = imageBytes != null || _imageProviderUrl(imageUrl) != null;
+    final hasImage = imageBytes != null || imageUrl?.trim().isNotEmpty == true;
     final titleText = title.trim().isEmpty ? 'Group' : title.trim();
     final imageFallback = Center(
       child: Icon(CollectIcons.photo, color: colors.textPrimary, size: 30),
@@ -74,20 +74,11 @@ class _GroupProfileMediaRow extends StatelessWidget {
                               errorBuilder: (context, error, stackTrace) =>
                                   imageFallback,
                             )
-                          else if (_imageProviderUrl(imageUrl) case final url?)
-                            Image.network(
-                              url,
-                              fit: BoxFit.cover,
-                              gaplessPlayback: true,
-                              filterQuality: FilterQuality.medium,
-                              frameBuilder: _fadeInGroupProfileImage,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) =>
-                                      loadingProgress == null
-                                      ? child
-                                      : imageFallback,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  imageFallback,
+                          else if (imageUrl?.trim().isNotEmpty == true)
+                            CollectGroupImage(
+                              value: imageUrl,
+                              thumbnail: true,
+                              fallback: imageFallback,
                             ),
                           if (!hasImage)
                             Center(
@@ -147,14 +138,6 @@ class _GroupProfileMediaRow extends StatelessWidget {
   }
 }
 
-String? _mimeTypeFromName(String name) {
-  final lower = name.toLowerCase();
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
-  return null;
-}
-
 Widget _fadeInGroupProfileImage(
   BuildContext context,
   Widget child,
@@ -168,11 +151,4 @@ Widget _fadeInGroupProfileImage(
     curve: CollectMotion.standard,
     child: child,
   );
-}
-
-String? _imageProviderUrl(String? value) {
-  if (value == null || value.trim().isEmpty || value.startsWith('data:')) {
-    return null;
-  }
-  return value;
 }

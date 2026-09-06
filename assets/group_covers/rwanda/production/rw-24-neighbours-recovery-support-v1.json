@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-24-neighbours-recovery-support",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-24-neighbours-recovery-support-v1.png",
+  "source_sha256": "42d89a77f68215e468e8ea4702c3c6a48f71d2087cb6dc8eb2cf46dd4bac56d4",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "a3f5481addacb96b5774f865ceb74c6346954dd4b124d5b9b9ff5f7e74d8464d",
+  "imported_at_utc": "2026-09-06T11:22:21.537490+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-d30c555d-a963-42d8-9f7d-f22f8a1060d5.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

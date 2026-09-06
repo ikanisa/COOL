@@ -122,15 +122,10 @@ class CollectTypography {
       titleMedium: _style(
         sizeBody,
         leadingBodyComfortable,
-        weightSemibold,
+        weightMedium,
         textPrimary,
       ),
-      titleSmall: _style(
-        sizeBodySmall,
-        leadingBody,
-        weightSemibold,
-        textPrimary,
-      ),
+      titleSmall: _style(sizeBodySmall, leadingBody, weightMedium, textPrimary),
       bodyLarge: _style(
         sizeBodyLarge,
         leadingBodyLarge,
@@ -149,12 +144,7 @@ class CollectTypography {
         weightRegular,
         textSecondary,
       ),
-      labelLarge: _style(
-        sizeBodySmall,
-        leadingMeta,
-        weightSemibold,
-        textPrimary,
-      ),
+      labelLarge: _style(sizeBodySmall, leadingMeta, weightMedium, textPrimary),
       labelMedium: _label(sizeLabel, leadingLabelCompact, textSecondary),
       labelSmall: _label(sizeLabelSmall, leadingMeta, textSecondary),
     );
@@ -184,7 +174,7 @@ class CollectTypography {
   static TextStyle amountCompact(Color color) => _style(
     sizeBodyCompact,
     leadingLabel,
-    weightBold,
+    weightMedium,
     color,
   ).copyWith(fontFeatures: _tabular);
 

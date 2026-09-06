@@ -1,0 +1,325 @@
+{
+  "date": "2026-09-06",
+  "scope": "Original image generation; no production runtime integration",
+  "tool_calls": 42,
+  "selected_originals": 40,
+  "rejected_candidates": 2,
+  "source_pixel_edits": 0,
+  "runtime_ready": 0,
+  "selected": [
+    {
+      "asset_id": "rw-01-neighbourhood-ikimina",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-73dbc75a-1c5d-4c9a-bc8c-ccc9b1d8fc1e.png",
+      "prompt_sha256": "72d198b8923f17075a2b48da744a4aa15d5a81a9c22e7fcc9e8b4bd814d33d98",
+      "source": "assets/group_covers/rwanda/source/rw-01-neighbourhood-ikimina-v1.png"
+    },
+    {
+      "asset_id": "rw-02-women-savings-circle",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-25f6af2f-8e2e-4a0d-83ee-45a9985d6cae.png",
+      "prompt_sha256": "0052929714f948356372f07e8c841cfe510bec47c14feb74542b75a419eeb9fe",
+      "source": "assets/group_covers/rwanda/source/rw-02-women-savings-circle-v1.png"
+    },
+    {
+      "asset_id": "rw-03-young-professionals-goal",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-c15639d8-b3a0-4e3d-8edf-d41f80d28624.png",
+      "prompt_sha256": "1603e8f6efebf5d58720f007b4bd3888d82a0e32b350011ebf3594cfff91fe63",
+      "source": "assets/group_covers/rwanda/source/rw-03-young-professionals-goal-v1.png"
+    },
+    {
+      "asset_id": "rw-04-market-traders-stock",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-d899f1c7-e30e-4363-a689-ec6186be3144.png",
+      "prompt_sha256": "aca8f74d5a3ad0688b5d00c725c7249001c44ed705bd03e68e5319105a2f325a",
+      "source": "assets/group_covers/rwanda/source/rw-04-market-traders-stock-v1.png"
+    },
+    {
+      "asset_id": "rw-05-moto-riders-shared-goal",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-666cdcf5-feff-4c34-8d2c-b0316a926b29.png",
+      "prompt_sha256": "474d933f13a7eefdfd049741c0c8d72a35f7a23a9bfb62e129dedc4712ec1572",
+      "source": "assets/group_covers/rwanda/source/rw-05-moto-riders-shared-goal-v1.png"
+    },
+    {
+      "asset_id": "rw-06-farmers-season-inputs",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-71d116e2-5cee-4a8c-88c6-77239f30ebfc.png",
+      "prompt_sha256": "e811082a5eca3b79ac017fea9c1ffed94bfc7c92b4b2654a7ebc4299debff3ea",
+      "source": "assets/group_covers/rwanda/source/rw-06-farmers-season-inputs-v1.png"
+    },
+    {
+      "asset_id": "rw-07-family-home-goal",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-9ac7ab25-b334-49c3-89e5-e0d3eb823a4d.png",
+      "prompt_sha256": "17b2eecf1867048ae79e3d0696004e46fdef59008c3b078a998b1a75905381dc",
+      "source": "assets/group_covers/rwanda/source/rw-07-family-home-goal-v1.png"
+    },
+    {
+      "asset_id": "rw-08-craft-cooperative-tools",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-f0829eca-69ae-478c-9ae3-3a98079061c3.png",
+      "prompt_sha256": "78627184554288f2d4907237ffc465f80d77adb9ecfc36fac78321134b6a6613",
+      "source": "assets/group_covers/rwanda/source/rw-08-craft-cooperative-tools-v1.png"
+    },
+    {
+      "asset_id": "rw-09-wedding-committee",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-7030d678-b801-4da8-9dd3-82c413bfbe5c.png",
+      "prompt_sha256": "55cbad5589ab1afa2e30f81e7f2eafdbcd18328f1e87cde22331614af672f420",
+      "source": "assets/group_covers/rwanda/source/rw-09-wedding-committee-v1.png"
+    },
+    {
+      "asset_id": "rw-10-gusaba-gukwa-gathering",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-5e89a34a-7fea-452c-b608-c7e8dbf79f5b.png",
+      "prompt_sha256": "94a470b518e32f5ac52ce28987b97237300b5bda78621879eac2ea98b2cf0270",
+      "source": "assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v1.png"
+    },
+    {
+      "asset_id": "rw-11-wedding-attire-preparation",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-83e62253-206b-46a2-99b4-c84ea2a6bbde.png",
+      "prompt_sha256": "5c27806c9168b61cad1e419a199f7b4a1449d59686ed428d71b2a362f059ad50",
+      "source": "assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v1.png"
+    },
+    {
+      "asset_id": "rw-12-wedding-reception-table",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-ff01826a-0ba5-4715-8ac9-fe08eac37716.png",
+      "prompt_sha256": "71d7fd6e7eeb51bc1f16049025b43f7e18b3a7560b107c5be11e5db21f6929ac",
+      "source": "assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v1.png"
+    },
+    {
+      "asset_id": "rw-13-new-home-wedding-gift",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-8cbb5b70-bc09-4a19-8ce3-9b0e2341c62a.png",
+      "prompt_sha256": "cb119d58d79c963c23727a5f6dd3260b98f8c90160dc4374fd7b1a3481f845dd",
+      "source": "assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v1.png"
+    },
+    {
+      "asset_id": "rw-14-wedding-day-family",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-92cc7c85-8292-43cb-9178-f6b6fd84b38d.png",
+      "prompt_sha256": "a9071114b277878630a90f444751a18aef5fda34a12d527ac4de374f39036cbd",
+      "source": "assets/group_covers/rwanda/source/rw-14-wedding-day-family-v1.png"
+    },
+    {
+      "asset_id": "rw-15-church-community-offering",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-fb5f6f28-4efd-40c9-8ebd-8c977aa7b4fe.png",
+      "prompt_sha256": "b38a7a07d0a597a81f81444b00397249fcf3818548b02ec9fe4f5e9c051ba1e5",
+      "source": "assets/group_covers/rwanda/source/rw-15-church-community-offering-v1.png"
+    },
+    {
+      "asset_id": "rw-16-church-building-project",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-8dd4a34a-b4c8-4c48-8788-9b858fd4e199.png",
+      "prompt_sha256": "47625110921a785aadcdd71a0f21b64bc4bc726aa892907b94ba9ceff56b273b",
+      "source": "assets/group_covers/rwanda/source/rw-16-church-building-project-v1.png"
+    },
+    {
+      "asset_id": "rw-17-choir-shared-equipment",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-254a9cb8-661c-4a0e-bd89-3ee2d40e019f.png",
+      "prompt_sha256": "bb0fd026ee14c0dae5dc68755e11e0011bde0691f3e6500a143f9ed179548384",
+      "source": "assets/group_covers/rwanda/source/rw-17-choir-shared-equipment-v1.png"
+    },
+    {
+      "asset_id": "rw-18-muslim-community-giving",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-d4fc7b46-8cc8-498f-bcda-4e737d22757c.png",
+      "prompt_sha256": "1f42dbfd7189258417601e67fe099714b6b4816e357483a9e1b7d5e96fc431bd",
+      "source": "assets/group_covers/rwanda/source/rw-18-muslim-community-giving-v1.png"
+    },
+    {
+      "asset_id": "rw-19-ramadan-community-meal",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-e25867fd-2a55-4a91-a55d-8fe00dfcf2a3.png",
+      "prompt_sha256": "8281383d259d63ca0389ef9724e08c3016ef374c6f602fd90538b6ab20c2692b",
+      "source": "assets/group_covers/rwanda/source/rw-19-ramadan-community-meal-v1.png"
+    },
+    {
+      "asset_id": "rw-20-community-giving-parcels",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-53ea25f0-4c31-424a-94cf-71f782d04417.png",
+      "prompt_sha256": "2d163ae3cf3d27a376dd856606751d37fa37c80e879e90129b4c3347743c8ec5",
+      "source": "assets/group_covers/rwanda/source/rw-20-community-giving-parcels-v1.png"
+    },
+    {
+      "asset_id": "rw-21-bereavement-support",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-dc1f6c93-d322-413f-8e2e-5346c8e7aca0.png",
+      "prompt_sha256": "de3b307473d2a43a02b30e0fb83d66fdd73ee54a6937b88f721433ade860cae5",
+      "source": "assets/group_covers/rwanda/source/rw-21-bereavement-support-v1.png"
+    },
+    {
+      "asset_id": "rw-22-medical-care-support",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-46370b13-1b3c-4fb1-9849-5284e66cba23.png",
+      "prompt_sha256": "95d244bd5079cea43c19bb06893098b55e5ae9350771ee28269ff0a179d9c2eb",
+      "source": "assets/group_covers/rwanda/source/rw-22-medical-care-support-v1.png"
+    },
+    {
+      "asset_id": "rw-23-health-cover-contribution",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-69635952-2ee7-45ab-8de0-cbe31578acc6.png",
+      "prompt_sha256": "44e25a27f57bdcdf0bb34774da7ef1055de3ab3213828f845eda5990625eed24",
+      "source": "assets/group_covers/rwanda/source/rw-23-health-cover-contribution-v1.png"
+    },
+    {
+      "asset_id": "rw-24-neighbours-recovery-support",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-d30c555d-a963-42d8-9f7d-f22f8a1060d5.png",
+      "prompt_sha256": "a3f5481addacb96b5774f865ceb74c6346954dd4b124d5b9b9ff5f7e74d8464d",
+      "source": "assets/group_covers/rwanda/source/rw-24-neighbours-recovery-support-v1.png"
+    },
+    {
+      "asset_id": "rw-25-family-everyday-support",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-6450c571-2a9f-43a4-9c00-9f732ba6e0ce.png",
+      "prompt_sha256": "adeebea85d765a947feeea399f26f520807fd6d3b69ebaae3b1550a57bfdb255",
+      "source": "assets/group_covers/rwanda/source/rw-25-family-everyday-support-v1.png"
+    },
+    {
+      "asset_id": "rw-26-welcoming-new-baby",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-4430a180-8679-40f0-85a7-25b66068df52.png",
+      "prompt_sha256": "96d0e861fd459f59c681178dea9ebfb01cdd2abc8a45644ea24378341607e6d3",
+      "source": "assets/group_covers/rwanda/source/rw-26-welcoming-new-baby-v1.png"
+    },
+    {
+      "asset_id": "rw-27-school-supplies",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-54550640-bb23-4422-8008-36dce757faae.png",
+      "prompt_sha256": "9b492866c7e54281ad8698360633540ef9a5581e4a327264830208681c2e004f",
+      "source": "assets/group_covers/rwanda/source/rw-27-school-supplies-v1.png"
+    },
+    {
+      "asset_id": "rw-28-school-meal-support",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-95428f80-8242-444d-9979-0a7964ebc7ab.png",
+      "prompt_sha256": "a1941cc182e4855fe61af9fca0c12619998b3d9b8d4b381e040ae6e14faf7a09",
+      "source": "assets/group_covers/rwanda/source/rw-28-school-meal-support-v1.png"
+    },
+    {
+      "asset_id": "rw-29-higher-study-support",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-3c63b2df-3bd8-4837-8dff-1030bd3b379e.png",
+      "prompt_sha256": "653a4d6069c894db750b179da8a5c82dd59088232f1401660ed4406776a3d420",
+      "source": "assets/group_covers/rwanda/source/rw-29-higher-study-support-v1.png"
+    },
+    {
+      "asset_id": "rw-30-youth-skills-training",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-a2c98e2f-a7a4-46f5-b7d7-f450e5f7632d.png",
+      "prompt_sha256": "5d1d068a47f37bac89a807d8624e28e49632614647f9dfe4fbb75f3ded35a6ae",
+      "source": "assets/group_covers/rwanda/source/rw-30-youth-skills-training-v1.png"
+    },
+    {
+      "asset_id": "rw-31-umuganda-project-tools",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-6e24b2b7-1307-4e7f-92a2-d678244bf621.png",
+      "prompt_sha256": "90cee3a52f5f0675d22548ac9cbc41b1083a6500332c43f71c154313fb1e6245",
+      "source": "assets/group_covers/rwanda/source/rw-31-umuganda-project-tools-v1.png"
+    },
+    {
+      "asset_id": "rw-32-shared-water-point",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-4d9efb5b-ee77-46ea-b2bd-4483c238dbc9.png",
+      "prompt_sha256": "62131ee071a88e4d9a8cc3bdd931e374eda8b18ef1edc880e49e70bf1b7e50a5",
+      "source": "assets/group_covers/rwanda/source/rw-32-shared-water-point-v1.png"
+    },
+    {
+      "asset_id": "rw-33-community-hall-improvement",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-d86b2b13-4adc-473a-9d76-7cd83ae30252.png",
+      "prompt_sha256": "d81896c0d7472ab840cb3a0bd20d9dd4c1b5d1419b0b43a7d030749e28e057a6",
+      "source": "assets/group_covers/rwanda/source/rw-33-community-hall-improvement-v1.png"
+    },
+    {
+      "asset_id": "rw-34-tree-planting-neighbours",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-c2b23fc5-f250-4852-b925-7a86c502a1c9.png",
+      "prompt_sha256": "9e0b83523092db09e37b16fe3bb4712fdf36c68adc65c1baa7af4710fd4815f5",
+      "source": "assets/group_covers/rwanda/source/rw-34-tree-planting-neighbours-v1.png"
+    },
+    {
+      "asset_id": "rw-35-football-fan-community",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-1e4460fa-3738-4095-bfeb-926e3e228aa4.png",
+      "prompt_sha256": "c577e02d009cf9da5d3d8d0684faaeb91376265bb249cb83fa6f3f0ce5d4f923",
+      "source": "assets/group_covers/rwanda/source/rw-35-football-fan-community-v1.png"
+    },
+    {
+      "asset_id": "rw-36-local-team-equipment",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-e97cc601-2e3b-4a44-94a3-09411255ce85.png",
+      "prompt_sha256": "841cae319e7d824ea35342893340b7b7ef136257c5f7f4cfb3fc80bf8b2e3b30",
+      "source": "assets/group_covers/rwanda/source/rw-36-local-team-equipment-v1.png"
+    },
+    {
+      "asset_id": "rw-37-away-match-travel",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-3a0ffed3-5c04-4874-8f2a-afbc6bcc4195.png",
+      "prompt_sha256": "c4ab1d5b82847037e83efa6ed8701c975e35baeb283eb2af76e8da6bb0159ba6",
+      "source": "assets/group_covers/rwanda/source/rw-37-away-match-travel-v1.png"
+    },
+    {
+      "asset_id": "rw-38-cultural-troupe-rehearsal",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-1d433fcc-38a5-4d3a-9fb2-7427be475a40.png",
+      "prompt_sha256": "e7200389e12911ea7a89275c085c638f15285c6d833e4244fd46704a51c468e1",
+      "source": "assets/group_covers/rwanda/source/rw-38-cultural-troupe-rehearsal-v1.png"
+    },
+    {
+      "asset_id": "rw-39-diaspora-family-connection",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-6de362b0-9255-472f-ae14-7a33d4a45d82.png",
+      "prompt_sha256": "e77f22ee17cb28988e5d8a1ce1f4c314b4375cb55806f97802b5dc1071ba3739",
+      "source": "assets/group_covers/rwanda/source/rw-39-diaspora-family-connection-v1.png"
+    },
+    {
+      "asset_id": "rw-40-diaspora-community-project",
+      "tool": "image_gen.imagegen",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-37175450-1e88-4e90-aeb4-77008625f3fb.png",
+      "prompt_sha256": "a62addf4f6ee81eca7a59cb1c2a4625284377902e4d5b0aa152112d33d580e02",
+      "source": "assets/group_covers/rwanda/source/rw-40-diaspora-community-project-v1.png"
+    }
+  ],
+  "rejected": [
+    {
+      "asset_id": "rw-21-bereavement-support",
+      "reason": "The requested still life included people.",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-0c42cbe1-2cdf-4af8-a00d-1d5b90ae99b0.png",
+      "job": {
+        "asset_id": "rw-21-bereavement-support",
+        "batch": 1,
+        "tool": "image_gen.imagegen",
+        "arguments": {
+          "prompt": "Use case: photorealistic-natural\n\nAsset type: One original photographic cover for a Collect contribution group. Working concept: Support in bereavement.\n\nScene and subjects: A quiet, respectful still life suggesting practical support for a bereaved Rwandan household: two ceramic cups, a clean folded cloth and a small understated arrangement of white flowers on a wooden table in a shaded veranda. Empty seats are softly present in the background. Keep the composition restrained and humane, focused on companionship rather than death or ceremonial spectacle.\n\nMaterials and details: No coffin, corpse, graves, hospital imagery, grieving faces, candles with ritual meaning, memorial portrait or national commemoration symbols.\n\nLighting and palette: Gentle neutral daylight, subdued green, warm grey and white; never dramatic horror lighting.\n\nPrimary focal subject: The cups and understated flowers.\n\nStyle: Original premium editorial photography for Collect, depicting fictional contemporary Rwandan people and settings. Show everyday competence, cooperation and dignity, with natural skin texture, believable anatomy, practical objects and restrained colour. Use a 35–50 mm documentary lens feel at eye level; avoid glossy corporate-stock posing. The described location is creative setting direction, not evidence of a real event or person's origin.\n\nComposition and intended crops: Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.\n\nText: None. Do not render any words, numbers or interface.\n\nConstraints: All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.\n"
+        },
+        "prompt_sha256": "0f9628d49dfc7c79dae79582e7a27e183fee9bba814e2709b4516f8b827a7bb5",
+        "save_source_after_generation": "assets/group_covers/rwanda/source/rw-21-bereavement-support-v1.png",
+        "note": "Only arguments is passed to imagegen. Save the returned output afterward; the tool has no output-path argument. No reference images are needed."
+      }
+    },
+    {
+      "asset_id": "rw-38-cultural-troupe-rehearsal",
+      "reason": "Drum direction was insufficiently specific and left shoe had a brand-like mark.",
+      "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-0df21d20-ffa8-451c-955a-8837982eca6e.png",
+      "job": {
+        "asset_id": "rw-38-cultural-troupe-rehearsal",
+        "batch": 5,
+        "tool": "image_gen.imagegen",
+        "arguments": {
+          "prompt": "Use case: photorealistic-natural\n\nAsset type: One original photographic cover for a Collect contribution group. Working concept: Supporting music and dance.\n\nScene and subjects: Three Rwandan adult members of a local cultural troupe prepare for rehearsal in a modest bright hall. One checks a traditional drum while another folds occasion-appropriate performance fabric and a third discusses the plan. Show contemporary rehearsal clothing rather than a historical tableau. Centre the drum and two collaborators so the image communicates community support for instruments, costumes and transport.\n\nMaterials and details: Rwandan drum construction and fabric treatment need cultural review; no warrior caricature, copied national troupe identity or invented sacred ritual.\n\nLighting and palette: Soft hall daylight, warm wood, cream fabric and muted red.\n\nPrimary focal subject: The troupe members and central drum.\n\nStyle: Original premium editorial photography for Collect, depicting fictional contemporary Rwandan people and settings. Show everyday competence, cooperation and dignity, with natural skin texture, believable anatomy, practical objects and restrained colour. Use a 35–50 mm documentary lens feel at eye level; avoid glossy corporate-stock posing. The described location is creative setting direction, not evidence of a real event or person's origin.\n\nComposition and intended crops: Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.\n\nText: None. Do not render any words, numbers or interface.\n\nConstraints: All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.\n"
+        },
+        "prompt_sha256": "e3081a8242754bab937a87618cc4bb697e71f5a9957cf3dcb8f7d3719ccaba8d",
+        "save_source_after_generation": "assets/group_covers/rwanda/source/rw-38-cultural-troupe-rehearsal-v1.png",
+        "note": "Only arguments is passed to imagegen. Save the returned output afterward; the tool has no output-path argument. No reference images are needed."
+      }
+    }
+  ]
+}

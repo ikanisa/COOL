@@ -700,7 +700,7 @@ void main() {
     await tester.ensureVisible(find.byTooltip('Upload image'));
     await tester.tap(find.byTooltip('Upload image'));
     await tester.pumpAndSettle();
-    expect(find.text('Rwanda collection'), findsOneWidget);
+    expect(find.text('Group photo'), findsOneWidget);
     await tester.tap(find.byTooltip('Close photo collection'));
     await tester.pumpAndSettle();
     final save = find.widgetWithText(FilledButton, 'Save');
@@ -708,14 +708,21 @@ void main() {
     expect(repository.collectionById(original.id).imageUrl, original.imageUrl);
     await tester.tap(find.byTooltip('Upload image'));
     await tester.pumpAndSettle();
-    final photo = find.text('Community savings');
+    final photo = find.text('Church community giving');
     await tester.scrollUntilVisible(
       photo,
       160,
-      scrollable: find.byType(Scrollable).last,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const ValueKey('group-photo-scroll')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
     );
     await tester.pumpAndSettle();
     await tester.tap(photo);
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilledButton, 'Use photo'));
     await tester.pumpAndSettle();
     expect(find.byTooltip('Remove image'), findsOneWidget);
     expect(tester.widget<FilledButton>(save).onPressed, isNotNull);
@@ -724,7 +731,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(
       repository.collectionById(original.id).imageUrl,
-      startsWith('data:image/png;base64,'),
+      'collect-cover:rw-15-church-community-offering:v1',
     );
     expect(tester.takeException(), isNull);
   });

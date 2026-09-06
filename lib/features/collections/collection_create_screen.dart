@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -33,8 +32,7 @@ class _CollectionCreateScreenState
   final _receiverNumber = TextEditingController();
   final _imagePicker = ImagePicker();
   Uint8List? _groupImageBytes;
-  String? _groupImageName;
-  String? _groupImageMimeType;
+  String? _groupImageValue;
   String _accentColorHex = CollectColors.groupAccentOptions.first.hex;
   CollectionType _collectionType = CollectionType.ikimina;
   String _receiverProvider = 'mtn_momo';
@@ -191,8 +189,7 @@ class _CollectionCreateScreenState
                 ? null
                 : () => setState(() {
                     _groupImageBytes = null;
-                    _groupImageName = null;
-                    _groupImageMimeType = null;
+                    _groupImageValue = null;
                   }),
           ),
         ] else
@@ -277,7 +274,7 @@ class _CollectionCreateScreenState
             categorySubtype: _selectedTypeOption.defaultCategorySubtype,
             purposeLabel: _selectedTypeOption.defaultPurposeLabel,
             accentColorHex: _accentColorHex,
-            imageUrl: _selectedImageDataUri(),
+            imageUrl: _groupImageValue,
             receiverMomoNumber: _receiverNumber.text,
             receiverProvider: _receiverProvider,
             isPublic: false,
@@ -333,28 +330,18 @@ class _CollectionCreateScreenState
       final image = await pickCollectGroupPhoto(
         context,
         imagePicker: _imagePicker,
+        groupType: _collectionType,
+        selectedReference: _groupImageValue,
       );
       if (image == null) return;
-      final bytes = await image.readAsBytes();
       if (!mounted) return;
       setState(() {
-        _groupImageBytes = bytes;
-        _groupImageName = image.name;
-        _groupImageMimeType = image.mimeType ?? _mimeTypeFromName(image.name);
+        _groupImageBytes = image.bytes;
+        _groupImageValue = image.value;
         _error = null;
       });
     } catch (_) {
       if (mounted) setState(() => _error = 'Photo upload failed.');
     }
-  }
-
-  String? _selectedImageDataUri() {
-    final bytes = _groupImageBytes;
-    if (bytes == null || bytes.isEmpty) return null;
-    final mime =
-        _groupImageMimeType ??
-        _mimeTypeFromName(_groupImageName ?? '') ??
-        'image/jpeg';
-    return 'data:$mime;base64,${base64Encode(bytes)}';
   }
 }

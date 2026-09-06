@@ -4,6 +4,7 @@
 require "cgi"
 require "fileutils"
 require "json"
+require "open3"
 require "time"
 require "yaml"
 require_relative "public_app_media"
@@ -1385,9 +1386,7 @@ def partner_page_html
     "Growth in low-cost deposits",
     "New retail and MSME customers",
     "Increased loan origination",
-    "Reduced pre-credit administration",
-    "Stronger customer retention",
-    "New diaspora banking relationships"
+    "Reduced pre-credit administration"
   ]
 
   <<~HTML
@@ -1783,6 +1782,7 @@ def stylesheet
       --type-size-18px: 18px;
       --type-size-19px: 19px;
       --type-size-20px: 20px;
+      --type-size-22px: 22px;
       --type-size-24px: 24px;
       --type-size-25px: 25px;
       --type-size-26px: 26px;
@@ -1906,7 +1906,7 @@ def stylesheet
     .legal-inline-link { display: inline-flex; min-height: 44px; align-items: center; color: #4a3fd6; font-weight: var(--type-weight-bold); text-decoration-thickness: 2px; text-underline-offset: 4px; }
     .app-capture { width: min(100%, 300px); margin: 0; }
     .app-capture img { display: block; width: 100%; height: auto; border: 1px solid #343438; border-radius: 28px; }
-    .app-capture figcaption { margin-top: 14px; color: #c9c9ce; text-align: center; font-size: 13px; line-height: 1.5; }
+    .app-capture figcaption { margin-top: 14px; color: #c9c9ce; text-align: center; font-size: var(--type-size-13px); line-height: var(--type-leading-1-5); }
     .service-photo { width: 100%; margin: 0; }
     .service-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 28px; }
     .infographic-band h2 { font-size: var(--type-size-fluid-34px-5vw-64px); line-height: var(--type-leading-1); margin: 0; }
@@ -2366,6 +2366,22 @@ end
 
 def site_js
   <<~JS
+    const homeHeader = document.querySelector('.route-home .site-header');
+    const homeHero = document.querySelector('.route-home .hero');
+    if (homeHeader && homeHero) {
+      let headerFrame = 0;
+      const syncHeader = () => {
+        headerFrame = 0;
+        homeHeader.classList.toggle('on-light',
+          homeHero.getBoundingClientRect().bottom <= homeHeader.getBoundingClientRect().bottom);
+      };
+      const scheduleHeader = () => {
+        if (!headerFrame) headerFrame = requestAnimationFrame(syncHeader);
+      };
+      window.addEventListener('scroll', scheduleHeader, { passive: true });
+      window.addEventListener('resize', scheduleHeader);
+      syncHeader();
+    }
     const nav = document.querySelector('[data-site-nav]');
     const button = document.querySelector('[data-menu-button]');
     if (button && nav) {
@@ -2650,11 +2666,15 @@ write_file(
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n#{sitemap_urls}\n</urlset>\n"
 )
 
+source_commit, source_commit_status = Open3.capture2("git", "-C", ROOT, "rev-parse", "HEAD")
+source_changes, source_status = Open3.capture2("git", "-C", ROOT, "status", "--porcelain")
 write_file(
   File.join(BUILD_DIR, "version.json"),
   JSON.pretty_generate(
     "name" => "collect-public-static",
     "generated_at" => Time.now.utc.iso8601,
+    "source_commit" => source_commit_status.success? ? source_commit.strip : nil,
+    "source_dirty" => !source_status.success? || !source_changes.empty?,
     "routes" => all_paths.uniq.sort,
     "share_routes" => ["/c/:slug", "/app", "/invite/:publicId"],
     "indexnow_key_file" => INDEXNOW_KEY.empty? ? nil : "#{INDEXNOW_KEY}.txt"

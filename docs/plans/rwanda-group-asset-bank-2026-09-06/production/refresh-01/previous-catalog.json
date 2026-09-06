@@ -1,0 +1,3307 @@
+{
+  "schema_version": 1,
+  "bank_id": "collect-rwanda-group-covers-v1",
+  "created_on": "2026-09-06",
+  "status": "40_originals_generated_review_and_integration_pending",
+  "planned_asset_count": 40,
+  "generated_count_at_plan_creation": 0,
+  "runtime_integrated": false,
+  "authority": "DESIGN.md; owner Browser Comment 1, 2026-09-06",
+  "scope": "Forty new original image concepts for the optional group-photo library. Existing five library photos and marketing portrait are not counted.",
+  "localization_status": {
+    "en": "draft",
+    "rw": "draft_requires_native_review",
+    "fr": "draft_requires_language_review"
+  },
+  "product_boundary": {
+    "collection_types": [
+      "ikimina",
+      "sport",
+      "church",
+      "wedding",
+      "other"
+    ],
+    "creator": "Signed-in Rwanda profile on Android with existing SMS consent and Play Integrity gates",
+    "public_groups": "Platform-created or approved only",
+    "payments": "Existing Rwanda MoMo and separately governed diaspora bank-transfer rails; imagery does not confer new capability",
+    "taxonomy_kind": "Image themes; not new database collection types",
+    "persisted_photo": "Must survive save, authoritative reload and a second authorised viewer; current create path needs implementation work"
+  },
+  "art_direction": {
+    "use_case": "photorealistic-natural",
+    "style": "Original premium editorial photography for Collect, depicting fictional contemporary Rwandan people and settings. Show everyday competence, cooperation and dignity, with natural skin texture, believable anatomy, practical objects and restrained colour. Use a 35–50 mm documentary lens feel at eye level; avoid glossy corporate-stock posing. The described location is creative setting direction, not evidence of a real event or person's origin.",
+    "composition": "Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.",
+    "constraints": "All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.",
+    "crop_targets": [
+      {
+        "role": "group_card",
+        "ratio": "358:438",
+        "authority": "lib/app/theme/collect_runtime_tokens.dart:13"
+      },
+      {
+        "role": "avatar",
+        "ratio": "1:1 circular",
+        "authority": "Proposed derivative / small-size review"
+      },
+      {
+        "role": "existing_picker_preview",
+        "ratio": "3:2",
+        "authority": "lib/shared/widgets/collect_group_photo_picker.dart"
+      }
+    ],
+    "budgets": {
+      "master": "Original tool output, outside runtime bundle; PNG preferred and actual dimensions recorded",
+      "cover": {
+        "width": 768,
+        "height": 1024,
+        "format": "webp",
+        "max_bytes": 179200
+      },
+      "thumbnail": {
+        "width": 192,
+        "height": 256,
+        "format": "webp",
+        "max_bytes": 15360
+      },
+      "max_bank_runtime_bytes": 7782400,
+      "notes": "Proposed ceilings, not measured output. Inspect actual compressed quality; do not upscale a small master or force a damaged crop to meet the byte budget."
+    }
+  },
+  "families": [
+    {
+      "id": "savings_livelihoods",
+      "labels": {
+        "en": "Savings & livelihoods",
+        "rw": "Kwizigama n’imibereho",
+        "fr": "Épargne et activités"
+      },
+      "planned_count": 8
+    },
+    {
+      "id": "weddings",
+      "labels": {
+        "en": "Weddings",
+        "rw": "Ubukwe",
+        "fr": "Mariages"
+      },
+      "planned_count": 6
+    },
+    {
+      "id": "faith_giving",
+      "labels": {
+        "en": "Faith & giving",
+        "rw": "Kwizera no gufashanya",
+        "fr": "Foi et solidarité"
+      },
+      "planned_count": 6
+    },
+    {
+      "id": "family_solidarity",
+      "labels": {
+        "en": "Family & solidarity",
+        "rw": "Umuryango no gufashanya",
+        "fr": "Famille et entraide"
+      },
+      "planned_count": 6
+    },
+    {
+      "id": "education",
+      "labels": {
+        "en": "Education & skills",
+        "rw": "Uburezi n’imyuga",
+        "fr": "Éducation et métiers"
+      },
+      "planned_count": 4
+    },
+    {
+      "id": "community_projects",
+      "labels": {
+        "en": "Community projects",
+        "rw": "Imishinga y’umuryango",
+        "fr": "Projets communautaires"
+      },
+      "planned_count": 4
+    },
+    {
+      "id": "sport_culture",
+      "labels": {
+        "en": "Sport & culture",
+        "rw": "Siporo n’umuco",
+        "fr": "Sport et culture"
+      },
+      "planned_count": 4
+    },
+    {
+      "id": "diaspora",
+      "labels": {
+        "en": "Diaspora connections",
+        "rw": "Abanyarwanda mu mahanga",
+        "fr": "Liens avec la diaspora"
+      },
+      "planned_count": 2
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "publisher": "National Institute of Statistics of Rwanda",
+      "title": "Rwanda FinScope Survey 2024, savings discussion (page 44 in indexed extract)",
+      "url": "https://www.statistics.gov.rw/sites/default/files/documents/2024-09/Rwanda-Finscope-2024-Report_compressed.pdf",
+      "access": "Search-index excerpt inspected; direct PDF fetch timed out. Not a full-document review.",
+      "supports": "Savings groups are an important informal saving channel; the indexed report describes about 52% of adults using savings groups. This is a 2024 survey figure, not a 2026 forecast.",
+      "limits": "No prevalence ranking is claimed for the 40 creative scenarios. No investment or savings product is authorised by this source.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S2",
+      "publisher": "Rwanda Cultural Heritage Academy",
+      "title": "Ubukwe bwa Kinyarwanda — Gusaba no gukwa",
+      "url": "https://www.rwandaheritage.gov.rw/fileadmin/user_upload/RCHA/Publications/Published_Books/Ubukwe_bwa_kinyarwanda.pdf",
+      "access": "Search-index excerpt inspected; direct PDF access returned 403. No protected content retrieved.",
+      "supports": "The indexed historical account describes family preparation, representatives and gusaba/gukwa wedding context.",
+      "limits": "Historical cultural description, not a prescription for all contemporary Rwandan weddings. It does not substantiate every gift, committee or reception staging choice.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S3",
+      "publisher": "Rwanda Cultural Heritage Academy via Google Arts & Culture",
+      "title": "The Evolution of Fashion in Rwanda",
+      "url": "https://artsandculture.google.com/story/the-evolution-of-fashion-in-rwanda-rwanda-cultural-heritage-academy/0AXhd6Bj8G1ZHQ?hl=en",
+      "access": "Full webpage inspected.",
+      "supports": "Umushanana is ceremonial attire, used at important events including weddings; the exhibit also describes contemporary Rwandan fashion.",
+      "limits": "Use for cultural direction; museum photographs are not runtime assets or generation inputs. Specific drum, garment and ceremony execution still needs local review.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S4",
+      "publisher": "Rwanda Cooperative Agency",
+      "title": "About SACCOs",
+      "url": "https://www.rca.gov.rw/cooperatives/about-saccos",
+      "access": "Full webpage inspected.",
+      "supports": "The page distinguishes member-based savings and credit cooperatives from ordinary informal groups.",
+      "limits": "Background includes historical material. Do not portray Collect, an ikimina or every cooperative as a licensed SACCO or lender; no current partner or licence is established.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S5",
+      "publisher": "Caritas Rwanda",
+      "title": "Savings groups supported by the ECD Project empower parents to care for their children in HBECD",
+      "url": "https://caritasrwanda.org/savings-groups-supported-by-the-ecd-project-empower-parents-to-care-for-their-children-in-hbecd/",
+      "published": "2026-01-08",
+      "access": "Full webpage inspected.",
+      "supports": "Describes one programme's savings groups supporting education, food, housing and household needs, with practical community help.",
+      "limits": "Programme-specific evidence, not a representative national sample. No named person, real group, quote or photograph is reused in the creative briefs; lending features described by the programme are not Collect capabilities.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S6",
+      "publisher": "National Institute of Statistics of Rwanda",
+      "title": "Fifth Rwanda Population and Housing Census 2022 — Social-cultural characteristics",
+      "url": "https://www.statistics.gov.rw/sites/default/files/documents/2025-02/Social-cultural%20characteristics.pdf",
+      "access": "Search-index excerpt inspected; direct PDF fetch timed out.",
+      "supports": "The indexed census material records religious diversity including Christian communities and Muslims.",
+      "limits": "Used to motivate inclusive choice, not to infer an individual's belief or prescribe giving practices. Christian, Muslim and neutral scenes are editorial concepts, not census findings about fundraisers.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S7",
+      "publisher": "IremboGov / RSSB service guidance",
+      "title": "How to Apply and Pay for Community Based Health Insurance (Mutuelle)",
+      "url": "https://support.irembo.gov.rw/en/support/solutions/articles/47001199252-how-to-apply-and-pay-for-community-based-health-insurance-mutuelle-",
+      "access": "Full webpage inspected.",
+      "supports": "Mutuelle contributions relate to an RSSB service with a separate official application and payment process.",
+      "limits": "No rates, eligibility advice or operational integration are imported. Collect cover art must not imply insurance issuance, direct premium settlement or activated cover.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S8",
+      "publisher": "Catholic Relief Services",
+      "title": "Rwanda programme overview",
+      "url": "https://www.crs.org/where-we-work/africa/rwanda",
+      "access": "Primary provider page inspected; relevant programme passage also appeared in search results.",
+      "supports": "Describes youth-focused savings groups, training and enterprise support, plus women traders in a regional programme.",
+      "limits": "Programme examples motivate creative livelihood and skills themes; no promise of grants, loans, jobs or partnership is made.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S9",
+      "publisher": "Ministry of Local Government",
+      "title": "Kirehe residents hailed for commitment to bring solutions to the community through Umuganda",
+      "url": "https://www.minaloc.gov.rw/news-detail/kirehe-residents-hailed-for-commitment-to-bring-solutions-to-the-community-through-umuganda",
+      "published": "2019-04-27",
+      "access": "Full webpage inspected.",
+      "supports": "Documents a health-post project combining residents' financial contributions and practical community work.",
+      "limits": "A historical example; water, hall and tree scenes are creative extensions. Do not turn Umuganda or voluntary groups into a claim of mandatory Collect payments, an official levy or government endorsement.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S10",
+      "publisher": "Ministry of Foreign Affairs and International Cooperation",
+      "title": "Rwanda Community Abroad",
+      "url": "https://www.minaffet.gov.rw/rwanda-community-abroad",
+      "access": "Full webpage inspected.",
+      "supports": "Describes organised Rwandan diaspora associations and their connections and contributions to Rwanda.",
+      "limits": "No association is represented by these fictional scenes, and diaspora image availability does not establish diaspora group-creation eligibility or a new remittance service.",
+      "checked_on": "2026-09-06",
+      "image_reuse": false
+    },
+    {
+      "id": "S11",
+      "publisher": "Rwanda Cultural Heritage Academy",
+      "title": "Ingoma heritage certificate",
+      "url": "https://www.rwandaheritage.gov.rw/index.php?eID=dumpFile&f=68709&t=f&token=2ac651a4602ec97d40a8322fd18574daa2d5c637",
+      "access": "Search excerpt read 6 September 2026; PDF parse yielded image-only content; screenshot retrieval timed out.",
+      "supports": "The search excerpt identifies ingoma and wooden drumsticks called imirishyo.",
+      "limits": "This does not validate the generated drum geometry, costume or depiction. Local visual review remains pending."
+    }
+  ],
+  "batches": [
+    {
+      "number": 1,
+      "purpose": "Eight visual anchors across difficult and high-priority contexts",
+      "asset_numbers": [
+        1,
+        10,
+        15,
+        18,
+        21,
+        27,
+        35,
+        39
+      ]
+    },
+    {
+      "number": 2,
+      "purpose": "Remaining savings and livelihood scenes plus the wedding committee",
+      "asset_numbers": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "number": 3,
+      "purpose": "Wedding variations and remaining faith / giving contexts",
+      "asset_numbers": [
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        19,
+        20
+      ]
+    },
+    {
+      "number": 4,
+      "purpose": "Family care, recovery, education and practical skills",
+      "asset_numbers": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "number": 5,
+      "purpose": "Community projects, team support, culture and diaspora association",
+      "asset_numbers": [
+        31,
+        32,
+        33,
+        34,
+        36,
+        37,
+        38,
+        40
+      ]
+    }
+  ],
+  "selection_policy": {
+    "scope": "Creator-selected group type, optional image theme and explicit library search, evaluated locally",
+    "sensitive_contexts": [
+      "christian",
+      "muslim",
+      "bereavement",
+      "health",
+      "new_baby"
+    ],
+    "context_activation": "Explicitly selecting a named theme activates its context. Existing Church type also activates Christian context. No inference from name, face, phone, country, contacts, contribution history or free-form group description.",
+    "browse_all": "Shows neutral themes by default and named sensitive-theme entry points; only opens sensitive artwork on explicit context selection. Available does not mean preselected.",
+    "ranking": "Context eligibility first. In suggested mode match current type, then selected theme (+100), type (+50), declared subtype (+20), exact query-token matches (+5 each) and editorial priority (+0..9). Query tokens are ANDed; a no-match returns an empty state. Manual all-library browsing drops the type restriction and type boost, but preserves context eligibility. Stable asset id breaks ties.",
+    "no_automatic_selection": true,
+    "general_defaults": "Only non-sensitive general_default assets may be used as presentation fallbacks; uploaded/saved user media retains priority. Never write a default to group data merely because it rendered.",
+    "privacy": "Do not record raw searches or infer a member's religion, health or bereavement. No images, personal data or group text are sent to a recommender service."
+  },
+  "assets": [
+    {
+      "id": "rw-01-neighbourhood-ikimina",
+      "number": 1,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Neighbourhood savings circle",
+        "rw": "Ikimina cy’abaturanyi",
+        "fr": "Épargne entre voisins"
+      },
+      "family": "savings_livelihoods",
+      "theme": "neighbourhood_savings",
+      "collection_types": [
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "group_savings"
+      ],
+      "search_terms": [
+        "ikimina",
+        "ibimina",
+        "kwizigama",
+        "tontine",
+        "neighbours",
+        "épargne"
+      ],
+      "explicit_context": null,
+      "general_default": true,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Southern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft afternoon daylight, quiet confidence, restrained green and warm stone."
+      },
+      "prompt_spec": {
+        "scene": "Five Rwandan adult neighbours of different ages meet around a compact table on a shaded veranda in a contemporary small town in southern Rwanda. A woman in her forties facilitates while an older man listens and a younger neighbour records a shared plan in an unmarked notebook. One ordinary phone lies face down. Frame three people as a close central cluster with the others softly behind them; show engaged expressions and equal participation.",
+        "materials_and_details": "Everyday cotton shirts, a contemporary patterned skirt, rendered brick, ceramic cups and a clean notebook; avoid a ceremonial costume aesthetic.",
+        "lighting_and_palette": "Soft afternoon daylight, quiet confidence, restrained green and warm stone.",
+        "focal_subject": "The facilitator and listening neighbours"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: neighbourhood savings circle."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-01-neighbourhood-ikimina-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-01-neighbourhood-ikimina-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [
+        "S1",
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-02-women-savings-circle",
+      "number": 2,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Women building a shared fund",
+        "rw": "Abagore bizigamira hamwe",
+        "fr": "Épargne collective des femmes"
+      },
+      "family": "savings_livelihoods",
+      "theme": "women_savings",
+      "collection_types": [
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "group_savings"
+      ],
+      "search_terms": [
+        "women",
+        "abagore",
+        "kwizigama",
+        "épargne",
+        "solidarité"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "rural",
+        "region_direction": "Eastern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Gentle morning shade, warm natural tones and fresh garden green."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult women aged approximately thirty to sixty discuss a savings goal beside a tidy rural home in eastern Rwanda. One explains a simple plan with an unmarked notebook while the others contribute ideas. A small kitchen garden and tiled or metal roof sit softly in the background. Photograph them at eye level, in a compact seated arrangement, as capable organisers with individual personalities.",
+        "materials_and_details": "Mix contemporary dresses and practical separates; natural hairstyles, realistic skin texture, ordinary household objects and no visible cash.",
+        "lighting_and_palette": "Gentle morning shade, warm natural tones and fresh garden green.",
+        "focal_subject": "Two women actively discussing the plan"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: women building a shared fund."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-02-women-savings-circle-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-02-women-savings-circle-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-03-young-professionals-goal",
+      "number": 3,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Friends saving for a goal",
+        "rw": "Inshuti zizigamira intego",
+        "fr": "Un projet d’épargne entre amis"
+      },
+      "family": "savings_livelihoods",
+      "theme": "friends_savings",
+      "collection_types": [
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "group_savings",
+        "family_friends"
+      ],
+      "search_terms": [
+        "friends",
+        "inshuti",
+        "young adults",
+        "professionals",
+        "amis",
+        "épargne"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali",
+        "all_people": "fictional adults",
+        "mood": "Clear window light, relaxed optimism, muted blue and natural wood."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan friends in their twenties and thirties review a shared goal at a modest contemporary Kigali café near a window. One laptop is closed; one phone rests with its screen away from the camera. The friends lean into a genuine discussion rather than posing for a banking advertisement. Suggest the city through a softly visible terraced neighbourhood, with no identifiable business or landmark.",
+        "materials_and_details": "Contemporary casual workwear, ceramic coffee cups and a plain notebook; keep the space attainable rather than luxurious.",
+        "lighting_and_palette": "Clear window light, relaxed optimism, muted blue and natural wood.",
+        "focal_subject": "The three friends around the small café table"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: friends saving for a goal."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-03-young-professionals-goal-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-03-young-professionals-goal-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S8"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-04-market-traders-stock",
+      "number": 4,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Market traders’ shared stock",
+        "rw": "Abacuruzi bishyira hamwe",
+        "fr": "Un stock commun entre commerçants"
+      },
+      "family": "savings_livelihoods",
+      "theme": "trader_stock",
+      "collection_types": [
+        "ikimina",
+        "other"
+      ],
+      "category_subtypes": [
+        "group_savings",
+        "custom"
+      ],
+      "search_terms": [
+        "market",
+        "traders",
+        "abacuruzi",
+        "isoko",
+        "stock",
+        "commerce",
+        "marché"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "market",
+        "region_direction": "Rubavu area",
+        "all_people": "fictional adults",
+        "mood": "Diffuse market-canopy daylight with rich tomato red and leafy green."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult market traders plan a joint purchase at a neat covered produce stall in the Rubavu area. A woman checks an unmarked stock notebook while another trader arranges tomatoes and beans in reusable crates; a colleague listens. Keep faces and the key crate together at the centre. The market is active and cared for, with neighbouring stalls gently out of focus.",
+        "materials_and_details": "Ordinary trading clothes, woven shopping bags used naturally, fresh produce and reusable crates; no brand labels or readable prices.",
+        "lighting_and_palette": "Diffuse market-canopy daylight with rich tomato red and leafy green.",
+        "focal_subject": "The traders and one central produce crate"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: market traders’ shared stock."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-04-market-traders-stock-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-04-market-traders-stock-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S8"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-05-moto-riders-shared-goal",
+      "number": 5,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Moto riders’ shared goal",
+        "rw": "Abamotari bizigamira",
+        "fr": "Un objectif commun pour les motards"
+      },
+      "family": "savings_livelihoods",
+      "theme": "moto_goal",
+      "collection_types": [
+        "ikimina",
+        "other"
+      ],
+      "category_subtypes": [
+        "group_savings",
+        "custom"
+      ],
+      "search_terms": [
+        "moto",
+        "abamotari",
+        "motorcycle",
+        "equipment",
+        "maintenance",
+        "épargne"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Eastern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Early morning light, restrained charcoal and warm yellow accents."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult motorcycle-taxi riders, including a woman rider, discuss a shared equipment goal at a legal parking area in an eastern Rwandan town. Their motorcycles are parked and switched off. Clean helmets rest securely beside them and one rider holds an unmarked maintenance notebook. Use a close group composition; show competence and camaraderie without suggesting that a new motorcycle or financing has already been awarded.",
+        "materials_and_details": "Generic clean protective jackets and helmets with no operator marks, no readable plates, safe stationary posture.",
+        "lighting_and_palette": "Early morning light, restrained charcoal and warm yellow accents.",
+        "focal_subject": "The riders and a helmet in the central group"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: moto riders’ shared goal."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-05-moto-riders-shared-goal-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-05-moto-riders-shared-goal-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S8"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-06-farmers-season-inputs",
+      "number": 6,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Farmers preparing the season",
+        "rw": "Abahinzi bitegura igihembwe",
+        "fr": "Préparer la saison agricole ensemble"
+      },
+      "family": "savings_livelihoods",
+      "theme": "farm_inputs",
+      "collection_types": [
+        "ikimina",
+        "other"
+      ],
+      "category_subtypes": [
+        "group_savings",
+        "custom"
+      ],
+      "search_terms": [
+        "farmers",
+        "abahinzi",
+        "ubuhinzi",
+        "seeds",
+        "inputs",
+        "agriculture",
+        "semences"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "rural",
+        "region_direction": "Northern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft overcast highland light, living greens and earthy soil."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult farmers compare seeds and a shared planting plan beside cultivated plots in northern Rwanda. A woman holds a small bowl of beans while a man and another woman discuss the next season. Suggest cultivated hills in the distance without turning the scene into a tourism panorama. Place the people, seeds and planning gesture in one clear central cluster.",
+        "materials_and_details": "Practical contemporary work clothes, clean hand tools resting safely, healthy ordinary crops and unlabelled seed containers.",
+        "lighting_and_palette": "Soft overcast highland light, living greens and earthy soil.",
+        "focal_subject": "The bowl of seeds and the farmers’ conversation"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: farmers preparing the season."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-06-farmers-season-inputs-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-06-farmers-season-inputs-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-07-family-home-goal",
+      "number": 7,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Saving for a family home",
+        "rw": "Kwizigamira inzu y’umuryango",
+        "fr": "Épargner pour la maison familiale"
+      },
+      "family": "savings_livelihoods",
+      "theme": "home_savings",
+      "collection_types": [
+        "ikimina",
+        "other"
+      ],
+      "category_subtypes": [
+        "family_friends",
+        "group_savings",
+        "custom"
+      ],
+      "search_terms": [
+        "home",
+        "housing",
+        "inzu",
+        "umuryango",
+        "construction",
+        "logement",
+        "maison"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Southern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Warm side daylight, grounded optimism, clay and soft cream."
+      },
+      "prompt_spec": {
+        "scene": "A Rwandan adult family discusses improvements to a modest finished home with an adult local building professional who uses a wheelchair. They sit around an accessible table on a level veranda, reviewing an unmarked sketch and one roof-material sample. Show everyone contributing to the conversation. The home is lived in and cared for; the image communicates planning and shared savings, not a completed property purchase.",
+        "materials_and_details": "Practical casual clothes, realistic wheelchair geometry, accessible circulation and a plain rolled drawing with no readable text.",
+        "lighting_and_palette": "Warm side daylight, grounded optimism, clay and soft cream.",
+        "focal_subject": "The family and building professional discussing the sample"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: saving for a family home."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-07-family-home-goal-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-07-family-home-goal-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-08-craft-cooperative-tools",
+      "number": 8,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Tools for a shared workshop",
+        "rw": "Ibikoresho by’abanyabukorikori",
+        "fr": "Des outils pour l’atelier commun"
+      },
+      "family": "savings_livelihoods",
+      "theme": "workshop_equipment",
+      "collection_types": [
+        "ikimina",
+        "other"
+      ],
+      "category_subtypes": [
+        "group_savings",
+        "custom"
+      ],
+      "search_terms": [
+        "cooperative",
+        "koperative",
+        "tailoring",
+        "craft",
+        "tools",
+        "ibikoresho",
+        "atelier"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali",
+        "all_people": "fictional adults",
+        "mood": "Bright diffuse window light, warm cream, indigo fabric and natural wood."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult craftspeople plan a shared workshop upgrade beside a sewing table in a small Kigali studio. A man adjusts a fabric sample while two women compare a plain notebook and a switched-off sewing machine. Include one neatly finished garment in the background. Frame their collaboration and tools closely, conveying skill and a shared equipment goal without manufacturing a loan-approval scene.",
+        "materials_and_details": "Contemporary workwear, believable sewing-machine parts, fabric shears closed safely and varied plain textiles with no copied designer patterns.",
+        "lighting_and_palette": "Bright diffuse window light, warm cream, indigo fabric and natural wood.",
+        "focal_subject": "The team and fabric sample at the worktable"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: tools for a shared workshop."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-08-craft-cooperative-tools-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-08-craft-cooperative-tools-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S1",
+        "S4",
+        "S8"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-09-wedding-committee",
+      "number": 9,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Wedding planning together",
+        "rw": "Gutegura ubukwe hamwe",
+        "fr": "Préparer le mariage ensemble"
+      },
+      "family": "weddings",
+      "theme": "wedding_committee",
+      "collection_types": [
+        "wedding"
+      ],
+      "category_subtypes": [
+        "committee"
+      ],
+      "search_terms": [
+        "wedding",
+        "ubukwe",
+        "committee",
+        "komite",
+        "umutwererano",
+        "gutwerera",
+        "mariage"
+      ],
+      "explicit_context": null,
+      "general_default": true,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali",
+        "all_people": "fictional adults",
+        "mood": "Soft garden afternoon light, warm white, muted rose and green."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adults from a wedding organising committee meet at a small garden table in Kigali. The engaged couple listens as a friend arranges two fabric swatches beside a plain planning notebook and an elder adds an idea. The emphasis is on family participation and practical preparations. Frame a central trio with the fourth person slightly behind; keep flowers subtle and the scale intimate.",
+        "materials_and_details": "Contemporary smart-casual clothes, simple flowers and fabric samples; no money collection box, guest names, budgets or venue logos.",
+        "lighting_and_palette": "Soft garden afternoon light, warm white, muted rose and green.",
+        "focal_subject": "The couple and friend making the wedding plan"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: wedding planning together."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.25,
+        "status": "browser_framing_adjustment_native_review_pending"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-09-wedding-committee-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-09-wedding-committee-v1.json"
+      },
+      "generation_batch": 2,
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-10-gusaba-gukwa-gathering",
+      "number": 10,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Gusaba and gukwa gathering",
+        "rw": "Gusaba no gukwa",
+        "fr": "Rencontre familiale de gusaba et gukwa"
+      },
+      "family": "weddings",
+      "theme": "traditional_wedding",
+      "collection_types": [
+        "wedding"
+      ],
+      "category_subtypes": [
+        "ceremony_support",
+        "committee"
+      ],
+      "search_terms": [
+        "gusaba",
+        "gukwa",
+        "ubukwe",
+        "traditional wedding",
+        "mariage traditionnel"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Rwanda, setting not a named venue",
+        "all_people": "fictional adults",
+        "mood": "Gentle afternoon light, cream, soft ochre and restrained green."
+      },
+      "prompt_spec": {
+        "scene": "An intimate, fictional contemporary Rwandan gusaba and gukwa family gathering in a neat garden. Two adult family representatives speak warmly with an adult couple seated nearby. Some women wear carefully draped umushanana appropriate to the occasion while others wear contemporary formal clothes. Include one naturally placed lidded woven basket. Emphasise respectful conversation and family connection, without depicting a bride as property or a monetary exchange.",
+        "materials_and_details": "Review the ceremonial attire and basket geometry for Rwandan accuracy; avoid cattle transfer, cash display and invented ritual gestures.",
+        "lighting_and_palette": "Gentle afternoon light, cream, soft ochre and restrained green.",
+        "focal_subject": "The speaking relatives and adult couple"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: gusaba and gukwa gathering."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-10-gusaba-gukwa-gathering-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "A Rwandan cultural reviewer should check ceremony staging and dress; the historical source is context, not a rule for all modern weddings.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-11-wedding-attire-preparation",
+      "number": 11,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Preparing wedding attire",
+        "rw": "Gutegura imyambaro y’ubukwe",
+        "fr": "Préparer les tenues de mariage"
+      },
+      "family": "weddings",
+      "theme": "wedding_attire",
+      "collection_types": [
+        "wedding"
+      ],
+      "category_subtypes": [
+        "ceremony_support"
+      ],
+      "search_terms": [
+        "ubukwe",
+        "umushanana",
+        "imishanana",
+        "bridal party",
+        "attire",
+        "tenues"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali",
+        "all_people": "fictional adults",
+        "mood": "Soft window light, pearl, muted coral and natural skin tones."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult women prepare formal wedding attire in a bright dressing room. One woman gently adjusts a sash on another woman’s correctly draped umushanana while a third checks a folded garment. Show friendship and careful preparation, with fully dressed adults and realistic fabric. Keep their faces and the sash in the central composition so the image also reads as a small group avatar.",
+        "materials_and_details": "Occasion-specific floor-length garments and natural jewellery, no fashion-house logos, no exaggerated costume or sexualised posing.",
+        "lighting_and_palette": "Soft window light, pearl, muted coral and natural skin tones.",
+        "focal_subject": "The women and the sash adjustment"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: preparing wedding attire."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.2,
+        "status": "browser_framing_adjustment_native_review_pending"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-11-wedding-attire-preparation-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S3"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-12-wedding-reception-table",
+      "number": 12,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "A reception taking shape",
+        "rw": "Gutegura aho kwakirira abashyitsi",
+        "fr": "Préparer la réception"
+      },
+      "family": "weddings",
+      "theme": "wedding_reception",
+      "collection_types": [
+        "wedding"
+      ],
+      "category_subtypes": [
+        "ceremony_support",
+        "committee"
+      ],
+      "search_terms": [
+        "reception",
+        "kwiyakira",
+        "ubukwe",
+        "catering",
+        "réception"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "garden",
+        "region_direction": "Kigali outskirts",
+        "all_people": "fictional adults",
+        "mood": "Warm late-afternoon shade, cream linen, soft green and small terracotta accents."
+      },
+      "prompt_spec": {
+        "scene": "An editorial still life of a modest elegant Rwandan wedding reception being prepared in a garden outside Kigali. A short central table holds carefully arranged reusable plates, folded linen and locally arranged seasonal flowers. An adult organiser’s hands make one final adjustment, with other tables only softly suggested behind. Keep the main floral arrangement compact and central; communicate achievable collective preparation.",
+        "materials_and_details": "Realistic tableware, linen and flowers; no guest names, branded bottles, price cards, extravagant palace setting or empty luxury fantasy.",
+        "lighting_and_palette": "Warm late-afternoon shade, cream linen, soft green and small terracotta accents.",
+        "focal_subject": "The central floral arrangement and place settings"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: a reception taking shape."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.3,
+        "status": "browser_framing_adjustment_native_review_pending"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-12-wedding-reception-table-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S2"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-13-new-home-wedding-gift",
+      "number": 13,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "A gift for the new home",
+        "rw": "Impano y’urugo rushya",
+        "fr": "Un cadeau pour le nouveau foyer"
+      },
+      "family": "weddings",
+      "theme": "wedding_gift",
+      "collection_types": [
+        "wedding",
+        "other"
+      ],
+      "category_subtypes": [
+        "gift",
+        "custom"
+      ],
+      "search_terms": [
+        "gift",
+        "impano",
+        "wedding gifts",
+        "urugo",
+        "cadeau",
+        "foyer"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft morning window light, warm neutrals with a muted teal textile."
+      },
+      "prompt_spec": {
+        "scene": "A thoughtful wedding-gift still life in a contemporary Rwandan home: a simple wrapped household gift, two ceramic cups and a neatly folded blanket on a wooden table. A small lidded woven basket may sit behind the main gift, used naturally. The setting feels welcoming and practical. Use a single compact arrangement that stays recognisable in a circular crop, with quiet background space.",
+        "materials_and_details": "Unbranded household items, reusable wrapping, credible basket weave and no cash, rings with logos, bank cards or printed congratulatory message.",
+        "lighting_and_palette": "Soft morning window light, warm neutrals with a muted teal textile.",
+        "focal_subject": "The wrapped household gift and ceramic cups"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: a gift for the new home."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.05,
+        "status": "browser_framing_adjustment_native_review_pending"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-13-new-home-wedding-gift-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S2"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Creative contribution use case; the source supports the wedding context, not a universal gift custom.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "crop_review_note": "Portrait and adjusted square retain the couple and gift context. A 3:2 crop cannot retain both complete heads and the gifts together; create a separately composed wide derivative before using this concept in a landscape slot."
+    },
+    {
+      "id": "rw-14-wedding-day-family",
+      "number": 14,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Family on the wedding day",
+        "rw": "Umuryango ku munsi w’ubukwe",
+        "fr": "La famille le jour du mariage"
+      },
+      "family": "weddings",
+      "theme": "wedding_day",
+      "collection_types": [
+        "wedding"
+      ],
+      "category_subtypes": [
+        "ceremony_support"
+      ],
+      "search_terms": [
+        "wedding day",
+        "ubukwe",
+        "couple",
+        "family",
+        "mariage",
+        "famille"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "garden",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft late-afternoon light, warm ivory, deep charcoal and greenery."
+      },
+      "prompt_spec": {
+        "scene": "A Rwandan adult newlywed couple shares a quiet joyful moment with two adult relatives in a simple garden after their ceremony. Use contemporary formal clothing, with one relative in occasion-appropriate umushanana. Keep the composition intimate and natural, with relaxed expressions rather than a staged celebrity wedding pose. No church, mosque or government venue should identify the couple’s ceremony or belief.",
+        "materials_and_details": "Realistic tailoring, restrained bouquet and natural fabric; no readable certificate, conspicuous wealth or prescribed gender-role tableau.",
+        "lighting_and_palette": "Soft late-afternoon light, warm ivory, deep charcoal and greenery.",
+        "focal_subject": "The couple and nearby relatives"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: family on the wedding day."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.2,
+        "status": "browser_framing_adjustment_native_review_pending"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-14-wedding-day-family-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-14-wedding-day-family-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-15-church-community-offering",
+      "number": 15,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Church community giving",
+        "rw": "Amaturo y’umuryango w’itorero",
+        "fr": "Offrandes de la communauté chrétienne"
+      },
+      "family": "faith_giving",
+      "theme": "christian_offering",
+      "collection_types": [
+        "church"
+      ],
+      "category_subtypes": [
+        "offering",
+        "tithe"
+      ],
+      "search_terms": [
+        "church",
+        "itorero",
+        "kiliziya",
+        "amaturo",
+        "offering",
+        "tithe",
+        "ituro",
+        "dîme"
+      ],
+      "explicit_context": "christian",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-hall",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Diffuse daylight, calm cream, warm wood and restrained blue."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult Christian community volunteers meet after a service in a simple, well-kept church hall. One places an unmarked donation envelope beside a plain notebook while the others discuss a community need. A small simple cross may be softly visible in the background. Show voluntary collective participation and a calm equal-footing conversation, without singling out a donor or showing money amounts.",
+        "materials_and_details": "Respectful contemporary Sunday clothing, believable hall furniture, no denomination branding, identifiable church, clergy likeness or donation leaderboard.",
+        "lighting_and_palette": "Diffuse daylight, calm cream, warm wood and restrained blue.",
+        "focal_subject": "The volunteers discussing the community need"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: church community giving."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-15-church-community-offering-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-15-church-community-offering-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [
+        "S6"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Christian context is explicitly selected; this is a fictional giving scene, not evidence of an actual church fundraiser.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-16-church-building-project",
+      "number": 16,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "A shared church project",
+        "rw": "Umushinga wo kubaka urusengero",
+        "fr": "Un projet commun pour l’église"
+      },
+      "family": "faith_giving",
+      "theme": "church_project",
+      "collection_types": [
+        "church"
+      ],
+      "category_subtypes": [
+        "project_support"
+      ],
+      "search_terms": [
+        "church project",
+        "urusengero",
+        "kiliziya",
+        "project support",
+        "église",
+        "construction"
+      ],
+      "explicit_context": "christian",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Clear gentle daylight, warm brick and subdued forest green."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult church-project volunteers examine a roof-material sample on a table beside a modest church hall in a Rwandan town. A small unbranded cross identifies the explicitly Christian context. One volunteer gestures to the sample while the others discuss the plan; no one is on a roof or operating machinery. The scene represents a shared maintenance goal rather than a completed funded building.",
+        "materials_and_details": "Neat everyday clothes, realistic roofing material, an unmarked notebook and safe ground-level activity; no institutional endorsement.",
+        "lighting_and_palette": "Clear gentle daylight, warm brick and subdued forest green.",
+        "focal_subject": "The volunteers and roof-material sample"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: a shared church project."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-16-church-building-project-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-16-church-building-project-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S6"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-17-choir-shared-equipment",
+      "number": 17,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Supporting the choir",
+        "rw": "Gushyigikira korali",
+        "fr": "Soutenir la chorale"
+      },
+      "family": "faith_giving",
+      "theme": "choir_support",
+      "collection_types": [
+        "church"
+      ],
+      "category_subtypes": [
+        "project_support",
+        "offering"
+      ],
+      "search_terms": [
+        "choir",
+        "korali",
+        "music",
+        "equipment",
+        "chorale",
+        "musique"
+      ],
+      "explicit_context": "christian",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-hall",
+        "region_direction": "Southern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft indoor daylight, muted plum, cream and natural wood."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult choir members prepare for rehearsal in a modest church hall in southern Rwanda. Two discuss a shared microphone and music stand while the others arrange plain folders. Use ordinary coordinated clothing rather than ornate robes. Frame a small central grouping around the microphone, communicating the practical goal of supporting rehearsal equipment and transport.",
+        "materials_and_details": "Realistic microphone and cables routed safely, closed or unreadable music folders, a softly visible simple cross and no copied choir identity.",
+        "lighting_and_palette": "Soft indoor daylight, muted plum, cream and natural wood.",
+        "focal_subject": "The choir members and central microphone"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: supporting the choir."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-17-choir-shared-equipment-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-17-choir-shared-equipment-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S6"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-18-muslim-community-giving",
+      "number": 18,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Muslim community giving",
+        "rw": "Gufashanya mu muryango w’Abayisilamu",
+        "fr": "Entraide de la communauté musulmane"
+      },
+      "family": "faith_giving",
+      "theme": "muslim_giving",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "muslim",
+        "mosque",
+        "umusigiti",
+        "zakat",
+        "sadaqah",
+        "sadaqa",
+        "entraide"
+      ],
+      "explicit_context": "muslim",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-hall",
+        "region_direction": "Kigali",
+        "all_people": "fictional adults",
+        "mood": "Gentle daylight, warm cream, olive and pale stone."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult Muslim community volunteers prepare neatly packed staple-food parcels in a simple community room in Kigali. A woman in a naturally worn hijab and two colleagues discuss the parcels as peers. A modest courtyard with a softly suggested mosque arch may be visible beyond, without identifying a real mosque. Portray generosity, organisation and dignity, not a line of distressed recipients.",
+        "materials_and_details": "Modest contemporary clothing, unlabelled rice or bean parcels, no religious text, no mixed sacred symbols and no Middle Eastern palace stereotype.",
+        "lighting_and_palette": "Gentle daylight, warm cream, olive and pale stone.",
+        "focal_subject": "The volunteers and a central food parcel"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: muslim community giving."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-18-muslim-community-giving-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-18-muslim-community-giving-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [
+        "S6"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Use Other in the current product; do not relabel this as Church. Zakat and sadaqah are search contexts, not tax or religious advice.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-19-ramadan-community-meal",
+      "number": 19,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Preparing a Ramadan meal",
+        "rw": "Gutegura ifunguro rya Ramazani",
+        "fr": "Préparer un repas de Ramadan"
+      },
+      "family": "faith_giving",
+      "theme": "ramadan_meal",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "ramadan",
+        "ramazani",
+        "iftar",
+        "meal",
+        "muslim",
+        "repas"
+      ],
+      "explicit_context": "muslim",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "community-hall",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft dusk with warm indoor spill, deep green, cream and natural food colours."
+      },
+      "prompt_spec": {
+        "scene": "A compact, welcoming community iftar table being prepared by Rwandan adult Muslim volunteers. At the centre are water, a small plate of dates and ordinary shared dishes; one pair of adult hands sets down a serving bowl. The setting is a modest contemporary Rwandan courtyard or hall at dusk. Keep food handling credible and the image calm, with no conspicuous feast or crowd.",
+        "materials_and_details": "Simple reusable tableware, modest sleeves, no alcohol, no invented Arabic writing, no exotic lantern overload and no identifiable organisation.",
+        "lighting_and_palette": "Soft dusk with warm indoor spill, deep green, cream and natural food colours.",
+        "focal_subject": "The central serving bowl and water glasses"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: preparing a ramadan meal."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-19-ramadan-community-meal-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-19-ramadan-community-meal-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S6"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-20-community-giving-parcels",
+      "number": 20,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Community giving together",
+        "rw": "Gufashanya mu muryango",
+        "fr": "Agir ensemble pour la communauté"
+      },
+      "family": "faith_giving",
+      "theme": "community_giving",
+      "collection_types": [
+        "church",
+        "other"
+      ],
+      "category_subtypes": [
+        "offering",
+        "project_support",
+        "custom"
+      ],
+      "search_terms": [
+        "giving",
+        "gufasha",
+        "ubufatanye",
+        "charity",
+        "outreach",
+        "solidarité",
+        "don"
+      ],
+      "explicit_context": null,
+      "general_default": true,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-hall",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Bright gentle daylight, warm paper, soft blue and natural wood."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult neighbours pack practical household parcels around a table in a bright community hall. Different ages collaborate at the same level, smiling naturally while checking that bags contain useful supplies. Keep three people and one parcel central. The image should work for secular or faith-based outreach without assigning a religion or showing an organisation’s insignia.",
+        "materials_and_details": "Everyday clothing, plain reusable bags, soap and staple foods without labels; no staged beneficiary handout, branded charity vest or religious symbol.",
+        "lighting_and_palette": "Bright gentle daylight, warm paper, soft blue and natural wood.",
+        "focal_subject": "The volunteers packing one shared parcel"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: community giving together."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-20-community-giving-parcels-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-20-community-giving-parcels-v1.json"
+      },
+      "generation_batch": 3,
+      "source_ids": [
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Inclusive editorial concept, not a documented interfaith event.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-21-bereavement-support",
+      "number": 21,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Support in bereavement",
+        "rw": "Gufasha abagize ibyago",
+        "fr": "Soutien lors d’un deuil"
+      },
+      "family": "family_solidarity",
+      "theme": "bereavement_support",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "bereavement",
+        "funeral",
+        "deuil",
+        "funérailles",
+        "gutabara",
+        "ibyago",
+        "gushyingura"
+      ],
+      "explicit_context": "bereavement",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Gentle neutral daylight, subdued green, warm grey and white; never dramatic horror lighting."
+      },
+      "prompt_spec": {
+        "scene": "An unattended photographic still life suggesting practical support for a bereaved Rwandan household: two ceramic cups, a clean folded cloth and a small understated arrangement of white flowers on a wooden table in a shaded veranda. Empty seats are softly present in the background. No people occupy this scene. Keep the composition restrained and humane, focused on companionship through objects rather than death or ceremonial spectacle.",
+        "materials_and_details": "Only objects and an empty veranda. No people, faces, hands or other body parts anywhere in frame. No coffin, corpse, graves, hospital imagery, candles with ritual meaning, memorial portrait or national commemoration symbols.",
+        "lighting_and_palette": "Gentle neutral daylight, subdued green, warm grey and white; never dramatic horror lighting.",
+        "focal_subject": "The cups and understated flowers"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: support in bereavement."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-21-bereavement-support-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-21-bereavement-support-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [],
+      "source_scope": "Collect product use case or editorial proposal; no prevalence or universal cultural-custom claim.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "First generation added people contrary to the object-led brief; regenerated with an explicit unattended-still-life instruction. Cultural and crop review still required.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-22-medical-care-support",
+      "number": 22,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Helping someone reach care",
+        "rw": "Gufasha umuntu kwivuza",
+        "fr": "Aider un proche à accéder aux soins"
+      },
+      "family": "family_solidarity",
+      "theme": "medical_support",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "medical",
+        "health",
+        "kwivuza",
+        "ubuvuzi",
+        "transport",
+        "soins",
+        "santé"
+      ],
+      "explicit_context": "health",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft morning daylight, warm neutral fabrics and muted green."
+      },
+      "prompt_spec": {
+        "scene": "Two Rwandan adult relatives calmly help an older adult prepare for a routine healthcare journey from a tidy home veranda. One offers a light jacket while another holds a plain closed folder and a small travel bag. The older person is alert and involved in the discussion. Show practical family support and agency, without suggesting a diagnosis, crisis or guaranteed treatment.",
+        "materials_and_details": "Ordinary travel clothes, no visible medical records, uniforms, hospital logos, medication labels, distress or clinical procedure.",
+        "lighting_and_palette": "Soft morning daylight, warm neutral fabrics and muted green.",
+        "focal_subject": "The older adult and supportive relative"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: helping someone reach care."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-22-medical-care-support-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-22-medical-care-support-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S7"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-23-health-cover-contribution",
+      "number": 23,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Contributing toward health cover",
+        "rw": "Gufatanya kwishyura mituweli",
+        "fr": "Contribuer à la couverture santé"
+      },
+      "family": "family_solidarity",
+      "theme": "mutuelle_support",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "mutuelle",
+        "mituweli",
+        "cbhi",
+        "health cover",
+        "cotisation",
+        "santé"
+      ],
+      "explicit_context": "health",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Clear morning window light, pale stone, soft teal and warm wood."
+      },
+      "prompt_spec": {
+        "scene": "A calm tabletop scene in a contemporary Rwandan household, suggesting family planning for health-cover contributions. An adult hand rests near a closed plain document folder, an unmarked notebook, a ceramic cup and a face-down phone. A comfortable home interior is softly visible beyond. Use a clear central arrangement and a reassuring everyday mood without displaying an insurance card or government document.",
+        "materials_and_details": "No RSSB or Irembo logo, policy certificate, readable ID, payment receipt, claimed coverage status or money transfer screen.",
+        "lighting_and_palette": "Clear morning window light, pale stone, soft teal and warm wood.",
+        "focal_subject": "The closed folder and planning notebook"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: contributing toward health cover."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-23-health-cover-contribution-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-23-health-cover-contribution-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S7"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Collect can organise contributions; the image must not suggest it issues insurance or directly settles an RSSB premium.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-24-neighbours-recovery-support",
+      "number": 24,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Neighbours helping a household recover",
+        "rw": "Abaturanyi bafasha umuryango",
+        "fr": "Des voisins aident une famille à se relever"
+      },
+      "family": "family_solidarity",
+      "theme": "household_recovery",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "recovery",
+        "emergency support",
+        "gutabara",
+        "ibiza",
+        "repair",
+        "solidarité",
+        "réparation"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Western Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft post-rain daylight, fresh green, warm brick and natural fabric."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult neighbours carry clean bedding and a small household box into a safe, standing home in western Rwanda after minor repairs. Focus on a respectful moment of collaboration at a level entrance, with everyone taking an active role. Keep a central pair and the household bundle clearly visible. There is no visible disaster, destruction, injury or photographed victim.",
+        "materials_and_details": "Practical contemporary clothes, safe lifting posture, clean household items and an intact roof; no charity branding or disaster spectacle.",
+        "lighting_and_palette": "Soft post-rain daylight, fresh green, warm brick and natural fabric.",
+        "focal_subject": "The neighbours carrying the folded bedding"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: neighbours helping a household recover."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-24-neighbours-recovery-support-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-24-neighbours-recovery-support-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-25-family-everyday-support",
+      "number": 25,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Family support across generations",
+        "rw": "Gufashanya mu muryango",
+        "fr": "L’entraide entre générations"
+      },
+      "family": "family_solidarity",
+      "theme": "family_support",
+      "collection_types": [
+        "ikimina",
+        "other"
+      ],
+      "category_subtypes": [
+        "family_friends",
+        "custom"
+      ],
+      "search_terms": [
+        "family",
+        "umuryango",
+        "relatives",
+        "parents",
+        "famille",
+        "entraide"
+      ],
+      "explicit_context": null,
+      "general_default": true,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Warm window daylight, muted blue, green and natural wood."
+      },
+      "prompt_spec": {
+        "scene": "A Rwandan family of four adults from two generations discusses everyday plans around a small dining table in a cared-for home. An older woman offers an idea while a younger man and two relatives listen. Include a simple shared bowl of fruit and a plain notebook, with one phone face down. The atmosphere is warm and practical rather than an advertisement for money transfer.",
+        "materials_and_details": "A natural mix of contemporary clothing, realistic domestic furniture and balanced participation; no assigned donor or dependent role.",
+        "lighting_and_palette": "Warm window daylight, muted blue, green and natural wood.",
+        "focal_subject": "The older woman and listening relatives"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: family support across generations."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-25-family-everyday-support-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-25-family-everyday-support-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-26-welcoming-new-baby",
+      "number": 26,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Welcoming a new family member",
+        "rw": "Kwakira umwana mu muryango",
+        "fr": "Accueillir un nouveau membre de la famille"
+      },
+      "family": "family_solidarity",
+      "theme": "new_baby_support",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "baby",
+        "newborn",
+        "kwita izina",
+        "umwana",
+        "family gift",
+        "naissance",
+        "bébé"
+      ],
+      "explicit_context": "new_baby",
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft morning light, warm cream with a small muted green accent."
+      },
+      "prompt_spec": {
+        "scene": "A gentle still life for a Rwandan family welcoming a baby: a neatly folded baby blanket, a pair of tiny plain socks and a small practical wrapped gift on a low table in a contemporary home. Two fully clothed adults are only softly suggested in the background, with no infant shown. Communicate warmth and shared practical support without staging a specific naming ritual.",
+        "materials_and_details": "Safe ordinary baby items, no infant face, sleeping arrangement, religious symbol, written child name, branded formula or medical claim.",
+        "lighting_and_palette": "Soft morning light, warm cream with a small muted green accent.",
+        "focal_subject": "The folded blanket, socks and practical gift"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: welcoming a new family member."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-26-welcoming-new-baby-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-26-welcoming-new-baby-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [],
+      "source_scope": "Collect product use case or editorial proposal; no prevalence or universal cultural-custom claim.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Kwita izina is a draft search term for family intent; this scene does not depict a prescribed ceremony or the gorilla-naming event.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-27-school-supplies",
+      "number": 27,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Preparing for school",
+        "rw": "Gutegura ibikoresho by’ishuri",
+        "fr": "Préparer la rentrée scolaire"
+      },
+      "family": "education",
+      "theme": "school_supplies",
+      "collection_types": [
+        "other",
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "custom",
+        "family_friends"
+      ],
+      "search_terms": [
+        "school",
+        "ishuri",
+        "amashuri",
+        "ibikoresho",
+        "fees",
+        "rentrée",
+        "fournitures",
+        "scolarité"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "home",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Fresh morning daylight, deep blue, warm paper and a small mustard accent."
+      },
+      "prompt_spec": {
+        "scene": "An inviting school-supplies still life in a Rwandan home: a sturdy unbranded backpack, several closed exercise books, pencils and a neatly folded plain school shirt on a wooden table. Adult hands organise the items. A bright room and greenery sit softly behind. Keep the backpack and books as a compact central focal group, with no children or readable school information.",
+        "materials_and_details": "Practical reusable supplies, no school crest, child name, exam results, fees invoice or exaggerated piles of expensive equipment.",
+        "lighting_and_palette": "Fresh morning daylight, deep blue, warm paper and a small mustard accent.",
+        "focal_subject": "The backpack and exercise books"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: preparing for school."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-27-school-supplies-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-27-school-supplies-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-28-school-meal-support",
+      "number": 28,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Supporting school meals",
+        "rw": "Gushyigikira ifunguro ku ishuri",
+        "fr": "Soutenir les repas scolaires"
+      },
+      "family": "education",
+      "theme": "school_meals",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "school meals",
+        "ifunguro",
+        "ishuri",
+        "ibiryo",
+        "cantine",
+        "nutrition",
+        "repas"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-kitchen",
+        "region_direction": "Southern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft bright daylight, appetising natural food colours and warm neutral surfaces."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult school-community volunteers prepare a nourishing shared meal in a clean, ventilated kitchen in southern Rwanda. One portions cooked beans into a serving vessel while another arranges washed vegetables and a third prepares reusable bowls. Use a central grouping around the food preparation, with no children in the image and no impression of food scarcity or a charity queue.",
+        "materials_and_details": "Believable cooking utensils, safe food handling, practical aprons without logos and no identifiable school.",
+        "lighting_and_palette": "Soft bright daylight, appetising natural food colours and warm neutral surfaces.",
+        "focal_subject": "The volunteers and central serving vessel"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: supporting school meals."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-28-school-meal-support-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-28-school-meal-support-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S5"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-29-higher-study-support",
+      "number": 29,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Supporting the next stage of study",
+        "rw": "Gushyigikira amashuri makuru",
+        "fr": "Soutenir la poursuite des études"
+      },
+      "family": "education",
+      "theme": "higher_education",
+      "collection_types": [
+        "other",
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "custom",
+        "family_friends"
+      ],
+      "search_terms": [
+        "university",
+        "kaminuza",
+        "scholarship",
+        "amashuri",
+        "study",
+        "bourse",
+        "études"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Huye area",
+        "all_people": "fictional adults",
+        "mood": "Soft library daylight, muted blue, warm wood and cream."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan young adults in their twenties study together at a modest accessible library table in the Huye area. One student who uses a mobility aid contributes to the discussion alongside two peers. Open books are angled away so no text is legible; an unbranded laptop is partly closed. Communicate a shared education goal and capability rather than a scholarship award or testimonial.",
+        "materials_and_details": "Everyday contemporary clothes, credible study materials, unobstructed accessible seating and no institution or donor logos.",
+        "lighting_and_palette": "Soft library daylight, muted blue, warm wood and cream.",
+        "focal_subject": "The students discussing their study materials"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: supporting the next stage of study."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-29-higher-study-support-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-29-higher-study-support-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S5",
+        "S8"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-30-youth-skills-training",
+      "number": 30,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Learning practical skills",
+        "rw": "Kwiga imyuga",
+        "fr": "Apprendre un métier"
+      },
+      "family": "education",
+      "theme": "skills_training",
+      "collection_types": [
+        "other",
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "custom",
+        "group_savings"
+      ],
+      "search_terms": [
+        "skills",
+        "training",
+        "imyuga",
+        "urubyiruko",
+        "TVET",
+        "formation",
+        "métier"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "workshop",
+        "region_direction": "Eastern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Bright diffuse daylight, charcoal tools, warm timber and restrained teal."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adults in their twenties learn safe small-electronics repair with an adult instructor in a modest training workshop in eastern Rwanda. A woman learner points to an unplugged device while the others discuss the components. Keep the instructor collaborative and the learners active, with the workbench in one central cluster. The scene suggests contributions toward tools and training, without promising employment.",
+        "materials_and_details": "Unbranded unplugged electronics, eye protection where appropriate, organised tools, no dangerous live wiring or readable certificates.",
+        "lighting_and_palette": "Bright diffuse daylight, charcoal tools, warm timber and restrained teal.",
+        "focal_subject": "The learners examining the unplugged device"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: learning practical skills."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-30-youth-skills-training-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-30-youth-skills-training-v1.json"
+      },
+      "generation_batch": 4,
+      "source_ids": [
+        "S8"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-31-umuganda-project-tools",
+      "number": 31,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Preparing a community work project",
+        "rw": "Gutegura umuganda",
+        "fr": "Préparer un chantier communautaire"
+      },
+      "family": "community_projects",
+      "theme": "umuganda_project",
+      "collection_types": [
+        "other",
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "custom",
+        "community_event"
+      ],
+      "search_terms": [
+        "umuganda",
+        "community work",
+        "tools",
+        "abaturanyi",
+        "travaux",
+        "communauté"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Eastern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Fresh morning light, green vegetation, warm soil and neutral workwear."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult neighbours prepare tools for a voluntary shared neighbourhood improvement project in an eastern Rwandan town. One checks a shovel, another carries a watering can and two discuss the work at a safe ground-level meeting point. The scene feels organised and neighbourly, with a clean path and cultivated greenery behind. Keep a compact central grouping and no official gathering.",
+        "materials_and_details": "Appropriate work shoes, ordinary protective gloves, safe tool positions and no party colours, uniforms, contribution demands or officials.",
+        "lighting_and_palette": "Fresh morning light, green vegetation, warm soil and neutral workwear.",
+        "focal_subject": "The neighbours preparing the shared tools"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: preparing a community work project."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-31-umuganda-project-tools-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-31-umuganda-project-tools-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [
+        "S9"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Umuganda context supports community-work imagery. Do not imply Collect collects mandatory public contributions or that all community labour is a cash collection.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-32-shared-water-point",
+      "number": 32,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "A shared water improvement",
+        "rw": "Guteza imbere amazi meza",
+        "fr": "Améliorer un point d’eau partagé"
+      },
+      "family": "community_projects",
+      "theme": "water_project",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "water",
+        "amazi",
+        "tap",
+        "repair",
+        "eau",
+        "robinet",
+        "projet"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "rural",
+        "region_direction": "Northern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Clear soft daylight, cool water tones, warm brick and muted green."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult residents inspect a clean shared water tap with a local technician in northern Rwanda. The technician explains a small replacement fitting while residents discuss the plan. Use safe, dry, ground-level surroundings with an intact modest water point. Photograph a central cluster around the fitting; suggest the practical purpose of a community contribution without showing an actual funded project.",
+        "materials_and_details": "Believable plumbing parts, ordinary clean containers, no contaminated water, thirsty children, logos or readable infrastructure plaques.",
+        "lighting_and_palette": "Clear soft daylight, cool water tones, warm brick and muted green.",
+        "focal_subject": "The residents and technician examining the fitting"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: a shared water improvement."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-32-shared-water-point-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-32-shared-water-point-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [
+        "S9"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Creative extension from documented community infrastructure contributions; the source is not evidence for this fictional water project.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-33-community-hall-improvement",
+      "number": 33,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Improving a shared hall",
+        "rw": "Gutunganya inzu y’umuryango",
+        "fr": "Améliorer la salle commune"
+      },
+      "family": "community_projects",
+      "theme": "shared_space",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "hall",
+        "community space",
+        "shared building",
+        "abaturanyi",
+        "salle",
+        "communauté"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-hall",
+        "region_direction": "Western Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft indoor daylight, warm stone, light timber and restrained blue."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult neighbours plan improvements inside a modest community hall in western Rwanda. Two compare a paint swatch and a simple chair while the others discuss how to arrange an accessible meeting area. Keep the main conversation central, with a bright open doorway behind. Show care for a shared space, avoiding government branding or a claim that funds have already completed the project.",
+        "materials_and_details": "Unbranded materials, realistic chairs, level circulation space and no ladders, hazardous work or official emblems.",
+        "lighting_and_palette": "Soft indoor daylight, warm stone, light timber and restrained blue.",
+        "focal_subject": "The neighbours comparing the chair and paint swatch"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: improving a shared hall."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-33-community-hall-improvement-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-33-community-hall-improvement-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [
+        "S9"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-34-tree-planting-neighbours",
+      "number": 34,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Growing a greener neighbourhood",
+        "rw": "Gutera ibiti mu baturanyi",
+        "fr": "Planter pour le quartier"
+      },
+      "family": "community_projects",
+      "theme": "tree_planting",
+      "collection_types": [
+        "other",
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "custom",
+        "community_event"
+      ],
+      "search_terms": [
+        "trees",
+        "ibiti",
+        "environment",
+        "ibidukikije",
+        "umuganda",
+        "arbres",
+        "environnement"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "rural",
+        "region_direction": "Northern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Fresh overcast daylight, vivid natural greens and warm earth."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult neighbours prepare young tree seedlings beside a tended community plot in northern Rwanda. A woman steadies one small seedling while a man and an older woman prepare water and soil. Use safe practical postures and a close central cluster, with gently sloping cultivated land behind. Convey a shared environmental goal through a small credible activity rather than a vast reforestation claim.",
+        "materials_and_details": "Region-appropriate modest seedlings to be checked locally, reusable containers and ordinary gloves; no political campaign, carbon-credit badge or donor logo.",
+        "lighting_and_palette": "Fresh overcast daylight, vivid natural greens and warm earth.",
+        "focal_subject": "The shared seedling and the people tending it"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: growing a greener neighbourhood."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-34-tree-planting-neighbours-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-34-tree-planting-neighbours-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [
+        "S9"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-35-football-fan-community",
+      "number": 35,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Supporting the team together",
+        "rw": "Gushyigikira ikipe hamwe",
+        "fr": "Soutenir l’équipe ensemble"
+      },
+      "family": "sport_culture",
+      "theme": "fan_support",
+      "collection_types": [
+        "sport"
+      ],
+      "category_subtypes": [
+        "fan_club"
+      ],
+      "search_terms": [
+        "football",
+        "fans",
+        "abafana",
+        "umupira",
+        "ikipe",
+        "supporters",
+        "sport"
+      ],
+      "explicit_context": null,
+      "general_default": true,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "sports-ground",
+        "region_direction": "Kigali",
+        "all_people": "fictional adults",
+        "mood": "Warm late-afternoon daylight, natural green and simple blue-and-white accents."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult football supporters, women and men, share an anticipatory conversation beside a local sports ground before a match. Wear plain scarves and unbranded shirts in a restrained generic blue-and-white palette with no actual club pattern or crest. Keep three supporters central, with the field softly behind. Show joyful collective support without suggesting official affiliation or a real match result.",
+        "materials_and_details": "No actual club badge, sponsor, trophy claim, ticket text, flags, visible betting or political symbols.",
+        "lighting_and_palette": "Warm late-afternoon daylight, natural green and simple blue-and-white accents.",
+        "focal_subject": "The supporters chatting near the field"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: supporting the team together."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-35-football-fan-community-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-35-football-fan-community-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [],
+      "source_scope": "Collect product use case or editorial proposal; no prevalence or universal cultural-custom claim.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Derived from Collect’s existing Sport / Fan club use case; official club artwork would need its own supplied asset path.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-36-local-team-equipment",
+      "number": 36,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Kit for a local team",
+        "rw": "Ibikoresho by’ikipe",
+        "fr": "Du matériel pour l’équipe locale"
+      },
+      "family": "sport_culture",
+      "theme": "team_equipment",
+      "collection_types": [
+        "sport"
+      ],
+      "category_subtypes": [
+        "team_support"
+      ],
+      "search_terms": [
+        "team",
+        "equipment",
+        "ikipe",
+        "ibikoresho",
+        "football",
+        "ball",
+        "équipement"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "object-led",
+        "setting": "sports-ground",
+        "region_direction": "Southern Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Gentle early-evening light, grass green, charcoal and muted orange."
+      },
+      "prompt_spec": {
+        "scene": "An editorial still life of practical equipment for a community football team in Rwanda: one clean football, a pair of boots, neatly folded plain training bibs and reusable water bottles beside a cared-for grass pitch. Adult teammates’ lower legs are softly present behind, stationary and naturally positioned. Keep the ball and folded bibs as a compact central focal group.",
+        "materials_and_details": "Believable ball geometry, realistic boots, no club crests, sportswear logos, trophy, gambling imagery or readable names.",
+        "lighting_and_palette": "Gentle early-evening light, grass green, charcoal and muted orange.",
+        "focal_subject": "The football and training bibs"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: kit for a local team."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-36-local-team-equipment-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-36-local-team-equipment-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [],
+      "source_scope": "Collect product use case or editorial proposal; no prevalence or universal cultural-custom claim.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-37-away-match-travel",
+      "number": 37,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Travelling together for the match",
+        "rw": "Urugendo rwo gushyigikira ikipe",
+        "fr": "Voyager ensemble pour le match"
+      },
+      "family": "sport_culture",
+      "theme": "away_travel",
+      "collection_types": [
+        "sport"
+      ],
+      "category_subtypes": [
+        "away_travel",
+        "fan_club"
+      ],
+      "search_terms": [
+        "away travel",
+        "transport",
+        "urugendo",
+        "abafana",
+        "match",
+        "déplacement"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "small-town",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Clear morning light, muted blue, warm stone and natural green."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult supporters meet beside a safely parked, unbranded passenger minibus before travelling to a match. They hold small day bags and plain folded scarves, discussing the trip at a legal stopping area. Keep the vehicle stationary and only partly visible behind a central group. Portray practical shared travel and anticipation rather than a transport booking or guaranteed ticket.",
+        "materials_and_details": "No readable plates, route signs, club logos, unsafe roadside crowd, overcrowding, moving vehicle or payment confirmation.",
+        "lighting_and_palette": "Clear morning light, muted blue, warm stone and natural green.",
+        "focal_subject": "The supporters and their small travel bags"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: travelling together for the match."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-37-away-match-travel-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-37-away-match-travel-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [],
+      "source_scope": "Collect product use case or editorial proposal; no prevalence or universal cultural-custom claim.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-38-cultural-troupe-rehearsal",
+      "number": 38,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Supporting music and dance",
+        "rw": "Gushyigikira umuziki n’imbyino",
+        "fr": "Soutenir la musique et la danse"
+      },
+      "family": "sport_culture",
+      "theme": "cultural_troupe",
+      "collection_types": [
+        "other"
+      ],
+      "category_subtypes": [
+        "custom"
+      ],
+      "search_terms": [
+        "culture",
+        "umuco",
+        "dance",
+        "imbyino",
+        "music",
+        "umuziki",
+        "troupe",
+        "danse"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "community-hall",
+        "region_direction": "Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Soft hall daylight, warm wood, cream fabric and muted red."
+      },
+      "prompt_spec": {
+        "scene": "Three fictional Rwandan adult members of a local cultural troupe prepare for rehearsal in a bright contemporary community hall. They sit close together at the same eye level, discussing shared rehearsal equipment. In front of them is one large Rwandan ingoma drum: a deep, broad wooden body with an only slightly tapered barrel shape, a large round pale hide head stretched with hide lacing, no narrow pedestal or goblet foot. Two plain wooden drumsticks rest diagonally on the drum head. One member checks the drumsticks while the other two organise folded cream and muted red performance cloth. Contemporary plain rehearsal clothing. Place all three complete heads and the drum in a compact central cluster, with clear breathing room above and below. The scene communicates contributions for instruments, rehearsal space, costumes and transport.",
+        "materials_and_details": "Show the ingoma as a large broad wooden drum used with wooden imirishyo sticks. No djembe goblet shape, no conga hardware, no generic carved souvenir drum. Footwear must be plain solid-colour canvas shoes with absolutely no logos, swooshes, stripes, lettering, symbols or brand-like marks. Drum construction and cloth remain subject to local cultural review; do not copy a real troupe, national uniform, royal sacred drum or ritual.",
+        "lighting_and_palette": "Soft hall daylight, warm wood, cream fabric and muted red.",
+        "focal_subject": "The troupe members and central drum"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: supporting music and dance."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-38-cultural-troupe-rehearsal-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-38-cultural-troupe-rehearsal-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [
+        "S3",
+        "S11"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Regenerated after first candidate used an insufficiently specific drum and a brand-like shoe mark. Verify ingoma proportions, imirishyo and cloth with a Rwandan cultural reviewer; review all final native crops.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-39-diaspora-family-connection",
+      "number": 39,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Family contributing from abroad",
+        "rw": "Umuryango uri mu mahanga",
+        "fr": "La famille contribue depuis l’étranger"
+      },
+      "family": "diaspora",
+      "theme": "diaspora_family",
+      "collection_types": [
+        "ikimina",
+        "wedding",
+        "other"
+      ],
+      "category_subtypes": [
+        "family_friends",
+        "committee",
+        "custom"
+      ],
+      "search_terms": [
+        "diaspora",
+        "abroad",
+        "amahanga",
+        "family",
+        "umuryango",
+        "étranger",
+        "famille"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "diaspora-home",
+        "region_direction": "Rwandan diaspora, generic European home",
+        "all_people": "fictional adults",
+        "mood": "Soft cool window daylight balanced by warm wood and a muted green textile."
+      },
+      "prompt_spec": {
+        "scene": "Three Rwandan adult relatives in an ordinary contemporary European apartment discuss a shared family goal in Rwanda. One holds a phone turned away from the camera while another references an unmarked notebook. A subtle personal woven basket on a shelf may suggest a connection to home, without flags or a travel-poster collage. Focus on the family conversation, not a bank transfer interface.",
+        "materials_and_details": "Everyday contemporary clothing, ordinary home furnishings, no remittance amounts, bank logos, passports, exchange rates or identifiable recipients.",
+        "lighting_and_palette": "Soft cool window daylight balanced by warm wood and a muted green textile.",
+        "focal_subject": "The relatives discussing their shared family goal"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: family contributing from abroad."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-39-diaspora-family-connection-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-39-diaspora-family-connection-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-39-diaspora-family-connection-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-39-diaspora-family-connection-v1.json"
+      },
+      "generation_batch": 1,
+      "source_ids": [
+        "S10"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Diaspora imagery is available to a permitted Rwanda organiser; it does not enable diaspora group creation or change payment rails.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-40-diaspora-community-project",
+      "number": 40,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "A community connected to home",
+        "rw": "Abanyarwanda mu mahanga bafatanya",
+        "fr": "Une communauté liée au Rwanda"
+      },
+      "family": "diaspora",
+      "theme": "diaspora_project",
+      "collection_types": [
+        "other",
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "custom",
+        "community_event"
+      ],
+      "search_terms": [
+        "diaspora",
+        "association",
+        "amahanga",
+        "project",
+        "community",
+        "communauté",
+        "projet"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 5,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "diaspora-community-room",
+        "region_direction": "Rwandan diaspora, non-specific overseas city",
+        "all_people": "fictional adults",
+        "mood": "Clear soft indoor daylight, warm neutrals, muted navy and restrained green."
+      },
+      "prompt_spec": {
+        "scene": "Four Rwandan adult community-association members meet in a modest overseas community room to discuss a shared project back home. The group includes younger and older adults, with balanced participation around a small table. A plain project sketch and two unbranded sample materials sit at the centre. The scene should feel rooted in relationships, avoiding flags, official delegates or a symbolic world-map graphic.",
+        "materials_and_details": "Contemporary varied clothing, a realistic accessible meeting space, no embassy, organisation insignia, donor branding or financial promises.",
+        "lighting_and_palette": "Clear soft indoor daylight, warm neutrals, muted navy and restrained green.",
+        "focal_subject": "The association members and shared project materials"
+      },
+      "alt_text": {
+        "en": "Illustrative scene: a community connected to home."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.47,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-40-diaspora-community-project-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-40-diaspora-community-project-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-40-diaspora-community-project-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-40-diaspora-community-project-v1.json"
+      },
+      "generation_batch": 5,
+      "source_ids": [
+        "S10"
+      ],
+      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    }
+  ],
+  "generated_count": 40,
+  "generated_source_total_bytes": 90621346
+}

@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-10-gusaba-gukwa-gathering",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v1.png",
+  "source_sha256": "f7db1e6b5728ce9fe314210dd487425a5ff47830bf3287f4da2dc1bf4752697f",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "94a470b518e32f5ac52ce28987b97237300b5bda78621879eac2ea98b2cf0270",
+  "imported_at_utc": "2026-09-06T11:01:23.544283+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-5e89a34a-7fea-452c-b608-c7e8dbf79f5b.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

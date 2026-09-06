@@ -1634,15 +1634,22 @@ void main() {
       expect(tester.takeException(), isNull);
       await tester.tap(find.byTooltip('Add photo'));
       await tester.pumpAndSettle();
-      expect(find.text('Rwanda collection'), findsOneWidget);
-      final photo = find.text('Community savings');
+      expect(find.text('Group photo'), findsOneWidget);
+      final photo = find.text('Neighbourhood savings circle');
       await tester.scrollUntilVisible(
         photo,
         160,
-        scrollable: find.byType(Scrollable).last,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const ValueKey('group-photo-scroll')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
       );
       await tester.pumpAndSettle();
       await tester.tap(photo);
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(FilledButton, 'Use photo'));
       await tester.pumpAndSettle();
       expect(find.text('Photo selected'), findsOneWidget);
       await pressFilledButton(tester, 'Continue');

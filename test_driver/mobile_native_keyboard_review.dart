@@ -137,6 +137,16 @@ Future<void> main() async {
     ).writeAsBytesSync(result.stdout as List<int>);
   }
 
+  Future<void> requireCollectForeground() async {
+    final windows = await _android(['shell', 'dumpsys', 'window']);
+    final focusedApp = windows
+        .split('\n')
+        .firstWhere((line) => line.contains('mFocusedApp='), orElse: () => '');
+    if (!focusedApp.contains('app.cool.mobile.dev/')) {
+      throw StateError('Collect fixture is not the foreground Android app');
+    }
+  }
+
   void save() => File('${output.path}/report.json').writeAsStringSync(
     const JsonEncoder.withIndent('  ').convert({
       'generated_at': DateTime.now().toUtc().toIso8601String(),
@@ -199,6 +209,7 @@ Future<void> main() async {
           };
           results.add(row);
           try {
+            await requireCollectForeground();
             final opened = await command('open', scenario);
             row['opened'] = opened;
             final expectedRoute = scenario['name'] == 'group-join'
@@ -252,21 +263,34 @@ Future<void> main() async {
               ]);
             }
             var before = await command('reveal-field');
-            if (before['focused'] == true) {
-              // Autofocus can open the IME between measurement and an OS tap.
-              await Future<void>.delayed(const Duration(seconds: 1));
-              before = await command('reveal-field');
+            // An autofocused search field can move while Android opens its
+            // keyboard. Do not tap its old position: that can hit an IME
+            // toolbar control and open keyboard settings instead of Collect.
+            for (
+              var attempt = 0;
+              before['focused'] == true &&
+                  (before['keyboardInset'] as num) == 0 &&
+                  attempt < 20;
+              attempt++
+            ) {
+              await Future<void>.delayed(const Duration(milliseconds: 300));
+              before = await command('inspect');
             }
             row['before'] = before;
-            final field = before['field'] as Map<String, dynamic>;
             final ratio = before['devicePixelRatio'] as num;
-            await _android([
-              'shell',
-              'input',
-              'tap',
-              '${((field['x'] + field['width'] / 2) * ratio).round()}',
-              '${((field['y'] + field['height'] / 2) * ratio).round()}',
-            ]);
+            if (before['focused'] != true ||
+                (before['keyboardInset'] as num) == 0) {
+              before = await command('reveal-field');
+              final field = before['field'] as Map<String, dynamic>;
+              await requireCollectForeground();
+              await _android([
+                'shell',
+                'input',
+                'tap',
+                '${((field['x'] + field['width'] / 2) * ratio).round()}',
+                '${((field['y'] + field['height'] / 2) * ratio).round()}',
+              ]);
+            }
             var state = await command('inspect');
             for (
               var attempt = 0;
@@ -288,6 +312,7 @@ Future<void> main() async {
             ) {
               final fresh = await command('reveal-field');
               final rect = fresh['field'] as Map<String, dynamic>;
+              await requireCollectForeground();
               await _android([
                 'shell',
                 'input',
@@ -303,6 +328,7 @@ Future<void> main() async {
               throw StateError('OS focus and keyboard did not become ready');
             }
             await command('reveal-field');
+            await requireCollectForeground();
             // Android does not consistently forward desktop select-all
             // shortcuts to these native input connections. Delete on both
             // sides of the caret through real OS key events, then read back.
@@ -335,6 +361,7 @@ Future<void> main() async {
             ]);
             await Future<void>.delayed(const Duration(milliseconds: 600));
             state = await command('inspect');
+            await requireCollectForeground();
             row['focused'] = state;
             if (state['route'] != expectedRoute) {
               failures.add('Typing changed route unexpectedly');

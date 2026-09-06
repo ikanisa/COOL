@@ -1,0 +1,266 @@
+{
+  "status": "SCOPED_ANDROID_PHOTO_JOURNEY_PASS",
+  "recorded_at": "2026-09-06T14:16:10.936983+00:00",
+  "report": {
+    "passed": 6,
+    "expected": 6,
+    "status": "pass",
+    "fixture_only": true,
+    "input": "Real Android IME; Flutter text emulation disabled",
+    "avd": "Collect_Design_Renderer_QA_20260905",
+    "original_settings": {
+      "font_scale": "1.0",
+      "accelerometer_rotation": "1",
+      "user_rotation": "0"
+    },
+    "restored_settings": {
+      "font_scale": "1.0",
+      "accelerometer_rotation": "1",
+      "user_rotation": "0"
+    },
+    "original_handwriting_setting": "null",
+    "restored_handwriting_setting": "null",
+    "failure": null,
+    "cases": [
+      {
+        "name": "photo-portrait-100",
+        "status": "pass",
+        "native_keyboard": true,
+        "saved_reference": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+        "focused": {
+          "fields": [
+            "QA wedding group",
+            "Local fixture only",
+            "gusaba"
+          ],
+          "keyboardInset": 302.90909090909093,
+          "width": 392.72727272727275,
+          "height": 850.9090909090909,
+          "errors": [],
+          "groups": [
+            {
+              "id": "qa-private-group",
+              "image": null,
+              "type": "wedding"
+            }
+          ]
+        }
+      },
+      {
+        "name": "photo-landscape-100",
+        "status": "pass",
+        "native_keyboard": true,
+        "saved_reference": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+        "focused": {
+          "fields": [
+            "QA wedding group",
+            "Local fixture only",
+            "gusaba"
+          ],
+          "keyboardInset": 248.36363636363637,
+          "width": 850.9090909090909,
+          "height": 392.72727272727275,
+          "errors": [],
+          "groups": [
+            {
+              "id": "qa-private-group",
+              "image": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+              "type": "wedding"
+            }
+          ]
+        }
+      },
+      {
+        "name": "photo-portrait-200",
+        "status": "pass",
+        "native_keyboard": true,
+        "saved_reference": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+        "focused": {
+          "fields": [
+            "QA wedding group",
+            "Local fixture only",
+            "gusaba"
+          ],
+          "keyboardInset": 302.90909090909093,
+          "width": 392.72727272727275,
+          "height": 850.9090909090909,
+          "errors": [],
+          "groups": [
+            {
+              "id": "qa-private-group",
+              "image": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+              "type": "wedding"
+            }
+          ]
+        }
+      },
+      {
+        "name": "photo-landscape-200",
+        "status": "pass",
+        "native_keyboard": true,
+        "saved_reference": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+        "focused": {
+          "fields": [
+            "QA wedding group",
+            "Local fixture only",
+            "gusaba"
+          ],
+          "keyboardInset": 248.36363636363637,
+          "width": 850.9090909090909,
+          "height": 392.72727272727275,
+          "errors": [],
+          "groups": [
+            {
+              "id": "qa-private-group",
+              "image": "collect-cover:rw-10-gusaba-gukwa-gathering:v2",
+              "type": "wedding"
+            }
+          ]
+        }
+      },
+      {
+        "name": "cancel-draft",
+        "status": "pass"
+      },
+      {
+        "name": "remove-and-save",
+        "status": "pass"
+      }
+    ]
+  },
+  "apk": {
+    "sha256": "b9ca3de1a01596f7c22c26dce83a99c80fa74a6449cbf28332239ddce7b89f6e",
+    "bytes": 225932113,
+    "bundled_derivative_hash_matches": 88,
+    "original_group_photos_bundled": false,
+    "fresh_debug_fixture_build": true,
+    "build_log": "/tmp/collect-cover-native-search-build.log"
+  },
+  "installed_readback": {
+    "package": "app.cool.mobile.dev",
+    "installed_apk_sha256": "b9ca3de1a01596f7c22c26dce83a99c80fa74a6449cbf28332239ddce7b89f6e",
+    "method": "Android sha256sum of installed base APK"
+  },
+  "installed_apk_exact_match": true,
+  "scoped_app_inputs_unchanged_since_build_capture": {
+    "lib/shared/widgets/collect_group_photo_picker.dart": "6c6db98d0b9f81bac0dfc600bbfdb03185df41252b635a8a84846f270043b645",
+    "integration_test/group_cover_native_review_app.dart": "92714f0bd851b914b14d0ac67b56500b268384477f52ed04a79045f366403978",
+    "integration_test/group_cover_review_app.dart": "25e7ed1fa71cad2511d437b46bea72dd96d11c9e38af37eabd38b67ad2ad8367",
+    "assets/group_covers/rwanda/runtime-manifest.json": "a8975f6ce08bf183fa790c1b1b8d956cbe8d8ddfb07554126acaaa0ca47e575f"
+  },
+  "host_driver_sha256": "40109ec30c280c114d31208d806ac3eb1b1116d56fceca6bc568f68fcb1739ed",
+  "source_binding_scope": "Four photo-related app/manifest input hashes held stable. The host driver was corrected after compilation. This is not full application source/build acceptance.",
+  "captures": [
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-100-keyboard.png",
+      "sha256": "b59eac495b4fe73f1ae30702a09b190afb30d7c3a4e527df96c1a28d98efb0dd",
+      "bytes": 97063
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-100-ready-to-save.png",
+      "sha256": "102f08b803a5d3cf9a3cd7f9484a50f216eeaf22ec61a9edf287857a28240773",
+      "bytes": 412578
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-100-saved.png",
+      "sha256": "42ff641d307eb8c4a00de8482d32e6a5b927ad71c809f643d5a2b7d29240e89e",
+      "bytes": 205697
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-100-selected.png",
+      "sha256": "1cf152538ae6f5f0a9233af91f35f82d1cea200a66029eda8077966688e9bf38",
+      "bytes": 524066
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-200-keyboard.png",
+      "sha256": "7ed758fcd7257e4f68ac1f66b2078225bf81e814825b08ba35db8231513151af",
+      "bytes": 102068
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-200-ready-to-save.png",
+      "sha256": "18e7d69ecec768351dcd82a51537d387d4a5928816c7886a7e8b88cfdaa4a238",
+      "bytes": 161840
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-200-saved.png",
+      "sha256": "d4632a0c168b3cc2cb380e491326a470f071ca057d76f79069040743f9ac0a07",
+      "bytes": 127156
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-landscape-200-selected.png",
+      "sha256": "e2f7808f68248ecaa9ac218deab5f205738f7191c875868e57cf51ee9d33a4c9",
+      "bytes": 512072
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-100-keyboard.png",
+      "sha256": "5821624ff42668b6e2c885128995ad5b52ea50305c0947884423684fb53b07d8",
+      "bytes": 147234
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-100-ready-to-save.png",
+      "sha256": "71b7611e063d9aadc95becc33b5438dbbed3f306bff440dc859089e1d680a5a0",
+      "bytes": 590795
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-100-saved.png",
+      "sha256": "4e12792175f8f70729a16044c5b80c19739f646bac2bf1f1ffd18ae1b070d753",
+      "bytes": 1389568
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-100-selected.png",
+      "sha256": "3d9d86225ce409d0cb1d2f09b9cf13e537b01204881c145a8d3ede3b1abcc068",
+      "bytes": 534098
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-200-keyboard.png",
+      "sha256": "db4aea8caae30eb654cea05cb0273e377b882f11566ba205f2af6e912cfb5393",
+      "bytes": 163661
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-200-ready-to-save.png",
+      "sha256": "e52a22fae51615b6e3e0455c9c6bafe49ebc1dc030cf5a27c98633972b2acbdb",
+      "bytes": 1484274
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-200-saved.png",
+      "sha256": "8de422c94959ef823b7a975122d9c5c042ce4b296613330066aa49744365ddec",
+      "bytes": 1010528
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-portrait-200-selected.png",
+      "sha256": "28a0e565d6ff1982eb73250c0e0e9124997cf50ab09d41a45ca8c95ac964f3c5",
+      "bytes": 1478365
+    },
+    {
+      "path": ".cache/group-cover-integration/native-final-review/photo-removed.png",
+      "sha256": "7f99b4077b76f58f8b448cbd4f7c97ac4882c1ab3318bfaab3669742a7e73624",
+      "bytes": 1633755
+    }
+  ],
+  "visually_inspected_final_captures": [
+    "photo-landscape-200-keyboard.png",
+    "photo-landscape-200-ready-to-save.png",
+    "photo-portrait-100-saved.png",
+    "photo-removed.png"
+  ],
+  "visual_result": "Search text is readable with the real landscape keyboard at 200% text. The Save action is visible after scrolling the accessible form. Saved wedding cover and removal fallback render. This is scoped review, not the full 44-asset crop or all-route matrix.",
+  "environment": {
+    "renderer": "host GPU, headless, 2 CPU cores",
+    "system_ui_dialog": "An earlier cold-boot System UI ANR blocked input. Selected Wait on the disposable AVD before rerun; no System UI interruption occurred in the passing run.",
+    "performance_certified": false
+  },
+  "flutter_checks": {
+    "affected_unique_tests_passed": 136,
+    "photo_bank_tests_rerun_after_search_label_change": 10,
+    "focused_analysis": "No issues found"
+  },
+  "fixture_only": true,
+  "production_app_distributed": false,
+  "mobile_design_gate": "BLOCKED",
+  "remaining": [
+    "Whole-app source/build binding and route/state acceptance",
+    "Local cultural and language review",
+    "Complete native crop matrix and iOS evidence",
+    "Production release gates"
+  ]
+}

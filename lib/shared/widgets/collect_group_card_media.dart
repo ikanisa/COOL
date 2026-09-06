@@ -7,34 +7,9 @@ class _GroupCoverMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = collection.imageUrl?.trim();
-    if (imageUrl == null || imageUrl.isEmpty) {
-      return _GeneratedGroupCover(collection: collection);
-    }
-    if (imageUrl.startsWith('data:image/')) {
-      final bytes = _decodeDataImage(imageUrl);
-      if (bytes == null) return _GeneratedGroupCover(collection: collection);
-      return Image.memory(
-        bytes,
-        fit: BoxFit.cover,
-        gaplessPlayback: true,
-        filterQuality: FilterQuality.medium,
-        frameBuilder: _fadeInImageFrame,
-        errorBuilder: (context, error, stackTrace) =>
-            _GeneratedGroupCover(collection: collection),
-      );
-    }
-    return Image.network(
-      imageUrl,
-      fit: BoxFit.cover,
-      gaplessPlayback: true,
-      filterQuality: FilterQuality.medium,
-      frameBuilder: _fadeInImageFrame,
-      loadingBuilder: (context, child, progress) => progress == null
-          ? child
-          : _GeneratedGroupCover(collection: collection),
-      errorBuilder: (context, error, stackTrace) =>
-          _GeneratedGroupCover(collection: collection),
+    return CollectGroupImage(
+      value: collection.imageUrl,
+      fallback: _GeneratedGroupCover(collection: collection),
     );
   }
 }
@@ -64,32 +39,6 @@ class _GroupCoverScrim extends StatelessWidget {
   }
 }
 
-Widget _fadeInImageFrame(
-  BuildContext context,
-  Widget child,
-  int? frame,
-  bool wasSynchronouslyLoaded,
-) {
-  if (wasSynchronouslyLoaded) return child;
-  return AnimatedOpacity(
-    opacity: frame == null ? 0 : 1,
-    duration: CollectMotion.duration(context, CollectMotion.medium),
-    curve: CollectMotion.standard,
-    child: child,
-  );
-}
-
-Uint8List? _decodeDataImage(String value) {
-  if (!value.startsWith('data:image/')) return null;
-  final comma = value.indexOf(',');
-  if (comma == -1 || comma == value.length - 1) return null;
-  try {
-    return base64Decode(value.substring(comma + 1));
-  } catch (_) {
-    return null;
-  }
-}
-
 /// Owner-requested Rwanda editorial defaults are presentation only: they never
 /// replace an uploaded photo or write invented group media into stored records.
 class _GeneratedGroupCover extends StatelessWidget {
@@ -107,20 +56,16 @@ class _GeneratedGroupCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seed = collection.id.codeUnits.fold<int>(
-      0,
-      (value, unit) => ((value * 31) + unit) & 0x7fffffff,
-    );
-    final asset = switch (collection.collectionType) {
-      CollectionType.ikimina => _photos[seed % 2],
-      CollectionType.sport || CollectionType.wedding => _photos[1],
-      CollectionType.church => _photos[0],
-      CollectionType.other => _photos[seed % _photos.length],
-    };
+    final cover = CollectGroupCover.fallbackFor(collection);
+    final asset = cover?.asset ?? _photos.last;
     return Image.asset(
       asset,
       fit: BoxFit.cover,
-      cacheWidth: 1200,
+      cacheWidth: 768,
+      alignment: Alignment(
+        (cover?.focalX ?? .5) * 2 - 1,
+        (cover?.focalY ?? .5) * 2 - 1,
+      ),
       gaplessPlayback: true,
       filterQuality: FilterQuality.medium,
       errorBuilder: (context, error, stackTrace) => ColoredBox(

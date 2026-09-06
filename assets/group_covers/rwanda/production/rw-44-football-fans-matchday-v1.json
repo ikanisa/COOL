@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-44-football-fans-matchday",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-44-football-fans-matchday-v1.png",
+  "source_sha256": "1ecf53a0258071d9df770ccb164a19c8c3b1455e4b80bf5102aa509431394da1",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "e715e7e9dc5187a23fdeb5e6e85cf3a879e3e4ebba3194cf7380c595b999c173",
+  "imported_at_utc": "2026-09-06T12:11:05.259552+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-44d826ef-03f2-4e83-8e09-2945e89ece34.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

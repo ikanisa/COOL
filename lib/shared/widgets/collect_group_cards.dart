@@ -1,10 +1,9 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
 import '../../core/utils/money_format.dart';
 import '../models/collect_models.dart';
+import '../models/collect_group_cover.dart';
+import 'collect_group_image.dart';
 import 'collect_components.dart';
 
 part 'collect_group_card_editorial.dart';

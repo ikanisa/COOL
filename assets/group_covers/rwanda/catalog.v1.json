@@ -2,12 +2,12 @@
   "schema_version": 1,
   "bank_id": "collect-rwanda-group-covers-v1",
   "created_on": "2026-09-06",
-  "status": "production_plan_and_prompts_only",
-  "planned_asset_count": 40,
+  "status": "44_generated_candidates_including_named_cards_and_wedding_v2",
+  "planned_asset_count": 44,
   "generated_count_at_plan_creation": 0,
-  "runtime_integrated": false,
-  "authority": "DESIGN.md; owner Browser Comment 1, 2026-09-06",
-  "scope": "Forty new original image concepts for the optional group-photo library. Existing five library photos and marketing portrait are not counted.",
+  "runtime_integrated": true,
+  "authority": "DESIGN.md; owner Browser Comment 1 and explicit Buri munsi, Gikundiro, church, football and vibrant wedding additions, 2026-09-06",
+  "scope": "Original 40 concepts plus four owner-requested card images, including Buri munsi and Gikundiro. Six wedding concepts refreshed to version 2; originals preserved.",
   "localization_status": {
     "en": "draft",
     "rw": "draft_requires_native_review",
@@ -63,7 +63,7 @@
         "format": "webp",
         "max_bytes": 15360
       },
-      "max_bank_runtime_bytes": 7782400,
+      "max_bank_runtime_bytes": 8560640,
       "notes": "Proposed ceilings, not measured output. Inspect actual compressed quality; do not upscale a small master or force a damaged crop to meet the byte budget."
     }
   },
@@ -75,7 +75,7 @@
         "rw": "Kwizigama n’imibereho",
         "fr": "Épargne et activités"
       },
-      "planned_count": 8
+      "planned_count": 9
     },
     {
       "id": "weddings",
@@ -93,7 +93,7 @@
         "rw": "Kwizera no gufashanya",
         "fr": "Foi et solidarité"
       },
-      "planned_count": 6
+      "planned_count": 7
     },
     {
       "id": "family_solidarity",
@@ -129,7 +129,7 @@
         "rw": "Siporo n’umuco",
         "fr": "Sport et culture"
       },
-      "planned_count": 4
+      "planned_count": 6
     },
     {
       "id": "diaspora",
@@ -253,6 +253,15 @@
       "limits": "No association is represented by these fictional scenes, and diaspora image availability does not establish diaspora group-creation eligibility or a new remittance service.",
       "checked_on": "2026-09-06",
       "image_reuse": false
+    },
+    {
+      "id": "S11",
+      "publisher": "Rwanda Cultural Heritage Academy",
+      "title": "Ingoma heritage certificate",
+      "url": "https://www.rwandaheritage.gov.rw/index.php?eID=dumpFile&f=68709&t=f&token=2ac651a4602ec97d40a8322fd18574daa2d5c637",
+      "access": "Search excerpt read 6 September 2026; PDF parse yielded image-only content; screenshot retrieval timed out.",
+      "supports": "The search excerpt identifies ingoma and wooden drumsticks called imirishyo.",
+      "limits": "This does not validate the generated drum geometry, costume or depiction. Local visual review remains pending."
     }
   ],
   "batches": [
@@ -325,6 +334,16 @@
         38,
         40
       ]
+    },
+    {
+      "number": 6,
+      "purpose": "Owner-requested named-group, church and football card additions",
+      "asset_numbers": [
+        41,
+        42,
+        43,
+        44
+      ]
     }
   ],
   "selection_policy": {
@@ -341,14 +360,15 @@
     "ranking": "Context eligibility first. In suggested mode match current type, then selected theme (+100), type (+50), declared subtype (+20), exact query-token matches (+5 each) and editorial priority (+0..9). Query tokens are ANDed; a no-match returns an empty state. Manual all-library browsing drops the type restriction and type boost, but preserves context eligibility. Stable asset id breaks ties.",
     "no_automatic_selection": true,
     "general_defaults": "Only non-sensitive general_default assets may be used as presentation fallbacks; uploaded/saved user media retains priority. Never write a default to group data merely because it rendered.",
-    "privacy": "Do not record raw searches or infer a member's religion, health or bereavement. No images, personal data or group text are sent to a recommender service."
+    "privacy": "Do not record raw searches or infer a member's religion, health or bereavement. No images, personal data or group text are sent to a recommender service.",
+    "named_groups": "Named covers are excluded from generic suggestions/defaults. Explicit platform assignment by the authoritative named-group identity is required; do not infer from a user-entered group name."
   },
   "assets": [
     {
       "id": "rw-01-neighbourhood-ikimina",
       "number": 1,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Neighbourhood savings circle",
@@ -414,13 +434,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-02-women-savings-circle",
       "number": 2,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Women building a shared fund",
@@ -485,13 +506,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-03-young-professionals-goal",
       "number": 3,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Friends saving for a goal",
@@ -558,13 +580,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-04-market-traders-stock",
       "number": 4,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Market traders’ shared stock",
@@ -633,13 +656,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-05-moto-riders-shared-goal",
       "number": 5,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Moto riders’ shared goal",
@@ -707,13 +731,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-06-farmers-season-inputs",
       "number": 6,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Farmers preparing the season",
@@ -782,13 +807,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-07-family-home-goal",
       "number": 7,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Saving for a family home",
@@ -858,13 +884,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-08-craft-cooperative-tools",
       "number": 8,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Tools for a shared workshop",
@@ -934,13 +961,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-09-wedding-committee",
       "number": 9,
-      "version": 1,
-      "status": "prompt_ready",
+      "version": 2,
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Wedding planning together",
@@ -972,27 +1000,28 @@
         "setting": "urban",
         "region_direction": "Kigali",
         "all_people": "fictional adults",
-        "mood": "Soft garden afternoon light, warm white, muted rose and green."
+        "mood": "Vibrant natural wedding daylight, rich coral, teal, blue, ivory and green; candid family interaction."
       },
       "prompt_spec": {
-        "scene": "Four Rwandan adults from a wedding organising committee meet at a small garden table in Kigali. The engaged couple listens as a friend arranges two fabric swatches beside a plain planning notebook and an elder adds an idea. The emphasis is on family participation and practical preparations. Frame a central trio with the fourth person slightly behind; keep flowers subtle and the scale intimate.",
-        "materials_and_details": "Contemporary smart-casual clothes, simple flowers and fabric samples; no money collection box, guest names, budgets or venue logos.",
-        "lighting_and_palette": "Soft garden afternoon light, warm white, muted rose and green.",
-        "focal_subject": "The couple and friend making the wedding plan"
+        "scene": "Candid preparations for a lively Rwandan wedding in a green Kigali courtyard. Four adult relatives of different ages sit and stand closely around a small table, laughing mid-conversation while a wedding committee organiser checks an unmarked notebook and an older aunt holds fresh flowers. Wear elegant everyday celebration-preparation clothes in vibrant coral, teal and blue. A softly blurred white wedding canopy, greenery and a few other adults create a lived-in event atmosphere. Capture natural gestures, one person interrupting with a joke, believable eye contact and practical shared planning rather than a posed photograph. Keep all four complete heads and the small table together near the middle of the portrait.",
+        "materials_and_details": "Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.",
+        "lighting_and_palette": "Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.",
+        "focal_subject": "The couple and friend making the wedding plan",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
       },
       "alt_text": {
         "en": "Illustrative scene: wedding planning together."
       },
       "focal_point": {
         "x": 0.5,
-        "y": 0.47,
+        "y": 0.35,
         "status": "provisional_until_visual_review"
       },
       "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-09-wedding-committee-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-09-wedding-committee-v1.json"
+        "source": "assets/group_covers/rwanda/source/rw-09-wedding-committee-v2.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-09-wedding-committee-v2.json"
       },
       "generation_batch": 2,
       "source_ids": [
@@ -1007,13 +1036,25 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Owner-directed vibrant, natural wedding revision. Inspect local ceremony attire, anatomy, expressions, candid energy and native crop framing. The first version remains preserved.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "previous_versions": [
+        {
+          "version": 1,
+          "files": {
+            "source": "assets/group_covers/rwanda/source/rw-09-wedding-committee-v1.png",
+            "cover": "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v1.webp",
+            "thumbnail": "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v1.webp",
+            "production_record": "assets/group_covers/rwanda/production/rw-09-wedding-committee-v1.json"
+          }
+        }
+      ]
     },
     {
       "id": "rw-10-gusaba-gukwa-gathering",
       "number": 10,
-      "version": 1,
-      "status": "prompt_ready",
+      "version": 2,
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Gusaba and gukwa gathering",
@@ -1044,27 +1085,28 @@
         "setting": "small-town",
         "region_direction": "Rwanda, setting not a named venue",
         "all_people": "fictional adults",
-        "mood": "Gentle afternoon light, cream, soft ochre and restrained green."
+        "mood": "Vibrant natural wedding daylight, rich coral, teal, blue, ivory and green; candid family interaction."
       },
       "prompt_spec": {
-        "scene": "An intimate, fictional contemporary Rwandan gusaba and gukwa family gathering in a neat garden. Two adult family representatives speak warmly with an adult couple seated nearby. Some women wear carefully draped umushanana appropriate to the occasion while others wear contemporary formal clothes. Include one naturally placed lidded woven basket. Emphasise respectful conversation and family connection, without depicting a bride as property or a monetary exchange.",
-        "materials_and_details": "Review the ceremonial attire and basket geometry for Rwandan accuracy; avoid cattle transfer, cash display and invented ritual gestures.",
-        "lighting_and_palette": "Gentle afternoon light, cream, soft ochre and restrained green.",
-        "focal_subject": "The speaking relatives and adult couple"
+        "scene": "An intimate, joyful moment during a contemporary Rwandan gusaba and gukwa family gathering, photographed candidly in a garden venue under a bright white canopy. Two families of fictional adults sit in a shallow close semicircle around the couple. An older woman laughs warmly as the young adult couple exchange a smile; another elder gestures naturally during family conversation. Occasion-appropriate umushanana: long flowing wrapped skirts and fabric draped over one shoulder over simple fitted blouses, in vivid emerald, turquoise, coral and ivory; men in elegant dark suits and cream shirts. Woven agaseke baskets and fresh white and yellow flowers sit low at the centre. No payment exchange or cattle transaction. Background adult guests softly blurred. The story is family warmth, recognition and celebration. Faces and baskets form a compact central cluster that remains readable in a square crop.",
+        "materials_and_details": "Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.",
+        "lighting_and_palette": "Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.",
+        "focal_subject": "The speaking relatives and adult couple",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
       },
       "alt_text": {
         "en": "Illustrative scene: gusaba and gukwa gathering."
       },
       "focal_point": {
         "x": 0.5,
-        "y": 0.47,
+        "y": 0.42,
         "status": "provisional_until_visual_review"
       },
       "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-10-gusaba-gukwa-gathering-v1.json"
+        "source": "assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v2.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-10-gusaba-gukwa-gathering-v2.json"
       },
       "generation_batch": 1,
       "source_ids": [
@@ -1079,13 +1121,25 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "A Rwandan cultural reviewer should check ceremony staging and dress; the historical source is context, not a rule for all modern weddings."
+      "review_note": "Owner-directed vibrant, natural wedding revision. Inspect local ceremony attire, anatomy, expressions, candid energy and native crop framing. The first version remains preserved.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "previous_versions": [
+        {
+          "version": 1,
+          "files": {
+            "source": "assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v1.png",
+            "cover": "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v1.webp",
+            "thumbnail": "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v1.webp",
+            "production_record": "assets/group_covers/rwanda/production/rw-10-gusaba-gukwa-gathering-v1.json"
+          }
+        }
+      ]
     },
     {
       "id": "rw-11-wedding-attire-preparation",
       "number": 11,
-      "version": 1,
-      "status": "prompt_ready",
+      "version": 2,
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Preparing wedding attire",
@@ -1116,27 +1170,28 @@
         "setting": "urban",
         "region_direction": "Kigali",
         "all_people": "fictional adults",
-        "mood": "Soft window light, pearl, muted coral and natural skin tones."
+        "mood": "Vibrant natural wedding daylight, rich coral, teal, blue, ivory and green; candid family interaction."
       },
       "prompt_spec": {
-        "scene": "Three Rwandan adult women prepare formal wedding attire in a bright dressing room. One woman gently adjusts a sash on another woman’s correctly draped umushanana while a third checks a folded garment. Show friendship and careful preparation, with fully dressed adults and realistic fabric. Keep their faces and the sash in the central composition so the image also reads as a small group avatar.",
-        "materials_and_details": "Occasion-specific floor-length garments and natural jewellery, no fashion-house logos, no exaggerated costume or sexualised posing.",
-        "lighting_and_palette": "Soft window light, pearl, muted coral and natural skin tones.",
-        "focal_subject": "The women and the sash adjustment"
+        "scene": "A candid getting-ready moment before a Rwandan wedding: a fictional adult bride in an elegant ivory umushanana ensemble, with a long flowing skirt, simple fitted blouse and a light fabric drape over one shoulder. Her older aunt in vivid royal blue and a friend in rich coral help settle the drape while the bride laughs naturally at something they say. A bright ordinary Kigali bedroom with morning daylight, a hanging occasion outfit and a small vase of flowers. Do not stage a fashion pose or identical bridesmaids. Capture a close, warm family moment at eye level; all three full heads, shoulders and the draping hands should form a compact cluster in the central middle of the image. Real fabric texture, believable clothing construction, natural gestures.",
+        "materials_and_details": "Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.",
+        "lighting_and_palette": "Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.",
+        "focal_subject": "The women and the sash adjustment",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
       },
       "alt_text": {
         "en": "Illustrative scene: preparing wedding attire."
       },
       "focal_point": {
         "x": 0.5,
-        "y": 0.47,
+        "y": 0.25,
         "status": "provisional_until_visual_review"
       },
       "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-11-wedding-attire-preparation-v1.json"
+        "source": "assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v2.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-11-wedding-attire-preparation-v2.json"
       },
       "generation_batch": 3,
       "source_ids": [
@@ -1150,13 +1205,25 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Owner-directed vibrant, natural wedding revision. Inspect local ceremony attire, anatomy, expressions, candid energy and native crop framing. The first version remains preserved.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "previous_versions": [
+        {
+          "version": 1,
+          "files": {
+            "source": "assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v1.png",
+            "cover": "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v1.webp",
+            "thumbnail": "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v1.webp",
+            "production_record": "assets/group_covers/rwanda/production/rw-11-wedding-attire-preparation-v1.json"
+          }
+        }
+      ]
     },
     {
       "id": "rw-12-wedding-reception-table",
       "number": 12,
-      "version": 1,
-      "status": "prompt_ready",
+      "version": 2,
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "A reception taking shape",
@@ -1187,27 +1254,28 @@
         "setting": "garden",
         "region_direction": "Kigali outskirts",
         "all_people": "fictional adults",
-        "mood": "Warm late-afternoon shade, cream linen, soft green and small terracotta accents."
+        "mood": "Vibrant natural wedding daylight, rich coral, teal, blue, ivory and green; candid family interaction."
       },
       "prompt_spec": {
-        "scene": "An editorial still life of a modest elegant Rwandan wedding reception being prepared in a garden outside Kigali. A short central table holds carefully arranged reusable plates, folded linen and locally arranged seasonal flowers. An adult organiser’s hands make one final adjustment, with other tables only softly suggested behind. Keep the main floral arrangement compact and central; communicate achievable collective preparation.",
-        "materials_and_details": "Realistic tableware, linen and flowers; no guest names, branded bottles, price cards, extravagant palace setting or empty luxury fantasy.",
-        "lighting_and_palette": "Warm late-afternoon shade, cream linen, soft green and small terracotta accents.",
-        "focal_subject": "The central floral arrangement and place settings"
+        "scene": "A vibrant Rwandan wedding reception genuinely in progress, seen candidly at guest-table height. Three fictional adult guests and a newly married adult couple lean towards one another around the near end of a round reception table, laughing and clapping along with music. Bright white canopy overhead, lush Kigali garden beyond, softly blurred adult guests, fresh flowers, water glasses and realistic place settings. One woman wears a vivid turquoise umushanana, another a coral celebration dress, the bride ivory and the groom a dark blue suit. The foreground is a natural table edge and flowers; the main faces form a compact lively middle cluster. No staged empty reception, no luxury-hotel stock-photo mood. Joyful colour, real-looking Rwandan family wedding energy.",
+        "materials_and_details": "Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.",
+        "lighting_and_palette": "Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.",
+        "focal_subject": "The central floral arrangement and place settings",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
       },
       "alt_text": {
         "en": "Illustrative scene: a reception taking shape."
       },
       "focal_point": {
         "x": 0.5,
-        "y": 0.47,
+        "y": 0.42,
         "status": "provisional_until_visual_review"
       },
       "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-12-wedding-reception-table-v1.json"
+        "source": "assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v2.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-12-wedding-reception-table-v2.json"
       },
       "generation_batch": 3,
       "source_ids": [
@@ -1221,13 +1289,25 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Owner-directed vibrant, natural wedding revision. Inspect local ceremony attire, anatomy, expressions, candid energy and native crop framing. The first version remains preserved.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "previous_versions": [
+        {
+          "version": 1,
+          "files": {
+            "source": "assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v1.png",
+            "cover": "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v1.webp",
+            "thumbnail": "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v1.webp",
+            "production_record": "assets/group_covers/rwanda/production/rw-12-wedding-reception-table-v1.json"
+          }
+        }
+      ]
     },
     {
       "id": "rw-13-new-home-wedding-gift",
       "number": 13,
-      "version": 1,
-      "status": "prompt_ready",
+      "version": 2,
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "A gift for the new home",
@@ -1260,27 +1340,28 @@
         "setting": "home",
         "region_direction": "Rwanda",
         "all_people": "fictional adults",
-        "mood": "Soft morning window light, warm neutrals with a muted teal textile."
+        "mood": "Vibrant natural wedding daylight, rich coral, teal, blue, ivory and green; candid family interaction."
       },
       "prompt_spec": {
-        "scene": "A thoughtful wedding-gift still life in a contemporary Rwandan home: a simple wrapped household gift, two ceramic cups and a neatly folded blanket on a wooden table. A small lidded woven basket may sit behind the main gift, used naturally. The setting feels welcoming and practical. Use a single compact arrangement that stays recognisable in a circular crop, with quiet background space.",
-        "materials_and_details": "Unbranded household items, reusable wrapping, credible basket weave and no cash, rings with logos, bank cards or printed congratulatory message.",
-        "lighting_and_palette": "Soft morning window light, warm neutrals with a muted teal textile.",
-        "focal_subject": "The wrapped household gift and ceramic cups"
+        "scene": "A candid family gift-giving moment connected to a Rwandan wedding. A fictional newly married adult couple sit close together on a low sofa with an older aunt. They lean forward laughing while opening a practical gift wrapped in bright teal fabric on a small table pulled very close. A woven agaseke basket, two plain ceramic cups and a folded coral blanket are on the same tabletop, immediately below their smiling faces, so heads and gifts occupy one compact central band. Ordinary welcoming Kigali family home, open window, greenery and a small bunch of wedding flowers. The couple wear smart cream and deep-blue clothing; the aunt has a vivid elegant patterned skirt. Frame from farther back with quiet wall above and softly out-of-focus floor below. All three complete heads AND the gift cluster must fit inside the middle 45 percent of image height, not widely separated top and bottom.",
+        "materials_and_details": "Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.",
+        "lighting_and_palette": "Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.",
+        "focal_subject": "The wrapped household gift and ceramic cups",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
       },
       "alt_text": {
         "en": "Illustrative scene: a gift for the new home."
       },
       "focal_point": {
         "x": 0.5,
-        "y": 0.47,
+        "y": 0.42,
         "status": "provisional_until_visual_review"
       },
       "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-13-new-home-wedding-gift-v1.json"
+        "source": "assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v2.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-13-new-home-wedding-gift-v2.json"
       },
       "generation_batch": 3,
       "source_ids": [
@@ -1294,13 +1375,25 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Creative contribution use case; the source supports the wedding context, not a universal gift custom."
+      "review_note": "Owner-directed vibrant, natural wedding revision. Inspect local ceremony attire, anatomy, expressions, candid energy and native crop framing. The first version remains preserved.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "previous_versions": [
+        {
+          "version": 1,
+          "files": {
+            "source": "assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v1.png",
+            "cover": "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v1.webp",
+            "thumbnail": "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v1.webp",
+            "production_record": "assets/group_covers/rwanda/production/rw-13-new-home-wedding-gift-v1.json"
+          }
+        }
+      ]
     },
     {
       "id": "rw-14-wedding-day-family",
       "number": 14,
-      "version": 1,
-      "status": "prompt_ready",
+      "version": 2,
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Family on the wedding day",
@@ -1331,27 +1424,28 @@
         "setting": "garden",
         "region_direction": "Rwanda",
         "all_people": "fictional adults",
-        "mood": "Soft late-afternoon light, warm ivory, deep charcoal and greenery."
+        "mood": "Vibrant natural wedding daylight, rich coral, teal, blue, ivory and green; candid family interaction."
       },
       "prompt_spec": {
-        "scene": "A Rwandan adult newlywed couple shares a quiet joyful moment with two adult relatives in a simple garden after their ceremony. Use contemporary formal clothing, with one relative in occasion-appropriate umushanana. Keep the composition intimate and natural, with relaxed expressions rather than a staged celebrity wedding pose. No church, mosque or government venue should identify the couple’s ceremony or belief.",
-        "materials_and_details": "Realistic tailoring, restrained bouquet and natural fabric; no readable certificate, conspicuous wealth or prescribed gender-role tableau.",
-        "lighting_and_palette": "Soft late-afternoon light, warm ivory, deep charcoal and greenery.",
-        "focal_subject": "The couple and nearby relatives"
+        "scene": "A joyful candid Rwandan wedding celebration immediately after the family ceremony in a green garden under a white canopy. A fictional adult bride in an ivory wedding dress and an adult groom in a well-fitted navy suit laugh together while two adult relatives beside them clap and move to music. One older woman wears a vivid emerald umushanana over a simple fitted blouse; another guest wears warm coral. A small lively group of adult guests is softly blurred behind them, with white flowers and real fresh greenery. Capture a spontaneous affectionate moment, animated shoulders and natural eye contact, never a formal line-up or posed group portrait. Keep the four primary full faces and hands closely grouped in the middle, with a clear quiet strip above and below for card overlays.",
+        "materials_and_details": "Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.",
+        "lighting_and_palette": "Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.",
+        "focal_subject": "The couple and nearby relatives",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
       },
       "alt_text": {
         "en": "Illustrative scene: family on the wedding day."
       },
       "focal_point": {
         "x": 0.5,
-        "y": 0.47,
+        "y": 0.42,
         "status": "provisional_until_visual_review"
       },
       "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-14-wedding-day-family-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-14-wedding-day-family-v1.json"
+        "source": "assets/group_covers/rwanda/source/rw-14-wedding-day-family-v2.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-14-wedding-day-family-v2.json"
       },
       "generation_batch": 3,
       "source_ids": [
@@ -1366,13 +1460,25 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Owner-directed vibrant, natural wedding revision. Inspect local ceremony attire, anatomy, expressions, candid energy and native crop framing. The first version remains preserved.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "previous_versions": [
+        {
+          "version": 1,
+          "files": {
+            "source": "assets/group_covers/rwanda/source/rw-14-wedding-day-family-v1.png",
+            "cover": "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v1.webp",
+            "thumbnail": "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v1.webp",
+            "production_record": "assets/group_covers/rwanda/production/rw-14-wedding-day-family-v1.json"
+          }
+        }
+      ]
     },
     {
       "id": "rw-15-church-community-offering",
       "number": 15,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Church community giving",
@@ -1440,13 +1546,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Christian context is explicitly selected; this is a fictional giving scene, not evidence of an actual church fundraiser."
+      "review_note": "Christian context is explicitly selected; this is a fictional giving scene, not evidence of an actual church fundraiser.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-16-church-building-project",
       "number": 16,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "A shared church project",
@@ -1511,13 +1618,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-17-choir-shared-equipment",
       "number": 17,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Supporting the choir",
@@ -1583,13 +1691,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-18-muslim-community-giving",
       "number": 18,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Muslim community giving",
@@ -1655,13 +1764,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Use Other in the current product; do not relabel this as Church. Zakat and sadaqah are search contexts, not tax or religious advice."
+      "review_note": "Use Other in the current product; do not relabel this as Church. Zakat and sadaqah are search contexts, not tax or religious advice.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-19-ramadan-community-meal",
       "number": 19,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Preparing a Ramadan meal",
@@ -1726,13 +1836,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-20-community-giving-parcels",
       "number": 20,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Community giving together",
@@ -1801,13 +1912,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Inclusive editorial concept, not a documented interfaith event."
+      "review_note": "Inclusive editorial concept, not a documented interfaith event.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-21-bereavement-support",
       "number": 21,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Support in bereavement",
@@ -1842,8 +1954,8 @@
         "mood": "Gentle neutral daylight, subdued green, warm grey and white; never dramatic horror lighting."
       },
       "prompt_spec": {
-        "scene": "A quiet, respectful still life suggesting practical support for a bereaved Rwandan household: two ceramic cups, a clean folded cloth and a small understated arrangement of white flowers on a wooden table in a shaded veranda. Empty seats are softly present in the background. Keep the composition restrained and humane, focused on companionship rather than death or ceremonial spectacle.",
-        "materials_and_details": "No coffin, corpse, graves, hospital imagery, grieving faces, candles with ritual meaning, memorial portrait or national commemoration symbols.",
+        "scene": "An unattended photographic still life suggesting practical support for a bereaved Rwandan household: two ceramic cups, a clean folded cloth and a small understated arrangement of white flowers on a wooden table in a shaded veranda. Empty seats are softly present in the background. No people occupy this scene. Keep the composition restrained and humane, focused on companionship through objects rather than death or ceremonial spectacle.",
+        "materials_and_details": "Only objects and an empty veranda. No people, faces, hands or other body parts anywhere in frame. No coffin, corpse, graves, hospital imagery, candles with ritual meaning, memorial portrait or national commemoration symbols.",
         "lighting_and_palette": "Gentle neutral daylight, subdued green, warm grey and white; never dramatic horror lighting.",
         "focal_subject": "The cups and understated flowers"
       },
@@ -1871,13 +1983,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "An editorial support concept requiring local sensitivity review; never substitute it for Kwibuka or a named memorial."
+      "review_note": "First generation added people contrary to the object-led brief; regenerated with an explicit unattended-still-life instruction. Cultural and crop review still required.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-22-medical-care-support",
       "number": 22,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Helping someone reach care",
@@ -1943,13 +2056,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-23-health-cover-contribution",
       "number": 23,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Contributing toward health cover",
@@ -2014,13 +2128,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Collect can organise contributions; the image must not suggest it issues insurance or directly settles an RSSB premium."
+      "review_note": "Collect can organise contributions; the image must not suggest it issues insurance or directly settles an RSSB premium.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-24-neighbours-recovery-support",
       "number": 24,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Neighbours helping a household recover",
@@ -2086,13 +2201,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-25-family-everyday-support",
       "number": 25,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Family support across generations",
@@ -2159,13 +2275,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-26-welcoming-new-baby",
       "number": 26,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Welcoming a new family member",
@@ -2229,13 +2346,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Kwita izina is a draft search term for family intent; this scene does not depict a prescribed ceremony or the gorilla-naming event."
+      "review_note": "Kwita izina is a draft search term for family intent; this scene does not depict a prescribed ceremony or the gorilla-naming event.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-27-school-supplies",
       "number": 27,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Preparing for school",
@@ -2304,13 +2422,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-28-school-meal-support",
       "number": 28,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Supporting school meals",
@@ -2376,13 +2495,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-29-higher-study-support",
       "number": 29,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Supporting the next stage of study",
@@ -2451,13 +2571,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-30-youth-skills-training",
       "number": 30,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Learning practical skills",
@@ -2525,13 +2646,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-31-umuganda-project-tools",
       "number": 31,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Preparing a community work project",
@@ -2598,13 +2720,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Umuganda context supports community-work imagery. Do not imply Collect collects mandatory public contributions or that all community labour is a cash collection."
+      "review_note": "Umuganda context supports community-work imagery. Do not imply Collect collects mandatory public contributions or that all community labour is a cash collection.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-32-shared-water-point",
       "number": 32,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "A shared water improvement",
@@ -2670,13 +2793,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Creative extension from documented community infrastructure contributions; the source is not evidence for this fictional water project."
+      "review_note": "Creative extension from documented community infrastructure contributions; the source is not evidence for this fictional water project.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-33-community-hall-improvement",
       "number": 33,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Improving a shared hall",
@@ -2741,13 +2865,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-34-tree-planting-neighbours",
       "number": 34,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Growing a greener neighbourhood",
@@ -2815,13 +2940,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-35-football-fan-community",
       "number": 35,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Supporting the team together",
@@ -2885,13 +3011,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Derived from Collect’s existing Sport / Fan club use case; official club artwork would need its own supplied asset path."
+      "review_note": "Derived from Collect’s existing Sport / Fan club use case; official club artwork would need its own supplied asset path.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-36-local-team-equipment",
       "number": 36,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Kit for a local team",
@@ -2955,13 +3082,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-37-away-match-travel",
       "number": 37,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Travelling together for the match",
@@ -3025,13 +3153,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-38-cultural-troupe-rehearsal",
       "number": 38,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Supporting music and dance",
@@ -3067,8 +3196,8 @@
         "mood": "Soft hall daylight, warm wood, cream fabric and muted red."
       },
       "prompt_spec": {
-        "scene": "Three Rwandan adult members of a local cultural troupe prepare for rehearsal in a modest bright hall. One checks a traditional drum while another folds occasion-appropriate performance fabric and a third discusses the plan. Show contemporary rehearsal clothing rather than a historical tableau. Centre the drum and two collaborators so the image communicates community support for instruments, costumes and transport.",
-        "materials_and_details": "Rwandan drum construction and fabric treatment need cultural review; no warrior caricature, copied national troupe identity or invented sacred ritual.",
+        "scene": "Three fictional Rwandan adult members of a local cultural troupe prepare for rehearsal in a bright contemporary community hall. They sit close together at the same eye level, discussing shared rehearsal equipment. In front of them is one large Rwandan ingoma drum: a deep, broad wooden body with an only slightly tapered barrel shape, a large round pale hide head stretched with hide lacing, no narrow pedestal or goblet foot. Two plain wooden drumsticks rest diagonally on the drum head. One member checks the drumsticks while the other two organise folded cream and muted red performance cloth. Contemporary plain rehearsal clothing. Place all three complete heads and the drum in a compact central cluster, with clear breathing room above and below. The scene communicates contributions for instruments, rehearsal space, costumes and transport.",
+        "materials_and_details": "Show the ingoma as a large broad wooden drum used with wooden imirishyo sticks. No djembe goblet shape, no conga hardware, no generic carved souvenir drum. Footwear must be plain solid-colour canvas shoes with absolutely no logos, swooshes, stripes, lettering, symbols or brand-like marks. Drum construction and cloth remain subject to local cultural review; do not copy a real troupe, national uniform, royal sacred drum or ritual.",
         "lighting_and_palette": "Soft hall daylight, warm wood, cream fabric and muted red.",
         "focal_subject": "The troupe members and central drum"
       },
@@ -3088,7 +3217,8 @@
       },
       "generation_batch": 5,
       "source_ids": [
-        "S3"
+        "S3",
+        "S11"
       ],
       "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
       "reviews": {
@@ -3098,13 +3228,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Regenerated after first candidate used an insufficiently specific drum and a brand-like shoe mark. Verify ingoma proportions, imirishyo and cloth with a Rwandan cultural reviewer; review all final native crops.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-39-diaspora-family-connection",
       "number": 39,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "Family contributing from abroad",
@@ -3174,13 +3305,14 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Diaspora imagery is available to a permitted Rwanda organiser; it does not enable diaspora group creation or change payment rails."
+      "review_note": "Diaspora imagery is available to a permitted Rwanda organiser; it does not enable diaspora group creation or change payment rails.",
+      "agent_visual_review": "initial_scene_review_complete"
     },
     {
       "id": "rw-40-diaspora-community-project",
       "number": 40,
       "version": 1,
-      "status": "prompt_ready",
+      "status": "generated_candidate",
       "runtime_ready": false,
       "labels": {
         "en": "A community connected to home",
@@ -3248,7 +3380,318 @@
         "localization": "pending",
         "runtime_save_and_reload": "pending"
       },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use."
+      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
+      "agent_visual_review": "initial_scene_review_complete"
+    },
+    {
+      "id": "rw-41-buri-munsi",
+      "number": 41,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Buri munsi",
+        "rw": "Buri munsi",
+        "fr": "Buri munsi"
+      },
+      "family": "savings_livelihoods",
+      "theme": "buri_munsi",
+      "collection_types": [
+        "ikimina"
+      ],
+      "category_subtypes": [
+        "group_savings"
+      ],
+      "search_terms": [
+        "Buri munsi",
+        "Buri munsi",
+        "Buri munsi",
+        "buri munsi",
+        "contribute",
+        "umusanzu"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali, Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Vibrant candid community warmth"
+      },
+      "prompt_spec": {
+        "scene": "Create a dedicated photographic group-card cover for Buri munsi, a public community savings group in Collect. Show five fictional Rwandan adult neighbours spanning young adults to an older parent, women and men, naturally gathered at a small outdoor neighbourhood table in Kigali just after sunrise. A confident woman in a bright teal cotton blouse shares a plan in an unmarked notebook while friends listen, smile and join the conversation; one plain phone is face down. Fresh morning light, lively clean neighbourhood, green plants and rendered brick in the background. Practical ordinary clothes, genuine warmth and a welcoming public-community feeling. No staged boardroom. Use a compact central group of faces and hands, with quiet blue-green and warm sunlit background at the top and natural table foreground below. The idea is steady everyday saving together; no cash piles, bank identity, promised returns or completed-payment display.",
+        "materials_and_details": "All people are fictional adults. Detailed natural skin, believable hands and everyday locally plausible clothing. Plain unbranded objects and clothing; no letters, numbers, crest, logos or financial confirmation. Group names belong in the Collect UI overlay, not in generated pixels.",
+        "lighting_and_palette": "Fresh, vibrant, true-to-life daylight and natural skin tones; rich blue, teal, white, coral and green appropriate to the brief.",
+        "focal_subject": "Buri munsi community",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
+      },
+      "alt_text": {
+        "en": "Original fictional scene for Buri munsi."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.42,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-41-buri-munsi-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-41-buri-munsi-v1.json"
+      },
+      "generation_batch": 6,
+      "source_ids": [],
+      "source_scope": "Explicit owner request on 6 September 2026. Collect product contract confirms Buri Munsi and Gikundiro as platform-created/approved public groups. Fictional photographic concept, not documentary evidence or proof of club endorsement.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Dedicated named-group cover requires explicit platform assignment by stable group identity; never assign from a matching typed group name.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "named_group": "buri_munsi",
+      "asset_scope": "named_group_only",
+      "card_eyebrow": "Public savings group"
+    },
+    {
+      "id": "rw-42-gikundiro",
+      "number": 42,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Gikundiro",
+        "rw": "Gikundiro",
+        "fr": "Gikundiro"
+      },
+      "family": "sport_culture",
+      "theme": "gikundiro",
+      "collection_types": [
+        "sport"
+      ],
+      "category_subtypes": [
+        "fan_club",
+        "team_support"
+      ],
+      "search_terms": [
+        "Gikundiro",
+        "Gikundiro",
+        "Gikundiro",
+        "gikundiro",
+        "contribute",
+        "umusanzu",
+        "Rayon",
+        "Rayon Sports",
+        "abafana",
+        "club"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali, Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Vibrant candid community warmth"
+      },
+      "prompt_spec": {
+        "scene": "Create a dedicated photographic cover for Gikundiro, the Rayon Sports supporters contribution group in Collect. A lively crowd of fictional Rwandan adult fans at a Kigali football stadium in daylight, with four main fans, women and men, close together in the central foreground. They wear unmistakably vivid royal blue and white football shirts and plain blue-white scarves, singing and celebrating with natural smiles and raised hands. A woman and an older male supporter are prominent; all look towards the match or one another, not the camera. A sea of blue and white supporters softly blurred behind them, hints of stadium stands and green pitch. One royal-blue-and-white fabric scarf sweeps diagonally behind shoulder level without hiding faces. Proud community support for the club, spontaneous matchday energy, sharp faces and believable hands. Keep the whole foreground face cluster in the middle 45 percent of the portrait; quiet stadium/sky above and softly blurred blue fabric/railing below. Do not invent a club crest, sponsor, shirt logo or official endorsement. No text in the photograph; the Gikundiro and Rayon Sports labels will be rendered by Collect outside the image.",
+        "materials_and_details": "All people are fictional adults. Detailed natural skin, believable hands and everyday locally plausible clothing. Plain unbranded objects and clothing; no letters, numbers, crest, logos or financial confirmation. Group names belong in the Collect UI overlay, not in generated pixels.",
+        "lighting_and_palette": "Fresh, vibrant, true-to-life daylight and natural skin tones; rich blue, teal, white, coral and green appropriate to the brief.",
+        "focal_subject": "Gikundiro community",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
+      },
+      "alt_text": {
+        "en": "Original fictional scene for Gikundiro."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.42,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-42-gikundiro-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-42-gikundiro-v1.json"
+      },
+      "generation_batch": 6,
+      "source_ids": [],
+      "source_scope": "Explicit owner request on 6 September 2026. Collect product contract confirms Buri Munsi and Gikundiro as platform-created/approved public groups. Fictional photographic concept, not documentary evidence or proof of club endorsement.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Dedicated named-group cover requires explicit platform assignment by stable group identity; never assign from a matching typed group name.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "named_group": "gikundiro",
+      "asset_scope": "named_group_only",
+      "card_eyebrow": "Rayon Sports supporters"
+    },
+    {
+      "id": "rw-43-church-congregation",
+      "number": 43,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Church community together",
+        "rw": "Umuryango w’itorero",
+        "fr": "La communauté chrétienne"
+      },
+      "family": "faith_giving",
+      "theme": "church_congregation",
+      "collection_types": [
+        "church"
+      ],
+      "category_subtypes": [
+        "offering",
+        "tithe",
+        "project_support"
+      ],
+      "search_terms": [
+        "Church community together",
+        "Umuryango w’itorero",
+        "La communauté chrétienne",
+        "church congregation",
+        "contribute",
+        "umusanzu"
+      ],
+      "explicit_context": "christian",
+      "general_default": false,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali, Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Vibrant candid community warmth"
+      },
+      "prompt_spec": {
+        "scene": "A natural, vibrant Sunday church-community scene in Rwanda, designed as a contribution-group card cover. Three fictional Rwandan adult women and men of different ages stand close together in the foreground inside a bright, cared-for local church after a service, warmly greeting each other and discussing a shared congregation project. Behind them a modest congregation of adults in colourful Sunday clothing converses between wooden pews; a simple cross appears in the softly blurred background, no named church or denominational logo. A woman in a vivid blue dress and an older man in a well-fitted jacket are central, with spontaneous smiles and practical human warmth. Bright window light, fresh flowers, clean cream walls, lively turquoise/coral/green details. No staged donors handing cash to a pastor, no distress or claims of divine financial reward. Keep the main faces in a compact central group, clear breathing room above and below for a tall card.",
+        "materials_and_details": "All people are fictional adults. Detailed natural skin, believable hands and everyday locally plausible clothing. Plain unbranded objects and clothing; no letters, numbers, crest, logos or financial confirmation. Group names belong in the Collect UI overlay, not in generated pixels.",
+        "lighting_and_palette": "Fresh, vibrant, true-to-life daylight and natural skin tones; rich blue, teal, white, coral and green appropriate to the brief.",
+        "focal_subject": "Church community together community",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
+      },
+      "alt_text": {
+        "en": "Original fictional scene for Church community together."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.42,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-43-church-congregation-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-43-church-congregation-v1.json"
+      },
+      "generation_batch": 6,
+      "source_ids": [],
+      "source_scope": "Explicit owner request on 6 September 2026. Collect product contract confirms Buri Munsi and Gikundiro as platform-created/approved public groups. Fictional photographic concept, not documentary evidence or proof of club endorsement.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Inspect candid scene, local context, anatomy and final native card crop.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "named_group": null,
+      "asset_scope": "general_library",
+      "card_eyebrow": "Faith & giving"
+    },
+    {
+      "id": "rw-44-football-fans-matchday",
+      "number": 44,
+      "version": 1,
+      "status": "generated_candidate",
+      "runtime_ready": false,
+      "labels": {
+        "en": "Football fans together",
+        "rw": "Abafana bishyize hamwe",
+        "fr": "Les supporters réunis"
+      },
+      "family": "sport_culture",
+      "theme": "football_matchday",
+      "collection_types": [
+        "sport"
+      ],
+      "category_subtypes": [
+        "fan_club",
+        "team_support"
+      ],
+      "search_terms": [
+        "Football fans together",
+        "Abafana bishyize hamwe",
+        "Les supporters réunis",
+        "football matchday",
+        "contribute",
+        "umusanzu"
+      ],
+      "explicit_context": null,
+      "general_default": false,
+      "editorial_priority": 9,
+      "depiction": {
+        "scene_mode": "people",
+        "setting": "urban",
+        "region_direction": "Kigali, Rwanda",
+        "all_people": "fictional adults",
+        "mood": "Vibrant candid community warmth"
+      },
+      "prompt_spec": {
+        "scene": "A lively candid photograph of a fictional adult Rwandan community football supporters group cheering at a local stadium, designed as a group contribution cover. Five adult friends, women and men spanning several ages, stand close together laughing, singing and clapping, wearing bright cobalt blue, white and golden-yellow unbranded football shirts and scarves. A central woman leads a chant; another fan waves a plain small blue cloth behind shoulder height. Other adult supporters and the stand are softly blurred. Realistic matchday afternoon light, saturated yet believable cloth colour, spontaneous expressions, natural sweat and movement. No aggression, flares, alcohol brand, readable banner, club crest or sponsor. Show a welcoming community pooling support for its team. Compact central faces and hands, a quiet strip of sky/stand above and blue fabric below.",
+        "materials_and_details": "All people are fictional adults. Detailed natural skin, believable hands and everyday locally plausible clothing. Plain unbranded objects and clothing; no letters, numbers, crest, logos or financial confirmation. Group names belong in the Collect UI overlay, not in generated pixels.",
+        "lighting_and_palette": "Fresh, vibrant, true-to-life daylight and natural skin tones; rich blue, teal, white, coral and green appropriate to the brief.",
+        "focal_subject": "Football fans together community",
+        "style": "Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event."
+      },
+      "alt_text": {
+        "en": "Original fictional scene for Football fans together."
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.42,
+        "status": "provisional_until_visual_review"
+      },
+      "planned_files": {
+        "source": "assets/group_covers/rwanda/source/rw-44-football-fans-matchday-v1.png",
+        "cover": "assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp",
+        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp",
+        "production_record": "assets/group_covers/rwanda/production/rw-44-football-fans-matchday-v1.json"
+      },
+      "generation_batch": 6,
+      "source_ids": [],
+      "source_scope": "Explicit owner request on 6 September 2026. Collect product contract confirms Buri Munsi and Gikundiro as platform-created/approved public groups. Fictional photographic concept, not documentary evidence or proof of club endorsement.",
+      "reviews": {
+        "cultural": "pending",
+        "visual_and_crops": "pending",
+        "accessibility": "pending",
+        "localization": "pending",
+        "runtime_save_and_reload": "pending"
+      },
+      "review_note": "Inspect candid scene, local context, anatomy and final native card crop.",
+      "agent_visual_review": "initial_scene_review_complete",
+      "named_group": null,
+      "asset_scope": "general_library",
+      "card_eyebrow": "Sport & culture"
     }
-  ]
+  ],
+  "generated_count": 44,
+  "generated_source_total_bytes": 98796942,
+  "preserved_superseded_sources": 6,
+  "runtime_integration_status": "Implemented locally; database migrations deployed and read back; application distribution and full native/cultural acceptance pending",
+  "runtime_manifest": "assets/group_covers/rwanda/runtime-manifest.json",
+  "runtime_derivative_total_bytes": 4651698
 }

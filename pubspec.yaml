@@ -53,6 +53,8 @@ flutter:
   assets:
     - assets/brand/collect_runtime/app_icons/app-icon-rule.png
     - assets/marketing/rwanda/
+    - assets/group_covers/rwanda/covers/
+    - assets/group_covers/rwanda/thumbs/
   licenses:
     - assets/typefaces/OFL-Inter.txt
   fonts:

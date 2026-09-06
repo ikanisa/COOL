@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare Collect's 40-image bank. No network, paid API, app or group writes.
+"""Prepare Collect's Rwanda image bank. No network, paid API, app or group writes.
 
 Export standalone prompts for one built-in image_gen call per asset.
 The script does not generate pixels or approve artwork. save-source copies
@@ -41,10 +41,11 @@ def workspace_path(value):
 
 def validate(catalog):
     assets, errors = catalog["assets"], []
-    if len(assets) != 40 or catalog["planned_asset_count"] != 40:
-        errors.append("Exactly 40 concepts are required.")
-    if sorted(a["number"] for a in assets) != list(range(1, 41)):
-        errors.append("Asset numbers must cover 1 through 40 exactly once.")
+    count = catalog["planned_asset_count"]
+    if count < 40 or len(assets) != count:
+        errors.append("The original 40 concepts and every declared addition are required.")
+    if sorted(a["number"] for a in assets) != list(range(1, count + 1)):
+        errors.append(f"Asset numbers must cover 1 through {count} exactly once.")
     for field in ("id", "theme"):
         if len({a[field] for a in assets}) != len(assets):
             errors.append(f"Duplicate {field}.")
@@ -52,7 +53,7 @@ def validate(catalog):
     if counts != {f["id"]: f["planned_count"] for f in catalog["families"]}:
         errors.append("Family counts do not match the plan.")
     batched = [n for b in catalog["batches"] for n in b["asset_numbers"]]
-    if sorted(batched) != list(range(1, 41)):
+    if sorted(batched) != list(range(1, count + 1)):
         errors.append("Batches must cover all concepts exactly once.")
     source_ids, paths = {s["id"] for s in catalog["sources"]}, []
     for a in assets:
@@ -70,6 +71,8 @@ def validate(catalog):
             errors.append(f"{aid}: unknown context.")
         if a["explicit_context"] and a["general_default"]:
             errors.append(f"{aid}: sensitive context cannot be a general default.")
+        if a.get("named_group") and a["general_default"]:
+            errors.append(f"{aid}: a named-group cover cannot be a generic default.")
         if a["explicit_context"] == "muslim" and "church" in types:
             errors.append(f"{aid}: Muslim imagery must not be mapped to Church.")
         if set(a["labels"]) != {"en", "rw", "fr"}:
@@ -89,7 +92,7 @@ def validate(catalog):
         raise ValueError("\n".join(errors))
     return {"valid": True, "concepts": len(assets), "families": counts,
             "source_pngs_saved": sum(workspace_path(a["planned_files"]["source"]).is_file() for a in assets),
-            "runtime_ready": 0, "scope": "Planning preparation; not mobile acceptance"}
+            "runtime_ready": 0, "scope": "Asset bank preparation; not mobile acceptance"}
 
 
 def prompt_for(catalog, asset):
@@ -102,7 +105,7 @@ def prompt_for(catalog, asset):
         "Materials and details: " + spec["materials_and_details"],
         "Lighting and palette: " + spec["lighting_and_palette"],
         "Primary focal subject: " + spec["focal_subject"] + ".",
-        "Style: " + art["style"],
+        "Style: " + spec.get("style", art["style"]),
         "Composition and intended crops: " + art["composition"],
         "Text: None. Do not render any words, numbers or interface.",
         "Constraints: " + art["constraints"],
@@ -116,7 +119,7 @@ def tokens(value):
 
 
 def select_assets(catalog, *, group_type=None, subtype=None, family=None,
-                  theme=None, query="", contexts=(), browse_all=False):
+                  theme=None, query="", contexts=(), browse_all=False, named_group=None):
     """Planning implementation of deterministic local suggestion rules."""
     if group_type and group_type not in SUBTYPES:
         raise ValueError("Unknown group type.")
@@ -136,6 +139,8 @@ def select_assets(catalog, *, group_type=None, subtype=None, family=None,
         active.add(themes[theme]["explicit_context"])
     query_tokens, results = tokens(query), []
     for a in catalog["assets"]:
+        if a.get("named_group") != named_group:
+            continue
         if a["explicit_context"] and a["explicit_context"] not in active:
             continue
         if family and a["family"] != family:
@@ -168,10 +173,10 @@ def export(catalog, output):
         raise ValueError("Export destination must be inside this workspace's docs/plans.")
     jobs, fence = [], chr(96) * 3
     book = [
-        "# Collect Rwanda — 40 standalone image-generation prompts", "",
-        "Status: prompts prepared; generation, visual review and app integration remain separate work.",
+        f'# Collect Rwanda — {len(catalog["assets"])} standalone image-generation prompts', "",
+        "Status: standalone prompts. See GENERATION-STATUS.md and production records for actual generation and review status.",
         "Generated from assets/group_covers/rwanda/catalog.v1.json. Edit the catalogue, then re-export.", "",
-        "Run one built-in image_gen call per job; never a 40-panel collage. No API key is needed.",
+        "Run one built-in image_gen call per job; never a multi-panel collage. No API key is needed.",
         "No real group data is an input. All English, Kinyarwanda and French labels remain drafts.", "",
         "| No. | Concept | Image family | Current group types | Batch |",
         "| --- | --- | --- | --- | --- |",
@@ -204,7 +209,7 @@ def export(catalog, output):
                    "".join(json.dumps(j, ensure_ascii=False) + "\n" for j in jobs))
     write_prepared(output / "PROMPTBOOK.md", "\n".join(book) + "\n")
     with (output / "asset-index.csv").open("w", newline="", encoding="utf-8-sig") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["number", "asset_id", "family", "theme", "label_en", "label_rw_draft",
                          "label_fr_draft", "collection_types", "context", "search_terms", "batch",
                          "source_path", "cover_path", "thumbnail_path", "status"])
@@ -265,6 +270,7 @@ def save_source(catalog, asset_id, source_path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--catalog", type=Path, default=CATALOG)
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("validate")
     exp = commands.add_parser("export")
@@ -274,6 +280,7 @@ def main():
     sug.add_argument("--subtype")
     sug.add_argument("--family")
     sug.add_argument("--theme")
+    sug.add_argument("--named-group", choices=["buri_munsi", "gikundiro"])
     sug.add_argument("--query", default="")
     sug.add_argument("--context", action="append", default=[], choices=sorted(CONTEXTS))
     sug.add_argument("--all", action="store_true", dest="browse_all",
@@ -283,7 +290,7 @@ def main():
     save.add_argument("asset_id")
     save.add_argument("source_path", type=Path)
     args = parser.parse_args()
-    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
+    catalog = json.loads(args.catalog.read_text(encoding="utf-8"))
     check = validate(catalog)
     if args.command == "validate":
         result = check
@@ -292,12 +299,13 @@ def main():
     elif args.command == "save-source":
         result = save_source(catalog, args.asset_id, args.source_path)
     else:
-        if not 1 <= args.limit <= 40:
-            raise ValueError("Limit must be between 1 and 40.")
+        if not 1 <= args.limit <= catalog["planned_asset_count"]:
+            raise ValueError("Limit must fit the declared catalogue size.")
         rows = select_assets(catalog, group_type=args.group_type, subtype=args.subtype,
                              family=args.family, theme=args.theme, query=args.query,
-                             contexts=args.context, browse_all=args.browse_all)
-        result = {"scope": "Planning metadata preview; no runtime images are available",
+                             contexts=args.context, browse_all=args.browse_all,
+                             named_group=args.named_group)
+        result = {"scope": "Asset metadata preview; not the live member app",
                   "total_matches": len(rows), "matches": [
                       {"id": r["asset"]["id"], "label": r["asset"]["labels"]["en"],
                        "theme": r["asset"]["theme"], "score": r["score"]}

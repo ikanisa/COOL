@@ -1,6 +1,6 @@
 {
   "asset_id": "rw-01-neighbourhood-ikimina",
-  "status": "generated_unreviewed",
+  "status": "generated_candidate",
   "source": "assets/group_covers/rwanda/source/rw-01-neighbourhood-ikimina-v1.png",
   "source_sha256": "3b5ffed81d4f95a9946323554e415618d89dd895cef972c0e834498613310e53",
   "source_dimensions": {
@@ -10,7 +10,7 @@
   "source_format": "png",
   "prompt_sha256": "72d198b8923f17075a2b48da744a4aa15d5a81a9c22e7fcc9e8b4bd814d33d98",
   "imported_at_utc": "2026-09-06T10:56:31.066867+00:00",
-  "generator": "Operator-provided output intended from built-in image_gen; verify provenance",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
   "operation": "Byte-for-byte copy; no pixel edits",
   "reviews": {
     "cultural": "pending",
@@ -20,5 +20,11 @@
     "runtime_save_and_reload": "pending"
   },
   "runtime_ready": false,
-  "derivatives": []
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-73dbc75a-1c5d-4c9a-bc8c-ccc9b1d8fc1e.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
 }

@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 BASE_URL="${PUBLIC_WEBSITE_URL:-https://collect.ikanisa.com}"
 CANONICAL_URL="${PUBLIC_WEBSITE_CANONICAL_URL:-$BASE_URL}"
 MODE="${1:-}"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-ruby -r json -r net/http -r uri -r time -r cgi -r digest - "$BASE_URL" "$CANONICAL_URL" "$MODE" <<'RUBY'
+ruby -r json -r net/http -r uri -r time -r cgi -r digest - "$BASE_URL" "$CANONICAL_URL" "$MODE" "$ROOT_DIR" <<'RUBY'
 base_url = ARGV.fetch(0).delete_suffix("/")
 canonical_url = ARGV.fetch(1).delete_suffix("/")
 mode = ARGV.fetch(2)
@@ -437,24 +439,8 @@ check(
   { "retired_language_failures" => retired_language_failures },
 )
 
-baseline_content_hashes = {
-  "/" => "93ab5c339b121c92f6c9b52730f2bb95299f14bed0e7eff9b2c13a8c88e41595",
-  "/account-deletion/" => "babea5394605a96828fb360183a451844391688f9d3a6076d2bc0fa33e9c7c20",
-  "/community-groups/" => "6d03734da650cb4eb6fd8c61a137f510325c6a0c423adf3549cd4a8c2141faec",
-  "/craas/" => "4c76feb5743537083aa26fcf1aed8aad09a41132d8d2861d213041c666bf51ae",
-  "/credit-readiness/" => "2e1115e55a8b88d08ffe1b0ab4f363141e45150452ab877001988045ba05d29a",
-  "/data-deletion/" => "d5f25d1adcb64c13342c57469dacf81dcaed1be6da4956b35a44022e838f6bfc",
-  "/diaspora/" => "b9701015bcedb88f3e01763be03eb5810621351f30b563cfbaca93874f5c8572",
-  "/group-savings/" => "39ba203d22c98296280dc2b18881d0925cfa000f7697ba3e0880887a1517e069",
-  "/insurance/" => "45f3c5ff49d1c55f6176edd12a98239461b8f04945efbd4027c8820b17a8938f",
-  "/our-partners/" => "71847e2f5bcbdf9c417538d28affcbf2abfa26b63da6a259008928d550c73a37",
-  "/partners/" => "1e4e27420078ae877ab173a9030403fb50af55fc2c8d575dd16d3c04bbd3c0bd",
-  "/privacy/" => "fd33f9617f9afafa800d07409c9621629e5e9b95efa606c393105236db995b11",
-  "/protection/" => "2ff3af315af909e6a654fe58151f2ece90b9fdc3cfcaeaf2005be1ced46ec306",
-  "/security/" => "75386bfd0766d5ad2ec4bc19f635a5eba2605d3513e5ec76fd0c6597c2bff8fa",
-  "/terms/" => "8df2c053514821977e3650134da9925ee725c5898f17857ceaa40bcb4704302a",
-  "/trust/" => "5f6b11b13e3464a9d73b44a43864e0e25c04e9a62dda9b5f1cbb6e202821472a",
-}
+# Use the same already-reviewed content authority as the local quality gate.
+baseline_content_hashes = JSON.parse(File.read(File.join(ARGV.fetch(3), 'docs/release/public-website-content-baseline.json'))).fetch('hashes')
 content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
   html = responses.fetch(route).fetch(:body).dup.force_encoding("UTF-8").gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
   # Match the reviewed responsive-content normalization in the local gate.

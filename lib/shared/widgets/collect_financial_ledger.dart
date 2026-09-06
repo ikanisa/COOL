@@ -114,7 +114,7 @@ class ActivityFeedItem extends StatelessWidget {
                       meta,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
-                        fontWeight: CollectTypography.weightBold,
+                        fontWeight: CollectTypography.weightRegular,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

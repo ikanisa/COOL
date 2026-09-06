@@ -9,6 +9,21 @@ import 'collect_universal_tokens.dart';
 class CollectComponentTokens {
   const CollectComponentTokens._();
 
+  // DESK-003 overview composition, adapted to Collect's three actual actions.
+  // Short windows and enlarged text reclaim decorative space, not content.
+  static double homeHeroLeading(BuildContext context) =>
+      _compactOverview(context) ? CollectSpacing.x5 : 84;
+
+  static double homeHeroActionGap(BuildContext context) =>
+      _compactOverview(context) ? CollectSpacing.x6 : 80;
+
+  static bool _compactOverview(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    return size.height < 700 ||
+        size.width > size.height ||
+        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+  }
+
   static ButtonStyle filledButton(BuildContext context) {
     final colors = context.collectColors;
     final tokens = context.collectUniversalTokens;

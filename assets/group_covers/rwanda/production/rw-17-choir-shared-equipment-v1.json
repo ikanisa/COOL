@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-17-choir-shared-equipment",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-17-choir-shared-equipment-v1.png",
+  "source_sha256": "ecb97fe567faec342cbb9c5bd9a2bb05508f79a67077645fff026541c2e03a15",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "bb0fd026ee14c0dae5dc68755e11e0011bde0691f3e6500a143f9ed179548384",
+  "imported_at_utc": "2026-09-06T11:18:10.715592+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-254a9cb8-661c-4a0e-bd89-3ee2d40e019f.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

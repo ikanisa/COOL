@@ -264,16 +264,6 @@ class _MobileCreatePanel extends StatelessWidget {
   }
 }
 
-String? _mimeTypeFromName(String name) {
-  final lower = name.toLowerCase();
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  if (lower.endsWith('.gif')) return 'image/gif';
-  if (lower.endsWith('.heic') || lower.endsWith('.heif')) return 'image/heic';
-  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
-  return null;
-}
-
 class _ColorSwatchButton extends StatelessWidget {
   const _ColorSwatchButton({
     required this.option,

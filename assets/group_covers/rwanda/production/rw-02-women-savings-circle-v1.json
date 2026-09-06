@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-02-women-savings-circle",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-02-women-savings-circle-v1.png",
+  "source_sha256": "26f5ab2ef664a526a94f38d2f3e379f1d414f10d90da547e742f75bf52fe204d",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "0052929714f948356372f07e8c841cfe510bec47c14feb74542b75a419eeb9fe",
+  "imported_at_utc": "2026-09-06T11:19:00.871163+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-25f6af2f-8e2e-4a0d-83ee-45a9985d6cae.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

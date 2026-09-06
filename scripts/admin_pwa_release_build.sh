@@ -57,7 +57,15 @@ touch build/web/main.dart.js
 cp web/_headers build/web/_headers
 cp web/robots.txt build/web/robots.txt
 
-ruby -r digest -r json <<'RUBY'
+ruby -r digest -r json -r open3 <<'RUBY'
+source_commit, source_commit_status = Open3.capture2("git", "rev-parse", "HEAD")
+source_changes, source_status = Open3.capture2("git", "status", "--porcelain")
+version_path = "build/web/version.json"
+version = JSON.parse(File.read(version_path))
+version["source_commit"] = source_commit_status.success? ? source_commit.strip : nil
+version["source_dirty"] = !source_status.success? || !source_changes.empty?
+File.write(version_path, JSON.pretty_generate(version) + "\n")
+
 manifest_path = "build/web/manifest.json"
 index_path = "build/web/index.html"
 service_worker_path = "build/web/custom-sw.js"

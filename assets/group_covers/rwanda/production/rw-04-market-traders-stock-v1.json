@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-04-market-traders-stock",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-04-market-traders-stock-v1.png",
+  "source_sha256": "b9e9557dc9e341c09120f82a63d553496c89823331761cc1f8768446fbb96327",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "aca8f74d5a3ad0688b5d00c725c7249001c44ed705bd03e68e5319105a2f325a",
+  "imported_at_utc": "2026-09-06T11:19:01.208893+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-d899f1c7-e30e-4363-a689-ec6186be3144.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}
