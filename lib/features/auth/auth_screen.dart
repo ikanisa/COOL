@@ -25,6 +25,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _otp = TextEditingController();
   final _captchaToken = TextEditingController();
   final _scrollController = ScrollController();
+  final _formViewportController = ScrollController();
+  final _authActionDockKey = GlobalKey();
+  bool _shortViewportRevealPending = false;
   final _errorNoticeKey = GlobalKey();
   var _selectedCountry = Country.parse('RW');
   bool _otpSent = false;
@@ -95,6 +98,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     _otp.dispose();
     _captchaToken.dispose();
     _scrollController.dispose();
+    _formViewportController.dispose();
     _resendTimer?.cancel();
     super.dispose();
   }
@@ -102,6 +106,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
+    final mediaQuery = MediaQuery.of(context);
+    final textScale = mediaQuery.textScaler.scale(1).clamp(1.0, 1.5);
+    final availableHeight =
+        mediaQuery.size.height - mediaQuery.viewInsets.bottom;
+    if (availableHeight < 320 * textScale) {
+      _scheduleShortViewportReveal();
+    }
     final displayPhone = _maskedPhoneForDisplay(
       _normalizedPhoneOrNull ?? _phoneForAuth,
     );
@@ -119,6 +130,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         ),
         child: SafeArea(
           child: CollectFormViewport(
+            controller: _formViewportController,
             child: Column(
               children: [
                 Expanded(
@@ -154,6 +166,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   ),
                 ),
                 AuthActionDock(
+                  key: _authActionDockKey,
                   otpSent: _otpSent,
                   submitting: _submitting,
                   resendRemaining: _resendRemaining,
@@ -177,6 +190,35 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         ),
       ),
     );
+  }
+
+  void _scheduleShortViewportReveal() {
+    if (_shortViewportRevealPending) return;
+    _shortViewportRevealPending = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _shortViewportRevealPending = false;
+      if (!mounted) return;
+      final actionContext = _authActionDockKey.currentContext;
+      if (actionContext != null) {
+        // The dock normally sits below the nested form list. When the native
+        // keyboard leaves a short viewport, reveal the dock through the outer
+        // form scroller while retaining the focused field and its draft.
+        unawaited(
+          Scrollable.ensureVisible(
+            actionContext,
+            alignment: 1,
+            duration: Duration.zero,
+          ),
+        );
+        return;
+      }
+      if (_formViewportController.hasClients) {
+        final position = _formViewportController.position;
+        if (position.pixels < position.maxScrollExtent) {
+          _formViewportController.jumpTo(position.maxScrollExtent);
+        }
+      }
+    });
   }
 
   Future<void> _submit(AppEnv env) async {

@@ -105,10 +105,12 @@ Element? _actionControl() {
 bool _hitTestable(Element? element) {
   final box = element?.findRenderObject();
   if (box is! RenderBox || !box.hasSize || !box.attached) return false;
+  final center = box.localToGlobal(box.size.center(Offset.zero));
+  if (!center.dx.isFinite || !center.dy.isFinite) return false;
   final result = HitTestResult();
   WidgetsBinding.instance.hitTestInView(
     result,
-    box.localToGlobal(box.size.center(Offset.zero)),
+    center,
     WidgetsBinding.instance.platformDispatcher.views.first.viewId,
   );
   return result.path.any((entry) => entry.target == box);
@@ -118,6 +120,10 @@ Map<String, double>? _bounds(Element? element) {
   final box = element?.findRenderObject();
   if (box is! RenderBox || !box.hasSize || !box.attached) return null;
   final topLeft = box.localToGlobal(Offset.zero);
+  // An off-screen sliver can have a non-invertible transform during a native
+  // Settings or orientation transition. Report unavailable geometry rather
+  // than an unencodable NaN; the host must still reject it as visual evidence.
+  if (!topLeft.dx.isFinite || !topLeft.dy.isFinite) return null;
   return {
     'x': topLeft.dx,
     'y': topLeft.dy,
