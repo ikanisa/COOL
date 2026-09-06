@@ -94,14 +94,35 @@
     grid-template-columns: minmax(200px, .25fr) minmax(0, 1fr);
     gap: clamp(24px, 3vw, 48px);
   }
-  .revolut-public .partner-engine-grid {
+  .revolut-public :is(.original-story[aria-labelledby="ibimina-heading"], .original-story[aria-labelledby="diaspora-heading"], .group-workflow-section, .group-feature-section, .group-use-section, .craas-specialist-section) {
+    grid-template-columns: minmax(260px, .25fr) minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+}
+@media (min-width: 721px) {
+  .revolut-public :is(.partner-engine-grid, .original-story[aria-labelledby="ibimina-heading"] > .story-grid, .original-story[aria-labelledby="diaspora-heading"] > .story-grid, .group-journey, .group-feature-grid, .group-use-section > .use-case-grid, .craas-service-grid), .revolut-public:is(.route-diaspora, .route-our-partners, .route-partners) .infographic-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (min-width: 1200px) {
-  .revolut-public .partner-engine-grid {
+  .revolut-public :is(.partner-engine-grid, .original-story[aria-labelledby="ibimina-heading"] > .story-grid, .original-story[aria-labelledby="diaspora-heading"] > .story-grid, .group-journey, .group-feature-grid, .group-use-section > .use-case-grid, .craas-service-grid), .revolut-public:is(.route-diaspora, .route-our-partners, .route-partners) .infographic-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+  .revolut-public .group-workflow-section > .journey-rail.group-journey > article,
+  .revolut-public.route-group-savings .group-feature-section > .group-feature-grid > article {
+    padding: 20px;
+  }
+}
+@media (min-width: 981px) and (max-width: 1279px) {
+  .revolut-public .partner-operating-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1440px) {
+  .revolut-public .group-workflow-section > .journey-rail.group-journey { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .revolut-public:is(.route-insurance, .route-protection) .infographic-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .revolut-public:is(.route-insurance, .route-protection) .infographic-grid > article.infographic-step { padding: 20px; }
 }
 .revolut-public .section-card, .revolut-public .infographic-step, .revolut-public .supported-group-card { border-radius: var(--web-panel); box-shadow: none; }
 .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) {

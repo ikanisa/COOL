@@ -39,18 +39,23 @@ class _FixtureIntentPreferences implements PendingSharedGroupIntentPreferences {
 }
 
 /// Read-only geometry and fixture navigation are exposed to the local driver.
-/// Field focus and text input come from Android's real input service, with no
+/// Field focus and text input come from the platform input service, with no
 /// mocked MediaQuery, keyboard, or text scale. Actions are never submitted.
 void main() {
   enableFlutterDriverExtension(
     enableTextEntryEmulation: false,
     handler: _handle,
   );
-  if (appFlavor != 'dev' ||
-      kReleaseMode ||
+  final androidFixture =
+      defaultTargetPlatform == TargetPlatform.android && appFlavor == 'dev';
+  final iosFixture =
+      defaultTargetPlatform == TargetPlatform.iOS &&
+      const bool.fromEnvironment('COLLECT_IOS_KEYBOARD_REVIEW');
+  if (!kDebugMode ||
+      !(androidFixture || iosFixture) ||
       !const bool.fromEnvironment('COLLECT_MOBILE_EVIDENCE_MODE')) {
     throw StateError(
-      'Native keyboard review requires an explicit dev fixture.',
+      'Native keyboard review requires an explicit platform debug fixture.',
     );
   }
   final reportError = FlutterError.onError;

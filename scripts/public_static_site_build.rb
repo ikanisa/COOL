@@ -1386,9 +1386,7 @@ def partner_page_html
     "Growth in low-cost deposits",
     "New retail and MSME customers",
     "Increased loan origination",
-    "Reduced pre-credit administration",
-    "Stronger customer retention",
-    "New diaspora banking relationships"
+    "Reduced pre-credit administration"
   ]
 
   <<~HTML

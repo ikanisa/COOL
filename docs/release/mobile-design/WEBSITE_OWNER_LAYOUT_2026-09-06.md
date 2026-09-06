@@ -37,5 +37,42 @@ Published source: `6b0f7cc71eb78b085c65685edaee35f08a9aa5a0`. Cloudflare confirm
 files match the build. The public live gate passed 35/35 and the Partners
 layout checks passed 27/27 on the live domain across the same nine widths.
 
-These corrections close the specified website layout requests. They do not
+## Follow-up card rows and partner copy
+
+The later browser annotations narrow the heading columns beside Home's
+products and audiences, Group Savings' workflow/features/use cases, and
+CRaaS' specialist services. At desktop widths of at least 1200 px:
+
+- Both four-item Home sections, the four Diaspora barriers, and the four bank
+  workflow items share one row.
+- The eight Group Savings features, eight use cases and eight specialist
+  services use two rows of four.
+- From 1440 px, all five actual Group Savings workflow steps share one row,
+  as do the six Insurance barriers. The five workflow steps are preserved.
+
+The fourteen heading centers and equal Premium finance columns remain in
+place. Intermediate layouts use fewer columns before text becomes cramped;
+phones use one column. The three partner operating cards use two columns
+below 1280 px to keep their text within the cards.
+
+The owner's marked removal deletes only “Stronger customer retention” and
+“New diaspora banking relationships” from the commercial-value list on
+Our Partners and its alias. Four bullets remain, and the cards shrink to their
+content. The normalized visible-text comparison verifies exactly those two
+removals across the sixteen governed routes; all other visible copy is
+unchanged. Only the two affected content hashes were updated after visual
+review, with the change recorded in the shared content baseline.
+
+The follow-up browser review passes 494 checks: 351 on the six primary pages
+and 143 on their three applicable aliases. It covers 320, 390, 720, 721, 834,
+980, 981, 1199, 1200, 1280, 1439, 1440 and 1542 px. Checks cover exact card
+counts/rows, text bounds, horizontal overflow, heading alignment, equal finance
+columns and the retained commercial-value bullets. No page errors occurred.
+Desktop screenshots and representative phone screenshots were visually
+inspected. Evidence is retained in
+`.cache/revolut-gap-closure-20260906/owner-row-review-corrected/`,
+`owner-row-alias-review-verified/` and `owner-row-content-verification.json`.
+The earlier failed row reports remain as correction history.
+
+These corrections implement the specified website layout requests. They do not
 replace the separate mobile design acceptance gate or owner comparison review.
