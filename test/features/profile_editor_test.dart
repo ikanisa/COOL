@@ -97,6 +97,84 @@ void main() {
     matching: find.byType(TextField),
   );
 
+  for (final diaspora in [false, true]) {
+    for (final scale in [1.0, 2.0]) {
+      testWidgets(
+        '${diaspora ? 'Diaspora' : 'Rwanda'} profile reaches Save by touch with landscape keyboard at $scale',
+        (tester) async {
+          final repository = await pumpEditor(
+            tester,
+            size: const Size(844, 390),
+            keyboard: 208,
+            scale: scale,
+            profile: diaspora
+                ? const CollectProfile(
+                    id: 'diaspora-profile',
+                    publicId: '123456',
+                    whatsappPhone: '+35699123456',
+                    countryCode: 'MT',
+                    currencyCode: 'EUR',
+                    revolutAccount: '000123456789',
+                  )
+                : null,
+          );
+          final field = input(
+            diaspora
+                ? 'profile_revolut_account_input'
+                : 'profile_momo_number_input',
+          );
+          // Build the lazy form field before focusing it. Only the subsequent
+          // drag is the behavior under test; it must reach the footer itself.
+          for (
+            var attempt = 0;
+            field.evaluate().isEmpty && attempt < 12;
+            attempt++
+          ) {
+            final position = tester
+                .state<ScrollableState>(find.byType(Scrollable).last)
+                .position;
+            position.jumpTo(
+              (position.pixels + 100).clamp(0, position.maxScrollExtent),
+            );
+            await tester.pump();
+          }
+          await tester.ensureVisible(field);
+          await tester.pumpAndSettle();
+          final draft = diaspora ? '000123456780' : '0788123457';
+          final saved = repository.state.currentProfile;
+          await tester.enterText(field, draft);
+          await tester.pumpAndSettle();
+          final editable = find.descendant(
+            of: field,
+            matching: find.byType(EditableText),
+          );
+          expect(
+            tester.widget<EditableText>(editable).focusNode.hasFocus,
+            isTrue,
+          );
+          // Exercise a real drag inside the form, not ensureVisible on the
+          // footer: nested scrolling previously hid Save behind the keyboard.
+          await tester.dragFrom(tester.getCenter(field), const Offset(0, -120));
+          await tester.pumpAndSettle();
+          final action = find.widgetWithText(FilledButton, 'Save');
+          final bounds = tester.getRect(action);
+          expect(bounds.top, greaterThanOrEqualTo(0));
+          expect(bounds.bottom, lessThanOrEqualTo(182));
+          expect(action.hitTestable(), findsOneWidget);
+          expect(tester.widget<FilledButton>(action).onPressed, isNotNull);
+          expect(
+            tester.widget<EditableText>(editable).focusNode.hasFocus,
+            isTrue,
+          );
+          expect(tester.testTextInput.isVisible, isTrue);
+          expect(tester.widget<TextField>(field).controller!.text, draft);
+          expect(repository.state.currentProfile, saved);
+          expect(tester.takeException(), isNull);
+        },
+      );
+    }
+  }
+
   testWidgets('verified WhatsApp is separate from the country action', (
     tester,
   ) async {
@@ -223,7 +301,7 @@ void main() {
         160,
         scrollable: find
             .descendant(
-              of: find.byType(ListView),
+              of: find.byType(CustomScrollView),
               matching: find.byType(Scrollable),
             )
             .first,

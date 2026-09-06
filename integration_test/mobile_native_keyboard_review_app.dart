@@ -39,18 +39,23 @@ class _FixtureIntentPreferences implements PendingSharedGroupIntentPreferences {
 }
 
 /// Read-only geometry and fixture navigation are exposed to the local driver.
-/// Field focus and text input come from Android's real input service, with no
+/// Field focus and text input come from the platform input service, with no
 /// mocked MediaQuery, keyboard, or text scale. Actions are never submitted.
 void main() {
   enableFlutterDriverExtension(
     enableTextEntryEmulation: false,
     handler: _handle,
   );
-  if (appFlavor != 'dev' ||
-      kReleaseMode ||
+  final androidFixture =
+      defaultTargetPlatform == TargetPlatform.android && appFlavor == 'dev';
+  final iosFixture =
+      defaultTargetPlatform == TargetPlatform.iOS &&
+      const bool.fromEnvironment('COLLECT_IOS_KEYBOARD_REVIEW');
+  if (!kDebugMode ||
+      !(androidFixture || iosFixture) ||
       !const bool.fromEnvironment('COLLECT_MOBILE_EVIDENCE_MODE')) {
     throw StateError(
-      'Native keyboard review requires an explicit dev fixture.',
+      'Native keyboard review requires an explicit platform debug fixture.',
     );
   }
   final reportError = FlutterError.onError;
@@ -100,10 +105,12 @@ Element? _actionControl() {
 bool _hitTestable(Element? element) {
   final box = element?.findRenderObject();
   if (box is! RenderBox || !box.hasSize || !box.attached) return false;
+  final center = box.localToGlobal(box.size.center(Offset.zero));
+  if (!center.dx.isFinite || !center.dy.isFinite) return false;
   final result = HitTestResult();
   WidgetsBinding.instance.hitTestInView(
     result,
-    box.localToGlobal(box.size.center(Offset.zero)),
+    center,
     WidgetsBinding.instance.platformDispatcher.views.first.viewId,
   );
   return result.path.any((entry) => entry.target == box);
@@ -113,6 +120,10 @@ Map<String, double>? _bounds(Element? element) {
   final box = element?.findRenderObject();
   if (box is! RenderBox || !box.hasSize || !box.attached) return null;
   final topLeft = box.localToGlobal(Offset.zero);
+  // An off-screen sliver can have a non-invertible transform during a native
+  // Settings or orientation transition. Report unavailable geometry rather
+  // than an unencodable NaN; the host must still reject it as visual evidence.
+  if (!topLeft.dx.isFinite || !topLeft.dy.isFinite) return null;
   return {
     'x': topLeft.dx,
     'y': topLeft.dy,

@@ -198,7 +198,7 @@ class _SettingsTile extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: CollectTypography.weightSemibold,
+                      fontWeight: CollectTypography.weightRegular,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

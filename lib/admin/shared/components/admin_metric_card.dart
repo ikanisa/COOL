@@ -54,7 +54,7 @@ class AdminMetricCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colors.textSecondary,
-                  fontWeight: CollectTypography.weightBold,
+                  fontWeight: CollectTypography.weightRegular,
                 ),
               ),
               const SizedBox(height: 8),
@@ -64,7 +64,7 @@ class AdminMetricCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
+                  fontWeight: CollectTypography.weightMedium,
                 ),
               ),
             ],

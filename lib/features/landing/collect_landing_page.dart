@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_spacing.dart';
+import '../../app/theme/collect_runtime_assets.dart';
 import '../../app/theme/collect_typography.dart';
 import '../../shared/repositories/collect_repository.dart';
 import 'public_content.dart';
@@ -12,76 +13,171 @@ import 'public_marketing_hero.dart';
 
 export 'public_content.dart';
 
-class CollectLandingPage extends ConsumerWidget {
+class CollectLandingPage extends ConsumerStatefulWidget {
   const CollectLandingPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CollectLandingPage> createState() => _CollectLandingPageState();
+}
+
+class _CollectLandingPageState extends ConsumerState<CollectLandingPage> {
+  final _scrollController = ScrollController();
+  final _heroKey = GlobalKey();
+  final _navigationKey = GlobalKey();
+  bool _navigationOnLight = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_syncNavigation);
+  }
+
+  void _syncNavigation() {
+    if (!mounted) return;
+    final hero = _heroKey.currentContext?.findRenderObject();
+    final navigation = _navigationKey.currentContext?.findRenderObject();
+    if (hero is! RenderBox ||
+        navigation is! RenderBox ||
+        !hero.hasSize ||
+        !navigation.hasSize) {
+      return;
+    }
+    final onLight =
+        hero.localToGlobal(Offset(0, hero.size.height)).dy <=
+        navigation.localToGlobal(Offset(0, navigation.size.height)).dy;
+    if (onLight != _navigationOnLight) {
+      setState(() => _navigationOnLight = onLight);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final config = ref.watch(collectRuntimeConfigProvider);
     return Scaffold(
       backgroundColor: CollectColors.publicWhite,
-      body: SelectionArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              backgroundColor: CollectColors.publicWhite,
-              foregroundColor: CollectColors.referenceChromeBlack,
-              title: const Text('Collect'),
-              actions: [
-                IconButton(
-                  tooltip: 'How it works',
-                  onPressed: () => context.go('/group-savings'),
-                  icon: const Icon(Icons.menu_book_outlined),
-                ),
-                IconButton(
-                  tooltip: 'Trust and security',
-                  onPressed: () => context.go('/trust'),
-                  icon: const Icon(Icons.shield_outlined),
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: PublicMarketingHero(
-                title: 'MoMo at home. Bank transfer in the diaspora.',
-                intro:
-                    'Rwanda members contribute in RWF through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect updates the ledger only after the correct payment evidence is reconciled.',
-                actions: [
-                  FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: CollectColors.publicBlack,
-                      foregroundColor: CollectColors.publicWhite,
+      body: Stack(
+        children: [
+          SelectionArea(
+            child: NotificationListener<ScrollMetricsNotification>(
+              onNotification: (_) {
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => _syncNavigation(),
+                );
+                return false;
+              },
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: PublicMarketingHero(
+                      key: _heroKey,
+                      title: 'MoMo at home. Bank transfer in the diaspora.',
+                      intro:
+                          'Rwanda members contribute in RWF through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect updates the ledger only after the correct payment evidence is reconciled.',
+                      actions: [
+                        FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: CollectColors.publicBlack,
+                            foregroundColor: CollectColors.publicWhite,
+                          ),
+                          onPressed: () =>
+                              _openUri(context, config.appDownloadUrl),
+                          child: const Text('Get the App'),
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: CollectColors.publicWhite,
+                          ),
+                          onPressed: () => context.go('/group-savings'),
+                          child: const Text('Create Group'),
+                        ),
+                      ],
                     ),
-                    onPressed: () => _openUri(context, config.appDownloadUrl),
-                    child: const Text('Get the App'),
                   ),
-                  FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: CollectColors.publicWhite,
-                      foregroundColor: CollectColors.publicBlack,
+                  const SliverToBoxAdapter(
+                    child: _PageWidth(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 48),
+                        child: _JourneyPreview(),
+                      ),
                     ),
-                    onPressed: () => context.go('/group-savings'),
-                    child: const Text('Create Group'),
+                  ),
+                  const SliverToBoxAdapter(child: _JourneySection()),
+                  const SliverToBoxAdapter(child: _SafetySection()),
+                  SliverToBoxAdapter(
+                    child: _PublicFooter(
+                      supportEmail: config.supportEmail,
+                      supportPhone: config.whatsAppSupportDisplay,
+                    ),
                   ),
                 ],
               ),
             ),
-            const SliverToBoxAdapter(
-              child: _PageWidth(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 48),
-                  child: _JourneyPreview(),
-                ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Material(
+              key: _navigationKey,
+              color: _navigationOnLight
+                  ? CollectColors.publicWhite
+                  : CollectColors.transparentColor,
+              child: _PublicHomeNavigation(onLight: _navigationOnLight),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PublicHomeNavigation extends StatelessWidget {
+  const _PublicHomeNavigation({required this.onLight});
+
+  final bool onLight;
+
+  @override
+  Widget build(BuildContext context) {
+    final foreground = onLight
+        ? CollectColors.referenceChromeBlack
+        : CollectColors.publicWhite;
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        child: Row(
+          children: [
+            Image.asset(
+              CollectRuntimeAssets.officialLogo,
+              width: 36,
+              height: 36,
+              excludeFromSemantics: true,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Collect',
+                style: CollectTypography.marketingBody(foreground),
               ),
             ),
-            const SliverToBoxAdapter(child: _JourneySection()),
-            const SliverToBoxAdapter(child: _SafetySection()),
-            SliverToBoxAdapter(
-              child: _PublicFooter(
-                supportEmail: config.supportEmail,
-                supportPhone: config.whatsAppSupportDisplay,
-              ),
+            IconButton(
+              color: foreground,
+              tooltip: 'How it works',
+              onPressed: () => context.go('/group-savings'),
+              icon: const Icon(Icons.menu_book_outlined),
+            ),
+            IconButton(
+              color: foreground,
+              tooltip: 'Trust and security',
+              onPressed: () => context.go('/trust'),
+              icon: const Icon(Icons.shield_outlined),
             ),
           ],
         ),

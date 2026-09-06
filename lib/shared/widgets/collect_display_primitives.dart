@@ -209,11 +209,11 @@ class SectionHeader extends StatelessWidget {
     final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
       color: foreground,
-      fontWeight: CollectTypography.weightBold,
+      fontWeight: CollectTypography.weightSemibold,
       letterSpacing: CollectTypography.trackingDefault,
     );
     final actionStyle = Theme.of(context).textTheme.labelLarge?.copyWith(
-      fontWeight: CollectTypography.weightBold,
+      fontWeight: CollectTypography.weightMedium,
       letterSpacing: CollectTypography.trackingDefault,
     );
     double textWidth(String text, TextStyle? style) {

@@ -1,0 +1,927 @@
+{
+  "recorded_at": "2026-09-06T14:41:23.327782+00:00",
+  "scope": "Native iOS profile input and scroll-to-action review; no design parity or production approval",
+  "route": "/settings/profile",
+  "reference_context": "Focused neutral form adaptation within the owner-selected mobile cohort; existing LIVE-056/LIVE-058 component references, with iOS keyboard and Dynamic Type platform behavior",
+  "candidate": {
+    "git_base": "c1e9cc788e74872829149a2528a0f0596f40fcf2",
+    "uncommitted_runtime_change": "lib/features/profile/profile_edit_screen.dart",
+    "source_sha256": "e7cc34f87d6d49fb0f77f8e30a64588e98259c390722aa870b3f319728c26273",
+    "profile_file_sha256": "87f246e0fc132fa14c00d62a52338d7828e77a30a12a1b13cbffd70e74cb4d84",
+    "fingerprint_stable": true,
+    "fixture_hashes": {
+      "integration_test/mobile_native_keyboard_review_app.dart": "12e1baacbc2e9124c25056ebb3638d1bd31bc6c71c89d9d1ac85cb7a612e731d",
+      "test_driver/mobile_ios_keyboard_review.dart": "0c04c379edb9c8a04b6bb0a731c7d0c35916cb973b01bb5a9c18b443aa4b6321",
+      "lib/features/profile/profile_edit_screen.dart": "87f246e0fc132fa14c00d62a52338d7828e77a30a12a1b13cbffd70e74cb4d84"
+    },
+    "build_kind": "iOS simulator debug isolated fixture; not production",
+    "retained_bundle_files": 219,
+    "installed_matches_retained": true,
+    "before": {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/candidate-before.json",
+      "sha256": "d98373ef96485fe49f86bc1457f47c49694bb566ef0adacdfcf00ef7654876fa"
+    },
+    "after": {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/candidate-followup-after-fingerprint.json",
+      "sha256": "bd5b2e4deea80f4944d1db0bbb14f392ab5554a569e6e268ba583692506f2653"
+    },
+    "installed_check": {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/installed-followup-reviewed-bundle.json",
+      "sha256": "a7362f965adecd6b3c10b68bb197fb1e534e19b3cbceb276a126b93efab32413"
+    }
+  },
+  "environment": {
+    "device": "0AB2E24E-010E-44E6-ADD8-1459F507CA3F",
+    "name": "Collect Complete Design QA 20260905",
+    "os": "iOS 26.5 simulator",
+    "device_pixel_ratio": 3,
+    "theme": "dark Collect form",
+    "native_font_points_at_16": [
+      16,
+      37.64705882352941
+    ],
+    "text_size_percent": [
+      100,
+      235.2941176470588
+    ]
+  },
+  "method": "Synthetic fixture navigation and geometry through the guarded loopback driver; native taps and touch drags through CUA; text-entry emulation disabled. Field and action are checked separately after scrolling where needed. No Save action was intentionally submitted.",
+  "result": {
+    "profile_combinations_passed": 12,
+    "profile_combinations_total": 12,
+    "field_and_action_observations_passed": 24,
+    "field_and_action_observations_total": 24,
+    "profile_widget_tests_passed": 21,
+    "mobile_interaction_tests_passed": 29,
+    "analysis": "passed"
+  },
+  "matrix": [
+    {
+      "case": "profile",
+      "orientation": "portrait",
+      "text_size": "standard",
+      "viewport": [
+        390.0,
+        844.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 37.0,
+            "y": 410.8301097712552,
+            "width": 316.0,
+            "height": 28.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-standard-capture-field.json",
+            "sha256": "bfd4cce051f172ee5bd2cce6b985e4eb11e21dbb3fea4876ebf1586cce351db5"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-standard-capture-field.png",
+            "sha256": "1bdf3abf426ac8c126817e4031df475a048b17c08b082a89f2441655194a5f12"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 20.0,
+            "y": 472.0,
+            "width": 350.0,
+            "height": 48.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-standard-capture-action.json",
+            "sha256": "4bf881a7bf346ac3f92754f3e0b639b28025b787d76b6b0b25bf5af5145d6c8e"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-standard-capture-action.png",
+            "sha256": "6da6a61261148d17b2dbad1509cff5cf7a856f91a7f7135a002e844662746fab"
+          }
+        }
+      }
+    },
+    {
+      "case": "profile",
+      "orientation": "portrait",
+      "text_size": "accessibility",
+      "viewport": [
+        390.0,
+        844.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 37.0,
+            "y": 353.8021155504756,
+            "width": 316.0,
+            "height": 66.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-accessibility-capture-field.json",
+            "sha256": "22545ea3277f0f731fcb24472e13116b51b39c17523ea8983ee5068ed9dad21c"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-accessibility-capture-field.png",
+            "sha256": "7f368c4579bacb09b64ae6f37a64929e14c955c2d299f3e3f417be7ffe15d0b3"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 20.0,
+            "y": 453.0,
+            "width": 350.0,
+            "height": 67.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-accessibility-capture-action.json",
+            "sha256": "7f229d3df4cdcf44154bdfc0744586cff643d0247285ecf366df896216f588e6"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-portrait-accessibility-capture-action.png",
+            "sha256": "7f368c4579bacb09b64ae6f37a64929e14c955c2d299f3e3f417be7ffe15d0b3"
+          }
+        }
+      }
+    },
+    {
+      "case": "profile",
+      "orientation": "landscape",
+      "text_size": "standard",
+      "viewport": [
+        844.0,
+        390.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 311.5,
+            "y": 176.8301097712552,
+            "width": 356.0,
+            "height": 28.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-standard-capture-field.json",
+            "sha256": "31dd557fa69d96ff3dbe37141e7152c54a6a9c40b321fbebd48300ae26b7545c"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-standard-capture-field.png",
+            "sha256": "f8491648ac049efbfc00d4dbfb5187588bbc39fe4cd8db5f1ac87e31c8ba1263"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 294.5,
+            "y": 162.0,
+            "width": 390.0,
+            "height": 48.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-standard-capture-action.json",
+            "sha256": "ed337139380d111a993eb8f8f63b1a00272db5b1da7978d08956220ba18465ec"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-standard-capture-action.png",
+            "sha256": "07382b771db0762b37f91fd14265b6b703124fca3b3577ad89f7c98bdb02c484"
+          }
+        }
+      }
+    },
+    {
+      "case": "profile",
+      "orientation": "landscape",
+      "text_size": "accessibility",
+      "viewport": [
+        844.0,
+        390.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 329.1821594238281,
+            "y": 138.97334770322414,
+            "width": 356.0,
+            "height": 66.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-accessibility-capture-field.json",
+            "sha256": "d157af25fb44e2faf8b05253fea15cafad1a308e9d644240f128ef7a88846b97"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-accessibility-capture-field.png",
+            "sha256": "6f102096891fe35c30663b82c8fde2eff74aa93d622e26501ffe6cc5a2c053c1"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 312.1821594238281,
+            "y": 143.0,
+            "width": 390.0,
+            "height": 67.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-accessibility-capture-action.json",
+            "sha256": "2e0cf49e76ffe0e4b54eebb8f78cb29c5fcb5812f87b9e124b42a291a474b942"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/profile-landscape-accessibility-capture-action.png",
+            "sha256": "23a1ceadeffc038c38b571d9e8092ce858889f25daf4a7070b3e00962ad04e50"
+          }
+        }
+      }
+    },
+    {
+      "case": "momo-code",
+      "orientation": "portrait",
+      "text_size": "standard",
+      "viewport": [
+        390.0,
+        844.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 37.0,
+            "y": 410.8597493228378,
+            "width": 316.0,
+            "height": 28.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-standard-capture-field.json",
+            "sha256": "ba6ec6869ad9b21e8a5f89a494e2cfae09572c85c143f869742ec378f7c55b28"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-standard-capture-field.png",
+            "sha256": "178ca00ebc15ccefafdf5b20fb572c3228f56bc46266d965c06a98d992b1c6ec"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 20.0,
+            "y": 472.0,
+            "width": 350.0,
+            "height": 48.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-standard-capture-action.json",
+            "sha256": "ba4e14c150df164faad986869066bd8786b776191ed1ce6d0293e568662d4853"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-standard-capture-action.png",
+            "sha256": "c6bbb6875cc8443e059fe57decc84ca55fc0a4036c9d597197b19c4f3a02e14a"
+          }
+        }
+      }
+    },
+    {
+      "case": "momo-code",
+      "orientation": "portrait",
+      "text_size": "accessibility",
+      "viewport": [
+        390.0,
+        844.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 37.0,
+            "y": 252.0,
+            "width": 316.0,
+            "height": 66.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-accessibility-capture-field.json",
+            "sha256": "c33887fd8106917a71a4e14552acf10c70c370e629a8616689070148ed3b2851"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-accessibility-capture-field.png",
+            "sha256": "629abcc2265114c33249c231016a323b0719b3b14a322d0f84bc900b308bac06"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 308.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 20.0,
+            "y": 453.0,
+            "width": 350.0,
+            "height": 67.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-accessibility-capture-action.json",
+            "sha256": "c888fc3971b3e14f5adfe08e931ab6aa3e869d0315f5dc48bbb5d9bb52ff8597"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-portrait-accessibility-capture-action.png",
+            "sha256": "8a44ac26f068fccdad36eced89fcfd0216c48a896c8ab941666cf6116bc05ed7"
+          }
+        }
+      }
+    },
+    {
+      "case": "momo-code",
+      "orientation": "landscape",
+      "text_size": "standard",
+      "viewport": [
+        844.0,
+        390.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 311.5,
+            "y": 53.0,
+            "width": 356.0,
+            "height": 28.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-standard-settled-capture-field.json",
+            "sha256": "11d939564be13bdf62fd95c4773a98cc5bcfe5e109221028d45179a7636e18a0"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-standard-settled-capture-field.png",
+            "sha256": "780ee3c6d9c9a2c6c4ee27bee2ef9d29945d2657ebfab8383e165ae457c00c11"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 294.5,
+            "y": 162.0,
+            "width": 390.0,
+            "height": 48.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-standard-settled-capture-action.json",
+            "sha256": "59dfc5458a505ac5b972f5dba58d9f7b59b669d4380f87dbcd4de7de883b1ee1"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-standard-settled-capture-action.png",
+            "sha256": "780ee3c6d9c9a2c6c4ee27bee2ef9d29945d2657ebfab8383e165ae457c00c11"
+          }
+        }
+      }
+    },
+    {
+      "case": "momo-code",
+      "orientation": "landscape",
+      "text_size": "accessibility",
+      "viewport": [
+        844.0,
+        390.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 329.1821594238281,
+            "y": 80.0,
+            "width": 356.0,
+            "height": 66.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-accessibility-settled-capture-field.json",
+            "sha256": "f97ba5758ac87652d28ae4b8a8961ed1159e15eb0d4d56076406de7e41ef49fa"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-accessibility-settled-capture-field.png",
+            "sha256": "695f6224737cea622f40ebbca10ae5955c2645582008c159310402b5cccf400e"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 164.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 312.1821594238281,
+            "y": 143.0,
+            "width": 390.0,
+            "height": 67.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-accessibility-settled-capture-action.json",
+            "sha256": "bccd2efee7ca63e06d5b6762527d1f4a225c9c5e4eefcc7b0285aa0e163f0a67"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-accessibility-settled-capture-action.png",
+            "sha256": "179f631e5106c92c82cf268a928e1f8fdb2d25f71965ea4aeacc641fcce92118"
+          }
+        }
+      }
+    },
+    {
+      "case": "diaspora-profile",
+      "orientation": "portrait",
+      "text_size": "standard",
+      "viewport": [
+        390.0,
+        844.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 335.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 37.0,
+            "y": 384.08434693217856,
+            "width": 316.0,
+            "height": 28.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-standard-capture-field.json",
+            "sha256": "7748de0c5a6817d4efdad461cf059be9bde63542280df25f3bfe97436ffc1857"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-standard-capture-field.png",
+            "sha256": "07f47f860a9e757fd51cab6f028eaff25788fd0a740f088469136340bcb7512e"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 335.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 20.0,
+            "y": 445.0,
+            "width": 350.0,
+            "height": 48.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-standard-capture-action.json",
+            "sha256": "f9794480569bb539713d193ce4c42e3c5993a6d76959904720107598ff94bd64"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-standard-capture-action.png",
+            "sha256": "30f241272914be6509e3b9c90f8f894e57139e0da98f05378c806dc890751ba5"
+          }
+        }
+      }
+    },
+    {
+      "case": "diaspora-profile",
+      "orientation": "portrait",
+      "text_size": "accessibility",
+      "viewport": [
+        390.0,
+        844.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 335.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 37.0,
+            "y": 366.2256665080945,
+            "width": 316.0,
+            "height": 66.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-accessibility-capture-field.json",
+            "sha256": "851d9b871df4cf6fe41abd45c9a1f0e4cafd58689b865f71e5bd3d349fc194ef"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-accessibility-capture-field.png",
+            "sha256": "4e02fa999712c8b8d8aba9a55f359c86f047048b7eae6b422e15ba1dcb1ccb15"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 335.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 20.0,
+            "y": 426.0,
+            "width": 350.0,
+            "height": 67.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-accessibility-capture-action.json",
+            "sha256": "8d88c64ad14fd39bba7ab0abf7a9a7760538280b8d0432e67d9550fb27517fc1"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-accessibility-capture-action.png",
+            "sha256": "eabf39b725e79865aaec22725c612d9d0d8a2e14b4869f9ccc02adec506c705d"
+          }
+        }
+      }
+    },
+    {
+      "case": "diaspora-profile",
+      "orientation": "landscape",
+      "text_size": "standard",
+      "viewport": [
+        844.0,
+        390.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 208.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 311.5,
+            "y": 133.08434693217856,
+            "width": 356.0,
+            "height": 28.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-standard-capture-field.json",
+            "sha256": "a23a3dfb309cfd7549a3a09d57c9c113f401a795f7c9d811219cc66a5afbf66e"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-standard-capture-field.png",
+            "sha256": "39785550de69b1e2bb40de9caf23c596616806a3c6b8cee5a81c9843e105e408"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 208.0,
+          "focused": true,
+          "text_scale_at_16": 16.0,
+          "bounds": {
+            "x": 294.5,
+            "y": 133.91768026551193,
+            "width": 390.0,
+            "height": 48.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-standard-capture-action.json",
+            "sha256": "a198e9a85de725b973d34bffbc3158a7c4ada57b38e29cedb5a87b5e3333aecb"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-standard-capture-action.png",
+            "sha256": "1afcc8b75ea56f779dcab733c8342c82c6db0580ac85456d60a6a6d023569872"
+          }
+        }
+      }
+    },
+    {
+      "case": "diaspora-profile",
+      "orientation": "landscape",
+      "text_size": "accessibility",
+      "viewport": [
+        844.0,
+        390.0
+      ],
+      "phases": {
+        "field": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "focused": true,
+            "field_visible": true,
+            "field_hit_testable": true
+          },
+          "keyboard_inset": 208.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 329.1821594238281,
+            "y": 94.84158221682856,
+            "width": 356.0,
+            "height": 66.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-accessibility-capture-field.json",
+            "sha256": "6006e49f7da402612540daa05f08346d86b282e77a804471c99d335464d6cb52"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-accessibility-capture-field.png",
+            "sha256": "055a1a250ef8eca5a80dd7f8f38ae0593da5e858311f546ebcd11d36851a7dc1"
+          }
+        },
+        "action": {
+          "passed": true,
+          "checks": {
+            "actual_keyboard": true,
+            "input_preserved": true,
+            "no_errors": true,
+            "action_visible": true,
+            "action_hit_testable": true,
+            "action_enabled": true,
+            "focused": true
+          },
+          "keyboard_inset": 208.0,
+          "focused": true,
+          "text_scale_at_16": 37.64705882352941,
+          "bounds": {
+            "x": 312.1821594238281,
+            "y": 99.0,
+            "width": 390.0,
+            "height": 67.0
+          },
+          "report": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-accessibility-capture-action.json",
+            "sha256": "2b5a76fb6dc08def0263cb4dfce3a07bf3bd46327455b0c4da620fbe6e9ac56e"
+          },
+          "screenshot": {
+            "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-landscape-accessibility-capture-action.png",
+            "sha256": "f8dd173bbcf2e7e1d481f20fd11772f35babf3efef73f158d64f0cbd33c11cdd"
+          }
+        }
+      }
+    }
+  ],
+  "observations": [
+    "On short screens the header, fields and Save share one scroll view. Native dragging keeps the software keyboard open and retains the draft and focus.",
+    "After some portrait return transitions, a field or action needs another body scroll. Reachability after scrolling is verified; simultaneous visibility of every control is not claimed.",
+    "The first two MoMo-code landscape action PNGs did not match their keyboard geometry. The later settled field/action pairs supersede those files for acceptance of this bounded review. Earlier files remain retained and are not additional passes.",
+    "A setup-only geometry request while the form was off-screen after a native Settings transition could not serialize a non-finite rectangle. Revealing the field restored readable geometry; this setup error is excluded from the 24 checked observations.",
+    "The temporary mirror control connection was refreshed. Native accessibility controls were used to verify Larger Accessibility Sizes and the 82-percent slider position. The final app readback measured 37.647 points for nominal 16-point text.",
+    "All 219 installed files still matched the same retained candidate during the repeated MoMo review."
+  ],
+  "superseded_visuals": [
+    {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-standard-capture-action.png",
+      "sha256": "780ee3c6d9c9a2c6c4ee27bee2ef9d29945d2657ebfab8383e165ae457c00c11"
+    },
+    {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/momo-code-landscape-accessibility-capture-action.png",
+      "sha256": "179f631e5106c92c82cf268a928e1f8fdb2d25f71965ea4aeacc641fcce92118"
+    }
+  ],
+  "retained_negative_observation": {
+    "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-accessibility-restored-capture-action.json",
+    "sha256": "d8a4eb3fad700b7f6d77ce918593ef96b279efb24ebff6329cb88becc499eac0"
+  },
+  "recovered_observation": {
+    "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/diaspora-profile-portrait-accessibility-restored-scrolled-capture-action.json",
+    "sha256": "7c98d67f8f3c6272c58a2b75219b230080a5b6ff4e113ff28c7290fdf9991bf1"
+  },
+  "restoration": {
+    "native_font_at_16": 16,
+    "larger_accessibility_sizes": false,
+    "orientation": "portrait",
+    "device_state": "Shutdown",
+    "driver_exit": 0,
+    "mirror_exit": 0,
+    "runtime": {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/restored-followup-runtime.json",
+      "sha256": "783d7bb8e7b3fe006db66755fa7108bb73ddc836750ae2ae5afcc9a27901982c"
+    },
+    "readback": {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/simulator-followup-restoration.json",
+      "sha256": "e35bd62a192386263b297b1eab47cf8d2ed8a8f5d88fa3c8e1886f2b6162237b"
+    }
+  },
+  "open_acceptance": {
+    "MOBILE-DESIGN-100": "blocked",
+    "failure_count": 166,
+    "report": {
+      "path": ".cache/revolut-gap-closure-20260906/ios-profile-landscape/root-mobile-design-gate-followup.json",
+      "sha256": "624d8b336493856aa6876d653fca32dd1175723e19e3308a01f5765bb836a254"
+    },
+    "remaining": "Full route/state and original-reference comparison, native screen-reader work, other iOS form matrices, and exact production artifact/approval evidence remain open. Previous Android and website native-media checks bind their earlier sources, not this rebuilt profile candidate."
+  }
+}

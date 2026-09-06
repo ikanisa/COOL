@@ -1,29 +1,36 @@
 {
-  "generated_at": "2026-09-04T05:56:51.970904+00:00",
+  "generated_at": "2026-09-06T12:59:21.489823+00:00",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
       "project": "collect-public",
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
-      "branch": "main",
-      "version_id": "82e6cc88-e130-4f52-86ff-cd9e0bd1af47",
-      "rollback_version_id": "7ddcadb8-c8ea-4f5c-9e7a-5c09790cf889",
+      "branch": "codex/revolut-gap-closure-20260906",
+      "version_id": "453a68f9-31ee-41cc-b7c3-c7eaf8f2febb",
+      "rollback_version_id": "1a9f290f-a8f3-462c-a88e-30effd09a502",
       "live_gate_status": "pass",
-      "evidence": "The bank-transfer-only static quality gate passed 56/56. Cloudflare Workers version 82e6cc88-e130-4f52-86ff-cd9e0bd1af47 was deployed directly to collect-public; the previous stable version 7ddcadb8-c8ea-4f5c-9e7a-5c09790cf889 is retained as the rollback target. The custom-domain live gate passed 35/35 after deployment."
+      "evidence": "2026-09-06: owner heading, card-row and two-bullet removal annotations published from a clean release checkout. Public quality gate 56/56; live gate 35/35; all 49 served files match build SHA-256. Follow-up owner layout review passed 494 checks across 13 widths locally and again on the live domain. Only the two approved partner bullets were removed across the sixteen governed routes. Mobile acceptance remains separate. See docs/release/mobile-design/WEBSITE_OWNER_LAYOUT_2026-09-06.md.",
+      "deployment_id": "e34a8197-340d-4ad5-bcc4-c4b9063c41ae",
+      "source_commit": "0e5f06000838cd0d431fe5b3bc2711c0588c0cf6",
+      "source_dirty": false,
+      "traffic_percentage": 100
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",
       "project": "collect-admin",
       "url": "https://admin.collect.ikanisa.com",
       "deployment_url": "https://admin.collect.ikanisa.com",
-      "branch": "main",
-      "version_id": "b97134af-032b-4e75-8c0c-4c217c97392e",
-      "rollback_version_id": "1b868d4f-1da5-4ecd-8d41-323616b87110",
-      "deployment_id": "dce57c72-02e8-4e28-9936-48c159dd3d3e",
+      "branch": "codex/revolut-gap-closure-20260906",
+      "version_id": "f4a222a0-aec9-424f-9a5a-309549439559",
+      "rollback_version_id": "b988f31b-f44c-420e-bd6c-3f13ba22f306",
+      "deployment_id": "dcf4286c-677b-4dec-ac49-67753ac5daa6",
       "live_gate_status": "pass",
-      "evidence": "2026-09-04: production Admin country pagination and unavailable queue-health values deployed. Independent Cloudflare readback confirms 100% traffic. Custom-domain live gate PASS and main bundle, bootstrap, service worker and manifest match local SHA-256. Authenticated browser shows corrected labels and 5 groups (2 public, 3 private); 10 Supabase RPCs HTTP 200. Migration 20260903201326 applied separately, production/local history 122/122, existing function ACLs/owners preserved and no new advisor items. See docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md. Mobile distribution remains blocked.",
-      "source_state": "uncommitted workspace based on 474fc32a; no Git publication"
+      "evidence": "2026-09-06: lighter Admin hierarchy and build revision metadata deployed. Cloudflare readback confirms 100% traffic; live gate passes; all 65 served files match build SHA-256. Authenticated fixture review 92/92 across 23 routes and four widths. Controlled installed Chrome upgrade to this bundle passes source revision, cache replacement and offline/online sign-in shell checks. A fresh installed Chrome app on the live Admin domain also passed all nine current-version, identity, deep-link and offline/online checks. Existing customer-session upgrade continuity remains unverified. See docs/release/mobile-design/GAP_CLOSURE_2026-09-06.md. Earlier data audit evidence remains in docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md.",
+      "source_state": "Clean isolated release checkout; source branch pushed and remote SHA verified; main not merged.",
+      "source_commit": "2e6b3ff1ae4880f5c6b9a779c9817536d7455fc4",
+      "source_dirty": false,
+      "traffic_percentage": 100
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."

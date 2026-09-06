@@ -344,6 +344,7 @@ class CollectScreenHero extends StatelessWidget {
     this.icon,
     this.semanticLabel,
     this.centerGap = CollectSpacing.x5,
+    this.quickActionsGap = CollectSpacing.x6,
     super.key,
   }) : assert(metric != null || title != null),
        assert(subtitle == null || subtitleWidget == null);
@@ -359,6 +360,7 @@ class CollectScreenHero extends StatelessWidget {
   final IconData? icon;
   final String? semanticLabel;
   final double centerGap;
+  final double quickActionsGap;
 
   @override
   Widget build(BuildContext context) {
@@ -432,7 +434,7 @@ class CollectScreenHero extends StatelessWidget {
                                 fontSize: metric == null
                                     ? CollectTypography.sizePageCompact
                                     : headlineSize,
-                                fontWeight: CollectTypography.weightSemibold,
+                                fontWeight: CollectTypography.weightMedium,
                                 height: CollectTypography.leadingSolid,
                                 letterSpacing:
                                     CollectTypography.trackingDefault,
@@ -483,7 +485,7 @@ class CollectScreenHero extends StatelessWidget {
           ),
         ),
         if (quickActions.isNotEmpty) ...[
-          CollectSpacing.gap24,
+          SizedBox(height: quickActionsGap),
           CollectHeroQuickActionRow(actions: quickActions),
         ],
       ],
@@ -582,9 +584,9 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
                 Text(
                   action.label,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: foreground,
-                    fontWeight: CollectTypography.weightSemibold,
+                    fontWeight: CollectTypography.weightRegular,
                     letterSpacing: CollectTypography.trackingDefault,
                   ),
                   maxLines: 2,
