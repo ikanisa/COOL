@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T12:25:21.754218+00:00",
+  "generated_at": "2026-09-06T12:59:21.489823+00:00",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,12 +7,12 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "codex/revolut-gap-closure-20260906",
-      "version_id": "1a9f290f-a8f3-462c-a88e-30effd09a502",
-      "rollback_version_id": "5ab829d7-5c38-4416-bfc8-aba76d069c95",
+      "version_id": "453a68f9-31ee-41cc-b7c3-c7eaf8f2febb",
+      "rollback_version_id": "1a9f290f-a8f3-462c-a88e-30effd09a502",
       "live_gate_status": "pass",
-      "evidence": "2026-09-06: owner website layout corrections and Revolut cohort refinements published from a clean release checkout. Public quality gate 56/56; live gate 35/35; all 49 served files match build SHA-256. Owner layout review 144/144 across nine widths, with 27/27 Partners checks repeated on the live domain. Mobile acceptance remains separate. See docs/release/mobile-design/WEBSITE_OWNER_LAYOUT_2026-09-06.md.",
-      "deployment_id": "97589ff5-6ba6-4882-87da-f38e617b616a",
-      "source_commit": "6b0f7cc71eb78b085c65685edaee35f08a9aa5a0",
+      "evidence": "2026-09-06: owner heading, card-row and two-bullet removal annotations published from a clean release checkout. Public quality gate 56/56; live gate 35/35; all 49 served files match build SHA-256. Follow-up owner layout review passed 494 checks across 13 widths locally and again on the live domain. Only the two approved partner bullets were removed across the sixteen governed routes. Mobile acceptance remains separate. See docs/release/mobile-design/WEBSITE_OWNER_LAYOUT_2026-09-06.md.",
+      "deployment_id": "e34a8197-340d-4ad5-bcc4-c4b9063c41ae",
+      "source_commit": "0e5f06000838cd0d431fe5b3bc2711c0588c0cf6",
       "source_dirty": false,
       "traffic_percentage": 100
     },

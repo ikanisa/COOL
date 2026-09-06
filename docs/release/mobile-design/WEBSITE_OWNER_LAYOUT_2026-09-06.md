@@ -32,8 +32,8 @@ source reports and screenshots in `owner-layout-review/` and
 `owner-partners-review/`. Publication readback belongs in
 `docs/release/LIVE_DEPLOYMENTS.json`.
 
-Published source: `6b0f7cc71eb78b085c65685edaee35f08a9aa5a0`. Cloudflare confirms
-100% traffic on version `1a9f290f-a8f3-462c-a88e-30effd09a502`; all 49 served
+Initial heading-correction source: `6b0f7cc71eb78b085c65685edaee35f08a9aa5a0`. That release used
+version `1a9f290f-a8f3-462c-a88e-30effd09a502`; all 49 served
 files match the build. The public live gate passed 35/35 and the Partners
 layout checks passed 27/27 on the live domain across the same nine widths.
 
@@ -73,6 +73,12 @@ inspected. Evidence is retained in
 `.cache/revolut-gap-closure-20260906/owner-row-review-corrected/`,
 `owner-row-alias-review-verified/` and `owner-row-content-verification.json`.
 The earlier failed row reports remain as correction history.
+
+The follow-up is published from `0e5f06000838cd0d431fe5b3bc2711c0588c0cf6` on Cloudflare
+version `453a68f9-31ee-41cc-b7c3-c7eaf8f2febb`, with 100% traffic verified. All
+49 served files match the clean build. The live gate passes 35/35 and the
+complete 494-check follow-up layout review passes on the live domain. The
+previous heading-correction version is retained as the rollback target.
 
 These corrections implement the specified website layout requests. They do not
 replace the separate mobile design acceptance gate or owner comparison review.
