@@ -32,5 +32,10 @@ source reports and screenshots in `owner-layout-review/` and
 `owner-partners-review/`. Publication readback belongs in
 `docs/release/LIVE_DEPLOYMENTS.json`.
 
+Published source: `6b0f7cc71eb78b085c65685edaee35f08a9aa5a0`. Cloudflare confirms
+100% traffic on version `1a9f290f-a8f3-462c-a88e-30effd09a502`; all 49 served
+files match the build. The public live gate passed 35/35 and the Partners
+layout checks passed 27/27 on the live domain across the same nine widths.
+
 These corrections close the specified website layout requests. They do not
 replace the separate mobile design acceptance gate or owner comparison review.

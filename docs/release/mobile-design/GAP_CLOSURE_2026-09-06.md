@@ -13,10 +13,10 @@ fidelity or authorize mobile production distribution.
 | Exact mobile candidate | Final iOS fixture: 42/42 routes and screenshots; all 219 installed bundle files matched the retained app during the run. | Production APK/AAB/IPA binding and `make mobile-design-gate` approval. No mobile distribution performed. |
 | Admin precision | Shared titles, metrics and compact table values use lighter roles. | Full authenticated Revolut Business desktop/table comparator remains unavailable. |
 | Admin behavior | 23 routes at four widths passed: 92 captures covering navigation, tables, keyboard, named controls, target sizes and browser errors. | Live authenticated operator/session/permission behavior remains separate from fixture coverage. |
-| Website composition | Photo-overlay navigation, measured editorial spacing, stronger heading contrast and a clear CTA hierarchy. Flutter header stays pinned and adapts after the hero. | Final deployment readback; owner visual acceptance remains separate. |
-| Website media/responsiveness | Current native images retain unedited pixels. All 16 routes at four widths plus share/menu states passed; 70 photo-text contrast observations passed. | Live deployment parity and any platforms outside the recorded browser matrix. |
-| Installed web behavior | Both surfaces installed and launched as standalone Chrome windows with correct identity/deep links. Admin's unauthenticated shell passed offline reload and online recovery. Temporary apps/profiles were removed. | Live update verification in progress; authenticated session continuity and other OS/browser install flows remain unverified. Public marketing has no offline service worker. |
-| Deployment parity | Reviewed public and Admin candidates are prepared in an isolated release checkout. | Publishing, remote revision and live asset/version readback. |
+| Website composition | Photo-overlay navigation, measured editorial spacing, stronger heading contrast and a clear CTA hierarchy. Flutter header stays pinned and adapts after the hero. Fourteen owner-marked headings now center beside their content; Premium finance uses equal columns and the four Growth Engines cards share a desktop row. | Owner visual acceptance remains separate. |
+| Website media/responsiveness | Current native images retain unedited pixels. All 16 routes at four widths plus share/menu states passed; 70 photo-text contrast observations passed. The later owner layout review passed 144 checks across nine widths. | Platforms outside the recorded browser matrix. |
+| Installed web behavior | Both surfaces installed and launched as standalone Chrome windows with correct identity/deep links. A controlled retained-build upgrade to the deployed Admin bundle passed source/version, cache replacement, offline sign-in shell and online recovery checks. Temporary apps/profiles were removed. | Actual preexisting customer-session upgrade continuity and other OS/browser install flows remain unverified. Public marketing has no offline service worker. |
+| Deployment parity | Public and Admin are published. Their active Cloudflare versions and all 49 public / 65 Admin served asset hashes match the recorded clean release builds. | GitHub hosted CI could not start because the account is locked for billing. The branch remains separate from main. |
 
 ## Implementation and review evidence
 
@@ -63,10 +63,19 @@ the original checkout and is excluded from the selected release changes.
 | `.cache/revolut-gap-closure-20260906/public-quality-isolated.json` | Clean isolated checkout passed 56/56 public quality checks. |
 | `.cache/revolut-gap-closure-20260906/public-installed-pwa-standalone/report.json` | Chrome install, selected standalone window mode, identity and deep link passed. Public offline support is not established. |
 | `.cache/revolut-gap-closure-20260906/admin-installed-pwa/report.json` | Chrome install, standalone mode, identity, protected-route redirect, offline sign-in shell and online recovery passed. |
+| `.cache/revolut-gap-closure-20260906/admin-installed-update-activated/report.json` | Nine checks passed in a controlled local upgrade from the retained older bundle to the exact deployed Admin bundle, including activated cache replacement and source revision. |
+| `.cache/revolut-gap-closure-20260906/admin-current-installed-live/report.json` | Nine checks passed in a fresh installed Chrome app on the live Admin domain: current source/bundle, only the active cache, identity, deep link, offline sign-in shell and online recovery. |
+| `.cache/revolut-gap-closure-20260906/owner-layout-verified.json` | All 144 unique layout checks passed for the owner annotations. |
+| `.cache/revolut-gap-closure-20260906/owner-partners-live-review/report.json` | All 27 Partners layout checks passed on the public domain across nine widths. |
+| `.cache/revolut-gap-closure-20260906/owner-layout-live-gate.json` | Public live routes and content: 35/35 passed. |
+| `.cache/revolut-gap-closure-20260906/public-live-assets-final.json` | All 49 public files match deployed source `6b0f7cc71eb78b085c65685edaee35f08a9aa5a0`. |
+| `.cache/revolut-gap-closure-20260906/admin-live-assets-final.json` | All 65 Admin files match deployed source `2e6b3ff1ae4880f5c6b9a779c9817536d7455fc4`. |
 | `.cache/revolut-gap-closure-20260906/mobile-design-gate-final.json` | Blocked; all existing acceptance requirements retained. |
 
 The two remaining broad-suite failures concern the unapproved Rwanda source
-image bank: runtime asset inventory and source hygiene. Its records still say
+image bank: runtime asset inventory and source hygiene. These failures were
+also reproduced in the isolated checkout for the preexisting tracked image
+`assets/group_covers/rwanda/source/rw-01-neighbourhood-ikimina-v1.png`. Its records say
 `generated_unreviewed` and `runtime_ready: false`. None of those source images
 was added to the approved product manifest or the deployed asset selection.
 The eight reviewed native website captures were separately reconciled into the
@@ -78,3 +87,16 @@ user display-mode APIs in an isolated profile, following the
 [Chrome DevTools PWA protocol](https://chromedevtools.github.io/devtools-protocol/tot/PWA/).
 It is not a claim about Safari, mobile installation, screen readers or an
 existing customer's session.
+
+The initial update review read the cache before service-worker activation had
+finished. A separate reproduction showed that this installed Playwright
+runtime returned immediately even for an asynchronous predicate resolving to
+`false`. The corrected review polls an awaited Boolean explicitly, then checks
+the activated worker, removal of the old cache, bundle hash and source revision.
+All nine controlled update checks passed. Earlier unsuccessful reports remain
+as historical evidence; they do not establish a production update defect.
+
+Public Worker version `1a9f290f-a8f3-462c-a88e-30effd09a502` and Admin Worker
+version `f4a222a0-aec9-424f-9a5a-309549439559` each have 100% traffic in the
+provider readback. Full deployment and rollback metadata is recorded in
+`docs/release/LIVE_DEPLOYMENTS.json`.
