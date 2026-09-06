@@ -82,6 +82,27 @@
 .revolut-public main > section:not(.hero):nth-of-type(even) { background: var(--web-widget); }
 .revolut-public main > section:not(.hero) h2 { font-size: var(--type-web-heading); line-height: var(--type-leading-1-05); letter-spacing: var(--type-web-tracking); font-weight: var(--type-weight-medium); color: var(--web-ink); }
 .revolut-public main > section:not(.hero) p, .revolut-public main > section:not(.hero) .section-kicker { color: var(--web-secondary); }
+/* Owner review: center the section heading beside the complete content grid. */
+@media (min-width: 981px) {
+  .revolut-public :is(.original-story, .group-workflow-section, .group-feature-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-market-section, .partner-operating-section) > .story-copy {
+    align-self: center;
+  }
+  .revolut-public .insurance-finance-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .revolut-public .partner-market-section {
+    grid-template-columns: minmax(200px, .25fr) minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .revolut-public .partner-engine-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .revolut-public .partner-engine-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
 .revolut-public .section-card, .revolut-public .infographic-step, .revolut-public .supported-group-card { border-radius: var(--web-panel); box-shadow: none; }
 .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) {
   gap: 24px; background: transparent; border: 0;
