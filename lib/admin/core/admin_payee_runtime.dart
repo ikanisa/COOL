@@ -69,6 +69,7 @@ Future<void> createAdminPayee(
     animationStyle: CollectMotion.animationStyle(context),
     builder: (dialogContext) => StatefulBuilder(
       builder: (dialogContext, setDialogState) => AlertDialog(
+        scrollable: true,
         title: const Text('Create official payee'),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 560),
@@ -228,6 +229,7 @@ Future<void> editAdminPayee(
     context: context,
     animationStyle: CollectMotion.animationStyle(context),
     builder: (dialogContext) => AlertDialog(
+      scrollable: true,
       title: const Text('Edit official payee'),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),

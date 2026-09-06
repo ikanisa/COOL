@@ -115,7 +115,7 @@ class _GroupColorPalette extends StatelessWidget {
           spacing: CollectSpacing.x2,
           runSpacing: CollectSpacing.x2,
           children: [
-            for (final option in CollectColors.brandPrimaryOptions)
+            for (final option in CollectColors.groupAccentOptions)
               _ColorSwatchButton(
                 option: option,
                 selected: selectedHex == option.hex,
@@ -147,75 +147,87 @@ class _CreateGroupPhotoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final displayTitle = title.isEmpty ? 'Group image' : title;
+    final preview = ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: SizedBox.square(
+        dimension: 82,
+        child: ColoredBox(
+          color: colors.surfaceMuted,
+          child: imageBytes == null
+              ? Icon(CollectIcons.photo, color: colors.textPrimary, size: 30)
+              : Image.memory(
+                  imageBytes!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    CollectIcons.photo,
+                    color: colors.textPrimary,
+                    size: 30,
+                  ),
+                ),
+        ),
+      ),
+    );
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          displayTitle,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: colors.textPrimary,
+            fontWeight: CollectTypography.weightBold,
+          ),
+        ),
+        CollectSpacing.gap4,
+        Text(
+          imageBytes == null ? 'Optional group photo' : 'Photo selected',
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+        ),
+      ],
+    );
+    final actions = Wrap(
+      spacing: CollectSpacing.x2,
+      children: [
+        IconButton.filledTonal(
+          tooltip: imageBytes == null ? 'Add photo' : 'Change photo',
+          onPressed: onPick,
+          icon: const Icon(CollectIcons.photo),
+        ),
+        if (onRemove != null)
+          IconButton.filledTonal(
+            tooltip: 'Remove photo',
+            onPressed: onRemove,
+            icon: const Icon(Icons.close_rounded),
+          ),
+      ],
+    );
     return CollectCard(
       emphasis: CollectCardEmphasis.flat,
       padding: const EdgeInsets.all(CollectSpacing.x3),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: SizedBox.square(
-              dimension: 82,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  DecoratedBox(
-                    decoration: BoxDecoration(color: colors.surfaceMuted),
-                  ),
-                  if (imageBytes != null)
-                    Image.memory(imageBytes!, fit: BoxFit.cover)
-                  else
-                    Icon(
-                      CollectIcons.photo,
-                      color: colors.textPrimary,
-                      size: 30,
-                    ),
-                ],
-              ),
-            ),
-          ),
-          CollectSpacing.gapW16,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  displayTitle,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: CollectTypography.weightBold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                CollectSpacing.gap4,
-                Text(
-                  imageBytes == null
-                      ? 'Optional group photo'
-                      : 'Photo selected',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          IconButton.filledTonal(
-            tooltip: imageBytes == null ? 'Add photo' : 'Change photo',
-            onPressed: onPick,
-            icon: const Icon(CollectIcons.photo),
-          ),
-          if (onRemove != null) ...[
-            CollectSpacing.gapW8,
-            IconButton.filledTonal(
-              tooltip: 'Remove photo',
-              onPressed: onRemove,
-              icon: const Icon(Icons.close_rounded),
-            ),
-          ],
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final stacked =
+              constraints.maxWidth < 300 ||
+              MediaQuery.textScalerOf(context).scale(16) >= 16 * 1.3;
+          return stacked
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [preview, const Spacer(), actions]),
+                    CollectSpacing.gap16,
+                    details,
+                  ],
+                )
+              : Row(
+                  children: [
+                    preview,
+                    CollectSpacing.gapW16,
+                    Expanded(child: details),
+                    actions,
+                  ],
+                );
+        },
       ),
     );
   }
@@ -275,10 +287,7 @@ class _ColorSwatchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final selectedForeground = option.color.computeLuminance() > 0.72
-        ? colors.textPrimary
-        : colors.onAccent;
+    final selectedForeground = CollectColors.foregroundOn(option.color);
     return Semantics(
       button: true,
       selected: selected,

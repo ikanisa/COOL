@@ -99,6 +99,7 @@ Future<void> createAdminAssistedGroup(
         final readyCount = (preview?['ready_count'] as num?)?.toInt() ?? 0;
         final aiFileSelected = _isAiRosterFile(selectedFile);
         return AlertDialog(
+          scrollable: true,
           title: const Text('Create assisted group'),
           content: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 760),
@@ -602,6 +603,7 @@ Future<void> createAdminPublicGroup(
     animationStyle: CollectMotion.animationStyle(context),
     builder: (dialogContext) => StatefulBuilder(
       builder: (dialogContext, setDialogState) => AlertDialog(
+        scrollable: true,
         title: const Text('Create public group'),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 620),

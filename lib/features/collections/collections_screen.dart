@@ -46,15 +46,29 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     final routeUri = _maybeRouteUri(context);
     final showContributedOnly =
         routeUri.queryParameters['filter'] == 'contributed';
+    final showMembersOnly = routeUri.queryParameters['filter'] == 'member';
+    final showFeaturedOnly = routeUri.queryParameters['filter'] == 'featured';
+    final memberCollectionIds = ref
+        .watch(memberCollectionsProvider)
+        .map((collection) => collection.id)
+        .toSet();
     final query = _query.trim().toLowerCase();
     final visibleCollections = [
       for (final collection in collections)
-        if (!showContributedOnly ||
-            contributedCollectionIds.contains(collection.id))
-          if (query.isEmpty || _matchesQuery(collection, query)) collection,
+        if (!showFeaturedOnly || collection.isPublic)
+          if (!showMembersOnly || memberCollectionIds.contains(collection.id))
+            if (!showContributedOnly ||
+                contributedCollectionIds.contains(collection.id))
+              if (query.isEmpty || _matchesQuery(collection, query)) collection,
     ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
-    final pageTitle = showContributedOnly ? 'My groups' : 'Groups';
+    final pageTitle = showFeaturedOnly
+        ? 'Featured Groups'
+        : showMembersOnly
+        ? 'My groups'
+        : showContributedOnly
+        ? 'Supported groups'
+        : 'Groups';
     if (isInitialLoading) {
       return ScreenScaffold(
         title: 'Groups',
@@ -111,10 +125,10 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
                   ref.read(collectRepositoryProvider.notifier).loadInitial(),
             )
           else
-            const EmptyIllustrationState(
+            EmptyIllustrationState(
               icon: CollectIcons.collections,
-              title: 'No groups yet',
-              message: 'Create a group or scan a group QR to start collecting.',
+              title: showFeaturedOnly ? 'Featured Groups' : 'No groups yet',
+              message: 'Public groups selected by Collect will appear here.',
             ),
         ],
       );
@@ -136,9 +150,13 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             ),
           CollectChromeAction(
             icon: CollectIcons.filter,
-            tooltip: showContributedOnly ? 'Show all groups' : 'My groups',
+            tooltip: showMembersOnly || showContributedOnly || showFeaturedOnly
+                ? 'Show all groups'
+                : 'My groups',
             onPressed: () => context.go(
-              showContributedOnly ? '/groups' : '/groups?filter=contributed',
+              showMembersOnly || showContributedOnly || showFeaturedOnly
+                  ? '/groups'
+                  : '/groups?filter=member',
             ),
           ),
         ],
@@ -162,11 +180,18 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             message: 'Clear the search and try again.',
             onClear: _clearSearch,
           )
-        else if (showContributedOnly)
+        else if (showFeaturedOnly)
+          const EmptyIllustrationState(
+            icon: CollectIcons.people,
+            title: 'No featured groups yet',
+            message: 'Public groups selected by Collect will appear here.',
+          )
+        else if (showMembersOnly || showContributedOnly)
           EmptySearchState(
             title: 'No groups yet',
-            message:
-                'Confirmed contributions will place active groups in this view.',
+            message: showMembersOnly
+                ? 'Groups you create or join will appear here.'
+                : 'Confirmed contributions will place active groups in this view.',
             onClear: () => context.go('/groups'),
             clearLabel: 'Show all groups',
           )
@@ -174,7 +199,8 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           const EmptyIllustrationState(
             icon: CollectIcons.collections,
             title: 'No groups yet',
-            message: 'Create a group or scan a group QR to start collecting.',
+            message:
+                'Explore public groups or create a group to start collecting.',
           ),
       ],
     );
@@ -210,44 +236,24 @@ class _GroupsCardGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columns = constraints.maxWidth >= 640 ? 2 : 1;
-        const gap = CollectSpacing.x3;
-        final columnWidth =
-            (constraints.maxWidth - (gap * (columns - 1))) / columns;
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          clipBehavior: Clip.none,
-          itemCount: collections.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columns,
-            crossAxisSpacing: gap,
-            mainAxisSpacing: gap,
-            childAspectRatio: columnWidth / 220,
-          ),
-          itemBuilder: (context, index) {
-            final collection = collections[index];
-            return GroupCard(
-              collection: collection,
-              summary:
-                  summaries[collection.id] ??
-                  const CollectionSummary(
-                    amountRaisedRwf: 0,
-                    supporterCount: 0,
-                  ),
-              variant: GroupCardVariant.publicDiscovery,
-              onTap: () => context.go('/groups/${collection.id}'),
-              primaryAction: collection.isPublic
-                  ? _GroupsContributeIconButton(
-                      groupTitle: collection.title,
-                      onPressed: () =>
-                          context.go('/groups/${collection.id}/contribute'),
-                    )
-                  : null,
-            );
-          },
+    return GroupCardLayout(
+      itemCount: collections.length,
+      itemBuilder: (context, index) {
+        final collection = collections[index];
+        return GroupCard(
+          collection: collection,
+          summary:
+              summaries[collection.id] ??
+              const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0),
+          variant: GroupCardVariant.publicDiscovery,
+          onTap: () => context.go('/groups/${collection.id}'),
+          primaryAction: collection.isPublic
+              ? _GroupsContributeIconButton(
+                  groupTitle: collection.title,
+                  onPressed: () =>
+                      context.go('/groups/${collection.id}/contribute'),
+                )
+              : null,
         );
       },
     );
@@ -265,19 +271,9 @@ class _GroupsContributeIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return IconButton.filledTonal(
+    return GroupCardActionButton(
       tooltip: 'Contribute to $groupTitle',
-      style: IconButton.styleFrom(
-        backgroundColor: colors.textPrimary.withValues(alpha: 0.10),
-        foregroundColor: colors.textPrimary,
-        side: BorderSide(color: colors.textPrimary.withValues(alpha: 0.14)),
-        fixedSize: const Size.square(CollectSpacing.iconTarget),
-        minimumSize: const Size.square(CollectSpacing.iconTarget),
-        padding: EdgeInsets.zero,
-      ),
       onPressed: onPressed,
-      icon: const Icon(CollectIcons.donate),
     );
   }
 }

@@ -1,5 +1,10 @@
 # Cleanup candidate verification — 5 September 2026
 
+Historical candidate. The subsequent [developer account verification](DEV_ACCOUNT_SIGNED_IN_UAT_2026-09-05.md)
+records successful mobile/Admin sign-in, a membership-filter correction and a
+new isolated build. The source and artifacts below identify this earlier run;
+they are not the current shared workspace or latest candidate.
+
 Status: **Fresh Android QA candidate built and installed. Distribution remains
 blocked by MOBILE-DESIGN-100.**
 
@@ -64,9 +69,18 @@ accessibility/keyboard/recovery coverage and original-reference review remain
 required. Five signed-out smoke captures cannot close the signed-in matrix.
 The previously removed store screenshot sets also need fresh capture and review.
 
-The next dependency is an authorized QA phone number for normal WhatsApp sign-in
-on the installed candidate. No production group was inserted or deleted, no
-payment or OTP was sent, and no binary or store asset was uploaded.
+The owner subsequently authorized the registered developer accounts. A current
+read-only Supabase check confirmed the existing, phone-verified developer
+account ending **7816**. There are no configured static test codes. The exact
+installed APK and current source still match the controlled build above.
+
+Normal WhatsApp sign-in subsequently succeeded with the owner's code, as did
+the separate Admin login. Signed-in live data checks and the newly discovered
+membership-filter correction are recorded in the continuation linked above.
+The shared emulator session was later removed during concurrent fixture work;
+a separate QA emulator now holds the new candidate. No production group was
+inserted or deleted, no payment was sent, and no binary or store asset was
+uploaded. The physical Pixel was untouched.
 
 Evidence root: `.cache/cleanup-candidate-20260905/`. Key records are
 `build.txt`, `build-provenance.json`, `artifact-fixture-scan.json`,

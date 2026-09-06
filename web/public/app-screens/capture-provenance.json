@@ -1,0 +1,274 @@
+{
+  "recorded_at": "2026-09-06T10:40:24.245031+00:00",
+  "status": "pass",
+  "scope": "Native iOS simulator fixture rendering; visual acceptance pending",
+  "source_sha256": "74f3233fdd65630d837b537302b77e0016b1544f57d456150118f4540f050eb9",
+  "runtime_sha256": "c15e89f6c822f7dfeb478427f4cd02e3bcd7caafcc1dd069041faa4a5494799c",
+  "version": "1.2.4+23",
+  "fixture_mode": true,
+  "simulator": "0AB2E24E-010E-44E6-ADD8-1459F507CA3F",
+  "installed_matches_retained_bundle": true,
+  "installed_verification": "File hashes captured during run",
+  "bundle_path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/Collect.app",
+  "bundle_manifest_sha256": "6607c8bf5036474ce7057be8071d9ecde662eb4c5d8406cf132eda708bc03406",
+  "bundle_file_count": 219,
+  "summary_sha256": "e30c21b3d1f8154a368b480a6525784f2d625844db754db6a87060e28f387cac",
+  "harness_sha256": "35f8d5d3f484acb8f215cf41176c6c4871d8895084145d174d2cf48813e130f8",
+  "captures": [
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_account-delete.png",
+      "sha256": "6c6debdc41171f514223d20d36029ff57794b36931e87bc11766762dcd2afe5c",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_account.png",
+      "sha256": "854dfad9b8b73ec9b43c6ccfcc7ab00e1e84c91e5a107a3c52eeed2126ecdeaf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_activity.png",
+      "sha256": "fe35e5fce0be6c245ca2eadf3c5c3e3949152e74b1480f1e527428dd2fa0c0e4",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_app-invite-link.png",
+      "sha256": "fc5d072f4d07d7bc582c702362e13e0a47f83207f8ba5849aaa75d082879eb0e",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_app-share-entry.png",
+      "sha256": "fc5d072f4d07d7bc582c702362e13e0a47f83207f8ba5849aaa75d082879eb0e",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_auth.png",
+      "sha256": "11b17303cd79e3b6fbec19dd980073a2beddef8a286f2e86d60b2ef1c8b76754",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_contribute-entry.png",
+      "sha256": "eb420e7e595f36496e868db334ed498f663433883fcf6e36433c19c3f0259abf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_contribution.png",
+      "sha256": "3b8a2c27f88dc095d196486405952285ecdb02ebd358a04cac0a3909e15db9bb",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_diaspora-bank-transfer.png",
+      "sha256": "d58f69f7051e2a87aa295e626ccc4ecd905af389ec0bc5d78f14cc058cde547f",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_diaspora-contribution.png",
+      "sha256": "7a52147aba683c95b3bbd0e5b56eed2a397c726a04ecf5198fba525b38a9a84a",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_diaspora-public-buri-momo.png",
+      "sha256": "c7d2f3de033dbf6c25b6010b2fdb80119e3e191ff74979d591482547f339d39f",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_group-create.png",
+      "sha256": "46fe8a87dca069a5fac092fbb5789ee3757a086afd93411c3a32bcdcfc1c4ccf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_group-detail.png",
+      "sha256": "16287e1436a45c4c7c459d021c7f615efdbcb9bac4c415cf7c87566e87e73771",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_group-profile.png",
+      "sha256": "37e0206f56f83f246f200116bd478554e0eb21b32a72a0995c402a0c4525973a",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_group-scan.png",
+      "sha256": "d4cf680e21ba00c3cb0512033f6e6bd1fbde5a43e6798742be6fca680e48d718",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_groups.png",
+      "sha256": "46fe8a87dca069a5fac092fbb5789ee3757a086afd93411c3a32bcdcfc1c4ccf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_help.png",
+      "sha256": "c92ae5b55d07fdd579e8d86e597bd2281cf7a3898a79c7015e7a39d6523e25c1",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_home.png",
+      "sha256": "fc5d072f4d07d7bc582c702362e13e0a47f83207f8ba5849aaa75d082879eb0e",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_invite.png",
+      "sha256": "ab008cde841bc80e2f6259197cbdee202c5f6cf7f4901109da80dc5905755e5b",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_ledger.png",
+      "sha256": "7b3bb4290b093d4a5b806ed877b56fa32070566b569ac88fa85f16533b00273c",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_legal-privacy.png",
+      "sha256": "7b76225f8802c6d967ae5c5a513d07d81004e36caf6929255ab0d84e8f64f514",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_legal-terms.png",
+      "sha256": "f670cece7e231fc655ff45d3a78b9f7a8bdd2d3f4cf9c7e9f166f11f37d6cde5",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_manage.png",
+      "sha256": "1daedad270788f904a2c08a376fa2011a3468a6c6fc723a473ea4252ac482adc",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_members.png",
+      "sha256": "db5a822fedcc90357fc18f6809db3a92da7738ab06772965e812bb23e6af41e0",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_offline.png",
+      "sha256": "1ea299d5ed9f01cbde37776a64dd08177ee714c31f877d5593b126db5aef8445",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_privacy-alias.png",
+      "sha256": "7b76225f8802c6d967ae5c5a513d07d81004e36caf6929255ab0d84e8f64f514",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_profile-edit.png",
+      "sha256": "4bddedfabd7e5e85781036695aa7a75971fbc9aebdeff5a5eec033ea5adac71d",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_public-buri-momo.png",
+      "sha256": "c7d2f3de033dbf6c25b6010b2fdb80119e3e191ff74979d591482547f339d39f",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_root-redirect.png",
+      "sha256": "11b17303cd79e3b6fbec19dd980073a2beddef8a286f2e86d60b2ef1c8b76754",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_root-signed-in.png",
+      "sha256": "fc5d072f4d07d7bc582c702362e13e0a47f83207f8ba5849aaa75d082879eb0e",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_settings-appearance.png",
+      "sha256": "6c71e55eb6284d55e4f7246a78f9aad09d5e4c508855aa4ce1f54c6f6d62c6fc",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_settings-bank-transfer.png",
+      "sha256": "4bddedfabd7e5e85781036695aa7a75971fbc9aebdeff5a5eec033ea5adac71d",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_settings-notifications.png",
+      "sha256": "e86943216cc49622a71d3186b5f6b2e7b4608b71b5933cd8476fff3ed187d49b",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_settings-permissions.png",
+      "sha256": "0f270cc7bc0c0060051cec5b0e24680f69240b28d3a23f36d6dbd2450d85c7a2",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_settings-security.png",
+      "sha256": "f4409dd719f471ecfe7d95cf514d08d40467a05a020da1279235b27ff3402b89",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_settings.png",
+      "sha256": "f3def94d6f3ee8be1345b462f4c2fe3ac996e0651471b0a87363a183f2a3896d",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_share-expired-request.png",
+      "sha256": "46fe8a87dca069a5fac092fbb5789ee3757a086afd93411c3a32bcdcfc1c4ccf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_share-expired.png",
+      "sha256": "46fe8a87dca069a5fac092fbb5789ee3757a086afd93411c3a32bcdcfc1c4ccf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_share-invalid.png",
+      "sha256": "46fe8a87dca069a5fac092fbb5789ee3757a086afd93411c3a32bcdcfc1c4ccf",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_share.png",
+      "sha256": "ab008cde841bc80e2f6259197cbdee202c5f6cf7f4901109da80dc5905755e5b",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_shared-group-link.png",
+      "sha256": "16287e1436a45c4c7c459d021c7f615efdbcb9bac4c415cf7c87566e87e73771",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/screenshots/mobile_route_sync.png",
+      "sha256": "09bc3cd1bda8dc4bdb8948bc83df5ee013143c8bf4e0b1aaf3a0286a00c572d1",
+      "width": 1170,
+      "height": 2532
+    }
+  ],
+  "original_runtime_sha256": "d4ef84f2fb28d313e270a37f8d415001479793bff065c46c823547d0564bb82c",
+  "runtime_fingerprint_version": 2,
+  "runtime_fingerprint_migration": "docs/release/mobile-design/runtime-media-fingerprint-migration-2026-09-06.json"
+}

@@ -530,7 +530,9 @@ class _AppearancePreview extends StatelessWidget {
                       height: 34,
                       padding: const EdgeInsets.all(CollectSpacing.x1),
                       decoration: BoxDecoration(
-                        color: previewColors.surfaceRaised,
+                        color: CollectRuntimeTokens.chromeControl(
+                          previewColors,
+                        ),
                         shape: BoxShape.circle,
                       ),
                       child: Image.asset(
@@ -546,7 +548,9 @@ class _AppearancePreview extends StatelessWidget {
                           horizontal: CollectSpacing.x3,
                         ),
                         decoration: BoxDecoration(
-                          color: previewColors.surfaceReadable,
+                          color: CollectRuntimeTokens.chromeControl(
+                            previewColors,
+                          ),
                           borderRadius: CollectRadius.pillBorder,
                         ),
                         child: Row(
@@ -574,7 +578,7 @@ class _AppearancePreview extends StatelessWidget {
                   'RWF 35,000',
                   style: textTheme.headlineMedium?.copyWith(
                     color: previewColors.textPrimary,
-                    fontWeight: CollectTypography.weightBold,
+                    fontWeight: CollectTypography.weightSemibold,
                   ),
                 ),
                 CollectSpacing.gap16,
@@ -610,7 +614,14 @@ class _AppearancePreview extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(CollectSpacing.x3),
                     decoration: BoxDecoration(
-                      color: previewColors.surfaceReadable,
+                      color: CollectRuntimeTokens.cardBackground(
+                        previewColors,
+                        effectiveBrightness,
+                        CollectRuntimeCardEmphasis.normal,
+                        null,
+                        tone: CollectBackdropTone.account,
+                        highContrast: MediaQuery.highContrastOf(context),
+                      ),
                       borderRadius: CollectRadius.cardBorder,
                     ),
                     child: Column(
@@ -703,7 +714,10 @@ class _AppearancePreviewCircle extends StatelessWidget {
       width: 34,
       height: 34,
       decoration: BoxDecoration(
-        color: colors.surfaceRaised,
+        color: CollectRuntimeTokens.quickActionFill(colors),
+        border: Border.all(
+          color: CollectRuntimeTokens.chromeControlBorder(colors),
+        ),
         shape: BoxShape.circle,
       ),
       child: Icon(icon, size: 16, color: colors.textPrimary),

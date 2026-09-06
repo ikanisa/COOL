@@ -57,6 +57,7 @@ class _AdminReasonDialogState extends State<_AdminReasonDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       title: Text(widget.title),
       content: TextField(
         controller: _controller,

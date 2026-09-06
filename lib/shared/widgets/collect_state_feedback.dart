@@ -217,16 +217,16 @@ class InfoSecurityBanner extends StatelessWidget {
     required this.message,
     this.title = 'Safety note',
     this.tone = CollectStatusTone.info,
-    this.titleMaxLines = 2,
-    this.messageMaxLines = 3,
+    this.titleMaxLines,
+    this.messageMaxLines,
     super.key,
   });
 
   final String title;
   final String message;
   final CollectStatusTone tone;
-  final int titleMaxLines;
-  final int messageMaxLines;
+  final int? titleMaxLines;
+  final int? messageMaxLines;
 
   @override
   Widget build(BuildContext context) {

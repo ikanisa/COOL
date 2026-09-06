@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_radius.dart';
 import '../../../app/theme/collect_typography.dart';
 import '../../core/admin_display_formatters.dart';
 import '../../core/admin_models.dart';
@@ -45,7 +46,7 @@ class AdminDataTable extends StatelessWidget {
           return DecoratedBox(
             decoration: _tableDecoration(colors),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: CollectRadius.cardBorder,
               child: Scrollbar(
                 scrollbarOrientation: ScrollbarOrientation.bottom,
                 child: SingleChildScrollView(
@@ -59,12 +60,12 @@ class AdminDataTable extends StatelessWidget {
                       headingTextStyle: Theme.of(context).textTheme.labelMedium
                           ?.copyWith(
                             color: colors.textSecondary,
-                            fontWeight: CollectTypography.weightBold,
+                            fontWeight: CollectTypography.weightMedium,
                           ),
                       dataTextStyle: Theme.of(context).textTheme.bodyMedium
                           ?.copyWith(
                             color: colors.textPrimary,
-                            fontWeight: CollectTypography.weightBold,
+                            fontWeight: CollectTypography.weightRegular,
                           ),
                       dividerThickness: 0.8,
                       headingRowHeight: 44 + ((textScale - 1) * 24),
@@ -177,15 +178,8 @@ class AdminDataTable extends StatelessWidget {
 BoxDecoration _tableDecoration(CollectColors colors) {
   return BoxDecoration(
     color: colors.surfaceReadable,
-    borderRadius: BorderRadius.circular(16),
-    border: Border.all(color: colors.borderSoft),
-    boxShadow: [
-      BoxShadow(
-        color: CollectColors.publicBlack.withValues(alpha: 0.07),
-        blurRadius: 16,
-        offset: const Offset(0, 8),
-      ),
-    ],
+    borderRadius: CollectRadius.cardBorder,
+    border: Border.all(color: colors.border),
   );
 }
 

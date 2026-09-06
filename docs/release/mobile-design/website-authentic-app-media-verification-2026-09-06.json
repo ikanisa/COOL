@@ -1,0 +1,69 @@
+{
+  "recorded_at": "2026-09-06T10:53:34.529976+00:00",
+  "status": "local_checks_passed",
+  "scope": "Authentic website app media and native fixture review; no deployment or production release acceptance.",
+  "runtime_sha256": "c15e89f6c822f7dfeb478427f4cd02e3bcd7caafcc1dd069041faa4a5494799c",
+  "runtime_fingerprint_version": 2,
+  "website_app_assets": 8,
+  "website_routes": 16,
+  "website_viewports": 4,
+  "website_share_checks": 16,
+  "website_source_checks": 56,
+  "website_captures": 192,
+  "copy_preserved_pages": 19,
+  "widget_route_state_checks": 392,
+  "responsive_checks": 81,
+  "native_ios_routes": 42,
+  "native_ios_states": 56,
+  "native_ios_navigation_checks": 20,
+  "obsolete_website_files_archived": 384,
+  "evidence": {
+    "website_browser": {
+      "path": ".cache/revolut-design-20260906/website-authentic-media-reviewed/route_rendered_qa.json",
+      "sha256": "8cf0d8951579e3a06df0a11ea49dfbe14c92747d785d6eb200108cecc5148ada",
+      "status": "pass"
+    },
+    "website_source": {
+      "path": ".cache/revolut-design-20260906/current-system/website-media-quality.json",
+      "sha256": "321502d696160b3fc7ccf8c5555d678e05842adb6e776101748d1d2e8d241c3d",
+      "status": "pass"
+    },
+    "website_copy": {
+      "path": ".cache/revolut-design-20260906/current-system/website-copy-preservation.json",
+      "sha256": "960e82cb69fc5abe2f72e454af6e9d998de42d428e8a13221cb0cfffa41b3237",
+      "status": "pass"
+    },
+    "gallery": {
+      "path": ".cache/revolut-design-20260906/current-system/website-media-gallery-verification.json",
+      "sha256": "5be73f53f43dce524364b3ddbeb1a7d8c60b6f6dfbb0480c5ba488a467d8787c",
+      "status": "pass"
+    },
+    "ios_routes": {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-dark-final/provenance.json",
+      "sha256": "36cfafef9b0f508829ee7fc76a41132808244dfe4efab1c961912ba77622109d",
+      "status": "pass"
+    },
+    "ios_states": {
+      "path": ".cache/revolut-design-20260906/exhaustive-ios-current-states-light-large-final/provenance.json",
+      "sha256": "6e444c8d82b4080ab07eeedd9b1ab6100fca918a496e63f087fb25ae1ac0e9ef",
+      "status": "pass"
+    },
+    "ios_navigation": {
+      "path": ".cache/revolut-design-20260906/native-navigation/raster-comparison.json",
+      "sha256": "44dfbbfd1d8604a7a7f991bc66b6edc81992905d5208cafee70ff12046011739",
+      "status": "pass"
+    },
+    "widget_matrix": {
+      "path": ".cache/revolut-design-20260906/website-media-matrix/matrix-review.json",
+      "sha256": "1b288fa9f1cae220a753aea86a194c82f905bb547a1f97702f5c9c2e11f70e73",
+      "status": "pass"
+    }
+  },
+  "limits": [
+    "Current app screens contain synthetic examples, not customer data.",
+    "The native state run records the added unbundled planning README and both source fingerprints. Runtime bytes remain proven unchanged; this is not release provenance.",
+    "Source and interaction evidence does not certify 100% visual parity, native screen-reader behavior or production readiness."
+  ],
+  "mobile_design_gate": "blocked",
+  "deployment": "not_performed"
+}

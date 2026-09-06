@@ -123,7 +123,7 @@ class _TopChromeAvatar extends StatelessWidget {
               top: 2,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.brandAction,
+                  color: colors.danger,
                   shape: BoxShape.circle,
                   border: Border.all(color: foreground, width: 2),
                 ),
@@ -202,7 +202,7 @@ class _TopChromeActionButton extends StatelessWidget {
               top: 4,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.brandAction,
+                  color: colors.danger,
                   shape: BoxShape.circle,
                   border: Border.all(color: foreground, width: 2),
                 ),

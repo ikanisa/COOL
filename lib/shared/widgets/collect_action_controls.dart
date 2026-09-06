@@ -155,25 +155,26 @@ class CollectMobileInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final enlargedLabel = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.controlSurface,
-        borderRadius: CollectRadius.controlBorder,
+        borderRadius: CollectRadius.cardBorder,
         border: Border.all(color: colors.panelBorder),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: CollectSpacing.x3,
-          vertical: CollectSpacing.x1,
+          horizontal: CollectSpacing.x4,
+          vertical: CollectSpacing.x3,
         ),
         child: Row(
-          crossAxisAlignment: maxLines > 1
+          crossAxisAlignment: maxLines > 1 || enlargedLabel
               ? CrossAxisAlignment.start
               : CrossAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.only(
-                top: maxLines > 1 ? CollectSpacing.x2 : 0,
+                top: maxLines > 1 || enlargedLabel ? CollectSpacing.x1 : 0,
               ),
               child: Icon(icon, color: colors.textSecondary, size: 22),
             ),
@@ -183,26 +184,43 @@ class CollectMobileInputField extends StatelessWidget {
                 controller: controller,
                 label: label,
                 multiline: maxLines > 1,
-                builder: (focusNode) => TextField(
-                  focusNode: focusNode,
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  textInputAction:
-                      textInputAction ??
-                      (maxLines > 1
-                          ? TextInputAction.newline
-                          : TextInputAction.next),
-                  autofillHints: autofillHints,
-                  maxLines: maxLines,
-                  textCapitalization: textCapitalization,
-                  autocorrect: autocorrect,
-                  decoration: InputDecoration(
-                    labelText: label,
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
-                  ),
+                builder: (focusNode) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (enlargedLabel) ...[
+                      Text(
+                        label,
+                        softWrap: true,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                      CollectSpacing.gap4,
+                    ],
+                    TextField(
+                      focusNode: focusNode,
+                      controller: controller,
+                      keyboardType: keyboardType,
+                      textInputAction:
+                          textInputAction ??
+                          (maxLines > 1
+                              ? TextInputAction.newline
+                              : TextInputAction.next),
+                      autofillHints: autofillHints,
+                      maxLines: maxLines,
+                      textCapitalization: textCapitalization,
+                      autocorrect: autocorrect,
+                      decoration: InputDecoration(
+                        labelText: enlargedLabel ? null : label,
+                        filled: false,
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

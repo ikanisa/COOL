@@ -129,9 +129,6 @@ class _RwandaMomoContributionFlowState
     }
     final receiver =
         _intent?.receiverMomoNumber ?? collection.receiverMomoNumber ?? '';
-    final receiverNetworkLabel = collection.receiverNetwork == 'airtel_money'
-        ? l10n.text('airtelReceiver')
-        : l10n.text('mtnReceiver');
     final isAmountStep = _intent == null;
     final amountError = _error == l10n.text('enterAmountAboveZero')
         ? _error
@@ -190,7 +187,6 @@ class _RwandaMomoContributionFlowState
                           CollectSpacing.gap12,
                           _NativeMomoReceiverTile(
                             name: collection.receiverDisplayLabel,
-                            network: receiverNetworkLabel,
                             receiver: receiver,
                           ),
                           if (!isAmountStep) ...[
@@ -593,14 +589,9 @@ class _NativeAmountReview extends StatelessWidget {
 }
 
 class _NativeMomoReceiverTile extends StatelessWidget {
-  const _NativeMomoReceiverTile({
-    required this.name,
-    required this.network,
-    required this.receiver,
-  });
+  const _NativeMomoReceiverTile({required this.name, required this.receiver});
 
   final String name;
-  final String network;
   final String receiver;
 
   @override
@@ -608,7 +599,7 @@ class _NativeMomoReceiverTile extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       container: true,
-      label: '$name, $network, $receiver',
+      label: receiver.isEmpty ? name : '$name, $receiver',
       child: ExcludeSemantics(
         child: Container(
           padding: const EdgeInsets.all(CollectSpacing.x4),
@@ -663,13 +654,15 @@ class _NativeMomoReceiverTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    CollectSpacing.gap4,
-                    Text(
-                      receiver.isEmpty ? network : '$network · $receiver',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.textSecondary,
+                    if (receiver.isNotEmpty) ...[
+                      CollectSpacing.gap4,
+                      Text(
+                        receiver,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),

@@ -160,7 +160,9 @@ class LoadingSkeleton extends StatelessWidget {
       label: semanticsLabel,
       child: _skeletonForVariant(context),
     );
-    if (!showCard) return skeleton;
+    if (!showCard || _variant == _LoadingSkeletonVariant.groupCard) {
+      return skeleton;
+    }
     return CollectCard(child: skeleton);
   }
 
@@ -292,23 +294,41 @@ class _GroupCardSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _SkeletonBone(height: 116, borderRadius: CollectRadius.card),
-        CollectSpacing.gap16,
-        _LineSkeleton(lines: 2),
-        CollectSpacing.gap16,
-        Row(
-          children: [
-            Expanded(child: _SkeletonBone(height: 36)),
-            CollectSpacing.gapW8,
-            Expanded(child: _SkeletonBone(height: 36)),
-            CollectSpacing.gapW8,
-            Expanded(child: _SkeletonBone(height: 36)),
-          ],
+    return AspectRatio(
+      aspectRatio: CollectGroupCardTokens.aspectRatio,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.collectColors.surfaceReadable,
+          borderRadius: CollectGroupCardTokens.radius,
         ),
-      ],
+        child: const Padding(
+          padding: CollectGroupCardTokens.padding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  _SkeletonBone(height: 24, width: 24, borderRadius: 12),
+                  CollectSpacing.gapW8,
+                  _SkeletonBone(height: 16, width: 80),
+                ],
+              ),
+              Spacer(),
+              FractionallySizedBox(
+                widthFactor: 0.76,
+                child: _SkeletonBone(height: 26),
+              ),
+              CollectSpacing.gap12,
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: _SkeletonBone(height: 16),
+              ),
+              CollectSpacing.gap8,
+              _SkeletonBone(height: 16, width: 48),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -634,9 +654,12 @@ class CollectBottomSheet extends StatelessWidget {
       ),
       child: Material(
         type: MaterialType.transparency,
-        child: Padding(
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: child,
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: CollectSpacing.cardPaddingComfortable,
+            child: child,
+          ),
         ),
       ),
     );

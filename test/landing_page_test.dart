@@ -42,7 +42,19 @@ void main() {
     );
     expect(find.text('Get the App'), findsWidgets);
     expect(find.text('Create Group'), findsOneWidget);
+    // Public content is now an editorial sequence below the photographic
+    // hero. Validate the real task content after scrolling to its section.
+    await tester.scrollUntilVisible(
+      find.text('One clear contribution journey'),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('One clear contribution journey'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Standalone and privacy-first'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Standalone and privacy-first'), findsOneWidget);
     expect(find.text('Approved beneficiary'), findsOneWidget);
     expect(find.text('Controlled evidence'), findsOneWidget);

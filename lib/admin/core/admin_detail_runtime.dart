@@ -271,15 +271,8 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.surfaceReadable.withValues(alpha: 0.96),
-          borderRadius: BorderRadius.circular(26),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: colors.borderAccent),
-          boxShadow: [
-            BoxShadow(
-              color: colors.textPrimary.withValues(alpha: 0.12),
-              blurRadius: 28,
-              offset: const Offset(0, 14),
-            ),
-          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),

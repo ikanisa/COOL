@@ -581,7 +581,7 @@ void main() {
     final login = File(
       'lib/admin/core/admin_login_runtime.dart',
     ).readAsStringSync();
-    final foreground = CollectColors.brandPaper.computeLuminance();
+    final foreground = CollectColors.publicWhite.computeLuminance();
     final background = CollectColors.referenceChromeBlack.computeLuminance();
     final contrastRatio = (foreground + 0.05) / (background + 0.05);
 

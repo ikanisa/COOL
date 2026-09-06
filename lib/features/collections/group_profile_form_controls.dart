@@ -200,14 +200,15 @@ class _ProfileColorPalette extends StatelessWidget {
           spacing: CollectSpacing.x2,
           runSpacing: CollectSpacing.x2,
           children: [
-            for (final option in CollectColors.brandPrimaryOptions)
+            for (final option in CollectColors.groupAccentOptions)
               Builder(
                 builder: (context) {
-                  final selected = selectedHex == option.hex;
-                  final selectedForeground =
-                      option.color.computeLuminance() > 0.72
-                      ? colors.textPrimary
-                      : colors.onAccent;
+                  final selected =
+                      CollectColors.groupColorHexForDisplay(selectedHex) ==
+                      option.hex;
+                  final selectedForeground = CollectColors.foregroundOn(
+                    option.color,
+                  );
                   return Semantics(
                     button: true,
                     selected: selected,

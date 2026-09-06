@@ -67,17 +67,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: colors.surfaceReadable.withValues(alpha: 0.92),
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: colors.panelBorder),
-                        boxShadow: [
-                          BoxShadow(
-                            color: CollectColors.publicBlack.withValues(
-                              alpha: 0.14,
-                            ),
-                            blurRadius: 48,
-                            offset: const Offset(0, 24),
-                          ),
-                        ],
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(isCompact ? 22 : 32),
@@ -94,9 +85,9 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                     color: CollectColors.referenceChromeBlack,
                                     borderRadius: BorderRadius.circular(14),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.lock_outline,
-                                    color: colors.surfaceReadable,
+                                    color: CollectColors.publicWhite,
                                     size: 21,
                                   ),
                                 ),

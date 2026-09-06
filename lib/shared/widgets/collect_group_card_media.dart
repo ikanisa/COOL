@@ -1,11 +1,5 @@
 part of 'collect_group_cards.dart';
 
-const _groupCoverPalette = <Color>[
-  CollectColors.brandPeriwinkle,
-  CollectColors.brandDustyRose,
-  CollectColors.brandOrangeRed,
-];
-
 class _GroupCoverMedia extends StatelessWidget {
   const _GroupCoverMedia({required this.collection});
 
@@ -14,55 +8,33 @@ class _GroupCoverMedia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = collection.imageUrl?.trim();
-    if (imageUrl != null && imageUrl.isNotEmpty) {
-      final dataImageBytes = _decodeDataImage(imageUrl);
-      if (dataImageBytes != null) {
-        return _GroupCoverImageTone(
-          child: Image.memory(
-            dataImageBytes,
-            fit: BoxFit.cover,
-            gaplessPlayback: true,
-            filterQuality: FilterQuality.medium,
-            frameBuilder: _fadeInImageFrame,
-            errorBuilder: (context, error, stackTrace) =>
-                _GeneratedGroupCover(collection: collection),
-          ),
-        );
-      }
-      return _GroupCoverImageTone(
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
-          gaplessPlayback: true,
-          filterQuality: FilterQuality.medium,
-          frameBuilder: _fadeInImageFrame,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return _GeneratedGroupCover(collection: collection);
-          },
-          errorBuilder: (context, error, stackTrace) =>
-              _GeneratedGroupCover(collection: collection),
-        ),
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return _GeneratedGroupCover(collection: collection);
+    }
+    if (imageUrl.startsWith('data:image/')) {
+      final bytes = _decodeDataImage(imageUrl);
+      if (bytes == null) return _GeneratedGroupCover(collection: collection);
+      return Image.memory(
+        bytes,
+        fit: BoxFit.cover,
+        gaplessPlayback: true,
+        filterQuality: FilterQuality.medium,
+        frameBuilder: _fadeInImageFrame,
+        errorBuilder: (context, error, stackTrace) =>
+            _GeneratedGroupCover(collection: collection),
       );
     }
-    return _GeneratedGroupCover(collection: collection);
-  }
-}
-
-class _GroupCoverImageTone extends StatelessWidget {
-  const _GroupCoverImageTone({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    if (Theme.of(context).brightness != Brightness.dark) return child;
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(
-        CollectColors.publicBlack.withValues(alpha: 0.18),
-        BlendMode.multiply,
-      ),
-      child: child,
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.cover,
+      gaplessPlayback: true,
+      filterQuality: FilterQuality.medium,
+      frameBuilder: _fadeInImageFrame,
+      loadingBuilder: (context, child, progress) => progress == null
+          ? child
+          : _GeneratedGroupCover(collection: collection),
+      errorBuilder: (context, error, stackTrace) =>
+          _GeneratedGroupCover(collection: collection),
     );
   }
 }
@@ -72,19 +44,20 @@ class _GroupCoverScrim extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bottomAlpha = isDark ? 0.72 : 0.64;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            CollectColors.transparentColor,
-            CollectColors.publicBlack.withValues(alpha: 0.08),
-            CollectColors.publicBlack.withValues(alpha: bottomAlpha),
-          ],
-          stops: const [0, 0.48, 1],
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              CollectColors.publicBlack.withValues(
+                alpha: MediaQuery.highContrastOf(context) ? 0.86 : 0.62,
+              ),
+              CollectColors.transparentColor,
+            ],
+            stops: const [0.12, 0.5],
+          ),
         ),
       ),
     );
@@ -117,161 +90,49 @@ Uint8List? _decodeDataImage(String value) {
   }
 }
 
-class _GroupCoverTitleOverlay extends StatelessWidget {
-  const _GroupCoverTitleOverlay({
-    required this.collection,
-    required this.accent,
-    this.compact = false,
-  });
-
-  final CollectCollection collection;
-  final Color accent;
-  final bool compact;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
-    final categoryIcon = collectionTypeIcon(collection.collectionType);
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: compact ? CollectSpacing.x1 : 0,
-      ),
-      child: Align(
-        alignment: Alignment.bottomLeft,
-        child: FractionallySizedBox(
-          widthFactor: compact ? 0.92 : 0.86,
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
-              vertical: compact ? 5 : 7,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Tooltip(
-                  message: collection.collectionType.label,
-                  child: Semantics(
-                    label: '${collection.collectionType.label} group',
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: accent.withValues(alpha: 0.24),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: foreground.withValues(alpha: 0.18),
-                        ),
-                      ),
-                      child: SizedBox.square(
-                        dimension: compact ? 24 : 28,
-                        child: Icon(
-                          categoryIcon,
-                          color: foreground,
-                          size: compact ? 14 : 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                CollectSpacing.gap4,
-                Text(
-                  collection.title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: foreground,
-                    fontWeight: CollectTypography.weightBold,
-                    fontSize: compact
-                        ? CollectTypography.sizeBodyCompact
-                        : CollectTypography.sizeBodyLarge,
-                    height: CollectTypography.leadingSolid,
-                    letterSpacing: CollectTypography.trackingDefault,
-                    shadows: [
-                      Shadow(
-                        color: CollectColors.publicBlack.withValues(
-                          alpha: 0.88,
-                        ),
-                        offset: const Offset(0, 1),
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
+/// Owner-requested Rwanda editorial defaults are presentation only: they never
+/// replace an uploaded photo or write invented group media into stored records.
 class _GeneratedGroupCover extends StatelessWidget {
   const _GeneratedGroupCover({required this.collection});
 
   final CollectCollection collection;
 
+  static const _photos = [
+    'assets/marketing/rwanda/community-savings.png',
+    'assets/marketing/rwanda/shared-goals.png',
+    'assets/marketing/rwanda/everyday-payments.png',
+    'assets/marketing/rwanda/banking-together.png',
+    'assets/marketing/rwanda/kigali-hills.png',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final seed = _groupVisualSeed(collection);
-    final palette = _rotatedBrandPalette(seed);
-    final softPalette = [
-      for (final color in palette)
-        Color.lerp(CollectColors.brandPaper, color, 0.48)!,
-    ];
-    final begins = <Alignment>[
-      Alignment.topLeft,
-      Alignment.topRight,
-      Alignment.bottomRight,
-      Alignment.bottomLeft,
-    ];
-    final begin = begins[seed % begins.length];
-    final end = Alignment(-begin.x, -begin.y);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: begin,
-          end: end,
-          colors: softPalette,
-          stops: const [0, 0.5, 1],
-        ),
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: seed.isEven
-                ? const Alignment(0.72, -0.78)
-                : const Alignment(-0.72, -0.78),
-            radius: 1.10,
-            colors: [
-              CollectColors.brandPaper.withValues(alpha: 0.52),
-              CollectColors.transparentColor,
-            ],
-            stops: const [0, 1],
-          ),
+    final seed = collection.id.codeUnits.fold<int>(
+      0,
+      (value, unit) => ((value * 31) + unit) & 0x7fffffff,
+    );
+    final asset = switch (collection.collectionType) {
+      CollectionType.ikimina => _photos[seed % 2],
+      CollectionType.sport || CollectionType.wedding => _photos[1],
+      CollectionType.church => _photos[0],
+      CollectionType.other => _photos[seed % _photos.length],
+    };
+    return Image.asset(
+      asset,
+      fit: BoxFit.cover,
+      cacheWidth: 1200,
+      gaplessPlayback: true,
+      filterQuality: FilterQuality.medium,
+      errorBuilder: (context, error, stackTrace) => ColoredBox(
+        color: CollectGroupCardTokens.footerInk,
+        child: Icon(
+          collectionTypeIcon(collection.collectionType),
+          color: context.collectColors.onImagePrimary,
+          size: 48,
         ),
       ),
     );
   }
-}
-
-int _groupVisualSeed(CollectCollection collection) {
-  final key = '${collection.slug}:${collection.title}';
-  return key.codeUnits.fold<int>(
-    0,
-    (value, unit) => ((value * 31) + unit) & 0x7fffffff,
-  );
-}
-
-List<Color> _rotatedBrandPalette(int seed) {
-  const source = _groupCoverPalette;
-  final offset = seed % source.length;
-  return [
-    for (var index = 0; index < source.length; index += 1)
-      source[(index + offset) % source.length],
-  ];
 }
 
 class _PrivacyGlyph extends StatelessWidget {
@@ -302,15 +163,11 @@ class _PrivacyGlyph extends StatelessWidget {
 }
 
 Color _groupAccent(BuildContext context, CollectCollection collection) {
-  final colors = context.collectColors;
-  final selectedColor = _colorFromHex(collection.accentColorHex);
+  final selectedColor = _colorFromHex(
+    CollectColors.groupColorHexForDisplay(collection.accentColorHex),
+  );
   if (selectedColor != null) return selectedColor;
-  final palette = [
-    colors.defaultGroupAccent,
-    colors.brandSecondary,
-    colors.brandSuccess,
-    colors.priorityColor,
-  ];
+  const palette = CollectColors.groupAccentColors;
   final key = '${collection.id}${collection.title}';
   final index =
       key.codeUnits.fold<int>(0, (sum, unit) => sum + unit) % palette.length;

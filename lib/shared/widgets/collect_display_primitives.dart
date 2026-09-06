@@ -178,14 +178,15 @@ class CollectAvatar extends StatelessWidget {
       radius: size / 2,
       backgroundColor: colors.statusBackground(CollectStatusTone.privacy),
       foregroundColor: colors.textPrimary,
-      backgroundImage: hasImage ? NetworkImage(imageUrl!) : null,
-      child: hasImage
-          ? null
-          : Icon(
-              CollectIcons.people,
-              color: colors.textPrimary,
-              size: (size * 0.68).clamp(22, 38).toDouble(),
-            ),
+      foregroundImage: hasImage ? NetworkImage(imageUrl!) : null,
+      onForegroundImageError: hasImage ? (error, stackTrace) {} : null,
+      // The same own-product fallback remains visible while loading and when
+      // an optional account image is unavailable.
+      child: Icon(
+        CollectIcons.people,
+        color: colors.textPrimary,
+        size: (size * 0.68).clamp(22, 38).toDouble(),
+      ),
     );
   }
 }

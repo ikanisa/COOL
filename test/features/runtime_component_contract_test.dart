@@ -64,7 +64,7 @@ void main() {
     expect(light, isNotNull);
     expect(light!.surface, const Color(0xFFF7F7F8));
     expect(light.screenBase, light.canvas);
-    expect(light.screenBase, isNot(CollectColors.brandPeriwinkle));
+    expect(light.screenBase, isNot(CollectColors.referenceAccountHighlight));
   });
 
   test('Collect light and dark modes are visually distinctive', () {
@@ -96,23 +96,32 @@ void main() {
   test(
     'Collect brand tokens are runtime implementation, not test authority',
     () {
-      expect(CollectColors.brandPrimaryColors, hasLength(4));
-      expect(CollectColors.brandPrimaryColors.toSet(), hasLength(4));
-      final paletteHexes = CollectColors.brandPrimaryOptions
+      expect(CollectColors.groupAccentColors, hasLength(4));
+      expect(CollectColors.groupAccentColors.toSet(), hasLength(4));
+      final paletteHexes = CollectColors.groupAccentOptions
           .map((option) => option.hex)
           .toList(growable: false);
-      expect(paletteHexes, hasLength(CollectColors.brandPrimaryColors.length));
+      expect(paletteHexes, hasLength(CollectColors.groupAccentColors.length));
       expect(paletteHexes, everyElement(matches(RegExp(r'^#[0-9A-F]{6}$'))));
       expect(
-        CollectColors.brandPrimaryColors,
-        isNot(contains(CollectColors.brandPaper)),
+        CollectColors.groupAccentColors,
+        isNot(contains(CollectColors.publicWhite)),
       );
       expect(
-        CollectColors.brandPrimaryColors,
+        CollectColors.groupAccentColors,
         isNot(contains(CollectColors.transparentColor)),
       );
     },
   );
+
+  test('reference colour swatches keep readable selection marks', () {
+    for (final color in CollectColors.groupAccentColors) {
+      expect(
+        _contrastRatio(CollectColors.foregroundOn(color), color),
+        greaterThanOrEqualTo(4.5),
+      );
+    }
+  });
 
   test('Collect runtime token layer contains no retired chrome vocabulary', () {
     final source = File(
@@ -171,7 +180,7 @@ void main() {
     expect(combined, isNot(contains('screenGradient')));
     expect(combined, isNot(contains('adminScreenGradient')));
     expect(combined, isNot(contains('colors.periwinklePaint')));
-    expect(combined, isNot(contains('CollectColors.inkPrimary')));
+    expect(combined, isNot(contains('CollectColors.publicInk')));
     expect(combined, isNot(contains('qr-share.png')));
     expect(combined, isNot(contains('group-momentum.png')));
     expect(combined, isNot(contains('mobile-money-ussd-signal.png')));
@@ -255,7 +264,7 @@ void main() {
     expect(tester.binding.transientCallbackCount, 0);
   });
 
-  test('Collect uses only the bundled Inter typography family', () {
+  test('Collect uses Inter for product UI and scoped Aeonik for marketing', () {
     final pubspec = File('pubspec.yaml').readAsStringSync();
     final lockfile = File('pubspec.lock').readAsStringSync();
     final launch = File(
@@ -294,29 +303,29 @@ void main() {
     expect(pubspec, contains('assets/typefaces/Inter-Variable.ttf'));
     expect(pubspec, contains('assets/typefaces/OFL-Inter.txt'));
     const removedLegacyFamilies = <String>[
-      'Ae'
-          'onik',
       'Robo'
           'to',
       'JetBrains'
           ' Mono',
     ];
     // An icon font is not a body/display typeface. Apple-platform controls
-    // require this asset; all text must still use the sole Inter declaration.
+    // require this asset; member/Admin styles still use Inter. Marketing is
+    // a separate, owner-selected face.
     expect(pubspec, contains('cupertino_icons:'));
     expect(lockfile, contains('cupertino_icons:'));
     expect(
       RegExp(
-        r'^\s*- family:\s*(\S+)',
+        r'^\s*- family:\s*([^\r\n]+)',
         multiLine: true,
-      ).allMatches(pubspec).map((match) => match.group(1)),
-      ['Inter'],
+      ).allMatches(pubspec).map((match) => match.group(1)?.trim()),
+      ['Aeonik Pro', 'Inter'],
     );
     expect(pubspec, isNot(contains('Collect Runtime')));
     expect(pubspec, isNot(contains('Collect Display')));
     expect(CollectRuntimeTypography.fontFamily, 'Inter');
     expect(CollectRuntimeTypography.displayFontFamily, 'Inter');
     expect(CollectRuntimeTypography.financialFontFamily, 'Inter');
+    expect(CollectRuntimeTypography.marketingFontFamily, 'Aeonik Pro');
     expect(runtimeTypography, isNot(contains('fontFamilyFallback')));
     for (final family in removedLegacyFamilies) {
       expect(runtimeTypography, isNot(contains(family)));
@@ -481,7 +490,7 @@ void main() {
         })
         .toSet();
     expect(productVisualAssets, approvedVisualAssets.keys.toSet());
-    expect(approvedVisualAssets, hasLength(23));
+    expect(approvedVisualAssets, hasLength(29));
     for (final entry in approvedVisualAssets.entries) {
       expect(
         sha256.convert(File(entry.key).readAsBytesSync()).toString(),
@@ -577,7 +586,7 @@ void main() {
     expect(darkTokens.adminWorkspace, CollectColors.dark.canvas);
     expect(
       CollectUniversalTokens.highContrastDark().focusRing,
-      CollectColors.brandPaper,
+      CollectColors.publicWhite,
     );
     expect(CollectUniversalTokens.highContrastDark().highContrast, isTrue);
     expect(
@@ -762,7 +771,7 @@ void main() {
     ).readAsStringSync();
     expect(
       colors,
-      contains('<color name="collect_launch_background">#050510</color>'),
+      contains('<color name="collect_launch_background">#000000</color>'),
     );
 
     final playStoreIcon = File(
@@ -811,13 +820,13 @@ void main() {
       tester,
       const CollectBrandMark(
         framed: false,
-        foregroundColor: CollectColors.brandPaper,
+        foregroundColor: CollectColors.publicWhite,
       ),
     );
 
     expect(
       tester.widget<Text>(find.text('Collect')).style?.color,
-      CollectColors.brandPaper,
+      CollectColors.publicWhite,
     );
   });
 
@@ -834,7 +843,7 @@ void main() {
         child: CollectBrandMark(
           compact: true,
           framed: false,
-          foregroundColor: CollectColors.brandPaper,
+          foregroundColor: CollectColors.publicWhite,
         ),
       ),
     );
@@ -849,7 +858,7 @@ void main() {
     final light = AppTheme.light().extension<CollectColors>()!;
 
     expect(light.actionColor, CollectColors.publicBlack);
-    expect(light.urgentAction, CollectColors.brandOrangeRed);
+    expect(light.urgentAction, light.dangerForeground);
     expect(light.onAccent, CollectColors.publicWhite);
     expect(light.selectedOnAccent, CollectColors.publicWhite);
     expect(light.surfaceReadable, CollectColors.publicWhite);
@@ -885,7 +894,7 @@ void main() {
         light.success,
         light.warning,
         light.danger,
-      }.intersection(CollectColors.brandPrimaryColors.toSet()),
+      }.intersection(CollectColors.groupAccentColors.toSet()),
       isEmpty,
     );
 
@@ -1395,9 +1404,17 @@ void main() {
     expect(design, contains('Semantic'));
     expect(design, contains('Universal Component Library'));
 
-    expect(collectionCards, contains('maxLines: 1'));
-    expect(collectionCards, contains('softWrap: false'));
-    expect(groupCards, contains('iconOnly: true'));
+    // The owner's subsequent RevPoints annotation replaces the old one-line,
+    // icon-only card header; the full name and category now remain visible.
+    final editorialCards = File(
+      'lib/shared/widgets/collect_group_card_editorial.dart',
+    ).readAsStringSync();
+    final editorialDetails = File(
+      'lib/shared/widgets/collect_group_card_metrics.dart',
+    ).readAsStringSync();
+    expect(editorialCards, contains('collection.collectionType.label'));
+    expect(editorialDetails, contains('collection.title'));
+    expect(editorialDetails, isNot(contains('TextOverflow.ellipsis')));
     expect(groupCards, contains('summary.supporterCountSemantics'));
     expect(groupCards, isNot(contains("'\${summary.supporterCount} members'")));
     expect(collectionsScreen, contains('_GroupsCardGrid'));
@@ -1425,7 +1442,7 @@ void main() {
     expect(shareScreen, contains("label: 'Copy link'"));
     expect(shareScreen, contains('QrEyeShape.square'));
     expect(shareScreen, contains('QrDataModuleShape.square'));
-    expect(shareScreen, isNot(contains('CollectColors.brandPrimaryColors')));
+    expect(shareScreen, isNot(contains('CollectColors.groupAccentColors')));
     expect(shareScreen, isNot(contains('QrEyeShape.circle')));
     expect(shareScreen, isNot(contains('QrDataModuleShape.circle')));
     expect(
@@ -1608,6 +1625,41 @@ void main() {
       find.text('Open app settings if Android keeps blocking SMS.'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('group type choices activate through assistive semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      final options = CollectionTypeCatalogConfig.defaults.types;
+      CollectionType? selected;
+      var activations = 0;
+      await _pumpCollect(
+        tester,
+        CollectionTypeIconSelector(
+          selected: options.first.type,
+          onChanged: (value) {
+            selected = value;
+            activations += 1;
+          },
+        ),
+      );
+      final choice = options[1];
+      final node = tester.getSemantics(
+        find.bySemanticsLabel('${choice.label} collection type'),
+      );
+      expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      tester.binding.renderViews.first.owner!.semanticsOwner!.performAction(
+        node.id,
+        SemanticsAction.tap,
+      );
+      await tester.pump();
+      expect(selected, choice.type);
+      expect(activations, 1);
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets('list tile shows bounded helper text and action affordance', (

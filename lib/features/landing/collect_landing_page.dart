@@ -8,6 +8,7 @@ import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
 import '../../shared/repositories/collect_repository.dart';
 import 'public_content.dart';
+import 'public_marketing_hero.dart';
 
 export 'public_content.dart';
 
@@ -18,13 +19,13 @@ class CollectLandingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(collectRuntimeConfigProvider);
     return Scaffold(
-      backgroundColor: CollectColors.brandPaper,
+      backgroundColor: CollectColors.publicWhite,
       body: SelectionArea(
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
               pinned: true,
-              backgroundColor: CollectColors.brandPaper,
+              backgroundColor: CollectColors.publicWhite,
               foregroundColor: CollectColors.referenceChromeBlack,
               title: const Text('Collect'),
               actions: [
@@ -42,61 +43,35 @@ class CollectLandingPage extends ConsumerWidget {
               ],
             ),
             SliverToBoxAdapter(
+              child: PublicMarketingHero(
+                title: 'MoMo at home. Bank transfer in the diaspora.',
+                intro:
+                    'Rwanda members contribute in RWF through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect updates the ledger only after the correct payment evidence is reconciled.',
+                actions: [
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: CollectColors.publicBlack,
+                      foregroundColor: CollectColors.publicWhite,
+                    ),
+                    onPressed: () => _openUri(context, config.appDownloadUrl),
+                    child: const Text('Get the App'),
+                  ),
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: CollectColors.publicWhite,
+                      foregroundColor: CollectColors.publicBlack,
+                    ),
+                    onPressed: () => context.go('/group-savings'),
+                    child: const Text('Create Group'),
+                  ),
+                ],
+              ),
+            ),
+            const SliverToBoxAdapter(
               child: _PageWidth(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 72),
-                  child: Wrap(
-                    spacing: 56,
-                    runSpacing: 40,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 620,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'MoMo at home. Bank transfer in the diaspora.',
-                              style: Theme.of(context).textTheme.displayMedium
-                                  ?.copyWith(
-                                    color: CollectColors.referenceChromeBlack,
-                                    fontWeight: CollectTypography.weightBold,
-                                    height: CollectTypography.leadingDisplay,
-                                  ),
-                            ),
-                            const SizedBox(height: 24),
-                            Text(
-                              'Rwanda members contribute in RWF through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect updates the ledger only after the correct payment evidence is reconciled.',
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(
-                                    color: CollectColors.inkSecondary,
-                                    height: CollectTypography.leadingBody,
-                                  ),
-                            ),
-                            const SizedBox(height: 28),
-                            Wrap(
-                              spacing: 12,
-                              runSpacing: 12,
-                              children: [
-                                FilledButton.icon(
-                                  onPressed: () =>
-                                      _openUri(context, config.appDownloadUrl),
-                                  icon: const Icon(Icons.download_rounded),
-                                  label: const Text('Get the App'),
-                                ),
-                                OutlinedButton.icon(
-                                  onPressed: () => context.go('/group-savings'),
-                                  icon: const Icon(Icons.groups_rounded),
-                                  label: const Text('Create Group'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 330, child: _JourneyPreview()),
-                    ],
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 48),
+                  child: _JourneyPreview(),
                 ),
               ),
             ),
@@ -124,9 +99,9 @@ class CollectPublicPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(collectRuntimeConfigProvider);
     return Scaffold(
-      backgroundColor: CollectColors.brandPaper,
+      backgroundColor: CollectColors.publicWhite,
       appBar: AppBar(
-        backgroundColor: CollectColors.brandPaper,
+        backgroundColor: CollectColors.publicWhite,
         title: Text(data.navLabel),
         leading: IconButton(
           tooltip: 'Collect home',
@@ -155,16 +130,16 @@ class CollectPublicPage extends ConsumerWidget {
                     Text(
                       publicSummaryLabel(data),
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: CollectColors.brandPeriwinkle,
+                        color: CollectColors.referenceAccountHighlight,
                         fontWeight: CollectTypography.weightBold,
                       ),
                     ),
                     const SizedBox(height: 12),
                     Text(
                       data.title,
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: CollectColors.referenceChromeBlack,
-                        fontWeight: CollectTypography.weightBold,
+                      style: CollectTypography.marketingHeading(
+                        CollectColors.referenceChromeBlack,
+                        compact: MediaQuery.sizeOf(context).width < 720,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -173,7 +148,7 @@ class CollectPublicPage extends ConsumerWidget {
                       child: Text(
                         data.intro,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: CollectColors.inkSecondary,
+                          color: CollectColors.publicSecondary,
                           height: CollectTypography.leadingBody,
                         ),
                       ),
@@ -337,7 +312,7 @@ class _StepCard extends StatelessWidget {
     return SizedBox(
       width: 250,
       child: Card(
-        color: CollectColors.brandPaper,
+        color: CollectColors.publicWhite,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -382,7 +357,7 @@ class _SafetySection extends StatelessWidget {
             Text(
               'Collect records Rwanda MoMo and diaspora bank contributions. It does not ask for MoMo PINs, banking credentials, OTPs or pasted transaction IDs.',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: CollectColors.inkSecondary,
+                color: CollectColors.publicSecondary,
                 height: CollectTypography.leadingBody,
               ),
             ),
@@ -442,7 +417,7 @@ class _SafetyCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: CollectColors.brandPeriwinkle),
+              Icon(icon, color: CollectColors.referenceAccountHighlight),
               const SizedBox(height: 14),
               Text(
                 title,

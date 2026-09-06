@@ -17,18 +17,9 @@ class AdminMetricCard extends StatelessWidget {
       width: 260,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: colors.textPrimary,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: colors.surfaceReadable.withValues(alpha: 0.14),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: colors.textPrimary.withValues(alpha: 0.16),
-              blurRadius: 24,
-              offset: const Offset(0, 12),
-            ),
-          ],
+          color: colors.surfaceReadable,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: colors.borderSoft),
         ),
         child: Padding(
           padding: const EdgeInsets.all(18),
@@ -39,7 +30,7 @@ class AdminMetricCard extends StatelessWidget {
                 children: [
                   DecoratedBox(
                     decoration: BoxDecoration(
-                      color: colors.surfaceReadable.withValues(alpha: 0.12),
+                      color: colors.surfaceRaised,
                       shape: BoxShape.circle,
                     ),
                     child: SizedBox(
@@ -47,7 +38,7 @@ class AdminMetricCard extends StatelessWidget {
                       height: 34,
                       child: Icon(
                         Icons.query_stats_outlined,
-                        color: colors.surfaceReadable,
+                        color: colors.textPrimary,
                         size: 18,
                       ),
                     ),
@@ -62,7 +53,7 @@ class AdminMetricCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colors.surfaceReadable.withValues(alpha: 0.72),
+                  color: colors.textSecondary,
                   fontWeight: CollectTypography.weightBold,
                 ),
               ),
@@ -72,7 +63,7 @@ class AdminMetricCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: colors.surfaceReadable,
+                  color: colors.textPrimary,
                   fontWeight: CollectTypography.weightBold,
                 ),
               ),

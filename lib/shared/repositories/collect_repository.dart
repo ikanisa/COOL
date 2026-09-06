@@ -420,6 +420,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String countryCode,
     String? momoProvider,
     String? momoNumber,
+    String? momoPayCode,
     String? revolutLink,
     String? revolutAccount,
   }) async {
@@ -435,6 +436,13 @@ class CollectRepository extends StateNotifier<CollectState> {
     final cleanMomoNumber = isRwanda
         ? _normalizeLocalRwandaMomo(momoNumber ?? '')
         : '';
+    final cleanMomoPayCode = isRwanda
+        ? (momoPayCode ?? current.momoPayCode).trim()
+        : '';
+    if (cleanMomoPayCode.isNotEmpty &&
+        !RegExp(r'^[0-9]{4,9}$').hasMatch(cleanMomoPayCode)) {
+      throw const FormatException('Enter a MoMo code with 4 to 9 digits.');
+    }
     final cleanRevolutAccount = CollectDiasporaProfileRules.normalizeAccount(
       revolutAccount ?? '',
     );
@@ -464,6 +472,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'p_country_code': cleanCountry,
           'p_momo_provider': isRwanda ? cleanMomoProvider : null,
           'p_momo_number': isRwanda ? cleanMomoNumber : null,
+          'p_momo_pay_code': isRwanda ? cleanMomoPayCode : null,
           // Retain the RPC signature for older clients; links are not required.
           'p_revolut_link': null,
           'p_revolut_account': isRwanda ? null : cleanRevolutAccount,
@@ -484,6 +493,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         ),
         momoProvider: isRwanda ? cleanMomoProvider : '',
         momoNumber: isRwanda ? cleanMomoNumber : '',
+        momoPayCode: cleanMomoPayCode,
         revolutLink: isRwanda ? '' : current.revolutLink,
         revolutAccount: isRwanda ? '' : cleanRevolutAccount,
       );

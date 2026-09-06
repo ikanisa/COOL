@@ -21,6 +21,7 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _momoNumber = TextEditingController();
+  final _momoPayCode = TextEditingController();
   final _revolutAccount = TextEditingController();
   Country? _selectedCountry;
   String? _hydratedProfileId;
@@ -30,11 +31,13 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   bool _dirty = false;
   bool _hydrating = false;
   bool _saving = false;
+  bool _showMomoCode = false;
 
   @override
   void initState() {
     super.initState();
     _momoNumber.addListener(_markDirty);
+    _momoPayCode.addListener(_markDirty);
     _revolutAccount.addListener(_markDirty);
     _hydrate(ref.read(collectRepositoryProvider).currentProfile);
   }
@@ -42,8 +45,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   void dispose() {
     _momoNumber.removeListener(_markDirty);
+    _momoPayCode.removeListener(_markDirty);
     _revolutAccount.removeListener(_markDirty);
     _momoNumber.dispose();
+    _momoPayCode.dispose();
     _revolutAccount.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -81,105 +86,144 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 430),
-              child: Column(
-                key: const ValueKey('native_profile_editor'),
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _ProfileAppBar(onBack: _saving ? null : _leave),
-                  Expanded(
-                    child: profile == null
-                        ? Center(
-                            child: state.isLoading
-                                ? const CircularProgressIndicator(
-                                    semanticsLabel: 'Loading profile',
-                                  )
-                                : const Text('Sign in to edit your profile'),
-                          )
-                        : ListView(
-                            controller: _scrollController,
-                            keyboardDismissBehavior:
-                                ScrollViewKeyboardDismissBehavior.onDrag,
-                            padding: const EdgeInsets.fromLTRB(
-                              CollectSpacing.x5,
-                              CollectSpacing.x3,
-                              CollectSpacing.x5,
-                              CollectSpacing.x6,
-                            ),
-                            children: [
-                              _ProfileIdentity(publicId: profile.publicId),
-                              CollectSpacing.gap24,
-                              if (_error != null) ...[
-                                Semantics(
-                                  liveRegion: true,
-                                  child: Text(
-                                    _error!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: context
-                                              .collectColors
-                                              .dangerForeground,
-                                        ),
-                                  ),
-                                ),
-                                CollectSpacing.gap16,
-                              ],
-                              _ProfileDetails(
-                                country: selectedCountry,
-                                currencyCode: currencyCode,
-                                whatsappPhone: profile.whatsappPhone,
-                                onCountryTap: _saving
-                                    ? null
-                                    : _showCountryPicker,
+              child: CollectFormViewport(
+                child: Column(
+                  key: const ValueKey('native_profile_editor'),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _ProfileAppBar(onBack: _saving ? null : _leave),
+                    Expanded(
+                      child: profile == null
+                          ? Center(
+                              child: state.isLoading
+                                  ? const CircularProgressIndicator(
+                                      semanticsLabel: 'Loading profile',
+                                    )
+                                  : const Text('Sign in to edit your profile'),
+                            )
+                          : ListView(
+                              controller: _scrollController,
+                              keyboardDismissBehavior:
+                                  ScrollViewKeyboardDismissBehavior.onDrag,
+                              padding: const EdgeInsets.fromLTRB(
+                                CollectSpacing.x5,
+                                CollectSpacing.x3,
+                                CollectSpacing.x5,
+                                CollectSpacing.x6,
                               ),
-                              CollectSpacing.gap12,
-                              if (isRwanda) ...[
-                                _ProfileInput(
-                                  key: const ValueKey(
-                                    'profile_momo_number_input',
+                              children: [
+                                _ProfileIdentity(publicId: profile.publicId),
+                                CollectSpacing.gap24,
+                                if (_error != null) ...[
+                                  Semantics(
+                                    liveRegion: true,
+                                    child: Text(
+                                      _error!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: context
+                                                .collectColors
+                                                .dangerForeground,
+                                          ),
+                                    ),
                                   ),
-                                  controller: _momoNumber,
-                                  label: 'MoMo number',
-                                  enabled: !_saving,
-                                  keyboardType: TextInputType.phone,
-                                  textInputAction: TextInputAction.done,
-                                  onSubmitted: (_) => _submitIfChanged(),
+                                  CollectSpacing.gap16,
+                                ],
+                                _ProfileDetails(
+                                  country: selectedCountry,
+                                  currencyCode: currencyCode,
+                                  whatsappPhone: profile.whatsappPhone,
+                                  onCountryTap: _saving
+                                      ? null
+                                      : _showCountryPicker,
                                 ),
-                              ] else ...[
-                                _ProfileInput(
-                                  key: const ValueKey(
-                                    'profile_revolut_account_input',
+                                CollectSpacing.gap12,
+                                if (isRwanda) ...[
+                                  _ProfileMomoSwitcher(
+                                    showCode: _showMomoCode,
+                                    enabled: !_saving,
+                                    onChanged: (showCode) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      setState(() => _showMomoCode = showCode);
+                                    },
                                   ),
-                                  controller: _revolutAccount,
-                                  label: 'Account number',
-                                  enabled: !_saving,
-                                  textInputAction: TextInputAction.done,
-                                  onSubmitted: (_) => _submitIfChanged(),
-                                ),
+                                  CollectSpacing.gap12,
+                                  if (_showMomoCode) ...[
+                                    _ProfileInput(
+                                      key: const ValueKey(
+                                        'profile_momo_code_input',
+                                      ),
+                                      controller: _momoPayCode,
+                                      label: 'MoMo code, optional',
+                                      enabled: !_saving,
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.done,
+                                      onSubmitted: (_) => _submitIfChanged(),
+                                    ),
+                                    CollectSpacing.gap8,
+                                    Text(
+                                      'Add a merchant code alongside your MoMo number.',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: context
+                                                .collectColors
+                                                .textSecondary,
+                                          ),
+                                    ),
+                                  ] else
+                                    _ProfileInput(
+                                      key: const ValueKey(
+                                        'profile_momo_number_input',
+                                      ),
+                                      controller: _momoNumber,
+                                      label: 'MoMo number',
+                                      enabled: !_saving,
+                                      keyboardType: TextInputType.phone,
+                                      textInputAction: TextInputAction.done,
+                                      onSubmitted: (_) => _submitIfChanged(),
+                                    ),
+                                ] else ...[
+                                  _ProfileInput(
+                                    key: const ValueKey(
+                                      'profile_revolut_account_input',
+                                    ),
+                                    controller: _revolutAccount,
+                                    label: 'Account number',
+                                    enabled: !_saving,
+                                    textInputAction: TextInputAction.done,
+                                    onSubmitted: (_) => _submitIfChanged(),
+                                  ),
+                                ],
                               ],
-                            ],
-                          ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      CollectSpacing.x5,
-                      CollectSpacing.x3,
-                      CollectSpacing.x5,
-                      CollectSpacing.x4,
+                            ),
                     ),
-                    child: CollectButton(
-                      key: const ValueKey('profile_save_button'),
-                      label: profile == null
-                          ? 'Sign in'
-                          : (_saving ? 'Saving…' : 'Save'),
-                      onPressed: profile == null
-                          ? (state.isLoading ? null : () => context.go('/auth'))
-                          : (_saving || !_dirty ? null : _save),
-                      expand: true,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        CollectSpacing.x5,
+                        CollectSpacing.x3,
+                        CollectSpacing.x5,
+                        CollectSpacing.x4,
+                      ),
+                      child: CollectButton(
+                        key: const ValueKey('profile_save_button'),
+                        label: profile == null
+                            ? 'Sign in'
+                            : (_saving ? 'Saving…' : 'Save'),
+                        onPressed: profile == null
+                            ? (state.isLoading
+                                  ? null
+                                  : () => context.go('/auth'))
+                            : (_saving || !_dirty ? null : _save),
+                        expand: true,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -195,22 +239,13 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   Future<void> _leave() async {
     if (_saving) return;
     if (_dirty) {
-      final discard = await showDialog<bool>(
+      final discard = await showCollectConfirmationSheet(
         context: context,
-        animationStyle: CollectMotion.animationStyle(context),
-        builder: (context) => AlertDialog(
-          title: const Text('Discard changes?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep editing'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Discard'),
-            ),
-          ],
-        ),
+        title: 'Discard changes?',
+        message: 'Your unsaved profile changes will be lost.',
+        cancelLabel: 'Keep editing',
+        confirmLabel: 'Discard',
+        destructive: true,
       );
       if (!mounted || discard != true) return;
     }
@@ -226,6 +261,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     _savedProfile = profile;
     _hydratedProfileId = profile.id;
     _momoNumber.text = profile.momoNumber;
+    _momoPayCode.text = profile.momoPayCode;
     _revolutAccount.text = profile.revolutAccount;
     _selectedCountry =
         Country.tryParse(profile.countryCode) ??
@@ -241,12 +277,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   void _markDirty() {
     final saved = _savedProfile;
     if (_hydrating || !mounted || saved == null) return;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     setState(() {
       final countryCode = _selectedCountry?.countryCode;
       _dirty =
           countryCode != saved.countryCode ||
           (countryCode == 'RW'
-              ? _momoNumber.text != saved.momoNumber
+              ? _momoNumber.text != saved.momoNumber ||
+                    _momoPayCode.text != saved.momoPayCode
               : _revolutAccount.text != saved.revolutAccount);
       _error = null;
     });
@@ -277,6 +315,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             countryCode: selectedCountry.countryCode,
             momoProvider: momo?.provider,
             momoNumber: momo?.localNumber,
+            momoPayCode: _momoPayCode.text,
             revolutAccount: _revolutAccount.text,
           );
       if (!mounted) return;

@@ -564,6 +564,7 @@ class _AdminRowActions extends ConsumerWidget {
       context: context,
       animationStyle: CollectMotion.animationStyle(context),
       builder: (dialogContext) => AlertDialog(
+        scrollable: true,
         title: Text(isRwanda ? 'Allocate transaction' : 'Propose allocation'),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),

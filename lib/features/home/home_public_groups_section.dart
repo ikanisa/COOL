@@ -7,16 +7,24 @@ class _HomeGroupsSection extends StatelessWidget {
     required this.title,
     required this.collections,
     required this.summaries,
+    this.groupsRoute = '/groups',
+    this.showWhenEmpty = false,
+    this.isLoading = false,
+    this.emptyMessage = '',
     super.key,
   });
 
   final String title;
   final List<CollectCollection> collections;
   final Map<String, CollectionSummary> summaries;
+  final String groupsRoute;
+  final bool showWhenEmpty;
+  final bool isLoading;
+  final String emptyMessage;
 
   @override
   Widget build(BuildContext context) {
-    if (collections.isEmpty) {
+    if (collections.isEmpty && !showWhenEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -27,50 +35,43 @@ class _HomeGroupsSection extends StatelessWidget {
         SectionHeader(
           title: title,
           actionLabel: 'View all',
-          onAction: () => context.go('/groups'),
+          onAction: () => context.go(groupsRoute),
         ),
         CollectSpacing.gap12,
-        LayoutBuilder(
-          builder: (context, constraints) {
-            // Match the Groups screen: full content width on phones, then
-            // two equal columns on wider layouts. The page owns scrolling.
-            final columns = constraints.maxWidth >= 640 ? 2 : 1;
-            const gap = CollectSpacing.x3;
-            final columnWidth =
-                (constraints.maxWidth - (gap * (columns - 1))) / columns;
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              clipBehavior: Clip.none,
-              itemCount: visibleGroups.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: columns,
-                crossAxisSpacing: gap,
-                mainAxisSpacing: gap,
-                childAspectRatio: columnWidth / 220,
-              ),
-              itemBuilder: (context, index) {
-                final collection = visibleGroups[index];
-                return GroupCard(
-                  collection: collection,
-                  summary:
-                      summaries[collection.id] ??
-                      const CollectionSummary(
-                        amountRaisedRwf: 0,
-                        supporterCount: 0,
-                      ),
-                  variant: GroupCardVariant.publicDiscovery,
-                  onTap: () => context.go('/groups/${collection.id}'),
-                  primaryAction: _HomeContributeIconButton(
-                    tooltip: _contributionLabel(collection),
-                    onPressed: () =>
-                        context.go('/groups/${collection.id}/contribute'),
-                  ),
-                );
-              },
-            );
-          },
-        ),
+        if (isLoading)
+          const LoadingSkeleton.groupCard(
+            semanticsLabel: 'Loading featured groups',
+          )
+        else if (visibleGroups.isEmpty)
+          Text(
+            emptyMessage,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: context.collectColors.textSecondary,
+            ),
+          )
+        else
+          GroupCardLayout(
+            itemCount: visibleGroups.length,
+            itemBuilder: (context, index) {
+              final collection = visibleGroups[index];
+              return GroupCard(
+                collection: collection,
+                summary:
+                    summaries[collection.id] ??
+                    const CollectionSummary(
+                      amountRaisedRwf: 0,
+                      supporterCount: 0,
+                    ),
+                variant: GroupCardVariant.publicDiscovery,
+                onTap: () => context.go('/groups/${collection.id}'),
+                primaryAction: _HomeContributeIconButton(
+                  tooltip: _contributionLabel(collection),
+                  onPressed: () =>
+                      context.go('/groups/${collection.id}/contribute'),
+                ),
+              );
+            },
+          ),
       ],
     );
   }
@@ -93,27 +94,6 @@ class _HomeContributeIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final foreground = isDark ? colors.onImagePrimary : colors.textPrimary;
-    final background = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.16)
-        : colors.textPrimary.withValues(alpha: 0.10);
-    final border = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.18)
-        : colors.textPrimary.withValues(alpha: 0.12);
-    return IconButton.filledTonal(
-      tooltip: tooltip,
-      style: IconButton.styleFrom(
-        backgroundColor: background,
-        foregroundColor: foreground,
-        side: BorderSide(color: border),
-        fixedSize: const Size.square(CollectSpacing.iconTarget),
-        minimumSize: const Size.square(CollectSpacing.iconTarget),
-        padding: EdgeInsets.zero,
-      ),
-      onPressed: onPressed,
-      icon: const Icon(CollectIcons.donate),
-    );
+    return GroupCardActionButton(tooltip: tooltip, onPressed: onPressed);
   }
 }

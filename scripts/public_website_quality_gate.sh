@@ -546,23 +546,30 @@ check(
   "files" => stray_brace_files.map { |path| path.delete_prefix(build_dir + "/") }
 )
 
+# Owner screenshot review, 6 September 2026: invented phone text was removed
+# and real native captures added with Example data captions. The 19-page
+# comparison verifies unchanged copy outside hero artwork. See
+# WEBSITE_AUTHENTIC_APP_MEDIA_2026-09-06.md for capture and content evidence.
 baseline_content_hashes = {
-  "/" => "b2169213424406487a483b3f63f4da7eea0fab02b84c2bfe83ff38f16394f777",
-  "/account-deletion/" => "babea5394605a96828fb360183a451844391688f9d3a6076d2bc0fa33e9c7c20",
-  "/community-groups/" => "6d03734da650cb4eb6fd8c61a137f510325c6a0c423adf3549cd4a8c2141faec",
-  "/craas/" => "4c76feb5743537083aa26fcf1aed8aad09a41132d8d2861d213041c666bf51ae",
-  "/credit-readiness/" => "2e1115e55a8b88d08ffe1b0ab4f363141e45150452ab877001988045ba05d29a",
-  "/data-deletion/" => "d5f25d1adcb64c13342c57469dacf81dcaed1be6da4956b35a44022e838f6bfc",
-  "/diaspora/" => "b9701015bcedb88f3e01763be03eb5810621351f30b563cfbaca93874f5c8572",
-  "/group-savings/" => "39ba203d22c98296280dc2b18881d0925cfa000f7697ba3e0880887a1517e069",
-  "/insurance/" => "45f3c5ff49d1c55f6176edd12a98239461b8f04945efbd4027c8820b17a8938f",
-  "/our-partners/" => "71847e2f5bcbdf9c417538d28affcbf2abfa26b63da6a259008928d550c73a37",
-  "/partners/" => "1e4e27420078ae877ab173a9030403fb50af55fc2c8d575dd16d3c04bbd3c0bd",
-  "/privacy/" => "fd33f9617f9afafa800d07409c9621629e5e9b95efa606c393105236db995b11",
-  "/protection/" => "2ff3af315af909e6a654fe58151f2ece90b9fdc3cfcaeaf2005be1ced46ec306",
-  "/security/" => "75386bfd0766d5ad2ec4bc19f635a5eba2605d3513e5ec76fd0c6597c2bff8fa",
-  "/terms/" => "8df2c053514821977e3650134da9925ee725c5898f17857ceaa40bcb4704302a",
-  "/trust/" => "5f6b11b13e3464a9d73b44a43864e0e25c04e9a62dda9b5f1cbb6e202821472a",
+  # Owner-requested Rwanda photography adds three navigation captions and
+  # arrows. Removing only that reviewed photo section recovers the prior
+  # 93ab5c33... content hash; all existing financial copy is unchanged.
+  "/" => "a0b19e5bd9838068cc6b4dddcc3db7cf169e05702268b77f69a43900c827b56b",
+  "/account-deletion/" => "ef6f3bb7302829b8660e08dba1670ef128c2af2139574ef0a0cfa90e6e6fe4fa",
+  "/community-groups/" => "995ac5664e120c477e6c40df6571b697a46f1f0c1552af2868a5e11f2af2153c",
+  "/craas/" => "87614fa5aa2d7bbe6aedc2f81b9884cef453fe3b5f04403f5ead6899a1369f3d",
+  "/credit-readiness/" => "4e02a5f56ae1bdfb72d427b223f99d26b208fad33a58d9223ad891cecf22887a",
+  "/data-deletion/" => "e6886abc6bdad6758d6e5a186f8a44b0c7fb87a26e7fc73c279f813bc65953cf",
+  "/diaspora/" => "9de7fac20f76b0e62a04973802c6115d09366cd75bc54072e4af611aa863ad77",
+  "/group-savings/" => "72d1d165fd951eeb40a97fc9116b30c6004e03d26d3ae81415c6e12d9e878bce",
+  "/insurance/" => "e2f7043c6c6c0781fc8fd1cfa43b0bfd81993430ec13dc0ba6f7bc501c8cc564",
+  "/our-partners/" => "4f979ff08bcce9812f4753f09ad8ee4178ab8ec76827a2f7dc6a4a9612b86545",
+  "/partners/" => "9c44008205180686e849cca896158df373cb3cbf09b33793e568373d37def52b",
+  "/privacy/" => "e2262fd575e34b7605185f508ec54dabdbe5e12db5307ed4fb786f4b9b167a2d",
+  "/protection/" => "76d64d2361fadee80aac081af5946049195ca789d22e6274b9677fe8469e5457",
+  "/security/" => "1bf5211c20994191a6f14270bd462e2e117c3e8ec60cc5d8e4b2026ebe3a4498",
+  "/terms/" => "5c780ab940cb0cc963232ebfa0b5b0144e6fcc2b58b6060b657f53495f3eff5c",
+  "/trust/" => "81c31ac0a356dfa8bbc9bd7a157b12be935c3900bd17df409836666d1e75689b",
 }
 generated_routes = all_html_paths.map do |path|
   relative = path.delete_prefix(build_dir).delete_suffix("index.html")
@@ -570,6 +577,11 @@ generated_routes = all_html_paths.map do |path|
 end.reject { |route| ["/app/", "/c/", "/group-link/"].include?(route) }.sort
 content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
   html = read(route_index(build_dir, route)).gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
+  # The responsive menu carries the original three CTAs. Count the separate
+  # desktop-only copy of Get the App once, without excluding other content.
+  if html.include?('class="mobile-menu-actions"')
+    html = html.sub(%r{<div class="header-actions">\s*<a[^>]*>Get the App</a>\s*</div>}, "")
+  end
   visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")
   actual_hash = Digest::SHA256.hexdigest(visible_text)
   failures << { "route" => route, "expected" => expected_hash, "actual" => actual_hash } unless actual_hash == expected_hash
@@ -761,11 +773,20 @@ end
 fee_disclaimer_absent = !root_html.include?("Fee clarity") &&
   !root_html.include?("How Collect makes money") &&
   !root_html.include?("When Collect describes microsavings as zero-fee")
-platform_neutral_mockup_ok = stylesheet.include?(".phone-notch,.phone-status{display:none}")
+require File.expand_path("scripts/public_app_media", Dir.pwd)
+app_media_error = nil
+begin
+  verified_app_media = PublicAppMedia.new(Dir.pwd).screens
+  authentic_app_media_ok = verified_app_media.length >= 7 && !stylesheet.include?(".phone-screen") &&
+    Dir.glob(File.join(build_dir, "**/*.html")).none? { |path| read(path).include?('class="phone-shell"') }
+rescue StandardError => error
+  app_media_error = error.message
+  authentic_app_media_ok = false
+end
 check(checks, "partner_status_disclaimer_absent", pass_if(partner_status_disclaimer_absent), partner_status_disclaimer_absent ? "The internal partner-status disclaimer is absent from public routes." : "The removed partner-status disclaimer is still present.")
 check(checks, "public_evidence_disclaimer_absent", pass_if(public_evidence_disclaimer_absent), public_evidence_disclaimer_absent ? "The redundant public-evidence disclaimer block is absent." : "The removed public-evidence disclaimer block is still present.")
 check(checks, "fee_disclaimer_absent", pass_if(fee_disclaimer_absent), fee_disclaimer_absent ? "The redundant fee disclaimer block is absent." : "The removed fee disclaimer block is still present.")
-check(checks, "platform_neutral_mockup", pass_if(platform_neutral_mockup_ok), platform_neutral_mockup_ok ? "Decorative device UI no longer presents iOS-specific status chrome." : "Device mockups still present iOS-specific status chrome.")
+check(checks, "authentic_app_media", pass_if(authentic_app_media_ok), authentic_app_media_ok ? "App media matches reviewed captures and current runtime source; invented phone UI is absent." : "App screenshot provenance failed: #{app_media_error}")
 
 css_vars = css_hex_vars(stylesheet)
 design_contract_source = read(design_contract_path)
@@ -871,18 +892,15 @@ check(
   "duplicate_h1s" => duplicate_h1s.transform_values { |items| items.map { |item| item["route"] } }
 )
 
-mobile_hero_css_ok = stylesheet.match?(/max-height:306px/) &&
-  stylesheet.match?(/scale\(\.49\)/) &&
-  stylesheet.match?(/route-craas \.hero-device[^}]*max-height:356px/) &&
-  stylesheet.match?(/route-community-groups \.hero-device[^}]*max-height:356px/) &&
-  stylesheet.match?(/route-craas \.phone-shell[^}]*scale\(\.56\)/) &&
+mobile_hero_css_ok = stylesheet.match?(/\.app-capture img\{[^}]*height:auto/) &&
+  stylesheet.match?(/\.hero-device\{[^}]*max-height:none/) &&
   stylesheet.include?(".legal-page .hero-actions .button") &&
   stylesheet.match?(/\.site-footer a\{[^}]*min-height:40px/) &&
-  stylesheet.match?(/\.site-footer a\{[^}]*min-height:44px[^}]*background:rgba\(250,248,245,\.06\)/)
+  stylesheet.match?(/\.site-footer a\{[^}]*min-height:44px[^}]*background:rgba\(255,255,255,\.06\)/)
 route_class_ok = route_identity.all? do |item|
-  read(route_index(build_dir, item["route"])).include?(%(<body class="route-))
+  read(route_index(build_dir, item["route"])).match?(%r{<body class="[^"]*\broute-[^"\s]+})
 end
-route_variation_ok = root_html.include?('class="route-home"') &&
+route_variation_ok = root_html.match?(%r{<body class="[^"]*\broute-home\b}) &&
   read(route_index(build_dir, "/diaspora/")).include?("content-grid-diaspora") &&
   read(route_index(build_dir, "/craas/")).include?("content-grid-craas") &&
   read(route_index(build_dir, "/community-groups/")).include?("content-grid-community-groups") &&
@@ -913,7 +931,7 @@ compact_card_css_ok = stylesheet.match?(/\.use-case-grid\{[^}]*grid-template-col
   stylesheet.match?(/\.partner-engine-grid,.partner-market-grid,.partner-operating-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
   !stylesheet.include?("var(--g5)") &&
   !stylesheet.include?("var(--g6)") &&
-  stylesheet.include?("box-shadow:0 16px 34px rgba(37,32,68,.14)") &&
+  stylesheet.include?("box-shadow:0 16px 34px rgba(25,28,31,.14)") &&
   stylesheet.include?("color:var(--white)")
 check(
   checks,

@@ -18,7 +18,7 @@ class MobileDesignGate
     },
     'ios' => { 'ipa' => 'build/ios/ipa/Collect.ipa' }
   }.freeze
-  SOURCE_PATTERNS = %w[lib/app/**/*.dart lib/core/**/*.dart lib/features/**/*.dart lib/shared/**/*.dart lib/l10n/**/*.dart lib/main.dart lib/bootstrap.dart assets/**/* android/app/src/**/* android/app/build.gradle.kts ios/Runner/**/* pubspec.yaml pubspec.lock DESIGN.md AGENTS.md integration_test/mobile_route_matrix_device_uat_test.dart integration_test/mobile_material_state_matrix_device_uat_test.dart scripts/qa/*.rb scripts/android_play_store_build.sh scripts/ios_app_store_build.sh].freeze
+  SOURCE_PATTERNS = %w[lib/app/**/*.dart lib/core/**/*.dart lib/features/**/*.dart lib/shared/**/*.dart lib/l10n/**/*.dart lib/main.dart lib/bootstrap.dart assets/**/* android/app/src/**/* android/app/build.gradle.kts ios/Runner/**/* pubspec.yaml pubspec.lock DESIGN.md AGENTS.md integration_test/mobile_route_matrix_device_uat_test.dart integration_test/mobile_material_state_matrix_device_uat_test.dart test/fixtures/collect_repository_fixture.dart test/fixtures/mobile_matrix_capture.dart scripts/qa/*.rb scripts/android_play_store_build.sh scripts/ios_app_store_build.sh].freeze
 
   def initialize(root)
     @root = File.realpath(root)

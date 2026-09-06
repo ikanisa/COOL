@@ -10,16 +10,18 @@ import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/widgets/collect_group_cards.dart';
+import 'package:collect_app/shared/widgets/collect_group_photo_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:integration_test/integration_test.dart';
+import '../test/fixtures/mobile_matrix_capture.dart';
 
 void main() {
-  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final binding = MobileMatrixCapture.initialize();
   GoRouter? activeRouter;
   tearDown(() {
     activeRouter?.dispose();
@@ -49,6 +51,7 @@ void main() {
       ProviderScope(
         key: ValueKey('collect-material-state-${spec.name}'),
         overrides: [
+          ...MobileMatrixCapture.overrides,
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith((ref) => repository),
           collectThemeModeProvider.overrideWith(
@@ -62,7 +65,7 @@ void main() {
               const _MaterialStateAuthOtpGateway(),
             ),
         ],
-        child: const CollectApp(),
+        child: MobileMatrixCapture.wrap(const CollectApp()),
       ),
     );
     await _pumpFrames(tester);
@@ -71,6 +74,7 @@ void main() {
   testWidgets(
     'material mobile states render deterministically for comparison evidence',
     (tester) async {
+      await binding.prepare(tester);
       tester.platformDispatcher.textScaleFactorTestValue = _uatTextScale;
       tester.platformDispatcher.accessibilityFeaturesTestValue =
           const FakeAccessibilityFeatures(
@@ -116,6 +120,9 @@ void main() {
         print('collect_state_uat:start:${spec.name}:${spec.route}');
         final repository = spec.createRepository();
         await pumpState(tester, spec, repository);
+        if (spec.name == 'home-discovery' && screenshotsEnabled) {
+          await binding.takeScreenshot('detail_home-discovery_top');
+        }
         await _prepareState(tester, spec);
 
         expect(tester.takeException(), isNull, reason: spec.name);
@@ -141,6 +148,25 @@ void main() {
 
         FocusManager.instance.primaryFocus?.unfocus();
         await _pumpFrames(tester, count: 4);
+        if (spec.name == 'home-joined' || spec.name == 'home-mixed') {
+          // At large text the shared hero and first group fill the viewport.
+          // Retain that top view, then frame the membership section so the
+          // two-member and one-member cases are visibly distinguishable.
+          final myGroups = find.byKey(const ValueKey('home_my_groups'));
+          expect(
+            find.descendant(of: myGroups, matching: find.byType(GroupCard)),
+            findsNWidgets(spec.name == 'home-joined' ? 2 : 1),
+          );
+          if (screenshotsEnabled) {
+            await binding.takeScreenshot('detail_${spec.name}_top');
+          }
+          await Scrollable.ensureVisible(
+            tester.element(find.text('My groups')),
+            alignment: 0,
+          );
+          await _pumpFrames(tester, count: 3);
+          expect(find.text('My groups').hitTestable(), findsOneWidget);
+        }
         if (screenshotsEnabled) {
           try {
             await binding.takeScreenshot('mobile_state_${spec.name}');
@@ -203,12 +229,12 @@ void main() {
           'home-mixed',
         ].contains(spec.name)) {
           await tester.scrollUntilVisible(
-            find.text('Featured groups'),
+            find.text('Featured Groups'),
             160,
             scrollable: find.byType(Scrollable).first,
           );
           await _pumpFrames(tester, count: 3);
-          expect(find.text('Featured groups').hitTestable(), findsOneWidget);
+          expect(find.text('Featured Groups').hitTestable(), findsOneWidget);
           expect(tester.takeException(), isNull);
           if (screenshotsEnabled) {
             await binding.takeScreenshot('detail_${spec.name}_featured');
@@ -239,12 +265,93 @@ void main() {
         // ignore: avoid_print
         print('collect_state_uat:pass:${spec.name}:${spec.route}');
       }
+      await binding.finish(tester);
     },
     timeout: const Timeout(Duration(minutes: 12)),
   );
 }
 
 Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
+  // iOS retains its production Android-only creation guard. These four
+  // cases verify the redirect, rather than fabricating an iOS creation flow.
+  if (spec.creationStep != null &&
+      defaultTargetPlatform != TargetPlatform.android) {
+    expect(find.text('Create group'), findsNothing);
+    expect(find.text('Groups'), findsWidgets);
+    return;
+  }
+  if (spec.inputText != null ||
+      spec.actionText != null ||
+      spec.actionTooltip != null ||
+      spec.actionKey != null ||
+      spec.creationStep != null) {
+    if (spec.inputText != null) {
+      if (spec.name == 'groups-no-results') {
+        await tester.tap(find.byTooltip('Search groups'));
+        await _pumpFrames(tester, count: 4);
+      }
+      final field = find.byType(TextField).first;
+      await tester.ensureVisible(field);
+      await tester.enterText(field, spec.inputText!);
+      FocusManager.instance.primaryFocus?.unfocus();
+      await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+      await _pumpFrames(tester, count: 5);
+    }
+    if (spec.creationStep != null) {
+      for (var step = 0; step < spec.creationStep!; step++) {
+        final next = find.widgetWithText(FilledButton, 'Continue');
+        await tester.ensureVisible(next);
+        await _pumpFrames(tester, count: 3);
+        expect(next.hitTestable(), findsOneWidget);
+        await tester.tap(next);
+        await _pumpFrames(tester, count: 5);
+      }
+    }
+    final Finder? action = spec.actionText != null
+        ? find.text(spec.actionText!).last
+        : spec.actionTooltip != null
+        ? find.byTooltip(spec.actionTooltip!)
+        : spec.actionKey != null
+        ? find.byKey(ValueKey(spec.actionKey!))
+        : null;
+    if (action != null) {
+      await tester.ensureVisible(action);
+      await _pumpFrames(tester, count: 3);
+      expect(action.hitTestable(), findsOneWidget, reason: spec.name);
+      await tester.tap(action);
+      await _pumpFrames(tester, count: 6);
+    }
+    if (spec.name == 'group-photo-selected') {
+      final sheet = find.byType(CollectGroupPhotoSheet);
+      final scrollable = find
+          .descendant(of: sheet, matching: find.byType(Scrollable))
+          .first;
+      final choice = find.text('Community savings');
+      await tester.scrollUntilVisible(choice, 160, scrollable: scrollable);
+      await _pumpFrames(tester, count: 3);
+      await tester.tap(choice);
+      for (var frame = 0; frame < 40; frame++) {
+        await _pumpFrames(tester, count: 1);
+        if (find.byType(CollectGroupPhotoSheet).evaluate().isEmpty &&
+            find.byTooltip('Remove image').evaluate().isNotEmpty) {
+          break;
+        }
+      }
+      expect(find.byType(CollectGroupPhotoSheet), findsNothing);
+      expect(find.byTooltip('Remove image'), findsOneWidget);
+      // Text inputs have their own Scrollable. Restore the page scroll as
+      // well so the header is mounted before comparing the selected-photo state.
+      for (final scrollable in tester.stateList<ScrollableState>(
+        find.byType(Scrollable),
+      )) {
+        if (scrollable.position.axis == Axis.vertical) {
+          scrollable.position.jumpTo(scrollable.position.minScrollExtent);
+        }
+      }
+      await _pumpFrames(tester, count: 4);
+    }
+    return;
+  }
   if (spec.usesFakeAuth && spec.name != 'auth-phone-empty') {
     // On a short 320dp viewport the lazy ListView has not built the phone
     // field yet. Reach it using the same scroll available to the user.
@@ -274,13 +381,26 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     case 'offline-recovery':
     case 'sync-recovery':
     case 'missing-group':
-    case 'home-discovery':
     case 'home-joined':
     case 'home-mixed':
     case 'home-empty':
     case 'home-loading':
     case 'home-error':
     case 'home-offline':
+    case 'groups-loading':
+    case 'groups-error':
+    case 'groups-offline':
+    case 'activity-loading':
+    case 'activity-error':
+    case 'activity-offline':
+      return;
+    case 'home-discovery':
+      await tester.scrollUntilVisible(
+        find.text('Featured Groups'),
+        160,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await _pumpFrames(tester, count: 3);
       return;
     case 'contribution-quick-pick':
       await _pumpUntilVisible(tester, _amountTextField());
@@ -398,13 +518,38 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
 // acceptance evidence. The safe secondary action is the only action invoked.
 Future<void> _inspectSheetToEnd(
   WidgetTester tester,
-  IntegrationTestWidgetsFlutterBinding binding,
+  MobileMatrixCapture binding,
   _StateSpec spec,
   bool screenshotsEnabled,
 ) async {
+  if (spec.name == 'group-photo-collection') {
+    final sheet = find.byType(CollectGroupPhotoSheet);
+    final scrollable = find
+        .descendant(of: sheet, matching: find.byType(Scrollable))
+        .first;
+    for (final photo in CollectGroupPhoto.collection) {
+      final choice = find.byKey(ValueKey('group-photo-${photo.name}'));
+      await tester.scrollUntilVisible(choice, 160, scrollable: scrollable);
+      await _pumpFrames(tester, count: 5);
+      expect(choice.hitTestable(), findsOneWidget);
+      if (screenshotsEnabled) {
+        await binding.takeScreenshot(
+          'detail_group-photo-collection_${photo.asset.split('/').last}',
+        );
+      }
+    }
+    await tester.tap(find.byTooltip('Close photo collection'));
+    await _pumpFrames(tester, count: 4);
+    expect(find.byType(CollectGroupPhotoSheet), findsNothing);
+    expect(find.byTooltip('Remove image'), findsNothing);
+    return;
+  }
   final secondaryLabel = switch (spec.name) {
     'sms-consent-sheet' => 'Not now',
     'account-delete-confirmation' => 'Cancel',
+    'account-sign-out-confirmation' => 'Cancel',
+    'profile-discard-confirmation' => 'Keep editing',
+    'share-replace-confirmation' => 'Keep current link',
     'auth-phone-confirmation' => 'Edit number',
     'camera-recovery-sheet' => 'Scan again',
     'sms-recovery-sheet' => 'Retry',
@@ -464,6 +609,7 @@ Future<void> _pumpFrames(WidgetTester tester, {int count = 14}) async {
   for (var index = 0; index < count; index += 1) {
     await tester.pump(const Duration(milliseconds: 100));
   }
+  await MobileMatrixCapture.flush(tester);
 }
 
 Future<void> _pumpUntilVisible(
@@ -513,12 +659,162 @@ ThemeMode get _uatThemeMode => switch (_uatThemeModeName) {
 double get _uatTextScale => double.parse(_uatTextScaleName);
 
 const _stateSpecs = <_StateSpec>[
+  _StateSpec(
+    'group-photo-collection',
+    '/groups/qa-private-group/profile',
+    'Rwanda collection',
+    actionTooltip: 'Upload image',
+  ),
+  _StateSpec(
+    'group-photo-selected',
+    '/groups/qa-private-group/profile',
+    'Group profile',
+    actionTooltip: 'Upload image',
+  ),
+  _StateSpec(
+    'account-sign-out-confirmation',
+    '/settings/account',
+    'Sign out?',
+    actionText: 'Sign out',
+  ),
+  _StateSpec(
+    'profile-discard-confirmation',
+    '/settings/profile',
+    'Discard changes?',
+    inputText: '0788000001',
+    actionTooltip: 'Back',
+  ),
+  _StateSpec(
+    'profile-country-picker',
+    '/settings/profile',
+    'Search country',
+    actionKey: 'profile_country_picker',
+  ),
+  _StateSpec(
+    'share-replace-confirmation',
+    '/groups/qa-private-group/share',
+    'Replace invitation link?',
+    actionText: 'Replace invitation link',
+  ),
+  _StateSpec(
+    'members-filter',
+    '/groups/qa-private-group/members',
+    'Filter members',
+    actionText: 'All',
+  ),
+  _StateSpec(
+    'members-sort',
+    '/groups/qa-private-group/members',
+    'Sort members',
+    actionText: 'Collect ID',
+  ),
+  _StateSpec(
+    'ledger-group-filter',
+    '/groups/qa-private-group/ledger',
+    'Filter by group',
+    actionTooltip: 'Filter by group',
+  ),
+  _StateSpec(
+    'ledger-sort',
+    '/groups/qa-private-group/ledger',
+    'Sort ledger',
+    actionTooltip: 'Sort ledger',
+  ),
+  _StateSpec(
+    'activity-group-filter',
+    '/activity',
+    'All groups',
+    actionTooltip: 'Filter by group',
+  ),
+  _StateSpec(
+    'groups-no-results',
+    '/groups',
+    'No matching groups',
+    inputText: 'No group matches this search',
+  ),
+  _StateSpec(
+    'group-add-admin',
+    '/groups/qa-private-group/manage',
+    'Enter the six-digit Collect ID of an active group member.',
+    actionText: 'Add admin',
+  ),
+  _StateSpec(
+    'group-transfer-ownership',
+    '/groups/qa-private-group/manage',
+    'This removes your owner controls.',
+    actionText: 'Transfer ownership',
+  ),
+  _StateSpec(
+    'group-archive-confirmation',
+    '/groups/qa-private-group/manage',
+    'Existing confirmed ledger records stay available.',
+    actionText: 'Archive group',
+  ),
+  _StateSpec(
+    'create-group-type',
+    '/groups/create',
+    'Create group',
+    inputText: 'Community support',
+    creationStep: 1,
+  ),
+  _StateSpec(
+    'create-group-receiver',
+    '/groups/create',
+    'MTN MoMo receiver',
+    inputText: 'Community support',
+    creationStep: 2,
+  ),
+  _StateSpec(
+    'create-group-assets',
+    '/groups/create',
+    'Group color',
+    inputText: 'Community support',
+    creationStep: 3,
+  ),
+  _StateSpec(
+    'create-group-review',
+    '/groups/create',
+    'Review group',
+    inputText: 'Community support',
+    creationStep: 4,
+  ),
+  _StateSpec(
+    'groups-loading',
+    '/groups',
+    'Loading groups',
+    homeScenario: 'loading',
+  ),
+  _StateSpec(
+    'groups-error',
+    '/groups',
+    'Could not load data',
+    homeScenario: 'error',
+  ),
+  _StateSpec('groups-offline', '/groups', 'Offline', homeScenario: 'offline'),
+  _StateSpec(
+    'activity-loading',
+    '/activity',
+    'Loading activity',
+    homeScenario: 'loading',
+  ),
+  _StateSpec(
+    'activity-error',
+    '/activity',
+    'Could not load data',
+    homeScenario: 'error',
+  ),
+  _StateSpec(
+    'activity-offline',
+    '/activity',
+    'Offline',
+    homeScenario: 'offline',
+  ),
   _StateSpec('camera-recovery-sheet', '/settings/permissions', 'Camera access'),
   _StateSpec('sms-recovery-sheet', '/settings/permissions', 'SMS access'),
   _StateSpec(
     'home-discovery',
     '/home',
-    'Featured groups',
+    'Featured Groups',
     homeScenario: 'discovery',
   ),
   _StateSpec('home-joined', '/home', 'My groups', homeScenario: 'joined'),
@@ -665,6 +961,11 @@ class _StateSpec {
     this.usesFakeAuth = false,
     this.expectedFieldValue,
     this.homeScenario,
+    this.inputText,
+    this.actionText,
+    this.actionTooltip,
+    this.actionKey,
+    this.creationStep,
   });
 
   final String name;
@@ -674,12 +975,19 @@ class _StateSpec {
   final bool usesFakeAuth;
   final String? expectedFieldValue;
   final String? homeScenario;
+  final String? inputText;
+  final String? actionText;
+  final String? actionTooltip;
+  final String? actionKey;
+  final int? creationStep;
 
-  String get visibleMarker =>
-      name == 'sms-consent-sheet' &&
-          defaultTargetPlatform != TargetPlatform.android
-      ? 'App permissions'
-      : expectedText;
+  String get visibleMarker {
+    if (defaultTargetPlatform != TargetPlatform.android) {
+      if (creationStep != null) return 'Groups';
+      if (name == 'sms-consent-sheet') return 'App permissions';
+    }
+    return expectedText;
+  }
 
   CollectRepository createRepository() => homeScenario != null
       ? _HomeParityRepository(homeScenario!)

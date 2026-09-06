@@ -297,6 +297,7 @@ class _PlatformAccessDialogState extends State<_PlatformAccessDialog> {
         (!approving ||
             RegExp(r'^\+[1-9][0-9]{7,14}$').hasMatch(_phone.text.trim()));
     return AlertDialog(
+      scrollable: true,
       title: Text(title),
       content: SingleChildScrollView(
         child: Column(

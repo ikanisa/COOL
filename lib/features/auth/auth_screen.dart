@@ -108,61 +108,71 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Scaffold(
       backgroundColor: context.collectColors.authCanvas,
       body: DecoratedBox(
-        decoration: BoxDecoration(color: context.collectColors.authCanvas),
+        decoration: BoxDecoration(
+          color: context.collectColors.authCanvas,
+          gradient: CollectRuntimeTokens.overviewBackdrop(
+            context.collectColors,
+            Theme.of(context).brightness,
+            CollectBackdropTone.authentication,
+            highContrast: MediaQuery.highContrastOf(context),
+          ),
+        ),
         child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.fromLTRB(
-                    CollectSpacing.x5,
-                    CollectSpacing.x3,
-                    CollectSpacing.x5,
-                    CollectSpacing.x5,
-                  ),
-                  children: [
-                    const AuthIdentityHeader(),
-                    CollectSpacing.gap24,
-                    AuthHeadline(otpSent: _otpSent, phone: displayPhone),
-                    CollectSpacing.gap24,
-                    AuthInputPanel(
-                      otpSent: _otpSent,
-                      phoneController: _phone,
-                      otpController: _otp,
-                      captchaController: _captchaToken,
-                      env: env,
-                      error: _error,
-                      errorKey: _errorNoticeKey,
-                      resendRemaining: _resendRemaining,
-                      countryCode: _countryCode,
-                      onCountryTap: _showCountryPicker,
-                      onPhoneChanged: () => setState(() => _error = null),
-                      onOtpChanged: () => setState(() => _error = null),
-                      onCaptchaChanged: () => setState(() => _error = null),
+          child: CollectFormViewport(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.fromLTRB(
+                      CollectSpacing.x5,
+                      CollectSpacing.x3,
+                      CollectSpacing.x5,
+                      CollectSpacing.x5,
                     ),
-                  ],
+                    children: [
+                      const AuthIdentityHeader(),
+                      CollectSpacing.gap24,
+                      AuthHeadline(otpSent: _otpSent, phone: displayPhone),
+                      CollectSpacing.gap24,
+                      AuthInputPanel(
+                        otpSent: _otpSent,
+                        phoneController: _phone,
+                        otpController: _otp,
+                        captchaController: _captchaToken,
+                        env: env,
+                        error: _error,
+                        errorKey: _errorNoticeKey,
+                        resendRemaining: _resendRemaining,
+                        countryCode: _countryCode,
+                        onCountryTap: _showCountryPicker,
+                        onPhoneChanged: () => setState(() => _error = null),
+                        onOtpChanged: () => setState(() => _error = null),
+                        onCaptchaChanged: () => setState(() => _error = null),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              AuthActionDock(
-                otpSent: _otpSent,
-                submitting: _submitting,
-                resendRemaining: _resendRemaining,
-                canSubmit: _canSubmit,
-                canResend: _canResend,
-                onSubmit: _canSubmit ? () => _submit(env) : null,
-                onAnotherNumber: _submitting
-                    ? null
-                    : () => setState(() {
-                        _resendTimer?.cancel();
-                        _otpSent = false;
-                        _otp.clear();
-                        _resendRemaining = 0;
-                        _error = null;
-                      }),
-                onResend: _canResend ? () => _resendCode(env) : null,
-              ),
-            ],
+                AuthActionDock(
+                  otpSent: _otpSent,
+                  submitting: _submitting,
+                  resendRemaining: _resendRemaining,
+                  canSubmit: _canSubmit,
+                  canResend: _canResend,
+                  onSubmit: _canSubmit ? () => _submit(env) : null,
+                  onAnotherNumber: _submitting
+                      ? null
+                      : () => setState(() {
+                          _resendTimer?.cancel();
+                          _otpSent = false;
+                          _otp.clear();
+                          _resendRemaining = 0;
+                          _error = null;
+                        }),
+                  onResend: _canResend ? () => _resendCode(env) : null,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,0 +1,22 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-09-05",
+  "assets": [
+    {
+      "file": "kigali-hills.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 2048x1152 website hero background for a Rwanda finance app. A premium editorial view inspired by Kigali: gentle lush green hills, clean contemporary mid-rise city architecture and terraces far in the lower third, broad luminous blue sky with soft natural clouds occupying the upper two thirds. Morning daylight, elegant blue-green tones, believable African highland city atmosphere, crisp but softly distant architecture, uncluttered. Left upper and central sky calm enough for white website text; no people, signs, landmarks requiring exact documentary accuracy, text, logos or watermarks. Original illustrative scene, not a claimed documentary photograph."
+    },
+    {
+      "file": "everyday-payments.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 1536x1024 editorial photo for Rwandan everyday payments and small-business finance. A confident adult Rwandan woman who runs a clean contemporary Kigali neighbourhood shop, age about 32, wearing a simple tasteful teal blouse, and an adult male customer in a relaxed shirt. She is holding her smartphone at the shop counter while he looks at his own phone, completing an everyday mobile payment with relaxed friendly expressions. Neat shelves of ordinary packaged groceries and locally grown produce softly out of focus. Premium authentic candid photography, realistic warm skin, daylight, accurate hands and phone hardware, central-safe subjects for wide card crops. No readable phone UI, provider logos, bank logos, readable signs, piles of money, poverty cliches or watermark. Fictional illustrative people, no endorsements."
+    },
+    {
+      "file": "banking-together.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 1536x1024 editorial photo about banking and financial planning in Rwanda. An adult Rwandan female banking adviser, about 35, in a refined dark navy blazer, sits at a clean modern desk discussing a simple financial plan with an adult Rwandan small-business owner, about 40, in a light casual shirt. Both engaged and at ease, adviser gently indicating a notebook while the customer listens. Contemporary Kigali office with warm wood, green plants and large windows; unbranded laptop angled away and two glasses of water. Premium documentary-style campaign photography, balanced natural daylight, natural faces, accurate fingers and relaxed body language; subjects centrally framed for card crops. No legible account numbers, bank names, signage, text, visible amounts, branded cards, cash, watermarks or implied institution endorsement. Fictional illustrative people."
+    },
+    {
+      "file": "shared-goals.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 1536x1024 editorial lifestyle image for shared goals and community finance in Kigali, Rwanda. Three clearly adult Rwandan friends, two women and one man, in their late twenties, sitting together at an airy contemporary Kigali cafe terrace, planning a shared community goal with one smartphone and a small unmarked notebook. A natural moment of warm conversation and optimism; stylish everyday clothing in cream, navy and muted earthy colours, a few green plants and sunlit hills in the distance. Premium candid photography with realistic skin and fabric, natural hand anatomy, soft late-afternoon daylight, composition safe to crop around the three central faces. No readable app screens, text, slogans, logos, provider names, piles of cash or watermark. Fictional illustrative people."
+    }
+  ]
+}

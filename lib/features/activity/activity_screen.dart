@@ -208,37 +208,40 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
+      useSafeArea: true,
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (sheetContext) {
         return CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SectionHeader(title: 'Filter by group'),
-              RadioGroup<String?>(
-                groupValue: _collectionId,
-                onChanged: (value) {
-                  setState(() => _collectionId = value);
-                  Navigator.of(sheetContext).pop();
-                },
-                child: Column(
-                  children: [
-                    const RadioListTile<String?>(
-                      value: null,
-                      title: Text('All groups'),
-                    ),
-                    for (final collection in collections)
-                      RadioListTile<String?>(
-                        value: collection.id,
-                        title: Text(collection.title),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SectionHeader(title: 'Filter by group'),
+                RadioGroup<String?>(
+                  groupValue: _collectionId,
+                  onChanged: (value) {
+                    setState(() => _collectionId = value);
+                    Navigator.of(sheetContext).pop();
+                  },
+                  child: Column(
+                    children: [
+                      const RadioListTile<String?>(
+                        value: null,
+                        title: Text('All groups'),
                       ),
-                  ],
+                      for (final collection in collections)
+                        RadioListTile<String?>(
+                          value: collection.id,
+                          title: Text(collection.title),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

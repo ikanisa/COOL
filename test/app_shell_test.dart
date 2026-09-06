@@ -809,10 +809,9 @@ void main() {
     expect(groupCardMedia, isNot(contains('brandAction,')));
     expect(groupCardMedia, isNot(contains('rosePaint')));
     expect(groupCardMedia, isNot(contains('periwinklePaint')));
-    expect(groupCardMedia, isNot(contains('CollectColors.brandMintGreen')));
-    expect(groupCardMedia, contains('CollectColors.brandPeriwinkle'));
-    expect(groupCardMedia, contains('CollectColors.brandDustyRose'));
-    expect(groupCardMedia, contains('CollectColors.brandOrangeRed'));
+    expect(groupCardMedia, contains('assets/marketing/rwanda/'));
+    expect(groupCardMedia, isNot(contains('CollectColors.brandPeriwinkle')));
+    expect(groupCardMedia, isNot(contains('_groupCoverPalette')));
 
     final staticSite = File(
       'scripts/public_static_site_build.rb',
@@ -1002,8 +1001,8 @@ void main() {
     expect(home, isNot(contains("context.go('/groups/search')")));
     expect(home, isNot(contains("label: 'Join'")));
     expect(home, isNot(contains("context.go('/groups/join')")));
-    expect(home, contains("label: 'Scan QR'"));
-    expect(home, contains("onTap: () => context.go('/groups/scan'),"));
+    expect(home, contains("label: 'Explore Groups'"));
+    expect(home, contains("context.go('/groups?filter=featured')"));
     expect(groups, contains('CollectScreenTopChrome('));
     expect(groups, contains("'Search groups'"));
     expect(settings, isNot(contains('class _SettingsTopBar')));
@@ -1169,7 +1168,7 @@ void main() {
       expect(scanner, isNot(contains('analyzeImage')));
       expect(scanner, isNot(contains("'Gallery'")));
       expect(scanner, isNot(contains("label: 'Enter link'")));
-      expect(groupCards, contains('_GroupCoverTitleOverlay'));
+      expect(groupCards, contains('_EditorialGroupCard'));
       expect(collectComponents, isNot(contains('plateFill')));
       expect(collectComponents, isNot(contains('plateBorder')));
     },

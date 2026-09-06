@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06T09:29:11.767618+00:00",
+  "scope": "Owner annotations: group-create fields, public discovery, profile MoMo code and contribution labels",
+  "status": "local_checks_pass",
+  "release_status": "blocked",
+  "source": {
+    "source_sha256": "2a51d516c93ae24ca13fea5461d7f22781612a59b60e17d41482188472840a66",
+    "contract_sha256": "4cb47860f3259577f4cb3ba67ddd6ab15825fbe75b0a44afb59cb23704e396b7",
+    "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+    "version": "1.2.4+23",
+    "release_status": "not_assessed"
+  },
+  "report": "docs/release/mobile-design/OWNER_ANNOTATIONS_2026-09-06.md",
+  "evidence_root": ".cache/revolut-design-20260906/owner-annotations",
+  "widget_tests": {
+    "passed": 192,
+    "failed": 0,
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/widget-tests-final.jsonl",
+      "sha256": "975d2e2a669e1d43a4a13f36083ca2adaaec4331787d050be3fd0b1081ae6cf7"
+    },
+    "details": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/test-verification.json",
+      "sha256": "0176c78c2e8ef881d7338786444a1a78ebe7c7212790556bc4e3c728c649a593"
+    }
+  },
+  "database": {
+    "status": "pass",
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/tests-momo-code-database.txt",
+      "sha256": "5a41af6ab542b1dabc2ce21abebc165edb6623da2d1fec76468bc4d62ad09c5b"
+    },
+    "transaction_rolled_back": true,
+    "migration": "supabase/migrations/20260906093000_member_profile_momo_code.sql",
+    "migration_deployed": false,
+    "scope": "Private profile code save/reload, leading zeros, validation, atomicity, clear, legacy RPC, diaspora, account isolation and denied direct/anonymous writes."
+  },
+  "native": {
+    "passed": 36,
+    "failed": 0,
+    "os_screenshots": 68,
+    "report": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/native-final/report.json",
+      "sha256": "5ac4154bf2289b7ba6fe19a517121a858fc3ffc419e0593a6dd365fa75645635"
+    },
+    "provenance": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/native-final/provenance.json",
+      "sha256": "48d5333222ba02829deb84c2f111bd53f8c2f52c1585d98232c1b3e64abebcd4"
+    },
+    "source_unchanged_during_run": true,
+    "harness_unchanged_during_run": true,
+    "installed_apk_matches_retained": true,
+    "apk_sha256": "ad729f22e538920f467063cd699db8504780d6218c26da794456ce53b2daf316",
+    "raster": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/native-final/raster-verification.json",
+      "sha256": "bc66db8db5e543a2ad62cc7be9b3271b822a9aa372e7880fb0704fb9df904c85"
+    },
+    "settings_restored": true,
+    "qa_emulator_stopped": true,
+    "actions_submitted": false,
+    "fixture_mode": true
+  },
+  "analysis": {
+    "path": ".cache/revolut-design-20260906/owner-annotations/analysis.txt",
+    "sha256": "21b45a97f4fcedaa082c3984b78e4dea1b3dcea31add92a7a8c12f1ad56b1424"
+  },
+  "source_hygiene": {
+    "path": ".cache/revolut-design-20260906/owner-annotations/source-hygiene.txt",
+    "sha256": "0f181346a3783e5d28c91aa9ebd9e651622118c5055277b270fdc98c62c7d14b"
+  },
+  "mobile_design_gate": {
+    "status": "blocked",
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/owner-annotations/gate.txt",
+      "sha256": "db81791254c42aeaccc3e8c6cd2dcff9c21493596544751a691b705be5b55f8e"
+    }
+  },
+  "gallery": {
+    "path": ".cache/revolut-design-20260906/owner-annotations/gallery-verification.json",
+    "sha256": "d74da0d345da091ef96427c562e670ba2f9d8a114f6c5e1b3b81dfff7071dd0a"
+  },
+  "visual_review_scope": "Representative current native and widget images only. Fields, enlarged labels, real keyboard fit, public discovery states and recipient text reviewed. Full design fidelity is not certified.",
+  "visually_reviewed_captures": [
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/native-final/group-create-portrait-200-action.png",
+      "sha256": "aebb5d04cde0e80a04c4ef088bb8da15da701c28b8995f11f699ebb6a5c7c74a"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/native-final/profile-momo-code-portrait-200-action.png",
+      "sha256": "99bd4c04c5ee3e975c0e3ad458ab7e9d3ed01aa346e91c0c61cc36d7791c1cd0"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/native-final/contribution-portrait-100-focused.png",
+      "sha256": "b5174993e33655b7569f10472dc82d148acc958059483c3dbcc5e5fe58071272"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/home/home-empty.png",
+      "sha256": "f9eee8599c356a52ebfdd7dd65eb66c7306304f5d7d4e39ede675f315f24dd83"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/home/home-loading.png",
+      "sha256": "c97496342b8b4b8087d226150fcbc48e12f152559b0f159b4f2fa2a584e08d3b"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/profile/momo-code-2.0x.png",
+      "sha256": "68816313db86ac8cb1d1d33994fdc5d0fcefdc1d94e98d707267490c3879216e"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/owner-annotations/forms/group-create-large-text-200-description.png",
+      "sha256": "90482a41d540fbc498d65e44b12c4b4617608b8e4587b04db3bf445a969879ff"
+    }
+  ],
+  "superseded_native_runs": [
+    ".cache/revolut-design-20260906/native-keyboard-recipient-labels",
+    ".cache/revolut-design-20260906/owner-annotations/native-keyboard"
+  ],
+  "production_mutations": false,
+  "release_approval": false,
+  "physical_phone_modified": false,
+  "remaining": [
+    "Deploy the private profile MoMo code migration through the authorized backend release process before relying on live code persistence.",
+    "Complete original-reference and route/state assessment.",
+    "Native screen-reader and current iOS keyboard verification.",
+    "Exact production artifact acceptance under MOBILE-DESIGN-100."
+  ]
+}

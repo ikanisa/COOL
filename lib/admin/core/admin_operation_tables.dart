@@ -780,18 +780,11 @@ class _AdminPremiumTable extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surfaceReadable,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: colors.borderSoft),
-        boxShadow: [
-          BoxShadow(
-            color: CollectColors.publicBlack.withValues(alpha: 0.08),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Scrollbar(
@@ -1184,7 +1177,7 @@ class _AdminOperationsSummary extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: colors.surfaceReadable.withValues(alpha: 0.9),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: colors.borderSoft),
           ),
           child: Padding(
@@ -1292,7 +1285,7 @@ class _AdminOperationsCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surfaceReadable,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: colors.borderSoft),
       ),
       child: Padding(

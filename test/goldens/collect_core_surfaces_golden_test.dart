@@ -31,7 +31,10 @@ void main() {
       ..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'));
     final materialIcons = FontLoader('MaterialIcons')
       ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
-    await Future.wait([inter.load(), materialIcons.load()]);
+    final marketing = FontLoader('Aeonik Pro')
+      ..addFont(rootBundle.load('assets/typefaces/AeonikPro-Regular.ttf'))
+      ..addFont(rootBundle.load('assets/typefaces/AeonikPro-Medium.ttf'));
+    await Future.wait([inter.load(), materialIcons.load(), marketing.load()]);
   });
 
   tearDownAll(() {
@@ -121,6 +124,7 @@ void main() {
         );
         await _precacheOfficialLogo(tester);
         await _pumpStableFrames(tester);
+        await _precacheVisibleImages(tester, goldenKey);
         if (surface.key == 'contribution_review') {
           await tester.enterText(find.byType(TextField).first, '10000');
           await tester.pump();
@@ -153,6 +157,15 @@ void main() {
         ),
       );
       await _precacheOfficialLogo(tester);
+      await tester.runAsync(() async {
+        final context = tester.element(find.byKey(goldenKey));
+        for (final asset in [
+          CollectRuntimeAssets.marketingSky,
+          CollectRuntimeAssets.marketingEditorial,
+        ]) {
+          await precacheImage(AssetImage(asset), context);
+        }
+      });
       await _pumpStableFrames(tester);
 
       expect(tester.takeException(), isNull);
@@ -251,6 +264,13 @@ class _CollectGoldenFileComparator extends LocalFileComparator {
 
   @override
   Future<bool> compare(Uint8List imageBytes, Uri golden) async {
+    final candidateRoot = Platform.environment['COLLECT_GOLDEN_CANDIDATE_DIR'];
+    if (candidateRoot != null) {
+      final directory = Directory(candidateRoot)..createSync(recursive: true);
+      File(
+        '${directory.path}/${golden.pathSegments.last}',
+      ).writeAsBytesSync(imageBytes);
+    }
     final result = await GoldenFileComparator.compareLists(
       imageBytes,
       await getGoldenBytes(golden),
@@ -296,4 +316,21 @@ Future<void> _precacheOfficialLogo(WidgetTester tester) async {
     ),
   );
   await tester.pump();
+}
+
+Future<void> _precacheVisibleImages(
+  WidgetTester tester,
+  Key boundaryKey,
+) async {
+  final context = tester.element(find.byKey(boundaryKey));
+  final providers = tester
+      .widgetList<Image>(find.byType(Image))
+      .map((image) => image.image)
+      .toSet();
+  await tester.runAsync(() async {
+    for (final provider in providers) {
+      await precacheImage(provider, context);
+    }
+  });
+  await _pumpStableFrames(tester);
 }

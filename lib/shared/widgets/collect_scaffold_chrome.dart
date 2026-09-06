@@ -66,24 +66,13 @@ class ScreenHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(
-                  height: 30,
-                  width: double.infinity,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      title,
-                      style: textTheme.headlineSmall?.copyWith(
-                        color: foreground,
-                        fontWeight: CollectTypography.weightBold,
-                        height: CollectTypography.leadingSolid,
-                        letterSpacing: CollectTypography.trackingDefault,
-                      ),
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                Text(
+                  title,
+                  style: textTheme.headlineSmall?.copyWith(
+                    color: foreground,
+                    fontWeight: CollectTypography.weightSemibold,
+                    height: CollectTypography.leadingTitleRelaxed,
+                    letterSpacing: CollectTypography.trackingDefault,
                   ),
                 ),
                 if (subtitle != null) ...[
@@ -95,9 +84,6 @@ class ScreenHeader extends StatelessWidget {
                       height: CollectTypography.leadingTitleRelaxed,
                       letterSpacing: CollectTypography.trackingDefault,
                     ),
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ],
@@ -276,7 +262,7 @@ class CollectScreenTopChrome extends StatelessWidget {
                                       ?.copyWith(
                                         color: muted,
                                         fontWeight:
-                                            CollectTypography.weightBold,
+                                            CollectTypography.weightRegular,
                                         letterSpacing:
                                             CollectTypography.trackingDefault,
                                       ),
@@ -446,7 +432,7 @@ class CollectScreenHero extends StatelessWidget {
                                 fontSize: metric == null
                                     ? CollectTypography.sizePageCompact
                                     : headlineSize,
-                                fontWeight: CollectTypography.weightBold,
+                                fontWeight: CollectTypography.weightSemibold,
                                 height: CollectTypography.leadingSolid,
                                 letterSpacing:
                                     CollectTypography.trackingDefault,
@@ -556,7 +542,7 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
-    final fill = CollectRuntimeTokens.chromeControl(colors);
+    final fill = CollectRuntimeTokens.quickActionFill(colors);
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
     void handleTap() {
       CollectHaptics.selection();
@@ -633,25 +619,58 @@ class CollectBackdropScope extends InheritedWidget {
       tone != oldWidget.tone;
 }
 
-class CollectGradientBackground extends StatelessWidget {
+class CollectGradientBackground extends StatefulWidget {
   const CollectGradientBackground({required this.child, super.key});
 
   final Widget child;
 
   @override
+  State<CollectGradientBackground> createState() =>
+      _CollectGradientBackgroundState();
+}
+
+class _CollectGradientBackgroundState extends State<CollectGradientBackground> {
+  double _scrollOffset = 0;
+  CollectBackdropTone _tone = CollectBackdropTone.plain;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final tone = CollectBackdropScope.of(context);
+    if (tone != _tone) {
+      _tone = tone;
+      _scrollOffset = 0;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.canvas,
-        gradient: CollectRuntimeTokens.overviewBackdrop(
-          colors,
-          Theme.of(context).brightness,
-          CollectBackdropScope.of(context),
-          highContrast: MediaQuery.highContrastOf(context),
-        ),
+    final gradient = CollectRuntimeTokens.overviewBackdrop(
+      colors,
+      Theme.of(context).brightness,
+      _tone,
+      highContrast: MediaQuery.highContrastOf(context),
+      scrollOffset: _scrollOffset,
+      viewportHeight: MediaQuery.sizeOf(context).height,
+    );
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (gradient == null ||
+            notification.depth != 0 ||
+            notification.metrics.axis != Axis.vertical) {
+          return false;
+        }
+        final offset = notification.metrics.pixels.clamp(0.0, double.infinity);
+        if ((_scrollOffset - offset).abs() >= 0.5) {
+          setState(() => _scrollOffset = offset);
+        }
+        return false;
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: colors.canvas, gradient: gradient),
+        child: widget.child,
       ),
-      child: child,
     );
   }
 }
@@ -756,26 +775,29 @@ class PremiumScaffold extends StatelessWidget {
             final width = constraints.maxWidth > CollectSpacing.contentMaxWidth
                 ? CollectSpacing.contentMaxWidth
                 : constraints.maxWidth;
+            final content = Column(
+              children: [
+                Expanded(child: scrollable),
+                if (bottomAction != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      CollectSpacing.x4,
+                      CollectSpacing.x2,
+                      CollectSpacing.x4,
+                      CollectSpacing.x4,
+                    ),
+                    child: bottomAction!,
+                  ),
+              ],
+            );
             return Align(
               alignment: Alignment.topCenter,
               child: SizedBox(
                 width: width,
                 height: constraints.maxHeight,
-                child: Column(
-                  children: [
-                    Expanded(child: scrollable),
-                    if (bottomAction != null)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          CollectSpacing.x4,
-                          CollectSpacing.x2,
-                          CollectSpacing.x4,
-                          CollectSpacing.x4,
-                        ),
-                        child: bottomAction!,
-                      ),
-                  ],
-                ),
+                child: bottomAction == null
+                    ? content
+                    : CollectFormViewport(child: content),
               ),
             );
           },

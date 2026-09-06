@@ -54,6 +54,7 @@ class _LegalPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final colors = context.collectColors;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final control = CollectRuntimeTokens.chromeControl(colors);
@@ -81,9 +82,11 @@ class _LegalPageHeader extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
+              maxLines: largeText ? null : 1,
+              softWrap: largeText,
+              overflow: largeText
+                  ? TextOverflow.visible
+                  : TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: foreground,
                 fontWeight: CollectTypography.weightBold,
@@ -181,14 +184,13 @@ class AccountSessionScreen extends ConsumerWidget {
   }
 
   Future<void> _confirmSignOut(BuildContext context, WidgetRef ref) async {
-    final confirmed = await _showAccountActionSheet(
+    final confirmed = await showCollectConfirmationSheet(
       context: context,
-      icon: CollectIcons.lock,
       title: 'Sign out?',
       message:
           'End this Collect session on this device. Group ledgers and verified records stay available after you sign in again.',
       confirmLabel: 'Sign out',
-      confirmIcon: CollectIcons.lock,
+      destructive: true,
     );
     if (confirmed != true || !context.mounted) return;
     await ref.read(collectRepositoryProvider.notifier).signOut();
@@ -278,16 +280,15 @@ class _DeleteAccountRequestScreenState
   }
 
   Future<void> _confirmAndSubmit() async {
-    final confirmed = await _showAccountActionSheet(
+    final confirmed = await showCollectConfirmationSheet(
       context: context,
-      icon: CollectIcons.error,
       title: 'Submit delete request?',
       message:
           'This creates an auditable data deletion request. Some ledger, security, dispute, and legal records may be retained.',
       confirmLabel: 'Submit',
-      confirmIcon: CollectIcons.error,
+      destructive: true,
     );
-    if (confirmed != true) return;
+    if (confirmed != true || !mounted) return;
     setState(() {
       _submitting = true;
       _error = null;
@@ -309,123 +310,6 @@ String _safeAccountRequestError(Object error) {
   if (error is FormatException) return error.message.toString();
   if (error is StateError) return error.message.toString();
   return 'The request could not be submitted. Check your connection and try again.';
-}
-
-Future<bool> _showAccountActionSheet({
-  required BuildContext context,
-  required IconData icon,
-  required String title,
-  required String message,
-  required String confirmLabel,
-  required IconData confirmIcon,
-}) async {
-  final result = await showModalBottomSheet<bool>(
-    context: context,
-    useRootNavigator: true,
-    useSafeArea: true,
-    isScrollControlled: true,
-    backgroundColor: context.collectColors.transparent,
-    barrierColor: CollectColors.publicBlack.withValues(alpha: 0.64),
-    sheetAnimationStyle: CollectMotion.animationStyle(context),
-    builder: (sheetContext) {
-      final colors = sheetContext.collectColors;
-      final usesAccessibilityText =
-          MediaQuery.textScalerOf(sheetContext).scale(1) >= 1.3;
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-          CollectSpacing.x4,
-          CollectSpacing.x2,
-          CollectSpacing.x4,
-          MediaQuery.viewInsetsOf(sheetContext).bottom + CollectSpacing.x4,
-        ),
-        child: SingleChildScrollView(
-          child: CollectCard(
-            emphasis: CollectCardEmphasis.glow,
-            accentColor: colors.statusBlocked,
-            padding: CollectSpacing.cardPaddingComfortable,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CollectToneIcon(
-                      icon: icon,
-                      tone: CollectStatusTone.warning,
-                    ),
-                    CollectSpacing.gapW12,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            style: Theme.of(sheetContext).textTheme.titleLarge
-                                ?.copyWith(
-                                  fontWeight: CollectTypography.weightBold,
-                                ),
-                          ),
-                          CollectSpacing.gap8,
-                          Text(
-                            message,
-                            softWrap: true,
-                            style: Theme.of(sheetContext).textTheme.bodyMedium
-                                ?.copyWith(color: colors.textSecondary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                CollectSpacing.gap20,
-                if (usesAccessibilityText) ...[
-                  CollectButton(
-                    label: confirmLabel,
-                    icon: confirmIcon,
-                    variant: CollectButtonVariant.danger,
-                    onPressed: () => Navigator.of(sheetContext).pop(true),
-                    expand: true,
-                  ),
-                  CollectSpacing.gap12,
-                  CollectButton(
-                    label: 'Cancel',
-                    icon: CollectIcons.chevron,
-                    variant: CollectButtonVariant.secondary,
-                    onPressed: () => Navigator.of(sheetContext).pop(false),
-                    expand: true,
-                  ),
-                ] else
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CollectButton(
-                          label: 'Cancel',
-                          icon: CollectIcons.chevron,
-                          variant: CollectButtonVariant.secondary,
-                          onPressed: () =>
-                              Navigator.of(sheetContext).pop(false),
-                        ),
-                      ),
-                      CollectSpacing.gapW12,
-                      Expanded(
-                        child: CollectButton(
-                          label: confirmLabel,
-                          icon: confirmIcon,
-                          variant: CollectButtonVariant.danger,
-                          onPressed: () => Navigator.of(sheetContext).pop(true),
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
-  return result ?? false;
 }
 
 class _DeleteReasonOption extends StatelessWidget {

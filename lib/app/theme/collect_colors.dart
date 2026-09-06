@@ -55,19 +55,18 @@ class CollectColors extends ThemeExtension<CollectColors> {
   final Color textSecondary;
   final Color textMuted;
 
-  static const brandPaper = Color(0xFFFAF8F5);
-  static const brandPeriwinkle = Color(0xFF8885F0);
-  static const brandMintGreen = Color(0xFF3CD070);
-  static const brandDustyRose = Color(0xFFD38B96);
-  static const brandOrangeRed = Color(0xFFFF5E43);
-  static const inkPrimary = Color(0xFF252044);
-  static const referenceChromeBlack = Color(0xFF050510);
-  static const referenceAccountHighlight = Color(0xFF304CFF);
-  static const referenceAccountBlue = Color(0xFF0818A0);
-  static const referenceAccountNavy = Color(0xFF000840);
-  static const referenceDiscoveryViolet = Color(0xFF7050E8);
-  static const inkSecondary = Color(0xFF4B4664);
-  static const inkMuted = Color(0xFF5F5A76);
+  // Rendered adapters sampled from the owner's 5 September 2026 Desktop
+  // cohort. Measurement locations/hashes are in the mobile-design evidence.
+  // These are not exported native design tokens or logo-derived colours.
+  static const referenceChromeBlack = Color(0xFF000000);
+  static const referenceAccountHighlight = Color(0xFF3656FD);
+  static const referenceAccountBlue = Color(0xFF051194);
+  static const referenceAccountNavy = Color(0xFF010443);
+  static const referenceGroupTeal = Color(0xFF36ADC1);
+  static const referencePaymentsHighlight = Color(0xFF6A3CDE);
+  static const referenceProfileHighlight = Color(0xFF953DF5);
+  static const publicInk = Color(0xFF191C1F);
+  static const publicSecondary = Color(0xFF505053);
   static const transparentColor = Color(0x00000000);
   static const semanticSuccessForeground = Color(0xFF137A3F);
   static const semanticInfoForeground = Color(0xFF303035);
@@ -82,6 +81,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const referenceContentDark = Color(0xFF101018);
   static const publicWhite = Color(0xFFFFFFFF);
   static const publicBlack = Color(0xFF000000);
+  static const publicHeroScrim = Color(0xFF0A1928);
   static const publicMutedGrey = Color(0xFF84848C);
   static const publicMintSurface = Color(0xFFF3FBF8);
   static const publicHeroPurple = Color(0xFF151029);
@@ -96,11 +96,11 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const publicSoftLavender = Color(0xFFF7F7FF);
   static const publicLavenderBorder = Color(0xFFE8E3F2);
 
-  static const brandPrimaryColors = <Color>[
-    brandPeriwinkle,
-    brandMintGreen,
-    brandDustyRose,
-    brandOrangeRed,
+  static const groupAccentColors = <Color>[
+    referenceAccountHighlight,
+    referenceGroupTeal,
+    referenceProfileHighlight,
+    referencePaymentsHighlight,
   ];
   static const light = CollectColors(
     canvas: Color(0xFFF7F7F8),
@@ -131,9 +131,9 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const dark = CollectColors(
-    canvas: Color(0xFF08080A),
-    surface: Color(0xFF08080A),
-    surfaceReadable: Color(0xFF17171A),
+    canvas: referenceChromeBlack,
+    surface: referenceChromeBlack,
+    surfaceReadable: Color(0xFF161618),
     surfaceRaised: Color(0xFF202024),
     surfaceMuted: Color(0xFF2A2A2F),
     border: Color(0xFF343438),
@@ -153,7 +153,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
     warningContainer: Color(0xFF472117),
     dangerContainer: Color(0xFF4B1D17),
     neutralContainer: Color(0xFF2A2A2F),
-    textPrimary: Color(0xFFF7F7F8),
+    textPrimary: Color(0xFFF4F4F4),
     textSecondary: Color(0xFFC9C9CE),
     textMuted: Color(0xFF9A9AA2),
   );
@@ -169,28 +169,24 @@ class CollectColors extends ThemeExtension<CollectColors> {
       Color.alphaBlend(textPrimary.withValues(alpha: 0.52), surfaceReadable);
   Color get successInk => successForeground;
   Color get dangerSoft => dangerForeground;
-  Color get defaultGroupAccent => brandPeriwinkle;
-  Color get brandFoundation => brandPaper;
-  Color get brandSecondary => brandDustyRose;
-  Color get brandAction => brandOrangeRed;
-  Color get urgentAction => brandOrangeRed;
-  Color get brandSuccess => brandMintGreen;
+  Color get defaultGroupAccent => referenceAccountHighlight;
+  Color get urgentAction => dangerForeground;
   Color get transparent => transparentColor;
   Color get onAccent => _isDarkPalette ? publicBlack : publicWhite;
   Color get selectedOnAccent => onAccent;
-  Color get onImagePrimary => brandPaper;
-  Color get onImageMuted => brandPaper.withValues(alpha: 0.72);
-  // Auth keeps its reviewed dark values and adapts every foreground together
-  // with its canvas, inputs, and sheets when the user selects light mode.
+  Color get onImagePrimary => publicWhite;
+  Color get onImageMuted => publicWhite.withValues(alpha: 0.72);
+  // Auth uses its own indigo backdrop; focused sheets stay neutral. Light and
+  // high-contrast variants adapt foregrounds together with fields and sheets.
   Color get authCanvas => _isDarkPalette ? referenceChromeBlack : canvas;
   Color get authSheetSurface =>
       _isDarkPalette ? referenceContentDark : surfaceRaised;
   Color get authForeground => _isDarkPalette ? onImagePrimary : textPrimary;
   Color get authActionForeground =>
-      _isDarkPalette ? referenceChromeBlack : brandPaper;
+      _isDarkPalette ? referenceChromeBlack : publicWhite;
   Color get authInputHint =>
       _isDarkPalette ? onImagePrimary.withValues(alpha: 0.48) : textSecondary;
-  Color get exportCanvas => brandPaper;
+  Color get exportCanvas => publicWhite;
   Color get exportPaint => publicBlack;
   Color get shadowPaint => publicBlack;
   Color get imageScrimSoft => publicBlack.withValues(alpha: 0.18);
@@ -200,12 +196,29 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get statusGranted => successForeground;
   Color get statusBlocked => dangerForeground;
 
-  static const brandPrimaryOptions = <CollectPaletteOption>[
-    CollectPaletteOption(brandPeriwinkle),
-    CollectPaletteOption(brandMintGreen),
-    CollectPaletteOption(brandDustyRose),
-    CollectPaletteOption(brandOrangeRed),
+  static const groupAccentOptions = <CollectPaletteOption>[
+    CollectPaletteOption(referenceAccountHighlight),
+    CollectPaletteOption(referenceGroupTeal),
+    CollectPaletteOption(referenceProfileHighlight),
+    CollectPaletteOption(referencePaymentsHighlight),
   ];
+
+  /// Presentation bridge for saved colours. Records keep their original value
+  /// unless the user explicitly selects a new swatch while editing the group.
+  static String? groupColorHexForDisplay(String? storedHex) {
+    final normalized = storedHex?.trim().toUpperCase();
+    final index = switch (normalized) {
+      '#8885F0' => 0,
+      '#3CD070' => 1,
+      '#D38B96' => 2,
+      '#FF5E43' => 3,
+      _ => null,
+    };
+    return index == null ? normalized : groupAccentOptions[index].hex;
+  }
+
+  static Color foregroundOn(Color background) =>
+      background.computeLuminance() > 0.179 ? publicBlack : publicWhite;
 
   Color get screenBase => canvas;
 

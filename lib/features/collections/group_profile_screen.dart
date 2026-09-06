@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_group_photo_picker.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
 
@@ -33,7 +34,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   String? _imageName;
   String? _imageMimeType;
   bool _removeExistingImage = false;
-  String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
+  String _accentColorHex = CollectColors.groupAccentOptions.first.hex;
   String _cadence = 'monthly';
   CollectionType _collectionType = CollectionType.ikimina;
   bool _recurringEnabled = true;
@@ -193,10 +194,12 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   }
 
   Color get _selectedColor {
-    return CollectColors.brandPrimaryOptions
+    return CollectColors.groupAccentOptions
         .firstWhere(
-          (option) => option.hex == _accentColorHex,
-          orElse: () => CollectColors.brandPrimaryOptions.first,
+          (option) =>
+              option.hex ==
+              CollectColors.groupColorHexForDisplay(_accentColorHex),
+          orElse: () => CollectColors.groupAccentOptions.first,
         )
         .color;
   }
@@ -206,7 +209,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       _description.text.trim() != collection.description ||
       _accentColorHex !=
           (collection.accentColorHex ??
-              CollectColors.brandPrimaryOptions.first.hex) ||
+              CollectColors.groupAccentOptions.first.hex) ||
       _cadence != collection.recurringCadence ||
       _recurringEnabled != collection.isRecurring ||
       _collectionType != collection.collectionType ||
@@ -219,8 +222,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _name.text = collection.title;
     _description.text = collection.description;
     _accentColorHex =
-        collection.accentColorHex ??
-        CollectColors.brandPrimaryOptions.first.hex;
+        collection.accentColorHex ?? CollectColors.groupAccentOptions.first.hex;
     _cadence = collection.recurringCadence;
     _recurringEnabled = collection.isRecurring;
     _collectionType = collection.collectionType;
@@ -228,10 +230,9 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
 
   Future<void> _pickImage() async {
     try {
-      final image = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 1800,
-        imageQuality: 86,
+      final image = await pickCollectGroupPhoto(
+        context,
+        imagePicker: _imagePicker,
       );
       if (image == null) return;
       final bytes = await image.readAsBytes();

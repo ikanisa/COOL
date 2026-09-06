@@ -31,6 +31,7 @@ const chromeCandidates = [
   '/Applications/Chromium.app/Contents/MacOS/Chromium',
 ].filter(Boolean);
 const allViewports = [
+  { name: 'compact_320x740', width: 320, height: 740, compact: true },
   { name: 'compact_390x844', width: 390, height: 844, compact: true },
   { name: 'tablet_834x1194', width: 834, height: 1194, compact: true },
   { name: 'desktop_1440x900', width: 1440, height: 900, compact: false },
@@ -108,7 +109,7 @@ const allRoutes = [
     ],
     requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
-      'WhatsApp',
+      'Account / contact',
       'Country',
       'Payment profile',
       'Groups',
@@ -1281,6 +1282,17 @@ async function keyboardExerciseSensitiveGate(page) {
     };
   }
   await page.keyboard.press('Space');
+  // At 320px the purpose chips wrap above the action. Flutter omits the
+  // offscreen action from its web semantics tree until the content is scrolled.
+  // Reach it through the real scroll surface before testing keyboard activation.
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const present = await page.getByRole('button', {
+      name: 'Reveal protected evidence', exact: true,
+    }).count();
+    if (present) break;
+    await page.mouse.wheel(0, 220);
+    await page.waitForTimeout(200);
+  }
   try {
     await page.waitForFunction(
       () =>
@@ -1509,6 +1521,13 @@ async function auditRoute(browser, route, viewport) {
         interactiveTargets.measuredTargetCount > 0,
       interactiveTargetsMeetMinimum:
         interactiveTargets.violations.length === 0,
+      persistentHeaderControlsAccessible:
+        route.expectsNavigation === false ||
+        ['Country scope:', 'Operator menu', 'Operations overview'].every(
+          (name) => accessibility.focusableInteractiveNodes.some(
+            (node) => node.name.includes(name),
+          ),
+        ),
       keyboardTraversal:
         focusLabels.length >= (route.minimumKeyboardStops ?? 2),
       noBrowserErrors:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_radius.dart';
 import '../../../app/theme/collect_runtime_tokens.dart';
 
 class AdminFilterBar extends StatelessWidget {
@@ -50,7 +51,18 @@ class AdminFilterBar extends StatelessWidget {
             prefixIcon: const Icon(Icons.search),
             filled: true,
             fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            border: OutlineInputBorder(
+              borderRadius: CollectRadius.pillBorder,
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: CollectRadius.pillBorder,
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: CollectRadius.pillBorder,
+              borderSide: BorderSide(color: colors.focusRing, width: 2),
+            ),
           ),
         ),
       ),
@@ -100,8 +112,8 @@ class AdminFilterBar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surfaceReadable.withValues(alpha: 0.92),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: colors.borderSoft),
+        borderRadius: CollectRadius.cardBorder,
+        border: Border.all(color: colors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),

@@ -543,6 +543,7 @@ class CollectProfile {
     this.currencyCode = '',
     this.momoProvider = '',
     this.momoNumber = '',
+    this.momoPayCode = '',
     this.revolutLink = '',
     this.revolutAccount = '',
   });
@@ -554,6 +555,7 @@ class CollectProfile {
   final String currencyCode;
   final String momoProvider;
   final String momoNumber;
+  final String momoPayCode;
   final String revolutLink;
   final String revolutAccount;
 
@@ -578,6 +580,7 @@ class CollectProfile {
       momoNumber:
           (json['momo_number'] as String?)?.trim() ??
           _defaultRwandaMomoNumber(whatsappPhone, countryCode),
+      momoPayCode: (json['momo_pay_code'] as String?)?.trim() ?? '',
       revolutLink: (json['revolut_link'] as String?)?.trim() ?? '',
       revolutAccount: (json['revolut_account'] as String?)?.trim() ?? '',
     );
@@ -607,6 +610,7 @@ class CollectProfile {
     String? currencyCode,
     String? momoProvider,
     String? momoNumber,
+    String? momoPayCode,
     String? revolutLink,
     String? revolutAccount,
   }) {
@@ -618,6 +622,7 @@ class CollectProfile {
       currencyCode: currencyCode ?? this.currencyCode,
       momoProvider: momoProvider ?? this.momoProvider,
       momoNumber: momoNumber ?? this.momoNumber,
+      momoPayCode: momoPayCode ?? this.momoPayCode,
       revolutLink: revolutLink ?? this.revolutLink,
       revolutAccount: revolutAccount ?? this.revolutAccount,
     );

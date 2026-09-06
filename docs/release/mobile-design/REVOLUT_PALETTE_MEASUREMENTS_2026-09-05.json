@@ -1,0 +1,988 @@
+{
+  "schema_version": 1,
+  "status": "Measured route palettes implemented and locally reviewed; full source/target visual acceptance remains unverified.",
+  "cohort": "User-supplied Desktop captures, 5 September 2026, Dark Glow appearance",
+  "private_reference_images_copied_to_runtime": false,
+  "logo_modified": false,
+  "measurements": [
+    {
+      "route": "home",
+      "source": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.23.25.png",
+      "sha256": "70798320ce3bba82e2c8e8660c465770df02f38d4ca96f1873c084ff30228618",
+      "size": [
+        408,
+        857
+      ],
+      "samples": [
+        {
+          "point": [
+            200,
+            12
+          ],
+          "rgb": [
+            54,
+            86,
+            253
+          ],
+          "hex": "#3656FD",
+          "original_encoded_rgb": [
+            63,
+            69,
+            247
+          ]
+        },
+        {
+          "point": [
+            15,
+            35
+          ],
+          "rgb": [
+            57,
+            92,
+            252
+          ],
+          "hex": "#395CFC",
+          "original_encoded_rgb": [
+            65,
+            76,
+            246
+          ]
+        },
+        {
+          "point": [
+            15,
+            100
+          ],
+          "rgb": [
+            31,
+            52,
+            234
+          ],
+          "hex": "#1F34EA",
+          "original_encoded_rgb": [
+            48,
+            36,
+            226
+          ]
+        },
+        {
+          "point": [
+            15,
+            180
+          ],
+          "rgb": [
+            13,
+            29,
+            201
+          ],
+          "hex": "#0D1DC9",
+          "original_encoded_rgb": [
+            36,
+            14,
+            189
+          ]
+        },
+        {
+          "point": [
+            15,
+            300
+          ],
+          "rgb": [
+            5,
+            17,
+            148
+          ],
+          "hex": "#051194",
+          "original_encoded_rgb": [
+            25,
+            7,
+            134
+          ]
+        },
+        {
+          "point": [
+            15,
+            410
+          ],
+          "rgb": [
+            2,
+            6,
+            91
+          ],
+          "hex": "#02065B",
+          "original_encoded_rgb": [
+            15,
+            4,
+            79
+          ]
+        },
+        {
+          "point": [
+            15,
+            500
+          ],
+          "rgb": [
+            1,
+            4,
+            67
+          ],
+          "hex": "#010443",
+          "original_encoded_rgb": [
+            11,
+            5,
+            57
+          ]
+        },
+        {
+          "point": [
+            15,
+            600
+          ],
+          "rgb": [
+            0,
+            5,
+            70
+          ],
+          "hex": "#000546",
+          "original_encoded_rgb": [
+            10,
+            6,
+            60
+          ]
+        },
+        {
+          "point": [
+            15,
+            750
+          ],
+          "rgb": [
+            1,
+            3,
+            57
+          ],
+          "hex": "#010339",
+          "original_encoded_rgb": [
+            9,
+            3,
+            49
+          ]
+        },
+        {
+          "point": [
+            15,
+            810
+          ],
+          "rgb": [
+            0,
+            2,
+            52
+          ],
+          "hex": "#000234",
+          "original_encoded_rgb": [
+            7,
+            3,
+            45
+          ]
+        }
+      ],
+      "reference_id": "DESK-003",
+      "comparison_type": "component-pattern; product content and workflows retained",
+      "measurement": "Rendered PNG RGB samples at original x=15. Physical pixels, not native token values; native DPR and source build unknown. Full originals visually inspected before sampling.",
+      "source_colour_profile": "HP 524sf",
+      "measurement_colour_space": "sRGB after embedded ICC conversion using LittleCMS; original file preserved",
+      "group_surface_sample": {
+        "point": [
+          30,
+          530
+        ],
+        "rgb": [
+          19,
+          24,
+          80
+        ],
+        "hex": "#131850"
+      }
+    },
+    {
+      "route": "groups",
+      "source": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.23.34.png",
+      "sha256": "40bd0c0b6986a8ba2d71502cefab7a1515522bf18e681e83ae02facd35f937eb",
+      "size": [
+        408,
+        857
+      ],
+      "samples": [
+        {
+          "point": [
+            200,
+            12
+          ],
+          "rgb": [
+            54,
+            173,
+            193
+          ],
+          "hex": "#36ADC1",
+          "original_encoded_rgb": [
+            53,
+            161,
+            183
+          ]
+        },
+        {
+          "point": [
+            15,
+            35
+          ],
+          "rgb": [
+            57,
+            175,
+            196
+          ],
+          "hex": "#39AFC4",
+          "original_encoded_rgb": [
+            55,
+            164,
+            186
+          ]
+        },
+        {
+          "point": [
+            15,
+            100
+          ],
+          "rgb": [
+            36,
+            129,
+            149
+          ],
+          "hex": "#248195",
+          "original_encoded_rgb": [
+            37,
+            116,
+            137
+          ]
+        },
+        {
+          "point": [
+            15,
+            180
+          ],
+          "rgb": [
+            17,
+            81,
+            100
+          ],
+          "hex": "#115164",
+          "original_encoded_rgb": [
+            22,
+            70,
+            88
+          ]
+        },
+        {
+          "point": [
+            15,
+            300
+          ],
+          "rgb": [
+            12,
+            54,
+            69
+          ],
+          "hex": "#0C3645",
+          "original_encoded_rgb": [
+            17,
+            47,
+            60
+          ]
+        },
+        {
+          "point": [
+            15,
+            410
+          ],
+          "rgb": [
+            9,
+            38,
+            48
+          ],
+          "hex": "#092630",
+          "original_encoded_rgb": [
+            14,
+            34,
+            42
+          ]
+        },
+        {
+          "point": [
+            15,
+            500
+          ],
+          "rgb": [
+            1,
+            28,
+            35
+          ],
+          "hex": "#011C23",
+          "original_encoded_rgb": [
+            6,
+            26,
+            31
+          ]
+        },
+        {
+          "point": [
+            15,
+            600
+          ],
+          "rgb": [
+            5,
+            28,
+            35
+          ],
+          "hex": "#051C23",
+          "original_encoded_rgb": [
+            10,
+            26,
+            31
+          ]
+        },
+        {
+          "point": [
+            15,
+            750
+          ],
+          "rgb": [
+            3,
+            24,
+            31
+          ],
+          "hex": "#03181F",
+          "original_encoded_rgb": [
+            8,
+            23,
+            28
+          ]
+        },
+        {
+          "point": [
+            15,
+            810
+          ],
+          "rgb": [
+            2,
+            23,
+            31
+          ],
+          "hex": "#02171F",
+          "original_encoded_rgb": [
+            7,
+            22,
+            28
+          ]
+        }
+      ],
+      "reference_id": "DESK-004",
+      "comparison_type": "component-pattern; product content and workflows retained",
+      "measurement": "Rendered PNG RGB samples at original x=15. Physical pixels, not native token values; native DPR and source build unknown. Full originals visually inspected before sampling.",
+      "source_colour_profile": "HP 524sf",
+      "measurement_colour_space": "sRGB after embedded ICC conversion using LittleCMS; original file preserved",
+      "group_surface_sample": {
+        "point": [
+          30,
+          650
+        ],
+        "rgb": [
+          23,
+          43,
+          50
+        ],
+        "hex": "#172B32"
+      }
+    },
+    {
+      "route": "activity",
+      "source": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.23.46.png",
+      "sha256": "191b7be4edf78bdc1ae0fc8d48f062f4f559381209f04ef18495ce1bf1deeb16",
+      "size": [
+        408,
+        857
+      ],
+      "samples": [
+        {
+          "point": [
+            200,
+            12
+          ],
+          "rgb": [
+            106,
+            60,
+            222
+          ],
+          "hex": "#6A3CDE",
+          "original_encoded_rgb": [
+            101,
+            47,
+            213
+          ]
+        },
+        {
+          "point": [
+            15,
+            35
+          ],
+          "rgb": [
+            92,
+            58,
+            193
+          ],
+          "hex": "#5C3AC1",
+          "original_encoded_rgb": [
+            87,
+            47,
+            181
+          ]
+        },
+        {
+          "point": [
+            15,
+            100
+          ],
+          "rgb": [
+            42,
+            25,
+            85
+          ],
+          "hex": "#2A1955",
+          "original_encoded_rgb": [
+            39,
+            23,
+            74
+          ]
+        },
+        {
+          "point": [
+            15,
+            180
+          ],
+          "rgb": [
+            27,
+            18,
+            58
+          ],
+          "hex": "#1B123A",
+          "original_encoded_rgb": [
+            27,
+            18,
+            50
+          ]
+        },
+        {
+          "point": [
+            15,
+            300
+          ],
+          "rgb": [
+            23,
+            19,
+            58
+          ],
+          "hex": "#17133A",
+          "original_encoded_rgb": [
+            24,
+            19,
+            50
+          ]
+        },
+        {
+          "point": [
+            15,
+            410
+          ],
+          "rgb": [
+            22,
+            19,
+            58
+          ],
+          "hex": "#16133A",
+          "original_encoded_rgb": [
+            23,
+            19,
+            50
+          ]
+        },
+        {
+          "point": [
+            15,
+            500
+          ],
+          "rgb": [
+            23,
+            19,
+            58
+          ],
+          "hex": "#17133A",
+          "original_encoded_rgb": [
+            24,
+            19,
+            50
+          ]
+        },
+        {
+          "point": [
+            15,
+            600
+          ],
+          "rgb": [
+            23,
+            18,
+            58
+          ],
+          "hex": "#17123A",
+          "original_encoded_rgb": [
+            24,
+            18,
+            50
+          ]
+        },
+        {
+          "point": [
+            15,
+            750
+          ],
+          "rgb": [
+            22,
+            19,
+            58
+          ],
+          "hex": "#16133A",
+          "original_encoded_rgb": [
+            23,
+            19,
+            50
+          ]
+        },
+        {
+          "point": [
+            15,
+            810
+          ],
+          "rgb": [
+            22,
+            21,
+            57
+          ],
+          "hex": "#161539",
+          "original_encoded_rgb": [
+            23,
+            20,
+            49
+          ]
+        }
+      ],
+      "reference_id": "DESK-005",
+      "comparison_type": "component-pattern; product content and workflows retained",
+      "measurement": "Rendered PNG RGB samples at original x=15. Physical pixels, not native token values; native DPR and source build unknown. Full originals visually inspected before sampling.",
+      "source_colour_profile": "HP 524sf",
+      "measurement_colour_space": "sRGB after embedded ICC conversion using LittleCMS; original file preserved",
+      "group_surface_sample": {
+        "point": [
+          30,
+          580
+        ],
+        "rgb": [
+          40,
+          36,
+          73
+        ],
+        "hex": "#282449"
+      }
+    },
+    {
+      "route": "profile",
+      "source": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.24.13.png",
+      "sha256": "4c57db84a9752398a5f2d3a5a70600c41eec451af16172d3361fa20f63ff7aa3",
+      "size": [
+        408,
+        857
+      ],
+      "samples": [
+        {
+          "point": [
+            200,
+            12
+          ],
+          "rgb": [
+            149,
+            61,
+            245
+          ],
+          "hex": "#953DF5",
+          "original_encoded_rgb": [
+            143,
+            49,
+            239
+          ]
+        },
+        {
+          "point": [
+            15,
+            35
+          ],
+          "rgb": [
+            152,
+            58,
+            246
+          ],
+          "hex": "#983AF6",
+          "original_encoded_rgb": [
+            146,
+            46,
+            240
+          ]
+        },
+        {
+          "point": [
+            15,
+            100
+          ],
+          "rgb": [
+            132,
+            74,
+            242
+          ],
+          "hex": "#844AF2",
+          "original_encoded_rgb": [
+            127,
+            60,
+            235
+          ]
+        },
+        {
+          "point": [
+            15,
+            180
+          ],
+          "rgb": [
+            115,
+            81,
+            243
+          ],
+          "hex": "#7351F3",
+          "original_encoded_rgb": [
+            111,
+            66,
+            236
+          ]
+        },
+        {
+          "point": [
+            15,
+            300
+          ],
+          "rgb": [
+            103,
+            73,
+            242
+          ],
+          "hex": "#6749F2",
+          "original_encoded_rgb": [
+            100,
+            58,
+            235
+          ]
+        },
+        {
+          "point": [
+            15,
+            410
+          ],
+          "rgb": [
+            77,
+            74,
+            209
+          ],
+          "hex": "#4D4AD1",
+          "original_encoded_rgb": [
+            75,
+            61,
+            199
+          ]
+        },
+        {
+          "point": [
+            15,
+            500
+          ],
+          "rgb": [
+            51,
+            44,
+            131
+          ],
+          "hex": "#332C83",
+          "original_encoded_rgb": [
+            49,
+            37,
+            117
+          ]
+        },
+        {
+          "point": [
+            15,
+            600
+          ],
+          "rgb": [
+            52,
+            43,
+            125
+          ],
+          "hex": "#342B7D",
+          "original_encoded_rgb": [
+            49,
+            36,
+            111
+          ]
+        },
+        {
+          "point": [
+            15,
+            750
+          ],
+          "rgb": [
+            48,
+            43,
+            125
+          ],
+          "hex": "#302B7D",
+          "original_encoded_rgb": [
+            46,
+            36,
+            111
+          ]
+        },
+        {
+          "point": [
+            15,
+            810
+          ],
+          "rgb": [
+            45,
+            44,
+            123
+          ],
+          "hex": "#2D2C7B",
+          "original_encoded_rgb": [
+            44,
+            37,
+            109
+          ]
+        }
+      ],
+      "reference_id": "DESK-007",
+      "comparison_type": "component-pattern; product content and workflows retained",
+      "measurement": "Rendered PNG RGB samples at original x=15. Physical pixels, not native token values; native DPR and source build unknown. Full originals visually inspected before sampling.",
+      "source_colour_profile": "HP 524sf",
+      "measurement_colour_space": "sRGB after embedded ICC conversion using LittleCMS; original file preserved",
+      "group_surface_sample": {
+        "point": [
+          32,
+          700
+        ],
+        "rgb": [
+          64,
+          58,
+          134
+        ],
+        "hex": "#403A86"
+      }
+    },
+    {
+      "route": "auth",
+      "source": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.22.50.png",
+      "sha256": "e1fa8c8231709b2708d4db0ddf61830c816fc12630bdc1f7d7b8a3b5405d0305",
+      "size": [
+        408,
+        857
+      ],
+      "samples": [
+        {
+          "point": [
+            200,
+            12
+          ],
+          "rgb": [
+            67,
+            94,
+            142
+          ],
+          "hex": "#435E8E",
+          "original_encoded_rgb": [
+            62,
+            82,
+            129
+          ]
+        },
+        {
+          "point": [
+            15,
+            35
+          ],
+          "rgb": [
+            67,
+            94,
+            142
+          ],
+          "hex": "#435E8E",
+          "original_encoded_rgb": [
+            62,
+            82,
+            129
+          ]
+        },
+        {
+          "point": [
+            15,
+            100
+          ],
+          "rgb": [
+            60,
+            81,
+            141
+          ],
+          "hex": "#3C518D",
+          "original_encoded_rgb": [
+            56,
+            70,
+            128
+          ]
+        },
+        {
+          "point": [
+            15,
+            180
+          ],
+          "rgb": [
+            45,
+            62,
+            141
+          ],
+          "hex": "#2D3E8D",
+          "original_encoded_rgb": [
+            45,
+            52,
+            127
+          ]
+        },
+        {
+          "point": [
+            15,
+            300
+          ],
+          "rgb": [
+            27,
+            38,
+            128
+          ],
+          "hex": "#1B2680",
+          "original_encoded_rgb": [
+            32,
+            31,
+            114
+          ]
+        },
+        {
+          "point": [
+            15,
+            410
+          ],
+          "rgb": [
+            20,
+            28,
+            110
+          ],
+          "hex": "#141C6E",
+          "original_encoded_rgb": [
+            26,
+            23,
+            97
+          ]
+        },
+        {
+          "point": [
+            15,
+            500
+          ],
+          "rgb": [
+            17,
+            24,
+            97
+          ],
+          "hex": "#111861",
+          "original_encoded_rgb": [
+            23,
+            21,
+            84
+          ]
+        },
+        {
+          "point": [
+            15,
+            600
+          ],
+          "rgb": [
+            15,
+            22,
+            78
+          ],
+          "hex": "#0F164E",
+          "original_encoded_rgb": [
+            20,
+            20,
+            67
+          ]
+        },
+        {
+          "point": [
+            15,
+            750
+          ],
+          "rgb": [
+            14,
+            17,
+            61
+          ],
+          "hex": "#0E113D",
+          "original_encoded_rgb": [
+            18,
+            17,
+            52
+          ]
+        },
+        {
+          "point": [
+            15,
+            810
+          ],
+          "rgb": [
+            14,
+            17,
+            61
+          ],
+          "hex": "#0E113D",
+          "original_encoded_rgb": [
+            18,
+            17,
+            52
+          ]
+        }
+      ],
+      "reference_id": "DESK-001",
+      "comparison_type": "component-pattern; product content and workflows retained",
+      "measurement": "Rendered PNG RGB samples at original x=15. Physical pixels, not native token values; native DPR and source build unknown. Full originals visually inspected before sampling.",
+      "source_colour_profile": "HP 524sf",
+      "measurement_colour_space": "sRGB after embedded ICC conversion using LittleCMS; original file preserved"
+    }
+  ],
+  "scope_note": "Rendered dark-family adapters only. Shared state, semantic, light/high-contrast, Admin and PWA roles remain in scope and have separate evidence/gaps in revolut-surface-comparisons-2026-09-05.json."
+}

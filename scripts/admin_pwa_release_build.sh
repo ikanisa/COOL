@@ -75,8 +75,8 @@ manifest["short_name"] = "Collect Admin"
 manifest["description"] = "Collect platform operations console."
 manifest["display"] = "standalone"
 manifest["start_url"] = "."
-manifest["background_color"] = collect_color_hex.call("brandPaper")
-manifest["theme_color"] = collect_color_hex.call("brandPeriwinkle")
+manifest["background_color"] = collect_color_hex.call("publicWhite")
+manifest["theme_color"] = collect_color_hex.call("referenceChromeBlack")
 manifest["orientation"] = "any"
 manifest["icons"] = [
   {

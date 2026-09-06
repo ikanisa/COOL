@@ -1,6 +1,5 @@
 import '../fixtures/collect_repository_fixture.dart';
 
-import 'dart:io';
 import 'dart:ui' show SemanticsAction;
 
 import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
@@ -182,49 +181,52 @@ void main() {
     expect(find.text('128'), findsOneWidget);
   });
 
-  testWidgets('public discovery group card uses public icon, not lock', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        theme: AppTheme.light(),
-        home: Scaffold(
-          body: SizedBox(
-            width: 284,
-            height: 224,
-            child: GroupCard(
-              collection: CollectCollection(
-                id: 'public-card',
-                slug: 'public-card',
-                creatorUserId: 'u1',
-                title: 'Public building fund',
-                description: 'Public group',
-                createdAt: DateTime(2026),
+  testWidgets(
+    'public discovery card preserves its category and collected amount',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light(),
+          home: Scaffold(
+            body: SizedBox(
+              width: 284,
+              child: GroupCard(
+                collection: CollectCollection(
+                  id: 'public-card',
+                  slug: 'public-card',
+                  creatorUserId: 'u1',
+                  title: 'Public building fund',
+                  description: 'Public group',
+                  collectionType: CollectionType.church,
+                  isPublic: true,
+                  createdAt: DateTime(2026),
+                ),
+                summary: const CollectionSummary(
+                  amountRaisedRwf: 35000,
+                  supporterCount: 2,
+                ),
+                variant: GroupCardVariant.publicDiscovery,
               ),
-              summary: const CollectionSummary(
-                amountRaisedRwf: 35000,
-                supporterCount: 2,
-              ),
-              variant: GroupCardVariant.publicDiscovery,
             ),
           ),
         ),
-      ),
-    );
+      );
 
-    expect(
-      _readGroupCardLibrary(),
-      contains("CollectSemanticIcons.forKeyword('public')"),
-    );
-    expect(find.byIcon(Icons.lock_rounded), findsNothing);
-    expect(find.byType(BackdropFilter), findsNothing);
-    expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
-    expect(find.text('Total collected'), findsNothing);
-    expect(find.text('RWF 35,000'), findsOneWidget);
-    expect(find.text('Members'), findsNothing);
-  });
+      expect(find.text('Church'), findsOneWidget);
+      expect(find.byType(Image), findsOneWidget);
+      expect(find.byIcon(Icons.lock_rounded), findsNothing);
+      expect(find.byType(BackdropFilter), findsNothing);
+      expect(
+        tester.widget<Text>(find.text('Public building fund')).maxLines,
+        isNull,
+      );
+      expect(find.text('Total collected'), findsNothing);
+      expect(find.text('RWF 35,000'), findsOneWidget);
+      expect(find.text('Members'), findsNothing);
+    },
+  );
 
-  testWidgets('visual group card keeps title compact without glass chrome', (
+  testWidgets('visual group card wraps the full title over photography', (
     tester,
   ) async {
     const title = 'QA private group with a longer community name';
@@ -234,7 +236,6 @@ void main() {
         home: Scaffold(
           body: SizedBox(
             width: 360,
-            height: 260,
             child: GroupCard(
               collection: CollectCollection(
                 id: 'visual-card',
@@ -257,16 +258,12 @@ void main() {
     );
 
     expect(find.byType(BackdropFilter), findsNothing);
-    expect(find.byType(Image), findsNothing);
+    expect(find.byType(Image), findsOneWidget);
     expect(find.text('Public'), findsNothing);
-    expect(
-      _readGroupCardLibrary(),
-      contains("CollectSemanticIcons.forKeyword('public')"),
-    );
-    expect(tester.widget<Text>(find.text(title)).maxLines, 1);
+    expect(tester.widget<Text>(find.text(title)).maxLines, isNull);
     expect(
       tester.widget<Text>(find.text(title)).overflow,
-      TextOverflow.ellipsis,
+      isNot(TextOverflow.ellipsis),
     );
   });
 
@@ -492,12 +489,4 @@ void main() {
     expect(find.text('Enter an amount above RWF 0.'), findsOneWidget);
     expect(find.text('Open MoMo USSD'), findsNothing);
   });
-}
-
-String _readGroupCardLibrary() {
-  return [
-    'lib/shared/widgets/collect_group_cards.dart',
-    'lib/shared/widgets/collect_group_card_media.dart',
-    'lib/shared/widgets/collect_group_card_metrics.dart',
-  ].map((path) => File(path).readAsStringSync()).join('\n');
 }

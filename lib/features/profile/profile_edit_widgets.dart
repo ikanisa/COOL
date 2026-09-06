@@ -1,5 +1,65 @@
 part of 'profile_edit_screen.dart';
 
+class _ProfileMomoSwitcher extends StatelessWidget {
+  const _ProfileMomoSwitcher({
+    required this.showCode,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  final bool showCode;
+  final bool enabled;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Container(
+      padding: const EdgeInsets.all(CollectSpacing.x1),
+      decoration: BoxDecoration(
+        color: colors.surfaceRaised,
+        borderRadius: CollectRadius.cardBorder,
+      ),
+      child: Row(
+        children: [
+          for (final code in [false, true])
+            Expanded(
+              child: Semantics(
+                selected: showCode == code,
+                child: TextButton(
+                  key: ValueKey(
+                    code ? 'profile_momo_code_tab' : 'profile_momo_number_tab',
+                  ),
+                  onPressed: enabled ? () => onChanged(code) : null,
+                  style: TextButton.styleFrom(
+                    foregroundColor: showCode == code
+                        ? colors.textPrimary
+                        : colors.textSecondary,
+                    backgroundColor: showCode == code
+                        ? colors.surfaceReadable
+                        : colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: CollectRadius.cardBorder,
+                    ),
+                    minimumSize: const Size(0, CollectSpacing.target),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: CollectSpacing.x2,
+                      vertical: CollectSpacing.x3,
+                    ),
+                  ),
+                  child: Text(
+                    code ? 'MoMo code' : 'MoMo number',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ProfileAppBar extends StatelessWidget {
   const _ProfileAppBar({required this.onBack});
 

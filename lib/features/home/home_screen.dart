@@ -72,9 +72,9 @@ class HomeScreen extends ConsumerWidget {
                   onTap: () => context.go('/contribute'),
                 ),
                 CollectHeroQuickAction(
-                  icon: CollectIcons.qr,
-                  label: 'Scan QR',
-                  onTap: () => context.go('/groups/scan'),
+                  icon: CollectIcons.people,
+                  label: 'Explore Groups',
+                  onTap: () => context.go('/groups?filter=featured'),
                 ),
                 CollectHeroQuickAction(
                   icon: CollectIcons.share,
@@ -85,71 +85,74 @@ class HomeScreen extends ConsumerWidget {
             ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      children: isInitialLoading
-          ? const [
-              CollectScreenLoadingState(
-                title: 'Loading home',
-                message: 'Refreshing groups, balances, and recent activity.',
-                icon: CollectIcons.home,
-                skeletonCount: 3,
+      children: [
+        if (isInitialLoading)
+          const CollectScreenLoadingState(
+            title: 'Loading home',
+            message: 'Refreshing groups, balances, and recent activity.',
+            icon: CollectIcons.home,
+            skeletonCount: 1,
+          ),
+        if (state.hasInitialLoadFailure)
+          CollectDataLoadFailure(
+            onRetry: () =>
+                ref.read(collectRepositoryProvider.notifier).loadInitial(),
+          ),
+        if (!isInitialLoading && !state.hasInitialLoadFailure) ...[
+          if (contributions.isNotEmpty) ...[
+            const SectionHeader(title: 'Activity'),
+            CollectCard(
+              child: Column(
+                children: [
+                  for (final contribution in contributions.take(5))
+                    ActivityFeedItem(
+                      title: compactCollectIdLabel(contribution.supporterLabel),
+                      amount: contribution.amountRwf,
+                      currency: contribution.currency,
+                      meta: formatCollectDateTime(contribution.createdAt),
+                      onTap: () => context.go(
+                        '/groups/${contribution.collectionId}/ledger',
+                      ),
+                    ),
+                ],
               ),
-            ]
-          : state.hasInitialLoadFailure
-          ? [
-              CollectDataLoadFailure(
-                onRetry: () =>
-                    ref.read(collectRepositoryProvider.notifier).loadInitial(),
+            ),
+          ],
+          if (collections.isNotEmpty) ...[
+            _HomeGroupsSection(
+              key: const ValueKey('home_my_groups'),
+              title: 'My groups',
+              groupsRoute: '/groups?filter=member',
+              collections: collections,
+              summaries: summaries,
+            ),
+          ],
+          if (collections.isEmpty)
+            MinimalStatePanel(
+              icon: CollectIcons.people,
+              title: 'No groups yet',
+              message: 'Find a public group and start contributing.',
+              primaryAction: CollectButton(
+                label: 'Explore Groups',
+                icon: CollectIcons.people,
+                onPressed: () => context.go('/groups?filter=featured'),
+                expand: true,
               ),
-            ]
-          : [
-              if (contributions.isNotEmpty) ...[
-                const SectionHeader(title: 'Activity'),
-                CollectCard(
-                  child: Column(
-                    children: [
-                      for (final contribution in contributions.take(5))
-                        ActivityFeedItem(
-                          title: compactCollectIdLabel(
-                            contribution.supporterLabel,
-                          ),
-                          amount: contribution.amountRwf,
-                          currency: contribution.currency,
-                          meta: formatCollectDateTime(contribution.createdAt),
-                          onTap: () => context.go(
-                            '/groups/${contribution.collectionId}/ledger',
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-              if (collections.isNotEmpty) ...[
-                _HomeGroupsSection(
-                  key: const ValueKey('home_my_groups'),
-                  title: 'My groups',
-                  collections: collections,
-                  summaries: summaries,
-                ),
-              ],
-              _HomeGroupsSection(
-                key: const ValueKey('home_featured_groups'),
-                title: 'Featured groups',
-                collections: publicCollections,
-                summaries: summaries,
-              ),
-              if (collections.isEmpty && publicCollections.isEmpty)
-                MinimalStatePanel(
-                  icon: CollectIcons.people,
-                  title: 'No groups yet',
-                  message: 'Scan a group QR to join.',
-                  primaryAction: CollectButton(
-                    label: 'Scan QR',
-                    icon: CollectIcons.qr,
-                    onPressed: () => context.go('/groups/scan'),
-                    expand: true,
-                  ),
-                ),
-            ],
+            ),
+        ],
+        _HomeGroupsSection(
+          key: const ValueKey('home_featured_groups'),
+          title: 'Featured Groups',
+          groupsRoute: '/groups?filter=featured',
+          collections: publicCollections,
+          summaries: summaries,
+          showWhenEmpty: true,
+          isLoading: isInitialLoading,
+          emptyMessage: state.hasInitialLoadFailure
+              ? 'Featured groups could not be loaded. Try again.'
+              : 'Public groups selected by Collect will appear here.',
+        ),
+      ],
     );
   }
 }

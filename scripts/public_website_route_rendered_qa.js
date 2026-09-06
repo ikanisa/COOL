@@ -21,6 +21,7 @@ const chromeCandidates = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
 ].filter(Boolean);
 const viewports = [
+  { name: "compact_320x740", width: 320, height: 740, isMobile: true, allowedGridColumns: [1] },
   { name: "mobile_390x844", width: 390, height: 844, isMobile: true, allowedGridColumns: [2] },
   { name: "tablet_834x1194", width: 834, height: 1194, isMobile: false, allowedGridColumns: [2, 3] },
   { name: "desktop_1440x1000", width: 1440, height: 1000, isMobile: false, allowedGridColumns: [3] },
@@ -95,6 +96,8 @@ async function auditRoute(page, route, viewport) {
   const url = new URL(route, baseUrl).toString();
   const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.locator("h1").waitFor({ state: "visible", timeout: 10_000 });
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => Promise.all([...document.querySelectorAll('.hero img')].map((image) => image.decode())));
   await page.waitForTimeout(150);
 
   const keyboardFocus = [];
@@ -118,17 +121,44 @@ async function auditRoute(page, route, viewport) {
 
   let menuScreenshot = null;
   let mobileMenuOpen = true;
-  if (viewport.isMobile) {
+  let menuFocusContained = true;
+  let menuEscapeRecovery = true;
+  const usesMenu = viewport.width <= 1100;
+  if (usesMenu) {
     await page.locator("[data-menu-button]").click({ timeout: 5_000 });
     await page.waitForTimeout(100);
     mobileMenuOpen = await page.locator("[data-site-nav]").evaluate((node) => node.classList.contains("open"));
     menuScreenshot = path.join(screenshotDir, `${routeName(route)}_${viewport.name}_menu.png`);
     await page.screenshot({ path: menuScreenshot, fullPage: false });
-    await page.locator("[data-menu-button]").click({ timeout: 5_000 });
+    menuFocusContained = await page.evaluate(() =>
+      document.querySelector("[data-site-nav]").contains(document.activeElement) &&
+      document.querySelector("main").inert &&
+      document.querySelector("[data-menu-button]").getAttribute("aria-expanded") === "true"
+    );
+    const lastControl = page.locator("[data-site-nav] a[href], [data-site-nav] button").last();
+    await lastControl.focus();
+    await page.keyboard.press("Tab");
+    menuFocusContained = menuFocusContained && await page.evaluate(() =>
+      document.activeElement === document.querySelector("[data-menu-button]")
+    );
+    await page.keyboard.press("Shift+Tab");
+    menuFocusContained = menuFocusContained && await lastControl.evaluate((node) => node === document.activeElement);
+    await page.keyboard.press("Escape");
+    menuEscapeRecovery = await page.evaluate(() =>
+      !document.querySelector("[data-site-nav]").classList.contains("open") &&
+      !document.querySelector("main").inert &&
+      document.querySelector("[data-menu-button]").getAttribute("aria-expanded") === "false" &&
+      document.activeElement === document.querySelector("[data-menu-button]")
+    );
   }
 
   const screenshot = path.join(screenshotDir, `${routeName(route)}_${viewport.name}.png`);
+  // Keyboard traversal can scroll deep into the page. A hero comparison must
+  // capture the same initial scroll state as the source.
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: screenshot, fullPage: false });
+  const fullPageScreenshot = path.join(screenshotDir, `${routeName(route)}_${viewport.name}_full.png`);
+  await page.screenshot({ path: fullPageScreenshot, fullPage: true });
 
   const metrics = await page.evaluate((isLegalRoute) => {
     const rect = (selector) => {
@@ -159,7 +189,18 @@ async function auditRoute(page, route, viewport) {
       bodyScrollWidth: document.body.scrollWidth,
       documentScrollWidth: document.documentElement.scrollWidth,
       viewportWidth: window.innerWidth,
-      heroDevice: rect(".hero-device"),
+      heroDevice: rect(".hero-device, .hero-editorial"),
+      heroPhoto: rect(".hero .service-photo img"),
+      heroArtworkLoaded: [...document.querySelectorAll('.hero img')].every((image) => image.complete && image.naturalWidth > 0),
+      decorativeControlsAbsent: document.querySelectorAll('.phone-shell, .phone-screen, .phone-tabs').length === 0,
+      appMediaTruthful: [...document.querySelectorAll('.app-capture')].every((figure) => {
+        const image = figure.querySelector('img');
+        if (!image || !image.getAttribute('src').startsWith('/assets/app-screens/')) return false;
+        const box = image.getBoundingClientRect();
+        return image.complete && image.naturalWidth >= 500 &&
+          Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight) < 0.02 &&
+          figure.textContent.includes('Example data');
+      }),
       hero: rect(".hero"),
       legalLayoutPresent: Boolean(document.querySelector(".legal-layout .legal-main")),
       legalTocPresent: Boolean(document.querySelector(".legal-toc")),
@@ -230,14 +271,17 @@ async function auditRoute(page, route, viewport) {
           allWhiteText: textColors.every((value) => /255,\s*253,\s*251|255,\s*255,\s*255/i.test(value)),
           minHeight: Math.min(...heights),
           maxHeight: Math.max(...heights),
+          contained: cards.every((card) => card.scrollWidth <= card.clientWidth + 1 && card.scrollHeight <= card.clientHeight + 1),
+          nonOverlapping: cards.every((card, index) => cards.slice(index + 1).every((other) => {
+            const a = card.getBoundingClientRect(), b = other.getBoundingClientRect();
+            return a.right <= b.left + 1 || b.right <= a.left + 1 || a.bottom <= b.top + 1 || b.bottom <= a.top + 1;
+          })),
         };
       }),
       isLegalRoute,
     };
   }, legalRoutes.has(route));
 
-  const compactGridSelectors = new Set([".problem-list.compact", ".use-case-grid", ".craas-service-grid"]);
-  const editorialGridSelectors = new Set([".content-grid", ".partner-engine-grid", ".partner-operating-grid"]);
   const presentCompactGrids = metrics.compactCardGrids.filter((grid) => grid.present && grid.cardCount >= 3);
 
   const checks = {
@@ -251,14 +295,20 @@ async function auditRoute(page, route, viewport) {
     retiredSectionsAbsent: metrics.retiredSectionsAbsent,
     disclaimerLabelsAbsent: metrics.disclaimerLabelsAbsent,
     routeClassPresent: metrics.bodyClass.includes(`route-${route === "/" ? "home" : routeName(route).replace(/_/g, "-")}`),
-    mobileMenuOpens: !viewport.isMobile || mobileMenuOpen,
-    mobileProductPreviewUsable: !viewport.isMobile || (metrics.heroDevice && metrics.heroDevice.height >= 220 && metrics.heroDevice.top < viewport.height),
+    mobileMenuOpens: !usesMenu || mobileMenuOpen,
+    responsiveMenuFocusContained: !usesMenu || menuFocusContained,
+    responsiveMenuEscapeRecovery: !usesMenu || menuEscapeRecovery,
+    mobileHeroVisualUsable: metrics.heroArtworkLoaded && (!viewport.isMobile || (metrics.heroDevice && metrics.heroDevice.top < viewport.height &&
+      (metrics.heroPhoto
+        ? metrics.heroPhoto.width >= viewport.width - 41 && Math.abs(metrics.heroPhoto.width / metrics.heroPhoto.height - 1.5) < 0.02
+        : metrics.heroDevice.height >= 220))),
+    decorativeControlsAbsent: metrics.decorativeControlsAbsent,
+    appMediaTruthful: metrics.appMediaTruthful,
     compactCardGridLayout: presentCompactGrids.every((grid) => {
-      const maxAllowedHeight = grid.selector === ".content-grid" ? 900 : (editorialGridSelectors.has(grid.selector) ? 760 : (compactGridSelectors.has(grid.selector) ? 180 : 320));
-      return viewport.allowedGridColumns.includes(grid.columns) &&
-        grid.uniqueBackgrounds >= 2 &&
-        grid.plainWhiteCards === 0 &&
-        grid.maxHeight <= maxAllowedHeight;
+      // The selected Revolut cohort uses neutral editorial panels. Validate
+      // readable geometry, not the retired requirement for multicolour tiles.
+      return (viewport.isMobile ? grid.columns === 1 : viewport.allowedGridColumns.includes(grid.columns)) &&
+        grid.contained && grid.nonOverlapping;
     }),
     legalLayoutPresent: !metrics.isLegalRoute || metrics.legalLayoutPresent,
     footerTapTargets: !viewport.isMobile || metrics.footerRects.every((box) => box.height >= 40),
@@ -285,6 +335,7 @@ async function auditRoute(page, route, viewport) {
     viewport: viewport.name,
     url,
     screenshot,
+    fullPageScreenshot,
     menuScreenshot,
     checks,
     failures: Object.entries(checks).filter(([, passed]) => !passed).map(([id]) => id),
@@ -477,6 +528,7 @@ async function auditGroupShareScenario(page, scenario, viewport, shareHtml) {
     status: report.status,
     reportPath,
     screenshotCount: results.filter((result) => result.screenshot).length +
+      results.filter((result) => result.fullPageScreenshot).length +
       results.filter((result) => result.menuScreenshot).length + shareResults.length,
     failures: [...results, ...shareResults]
       .flatMap((result) => result.failures.map((failure) => `${result.route} ${result.viewport}: ${failure}`)),

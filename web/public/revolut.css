@@ -1,0 +1,178 @@
+/* September 2026 UK marketing cohort. Product copy and routes belong to Collect.
+   Source artwork/font provenance: assets/marketing/SOURCE.json. */
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url("/assets/typefaces/AeonikPro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url("/assets/typefaces/AeonikPro-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --type-marketing-family: "Aeonik Pro", "Inter", sans-serif;
+  --type-product-family: "Inter", sans-serif;
+  --type-web-hero: 84px;
+  --type-web-heading: 56px;
+  --type-web-body: 18px;
+  --type-web-control: 16px;
+  --type-web-tracking: -2.08px;
+  --web-canvas: #ffffff;
+  --web-ink: #191c1f;
+  --web-action: #1f1f1f;
+  --web-focus-outer: rgb(35 79 166 / 50%);
+  --web-focus-inner: rgb(66 117 219 / 50%);
+  --web-secondary: #505053;
+  --web-widget: #f7f7f7;
+  --web-night: #000000;
+  --web-on-night: #f4f4f4;
+  --web-pill: 9999px;
+  --web-panel: 24px;
+  --web-gutter: 48px;
+}
+.revolut-public { font-family: var(--type-marketing-family); background: var(--web-canvas); color: var(--web-ink); }
+.revolut-public h1, .revolut-public h2, .revolut-public h3 { font-weight: var(--type-weight-medium); text-transform: none; }
+.revolut-public button, .revolut-public .button { font-family: var(--type-marketing-family); font-size: var(--type-web-control); font-weight: var(--type-weight-medium); line-height: 22px; border-radius: var(--web-pill); min-height: 44px; padding: 10px 24px; box-shadow: none; transition: background-color .3s cubic-bezier(.15,.5,.5,1), color .3s cubic-bezier(.15,.5,.5,1), opacity .3s cubic-bezier(.15,.5,.5,1), box-shadow .2s cubic-bezier(.4,.3,.8,.6), outline .2s cubic-bezier(.4,.3,.8,.6); }
+.revolut-public .button.primary, .revolut-public .button.secondary, .revolut-public .button.cta-app { color: var(--web-canvas); background: var(--web-action); border-color: var(--web-action); box-shadow: none; }
+.revolut-public .button.ghost { background: transparent; box-shadow: none; }
+.revolut-public :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+/* WEB-STATE-001: public marketing controls, not native colour tokens.
+   Keep Collect's 44px minimum target; the observed source control is 42px. */
+.revolut-public :is(button, .button):not(:disabled):not([aria-disabled="true"]):hover { opacity: .85; }
+.revolut-public :is(button, .button):focus-visible { opacity: 1; outline: 2px solid var(--web-focus-outer); outline-offset: 2px; box-shadow: inset 0 0 0 2px var(--web-focus-inner), inset 0 0 0 3.6px var(--web-canvas); }
+.revolut-public .site-header { padding: 16px var(--web-gutter); min-height: 80px; background: var(--web-canvas); color: var(--web-ink); border: 0; backdrop-filter: none; }
+.revolut-public .brand small { color: var(--web-secondary); font-weight: var(--type-weight-regular); }
+.revolut-public .brand strong { font-weight: var(--type-weight-medium); }
+.revolut-public .nav-link { color: var(--web-ink); font-size: var(--type-size-14px); font-weight: var(--type-weight-medium); border-radius: var(--web-pill); padding: 12px 10px; }
+.revolut-public .nav-link:hover, .revolut-public .nav-link.active { background: var(--web-widget); color: var(--web-ink); }
+.revolut-public .menu-button { background: var(--web-widget); color: var(--web-ink); border: 0; }
+.mobile-menu-actions { display: none; }
+.revolut-public .hero { background: var(--web-night); color: var(--web-on-night); padding: 80px var(--web-gutter); gap: 48px; }
+.revolut-public .hero-copy, .revolut-public .hero-device { min-width: 0; }
+.revolut-public .hero h1 { font-size: var(--type-web-hero); line-height: var(--type-leading-1); letter-spacing: var(--type-web-tracking); font-weight: var(--type-weight-medium); }
+.revolut-public .hero-intro { font-size: var(--type-web-body); font-weight: var(--type-weight-regular); line-height: var(--type-leading-1-4); color: inherit; max-width: 520px; margin: 24px 0; }
+.revolut-public .hero .button.primary { background: var(--web-canvas); color: var(--web-ink); border-color: var(--web-canvas); }
+.revolut-public .hero .button.ghost { color: var(--web-on-night); border-color: currentColor; }
+.revolut-public .hero .button.cta-touch { border-color: transparent; }
+.revolut-public.route-home .hero { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; min-height: 780px; background: #346ea2 url("/assets/marketing/rwanda/kigali-hills.png") center / cover no-repeat; }
+.route-home .hero { --hero-copy-width: 650px; }
+.route-home .hero-copy { position: relative; z-index: 2; max-width: var(--hero-copy-width); padding-bottom: 48px; }
+.route-home .hero-editorial { position: absolute; z-index: -1; width: 1250px; max-width: none; height: auto; right: -40px; bottom: -40px; pointer-events: none; }
+/* Shade above both photo layers, through the complete text column. */
+.revolut-public.route-home .hero::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(90deg, rgb(10 25 40 / 80%), rgb(10 25 40 / 68%) calc(var(--hero-copy-width) + var(--web-gutter)), transparent); }
+.revolut-public.route-home .hero .button.primary { background: var(--web-action); color: var(--web-canvas); border-color: var(--web-action); }
+.revolut-public.route-home .hero .cta-group { background: var(--web-canvas); color: var(--web-ink); border-color: var(--web-canvas); }
+/* Keep the contact label readable when its crop sits over the Kigali sky. */
+.revolut-public.route-home .hero .cta-touch { background: var(--web-night); color: var(--web-on-night); }
+.revolut-public.route-home .hero-actions .button { width: auto; min-width: 0; }
+.revolut-public .hero-eyebrow, .revolut-public .section-kicker { text-transform: none; letter-spacing: var(--type-tracking-default); font-weight: var(--type-weight-medium); }
+.revolut-public main > section:not(.hero) { background: var(--web-canvas); color: var(--web-ink); }
+.revolut-public main > section:not(.hero):nth-of-type(even) { background: var(--web-widget); }
+.revolut-public main > section:not(.hero) h2 { font-size: var(--type-web-heading); line-height: var(--type-leading-1-05); letter-spacing: var(--type-web-tracking); font-weight: var(--type-weight-medium); color: var(--web-ink); }
+.revolut-public main > section:not(.hero) p, .revolut-public main > section:not(.hero) .section-kicker { color: var(--web-secondary); }
+.revolut-public .section-card, .revolut-public .infographic-step, .revolut-public .supported-group-card { border-radius: var(--web-panel); box-shadow: none; }
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) {
+  gap: 24px; background: transparent; border: 0;
+}
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) > :is(article, .section-card, .infographic-step) {
+  background: var(--web-widget); color: var(--web-ink); border: 0; border-radius: var(--web-panel); padding: 28px; box-shadow: none; min-height: 0;
+}
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(strong, h3) {
+  color: var(--web-ink); font-weight: var(--type-weight-medium); line-height: var(--type-leading-1-2); font-size: var(--type-size-24px);
+}
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(p, span, li) {
+  color: var(--web-secondary); font-weight: var(--type-weight-regular); font-size: var(--type-web-body); line-height: var(--type-leading-1-4);
+}
+.revolut-public .market-grid article { background: var(--web-widget); border: 0; border-radius: var(--web-panel); }
+.revolut-public .market-grid article strong { color: var(--web-ink); font-weight: var(--type-weight-medium); }
+.revolut-public .start-section .button.ghost { color: var(--web-ink); border-color: var(--web-ink); }
+.revolut-public .site-footer { background: var(--web-night); color: var(--web-on-night); }
+.revolut-public .site-footer a { border-radius: 0; font-weight: var(--type-weight-regular); background: transparent; justify-content: flex-start; }
+.revolut-public .legal-hero { background: var(--web-widget); color: var(--web-ink); }
+.revolut-public .legal-hero h1 { max-width: 860px; }
+.revolut-public .legal-hero .hero-eyebrow { color: var(--web-secondary); }
+.revolut-public .legal-hero .button.ghost { color: var(--web-ink); }
+.revolut-public .legal-hero .button.primary { background: var(--web-action); color: var(--web-canvas); }
+/* Owner-directed Rwanda photography uses the public editorial component family. */
+.revolut-public .rwanda-stories { padding: 64px var(--web-gutter); }
+.rwanda-story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.rwanda-story { display: block; min-width: 0; border-radius: 24px; overflow: hidden; background: var(--web-widget); color: var(--web-ink); text-decoration: none; }
+.rwanda-story > img { display: block; width: 100%; aspect-ratio: 3 / 2; height: auto; object-fit: cover; }
+.rwanda-story > span { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 24px; font-size: 24px; line-height: 1.2; font-weight: var(--type-weight-medium); }
+.rwanda-story:focus-visible { outline: 3px solid var(--web-focus-outer, #4c6fff); outline-offset: 5px; }
+.rwanda-editorial { margin: 0; padding: 48px var(--web-gutter); background: var(--web-canvas); }
+.rwanda-editorial img { display: block; width: 100%; height: auto; max-height: 560px; object-fit: cover; object-position: center 45%; border-radius: 24px; }
+@media (max-width: 719px) {
+  .rwanda-story-grid { grid-template-columns: 1fr; }
+  .revolut-public .rwanda-stories, .rwanda-editorial { padding: 32px var(--web-gutter); }
+  .rwanda-editorial img { aspect-ratio: 3 / 2; }
+  .rwanda-story > span { font-size: 22px; padding: 20px; }
+}
+/* Service illustrations are explanatory artwork. Their focused task surfaces
+   use the same neutral native family; they are not executable app screens. */
+
+.revolut-public .home-product-grid article a { color: var(--web-ink); text-decoration: underline; text-underline-offset: 4px; }
+.revolut-public :is(.craas-benefit-grid, .change-compare-grid) > article,
+.revolut-public .premium-finance-panel { background: var(--web-widget); border: 0; border-radius: var(--web-panel); box-shadow: none; }
+.revolut-public .change-compare-grid li { color: var(--web-secondary); font-weight: var(--type-weight-regular); }
+.revolut-public .change-compare-grid li::before { background: var(--web-ink); }
+.revolut-public :is(.legal-toc, .legal-priority, .legal-section, .legal-card, .legal-path, .supported-group-card, .craas-list-panel, .accumulation-panel) { background: var(--web-widget); border: 0; border-radius: var(--web-panel); box-shadow: none; }
+.revolut-public :is(.legal-inline-link, .market-context a, .craas-list-panel strong, .accumulation-panel strong) { color: var(--web-ink); }
+.revolut-public :is(.legal-inline-link, .market-context a) { text-decoration: underline; text-underline-offset: 4px; }
+.revolut-public .supported-group-index { background: #e8e8eb; color: var(--web-ink); border-radius: var(--web-pill); }
+.revolut-public .craas-list-panel article { background: transparent; background-image: none; box-shadow: none; }
+.revolut-public :is(.legal-content, .content-grid, .story-grid, .craas-list-panel) li::before { background: var(--web-ink); }
+@media (max-width: 1100px) {
+  :root { --type-web-hero: 64px; --type-web-heading: 44px; --web-gutter: 32px; }
+  .revolut-public .menu-button { display: inline-flex; margin-left: auto; }
+  .revolut-public .header-actions { display: none; }
+  .revolut-public.route-share-link .header-actions { display: flex; margin-left: auto; }
+  .revolut-public .site-nav { display: none; position: fixed; inset: 80px 0 0; padding: 24px var(--web-gutter); background: var(--web-canvas); color: var(--web-ink); border: 0; box-shadow: none; overflow-y: auto; }
+  .revolut-public .site-nav.open { display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; justify-content: flex-start; }
+  .revolut-public .site-nav .nav-link { border-radius: 0; font-size: var(--type-size-24px); padding: 18px 0; border-bottom: 1px solid var(--web-widget); white-space: normal; }
+  .mobile-menu-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 32px; }
+  .revolut-public .mobile-menu-actions .button { background: var(--web-action); color: var(--web-canvas); }
+  .menu-open { overflow: hidden; }
+  .route-home .hero { --hero-copy-width: 560px; }
+  .route-home .hero-editorial { width: 1100px; right: -140px; opacity: 1; }
+}
+@media (max-width: 720px) {
+  :root { --type-web-hero: 48px; --type-web-heading: 36px; --type-web-tracking: 0; --web-gutter: 20px; }
+  .revolut-public .site-header { padding-block: 12px; min-height: 72px; }
+  .revolut-public .site-nav { top: 72px; }
+  .revolut-public .hero { grid-template-columns: minmax(0, 1fr); padding: 48px var(--web-gutter); gap: 40px; }
+  .revolut-public.route-home .hero { align-items: flex-start; min-height: 940px; padding-top: 48px; }
+  .route-home .hero-copy { max-width: 100%; padding: 0 0 480px; }
+  .route-home .hero-copy h1 { max-width: 335px; }
+  .route-home .hero-intro { max-width: 335px; }
+  .route-home .hero-editorial { width: 920px; right: calc(50% - 276px); bottom: 0; opacity: 1; }
+  .revolut-public.route-home .hero::before { background: linear-gradient(180deg, rgb(10 25 40 / 80%), rgb(10 25 40 / 68%) 60%, rgb(10 25 40 / 24%) 82%, transparent); }
+  .revolut-public .hero-actions { display: flex; gap: 10px; }
+  .revolut-public .hero-device { min-height: 0; }
+  .revolut-public .legal-layout { grid-template-columns: minmax(0, 1fr); }
+  .revolut-public :is(.legal-content, .legal-meta, .legal-priority, .legal-card-grid, .legal-card) { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) { grid-template-columns: minmax(0, 1fr); }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) > :is(article, .section-card, .infographic-step) { grid-column: auto; grid-row: auto; padding: 24px; }
+  .revolut-public main > section:not(.hero) { padding: 64px var(--web-gutter); }
+  .revolut-public .site-footer { padding: 48px var(--web-gutter); }
+}
+@media (max-width: 360px) {
+  .revolut-public .hero { padding-block: 24px; gap: 16px; }
+  .revolut-public .hero-eyebrow { margin-bottom: 12px; }
+  .revolut-public .hero-intro { margin-block: 16px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .revolut-public *, .revolut-public *::before, .revolut-public *::after { scroll-behavior: auto; animation: none; transition: none; }
+  .revolut-public :is(button, .button) { transition: none; }
+}
+@media (forced-colors: active) {
+  .revolut-public :is(button, .button):focus-visible { outline-color: Highlight; box-shadow: none; }
+  .revolut-public .hero-editorial { display: none; }
+  .revolut-public .hero, .revolut-public.route-home .hero { background: Canvas; color: CanvasText; }
+  .revolut-public.route-home .hero::before { display: none; }
+}

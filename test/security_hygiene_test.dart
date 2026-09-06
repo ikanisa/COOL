@@ -501,7 +501,7 @@ void main() {
 
       final output = result.stdout as String;
       expect(output, contains('"status": "pass"'));
-      expect(output, contains('"exclusive_inter_typefaces"'));
+      expect(output, contains('"surface_scoped_typefaces"'));
       expect(output, contains('"no_prohibited_product_artwork"'));
       expect(output, contains('"official_logo_identity"'));
       expect(output, contains('"centralized_feature_typography"'));

@@ -1,0 +1,19 @@
+Use case: photorealistic-natural
+
+Asset type: One original photographic cover for a Collect contribution group. Working concept: A shared water improvement.
+
+Scene and subjects: Three Rwandan adult residents inspect a clean shared water tap with a local technician in northern Rwanda. The technician explains a small replacement fitting while residents discuss the plan. Use safe, dry, ground-level surroundings with an intact modest water point. Photograph a central cluster around the fitting; suggest the practical purpose of a community contribution without showing an actual funded project.
+
+Materials and details: Believable plumbing parts, ordinary clean containers, no contaminated water, thirsty children, logos or readable infrastructure plaques.
+
+Lighting and palette: Clear soft daylight, cool water tones, warm brick and muted green.
+
+Primary focal subject: The residents and technician examining the fitting.
+
+Style: Original premium editorial photography for Collect, depicting fictional contemporary Rwandan people and settings. Show everyday competence, cooperation and dignity, with natural skin texture, believable anatomy, practical objects and restrained colour. Use a 35–50 mm documentary lens feel at eye level; avoid glossy corporate-stock posing. The described location is creative setting direction, not evidence of a real event or person's origin.
+
+Composition and intended crops: Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.
+
+Text: None. Do not render any words, numbers or interface.
+
+Constraints: All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.

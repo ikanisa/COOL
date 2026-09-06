@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06T09:48:39.179218+00:00",
+  "status": "local_checks_pass",
+  "runtime_sha256": "4391a45a949e27490402e70a93e38fe684fff0b15e49706802081298f154facd",
+  "root_cause": "The gallery automatically included historical native and responsive screenshots after their runtime was replaced. A source assertion still required the old Home scan action.",
+  "scope": "Removal of obsolete Collect card/form captures, generation fallback and source-test expectations; current route/state replacement evidence.",
+  "runtime_card_audit": {
+    "component": "lib/shared/widgets/collect_group_card_editorial.dart",
+    "all_four_GroupCard_variants": "use the shared editorial photo card",
+    "Home_and_Groups": "use the shared component",
+    "contribution_group_chooser": "retains its task-specific list; not the retired image-strip/footer card"
+  },
+  "current_matrix": {
+    "path": ".cache/revolut-design-20260906/current-system/matrix-review.json",
+    "sha256": "a6dfebb85982e9c7ba4d3df1a79d17f7c82a51738c63fa93a788d822dd8677a8"
+  },
+  "routes_per_variant": 42,
+  "states_per_variant": 56,
+  "platform_theme_variants": 4,
+  "route_state_checks_passed": 392,
+  "fresh_captures": 634,
+  "full_test_suite": {
+    "passed": 750,
+    "failed": 0,
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/current-system/all-tests-final.jsonl",
+      "sha256": "4c076ecf539a88b3cfbdcac9667630173a0d3ea91071149444c38444505fd31f"
+    }
+  },
+  "responsive_and_card_tests": {
+    "passed": 91,
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/current-system/responsive.log",
+      "sha256": "cc3ef974c37eadb0a8cebb8e369ce790f077df6994426798c29f0263c2933664"
+    }
+  },
+  "goldens": {
+    "passed": 14,
+    "changed_images_reviewed_before_promotion": 2,
+    "review": {
+      "path": ".cache/revolut-design-20260906/current-system/golden-review.json",
+      "sha256": "6cd09dadebb22333f047b5af035d56c2970a8401a4e00c64579333ffbd6d2347"
+    },
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/current-system/goldens-final.log",
+      "sha256": "b974fb9a485ad94d2d5150d33f2e7f95165e3036a34057c8fbad897b15427c6a"
+    }
+  },
+  "gate_unit_tests": {
+    "tests": 33,
+    "assertions": 131,
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/current-system/gate-tests.log",
+      "sha256": "620f70466975462058a018493d03c3ecb9c046ab2ef0ef5c28a9f41b17f3ca84"
+    }
+  },
+  "freshness_regression_tests": {
+    "tests": 2,
+    "evidence": {
+      "path": ".cache/revolut-design-20260906/current-system/freshness-tests.log",
+      "sha256": "6f283ee6225d2cef4c0127d95456a6f954c45141c92b97dd89016cb1c630e8f4"
+    }
+  },
+  "analysis": {
+    "path": ".cache/revolut-design-20260906/current-system/analysis.log",
+    "sha256": "5569cf12bc741fee5704d89dbc33d46a6bbc49a069a976efff4bdfca8546c91f"
+  },
+  "source_hygiene": {
+    "path": ".cache/revolut-design-20260906/current-system/source-hygiene.log",
+    "sha256": "0f181346a3783e5d28c91aa9ebd9e651622118c5055277b270fdc98c62c7d14b"
+  },
+  "website_build": {
+    "path": ".cache/revolut-design-20260906/current-system/website-build.log",
+    "sha256": "d0d9eb58f9f59c94e6df7e77b5102f74a6d973c376d17514f59fc15ccfc97258"
+  },
+  "retirement": {
+    "capture_files_removed": 1171,
+    "unique_retired_images": 584,
+    "failure_composites_removed": 42,
+    "archive_root": "/Volumes/PRO-G40/Collect-retired-design-20260906",
+    "manifest": {
+      "path": "docs/release/mobile-design/retired-design-assets.json",
+      "sha256": "fddbb0d9d7002a4c3a1374c9ed19efc6023a3421bf3f9c3591cfb1d5a5512098"
+    }
+  },
+  "gallery_asset_checks": {
+    "path": ".cache/revolut-design-20260906/current-system/gallery-asset-verification.json",
+    "sha256": "c061ee02c39fec3eb637b47eda6469aaf76d3e9d6a0d5a3625d0d0fbfd230204"
+  },
+  "browser_review": {
+    "url": "http://collect.localhost:4191/?surface=Mobile&search=group%20create",
+    "current_filtered_records": 17,
+    "warnings": 0,
+    "errors": 0,
+    "retired_urls_404": [
+      "media/582f4b563b820cd6.png",
+      "media/46e0b805e126beac.png",
+      "media/74e9147a459e2054.png"
+    ]
+  },
+  "visual_review_scope": [
+    "iOS light 200% Groups photo cards",
+    "scrolled Android 200% group-description form",
+    "changed Home golden",
+    "changed contribution-review golden",
+    "current browser form/group previews"
+  ],
+  "mobile_design_gate": "blocked",
+  "release_approval": false,
+  "production_mutations": false,
+  "native_device_used_this_turn": false,
+  "backend_migration_deployed": false,
+  "limitations": [
+    "Fresh matrix images simulate Android/iOS layout in Flutter widget tests, not new native OS or screen-reader evidence.",
+    "The earlier real Android keyboard captures remain source-equivalent runtime evidence; they were not recaptured in this cleanup.",
+    "Full original-reference and production-artifact acceptance remains open."
+  ]
+}

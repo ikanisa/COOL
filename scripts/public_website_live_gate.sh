@@ -438,7 +438,7 @@ check(
 )
 
 baseline_content_hashes = {
-  "/" => "b2169213424406487a483b3f63f4da7eea0fab02b84c2bfe83ff38f16394f777",
+  "/" => "93ab5c339b121c92f6c9b52730f2bb95299f14bed0e7eff9b2c13a8c88e41595",
   "/account-deletion/" => "babea5394605a96828fb360183a451844391688f9d3a6076d2bc0fa33e9c7c20",
   "/community-groups/" => "6d03734da650cb4eb6fd8c61a137f510325c6a0c423adf3549cd4a8c2141faec",
   "/craas/" => "4c76feb5743537083aa26fcf1aed8aad09a41132d8d2861d213041c666bf51ae",
@@ -457,6 +457,10 @@ baseline_content_hashes = {
 }
 content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
   html = responses.fetch(route).fetch(:body).dup.force_encoding("UTF-8").gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
+  # Match the reviewed responsive-content normalization in the local gate.
+  if html.include?('class="mobile-menu-actions"')
+    html = html.sub(%r{<div class="header-actions">\s*<a[^>]*>Get the App</a>\s*</div>}, "")
+  end
   visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")
   actual_hash = Digest::SHA256.hexdigest(visible_text)
   failures << { "route" => route, "expected" => expected_hash, "actual" => actual_hash } unless actual_hash == expected_hash
@@ -517,9 +521,11 @@ check(
 )
 check(
   checks,
-  "platform_neutral_mockup",
-  styles_text.include?(".phone-notch,.phone-status{display:none}"),
-  "Live CSS hides iOS-specific status chrome from decorative device mockups.",
+  "authentic_app_media_structure",
+  !styles_text.include?(".phone-screen") &&
+    styles_text.match?(/\.app-capture img\s*\{[^}]*height:\s*auto/m) &&
+    responses.values.none? { |entry| entry.fetch(:body).include?('class="phone-shell"') },
+  "Live pages use proportional screenshot media and omit invented phone controls; source-image provenance is checked during the build.",
 )
 
 mobile_css_ok = styles_text.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) &&

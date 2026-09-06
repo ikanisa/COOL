@@ -293,25 +293,13 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
   }
 
   Future<void> _rotateShareCode() async {
-    final confirmed = await showDialog<bool>(
+    final confirmed = await showCollectConfirmationSheet(
       context: context,
-      animationStyle: CollectMotion.animationStyle(context),
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Replace invitation link?'),
-        content: const Text(
+      title: 'Replace invitation link?',
+      message:
           'Every older private link and QR code will stop working. Existing members stay in the group.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Keep current link'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Replace link'),
-          ),
-        ],
-      ),
+      cancelLabel: 'Keep current link',
+      confirmLabel: 'Replace link',
     );
     if (confirmed != true || !mounted) return;
     setState(() => _rotating = true);
@@ -409,7 +397,7 @@ Future<Uint8List> _qrPngBytes(String link) async {
     const Rect.fromLTWH(0, 0, size, size),
     const Radius.circular(72),
   );
-  canvas.drawRRect(canvasRect, Paint()..color = CollectColors.brandPaper);
+  canvas.drawRRect(canvasRect, Paint()..color = CollectColors.publicWhite);
   final painter = QrPainter(
     data: link,
     version: QrVersions.auto,
@@ -453,7 +441,7 @@ class _BrandedQrCard extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: CollectColors.brandPaper,
+        color: CollectColors.publicWhite,
         borderRadius: CollectRadius.cardLargeBorder,
         border: Border.all(color: colors.panelBorder),
       ),
@@ -463,7 +451,7 @@ class _BrandedQrCard extends StatelessWidget {
           data: data,
           size: 196,
           errorCorrectionLevel: QrErrorCorrectLevel.H,
-          backgroundColor: CollectColors.brandPaper,
+          backgroundColor: CollectColors.publicWhite,
           eyeStyle: const QrEyeStyle(
             eyeShape: QrEyeShape.square,
             color: CollectColors.publicBlack,

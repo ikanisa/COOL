@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../app/env/app_env.dart';
 import '../app/theme/collect_colors.dart';
+import '../app/theme/collect_radius.dart';
+import '../app/theme/collect_runtime_assets.dart';
 import '../app/theme/collect_spacing.dart';
 import '../app/theme/collect_typography.dart';
 import 'core/admin_auth_guard.dart';
@@ -66,6 +68,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                 final collapsed = _railCollapsed || forcedCompactRail;
                 final content = Semantics(
                   container: true,
+                  explicitChildNodes: true,
                   label: 'Collect admin workspace',
                   child: Column(
                     children: [
@@ -75,7 +78,16 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                         location: widget.location,
                         destinations: destinations,
                       ),
-                      Expanded(child: page),
+                      // The nested Navigator's opaque route blocks preceding
+                      // semantics in its boundary. Keep that boundary inside
+                      // the page so the persistent header remains accessible.
+                      Expanded(
+                        child: Semantics(
+                          container: true,
+                          explicitChildNodes: true,
+                          child: page,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -320,7 +332,7 @@ class _AdminSidebarState extends State<_AdminSidebar> {
                                     color: colors.onImagePrimary.withValues(
                                       alpha: 0.58,
                                     ),
-                                    fontWeight: CollectTypography.weightBold,
+                                    fontWeight: CollectTypography.weightMedium,
                                     letterSpacing:
                                         CollectTypography.trackingEyebrow,
                                   ),
@@ -417,10 +429,13 @@ class _AdminBrand extends StatelessWidget {
             ),
             child: SizedBox.square(
               dimension: 42,
-              child: Icon(
-                Icons.admin_panel_settings_outlined,
-                color: colors.onImagePrimary,
-                size: 22,
+              child: Padding(
+                padding: const EdgeInsets.all(7),
+                child: Image.asset(
+                  CollectRuntimeAssets.officialLogo,
+                  excludeFromSemantics: true,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
@@ -480,7 +495,7 @@ class _AdminMobileNav extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.admin_panel_settings_outlined,
-                  color: CollectColors.brandPaper,
+                  color: CollectColors.publicWhite,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -504,7 +519,7 @@ class _AdminMobileNav extends StatelessWidget {
                   tooltip: 'Open admin navigation',
                   icon: const Icon(
                     Icons.menu_rounded,
-                    color: CollectColors.brandPaper,
+                    color: CollectColors.publicWhite,
                   ),
                   onSelected: context.go,
                   itemBuilder: (context) => [
@@ -583,7 +598,7 @@ class _NavItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: foreground.withValues(alpha: selected ? 1 : 0.84),
                   fontWeight: selected
-                      ? CollectTypography.weightBold
+                      ? CollectTypography.weightSemibold
                       : CollectTypography.weightMedium,
                 ),
               ),
@@ -591,12 +606,13 @@ class _NavItem extends StatelessWidget {
       minTileHeight: CollectSpacing.iconTarget,
       minLeadingWidth: collapsed ? 0 : null,
       contentPadding: EdgeInsets.symmetric(horizontal: collapsed ? 16 : 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
       onTap: () => context.go(destination.path),
     );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Semantics(
+        selected: selected,
         label: collapsed ? '${destination.label} admin section' : null,
         hint: collapsed
             ? 'Opens ${destination.label} in the admin console.'
@@ -634,6 +650,7 @@ class _AdminTopbar extends ConsumerWidget {
     final lastRefresh = ref.watch(adminLastSuccessfulRefreshProvider);
     return Semantics(
       container: true,
+      explicitChildNodes: true,
       label:
           'Signed in as ${identity.displayName}. Access: Admin. Environment: $envName.',
       child: Material(
@@ -667,18 +684,16 @@ class _AdminTopbar extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              InkWell(
-                                onTap: () => context.go('/admin'),
-                                borderRadius: BorderRadius.circular(8),
-                                child: SizedBox.square(
-                                  dimension: 44,
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.home_outlined,
-                                      size: 19,
-                                      color: colors.onImagePrimary.withValues(
-                                        alpha: 0.60,
-                                      ),
+                              SizedBox.square(
+                                dimension: 48,
+                                child: IconButton(
+                                  tooltip: 'Operations overview',
+                                  onPressed: () => context.go('/admin'),
+                                  icon: Icon(
+                                    Icons.home_outlined,
+                                    size: 19,
+                                    color: colors.onImagePrimary.withValues(
+                                      alpha: 0.60,
                                     ),
                                   ),
                                 ),
@@ -799,87 +814,99 @@ class _AdminTopbar extends ConsumerWidget {
                               scope,
                     ),
                     const SizedBox(width: 12),
-                    PopupMenuButton<String>(
-                      tooltip: 'Operator menu',
-                      onSelected: (value) async {
-                        if (value != 'sign-out') return;
-                        await ref.read(adminRepositoryProvider).signOut();
-                        ref.invalidate(adminAuthStateProvider);
-                        ref.invalidate(adminAuthGuardProvider);
-                        ref.invalidate(adminIdentityProvider);
-                        if (context.mounted) context.go('/admin/login');
-                      },
-                      itemBuilder: (context) => const [
-                        PopupMenuItem(
-                          value: 'sign-out',
-                          child: ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: Icon(Icons.logout_rounded),
-                            title: Text('Sign out'),
+                    Semantics(
+                      button: true,
+                      label: 'Operator menu',
+                      child: PopupMenuButton<String>(
+                        tooltip: 'Operator menu',
+                        onSelected: (value) async {
+                          if (value != 'sign-out') return;
+                          await ref.read(adminRepositoryProvider).signOut();
+                          ref.invalidate(adminAuthStateProvider);
+                          ref.invalidate(adminAuthGuardProvider);
+                          ref.invalidate(adminIdentityProvider);
+                          if (context.mounted) context.go('/admin/login');
+                        },
+                        itemBuilder: (context) => const [
+                          PopupMenuItem(
+                            value: 'sign-out',
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Icon(Icons.logout_rounded),
+                              title: Text('Sign out'),
+                            ),
+                          ),
+                        ],
+                        child: SizedBox(
+                          height: 48,
+                          width: showIdentity ? null : 48,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: colors.onImagePrimary
+                                    .withValues(alpha: 0.10),
+                                foregroundColor: colors.onImagePrimary,
+                                child: Text(
+                                  _initials(identity.displayName),
+                                  style: Theme.of(context).textTheme.labelLarge
+                                      ?.copyWith(
+                                        color: colors.onImagePrimary,
+                                        fontWeight:
+                                            CollectTypography.weightBold,
+                                      ),
+                                ),
+                              ),
+                              if (showIdentity) ...[
+                                const SizedBox(width: 9),
+                                ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 120,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        identity.displayName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge
+                                            ?.copyWith(
+                                              color: colors.onImagePrimary,
+                                              fontWeight:
+                                                  CollectTypography.weightBold,
+                                            ),
+                                      ),
+                                      Text(
+                                        'Admin',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(
+                                              color: colors.onImagePrimary
+                                                  .withValues(alpha: 0.62),
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_drop_down_rounded,
+                                  color: colors.onImagePrimary.withValues(
+                                    alpha: 0.56,
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
-                      ],
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: colors.onImagePrimary.withValues(
-                              alpha: 0.10,
-                            ),
-                            foregroundColor: colors.onImagePrimary,
-                            child: Text(
-                              _initials(identity.displayName),
-                              style: Theme.of(context).textTheme.labelLarge
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary,
-                                    fontWeight: CollectTypography.weightBold,
-                                  ),
-                            ),
-                          ),
-                          if (showIdentity) ...[
-                            const SizedBox(width: 9),
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 120),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    identity.displayName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(
-                                          color: colors.onImagePrimary,
-                                          fontWeight:
-                                              CollectTypography.weightBold,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Admin',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium
-                                        ?.copyWith(
-                                          color: colors.onImagePrimary
-                                              .withValues(alpha: 0.62),
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_drop_down_rounded,
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.56,
-                              ),
-                            ),
-                          ],
-                        ],
                       ),
                     ),
                   ],
@@ -924,14 +951,19 @@ class _AdminCountrySwitcher extends StatelessWidget {
               ),
             ),
         ],
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.onImagePrimary.withValues(alpha: 0.10),
-            shape: BoxShape.circle,
-          ),
-          child: SizedBox.square(
-            dimension: 40,
-            child: Icon(scope.icon, size: 20, color: colors.onImagePrimary),
+        child: SizedBox.square(
+          dimension: 48,
+          child: Center(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.onImagePrimary.withValues(alpha: 0.10),
+                shape: BoxShape.circle,
+              ),
+              child: SizedBox.square(
+                dimension: 40,
+                child: Icon(scope.icon, size: 20, color: colors.onImagePrimary),
+              ),
+            ),
           ),
         ),
       ),

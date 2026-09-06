@@ -1,10 +1,9 @@
 part of 'auth_screen_widgets.dart';
 
-const _countryPickerMaxTextScale = 1.0;
-
 Future<Country?> showCollectCountryPicker(BuildContext context) {
   return showModalBottomSheet<Country>(
     context: context,
+    useRootNavigator: true,
     useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: CollectColors.transparentColor,
@@ -82,110 +81,107 @@ class _AuthCountryPickerSheetState extends State<AuthCountryPickerSheet> {
           color: colors.authSheetSurface,
           child: SizedBox(
             height: media.size.height * 0.74,
-            child: MediaQuery.withClampedTextScaling(
-              maxScaleFactor: _countryPickerMaxTextScale,
-              child: Column(
-                children: [
-                  const SizedBox(height: CollectSpacing.x3),
-                  Semantics(
-                    label: 'Country picker',
-                    child: Container(
-                      width: 48,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: foreground.withValues(alpha: 0.78),
-                        borderRadius: CollectRadius.pillBorder,
-                      ),
+            child: Column(
+              children: [
+                const SizedBox(height: CollectSpacing.x3),
+                Semantics(
+                  label: 'Country picker',
+                  child: Container(
+                    width: 48,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: foreground.withValues(alpha: 0.78),
+                      borderRadius: CollectRadius.pillBorder,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      CollectSpacing.x5,
-                      CollectSpacing.x6,
-                      CollectSpacing.x5,
-                      CollectSpacing.x3,
-                    ),
-                    child: CollectAccessibleTextField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    CollectSpacing.x5,
+                    CollectSpacing.x6,
+                    CollectSpacing.x5,
+                    CollectSpacing.x3,
+                  ),
+                  child: CollectAccessibleTextField(
+                    controller: _searchController,
+                    label: 'Search country',
+                    onChanged: _search,
+                    builder: (focusNode) => TextField(
+                      key: const ValueKey('auth_country_search_input'),
+                      focusNode: focusNode,
                       controller: _searchController,
-                      label: 'Search country',
+                      autofocus: false,
+                      textInputAction: TextInputAction.search,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: foreground,
+                        fontWeight: CollectTypography.weightBold,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Search country',
+                        hintStyle: Theme.of(context).textTheme.bodyMedium
+                            ?.copyWith(
+                              color: foreground.withValues(alpha: 0.48),
+                            ),
+                        prefixIcon: Icon(
+                          CollectIcons.search,
+                          color: foreground.withValues(alpha: 0.72),
+                        ),
+                        filled: true,
+                        fillColor: foreground.withValues(alpha: 0.12),
+                        border: OutlineInputBorder(
+                          borderRadius: CollectRadius.pillBorder,
+                          borderSide: BorderSide(
+                            color: foreground.withValues(alpha: 0.14),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: CollectRadius.pillBorder,
+                          borderSide: BorderSide(
+                            color: foreground.withValues(alpha: 0.14),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: CollectRadius.pillBorder,
+                          borderSide: BorderSide(
+                            color: colors.focusRing,
+                            width: 2,
+                          ),
+                        ),
+                      ),
                       onChanged: _search,
-                      builder: (focusNode) => TextField(
-                        key: const ValueKey('auth_country_search_input'),
-                        focusNode: focusNode,
-                        controller: _searchController,
-                        autofocus: false,
-                        textInputAction: TextInputAction.search,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: foreground,
-                          fontWeight: CollectTypography.weightBold,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Search country',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: foreground.withValues(alpha: 0.48),
-                              ),
-                          prefixIcon: Icon(
-                            CollectIcons.search,
-                            color: foreground.withValues(alpha: 0.72),
-                          ),
-                          filled: true,
-                          fillColor: foreground.withValues(alpha: 0.12),
-                          border: OutlineInputBorder(
-                            borderRadius: CollectRadius.pillBorder,
-                            borderSide: BorderSide(
-                              color: foreground.withValues(alpha: 0.14),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: CollectRadius.pillBorder,
-                            borderSide: BorderSide(
-                              color: foreground.withValues(alpha: 0.14),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: CollectRadius.pillBorder,
-                            borderSide: BorderSide(
-                              color: colors.focusRing,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        onChanged: _search,
-                      ),
                     ),
                   ),
-                  Expanded(
-                    child: ListView(
-                      key: const ValueKey('auth_country_list'),
-                      padding: const EdgeInsets.only(
-                        left: CollectSpacing.x4,
-                        right: CollectSpacing.x4,
-                        bottom: CollectSpacing.x5,
-                      ),
-                      children: [
-                        if (favorite != null) ...[
-                          _CountryPickerRow(
-                            country: favorite,
-                            localizedName: _localizedName(favorite),
-                            onTap: () => _select(favorite),
-                          ),
-                          Divider(
-                            color: foreground.withValues(alpha: 0.55),
-                            height: 1,
-                          ),
-                        ],
-                        for (final country in _filteredCountries)
-                          _CountryPickerRow(
-                            country: country,
-                            localizedName: _localizedName(country),
-                            onTap: () => _select(country),
-                          ),
+                ),
+                Expanded(
+                  child: ListView(
+                    key: const ValueKey('auth_country_list'),
+                    padding: const EdgeInsets.only(
+                      left: CollectSpacing.x4,
+                      right: CollectSpacing.x4,
+                      bottom: CollectSpacing.x5,
+                    ),
+                    children: [
+                      if (favorite != null) ...[
+                        _CountryPickerRow(
+                          country: favorite,
+                          localizedName: _localizedName(favorite),
+                          onTap: () => _select(favorite),
+                        ),
+                        Divider(
+                          color: foreground.withValues(alpha: 0.55),
+                          height: 1,
+                        ),
                       ],
-                    ),
+                      for (final country in _filteredCountries)
+                        _CountryPickerRow(
+                          country: country,
+                          localizedName: _localizedName(country),
+                          onTap: () => _select(country),
+                        ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -215,6 +211,7 @@ class _CountryPickerRow extends StatelessWidget {
       letterSpacing: CollectTypography.trackingDefault,
     );
     final phoneCode = '+${country.phoneCode}';
+    final largeText = MediaQuery.textScalerOf(context).scale(1) > 1.1;
 
     return Semantics(
       button: true,
@@ -268,9 +265,11 @@ class _CountryPickerRow extends StatelessWidget {
                         key: ValueKey(
                           'auth_country_name_${country.countryCode}_${country.phoneCode}',
                         ),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
+                        maxLines: largeText ? null : 1,
+                        softWrap: largeText,
+                        overflow: largeText
+                            ? TextOverflow.visible
+                            : TextOverflow.ellipsis,
                         style: style,
                       ),
                     ),

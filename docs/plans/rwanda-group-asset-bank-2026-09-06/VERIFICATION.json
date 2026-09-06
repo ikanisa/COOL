@@ -1,0 +1,55 @@
+{
+  "checked_on": "2026-09-06",
+  "scope": "Planning catalogue, production preparation and metadata filter checks only",
+  "result": "passed",
+  "counts": {
+    "concepts": 40,
+    "prompt_files": 40,
+    "generation_jobs": 40,
+    "image_families": 8,
+    "generated_images": 0,
+    "runtime_ready_images": 0
+  },
+  "checks": [
+    "Unique asset ids, themes, filenames and batches",
+    "Existing group type and subtype mappings",
+    "All 40 themes individually reachable",
+    "Context gating and neutral defaults",
+    "Christian/Muslim suggestion separation",
+    "Kinyarwanda query, case and accent normalization",
+    "Away-travel ranking and unknown-query empty state",
+    "Invalid subtype and escaping path rejection",
+    "Standalone prompt/job hashes",
+    "Deterministic export",
+    "Local documentation links resolve"
+  ],
+  "not_executed": [
+    "Image generation",
+    "Pixel/crop/cultural/native language review",
+    "Flutter picker implementation",
+    "Schema or RPC changes",
+    "Production save/reload UAT",
+    "Mobile design gate or native acceptance"
+  ],
+  "reviewed_working_tree_sources": {
+    "DESIGN.md": "82b3f1fa2ec3769162c13cd38194c8dfcb8ba4131e2851a05233b353b4a793f3",
+    "docs/PRODUCT.md": "7eb84ba49c022e87a47132b9ef0a52dcacbdddca33d5c388447bd9a9a661a759",
+    "lib/features/collections/collection_create_screen.dart": "db0930d2bb6b9d1cf48a41f0a3f29f3e06bdec48c7aa175dad30e9481062cb7f",
+    "lib/features/collections/group_profile_screen.dart": "b115cebd2c5526ab602b37c076a21be1f2a42a2483c6c7c545044b81aa299263",
+    "lib/features/collections/group_creation_platform.dart": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+    "lib/shared/widgets/collect_group_photo_picker.dart": "d0a99b4e3ca7cec6834620fec1ac39e49f6e32f7f191fa236829d68a8c747370",
+    "lib/shared/widgets/collect_group_card_media.dart": "89cc79ddffca45b5c152ca9b9460fbd62ec0e3b7aa0ab07f023426506f74804c",
+    "lib/shared/models/collect_models.dart": "4f34e5ac4bd88e499b2d7e967d575a683f2b3169622202b22ebdd88515c85646",
+    "lib/shared/repositories/collect_repository.dart": "52f54845e15f50d3215543315513fafb3209024f0971d50eaada075c1ded6e1a",
+    "lib/app/theme/collect_runtime_tokens.dart": "8f1b45454577189707b22b7fb768ba02b4ff7114c3dfc78aedee4e42bb8ad946",
+    "pubspec.yaml": "449b7c03fa00a473c919a05c281b457671ea66157cdddf312c29fea66988ccf8"
+  },
+  "prepared_file_hashes": {
+    "assets/group_covers/rwanda/catalog.v1.json": "a1bbc285f84dcf1a74006208b19579d57b287e92e8cefc667e8f87ffaa84af88",
+    "scripts/assets/rwanda_group_asset_bank.py": "1269cfbb793e0dd9514e0159feec831a6fab780ac365173a929511354cb4f611",
+    "docs/plans/rwanda-group-asset-bank-2026-09-06/README.md": "6655f239b38fdbf70c02586a5ac6602d81ffc2b8402a3ffe60bac7fd6d43c60b",
+    "docs/plans/rwanda-group-asset-bank-2026-09-06/production/imagegen-jobs.jsonl": "cd23b0d28c1a86966e50bf0df2b9d840bbd497652715d6101c831647ea6e2162",
+    "docs/plans/rwanda-group-asset-bank-2026-09-06/production/PROMPTBOOK.md": "4e8803514485584fd93a7e4a9eb7af9a761732bfead26cde8ec95b66ee0af172"
+  },
+  "note": "Source hashes identify the reviewed working tree; existing unrelated edits were present. No owner approval, deployment or release acceptance is asserted."
+}

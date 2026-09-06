@@ -1,0 +1,98 @@
+{
+  "cohort": "Collect Rwanda editorial collection, 2026-09-05",
+  "source": "Owner-directed original built-in image generation (2026-09-05); Aeonik typefaces retained from the Revolut public homepage",
+  "typeface_source": "https://www.revolut.com/",
+  "image_source": "Owner-directed original built-in image generation, 2026-09-05",
+  "authority": "DESIGN.md owner-selected Revolut authority for product design; owner-directed Rwanda imagery for runtime assets",
+  "files": [
+    {
+      "path": "assets/typefaces/AeonikPro-Medium.ttf",
+      "source_filename": "29743adaf2380513.woff2",
+      "source_sha256": "84c864840f6aa107dc9ae6f0c3e588eb8d1f88696949a63362a89f328158ba6f",
+      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+      "operation": "WOFF2 decompression to sfnt; no glyph changes",
+      "scope": "public marketing only"
+    },
+    {
+      "path": "assets/typefaces/AeonikPro-Regular.ttf",
+      "source_filename": "c064293ff7b94e55.woff2",
+      "source_sha256": "4a470b7f273906c503b0315b232fe0762762ea864ee535f6ed0e951415d69660",
+      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+      "operation": "WOFF2 decompression to sfnt; no glyph changes",
+      "scope": "public marketing only"
+    },
+    {
+      "path": "assets/marketing/rwanda/banking-together.png",
+      "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+      "operation": "Original built-in image_gen output, unaltered pixels",
+      "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+      "scope": "Website editorial and optional group photo collection",
+      "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+      "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+    },
+    {
+      "path": "assets/marketing/rwanda/community-savings.png",
+      "sha256": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+      "operation": "Original built-in image_gen output, unaltered pixels",
+      "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+      "scope": "Website editorial and optional group photo collection",
+      "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+      "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+    },
+    {
+      "path": "assets/marketing/rwanda/everyday-payments.png",
+      "sha256": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+      "operation": "Original built-in image_gen output, unaltered pixels",
+      "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+      "scope": "Website editorial and optional group photo collection",
+      "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+      "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+    },
+    {
+      "path": "assets/marketing/rwanda/kigali-hills.png",
+      "sha256": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+      "operation": "Original built-in image_gen output, unaltered pixels",
+      "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+      "scope": "Website editorial and optional group photo collection",
+      "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+      "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+    },
+    {
+      "path": "assets/marketing/rwanda/kigali-woman-hero.png",
+      "sha256": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+      "operation": "Original built-in image_gen output, unaltered pixels",
+      "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+      "scope": "Website editorial and optional group photo collection",
+      "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+      "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+    },
+    {
+      "path": "assets/marketing/rwanda/shared-goals.png",
+      "sha256": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+      "operation": "Original built-in image_gen output, unaltered pixels",
+      "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+      "scope": "Website editorial and optional group photo collection",
+      "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+      "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+    }
+  ],
+  "previous_reference_artwork": [
+    {
+      "path": "assets/marketing/revolut-sky.png",
+      "source_filename": "4dcde201cd8598c4.png",
+      "sha256": "335d7751872780296d395baf3f97467551ed4406cdbcc12dca0bd1608d6b7149",
+      "operation": "unaltered copy",
+      "runtime": false,
+      "retained_at": ".cache/revolut-design-20260905/source-artwork/revolut-sky.png"
+    },
+    {
+      "path": "assets/marketing/revolut-editorial.png",
+      "source_filename": "e6094b5f5ab709ed.png",
+      "sha256": "0ae3b2dc0ba809241240897c623e9239bd767f166a0e851dee970a7e68b8c8db",
+      "operation": "unaltered copy",
+      "runtime": false,
+      "retained_at": ".cache/revolut-design-20260905/source-artwork/revolut-editorial.png"
+    }
+  ],
+  "owner_image_instruction": "Replace the public portrait with a young adult Rwandan woman and add Rwanda-relevant finance, banking, community and people assets for app and web."
+}

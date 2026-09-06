@@ -186,7 +186,8 @@ void main() {
     expect(find.text('How much?'), findsOneWidget);
     expect(find.text('MoMo contribution'), findsNothing);
     expect(find.text('IKANISA LTD'), findsOneWidget);
-    expect(find.text('MTN MoMo · 41258'), findsOneWidget);
+    expect(find.text('41258'), findsOneWidget);
+    expect(find.textContaining('MTN MoMo'), findsNothing);
     expect(find.text('Bank transfer'), findsNothing);
     expect(find.text("Let's get started!"), findsNothing);
   });

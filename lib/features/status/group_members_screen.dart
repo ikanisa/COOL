@@ -240,6 +240,26 @@ class _MemberControlDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.textScalerOf(context).scale(1) >= 1.3) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _MemberControlButton(
+            icon: CollectIcons.people,
+            title: 'Members',
+            value: filterLabel,
+            onTap: onFilterTap,
+          ),
+          CollectSpacing.gap12,
+          _MemberControlButton(
+            icon: CollectIcons.activity,
+            title: 'Sort',
+            value: sortLabel,
+            onTap: onSortTap,
+          ),
+        ],
+      );
+    }
     return Row(
       children: [
         Expanded(
@@ -280,6 +300,7 @@ class _MemberControlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return Semantics(
       button: true,
       label: '$title $value',
@@ -313,8 +334,10 @@ class _MemberControlButton extends StatelessWidget {
                           style: CollectTypography.eyebrowLabel(
                             colors.textMuted,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          maxLines: largeText ? null : 1,
+                          overflow: largeText
+                              ? TextOverflow.visible
+                              : TextOverflow.ellipsis,
                         ),
                         Text(
                           value,
@@ -323,8 +346,10 @@ class _MemberControlButton extends StatelessWidget {
                                 color: colors.textPrimary,
                                 fontWeight: CollectTypography.weightBold,
                               ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          maxLines: largeText ? null : 1,
+                          overflow: largeText
+                              ? TextOverflow.visible
+                              : TextOverflow.ellipsis,
                         ),
                       ],
                     ),

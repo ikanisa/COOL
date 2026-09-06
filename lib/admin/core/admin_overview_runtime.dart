@@ -572,7 +572,11 @@ class _AttentionCompactRow extends StatelessWidget {
             ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
           ),
           const SizedBox(height: 12),
-          Row(
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 12,
+            runSpacing: 8,
             children: [
               Text(
                 _amount(row),
@@ -581,13 +585,17 @@ class _AttentionCompactRow extends StatelessWidget {
                   fontWeight: CollectTypography.weightBold,
                 ),
               ),
-              const Spacer(),
-              Text(_age(row)),
-              const SizedBox(width: 12),
-              IconButton.outlined(
-                tooltip: 'Review reconciliation',
-                onPressed: () => context.go('/admin/reconciliations'),
-                icon: const Icon(Icons.arrow_outward_rounded, size: 18),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(_age(row)),
+                  const SizedBox(width: 12),
+                  IconButton.outlined(
+                    tooltip: 'Review reconciliation',
+                    onPressed: () => context.go('/admin/reconciliations'),
+                    icon: const Icon(Icons.arrow_outward_rounded, size: 18),
+                  ),
+                ],
               ),
             ],
           ),
@@ -1098,13 +1106,6 @@ BoxDecoration _overviewPanelDecoration(CollectColors colors) {
     color: colors.surfaceReadable,
     borderRadius: BorderRadius.circular(16),
     border: Border.all(color: colors.borderSoft),
-    boxShadow: [
-      BoxShadow(
-        color: CollectColors.publicBlack.withValues(alpha: 0.08),
-        blurRadius: 18,
-        offset: const Offset(0, 8),
-      ),
-    ],
   );
 }
 

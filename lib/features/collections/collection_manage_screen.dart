@@ -208,6 +208,7 @@ class _CollectionManageScreenState
       context: context,
       useRootNavigator: true,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: context.collectColors.transparent,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (sheetContext) {
@@ -310,6 +311,8 @@ class _CollectionManageScreenState
     return showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
+      isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: context.collectColors.transparent,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
       builder: (sheetContext) {
@@ -347,42 +350,43 @@ class _CollectionManageScreenState
             }
 
             return CollectBottomSheet(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Archive group',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  CollectSpacing.gap12,
-                  Text(
-                    'The group leaves Home, Groups, Contribute, sharing, and invitations. Existing confirmed ledger records stay available.',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  if (error != null) ...[
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Archive group',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                     CollectSpacing.gap12,
-                    Semantics(
-                      liveRegion: true,
-                      excludeSemantics: true,
-                      label: error,
-                      child: Text(
-                        error!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: context.collectColors.danger,
+                    Text(
+                      'The group leaves Home, Groups, Contribute, sharing, and invitations. Existing confirmed ledger records stay available.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    if (error != null) ...[
+                      CollectSpacing.gap12,
+                      Semantics(
+                        liveRegion: true,
+                        excludeSemantics: true,
+                        label: error,
+                        child: Text(
+                          error!,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: context.collectColors.danger),
                         ),
                       ),
+                    ],
+                    CollectSpacing.gap20,
+                    CollectButton(
+                      label: working ? 'Archiving' : 'Archive group',
+                      icon: Icons.archive_rounded,
+                      variant: CollectButtonVariant.danger,
+                      onPressed: working ? null : archive,
+                      expand: true,
                     ),
                   ],
-                  CollectSpacing.gap20,
-                  CollectButton(
-                    label: working ? 'Archiving' : 'Archive group',
-                    icon: Icons.archive_rounded,
-                    variant: CollectButtonVariant.danger,
-                    onPressed: working ? null : archive,
-                    expand: true,
-                  ),
-                ],
+                ),
               ),
             );
           },

@@ -221,7 +221,12 @@ void main() {
       await tester.scrollUntilVisible(
         find.byKey(const ValueKey('profile_momo_number_input')),
         160,
-        scrollable: find.byType(Scrollable).first,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView),
+              matching: find.byType(Scrollable),
+            )
+            .first,
       );
       await tester.pumpAndSettle();
       expect(
@@ -294,6 +299,79 @@ void main() {
     expect(repository.state.currentProfile!.momoProvider, 'airtel_money');
     expect(repository.state.currentProfile!.momoNumber, '0720000001');
   });
+
+  testWidgets('MoMo switcher retains number and optional code through save', (
+    tester,
+  ) async {
+    final repository = await pumpEditor(tester);
+    await tester.enterText(input('profile_momo_number_input'), '0788000001');
+    await tester.tap(find.byKey(const ValueKey('profile_momo_code_tab')));
+    await tester.pumpAndSettle();
+    await tester.enterText(input('profile_momo_code_input'), '008000');
+    await tester.tap(find.byKey(const ValueKey('profile_momo_number_tab')));
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widget<TextField>(input('profile_momo_number_input'))
+          .controller!
+          .text,
+      '0788000001',
+    );
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(repository.state.currentProfile!.momoNumber, '0788000001');
+    expect(repository.state.currentProfile!.momoPayCode, '008000');
+    await tester.tap(find.byKey(const ValueKey('profile_momo_code_tab')));
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widget<TextField>(input('profile_momo_code_input'))
+          .controller!
+          .text,
+      '008000',
+    );
+    await tester.enterText(input('profile_momo_code_input'), '');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(repository.state.currentProfile!.momoPayCode, isEmpty);
+    expect(repository.state.currentProfile!.momoNumber, '0788000001');
+  });
+
+  testWidgets('Invalid MoMo code does not save either draft field', (
+    tester,
+  ) async {
+    final repository = await pumpEditor(tester);
+    final before = repository.state.currentProfile!;
+    await tester.enterText(input('profile_momo_number_input'), '0788000001');
+    await tester.tap(find.byKey(const ValueKey('profile_momo_code_tab')));
+    await tester.pumpAndSettle();
+    await tester.enterText(input('profile_momo_code_input'), '12*3');
+    await tester.pump();
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(find.text('Enter a MoMo code with 4 to 9 digits.'), findsOneWidget);
+    expect(repository.state.currentProfile, before);
+  });
+
+  for (final scale in [1.0, 2.0]) {
+    testWidgets('MoMo code switcher fits narrow screens at $scale', (
+      tester,
+    ) async {
+      await pumpEditor(tester, size: const Size(320, 844), scale: scale);
+      final tab = find.byKey(const ValueKey('profile_momo_code_tab'));
+      await tester.ensureVisible(tab);
+      await tester.tap(tab);
+      await tester.pumpAndSettle();
+      final field = input('profile_momo_code_input');
+      await tester.ensureVisible(field);
+      await tester.enterText(field, '008000');
+      await tester.pumpAndSettle();
+      expect(field.hitTestable(), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await capture(tester, 'momo-code-${scale}x');
+    });
+  }
 
   testWidgets('back protects edits until discard is confirmed', (tester) async {
     final repository = await pumpEditor(tester);

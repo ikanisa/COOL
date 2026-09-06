@@ -1,0 +1,14 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-09-05",
+  "assets": [
+    {
+      "file": "kigali-woman-hero.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: original transparent editorial hero cutout for Collect, a Rwanda community-finance mobile app and website. Create a beautiful, clearly adult Rwandan woman from Kigali, age about 25, dark brown skin, natural black hair in a neat elegant braided updo, subtle gold stud earrings, wearing a modern ivory linen shirt. Warm confident expression, looking slightly toward camera, relaxed three-quarter pose. Premium contemporary lifestyle campaign photography with realistic skin texture, warm daylight, excellent natural anatomy. Landscape canvas approximately 2048x1152, subject placed in the right half, framed from head to hips with her body continuing naturally beyond the bottom edge; complete head with breathing space above; left half empty for website copy. Actual transparent background with clean alpha around hair and clothes. No opaque backdrop, no checkerboard printed into pixels, no text, logos, payment cards, watermark or extra people. This is a wholly fictional person, a new original image, not a retouch of a real person."
+    },
+    {
+      "file": "community-savings.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape editorial image for a Rwandan community savings feature in a finance app and website, approximately 1536x1024. A small group of five clearly adult Rwandan women and men, ages 25 to 55, meeting around a clean wooden table on an airy terrace in Kigali with lush hills and contemporary buildings softly blurred behind them. They are collaboratively checking a simple paper notebook and one smartphone, sharing a natural relaxed smile. Everyday contemporary Rwandan clothing, a tasteful mix of plain shirts and subtle locally inspired fabric, dignified modern setting. Premium candid photography, natural morning light, accurate hands and faces, balanced frame with faces within central safe area for card crops. No readable text on paper or phone, no company/bank logos, no stacks of cash, no staged poverty imagery, no watermark. Fictional illustrative people."
+    }
+  ]
+}

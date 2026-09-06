@@ -12,6 +12,7 @@ void main() {
     Brightness brightness = Brightness.dark,
     bool highContrast = false,
     ValueChanged<String>? onNavigate,
+    Widget? content,
   }) async {
     tester.view.physicalSize = const Size(320, 800);
     tester.view.devicePixelRatio = 1;
@@ -32,7 +33,9 @@ void main() {
           child: CollectShell(
             currentPath: path,
             onNavigate: onNavigate,
-            child: const CollectGradientBackground(child: SizedBox.expand()),
+            child: CollectGradientBackground(
+              child: content ?? const SizedBox.expand(),
+            ),
           ),
         ),
       ),
@@ -52,14 +55,20 @@ void main() {
   }
 
   testWidgets(
-    'Home has reference depth; task and profile screens stay neutral',
+    'Each overview has its selected family; descendant tasks stay neutral',
     (tester) async {
       await pumpShell(tester);
       final account = backdrop(tester)! as LinearGradient;
       expect(account.colors.first, CollectColors.referenceAccountHighlight);
-      await pumpShell(tester, path: '/groups');
-      final discovery = backdrop(tester)! as LinearGradient;
-      expect(discovery.colors.first, CollectColors.referenceDiscoveryViolet);
+      final starts = <String, Color>{
+        '/groups': const Color(0xFF36ADC1),
+        '/activity': const Color(0xFF6A3CDE),
+        '/settings': const Color(0xFF953DF5),
+      };
+      for (final entry in starts.entries) {
+        await pumpShell(tester, path: entry.key);
+        expect((backdrop(tester)! as LinearGradient).colors.first, entry.value);
+      }
       for (final path in [
         '/settings/profile',
         '/groups/fixture/contribute',
@@ -70,6 +79,28 @@ void main() {
       }
     },
   );
+
+  testWidgets('overview colour wash scrolls away with its content', (
+    tester,
+  ) async {
+    await pumpShell(
+      tester,
+      path: '/settings',
+      content: ListView(
+        children: const [
+          SizedBox(height: 2000, child: Text('Scrollable profile')),
+        ],
+      ),
+    );
+    final first = backdrop(tester)! as LinearGradient;
+    expect(first.begin, Alignment.topCenter);
+    await tester.drag(find.byType(ListView), const Offset(0, -420));
+    await tester.pumpAndSettle();
+    final scrolled = backdrop(tester)! as LinearGradient;
+    expect((scrolled.begin as Alignment).y, lessThan(-1));
+    expect(scrolled.colors, first.colors);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('light adapts depth and high contrast removes it', (
     tester,

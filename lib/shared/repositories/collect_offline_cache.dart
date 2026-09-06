@@ -286,6 +286,7 @@ Map<String, dynamic> _profileToJson(CollectProfile profile) {
     'currency_code': profile.currencyCode,
     'momo_provider': profile.momoProvider,
     'momo_number': profile.momoNumber,
+    'momo_pay_code': profile.momoPayCode,
     'revolut_link': profile.revolutLink,
     'revolut_account': profile.revolutAccount,
   };

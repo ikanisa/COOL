@@ -1,5 +1,16 @@
 # Collect working rules
 
+## Revolut design on every surface
+
+The mobile app, Admin panel and public website must follow the owner-selected
+`revolut-design` skill and the surface cohorts recorded in `DESIGN.md`.
+Apply it through shared tokens and components, including loading, empty,
+failure, geographic, membership, responsive and accessibility states.
+Preserve Collect's real terminology, capabilities and access controls.
+Do not report any surface as 100% matched while a material difference or
+required comparator, interaction or route/state evidence remains unverified.
+Web marketing and Business/operator references are distinct from native UI.
+
 ## Critical release blocker: mobile design parity
 
 Read `DESIGN.md` before changing any visible mobile surface. Its **MOBILE-DESIGN-100**

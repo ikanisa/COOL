@@ -367,17 +367,17 @@ fi
 log_failed=0
 if grep -Eq 'Some tests failed|Test failed\.|TimeoutException after|EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK' "$LOG_FILE"; then
   log_failed=1
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 build_failed=0
 if grep -Eq 'Failed to build iOS app|Error \(Xcode\):|\[ios-uat-build\]\[FAIL\]' "$LOG_FILE"; then
   build_failed=1
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 if ! grep -Fq '[ios-uat-build] fresh-build-ready' "$LOG_FILE"; then
   build_failed=1
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 completion_marker=0
@@ -385,7 +385,7 @@ if grep -Eq 'All tests passed[.!]' "$LOG_FILE"; then
   completion_marker=1
 else
   printf '[ios-simulator-route-uat][FAIL] Flutter driver did not emit an All tests passed completion marker.\n' >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 variant_marker=0
@@ -398,7 +398,7 @@ if grep -Fq "$variant_marker_prefix$VARIANT_NAME:theme=$THEME_MODE:" "$LOG_FILE"
   variant_marker=1
 else
   printf '[ios-simulator-route-uat][FAIL] Flutter driver did not emit the expected variant marker.\n' >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 item_expected="$(awk -v token="$spec_token" 'index($0, token) == 3 { count += 1 } END { print count + 0 }' "$TEST_TARGET")"
@@ -406,18 +406,24 @@ item_passes="$(grep -c "$pass_marker" "$LOG_FILE" || true)"
 if [[ "$item_expected" -eq 0 || "$item_passes" -ne "$item_expected" ]]; then
   printf '[ios-simulator-route-uat][FAIL] %s completion mismatch: expected=%s passed=%s.\n' \
     "$MODE" "$item_expected" "$item_passes" >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 screenshot_count="$(find "$SCREENSHOT_DIR" -type f -name "${screenshot_prefix}*.png" | wc -l | tr -d ' ')"
 screenshot_manifest_rows=0
 if [[ -f "$SCREENSHOT_MANIFEST" ]]; then
-  screenshot_manifest_rows="$(wc -l <"$SCREENSHOT_MANIFEST" | tr -d ' ')"
+  screenshot_manifest_rows="$(ruby -r json -e '
+    prefix = ARGV.fetch(1)
+    puts File.readlines(ARGV.fetch(0)).count { |line|
+      item = JSON.parse(line)
+      File.basename(item.fetch("path", item.fetch("name", ""))).start_with?(prefix)
+    }
+  ' "$SCREENSHOT_MANIFEST" "$screenshot_prefix")"
 fi
 if [[ "$screenshot_count" -ne "$item_expected" || "$screenshot_manifest_rows" -ne "$item_expected" ]]; then
   printf '[ios-simulator-route-uat][FAIL] Screenshot completion mismatch: expected=%s png=%s manifest=%s.\n' \
     "$item_expected" "$screenshot_count" "$screenshot_manifest_rows" >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 small_screenshot_count="$(
@@ -426,7 +432,7 @@ small_screenshot_count="$(
 if [[ "$small_screenshot_count" -ne 0 ]]; then
   printf '[ios-simulator-route-uat][FAIL] %s screenshots are smaller than the 8,001-byte evidence floor.\n' \
     "$small_screenshot_count" >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 unique_screenshot_count="$(
@@ -441,13 +447,18 @@ if [[ "$MODE" == "route" ]]; then
   visual_audit="$EVIDENCE_DIR/visual_destinations.json"
   if ! ruby "$ROOT_DIR/scripts/verify_native_route_screenshots.rb" "$SCREENSHOT_DIR" >"$visual_audit"; then
     printf '[ios-simulator-route-uat][FAIL] Unexpected duplicate visual destinations.\n' >>"$LOG_FILE"
-    [[ "$rc" -eq 0 ]] && rc=1
+    if [[ "$rc" -eq 0 ]]; then rc=1; fi
   fi
   minimum_unique_screenshots="$(ruby -r json -e 'puts JSON.parse(File.read(ARGV[0])).fetch("minimum_distinct_destinations")' "$visual_audit")"
 else
-  # Every material state differs visibly; duplicate frames cannot stand in for
-  # confirmation dialogs, entered values, validation errors or enabled actions.
-  minimum_unique_screenshots="$item_expected"
+  # Preserve every required state/guard capture. Only the four explicitly
+  # asserted Android-only creation redirects may share an iOS destination.
+  visual_audit="$EVIDENCE_DIR/visual_destinations.json"
+  if ! ruby "$ROOT_DIR/scripts/verify_native_state_screenshots.rb" "$SCREENSHOT_DIR" ios >"$visual_audit"; then
+    printf '[ios-simulator-route-uat][FAIL] Unexpected duplicate material states.\n' >>"$LOG_FILE"
+    if [[ "$rc" -eq 0 ]]; then rc=1; fi
+  fi
+  minimum_unique_screenshots="$(ruby -r json -e 'puts JSON.parse(File.read(ARGV[0])).fetch("minimum_distinct_destinations")' "$visual_audit")"
 fi
 if [[ "$minimum_unique_screenshots" -lt 1 ]]; then
   minimum_unique_screenshots=1
@@ -455,7 +466,7 @@ fi
 if [[ "$unique_screenshot_count" -lt "$minimum_unique_screenshots" ]]; then
   printf '[ios-simulator-route-uat][FAIL] Screenshot diversity is too low: minimum=%s unique=%s.\n' \
     "$minimum_unique_screenshots" "$unique_screenshot_count" >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 
 simulator_after="$(simulator_metadata "$DEVICE_ID" || true)"
@@ -465,7 +476,7 @@ if [[ -n "$simulator_after" ]] &&
   simulator_booted_after=1
 else
   printf '[ios-simulator-route-uat][FAIL] Simulator was not booted after the route run.\n' >>"$LOG_FILE"
-  [[ "$rc" -eq 0 ]] && rc=1
+  if [[ "$rc" -eq 0 ]]; then rc=1; fi
 fi
 if [[ -z "$simulator_after" ]]; then
   simulator_after='{}'

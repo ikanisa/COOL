@@ -88,6 +88,7 @@ class _AdminBankQueueActions extends ConsumerWidget {
       animationStyle: CollectMotion.animationStyle(context),
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
+          scrollable: true,
           title: const Text('Propose EUR beneficiary'),
           content: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
@@ -197,6 +198,7 @@ class _AdminBankQueueActions extends ConsumerWidget {
       context: context,
       animationStyle: CollectMotion.animationStyle(context),
       builder: (dialogContext) => AlertDialog(
+        scrollable: true,
         title: const Text('Propose manual allocation'),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 560),
@@ -317,6 +319,7 @@ class _AdminBankQueueActions extends ConsumerWidget {
       animationStyle: CollectMotion.animationStyle(context),
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
+          scrollable: true,
           title: const Text('Import EUR bank statement'),
           content: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720, maxHeight: 680),
@@ -691,6 +694,7 @@ Future<bool> _showDatedReasonDialog(
         context: context,
         animationStyle: CollectMotion.animationStyle(context),
         builder: (dialogContext) => AlertDialog(
+          scrollable: true,
           title: Text(title),
           content: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),

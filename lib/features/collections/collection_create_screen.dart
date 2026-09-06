@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_group_photo_picker.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_creation_platform.dart';
 import '../profile/member_profile_gate.dart';
@@ -34,7 +35,7 @@ class _CollectionCreateScreenState
   Uint8List? _groupImageBytes;
   String? _groupImageName;
   String? _groupImageMimeType;
-  String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
+  String _accentColorHex = CollectColors.groupAccentOptions.first.hex;
   CollectionType _collectionType = CollectionType.ikimina;
   String _receiverProvider = 'mtn_momo';
   bool _creating = false;
@@ -220,10 +221,10 @@ class _CollectionCreateScreenState
     _ => true,
   };
 
-  Color get _selectedAccentColor => CollectColors.brandPrimaryOptions
+  Color get _selectedAccentColor => CollectColors.groupAccentOptions
       .firstWhere(
         (option) => option.hex == _accentColorHex,
-        orElse: () => CollectColors.brandPrimaryOptions.first,
+        orElse: () => CollectColors.groupAccentOptions.first,
       )
       .color;
 
@@ -329,10 +330,9 @@ class _CollectionCreateScreenState
 
   Future<void> _pickGroupImage() async {
     try {
-      final image = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 1800,
-        imageQuality: 86,
+      final image = await pickCollectGroupPhoto(
+        context,
+        imagePicker: _imagePicker,
       );
       if (image == null) return;
       final bytes = await image.readAsBytes();

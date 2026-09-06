@@ -345,7 +345,7 @@ class _ScannerViewport extends StatelessWidget {
               color: context.collectColors.cameraScrim,
               child: const Center(
                 child: CircularProgressIndicator.adaptive(
-                  backgroundColor: CollectColors.brandPaper,
+                  backgroundColor: CollectColors.publicWhite,
                 ),
               ),
             ),
@@ -354,7 +354,7 @@ class _ScannerViewport extends StatelessWidget {
               color: context.collectColors.cameraScrim,
               child: const Center(
                 child: CircularProgressIndicator.adaptive(
-                  backgroundColor: CollectColors.brandPaper,
+                  backgroundColor: CollectColors.publicWhite,
                 ),
               ),
             ),
@@ -400,7 +400,7 @@ class _ScannerIconButton extends StatelessWidget {
           borderRadius: CollectRadius.pillBorder,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: colors.strongPanelSurface.withValues(alpha: 0.62),
+              color: CollectColors.publicBlack.withValues(alpha: 0.72),
               shape: BoxShape.circle,
               border: Border.all(
                 color: colors.onImagePrimary.withValues(alpha: 0.16),

@@ -29,37 +29,45 @@ class CollectApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(collectThemeModeProvider);
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: CollectColors.transparentColor,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: CollectColors.referenceChromeBlack,
-        systemNavigationBarIconBrightness: Brightness.light,
-        systemNavigationBarDividerColor: CollectColors.transparentColor,
-      ),
-      child: _PendingSharedGroupIntentRecoveryHost(
-        child: _NotificationIntentHost(
-          child: _MomoReceiptSmsReceiverHost(
-            child: _NotificationRegistrationHost(
-              child: MaterialApp.router(
-                title: 'Collect',
-                debugShowCheckedModeBanner: false,
-                theme: AppTheme.light(),
-                darkTheme: AppTheme.dark(),
-                highContrastTheme: AppTheme.highContrastLight(),
-                highContrastDarkTheme: AppTheme.highContrastDark(),
-                themeMode: themeMode,
-                supportedLocales: CollectLocalizations.supportedLocales,
-                localizationsDelegates: const [
-                  CollectLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                ],
-                locale: const Locale('en'),
-                routerConfig: router,
-              ),
+    return _PendingSharedGroupIntentRecoveryHost(
+      child: _NotificationIntentHost(
+        child: _MomoReceiptSmsReceiverHost(
+          child: _NotificationRegistrationHost(
+            child: MaterialApp.router(
+              title: 'Collect',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light(),
+              darkTheme: AppTheme.dark(),
+              highContrastTheme: AppTheme.highContrastLight(),
+              highContrastDarkTheme: AppTheme.highContrastDark(),
+              themeMode: themeMode,
+              supportedLocales: CollectLocalizations.supportedLocales,
+              localizationsDelegates: const [
+                CollectLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              locale: const Locale('en'),
+              routerConfig: router,
+              builder: (context, child) {
+                final dark = Theme.of(context).brightness == Brightness.dark;
+                final icons = dark ? Brightness.light : Brightness.dark;
+                return AnnotatedRegion<SystemUiOverlayStyle>(
+                  value: SystemUiOverlayStyle(
+                    statusBarColor: CollectColors.transparentColor,
+                    statusBarIconBrightness: icons,
+                    statusBarBrightness: dark
+                        ? Brightness.dark
+                        : Brightness.light,
+                    systemNavigationBarColor: context.collectColors.canvas,
+                    systemNavigationBarIconBrightness: icons,
+                    systemNavigationBarDividerColor:
+                        CollectColors.transparentColor,
+                  ),
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
             ),
           ),
         ),

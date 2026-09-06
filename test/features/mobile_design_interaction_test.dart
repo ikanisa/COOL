@@ -51,6 +51,278 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  testWidgets('system bars follow explicit and system appearance changes', (
+    tester,
+  ) async {
+    tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+    addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+    await open(tester, '/settings/appearance', FixtureCollectRepository());
+
+    SystemUiOverlayStyle systemBars() => tester
+        .widget<AnnotatedRegion<SystemUiOverlayStyle>>(
+          find.byType(AnnotatedRegion<SystemUiOverlayStyle>).first,
+        )
+        .value;
+
+    expect(systemBars().statusBarIconBrightness, Brightness.light);
+    await tester.tap(find.text('Light'));
+    await tester.pumpAndSettle();
+    expect(systemBars().statusBarIconBrightness, Brightness.dark);
+    expect(systemBars().statusBarBrightness, Brightness.light);
+    expect(systemBars().systemNavigationBarIconBrightness, Brightness.dark);
+    expect(systemBars().systemNavigationBarColor, CollectColors.light.canvas);
+
+    await tester.tap(find.text('System'));
+    await tester.pumpAndSettle();
+    expect(systemBars().statusBarIconBrightness, Brightness.light);
+    tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
+    await tester.pumpAndSettle();
+    expect(systemBars().statusBarIconBrightness, Brightness.dark);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('country picker blocks shell navigation and keeps large names', (
+    tester,
+  ) async {
+    await open(tester, '/settings/profile', FixtureCollectRepository());
+    tester.view.physicalSize = const Size(320, 568);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('profile_country_picker')));
+    await tester.pumpAndSettle();
+    final home = find.byKey(const ValueKey('collect-nav-home'));
+    expect(home.hitTestable(), findsNothing);
+    await tester.enterText(
+      find.byKey(const ValueKey('auth_country_search_input')),
+      'American Samoa',
+    );
+    await tester.pumpAndSettle();
+    final name = find.byKey(const ValueKey('auth_country_name_AS_1684'));
+    final paragraph = tester.renderObject<RenderParagraph>(name);
+    expect(paragraph.didExceedMaxLines, isFalse);
+    expect(paragraph.textScaler.scale(14), 28);
+    expect(name.hitTestable(), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    Navigator.of(tester.element(find.byType(AuthCountryPickerSheet))).pop();
+    await tester.pumpAndSettle();
+    expect(home.hitTestable(), findsOneWidget);
+  });
+
+  testWidgets('member filters keep complete labels at 200% text', (
+    tester,
+  ) async {
+    await open(
+      tester,
+      '/groups/qa-private-group/members',
+      FixtureCollectRepository(),
+    );
+    tester.view.physicalSize = const Size(320, 568);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpAndSettle();
+    for (final label in ['MEMBERS', 'SORT', 'Collect ID']) {
+      final target = find.text(label);
+      await tester.ensureVisible(target);
+      await tester.pumpAndSettle();
+      expect(
+        tester.renderObject<RenderParagraph>(target).didExceedMaxLines,
+        isFalse,
+      );
+      expect(target.hitTestable(), findsOneWidget);
+    }
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('legal page title remains complete at 200% text', (tester) async {
+    await open(tester, '/settings/legal/terms', FixtureCollectRepository());
+    tester.view.physicalSize = const Size(320, 568);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpAndSettle();
+    final title = find.text('Terms & Conditions');
+    expect(
+      tester.renderObject<RenderParagraph>(title).didExceedMaxLines,
+      isFalse,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('narrow safety notices preserve the complete consequence', (
+    tester,
+  ) async {
+    const message =
+        'Confirm the MoMo number or code and provider before creating the payee. They can never be edited afterward; deactivate the payee if it must no longer receive contributions.';
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: CollectTheme.dark(),
+        home: const Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: 220,
+              child: InfoSecurityBanner(
+                title: 'Route becomes immutable',
+                message: message,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .renderObject<RenderParagraph>(find.text(message))
+          .didExceedMaxLines,
+      isFalse,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Activity group filter reaches the final group at large text', (
+    tester,
+  ) async {
+    await open(tester, '/activity', _ManyGroupsRepository());
+    tester.view.physicalSize = const Size(320, 568);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Filter by group'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    final lastGroup = find.text('Synthetic group 40');
+    await tester.ensureVisible(lastGroup);
+    await tester.pumpAndSettle();
+    expect(lastGroup.hitTestable(), findsOneWidget);
+    await tester.tap(lastGroup);
+    await tester.pumpAndSettle();
+    expect(find.byType(BottomSheet), findsNothing);
+    expect(find.byTooltip('Group filter'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'confirmation preserves full actions with keyboard and large text',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      var commits = 0;
+      const confirmLabel = 'Confirm transfer of group ownership';
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: CollectTheme.dark(),
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: const TextScaler.linear(2),
+              viewInsets: const EdgeInsets.only(bottom: 220),
+            ),
+            child: child!,
+          ),
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => TextButton(
+                child: const Text('Review'),
+                onPressed: () async {
+                  if (await showCollectConfirmationSheet(
+                    context: context,
+                    title: 'Transfer ownership?',
+                    message: 'The selected member will become the group owner.',
+                    confirmLabel: confirmLabel,
+                  )) {
+                    commits++;
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Review'));
+      await tester.pumpAndSettle();
+      expect(commits, 0);
+      expect(tester.takeException(), isNull);
+      await tester.ensureVisible(find.text('Cancel'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+      expect(commits, 0);
+      await tester.tap(find.text('Review'));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text(confirmLabel));
+      await tester.pumpAndSettle();
+      final paragraph = tester.renderObject<RenderParagraph>(
+        find.descendant(
+          of: find.text(confirmLabel),
+          matching: find.byType(RichText),
+        ),
+      );
+      expect(paragraph.didExceedMaxLines, isFalse);
+      await tester.tap(find.text(confirmLabel));
+      await tester.pumpAndSettle();
+      expect(commits, 1);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('account sign-out row opens confirmation through semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      final repository = FixtureCollectRepository();
+      await open(tester, '/settings/account', repository);
+      final node = tester.getSemantics(find.bySemanticsLabel('Sign out'));
+      expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      tester.binding.renderViews.first.owner!.semanticsOwner!.performAction(
+        node.id,
+        SemanticsAction.tap,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Sign out?'), findsOneWidget);
+      expect(repository.state.currentProfile, isNotNull);
+      expect(tester.takeException(), isNull);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('group chooser navigates to contribution through semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      final repository = FixtureCollectRepository();
+      final collection = repository.state.collections.first;
+      await open(tester, '/contribute', repository);
+      final node = tester.getSemantics(
+        find.bySemanticsLabel(RegExp('^${RegExp.escape(collection.title)},')),
+      );
+      expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      tester.binding.renderViews.first.owner!.semanticsOwner!.performAction(
+        node.id,
+        SemanticsAction.tap,
+      );
+      await tester.pumpAndSettle();
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(CollectApp)),
+      );
+      expect(
+        container
+            .read(appRouterProvider)
+            .routeInformationProvider
+            .value
+            .uri
+            .path,
+        '/groups/${collection.id}/contribute',
+      );
+      expect(tester.takeException(), isNull);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   testWidgets('notification switches remain operable through semantics', (
     tester,
   ) async {
@@ -405,6 +677,87 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('group photo library cancels safely and saves a selected photo', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 740);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    final repository = FixtureCollectRepository();
+    final original = repository.collectionById('qa-private-group');
+    await open(tester, '/groups/qa-private-group/profile', repository);
+    final title = find.byWidgetPredicate(
+      (widget) => widget is Text && widget.data == original.title,
+    );
+    await tester.ensureVisible(title);
+    expect(
+      tester.renderObject<RenderParagraph>(title).didExceedMaxLines,
+      isFalse,
+    );
+    await tester.ensureVisible(find.byTooltip('Upload image'));
+    await tester.tap(find.byTooltip('Upload image'));
+    await tester.pumpAndSettle();
+    expect(find.text('Rwanda collection'), findsOneWidget);
+    await tester.tap(find.byTooltip('Close photo collection'));
+    await tester.pumpAndSettle();
+    final save = find.widgetWithText(FilledButton, 'Save');
+    expect(tester.widget<FilledButton>(save).onPressed, isNull);
+    expect(repository.collectionById(original.id).imageUrl, original.imageUrl);
+    await tester.tap(find.byTooltip('Upload image'));
+    await tester.pumpAndSettle();
+    final photo = find.text('Community savings');
+    await tester.scrollUntilVisible(
+      photo,
+      160,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(photo);
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Remove image'), findsOneWidget);
+    expect(tester.widget<FilledButton>(save).onPressed, isNotNull);
+    expect(repository.collectionById(original.id).imageUrl, original.imageUrl);
+    await tester.tap(save);
+    await tester.pumpAndSettle();
+    expect(
+      repository.collectionById(original.id).imageUrl,
+      startsWith('data:image/png;base64,'),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  for (final savedHex in ['#8885F0', '#3CD070', '#D38B96', '#FF5E43']) {
+    testWidgets('editing a group preserves saved colour $savedHex', (
+      tester,
+    ) async {
+      final repository = FixtureCollectRepository();
+      final group = repository.collectionById('qa-private-group');
+      await repository.updateCollectionProfile(
+        collectionId: group.id,
+        title: group.title,
+        description: group.description,
+        recurringCadence: group.recurringCadence,
+        isPublic: group.isPublic,
+        accentColorHex: savedHex,
+      );
+      await open(tester, '/groups/qa-private-group/profile', repository);
+      final save = find.widgetWithText(FilledButton, 'Save');
+      expect(tester.widget<FilledButton>(save).onPressed, isNull);
+      await tester.enterText(find.byType(TextField).first, 'Updated QA group');
+      await tester.pump();
+      await tester.tap(save);
+      await tester.pumpAndSettle();
+      final updated = repository.collectionById(group.id);
+      expect(updated.title, 'Updated QA group');
+      expect(updated.accentColorHex, savedHex);
+      expect(CollectColors.groupColorHexForDisplay(savedHex), isNot(savedHex));
+      expect(tester.takeException(), isNull);
+    });
+  }
+
   for (final path in ['/home', '/groups', '/activity', '/settings']) {
     testWidgets('$path preserves the four navigation identities', (
       tester,
@@ -449,4 +802,17 @@ class _ConsentRepository extends FixtureCollectRepository {
 class _NotificationService extends CollectNotificationService {
   @override
   Future<bool> areNotificationsEnabled() async => false;
+}
+
+class _ManyGroupsRepository extends FixtureCollectRepository {
+  _ManyGroupsRepository() : super(fixtureCollectionCount: 40) {
+    state = state.copyWith(
+      collections: List.generate(
+        40,
+        (index) => state.collections[index].copyWith(
+          title: 'Synthetic group ${index + 1}',
+        ),
+      ),
+    );
+  }
 }

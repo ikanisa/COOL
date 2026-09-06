@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06T08:47:25.791780+00:00",
+  "scope": "Android native keyboard and host focus; synthetic fixture input states",
+  "status": "pass",
+  "release_status": "blocked",
+  "source": {
+    "source_sha256": "f29944e674a548912d25feb985e1fea90c084bb13c2cf465eda5376b7e842fc5",
+    "contract_sha256": "4cb47860f3259577f4cb3ba67ddd6ab15825fbe75b0a44afb59cb23704e396b7",
+    "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+    "version": "1.2.4+23",
+    "release_status": "not_assessed"
+  },
+  "report": ".cache/revolut-design-20260906/native-keyboard-focus-final/report.json",
+  "report_sha256": "dd7249584be6c3a98f748ec0f2c765faf10a9e62d7e56ebbf04cb0c9d7889875",
+  "native_cases_passed": 32,
+  "os_screenshots": 60,
+  "focus_frame_comparison": ".cache/revolut-design-20260906/native-keyboard-focus-final/focus-frame-comparison.json",
+  "focus_frame_comparison_sha256": "752f6eac82e53f8426b1b93b2b5fecf9723780fdd575fe180334ad6c56ec7964",
+  "installed_apk_matches_retained_during_run": true,
+  "apk_sha256": "ab72d058ca4a8b00fed98fa0fb4bf2507cacff95c6b5d7da5a0c27c8eafdbbf8",
+  "provenance": ".cache/revolut-design-20260906/native-keyboard-focus-final/provenance.json",
+  "settings_restored": true,
+  "qa_emulator_stopped": true,
+  "analysis": "pass",
+  "source_hygiene": "pass",
+  "runtime_exception_check": "pass",
+  "reviewer": "Codex agent",
+  "visual_review_scope": "Thirteen representative captures: fields, labels, keyboard fit, full action reachability and native frame correction. Full fidelity remains unverified.",
+  "visually_reviewed_captures": [
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/profile-edit-portrait-100-focused.png",
+      "sha256": "796cf415344908dda3f49cc4b8416c0bf33957385187738fde0e2069ecdcaba8"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/groups-search-portrait-100-focused.png",
+      "sha256": "05ccae6c465b3c792fcbd9556b5f8d068227f7f0ddbfc39faddf4757b060928c"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/group-create-landscape-100-action.png",
+      "sha256": "27ed174986280d8eaff2643215bc567c67240bf03e3a33034a773e0cf1e31cc3"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/diaspora-profile-landscape-100-focused.png",
+      "sha256": "963a2ebdec3b661967f85ed6e659218349f32e009096ec942235db5b46271e84"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/profile-edit-portrait-200-focused.png",
+      "sha256": "9f070a493798d66c4dfb3d20401506753495f089f4d4b6c9026a6d2a91418ce8"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/group-create-portrait-200-focused.png",
+      "sha256": "f3df50531d3b7189e9a1f2e78318a965c5a0b3c96cec51154de461daf79ec17c"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/diaspora-contribution-portrait-200-focused.png",
+      "sha256": "0fcb9c77463726c6d04ee0c45dca50ce7c8eeffee67f541cdc0002ba28f6c7e6"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/auth-landscape-200-action.png",
+      "sha256": "fed513ed5b3c7759be23b9803e492e1b307022849a1365a4de1f083bdeb21e3a"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/contribution-landscape-200-focused.png",
+      "sha256": "a404a5a549b893fa8fbe3cba9d8ac03482cc8b2dfec699dc0f2d0ec0f13d4667"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/group-create-landscape-200-action.png",
+      "sha256": "48154941b698180235f88a4efd18e3b59f3bf6c6d259614ac0dc705a21f6c0e6"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/groups-search-landscape-200-focused.png",
+      "sha256": "2243e314ed775b1990d341c2ae19f4b22ac2ae9f4ccf15942067e547b7262d8c"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/group-join-portrait-200-focused.png",
+      "sha256": "1966fcbe5a78af0ad26122a1c160d89c0c76286227b15328b64f53fcd59479af"
+    },
+    {
+      "path": ".cache/revolut-design-20260906/native-keyboard-focus-final/contribution-portrait-100-focused.png",
+      "sha256": "e021e79a1ae736f124b181d0f11e9fac0c5d2b30d8a44854e1c72d95aba79f72"
+    }
+  ],
+  "reference_ids": [
+    "LIVE-056",
+    "LIVE-058"
+  ],
+  "release_approval": false,
+  "production_mutations": false,
+  "physical_phone_modified": false,
+  "remaining": [
+    "complete original-reference and state assessment",
+    "native screen-reader verification",
+    "current iOS keyboard verification",
+    "exact production artifact acceptance"
+  ],
+  "gallery_qa": {
+    "path": ".cache/revolut-design-20260906/native-keyboard-gallery-qa.json",
+    "sha256": "1c01d2f8b7c18aee2dd438140f91db2a4b8a68937d4ebca199797839bb178614",
+    "status": "pass",
+    "widths": [
+      320,
+      1440
+    ],
+    "images_per_review_page": 60
+  }
+}

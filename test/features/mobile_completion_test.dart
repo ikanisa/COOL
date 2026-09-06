@@ -172,7 +172,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('How much?'), findsOneWidget);
-    expect(find.textContaining('MTN MoMo ·'), findsOneWidget);
+    expect(find.text('QA MoMo'), findsOneWidget);
+    expect(find.text('0788123456'), findsOneWidget);
+    expect(find.textContaining('receiver'), findsNothing);
+    expect(find.textContaining('MTN MoMo'), findsNothing);
     expect(find.text('Continue to MoMo'), findsOneWidget);
     expect(
       tester
@@ -207,7 +210,8 @@ void main() {
     expect(find.text('1 / 2'), findsNothing);
     expect(find.text('Quick pick'), findsOneWidget);
     expect(find.text('IKANISA LTD'), findsOneWidget);
-    expect(find.text('MTN MoMo · 41258'), findsOneWidget);
+    expect(find.text('41258'), findsOneWidget);
+    expect(find.textContaining('MTN MoMo'), findsNothing);
     expect(find.textContaining('MoMo receiver'), findsNothing);
     expect(find.text('Approve in MoMo'), findsNothing);
     expect(find.textContaining('secure MTN MoMo prompt'), findsNothing);
@@ -235,7 +239,7 @@ void main() {
       repository: FixtureCollectRepository(),
     );
     await tester.pumpAndSettle();
-    const payee = 'QA MoMo receiver';
+    const payee = 'QA MoMo';
     await tester.scrollUntilVisible(
       find.text(payee),
       120,
@@ -261,6 +265,57 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+
+  for (final network in ['mtn_momo', 'airtel_money']) {
+    testWidgets('MoMo recipient keeps identity and number for $network', (
+      tester,
+    ) async {
+      final repository = FixtureCollectRepository();
+      final number = network == 'mtn_momo' ? '0788123456' : '0738123456';
+      repository.state = repository.state.copyWith(
+        collections: [
+          for (final group in repository.state.collections)
+            group.id == 'qa-private-group'
+                ? group.copyWith(
+                    receiverNetwork: network,
+                    receiverMomoNumber: number,
+                  )
+                : group,
+        ],
+      );
+      await pumpRoute(
+        tester,
+        '/groups/qa-private-group/contribute',
+        repository: repository,
+      );
+      await tester.pumpAndSettle();
+
+      void expectRecipient() {
+        final card = find.bySemanticsLabel('QA MoMo, $number');
+        expect(card, findsOneWidget);
+        expect(find.text('QA MoMo'), findsOneWidget);
+        expect(find.text(number), findsOneWidget);
+        for (final label in ['receiver', 'MTN MoMo', 'Airtel Money']) {
+          expect(
+            find.descendant(of: card, matching: find.textContaining(label)),
+            findsNothing,
+          );
+        }
+      }
+
+      expectRecipient();
+      await tester.enterText(find.byType(TextField).first, '1234');
+      await tester.pumpAndSettle();
+      await pressFilledButton(tester, 'Continue to MoMo');
+      expect(find.text('Open MoMo USSD'), findsOneWidget);
+      expectRecipient();
+      final intent = repository.state.paymentIntents.last;
+      expect(intent.receiverMomoNumber, number);
+      expect(intent.momoNetwork, network);
+      expect(intent.expectedAmountRwf, 1234);
+      expect(tester.takeException(), isNull);
+    });
+  }
 
   testWidgets(
     'MoMo groups typed amounts and quick picks without changing value',
@@ -783,7 +838,7 @@ void main() {
     }
   });
 
-  testWidgets('my-groups filter has a clear empty recovery state', (
+  testWidgets('supported-groups filter has a clear empty recovery state', (
     tester,
   ) async {
     final repository = FixtureCollectRepository();
@@ -795,6 +850,7 @@ void main() {
       repository: repository,
     );
 
+    expect(find.text('Supported groups'), findsOneWidget);
     expect(find.text('No groups yet'), findsOneWidget);
     expect(find.text('Show all groups'), findsOneWidget);
     await tester.tap(find.text('Show all groups'));
@@ -1110,7 +1166,7 @@ void main() {
     expect(find.text('+93'), findsOneWidget);
   });
 
-  testWidgets('country picker keeps codes and names readable on one line', (
+  testWidgets('country picker preserves full codes and names at 200% text', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -1154,14 +1210,14 @@ void main() {
       countryName,
     );
     expect(countryNameText.data, 'American Samoa');
-    expect(countryNameText.maxLines, 1);
-    expect(countryNameText.softWrap, isFalse);
+    expect(countryNameText.maxLines, isNull);
+    expect(countryNameText.softWrap, isTrue);
     expect(countryNameParagraph.didExceedMaxLines, isFalse);
     expect(
       countryNameParagraph.textScaler.scale(
         countryNameParagraph.text.style?.fontSize ?? 14,
       ),
-      lessThanOrEqualTo(14),
+      (countryNameParagraph.text.style?.fontSize ?? 14) * 2,
     );
     expect(tester.takeException(), isNull);
   });
@@ -1255,7 +1311,7 @@ void main() {
     expect(receiverStepButton.onPressed, isNull);
   });
 
-  testWidgets('home keeps scan as the only join entry', (tester) async {
+  testWidgets('home offers public group discovery', (tester) async {
     await pumpRoute(tester, '/home', legalConsentAccepted: true);
 
     final quickActions = find.byType(CollectHeroQuickActionRow);
@@ -1273,7 +1329,8 @@ void main() {
       findsNothing,
     );
     expect(find.text('Join'), findsNothing);
-    expect(find.text('Scan QR'), findsOneWidget);
+    expect(find.text('Scan QR'), findsNothing);
+    expect(find.text('Explore Groups'), findsOneWidget);
     expect(find.text('Share'), findsOneWidget);
     expect(find.text('Join with a code.'), findsNothing);
     expect(find.text('Group code'), findsNothing);
@@ -1561,11 +1618,39 @@ void main() {
       expect(find.text('Number'), findsNothing);
       expect(find.text('Code'), findsNothing);
       expect(find.text('Receiver privacy'), findsNothing);
+      tester.view.physicalSize = const Size(320, 740);
+      tester.view.devicePixelRatio = 1;
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await tester.pumpAndSettle();
+      for (final text in ['Parish support', 'Optional group photo']) {
+        final label = find.text(text);
+        await tester.ensureVisible(label);
+        final paragraph = tester.renderObject<RenderParagraph>(label);
+        expect(paragraph.didExceedMaxLines, isFalse);
+      }
+      expect(tester.takeException(), isNull);
+      await tester.tap(find.byTooltip('Add photo'));
+      await tester.pumpAndSettle();
+      expect(find.text('Rwanda collection'), findsOneWidget);
+      final photo = find.text('Community savings');
+      await tester.scrollUntilVisible(
+        photo,
+        160,
+        scrollable: find.byType(Scrollable).last,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(photo);
+      await tester.pumpAndSettle();
+      expect(find.text('Photo selected'), findsOneWidget);
       await pressFilledButton(tester, 'Continue');
 
       expect(find.text('SMS readiness check.'), findsNothing);
       expect(find.text('Review group'), findsOneWidget);
       expect(find.text('Private group'), findsOneWidget);
+      expect(find.text('Group photo selected'), findsOneWidget);
     } finally {
       debugDefaultTargetPlatformOverride = null;
     }

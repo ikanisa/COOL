@@ -133,20 +133,24 @@ final activeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   );
 });
 
-final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
+final memberCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   final collections = ref.watch(activeCollectionsProvider);
   final profile = ref.watch(
     collectRepositoryProvider.select((state) => state.currentProfile),
   );
   if (profile == null) return const <CollectCollection>[];
   return List<CollectCollection>.unmodifiable(
-    collections
-        .where(
-          (collection) =>
-              collection.creatorUserId == profile.id ||
-              collection.isCurrentUserMember,
-        )
-        .take(3),
+    collections.where(
+      (collection) =>
+          collection.creatorUserId == profile.id ||
+          collection.isCurrentUserMember,
+    ),
+  );
+});
+
+final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
+  return List<CollectCollection>.unmodifiable(
+    ref.watch(memberCollectionsProvider).take(3),
   );
 });
 

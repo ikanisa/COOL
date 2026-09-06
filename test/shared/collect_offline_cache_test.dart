@@ -10,6 +10,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('profile cache preserves number and leading-zero MoMo code', () async {
+    SharedPreferences.setMockInitialValues({});
+    final profile = FixtureCollectRepository().state.currentProfile!.copyWith(
+      momoPayCode: '008000',
+    );
+    const cache = CollectOfflineCache();
+    await cache.save(
+      CollectOfflineSnapshot(
+        savedAt: DateTime.utc(2026, 9, 6),
+        currentProfile: profile,
+        collections: const [],
+        paymentIntents: const [],
+        contributions: const [],
+        collectionSummaries: const {},
+      ),
+    );
+    final restored = (await cache.read())!.currentProfile!;
+    expect(restored.momoPayCode, '008000');
+    expect(restored.momoNumber, profile.momoNumber);
+    expect(restored.copyWith(momoPayCode: '').momoPayCode, isEmpty);
+    expect(restored.copyWith().momoPayCode, '008000');
+  });
+
   test(
     'cached summary preserves EUR minor units and drops untyped legacy totals',
     () async {

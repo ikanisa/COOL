@@ -6,11 +6,12 @@ require "fileutils"
 require "json"
 require "time"
 require "yaml"
+require_relative "public_app_media"
 
 ROOT = File.expand_path("..", __dir__)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
 PUBLIC_URL = "https://collect.ikanisa.com"
-ASSET_VERSION = "20260630-ui-dev-audit-5"
+ASSET_VERSION = "20260906-authentic-app-media"
 GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
 APPLE_APP_STORE_ID = "6783960331"
 APPLE_APP_STORE_URL = "https://apps.apple.com/app/id#{APPLE_APP_STORE_ID}"
@@ -44,14 +45,14 @@ def collect_color_hex(name)
 end
 
 BRAND_PRIMARY_COLORS = {
-  "periwinkle" => collect_color_hex("brandPeriwinkle"),
-  "mint" => collect_color_hex("brandMintGreen"),
-  "rose" => collect_color_hex("brandDustyRose"),
-  "orange" => collect_color_hex("brandOrangeRed")
+  "periwinkle" => collect_color_hex("referenceAccountHighlight"),
+  "mint" => collect_color_hex("referenceGroupTeal"),
+  "rose" => collect_color_hex("referenceProfileHighlight"),
+  "orange" => collect_color_hex("referencePaymentsHighlight")
 }.freeze
 BRAND_BLACK = collect_color_hex("referenceChromeBlack")
-BRAND_PAPER = collect_color_hex("brandPaper")
-BRAND_INK = collect_color_hex("inkPrimary")
+BRAND_PAPER = collect_color_hex("publicWhite")
+BRAND_INK = collect_color_hex("publicInk")
 BRAND_SURFACE_WHITE = collect_color_hex("publicWhite")
 
 
@@ -502,7 +503,7 @@ def slug_for_path(path)
 end
 
 def page_classes(page, current_path)
-  classes = ["route-#{slug_for_path(current_path)}"]
+  classes = ["revolut-public", "route-#{slug_for_path(current_path)}"]
   classes << "legal-page" if policy_path?(page)
   classes << "alias-page" if page[:canonical_path]
   classes.join(" ")
@@ -518,7 +519,7 @@ def cta_links_html(_current_path, page, surface:)
     %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
   ]
 
-  items.join("\n")
+  (surface == :header ? [items.first] : items).join("\n")
 end
 
 def content_grid_html(page, current_path)
@@ -965,12 +966,11 @@ def supported_groups_html(page)
   return "" if groups.empty?
 
   cards = groups.each_with_index.map do |group, index|
-    tone = (index % 4) + 1
     label, body = group.split(":", 2).map { |part| part.to_s.strip }
     body = label if body.to_s.empty?
     label = "Group type" if label.to_s.empty?
     %(
-      <article class="supported-group-card supported-group-card-#{tone}">
+      <article class="supported-group-card">
         <span class="supported-group-index">#{format("%02d", index + 1)}</span>
         <strong>#{esc(label)}</strong>
         <p>#{esc(body)}</p>
@@ -1451,355 +1451,41 @@ def partner_page_html
 end
 
 def hero_visual_html(page)
-  case page[:path]
-  when "/group-savings/"
-    <<~HTML
-      <div class="hero-widget ledger-widget phone-widget" aria-label="Group savings ledger preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Statement</strong>
-              <button class="download-button" aria-label="Export ledger statement"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="statement-card">
-              <strong>RayonSport Fan Club</strong>
-              <small>June 2026 contribution ledger</small>
-            </section>
-            <div class="ledger-summary">
-              <div><span>Collected</span><strong>RWF 18,000</strong></div>
-              <div><span>Pending</span><strong>1 member</strong></div>
-            </div>
-            <div class="statement-table" role="table" aria-label="RayonSport Fan Club contribution statement">
-              <div class="statement-head" role="row"><span>Member</span><span>Amount</span><span>Status</span></div>
-              <div class="ledger-row" role="row"><span class="ledger-member" role="cell"><i class="profile-icon" aria-hidden="true"></i>482917</span><strong role="cell">RWF 6,000</strong><em role="cell">Paid</em></div>
-              <div class="ledger-row" role="row"><span class="ledger-member" role="cell"><i class="profile-icon" aria-hidden="true"></i>739204</span><strong role="cell">RWF 6,000</strong><em role="cell">Paid</em></div>
-              <div class="ledger-row pending" role="row"><span class="ledger-member" role="cell"><i class="profile-icon" aria-hidden="true"></i>156883</span><strong role="cell">RWF 6,000</strong><em role="cell">Pending</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Ledger</span><span>Members</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/diaspora/"
-    <<~HTML
-      <div class="hero-widget diaspora-widget phone-widget" aria-label="Diaspora savings app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Diaspora</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="diaspora-card">
-              <strong>Paris Saving Group</strong>
-            </section>
-            <div class="app-segments" aria-label="Diaspora workflow tabs">
-              <span class="active">Records</span><span>Members</span><span>Support</span>
-            </div>
-            <div class="app-list" role="list" aria-label="Member contributions">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>482917</strong><small>Member contribution</small></span><em>Saved</em></div>
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>739204</strong><small>Member contribution</small></span><em>Saved</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>156883</strong><small>Member contribution</small></span><em>Pending</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Diaspora</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/insurance/", "/protection/"
-    <<~HTML
-      <div class="hero-widget protection-widget phone-widget" aria-label="Protection support app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Protection</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="protection-card">
-              <strong>Insurance-related records</strong>
-            </section>
-            <div class="app-segments" aria-label="Protection workflow tabs">
-              <span class="active">Request</span><span>Records</span><span>Provider</span>
-            </div>
-            <div class="app-list" role="list" aria-label="Insurance products">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Income Protection</strong><small>Short-term income interruption support</small></span><em>Eligible</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Credit Life Protection</strong><small>Partner-loan balance protection</small></span><em>Eligible</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Credit Repayment Protection</strong><small>Repayment support after income interruption</small></span><em>Eligible</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Protection</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/craas/", "/credit-readiness/"
-    <<~HTML
-      <div class="hero-widget file-widget phone-widget" aria-label="Credit-readiness app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Readiness</strong>
-              <button class="download-button" aria-label="Export readiness file"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="readiness-card">
-              <strong>Customer support file</strong>
-            </section>
-            <div class="app-segments" aria-label="Readiness file tabs">
-              <span class="active">File</span><span>History</span><span>Notes</span>
-            </div>
-            <div class="app-list" role="list" aria-label="MSME credit-readiness support services">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Accounting</strong><small>Financial records and statements</small></span><em>Support</em></div>
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Business-plan</strong><small>Loan purpose and repayment plan</small></span><em>Support</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Tax advisory</strong><small>Tax records and compliance guidance</small></span><em>Support</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Notaries</strong><small>Document certification support</small></span><em>Support</em></div>
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Legal services</strong><small>Contracts and legal documents</small></span><em>Support</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Insurers</strong><small>Protection and policy support</small></span><em>Support</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">File</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/community-groups/"
-    <<~HTML
-      <div class="hero-widget community-widget phone-widget" aria-label="Community group app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Community</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="community-card">
-              <strong>Community savings group</strong>
-            </section>
-            <div class="app-segments" aria-label="Community group tabs">
-              <span class="active">Activity</span><span>Members</span><span>Records</span>
-            </div>
-            <div class="member-strip" aria-label="Member preview">
-              <i></i><i></i><i></i><i></i><span>Member records visible</span>
-            </div>
-            <div class="app-list" role="list" aria-label="Wedding group contributions">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>482917</strong><small>Wedding group contribution</small></span><em>RWF 10,000</em></div>
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>739204</strong><small>Wedding group contribution</small></span><em>RWF 10,000</em></div>
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>156883</strong><small>Wedding group contribution</small></span><em>RWF 5,000</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Groups</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/our-partners/", "/partners/"
-    <<~HTML
-      <div class="hero-widget partner-widget phone-widget" aria-label="Partner workflow app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Partners</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="partner-card">
-              <strong>Records before review</strong>
-              <small>Groups keep records. Providers review under their own rules.</small>
-            </section>
-            <div class="workflow-stack" aria-label="Partner workflow preview">
-              <div><i class="app-dot ready"></i><span><strong>Groups</strong><small>Use Collect to organize records</small></span></div>
-              <b></b>
-              <div><i class="app-dot"></i><span><strong>Records</strong><small>Group records and request notes</small></span></div>
-              <b></b>
-              <div><i class="app-dot support"></i><span><strong>Providers</strong><small>Review and decide under their own rules</small></span></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Partners</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/trust/", "/security/"
-    <<~HTML
-      <div class="hero-widget trust-widget phone-widget" aria-label="Trust app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Trust</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="trust-card">
-              <span>Trust center</span>
-              <strong>Clear records and support paths</strong>
-              <small>Deletion routes, careful public claims and WhatsApp support.</small>
-            </section>
-            <div class="app-list" role="list" aria-label="Trust checklist">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Clear records</strong><small>Readable contribution and request history</small></span><em>Active</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Deletion routes</strong><small>Account and data deletion support</small></span><em>Available</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Public claims</strong><small>Only approved wording goes public</small></span><em>Checked</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Trust</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/privacy/"
-    <<~HTML
-      <div class="hero-widget policy-widget phone-widget" aria-label="Privacy app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Privacy</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="policy-card"><span>Privacy controls</span><strong>Manage data requests</strong><small>Access, correction, account deletion and data deletion routes.</small></section>
-            <div class="app-list" role="list" aria-label="Privacy controls">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Access</strong><small>Ask about profile and service data</small></span><em>Open</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Correction</strong><small>Request correction support</small></span><em>Support</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Deletion</strong><small>Account and data deletion routes</small></span><em>Available</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview"><span>Home</span><span class="active">Privacy</span><span>Support</span></nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/terms/"
-    <<~HTML
-      <div class="hero-widget terms-widget phone-widget" aria-label="Terms app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Terms</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="terms-card"><span>Service terms</span><strong>Use Collect clearly</strong><small>Customer responsibilities, group rules and provider decision boundaries.</small></section>
-            <div class="app-list" role="list" aria-label="Terms summary">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Customer responsibilities</strong><small>Use accurate information</small></span><em>Read</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Group rules</strong><small>Groups manage their own rules</small></span><em>Group</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Provider decisions</strong><small>Providers decide under their own rules</small></span><em>Provider</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview"><span>Home</span><span class="active">Terms</span><span>Support</span></nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/account-deletion/"
-    <<~HTML
-      <div class="hero-widget deletion-widget phone-widget" aria-label="Account deletion app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Delete Account</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="deletion-card"><span>Account deletion</span><strong>Request support</strong><small>Use WhatsApp support to request account deletion and status updates.</small></section>
-            <div class="app-list" role="list" aria-label="Account deletion steps">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Request</strong><small>Start deletion support</small></span><em>Step 1</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Verify account</strong><small>Confirm the account request</small></span><em>Step 2</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Confirm status</strong><small>Receive support follow-up</small></span><em>Step 3</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview"><span>Home</span><span class="active">Account</span><span>Support</span></nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/data-deletion/"
-    <<~HTML
-      <div class="hero-widget data-widget phone-widget" aria-label="Data deletion app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Delete Data</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="data-card"><span>Data deletion</span><strong>Request data support</strong><small>Profile details, support messages and service data are handled through support.</small></section>
-            <div class="app-list" role="list" aria-label="Data deletion scope">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Profile details</strong><small>Profile-related deletion request</small></span><em>Scope</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Support messages</strong><small>Support request history</small></span><em>Review</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Retention rules</strong><small>Limited retention may apply</small></span><em>Policy</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview"><span>Home</span><span class="active">Data</span><span>Support</span></nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  else
-    <<~HTML
-      <div class="hero-widget home-widget phone-widget" aria-label="Collect app home screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Open menu"><i aria-hidden="true"></i></button>
-              <strong>Collect</strong>
-              <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="home-dashboard-card">
-              <strong>RayonSport Fan Club</strong>
-              <div class="dashboard-progress" role="progressbar" aria-label="Group contribution progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72"><i></i></div>
-              <div class="dashboard-stats" aria-label="Group summary">
-                <span><b>RWF 18,000</b><small>Collected</small></span>
-                <span><b>3</b><small>Paid</small></span>
-              </div>
-            </section>
-            <div class="quick-actions" aria-label="Collect app quick actions">
-              <button type="button"><i class="quick-save" aria-hidden="true"></i><span>Save</span></button>
-              <button type="button"><i class="quick-ledger" aria-hidden="true"></i><span>Ledger</span></button>
-              <button type="button"><i class="quick-export" aria-hidden="true"></i><span>Readiness</span></button>
-            </div>
-            <div class="home-record-list" role="list" aria-label="Recent contribution records">
-              <div role="listitem"><i class="profile-icon" aria-hidden="true"></i><span><strong>482917</strong><small>Daily saving received</small></span><em>Paid</em></div>
-              <div role="listitem"><i class="profile-icon" aria-hidden="true"></i><span><strong>739204</strong><small>Readiness file updated</small></span><em>Paid</em></div>
-              <div role="listitem"><i class="profile-icon" aria-hidden="true"></i><span><strong>156883</strong><small>Protection follow-up</small></span><em>Paid</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span class="active">Home</span><span>Groups</span><span>Records</span>
-            </nav>
-          </div>
-        </div>
-      </div>
+  photo = {
+    "/craas/" => ["banking-together.png", "A financial adviser and business owner reviewing plans together"],
+    "/credit-readiness/" => ["banking-together.png", "A financial adviser and business owner reviewing plans together"],
+    "/insurance/" => ["shared-goals.png", "Friends discussing their plans together in Kigali"],
+    "/protection/" => ["shared-goals.png", "Friends discussing their plans together in Kigali"],
+    "/partners/" => ["banking-together.png", "A financial adviser and business owner meeting in Kigali"],
+    "/our-partners/" => ["banking-together.png", "A financial adviser and business owner meeting in Kigali"]
+  }[page[:path]]
+  if photo
+    return <<~HTML
+      <figure class="service-photo">
+        <img src="/assets/marketing/rwanda/#{photo[0]}" alt="#{esc(photo[1])}" width="1536" height="1024" fetchpriority="high">
+      </figure>
     HTML
   end
+
+  id = {
+    "/" => "home",
+    "/group-savings/" => "group-detail",
+    "/diaspora/" => "diaspora-contribution",
+    "/community-groups/" => "groups",
+    "/trust/" => "security",
+    "/security/" => "security",
+    "/privacy/" => "privacy",
+    "/terms/" => "terms",
+    "/account-deletion/" => "account-deletion",
+    "/data-deletion/" => "account-deletion"
+  }.fetch(page[:path])
+  media = (@public_app_media ||= PublicAppMedia.new(ROOT)).screens.fetch(id)
+  <<~HTML
+    <figure class="app-capture" data-app-screen="#{esc(id)}">
+      <img src="#{esc(media.fetch('url'))}" alt="#{esc(media.fetch('alt'))}" width="#{media.fetch('width')}" height="#{media.fetch('height')}" fetchpriority="high">
+      <figcaption>Collect app · Example data</figcaption>
+    </figure>
+  HTML
 end
 
 def page_html(page, current_path: page[:path])
@@ -1811,7 +1497,7 @@ def page_html(page, current_path: page[:path])
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>#{esc(page[:title])}</title>
       <meta name="description" content="#{esc(page[:description])}">
-      <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
+      <meta name="theme-color" content="#{BRAND_BLACK}">
       <link rel="canonical" href="#{page_url(current_path)}">
       #{alternate_links(current_path)}
       <link rel="icon" href="/icons/collect.png" type="image/png">
@@ -1827,6 +1513,7 @@ def page_html(page, current_path: page[:path])
       <meta name="twitter:description" content="#{esc(page[:description])}">
       <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
       <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
+      <link rel="stylesheet" href="/revolut.css?v=#{ASSET_VERSION}">
       <script type="application/ld+json">#{json_ld(page)}</script>
     </head>
     <body class="#{esc(page_classes(page, current_path))}">
@@ -1839,6 +1526,7 @@ def page_html(page, current_path: page[:path])
         <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">Menu</button>
         <nav id="site-nav" class="site-nav" data-site-nav aria-label="Main navigation">
           #{nav_html(current_path)}
+          <div class="mobile-menu-actions">#{cta_links_html(current_path, page, surface: :hero)}</div>
         </nav>
         <div class="header-actions">
           #{cta_links_html(current_path, page, surface: :header)}
@@ -1855,10 +1543,10 @@ def page_html(page, current_path: page[:path])
               #{cta_links_html(current_path, page, surface: :hero)}
             </div>
           </div>
-          <div class="hero-device">
-            #{hero_visual_html(page)}
-          </div>
+          #{current_path == "/" ? '<img class="hero-editorial" src="/assets/marketing/rwanda/kigali-woman-hero.png" alt="" width="1672" height="941" fetchpriority="high">' : "<div class=\"hero-device\">#{hero_visual_html(page)}</div>"}
         </section>
+
+        #{rwanda_photography_html(current_path)}
 
         #{current_path == "/" ? "" : infographic_html(page)}
 
@@ -1900,6 +1588,32 @@ def page_html(page, current_path: page[:path])
     </body>
     </html>
   HTML
+end
+
+def rwanda_photography_html(current_path)
+  if current_path == "/"
+    scenes = [
+      ["community-savings.png", "A community planning its savings together", "Save together", "/group-savings/"],
+      ["everyday-payments.png", "A shop owner and customer using their phones", "Everyday progress", "/community-groups/"],
+      ["banking-together.png", "A business owner discussing a financial plan", "Prepare for your next step", "/craas/"]
+    ]
+    return %(<section class="rwanda-stories" aria-label="Collect in everyday life"><div class="rwanda-story-grid">) + scenes.map do |file, alt, title, link|
+      %(<a class="rwanda-story" href="#{link}"><img src="/assets/marketing/rwanda/#{file}" alt="#{esc(alt)}" width="1536" height="1024" loading="lazy" decoding="async"><span>#{esc(title)}<span aria-hidden="true">↗</span></span></a>)
+    end.join + "</div></section>"
+  end
+  scene = case current_path
+          when "/group-savings/", "/community-groups/"
+            ["community-savings.png", "People planning their community savings together"]
+          when "/craas/", "/credit-readiness/", "/our-partners/", "/partners/"
+            ["banking-together.png", "A business owner discussing a financial plan"]
+          when "/diaspora/"
+            ["shared-goals.png", "Friends planning a shared goal together"]
+          when "/insurance/"
+            ["everyday-payments.png", "A shop owner and customer using their phones"]
+          end
+  return "" unless scene
+
+  %(<figure class="rwanda-editorial"><img src="/assets/marketing/rwanda/#{scene[0]}" alt="#{esc(scene[1])}" width="1536" height="1024" loading="lazy" decoding="async"></figure>)
 end
 
 def share_landing_page_html(kind:)
@@ -1945,7 +1659,7 @@ def share_landing_page_html(kind:)
       <title>#{esc(title)}</title>
       <meta name="description" content="#{esc(description)}">
       <meta name="robots" content="noindex, nofollow">
-      <meta name="theme-color" content="#{BRAND_PRIMARY_COLORS.fetch("periwinkle")}">
+      <meta name="theme-color" content="#{BRAND_BLACK}">
       <meta name="apple-itunes-app" content="app-id=#{APPLE_APP_STORE_ID}, app-argument=#{PUBLIC_URL}#{canonical_path}" data-share-smart-banner>
       <link rel="canonical" href="#{PUBLIC_URL}#{canonical_path}" data-share-canonical>
       <link rel="icon" href="/icons/collect.png" type="image/png">
@@ -1959,9 +1673,10 @@ def share_landing_page_html(kind:)
       <meta name="twitter:card" content="summary_large_image">
       <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
       <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
+      <link rel="stylesheet" href="/revolut.css?v=#{ASSET_VERSION}">
       <script type="application/ld+json">#{share_schema}</script>
     </head>
-    <body class="route-share-link" data-share-landing="#{group_link ? "group" : "app"}">
+    <body class="revolut-public route-share-link" data-share-landing="#{group_link ? "group" : "app"}">
       <a class="skip-link" href="#content">Skip to content</a>
       <header class="site-header">
         <a class="brand" href="/">
@@ -2037,10 +1752,10 @@ def stylesheet
       color-scheme: dark light;
       --paper: #{BRAND_PAPER};
       --ink: #{BRAND_INK};
-      --muted: #5f5a76;
+      --muted: #505053;
       --night: #{BRAND_BLACK};
       --panel: #12111c;
-      --line: rgba(250, 248, 245, .14);
+      --line: rgba(255, 255, 255, .14);
       --periwinkle: #{BRAND_PRIMARY_COLORS.fetch("periwinkle")};
       --mint: #{BRAND_PRIMARY_COLORS.fetch("mint")};
       --rose: #{BRAND_PRIMARY_COLORS.fetch("rose")};
@@ -2147,18 +1862,17 @@ def stylesheet
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .skip-link { position: absolute; left: 16px; top: -80px; z-index: 10; background: var(--paper); color: var(--ink); padding: 10px 12px; border-radius: 8px; }
     .skip-link:focus { top: 16px; }
-    .site-header { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 18px clamp(20px, 4vw, 48px); position: sticky; top: 0; z-index: 5; background: rgba(5, 5, 16, .86); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(250,248,245,.08); }
+    .site-header { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 18px clamp(20px, 4vw, 48px); position: sticky; top: 0; z-index: 5; background: rgba(5, 5, 16, .86); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.08); }
     .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: max-content; }
     .brand img { border-radius: 10px; }
     .brand strong, .brand small { display: block; line-height: var(--type-leading-1); }
     .brand strong { font-size: var(--type-size-19px); font-weight: var(--type-weight-bold); }
-    .brand small { color: rgba(250,248,245,.7); font-weight: var(--type-weight-bold); margin-top: 3px; }
+    .brand small { color: rgba(255,255,255,.7); font-weight: var(--type-weight-bold); margin-top: 3px; }
     .site-nav { display: flex; gap: 2px; align-items: center; flex: 1; justify-content: center; min-width: 0; }
-    .nav-link { text-decoration: none; font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); color: rgba(250,248,245,.72); padding: 10px 8px; border-radius: 10px; white-space: nowrap; }
-    .nav-link:hover, .nav-link.active { color: var(--paper); background: rgba(250,248,245,.09); }
+    .nav-link { text-decoration: none; font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); color: rgba(255,255,255,.72); padding: 10px 8px; border-radius: 10px; white-space: nowrap; }
     .header-actions, .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .header-actions { flex: 0 0 auto; flex-wrap: nowrap; gap: 8px; }
-    .button, button { min-height: 44px; border: 1px solid rgba(250,248,245,.18); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; text-decoration: none; font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); cursor: pointer; }
+    .button, button { min-height: 44px; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; text-decoration: none; font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); cursor: pointer; }
     .button { white-space: nowrap; }
     .header-actions .button { padding: 11px 14px; font-size: var(--type-size-13px); }
     .button.primary, .button.secondary { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
@@ -2166,15 +1880,15 @@ def stylesheet
     .button.cta-app, .button.cta-group, .button.cta-touch { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
     .share-link-hero { min-height: calc(100svh - 72px); }
     .share-link-hero .hero-actions .button { min-height: 44px; }
-    .share-link-code { display: inline-flex; max-width: 100%; margin: 0 0 22px; padding: 10px 14px; border: 1px solid rgba(250,248,245,.18); border-radius: 999px; color: var(--mint); font-weight: var(--type-weight-bold); overflow-wrap: anywhere; }
-    .share-link-status { min-height: 24px; margin: 14px 0 0; color: rgba(250,248,245,.78); }
+    .share-link-code { display: inline-flex; max-width: 100%; margin: 0 0 22px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: var(--mint); font-weight: var(--type-weight-bold); overflow-wrap: anywhere; }
+    .share-link-status { min-height: 24px; margin: 14px 0 0; color: rgba(255,255,255,.78); }
     .share-link-widget { justify-items: start; }
     .share-link-widget img { border-radius: 18px; }
     .share-link-widget > span { font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); letter-spacing: var(--type-tracking-wide); }
     .share-link-widget > strong { font-size: var(--type-size-fluid-28px-4vw-42px); line-height: var(--type-leading-1-05); }
-    .share-link-widget p { margin: 0; color: rgba(250,248,245,.72); font-size: var(--type-size-17px); line-height: var(--type-leading-1-5); }
-    .menu-button { display: none; background: rgba(250,248,245,.08); color: var(--paper); }
-    .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(136,133,240,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(60,208,112,.16), transparent 32%), #050510; }
+    .share-link-widget p { margin: 0; color: rgba(255,255,255,.72); font-size: var(--type-size-17px); line-height: var(--type-leading-1-5); }
+    .menu-button { display: none; background: rgba(255,255,255,.08); color: var(--paper); }
+    .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(63,69,247,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(53,161,183,.16), transparent 32%), #050510; }
     .legal-hero { min-height: auto; grid-template-columns: minmax(0, .92fr) minmax(260px, .58fr); padding-top: clamp(36px, 6vw, 72px); padding-bottom: clamp(36px, 6vw, 72px); }
     .legal-page .hero-actions .button { min-height: 40px; padding: 9px 13px; font-size: var(--type-size-13px); }
     .legal-page .hero-intro { max-width: 660px; }
@@ -2182,179 +1896,25 @@ def stylesheet
     .hero-eyebrow { color: var(--mint); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); text-transform: uppercase; letter-spacing: var(--type-tracking-wider); margin: 0 0 18px; }
     section { scroll-margin-top: 96px; }
     h1 { font-size: var(--type-size-fluid-44px-8vw-96px); line-height: var(--type-leading-0-94); margin: 0; max-width: 920px; font-weight: var(--type-weight-bold); }
-    .hero-intro { color: rgba(250,248,245,.74); font-size: var(--type-size-fluid-19px-2-1vw-25px); line-height: var(--type-leading-1-38); max-width: 760px; margin: 26px 0 30px; }
+    .hero-intro { color: rgba(255,255,255,.74); font-size: var(--type-size-fluid-19px-2-1vw-25px); line-height: var(--type-leading-1-38); max-width: 760px; margin: 26px 0 30px; }
     .hero-device { position: relative; min-height: 520px; display: grid; place-items: center; }
-    .hero-widget { width: min(94%, 450px); min-height: 430px; border-radius: 34px; padding: 28px; color: var(--paper); border: 1px solid rgba(250,248,245,.18); background: linear-gradient(145deg, rgba(250,248,245,.11), rgba(136,133,240,.16)); box-shadow: 0 34px 90px rgba(0,0,0,.42); display: grid; gap: 16px; align-content: center; overflow: hidden; }
+    .hero-widget { width: min(94%, 450px); min-height: 430px; border-radius: 34px; padding: 28px; color: var(--paper); border: 1px solid rgba(255,255,255,.18); background: linear-gradient(145deg, rgba(255,255,255,.11), rgba(63,69,247,.16)); box-shadow: 0 34px 90px rgba(0,0,0,.42); display: grid; gap: 16px; align-content: center; overflow: hidden; }
     .hero-widget strong, .hero-widget span, .hero-widget em, .hero-widget small { overflow-wrap: anywhere; }
-    .widget-topline span, .widget-note, .hero-widget small, .hero-widget > span, .hero-widget li { color: rgba(250,248,245,.7); }
+    .widget-topline span, .widget-note, .hero-widget small, .hero-widget > span, .hero-widget li { color: rgba(255,255,255,.7); }
     .widget-topline strong { display: block; font-size: var(--type-size-fluid-28px-4vw-42px); line-height: var(--type-leading-1); margin-top: 8px; }
     .widget-note { font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-35); }
-    .phone-widget { width: min(94%, 366px); min-height: 650px; border: 0; border-radius: 52px; padding: 0; background: transparent; box-shadow: none; display: block; overflow: visible; }
-    .phone-shell { position: relative; width: 100%; height: 650px; min-height: 650px; border-radius: 52px; padding: 10px; background: linear-gradient(145deg, #060811, #171923); border: 1px solid rgba(250,248,245,.16); box-shadow: 0 38px 96px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.05); }
-    .phone-shell::before { content: ""; position: absolute; right: -4px; top: 124px; width: 4px; height: 66px; border-radius: 0 4px 4px 0; background: #272936; }
-    .phone-notch, .phone-status { display: none; }
-    .phone-screen { height: 630px; min-height: 630px; border-radius: 42px; overflow: hidden; background: #f5f7fb; color: #17142c; display: flex; flex-direction: column; padding: 18px 16px 14px; border: 1px solid rgba(255,255,255,.08); }
-    .app-bar { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; align-items: center; gap: 10px; min-height: 48px; margin-top: 8px; }
     .legal-inline-link { display: inline-flex; min-height: 44px; align-items: center; color: #4a3fd6; font-weight: var(--type-weight-bold); text-decoration-thickness: 2px; text-underline-offset: 4px; }
-    .app-bar strong { text-align: center; font-size: var(--type-size-16px); line-height: var(--type-leading-1); color: #17142c; }
-    .back-button, .download-button, .chat-button { width: 38px; min-height: 38px; height: 38px; padding: 0; border-radius: 14px; background: white; border: 1px solid #e5e8f0; box-shadow: 0 8px 18px rgba(23,20,44,.08); }
-    .back-button i, .download-button i, .chat-button i { display: block; width: 18px; height: 18px; margin: auto; position: relative; }
-    .back-button i::before { content: ""; position: absolute; left: 5px; top: 3px; width: 10px; height: 10px; border-left: 3px solid #17142c; border-bottom: 3px solid #17142c; transform: rotate(45deg); border-radius: 1px; }
-    .download-button i::before { content: ""; position: absolute; left: 7px; top: 1px; width: 4px; height: 10px; border-radius: 999px; background: #17142c; box-shadow: 0 7px 0 -2px #17142c; }
-    .download-button i::after { content: ""; position: absolute; left: 3px; bottom: 1px; width: 12px; height: 7px; border-left: 3px solid #17142c; border-bottom: 3px solid #17142c; transform: rotate(-45deg); border-radius: 1px; }
-    .chat-button i::before { content: ""; position: absolute; inset: 2px 1px 5px; border: 3px solid #17142c; border-radius: 999px; }
-    .chat-button i::after { content: ""; position: absolute; left: 3px; bottom: 2px; width: 8px; height: 8px; border-left: 3px solid #17142c; border-bottom: 3px solid #17142c; transform: rotate(-18deg); border-radius: 1px; background: white; }
-    .statement-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #231f58, #5865e8 68%, #28b86b); box-shadow: 0 18px 36px rgba(88,101,232,.25); }
-    .statement-card span, .statement-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .statement-card strong { display: block; margin-top: 8px; font-size: var(--type-size-26px); line-height: var(--type-leading-1-05); }
-    .statement-card small { margin-top: 18px; font-size: var(--type-size-12px); }
-    .diaspora-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #15352d, #23895b 58%, #6976f0); box-shadow: 0 18px 36px rgba(35,137,91,.22); }
-    .diaspora-card span, .diaspora-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .diaspora-card strong { display: block; margin-top: 8px; font-size: var(--type-size-25px); line-height: var(--type-leading-1-05); }
-    .diaspora-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .protection-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #251d52, #6d63dc 58%, #f2b84b); box-shadow: 0 18px 36px rgba(109,99,220,.22); }
-    .protection-card span, .protection-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .protection-card strong { display: block; margin-top: 8px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-05); }
-    .protection-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .readiness-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #151833, #3846b8 58%, #2f9ec8); box-shadow: 0 18px 36px rgba(56,70,184,.22); }
-    .readiness-card span, .readiness-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .readiness-card strong { display: block; margin-top: 8px; font-size: var(--type-size-25px); line-height: var(--type-leading-1-05); }
-    .readiness-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .community-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #102f45, #257ea4 58%, #28b86b); box-shadow: 0 18px 36px rgba(37,126,164,.22); }
-    .community-card span, .community-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .community-card strong { display: block; margin-top: 8px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-05); }
-    .community-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .partner-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #142f3a, #2f9ec8 58%, #6976f0); box-shadow: 0 18px 36px rgba(47,158,200,.22); }
-    .partner-card span, .partner-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .partner-card strong { display: block; margin-top: 8px; font-size: var(--type-size-25px); line-height: var(--type-leading-1-05); }
-    .partner-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .trust-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #17142c, #23415f 58%, #28b86b); box-shadow: 0 18px 36px rgba(35,65,95,.22); }
-    .trust-card span, .trust-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .trust-card strong { display: block; margin-top: 8px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-05); }
-    .trust-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .policy-card, .terms-card, .deletion-card, .data-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; box-shadow: 0 18px 36px rgba(23,20,44,.18); }
-    .policy-card { background: linear-gradient(145deg, #17324b, #2f9ec8 58%, #6976f0); }
-    .terms-card { background: linear-gradient(145deg, #211b43, #6976f0 58%, #28b86b); }
-    .deletion-card { background: linear-gradient(145deg, var(--black), var(--rose) 58%, var(--periwinkle)); }
-    .data-card { background: linear-gradient(145deg, #172d35, #23895b 58%, #2f9ec8); }
-    .policy-card span, .policy-card small, .terms-card span, .terms-card small, .deletion-card span, .deletion-card small, .data-card span, .data-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .policy-card strong, .terms-card strong, .deletion-card strong, .data-card strong { display: block; margin-top: 8px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-05); }
-    .policy-card small, .terms-card small, .deletion-card small, .data-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .home-app-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #211b43, #6976f0 55%, #28b86b); box-shadow: 0 18px 36px rgba(105,118,240,.24); }
-    .home-app-card span, .home-app-card small { display: block; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); }
-    .home-app-card strong { display: block; margin-top: 8px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-05); }
-    .home-app-card small { margin-top: 18px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .home-dashboard-card { margin-top: 10px; padding: 18px; border-radius: 26px; color: white; background: linear-gradient(145deg, #17142c, #5b63df 58%, #27af67); box-shadow: 0 18px 36px rgba(91,99,223,.24); }
-    .home-dashboard-card > span, .home-dashboard-card > small { display: block; color: rgba(255,255,255,.76); font-weight: var(--type-weight-bold); }
-    .home-dashboard-card > strong { display: block; margin-top: 8px; font-size: var(--type-size-27px); line-height: var(--type-leading-1-02); color: white; }
-    .home-dashboard-card > small { margin-top: 10px; font-size: var(--type-size-12px); line-height: var(--type-leading-1-35); }
-    .dashboard-progress { height: 9px; margin: 18px 0 14px; border-radius: 999px; background: rgba(255,255,255,.22); overflow: hidden; }
-    .dashboard-progress i { display: block; width: 72%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #3cd070, #fffdfb); }
-    .dashboard-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .dashboard-stats span { display: block; min-height: 62px; padding: 11px; border-radius: 17px; background: rgba(5,5,16,.22); border: 1px solid rgba(255,255,255,.16); }
-    .dashboard-stats b, .dashboard-stats small { display: block; }
-    .dashboard-stats b { color: white; font-size: var(--type-size-18px); line-height: var(--type-leading-1-05); }
-    .dashboard-stats small { margin-top: 6px; color: rgba(255,255,255,.72); font-size: var(--type-size-11px); font-weight: var(--type-weight-bold); }
-    .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 12px; }
-    .quick-actions button { min-height: 72px; padding: 10px 8px; border-radius: 19px; border: 1px solid #e5e8f0; background: #fff; color: #17142c; box-shadow: 0 10px 20px rgba(23,20,44,.05); display: grid; gap: 7px; justify-items: center; font-size: var(--type-size-11px); line-height: var(--type-leading-1); }
-    .quick-actions i { width: 28px; height: 28px; border-radius: 999px; position: relative; background: #edf2ff; color: #6976f0; }
-    .quick-actions i::before, .quick-actions i::after { content: ""; position: absolute; }
-    .quick-save::before { left: 8px; top: 6px; width: 12px; height: 16px; border-radius: 8px 8px 5px 5px; background: currentColor; }
-    .quick-save::after { left: 12px; top: 3px; width: 4px; height: 8px; border-radius: 999px; background: #3cd070; }
-    .quick-ledger::before { left: 7px; top: 7px; width: 14px; height: 14px; border: 2px solid currentColor; border-radius: 4px; }
-    .quick-ledger::after { left: 10px; top: 12px; width: 8px; height: 2px; background: currentColor; box-shadow: 0 5px 0 currentColor; }
-    .quick-export::before { left: 12px; top: 6px; width: 4px; height: 13px; border-radius: 999px; background: currentColor; }
-    .quick-export::after { left: 8px; top: 13px; width: 12px; height: 8px; border-left: 3px solid currentColor; border-bottom: 3px solid currentColor; transform: rotate(-45deg); border-radius: 1px; }
-    .home-record-list { display: grid; gap: 10px; margin-top: 12px; }
-    .home-record-list > div { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 62px; padding: 10px 12px; border: 1px solid #e5e8f0; border-radius: 18px; background: #ffffff; box-shadow: 0 10px 20px rgba(23,20,44,.05); }
-    .home-record-list strong, .home-record-list small { display: block; }
-    .home-record-list strong { color: #17142c; font-size: var(--type-size-14px); line-height: var(--type-leading-1-1); }
-    .home-record-list small { margin-top: 4px; color: #72738a; font-size: var(--type-size-11px); line-height: var(--type-leading-1-25); }
-    .home-record-list em { font-style: normal; color: #28b86b; font-size: var(--type-size-11px); font-weight: var(--type-weight-bold); }
-    .app-segments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; padding: 5px; border-radius: 17px; background: #e9edf5; }
-    .app-segments span { min-height: 32px; display: grid; place-items: center; border-radius: 13px; color: #77788c; font-size: var(--type-size-11px); font-weight: var(--type-weight-bold); }
-    .app-segments span.active { color: #17142c; background: #ffffff; box-shadow: 0 6px 14px rgba(23,20,44,.08); }
-    .app-list { display: grid; gap: 10px; margin-top: 12px; }
-    .app-list > div { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 66px; padding: 10px 12px; border: 1px solid #e5e8f0; border-radius: 18px; background: #ffffff; box-shadow: 0 10px 20px rgba(23,20,44,.05); }
-    .app-list strong, .app-list small { display: block; }
-    .app-list strong { color: #17142c; font-size: var(--type-size-14px); line-height: var(--type-leading-1-1); }
-    .app-list small { margin-top: 4px; color: #72738a; font-size: var(--type-size-11px); line-height: var(--type-leading-1-25); }
-    .app-list em { font-style: normal; color: #6976f0; font-size: var(--type-size-11px); font-weight: var(--type-weight-bold); }
-    .app-dot { width: 28px; height: 28px; border-radius: 999px; background: #edf2ff; border: 1px solid #d7ddf0; position: relative; }
-    .app-dot::after { content: ""; position: absolute; inset: 8px; border-radius: 999px; background: #6976f0; }
-    .app-dot.ready { background: #e7f8ee; border-color: #cdeed9; }
-    .app-dot.ready::after { background: #28b86b; }
-    .app-dot.support { background: #fff7df; border-color: #f3e4ad; }
-    .app-dot.support::after { background: #f2b84b; }
-    .member-strip { display: flex; align-items: center; gap: 0; margin-top: 12px; padding: 12px; border: 1px solid #e5e8f0; border-radius: 18px; background: #ffffff; box-shadow: 0 10px 20px rgba(23,20,44,.05); }
-    .member-strip i { width: 30px; height: 30px; border-radius: 999px; border: 2px solid #fff; background: linear-gradient(145deg, #edf2ff, #6976f0); margin-left: -8px; }
-    .member-strip i:first-child { margin-left: 0; background: linear-gradient(145deg, #e7f8ee, #28b86b); }
-    .member-strip i:nth-child(3) { background: linear-gradient(145deg, #fff7df, #f2b84b); }
-    .member-strip span { margin-left: 10px; color: #17142c; font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
-    .workflow-stack { display: grid; gap: 8px; margin-top: 14px; }
-    .workflow-stack > div { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: center; min-height: 66px; padding: 10px 12px; border: 1px solid #e5e8f0; border-radius: 18px; background: #ffffff; box-shadow: 0 10px 20px rgba(23,20,44,.05); }
-    .workflow-stack > b { display: block; width: 2px; height: 18px; margin-left: 25px; background: #d9dee9; border-radius: 999px; }
-    .workflow-stack strong, .workflow-stack small { display: block; }
-    .workflow-stack strong { color: #17142c; font-size: var(--type-size-14px); line-height: var(--type-leading-1-1); }
-    .workflow-stack small { margin-top: 4px; color: #72738a; font-size: var(--type-size-11px); line-height: var(--type-leading-1-25); }
-    .ledger-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .ledger-summary div { border: 1px solid #e5e8f0; border-radius: 18px; padding: 13px; background: #ffffff; box-shadow: 0 10px 20px rgba(23,20,44,.05); }
-    .ledger-summary span, .ledger-summary strong { display: block; }
-    .ledger-summary span, .statement-head span { color: #72738a; }
-    .ledger-summary strong { margin-top: 5px; font-size: var(--type-size-18px); line-height: var(--type-leading-1-05); color: #17142c; }
-    .statement-table { margin-top: 12px; border: 1px solid #e5e8f0; border-radius: 22px; overflow: hidden; background: #ffffff; box-shadow: 0 12px 24px rgba(23,20,44,.06); }
-    .statement-head, .ledger-widget .ledger-row { display: grid; grid-template-columns: minmax(112px, 1fr) auto auto; gap: 10px; align-items: center; }
-    .statement-head { padding: 12px 14px; background: #eef2f8; font-size: var(--type-size-10px); font-weight: var(--type-weight-bold); text-transform: uppercase; }
-    .ledger-row, .record-card, .protection-item, .file-widget li, .activity-list, .policy-widget:not(.phone-widget) span, .terms-widget:not(.phone-widget) span, .deletion-widget:not(.phone-widget) span, .data-widget:not(.phone-widget) span { border: 1px solid rgba(250,248,245,.14); border-radius: 16px; padding: 14px; background: rgba(5,5,16,.38); }
-    .ledger-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
-    .ledger-widget .ledger-row { border: 0; border-radius: 0; border-top: 1px solid #edf0f5; padding: 13px 14px; background: transparent; color: #17142c; }
-    .ledger-member { display: inline-flex; align-items: center; gap: 9px; min-width: 0; font-weight: var(--type-weight-bold); }
-    .profile-icon { position: relative; width: 28px; height: 28px; border-radius: 999px; flex: 0 0 auto; background: #edf2ff; border: 1px solid #d7ddf0; }
-    .profile-icon::before { content: ""; position: absolute; left: 9px; top: 6px; width: 8px; height: 8px; border-radius: 999px; background: #6976f0; }
-    .profile-icon::after { content: ""; position: absolute; left: 6px; bottom: 5px; width: 14px; height: 9px; border-radius: 999px 999px 6px 6px; background: #6976f0; }
-    .ledger-row strong { font-size: var(--type-size-15px); }
-    .ledger-widget .ledger-row strong { font-size: var(--type-size-12px); white-space: nowrap; color: #17142c; }
-    .ledger-row em { font-style: normal; color: var(--mint); font-weight: var(--type-weight-bold); }
-    .ledger-row.pending em { color: #f5c65b; }
-    .phone-tabs { margin-top: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 6px 4px; border-top: 1px solid #e7ebf2; }
-    .phone-tabs span { display: grid; place-items: center; min-height: 34px; border-radius: 13px; color: #5f6178; font-size: var(--type-size-11px); font-weight: var(--type-weight-bold); }
-    .phone-tabs span.active { color: #17142c; background: #edf2ff; }
-    .corridor-map { display: grid; grid-template-columns: auto minmax(68px, 1fr) auto; align-items: center; gap: 10px; font-weight: var(--type-weight-bold); }
-    .corridor-map i, .home-flow i, .partner-line { display: block; height: 2px; background: linear-gradient(90deg, var(--mint), var(--periwinkle)); border-radius: 999px; }
-    .record-card strong, .record-card span, .protection-item strong, .protection-item span, .activity-list strong, .activity-list span { display: block; }
-    .record-card span, .protection-item span, .activity-list span { margin-top: 6px; color: rgba(250,248,245,.68); line-height: var(--type-leading-1-35); }
-    .record-card.accent, .protection-item:nth-child(2), .policy-widget:not(.phone-widget) span:nth-of-type(2), .data-widget:not(.phone-widget) span:nth-of-type(2) { border-color: rgba(60,208,112,.36); }
-    .protection-widget { grid-template-columns: 1fr; }
-    .protection-item strong { font-size: var(--type-size-34px); line-height: var(--type-leading-1); }
-    .file-header strong, .policy-widget:not(.phone-widget) strong, .terms-widget:not(.phone-widget) strong, .deletion-widget:not(.phone-widget) strong, .data-widget:not(.phone-widget) strong, .trust-widget:not(.phone-widget) > strong { display: block; font-size: var(--type-size-fluid-27px-3vw-38px); line-height: var(--type-leading-1); }
-    .file-header span { color: rgba(250,248,245,.68); font-weight: var(--type-weight-bold); }
-    .file-widget ul { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-    .file-widget li { color: var(--paper); font-weight: var(--type-weight-bold); display: flex; align-items: center; gap: 10px; }
-    .file-widget li span { width: 12px; height: 12px; border-radius: 999px; background: var(--mint); flex: 0 0 auto; }
-    .community-widget:not(.phone-widget) { grid-template-columns: .8fr 1fr; align-items: center; }
-    .member-ring { width: 150px; height: 150px; border-radius: 999px; display: grid; place-items: center; align-content: center; border: 16px solid rgba(60,208,112,.52); box-shadow: inset 0 0 0 1px rgba(250,248,245,.18); }
-    .member-ring span { font-size: var(--type-size-50px); line-height: var(--type-leading-0-9); font-weight: var(--type-weight-bold); }
-    .member-ring small { font-weight: var(--type-weight-bold); }
-    .activity-list { display: grid; gap: 8px; }
-    .activity-list span { margin-top: 0; }
-    .policy-widget:not(.phone-widget), .terms-widget:not(.phone-widget), .deletion-widget:not(.phone-widget), .data-widget:not(.phone-widget) { align-content: stretch; }
-    .partner-widget { grid-template-columns: 1fr; align-content: center; }
-    .partner-node { min-height: 78px; display: grid; place-items: center; border-radius: 18px; border: 1px solid rgba(250,248,245,.16); background: rgba(250,248,245,.1); font-weight: var(--type-weight-bold); }
-    .partner-line { width: 70%; justify-self: center; }
-    .shield-mark { width: 118px; height: 118px; border-radius: 32px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(60,208,112,.9), rgba(136,133,240,.9)); color: #050510; font-weight: var(--type-weight-bold); font-size: var(--type-size-32px); }
-    .trust-widget { justify-items: start; }
-    .trust-widget span { line-height: var(--type-leading-1-4); }
-    .policy-widget:not(.phone-widget), .terms-widget:not(.phone-widget), .deletion-widget:not(.phone-widget), .data-widget:not(.phone-widget) { grid-template-columns: 1fr 1fr; }
-    .policy-widget:not(.phone-widget) strong, .terms-widget:not(.phone-widget) strong, .deletion-widget:not(.phone-widget) strong, .data-widget:not(.phone-widget) strong { grid-column: 1 / -1; }
-    .policy-widget:not(.phone-widget) span, .terms-widget:not(.phone-widget) span, .deletion-widget:not(.phone-widget) span, .data-widget:not(.phone-widget) span { font-weight: var(--type-weight-bold); display: grid; align-items: center; min-height: 58px; }
-    .home-flow { display: grid; grid-template-columns: auto minmax(34px, 1fr) auto minmax(34px, 1fr) auto; align-items: center; gap: 10px; }
-    .home-flow span { font-weight: var(--type-weight-bold); }
+    .app-capture { width: min(100%, 300px); margin: 0; }
+    .app-capture img { display: block; width: 100%; height: auto; border: 1px solid #343438; border-radius: 28px; }
+    .app-capture figcaption { margin-top: 14px; color: #c9c9ce; text-align: center; font-size: 13px; line-height: 1.5; }
+    .service-photo { width: 100%; margin: 0; }
+    .service-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 28px; }
     .infographic-band h2 { font-size: var(--type-size-fluid-34px-5vw-64px); line-height: var(--type-leading-1); margin: 0; }
     .infographic-band p { color: var(--muted); line-height: var(--type-leading-1-55); }
     .infographic-band { display: grid; gap: 28px; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #f2f4ff; color: var(--ink); }
     .infographic-copy { max-width: 860px; }
     .infographic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .infographic-step { min-height: 150px; border: 1px solid #e1d9f0; border-radius: 18px; padding: 18px; background: rgba(255,253,251,.86); box-shadow: 0 14px 34px rgba(37,32,68,.06); }
+    .infographic-step { min-height: 150px; border: 1px solid #e1d9f0; border-radius: 18px; padding: 18px; background: rgba(255,253,251,.86); box-shadow: 0 14px 34px rgba(25,28,31,.06); }
     .infographic-step:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); }
     .infographic-step:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
     .infographic-step:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
@@ -2396,7 +1956,7 @@ def stylesheet
     .content-grid-insurance .section-card, .content-grid-protection .section-card { min-height: 184px; align-content: start; }
     .content-grid-community-groups { background: #ecfbf1; }
     .content-grid-community-groups .section-card { min-height: 180px; display: grid; align-content: end; }
-    .content-grid .section-card { box-shadow: 0 14px 34px rgba(37,32,68,.08); }
+    .content-grid .section-card { box-shadow: 0 14px 34px rgba(25,28,31,.08); }
     .content-grid .section-card:nth-of-type(4n+1) { background: #f2f4ff; }
     .content-grid .section-card:nth-of-type(4n+2) { background: #ecfbf1; }
     .content-grid .section-card:nth-of-type(4n+3) { background: #fff3f3; }
@@ -2406,13 +1966,13 @@ def stylesheet
     .legal-layout.no-sidebar { grid-template-columns: 1fr; }
     .legal-sidebar { position: sticky; top: 100px; display: grid; gap: 16px; }
     .legal-meta { margin: 0; color: var(--muted); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-35); }
-    .legal-toc { display: grid; gap: 8px; border: 1px solid #e5deef; border-radius: 14px; padding: 16px; background: #ffffff; box-shadow: 0 14px 34px rgba(37,32,68,.05); }
+    .legal-toc { display: grid; gap: 8px; border: 1px solid #e5deef; border-radius: 14px; padding: 16px; background: #ffffff; box-shadow: 0 14px 34px rgba(25,28,31,.05); }
     .legal-toc strong { color: var(--ink); font-size: var(--type-size-14px); text-transform: uppercase; letter-spacing: var(--type-tracking-wide); }
     .legal-toc a { min-height: 36px; display: flex; align-items: center; color: var(--muted); text-decoration: none; font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-25); border-radius: 9px; padding: 7px 9px; }
     .legal-toc a:hover, .legal-toc a:focus-visible { color: var(--ink); background: #f2f4ff; }
     .legal-main { display: grid; gap: 18px; min-width: 0; }
-    .legal-priority { display: grid; gap: 14px; border: 1px solid #d9d3ea; border-radius: 18px; padding: clamp(18px, 3vw, 28px); background: linear-gradient(135deg, #ffffff, #f7f8ff); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
-    .legal-section, .legal-card { border: 1px solid #e5deef; border-radius: 16px; padding: clamp(20px, 3vw, 30px); background: rgba(255,255,255,.82); box-shadow: 0 18px 48px rgba(37,32,68,.05); }
+    .legal-priority { display: grid; gap: 14px; border: 1px solid #d9d3ea; border-radius: 18px; padding: clamp(18px, 3vw, 28px); background: linear-gradient(135deg, #ffffff, #f7f8ff); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
+    .legal-section, .legal-card { border: 1px solid #e5deef; border-radius: 16px; padding: clamp(20px, 3vw, 30px); background: rgba(255,255,255,.82); box-shadow: 0 18px 48px rgba(25,28,31,.05); }
     .legal-section h2, .legal-card h3 { margin: 0 0 12px; line-height: var(--type-leading-1-08); color: var(--ink); }
     .legal-section h2 { font-size: var(--type-size-fluid-26px-3vw-40px); }
     .legal-card h3 { font-size: var(--type-size-20px); }
@@ -2427,28 +1987,21 @@ def stylesheet
     .supported-groups-copy { position: sticky; top: 104px; }
     .supported-groups-section h2 { margin: 0; max-width: 560px; font-size: var(--type-size-fluid-38px-5-6vw-66px); line-height: var(--type-leading-0-96); letter-spacing: var(--type-tracking-default); }
     .supported-groups-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
-    .supported-group-card { min-height: 176px; border: 1px solid rgba(37,32,68,.12); border-top: 6px solid var(--g1); border-radius: 18px; padding: 18px; display: grid; align-content: start; gap: 12px; color: var(--ink); background: linear-gradient(180deg, #ffffff, #f7f8ff); box-shadow: 0 18px 42px rgba(37,32,68,.08); overflow: hidden; }
+    .supported-group-card { min-height: 176px; border: 1px solid rgba(25,28,31,.12); border-radius: 18px; padding: 18px; display: grid; align-content: start; gap: 12px; color: var(--ink); background: var(--web-widget); box-shadow: none; overflow: hidden; }
     .supported-group-card strong, .supported-group-card p, .supported-group-index { position: relative; z-index: 1; }
     .supported-group-card strong { color: var(--ink); font-size: var(--type-size-fluid-18px-1-9vw-23px); line-height: var(--type-leading-1-04); font-weight: var(--type-weight-bold); letter-spacing: var(--type-tracking-default); }
-    .supported-group-card p { margin: 0; color: rgba(37,32,68,.72); font-size: var(--type-size-15px); line-height: var(--type-leading-1-34); font-weight: var(--type-weight-bold); }
-    .supported-group-index { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: rgba(136,133,240,.16); color: var(--ink); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
-    .supported-group-card-1 { border-top-color: var(--g1); background: linear-gradient(180deg, rgba(136,133,240,.2), #ffffff 58%); }
-    .supported-group-card-2 { border-top-color: var(--g2); background: linear-gradient(180deg, rgba(60,208,112,.2), #ffffff 58%); }
-    .supported-group-card-3 { border-top-color: var(--g4); background: linear-gradient(180deg, rgba(255,94,67,.18), #ffffff 58%); }
-    .supported-group-card-4 { border-top-color: var(--g3); background: linear-gradient(180deg, rgba(211,139,150,.2), #ffffff 58%); }
-    .supported-group-card-2 .supported-group-index { background: rgba(60,208,112,.18); }
-    .supported-group-card-3 .supported-group-index { background: rgba(255,94,67,.16); }
-    .supported-group-card-4 .supported-group-index { background: rgba(211,139,150,.18); }
+    .supported-group-card p { margin: 0; color: rgba(25,28,31,.72); font-size: var(--type-size-15px); line-height: var(--type-leading-1-34); font-weight: var(--type-weight-bold); }
+    .supported-group-index { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--web-canvas); color: var(--web-ink); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
     .section-number { color: var(--periwinkle); font-weight: var(--type-weight-bold); }
     .section-card h2 { margin: 18px 0 10px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-12); }
     .section-card p, .start-section p { color: var(--muted); line-height: var(--type-leading-1-55); }
     .proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .proof-grid article { min-height: 158px; padding: 20px; border-radius: 18px; border: 1px solid rgba(250,248,245,.14); background: rgba(250,248,245,.08); }
+    .proof-grid article { min-height: 158px; padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); }
     .proof-grid strong, .proof-grid span { display: block; }
     .proof-grid strong { font-size: var(--type-size-18px); line-height: var(--type-leading-1-05); font-weight: var(--type-weight-bold); }
-    .proof-grid span { margin-top: 10px; color: rgba(250,248,245,.7); line-height: var(--type-leading-1-45); }
+    .proof-grid span { margin-top: 10px; color: rgba(255,255,255,.7); line-height: var(--type-leading-1-45); }
     .faq-list { display: grid; gap: 12px; }
-    .faq-list details { border: 1px solid rgba(136,133,240,.22); border-radius: 16px; background: #ffffff; padding: 0 18px; }
+    .faq-list details { border: 1px solid rgba(63,69,247,.22); border-radius: 16px; background: #ffffff; padding: 0 18px; }
     .faq-list summary { min-height: 58px; display: flex; align-items: center; cursor: pointer; color: var(--ink); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-2); }
     .faq-list details p { margin: 0 0 18px; color: var(--muted); line-height: var(--type-leading-1-5); }
     .localized-hero { min-height: auto; }
@@ -2469,9 +2022,9 @@ def stylesheet
     .story-grid.problem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .story-grid.five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .story-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .story-grid article { min-height: 142px; border: 1px solid rgba(136,133,240,.2); border-radius: 16px; padding: 18px; background: rgba(255,255,255,.72); color: var(--ink); }
-    .original-story:not(.light):not(.mint):not(.danger):not(.info) .story-grid article { background: rgba(250,248,245,.08); color: var(--paper); border-color: rgba(250,248,245,.14); }
-    .story-grid article:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); box-shadow: 0 16px 34px rgba(37,32,68,.1); }
+    .story-grid article { min-height: 142px; border: 1px solid rgba(63,69,247,.2); border-radius: 16px; padding: 18px; background: rgba(255,255,255,.72); color: var(--ink); }
+    .original-story:not(.light):not(.mint):not(.danger):not(.info) .story-grid article { background: rgba(255,255,255,.08); color: var(--paper); border-color: rgba(255,255,255,.14); }
+    .story-grid article:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); box-shadow: 0 16px 34px rgba(25,28,31,.1); }
     .story-grid article:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
     .story-grid article:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
     .story-grid article:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
@@ -2490,7 +2043,7 @@ def stylesheet
     .group-problem-section p, .group-accumulation-section p { color: var(--muted); line-height: var(--type-leading-1-55); font-size: var(--type-size-18px); }
     .problem-list { display: grid; gap: 12px; }
     .problem-list article, .use-case-grid article { border: 1px solid #e5deef; border-radius: 16px; padding: 18px; background: rgba(255,255,255,.78); color: var(--ink); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-2); }
-    .problem-list.compact article, .use-case-grid article { min-height: 112px; display: grid; align-items: center; color: var(--ink); border-color: transparent; box-shadow: 0 16px 34px rgba(37,32,68,.14); }
+    .problem-list.compact article, .use-case-grid article { min-height: 112px; display: grid; align-items: center; color: var(--ink); border-color: transparent; box-shadow: 0 16px 34px rgba(25,28,31,.14); }
     .problem-list.compact article:nth-child(5n+1), .use-case-grid article:nth-child(5n+1) { background: var(--g1); }
     .problem-list.compact article:nth-child(5n+2), .use-case-grid article:nth-child(5n+2) { background: var(--g2); }
     .problem-list.compact article:nth-child(5n+3), .use-case-grid article:nth-child(5n+3) { background: var(--g3); }
@@ -2499,18 +2052,18 @@ def stylesheet
     .problem-list.compact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .group-journey { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .group-journey article { min-height: 210px; }
-    .group-journey article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
+    .group-journey article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
     .group-journey article:nth-child(4n) { border-right: 0; }
     .group-journey article:nth-last-child(-n+4) { border-bottom: 0; }
     .group-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .accumulation-panel { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
+    .accumulation-panel { border: 1px solid rgba(25,28,31,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
     .accumulation-panel p { margin-top: 0; }
     .accumulation-panel strong, .accumulation-panel span { display: block; }
     .accumulation-panel strong { color: #164a2b; font-size: var(--type-size-24px); line-height: var(--type-leading-1-1); }
     .accumulation-panel span { margin-top: 8px; color: var(--muted); line-height: var(--type-leading-1-45); }
     .use-case-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .journey-rail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid rgba(250,248,245,.16); border-radius: 22px; overflow: hidden; background: rgba(250,248,245,.06); }
-    .journey-rail article { min-height: 190px; padding: 22px; border-right: 1px solid rgba(250,248,245,.14); border-bottom: 1px solid rgba(250,248,245,.14); display: grid; align-content: end; }
+    .journey-rail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid rgba(255,255,255,.16); border-radius: 22px; overflow: hidden; background: rgba(255,255,255,.06); }
+    .journey-rail article { min-height: 190px; padding: 22px; border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); display: grid; align-content: end; }
     .journey-rail article:nth-child(5n+1), .insurance-step-grid article:nth-child(5n+1) { background: var(--g1); }
     .journey-rail article:nth-child(5n+2), .insurance-step-grid article:nth-child(5n+2) { background: var(--g2); }
     .journey-rail article:nth-child(5n+3), .insurance-step-grid article:nth-child(5n+3) { background: var(--g3); }
@@ -2519,36 +2072,36 @@ def stylesheet
     .journey-rail article:nth-child(5n+5), .insurance-step-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
     .journey-rail article:nth-child(3n) { border-right: 0; }
     .journey-rail article:nth-last-child(-n+3) { border-bottom: 0; }
-    .journey-rail span { color: rgba(37,32,68,.72); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); }
+    .journey-rail span { color: rgba(25,28,31,.72); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); }
     .journey-rail strong { display: block; margin-top: 42px; font-size: var(--type-size-fluid-22px-2-1vw-30px); line-height: var(--type-leading-1); }
-    .journey-rail p { margin: 14px 0 0; color: rgba(37,32,68,.78); line-height: var(--type-leading-1-38); }
+    .journey-rail p { margin: 14px 0 0; color: rgba(25,28,31,.78); line-height: var(--type-leading-1-38); }
     .journey-rail article:nth-child(5n+5) span, .insurance-step-grid article:nth-child(5n+5) span { color: var(--mint); }
-    .journey-rail article:nth-child(5n+5) p, .insurance-step-grid article:nth-child(5n+5) p { color: rgba(250,248,245,.72); }
+    .journey-rail article:nth-child(5n+5) p, .insurance-step-grid article:nth-child(5n+5) p { color: rgba(255,255,255,.72); }
     .journey-rail.group-journey { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .journey-rail.group-journey article { min-height: 210px; }
-    .journey-rail.group-journey article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
-    .journey-rail.group-journey article:nth-child(4n) { border-right: 1px solid rgba(250,248,245,.14); }
+    .journey-rail.group-journey article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
+    .journey-rail.group-journey article:nth-child(4n) { border-right: 1px solid rgba(255,255,255,.14); }
     .journey-rail.group-journey article:nth-child(3n) { border-right: 0; }
-    .journey-rail.group-journey article:nth-last-child(-n+4) { border-bottom: 1px solid rgba(250,248,245,.14); }
+    .journey-rail.group-journey article:nth-last-child(-n+4) { border-bottom: 1px solid rgba(255,255,255,.14); }
     .journey-rail.group-journey article:nth-last-child(-n+3) { border-bottom: 0; }
     .diaspora-change-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #11101a; color: var(--paper); }
     .diaspora-change-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
     .change-compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-    .change-compare-grid article { border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: clamp(22px, 3vw, 34px); background: rgba(250,248,245,.07); min-height: 360px; }
-    .change-compare-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.22), rgba(136,133,240,.16)); }
+    .change-compare-grid article { border: 1px solid rgba(255,255,255,.14); border-radius: 22px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.07); min-height: 360px; }
+    .change-compare-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.22), rgba(63,69,247,.16)); }
     .change-compare-grid h3 { margin: 0 0 18px; font-size: var(--type-size-fluid-24px-2-4vw-34px); line-height: var(--type-leading-1-04); }
     .change-compare-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .change-compare-grid li { position: relative; padding-left: 22px; color: rgba(250,248,245,.78); line-height: var(--type-leading-1-35); font-weight: var(--type-weight-bold); }
+    .change-compare-grid li { position: relative; padding-left: 22px; color: rgba(255,255,255,.78); line-height: var(--type-leading-1-35); font-weight: var(--type-weight-bold); }
     .change-compare-grid li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
     .insurance-work-section, .insurance-finance-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
     .insurance-work-section { background: #11101a; color: var(--paper); }
     .insurance-finance-section { background: #ecfbf1; color: var(--ink); }
     .insurance-work-section h2, .insurance-finance-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
     .insurance-step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .insurance-step-grid article { min-height: 190px; border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: 24px; background: rgba(250,248,245,.07); display: grid; align-content: end; }
-    .insurance-step-grid span { color: rgba(37,32,68,.72); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); }
-    .insurance-step-grid p { margin: 42px 0 0; color: rgba(37,32,68,.78); line-height: var(--type-leading-1-38); font-size: var(--type-size-fluid-18px-1-6vw-22px); font-weight: var(--type-weight-bold); }
-    .premium-finance-panel { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(136,133,240,.14)); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
+    .insurance-step-grid article { min-height: 190px; border: 1px solid rgba(255,255,255,.14); border-radius: 22px; padding: 24px; background: rgba(255,255,255,.07); display: grid; align-content: end; }
+    .insurance-step-grid span { color: rgba(25,28,31,.72); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); }
+    .insurance-step-grid p { margin: 42px 0 0; color: rgba(25,28,31,.78); line-height: var(--type-leading-1-38); font-size: var(--type-size-fluid-18px-1-6vw-22px); font-weight: var(--type-weight-bold); }
+    .premium-finance-panel { border: 1px solid rgba(25,28,31,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(63,69,247,.14)); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
     .premium-finance-panel p { margin: 0; color: var(--muted); line-height: var(--type-leading-1-55); font-size: var(--type-size-fluid-20px-2vw-28px); font-weight: var(--type-weight-bold); }
     .craas-specialist-section, .craas-bank-section, .craas-benefits-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
     .craas-specialist-section { background: #11101a; color: var(--paper); }
@@ -2563,13 +2116,13 @@ def stylesheet
     .craas-service-grid article:nth-child(5n+4) { background: var(--g4); }
     .craas-service-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
     .craas-service-grid strong { font-size: var(--type-size-fluid-18px-2vw-28px); line-height: var(--type-leading-1-05); font-weight: var(--type-weight-bold); }
-    .craas-list-panel, .craas-benefit-grid article { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
+    .craas-list-panel, .craas-benefit-grid article { border: 1px solid rgba(25,28,31,.12); border-radius: 24px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
     .craas-list-panel ul, .craas-benefit-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
     .craas-list-panel ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .craas-list-panel li, .craas-benefit-grid li { position: relative; padding-left: 22px; color: var(--muted); line-height: var(--type-leading-1-35); font-weight: var(--type-weight-bold); }
     .craas-list-panel li::before, .craas-benefit-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
     .craas-benefit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-    .craas-benefit-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.18), rgba(136,133,240,.12)); }
+    .craas-benefit-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.18), rgba(63,69,247,.12)); }
     .craas-benefit-grid h3 { margin: 0 0 18px; font-size: var(--type-size-fluid-24px-2-4vw-34px); line-height: var(--type-leading-1-04); }
     .partner-opportunity-section, .partner-market-section, .partner-operating-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
     .partner-opportunity-section { background: #fffdfb; color: var(--ink); }
@@ -2577,7 +2130,7 @@ def stylesheet
     .partner-operating-section { background: #11101a; color: var(--paper); }
     .partner-opportunity-section h2, .partner-market-section h2, .partner-operating-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
     .partner-metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .partner-metric-grid article { min-height: 150px; border-radius: 22px; padding: 24px; background: #11101a; color: var(--paper); display: grid; align-content: end; box-shadow: 0 18px 42px rgba(37,32,68,.12); }
+    .partner-metric-grid article { min-height: 150px; border-radius: 22px; padding: 24px; background: #11101a; color: var(--paper); display: grid; align-content: end; box-shadow: 0 18px 42px rgba(25,28,31,.12); }
     .partner-metric-grid article:nth-child(1) { background: var(--black); }
     .partner-metric-grid article:nth-child(2) { background: var(--g2); }
     .partner-metric-grid article:nth-child(3) { background: var(--g1); }
@@ -2586,9 +2139,9 @@ def stylesheet
     .partner-metric-grid strong, .partner-metric-grid span { display: block; }
     .partner-metric-grid strong { font-size: var(--type-size-fluid-32px-4vw-54px); line-height: var(--type-leading-0-95); font-weight: var(--type-weight-bold); }
     .partner-metric-grid span { margin-top: 12px; color: rgba(255,253,251,.82); line-height: var(--type-leading-1-25); font-weight: var(--type-weight-bold); }
-    .partner-metric-grid article:nth-child(2) span, .partner-metric-grid article:nth-child(3) span, .partner-metric-grid article:nth-child(4) span { color: rgba(37,32,68,.78); }
+    .partner-metric-grid article:nth-child(2) span, .partner-metric-grid article:nth-child(3) span, .partner-metric-grid article:nth-child(4) span { color: rgba(25,28,31,.78); }
     .partner-engine-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .partner-engine-grid article { border: 1px solid transparent; border-top: 5px solid var(--g1); border-radius: 18px; padding: 16px; background: #f2f4ff; box-shadow: 0 16px 34px rgba(37,32,68,.08); }
+    .partner-engine-grid article { border: 1px solid transparent; border-top: 5px solid var(--g1); border-radius: 18px; padding: 16px; background: #f2f4ff; box-shadow: 0 16px 34px rgba(25,28,31,.08); }
     .partner-engine-grid article:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
     .partner-engine-grid article:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
     .partner-engine-grid article:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
@@ -2599,7 +2152,7 @@ def stylesheet
     .partner-engine-grid li { position: relative; padding-left: 15px; color: var(--muted); line-height: var(--type-leading-1-18); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
     .partner-engine-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 7px; height: 7px; border-radius: 999px; background: var(--g2); }
     .partner-market-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .partner-market-grid article { min-height: 226px; border-radius: 22px; padding: 24px; color: var(--ink); box-shadow: 0 18px 42px rgba(37,32,68,.12); display: grid; align-content: start; }
+    .partner-market-grid article { min-height: 226px; border-radius: 22px; padding: 24px; color: var(--ink); box-shadow: 0 18px 42px rgba(25,28,31,.12); display: grid; align-content: start; }
     .partner-market-grid article:nth-child(1) { background: var(--g1); }
     .partner-market-grid article:nth-child(2) { background: var(--g2); }
     .partner-market-grid article:nth-child(3) { background: var(--g4); }
@@ -2607,36 +2160,36 @@ def stylesheet
     .partner-market-grid article:nth-child(5) { grid-column: auto; background: var(--black); color: var(--white); }
     .partner-market-grid strong, .partner-market-grid span, .partner-market-grid p { display: block; }
     .partner-market-grid strong { font-size: var(--type-size-fluid-22px-2-4vw-34px); line-height: var(--type-leading-1-02); font-weight: var(--type-weight-bold); }
-    .partner-market-grid span { margin-top: 14px; color: rgba(37,32,68,.78); font-size: var(--type-size-15px); line-height: var(--type-leading-1-25); font-weight: var(--type-weight-bold); }
-    .partner-market-grid p { margin: 20px 0 0; color: rgba(37,32,68,.78); line-height: var(--type-leading-1-4); font-size: var(--type-size-16px); font-weight: var(--type-weight-bold); }
+    .partner-market-grid span { margin-top: 14px; color: rgba(25,28,31,.78); font-size: var(--type-size-15px); line-height: var(--type-leading-1-25); font-weight: var(--type-weight-bold); }
+    .partner-market-grid p { margin: 20px 0 0; color: rgba(25,28,31,.78); line-height: var(--type-leading-1-4); font-size: var(--type-size-16px); font-weight: var(--type-weight-bold); }
     .partner-market-grid article:nth-child(5) span, .partner-market-grid article:nth-child(5) p { color: rgba(255,253,251,.82); }
     .partner-operating-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-    .partner-operating-grid article { min-height: 0; border: 1px solid rgba(250,248,245,.14); border-top: 5px solid var(--g1); border-radius: 22px; padding: 20px; background: rgba(250,248,245,.07); }
-    .partner-operating-grid article:nth-child(2) { border-top-color: var(--g2); background: rgba(250,248,245,.09); }
-    .partner-operating-grid article:nth-child(3) { border-top-color: var(--g4); background: rgba(250,248,245,.09); }
+    .partner-operating-grid article { min-height: 0; border: 1px solid rgba(255,255,255,.14); border-top: 5px solid var(--g1); border-radius: 22px; padding: 20px; background: rgba(255,255,255,.07); }
+    .partner-operating-grid article:nth-child(2) { border-top-color: var(--g2); background: rgba(255,255,255,.09); }
+    .partner-operating-grid article:nth-child(3) { border-top-color: var(--g4); background: rgba(255,255,255,.09); }
     .partner-operating-grid h3 { margin: 0 0 14px; font-size: var(--type-size-fluid-20px-1-8vw-26px); line-height: var(--type-leading-1-05); }
-    .partner-operating-grid p { margin: 0 0 12px; color: rgba(250,248,245,.72); line-height: var(--type-leading-1-28); font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); }
+    .partner-operating-grid p { margin: 0 0 12px; color: rgba(255,255,255,.72); line-height: var(--type-leading-1-28); font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); }
     .partner-operating-grid ul { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
-    .partner-operating-grid li { position: relative; padding-left: 16px; color: rgba(250,248,245,.78); line-height: var(--type-leading-1-18); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
+    .partner-operating-grid li { position: relative; padding-left: 16px; color: rgba(255,255,255,.78); line-height: var(--type-leading-1-18); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
     .partner-operating-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
     .start-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
     .legal-start-section { padding-top: clamp(34px, 5vw, 58px); padding-bottom: clamp(34px, 5vw, 58px); }
     .legal-start-section h2 { max-width: 780px; }
     .legal-start-section .button { min-height: 40px; padding: 10px 14px; font-size: var(--type-size-13px); }
     .button.on-light:not(.cta-app):not(.cta-group):not(.cta-touch) { color: var(--ink); border-color: #ded8ea; }
-    .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 28px; padding: 36px clamp(20px, 5vw, 64px); border-top: 1px solid rgba(250,248,245,.12); background: #050510; }
+    .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 28px; padding: 36px clamp(20px, 5vw, 64px); border-top: 1px solid rgba(255,255,255,.12); background: #050510; }
     .footer-identity { max-width: 760px; }
-    .footer-identity p { margin: 8px 0 0; color: rgba(250,248,245,.68); font-size: var(--type-size-rem-088); line-height: var(--type-leading-1-55); }
+    .footer-identity p { margin: 8px 0 0; color: rgba(255,255,255,.68); font-size: var(--type-size-rem-088); line-height: var(--type-leading-1-55); }
     .footer-support { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .whatsapp-contact { min-height: 28px; display: inline-flex; align-items: center; gap: 7px; color: rgba(250,248,245,.78); font-weight: var(--type-weight-bold); text-decoration: none; border-radius: 9px; }
-    .whatsapp-contact:hover, .whatsapp-contact:focus-visible { color: var(--paper); background: rgba(250,248,245,.08); }
+    .whatsapp-contact { min-height: 28px; display: inline-flex; align-items: center; gap: 7px; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); text-decoration: none; border-radius: 9px; }
+    .whatsapp-contact:hover, .whatsapp-contact:focus-visible { color: var(--paper); background: rgba(255,255,255,.08); }
     .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 10px; }
-    .site-footer a { min-height: 40px; display: inline-flex; align-items: center; color: rgba(250,248,245,.82); font-weight: var(--type-weight-bold); border-radius: 9px; padding: 8px 10px; }
-    .site-footer a:hover, .site-footer a:focus-visible { background: rgba(250,248,245,.08); color: var(--paper); }
+    .site-footer a { min-height: 40px; display: inline-flex; align-items: center; color: rgba(255,255,255,.82); font-weight: var(--type-weight-bold); border-radius: 9px; padding: 8px 10px; }
+    .site-footer a:hover, .site-footer a:focus-visible { background: rgba(255,255,255,.08); color: var(--paper); }
     @media (max-width: 1120px) and (min-width: 981px) {
       .site-header { flex-wrap: nowrap; }
       .menu-button { display: inline-flex; margin-left: auto; }
-      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(250,248,245,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
       .site-nav.open { display: flex; }
       .header-actions { display: none; }
       .content-grid-diaspora { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2644,14 +2197,13 @@ def stylesheet
     @media (max-width: 980px) {
       .site-header { flex-wrap: nowrap; }
       .menu-button { display: inline-flex; margin-left: auto; }
-      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(250,248,245,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
       .site-nav.open { display: flex; }
       .header-actions { display: none; }
       .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 40px; }
       .legal-hero { grid-template-columns: 1fr; padding-top: 32px; padding-bottom: 32px; }
       .hero-device { min-height: 360px; }
       .hero-widget { width: min(100%, 390px); min-height: 350px; }
-      .phone-widget { width: min(100%, 366px); min-height: 650px; }
       .content-grid, .infographic-grid { grid-template-columns: 1fr 1fr; }
       .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-column: auto; }
       .explain-band, .start-section, .market-context, .proof-section, .faq-section, .original-story, .supported-groups-section { grid-template-columns: 1fr; }
@@ -2671,10 +2223,10 @@ def stylesheet
       .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr 1fr; }
       .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .journey-rail.group-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail article { border-right: 1px solid rgba(250,248,245,.14); border-bottom: 1px solid rgba(250,248,245,.14); }
-      .journey-rail article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
+      .journey-rail article { border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
+      .journey-rail article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
       .journey-rail article:nth-child(2n) { border-right: 0; }
-      .journey-rail article:not(:nth-last-child(-n+2)) { border-bottom: 1px solid rgba(250,248,245,.14); }
+      .journey-rail article:not(:nth-last-child(-n+2)) { border-bottom: 1px solid rgba(255,255,255,.14); }
       .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
     }
     @media (max-width: 560px) {
@@ -2688,24 +2240,8 @@ def stylesheet
       .button { width: 100%; }
       .hero-actions .button { min-height: 42px; padding: 10px 14px; }
       .legal-page .hero-actions .button { min-height: 38px; }
-      .hero-device { min-height: 306px; max-height: 306px; overflow: visible; align-items: center; }
+      .hero-device { min-height: 0; max-height: none; align-items: center; }
       .hero-widget { width: 100%; min-height: 300px; border-radius: 24px; padding: 20px; }
-      .phone-widget { width: min(100%, 350px); height: 306px; min-height: 306px; padding: 0; border-radius: 40px; overflow: visible; }
-      .phone-shell { width: 350px; max-width: 100%; height: 620px; min-height: 620px; border-radius: 48px; transform: scale(.49); transform-origin: top center; margin: 0 auto; }
-      .route-craas .hero-device, .route-credit-readiness .hero-device, .route-community-groups .hero-device { min-height: 356px; max-height: 356px; align-items: center; overflow: visible; }
-      .route-craas .phone-widget, .route-credit-readiness .phone-widget, .route-community-groups .phone-widget { height: 356px; min-height: 356px; max-height: 356px; overflow: visible; }
-      .route-craas .phone-shell, .route-credit-readiness .phone-shell, .route-community-groups .phone-shell { transform: scale(.56); }
-      .phone-screen { height: 600px; min-height: 600px; border-radius: 38px; padding: 16px 14px 12px; }
-      .ledger-summary { grid-template-columns: 1fr; }
-      .statement-head, .ledger-widget .ledger-row { grid-template-columns: minmax(92px, 1fr) auto; }
-      .statement-head span:last-child, .ledger-widget .ledger-row em { grid-column: 1 / -1; }
-      .ledger-row { grid-template-columns: 1fr auto; gap: 8px; }
-      .ledger-row strong { grid-column: 1 / -1; }
-      .ledger-widget .ledger-row strong { grid-column: auto; }
-      .community-widget:not(.phone-widget), .policy-widget:not(.phone-widget), .terms-widget:not(.phone-widget), .deletion-widget:not(.phone-widget), .data-widget:not(.phone-widget) { grid-template-columns: 1fr; }
-      .member-ring { width: 128px; height: 128px; justify-self: center; }
-      .home-flow { grid-template-columns: 1fr; }
-      .home-flow i { height: 18px; width: 2px; justify-self: center; }
       .content-grid, .infographic-grid, .supported-groups-grid, .story-grid, .story-grid.four, .story-grid.five, .story-grid.six, .story-grid.problem-grid, .journey-rail, .journey-rail.group-journey, .insurance-step-grid, .partner-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .content-grid .section-card, .infographic-step, .story-grid article, .journey-rail article, .insurance-step-grid article, .partner-metric-grid article { min-height: 120px; padding: 14px; border-radius: 14px; }
       .infographic-step h3, .story-grid strong { font-size: var(--type-size-fluid-15px-4vw-17px); line-height: var(--type-leading-1-06); }
@@ -2736,19 +2272,19 @@ def stylesheet
       .market-grid article:nth-last-child(2) { border-bottom: 1px solid #e5deef; }
       .original-story { padding: 48px 20px; }
       .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail article { min-height: 120px; border-right: 1px solid rgba(250,248,245,.14); border-bottom: 1px solid rgba(250,248,245,.14); }
+      .journey-rail article { min-height: 120px; border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
       .journey-rail article:nth-child(2n) { border-right: 0; }
       .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
       .site-footer { grid-template-columns: 1fr; }
       .site-footer nav { justify-content: flex-start; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .site-footer a { justify-content: center; min-height: 44px; background: rgba(250,248,245,.06); }
+      .site-footer a { justify-content: center; min-height: 44px; background: rgba(255,255,255,.06); }
     }
     @media (max-width: 1180px) and (min-width: 981px) {
       .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail article { border-right: 1px solid rgba(250,248,245,.14); border-bottom: 1px solid rgba(250,248,245,.14); }
-      .journey-rail article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
+      .journey-rail article { border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
+      .journey-rail article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
       .journey-rail article:nth-child(2n) { border-right: 0; }
-      .journey-rail article:nth-last-child(-n+3) { border-bottom: 1px solid rgba(250,248,245,.14); }
+      .journey-rail article:nth-last-child(-n+3) { border-bottom: 1px solid rgba(255,255,255,.14); }
       .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
     }
   CSS
@@ -2833,9 +2369,39 @@ def site_js
     const nav = document.querySelector('[data-site-nav]');
     const button = document.querySelector('[data-menu-button]');
     if (button && nav) {
-      button.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
+      const setMenu = (open, returnFocus = false) => {
+        nav.classList.toggle('open', open);
+        document.body.classList.toggle('menu-open', open);
         button.setAttribute('aria-expanded', String(open));
+        button.textContent = open ? 'Close' : 'Menu';
+        document.querySelectorAll('main, .site-footer').forEach((element) => {
+          element.inert = open;
+        });
+        if (open) nav.querySelector('a')?.focus();
+        else if (returnFocus) button.focus();
+      };
+      button.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+      document.addEventListener('keydown', (event) => {
+        if (!nav.classList.contains('open')) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setMenu(false, true);
+        }
+        if (event.key === 'Tab') {
+          const controls = [button, ...nav.querySelectorAll('a[href], button')];
+          const first = controls[0], last = controls[controls.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault(); last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault(); first.focus();
+          }
+        }
+      });
+      nav.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setMenu(false);
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1100) setMenu(false);
       });
     }
     if (window.location.hash === '#/privacy') {
@@ -2978,6 +2544,9 @@ unless allowed_build_roots.any? do |allowed_root|
        end
   abort("PUBLIC_BUILD_DIR must be a child of #{allowed_build_roots.join(' or ')}")
 end
+# Validate screenshot freshness before replacing a previously usable build.
+public_app_media = PublicAppMedia.new(ROOT)
+public_app_screens = public_app_media.screens
 FileUtils.rm_rf(BUILD_DIR)
 FileUtils.mkdir_p(BUILD_DIR)
 build_lastmod = Time.now.utc.strftime("%Y-%m-%d")
@@ -2989,6 +2558,7 @@ end
 core_stylesheet, section_stylesheet = split_stylesheets(stylesheet)
 write_file(File.join(BUILD_DIR, "styles.css"), core_stylesheet)
 write_file(File.join(BUILD_DIR, "sections.css"), section_stylesheet)
+write_file(File.join(BUILD_DIR, "revolut.css"), File.read(File.join(ROOT, "web/public/revolut.css")))
 write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(
@@ -3001,7 +2571,10 @@ write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unl
 assets = [
   ICON_ASSET,
   TYPEFACE_ASSET,
-  TYPEFACE_LICENSE
+  TYPEFACE_LICENSE,
+  "assets/typefaces/AeonikPro-Regular.ttf",
+  "assets/typefaces/AeonikPro-Medium.ttf",
+  *Dir.glob("assets/marketing/rwanda/*.png", base: ROOT)
 ]
 assets.each do |asset|
   source = File.join(ROOT, asset)
@@ -3010,6 +2583,12 @@ assets.each do |asset|
   target = File.join(BUILD_DIR, asset)
   FileUtils.mkdir_p(File.dirname(target))
   FileUtils.cp(source, target)
+end
+
+public_app_screens.each_value do |media|
+  target = File.join(BUILD_DIR, media.fetch("url").delete_prefix("/"))
+  FileUtils.mkdir_p(File.dirname(target))
+  FileUtils.cp(media.fetch("source"), target)
 end
 
 FileUtils.mkdir_p(File.join(BUILD_DIR, "icons"))
@@ -3034,7 +2613,7 @@ manifest = {
   "start_url" => "/",
   "display" => "standalone",
   "background_color" => BRAND_BLACK,
-  "theme_color" => BRAND_PRIMARY_COLORS.fetch("periwinkle"),
+  "theme_color" => BRAND_BLACK,
   "icons" => [
     {
       "src" => "/icons/collect.png",

@@ -6,6 +6,21 @@ class CollectTypography {
   const CollectTypography._();
 
   static const fontFamily = CollectRuntimeTypography.fontFamily;
+  static const marketingFontFamily =
+      CollectRuntimeTypography.marketingFontFamily;
+
+  static TextStyle marketingHeading(Color color, {required bool compact}) =>
+      _style(compact ? 48 : 84, leadingSolid, weightMedium, color).copyWith(
+        fontFamily: marketingFontFamily,
+        letterSpacing: compact ? trackingDefault : -2.08,
+      );
+
+  static TextStyle marketingBody(Color color) => _style(
+    sizeBodyLarge,
+    leadingBody,
+    weightRegular,
+    color,
+  ).copyWith(fontFamily: marketingFontFamily);
 
   // This is the only approved text weight scale. Inter is variable, but the
   // product deliberately limits runtime typography to these four roles so

@@ -67,7 +67,7 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
   }) {
     final isDark = brightness == Brightness.dark;
     final focus = highContrast
-        ? (isDark ? CollectColors.brandPaper : CollectColors.publicBlack)
+        ? (isDark ? CollectColors.publicWhite : CollectColors.publicBlack)
         : colors.focusRing;
     return CollectUniversalTokens(
       chromeDefault: CollectColors.referenceChromeBlack,
@@ -75,7 +75,9 @@ class CollectUniversalTokens extends ThemeExtension<CollectUniversalTokens> {
         alpha: isDark ? 0.82 : 0.72,
       ),
       actionPrimary: colors.actionColor,
-      actionPill: isDark ? CollectColors.brandPaper : CollectColors.publicBlack,
+      actionPill: isDark
+          ? CollectColors.publicWhite
+          : CollectColors.publicBlack,
       actionDestructive: colors.dangerForeground,
       focusRing: focus,
       adminRail: CollectColors.referenceChromeBlack,

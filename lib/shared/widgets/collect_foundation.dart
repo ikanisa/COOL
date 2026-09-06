@@ -10,6 +10,31 @@ import '../../app/theme/collect_runtime_tokens.dart';
 import '../../app/theme/collect_typography.dart';
 import '../models/collect_models.dart';
 import '../utils/collect_haptics.dart';
+import 'collect_chrome.dart' show CollectBackdropScope;
+
+/// Keeps a form's content and action dock scrollable as one unit when a
+/// software keyboard leaves too little height for the usual pinned layout.
+/// The scroll view stays mounted while the viewport changes, retaining focus.
+class CollectFormViewport extends StatelessWidget {
+  const CollectFormViewport({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final scale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.5);
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        primary: false,
+        child: SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight.clamp(320 * scale, double.infinity),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
 
 class CollectButton extends StatelessWidget {
   const CollectButton({
@@ -50,12 +75,7 @@ class CollectButton extends StatelessWidget {
     };
     final child = icon == null
         ? usesAccessibilityText
-              ? Text(
-                  label,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                )
+              ? Text(label, softWrap: true, textAlign: TextAlign.center)
               : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)
         : Row(
             mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
@@ -65,12 +85,7 @@ class CollectButton extends StatelessWidget {
               CollectSpacing.gapW8,
               Flexible(
                 child: usesAccessibilityText
-                    ? Text(
-                        label,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                      )
+                    ? Text(label, softWrap: true, textAlign: TextAlign.center)
                     : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
               ),
             ],
@@ -244,6 +259,7 @@ class _CollectionTypeIconChoice extends StatelessWidget {
         button: true,
         selected: selected,
         label: '${option.label} collection type',
+        onTap: onTap,
         child: ExcludeSemantics(
           child: InkWell(
             onTap: onTap,
@@ -298,6 +314,8 @@ class CollectCard extends StatelessWidget {
       brightness,
       tokenEmphasis,
       accentColor,
+      tone: CollectBackdropScope.of(context),
+      highContrast: MediaQuery.highContrastOf(context),
     );
     final backgroundOpacity = CollectRuntimeTokens.cardOpacity(
       brightness,
@@ -370,6 +388,8 @@ class CollectSliverCardList extends StatelessWidget {
                 brightness,
                 emphasis,
                 null,
+                tone: CollectBackdropScope.of(context),
+                highContrast: MediaQuery.highContrastOf(context),
               ).withValues(
                 alpha: CollectRuntimeTokens.cardOpacity(brightness, emphasis),
               ),

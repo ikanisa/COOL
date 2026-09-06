@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import app.cool.mobile.receiver_sms.SmsQueueEventBus
 import app.cool.mobile.receiver_sms.SmsQueueStore
@@ -13,11 +15,23 @@ import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.StandardIntegrityManager
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterView
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import org.json.JSONObject
 
 class MainActivity : FlutterActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Flutter paints focus on individual controls. Android's default
+            // host-view highlight adds a green frame around the whole app
+            // after hardware keyboard input, including while the IME is open.
+            findViewById<FlutterView>(FLUTTER_VIEW_ID)
+                ?.setDefaultFocusHighlightEnabled(false)
+        }
+    }
+
     private var pendingSmsAccessResult: MethodChannel.Result? = null
     private var pendingSmsOwnerUserId: String? = null
     private var pendingMomoUssdResult: MethodChannel.Result? = null

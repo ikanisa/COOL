@@ -1,5 +1,98 @@
 # Universal App Design Standard 2026
 
+## Owner-selected Revolut authority — 5 September 2026
+
+The owner's current instruction requires the mobile app, Admin panel and public
+website to follow the `revolut-design` skill at 100% fidelity. The installed
+reference is `/Users/jeanbosco/.codex/skills/revolut-design/SKILL.md`. This section
+supersedes older visual prescriptions below where they conflict. Platform
+guidance governs working, accessible interactions; unrelated design systems
+must not be blended into the visual target.
+
+- Mobile overview: the owner's 5 September 2026 Desktop capture cohort, with
+  the explicit skill mapping: Home blue (DESK-003), Groups teal (DESK-004),
+  Activity purple (DESK-005), Profile violet/blue (DESK-007), and WhatsApp login
+  blue-indigo (DESK-001). Profile overview is `/settings`; its focused descendant
+  tasks retain neutral surfaces. Original, July and live iOS Dark · Glow captures
+  remain separate comparators for absent states. Preserve the owner's annotations.
+  Gradients darken as content scrolls; grouped surfaces follow the route family.
+  Pixel samples and hashes are recorded in the palette measurement evidence.
+- Admin/operator: official Revolut Business 5 and current Business review
+  imagery. Neutral workspace, clear hierarchy, tonal widgets, pill controls
+  and contextual detail. Full authenticated desktop-table geometry is
+  **unverified**; a promotional image does not certify it.
+- Website: September 2026 UK public homepage. Editorial Aeonik Pro Medium
+  headings, photographic blue hero, concise live copy, pill CTAs, staged
+  sections and a responsive category menu. The Flutter public shell and the
+  generated static website share this surface contract.
+- PWA: matching web surface plus tested install, session, offline, deep-link,
+  keyboard, safe-area and update behavior.
+
+The owner's Rwanda photography instruction replaces the reference portrait and
+sky in runtime marketing. Use the original generated Kigali adult portrait,
+Kigali hills, community savings, everyday payments, banking and shared-goals
+images under `assets/marketing/rwanda/`. The app's optional group-photo
+collection and relevant website pages use these assets. Keep their prompts and
+hashes in `assets/marketing/SOURCE.json`; the scenes are illustrations, not
+customer testimonials or evidence of a bank partnership.
+
+The owner's subsequent group-card annotation selects the RevPoints editorial
+cards in `/Users/jeanbosco/Desktop/Revolut/Cards.png` as the component comparator.
+Home's My groups and Featured groups, Groups and their membership filters use
+full-photo cards with approximately 24dp corners, a category icon/caption at
+the top, and the group title, true currency totals and supporter count over a
+dark lower fade. Retain the existing separate contribution action. This latest
+component reference supersedes the short image-strip/footer layout and the
+earlier icon-only category rule on these cards. It does not change page colours,
+navigation or product capabilities. User photos take priority; the existing
+Rwanda images supply illustrative defaults without changing stored group data.
+Cards share widths and minimum proportions across routes and grow for long
+names, multiple currencies and enlarged text. Loading and failed media retain
+the same card geometry and readable text. The supplied image is 408x857; its
+screen framing is reference evidence, not a native logical viewport export.
+
+The owner's 6 September annotations replace Home's scan-to-join prompts with
+**Explore Groups**, opening the public-only Featured Groups list. Home always
+retains the Featured Groups section, including loading, empty, failure and
+offline states, using actual backend-selected public groups and truthful
+placeholders. Private invitation QR handling remains a separate capability.
+Rwanda profile editing offers a MoMo number/code switcher: a number is required,
+and an optional merchant code may be saved alongside it. Both drafts survive
+switching tabs and use the private member-profile API. Contribution payee
+cards show the beneficiary and number without the repeated network prefix.
+Group form fields use padded 16dp corners, wrapped labels and aligned icons
+at enlarged text sizes; text inputs do not inherit pill-shaped backgrounds.
+
+Keep Collect's identity, existing content, actual features, geographic rails, account data and
+permission boundaries. Source assets with Revolut balances or financial claims
+must never be copied into Collect runtime UI. Public photography and typography
+from the supplied collection may be used where they contain no source marks;
+record their source hashes in the product asset manifest. Keep source logos,
+wordmarks, app icons and branded product artwork out of Collect runtime UI.
+
+Inter remains the mobile/Admin text adapter. Its exact native provenance is
+unverified. Public marketing uses the collected Aeonik Pro Regular/Medium
+faces. Black canvas, #161618 neutral widgets, 16dp grouped panels, 24dp sheets
+and circular/pill controls are explicit source-scoped adapters, replacing the
+old blanket 8dp card cap. Do not remove borders needed for focus/high contrast.
+
+For each surface, maintain route/state-to-comparator mappings and actual
+comparison evidence. A checklist score is not pixel equivalence. Missing
+evidence remains unverified. All existing MOBILE-DESIGN-100 cases, annotation
+closures and native build bindings remain mandatory. Admin and website also
+require their applicable route/state, responsive, keyboard and recovery
+evidence before a 100% claim. Technical checks, visual fidelity, deployment
+and owner/partner acceptance are separate results.
+
+The owner's full-scope instruction includes every reachable screen, route
+alias, dialog, sheet, menu, input, control, runtime asset and supported flow,
+including loading, empty, invalid, pending, failed, recovery, geographic and
+membership variants. Maintain a source-derived inventory and a review gallery
+that exposes those states, not only the overview screens. Shared widgets and
+platform-generated permission/share/payment surfaces must have their own
+comparison or explicit platform adaptation. Reuse the existing route/state,
+browser and interaction tests; unexecuted branches remain visible as open work.
+
 This document is the single design authority for this repository. Any production mobile app, native Flutter TV app, admin panel, Flutter-first web shell, native iOS or Android app, React Native app, or embedded app surface must use this file as its design contract. No secondary design folder, screenshot parity matrix, token JSON, design-system markdown, source-variant asset folder, provenance note, or archived design report may override this standard.
 
 This standard is built from current platform guidance, local implementation evidence, and the supplied Revolut reference screenshot grammar. The screenshot base is mandatory as a quality and interaction target: dark immersive shells, compact command chrome, large first-viewport value, circular quick actions, restrained copy, translucent panels, stable navigation, and premium state handling. Product teams must adapt those lessons to their truthful domain, roles, data, permissions, and compliance boundaries.
@@ -62,7 +155,7 @@ World-class benchmark conclusion: the target is not "make it look like one app."
 
 ## Reference Screenshot Lessons
 
-The Revolut screenshot base defines the required interaction grammar for this system. It is not optional inspiration; it is the benchmark for density, hierarchy, motion, contrast, command chrome, navigation, and polish. The owner confirms a Revolut partnership and authorises use of its branding; branding permissions must not be used to dilute this target. Preserve the approved Collect/Buri Munsi identity unless a specific partner-branded surface is requested. Use truthful product data, copy and payment capabilities; the partnership does not imply that unsupported financial features exist.
+The Revolut screenshot base defines the required interaction grammar for this system. It is the benchmark for density, hierarchy, motion, contrast, command chrome, navigation and polish. The owner's 5 September clarification requires Collect's own name, logo, app icon, feature terminology and content. Source logos and branded product artwork remain reference-only. Use truthful product data, copy and payment capabilities; a design reference does not establish unsupported financial features.
 
 The visible reference grammar is:
 
@@ -88,10 +181,10 @@ The screenshot base also defines what not to do:
 - Do not add fake finance, crypto, rewards, card, or regulated product concepts to mimic a reference screenshot.
 - Do not use decorative gradients, cards, or glass effects without a role in hierarchy, state, or navigation.
 
-For Collect mobile, Home uses the reference account-blue overview depth; Groups
-and Activity use the reference purple discovery depth. Those backdrops are
-scoped to top-level overview routes. Auth, contribution, profile and other
-task/detail screens retain their annotation-approved neutral canvas. Light
+For Collect mobile, Home uses the reference account-blue overview depth;
+Groups uses teal, Activity purple, Profile violet/blue, and WhatsApp login
+blue-indigo from the owner-selected September cohort. Contribution and other
+focused task/detail screens use neutral canvases. Light
 mode uses restrained light equivalents; high contrast removes the gradient.
 Phone navigation is a floating dark pill with a tonal selected destination,
 48dp minimum targets and all four existing destinations. It must not obscure
@@ -238,11 +331,11 @@ Secondary color gates:
   `assets/typefaces/Inter-Variable.ttf` and `assets/typefaces/OFL-Inter.txt`.
   The owner's Revolut partnership authorises partner branding; this is not a
   licensing restriction against its typeface. If supplied partner font assets
-  replace Inter, integrate them through the same central typography authority
+  replace Inter on their specified surface, integrate them through the same central typography authority
   and re-verify the native reference comparisons; do not approximate a missing
   partner font or silently introduce a second runtime family.
 - Flutter must resolve display, body, label, financial, admin, and fallback text through `CollectTypography` and `CollectRuntimeTypography`; direct `TextStyle`, `FontWeight`, numeric `fontSize`, numeric `height`, numeric `letterSpacing`, platform-default fonts, and legacy font-family fallbacks are forbidden outside those central typography authorities.
-- Public-site CSS must use the bundled Inter file and central `--type-*` custom properties. Feature selectors must not declare raw font sizes, weights, line heights, tracking, or another font family.
+- Public-site CSS uses bundled Aeonik Pro for marketing and Inter for data, with central `--type-*` custom properties. Feature selectors must consume those type tokens.
 - The supported Inter weight range is 400-700. Use only regular 400, medium 500, semibold 600, and bold 700; synthetic 750-950 weights are forbidden.
 - `type.display`: only for true hero or high-value first-viewport moments.
 - `type.title.lg`, `type.title.md`, `type.title.sm`: screen and section hierarchy.
@@ -266,7 +359,7 @@ Secondary color gates:
 
 - Base spacing step is 4 dp; common values are 4, 8, 12, 16, 20, 24, 32, 40, 48.
 - Icon buttons are at least 44 x 44 dp; primary touch targets are at least 48 x 48 dp.
-- Cards use 8 dp radius or less unless a platform-native component requires a larger shape.
+- Grouped panels use the source-scoped 16 dp radius; larger 20 dp hero panels and 24 dp sheets use their named component tokens. Compact data cells may use 8 dp.
 - Large decorative rounded rectangles must not become the default layout language.
 - Use aspect ratio, min/max constraints, and stable dimensions for boards, grids, counters, tiles, and toolbars.
 

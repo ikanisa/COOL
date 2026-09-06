@@ -78,7 +78,7 @@ class _PublicNotFoundPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CollectColors.brandPaper,
+      backgroundColor: CollectColors.publicWhite,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -100,7 +100,7 @@ class _PublicNotFoundPage extends StatelessWidget {
                   'Use the public website links to continue with Collect.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: CollectColors.inkSecondary,
+                    color: CollectColors.publicSecondary,
                     height: CollectTypography.leadingBody,
                   ),
                 ),

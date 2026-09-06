@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-06T10:45:14.678877+00:00",
+  "scope": "Local preview and website media freshness only. MOBILE-DESIGN-100 remains unchanged and blocked.",
+  "prior_runtime_sha256": "d4ef84f2fb28d313e270a37f8d415001479793bff065c46c823547d0564bb82c",
+  "runtime_sha256": "c15e89f6c822f7dfeb478427f4cd02e3bcd7caafcc1dd069041faa4a5494799c",
+  "proof": "Recomputed the complete prior inventory after excluding only the newly added, unbundled README. Its hash exactly equals the pre-run fingerprint. App code and all prior assets are unchanged. New runtime fingerprints include code, platform resources, pubspec and declared assets, fonts and licenses.",
+  "added_unbundled_file": {
+    "path": "assets/group_covers/rwanda/README.md",
+    "sha256": "67bc9ac1edf621fedb847fd47fbe763ce39ea61dbb10f3c94a515b39cfcffe8c"
+  },
+  "original_inventory_file_count": 246,
+  "additional_prior_inventory": {
+    "runtime_sha256": "4391a45a949e27490402e70a93e38fe684fff0b15e49706802081298f154facd",
+    "file_count": 245,
+    "proof": "Exact prior inventory hash reproduced by excluding only two subsequently added, unbundled planning documents.",
+    "added_unbundled_files": [
+      {
+        "path": "assets/group_covers/rwanda/README.md",
+        "sha256": "67bc9ac1edf621fedb847fd47fbe763ce39ea61dbb10f3c94a515b39cfcffe8c"
+      },
+      {
+        "path": "assets/group_covers/rwanda/catalog.v1.json",
+        "sha256": "a1bbc285f84dcf1a74006208b19579d57b287e92e8cefc667e8f87ffaa84af88"
+      }
+    ]
+  }
+}

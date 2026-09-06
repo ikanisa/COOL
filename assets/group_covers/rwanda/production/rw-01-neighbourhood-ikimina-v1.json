@@ -1,0 +1,24 @@
+{
+  "asset_id": "rw-01-neighbourhood-ikimina",
+  "status": "generated_unreviewed",
+  "source": "assets/group_covers/rwanda/source/rw-01-neighbourhood-ikimina-v1.png",
+  "source_sha256": "3b5ffed81d4f95a9946323554e415618d89dd895cef972c0e834498613310e53",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "72d198b8923f17075a2b48da744a4aa15d5a81a9c22e7fcc9e8b4bd814d33d98",
+  "imported_at_utc": "2026-09-06T10:56:31.066867+00:00",
+  "generator": "Operator-provided output intended from built-in image_gen; verify provenance",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": []
+}

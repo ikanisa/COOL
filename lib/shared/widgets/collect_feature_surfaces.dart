@@ -85,6 +85,7 @@ class CollectListTile extends StatelessWidget {
       button: onTap != null,
       enabled: onTap != null,
       label: visibleSubtitle == null ? title : '$title, $visibleSubtitle',
+      onTap: onTap,
       child: ExcludeSemantics(
         child: InkWell(
           borderRadius: CollectRadius.mdBorder,

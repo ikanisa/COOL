@@ -33,7 +33,9 @@ class CollectShell extends StatelessWidget {
     return CollectBackdropScope(
       tone: switch (path) {
         '/home' => CollectBackdropTone.account,
-        '/groups' || '/activity' => CollectBackdropTone.discovery,
+        '/groups' => CollectBackdropTone.groups,
+        '/activity' => CollectBackdropTone.activity,
+        '/settings' => CollectBackdropTone.profile,
         _ => CollectBackdropTone.plain,
       },
       child: CollectGradientBackground(
@@ -211,6 +213,7 @@ class _CollectNavigationRail extends StatelessWidget {
           container: true,
           label: 'Primary navigation rail',
           child: NavigationRail(
+            scrollable: true,
             backgroundColor: colors.transparent,
             selectedIndex: selectedIndex,
             minWidth: 88,

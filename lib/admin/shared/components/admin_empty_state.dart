@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_radius.dart';
 import '../../../app/theme/collect_typography.dart';
 
 class AdminEmptyState extends StatelessWidget {
@@ -15,8 +16,8 @@ class AdminEmptyState extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surfaceReadable.withValues(alpha: 0.94),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: colors.borderAccent),
+        borderRadius: CollectRadius.cardBorder,
+        border: Border.all(color: colors.border),
       ),
       child: Center(
         child: Padding(
@@ -43,8 +44,6 @@ class AdminEmptyState extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: colors.textPrimary,
                   fontWeight: CollectTypography.weightBold,
@@ -55,8 +54,6 @@ class AdminEmptyState extends StatelessWidget {
                 Text(
                   message!,
                   textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),

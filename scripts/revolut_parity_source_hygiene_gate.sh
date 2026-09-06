@@ -43,7 +43,7 @@ end
 
 def text_file?(path)
   %w[
-    .dart .gradle .html .js .json .kts .m .md .mm .plist .rb .sh .swift
+    .css .dart .gradle .html .js .json .kts .m .md .mm .plist .rb .sh .swift
     .toml .ts .txt .xcconfig .xml .yaml .yml
   ].include?(File.extname(path).downcase) ||
     %w[Podfile pubspec.lock pubspec.yaml].include?(File.basename(path))
@@ -58,19 +58,19 @@ end
 failures = []
 checks = {}
 
-expected_typefaces = %w[Inter-Variable.ttf OFL-Inter.txt].sort
+expected_typefaces = %w[Inter-Variable.ttf OFL-Inter.txt AeonikPro-Regular.ttf AeonikPro-Medium.ttf].sort
 typeface_files = Dir[File.join(root_dir, "assets/typefaces/*")]
   .select { |path| File.file?(path) }
   .map { |path| File.basename(path) }
   .sort
-checks["exclusive_inter_typefaces"] = {
+checks["surface_scoped_typefaces"] = {
   "status" => typeface_files == expected_typefaces ? "pass" : "fail",
   "expected" => expected_typefaces,
   "observed" => typeface_files
 }
 unless typeface_files == expected_typefaces
   failures << {
-    "check" => "exclusive_inter_typefaces",
+    "check" => "surface_scoped_typefaces",
     "paths" => typeface_files
   }
 end
@@ -222,7 +222,7 @@ runtime_roots = %w[
 runtime_files = tracked_and_untracked_files(root_dir, runtime_roots)
 runtime_text_files = runtime_files.select { |path| text_file?(path) }
 forbidden_runtime_patterns = {
-  "legacy_font_family" => /aeonik|roboto|jetbrains\s*mono/i,
+  "legacy_font_family" => /roboto|jetbrains\s*mono/i,
   # DESIGN.md permits native semantic Material/Cupertino icons. The Cupertino
   # asset is required for reachable Apple controls; it is not a text typeface.
   "unapproved_svg_package" => /flutter_svg/i,
@@ -233,6 +233,18 @@ forbidden_runtime_patterns = {
 runtime_hits = []
 runtime_text_files.each do |path|
   text = File.read(File.join(root_dir, path))
+  # The owner selected Aeonik for public marketing on 2026-09-05. It must
+  # never become an ad-hoc font in member or operator features.
+  marketing_authorities = %w[
+    lib/app/theme/collect_runtime_typography.dart
+    lib/app/theme/collect_typography.dart
+    pubspec.yaml scripts/public_static_site_build.rb web/public/revolut.css
+  ]
+  if text.match?(/aeonik|marketingFontFamily|marketingHeading|marketingBody/i) &&
+      !marketing_authorities.include?(path) &&
+      !path.start_with?("lib/features/landing/")
+    runtime_hits << { "check" => "unscoped_marketing_font", "path" => path }
+  end
   forbidden_runtime_patterns.each do |check, pattern|
     next unless text.match?(pattern)
 
@@ -397,6 +409,12 @@ runtime_text_files.each do |path|
       text.scan(/font-family\s*:\s*([^;\n]+)/).all? do |declaration|
         declaration.first.match?(/\bInter\b/)
       end
+    ) ||
+    (
+      path == "web/public/revolut.css" &&
+      text.scan(/font-family\s*:\s*([^;\n]+)/).all? do |declaration|
+        declaration.first.match?(/\A(?:"Aeonik Pro"|var\(--type-(?:marketing|product)-family\))\z/)
+      end
     )
   next if allowed
 
@@ -490,6 +508,30 @@ checks["product_boundary"] = {
   "hit_count" => boundary["hit_count"]
 }
 failures << { "check" => "product_boundary" } unless boundary_pass
+
+# Prior logo-derived UI values may survive only as data-to-presentation keys.
+# Actual logo pixels remain governed independently by the immutable asset hashes.
+retired_palette = /(?:0xFF|#)(?:FAF8F5|8885F0|3CD070|D38B96|FF5E43|252044|4B4664|5F5A76)\b|rgba?\(\s*(?:250\s*,\s*248\s*,\s*245|136\s*,\s*133\s*,\s*240|60\s*,\s*208\s*,\s*112|211\s*,\s*139\s*,\s*150|255\s*,\s*94\s*,\s*67|37\s*,\s*32\s*,\s*68)/i
+palette_hits = []
+retained_keys = []
+palette_paths = tracked_and_untracked_files(root_dir, %w[lib web android/app/src ios/Runner])
+palette_paths << "scripts/public_static_site_build.rb"
+palette_paths.uniq.select { |path| path.match?(/\.(dart|css|html|xml|svg|js|rb)$/) }.each do |path|
+  File.readlines(File.join(root_dir, path)).each_with_index do |line, index|
+    next unless line.match?(retired_palette)
+    if path == "lib/app/theme/collect_colors.dart" && line.match?(/'#[0-9A-F]{6}' => [0-3],/)
+      retained_keys << { "path" => path, "line" => index + 1, "role" => "saved data presentation bridge" }
+    else
+      palette_hits << { "check" => "retired_product_palette", "path" => path, "line" => index + 1 }
+    end
+  end
+end
+checks["retired_product_palette"] = {
+  "status" => palette_hits.empty? ? "pass" : "fail",
+  "hits" => palette_hits,
+  "retained_data_keys" => retained_keys
+}
+failures.concat(palette_hits)
 
 status = failures.empty? ? "pass" : "fail"
 result = {

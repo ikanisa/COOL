@@ -1,6 +1,6 @@
 # Design QA index
 
-Latest build: [cleanup candidate, 5 September](docs/release/mobile-design/CLEANUP_CANDIDATE_2026-09-05.md). Installed hash and live data verified; signed-in acceptance remains pending.
+Latest build: [developer account verification, 5 September](docs/release/mobile-design/DEV_ACCOUNT_SIGNED_IN_UAT_2026-09-05.md). Mobile/Admin live data reconciled; membership filter and matching Home/Groups card widths verified on the signed-in isolated candidate. Full design acceptance remains blocked; the shared workspace has later changes.
 
 Latest cleanup: [fixture data removal](docs/release/mobile-design/FIXTURE_DATA_REMOVAL_2026-09-04.md). Earlier native candidate is stale; distribution remains blocked.
 
@@ -37,3 +37,20 @@ migration histories match at 122. See
 `docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md` for current live evidence.
 
 final result: blocked
+
+## 2026-09-06 — responsive forms and Rwanda hero contrast
+
+Shared short-form and navigation-rail fixes, full labels at enlarged text, and photo-backed public hero contrast are locally verified. Final run: 742 named tests; 81 responsive widget cases; 42 current Android fixture routes; 80 website route/share viewport cases. See [the scoped report](docs/release/mobile-design/RESPONSIVE_FORMS_AND_CONTRAST_2026-09-06.md). MOBILE-DESIGN-100 remains blocked; no production GO.
+
+
+## Native keyboard and Android focus — 6 September 2026
+
+Removed Android’s full-view green keyboard focus frame while retaining control focus. The isolated native matrix passed 32 input cases and 60 OS captures; the frame raster regression passed all 60. See [the scoped report](docs/release/mobile-design/NATIVE_KEYBOARD_AND_FOCUS_2026-09-06.md). Full mobile design acceptance remains blocked; no production release or baseline refresh.
+
+## 2026-09-06 — owner annotations: Home, profile and group fields
+
+Replaced Home scan-to-join prompts with Explore Groups; retained Featured Groups in all Home states; added the MoMo number/code switcher; simplified recipient labels; and corrected padded group inputs at enlarged text. Final checks: 192 widget tests, 36 native keyboard cases and 68 OS captures passed. The private MoMo-code migration passed local transaction-only database checks but is not deployed. See [the scoped report](docs/release/mobile-design/OWNER_ANNOTATIONS_2026-09-06.md). MOBILE-DESIGN-100 remains blocked; no production GO.
+
+## 2026-09-06 — remove obsolete product captures throughout review
+
+Removed 1,171 old capture files and 42 failure composites from the checkout. Runtime fingerprints and a retirement registry prevent old designs from returning to the gallery. Re-rendered all 42 routes and 56 states in four platform/theme layouts, plus responsive views: 634 fresh captures; 750 full-suite tests passed. See [the scoped report](docs/release/mobile-design/CURRENT_SYSTEM_DESIGN_REFRESH_2026-09-06.md). Required acceptance cases and the blocked MOBILE-DESIGN-100 status remain unchanged.

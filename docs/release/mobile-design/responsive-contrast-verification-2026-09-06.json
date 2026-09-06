@@ -1,0 +1,112 @@
+{
+  "date": "2026-09-06",
+  "status": "local_corrections_verified_global_design_acceptance_open",
+  "source": {
+    "source_sha256": "d41113da6cd40b2889cf40888c3422aadd7ed6d8830fdc790929c1c29888a8ff",
+    "contract_sha256": "4cb47860f3259577f4cb3ba67ddd6ab15825fbe75b0a44afb59cb23704e396b7",
+    "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+    "version": "1.2.4+23",
+    "release_status": "not_assessed"
+  },
+  "fixes": [
+    "Shared form viewport retains focus and lets content and actions scroll when the keyboard leaves little height.",
+    "Navigation rail scrolls in short landscape viewports.",
+    "Enlarged mobile input labels wrap in full above editable values.",
+    "Public hero scrim paints above the Rwanda photograph and covers the text column; matching Flutter hero treatment."
+  ],
+  "automated_tests": {
+    "status": "pass",
+    "count": 742,
+    "report": ".cache/revolut-design-20260906/behavior-results.json",
+    "log": ".cache/revolut-design-20260906/full-tests-final.jsonl",
+    "log_sha256": "5fdaa4cd1b58b694154c306dc5c60ae0baf818c1c3517ed111fc57a4a0be0b56"
+  },
+  "responsive": {
+    "status": "pass",
+    "cases": 81,
+    "route_variants": 56,
+    "keyboard_layout_simulations": 24,
+    "full_description_label": 1,
+    "screenshots": 185,
+    "directory": ".cache/revolut-design-20260906/responsive-final",
+    "test": "test/features/mobile_responsive_matrix_test.dart",
+    "scope": "Full CollectApp router/shell widget fixtures. Keyboard insets, viewport dimensions, theme and text scale are simulated. Does not establish native keyboard, screen-reader output or complete reference parity."
+  },
+  "android": {
+    "status": "pass",
+    "routes": 42,
+    "screenshots": 42,
+    "summary": ".cache/revolut-design-20260906/exhaustive-android-responsive-final/summary.json",
+    "summary_sha256": "72940102627be9d8cbec0eb670ac90759a983701ff208b7873473e01d1d6549b",
+    "source_unchanged_during_run": true,
+    "device": "Collect_Design_Renderer_QA_20260905 / emulator-5558",
+    "variant": {
+      "name": "responsive-dark-large",
+      "theme_mode": "dark",
+      "text_scale": 2.0,
+      "high_contrast": true,
+      "reduced_motion": true
+    },
+    "scope": "Isolated dev fixture native rendering; not a production acceptance build."
+  },
+  "website": {
+    "status": "pass",
+    "route_viewports": 64,
+    "share_viewports": 16,
+    "screenshots": 192,
+    "rendered_report": ".cache/revolut-design-20260906/website-final/route_rendered_qa.json",
+    "flat_background_observations": 4262,
+    "photo_observations": 18,
+    "photo_widths": [
+      320,
+      390,
+      430,
+      720,
+      721,
+      800,
+      1100,
+      1101,
+      1440
+    ],
+    "minimum_photo_contrast": 6.01569876905135,
+    "photo_report": ".cache/revolut-design-20260906/website-photo-contrast-final/report.json",
+    "scope": "Locally rebuilt static public site. The four previously unverified hero-text observations are covered by the conservative rendered-background photo check. Native Flutter marketing received a visual golden review; this browser measurement does not prove native Flutter pixel contrast."
+  },
+  "golden": {
+    "path": "test/goldens/baselines/public_home_desktop.png",
+    "sha256": "0c291897e868ac29f472a3e0476360c2595a870d178166b4a7ccc92dcf77e3ce",
+    "review": "Agent visually compared previous and current full-resolution hero images before updating this one baseline. Other baselines were retained.",
+    "before": ".cache/revolut-design-20260906/goldens-before/public_home_desktop.png"
+  },
+  "remaining": [
+    "MOBILE-DESIGN-100 remains blocked; all required native reference/case/interaction evidence and production artifact binding have not been accepted.",
+    "Actual OS keyboard and screen-reader review across the required cases remains open.",
+    "No fresh iOS run was performed for these changes. Prior native captures remain historical when their source fingerprint differs.",
+    "Admin retains its prior route and dialog evidence; no new Admin implementation or deployment was performed in this pass."
+  ],
+  "gallery": "http://collect.localhost:4191/responsive.html",
+  "preserved": [
+    "Collect identity and route colour families",
+    "All existing navigation and payment workflows",
+    "Production access controls and signed-in device data",
+    "Developer account UAT record and existing user edits"
+  ],
+  "gallery_verification": {
+    "status": "pass",
+    "report": ".cache/revolut-design-20260906/gallery-qa.json",
+    "sha256": "bc760570bec6dc321337f5eeafa778e4dc2702530182bb07d2f38277b4b7d9f6",
+    "viewports": [
+      320,
+      1440
+    ],
+    "review_images": 21
+  },
+  "visual_reviewed_captures": [
+    ".cache/revolut-design-20260906/exhaustive-android-responsive-final/screenshots/mobile_route_group-create.png",
+    ".cache/revolut-design-20260906/exhaustive-android-responsive-final/screenshots/mobile_route_profile-edit.png",
+    ".cache/revolut-design-20260906/responsive-final/group-create-large-text-200-description.png",
+    ".cache/revolut-design-20260906/responsive-final/auth-keyboard-landscape-200-input.png",
+    ".cache/revolut-design-20260906/website-photo-contrast-final/1440-hero.png",
+    ".cache/revolut-design-20260906/website-photo-contrast-final/720-hero.png"
+  ]
+}

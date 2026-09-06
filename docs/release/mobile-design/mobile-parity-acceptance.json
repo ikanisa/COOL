@@ -183,6 +183,196 @@
       "live_admin_asset_matches_previous_deployment": true,
       "release_gate": "blocked",
       "release_approval": false
+    },
+    "revolut_surfaces_20260905": {
+      "report": "docs/release/mobile-design/REVOLUT_SURFACES_2026-09-05.md",
+      "comparison_register": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
+      "evidence_root": ".cache/revolut-design-20260905",
+      "flutter_full_suite_passes": 631,
+      "subsequent_fixed_assertion_passes": 1,
+      "final_preview_regression_passes": 74,
+      "analysis": "clean",
+      "native_default_routes_passed": 42,
+      "native_material_states_passed": 31,
+      "native_state_text_scale": 1.6,
+      "admin_route_viewports_passed": 69,
+      "public_route_screenshots": 92,
+      "public_compact_checks_passed": 6,
+      "gate_tests_passed": 33,
+      "gate_assertions_passed": 131,
+      "source_hygiene": "pass",
+      "public_quality_gate": "pass",
+      "release_approval": false,
+      "physical_phone_modified": false,
+      "production_mutations": false,
+      "design_fidelity": "unverified",
+      "capture_finding": "Incomplete Settings navigation glyph in instrumented PNG; mismatched framebuffer captures excluded."
+    },
+    "developer_account_20260905": {
+      "report": "docs/release/mobile-design/DEV_ACCOUNT_SIGNED_IN_UAT_2026-09-05.md",
+      "evidence_root": ".cache/dev-account-qa-20260905",
+      "normal_mobile_login_verified": true,
+      "normal_admin_login_verified": true,
+      "admin_groups_match_supabase": true,
+      "confirmed_balances_match": true,
+      "membership_filter_corrected_locally": true,
+      "focused_tests_passed": 67,
+      "analysis": "clean",
+      "build": {
+        "schema_version": 1,
+        "platform": "android",
+        "source_sha256": "d7d4bc46e6614968edbc4c65545ff88790132c071fc122d03af889d9051d769b",
+        "version": "1.2.4+23",
+        "built_at": "2026-09-05T10:48:15Z",
+        "evidence_mode": false,
+        "artifacts": {
+          "apk": "0e1556b427f9ec24d269edddeb5b494dd9db91418368499d93caa84bcfc3c6ef",
+          "aab": "1cdbe6bc1ad97ba54f9a2ea92ad58867012148f2915dd2f3122b30c8ab987587"
+        }
+      },
+      "installed_apk_matches": true,
+      "candidate_is_isolated_snapshot": true,
+      "shared_workspace_has_subsequent_changes": true,
+      "final_membership_native_readback": "pass",
+      "packaged_retired_or_fixture_identity_matches": 0,
+      "release_gate": "blocked",
+      "release_approval": false,
+      "physical_phone_modified": false,
+      "business_data_mutations": false,
+      "mobile_distribution": false,
+      "native_membership": {
+        "checked_at": "2026-09-05T10:57:18.241421+00:00",
+        "my_groups": [
+          "Buri Munsi",
+          "Gikundiro",
+          "Test Group",
+          "dddddd"
+        ],
+        "my_groups_match_database_ownership_and_membership": true,
+        "featured_groups": [
+          "Buri Munsi",
+          "Gikundiro"
+        ],
+        "all_groups": [
+          "Buri Munsi",
+          "BuriMunsi",
+          "Gikundiro",
+          "Test Group",
+          "dddddd"
+        ],
+        "card_widths_match": true,
+        "card_left_px": 44,
+        "card_width_px": 992,
+        "screen_width_px": 1080,
+        "totals_and_contributors_match_database": true,
+        "release_approved": false
+      },
+      "native_restart": {
+        "signed_in_after_process_restart": true,
+        "current_process_flutter_or_fatal_errors": 0,
+        "physical_phone_modified": false
+      },
+      "native_visual_review": "group cards and content verified; intermittent navigation rendering remains open",
+      "native_visual_evidence": ".cache/dev-account-qa-20260905/native/visual-review.json"
+    },
+    "revolut_palette_accessibility_20260905": {
+      "report": "docs/release/mobile-design/REVOLUT_SURFACES_2026-09-05.md",
+      "comparison_register": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
+      "evidence_root": ".cache/revolut-design-20260905",
+      "flutter_full_suite_passes": 642,
+      "flutter_full_suite_log": ".cache/revolut-design-20260905/final-full-tests.log",
+      "focused_regression_passes": 110,
+      "analysis": "clean",
+      "analysis_log": ".cache/revolut-design-20260905/final-analyze.log",
+      "source_sha256": "4f3234305fee179a809bf4af074858d78264f57c3bc8fbe9ae196f56c28f8714",
+      "qa_apk_sha256": "622c6555cd8e52fafaa525538d54805a1ee31a8970be8fea4881c1810ba3e234",
+      "native_run": ".cache/revolut-design-20260905/native-verified/summary.json",
+      "native_captures": 14,
+      "admin_route_viewports_passed": 69,
+      "public_route_screenshots": 92,
+      "public_quality_checks_passed": 56,
+      "public_interaction_states": ".cache/revolut-design-20260905/website-final/control-states.json",
+      "preliminary_image_finding_correction": ".cache/revolut-design-20260905/native-palette-final/pixel-inspection/review.json",
+      "design_fidelity": "unverified",
+      "release_gate": "blocked",
+      "release_approval": false,
+      "physical_phone_modified": false,
+      "production_mutations": false,
+      "mobile_distribution": false
+    },
+    "revpoints_group_cards_20260905": {
+      "report": "docs/release/mobile-design/REVPOINTS_GROUP_CARDS_2026-09-05.md",
+      "machine_report": "docs/release/mobile-design/revpoints-group-cards-verification-2026-09-05.json",
+      "source_sha256": "2de75b2f041551745e53a782c9622bd7ca9f42614e19eb9c41b9514ba86b48e3",
+      "unit_widget_tests_passed": 660,
+      "golden_cases_passed": 13,
+      "new_component_tests_passed": 10,
+      "ios_routes_passed": 42,
+      "android_material_states_passed": 56,
+      "android_text_scale": 2.0,
+      "analysis": "pass",
+      "gallery": "http://collect.localhost:4191/group-cards.html",
+      "release_approval": false,
+      "owner_acceptance": "unverified",
+      "personal_signed_in_devices_modified": false,
+      "production_mutations": false
+    },
+    "responsive_contrast_20260906": {
+      "status": "local_corrections_verified_global_design_acceptance_open",
+      "report": "docs/release/mobile-design/responsive-contrast-verification-2026-09-06.json",
+      "source_sha256": "d41113da6cd40b2889cf40888c3422aadd7ed6d8830fdc790929c1c29888a8ff",
+      "named_tests": 742,
+      "responsive_widget_cases": 81,
+      "native_android_routes": 42,
+      "website_photo_contrast_checks": 18,
+      "production_approval": false
+    },
+    "native_keyboard_20260906": {
+      "report": "docs/release/mobile-design/NATIVE_KEYBOARD_AND_FOCUS_2026-09-06.md",
+      "verification": "docs/release/mobile-design/native-keyboard-verification-2026-09-06.json",
+      "evidence_root": ".cache/revolut-design-20260906/native-keyboard-focus-final",
+      "source_sha256": "f29944e674a548912d25feb985e1fea90c084bb13c2cf465eda5376b7e842fc5",
+      "native_cases_passed": 32,
+      "os_screenshots": 60,
+      "frame_regression_captures_passed": 60,
+      "representative_visual_reviews": 13,
+      "analysis": "clean",
+      "release_gate": "blocked",
+      "release_approval": false,
+      "physical_phone_modified": false,
+      "production_mutations": false
+    },
+    "owner_annotations_20260906": {
+      "report": "docs/release/mobile-design/OWNER_ANNOTATIONS_2026-09-06.md",
+      "verification": "docs/release/mobile-design/owner-annotations-verification-2026-09-06.json",
+      "evidence_root": ".cache/revolut-design-20260906/owner-annotations",
+      "widget_tests_passed": 192,
+      "native_cases_passed": 36,
+      "native_os_captures": 68,
+      "database_fixture_checks": "pass; transaction rolled back",
+      "backend_migration_deployed": false,
+      "release_approval": false,
+      "production_mutations": false,
+      "qa_emulator_stopped": true
+    },
+    "current_system_refresh_20260906": {
+      "report": "docs/release/mobile-design/CURRENT_SYSTEM_DESIGN_REFRESH_2026-09-06.md",
+      "verification": "docs/release/mobile-design/current-system-refresh-verification-2026-09-06.json",
+      "tests_passed": 750,
+      "route_state_checks_passed": 392,
+      "fresh_captures": 634,
+      "retired_capture_files": 1171,
+      "release_approval": false
+    },
+    "website_authentic_app_media_20260906": {
+      "status": "local_checks_passed",
+      "report": "docs/release/mobile-design/website-authentic-app-media-verification-2026-09-06.json",
+      "acceptance_effect": "None; release acceptance and incomplete criteria remain blocked."
+    },
+    "native_navigation_preview_correction_20260906": {
+      "status": "verified_false_positive",
+      "evidence": ".cache/revolut-design-20260906/native-navigation/raster-comparison.json",
+      "details": "All four navigation icons are present in original PNG pixels. 20 native navigation cases passed, with OS and UIKit raster checks and installed-bundle verification. Apparent missing glyphs were confined to the reduced preview."
     }
   }
 }

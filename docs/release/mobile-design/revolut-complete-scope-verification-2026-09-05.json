@@ -1,0 +1,500 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T14:36:43.069395+00:00",
+  "status": "local implementation and verification; visual fidelity unverified",
+  "scope": "Collect mobile, Admin, public website, runtime assets, UI elements and fixture flows",
+  "production_release": false,
+  "owner_acceptance": "not granted",
+  "current_fingerprint": {
+    "source_sha256": "f94669b28b08796d55b1c8e97b907cfe6921915edbe80ad56968a6f31823e3b3",
+    "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+    "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+    "version": "1.2.4+23",
+    "release_status": "not_assessed"
+  },
+  "inventory": {
+    "path": ".cache/revolut-design-20260905/exhaustive-inventory.json",
+    "sha256": "992afeeae2af8a86e046b9c106ba5b6c9e62020fce476d648741ac6a3b94310b",
+    "counts": {
+      "source_files": 133,
+      "ui_units": 392,
+      "ui_units_by_base": {
+        "ConsumerWidget": 26,
+        "StatelessWidget": 285,
+        "ConsumerStatefulWidget": 30,
+        "ConsumerState": 30,
+        "StatefulWidget": 9,
+        "State": 9,
+        "CustomPainter": 2,
+        "InheritedWidget": 1
+      },
+      "interaction_call_sites": 359,
+      "icon_symbols": 239,
+      "assets": 48,
+      "website_dom_elements": 3516,
+      "mobile_routes": 42,
+      "mobile_states": 56,
+      "admin_route_viewports": 92,
+      "website_route_viewports": 64,
+      "test_results": {
+        "success": 650
+      }
+    }
+  },
+  "gallery": {
+    "path": ".cache/revolut-design-20260905/review/catalogue.json",
+    "sha256": "7d87c9dbe2675e3c127d8ca82626d488d791a53090965aa1e5b775cbb20f0cac",
+    "url": "http://collect.localhost:4191/",
+    "rwanda_assets_url": "http://collect.localhost:4191/?surface=Assets&search=rwanda%2F",
+    "records": {
+      "Mobile": 371,
+      "Admin": 176,
+      "Website": 128,
+      "Assets": 287,
+      "Elements": 4267,
+      "Flows": 650
+    },
+    "browser_check": {
+      "path": ".cache/revolut-design-20260905/rwanda-gallery-qa.json",
+      "sha256": "c1bfaa4a58354ca345ace3584af21eb1b89ba53619c75032b133733f7606736c"
+    }
+  },
+  "rwanda_assets": {
+    "provenance": {
+      "path": "assets/marketing/SOURCE.json",
+      "sha256": "7b1dd18bfa9fe4f8be73cbb1b8f60ed0d6ba19ceacb427806ea84f9466abad01"
+    },
+    "count": 6,
+    "files": [
+      {
+        "path": "assets/marketing/rwanda/banking-together.png",
+        "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+        "operation": "Original built-in image_gen output, unaltered pixels",
+        "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+        "scope": "Website editorial and optional group photo collection",
+        "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+        "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+      },
+      {
+        "path": "assets/marketing/rwanda/community-savings.png",
+        "sha256": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+        "operation": "Original built-in image_gen output, unaltered pixels",
+        "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+        "scope": "Website editorial and optional group photo collection",
+        "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+        "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+      },
+      {
+        "path": "assets/marketing/rwanda/everyday-payments.png",
+        "sha256": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+        "operation": "Original built-in image_gen output, unaltered pixels",
+        "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+        "scope": "Website editorial and optional group photo collection",
+        "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+        "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+      },
+      {
+        "path": "assets/marketing/rwanda/kigali-hills.png",
+        "sha256": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+        "operation": "Original built-in image_gen output, unaltered pixels",
+        "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+        "scope": "Website editorial and optional group photo collection",
+        "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+        "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+      },
+      {
+        "path": "assets/marketing/rwanda/kigali-woman-hero.png",
+        "sha256": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+        "operation": "Original built-in image_gen output, unaltered pixels",
+        "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+        "scope": "Website editorial and optional group photo collection",
+        "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+        "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+      },
+      {
+        "path": "assets/marketing/rwanda/shared-goals.png",
+        "sha256": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+        "operation": "Original built-in image_gen output, unaltered pixels",
+        "cohort": "Collect Rwanda editorial, owner-directed 2026-09-05",
+        "scope": "Website editorial and optional group photo collection",
+        "provenance": "AI-generated fictional scene; no real customer, bank affiliation or endorsement",
+        "prompts": "assets/marketing/rwanda/PROMPTS.json and PROMPTS_ADDITIONAL.json"
+      }
+    ],
+    "prompt_records": [
+      {
+        "path": "assets/marketing/rwanda/PROMPTS.json",
+        "sha256": "259621b70e42691b8851727cd68fd03afb8868ee6466d74e5d4cd9766702ccf1"
+      },
+      {
+        "path": "assets/marketing/rwanda/PROMPTS_ADDITIONAL.json",
+        "sha256": "656f8b3238bbaff135acfff9b176f8e3030531c9f636ee7e55884b6c712e0fe8"
+      }
+    ],
+    "runtime_uses": [
+      "Flutter public hero",
+      "Static public hero and relevant page sections",
+      "Optional group-photo selection during creation and profile editing"
+    ],
+    "image_claim": "AI-generated fictional scenes; no real customer testimony or bank endorsement",
+    "integrity_log": {
+      "path": ".cache/revolut-design-20260905/rwanda-asset-integrity.log",
+      "sha256": "a2af4d7e98803e9cf0d7eda735ed454aac28d4f9ecafa8990afa9a81c6dba34c"
+    }
+  },
+  "flutter_tests": {
+    "path": ".cache/revolut-design-20260905/rwanda-flutter-tests-final.jsonl",
+    "sha256": "371de159aeff159c07e6d50222a802e007429de746dcf93b8185343ca88f5541",
+    "success": true,
+    "named_results": {
+      "success": 650
+    },
+    "errors": 0,
+    "golden_cases": 13,
+    "golden_integrity": {
+      "path": ".cache/revolut-design-20260905/rwanda-golden-integrity.log",
+      "sha256": "a353dfc362aa7fe6cd3bc18b68bac718e0bcc3e84743f8feef1fd6e9930bb998"
+    },
+    "golden_review": "Only the Rwanda public hero baseline changed; new test image opened and reviewed before copying. Previous pixels retained in goldens-before-rwanda."
+  },
+  "analysis": {
+    "full_workspace": {
+      "path": ".cache/revolut-design-20260905/rwanda-final-analyze.log",
+      "sha256": "7d60150e643743abb8d6a95eb665056db9f6b89683a647581b0aa2cf28d0964e"
+    },
+    "changed_sources_final": {
+      "path": ".cache/revolut-design-20260905/rwanda-final-changed-source-analysis.log",
+      "sha256": "dfc19dde9b24eea75cd07b154fdc8ef33bcfe4fab2c0b52fd0540d5dad843200"
+    }
+  },
+  "source_hygiene": {
+    "path": ".cache/revolut-design-20260905/rwanda-source-hygiene.json",
+    "sha256": "03056ac9c714f4295f0411ee8e5e3e819a5ba6c01423cab1c7ca67d5cc08f0b0",
+    "failure_count": 0
+  },
+  "gate_contract_tests": {
+    "path": ".cache/revolut-design-20260905/rwanda-design-gate-test.log",
+    "sha256": "892ab48e628d9e3e114fb8c963a05c87cf5d1b0223853751ec12d3cd3a72b317",
+    "runs": 33,
+    "assertions": 131,
+    "failures": 0
+  },
+  "native_runs": [
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-states-dark-final/summary.json",
+      "sha256": "af8a7e6b9c23df517e67206136483f09b773d3cc3d63a69e622b68c04158c230",
+      "platform": "android",
+      "target": "integration_test/mobile_material_state_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T13:03:21Z",
+      "variant": {
+        "name": "exhaustive-dark-final",
+        "theme_mode": "dark",
+        "text_scale": 1.0,
+        "high_contrast": false,
+        "reduced_motion": false
+      },
+      "status": "pass",
+      "cases_passed": 54,
+      "current_matrix_cases": 56,
+      "covers_current_matrix": false,
+      "capture_count": 60,
+      "source_binding": {
+        "before": {
+          "source_sha256": "905aca9a493f244795da7efe021082ec57c595f381c9d5a11d66a63c3d76c03c",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        },
+        "after": {
+          "source_sha256": "bac5650759503c11cfb8b9e4a601b3e92fbbc4e2e6834c16f88c9672977439b5",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        }
+      },
+      "source_matches_current_before_and_after": false,
+      "source_change_note": null,
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    },
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-states-rwanda-accessible-resumed/summary.json",
+      "sha256": "243b86ea8dd4c798b2e43e7ce8621fc6fcd3b35fbc34490a87e09972abb7292b",
+      "platform": "android",
+      "target": "integration_test/mobile_material_state_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T14:17:01Z",
+      "variant": {
+        "name": "exhaustive-light-large-verified",
+        "theme_mode": "light",
+        "text_scale": 2.0,
+        "high_contrast": true,
+        "reduced_motion": true
+      },
+      "status": "pass",
+      "cases_passed": 56,
+      "current_matrix_cases": 56,
+      "covers_current_matrix": true,
+      "capture_count": 72,
+      "source_binding": {
+        "before": {
+          "source_sha256": "6bf7c887ca8b7d953bff64ffd040cc98936af7e3fff57abdc43bab831d7dbbb3",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        },
+        "after": {
+          "source_sha256": "f94669b28b08796d55b1c8e97b907cfe6921915edbe80ad56968a6f31823e3b3",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        }
+      },
+      "source_matches_current_before_and_after": false,
+      "source_change_note": "The resumed Android build started before removal of a redundant Dart import. Behavior is unchanged; this is not an immutable release binding.",
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    },
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-routes-dark/summary.json",
+      "sha256": "0cf2e7f7ab0e61adbb632302ed88ef4ae87fb39e2dd3bb688959419ae07dcf30",
+      "platform": "android",
+      "target": "integration_test/mobile_route_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T12:18:02Z",
+      "variant": {
+        "name": "exhaustive-dark",
+        "theme_mode": "dark",
+        "text_scale": 1.0,
+        "high_contrast": false,
+        "reduced_motion": false
+      },
+      "status": "pass",
+      "cases_passed": 42,
+      "current_matrix_cases": 42,
+      "covers_current_matrix": true,
+      "capture_count": 42,
+      "source_binding": {
+        "before": {
+          "source_sha256": "a6f450264c8973faff065aed7278098b6de142bb6a7bf92f9142a231e5c84e07",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        },
+        "after": null
+      },
+      "source_matches_current_before_and_after": false,
+      "source_change_note": null,
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    },
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-routes-accessible-final/summary.json",
+      "sha256": "5dad35fee91288a6900ac30c28a8a23715796e3cd1d99c3bcdf94ddb88775d83",
+      "platform": "android",
+      "target": "integration_test/mobile_route_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T13:08:30Z",
+      "variant": {
+        "name": "exhaustive-light-large-final",
+        "theme_mode": "light",
+        "text_scale": 2.0,
+        "high_contrast": true,
+        "reduced_motion": true
+      },
+      "status": "pass",
+      "cases_passed": 42,
+      "current_matrix_cases": 42,
+      "covers_current_matrix": true,
+      "capture_count": 42,
+      "source_binding": {
+        "before": {
+          "source_sha256": "bac5650759503c11cfb8b9e4a601b3e92fbbc4e2e6834c16f88c9672977439b5",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        },
+        "after": {
+          "source_sha256": "a926444b8cc62e322c7eba85c550d097c5e0b5024726158654c62282bf7c2062",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        }
+      },
+      "source_matches_current_before_and_after": false,
+      "source_change_note": null,
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    },
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-ios-states-rwanda-accessible-resumed/summary.json",
+      "sha256": "7aaec07bf28541e9b5ff5ae2e1772b461ef3218ff9d8be28be427c2e3c5dc561",
+      "platform": "ios",
+      "target": "integration_test/mobile_material_state_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T14:35:23Z",
+      "variant": {
+        "name": "exhaustive-light-large-verified",
+        "theme_mode": "light",
+        "text_scale": 2.0,
+        "high_contrast": true,
+        "reduced_motion": true
+      },
+      "status": "pass",
+      "cases_passed": 56,
+      "current_matrix_cases": 56,
+      "covers_current_matrix": true,
+      "capture_count": 71,
+      "source_binding": {
+        "before": {
+          "source_sha256": "f94669b28b08796d55b1c8e97b907cfe6921915edbe80ad56968a6f31823e3b3",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        },
+        "after": {
+          "source_sha256": "f94669b28b08796d55b1c8e97b907cfe6921915edbe80ad56968a6f31823e3b3",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        }
+      },
+      "source_matches_current_before_and_after": true,
+      "source_change_note": null,
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    },
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-ios-routes-dark/summary.json",
+      "sha256": "f0f331787453b66a1af59942b0ab29a19e897e882121542d61d5a2584cb41193",
+      "platform": "ios",
+      "target": "integration_test/mobile_route_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T12:34:21Z",
+      "variant": {
+        "name": "exhaustive-ios-dark",
+        "theme_mode": "dark",
+        "text_scale": 1.0,
+        "high_contrast": false,
+        "reduced_motion": false
+      },
+      "status": "pass",
+      "cases_passed": 42,
+      "current_matrix_cases": 42,
+      "covers_current_matrix": true,
+      "capture_count": 42,
+      "source_binding": {
+        "before": null,
+        "after": null
+      },
+      "source_matches_current_before_and_after": false,
+      "source_change_note": null,
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    },
+    {
+      "path": ".cache/revolut-design-20260905/exhaustive-ios-routes-accessible/summary.json",
+      "sha256": "0bc7776dfd150b981651c633bbc23f9ade30e548b354cba7d6a57ed71a70bd48",
+      "platform": "ios",
+      "target": "integration_test/mobile_route_matrix_device_uat_test.dart",
+      "generated_at": "2026-09-05T12:42:36Z",
+      "variant": {
+        "name": "exhaustive-ios-light-large",
+        "theme_mode": "light",
+        "text_scale": 2.0,
+        "high_contrast": true,
+        "reduced_motion": true
+      },
+      "status": "pass",
+      "cases_passed": 42,
+      "current_matrix_cases": 42,
+      "covers_current_matrix": true,
+      "capture_count": 42,
+      "source_binding": {
+        "before": {
+          "source_sha256": "224284d5e3ef716b3231f31c0f9bce78b40ff5ac1c7837354e54383dc760e123",
+          "contract_sha256": "8d6a831859536a84b31668ab43eebe9e03ae6f36100fd18fc14c66329bb818fb",
+          "references_sha256": "3557088dcfd23756d0e61e5b2b98987d3adebfe79be483fd8a00bde1e1582170",
+          "version": "1.2.4+23",
+          "release_status": "not_assessed"
+        },
+        "after": null
+      },
+      "source_matches_current_before_and_after": false,
+      "source_change_note": null,
+      "scope": "Synthetic local fixture render and interactions; no owner or external-provider acceptance"
+    }
+  ],
+  "admin": {
+    "path": ".cache/revolut-design-20260905/exhaustive-admin/admin_browser_qa.json",
+    "sha256": "746fcdb5ed7ff8c27cbe1c3914bfb1fe99b59a1dcca133fd76e8ba672d64e038",
+    "status": "pass",
+    "route_viewports": 92,
+    "login_refresh": {
+      "path": ".cache/revolut-design-20260905/admin-login-final/admin_browser_qa.json",
+      "sha256": "53cbb8175c1e226c53c1323f9a813997823fd239de630b35f9e0a45a5f3a0f21"
+    },
+    "flows": {
+      "path": ".cache/revolut-design-20260905/exhaustive-admin-flows/summary.json",
+      "sha256": "6aec595909e91ef5d562b3fee2e90b1c2921908c57879935b614f46f7d44c661",
+      "status": "pass",
+      "flow_viewports": 84
+    },
+    "scope": "Retained earlier local fixture runs; no production access or mutation"
+  },
+  "website": {
+    "path": ".cache/revolut-design-20260905/rwanda-website-final/route_rendered_qa.json",
+    "sha256": "8f0b69b73845e173236992b91ab826ba552641d994fcf628f37353a2e3b53b0d",
+    "status": "pass",
+    "route_viewports": 64,
+    "share_flow_viewports": 16,
+    "captures": 192,
+    "quality": {
+      "path": ".cache/revolut-design-20260905/rwanda-website-quality-final.json",
+      "sha256": "504766004194728167a79fdbe86f63f3c625912a0322dbd081c04b763c5a45f6",
+      "total": 56,
+      "passed": 56,
+      "failed": 0,
+      "status": "pass"
+    },
+    "contrast": {
+      "path": ".cache/revolut-design-20260905/rwanda-website-text-contrast-final.json",
+      "sha256": "0f84afd0e84bc20598e10acb922278cd4f7bfa14d55cf0aa86162382f873da80",
+      "status": "pass",
+      "checked": 4262,
+      "failures": 0,
+      "image_backed_unverified": 4
+    },
+    "content_delta": "Only three Rwanda photo navigation captions and arrows added. Removing that section recovers the prior homepage visible-content hash."
+  },
+  "mobile_release_gate": {
+    "path": ".cache/revolut-design-20260905/rwanda-mobile-design-gate.json",
+    "sha256": "435bd04f82a66bd3f4b1426edda44881cbff73098bc6cc932e30979fb1472386",
+    "status": "blocked",
+    "failure_count": 165,
+    "command": "make mobile-design-gate",
+    "command_log": {
+      "path": ".cache/revolut-design-20260905/rwanda-mobile-design-gate.txt",
+      "sha256": "01ea657718192900310bc845809595b64ef123cf44911e0571c1893227bf37cf"
+    }
+  },
+  "limitations": [
+    "Exact native font equivalence, unseen source states and authenticated Business geometry remain unverified.",
+    "Older native runs are not retroactively bound to current source; each run records its available before/after fingerprints.",
+    "Static declarations and named fixture tests do not establish branch coverage or real external-provider outcomes.",
+    "VoiceOver/TalkBack traversal, native OS picker/permission/share surfaces, real authentication/payment outcomes and signed-in physical-device UAT are not established by these fixtures.",
+    "The selected reference typologies and owner-directed Rwanda imagery preserve Collect identity and workflows; no 100 percent fidelity claim is made."
+  ],
+  "interrupted_or_failed_attempts": [
+    {
+      "directory": ".cache/revolut-design-20260905/exhaustive-states-accessible-verified-56",
+      "reason": "First two-photo-state run failed when the selected profile header was outside the built scroll viewport. Corrected by returning to the top before capture."
+    },
+    {
+      "directory": ".cache/revolut-design-20260905/exhaustive-states-rwanda-accessible-final",
+      "reason": "Host restarted during Gradle assembly; no completion summary. Retained as interrupted evidence."
+    },
+    {
+      "directory": ".cache/revolut-design-20260905/exhaustive-ios-states-rwanda-accessible-final",
+      "reason": "Host restarted during the iOS state matrix; no completion summary. Retained as interrupted evidence and rerun on the same disposable QA simulator."
+    }
+  ]
+}

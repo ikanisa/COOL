@@ -14,6 +14,7 @@ export '../../app/theme/collect_semantic_icons.dart';
 export '../../app/theme/collect_universal_tokens.dart';
 export '../utils/collect_haptics.dart';
 export 'collect_action_controls.dart';
+export 'collect_confirmation_sheet.dart';
 export 'collect_chrome.dart';
 export 'collect_display_primitives.dart';
 export 'collect_financial_components.dart';

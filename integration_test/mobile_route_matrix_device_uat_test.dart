@@ -13,10 +13,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:integration_test/integration_test.dart';
+import '../test/fixtures/mobile_matrix_capture.dart';
 
 void main() {
-  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final binding = MobileMatrixCapture.initialize();
   GoRouter? activeRouter;
   tearDown(() {
     activeRouter?.dispose();
@@ -48,6 +48,7 @@ void main() {
       ProviderScope(
         key: ValueKey('collect-route-harness-${spec.name}'),
         overrides: [
+          ...MobileMatrixCapture.overrides,
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith((ref) => repository),
           collectThemeModeProvider.overrideWith(
@@ -57,7 +58,7 @@ void main() {
             ),
           ),
         ],
-        child: const CollectApp(),
+        child: MobileMatrixCapture.wrap(const CollectApp()),
       ),
     );
     for (var i = 0; i < 14; i += 1) {
@@ -67,8 +68,9 @@ void main() {
   }
 
   testWidgets(
-    'all mobile routes resolve and render natively without UI exceptions',
+    'all mobile routes resolve and render without UI exceptions',
     (tester) async {
+      await binding.prepare(tester);
       tester.platformDispatcher.textScaleFactorTestValue = _uatTextScale;
       tester.platformDispatcher.accessibilityFeaturesTestValue =
           const FakeAccessibilityFeatures(
@@ -113,6 +115,7 @@ void main() {
         // ignore: avoid_print
         print('collect_route_uat:start:${spec.name}:${spec.route}');
         final router = await pumpRoute(tester, spec);
+        await MobileMatrixCapture.flush(tester);
         if (spec.extraPumpBeforeAssert > Duration.zero) {
           await tester.pump(spec.extraPumpBeforeAssert);
         }
@@ -181,6 +184,7 @@ void main() {
         // ignore: avoid_print
         print('collect_route_uat:pass:${spec.name}:${spec.route}');
       }
+      await binding.finish(tester);
     },
     timeout: const Timeout(Duration(minutes: 14)),
   );
