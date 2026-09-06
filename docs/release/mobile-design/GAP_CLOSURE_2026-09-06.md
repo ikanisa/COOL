@@ -68,7 +68,7 @@ the original checkout and is excluded from the selected release changes.
 | `.cache/revolut-gap-closure-20260906/owner-layout-verified.json` | All 144 unique layout checks passed for the owner annotations. |
 | `.cache/revolut-gap-closure-20260906/owner-partners-live-review/report.json` | All 27 Partners layout checks passed on the public domain across nine widths. |
 | `.cache/revolut-gap-closure-20260906/owner-layout-live-gate.json` | Public live routes and content: 35/35 passed. |
-| `.cache/revolut-gap-closure-20260906/public-live-assets-final.json` | All 49 public files match deployed source `6b0f7cc71eb78b085c65685edaee35f08a9aa5a0`. |
+| `.cache/revolut-gap-closure-20260906/public-live-assets-final.json` | All 49 public files match deployed source `0e5f06000838cd0d431fe5b3bc2711c0588c0cf6`. |
 | `.cache/revolut-gap-closure-20260906/admin-live-assets-final.json` | All 65 Admin files match deployed source `2e6b3ff1ae4880f5c6b9a779c9817536d7455fc4`. |
 | `.cache/revolut-gap-closure-20260906/mobile-design-gate-final.json` | Blocked; all existing acceptance requirements retained. |
 
@@ -96,7 +96,53 @@ the activated worker, removal of the old cache, bundle hash and source revision.
 All nine controlled update checks passed. Earlier unsuccessful reports remain
 as historical evidence; they do not establish a production update defect.
 
-Public Worker version `1a9f290f-a8f3-462c-a88e-30effd09a502` and Admin Worker
+Public Worker version `453a68f9-31ee-41cc-b7c3-c7eaf8f2febb` and Admin Worker
 version `f4a222a0-aec9-424f-9a5a-309549439559` each have 100% traffic in the
 provider readback. Full deployment and rollback metadata is recorded in
 `docs/release/LIVE_DEPLOYMENTS.json`.
+
+
+## Follow-up website rows and native iOS keyboard review
+
+The later website annotations are published from `0e5f06000838cd0d431fe5b3bc2711c0588c0cf6`.
+The complete 494-check layout review passed locally and on the live domain
+across thirteen widths. It covers the requested four-card rows, two rows for
+eight-item sections, all five Group Savings steps on one wide desktop row,
+six Insurance barriers on one wide desktop row, and the two marked partner
+bullet removals. The sixteen-route visible-content comparison confirms only
+those two removals. See `WEBSITE_OWNER_LAYOUT_2026-09-06.md` for exact scope,
+breakpoints and evidence.
+
+The new guarded iOS debug fixture and host driver disable text-entry emulation.
+The driver exposes only fixture navigation and read-only geometry, binds its
+control endpoint to loopback, and requires the specifically named disposable
+Collect simulator. It is not imported by production code. Flutter analysis
+and the simulator build passed. All 219 installed bundle files matched the
+retained candidate during the active run; source, contract and reference
+fingerprints were stable before and after the review.
+
+At 390 by 844 points with the platform default text size, actual native-keyboard
+input passed for sign-in, the Rwanda MoMo-number editor, and the diaspora
+account-number editor. The focused fields and enabled actions were visible
+and hit-testable above keyboard insets of 308 or 335 points. No form action was
+submitted. The diaspora draft survived a rotation round trip and the action
+was reachable again in portrait.
+
+The landscape observation at 844 by 390 points left Save below the 208-point
+keyboard. A native drag dismissed the keyboard and exposed Save with the draft
+preserved. Keyboard-open action behavior remains unclosed; this is not a pass
+for the full landscape or enlarged-text matrix. MoMo-code, contribution,
+group creation/join and search coverage also remain to be completed for iOS.
+The stream's H.264 encoder failure was recovered with its supported MJPEG
+setting. Native keyboard coaching was dismissed in the designated Collect
+window. The driver and mirror were stopped and that simulator was restored to
+its original shutdown state; other simulators were left running.
+
+Evidence: `.cache/revolut-gap-closure-20260906/ios-keyboard/review-summary.json`,
+its case JSON/PNG files, `candidate-before.json`,
+`candidate-after-fingerprint.json`, and `installed-reviewed-bundle.json`.
+The root workspace gate still reports 166 failures: 134 required cases, 23
+annotation closures, and nine source/artifact/approval fields. The isolated
+checkout's gate report lacks the root workspace's private references and
+release evidence, so its shorter failure list is not a reduction in required
+acceptance. No acceptance case, annotation, threshold or approval was changed.
