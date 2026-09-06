@@ -21,6 +21,7 @@ on:
       - 'pubspec.lock'
       - 'web/.well-known/**'
       - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/public-website-content-baseline.json'
       - 'output/public_website_evidence/**'
   pull_request:
     paths:
@@ -40,6 +41,7 @@ on:
       - 'pubspec.lock'
       - 'web/.well-known/**'
       - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/public-website-content-baseline.json'
       - 'output/public_website_evidence/**'
   workflow_dispatch:
 

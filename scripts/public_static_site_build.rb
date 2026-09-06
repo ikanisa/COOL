@@ -4,6 +4,7 @@
 require "cgi"
 require "fileutils"
 require "json"
+require "open3"
 require "time"
 require "yaml"
 require_relative "public_app_media"
@@ -2667,11 +2668,15 @@ write_file(
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n#{sitemap_urls}\n</urlset>\n"
 )
 
+source_commit, source_commit_status = Open3.capture2("git", "-C", ROOT, "rev-parse", "HEAD")
+source_changes, source_status = Open3.capture2("git", "-C", ROOT, "status", "--porcelain")
 write_file(
   File.join(BUILD_DIR, "version.json"),
   JSON.pretty_generate(
     "name" => "collect-public-static",
     "generated_at" => Time.now.utc.iso8601,
+    "source_commit" => source_commit_status.success? ? source_commit.strip : nil,
+    "source_dirty" => !source_status.success? || !source_changes.empty?,
     "routes" => all_paths.uniq.sort,
     "share_routes" => ["/c/:slug", "/app", "/invite/:publicId"],
     "indexnow_key_file" => INDEXNOW_KEY.empty? ? nil : "#{INDEXNOW_KEY}.txt"
