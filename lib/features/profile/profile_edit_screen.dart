@@ -86,144 +86,176 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 430),
-              child: CollectFormViewport(
-                child: Column(
-                  key: const ValueKey('native_profile_editor'),
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _ProfileAppBar(onBack: _saving ? null : _leave),
-                    Expanded(
-                      child: profile == null
-                          ? Center(
-                              child: state.isLoading
-                                  ? const CircularProgressIndicator(
-                                      semanticsLabel: 'Loading profile',
-                                    )
-                                  : const Text('Sign in to edit your profile'),
-                            )
-                          : ListView(
-                              controller: _scrollController,
-                              keyboardDismissBehavior:
-                                  ScrollViewKeyboardDismissBehavior.onDrag,
-                              padding: const EdgeInsets.fromLTRB(
-                                CollectSpacing.x5,
-                                CollectSpacing.x3,
-                                CollectSpacing.x5,
-                                CollectSpacing.x6,
-                              ),
-                              children: [
-                                _ProfileIdentity(publicId: profile.publicId),
-                                CollectSpacing.gap24,
-                                if (_error != null) ...[
-                                  Semantics(
-                                    liveRegion: true,
-                                    child: Text(
-                                      _error!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            color: context
-                                                .collectColors
-                                                .dangerForeground,
-                                          ),
-                                    ),
-                                  ),
-                                  CollectSpacing.gap16,
-                                ],
-                                _ProfileDetails(
-                                  country: selectedCountry,
-                                  currencyCode: currencyCode,
-                                  whatsappPhone: profile.whatsappPhone,
-                                  onCountryTap: _saving
-                                      ? null
-                                      : _showCountryPicker,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final scale = MediaQuery.textScalerOf(
+                    context,
+                  ).scale(1).clamp(1.0, 1.5);
+                  final scrollChrome = constraints.maxHeight < 320 * scale;
+                  final header = _ProfileAppBar(
+                    onBack: _saving ? null : _leave,
+                  );
+                  final action = Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      CollectSpacing.x5,
+                      CollectSpacing.x3,
+                      CollectSpacing.x5,
+                      CollectSpacing.x4,
+                    ),
+                    child: CollectButton(
+                      key: const ValueKey('profile_save_button'),
+                      label: profile == null
+                          ? 'Sign in'
+                          : (_saving ? 'Saving…' : 'Save'),
+                      onPressed: profile == null
+                          ? (state.isLoading ? null : () => context.go('/auth'))
+                          : (_saving || !_dirty ? null : _save),
+                      expand: true,
+                    ),
+                  );
+                  return Column(
+                    key: const ValueKey('native_profile_editor'),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (!scrollChrome) header,
+                      Expanded(
+                        // Retain the same viewport and keyed fields when the
+                        // keyboard or rotation moves the chrome into the form.
+                        key: const ValueKey('profile_form_viewport'),
+                        child: CustomScrollView(
+                          controller: _scrollController,
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.manual,
+                          slivers: [
+                            if (scrollChrome) SliverToBoxAdapter(child: header),
+                            if (profile == null)
+                              SliverFillRemaining(
+                                hasScrollBody: false,
+                                child: Center(
+                                  child: state.isLoading
+                                      ? const CircularProgressIndicator(
+                                          semanticsLabel: 'Loading profile',
+                                        )
+                                      : const Text(
+                                          'Sign in to edit your profile',
+                                        ),
                                 ),
-                                CollectSpacing.gap12,
-                                if (isRwanda) ...[
-                                  _ProfileMomoSwitcher(
-                                    showCode: _showMomoCode,
-                                    enabled: !_saving,
-                                    onChanged: (showCode) {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      setState(() => _showMomoCode = showCode);
-                                    },
-                                  ),
-                                  CollectSpacing.gap12,
-                                  if (_showMomoCode) ...[
-                                    _ProfileInput(
-                                      key: const ValueKey(
-                                        'profile_momo_code_input',
-                                      ),
-                                      controller: _momoPayCode,
-                                      label: 'MoMo code, optional',
-                                      enabled: !_saving,
-                                      keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.done,
-                                      onSubmitted: (_) => _submitIfChanged(),
+                              )
+                            else
+                              SliverPadding(
+                                key: const ValueKey('profile_form_fields'),
+                                padding: const EdgeInsets.fromLTRB(
+                                  CollectSpacing.x5,
+                                  CollectSpacing.x3,
+                                  CollectSpacing.x5,
+                                  CollectSpacing.x6,
+                                ),
+                                sliver: SliverList.list(
+                                  children: [
+                                    _ProfileIdentity(
+                                      publicId: profile.publicId,
                                     ),
-                                    CollectSpacing.gap8,
-                                    Text(
-                                      'Add a merchant code alongside your MoMo number.',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            color: context
-                                                .collectColors
-                                                .textSecondary,
+                                    CollectSpacing.gap24,
+                                    if (_error != null) ...[
+                                      Semantics(
+                                        liveRegion: true,
+                                        child: Text(
+                                          _error!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: context
+                                                    .collectColors
+                                                    .dangerForeground,
+                                              ),
+                                        ),
+                                      ),
+                                      CollectSpacing.gap16,
+                                    ],
+                                    _ProfileDetails(
+                                      country: selectedCountry,
+                                      currencyCode: currencyCode,
+                                      whatsappPhone: profile.whatsappPhone,
+                                      onCountryTap: _saving
+                                          ? null
+                                          : _showCountryPicker,
+                                    ),
+                                    CollectSpacing.gap12,
+                                    if (isRwanda) ...[
+                                      _ProfileMomoSwitcher(
+                                        showCode: _showMomoCode,
+                                        enabled: !_saving,
+                                        onChanged: (showCode) {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          setState(
+                                            () => _showMomoCode = showCode,
+                                          );
+                                        },
+                                      ),
+                                      CollectSpacing.gap12,
+                                      if (_showMomoCode) ...[
+                                        _ProfileInput(
+                                          key: const ValueKey(
+                                            'profile_momo_code_input',
                                           ),
-                                    ),
-                                  ] else
-                                    _ProfileInput(
-                                      key: const ValueKey(
-                                        'profile_momo_number_input',
+                                          controller: _momoPayCode,
+                                          label: 'MoMo code, optional',
+                                          enabled: !_saving,
+                                          keyboardType: TextInputType.number,
+                                          textInputAction: TextInputAction.done,
+                                          onSubmitted: (_) =>
+                                              _submitIfChanged(),
+                                        ),
+                                        CollectSpacing.gap8,
+                                        Text(
+                                          'Add a merchant code alongside your MoMo number.',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: context
+                                                    .collectColors
+                                                    .textSecondary,
+                                              ),
+                                        ),
+                                      ] else
+                                        _ProfileInput(
+                                          key: const ValueKey(
+                                            'profile_momo_number_input',
+                                          ),
+                                          controller: _momoNumber,
+                                          label: 'MoMo number',
+                                          enabled: !_saving,
+                                          keyboardType: TextInputType.phone,
+                                          textInputAction: TextInputAction.done,
+                                          onSubmitted: (_) =>
+                                              _submitIfChanged(),
+                                        ),
+                                    ] else ...[
+                                      _ProfileInput(
+                                        key: const ValueKey(
+                                          'profile_revolut_account_input',
+                                        ),
+                                        controller: _revolutAccount,
+                                        label: 'Account number',
+                                        enabled: !_saving,
+                                        textInputAction: TextInputAction.done,
+                                        onSubmitted: (_) => _submitIfChanged(),
                                       ),
-                                      controller: _momoNumber,
-                                      label: 'MoMo number',
-                                      enabled: !_saving,
-                                      keyboardType: TextInputType.phone,
-                                      textInputAction: TextInputAction.done,
-                                      onSubmitted: (_) => _submitIfChanged(),
-                                    ),
-                                ] else ...[
-                                  _ProfileInput(
-                                    key: const ValueKey(
-                                      'profile_revolut_account_input',
-                                    ),
-                                    controller: _revolutAccount,
-                                    label: 'Account number',
-                                    enabled: !_saving,
-                                    textInputAction: TextInputAction.done,
-                                    onSubmitted: (_) => _submitIfChanged(),
-                                  ),
-                                ],
-                              ],
-                            ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        CollectSpacing.x5,
-                        CollectSpacing.x3,
-                        CollectSpacing.x5,
-                        CollectSpacing.x4,
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            if (scrollChrome) SliverToBoxAdapter(child: action),
+                          ],
+                        ),
                       ),
-                      child: CollectButton(
-                        key: const ValueKey('profile_save_button'),
-                        label: profile == null
-                            ? 'Sign in'
-                            : (_saving ? 'Saving…' : 'Save'),
-                        onPressed: profile == null
-                            ? (state.isLoading
-                                  ? null
-                                  : () => context.go('/auth'))
-                            : (_saving || !_dirty ? null : _save),
-                        expand: true,
-                      ),
-                    ),
-                  ],
-                ),
+                      if (!scrollChrome) action,
+                    ],
+                  );
+                },
               ),
             ),
           ),

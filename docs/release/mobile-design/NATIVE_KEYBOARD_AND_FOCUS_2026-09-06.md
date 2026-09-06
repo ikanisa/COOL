@@ -62,3 +62,33 @@ COLLECT_KEYBOARD_EVIDENCE_DIR=.cache/native-keyboard-rerun \
 ```
 
 The driver rejects any AVD other than the named disposable target. The fixture app rejects release mode and requires both the `dev` flavor and explicit evidence flag. Production entry points do not import it.
+
+## Later iOS profile correction
+
+The earlier Android results above retain their original source binding. The
+subsequent iOS profile candidate fixes the nested-scroll behavior that left
+Save below an open landscape keyboard: short viewports now scroll the header,
+fields and Save together without dismissing the keyboard. Normal-height chrome
+remains pinned, and stable keys retain focus and drafts when the layout changes.
+
+All twelve native profile combinations passed: Rwanda MoMo number, optional
+MoMo code and diaspora account number, each at 390 × 844 and 844 × 390 points
+with native 100% and approximately 235% text. The field and enabled action were
+checked separately after scrolling where needed, giving 24 passing observations.
+Two early MoMo landscape screenshots were superseded by settled captures whose
+visible keyboard and complete Save control match the measured geometry. The
+earlier screenshots and one return-to-portrait observation requiring another
+scroll remain retained rather than being counted as passes.
+
+The iOS source fingerprint is
+`e7cc34f87d6d49fb0f77f8e30a64588e98259c390722aa870b3f319728c26273`;
+all 219 installed files matched its retained debug fixture. The profile suite
+passed 21 tests and the mobile interaction suite passed 29 tests. Only synthetic
+input was used. The test device's text/orientation settings were restored and
+the disposable simulator was shut down after the driver and mirror exited.
+
+See [the iOS profile verification record](ios-profile-keyboard-verification-2026-09-06.json)
+for the exact candidate, case reports, screenshot hashes, restoration and scope.
+The complete mobile design gate remains blocked with 166 findings. Other iOS
+forms, native reader acceptance, full reference/state coverage and production
+artifact approval remain open.

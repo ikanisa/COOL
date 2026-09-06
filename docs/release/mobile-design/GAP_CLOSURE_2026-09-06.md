@@ -146,3 +146,53 @@ annotation closures, and nine source/artifact/approval fields. The isolated
 checkout's gate report lacks the root workspace's private references and
 release evidence, so its shorter failure list is not a reduction in required
 acceptance. No acceptance case, annotation, threshold or approval was changed.
+
+## Follow-up profile scrolling with the iOS keyboard open
+
+The profile editor now uses one scroll view. At short available heights, the
+header and Save action join the fields in that scroll view; at normal heights,
+they remain pinned. The keyed field viewport survives keyboard and orientation
+changes, and a native drag keeps the keyboard open. Shared field/button styling,
+validation, optional MoMo-code behavior and repository writes are unchanged.
+
+The regression first reproduced Save extending below the keyboard at enlarged
+text in both Rwanda and diaspora tests. After the correction, all 21 profile
+tests and 29 mobile interaction tests passed, with clean targeted analysis.
+The new tests use a real widget drag to expose Save, then check the complete
+button bounds, hit testing, focus, input retention and absence of a repository
+write during the scroll.
+
+A rebuilt iOS simulator fixture passed twelve profile combinations: MoMo
+number, optional MoMo code and diaspora account number, each in portrait and
+landscape at native text sizes of 100% and approximately 235%. Each combination
+has separate field and action checks, for 24 passing observations. Real iOS
+keyboards, native taps and touch scrolling were used; no text-entry emulation
+or substituted text scaling was enabled. Save was reachable with the keyboard
+open and the synthetic draft and field focus retained. At some return-to-portrait
+states, another scroll was needed; the review does not require every control
+to be simultaneously visible.
+
+The two original MoMo-code landscape action screenshots did not match their
+geometry reports. They remain retained, but the later `-settled` field/action
+pairs supersede them: their native screenshots visibly show the keyboard and
+complete Save button, matching the measured geometry. A setup-only geometry
+request after returning from Settings could not encode an off-screen rectangle;
+revealing the field restored geometry. It is excluded from the passing matrix.
+
+The candidate source fingerprint is
+`e7cc34f87d6d49fb0f77f8e30a64588e98259c390722aa870b3f319728c26273`.
+It was built from `c1e9cc788e74872829149a2528a0f0596f40fcf2` plus this profile
+layout change. All 219 installed bundle files matched the retained candidate
+during both review runs, and the source fingerprint stayed unchanged. Native
+text size, the accessibility-size switch and portrait orientation were restored;
+the driver/mirror exited successfully and only the disposable Collect simulator
+was shut down.
+
+Evidence: `.cache/revolut-gap-closure-20260906/ios-profile-landscape/`, with
+reviewed case paths and hashes in
+`ios-profile-keyboard-verification-2026-09-06.json`.
+This closes the previously observed profile scroll-to-Save gap within this
+matrix. It does not certify the remaining iOS forms, readers, full original
+reference/state matrix or production artifact. The current root gate still
+has 166 failures. Earlier Android and website-media results remain bound to
+their own source candidates; the existing public/Admin deployments are unchanged.
