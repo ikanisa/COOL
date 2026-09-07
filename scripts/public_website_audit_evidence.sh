@@ -122,7 +122,9 @@ checks = {
       !body.include?("Public evidence and market context") &&
       !body.include?("Current public status") &&
       !body.include?("No institution is presented here as a live Collect partner yet.")
-  } && styles_body.include?(".phone-notch,.phone-status{display:none}"),
+  } && !styles_body.include?(".phone-screen") &&
+    !root_body.include?('class="phone-shell"') &&
+    !partners_body.include?('class="phone-shell"'),
   "performance_budgets" => root.fetch("elapsed_ms") <= 1500 && root_body.bytesize <= 20_000 && styles_body.bytesize <= 30_000 && site_js.fetch("body").bytesize <= 153_600 && first_party_critical_bytes <= 400_000,
   "mobile_responsive_css" => styles_body.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) && styles_body.match?(/@media\s*\(\s*max-width\s*:\s*560px\s*\)/) && styles_body.include?(".site-nav.open"),
 }
