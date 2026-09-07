@@ -1,280 +1,280 @@
 {
-  "recorded_at": "2026-09-06T11:57:57.089506+00:00",
+  "recorded_at": "2026-09-07T06:24:03Z",
   "status": "pass",
   "scope": "Native iOS simulator fixture rendering and website media review only; production native acceptance remains pending.",
-  "source_sha256": "ae515ae0ec3ad2416e872b63912c16955eedc5addf818afd42a0334fe1d20ea3",
-  "source_after_sha256": "ae515ae0ec3ad2416e872b63912c16955eedc5addf818afd42a0334fe1d20ea3",
-  "source_scope_note": "The complete mobile-gate source fingerprint and website-media runtime fingerprint were stable throughout this final run. Injected Android provider configuration is excluded only from the iOS media freshness hash.",
-  "runtime_sha256": "30a133d7a4477cca919dd92396a341479959cb7c16b34649afa0e92cf23e7289",
+  "source_sha256": "c896ee3c0452cb42219b9d0aa9d6b1f757a6beb54328b2e9818cc397c4568500",
+  "source_after_sha256": "c896ee3c0452cb42219b9d0aa9d6b1f757a6beb54328b2e9818cc397c4568500",
+  "source_scope_note": "The complete mobile-gate source fingerprint and website-media runtime fingerprint were stable throughout this run. Injected Android provider configuration is excluded only from the iOS media freshness hash.",
+  "runtime_sha256": "42bf9d4ea467f96d8195e6181bddec8b1394feef87c468fc7fe25cbd8f9286f2",
   "runtime_fingerprint_version": 3,
   "version": "1.2.4+23",
   "fixture_mode": true,
   "simulator": "0AB2E24E-010E-44E6-ADD8-1459F507CA3F",
   "installed_matches_retained_bundle": true,
-  "installed_verification": "All installed file hashes captured during this exact native run and compared with the retained bundle.",
-  "bundle_path": ".cache/revolut-gap-closure-20260906/ios-release-media/ReviewedCollect.app",
-  "bundle_manifest_sha256": "988e305da6e1c27eaff428d7c4e6fa5135c348ab2b8d9d49a0f8489584f2aad1",
-  "bundle_file_count": 219,
-  "summary_sha256": "4b366fde97e43cfb6fec9cca81f462ce71902823fdbe282a2b0d2723c5fc4276",
+  "installed_verification": "All 307 installed file hashes were compared with the retained bundle after the exact native route run.",
+  "bundle_path": ".cache/web-release-20260906/native-media-retry2/ReviewedCollect.app",
+  "bundle_manifest_sha256": "94d91b10e87aa695c9e5fbf3eb2a7a49bf314c81e1efb32644fa144f04aaaee9",
+  "bundle_file_count": 307,
+  "summary_sha256": "8ba09bab89825f8c57f50b36ad2a7d860e8c50f3d9947cb86423c17c69fa4772",
   "harness_sha256": "e1f3a64e84e1ea286f3aefa1c50d65aeef23b66ac352f55c11ef17afb9164548",
   "captures": [
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_account-delete.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_account-delete.png",
       "sha256": "832163ce2213f671e2eb4613e1975f371860400d87600d380337a4678cf86db8",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_account.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_account.png",
       "sha256": "d4de885de4781088d3d94cae30afcb583fe43d4c175050043943d42a6abf01ea",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_activity.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_activity.png",
       "sha256": "871e00214c22d2408a5e7fd832f757e97f3cfbfb8eafe4c1ac7a61ba7580460e",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_app-invite-link.png",
-      "sha256": "d2e45a8f70f8f32c87015de7c1fd937f2fc8086434fec6e12d1add5fe6fea23d",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_app-invite-link.png",
+      "sha256": "c0a62ed4ced32859d16c2fec6d2bf8fed6681d3acd4c702d36c6bded7b3bd988",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_app-share-entry.png",
-      "sha256": "d2e45a8f70f8f32c87015de7c1fd937f2fc8086434fec6e12d1add5fe6fea23d",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_app-share-entry.png",
+      "sha256": "c0a62ed4ced32859d16c2fec6d2bf8fed6681d3acd4c702d36c6bded7b3bd988",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_auth.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_auth.png",
       "sha256": "11b17303cd79e3b6fbec19dd980073a2beddef8a286f2e86d60b2ef1c8b76754",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_contribute-entry.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_contribute-entry.png",
       "sha256": "4b6265b58f338a80ab05f295a613ddc13de7ee8af66c1b9ff9199fc3526d5ea1",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_contribution.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_contribution.png",
       "sha256": "88590ee24f2fbbceae3904e3212155a8763ede40b89e614c39636d9316fb05a3",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_diaspora-bank-transfer.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_diaspora-bank-transfer.png",
       "sha256": "d58f69f7051e2a87aa295e626ccc4ecd905af389ec0bc5d78f14cc058cde547f",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_diaspora-contribution.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_diaspora-contribution.png",
       "sha256": "7e087bed1a9cc90cc9e36728874a757f355120b4b0fa86084d069b928a4a9160",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_diaspora-public-buri-momo.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_diaspora-public-buri-momo.png",
       "sha256": "9ecc45e5104288407bfe7b2ecfde5c49863ec29c2e14db2af100ce7ccb0186ea",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_group-create.png",
-      "sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_group-create.png",
+      "sha256": "08cfb5130784cf2e5722d3503c42952d1792c1027038bb5574b56f437773fee0",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_group-detail.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_group-detail.png",
       "sha256": "aa0624e7c7d5190245977bb0e37688a2504794498b367b6514a9344c7b759b1e",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_group-profile.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_group-profile.png",
       "sha256": "a47bd1d633ec994a85e900edc2e1adf93a3520dfcb2fdbd72e160a4e2131de66",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_group-scan.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_group-scan.png",
       "sha256": "2b7e1ebdf2c25930944654ee41b5d90e266c196ec0b6d506c67152a9c3b84705",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_groups.png",
-      "sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_groups.png",
+      "sha256": "08cfb5130784cf2e5722d3503c42952d1792c1027038bb5574b56f437773fee0",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_help.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_help.png",
       "sha256": "f866e9ba86746c2b0f802f9015cdd4894bd73300ddf12522e3203fd3435a9d0e",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_home.png",
-      "sha256": "d2e45a8f70f8f32c87015de7c1fd937f2fc8086434fec6e12d1add5fe6fea23d",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_home.png",
+      "sha256": "c0a62ed4ced32859d16c2fec6d2bf8fed6681d3acd4c702d36c6bded7b3bd988",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_invite.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_invite.png",
       "sha256": "be29c799babfce680ac591a77cabd3df317cbbb264955d408ef614c65806d85a",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_ledger.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_ledger.png",
       "sha256": "ea6425f3ed79e365d7d99f6fd2e2ea93a08d45b97dd6ba317a8c579d99e899cf",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_legal-privacy.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_legal-privacy.png",
       "sha256": "7b76225f8802c6d967ae5c5a513d07d81004e36caf6929255ab0d84e8f64f514",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_legal-terms.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_legal-terms.png",
       "sha256": "f670cece7e231fc655ff45d3a78b9f7a8bdd2d3f4cf9c7e9f166f11f37d6cde5",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_manage.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_manage.png",
       "sha256": "f8df374af1192595785d30d35ec10853ef1792864aeceb94d2903c7bc59268bc",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_members.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_members.png",
       "sha256": "bdebddeb14c95298aaa9d307ffea736d788947351a7f127c5908618d93a05416",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_offline.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_offline.png",
       "sha256": "6e8c6ec9ca79557820fd3c8d26d87c2b64d91ee941fec654e0c29d7ca81b0bfa",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_privacy-alias.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_privacy-alias.png",
       "sha256": "7b76225f8802c6d967ae5c5a513d07d81004e36caf6929255ab0d84e8f64f514",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_profile-edit.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_profile-edit.png",
       "sha256": "b98f68dccc1736396e2765cadf26169dfc1f8e5024dad06fed9dbbe19027f87c",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_public-buri-momo.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_public-buri-momo.png",
       "sha256": "9ecc45e5104288407bfe7b2ecfde5c49863ec29c2e14db2af100ce7ccb0186ea",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_root-redirect.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_root-redirect.png",
       "sha256": "11b17303cd79e3b6fbec19dd980073a2beddef8a286f2e86d60b2ef1c8b76754",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_root-signed-in.png",
-      "sha256": "d2e45a8f70f8f32c87015de7c1fd937f2fc8086434fec6e12d1add5fe6fea23d",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_root-signed-in.png",
+      "sha256": "c0a62ed4ced32859d16c2fec6d2bf8fed6681d3acd4c702d36c6bded7b3bd988",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_settings-appearance.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_settings-appearance.png",
       "sha256": "d46008f16c88f985f22af8eb85bdb3c8a997b80af98f7ef56cbfb6bbb90a2568",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_settings-bank-transfer.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_settings-bank-transfer.png",
       "sha256": "b98f68dccc1736396e2765cadf26169dfc1f8e5024dad06fed9dbbe19027f87c",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_settings-notifications.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_settings-notifications.png",
       "sha256": "4885d95cf78747f8006a7055ac5aee0f16957f72f95d7a46fd2fa76afb61f297",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_settings-permissions.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_settings-permissions.png",
       "sha256": "247c95d381a90346b06dfc165f1efa7bc06acc56b0a9dcbc0406894b3ce46a9c",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_settings-security.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_settings-security.png",
       "sha256": "ab4cafded6f09edb1c51b579f6c805e8358159e0f90cb75518b3dc9e5876bf8f",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_settings.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_settings.png",
       "sha256": "a98bce176685c5ca298dc07d4a479b1a40b5d59191def7677096f3e893d2a60b",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_share-expired-request.png",
-      "sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_share-expired-request.png",
+      "sha256": "08cfb5130784cf2e5722d3503c42952d1792c1027038bb5574b56f437773fee0",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_share-expired.png",
-      "sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_share-expired.png",
+      "sha256": "08cfb5130784cf2e5722d3503c42952d1792c1027038bb5574b56f437773fee0",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_share-invalid.png",
-      "sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_share-invalid.png",
+      "sha256": "08cfb5130784cf2e5722d3503c42952d1792c1027038bb5574b56f437773fee0",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_share.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_share.png",
       "sha256": "be29c799babfce680ac591a77cabd3df317cbbb264955d408ef614c65806d85a",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_shared-group-link.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_shared-group-link.png",
       "sha256": "aa0624e7c7d5190245977bb0e37688a2504794498b367b6514a9344c7b759b1e",
       "width": 1170,
       "height": 2532
     },
     {
-      "path": ".cache/revolut-gap-closure-20260906/ios-release-media/screenshots/mobile_route_sync.png",
+      "path": ".cache/web-release-20260906/native-media-retry2/screenshots/mobile_route_sync.png",
       "sha256": "b12d349da6f83cb3081c24e0fce53adc54aebf28eeba1bb3e1a7a40896beda01",
       "width": 1170,
       "height": 2532
     }
   ],
-  "installed_verification_record": ".cache/revolut-gap-closure-20260906/ios-release-media/installed-reviewed-bundle.json",
+  "installed_verification_record": ".cache/web-release-20260906/native-media-retry2/installed-reviewed-bundle.json",
   "website_review": {
-    "method": "All eight final captures are byte-identical to the native images visually reviewed for this website candidate; image bytes were not edited.",
-    "checked_at": "2026-09-06T11:57:57.089506+00:00",
+    "method": "All eight captures are byte-identical to the native images visually reviewed for this website candidate; image bytes were not edited.",
+    "checked_at": "2026-09-07T06:24:03Z",
     "screens": [
       {
         "id": "group-detail",
@@ -288,7 +288,7 @@
       },
       {
         "id": "groups",
-        "sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+        "sha256": "08cfb5130784cf2e5722d3503c42952d1792c1027038bb5574b56f437773fee0",
         "byte_identical_to_visually_reviewed_website_image": true
       },
       {
@@ -313,7 +313,7 @@
       },
       {
         "id": "home",
-        "sha256": "d2e45a8f70f8f32c87015de7c1fd937f2fc8086434fec6e12d1add5fe6fea23d",
+        "sha256": "c0a62ed4ced32859d16c2fec6d2bf8fed6681d3acd4c702d36c6bded7b3bd988",
         "byte_identical_to_visually_reviewed_website_image": true
       }
     ]
