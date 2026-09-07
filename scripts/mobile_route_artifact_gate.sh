@@ -14,36 +14,26 @@ case "${1:-}" in
     ;;
 esac
 
-summary_tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/collect-mobile-route-gate.XXXXXX")"
-summary_path="$summary_tmp_dir/universal-contract-audit.json"
-cleanup() {
-  rm -f "$summary_path"
-  rmdir "$summary_tmp_dir" 2>/dev/null || true
-}
-trap cleanup EXIT
-if ! bash ./scripts/universal_contract_audit.sh --json >"$summary_path"; then
-  exit 1
-fi
-
-OUTPUT_FORMAT="$output_format" SUMMARY_JSON_PATH="$summary_path" ruby -r json <<'INNER_RUBY'
-summary = JSON.parse(File.read(ENV.fetch("SUMMARY_JSON_PATH")))
-failed = Array(summary.fetch("checks", [])).select { |check| check.fetch("status") != "pass" }
+contract_json="$(ruby scripts/qa/mobile_design_gate.rb --check-contract --json)"
+OUTPUT_FORMAT="$output_format" CONTRACT_JSON="$contract_json" ruby -r json <<'RUBY'
+contract = JSON.parse(ENV.fetch("CONTRACT_JSON"))
+failures = Array(contract["failures"])
 result = {
-  "status" => failed.empty? ? "pass" : "fail",
-  "evidence_source" => "DESIGN.md",
-  "design_contract" => summary.fetch("design_contract", "DESIGN.md"),
-  "checks" => summary.fetch("checks", []),
-  "failures" => failed.flat_map { |check| Array(check["failures"]) }.uniq,
-  "secret_handling" => "Reads DESIGN.md and generated route evidence metadata only, and does not inspect secrets or production customer data."
+  "status" => failures.empty? ? "pass" : "fail",
+  "evidence_source" => "docs/release/mobile-design/mobile-parity-contract.json",
+  "design_authority" => "revolut-design",
+  "rule" => "MOBILE-DESIGN-100",
+  "failures" => failures,
+  "secret_handling" => "Reads the product contract and evidence metadata only; it does not inspect secrets or production customer data."
 }
 
 if ENV.fetch("OUTPUT_FORMAT") == "json"
   puts JSON.pretty_generate(result)
 else
   puts "[mobile-route-artifact-gate] status=#{result.fetch("status")}"
-  puts "[mobile-route-artifact-gate] design_contract=#{result.fetch("design_contract")}"
-  result.fetch("failures").each { |failure| warn "[mobile-route-artifact-gate][FAIL] #{failure}" }
+  puts "[mobile-route-artifact-gate] authority=#{result.fetch("design_authority")} rule=#{result.fetch("rule")}"
+  failures.each { |failure| warn "[mobile-route-artifact-gate][FAIL] #{failure}" }
 end
 
-exit(result.fetch("status") == "pass" ? 0 : 1)
-INNER_RUBY
+exit(failures.empty? ? 0 : 1)
+RUBY

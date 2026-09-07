@@ -185,7 +185,7 @@
       "release_approval": false
     },
     "revolut_surfaces_20260905": {
-      "report": "docs/release/mobile-design/REVOLUT_SURFACES_2026-09-05.md",
+      "report": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
       "comparison_register": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
       "evidence_root": ".cache/revolut-design-20260905",
       "flutter_full_suite_passes": 631,
@@ -276,7 +276,7 @@
       "native_visual_evidence": ".cache/dev-account-qa-20260905/native/visual-review.json"
     },
     "revolut_palette_accessibility_20260905": {
-      "report": "docs/release/mobile-design/REVOLUT_SURFACES_2026-09-05.md",
+      "report": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
       "comparison_register": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
       "evidence_root": ".cache/revolut-design-20260905",
       "flutter_full_suite_passes": 642,

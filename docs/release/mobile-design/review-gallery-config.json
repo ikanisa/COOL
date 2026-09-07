@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "product": "Collect",
+  "authority": {
+    "skill": "revolut-design",
+    "rule": "MOBILE-DESIGN-100"
+  },
+  "evidence": ".cache/revolut-design-20260905",
+  "output": ".cache/revolut-design-20260906/review",
+  "component_report": ".cache/revolut-design-20260906/owner-annotations/group-cards-review.json",
+  "supplement_report": ".cache/revolut-design-20260906/owner-annotations/review.json",
+  "native_evidence": ".cache/revolut-design-20260906",
+  "website_report": ".cache/revolut-design-20260906/website-authentic-media-reviewed/route_rendered_qa.json",
+  "inventory": ".cache/revolut-design-20260906/website-media-matrix/inventory.json",
+  "behavior_report": ".cache/revolut-design-20260906/current-system/behavior-results.json",
+  "keyboard_report": ".cache/revolut-design-20260906/owner-annotations/native-final/report.json",
+  "matrix_report": ".cache/revolut-design-20260906/website-media-matrix/matrix-review.json",
+  "retired_assets": "docs/release/mobile-design/retired-design-assets.json",
+  "source_fingerprint_command": [
+    "ruby",
+    "scripts/qa/mobile_design_gate.rb",
+    "--fingerprint",
+    "--json"
+  ],
+  "verified_media_command": [
+    "ruby",
+    "-I",
+    "scripts",
+    "-r",
+    "public_app_media",
+    "-e",
+    "puts JSON.generate(PublicAppMedia.new(ARGV[0]).screens.values.to_h { |entry| [entry.fetch('source'), entry.fetch('sha256')] })",
+    "."
+  ]
+}

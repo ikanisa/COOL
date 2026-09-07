@@ -8,5 +8,5 @@ class CollectRuntimeTypography {
   // Owner-selected September 2026 public web cohort only.
   static const String marketingFontFamily = 'Aeonik Pro';
 
-  static const requiredBlockerKeys = <String>['universal_contract'];
+  static const requiredBlockerKeys = <String>['mobile_design_contract'];
 }

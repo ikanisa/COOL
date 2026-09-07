@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Users/jeanbosco/Developer/flutter/bin/flutter
 DART ?= /Users/jeanbosco/Developer/flutter/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json universal-contract-gate universal-contract-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json revolut-parity-evidence-consistency revolut-parity-evidence-consistency-json revolut-parity-evidence-consistency-full revolut-parity-evidence-consistency-full-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json mobile-design-gate mobile-design-contract mobile-design-gate-test review-gallery android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -17,8 +17,9 @@ help:
 	@echo "  make admin-pwa-live-gate Validate deployed Admin PWA URL headers and PWA files"
 	@echo "  make admin-pwa-render-smoke Capture rendered desktop/mobile Admin PWA evidence"
 	@echo "  make mobile-route-render-smoke Capture representative mobile route screenshots"
-	@echo "  make mobile-route-artifact-gate Validate current mobile route evidence against DESIGN.md"
-	@echo "  make universal-contract-gate Validate DESIGN.md is the sole contract"
+	@echo "  make mobile-route-artifact-gate Validate the Collect mobile evidence adapter"
+	@echo "  make mobile-design-contract Validate the MOBILE-DESIGN-100 contract"
+	@echo "  make review-gallery Build the local gallery with the revolut-design skill"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
 	@echo "  make ios-physical-route-uat ARGS='...' Run exact-device, staging-only physical iPhone route UAT"
 	@echo "  make ios-physical-lifecycle-uat ARGS='...' Run exact-device physical iPhone lifecycle UAT"
@@ -42,8 +43,6 @@ help:
 	@echo "  make release-worktree-review Validate release branch/worktree review status"
 	@echo "  make collect-product-boundary-scan Validate Collect app product-boundary copy"
 	@echo "  make revolut-parity-source-hygiene Validate exclusive Inter, official assets, fixture isolation, product boundaries, and secret hygiene"
-	@echo "  make revolut-parity-evidence-consistency Validate task/evidence registers and fail-closed audit boundaries"
-	@echo "  make revolut-parity-evidence-consistency-full Also verify current coverage and release artifact hashes"
 	@echo "  make repo-wide-qa-uat  Run strict repo-wide QA/UAT production-readiness gate"
 	@echo "  make verify            Run format check, analyzer, and tests"
 	@echo "  make release-status    Summarize strict release status without printing secrets"
@@ -121,12 +120,6 @@ mobile-route-artifact-gate:
 
 mobile-route-artifact-gate-json:
 	@./scripts/mobile_route_artifact_gate.sh --json
-
-universal-contract-gate:
-	@./scripts/universal_contract_gate.sh
-
-universal-contract-gate-json:
-	@./scripts/universal_contract_gate.sh --json
 
 android-device-uat:
 	@./scripts/android_device_uat.sh
@@ -263,20 +256,11 @@ mobile-design-contract:
 mobile-design-gate-test:
 	@ruby scripts/tests/mobile_design_gate_test.rb
 
+review-gallery:
+	@python3 "$${CODEX_HOME:-$$HOME/.codex}/skills/revolut-design/scripts/build_review_gallery.py" --project-root "$(CURDIR)" --config docs/release/mobile-design/review-gallery-config.json
+
 revolut-parity-source-hygiene-json:
 	@./scripts/revolut_parity_source_hygiene_gate.sh --json
-
-revolut-parity-evidence-consistency:
-	@./scripts/revolut_parity_evidence_consistency_gate.sh --source-only
-
-revolut-parity-evidence-consistency-json:
-	@./scripts/revolut_parity_evidence_consistency_gate.sh --source-only --json
-
-revolut-parity-evidence-consistency-full:
-	@./scripts/revolut_parity_evidence_consistency_gate.sh --full
-
-revolut-parity-evidence-consistency-full-json:
-	@./scripts/revolut_parity_evidence_consistency_gate.sh --full --json
 
 repo-wide-qa-uat:
 	@./scripts/repo_wide_qa_uat.sh

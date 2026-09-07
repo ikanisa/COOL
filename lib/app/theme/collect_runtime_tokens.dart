@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'collect_colors.dart';
 import 'collect_radius.dart';
 
-/// Owner-selected Cards.png / RevPoints editorial card adapter, 5 Sep 2026.
+/// Owner-selected photographic editorial-card adapter, 5 Sep 2026.
 /// The captured card is approximately 358 x 438 pixels with 24-pixel corners.
 /// Text growth, group data and action targets remain Collect-specific.
 class CollectGroupCardTokens {

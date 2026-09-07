@@ -2,7 +2,7 @@
 
 Prepared 6 September 2026 for the owner's Browser Comment 1 on the Collect mobile review gallery.
 
-**Deliverable status: 44 active image concepts generated and saved, with 44 current prompts and provenance records. Runtime integration: implemented locally; database deployed and verified; application distribution and full native acceptance pending.** Open the [local review gallery](http://collect.localhost:4194/) or read [generation status](production/GENERATION-STATUS.md). This document plans the image bank and its use in group creation; it does not close MOBILE-DESIGN-100 or replace DESIGN.md.
+**Deliverable status: 44 active image concepts generated and saved, with 44 current prompts and provenance records. Runtime integration: implemented locally; database deployed and verified; application distribution and full native acceptance pending.** Open the [local review gallery](http://collect.localhost:4194/) or read [generation status](production/GENERATION-STATUS.md). This document plans the image bank and its use in group creation; it does not close the skill-owned MOBILE-DESIGN-100 rule.
 
 ## The intended experience
 
@@ -28,7 +28,7 @@ These observations record the implementation before integration on 6 September. 
 | collect_group_card_media.dart | Saved image data/URLs take priority; generated defaults are selected by type/seed. Wedding and Sport currently share a general “Shared goals” image. | Map only suitable neutral defaults after integration. Existing user media must keep priority. |
 | createCollection live request | The attested groupRequest includes name/type/purpose/receiver but not imageUrl. The returned collection is later copied with imageUrl locally. | Durable selected-cover persistence is a required implementation task; a local preview is insufficient. This is source evidence, not a reproduced production incident. |
 
-Source pointers: [product contract](../../PRODUCT.md), [design authority](../../../DESIGN.md), [creation flow](../../../lib/features/collections/collection_create_screen.dart), [current picker](../../../lib/shared/widgets/collect_group_photo_picker.dart), [type catalogue](../../../lib/shared/models/collect_models.dart), [repository](../../../lib/shared/repositories/collect_repository.dart), [group-media renderer](../../../lib/shared/widgets/collect_group_card_media.dart).
+Source pointers: [product contract](../../PRODUCT.md), `revolut-design` skill authority, [creation flow](../../../lib/features/collections/collection_create_screen.dart), [current picker](../../../lib/shared/widgets/collect_group_photo_picker.dart), [type catalogue](../../../lib/shared/models/collect_models.dart), [repository](../../../lib/shared/repositories/collect_repository.dart), [group-media renderer](../../../lib/shared/widgets/collect_group_card_media.dart).
 
 The catalogue supplies labels/subtypes dynamically; the current creation screen passes the chosen type's default subtype/purpose. Do not rank a photo as though a user explicitly selected a subtype they were never shown. Use type initially and the photo theme they choose in the library; a future visible subtype selector can supply a real subtype signal.
 
@@ -161,7 +161,7 @@ Ordinary library suggestions are different from automatic fallback art. Automati
 
 Keep steps 1–3 intact, including actual name/type/receiver inputs and permission messages. In step 4, retain the existing colour controls, then show the photo row with a current selection or a neutral optional state. The library sheet contains own-photo, Suggested, theme browsing, search, the thumbnail grid and preview. Choosing an image returns to step 4. Step 5 shows the chosen cover alongside the actual group details before Create group.
 
-Use a focused neutral sheet consistent with DESIGN.md; the Groups overview remains teal. Reuse the existing typography, spacing, sheet and control tokens. Two thumbnail columns may work at ordinary phone widths; collapse to one at narrow widths or enlarged text. Keep title labels wrapping and targets at least 48dp. No fixed-height grid cell may clip an accessible label.
+Use a focused neutral sheet consistent with the `revolut-design` skill; the Groups overview remains teal. Reuse the existing typography, spacing, sheet and control tokens. Two thumbnail columns may work at ordinary phone widths; collapse to one at narrow widths or enlarged text. Keep title labels wrapping and targets at least 48dp. No fixed-height grid cell may clip an accessible label.
 
 The source comparator is the owner-selected Cards.png card composition and existing focused-task/selection-sheet patterns from the Revolut skill. The filtered library itself is a **Collect-specific adaptation without a verified direct Revolut comparator**. Do not invent exact source geometry or call the new picker 100% matched from this document.
 

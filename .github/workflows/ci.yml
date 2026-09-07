@@ -305,8 +305,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Validate the universal governance contract
-        run: make universal-contract-gate
+      - name: Validate the MOBILE-DESIGN-100 product contract
+        run: make mobile-design-contract
 
       - name: Validate notification and deep-link routing
         run: bash scripts/notification_readiness_gate.sh

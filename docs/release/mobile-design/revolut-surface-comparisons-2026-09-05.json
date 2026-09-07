@@ -5200,7 +5200,7 @@
   "revpoints_group_card_review": {
     "report": "REVPOINTS_GROUP_CARDS_2026-09-05.md",
     "machine_report": "revpoints-group-cards-verification-2026-09-05.json",
-    "annotation": "revpoints-editorial-group-cards",
+    "annotation": "editorial-group-card-comparator",
     "owner_acceptance": "unverified",
     "production_release": "not_authorized",
     "status": "local_implementation_verified",

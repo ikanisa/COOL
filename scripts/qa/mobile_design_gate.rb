@@ -10,6 +10,8 @@ require 'time'
 class MobileDesignGate
   CONTRACT = 'docs/release/mobile-design/mobile-parity-contract.json'
   ACCEPTANCE = 'docs/release/mobile-design/mobile-parity-acceptance.json'
+  AUTHORITY = 'revolut-design'
+  AUTHORITY_RULE = 'references/mobile-design-100.md'
   CRITERIA = %w[reference_fidelity hierarchy_density typography colour_elevation spacing_shape icons_assets copy_annotations interaction_states responsive_keyboard accessibility_native].freeze
   ARTIFACTS = {
     'android' => {
@@ -18,10 +20,12 @@ class MobileDesignGate
     },
     'ios' => { 'ipa' => 'build/ios/ipa/Collect.ipa' }
   }.freeze
-  SOURCE_PATTERNS = %w[lib/app/**/*.dart lib/core/**/*.dart lib/features/**/*.dart lib/shared/**/*.dart lib/l10n/**/*.dart lib/main.dart lib/bootstrap.dart assets/**/* android/app/src/**/* android/app/build.gradle.kts ios/Runner/**/* pubspec.yaml pubspec.lock DESIGN.md AGENTS.md integration_test/mobile_route_matrix_device_uat_test.dart integration_test/mobile_material_state_matrix_device_uat_test.dart test/fixtures/collect_repository_fixture.dart test/fixtures/mobile_matrix_capture.dart scripts/qa/*.rb scripts/android_play_store_build.sh scripts/ios_app_store_build.sh].freeze
+  SOURCE_PATTERNS = %w[lib/app/**/*.dart lib/core/**/*.dart lib/features/**/*.dart lib/shared/**/*.dart lib/l10n/**/*.dart lib/main.dart lib/bootstrap.dart assets/**/* android/app/src/**/* android/app/build.gradle.kts ios/Runner/**/* pubspec.yaml pubspec.lock AGENTS.md integration_test/mobile_route_matrix_device_uat_test.dart integration_test/mobile_material_state_matrix_device_uat_test.dart test/fixtures/collect_repository_fixture.dart test/fixtures/mobile_matrix_capture.dart scripts/qa/*.rb scripts/android_play_store_build.sh scripts/ios_app_store_build.sh].freeze
 
-  def initialize(root)
+  def initialize(root, skill_root: nil)
     @root = File.realpath(root)
+    @skill_root = skill_root || ENV['REVOLUT_DESIGN_SKILL_ROOT'] ||
+      File.join(ENV.fetch('CODEX_HOME', File.expand_path('~/.codex')), 'skills', AUTHORITY)
   end
 
   def local_file(path)
@@ -61,6 +65,20 @@ class MobileDesignGate
     @contract ||= read_json(CONTRACT)
   end
 
+  def authority_file
+    path = File.expand_path(contract.fetch('authority_rule'), @skill_root)
+    return nil unless path.start_with?("#{File.expand_path(@skill_root)}/") && File.file?(path)
+
+    File.realpath(path)
+  rescue Errno::ENOENT
+    nil
+  end
+
+  def authority_digest
+    file = authority_file
+    file && Digest::SHA256.file(file).hexdigest
+  end
+
   def source_digest
     paths = SOURCE_PATTERNS.flat_map { |p| Dir.glob(File.join(@root, p)) }
       .select { |p| File.file?(p) }.map { |p| p.delete_prefix("#{@root}/") }
@@ -70,15 +88,16 @@ class MobileDesignGate
   end
 
   def fingerprints
-    refs = contract.fetch('reference_paths')
-    raise 'A required reference image is missing' unless refs.all? { |p| digest(p) }
     original_manifest = contract.fetch('original_reference_manifest')
     raise 'Original reference manifest is missing' unless digest(original_manifest)
-    reference_inputs = (refs + [original_manifest]).sort
+    registry = contract.fetch('reference_registry')
+    raise 'Reference registry is missing' unless digest(registry)
+    reference_inputs = [original_manifest, registry].sort
     {
       'source_sha256' => source_digest,
       'contract_sha256' => digest(CONTRACT),
       'references_sha256' => Digest::SHA256.hexdigest(reference_inputs.map { |p| "#{p}\0#{digest(p)}\n" }.join),
+      'authority_sha256' => contract.fetch('authority_sha256'),
       'version' => File.read(File.join(@root, 'pubspec.yaml'))[/^version:\s*(\S+)/, 1]
     }
   end
@@ -112,19 +131,37 @@ class MobileDesignGate
     (base + variants + contract.fetch('keyboard_cases').map { |id| "#{id}@keyboard" }).uniq.sort
   end
 
-  def validate_contract
+  def registered_reference_ids
+    registry = read_json(contract.fetch('reference_registry'))
+    raise 'Invalid reference registry' unless registry['schema_version'] == 1 && registry['source_cohorts'].is_a?(Hash)
+
+    cohort_ids = registry['source_cohorts'].flat_map do |key, entry|
+      [key, entry.is_a?(Hash) ? entry['reference_id'] : nil]
+    end.compact
+    (original_references.map { |entry| entry['id'] } + cohort_ids).uniq
+  end
+
+  def validate_contract(require_authority: false)
     failures = []
     failures << 'Wrong rule or schema' unless contract['schema_version'] == 1 && contract['rule'] == 'MOBILE-DESIGN-100'
-    failures << 'DESIGN.md must be the sole authority' unless contract['authority'] == 'DESIGN.md'
+    failures << 'revolut-design must be the sole design authority' unless
+      contract['authority'] == AUTHORITY && contract['authority_rule'] == AUTHORITY_RULE
+    failures << 'Invalid authority SHA-256' unless contract['authority_sha256'].to_s.match?(/\A[0-9a-f]{64}\z/)
+    if authority_file
+      failures << 'Installed revolut-design authority differs from the product contract' unless
+        authority_digest == contract['authority_sha256']
+    elsif require_authority
+      failures << 'Installed revolut-design authority is unavailable'
+    end
     failures << 'All ten fixed criteria are mandatory' unless contract['criteria'] == CRITERIA
-    %w[reference_paths additional_states variant_cases variants keyboard_cases annotations].each do |key|
+    %w[additional_states variant_cases variants keyboard_cases annotations].each do |key|
       values = contract[key]
       failures << "Invalid or duplicate #{key}" unless values.is_a?(Array) && !values.empty? && values.all? { |v| v.is_a?(String) && !v.strip.empty? } && values.uniq == values
     end
-    failures << 'Mobile rule is missing from design authority' unless File.read(File.join(@root, 'DESIGN.md')).include?('MOBILE-DESIGN-100')
     # CI can inspect the manifest without exposing private reference pixels.
     # Distribution additionally requires the actual originals below.
     original_references
+    registered_reference_ids
     required_cases
     fingerprints
     failures
@@ -143,7 +180,7 @@ class MobileDesignGate
   end
 
   def release_result(platform = 'android')
-    failures = validate_contract
+    failures = validate_contract(require_authority: true)
     return result(platform, failures) unless failures.empty?
     evidence = read_json(ACCEPTANCE)
     originals = original_references
@@ -189,10 +226,10 @@ class MobileDesignGate
       failures << "#{id}: missing or changed screenshot" unless image_valid?(row['screenshot'])
       failures << "#{id}: missing or changed comparison" unless image_valid?(row['comparison'])
       reference_ids = row['reference_ids']
-      failures << "#{id}: comparison is not linked to original references" unless
+      failures << "#{id}: comparison is not linked to registered references" unless
         reference_ids.is_a?(Array) && !reference_ids.empty? &&
         reference_ids.uniq == reference_ids &&
-        (reference_ids - originals.map { |entry| entry['id'] }).empty?
+        (reference_ids - registered_reference_ids).empty?
       review = row['review'] || {}
       timestamp = Time.iso8601(review['at'].to_s) rescue nil
       failures << "#{id}: missing actual review" unless !review['reviewer'].to_s.strip.empty? && timestamp && timestamp <= Time.now.utc && review['notes'].to_s.strip.length >= 20

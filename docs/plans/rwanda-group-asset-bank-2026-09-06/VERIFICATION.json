@@ -32,7 +32,6 @@
     "Mobile design gate or native acceptance"
   ],
   "reviewed_working_tree_sources": {
-    "DESIGN.md": "82b3f1fa2ec3769162c13cd38194c8dfcb8ba4131e2851a05233b353b4a793f3",
     "docs/PRODUCT.md": "7eb84ba49c022e87a47132b9ef0a52dcacbdddca33d5c388447bd9a9a661a759",
     "lib/features/collections/collection_create_screen.dart": "db0930d2bb6b9d1cf48a41f0a3f29f3e06bdec48c7aa175dad30e9481062cb7f",
     "lib/features/collections/group_profile_screen.dart": "b115cebd2c5526ab602b37c076a21be1f2a42a2483c6c7c545044b81aa299263",

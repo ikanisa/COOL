@@ -12,6 +12,7 @@ cd "$ROOT_DIR"
 OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r digest -r json -r net/http -r uri -r open3 -r time <<'RUBY'
 root = Dir.pwd
 output_format = ENV.fetch("OUTPUT_FORMAT")
+require File.join(root, 'scripts/android_manifest_permissions')
 
 def read(path)
   File.file?(path) ? File.read(path) : ""
@@ -173,11 +174,16 @@ restricted_sms = %w[
   android.permission.SEND_SMS
   android.permission.BROADCAST_SMS
 ]
-main_restricted = restricted_sms.select { |permission| manifest.include?(permission) }
-production_declares_receive = production_manifest.include?("android.permission.RECEIVE_SMS")
-production_declares_read = production_manifest.include?("android.permission.READ_SMS")
-receiver_declares_receive = receiver_manifest.include?("android.permission.RECEIVE_SMS")
-receiver_declares_read = receiver_manifest.include?("android.permission.READ_SMS")
+main_permissions = AndroidManifestPermissions.requested(manifest)
+production_permissions = AndroidManifestPermissions.requested(production_manifest)
+receiver_permissions = AndroidManifestPermissions.requested(receiver_manifest)
+main_restricted = main_permissions & restricted_sms
+production_declares_receive = production_permissions.include?("android.permission.RECEIVE_SMS")
+production_declares_read = production_permissions.include?("android.permission.READ_SMS")
+receiver_declares_receive = receiver_permissions.include?("android.permission.RECEIVE_SMS")
+receiver_declares_read = receiver_permissions.include?("android.permission.READ_SMS")
+sms_receiver_protected = AndroidManifestPermissions.sms_receiver_protected?(manifest) &&
+  AndroidManifestPermissions.sms_receiver_protected?(receiver_manifest)
 telephony_optional_pattern = /android:name=["']android\.hardware\.telephony["'][^>]*android:required=["']false["']/m
 production_telephony_optional = manifest.match?(telephony_optional_pattern)
 receiver_telephony_optional = receiver_manifest.match?(telephony_optional_pattern)
@@ -217,6 +223,18 @@ checks["release_artifacts_fresh"] =
     check("blocked", "Missing production APK/AAB artifacts.", "missing" => missing, "apk" => apk, "aab" => aab)
   else
     check("blocked", "Production APK/AAB artifacts are stale relative to current sources.", "stale" => stale, "source_latest_mtime" => source_latest&.utc&.iso8601, "apk" => apk, "aab" => aab)
+  end
+
+expected_aab_sha256 = console_audit_packet.dig("target_release", "aab_sha256").to_s
+expected_apk_sha256 = console_audit_packet.dig("target_release", "apk_sha256").to_s
+actual_aab_sha256 = aab["exists"] ? Digest::SHA256.file(aab["path"]).hexdigest : ""
+actual_apk_sha256 = apk["exists"] ? Digest::SHA256.file(apk["path"]).hexdigest : ""
+checks["release_artifact_hash_binding"] =
+  if !expected_aab_sha256.empty? && !expected_apk_sha256.empty? &&
+      expected_aab_sha256 == actual_aab_sha256 && expected_apk_sha256 == actual_apk_sha256
+    check("pass", "The Play packet is hash-bound to the current signed APK and AAB.", "aab_sha256" => actual_aab_sha256, "apk_sha256" => actual_apk_sha256)
+  else
+    check("fail", "The Play packet is not hash-bound to the current signed APK and AAB.", "expected_aab_sha256" => expected_aab_sha256, "actual_aab_sha256" => actual_aab_sha256, "expected_apk_sha256" => expected_apk_sha256, "actual_apk_sha256" => actual_apk_sha256)
   end
 
 production_supabase_url = "https://lhbowpbcpwoiparwnwgt.supabase.co"
@@ -260,10 +278,10 @@ checks["production_permissions"] =
   if main_restricted == expected_apk_restricted &&
       !production_declares_read &&
       receiver_declares_receive && !receiver_declares_read &&
-      apk_restricted == expected_apk_restricted
+      apk_restricted == expected_apk_restricted && sms_receiver_protected
     check("pass", "Android production contains only the reviewed RECEIVE_SMS restricted permission and no READ/SEND SMS or Call Log permission.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted)
   else
-    check("fail", "Restricted SMS permission scope is invalid.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted)
+    check("fail", "Restricted SMS permission scope or receiver protection is invalid.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted, "sms_receiver_protected" => sms_receiver_protected)
   end
 
 sms_declaration_status = console_audit_packet.dig("app_content", "permissions", "sms_permissions_declaration_status").to_s

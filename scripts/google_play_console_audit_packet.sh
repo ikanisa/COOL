@@ -92,6 +92,7 @@ checks["store_listing_lengths"] =
 
 artifact_paths = {
   "aab" => dig_value(packet, ["target_release", "aab_path"]),
+  "apk" => dig_value(packet, ["target_release", "apk_path"]),
   "brand_icon_source" => dig_value(packet, ["store_listing", "assets", "brand_icon_source"]),
   "play_store_icon" => dig_value(packet, ["store_listing", "assets", "play_store_icon"]),
   "launcher_icon" => dig_value(packet, ["store_listing", "assets", "launcher_icon"])
@@ -117,11 +118,21 @@ asset_hash_failures = expected_asset_hashes.each_with_object([]) do |(name, expe
   actual = path.empty? ? "" : Digest::SHA256.file(path).hexdigest
   failures << { "artifact" => name, "expected" => expected, "actual" => actual } if expected.empty? || actual != expected
 end
+expected_release_hashes = {
+  "aab" => dig_value(packet, ["target_release", "aab_sha256"]).to_s,
+  "apk" => dig_value(packet, ["target_release", "apk_sha256"]).to_s
+}
+release_hash_failures = expected_release_hashes.each_with_object([]) do |(name, expected), failures|
+  item = artifact_items.fetch(name)
+  path = item["exists"] ? File.join(root, item.fetch("path")) : ""
+  actual = path.empty? ? "" : Digest::SHA256.file(path).hexdigest
+  failures << { "artifact" => name, "expected" => expected, "actual" => actual } if expected.empty? || actual != expected
+end
 checks["required_artifacts"] =
-  if missing_artifacts.empty? && asset_hash_failures.empty?
-    check("pass", "Required Play release artifacts and official Collect icon hashes are present.", "artifacts" => artifact_items)
+  if missing_artifacts.empty? && asset_hash_failures.empty? && release_hash_failures.empty?
+    check("pass", "Required Play release artifacts are hash-bound and official Collect icon hashes are present.", "artifacts" => artifact_items)
   else
-    check("fail", "Required Play release artifacts are missing or an icon differs from the approved official source.", "missing_artifacts" => missing_artifacts, "asset_hash_failures" => asset_hash_failures, "artifacts" => artifact_items)
+    check("fail", "Required Play release artifacts are missing, differ from the packet hashes, or an icon differs from the approved source.", "missing_artifacts" => missing_artifacts, "release_hash_failures" => release_hash_failures, "asset_hash_failures" => asset_hash_failures, "artifacts" => artifact_items)
   end
 
 feature_graphic = assets.fetch("feature_graphic", {})

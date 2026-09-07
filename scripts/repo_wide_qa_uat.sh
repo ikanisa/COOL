@@ -352,49 +352,16 @@ File.write(
   ) + "\n"
 )
 RUBY
-  mkdir -p "$bundle_dir/collect_mobile_contract_compliance"
-  cat > "$bundle_dir/collect_mobile_contract_compliance/summary.json" <<'JSON'
+  cat > "$bundle_dir/mobile_design_contract.json" <<'JSON'
 {
-  "status": "pass",
-  "design_contract": "DESIGN.md",
-  "route_count": 48,
-  "checks": [
-    {
-      "id": "single_universal_contract",
-      "status": "pass"
-    },
-    {
-      "id": "no_secondary_contract_sources",
-      "status": "pass"
-    },
-    {
-      "id": "universal_component_state_contract",
-      "status": "pass"
-    },
-    {
-      "id": "responsive_adaptive_contract",
-      "status": "pass"
-    },
-    {
-      "id": "no_manual_group_url_entry",
-      "status": "pass"
-    },
-    {
-      "id": "group_settings_essential_items",
-      "status": "pass"
-    },
-    {
-      "id": "all_production_routes_rendered",
-      "status": "pass"
-    },
-    {
-      "id": "android_device_uat_evidence",
-      "status": "pass"
-    }
-  ]
+  "status": "contract_valid",
+  "release_status": "not_assessed",
+  "authority": "revolut-design",
+  "rule": "MOBILE-DESIGN-100",
+  "failures": []
 }
 JSON
-  record_fixture "universal_contract_audit" "collect_mobile_contract_compliance.txt" 0 "$(cat "$bundle_dir/collect_mobile_contract_compliance/summary.json")"
+  record_fixture "mobile_design_contract" "mobile_design_contract.json" 0 "$(cat "$bundle_dir/mobile_design_contract.json")"
   cat > "$bundle_dir/worktree_review.json" <<'JSON'
 {
   "status": "blocked",
@@ -586,13 +553,7 @@ else
     record_blocked "android_device_uat" "android_device_uat.txt" "Android device UAT skipped because QA_UAT_REQUIRE_ANDROID_DEVICE is not 1."
   fi
 
-  if command_ok_recorded "mobile_route_render_smoke" && command_ok_recorded "android_device_uat"; then
-    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" /bin/bash "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
-  elif command_blocked_recorded "mobile_route_render_smoke" || command_blocked_recorded "android_device_uat"; then
-    record_blocked "universal_contract_audit" "collect_mobile_contract_compliance.txt" "Collect mobile contract compliance audit skipped because route screenshots or Android device UAT are blocked."
-  else
-    run_capture "universal_contract_audit" "collect_mobile_contract_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_CONTRACT_AUDIT_DIR="$bundle_dir/collect_mobile_contract_compliance" /bin/bash "$ROOT_DIR/scripts/universal_contract_audit.sh" --json
-  fi
+  run_capture "mobile_design_contract" "mobile_design_contract.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --check-contract --json
 
   run_capture "release_status_json" "release_status.json" "$ROOT_DIR/scripts/release_status.sh" --json
   run_capture "supabase_go_live_gate_json" "go_live_gate.json" "$ROOT_DIR/scripts/supabase_go_live_gate.sh" --json
@@ -667,7 +628,7 @@ worktree_review = read_json(File.join(bundle_dir, "worktree_review.json"))
 artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.json"))
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
-design_compliance = read_json(File.join(bundle_dir, "collect_mobile_contract_compliance", "summary.json"))
+design_compliance = read_json(File.join(bundle_dir, "mobile_design_contract.json"))
 mobile_route_artifact = read_json(File.join(bundle_dir, "mobile_route_artifact_gate.json"))
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 android_kotlin_plugin_compat = read_json(File.join(bundle_dir, "android_kotlin_plugin_compat.json"))
@@ -733,9 +694,9 @@ mobile_route_render_surface =
   end
 
 mobile_contract_surface =
-  if command_ok?(commands, "universal_contract_audit") && design_compliance["status"] == "pass"
+  if command_ok?(commands, "mobile_design_contract") && design_compliance["status"] == "contract_valid"
     "pass"
-  elsif command_blocked?(commands, "universal_contract_audit")
+  elsif command_blocked?(commands, "mobile_design_contract")
     "blocked"
   else
     "fail"
@@ -960,8 +921,8 @@ File.write(
     - `admin_pwa_hosting_gate.json`: static hosting headers, cache, CSP, and robots gate
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
-    - `mobile_route_artifact_gate.json`: DESIGN.md-backed mobile route evidence delegation gate
-    - `collect_mobile_contract_compliance/`: universal DESIGN.md authority, component-state, responsive, and optional evidence gate
+    - `mobile_route_artifact_gate.json`: Collect mobile evidence-adapter validation
+    - `mobile_design_contract.json`: revolut-design and MOBILE-DESIGN-100 contract validation
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `android_release_signing_preflight.json`: redacted Android Play signing certificate preflight

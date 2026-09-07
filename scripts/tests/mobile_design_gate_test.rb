@@ -10,9 +10,13 @@ class MobileDesignGateTest < Minitest::Test
 
   def setup
     @root = Dir.mktmpdir('collect-design-gate-test-')
-    @gate = MobileDesignGate.new(@root)
+    @skill_root = File.join(@root, 'revolut-design')
+    @gate = MobileDesignGate.new(@root, skill_root: @skill_root)
     contract = JSON.parse(File.read(File.join(ROOT, MobileDesignGate::CONTRACT)))
-    contract['reference_paths'] = ['references/home.png']
+    authority_path = File.join('revolut-design', MobileDesignGate::AUTHORITY_RULE)
+    write(authority_path, '# MOBILE-DESIGN-100')
+    contract['authority_sha256'] = Digest::SHA256.file(File.join(@root, authority_path)).hexdigest
+    contract['reference_registry'] = 'references/registry.json'
     contract['additional_states'] = ['home-joined']
     contract['variant_cases'] = ['home']
     contract['variants'] = ['light']
@@ -20,7 +24,6 @@ class MobileDesignGateTest < Minitest::Test
     contract['annotations'] = ['home-cards-member-parity']
     write(MobileDesignGate::CONTRACT, JSON.generate(contract))
     write('lib/main.dart', 'void main() {}')
-    write('DESIGN.md', 'MOBILE-DESIGN-100')
     write('pubspec.yaml', "version: 1.2.4+23\n")
     write(contract['route_inventory'], "_RouteSpec('home', '/home', 'primary')")
     write('test/annotation_test.dart', 'test annotation')
@@ -35,6 +38,10 @@ class MobileDesignGateTest < Minitest::Test
         'source_url' => 'https://drive.google.com/file/d/synthetic-test-fixture/view' }]
     }
     write(contract['original_reference_manifest'], JSON.generate(@original_manifest))
+    write(contract['reference_registry'], JSON.generate(
+      'schema_version' => 1,
+      'source_cohorts' => { 'synthetic-home' => { 'reference_id' => 'synthetic-home' } }
+    ))
     write('output/screenshot.png', png)
     write('output/comparison.png', png)
     MobileDesignGate::ARTIFACTS['android'].each_value { |path| write(path, 'test artifact') }
@@ -104,6 +111,18 @@ class MobileDesignGateTest < Minitest::Test
     assert_equal 'blocked', @gate.release_result['status']
   end
 
+  def test_missing_installed_authority_fails_closed
+    FileUtils.rm(File.join(@skill_root, MobileDesignGate::AUTHORITY_RULE))
+    assert_blocked
+    assert_includes result['failures'], 'Installed revolut-design authority is unavailable'
+  end
+
+  def test_changed_installed_authority_fails_closed
+    File.write(File.join(@skill_root, MobileDesignGate::AUTHORITY_RULE), 'changed authority')
+    assert_blocked
+    assert_includes result['failures'], 'Installed revolut-design authority differs from the product contract'
+  end
+
   def test_admin_approval_cannot_replace_mobile
     @evidence['scope'] = 'admin'
     assert_blocked
@@ -157,8 +176,11 @@ class MobileDesignGateTest < Minitest::Test
     assert_blocked
   end
 
-  def test_reference_change_invalidates_approval
-    write('references/home.png', 'changed reference')
+  def test_reference_registry_change_invalidates_approval
+    write(@gate.contract['reference_registry'], JSON.generate(
+      'schema_version' => 1,
+      'source_cohorts' => { 'synthetic-home' => { 'reference_id' => 'changed-reference' } }
+    ))
     assert_blocked
   end
 

@@ -11,7 +11,7 @@ Status: **NO-GO for mobile distribution. Local corrections and diagnostic
 verification complete; native release acceptance incomplete.**
 
 This continues the supplied September 3 audit and the owner's additional request
-to check Admin/Supabase synchronization and hardcoded data. `DESIGN.md` remains
+to check Admin/Supabase synchronization and hardcoded data. The `revolut-design` skill remains
 the design authority. No production data, physical-phone installation, or
 release approval is changed by this work.
 

@@ -1,15 +1,17 @@
 # COOL Documentation Index
 
 This folder keeps current product, architecture, operations, release, and
-evidence documentation for Collect. It does not contain design authority;
-root `DESIGN.md` is the only design source for every app surface.
+evidence documentation for Collect. It does not contain design authority. The
+installed `revolut-design` skill is the sole design authority; repository mobile
+files only adapt its `MOBILE-DESIGN-100` rule to Collect evidence and artifacts.
 
 ## Current Sources Of Truth
 
 | Topic | Current file |
 | --- | --- |
 | Product scope and workflow | `docs/PRODUCT.md` |
-| Design contract | `DESIGN.md` only |
+| Design authority | `revolut-design` skill |
+| Mobile design evidence adapter | `docs/release/mobile-design/mobile-parity-contract.json` |
 | Architecture | `docs/ARCHITECTURE.md` |
 | Database | `docs/DATABASE.md` |
 | SDK and environment | `docs/ENVIRONMENT.md` |

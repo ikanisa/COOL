@@ -61,7 +61,7 @@ out, uninstalled, cleared, or used for fixture/destructive tests in this audit.
 
 ## Permanent blocker implemented
 
-`AGENTS.md` makes `DESIGN.md` / **MOBILE-DESIGN-100** mandatory for future work.
+`AGENTS.md` makes the skill-owned **MOBILE-DESIGN-100** rule mandatory for future work.
 The JSON contract is a test/evidence inventory, not a competing design authority.
 The gate requires all ten fixed criteria at 10/10 for every required case. It
 does not calculate a cosmetic score from passing tests.
@@ -89,7 +89,7 @@ upload outside these scripts is technically impossible.
 
 ### Original reference recovery
 
-The ten tracked `references/revolut10/*-drive-preview.png` files are screenshots
+The ten historical browser previews were removed because they were browser previews
 of full browser previews. They are not the original 1170 × 2532 phone captures
 and cannot establish pixel fidelity. The ten originals were recovered from
 the owner's authenticated Google Drive; their source URLs, dimensions and

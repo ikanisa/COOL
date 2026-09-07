@@ -1,6 +1,7 @@
 import 'fixtures/collect_repository_fixture.dart';
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:collect_app/app/app.dart';
@@ -686,28 +687,35 @@ void main() {
     },
   );
 
-  test(
-    'DESIGN.md requires route screenshot coverage without legacy baseline files',
-    () {
-      final design = File('DESIGN.md').readAsStringSync();
-      final smokeScript = File(
-        'scripts/mobile_route_render_smoke.sh',
-      ).readAsStringSync();
-      final smokeRouteBlock = _routeSpecsBlock(smokeScript);
-      final smokeRoutes = RegExp(
-        r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
-        multiLine: true,
-      ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
+  test('MOBILE-DESIGN-100 contract binds the route screenshot inventory', () {
+    final contract =
+        jsonDecode(
+              File(
+                'docs/release/mobile-design/mobile-parity-contract.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, dynamic>;
+    final smokeScript = File(
+      'scripts/mobile_route_render_smoke.sh',
+    ).readAsStringSync();
+    final smokeRouteBlock = _routeSpecsBlock(smokeScript);
+    final smokeRoutes = RegExp(
+      r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
+      multiLine: true,
+    ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
 
-      expect(design, contains('route screenshot coverage'));
-      expect(design, contains('golden or snapshot tests'));
-      expect(smokeRoutes, hasLength(greaterThanOrEqualTo(10)));
-      expect(
-        Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
-        isFalse,
-      );
-    },
-  );
+    expect(contract['authority'], 'revolut-design');
+    expect(contract['rule'], 'MOBILE-DESIGN-100');
+    expect(
+      contract['route_inventory'],
+      'integration_test/mobile_route_matrix_device_uat_test.dart',
+    );
+    expect(smokeRoutes, hasLength(greaterThanOrEqualTo(10)));
+    expect(
+      Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
+      isFalse,
+    );
+  });
 
   test(
     'physical-device route matrix covers mobile screenshot smoke routes',
@@ -751,37 +759,35 @@ void main() {
     expect(script, contains('"variant" => {'));
   });
 
-  test('repo-wide QA includes the mobile contract compliance gate', () {
+  test('repo-wide QA includes the MOBILE-DESIGN-100 contract gate', () {
     final qaRunner = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
-    final designAudit = File(
-      'scripts/universal_contract_audit.sh',
+    final designGate = File(
+      'scripts/qa/mobile_design_gate.rb',
     ).readAsStringSync();
 
-    expect(qaRunner, contains('universal_contract_audit'));
-    expect(qaRunner, contains('mobile_contract_compliance'));
-    expect(designAudit, contains('single_universal_contract'));
-    expect(designAudit, contains('no_secondary_contract_sources'));
-    expect(designAudit, contains('tracked_design_source_paths'));
-    expect(designAudit, contains('universal_component_state_contract'));
-    expect(designAudit, contains('responsive_adaptive_contract'));
-    expect(designAudit, contains('route_screenshot_evidence_optional'));
-    expect(designAudit, contains('android_device_uat_evidence_optional'));
+    expect(qaRunner, contains('mobile_design_contract'));
+    expect(qaRunner, contains('mobile-parity-contract.json'));
+    expect(designGate, contains("AUTHORITY = 'revolut-design'"));
+    expect(
+      designGate,
+      contains("AUTHORITY_RULE = 'references/mobile-design-100.md'"),
+    );
+    expect(designGate, contains('Installed revolut-design authority'));
   });
 
-  test('single DESIGN.md enforces universal app design standard', () {
-    final design = File('DESIGN.md').readAsStringSync();
+  test('product contract delegates design authority to revolut-design', () {
+    final contract =
+        jsonDecode(
+              File(
+                'docs/release/mobile-design/mobile-parity-contract.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, dynamic>;
 
-    expect(design, contains('Universal App Design Standard 2026'));
-    expect(design, contains('Universal Token Model'));
-    expect(design, contains('Universal Component Library'));
-    expect(design, contains('Native Flutter TV Standard'));
-    expect(design, contains('not_applicable_for_cool'));
-    expect(design, contains('COOL has no TV product surface in this release'));
-    expect(design, contains('Admin Panel Standard'));
-    expect(design, contains('Visual QA Standard'));
-    expect(design, contains('Flutter Implementation Standard'));
-    expect(design, contains('route screenshot coverage'));
-    expect(design, contains('golden or snapshot tests'));
+    expect(contract['authority'], 'revolut-design');
+    expect(contract['authority_rule'], 'references/mobile-design-100.md');
+    expect(contract['authority_sha256'], matches(RegExp(r'^[0-9a-f]{64}$')));
+    expect(contract['criteria'], hasLength(10));
     expect(
       Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
       isFalse,
@@ -824,18 +830,21 @@ void main() {
     expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
   });
 
-  test('contract compliance audit reads only the universal contract', () {
-    final designAudit = File(
-      'scripts/universal_contract_audit.sh',
+  test('mobile gate reads only the delegated design authority', () {
+    final designGate = File(
+      'scripts/qa/mobile_design_gate.rb',
     ).readAsStringSync();
     final runtimeAssets = File(
       'lib/app/theme/collect_runtime_assets.dart',
     ).readAsStringSync();
 
-    expect(designAudit, contains('DESIGN.md'));
-    expect(designAudit, contains('Universal App Design Standard 2026'));
-    expect(designAudit, contains('no_secondary_contract_sources'));
-    expect(designAudit, contains('tracked_design_source_paths'));
+    expect(designGate, contains("AUTHORITY = 'revolut-design'"));
+    expect(
+      designGate,
+      contains(
+        "CONTRACT = 'docs/release/mobile-design/mobile-parity-contract.json'",
+      ),
+    );
     expect(runtimeAssets, contains('usesRepoVisualAssets = true'));
     expect(runtimeAssets, contains('officialLogoSha256'));
     expect(runtimeAssets, isNot(contains('assets/runtime')));

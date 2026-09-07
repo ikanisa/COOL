@@ -3,7 +3,7 @@
   "source": "Owner-directed original built-in image generation (2026-09-05); Aeonik typefaces retained from the Revolut public homepage",
   "typeface_source": "https://www.revolut.com/",
   "image_source": "Owner-directed original built-in image generation, 2026-09-05",
-  "authority": "DESIGN.md owner-selected Revolut authority for product design; owner-directed Rwanda imagery for runtime assets",
+  "authority": "revolut-design skill for product design; owner-directed Rwanda imagery for runtime assets",
   "files": [
     {
       "path": "assets/typefaces/AeonikPro-Medium.ttf",

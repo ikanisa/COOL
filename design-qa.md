@@ -4,7 +4,8 @@ Latest build: [developer account verification, 5 September](docs/release/mobile-
 
 Latest cleanup: [fixture data removal](docs/release/mobile-design/FIXTURE_DATA_REMOVAL_2026-09-04.md). Earlier native candidate is stale; distribution remains blocked.
 
-Design authority: `DESIGN.md` only.
+Design authority: installed `revolut-design` skill only. This file is a local
+evidence index and cannot change `MOBILE-DESIGN-100`.
 
 ## Mobile: BLOCKED
 

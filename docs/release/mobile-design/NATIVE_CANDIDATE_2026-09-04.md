@@ -34,7 +34,7 @@ uncommitted work preserved. Evidence root: `.cache/mobile-acceptance-20260904/`.
 
 The relevant implementation is in `collect_display_primitives.dart`,
 `auth_screen.dart`, `auth_input_panel.dart`, and `auth_country_picker_sheet.dart`.
-`DESIGN.md` records the heading and error-reveal rules. Tests cover LTR/RTL heading behavior, complete error
+The `revolut-design` skill records the heading and error-reveal rules. Tests cover LTR/RTL heading behavior, complete error
 guidance, dark/light modes and native recovery traversal.
 
 ## Verification
@@ -110,7 +110,7 @@ The contract retains **134 required cases per platform** and all 22 annotations.
 production-artifact acceptance. Fixture images cannot close those entries.
 The actual signed-in sessions, full native accessibility/keyboard/permission
 and recovery coverage, original-reference comparisons and final case reviews
-remain necessary under `AGENTS.md` / `DESIGN.md` MOBILE-DESIGN-100.
+remain necessary under `AGENTS.md` and the skill-owned MOBILE-DESIGN-100 rule.
 
 An authorized test account was requested for signed-in candidate checks.
 The physical Pixel and its signed-in data remain untouched. No live payment,

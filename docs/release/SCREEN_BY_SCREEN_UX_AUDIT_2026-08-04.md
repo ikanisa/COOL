@@ -3,7 +3,7 @@
 ## Scope and rule
 
 Reviewed the current member app, public website, and Admin route inventory against
-`DESIGN.md`. The review covers journey clarity, screen density, loading and
+the `revolut-design` skill. The review covers journey clarity, screen density, loading and
 feedback states, motion, responsiveness, accessibility, and source-level
 performance risks. No new product capability, marketing claim, policy, route,
 or data was introduced. The only behavior completed was the already-visible

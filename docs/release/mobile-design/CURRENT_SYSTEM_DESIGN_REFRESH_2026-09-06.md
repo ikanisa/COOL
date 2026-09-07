@@ -23,4 +23,4 @@ These new matrix images are Flutter widget renders using Android/iOS platform la
 
 `MOBILE-DESIGN-100` remains blocked. No score, required case, acceptance annotation or production permission was removed or lowered. This work does not deploy the pending MoMo-code migration or approve a production release.
 
-[Current gallery](http://collect.localhost:4191/) · [Verification record](current-system-refresh-verification-2026-09-06.json) · [Current gallery inputs](current-review-inputs.json) · [Retirement manifest](retired-design-assets.json)
+[Current gallery](http://collect.localhost:4191/) · [Verification record](current-system-refresh-verification-2026-09-06.json) · [Current gallery inputs](review-gallery-config.json) · [Retirement manifest](retired-design-assets.json)

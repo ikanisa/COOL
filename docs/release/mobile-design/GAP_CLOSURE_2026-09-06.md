@@ -1,7 +1,7 @@
 # Remaining Revolut design gaps — implementation and acceptance
 
 The owner's goal remains active. This work improves Collect's mobile, Admin and
-public surfaces against the cohorts in `DESIGN.md`. It does not certify 100%
+public surfaces against the governed Collect cohort registry under the `revolut-design` skill. It does not certify 100%
 fidelity or authorize mobile production distribution.
 
 | Requirement | Current result | Remaining evidence |

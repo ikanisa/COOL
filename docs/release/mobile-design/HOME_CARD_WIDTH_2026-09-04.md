@@ -10,7 +10,7 @@ Implemented in both **My groups** and **Featured groups**:
 - No narrow 274 dp horizontal carousel. Existing group data, membership-aware
   actions and navigation remain intact.
 
-`DESIGN.md` records the owner instruction. The Home regression now compares
+The `revolut-design` skill and Collect contract record the owner instruction. The Home regression now compares
 rendered card bounds against the actual Groups screen at 320, 393, 430 and
 800 dp with 100% and 200% text. It traverses each section so lazy rendering
 does not confuse offscreen widgets with missing data.

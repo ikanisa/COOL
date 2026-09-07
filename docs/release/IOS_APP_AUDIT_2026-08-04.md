@@ -109,8 +109,8 @@ were imported.
 ## Evidence completed
 
 - `flutter analyze --no-pub`: pass after iOS changes.
-- The canonical Flutter suite and exact count are recorded in
-  `docs/revolut-parity-goal/VALIDATION_MANIFEST.md`; the suite is rerun after
+- The canonical Flutter suite and exact count were recorded in the retired
+  parity goalbook; the suite is rerun after
   the E-080 gate additions.
 - `scripts/ios_app_store_readiness_gate.sh`: pass; 10 screenshots, 15 icons,
   four plists, eight metadata fields, eight privacy-manifest data types, and App

@@ -1340,7 +1340,6 @@ void main() {
     final semanticIcons = File(
       'lib/app/theme/collect_semantic_icons.dart',
     ).readAsStringSync();
-    final design = File('DESIGN.md').readAsStringSync();
     final groupCards = File(
       'lib/shared/widgets/collect_group_cards.dart',
     ).readAsStringSync();
@@ -1402,11 +1401,8 @@ void main() {
       expect(semanticIcons, contains("'$keyword':"));
     }
 
-    expect(design, contains('Semantic'));
-    expect(design, contains('Universal Component Library'));
-
-    // The owner's subsequent RevPoints annotation replaces the old one-line,
-    // icon-only card header; the full name and category now remain visible.
+    // The owner's photographic card comparator replaces the old one-line,
+    // icon-only header; the full name and category remain visible.
     final editorialCards = File(
       'lib/shared/widgets/collect_group_card_editorial.dart',
     ).readAsStringSync();

@@ -36,6 +36,6 @@ The old website screenshot sources (384 PNGs) were moved out of the checkout int
 
 ## Evidence and boundary
 
-See `website-authentic-app-media-verification-2026-09-06.json`, the app-media manifest, and `current-review-inputs.json` for retained evidence paths and hashes. The failed launch and earlier source-change runs remain recorded separately.
+See `website-authentic-app-media-verification-2026-09-06.json`, the app-media manifest, and `review-gallery-config.json` for retained evidence paths and hashes. The failed launch and earlier source-change runs remain recorded separately.
 
 This is a local implementation and review update. No production deployment, app distribution or financial action was performed. The disposable Collect simulator was shut down. Complete mobile design acceptance remains blocked by the exact release candidate, complete acceptance matrix, native accessibility and final visual review requirements.

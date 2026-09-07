@@ -43,7 +43,7 @@
 - Verify: `Run the record_command for product_signoff, then ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make release-status-json`
 - Evidence to review:
   - `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
-  - `DESIGN.md`
+  - `docs/release/mobile-design/mobile-parity-contract.json`
   - `scripts/collect_product_boundary_scan.sh`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/collect_product_boundary_scan.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`

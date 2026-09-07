@@ -223,7 +223,7 @@ runtime_files = tracked_and_untracked_files(root_dir, runtime_roots)
 runtime_text_files = runtime_files.select { |path| text_file?(path) }
 forbidden_runtime_patterns = {
   "legacy_font_family" => /roboto|jetbrains\s*mono/i,
-  # DESIGN.md permits native semantic Material/Cupertino icons. The Cupertino
+  # The revolut-design skill permits native semantic Material/Cupertino icons. The Cupertino
   # asset is required for reachable Apple controls; it is not a text typeface.
   "unapproved_svg_package" => /flutter_svg/i,
   "inline_or_widget_svg" => /<svg|data:image\/svg|SvgPicture/,

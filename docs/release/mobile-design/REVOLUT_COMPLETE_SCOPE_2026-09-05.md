@@ -8,7 +8,7 @@ earlier complete-scope pass; they do not certify the later card implementation.
 **Local implementation and review candidate. Visual acceptance is unverified;
 MOBILE-DESIGN-100 remains blocked. This is not an approved production release.**
 
-This continues `REVOLUT_SURFACES_2026-09-05.md` after the owner's instruction to
+This continues `revolut-surface-comparisons-2026-09-05.json` after the owner's instruction to
 cover all screens, assets, UI elements and flows across mobile, Admin and the
 website. The earlier report and failed/intermediate evidence remain historical.
 The machine-readable record is

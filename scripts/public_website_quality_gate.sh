@@ -90,7 +90,7 @@ manifest_path = File.join(build_dir, "manifest.json")
 manifest_text = read(manifest_path)
 collect_icon_path = File.join(build_dir, "icons", "collect.png")
 stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
-design_contract_path = File.join(Dir.pwd, "DESIGN.md")
+design_contract_path = File.join(Dir.pwd, "docs", "release", "mobile-design", "mobile-parity-contract.json")
 
 check(
   checks,
@@ -769,15 +769,12 @@ check(checks, "fee_disclaimer_absent", pass_if(fee_disclaimer_absent), fee_discl
 check(checks, "authentic_app_media", pass_if(authentic_app_media_ok), authentic_app_media_ok ? "App media matches reviewed captures and current runtime source; invented phone UI is absent." : "App screenshot provenance failed: #{app_media_error}")
 
 css_vars = css_hex_vars(stylesheet)
-design_contract_source = read(design_contract_path)
-design_contract_failures = [
-  "Universal App Design Standard 2026",
-  "Universal Token Model",
-  "Admin Panel Standard",
-  "Native Flutter TV Standard",
-  "Flutter Implementation Standard",
-  "native TV packaging"
-].reject { |term| design_contract_source.include?(term) }
+design_contract_source = JSON.parse(read(design_contract_path))
+design_contract_failures = []
+design_contract_failures << "authority must be revolut-design" unless design_contract_source["authority"] == "revolut-design"
+design_contract_failures << "rule must be MOBILE-DESIGN-100" unless design_contract_source["rule"] == "MOBILE-DESIGN-100"
+design_contract_failures << "authority rule is missing" unless design_contract_source["authority_rule"] == "references/mobile-design-100.md"
+design_contract_failures << "authority SHA-256 is invalid" unless design_contract_source["authority_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
 old_public_color_tokens = %w[
   #5f5ce6 #168447 #a7465c #5f67e8 #35d071 #0a8f5b
   #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
@@ -795,7 +792,7 @@ check(
   checks,
   "single_source_color_contract",
   pass_if(single_source_color_contract_ok),
-  single_source_color_contract_ok ? "Public site CSS exposes runtime color variables while DESIGN.md remains the only design authority and generated token JSON is absent." : "Public CSS variables, DESIGN.md terms, or old one-off public colors are not clean.",
+  single_source_color_contract_ok ? "Public site CSS exposes runtime color variables while the product contract delegates to the revolut-design authority and generated token JSON is absent." : "Public CSS variables, delegated authority fields, or old one-off public colors are not clean.",
   "contract_path" => design_contract_path,
   "css_var_failures" => css_var_failures,
   "hex_css_var_count" => hex_css_var_count,

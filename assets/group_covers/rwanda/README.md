@@ -14,4 +14,4 @@ See [generation status and review work](../../../docs/plans/rwanda-group-asset-b
 
 Run python3 scripts/assets/rwanda_group_asset_bank.py validate or export from the repository root. The helper uses no paid API and makes no network calls. Built-in image generation runs once per exported job; save-source stores a returned PNG without overwriting an existing file.
 
-The existing marketing assets remain separate. DESIGN.md remains the sole design authority. This catalogue creates no group types, financial capabilities, user approvals or production acceptance.
+The existing marketing assets remain separate. The installed `revolut-design` skill is the sole design authority. This catalogue creates no group types, financial capabilities, user approvals or production acceptance.
