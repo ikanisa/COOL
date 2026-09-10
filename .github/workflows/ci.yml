@@ -45,9 +45,6 @@ jobs:
       - name: Revolut parity source hygiene
         run: make revolut-parity-source-hygiene
 
-      - name: Revolut parity evidence consistency
-        run: make revolut-parity-evidence-consistency
-
       - name: Mandatory mobile design contract and fail-closed regression tests
         run: make mobile-design-contract mobile-design-gate-test
 

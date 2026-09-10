@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _captureKey = ValueKey('responsive-matrix-capture');
+
+class _FixtureSmsAccess extends SmsAccessChannel {
+  const _FixtureSmsAccess();
+
+  @override
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
+}
 
 // These are layout simulations with the complete router and shell. They do not
 // stand in for the release contract's native keyboard or screen-reader evidence.
@@ -231,7 +239,16 @@ void main() {
           await tester.pumpAndSettle();
           await _capture(tester, '${route.name}-${variant.name}-input');
           final action = find.text(route.action!);
-          await tester.ensureVisible(action);
+          // At large text with a landscape keyboard, the profile action is
+          // beyond the sliver cache. Scroll the form to build it before asking
+          // ensureVisible to resolve its element.
+          await tester.scrollUntilVisible(
+            action,
+            80,
+            scrollable: find
+                .ancestor(of: field, matching: find.byType(Scrollable))
+                .first,
+          );
           await tester.pumpAndSettle();
           expect(action.hitTestable(), findsOneWidget);
           final rect = tester.getRect(action);
@@ -243,6 +260,21 @@ void main() {
           );
           expect(tester.takeException(), isNull);
           await _capture(tester, '${route.name}-${variant.name}-action');
+          if (route.name == 'profile-edit' ||
+              route.name == 'diaspora-profile') {
+            final container = ProviderScope.containerOf(tester.element(action));
+            await tester.tap(action);
+            await tester.pumpAndSettle();
+            final profile = container
+                .read(collectRepositoryProvider)
+                .currentProfile!;
+            expect(
+              route.diaspora ? profile.revolutAccount : profile.momoNumber,
+              route.diaspora ? '000123456780' : '0788123457',
+            );
+            expect(find.text('Profile saved.'), findsOneWidget);
+            expect(tester.takeException(), isNull);
+          }
           await tester.pumpWidget(const SizedBox.shrink());
           await tester.pump();
         });
@@ -266,6 +298,7 @@ Future<void> _open(WidgetTester tester, _Route route, _Variant variant) async {
   addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
   final repository = FixtureCollectRepository(
     seeded: route.name != 'auth',
+    smsAccessChannel: const _FixtureSmsAccess(),
     profileOverride: route.diaspora
         ? const CollectProfile(
             id: 'local-user',

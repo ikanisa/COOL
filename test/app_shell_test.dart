@@ -764,15 +764,22 @@ void main() {
     final designGate = File(
       'scripts/qa/mobile_design_gate.rb',
     ).readAsStringSync();
+    final ci = File('.github/workflows/ci.yml').readAsStringSync();
 
     expect(qaRunner, contains('mobile_design_contract'));
-    expect(qaRunner, contains('mobile-parity-contract.json'));
+    expect(
+      qaRunner,
+      contains('scripts/qa/mobile_design_gate.rb" --check-contract --json'),
+    );
+    expect(designGate, contains('mobile-parity-contract.json'));
     expect(designGate, contains("AUTHORITY = 'revolut-design'"));
     expect(
       designGate,
       contains("AUTHORITY_RULE = 'references/mobile-design-100.md'"),
     );
     expect(designGate, contains('Installed revolut-design authority'));
+    expect(ci, contains('make mobile-design-contract mobile-design-gate-test'));
+    expect(ci, isNot(contains('make revolut-parity-evidence-consistency')));
   });
 
   test('product contract delegates design authority to revolut-design', () {

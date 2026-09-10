@@ -16,6 +16,16 @@ images contain decoded photos, rather than an incidental loading frame.
 The cards retain Collect's page colours, real data and contribution actions.
 This records agent visual review, not owner acceptance or mobile release approval.
 
+## 10 September 2026: current Rwanda group-cover defaults
+
+The implementing agent opened the previous and candidate Home and Groups
+images side by side. Only the group-card photographs changed: the current
+Rwanda cover bank replaces the repeated older photograph with category-specific
+community scenes. Card geometry, blue Home and teal Groups backgrounds, labels,
+balances, actions and navigation are unchanged. Only these two baselines were
+regenerated, with the existing comparison tolerance retained. This is agent
+review of widget regression expectations, not owner or native release approval.
+
 ## Covered surfaces
 
 - Member: authentication, Home, Groups, global Contribute, Activity, Profile,
