@@ -105,6 +105,7 @@ class _ConnectionRecoveryScreen extends StatelessWidget {
       showHeader: false,
       compact: true,
       children: [
+        CollectPlainPageHeader(title: title),
         MinimalStatePanel(
           icon: heroIcon,
           title: heroTitle,

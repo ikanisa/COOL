@@ -11,7 +11,7 @@ class MobileDesignGate
   CONTRACT = 'docs/release/mobile-design/mobile-parity-contract.json'
   ACCEPTANCE = 'docs/release/mobile-design/mobile-parity-acceptance.json'
   AUTHORITY = 'revolut-design'
-  AUTHORITY_RULE = 'references/mobile-design-100.md'
+  AUTHORITY_RULE = 'SKILL.md'
   CRITERIA = %w[reference_fidelity hierarchy_density typography colour_elevation spacing_shape icons_assets copy_annotations interaction_states responsive_keyboard accessibility_native].freeze
   ARTIFACTS = {
     'android' => {

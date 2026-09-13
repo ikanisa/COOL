@@ -775,7 +775,7 @@ void main() {
     expect(designGate, contains("AUTHORITY = 'revolut-design'"));
     expect(
       designGate,
-      contains("AUTHORITY_RULE = 'references/mobile-design-100.md'"),
+      contains("AUTHORITY_RULE = 'SKILL.md'"),
     );
     expect(designGate, contains('Installed revolut-design authority'));
     expect(ci, contains('make mobile-design-contract mobile-design-gate-test'));
@@ -792,7 +792,7 @@ void main() {
             as Map<String, dynamic>;
 
     expect(contract['authority'], 'revolut-design');
-    expect(contract['authority_rule'], 'references/mobile-design-100.md');
+    expect(contract['authority_rule'], 'SKILL.md');
     expect(contract['authority_sha256'], matches(RegExp(r'^[0-9a-f]{64}$')));
     expect(contract['criteria'], hasLength(10));
     expect(

@@ -14,9 +14,15 @@ Web marketing and Business/operator references are distinct from native UI.
 
 ## Critical release blocker: mobile design parity
 
-Read `/Users/jeanbosco/.codex/skills/revolut-design/SKILL.md` and its bundled
-`references/mobile-design-100.md` before changing any visible mobile surface.
-The **MOBILE-DESIGN-100** rule is mandatory. The selected reference and the owner's browser annotations
+Read the approved `revolut-design/SKILL.md` and its applicable bundled references
+before changing any visible mobile surface. Resolve the skill from the installed
+skills directory or the owner-provided portable folder; set
+`REVOLUT_DESIGN_SKILL_ROOT` to that folder when running the design gate.
+Use `adaptive-product-design` for supporting journey and readiness checks.
+The owner has retired the old standalone mobile parity document; do not restore
+it or use it as design authority. The gate's **MOBILE-DESIGN-100** identifier
+continues to track required product evidence, not a separate design authority.
+The selected reference and the owner's browser annotations
 apply to all corresponding signed-in, membership, geographic, loading, error,
 and accessibility states, not just the screenshot used during implementation.
 

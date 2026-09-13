@@ -8,22 +8,31 @@ class _GroupProfileMediaRow extends StatelessWidget {
     this.onRemove,
     this.imageBytes,
     this.imageUrl,
+    this.defaultImageValue,
   });
 
   final String title;
   final Color accentColor;
   final Uint8List? imageBytes;
   final String? imageUrl;
+  final String? defaultImageValue;
   final VoidCallback onPick;
   final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final hasImage = imageBytes != null || imageUrl?.trim().isNotEmpty == true;
+    final hasImage =
+        imageBytes != null ||
+        imageUrl?.trim().isNotEmpty == true ||
+        defaultImageValue != null;
     final titleText = title.trim().isEmpty ? 'Group' : title.trim();
-    final imageFallback = Center(
-      child: Icon(CollectIcons.photo, color: colors.textPrimary, size: 30),
+    final imageFallback = CollectGroupImage(
+      value: defaultImageValue,
+      thumbnail: true,
+      fallback: Center(
+        child: Icon(CollectIcons.photo, color: colors.textPrimary, size: 30),
+      ),
     );
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -74,23 +83,11 @@ class _GroupProfileMediaRow extends StatelessWidget {
                               errorBuilder: (context, error, stackTrace) =>
                                   imageFallback,
                             )
-                          else if (imageUrl?.trim().isNotEmpty == true)
+                          else
                             CollectGroupImage(
                               value: imageUrl,
                               thumbnail: true,
                               fallback: imageFallback,
-                            ),
-                          if (!hasImage)
-                            Center(
-                              child: Text(
-                                titleText.characters.first.toUpperCase(),
-                                style: Theme.of(context).textTheme.headlineSmall
-                                    ?.copyWith(
-                                      color: colors.textPrimary,
-                                      fontWeight:
-                                          CollectTypography.weightSemibold,
-                                    ),
-                              ),
                             ),
                         ],
                       ),

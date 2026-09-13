@@ -8,6 +8,8 @@ import 'package:collect_app/core/widgets/collect_shell.dart';
 import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/models/collect_group_cover.dart';
+import 'package:collect_app/shared/widgets/collect_group_image.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
@@ -658,6 +660,20 @@ void main() {
     expect(tester.widget<FilledButton>(save).onPressed, isNull);
     final name = find.byType(TextField).first;
     final original = repository.collectionById('qa-private-group').title;
+    final defaultPhoto = CollectGroupCover.fallbackFor(
+      repository.collectionById('qa-private-group'),
+    )!;
+    expect(find.text('Q'), findsNothing);
+    expect(
+      find.byWidgetPredicate(
+        (widget) =>
+            widget is CollectGroupImage &&
+            widget.value == defaultPhoto.reference,
+      ),
+      findsOneWidget,
+    );
+    // Showing the category photo must not create a saved image or a dirty form.
+    expect(repository.collectionById('qa-private-group').imageUrl, isNull);
     await tester.enterText(name, '');
     await tester.pump();
     expect(tester.widget<FilledButton>(save).onPressed, isNull);

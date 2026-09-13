@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collect · Screen review</title>
+<style>
+@font-face{font-family:Inter;src:url('assets/assets/typefaces/Inter-Variable.ttf')}*{box-sizing:border-box}body{margin:0;background:#151517;color:#f4f4f5;font:14px Inter,system-ui,sans-serif}header{position:sticky;top:0;z-index:1;background:#151517;padding:16px;border-bottom:1px solid #363638}header>div{max-width:720px;margin:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}strong{font-size:17px}small{color:#b9b9c0}nav{max-width:720px;margin:12px auto 0;display:flex;gap:8px;align-items:center}button,select,a{font:inherit;color:inherit}button,select{border:1px solid #55555d;background:#27272a;border-radius:8px;padding:10px;min-height:42px}button{cursor:pointer}select{flex:1;min-width:0}button:disabled{opacity:.35;cursor:default}:focus-visible{outline:3px solid #8cafff;outline-offset:3px}main{padding:20px 8px 36px}iframe{display:block;width:390px;max-width:100%;height:844px;background:#000;border:1px solid #45454a;margin:auto}p{margin:0}#route{margin:10px auto 0;max-width:720px;color:#b9b9c0;font-size:12px}a{margin-left:auto;color:#bbd0ff;text-decoration:underline}
+
+#state{max-width:720px;margin:8px auto 0;color:#b9b9c0;font-size:12px}button.busy{opacity:.6}iframe{scroll-margin-top:145px}#reload{padding:8px}button:focus-visible,select:focus-visible{outline:3px solid #8cafff}
+
+html,body{height:100%;overflow:hidden}
+body{display:flex;flex-direction:column}
+header{position:static;flex:none;padding:12px 16px}
+header strong{font-size:16px}header small{font-size:12px}
+main{flex:1;min-height:0;padding:12px 8px;overflow:hidden}
+iframe{height:100%;max-height:844px}
+#state{margin-top:4px}
+</style>
+<header>
+  <div><strong>Collect · Screen review</strong><small>Local sample data</small><button id="reload">Reload screen</button><a id="direct" href="index.html#/home" target="_blank" rel="noopener">Open app directly</a></div>
+  <nav aria-label="Review screens"><button id="previous" aria-label="Previous screen">Previous</button><select id="screens" aria-label="Choose a screen"></select><button id="next" aria-label="Next screen">Next</button></nav>
+  <p id="route"></p><p id="state" role="status" aria-live="polite">Loading screen…</p>
+</header>
+<main><iframe id="app" title="Collect Home"></iframe></main>
+<script>
+history.scrollRestoration='manual';
+const routes=[
+  {
+    "label": "Home",
+    "path": "/home"
+  },
+  {
+    "label": "Launch",
+    "path": "/"
+  },
+  {
+    "label": "Sign in",
+    "path": "/auth"
+  },
+  {
+    "label": "Offline",
+    "path": "/offline"
+  },
+  {
+    "label": "Sync",
+    "path": "/sync"
+  },
+  {
+    "label": "Groups",
+    "path": "/groups"
+  },
+  {
+    "label": "Scan QR",
+    "path": "/groups/scan"
+  },
+  {
+    "label": "Create group",
+    "path": "/groups/create"
+  },
+  {
+    "label": "Group details",
+    "path": "/groups/qa-private-group"
+  },
+  {
+    "label": "Groups / Members",
+    "path": "/groups/qa-private-group/members"
+  },
+  {
+    "label": "Groups / Manage",
+    "path": "/groups/qa-private-group/manage"
+  },
+  {
+    "label": "Groups / Profile",
+    "path": "/groups/qa-private-group/profile"
+  },
+  {
+    "label": "Groups / Contribute",
+    "path": "/groups/qa-private-group/contribute"
+  },
+  {
+    "label": "Groups / Share",
+    "path": "/groups/qa-private-group/share"
+  },
+  {
+    "label": "Groups / Invite",
+    "path": "/groups/qa-private-group/invite"
+  },
+  {
+    "label": "Groups / Ledger",
+    "path": "/groups/qa-private-group/ledger"
+  },
+  {
+    "label": "Contribute",
+    "path": "/contribute"
+  },
+  {
+    "label": "Activity",
+    "path": "/activity"
+  },
+  {
+    "label": "Shared group link",
+    "path": "/c/qa-private-group"
+  },
+  {
+    "label": "Share / Invalid",
+    "path": "/share/invalid"
+  },
+  {
+    "label": "Share / Expired",
+    "path": "/share/expired"
+  },
+  {
+    "label": "Share / Expired / Request",
+    "path": "/share/expired/request"
+  },
+  {
+    "label": "App link",
+    "path": "/app"
+  },
+  {
+    "label": "Invitation link",
+    "path": "/invite/038491"
+  },
+  {
+    "label": "Settings",
+    "path": "/settings"
+  },
+  {
+    "label": "Edit profile",
+    "path": "/settings/profile"
+  },
+  {
+    "label": "Settings / Notifications",
+    "path": "/settings/notifications"
+  },
+  {
+    "label": "Settings / Bank Transfer",
+    "path": "/settings/bank-transfer"
+  },
+  {
+    "label": "Settings / Permissions",
+    "path": "/settings/permissions"
+  },
+  {
+    "label": "Settings / Appearance",
+    "path": "/settings/appearance"
+  },
+  {
+    "label": "Settings / Security",
+    "path": "/settings/security"
+  },
+  {
+    "label": "Settings / Account",
+    "path": "/settings/account"
+  },
+  {
+    "label": "Settings / Account / Delete",
+    "path": "/settings/account/delete"
+  },
+  {
+    "label": "Privacy shortcut",
+    "path": "/settings/privacy"
+  },
+  {
+    "label": "Settings / Help",
+    "path": "/settings/help"
+  },
+  {
+    "label": "Settings / Legal / Terms",
+    "path": "/settings/legal/terms"
+  },
+  {
+    "label": "Settings / Legal / Privacy",
+    "path": "/settings/legal/privacy"
+  }
+];
+const select=document.getElementById('screens');
+let frame=document.getElementById('app');
+let visit=0, selected=0, loadingSince=0, lastPath='';
+const status=document.getElementById('state');
+routes.forEach((r,i)=>{const option=document.createElement('option');option.value=i;option.textContent=`${i+1} / ${routes.length} · ${r.label}`;select.append(option)});
+function choose(index){
+  selected=Math.max(0,Math.min(routes.length-1,index));
+  select.value=selected;
+  const route=routes[selected];
+  // A new browsing context isolates each review from prior form, scroll and
+  // renderer state. Navigation inside the app still uses the normal router.
+  const nextFrame=document.createElement('iframe');
+  nextFrame.id='app';
+  nextFrame.title='Collect · '+route.label;
+  nextFrame.src='index.html?screenReview='+selected+'&visit='+(++visit)+'#'+route.path;
+  frame.replaceWith(nextFrame);
+  frame=nextFrame;
+  lastPath='';loadingSince=Date.now();
+  document.getElementById('route').textContent=route.path+' · '+frame.clientWidth+' × '+frame.clientHeight;
+  document.getElementById('direct').href='index.html#'+route.path;
+  document.getElementById('previous').disabled=selected===0;
+  document.getElementById('next').disabled=selected===routes.length-1;
+  status.textContent='Loading screen…';
+  history.replaceState(null,'','#'+route.path);
+  window.scrollTo({top:0,left:0,behavior:'instant'});
+}
+window.addEventListener('resize',()=>{document.getElementById('route').textContent=(lastPath||routes[selected].path)+' · '+frame.clientWidth+' × '+frame.clientHeight});
+select.onchange=()=>choose(Number(select.value));
+document.getElementById('previous').onclick=()=>choose(selected-1);
+document.getElementById('next').onclick=()=>choose(selected+1);
+document.getElementById('reload').onclick=()=>choose(selected);
+setInterval(()=>{
+  try{
+    const path=frame.contentWindow.location.hash.slice(1);
+    const content=frame.contentDocument.querySelector('flt-semantics-host');
+    const ready=content && content.querySelector('flt-semantics');
+    if(ready){
+      if(loadingSince) window.scrollTo({top:0,left:0,behavior:'instant'});
+      const requested=routes[selected].path;
+      status.textContent=path===requested?'Ready for review · Sample data resets per screen':'This entry opens '+path;
+      loadingSince=0;
+    }else if(loadingSince && Date.now()-loadingSince>20000){
+      status.textContent='The screen has not rendered. Use Reload screen to retry.';
+    }
+    if(path && path!==lastPath){
+      lastPath=path;
+      document.getElementById('route').textContent=path+' · '+frame.clientWidth+' × '+frame.clientHeight;
+      document.getElementById('direct').href='index.html#'+path;
+      // Keep the requested ordinal for Previous/Next when a route redirects.
+      frame.title='Collect · '+(routes.find(r=>r.path===path)?.label||routes[selected].label);
+    }
+  }catch(error){status.textContent='Preview unavailable. Use Reload screen to retry.'}
+},300);
+choose(Math.max(0,routes.findIndex(r=>r.path===(location.hash.slice(1)||'/home'))));
+</script>
+</html>
