@@ -1,0 +1,26 @@
+{
+  "status": "route_and_entrypoint_discovery_only",
+  "product_acceptance": "unverified",
+  "rows": 324,
+  "by_surface": {
+    "admin_browser": 24,
+    "admin_installed_pwa": 24,
+    "android_member": 38,
+    "database_migration": 124,
+    "edge_function": 11,
+    "ios_member": 38,
+    "member_browser": 38,
+    "notification_operator_tool": 9,
+    "public_flutter": 9,
+    "public_static": 9
+  },
+  "remaining_inventory": [
+    "Overlays and component states",
+    "Roles, membership and geographic cases",
+    "Platform and installed runtime availability",
+    "API/RPC/table/storage dependencies",
+    "Source comparators and independent acceptance evidence"
+  ],
+  "mobile_case_authority": "docs/release/mobile-design/mobile-parity-contract.json",
+  "scope_sha256": "e2ab33c59448af1fa250102ad003265824f830fce6cae892c4298b3586930606"
+}

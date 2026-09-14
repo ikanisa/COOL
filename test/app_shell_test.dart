@@ -766,7 +766,7 @@ void main() {
     ).readAsStringSync();
 
     expect(qaRunner, contains('mobile_design_contract'));
-    expect(qaRunner, contains('mobile-parity-contract.json'));
+    expect(designGate, contains('mobile-parity-contract.json'));
     expect(designGate, contains("AUTHORITY = 'revolut-design'"));
     expect(
       designGate,

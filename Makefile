@@ -76,10 +76,10 @@ flutter-pub-get:
 	$(FLUTTER) pub get
 
 format:
-	$(DART) format .
+	@DART="$(DART)" ruby scripts/qa/dart_format.rb --write
 
 format-check:
-	$(DART) format --set-exit-if-changed .
+	@DART="$(DART)" ruby scripts/qa/dart_format.rb --check
 
 analyze:
 	$(FLUTTER) analyze
@@ -245,6 +245,16 @@ collect-product-boundary-scan-json:
 
 revolut-parity-source-hygiene:
 	@./scripts/revolut_parity_source_hygiene_gate.sh
+
+.PHONY: format-check revolut-parity-evidence-consistency qa-tooling-test
+revolut-parity-evidence-consistency:
+	@ruby scripts/qa/revolut_evidence_consistency.rb
+
+qa-tooling-test:
+	@ruby scripts/tests/lcov_coverage_test.rb
+	@ruby scripts/tests/dart_format_test.rb
+	@ruby scripts/tests/revolut_evidence_consistency_test.rb
+	@ruby scripts/tests/repo_wide_qa_uat_test.rb
 
 .PHONY: mobile-design-gate mobile-design-contract mobile-design-gate-test
 mobile-design-gate:

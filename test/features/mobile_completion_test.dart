@@ -1450,8 +1450,14 @@ void main() {
     'profile country updates currency without changing verified WhatsApp',
     (tester) async {
       SharedPreferences.setMockInitialValues({});
+      // Earlier widget tests may leave unawaited writes in their disposed fake
+      // async zone. This persistence journey owns its cache key and write queue.
+      const cache = CollectOfflineCache(
+        preferencesKey: 'mobile_completion.profile_country',
+      );
       final repository = FixtureCollectRepository(
         smsAccessChannel: const _TestSmsAccessChannel(),
+        offlineCache: cache,
       );
       final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
       await pumpRoute(
@@ -1517,6 +1523,11 @@ void main() {
       expect(updated.countryCode, 'GB');
       expect(updated.currencyCode, 'GBP');
       expect(updated.isComplete, isTrue);
+      final persisted = (await cache.read())!.currentProfile!;
+      expect(persisted.whatsappPhone, verifiedWhatsApp);
+      expect(persisted.countryCode, 'GB');
+      expect(persisted.currencyCode, 'GBP');
+      expect(persisted.revolutAccount, '000123456789');
     },
   );
 

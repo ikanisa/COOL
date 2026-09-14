@@ -231,6 +231,18 @@ void main() {
           await tester.pumpAndSettle();
           await _capture(tester, '${route.name}-${variant.name}-input');
           final action = find.text(route.action!);
+          if (action.evaluate().isEmpty) {
+            // At large text sizes the focused field and final action can be
+            // farther apart than the lazy list's cache extent. Scroll the
+            // field's actual list until the action is built before locating it.
+            final scrollable = Scrollable.of(tester.element(field));
+            await tester.scrollUntilVisible(
+              action,
+              80,
+              scrollable: find.byWidget(scrollable.widget),
+              maxScrolls: 30,
+            );
+          }
           await tester.ensureVisible(action);
           await tester.pumpAndSettle();
           expect(action.hitTestable(), findsOneWidget);

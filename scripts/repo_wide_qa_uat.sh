@@ -362,6 +362,8 @@ RUBY
 }
 JSON
   record_fixture "mobile_design_contract" "mobile_design_contract.json" 0 "$(cat "$bundle_dir/mobile_design_contract.json")"
+  record_blocked "mobile_design_android" "mobile_design_android.json" "Runner fixtures cannot establish Android visual acceptance."
+  record_blocked "mobile_design_ios" "mobile_design_ios.json" "Runner fixtures cannot establish iOS visual acceptance."
   cat > "$bundle_dir/worktree_review.json" <<'JSON'
 {
   "status": "blocked",
@@ -509,7 +511,7 @@ JSON
 else
   run_capture "flutter_version" "flutter_version.txt" "$FLUTTER" --version
   run_capture "dart_version" "dart_version.txt" "$DART" --version
-  run_capture "format_check" "format_check.txt" "$DART" format --set-exit-if-changed .
+  run_capture "format_check" "format_check.txt" env DART="$DART" ruby "$ROOT_DIR/scripts/qa/dart_format.rb" --check
   run_capture "flutter_analyze" "flutter_analyze.txt" "$FLUTTER" analyze --no-pub
   run_capture "flutter_test" "flutter_test.txt" "$FLUTTER" test --no-pub --concurrency=1
   run_capture "release_secret_scan" "release_secret_scan.txt" "$ROOT_DIR/scripts/release_secret_scan.sh"
@@ -554,6 +556,8 @@ else
   fi
 
   run_capture "mobile_design_contract" "mobile_design_contract.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --check-contract --json
+  run_capture "mobile_design_android" "mobile_design_android.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --json
+  run_capture "mobile_design_ios" "mobile_design_ios.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --ios --json
 
   run_capture "release_status_json" "release_status.json" "$ROOT_DIR/scripts/release_status.sh" --json
   run_capture "supabase_go_live_gate_json" "go_live_gate.json" "$ROOT_DIR/scripts/supabase_go_live_gate.sh" --json
@@ -629,6 +633,8 @@ artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.j
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
 design_compliance = read_json(File.join(bundle_dir, "mobile_design_contract.json"))
+mobile_design_android = read_json(File.join(bundle_dir, "mobile_design_android.json"))
+mobile_design_ios = read_json(File.join(bundle_dir, "mobile_design_ios.json"))
 mobile_route_artifact = read_json(File.join(bundle_dir, "mobile_route_artifact_gate.json"))
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 android_kotlin_plugin_compat = read_json(File.join(bundle_dir, "android_kotlin_plugin_compat.json"))
@@ -791,12 +797,26 @@ supabase_evidence_bundle_surface =
     "fail"
   end
 
+def mobile_design_surface(commands, name, evidence, platform)
+  if command_ok?(commands, name) && evidence["status"] == "pass" &&
+      evidence["rule"] == "MOBILE-DESIGN-100" && evidence["platform"] == platform &&
+      evidence["score"] == 100 && evidence["failures"] == []
+    "pass"
+  elsif evidence["status"] == "blocked"
+    "blocked"
+  else
+    "fail"
+  end
+end
+
 surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
   "mobile_route_artifacts" => mobile_route_artifact_surface,
   "mobile_contract_compliance" => mobile_contract_surface,
+  "mobile_visual_acceptance_android" => mobile_design_surface(commands, "mobile_design_android", mobile_design_android, "android"),
+  "mobile_visual_acceptance_ios" => mobile_design_surface(commands, "mobile_design_ios", mobile_design_ios, "ios"),
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
   "android_release_signing_preflight" => android_release_signing_preflight_surface,
@@ -812,10 +832,16 @@ surfaces = {
   "supabase_evidence_bundle" => supabase_evidence_bundle_surface
 }
 
+fixture_mode = ENV["QA_UAT_FIXTURE"] == "1"
+if fixture_mode
+  # These records exercise the runner's reporting paths, never the product.
+  surfaces.transform_values! { |status| %w[pass warning].include?(status) ? "unverified" : status }
+end
+
 decision =
   if surfaces.value?("fail")
     "FAIL"
-  elsif surfaces.value?("blocked")
+  elsif fixture_mode || surfaces.value?("blocked") || surfaces.value?("unverified")
     "NO-GO"
   else
     "GO"
@@ -836,9 +862,11 @@ end
 
 failed_surfaces = surfaces.select { |_name, status| status == "fail" }.keys
 blocked_surfaces = surfaces.select { |_name, status| status == "blocked" }.keys
+unverified_surfaces = surfaces.select { |_name, status| status == "unverified" }.keys
 blocker_keys = (
   failed_surfaces +
   blocked_surfaces +
+  unverified_surfaces +
   collect_values_for_keys(
     [
       release_status,
@@ -862,10 +890,14 @@ blocker_keys = (
 summary = {
   "generated_at" => Time.now.utc.iso8601,
   "bundle_dir" => bundle_dir,
+  "fixture_mode" => fixture_mode,
+  "evidence_kind" => fixture_mode ? "runner_fixture" : "execution",
+  "release_eligible" => !fixture_mode && decision == "GO",
   "decision" => decision,
   "surfaces" => surfaces,
   "failed_surfaces" => failed_surfaces,
   "blocked_surfaces" => blocked_surfaces,
+  "unverified_surfaces" => unverified_surfaces,
   "blocker_keys" => blocker_keys,
   "release_status" => {
     "decision" => release_status["decision"],
@@ -889,6 +921,7 @@ summary = {
   },
   "release_evidence_index" => evidence_index,
   "mobile_route_artifacts" => mobile_route_artifact,
+  "mobile_visual_acceptance" => { "android" => mobile_design_android, "ios" => mobile_design_ios },
   "android_release_signing_preflight" => android_release_signing_preflight,
   "android_kotlin_plugin_compat" => android_kotlin_plugin_compat,
   "commands" => commands,
@@ -903,6 +936,8 @@ File.write(
 
     Generated at: `#{summary.fetch("generated_at")}`
     Decision: `#{summary.fetch("decision")}`
+    Evidence kind: `#{summary.fetch("evidence_kind")}`
+    Release eligible: `#{summary.fetch("release_eligible")}`
 
     ## Surfaces
 
@@ -910,6 +945,7 @@ File.write(
 
     Failed surfaces: #{failed_surfaces.empty? ? "`none`" : failed_surfaces.map { |name| "`#{name}`" }.join(", ")}
     Blocked surfaces: #{blocked_surfaces.empty? ? "`none`" : blocked_surfaces.map { |name| "`#{name}`" }.join(", ")}
+    Unverified surfaces: #{unverified_surfaces.empty? ? "`none`" : unverified_surfaces.map { |name| "`#{name}`" }.join(", ")}
     Blocker keys: #{blocker_keys.empty? ? "`none`" : blocker_keys.map { |key| "`#{key}`" }.join(", ")}
 
     ## Files
@@ -923,6 +959,8 @@ File.write(
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
     - `mobile_route_artifact_gate.json`: Collect mobile evidence-adapter validation
     - `mobile_design_contract.json`: revolut-design and MOBILE-DESIGN-100 contract validation
+    - `mobile_design_android.json`: full Android MOBILE-DESIGN-100 acceptance result
+    - `mobile_design_ios.json`: full iOS MOBILE-DESIGN-100 acceptance result
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `android_release_signing_preflight.json`: redacted Android Play signing certificate preflight

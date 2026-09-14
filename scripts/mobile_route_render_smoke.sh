@@ -127,6 +127,7 @@ route_specs=(
   "activity|/activity|primary"
   "group-create|/groups/create|workflow"
   "group-scan|/groups/scan|workflow"
+  "group-join-alias|/groups/join|compatibility"
   "group-detail|/groups/qa-private-group|workflow"
   "share|/groups/qa-private-group/share|workflow"
   "invite|/groups/qa-private-group/invite|compatibility"

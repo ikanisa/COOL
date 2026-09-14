@@ -49,7 +49,7 @@ jobs:
         run: make revolut-parity-evidence-consistency
 
       - name: Mandatory mobile design contract and fail-closed regression tests
-        run: make mobile-design-contract mobile-design-gate-test
+        run: make mobile-design-contract mobile-design-gate-test qa-tooling-test
 
       - name: Patch marker scan
         run: |
@@ -196,33 +196,7 @@ jobs:
           retention-days: 14
 
       - name: Coverage threshold gate
-        run: |
-          THRESHOLD=40
-          if [ ! -f coverage/lcov.info ]; then
-            echo "::warning::No coverage report found — skipping threshold check"
-            exit 0
-          fi
-
-          # Parse lcov.info for line coverage
-          LINES_FOUND=$(grep -c '^DA:' coverage/lcov.info || echo 0)
-          LINES_HIT=$(grep '^DA:' coverage/lcov.info | awk -F, '{s+=$2} END {print s+0}' || echo 0)
-          LINES_TOTAL=$(grep '^DA:' coverage/lcov.info | awk -F, '{s+=1} END {print s+0}' || echo 0)
-
-          if [ "$LINES_TOTAL" -eq 0 ]; then
-            echo "::warning::No coverage data lines found"
-            exit 0
-          fi
-
-          COVERAGE=$(( LINES_HIT * 100 / LINES_TOTAL ))
-          echo "📊 Line coverage: ${COVERAGE}% (${LINES_HIT}/${LINES_TOTAL} lines)"
-          echo "### 📊 Coverage: ${COVERAGE}% (threshold: ${THRESHOLD}%)" >> "$GITHUB_STEP_SUMMARY"
-
-          if [ "$COVERAGE" -lt "$THRESHOLD" ]; then
-            echo "::error::Line coverage ${COVERAGE}% is below threshold ${THRESHOLD}%"
-            exit 1
-          fi
-
-          echo "✅ Coverage ${COVERAGE}% meets threshold ${THRESHOLD}%"
+        run: ruby scripts/qa/lcov_coverage.rb coverage/lcov.info 40
 
   # ── 2b. Admin web production build ─────────────────────────────────
   admin-web-build:
@@ -349,6 +323,24 @@ jobs:
             deno_files+=("$file")
           done < <(find supabase/functions -type f -name '*.ts' | sort)
           deno check "${deno_files[@]}"
+
+  notification-operator:
+    name: Notification operator checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: tools/collect-notification-mcp
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+      - name: Install pinned package manager
+        run: npm install --global pnpm@10.33.2 --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm check
+      - run: pnpm test
 
   # ── 6. M-Money SMS contract lane (fast ~2min) ──────────────────────
   momo-sms-contracts:

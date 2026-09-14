@@ -73,6 +73,33 @@ class MobileDesignGateTest < Minitest::Test
         'test_path' => 'test/annotation_test.dart', 'test_sha256' => @gate.digest('test/annotation_test.dart'),
         'cases' => ['home@default'] }]
     )
+    # These records exist only in the temporary unit-test repository. They test
+    # validation behavior and must never be copied into release acceptance.
+    @evidence['quality_evidence'] = MobileDesignGate::QUALITY_DIMENSIONS.map do |dimension|
+      path = "output/#{dimension}.txt"
+      write(path, "Synthetic #{dimension} test report; no real product result.")
+      @gate.fingerprints.merge(
+        'id' => dimension, 'dimension' => dimension, 'platform' => 'android',
+        'artifacts' => @evidence['artifacts']['android'],
+        'status' => 'pass', 'open_findings' => [], 'environment' => 'synthetic unit test',
+        'cases' => @gate.required_cases, 'evidence' => image(path),
+        'review' => { 'reviewer' => 'Synthetic quality reviewer', 'at' => Time.now.utc.iso8601,
+                      'notes' => 'Synthetic test data only, never real release acceptance.' }
+      )
+    end
+    @evidence['cases'].each do |row|
+      row['quality_results'] = MobileDesignGate::QUALITY_DIMENSIONS.to_h { |dimension| [dimension, dimension] }
+    end
+    @evidence['platform_reviews'] = { 'android' => MobileDesignGate::REVIEW_ROLES.to_h do |role|
+      path = "output/review-#{role}.txt"
+      write(path, "Synthetic #{role} decision only; no real approval.")
+      [role, @gate.fingerprints.merge(
+        'platform' => 'android', 'artifacts' => @evidence['artifacts']['android'],
+        'decision' => 'approved', 'reviewer' => "Synthetic #{role} actor",
+        'at' => Time.now.utc.iso8601, 'notes' => 'Synthetic review data only, never real release approval.',
+        'cases' => @gate.required_cases, 'evidence' => image(path)
+      )]
+    end }
   end
 
   def teardown
@@ -293,6 +320,115 @@ class MobileDesignGateTest < Minitest::Test
 
   def test_missing_accessibility_check_blocks
     @evidence['cases'][0]['accessibility_checks'] = 'not_assessed'
+    assert_blocked
+  end
+
+  def test_each_distinct_review_role_is_required
+    MobileDesignGate::REVIEW_ROLES.each do |role|
+      review = @evidence['platform_reviews']['android'].delete(role)
+      assert_blocked
+      @evidence['platform_reviews']['android'][role] = review
+    end
+  end
+
+  def test_independent_reviewer_cannot_be_the_implementer_or_owner
+    reviews = @evidence['platform_reviews']['android']
+    %w[implementer owner].each do |role|
+      reviews['independent_visual']['reviewer'] = " #{reviews[role]['reviewer'].upcase} "
+      assert_blocked
+      assert_includes result['failures'], 'android: visual reviewer must be independent of implementer and owner'
+    end
+  end
+
+  def test_reusing_one_decision_report_does_not_create_distinct_reviews
+    reviews = @evidence['platform_reviews']['android']
+    reviews['owner']['evidence'] = reviews['implementer']['evidence'].dup
+    assert_blocked
+  end
+
+  def test_each_review_is_bound_to_current_inputs_and_artifacts
+    reviews = @evidence['platform_reviews']['android']
+    MobileDesignGate::REVIEW_ROLES.each do |role|
+      original = reviews[role]['source_sha256']
+      reviews[role]['source_sha256'] = '0' * 64
+      assert_blocked
+      reviews[role]['source_sha256'] = original
+    end
+    reviews['owner']['artifacts'] = { 'apk' => '0' * 64 }
+    assert_blocked
+  end
+
+  def test_review_cannot_omit_cases_or_claim_a_different_platform
+    review = @evidence['platform_reviews']['android']['independent_visual']
+    review['cases'] = ['home@default']
+    assert_blocked
+    review['cases'] = @gate.required_cases
+    review['platform'] = 'ios'
+    assert_blocked
+  end
+
+  def test_missing_or_changed_decision_evidence_blocks
+    write('output/review-owner.txt', 'changed decision')
+    assert_blocked
+  end
+
+  def test_future_review_and_owner_acceptance_before_visual_review_block
+    review = @evidence['platform_reviews']['android']['owner']
+    review['at'] = (Time.now.utc + 3600).iso8601
+    assert_blocked
+    review['at'] = (Time.now.utc - 3600).iso8601
+    assert_blocked
+    assert_includes result['failures'], 'android: owner acceptance predates the completed reviews'
+  end
+
+  def test_case_review_before_build_blocks
+    @evidence['cases'][0]['review']['at'] = (Time.now.utc - 3600).iso8601
+    assert_blocked
+  end
+
+  def test_four_quality_dimensions_cannot_be_replaced_by_one_score
+    @evidence['cases'][0]['quality_results'] = { 'combined_score' => 100 }
+    assert_blocked
+  end
+
+  def test_quality_result_requires_a_passing_bound_report_for_each_dimension
+    @evidence['quality_evidence'].each do |record|
+      record['status'] = 'unverified'
+      assert_blocked
+      record['status'] = 'pass'
+    end
+    @evidence['quality_evidence'][0]['source_sha256'] = '0' * 64
+    assert_blocked
+  end
+
+  def test_quality_reports_require_current_actual_evidence
+    record = @evidence['quality_evidence'][0]
+    record['review']['at'] = (Time.now.utc - 3600).iso8601
+    assert_blocked
+    record['review']['at'] = Time.now.utc.iso8601
+    write(record['evidence']['path'], 'changed result report')
+    assert_blocked
+  end
+
+  def test_quality_report_cannot_hide_findings_or_missing_environment
+    record = @evidence['quality_evidence'][0]
+    record['open_findings'] = ['slow-task']
+    assert_blocked
+    record['open_findings'] = []
+    record['environment'] = ''
+    assert_blocked
+  end
+
+  def test_quality_evidence_ids_are_unique_and_case_scope_is_explicit
+    @evidence['quality_evidence'] << @evidence['quality_evidence'][0].dup
+    assert_blocked
+    @evidence['quality_evidence'].pop
+    @evidence['quality_evidence'][0]['cases'] = ['home@default']
+    assert_blocked
+  end
+
+  def test_quality_report_for_one_dimension_cannot_cover_another
+    @evidence['cases'][0]['quality_results']['performance'] = 'task_usability'
     assert_blocked
   end
 

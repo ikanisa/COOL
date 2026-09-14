@@ -63,6 +63,7 @@ const collectRoutePaths = <String>[
   '/offline',
   '/sync',
   '/groups',
+  '/groups/join',
   '/groups/scan',
   '/groups/create',
   '/groups/:collectionId',

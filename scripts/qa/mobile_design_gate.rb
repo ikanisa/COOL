@@ -13,6 +13,8 @@ class MobileDesignGate
   AUTHORITY = 'revolut-design'
   AUTHORITY_RULE = 'references/mobile-design-100.md'
   CRITERIA = %w[reference_fidelity hierarchy_density typography colour_elevation spacing_shape icons_assets copy_annotations interaction_states responsive_keyboard accessibility_native].freeze
+  QUALITY_DIMENSIONS = %w[task_usability accessibility performance runtime_resilience].freeze
+  REVIEW_ROLES = %w[implementer independent_visual owner].freeze
   ARTIFACTS = {
     'android' => {
       'apk' => 'build/app/outputs/flutter-apk/app-production-release.apk',
@@ -179,6 +181,89 @@ class MobileDesignGate
     width >= 300 && height >= 300 && File.size(file) > 8000
   end
 
+  def evidence_file_valid?(entry)
+    return false unless entry.is_a?(Hash)
+    file = local_file(entry['path'])
+    file && File.size(file).positive? && entry['sha256'] == digest(entry['path'])
+  end
+
+  def review_valid?(review, built_at)
+    return false unless review.is_a?(Hash) && built_at
+    timestamp = Time.iso8601(review['at'].to_s) rescue nil
+    !review['reviewer'].to_s.strip.empty? && timestamp &&
+      timestamp >= built_at && timestamp <= Time.now.utc &&
+      review['notes'].to_s.strip.length >= 20
+  end
+
+  def binding_valid?(record, platform, artifacts)
+    record.is_a?(Hash) && record['platform'] == platform &&
+      fingerprints.all? { |key, value| value && record[key] == value } &&
+      record['artifacts'] == artifacts
+  end
+
+  def case_scope_valid?(cases)
+    cases.is_a?(Array) && !cases.empty? && cases.uniq == cases &&
+      (cases - required_cases).empty?
+  end
+
+  def validate_quality_evidence(evidence, platform, artifacts, built_at, failures)
+    records = evidence['quality_evidence']
+    unless records.is_a?(Array)
+      failures << 'Independent quality evidence is missing'
+      return {}
+    end
+    by_id = {}
+    records.each do |record|
+      unless record.is_a?(Hash) && ARTIFACTS.key?(record['platform'])
+        failures << 'Invalid quality evidence record or platform'
+        next
+      end
+      next unless record['platform'] == platform
+
+      id = record['id']
+      unless id.is_a?(String) && !id.strip.empty? && !by_id.key?(id)
+        failures << 'Invalid or duplicate quality evidence ID'
+        next
+      end
+      by_id[id] = record
+      failures << "#{id}: incomplete quality result" unless
+        QUALITY_DIMENSIONS.include?(record['dimension']) && record['status'] == 'pass' &&
+        record['open_findings'] == [] && !record['environment'].to_s.strip.empty? &&
+        binding_valid?(record, platform, artifacts) && case_scope_valid?(record['cases']) &&
+        review_valid?(record['review'], built_at) && evidence_file_valid?(record['evidence'])
+    end
+    by_id
+  end
+
+  def validate_platform_reviews(evidence, platform, artifacts, built_at, failures)
+    reviews = evidence.dig('platform_reviews', platform)
+    unless reviews.is_a?(Hash) && reviews.keys.sort == REVIEW_ROLES.sort
+      failures << "#{platform}: distinct implementer, independent visual and owner reviews are required"
+      return
+    end
+    REVIEW_ROLES.each do |role|
+      review = reviews[role]
+      failures << "#{platform}: #{role} review is missing, stale or incomplete" unless
+        review.is_a?(Hash) && review['decision'] == 'approved' &&
+        binding_valid?(review, platform, artifacts) &&
+        case_scope_valid?(review['cases']) && review['cases'].sort == required_cases &&
+        review_valid?(review, built_at) && evidence_file_valid?(review['evidence'])
+    end
+    return unless REVIEW_ROLES.all? { |role| reviews[role].is_a?(Hash) }
+
+    identities = REVIEW_ROLES.to_h { |role| [role, reviews[role]['reviewer'].to_s.strip.downcase.gsub(/\s+/, ' ')] }
+    failures << "#{platform}: visual reviewer must be independent of implementer and owner" if
+      [identities['implementer'], identities['owner']].include?(identities['independent_visual'])
+    proofs = REVIEW_ROLES.map { |role| reviews[role].dig('evidence', 'sha256') }
+    failures << "#{platform}: each review requires its own decision evidence" unless proofs.uniq.length == REVIEW_ROLES.length
+    times = REVIEW_ROLES.to_h do |role|
+      [role, (Time.iso8601(reviews[role]['at'].to_s) rescue nil)]
+    end
+    if times.values.all? && times['owner'] < [times['implementer'], times['independent_visual']].max
+      failures << "#{platform}: owner acceptance predates the completed reviews"
+    end
+  end
+
   def release_result(platform = 'android')
     failures = validate_contract(require_authority: true)
     return result(platform, failures) unless failures.empty?
@@ -211,6 +296,8 @@ class MobileDesignGate
       provenance['evidence_mode'] == false
     built_at = Time.iso8601(provenance['built_at'].to_s) rescue nil
     failures << 'Invalid release build timestamp' unless built_at && built_at <= Time.now.utc
+    quality_evidence = validate_quality_evidence(evidence, platform, artifact_digests, built_at, failures)
+    validate_platform_reviews(evidence, platform, artifact_digests, built_at, failures)
     installed_sha = artifact_digests[platform == 'android' ? 'apk' : 'ipa']
     rows = Array(evidence['cases']).select { |row| row.is_a?(Hash) && row['platform'] == platform }
     keys = rows.map { |row| row['id'] }
@@ -230,10 +317,18 @@ class MobileDesignGate
         reference_ids.is_a?(Array) && !reference_ids.empty? &&
         reference_ids.uniq == reference_ids &&
         (reference_ids - registered_reference_ids).empty?
-      review = row['review'] || {}
-      timestamp = Time.iso8601(review['at'].to_s) rescue nil
-      failures << "#{id}: missing actual review" unless !review['reviewer'].to_s.strip.empty? && timestamp && timestamp <= Time.now.utc && review['notes'].to_s.strip.length >= 20
+      failures << "#{id}: missing actual review after this build" unless review_valid?(row['review'], built_at)
       failures << "#{id}: interaction/accessibility checks incomplete" unless row['interaction_checks'] == 'pass' && row['accessibility_checks'] == 'pass'
+      quality_results = row['quality_results']
+      unless quality_results.is_a?(Hash) && quality_results.keys.sort == QUALITY_DIMENSIONS.sort
+        failures << "#{id}: four separate quality results are required"
+        next
+      end
+      QUALITY_DIMENSIONS.each do |dimension|
+        record = quality_evidence[quality_results[dimension]]
+        failures << "#{id}: #{dimension} evidence is missing or outside this case" unless
+          record && record['dimension'] == dimension && Array(record['cases']).include?(id)
+      end
     end
     annotations = Array(evidence['annotations'])
     contract.fetch('annotations').each do |id|

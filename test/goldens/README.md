@@ -5,6 +5,16 @@ detection. They are QA evidence, not runtime product assets and not substitutes
 for the verified Revolut source/implementation comparisons required by
 `design-qa.md`.
 
+## 14 September 2026: current group photo regression review
+
+Only Home and Groups were refreshed after original-resolution review of both
+candidate/baseline pairs and the verified owner-selected Cards comparator.
+Changed pixels are confined to their group photos, reflecting the existing
+Rwanda asset-bank fallback. Geometry, labels and tolerance are unchanged.
+See `docs/plans/fullstack-qa-2026-09-14/VISUAL_CHECKPOINT.md` for scope, exact
+bounds and limitations. This is implementing-agent regression review only;
+it does not close native design or owner acceptance.
+
 ## 5 September 2026: owner-selected RevPoints group cards
 
 The implementing agent opened the new Home and Groups test images and compared

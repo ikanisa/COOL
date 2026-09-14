@@ -489,9 +489,9 @@ void main() {
           }.contains(path.substring(extensionStart).toLowerCase());
         })
         .toSet();
+    // Exact inventory equality and content hashes cover the Rwanda photo bank
+    // as well as brand and website assets; the former fixed count predated it.
     expect(productVisualAssets, approvedVisualAssets.keys.toSet());
-    // 29 core assets plus eight visually reviewed native website captures.
-    expect(approvedVisualAssets, hasLength(37));
     for (final entry in approvedVisualAssets.entries) {
       expect(
         sha256.convert(File(entry.key).readAsBytesSync()).toString(),

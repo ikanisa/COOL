@@ -1,0 +1,1221 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-14T16:02:22.713941+00:00",
+  "scope": "in-progress full-stack QA checkpoint",
+  "final_acceptance": false,
+  "baseline_head": "caafcef15f83de9baae84c377e1a99bb49ed6920",
+  "raw_evidence_root": ".cache/fullstack-qa/20260914T151002Z",
+  "counts_note": "Overlapping focused suites are not additive; initial failures are preserved. Synthetic runner tests are not product acceptance.",
+  "checks": [
+    {
+      "id": "mobile-design-android",
+      "command": [
+        "ruby",
+        "scripts/qa/mobile_design_gate.rb",
+        "--json"
+      ],
+      "environment": "local-read-only",
+      "started_at": "2026-09-14T15:10:02.149189+00:00",
+      "finished_at": "2026-09-14T15:10:02.594780+00:00",
+      "exit_code": 1,
+      "log": ".cache/fullstack-qa/20260914T151002Z/mobile-design-android.log",
+      "status": "unverified",
+      "failures": [
+        "Missing or changed original reference: IMG_2739",
+        "Missing or changed original reference: IMG_2740",
+        "Missing or changed original reference: IMG_2741",
+        "Missing or changed original reference: IMG_2742",
+        "Missing or changed original reference: IMG_2747",
+        "Missing or changed original reference: IMG_2748",
+        "Missing or changed original reference: IMG_2749",
+        "Missing or changed original reference: IMG_2750",
+        "Missing or changed original reference: IMG_2751",
+        "Missing or changed original reference: IMG_2752",
+        "Acceptance must be mobile-only and approved",
+        "Stale or absent source_sha256",
+        "Stale or absent contract_sha256",
+        "Stale or absent references_sha256",
+        "Stale or absent authority_sha256",
+        "Stale or absent version",
+        "Open findings remain",
+        "Missing or mismatched android apk",
+        "Missing or mismatched android aab",
+        "Missing .cache/mobile-design-build/android.json"
+      ],
+      "parsed_status": "blocked",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/results.json",
+      "log_sha256": "6265c5d80f8061ab29971666881c062668272b3b1bc4c8614924f77d2144db44",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "mobile-design-ios",
+      "command": [
+        "ruby",
+        "scripts/qa/mobile_design_gate.rb",
+        "--ios",
+        "--json"
+      ],
+      "environment": "local-read-only",
+      "started_at": "2026-09-14T15:10:02.594856+00:00",
+      "finished_at": "2026-09-14T15:10:02.876558+00:00",
+      "exit_code": 1,
+      "log": ".cache/fullstack-qa/20260914T151002Z/mobile-design-ios.log",
+      "status": "unverified",
+      "failures": [
+        "Missing or changed original reference: IMG_2739",
+        "Missing or changed original reference: IMG_2740",
+        "Missing or changed original reference: IMG_2741",
+        "Missing or changed original reference: IMG_2742",
+        "Missing or changed original reference: IMG_2747",
+        "Missing or changed original reference: IMG_2748",
+        "Missing or changed original reference: IMG_2749",
+        "Missing or changed original reference: IMG_2750",
+        "Missing or changed original reference: IMG_2751",
+        "Missing or changed original reference: IMG_2752",
+        "Acceptance must be mobile-only and approved",
+        "Stale or absent source_sha256",
+        "Stale or absent contract_sha256",
+        "Stale or absent references_sha256",
+        "Stale or absent authority_sha256",
+        "Stale or absent version",
+        "Open findings remain",
+        "Missing or mismatched ios ipa",
+        "Missing .cache/mobile-design-build/ios.json"
+      ],
+      "parsed_status": "blocked",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/results.json",
+      "log_sha256": "574d3ff600b0919c3c8e3396546f3edf92a63139c17391768e6a4305ccc53457",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "mobile-contract",
+      "command": [
+        "ruby",
+        "scripts/qa/mobile_design_gate.rb",
+        "--check-contract",
+        "--json"
+      ],
+      "environment": "local-read-only",
+      "started_at": "2026-09-14T15:10:02.876626+00:00",
+      "finished_at": "2026-09-14T15:10:03.003482+00:00",
+      "exit_code": 0,
+      "log": ".cache/fullstack-qa/20260914T151002Z/mobile-contract.log",
+      "status": "pass",
+      "failures": [],
+      "parsed_status": "contract_valid",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/results.json",
+      "log_sha256": "074fefbbcb2b3a80542ff5733b2e4127b073d92b4325b3ea6f18bcc6653c9955",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "source-hygiene",
+      "command": [
+        "bash",
+        "scripts/revolut_parity_source_hygiene_gate.sh",
+        "--json"
+      ],
+      "environment": "local-read-only",
+      "started_at": "2026-09-14T15:10:03.003538+00:00",
+      "finished_at": "2026-09-14T15:10:10.596841+00:00",
+      "exit_code": 1,
+      "log": ".cache/fullstack-qa/20260914T151002Z/source-hygiene.log",
+      "status": "mismatch",
+      "failures": [
+        {
+          "check": "approved_product_visual_assets",
+          "paths": [
+            "web/public/app-screens/groups-df9bbb32006b.png",
+            "web/public/app-screens/home-d2e45a8f70f8.png",
+            "web/public/app-screens/groups-08cfb5130784.png",
+            "web/public/app-screens/home-c0a62ed4ced3.png"
+          ],
+          "hash_mismatches": [
+            {
+              "path": "web/public/app-screens/groups-df9bbb32006b.png",
+              "expected_sha256": "df9bbb32006bae58eae95a04f3d3b59131e77027afb8858e3c0303550ee28a68",
+              "actual_sha256": null
+            },
+            {
+              "path": "web/public/app-screens/home-d2e45a8f70f8.png",
+              "expected_sha256": "d2e45a8f70f8f32c87015de7c1fd937f2fc8086434fec6e12d1add5fe6fea23d",
+              "actual_sha256": null
+            }
+          ],
+          "manifest_errors": []
+        }
+      ],
+      "parsed_status": "fail",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/results.json",
+      "log_sha256": "7e89d5f98f0ff243a6ce2bf2c9e813b66ec9b5f0652897efb9c002e03037ffc2",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "secret-scan",
+      "command": [
+        "bash",
+        "scripts/release_secret_scan.sh"
+      ],
+      "environment": "local-read-only",
+      "started_at": "2026-09-14T15:10:10.596933+00:00",
+      "finished_at": "2026-09-14T15:10:17.203154+00:00",
+      "exit_code": 0,
+      "log": ".cache/fullstack-qa/20260914T151002Z/secret-scan.log",
+      "status": "pass",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/results.json",
+      "log_sha256": "262341f21f55b0ef02534962726b4e88f2e6ca1aa05d14848d3a217c1db81e20",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "migration-validation",
+      "command": [
+        "bash",
+        "scripts/migrations/validate_supabase_migrations.sh"
+      ],
+      "environment": "local-read-only",
+      "started_at": "2026-09-14T15:10:17.203230+00:00",
+      "finished_at": "2026-09-14T15:10:17.370375+00:00",
+      "exit_code": 0,
+      "log": ".cache/fullstack-qa/20260914T151002Z/migration-validation.log",
+      "status": "pass",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/results.json",
+      "log_sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "flutter-analyze",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "analyze",
+        "--no-pub"
+      ],
+      "environment": "local",
+      "started_at": "2026-09-14T15:15:28.808423+00:00",
+      "finished_at": "2026-09-14T15:15:36.897703+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/flutter-analyze.log",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/flutter-analyze-result.json",
+      "log_sha256": "3fc1fb2d8b99495eec9ba4528bc5de91c7fe008996b78526a925e57f27ea882f",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "flutter-tests",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Users/jeanbosco/Projects/Recovered-PRO-G40/COOL/.cache/fullstack-qa/20260914T151002Z/flutter-tests-events.json"
+      ],
+      "started_at": "2026-09-14T15:20:22.541519+00:00",
+      "finished_at": "2026-09-14T15:22:10.712713+00:00",
+      "exit_code": 1,
+      "status": "mismatch",
+      "log": ".cache/fullstack-qa/20260914T151002Z/flutter-tests.log",
+      "parsed_status": "mismatch",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/flutter-tests-result.json",
+      "log_sha256": "5ae96bc2935be1185a994bd2daad3aab75d0f54cbadbb9db3c7feb88def38cf9",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "deno-tests",
+      "command": [
+        "/Users/jeanbosco/.npm/_npx/de10277f880c84d3/node_modules/@deno/darwin-arm64/deno",
+        "test",
+        "--allow-env=SUPABASE_SERVICE_ROLE_KEY,AUTH_PHONE_PASSWORD_SECRET,OTP_CODE_HASH_SECRET,OTP_TEST_PHONE,OTP_TEST_CODE,GOOGLE_SERVICE_ACCOUNT_EMAIL,GOOGLE_PRIVATE_KEY,AI_AUDIT_SHEET_ID",
+        "supabase/functions/_shared/apns_test.ts",
+        "supabase/functions/_shared/bank_evidence_test.ts",
+        "supabase/functions/_shared/bank_statement_test.ts",
+        "supabase/functions/_shared/fcm_test.ts",
+        "supabase/functions/_shared/hmac_test.ts",
+        "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+        "supabase/functions/_shared/momo_sms_parser_test.ts",
+        "supabase/functions/_shared/notification_operator_test.ts",
+        "supabase/functions/_shared/openai_roster_test.ts",
+        "supabase/functions/_shared/play_integrity_binding_test.ts",
+        "supabase/functions/_shared/roster_import_test.ts"
+      ],
+      "environment": "local-no-hosted-credentials",
+      "started_at": "2026-09-14T15:16:31.316512+00:00",
+      "finished_at": "2026-09-14T15:16:32.132758+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/deno-tests.log",
+      "source_sha256": "a477d50512ef1b0be14e68beb1553bf139284c7d8a5a79d1953e595341b14b51",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/deno-results.json",
+      "log_sha256": "a713522cc4b5795d87df12ed51dc0c6764b9309d3448892f39c146445eb259e2",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "deno-check",
+      "command": [
+        "/Users/jeanbosco/.npm/_npx/de10277f880c84d3/node_modules/@deno/darwin-arm64/deno",
+        "check",
+        "supabase/functions/_shared/apns.ts",
+        "supabase/functions/_shared/apns_test.ts",
+        "supabase/functions/_shared/bank_evidence.ts",
+        "supabase/functions/_shared/bank_evidence_test.ts",
+        "supabase/functions/_shared/bank_statement.ts",
+        "supabase/functions/_shared/bank_statement_test.ts",
+        "supabase/functions/_shared/buri_munsi_receipt.ts",
+        "supabase/functions/_shared/cors.ts",
+        "supabase/functions/_shared/fcm.ts",
+        "supabase/functions/_shared/fcm_test.ts",
+        "supabase/functions/_shared/hash.ts",
+        "supabase/functions/_shared/hmac.ts",
+        "supabase/functions/_shared/hmac_test.ts",
+        "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+        "supabase/functions/_shared/momo_sms_parser.ts",
+        "supabase/functions/_shared/momo_sms_parser_test.ts",
+        "supabase/functions/_shared/notification_operator.ts",
+        "supabase/functions/_shared/notification_operator_test.ts",
+        "supabase/functions/_shared/openai_roster.ts",
+        "supabase/functions/_shared/openai_roster_test.ts",
+        "supabase/functions/_shared/play_integrity_binding.ts",
+        "supabase/functions/_shared/play_integrity_binding_test.ts",
+        "supabase/functions/_shared/raw_sms_input.ts",
+        "supabase/functions/_shared/roster_import.ts",
+        "supabase/functions/_shared/roster_import_test.ts",
+        "supabase/functions/_shared/supabase.ts",
+        "supabase/functions/_shared/test_assert.ts",
+        "supabase/functions/auth-send-whatsapp-otp/index.ts",
+        "supabase/functions/collect-notification-operator/index.ts",
+        "supabase/functions/dispatch-notifications/index.ts",
+        "supabase/functions/ingest-bank-email/index.ts",
+        "supabase/functions/ingest-bank-sms/index.ts",
+        "supabase/functions/ingest-bank-statement/index.ts",
+        "supabase/functions/ingest-payment-sms/index.ts",
+        "supabase/functions/parse-payment-sms/index.ts",
+        "supabase/functions/prepare-roster-import/index.ts",
+        "supabase/functions/send-notification/index.ts",
+        "supabase/functions/verify-play-integrity/index.ts"
+      ],
+      "environment": "local-no-hosted-credentials",
+      "started_at": "2026-09-14T15:16:32.135925+00:00",
+      "finished_at": "2026-09-14T15:16:32.575495+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/deno-check.log",
+      "source_sha256": "a477d50512ef1b0be14e68beb1553bf139284c7d8a5a79d1953e595341b14b51",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/deno-results.json",
+      "log_sha256": "f823d5f1f2ddf7cdca62b1619009d712f37336a1330998170c7e1adef10724d5",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "format-check",
+      "command": [
+        "make",
+        "format-check"
+      ],
+      "started_at": "2026-09-14T15:17:46.710391+00:00",
+      "finished_at": "2026-09-14T15:17:47.928395+00:00",
+      "exit_code": 2,
+      "status": "mismatch",
+      "log": ".cache/fullstack-qa/20260914T151002Z/format-check.log",
+      "parsed_status": "mismatch",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/format-check-result.json",
+      "log_sha256": "b5fea67ed175ad009d05f92c470aee8015d1f36a15cf8189f9091b631fd6cc58",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "edge-auth-contract",
+      "command": [
+        "bash",
+        "scripts/collect_edge_auth_contract_uat.sh"
+      ],
+      "started_at": "2026-09-14T15:17:47.928782+00:00",
+      "finished_at": "2026-09-14T15:17:48.006298+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/edge-auth-contract.log",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/edge-auth-contract-result.json",
+      "log_sha256": "4e71bc6dd0a5a75257e82c71f88085e17d6799630d46ec82f80ced25171e16d2",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "targeted-qa-regressions",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/features/mobile_responsive_matrix_test.dart",
+        "test/app_shell_test.dart",
+        "--reporter=expanded"
+      ],
+      "started_at": "2026-09-14T15:26:52.984307+00:00",
+      "finished_at": "2026-09-14T15:27:00.954843+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/targeted-qa-regressions.log",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/targeted-qa-regressions-result.json",
+      "log_sha256": "9d50a157c484caa4a57e6f2318daebe827c8dbb8ee4bcc7ea0249f84f5032984",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "route-catalog-regressions",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/core/route_inventory_contract_test.dart",
+        "test/app_shell_test.dart",
+        "--reporter=expanded"
+      ],
+      "started_at": "2026-09-14T15:32:36.655782+00:00",
+      "finished_at": "2026-09-14T15:32:40.691182+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-source-manifest.json",
+      "source_manifest_sha256": "e960aa65d7cb878a19c6914b38b068072fdc1f618cb91f4ea300baa67ce46b80",
+      "log": ".cache/fullstack-qa/20260914T151002Z/route-catalog-regressions.log",
+      "log_sha256": "b15bf2919daae1b96519f1c4ca258e1c97da0e2e07914660dd6fcd9000bb3d30",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-final-results.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "qa-tooling-final",
+      "command": [
+        "make",
+        "qa-tooling-test",
+        "mobile-design-gate-test",
+        "revolut-parity-evidence-consistency"
+      ],
+      "started_at": "2026-09-14T15:32:40.691623+00:00",
+      "finished_at": "2026-09-14T15:32:56.773254+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-source-manifest.json",
+      "source_manifest_sha256": "e960aa65d7cb878a19c6914b38b068072fdc1f618cb91f4ea300baa67ce46b80",
+      "log": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-final.log",
+      "log_sha256": "8f4bffc72467929b43e8671a3c2c0bf7511813774bd6e3f3cdaa4a94c342401b",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-final-results.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "format-check-final",
+      "command": [
+        "make",
+        "format-check"
+      ],
+      "started_at": "2026-09-14T15:32:56.773529+00:00",
+      "finished_at": "2026-09-14T15:32:57.982641+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-source-manifest.json",
+      "source_manifest_sha256": "e960aa65d7cb878a19c6914b38b068072fdc1f618cb91f4ea300baa67ce46b80",
+      "log": ".cache/fullstack-qa/20260914T151002Z/format-check-final.log",
+      "log_sha256": "17d16608126c6ab855dc649bbe897fc45d4066f0e318cf6d60f7ab6fb5d06223",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/qa-tooling-final-results.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "flutter-analyze-after-qa",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "analyze",
+        "--no-pub"
+      ],
+      "started_at": "2026-09-14T15:35:18.954383+00:00",
+      "finished_at": "2026-09-14T15:35:25.429890+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/flutter-analyze-after-qa.log",
+      "log_sha256": "8564050ea0b8da4eccf545d9d2c78fdb581b087bb917bc4696f61a75699b93f5",
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-checks.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "public-media-freshness",
+      "command": [
+        "ruby",
+        "-I",
+        "scripts",
+        "-rpublic_app_media",
+        "-rjson",
+        "-e",
+        "begin; media=PublicAppMedia.new(Dir.pwd).screens; puts JSON.generate(status: 'pass', screens: media.length); rescue StandardError => e; puts JSON.generate(status: 'blocked', reason: e.message); exit 1; end"
+      ],
+      "started_at": "2026-09-14T15:35:25.430280+00:00",
+      "finished_at": "2026-09-14T15:35:25.614962+00:00",
+      "exit_code": 1,
+      "status": "mismatch",
+      "log": ".cache/fullstack-qa/20260914T151002Z/public-media-freshness.log",
+      "log_sha256": "80c7daa56165a7506a8959172f109ea0693ef42b405af17a33f7c3fb7a464d2e",
+      "parsed_status": "mismatch",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-checks.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "flutter-full-after-repairs",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=json"
+      ],
+      "environment": "local fixture tests or read-only evidence validation",
+      "started_at": "2026-09-14T15:45:26.188815+00:00",
+      "finished_at": "2026-09-14T15:47:37.291467+00:00",
+      "exit_code": 1,
+      "status": "mismatch",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/regression-source-manifest.json",
+      "source_manifest_sha256": "6c73dc051ade6e3f32f1af2b507b566f2c0d5e488daeb9e8f05eacea1ebb6ffa",
+      "log": ".cache/fullstack-qa/20260914T151002Z/flutter-full-after-repairs.log",
+      "log_sha256": "ff40e03406342457d4bd452c7e358c26a4f722e41f0527ccc362942952f49eee",
+      "passed": 766,
+      "failed": 1,
+      "skipped": 0,
+      "changed_inputs_after_check": [],
+      "parsed_status": "mismatch",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/regression-checks.json",
+      "source_binding_note": "Stable source manifest before and after this run; failed stale fixed-count assertion later repaired with exact asset set and hash checks retained."
+    },
+    {
+      "id": "mobile-gate-after-hardening",
+      "command": [
+        "make",
+        "qa-tooling-test",
+        "mobile-design-gate-test",
+        "revolut-parity-evidence-consistency"
+      ],
+      "environment": "local fixture tests or read-only evidence validation",
+      "started_at": "2026-09-14T15:47:37.566603+00:00",
+      "finished_at": "2026-09-14T15:47:54.573112+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/regression-source-manifest.json",
+      "source_manifest_sha256": "6c73dc051ade6e3f32f1af2b507b566f2c0d5e488daeb9e8f05eacea1ebb6ffa",
+      "log": ".cache/fullstack-qa/20260914T151002Z/mobile-gate-after-hardening.log",
+      "log_sha256": "45e55fa6320ee80a3c2b6d02477478b5663e7a18fdfe99ac4a91062483d51b2a",
+      "changed_inputs_after_check": [],
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/regression-checks.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "source-hygiene-after-review",
+      "command": [
+        "bash",
+        "scripts/revolut_parity_source_hygiene_gate.sh",
+        "--json"
+      ],
+      "environment": "local fixture tests or read-only evidence validation",
+      "started_at": "2026-09-14T15:47:54.694235+00:00",
+      "finished_at": "2026-09-14T15:48:02.228312+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/regression-source-manifest.json",
+      "source_manifest_sha256": "6c73dc051ade6e3f32f1af2b507b566f2c0d5e488daeb9e8f05eacea1ebb6ffa",
+      "log": ".cache/fullstack-qa/20260914T151002Z/source-hygiene-after-review.log",
+      "log_sha256": "4ac15a85946808d41751b3f6b5a7fdc963ccbce757ee658060575fc799dc43e4",
+      "changed_inputs_after_check": [],
+      "parsed_status": "pass",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/regression-checks.json",
+      "source_binding_note": "Use recorded source hash/manifest where present; earlier checks were baseline diagnostics, not final release-source certification."
+    },
+    {
+      "id": "notification-mcp-typecheck",
+      "command": [
+        "pnpm",
+        "check"
+      ],
+      "cwd": "tools/collect-notification-mcp",
+      "environment": "pinned Node24.19.0/pnpm10.33.2; mock transports and temporary stores",
+      "status": "pass",
+      "exit_code": 0,
+      "passed": null,
+      "evidence_kind": "observed tool execution output",
+      "timing_note": "Command start/end timestamps were not retained; no timestamp inferred.",
+      "source_files_sha256": {
+        "tools/collect-notification-mcp/package.json": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d",
+        "tools/collect-notification-mcp/pnpm-lock.yaml": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+      }
+    },
+    {
+      "id": "notification-mcp-tests",
+      "command": [
+        "pnpm",
+        "test"
+      ],
+      "cwd": "tools/collect-notification-mcp",
+      "environment": "pinned Node24.19.0/pnpm10.33.2; mock transports and temporary stores",
+      "status": "pass",
+      "exit_code": 0,
+      "passed": 30,
+      "evidence_kind": "observed tool execution output",
+      "timing_note": "Command start/end timestamps were not retained; no timestamp inferred.",
+      "source_files_sha256": {
+        "tools/collect-notification-mcp/package.json": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d",
+        "tools/collect-notification-mcp/pnpm-lock.yaml": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+      }
+    },
+    {
+      "id": "asset-inventory-regression",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/features/runtime_component_contract_test.dart",
+        "--reporter=expanded"
+      ],
+      "started_at": "2026-09-14T15:49:08.267183+00:00",
+      "finished_at": "2026-09-14T15:49:12.829417+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/asset-inventory-regression.log",
+      "log_sha256": "dcc5f8355f959bc4a5960e88aed116d0f61787d67cb38c6f408f2f073944f571",
+      "test_sha256": "5c3be95186194870d014ae9e0f371015e7e00e801d160e842fda3c7760c79d9a",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/asset-inventory-regression.json"
+    },
+    {
+      "id": "android_manifest_permissions_test",
+      "command": [
+        "ruby",
+        "scripts/tests/android_manifest_permissions_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:42.742885+00:00",
+      "finished_at": "2026-09-14T15:52:42.847571+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "f2f957ca8730745ad662234d7906b5d809329a662e6681eb18d8175ebb230c3e",
+      "log": ".cache/fullstack-qa/20260914T151002Z/android_manifest_permissions_test.log",
+      "log_sha256": "3d190b3bcf0c9fecfdb4e678f8d481200ae556ca8b8b038d60fe5d6734f025ae",
+      "tests": 5,
+      "assertions": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "backup_export_contract_test",
+      "command": [
+        "ruby",
+        "scripts/tests/backup_export_contract_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:42.848180+00:00",
+      "finished_at": "2026-09-14T15:52:42.925404+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+      "log": ".cache/fullstack-qa/20260914T151002Z/backup_export_contract_test.log",
+      "log_sha256": "787d6cd89d747c56a84f81465da81ee5b1f163a1d404c466595a43ef8bf643b2",
+      "tests": 3,
+      "assertions": 25,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_auth_redirect_cutover_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_auth_redirect_cutover_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:42.925914+00:00",
+      "finished_at": "2026-09-14T15:52:43.047618+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "57f4d18ca21c62bfb2060798674c73ec470379946148d6277891cb28e2333a34",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_auth_redirect_cutover_test.log",
+      "log_sha256": "5c2c8da1e7bf0b0c7af85d9f7a922beb8a1c5895e14f5add526a9b985054e5dc",
+      "tests": 3,
+      "assertions": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_backup_network_probe_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_backup_network_probe_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.048037+00:00",
+      "finished_at": "2026-09-14T15:52:43.124760+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "963c8b1b2ad59623e651d8ca83ac7c86b51a67e5a5982971342b28d09c8f22c5",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_backup_network_probe_test.log",
+      "log_sha256": "47d265537fc078566b5dd05b90e1400a900959e41fb4dae0e46ac9f6fb84db0a",
+      "tests": 9,
+      "assertions": 29,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_encrypted_database_backup_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_encrypted_database_backup_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.125222+00:00",
+      "finished_at": "2026-09-14T15:52:43.217844+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_encrypted_database_backup_test.log",
+      "log_sha256": "6ae8ab249f4f5658c8ae16eb91c93f58a70d364240014f7287ba8e315114ad94",
+      "tests": 4,
+      "assertions": 23,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_hosted_preflight_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_hosted_preflight_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.218268+00:00",
+      "finished_at": "2026-09-14T15:52:43.296739+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "9d733928900dcd16920878565722b0668eee5bc98a3f1386febed72510a46f41",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_hosted_preflight_test.log",
+      "log_sha256": "bfcda29526a785927674fd2c63c74eb57d9a46690bfc95b5fa8350b732d33035",
+      "tests": 7,
+      "assertions": 29,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_hybrid_edge_cutover_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_hybrid_edge_cutover_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.297152+00:00",
+      "finished_at": "2026-09-14T15:52:43.376973+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "4acd2865e893dd6c963e46265ed9142b0675597849dbfd429266c17473f7c2f7",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_hybrid_edge_cutover_test.log",
+      "log_sha256": "4382bce4714c4c853939bda8a71e4bf0d0ea2f9a6d2f869b276e98e48140170c",
+      "tests": 3,
+      "assertions": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_hybrid_privilege_cutover_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_hybrid_privilege_cutover_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.377390+00:00",
+      "finished_at": "2026-09-14T15:52:43.453315+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "1e600b10271ccada986f572c0322c2896b3aaf4c6551de5763cab074f5589c84",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_hybrid_privilege_cutover_test.log",
+      "log_sha256": "c7566f8afde7b3a27584fd4dbf040d16607e55159ca8eeabd39c5e4f7d978249",
+      "tests": 3,
+      "assertions": 11,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_hybrid_production_cutover_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_hybrid_production_cutover_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.453885+00:00",
+      "finished_at": "2026-09-14T15:52:43.566267+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "84cb751340cd24e7f1e43cf08e858f6627e1aa731d30ff9185e55a4e27ebfc2b",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_hybrid_production_cutover_test.log",
+      "log_sha256": "5ff43e6daf2b01ab396eef3764f8a662606c0ec35328bf5fade422ed03a50d2f",
+      "tests": 3,
+      "assertions": 10,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_index_inventory_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_index_inventory_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.566760+00:00",
+      "finished_at": "2026-09-14T15:52:43.629351+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "d9cecf87443f53bdcf83fd957f36baaf0bc27022a408b179a6dbaee3cf918d78",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_index_inventory_test.log",
+      "log_sha256": "e59ccd648a842da92dc7ec17e6c8828b27e2a9afe4beeb8369af47afd5155433",
+      "tests": 3,
+      "assertions": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "collect_migration_history_review_test",
+      "command": [
+        "ruby",
+        "scripts/tests/collect_migration_history_review_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.629869+00:00",
+      "finished_at": "2026-09-14T15:52:43.710993+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "14b9c560dc7103e6986a8986014595eb157da94ba8abdcfa45fce605f595df5b",
+      "log": ".cache/fullstack-qa/20260914T151002Z/collect_migration_history_review_test.log",
+      "log_sha256": "ffcff21ad7dcad160dfc869ff55f38d702e29949486aebfcc532a805f7784e15",
+      "tests": 3,
+      "assertions": 10,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "ios_uat_target_guard_test",
+      "command": [
+        "ruby",
+        "scripts/tests/ios_uat_target_guard_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:43.711475+00:00",
+      "finished_at": "2026-09-14T15:52:45.355278+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "a6e7a280d27c4838516986a57c33a1884ae585585753da633d11ad086d9cd0a2",
+      "log": ".cache/fullstack-qa/20260914T151002Z/ios_uat_target_guard_test.log",
+      "log_sha256": "659ee9da948aead0ba6b4ef7291023b8b61c5004a99cae9cb97735cafad43f32",
+      "tests": 3,
+      "assertions": 19,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "ios_uat_build_and_drive_test",
+      "command": [
+        "ruby",
+        "scripts/tests/ios_uat_build_and_drive_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:45.355825+00:00",
+      "finished_at": "2026-09-14T15:52:46.718951+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "248a4a0062ff4f3632122d614e1cb0d7c4b6b013dae59a5f4ea9685d0b6f67e5",
+      "log": ".cache/fullstack-qa/20260914T151002Z/ios_uat_build_and_drive_test.log",
+      "log_sha256": "b8b81e2b20e09c8e9ddbf7e6fd129c36f6a061985c049e4a1ca27cdda2324c1d",
+      "tests": 3,
+      "assertions": 18,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "ios_followup_uat_target_guard_test",
+      "command": [
+        "ruby",
+        "scripts/tests/ios_followup_uat_target_guard_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:46.719586+00:00",
+      "finished_at": "2026-09-14T15:52:47.137266+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "8f0e16e1c4f4eec594bb992e02cd41c5978160d98b3550d8bbc77b069817fe8e",
+      "log": ".cache/fullstack-qa/20260914T151002Z/ios_followup_uat_target_guard_test.log",
+      "log_sha256": "c11a51ccfa00ee85e632f7ab21194b79e4be58b73c9912b4630756b0de6a3e44",
+      "tests": 1,
+      "assertions": 18,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "ios_camera_uat_target_guard_test",
+      "command": [
+        "ruby",
+        "scripts/tests/ios_camera_uat_target_guard_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:47.137831+00:00",
+      "finished_at": "2026-09-14T15:52:47.532054+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "bb46f9e123649804007cfcd9d8994ae7749ea484a3ae7353a91137a9a3e94de2",
+      "log": ".cache/fullstack-qa/20260914T151002Z/ios_camera_uat_target_guard_test.log",
+      "log_sha256": "2870349f78e4a378c23990d050827d7ea3dbf185a9f630f359533be616d25e3f",
+      "tests": 2,
+      "assertions": 15,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "native_route_screenshot_audit_test",
+      "command": [
+        "ruby",
+        "scripts/tests/native_route_screenshot_audit_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:47.533641+00:00",
+      "finished_at": "2026-09-14T15:52:47.644549+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "2cc161df77f8566714ccc3378e92bdbd71c42fe207cedd4693420d467d922d86",
+      "log": ".cache/fullstack-qa/20260914T151002Z/native_route_screenshot_audit_test.log",
+      "log_sha256": "6ed37aade4a431ed64965ac6a4ced87867a9c8fdb2f9b6b1190017cb91fd68ed",
+      "tests": 4,
+      "assertions": 7,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "production_archive_restore_test",
+      "command": [
+        "ruby",
+        "scripts/tests/production_archive_restore_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:47.645221+00:00",
+      "finished_at": "2026-09-14T15:52:47.789266+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+      "log": ".cache/fullstack-qa/20260914T151002Z/production_archive_restore_test.log",
+      "log_sha256": "d083bf009761031a46eb2bf8753846b8e7f08b79e4f4a0c74efe07e02f0b6c99",
+      "tests": 7,
+      "assertions": 25,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "production_cutover_test",
+      "command": [
+        "ruby",
+        "scripts/tests/production_cutover_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:47.790518+00:00",
+      "finished_at": "2026-09-14T15:52:47.934937+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "08dbd059f5e9ece1d56b7f2adacd8dec7ef3b4914f44aa463053ec5c95a2d5cb",
+      "log": ".cache/fullstack-qa/20260914T151002Z/production_cutover_test.log",
+      "log_sha256": "cced8505e9c0e0ec176df26c86d5efbacccc6937e2840e5eda8dea4e4ad43b2c",
+      "tests": 5,
+      "assertions": 51,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "production_upgrade_rehearsal_test",
+      "command": [
+        "ruby",
+        "scripts/tests/production_upgrade_rehearsal_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:47.935637+00:00",
+      "finished_at": "2026-09-14T15:52:48.081068+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "08e307a7916729669911f5010477a096e4a9e07817c7cc383638892cdd240a81",
+      "log": ".cache/fullstack-qa/20260914T151002Z/production_upgrade_rehearsal_test.log",
+      "log_sha256": "54696cc7393e195e1c672217d8ae63be7cb94bc7afd04f9e1b810e2f36e5543a",
+      "tests": 3,
+      "assertions": 16,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "public_app_media_test",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "environment": "local pure/mocked unit tests; native guards use temporary fake tools; hosted mutation methods not invoked",
+      "started_at": "2026-09-14T15:52:48.082143+00:00",
+      "finished_at": "2026-09-14T15:52:48.238705+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "test_sha256": "c549ee33554f2a6ccc97d32d1d30c4785feb51553fb9d643e2fc1e8d28f92c86",
+      "log": ".cache/fullstack-qa/20260914T151002Z/public_app_media_test.log",
+      "log_sha256": "0619e36499162a1b4c424d0f770f75db8e47e6d4570a17a3f8c796ac09b6fe8d",
+      "tests": 7,
+      "assertions": 15,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/script-baseline-results.json"
+    },
+    {
+      "id": "flutter-ci-unit",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=4",
+        "--exclude-tags=integration",
+        "--test-randomize-ordering-seed=20260914",
+        "--coverage",
+        "--reporter=json"
+      ],
+      "environment": "local macOS CI unit-test command variant with fixed ordering seed and no pub changes",
+      "started_at": "2026-09-14T15:52:44.087077+00:00",
+      "finished_at": "2026-09-14T15:53:52.968874+00:00",
+      "exit_code": 1,
+      "status": "mismatch",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/ci-unit-source-manifest.json",
+      "source_manifest_sha256": "6e9080a10091d81389329191ad4c644df8ed600ec82cda2246082c92b54da96c",
+      "log": ".cache/fullstack-qa/20260914T151002Z/flutter-ci-unit.log",
+      "log_sha256": "9f6f3aeaecde084726baf4afc89c457cb231338dc78d740b577c08293409ea81",
+      "passed": 766,
+      "failed": 1,
+      "skipped": 0,
+      "changed_inputs_after_check": [],
+      "coverage_evidence": ".cache/fullstack-qa/20260914T151002Z/ci-unit-lcov.info",
+      "coverage_sha256": "4b5b33d630c8a110aea8e2613a2298460f54bbe9bb499adf4e4e05d6bf7121cd",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/flutter-ci-unit-result.json"
+    },
+    {
+      "id": "line-coverage-gate",
+      "command": [
+        "ruby",
+        "scripts/qa/lcov_coverage.rb",
+        "coverage/lcov.info",
+        "40"
+      ],
+      "started_at": "2026-09-14T15:53:53.119943+00:00",
+      "finished_at": "2026-09-14T15:53:53.178789+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/line-coverage-gate.log",
+      "log_sha256": "9131118edcb73123919df0a0d863b4ee4acd0ac28b17617dbf37998ea1a887b2",
+      "result": {
+        "status": "pass",
+        "lines_hit": 11863,
+        "lines_total": 17005,
+        "percent": 69.76,
+        "threshold": 40.0,
+        "files": 157
+      },
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/line-coverage-gate-result.json"
+    },
+    {
+      "id": "mobile-completion-seed-20260914",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--test-randomize-ordering-seed=20260914",
+        "test/features/mobile_completion_test.dart",
+        "--reporter=expanded"
+      ],
+      "started_at": "2026-09-14T15:55:58.334847+00:00",
+      "finished_at": "2026-09-14T15:56:04.549833+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/mobile-completion-seed-20260914.log",
+      "log_sha256": "2ba8eb381b2b14a6ca91ea941ebec42e887949f4d2dd0e2257dc93de252eb490",
+      "test_sha256": "d3c111ded5a36320c1819222d774571326605be16321f3ff125b06d824b84d78",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/random-order-regressions.json"
+    },
+    {
+      "id": "mobile-completion-seed-314159",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--test-randomize-ordering-seed=314159",
+        "test/features/mobile_completion_test.dart",
+        "--reporter=expanded"
+      ],
+      "started_at": "2026-09-14T15:56:04.550279+00:00",
+      "finished_at": "2026-09-14T15:56:10.574063+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/mobile-completion-seed-314159.log",
+      "log_sha256": "dae92a10abb9356bab72d7bf078d4eaa6d195aaedfc1e64f51d250969813bd35",
+      "test_sha256": "d3c111ded5a36320c1819222d774571326605be16321f3ff125b06d824b84d78",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/random-order-regressions.json"
+    },
+    {
+      "id": "checkpoint-unit-regression",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=4",
+        "--test-randomize-ordering-seed=20260914",
+        "--coverage",
+        "--reporter=json"
+      ],
+      "environment": "local macOS; fixture or read-only QA checks",
+      "started_at": "2026-09-14T15:57:56.188383+00:00",
+      "finished_at": "2026-09-14T15:58:53.315871+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/checkpoint-source-manifest.json",
+      "source_manifest_sha256": "f0abeff45d9e89f9d1fb8ffbaec3aff96134ae781eed5595feed3619d9bc2307",
+      "log": ".cache/fullstack-qa/20260914T151002Z/checkpoint-unit-regression.log",
+      "log_sha256": "52bd1e12c7213040c3a02953e0e7be630e81f829312b10f64c263c0d12a9db0f",
+      "changed_inputs_after_check": [],
+      "passed": 767,
+      "failed": 0,
+      "skipped": 0,
+      "coverage_evidence": ".cache/fullstack-qa/20260914T151002Z/checkpoint-lcov.info",
+      "coverage_sha256": "d68d75706c2d9d46c42c1103b536a36ee5ee06a6902aa1e287800d78395b34ec",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-regression-results.json"
+    },
+    {
+      "id": "checkpoint-line-coverage",
+      "command": [
+        "ruby",
+        "scripts/qa/lcov_coverage.rb",
+        "coverage/lcov.info",
+        "40"
+      ],
+      "environment": "local macOS; fixture or read-only QA checks",
+      "started_at": "2026-09-14T15:58:53.604294+00:00",
+      "finished_at": "2026-09-14T15:58:53.662446+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/checkpoint-source-manifest.json",
+      "source_manifest_sha256": "f0abeff45d9e89f9d1fb8ffbaec3aff96134ae781eed5595feed3619d9bc2307",
+      "log": ".cache/fullstack-qa/20260914T151002Z/checkpoint-line-coverage.log",
+      "log_sha256": "9131118edcb73123919df0a0d863b4ee4acd0ac28b17617dbf37998ea1a887b2",
+      "changed_inputs_after_check": [],
+      "coverage": {
+        "status": "pass",
+        "lines_hit": 11863,
+        "lines_total": 17005,
+        "percent": 69.76,
+        "threshold": 40.0,
+        "files": 157
+      },
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-regression-results.json"
+    },
+    {
+      "id": "checkpoint-analyze",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "analyze",
+        "--no-pub"
+      ],
+      "environment": "local macOS; fixture or read-only QA checks",
+      "started_at": "2026-09-14T15:58:53.772442+00:00",
+      "finished_at": "2026-09-14T15:58:57.861591+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/checkpoint-source-manifest.json",
+      "source_manifest_sha256": "f0abeff45d9e89f9d1fb8ffbaec3aff96134ae781eed5595feed3619d9bc2307",
+      "log": ".cache/fullstack-qa/20260914T151002Z/checkpoint-analyze.log",
+      "log_sha256": "3a752a35eaaa452f558d51e3cc33975f5977119effe57ff12bd02ddd2b77231d",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-regression-results.json"
+    },
+    {
+      "id": "checkpoint-qa-tooling",
+      "command": [
+        "make",
+        "qa-tooling-test",
+        "mobile-design-gate-test",
+        "revolut-parity-evidence-consistency"
+      ],
+      "environment": "local macOS; fixture or read-only QA checks",
+      "started_at": "2026-09-14T15:58:57.989956+00:00",
+      "finished_at": "2026-09-14T15:59:13.214384+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/checkpoint-source-manifest.json",
+      "source_manifest_sha256": "f0abeff45d9e89f9d1fb8ffbaec3aff96134ae781eed5595feed3619d9bc2307",
+      "log": ".cache/fullstack-qa/20260914T151002Z/checkpoint-qa-tooling.log",
+      "log_sha256": "d59dc74fee07dac77efb64de063a01f4df0b78ec9efbb5b661a73c6499655282",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-regression-results.json"
+    },
+    {
+      "id": "checkpoint-format",
+      "command": [
+        "make",
+        "DART=/Users/jeanbosco/Developer/flutter/bin/dart",
+        "format-check"
+      ],
+      "environment": "local macOS; fixture or read-only QA checks",
+      "started_at": "2026-09-14T15:59:13.324931+00:00",
+      "finished_at": "2026-09-14T15:59:14.485203+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/checkpoint-source-manifest.json",
+      "source_manifest_sha256": "f0abeff45d9e89f9d1fb8ffbaec3aff96134ae781eed5595feed3619d9bc2307",
+      "log": ".cache/fullstack-qa/20260914T151002Z/checkpoint-format.log",
+      "log_sha256": "a10739ecf32a2ef7a70f0eb2ec7a39cccdeb2f204a450f7187fa05d118a8a63d",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-regression-results.json"
+    }
+  ],
+  "current_local_checkpoint": {
+    "passed_flutter_tests": 767,
+    "failed_flutter_tests": 0,
+    "skipped_flutter_tests": 0,
+    "line_coverage_percent": 69.76,
+    "scope_note": "Pre-upstream-reconciliation checkpoint; exact source manifest and unchanged-input verification in checkpoint-regression-results.json"
+  }
+}

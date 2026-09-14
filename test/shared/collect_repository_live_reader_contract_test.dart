@@ -50,7 +50,9 @@ void main() {
       expect(readiness, contains("('profiles', 'revolut_name')"));
       expect(
         readiness,
-        contains("('authenticated', 'update_current_member_profile', 'EXECUTE')"),
+        contains(
+          "('authenticated', 'update_current_member_profile', 'EXECUTE')",
+        ),
       );
       expect(
         readiness,

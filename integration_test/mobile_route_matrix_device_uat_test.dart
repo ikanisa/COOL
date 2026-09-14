@@ -271,6 +271,12 @@ const _routeSpecs = <_RouteSpec>[
   ),
   _RouteSpec('group-scan', '/groups/scan', 'workflow'),
   _RouteSpec(
+    'group-join-alias',
+    '/groups/join',
+    'compatibility',
+    expectedPath: '/groups/scan',
+  ),
+  _RouteSpec(
     'group-detail',
     '/groups/qa-private-group',
     'workflow',
