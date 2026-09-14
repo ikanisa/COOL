@@ -71,7 +71,7 @@ if not rows or len({row["scope_id"] for row in rows}) != len(rows):
     raise ValueError("Empty or duplicate scope inventory")
 OUTPUT.mkdir(parents=True, exist_ok=True)
 with (OUTPUT / "scope.csv").open("w", newline="") as output:
-    writer = csv.DictWriter(output, fieldnames=list(rows[0]))
+    writer = csv.DictWriter(output, fieldnames=list(rows[0]), lineterminator="\n")
     writer.writeheader()
     writer.writerows(rows)
 summary = {

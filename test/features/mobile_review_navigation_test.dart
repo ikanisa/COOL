@@ -53,7 +53,10 @@ void main() {
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull, reason: 'narrow profile');
         expect(
-          tester.widget<TextField>(find.byType(TextField).first).controller!.text,
+          tester
+              .widget<TextField>(find.byType(TextField).first)
+              .controller!
+              .text,
           'Review draft',
         );
       }

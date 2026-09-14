@@ -8,6 +8,12 @@ task. [STATUS.md](STATUS.md), [work-items.csv](work-items.csv),
 [findings.csv](findings.csv) and [results.json](results.json) track execution.
 Current scope export: [scope.csv](scope.csv), [scope-summary.json](scope-summary.json).
 
+Latest local checkpoint after upstream reconciliation: **768 Flutter tests
+passed, zero failures or skips; 69.84% measured line coverage; clean analysis**.
+Source hygiene, 69 gate/tooling tests and 81 further script tests pass.
+The scope-format and one test-format correction were verified separately
+after that run; product source is unchanged. Full-system QA remains open.
+
 ## Verified local work
 
 - The restored checkout passed Git integrity and tracked-file readability
@@ -53,7 +59,11 @@ Current scope export: [scope.csv](scope.csv), [scope-summary.json](scope-summary
 
 ## Outstanding work and evidence limits
 
-The current local source is based on `caafcef15f83de9baae84c377e1a99bb49ed6920`.
+The initial local source was based on `caafcef15f83de9baae84c377e1a99bb49ed6920`.
+Upstream `7be12232` was reconciled in local merge `dfc2a526`, preserving the
+current task's design authority and the user's settings. See
+[SOURCE_RECONCILIATION.md](SOURCE_RECONCILIATION.md). The reconciled run passed
+768 tests and covered 11,876 / 17,005 source lines (69.84%).
 Raw command logs and source manifests are retained under
 `.cache/fullstack-qa/20260914T151002Z/`. Source-bound checkpoint runs record
 unchanged input hashes after execution. Earlier diagnostics remain baseline
@@ -63,8 +73,9 @@ Six source files exceed the existing CI 1,200-line limit. That gate has not
 been lowered or bypassed. Hosted CI for the base commit did not start normal
 job steps: GitHub's annotations report an account lock due to a billing issue.
 That hosted prerequisite needs account-owner action. The latest inspected `main`
-has two newer commits, including product and overlapping QA repairs; source
-reconciliation is in progress. Local changes have not run in hosted CI.
+had two newer commits, including product and overlapping QA repairs, which
+are now reconciled locally. The latest inspected main CI run also reports the
+billing lock. Local changes have not run in hosted CI.
 Adding a CI job is implementation evidence only.
 
 Native build and disposable database capacity is unresolved. Two identified,
@@ -92,7 +103,7 @@ performance/resilience coverage remain to be executed or expanded.
 
 | Area | Current conclusion |
 | --- | --- |
-| Local technical tests | 767 Flutter tests pass with unchanged checkpoint inputs; remaining command inventory and runtime UAT incomplete; upstream reconciliation will require relevant retests |
+| Local technical tests | 768 Flutter tests pass on reconciled source; analysis, format and hygiene pass; remaining command inventory and runtime UAT incomplete |
 | Backend correctness/security | Local Edge checks pass; database replay, RLS/RPC abuse, financial concurrency and live drift are unverified |
 | Android / iOS fidelity | Both blocked; zero accepted native case records; no 100% match claim |
 | Task usability / accessibility | Focused widgets pass; complete native and browser task traversal unverified |
@@ -102,6 +113,6 @@ performance/resilience coverage remain to be executed or expanded.
 | Physical devices / providers / stores | Unverified; no provider settlement, distribution or store approval claimed |
 | Independent review / owner acceptance | Not obtained or fabricated |
 
-The next steps are source/CI reconciliation, remaining coverage mapping and
+The next steps are source-size CI repairs, remaining coverage mapping and
 isolated database/native target preparation, followed by actual end-to-end
 tasks and remediation under the plan. The goal remains active.

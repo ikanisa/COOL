@@ -4,7 +4,8 @@ The initial QA checkout was based on `caafcef15f83de9baae84c377e1a99bb49ed6920`.
 Live GitHub inspection found `main` two commits ahead at
 `7be122328d50e9b635b7fabc0513b82b10a0ea62`. The current work was saved in local
 commit `2dd34026`, excluding the user's `.vscode/settings.json` modification,
-before fetching and reconciling that exact upstream revision.
+before fetching and reconciling that exact upstream revision. The local merge
+commit is `dfc2a526`. The user settings file was verified unchanged by hash.
 
 Upstream fixes include group-profile photo fallback, recovery-page navigation,
 an isolated browser review target, stronger profile-save assertions and

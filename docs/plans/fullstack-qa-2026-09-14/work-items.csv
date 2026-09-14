@@ -1,10 +1,10 @@
 id,phase,priority,responsible_role,status,task,completion_evidence
-QA-001,P0,high,QA infrastructure,in_progress,Verify source and environment integrity,Git fsck and all tracked-file reads pass; source and environment checkpoints saved; final build binding pending
+QA-001,P0,high,QA infrastructure,in_progress,Verify source and environment integrity,Git integrity and readable source verified; reconciled remote main at local dfc2a526; user settings hash preserved; release artifact binding pending
 QA-002,P0,high,QA infrastructure,in_progress,Resolve native build capacity,Unused Collect Xcode intermediates removed; measured free bytes increased to 4617482240; native and database build footprint pending
-QA-003,P0,high,QA engineering,in_progress,Audit and repair QA runner and CI coverage,Runner fixture classification; both mobile gates; non-writing owned-source formatter; CI consistency target and MCP job repaired; remaining command coverage audit pending
+QA-003,P0,high,QA engineering,in_progress,Audit and repair QA runner and CI coverage,"Formatter, aggregate mobile gates, fixture classification, evidence target, coverage arithmetic and MCP CI job repaired; six source-size CI violations remain"
 QA-004,P1,high,QA product,in_progress,Inventory routes aliases overlays and supported runtimes,scope.csv exports 324 platform-entrypoint rows; actual member router and Admin catalogs compared; join alias omission repaired; overlays and platform applicability pending
 QA-005,P1,high,QA design,in_progress,Bind roles states geography references and owner annotations,Ten originals hash/dimension restored; component comparator verified; full role/state/geography/reference mapping pending
-QA-006,P2,high,Application engineering,in_progress,Execute Flutter and script baseline suites,Full checkpoint:767 Flutter tests pass; analysis/format clean;20 script test files pass81 tests; upstream reconciliation and remaining runtime scripts pending
+QA-006,P2,high,Application engineering,in_progress,Execute Flutter and script baseline suites,Reconciled source:768 Flutter tests pass with fixed random seed and4 workers; analysis/format/hygiene pass;69 gate/tooling and81 other script tests pass; database/native scripts pending
 QA-007,P2,high,Backend engineering,complete,Execute all Edge and notification MCP checks,Pinned Deno 2.5.6: 54 tests and 38 file checks pass across all 11 entrypoints; MCP type check and 30 tests pass locally; hosted CI tracked separately
 QA-008,P2,high,Security QA,in_progress,Review authentication authorization privacy and secrets,Secret scan and Edge auth contracts pass; isolated runtime abuse cases pending
 QA-009,P3,high,Backend QA,pending,Replay migrations and rehearse supported upgrade paths,Disposable database replay and schema evidence
@@ -17,10 +17,10 @@ QA-015,P4,high,Accessibility QA,pending,Verify native readers text keyboard and 
 QA-016,P5,high,Admin QA,pending,Execute every Admin route and role-bound task,Fixture persistence comparisons and authorized read-only live checks
 QA-017,P5,high,PWA QA,pending,Verify installed lifecycle cache session and update behavior,Separate platform and browser evidence
 QA-018,P6,high,Public web QA,in_progress,Review every public route CTA and content source,Nine source public routes inventoried; build blocked by current media freshness check; route and CTA runtime review pending
-QA-019,P6,high,Design QA,in_progress,Verify marketing visuals and current app media,Two golden photo changes and existing Home/Groups media visually inspected; current native website screenshot recapture required
+QA-019,P6,high,Design QA,in_progress,Verify marketing visuals and current app media,"Home, Groups and upstream offline goldens visually reviewed; website captures inspected; current native website recapture still required"
 QA-020,P7,high,Performance QA,pending,Measure native web and database performance,Declared budgets environments traces and sample limits
 QA-021,P7,high,Resilience QA,pending,Exercise cross-system failure recovery and observability,Interrupted duplicate delayed and unavailable-service outcomes
-QA-022,P7,high,Infrastructure QA,in_progress,Inspect deployment drift CI and recovery read-only,Read-only GitHub inspection:baseline CI jobs never started due to account billing lock;remote main2 commits ahead;source reconciliation in progress
-QA-023,P8,high,Engineering QA,in_progress,Fix and retest defects with focused regressions,767 full Flutter tests pass; random-order profile cache isolated and persisted fields asserted; mobile gate49 tests and tooling20 tests pass; later upstream fixes require retest
+QA-022,P7,high,Infrastructure QA,in_progress,Inspect deployment drift CI and recovery read-only,Latest main and baseline CI annotations report account billing lock before jobs start; remote source reconciled locally; deployment/database drift and restore work pending
+QA-023,P8,high,Engineering QA,in_progress,Fix and retest defects with focused regressions,Reconciled 768-test suite passes; all original baseline defects closed locally; current source-size and media-freshness findings remain
 QA-024,P8,high,Design QA,blocked,Complete governed mobile and all-surface visual acceptance,Current exact native artifacts; expanded case evidence; independent review and real owner acceptance missing; no approval written
-QA-025,P8,high,QA lead,in_progress,Run final required regression and prepare report,Current findings and checkpoint evidence index established; final coverage and acceptance incomplete
+QA-025,P8,high,QA lead,in_progress,Run final required regression and prepare report,Checkpoint report and64 indexed checks recorded; final full-system coverage and acceptance incomplete

@@ -14,7 +14,8 @@ Goal task ID: `01a0a06a-73fb-7c23-81a6-36149a29e347`. The goal executes all nine
 
 ## Current evidence
 
-- HEAD: `caafcef15f83de9baae84c377e1a99bb49ed6920`; existing branch: `codex/recovered-pro-g40-2026-09-10`.
+- Initial HEAD: `caafcef15f83de9baae84c377e1a99bb49ed6920`; working branch: `codex/recovered-pro-g40-2026-09-10`.
+- The two newer upstream commits were reconciled in local merge `dfc2a526`, after QA checkpoint `2dd34026`. The current user-supplied design rule and settings modification are preserved. Nothing was pushed.
 - `git fsck --full --no-dangling`: exit 0. All 1,464 tracked files were readable.
 - Existing `.vscode/settings.json` modification is preserved.
 - Initial inventory: 73 Flutter test files, 12 integration test files, 124 local migrations, 11 Edge Function entry points and 11 Edge test files. A router-inventory regression test file was subsequently added. These are file counts, not passed-test counts.
@@ -22,9 +23,9 @@ Goal task ID: `01a0a06a-73fb-7c23-81a6-36149a29e347`. The goal executes all nine
 - Mobile contract is valid. Ten exact original references were restored to ignored paths after hash/dimension verification. Android and iOS remain blocked; absent release provenance prevents complete case evaluation. The governed inventory currently derives 135 cases per platform, with zero recorded acceptance cases. This is not yet a complete all-state coverage denominator.
 - The missing CI evidence-consistency target is implemented. Formatting checks no longer write files or traverse ignored generated dependencies. The aggregate runner enforces both full mobile gates and reports fixture results as unverified. Regression tests cover these controls.
 - The mobile adapter now requires separate implementer, independent visual and owner records and four separately evidenced quality results. All 49 gate tests pass locally. The real acceptance file is unchanged and blocked.
-- Initial Flutter baseline: 758 passed and 7 failed. Test/tooling defects, an additional stale asset-count assertion and an order-dependent shared test cache were repaired. Two photo-only golden changes were visually reviewed against the selected comparator; only those baselines were refreshed. The full checkpoint run now passes all 767 tests with seed 20260914 and four workers, with no skips or changed source inputs. Coverage is 11,863 / 17,005 lines (69.76%).
+- Initial Flutter baseline: 758 passed and 7 failed. Test/tooling defects, an additional stale asset-count assertion and an order-dependent shared test cache were repaired. Two photo-only golden changes were visually reviewed against the selected comparator; only those baselines were refreshed. The pre-reconciliation checkpoint passed all 767 tests with seed 20260914 and four workers, with no skips or changed source inputs. Coverage is 11,863 / 17,005 lines (69.76%).
 - Flutter analysis, formatting and source hygiene pass. All 54 Deno tests and all 38 Edge TypeScript file checks pass using pinned Deno 2.5.6. Notification MCP type checking and 30 tests pass. Twenty further script test files pass 81 tests and 344 assertions. CI coverage for the MCP package is added; hosted runs for the baseline were blocked before starting by an account billing lock, and these changes have not run there.
-- The line-coverage gate now counts each executed source line once and rejects missing evidence; its 40% threshold is unchanged. Six existing files exceed CI's separate 1,200-line limit. The latest remote main contains two newer commits, including overlapping QA and product fixes; reconciliation is in progress while preserving the design instructions supplied in this task.
+- The line-coverage gate now counts each executed source line once and rejects missing evidence; its 40% threshold is unchanged. Six existing files exceed CI's separate 1,200-line limit. Upstream reconciliation is complete locally: all 768 Flutter tests pass on stable reconciled source, with coverage of 11,876 / 17,005 lines (69.84%), analysis clean and all 69 gate/tooling tests passing. A subsequent test-format correction and scope CSV line-ending correction were verified separately; product code is unchanged from that run.
 - Scope export contains 324 platform/entrypoint rows, including 38 actual member paths, 24 Admin paths, nine public paths, 124 migrations, 11 Edge entries and nine MCP tools. The previously omitted `/groups/join` alias now has route catalog and native-test coverage. Roles, overlays, states and dependency mapping remain incomplete.
 - Website app screenshots need recapturing: their current runtime fingerprint does not match. Updating the asset byte inventory does not change this failed freshness result.
 - Approximately 2.2 GiB was available at discovery. Removing two verified-unused Collect Xcode intermediate caches increased measured free space from 2.57 to 4.30 GiB. Large native-build capacity is still unresolved. Docker is installed but not running; no physical Android device is connected, and no iOS simulator is booted.
@@ -42,6 +43,13 @@ Goal task ID: `01a0a06a-73fb-7c23-81a6-36149a29e347`. The goal executes all nine
 | P6 — Public website | in_progress | Recapture current native app media, then run static and rendered website checks |
 | P7 — Resilience/performance/operations | pending | Establish named environments, budgets and failure scenarios |
 | P8 — Remediation/regression/acceptance | in_progress | Continue reproduced-defect repairs; exact native proof and real reviews remain outstanding |
+
+There are 24 findings in the ledger: 16 fixed locally, seven open and one closed
+as a preview false positive. This is a triage count, not a system-completion
+percentage. The seven open findings cover incomplete scope, stale website
+media, missing mobile acceptance evidence, build capacity, legacy Edge-helper
+portability, six source-size CI violations and the hosted CI billing
+prerequisite. Consult the ledger for the definitive statuses.
 
 No production deployment, production migration, external message, store
 submission, signed-in device reset or release approval has been performed.

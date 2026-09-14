@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-09-14T16:02:22.713941+00:00",
+  "recorded_at": "2026-09-14T16:14:03.872939+00:00",
   "scope": "in-progress full-stack QA checkpoint",
   "final_acceptance": false,
   "baseline_head": "caafcef15f83de9baae84c377e1a99bb49ed6920",
@@ -1209,13 +1209,283 @@
       "log_sha256": "a10739ecf32a2ef7a70f0eb2ec7a39cccdeb2f204a450f7187fa05d118a8a63d",
       "changed_inputs_after_check": [],
       "evidence_record": ".cache/fullstack-qa/20260914T151002Z/checkpoint-regression-results.json"
+    },
+    {
+      "id": "reconciled-unit-regression",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=4",
+        "--test-randomize-ordering-seed=20260914",
+        "--coverage",
+        "--reporter=json"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:08:41.125599+00:00",
+      "finished_at": "2026-09-14T16:10:09.851187+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-unit-regression.log",
+      "log_sha256": "2a7f84dc9b95969dba01540ddc463b4f5b907dd35dcb3dabb3052949d9c67be1",
+      "changed_inputs_after_check": [],
+      "passed": 768,
+      "failed": 0,
+      "skipped": 0,
+      "coverage_evidence": ".cache/fullstack-qa/20260914T151002Z/reconciled-lcov.info",
+      "coverage_sha256": "202e9afe5ec60ed4940bb7095a098b4c7abe08d4b22352e3d51f5797786d2d1c",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-line-coverage",
+      "command": [
+        "ruby",
+        "scripts/qa/lcov_coverage.rb",
+        "coverage/lcov.info",
+        "40"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:10.174224+00:00",
+      "finished_at": "2026-09-14T16:10:10.254241+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-line-coverage.log",
+      "log_sha256": "b5d3e14d197ff7727ac471c4ecf70da131eaea2ff966bbae508673a0b6790d38",
+      "changed_inputs_after_check": [],
+      "parsed_result": {
+        "status": "pass",
+        "lines_hit": 11876,
+        "lines_total": 17005,
+        "percent": 69.84,
+        "threshold": 40.0,
+        "files": 157
+      },
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-analyze",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "analyze",
+        "--no-pub"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:10.402208+00:00",
+      "finished_at": "2026-09-14T16:10:14.991949+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-analyze.log",
+      "log_sha256": "486df637e37f324ebb8ef0022c52ba397620160f9fa3cbc52a72eefe9626a580",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-qa-tooling",
+      "command": [
+        "make",
+        "qa-tooling-test",
+        "mobile-design-gate-test",
+        "revolut-parity-evidence-consistency"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:15.113110+00:00",
+      "finished_at": "2026-09-14T16:10:32.219202+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-qa-tooling.log",
+      "log_sha256": "9c0098a3eee3378b8dcb0bf2b3b36b826bc2faff6474300c80384bf8a0e6db0b",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-format",
+      "command": [
+        "make",
+        "DART=/Users/jeanbosco/Developer/flutter/bin/dart",
+        "format-check"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:32.454696+00:00",
+      "finished_at": "2026-09-14T16:10:33.823873+00:00",
+      "exit_code": 2,
+      "status": "mismatch",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-format.log",
+      "log_sha256": "7164eec4098964b4114e68123995e3dd6d3ab88f227999e63341a1df4d9c467f",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-source-hygiene",
+      "command": [
+        "bash",
+        "scripts/revolut_parity_source_hygiene_gate.sh",
+        "--json"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:33.944061+00:00",
+      "finished_at": "2026-09-14T16:10:42.041115+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-hygiene.log",
+      "log_sha256": "e58189dc0183487708c811d55771d01882705b97b51ce8e087befe1651f25eae",
+      "changed_inputs_after_check": [],
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-mobile-android",
+      "command": [
+        "ruby",
+        "scripts/qa/mobile_design_gate.rb",
+        "--json"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:42.286826+00:00",
+      "finished_at": "2026-09-14T16:10:42.530539+00:00",
+      "exit_code": 1,
+      "status": "unverified",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-mobile-android.log",
+      "log_sha256": "b4b053e71c8e0ec7cb244449df512c37a3b8a87be63a21024041c4593afad781",
+      "changed_inputs_after_check": [],
+      "parsed_result": {
+        "rule": "MOBILE-DESIGN-100",
+        "platform": "android",
+        "status": "blocked",
+        "score": null,
+        "failures": [
+          "Acceptance must be mobile-only and approved",
+          "Stale or absent source_sha256",
+          "Stale or absent contract_sha256",
+          "Stale or absent references_sha256",
+          "Stale or absent authority_sha256",
+          "Stale or absent version",
+          "Open findings remain",
+          "Missing or mismatched android apk",
+          "Missing or mismatched android aab",
+          "Missing .cache/mobile-design-build/android.json"
+        ]
+      },
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "reconciled-mobile-ios",
+      "command": [
+        "ruby",
+        "scripts/qa/mobile_design_gate.rb",
+        "--ios",
+        "--json"
+      ],
+      "environment": "local macOS;fixture or read-only QA checks",
+      "head": "dfc2a526e67f45a48fff8062cbf9fd29ec670c4e",
+      "started_at": "2026-09-14T16:10:42.667735+00:00",
+      "finished_at": "2026-09-14T16:10:42.892167+00:00",
+      "exit_code": 1,
+      "status": "unverified",
+      "source_manifest": ".cache/fullstack-qa/20260914T151002Z/reconciled-source-manifest.json",
+      "source_manifest_sha256": "ac0a56438cf74eb34a5e52989997d34d0c7fadf6bcdcc60830a0710b03bd89b6",
+      "log": ".cache/fullstack-qa/20260914T151002Z/reconciled-mobile-ios.log",
+      "log_sha256": "59a86fb436c83351c2a8f77b7c508785d9e12fc9820ab047093e46c6a262d63e",
+      "changed_inputs_after_check": [],
+      "parsed_result": {
+        "rule": "MOBILE-DESIGN-100",
+        "platform": "ios",
+        "status": "blocked",
+        "score": null,
+        "failures": [
+          "Acceptance must be mobile-only and approved",
+          "Stale or absent source_sha256",
+          "Stale or absent contract_sha256",
+          "Stale or absent references_sha256",
+          "Stale or absent authority_sha256",
+          "Stale or absent version",
+          "Open findings remain",
+          "Missing or mismatched ios ipa",
+          "Missing .cache/mobile-design-build/ios.json"
+        ]
+      },
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/reconciled-regression-results.json"
+    },
+    {
+      "id": "format-after-upstream",
+      "command": [
+        "make",
+        "DART=/Users/jeanbosco/Developer/flutter/bin/dart",
+        "format-check"
+      ],
+      "started_at": "2026-09-14T16:12:26.588517+00:00",
+      "finished_at": "2026-09-14T16:12:28.361032+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/format-after-upstream.log",
+      "log_sha256": "3aadf60204aba14ecaf10ce1bf4ecd0d489009e2489ec0d1764cc6304489febd",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/final-report-format-checks.json"
+    },
+    {
+      "id": "contract-after-scope-format",
+      "command": [
+        "ruby",
+        "scripts/qa/mobile_design_gate.rb",
+        "--check-contract",
+        "--json"
+      ],
+      "started_at": "2026-09-14T16:12:28.361199+00:00",
+      "finished_at": "2026-09-14T16:12:28.680499+00:00",
+      "exit_code": 0,
+      "status": "pass",
+      "log": ".cache/fullstack-qa/20260914T151002Z/contract-after-scope-format.log",
+      "log_sha256": "074fefbbcb2b3a80542ff5733b2e4127b073d92b4325b3ea6f18bcc6653c9955",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/final-report-format-checks.json"
+    },
+    {
+      "id": "upstream-offline-golden",
+      "command": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/goldens/collect_core_surfaces_golden_test.dart",
+        "--plain-name",
+        "member offline matches approved visual baseline",
+        "--reporter=expanded"
+      ],
+      "started_at": "2026-09-14T16:05:40.947715+00:00",
+      "finished_at": "2026-09-14T16:05:45.437186+00:00",
+      "exit_code": 1,
+      "status": "mismatch",
+      "log": ".cache/fullstack-qa/20260914T151002Z/upstream-offline-golden.log",
+      "log_sha256": "72c9352ac9e15d3dd9e53679d005e65d66aab8bf05bb35deca38479d0f74d7cb",
+      "evidence_record": ".cache/fullstack-qa/20260914T151002Z/upstream-offline-golden-result.json"
     }
   ],
   "current_local_checkpoint": {
-    "passed_flutter_tests": 767,
+    "source_commit": "dfc2a526",
+    "passed_flutter_tests": 768,
     "failed_flutter_tests": 0,
     "skipped_flutter_tests": 0,
-    "line_coverage_percent": 69.76,
-    "scope_note": "Pre-upstream-reconciliation checkpoint; exact source manifest and unchanged-input verification in checkpoint-regression-results.json"
+    "line_coverage": {
+      "hit": 11876,
+      "total": 17005,
+      "percent": 69.84
+    },
+    "scope_note": "Full tests and analysis on stable reconciled source. Subsequent changes only format one test, normalize the scope exporter CSV line endings and update audit documents; format, scope digest and contract checks verified separately."
   }
 }
