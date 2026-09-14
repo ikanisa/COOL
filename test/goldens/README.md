@@ -15,6 +15,12 @@ See `docs/plans/fullstack-qa-2026-09-14/VISUAL_CHECKPOINT.md` for scope, exact
 bounds and limitations. This is implementing-agent regression review only;
 it does not close native design or owner acceptance.
 
+The subsequent upstream reconciliation restored the recovery page's Back
+control. Its single offline golden was separately opened and reviewed before
+refresh, and the Back action is covered by the app-shell test. See
+`docs/plans/fullstack-qa-2026-09-14/SOURCE_RECONCILIATION.md` for the limited
+component comparison, exact source revisions and retained previous bytes.
+
 ## 5 September 2026: owner-selected RevPoints group cards
 
 The implementing agent opened the new Home and Groups test images and compared
@@ -25,6 +31,16 @@ Visible image providers are now precached before captures so the regression
 images contain decoded photos, rather than an incidental loading frame.
 The cards retain Collect's page colours, real data and contribution actions.
 This records agent visual review, not owner acceptance or mobile release approval.
+
+## 10 September 2026: current Rwanda group-cover defaults
+
+The implementing agent opened the previous and candidate Home and Groups
+images side by side. Only the group-card photographs changed: the current
+Rwanda cover bank replaces the repeated older photograph with category-specific
+community scenes. Card geometry, blue Home and teal Groups backgrounds, labels,
+balances, actions and navigation are unchanged. Only these two baselines were
+regenerated, with the existing comparison tolerance retained. This is agent
+review of widget regression expectations, not owner or native release approval.
 
 ## Covered surfaces
 

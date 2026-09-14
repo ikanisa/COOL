@@ -773,7 +773,7 @@ design_contract_source = JSON.parse(read(design_contract_path))
 design_contract_failures = []
 design_contract_failures << "authority must be revolut-design" unless design_contract_source["authority"] == "revolut-design"
 design_contract_failures << "rule must be MOBILE-DESIGN-100" unless design_contract_source["rule"] == "MOBILE-DESIGN-100"
-design_contract_failures << "authority rule is missing" unless design_contract_source["authority_rule"] == "references/mobile-design-100.md"
+design_contract_failures << "authority must use the approved skill entry point" unless design_contract_source["authority_rule"] == "SKILL.md"
 design_contract_failures << "authority SHA-256 is invalid" unless design_contract_source["authority_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
 old_public_color_tokens = %w[
   #5f5ce6 #168447 #a7465c #5f67e8 #35d071 #0a8f5b

@@ -353,12 +353,12 @@ void main() {
       await tester.pumpAndSettle();
 
       if (route == '/offline') {
-        expect(find.text('Offline mode'), findsNothing);
+        expect(find.text('Offline mode'), findsOneWidget);
         expect(find.text('You are offline'), findsOneWidget);
         expect(find.text('Saved'), findsOneWidget);
         expect(find.text('Scan/share'), findsNothing);
       } else {
-        expect(find.text('Sync status'), findsNothing);
+        expect(find.text('Sync status'), findsOneWidget);
         expect(find.text('Sync needs attention'), findsOneWidget);
         expect(find.text('Queued updates'), findsOneWidget);
         expect(find.text('Verified ledger'), findsNothing);
@@ -368,6 +368,10 @@ void main() {
         tester.getBottomRight(find.text('Review groups')).dy,
         lessThan(844),
       );
+      expect(find.byTooltip('Back'), findsOneWidget);
+      await tester.tap(find.byTooltip('Back'));
+      await tester.pumpAndSettle();
+      expect(router.routeInformationProvider.value.uri.path, '/home');
       expect(find.text('Home'), findsWidgets);
     }
   });
@@ -764,8 +768,13 @@ void main() {
     final designGate = File(
       'scripts/qa/mobile_design_gate.rb',
     ).readAsStringSync();
+    final ci = File('.github/workflows/ci.yml').readAsStringSync();
 
     expect(qaRunner, contains('mobile_design_contract'));
+    expect(
+      qaRunner,
+      contains('scripts/qa/mobile_design_gate.rb" --check-contract --json'),
+    );
     expect(designGate, contains('mobile-parity-contract.json'));
     expect(designGate, contains("AUTHORITY = 'revolut-design'"));
     expect(
@@ -773,6 +782,8 @@ void main() {
       contains("AUTHORITY_RULE = 'references/mobile-design-100.md'"),
     );
     expect(designGate, contains('Installed revolut-design authority'));
+    expect(ci, contains('make mobile-design-contract mobile-design-gate-test'));
+    expect(ci, contains('make revolut-parity-evidence-consistency'));
   });
 
   test('product contract delegates design authority to revolut-design', () {

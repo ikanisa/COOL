@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../shared/models/collect_models.dart';
+import '../../shared/models/collect_group_cover.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_group_photo_picker.dart';
@@ -111,6 +112,9 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
           imageUrl: _imageBytes == null && !_removeExistingImage
               ? collection.imageUrl
               : null,
+          defaultImageValue: CollectGroupCover.fallbackFor(
+            collection,
+          )?.reference,
           onPick: _pickImage,
           onRemove:
               _imageBytes != null ||

@@ -492,6 +492,7 @@ void main() {
     // Exact inventory equality and content hashes cover the Rwanda photo bank
     // as well as brand and website assets; the former fixed count predated it.
     expect(productVisualAssets, approvedVisualAssets.keys.toSet());
+    expect(approvedVisualAssets, isNotEmpty);
     for (final entry in approvedVisualAssets.entries) {
       expect(
         sha256.convert(File(entry.key).readAsBytesSync()).toString(),
