@@ -1,6 +1,7 @@
 import {spawn} from "node:child_process";
 import {createInterface} from "node:readline";
 import {fileURLToPath} from "node:url";
+import {queueHealth} from "./queue_health.ts";
 
 // Actual MCP transport check. No claim/write/send command or receipt content.
 const child=spawn(process.execPath,["--experimental-strip-types",fileURLToPath(new URL("./server.ts",import.meta.url))],{env:process.env,stdio:["pipe","pipe","pipe"]});
@@ -21,11 +22,11 @@ try{
   child.stdin.write(JSON.stringify({jsonrpc:"2.0",method:"notifications/initialized"})+"\n");
   const health=await request("tools/call",{name:"collect_notification_health",arguments:{}});
   if(health.error || health.result?.isError)throw new Error("AUTH_OR_TRANSPORT");
+  const h=queueHealth(health.result?.structuredContent?.result);
   const list=await request("tools/call",{name:"collect_list_pending_receipts",arguments:{limit:1}});
-  if(health.error || health.result?.isError || list.error || list.result?.isError)throw new Error("AUTH_OR_TRANSPORT");
-  const h=health.result.structuredContent?.result;
-  const rows=list.result.structuredContent?.result;
-  if(!h || typeof h.enabled!=="boolean" || !Array.isArray(rows) || rows.length>1)throw new Error("RESPONSE_SHAPE");
+  if(list.error || list.result?.isError)throw new Error("AUTH_OR_TRANSPORT");
+  const rows=list.result?.structuredContent?.result;
+  if(!Array.isArray(rows) || rows.length>1)throw new Error("RESPONSE_SHAPE");
   console.log(JSON.stringify({status:"PASS_AUTHENTICATED_STDIO_MCP",tools_called:["collect_notification_health","collect_list_pending_receipts"],queue_enabled:h.enabled,pending_page_count:rows.length,queue_mutations:0,provider_sends:0,credentials_printed:false}));
 }catch{
   console.log(JSON.stringify({status:"BLOCKED_STDIO_MCP",queue_mutations:0,provider_sends:0,credentials_printed:false}));process.exitCode=2;

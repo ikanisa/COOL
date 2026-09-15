@@ -84,6 +84,7 @@ analysis_output*.txt
 analyze_out.txt
 update_profile.dart
 package-lock.json
+!tools/public-photography/package-lock.json
 node_modules/
 .firebase/
 .agent/

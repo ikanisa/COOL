@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-09-15T02:29:03.960444+00:00",
+  "recorded_at": "2026-09-15T09:26:01.215535+00:00",
   "scope": "in-progress full-stack QA checkpoint",
   "final_acceptance": false,
   "baseline_head": "caafcef15f83de9baae84c377e1a99bb49ed6920",
   "raw_evidence_root": ".cache/fullstack-qa/20260914T151002Z",
-  "counts_note": "Overlapping checks and repeated measurements are not additive or an acceptance percentage. Current image component:30 width and24 synthetic state comparisons pass; local mobile83/84/84 remains below90, desktop99/99/99.168 Ruby/768assertions and9Python pass on552 stable inputs. Published baseline, earlier867full/87focusedFlutter, installedPWA21/22 and all failures retained. Full P0-P8/native/provider/visual acceptance remains incomplete.",
+  "counts_note": "Overlapping checks and repeated measurements are not additive or an acceptance percentage. Current image component:30 width and24 synthetic state comparisons pass; local mobile83/84/84 remains below90, desktop99/99/99.168 Ruby/768assertions and9Python pass on552 stable inputs. Published baseline, earlier867full/87focusedFlutter, installedPWA21/22 and all failures retained. Full P0-P8/native/provider/visual acceptance remains incomplete. Current notification37tests/typecheck and staged photo-lock install/source-hygiene pass. Earlier552tooling inputs unchanged;fullFlutter609/615 and fixture412/413 sources match because asset inventory now includes reviewed delivery encodings. Git push authorization is separate from QA acceptance.",
   "checks": [
     {
       "id": "mobile-design-android",
@@ -11904,6 +11904,150 @@
       "log": ".cache/fullstack-qa/20260914T151002Z/public-image-delivery/checkpoint-verification.json",
       "log_sha256": "0d6024cac0836568c4d6c25b16f2dc8ce56e8d712bf4d1d5e2e234f3faa56a55",
       "environment": "local_evidence_verification"
+    },
+    {
+      "id": "notification-bridge-typecheck-before",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/check-before.stdout",
+      "log_sha256": "3eafc55348c01f262739b9a928f3649ff4513a6f1abc9ecba6ec7d9695d1bb3e",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Current existing baseline typechecks; no product acceptance."
+    },
+    {
+      "id": "notification-bridge-tests-before",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/tests-before.stdout",
+      "log_sha256": "af56ac5a5c8733368d87b29dbec346700e02e3373f374778789166a5cd98022e",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "30 existing tests pass before the new stdio response-shape reproduction."
+    },
+    {
+      "id": "notification-bridge-malformed-health-before",
+      "status": "fail",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/stdio-before.stdout",
+      "log_sha256": "75272dbcd29071e59e1a4235e006f419a1642b969f03979b9259ccfd3f5b9c0a",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Real stdio preflight returns success without queue counts. Two of three tests pass; failure retained."
+    },
+    {
+      "id": "notification-bridge-initial-typecheck",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/check-after.stdout",
+      "log_sha256": "3eafc55348c01f262739b9a928f3649ff4513a6f1abc9ecba6ec7d9695d1bb3e",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Typecheck after shared queue health validator and real transport tests."
+    },
+    {
+      "id": "notification-bridge-initial-tests",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/tests-after.stdout",
+      "log_sha256": "da1f2d4937a84c0eb1ca6d6cddb26b480ddc7f1d922ead444118a0ab079fca6c",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "37 tests pass including all nine tools, invalid input, redirects and actual timeout."
+    },
+    {
+      "id": "notification-bridge-missing-tracked-lock",
+      "status": "fail",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/missing-tracked-lock.json",
+      "log_sha256": "03bb4cf3faf35c7c05ac99cbad69b068c226ff661077daa605abe68705c06ebc",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Commit2650b3b9 lacks package lock required by public CI npm ci."
+    },
+    {
+      "id": "notification-bridge-final-checks-initial",
+      "status": "fail",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/final-checks.json",
+      "log_sha256": "956cc584fa6cd46d5b5a0adc3b32ab7688e6b3b895135d24d692cacdafdca965",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Current typecheck/37tests/secret scan/encoder/12photo tests/diff pass, but visual inventory lacks six new encodings."
+    },
+    {
+      "id": "notification-bridge-source-hygiene-before",
+      "status": "fail",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/source-hygiene-final.stdout",
+      "log_sha256": "455710a08a0c25ff4013cf80e68ef700a36f69317e01719fc4f45b5a52981c8c",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Exact six encoded photo files missing from approved visual byte inventory; no hash mismatches."
+    },
+    {
+      "id": "notification-bridge-tracked-lock",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/tracked-lock-check.json",
+      "log_sha256": "5cf72aa8013d78669882108727a307f31cfc102068d0afb30402686da11f9b83",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Exact staged Git package and lock blobs extracted before installation."
+    },
+    {
+      "id": "notification-bridge-tracked-install",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/tracked-lock-install.stdout",
+      "log_sha256": "c2d7a44c3174eda8f11a0ec72df0e8c196442b5f0223a601c8f6d6cd34c6a418",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Isolated npm ci from staged package+lock succeeds with ignore-scripts; no vulnerabilities reported by install."
+    },
+    {
+      "id": "notification-bridge-tracked-encoding",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/tracked-lock-encoding.stdout",
+      "log_sha256": "e83026cdeaaffc89a086e3860de0ad0d7fbcd6f2ab07c159aca8c559ebfa73d6",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Actual encoder check passes using dependencies from the staged lock."
+    },
+    {
+      "id": "notification-bridge-asset-inventory",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/asset-inventory-update.json",
+      "log_sha256": "76c1144039361ad8eefac3049fd3c9f710bf4662c7dd9481c433c7391fb56949",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Six reviewed encoding hashes added without changing prior entries; no independent/owner/native acceptance."
+    },
+    {
+      "id": "notification-bridge-source-hygiene-after",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/source-hygiene-after.stdout",
+      "log_sha256": "0dc0423b5bb645c0b2574918e793a85bbb7f929a4e789ed69285789582ae981b",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Full source-hygiene gate passes with zero failures after inventory update."
+    },
+    {
+      "id": "notification-bridge-source-checkpoint",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/source-checkpoint.json",
+      "log_sha256": "eb643d47fa6e29d633b8c1b2e879980e6de1b0b01d56ac53d8404f5bf9cd226a",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "33 current inputs verified, earlier552 tooling inputs unchanged;609/615 fullFlutter and412/413 fixture inputs match,154 artifacts match."
+    },
+    {
+      "id": "notification-bridge-evidence-manifest",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/evidence-manifest.json",
+      "log_sha256": "aa49ceee09b4ae33bc4dc7981dcdb1e6edba5a5ce18d46c4c120656dcec3fc9f",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Current raw evidence and source/document hashes."
+    },
+    {
+      "id": "notification-bridge-checkpoint-verification",
+      "status": "pass",
+      "final_acceptance": false,
+      "log": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/checkpoint-verification.json",
+      "log_sha256": "10a9d1f5ddb75ae91ade00b498d699db2786d5ecc66d4a35f21de712c4293f70",
+      "environment": "local_synthetic_stdio_HTTP_and_source_packaging",
+      "limitation": "Final current evidence readback; release acceptance remains unverified."
     }
   ],
   "current_local_checkpoint": {
@@ -12059,6 +12203,31 @@
         ],
         "flutter_passes": 87
       }
+    },
+    "continuity_after_notification_bridge": {
+      "source_inputs": 615,
+      "unchanged": 609,
+      "changed": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/public-website.yml",
+        "Makefile",
+        "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256",
+        "test/admin_pwa_test.dart",
+        "test/core/route_inventory_contract_test.dart"
+      ],
+      "passes": 867,
+      "coverage_percent": 74.65,
+      "rerun": false,
+      "evidence": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/source-checkpoint.json",
+      "notification_tests": 37,
+      "original_fixture_sources": {
+        "total": 413,
+        "unchanged": 412,
+        "changed": [
+          "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256"
+        ]
+      },
+      "fixture_artifacts": 154
     }
   },
   "database_checkpoint": {
@@ -12882,5 +13051,26 @@
     "evidence_manifest_sha256": "3f1b93ef5d48a3db5aa20dd7155e9b11720772deeb8d459441cf95e98e5f9fdb",
     "verification": ".cache/fullstack-qa/20260914T151002Z/public-image-delivery/checkpoint-verification.json",
     "verification_sha256": "0d6024cac0836568c4d6c25b16f2dc8ce56e8d712bf4d1d5e2e234f3faa56a55"
+  },
+  "notification_bridge_checkpoint": {
+    "status": "in_progress",
+    "final_acceptance": false,
+    "tests": 37,
+    "typecheck": "pass",
+    "fixed_local": [
+      "FQA-044",
+      "FQA-045"
+    ],
+    "tracked_lock_install": "pass",
+    "source_hygiene": "pass",
+    "current_sources": 33,
+    "source_checkpoint": ".cache/fullstack-qa/20260914T151002Z/notification-bridge/source-checkpoint.json",
+    "source_checkpoint_sha256": "eb643d47fa6e29d633b8c1b2e879980e6de1b0b01d56ac53d8404f5bf9cd226a",
+    "provider_sends": 0,
+    "production_database_mutations": 0,
+    "git_push_authorized": true,
+    "git_push_status": "pending",
+    "goal_status": "active",
+    "verification_sha256": "10a9d1f5ddb75ae91ade00b498d699db2786d5ecc66d4a35f21de712c4293f70"
   }
 }

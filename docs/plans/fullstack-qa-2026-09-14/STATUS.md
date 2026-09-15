@@ -25,6 +25,21 @@ Goal task ID: `01a0a06a-73fb-7c23-81a6-36149a29e347`. The goal executes all nine
 
 ## Current checkpoint
 
+The latest [notification bridge checkpoint](NOTIFICATION_BRIDGE_CHECKPOINT.md)
+fixes FQA-044: malformed queue counts could falsely pass the actual stdio
+preflight. Both paths now validate all aggregate counts before listing work.
+TypeScript and **37 Node tests** pass, including nine real stdio/HTTP mappings,
+invalid input, denied/redirected requests and a one-attempt 15-second timeout.
+These fixtures use synthetic credentials and make no provider send.
+
+FQA-045 is fixed locally: the photo dependency lockfile is now included by Git,
+and six already-reviewed encoded photo hashes are added to the asset inventory.
+Installation from exact staged package/lock blobs and encoding checks pass.
+The original missing-lock and source-hygiene failures are retained; the
+corrected source-hygiene gate and redacted fallback secret scan pass.
+The user has authorized commit and push to main; this checkpoint precedes
+remote publication and does not establish deployment or release acceptance.
+
 The [public image delivery checkpoint](PUBLIC_IMAGE_DELIVERY_CHECKPOINT.md)
 adds full-resolution WebP delivery with original PNG fallbacks. Six photographs
 fall from **11,259,743 to 1,230,960 bytes**; original PNGs, dimensions, alpha and
@@ -67,7 +82,8 @@ actions/drafts, readers, physical offline startup and remaining platforms are
 unverified. See the [offline investigation](PWA_OFFLINE_CHECKPOINT.md).
 
 The worker was packaged around the existing backend-free synthetic Admin
-fixture: all 413 application inputs and 154 original artifact files still match.
+fixture: 412/413 application inputs still match; only the photo asset inventory
+differs. All 154 original artifact files still match.
 Retained framework regression passes **87 focused Flutter tests, 132 Ruby tests with
 663 assertions, and nine Python tests**. Analysis, source hygiene, packaging
 gates, contract validation and evidence consistency pass. All 527 recorded
@@ -78,8 +94,8 @@ Ruby/Python tooling is verified above. Product Dart and original assets retain
 their earlier regression. No Flutter suite was rerun for this public pipeline change.
 
 The earlier full Flutter run retains 867 passes and 74.65% measured coverage;
-610 of its 615 inputs remain unchanged. Two CI files, Makefile and two expanded
-test files differ. Product Dart, original assets and platform source are unchanged. No new
+609 of its 615 inputs remain unchanged. Two CI files, Makefile, the photo asset
+inventory and two expanded test files differ. Product Dart, original assets and platform source are unchanged. No new
 full-suite run or coverage measurement is claimed. The user's settings hash
 is preserved. The six earlier and three new owned PWA installations were
 removed and read back; their synthetic profiles were deleted after process
@@ -159,7 +175,7 @@ No hosted CI, deployment, provider or native acceptance is implied.
 | P7 — Resilience/performance/operations | in_progress | Extend root lab performance to other routes and field evidence; continue native/member/Admin/database workloads, real sessions and cross-system recovery |
 | P8 — Remediation/regression/acceptance | in_progress | Continue reproduced-defect repairs; exact native proof and real reviews remain outstanding |
 
-There are 43 findings in the ledger: 33 fixed locally, nine open and one
+There are 45 findings in the ledger: 35 fixed locally, nine open and one
 closed as a preview false positive. This is a triage count, not a completion
 percentage. Open findings cover incomplete scope, stale website media,
 missing mobile acceptance evidence, build capacity, broken privacy links,
@@ -170,4 +186,4 @@ performance. Consult the ledger for exact statuses.
 No production deployment, production migration, external message, store
 submission, signed-in device reset or release approval has been performed.
 Raw checkpoint evidence is under `.cache/fullstack-qa/20260914T151002Z/`.
-There are 461 indexed checks, including preserved failures and invalid measurements.
+There are 477 indexed checks, including preserved failures and invalid measurements.

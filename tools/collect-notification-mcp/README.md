@@ -48,6 +48,14 @@ Keychain-backed live preflight both passed against production. The existing
 minute heartbeat is now ACTIVE in read-only/no-send mode; seven queue-control
 tools remain excluded from the host allowlist and receipt flags remain OFF.
 
+Both connection preflights require a boolean queue-enabled flag and all six
+nonnegative integer queue counts before reading the bounded pending page.
+Malformed successful responses remain blocked. Local transport regressions
+exercise all nine tool mappings, input rejection, redirect refusal and a real
+15-second timeout against isolated HTTP fixtures with synthetic credentials.
+Those tests do not access Keychain, invoke Messages, prove SQL persistence or
+establish current production authorization or delivery.
+
 Install and verify locally:
 
 ```sh

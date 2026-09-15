@@ -8,6 +8,21 @@ task. [STATUS.md](STATUS.md), [work-items.csv](work-items.csv),
 [findings.csv](findings.csv) and [results.json](results.json) track execution.
 Current scope export: [scope.csv](scope.csv), [scope-summary.json](scope-summary.json).
 
+The latest [notification bridge checkpoint](NOTIFICATION_BRIDGE_CHECKPOINT.md)
+fixes FQA-044: malformed queue counts could falsely pass the actual stdio
+preflight. Both paths now validate all aggregate counts before listing work.
+TypeScript and **37 Node tests** pass, including nine real stdio/HTTP mappings,
+invalid input, denied/redirected requests and a one-attempt 15-second timeout.
+These fixtures use synthetic credentials and make no provider send.
+
+FQA-045 is fixed locally: the photo dependency lockfile is now included by Git,
+and six already-reviewed encoded photo hashes are added to the asset inventory.
+Installation from exact staged package/lock blobs and encoding checks pass.
+The original missing-lock and source-hygiene failures are retained; the
+corrected source-hygiene gate and redacted fallback secret scan pass.
+The user has authorized commit and push to main; this checkpoint precedes
+remote publication and does not establish deployment or release acceptance.
+
 The [public image delivery checkpoint](PUBLIC_IMAGE_DELIVERY_CHECKPOINT.md)
 adds full-resolution WebP delivery with original PNG fallbacks. Six photographs
 fall from **11,259,743 to 1,230,960 bytes**; original PNGs, dimensions, alpha and
@@ -43,8 +58,8 @@ attributes this class of issue to Chromium. FQA-040 remains open and the suite
 remains failed. No physical-device offline outcome is inferred.
 Installation, standalone rendering, origin-outage cold launch, failed-update
 recovery and reconnect retain their separate evidence. Real sessions/actions
-and the full platform matrix remain open. The original 413 application inputs
-and 154 fixture artifact files are unchanged. All six earlier and three new
+and the full platform matrix remain open. Of the original 413 application inputs, 412 match; only the photo asset
+inventory differs. All 154 fixture artifact files remain unchanged. All six earlier and three new
 task-created installations and profiles were removed.
 
 The earlier full application checkpoint passed **867 Flutter tests**, with zero
@@ -119,8 +134,8 @@ exercised lifecycle probe differ. Current tooling passes 168 Ruby tests /
 768 assertions and nine Python tests on 552 stable inputs. The preceding
 529-input tooling run retains 527 matching inputs, with Makefile and the
 builder changed. New delivery files are included in the current source record.
-Since the full 867-test Flutter run, 610/615 inputs match: two CI files,
-Makefile and the PWA/route-inventory tests differ. Original assets, product
+Since the full 867-test Flutter run, 609/615 inputs match: two CI files,
+Makefile, the photo asset inventory and the PWA/route-inventory tests differ. Original assets, product
 Dart and platform source are unchanged in this continuation. No Flutter or
 coverage rerun is claimed. Native gates remain blocked with zero accepted cases.
 
@@ -253,6 +268,6 @@ The next steps are expanded route/state/API coverage, current clean replay and
 supported upgrades, runtime authorization, wider failure/concurrency cases and
 representative performance measurements. Native builds require adequate
 capacity. Actual end-to-end tasks and remediation continue under the plan.
-There are 461 indexed checks, including preserved failed attempts;
-overlapping tests are not an acceptance percentage. The ledger has 43 findings:
-33 fixed locally, nine open and one preview false positive. The goal remains active.
+There are 477 indexed checks, including preserved failed attempts;
+overlapping tests are not an acceptance percentage. The ledger has 45 findings:
+35 fixed locally, nine open and one preview false positive. The goal remains active.

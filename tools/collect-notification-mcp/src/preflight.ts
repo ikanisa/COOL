@@ -1,6 +1,7 @@
 import { pathToFileURL } from "node:url";
 import { runtimeCredentials } from "./runtime_credentials.ts";
 import { callNotificationOperator, operatorEnvironment, type FetchLike } from "./operator_client.ts";
+import { queueHealth } from "./queue_health.ts";
 
 const requiredNames = ["COLLECT_SUPABASE_URL", "COLLECT_SUPABASE_ANON_KEY", "COLLECT_OPERATOR_ACCESS_TOKEN"];
 
@@ -47,12 +48,7 @@ export async function connectionPreflight(
   if (!liveReadOnly) return { status: "READY_FOR_READ_ONLY_CHECK", runtime, ...boundary };
   try {
     const resolved = operatorEnvironment(environment);
-    const health = await callNotificationOperator("health", {}, resolved, fetcher);
-    if (!health || typeof health !== "object" || Array.isArray(health)) throw new Error("shape");
-    const h = health as Record<string, unknown>;
-    const countNames = ["queued", "awaiting_confirmation", "send_started", "uncertain", "suppressed", "active_workers"];
-    if (typeof h.enabled !== "boolean" || countNames.some(name =>
-      !Number.isSafeInteger(h[name]) || Number(h[name]) < 0)) throw new Error("shape");
+    const health = queueHealth(await callNotificationOperator("health", {}, resolved, fetcher));
     const pending = await callNotificationOperator("list_pending", { limit: 1 }, resolved, fetcher);
     if (!Array.isArray(pending) || pending.length > 1) throw new Error("shape");
     return {
@@ -60,8 +56,7 @@ export async function connectionPreflight(
       runtime,
       checks: ["health", "list_pending"],
       queue: {
-        enabled: h.enabled,
-        ...Object.fromEntries(countNames.map(name => [name, h[name]])),
+        ...health,
         pending_page_count: pending.length,
       },
       ...boundary,
