@@ -10,6 +10,7 @@ class AdminPage extends StatelessWidget {
     this.leading,
     this.trailing,
     this.child,
+    this.scrollController,
     super.key,
   });
 
@@ -18,12 +19,14 @@ class AdminPage extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final Widget? child;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return ListView(
       key: const Key('admin-page-scroll-view'),
+      controller: scrollController,
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 40),
       children: [
         Padding(

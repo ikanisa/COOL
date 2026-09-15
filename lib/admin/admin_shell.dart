@@ -40,7 +40,12 @@ class _AdminShellState extends ConsumerState<AdminShell> {
             title: 'Loading admin workspace',
             message: 'Checking access.',
           ),
-          error: (error, _) => Center(child: AdminSafeErrorPanel(error: error)),
+          error: (error, _) => Center(
+            child: AdminSafeErrorPanel(
+              error: error,
+              onRetry: () => ref.invalidate(adminIdentityProvider),
+            ),
+          ),
           data: (value) {
             if (value == null) return const AdminDeniedPage();
             ref.watch(adminRealtimeSubscriptionProvider);

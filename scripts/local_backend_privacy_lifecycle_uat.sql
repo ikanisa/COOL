@@ -42,12 +42,7 @@ values
   (:'outsider_id', 'authenticated', 'authenticated', 'outsider@collect.local', '+250780000003', now(), '{}', '{}', now(), now());
 
 update public.profiles
-set public_id = case id
-  when :'owner_id'::uuid then '900001'
-  when :'member_id'::uuid then '900002'
-  when :'outsider_id'::uuid then '900003'
-end,
-display_name = case id
+set display_name = case id
   when :'owner_id'::uuid then 'Controlled owner'
   when :'member_id'::uuid then 'Controlled member'
   when :'outsider_id'::uuid then 'Controlled outsider'
@@ -67,6 +62,9 @@ momo_number_hash = case id
   when :'outsider_id'::uuid then encode(extensions.digest('+250780000003', 'sha256'), 'hex')
 end
 where id in (:'owner_id', :'member_id', :'outsider_id');
+
+select public_id as member_public_id from public.profiles where id=:'member_id'
+\gset
 
 insert into public.collections (
   id,
@@ -204,32 +202,43 @@ values (
   :'receiver_hash',
   :'sender_hash',
   'expired',
-  '900002',
+  :'member_public_id',
   now() - interval '1 minute'
 );
 
-insert into public.raw_payment_sms (
-  id,
-  collection_id,
-  receiver_user_id,
-  raw_sender,
-  raw_body,
-  body_hash,
-  receiver_momo_number_hash,
-  received_at_device,
-  parse_status
-)
-values (
-  '30000000-0000-4000-8000-000000000001',
-  :'collection_id',
-  :'owner_id',
-  'CONTROLLED_FIXTURE',
-  'Synthetic local payment message with no customer data',
-  'controlled-body-hash-confirmed',
-  :'receiver_hash',
-  now(),
-  'parsed'
-);
+insert into public.receiver_mode_consents(user_id,enabled,momo_number_hash,build_channel,device_label)
+values (:'owner_id',true,:'receiver_hash','android_sms_ingest_attested','synthetic_local_fixture');
+select now()::text as sms_device_time,
+  encode(extensions.digest('Synthetic local payment message with no customer data', 'sha256'), 'hex') as sms_body_hash
+\gset
+-- Minting is a synthetic service fixture, not a real device/provider attestation.
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select public.mint_native_action_capability(
+  :'owner_id', 'sms.ingest', repeat('c',64),
+  jsonb_build_object('receiver_momo_number_hash', :'receiver_hash',
+    'client_envelope_id', '30000000-0000-4000-8000-000000000091',
+    'raw_sender', 'CONTROLLED_FIXTURE', 'raw_body_sha256', :'sms_body_hash',
+    'received_at_device', :'sms_device_time'),
+  :'receiver_hash', 'app.cool.mobile', 'PLAY_RECOGNIZED',
+  array['MEETS_DEVICE_INTEGRITY'], now()
+) as sms_capability
+\gset
+select public.ingest_attested_raw_payment_sms(
+  :'sms_capability', :'owner_id', :'collection_id', 'CONTROLLED_FIXTURE',
+  'Synthetic local payment message with no customer data', :'sms_body_hash',
+  '30000000-0000-4000-8000-000000000091', :'receiver_hash', :'sms_device_time'
+)->>'id' as confirmed_sms_id
+\gset
+reset role;
+select set_config('collect.uat.confirmed_sms', :'confirmed_sms_id', true);
+select pg_temp.assert_true(exists (
+  select 1 from public.raw_payment_sms raw
+  join public.native_action_capabilities capability on capability.id=raw.native_action_capability_id
+  where raw.id=:'confirmed_sms_id' and capability.consumed_at is not null
+    and raw.attestation_request_hash=capability.request_hash and raw.device_attested_at is not null
+), 'controlled payment evidence retains its consumed device capability');
+update public.raw_payment_sms set parse_status='parsed' where id=:'confirmed_sms_id';
 
 insert into public.parsed_payment_events (
   id,
@@ -251,7 +260,7 @@ insert into public.parsed_payment_events (
 )
 values (
   '40000000-0000-4000-8000-000000000001',
-  '30000000-0000-4000-8000-000000000001',
+  :'confirmed_sms_id',
   :'collection_id',
   :'owner_id',
   true,
@@ -263,16 +272,36 @@ values (
   :'sender_hash',
   :'receiver_hash',
   now(),
-  '900002',
+  :'member_public_id',
   0.99,
   '{"fixture": true}'
 );
 
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
 select pg_temp.assert_true(
   public.allocate_parsed_payment_event(
     '40000000-0000-4000-8000-000000000001'
-  ) = 'allocated',
-  'a valid controlled OpenAI-parsed event must allocate automatically'
+  ) = 'awaiting_provider_confirmation',
+  'a valid parsed event must remain a review candidate until finality'
+);
+reset role;
+select pg_temp.assert_true(
+  exists (select 1 from public.payments where parsed_event_id='40000000-0000-4000-8000-000000000001'
+    and status='review' and posted_at is null)
+  and not exists (select 1 from public.ledger_entries entry join public.payments payment on payment.id=entry.payment_id
+    where payment.parsed_event_id='40000000-0000-4000-8000-000000000001'),
+  'matching alone must not post ledger truth'
+);
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select pg_temp.assert_true(
+  public.finalize_attested_payment_sms(:'confirmed_sms_id')->>'status'='posted',
+  'attested evidence finalizes the candidate through the service boundary'
+);
+select pg_temp.assert_true(
+  public.finalize_attested_payment_sms(:'confirmed_sms_id')->>'replayed'='true',
+  'finality replay preserves the original payment'
 );
 
 select pg_temp.assert_true(
@@ -368,6 +397,7 @@ select pg_temp.assert_true(
 );
 
 do $$
+declare duplicate_constraint text;
 begin
   begin
     insert into public.raw_payment_sms (
@@ -375,19 +405,18 @@ begin
       receiver_user_id,
       raw_sender,
       raw_body,
-      body_hash
+      body_hash,
+      receiver_momo_number_hash,
+      received_at_device
     )
-    values (
-      '20000000-0000-4000-8000-000000000001',
-      '10000000-0000-4000-8000-000000000001',
-      'CONTROLLED_FIXTURE',
-      'Synthetic duplicate',
-      'controlled-body-hash-confirmed'
-    );
-    raise exception 'duplicate SMS hash unexpectedly succeeded';
+    select collection_id,receiver_user_id,raw_sender,raw_body,body_hash,
+      receiver_momo_number_hash,received_at_device
+    from public.raw_payment_sms where id=current_setting('collect.uat.confirmed_sms')::uuid;
+    raise exception 'duplicate observed SMS source unexpectedly succeeded';
   exception
     when unique_violation then
-      null;
+      get stacked diagnostics duplicate_constraint = CONSTRAINT_NAME;
+      if duplicate_constraint <> 'raw_payment_sms_observed_source_unique' then raise; end if;
   end;
 end;
 $$;

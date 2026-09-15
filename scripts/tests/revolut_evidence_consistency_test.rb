@@ -24,6 +24,7 @@ class RevolutEvidenceConsistencyTest < Minitest::Test
     write('lib/main.dart', 'void main() {}')
     write('pubspec.yaml', "version: 1.2.4+23\n")
     write('integration_test/routes.dart', "_RouteSpec('home', '/home', 'primary')")
+    write(contract['material_state_inventory'], "_StateSpec('empty', '/home', 'Empty')")
     write('references/registry.json', JSON.generate(
       'schema_version' => 1, 'source_cohorts' => { 'fixture' => { 'reference_id' => 'fixture' } }
     ))

@@ -86,10 +86,43 @@ class AdminRpcListPage extends ConsumerStatefulWidget {
   ConsumerState<AdminRpcListPage> createState() => _AdminRpcListPageState();
 }
 
+class _AdminQueueViewState {
+  const _AdminQueueViewState({
+    required this.search,
+    required this.status,
+    required this.sortBy,
+    required this.page,
+    required this.country,
+    required this.scrollOffset,
+  });
+
+  final String search;
+  final String status;
+  final String sortBy;
+  final int page;
+  final AdminCountryScope country;
+  final double scrollOffset;
+}
+
+// Only view preferences are retained, in memory, for the current Admin identity.
+// Record data is fetched again whenever the route is reopened.
+final _adminQueueViewStatesProvider =
+    Provider<Map<String, _AdminQueueViewState>>((ref) {
+      ref.watch(
+        adminIdentityProvider.select((value) => value.valueOrNull?.userId),
+      );
+      return {};
+    });
+
 class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   static const _pageSize = 25;
 
-  final _search = TextEditingController();
+  late final TextEditingController _search;
+  final _scroll = ScrollController();
+  late Map<String, _AdminQueueViewState> _viewStates;
+  var _canRememberView = true;
+  double _lastScrollOffset = 0;
+  double? _restoreScrollOffset;
   var _status = '';
   var _sortBy = 'created_at_desc';
   var _page = 0;
@@ -101,17 +134,47 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   void initState() {
     super.initState();
     _lastCountryScope = ref.read(adminCountryScopeProvider);
+    _viewStates = ref.read(_adminQueueViewStatesProvider);
+    final saved = _viewStates[widget.rpcName];
+    _search = TextEditingController(text: saved?.search ?? '');
+    _status = saved?.status ?? '';
+    _sortBy = saved?.sortBy ?? 'created_at_desc';
+    if (saved != null && saved.country == _lastCountryScope) {
+      _page = saved.page;
+      _restoreScrollOffset = saved.scrollOffset;
+    }
+    _scroll.addListener(() => _lastScrollOffset = _scroll.offset);
     _future = _load();
   }
 
   @override
   void dispose() {
+    _rememberView();
     _search.dispose();
+    _scroll.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentViewStates = ref.watch(_adminQueueViewStatesProvider);
+    if (!identical(currentViewStates, _viewStates)) {
+      _canRememberView = false;
+      _viewStates = currentViewStates;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _search.clear();
+          _status = '';
+          _sortBy = 'created_at_desc';
+          _page = 0;
+          _restoreScrollOffset = 0;
+          _canRememberView = true;
+          _future = _load();
+        });
+      });
+      return const AdminLoadingState(title: 'Loading admin workspace');
+    }
     final realtimeTick = ref.watch(adminRealtimeTickProvider);
     final countryScope = ref.watch(adminCountryScopeProvider);
     if (_lastRealtimeTick != realtimeTick) {
@@ -133,6 +196,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     );
     return AdminPage(
       title: widget.title,
+      scrollController: _scroll,
       subtitle: widget.subtitleOverride ?? spec.subtitle,
       trailing: switch (widget.rpcName) {
         'admin_list_collect_payees' => _AdminPayeeWorkspaceActions(
@@ -180,7 +244,10 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                 );
               }
               if (snapshot.hasError) {
-                return AdminSafeErrorPanel(error: snapshot.error!);
+                return AdminSafeErrorPanel(
+                  error: snapshot.error!,
+                  onRetry: () => _refresh(),
+                );
               }
               final result = snapshot.data;
               final loadedRows = result?.rows ?? const <AdminTableRowData>[];
@@ -215,6 +282,16 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
               }
               final start = page * _pageSize;
               final end = (start + rows.length).clamp(0, total);
+              final restoreOffset = _restoreScrollOffset;
+              if (restoreOffset != null) {
+                _restoreScrollOffset = null;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!mounted || !_scroll.hasClients) return;
+                  _scroll.jumpTo(
+                    restoreOffset.clamp(0, _scroll.position.maxScrollExtent),
+                  );
+                });
+              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -312,7 +389,20 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   void _openRow(AdminTableRowData row) {
     final prefix = widget.detailPathPrefix;
     if (prefix == null) return;
+    _rememberView();
     context.go('$prefix/${Uri.encodeComponent(row.id)}');
+  }
+
+  void _rememberView() {
+    if (!_canRememberView) return;
+    _viewStates[widget.rpcName] = _AdminQueueViewState(
+      search: _search.text,
+      status: _status,
+      sortBy: _sortBy,
+      page: _page,
+      country: _lastCountryScope,
+      scrollOffset: _restoreScrollOffset ?? _lastScrollOffset,
+    );
   }
 }
 

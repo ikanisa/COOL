@@ -8,11 +8,12 @@ require "open3"
 require "time"
 require "yaml"
 require_relative "public_app_media"
+require_relative "public_photography"
 
 ROOT = File.expand_path("..", __dir__)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
 PUBLIC_URL = "https://collect.ikanisa.com"
-ASSET_VERSION = "20260906-authentic-app-media"
+ASSET_VERSION = PublicPhotography.asset_version(ROOT)
 GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
 APPLE_APP_STORE_ID = "6783960331"
 APPLE_APP_STORE_URL = "https://apps.apple.com/app/id#{APPLE_APP_STORE_ID}"
@@ -2563,6 +2564,8 @@ end
 # Validate screenshot freshness before replacing a previously usable build.
 public_app_media = PublicAppMedia.new(ROOT)
 public_app_screens = public_app_media.screens
+photography = PublicPhotography.new(ROOT)
+photography.photos
 FileUtils.rm_rf(BUILD_DIR)
 FileUtils.mkdir_p(BUILD_DIR)
 build_lastmod = Time.now.utc.strftime("%Y-%m-%d")
@@ -2574,7 +2577,7 @@ end
 core_stylesheet, section_stylesheet = split_stylesheets(stylesheet)
 write_file(File.join(BUILD_DIR, "styles.css"), core_stylesheet)
 write_file(File.join(BUILD_DIR, "sections.css"), section_stylesheet)
-write_file(File.join(BUILD_DIR, "revolut.css"), File.read(File.join(ROOT, "web/public/revolut.css")))
+write_file(File.join(BUILD_DIR, "revolut.css"), photography.prepare_css(File.read(File.join(ROOT, "web/public/revolut.css"))))
 write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(
@@ -2600,6 +2603,7 @@ assets.each do |asset|
   FileUtils.mkdir_p(File.dirname(target))
   FileUtils.cp(source, target)
 end
+photography.copy_to(BUILD_DIR)
 
 public_app_screens.each_value do |media|
   target = File.join(BUILD_DIR, media.fetch("url").delete_prefix("/"))
@@ -2643,12 +2647,12 @@ write_file(File.join(BUILD_DIR, "manifest.json"), JSON.pretty_generate(manifest)
 
 all_paths = []
 PAGES.each do |page|
-  html = page_html(page)
+  html = photography.prepare_html(page_html(page))
   write_file(route_file(page[:path]), html)
   all_paths << page[:path]
   Array(page[:aliases]).each do |alias_path|
     alias_page = alias_page_for(page, alias_path)
-    write_file(route_file(alias_path), page_html(alias_page, current_path: alias_path))
+    write_file(route_file(alias_path), photography.prepare_html(page_html(alias_page, current_path: alias_path)))
     all_paths << alias_path
   end
 end

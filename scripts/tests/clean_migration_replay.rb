@@ -2,11 +2,13 @@ require 'open3'
 require 'json'
 require 'digest'
 require 'time'
+require_relative '../qa/fullstack_database'
 
 # Never accepts a database URL or container argument. Supabase CLI must have
 # initialized this separate, empty application environment first.
 current_release = !!ARGV.delete('--current-release')
 profile_cutover = !!ARGV.delete('--profile-cutover')
+fullstack_qa = !!ARGV.delete('--fullstack-qa')
 report_argument = ARGV.find { |argument| argument.start_with?('--report=') }
 ARGV.delete(report_argument) if report_argument
 report_path = report_argument&.split('=', 2)&.last
@@ -21,8 +23,11 @@ abort('Replay range modes are mutually exclusive') if through_version && continu
 [through_version, continue_after].compact.each do |version|
   abort('Invalid replay range version') unless version.match?(/\A[0-9]{14}\z/)
 end
-abort('Replay modes are mutually exclusive') if current_release && profile_cutover
-container = if profile_cutover
+abort('Replay modes are mutually exclusive') if [current_release, profile_cutover, fullstack_qa].count(true) > 1
+target_provenance = FullstackDatabase.verify! if fullstack_qa
+container = if fullstack_qa
+  FullstackDatabase::CONTAINER
+elsif profile_cutover
   'supabase_db_collect_profile_cutover_replay_20260903'
 elsif current_release
   'supabase_db_collect_release_replay_20260902'
@@ -60,6 +65,17 @@ else
     select current_setting('server_version');
   SQL
 end
+guard = <<~SQL + guard
+  do $$ begin
+    if to_regclass('auth.sessions') is null
+       or not exists(select 1 from information_schema.columns
+                     where table_schema='auth' and table_name='users' and column_name='phone')
+       or not exists(select 1 from information_schema.columns
+                     where table_schema='auth' and table_name='users' and column_name='phone_confirmed_at') then
+      raise exception 'Complete Supabase Auth platform migrations required before Collect replay';
+    end if;
+  end $$;
+SQL
 out,err,status=execute(command,guard)
 abort(err) unless status.success?
 server_version=out.strip
@@ -109,6 +125,7 @@ paths.each do |path|
   abort(err) unless status.success?
 end
 payload = JSON.pretty_generate(captured_at:Time.now.utc.iso8601,container:container,
+  target_provenance:target_provenance,
   mode: if profile_cutover
     'clean Supabase platform bootstrap; exact production baseline plus profile cutover replayed; no customer data or provider calls'
   elsif continue_after

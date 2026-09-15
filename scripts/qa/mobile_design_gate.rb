@@ -82,7 +82,8 @@ class MobileDesignGate
   end
 
   def source_digest
-    paths = SOURCE_PATTERNS.flat_map { |p| Dir.glob(File.join(@root, p)) }
+    patterns = SOURCE_PATTERNS + %w[route_inventory material_state_inventory].map { |key| contract.fetch(key) }
+    paths = patterns.flat_map { |p| Dir.glob(File.join(@root, p)) }
       .select { |p| File.file?(p) }.map { |p| p.delete_prefix("#{@root}/") }
       .reject { |p| p.include?('/GeneratedPluginRegistrant.') }.uniq.sort
     raise 'Mobile source inventory is empty' unless paths.include?('lib/main.dart')
@@ -124,12 +125,50 @@ class MobileDesignGate
     images
   end
 
+  def inventory_specs(key, kind)
+    path = contract.fetch(key)
+    file = local_file(path) || raise("Missing #{key}")
+    source = File.read(file)
+    # Preserve string literals and line positions while excluding comments.
+    # These harnesses deliberately declare literal constructor lists; dynamic
+    # or malformed entries must fail instead of disappearing from coverage.
+    tokens = /r?'''[\s\S]*?'''|r?"""[\s\S]*?"""|r?'(?:\\.|[^'\\])*'|r?"(?:\\.|[^"\\])*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//
+    clean = source.gsub(tokens) do |token|
+      token.start_with?('//', '/*') ? token.gsub(/[^\n]/, ' ') : token
+    end
+    constructor = "_#{kind}Spec"
+    variable = kind == 'Route' ? '_routeSpecs' : '_stateSpecs'
+    declaration = clean.match(/\b(?:const|final)\s+#{variable}\s*=\s*<#{constructor}>\s*\[(.*?)^\];/m)
+    body = declaration ? declaration[1] : clean
+    offset = declaration ? declaration.begin(1) : 0
+    entries = []
+    body.to_enum(:scan, /\b#{constructor}\s*\(\s*'([^']+)'\s*,\s*'([^']+)'/).each do
+      match = Regexp.last_match
+      id, route = match.captures
+      raise "Invalid #{key} case" unless id.match?(/\A[a-z0-9][a-z0-9-]*\z/) && route.start_with?('/')
+      entries << { 'id' => id, 'route' => route, 'source' => path,
+                   'line' => source[0...(offset + match.begin(0))].count("\n") + 1 }
+    end
+    raise "Empty or unparseable #{key}" unless !entries.empty? &&
+      entries.length == body.scan(/\b#{constructor}\s*\(/).length
+    ids = entries.map { |entry| entry['id'] }
+    raise "Duplicate #{key} case IDs" unless ids.uniq == ids
+    entries
+  end
+
+  def base_case_ids
+    routes = inventory_specs('route_inventory', 'Route').map { |entry| entry['id'] }
+    states = inventory_specs('material_state_inventory', 'State').map { |entry| entry['id'] }
+    (routes + states + contract.fetch('additional_states')).uniq.sort
+  end
+
   def required_cases
-    route_file = local_file(contract.fetch('route_inventory')) || raise('Missing route inventory')
-    routes = File.read(route_file).scan(/_RouteSpec\(\s*'([^']+)'/).flatten
-    raise 'Route inventory is empty' if routes.empty?
-    base = (routes + contract.fetch('additional_states')).uniq.map { |id| "#{id}@default" }
-    variants = contract.fetch('variant_cases').product(contract.fetch('variants')).map { |id, variant| "#{id}@#{variant}" }
+    raise 'All base cases must retain the declared variants' unless contract['variant_scope'] == 'all_base_cases'
+    ids = base_case_ids
+    base = ids.map { |id| "#{id}@default" }
+    # Retain every older explicitly selected variant as well as every current
+    # route/material state. Adding a harness case cannot silently omit variants.
+    variants = (ids + contract.fetch('variant_cases')).uniq.product(contract.fetch('variants')).map { |id, variant| "#{id}@#{variant}" }
     (base + variants + contract.fetch('keyboard_cases').map { |id| "#{id}@keyboard" }).uniq.sort
   end
 
@@ -156,6 +195,7 @@ class MobileDesignGate
       failures << 'Installed revolut-design authority is unavailable'
     end
     failures << 'All ten fixed criteria are mandatory' unless contract['criteria'] == CRITERIA
+    failures << 'All base cases must retain the declared variants' unless contract['variant_scope'] == 'all_base_cases'
     %w[additional_states variant_cases variants keyboard_cases annotations].each do |key|
       values = contract[key]
       failures << "Invalid or duplicate #{key}" unless values.is_a?(Array) && !values.empty? && values.all? { |v| v.is_a?(String) && !v.strip.empty? } && values.uniq == values

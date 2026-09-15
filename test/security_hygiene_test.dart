@@ -8,6 +8,7 @@ import 'helpers/process_runner.dart';
 String readCollectRepositoryLibrary() {
   return [
     'lib/shared/repositories/collect_repository.dart',
+    'lib/shared/repositories/collect_repository_contribution_actions.dart',
     'lib/shared/repositories/collect_repository_providers.dart',
     'lib/shared/repositories/collect_repository_state.dart',
     'lib/shared/repositories/collect_repository_live_reader.dart',

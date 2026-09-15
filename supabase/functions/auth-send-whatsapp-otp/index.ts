@@ -182,20 +182,16 @@ Deno.serve(async (req) => {
     const ipHash = await sha256Hex(
       req.headers.get("x-forwarded-for") ?? "unknown",
     );
-    const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
-    const { count } = await supabase
-      .from("otp_rate_limits")
-      .select("id", { count: "exact", head: true })
-      .eq("phone_hash", phoneHash)
-      .gte("requested_at", since);
-    if ((count ?? 0) >= 5) {
+    const { data: reserved, error: reservationError } = await supabase.rpc(
+      "reserve_otp_request",
+      { p_phone_hash: phoneHash, p_ip_hash: ipHash },
+    );
+    if (reservationError || typeof reserved !== "boolean") {
+      throw new Error("OTP rate limit reservation unavailable");
+    }
+    if (!reserved) {
       return jsonResponse({ error: "Too many OTP requests" }, 429);
     }
-
-    await supabase.from("otp_rate_limits").insert({
-      phone_hash: phoneHash,
-      ip_hash: ipHash,
-    });
 
     const token = requireAnyEnv(
       "WHATSAPP_CLOUD_API_TOKEN",

@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -14,7 +15,7 @@ MOBILE_CASES = "docs/release/mobile-design/mobile-parity-contract.json"
 rows = []
 
 
-def append(surface, entry, source, line, case_source="", applicability="declared"):
+def append(surface, entry, source, line, case_source="", applicability="declared", route_details=None):
     path = ROOT / source
     identity = f"{surface}:{entry}"
     rows.append(
@@ -28,6 +29,7 @@ def append(surface, entry, source, line, case_source="", applicability="declared
             "applicability": applicability,
             "review_status": "unverified",
             "case_inventory_source": case_source,
+            "route_details": json.dumps(route_details, sort_keys=True) if route_details else "",
         }
     )
 
@@ -52,9 +54,16 @@ for surface in ["admin_browser", "admin_installed_pwa"]:
     for route, line in catalog("lib/admin/admin_router.dart", "adminRoutePaths"):
         append(surface, route, "lib/admin/admin_router.dart", line)
 
-for surface in ["public_flutter", "public_static"]:
-    for route, line in catalog("lib/features/landing/public_page_content.dart", "publicWebsitePaths"):
-        append(surface, route, "lib/features/landing/public_page_content.dart", line)
+for route, line in catalog("lib/features/landing/public_page_content.dart", "publicWebsitePaths"):
+    append("public_flutter", route, "lib/features/landing/public_page_content.dart", line)
+
+static_routes = json.loads(subprocess.run(
+    ["ruby", "scripts/qa/public_static_routes.rb"], cwd=ROOT,
+    capture_output=True, text=True, check=True,
+).stdout)
+for route in static_routes:
+    append("public_static", route["path"], "scripts/public_static_site_build.rb", route["line"],
+           route_details={key: value for key, value in route.items() if key not in ("path", "line")})
 
 for path in sorted((ROOT / "supabase/functions").glob("*/index.ts")):
     append("edge_function", path.parent.name, str(path.relative_to(ROOT)), 1)

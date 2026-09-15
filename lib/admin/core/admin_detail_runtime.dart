@@ -28,7 +28,11 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
-            return AdminSafeErrorPanel(error: snapshot.error!);
+            return AdminSafeErrorPanel(
+              error: snapshot.error!,
+              onRetry: () =>
+                  ref.read(adminRealtimeTickProvider.notifier).state += 1,
+            );
           }
           final data = snapshot.data ?? const {};
           if (data.isEmpty) {
@@ -102,6 +106,7 @@ class AdminSmsDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(adminRealtimeTickProvider);
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
     return AdminPage(
       title: 'SMS metadata detail',
@@ -124,7 +129,11 @@ class AdminSmsDetailPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
-            return AdminSafeErrorPanel(error: snapshot.error!);
+            return AdminSafeErrorPanel(
+              error: snapshot.error!,
+              onRetry: () =>
+                  ref.read(adminRealtimeTickProvider.notifier).state += 1,
+            );
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +205,11 @@ class AdminDetailPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
-            return AdminSafeErrorPanel(error: snapshot.error!);
+            return AdminSafeErrorPanel(
+              error: snapshot.error!,
+              onRetry: () =>
+                  ref.read(adminRealtimeTickProvider.notifier).state += 1,
+            );
           }
           final data = snapshot.data ?? const {};
           if (data.isEmpty) {

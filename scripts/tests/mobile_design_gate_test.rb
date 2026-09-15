@@ -26,6 +26,7 @@ class MobileDesignGateTest < Minitest::Test
     write('lib/main.dart', 'void main() {}')
     write('pubspec.yaml', "version: 1.2.4+23\n")
     write(contract['route_inventory'], "_RouteSpec('home', '/home', 'primary')")
+    write(contract['material_state_inventory'], "_StateSpec('home-joined', '/home', 'Joined')")
     write('test/annotation_test.dart', 'test annotation')
     png = File.binread(File.join(ROOT, 'test/goldens/baselines/member_home_dark.png'))
     write('references/home.png', png)
@@ -183,6 +184,51 @@ class MobileDesignGateTest < Minitest::Test
 
   def test_new_route_invalidates_coverage_and_source
     write(@gate.contract['route_inventory'], "_RouteSpec('home', '/home', 'primary')\n_RouteSpec('new', '/new', 'primary')")
+    assert_blocked
+  end
+
+  def test_material_runner_states_are_required_without_manual_duplicate_registration
+    @gate.contract['material_state_inventory'] = 'integration_test/states.dart'
+    write('integration_test/states.dart', "_StateSpec('new-sheet', '/home', 'Sheet')")
+    assert_includes @gate.required_cases, 'new-sheet@default'
+    assert_includes @gate.required_cases, 'new-sheet@light'
+  end
+
+  def test_declared_variants_cover_every_base_case
+    assert_includes @gate.required_cases, 'home-joined@light'
+  end
+
+  def test_missing_material_inventory_fails_closed
+    FileUtils.rm(File.join(@root, @gate.contract['material_state_inventory']))
+    assert_blocked
+  end
+
+  def test_duplicate_material_case_ids_are_not_silently_deduplicated
+    write(@gate.contract['material_state_inventory'], "_StateSpec('same', '/home', 'One')\n_StateSpec('same', '/groups', 'Two')")
+    assert_raises(RuntimeError) { @gate.required_cases }
+    assert_blocked
+  end
+
+  def test_comments_cannot_register_material_cases
+    write(@gate.contract['material_state_inventory'], "// _StateSpec('hidden', '/home', 'Ignored')\n_StateSpec('visible', '/home', 'Actual // text')")
+    assert_includes @gate.required_cases, 'visible@default'
+    refute_includes @gate.required_cases, 'hidden@default'
+  end
+
+  def test_dynamic_material_case_cannot_disappear_from_inventory
+    write(@gate.contract['material_state_inventory'], "_StateSpec('visible', '/home', 'Actual')\n_StateSpec(dynamicName, '/groups', 'Unknown')")
+    assert_raises(RuntimeError) { @gate.required_cases }
+    assert_blocked
+  end
+
+  def test_changed_material_runner_invalidates_review_and_build_binding
+    write(@gate.contract['material_state_inventory'], "_StateSpec('home-joined', '/groups', 'Changed state')")
+    assert_blocked
+  end
+
+  def test_variant_subset_cannot_override_all_case_coverage
+    @gate.contract['variant_scope'] = 'selected_only'
+    assert_raises(RuntimeError) { @gate.required_cases }
     assert_blocked
   end
 

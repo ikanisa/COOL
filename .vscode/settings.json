@@ -1,6 +1,6 @@
 {
-    "dart.flutterSdkPath": "/Volumes/PRO-G40/flutter_3_44",
-    "dart.sdkPath": "/Volumes/PRO-G40/flutter_3_44/bin/cache/dart-sdk",
+    "dart.flutterSdkPath": "/Users/jeanbosco/Developer/flutter",
+    "dart.sdkPath": "/Users/jeanbosco/Developer/flutter/bin/cache/dart-sdk",
     "java.configuration.updateBuildConfiguration": "automatic",
     "files.watcherExclude": {
         "**/.dart_tool/**": true,

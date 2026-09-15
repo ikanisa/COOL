@@ -36,11 +36,13 @@ void main() {
   final config = File('supabase/config.toml').readAsStringSync();
   final repository = readAll([
     'lib/shared/repositories/collect_repository.dart',
+    'lib/shared/repositories/collect_repository_contribution_actions.dart',
     'lib/shared/repositories/collect_repository_live_reader.dart',
     'lib/shared/repositories/collect_repository_providers.dart',
   ]);
   final memberJourney = readAll([
     'lib/features/payments/contribution_flow_screen.dart',
+    'lib/features/payments/contribution_bank_flow.dart',
     'lib/features/settings/bank_transfer_settings_screen.dart',
     'lib/core/payments/revolut_launcher.dart',
   ]);

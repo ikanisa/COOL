@@ -1,0 +1,434 @@
+#!/usr/bin/env node
+// Real service-worker lifecycle over a hash-verified, synthetic Admin build.
+// No production target, user profile, Auth account or provider is used.
+import { createHash } from 'node:crypto';
+import { createServer } from 'node:http';
+import { spawnSync } from 'node:child_process';
+import { mkdir, readFile, writeFile, copyFile, link, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { dirname, extname, join, relative, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const [buildReportArgument, evidenceArgument] = process.argv.slice(2);
+const installed = process.argv.slice(4).includes('--installed');
+if (process.argv.slice(4).some((arg) => arg !== '--installed')) throw Error('Unknown lifecycle option');
+if (!buildReportArgument || !evidenceArgument) {
+  throw Error('Usage: admin_pwa_lifecycle_qa.mjs SYNTHETIC_BUILD_REPORT.json NEW_CACHE_EVIDENCE_DIR');
+}
+const buildReportPath = resolve(buildReportArgument);
+const evidence = resolve(evidenceArgument);
+for (const path of [buildReportPath, evidence]) {
+  if (!path.startsWith(join(root, '.cache') + sep)) throw Error('Task-owned cached paths required');
+}
+if (existsSync(evidence)) throw Error('Evidence directory must be new');
+await mkdir(evidence, { recursive: true });
+const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const hashFile = async (path) => sha(await readFile(path));
+const report = {
+  startedAt: new Date().toISOString(), status: 'running', finalAcceptance: false,
+  environment: 'isolated_chromium_synthetic_admin_build_real_service_worker',
+  installedMode: 'not_exercised', realAuthentication: 'not_exercised',
+  checks: [], sourceInputs: {}, requests: [], errors: [],
+};
+let browser, server, pwaSession, installedManifestId;
+const contexts = [];
+function check(id, condition, observed) {
+  report.checks.push({ id, status: condition ? 'pass' : 'fail', observed });
+  console.log(JSON.stringify({ id, status: condition ? 'pass' : 'fail' }));
+}
+async function save() {
+  await writeFile(join(evidence, 'report.json'), JSON.stringify(report, null, 2) + '\n');
+}
+async function renderedAdmin(page) {
+  await page.waitForFunction(() => document.querySelector('flt-semantics-placeholder') ||
+    document.querySelectorAll('flt-semantics').length > 5, null, { timeout: 90000 });
+  await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+  await page.waitForFunction(() => [...document.querySelectorAll('flt-semantics[aria-label]')]
+    .some((node) => node.getAttribute('aria-label').includes('Collect admin evidence mode marker')),
+  null, { timeout: 30000 });
+  await page.waitForFunction(() => [...document.querySelectorAll('flt-semantics[aria-label]')]
+    .some((node) => node.getAttribute('aria-label').includes('Collect admin workspace')),
+  null, { timeout: 30000 });
+}
+async function launchedPage(context, browserSession, targetId) {
+  // PWA.launch returns a tab target above Playwright's page target. Resolve
+  // the actual app window instead of comparing those different target IDs.
+  const launchedWindow = await browserSession.send('Browser.getWindowForTarget', { targetId });
+  const deadline = Date.now() + 30000;
+  while (Date.now() < deadline) {
+    for (const page of context.pages()) {
+      if (page.isClosed()) continue;
+      let session;
+      try {
+        session = await context.newCDPSession(page);
+        const { targetInfo } = await session.send('Target.getTargetInfo');
+        const pageWindow = await browserSession.send('Browser.getWindowForTarget', { targetId: targetInfo.targetId });
+        if (pageWindow.windowId === launchedWindow.windowId &&
+            await page.evaluate(() => matchMedia('(display-mode: standalone)').matches)) {
+          report.launchedWindows ||= [];
+          report.launchedWindows.push({ tabTargetId: targetId, pageTargetId: targetInfo.targetId,
+            windowId: pageWindow.windowId });
+          return page;
+        }
+      } catch (error) {
+        if (!page.isClosed()) throw error;
+      } finally { await session?.detach().catch(() => {}); }
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  throw Error('Launched PWA target was not observed: ' + targetId);
+}
+try {
+  const buildReport = JSON.parse(await readFile(buildReportPath, 'utf8'));
+  if (buildReport.exit_code !== 0 || !buildReport.source_inputs_stable ||
+      buildReport.fixture_mode !== true || buildReport.backend_configured !== false ||
+      !buildReport.build_files?.length) throw Error('Verified synthetic, backend-free build required');
+  const sourceManifest = JSON.parse(await readFile(join(dirname(buildReportPath), 'build-source-before.json'), 'utf8'));
+  for (const entry of sourceManifest) {
+    if (await hashFile(join(root, entry.path)) !== entry.sha256) throw Error(`Stale application source: ${entry.path}`);
+  }
+  const built = join(dirname(buildReportPath), 'build');
+  for (const entry of buildReport.build_files) {
+    if (await hashFile(join(built, entry.path)) !== entry.sha256) throw Error(`Changed build artifact: ${entry.path}`);
+  }
+  const sourcePaths = [
+    'scripts/qa/admin_pwa_lifecycle_qa.mjs', 'scripts/admin_pwa_release_build.sh',
+    'scripts/admin_pwa_manifest_gate.sh', 'web/flutter_bootstrap.js',
+    'lib/app/theme/collect_colors.dart',
+  ];
+  if (existsSync(join(root, 'scripts/templates/admin_pwa_service_worker.js'))) {
+    sourcePaths.push('scripts/templates/admin_pwa_service_worker.js');
+  }
+  for (const path of sourcePaths) report.sourceInputs[path] = await hashFile(join(root, path));
+  report.buildReport = relative(root, buildReportPath);
+  report.buildReportSha256 = await hashFile(buildReportPath);
+  report.applicationSourceCount = sourceManifest.length;
+  report.verifiedArtifactCount = buildReport.build_files.length;
+  const script = await readFile(join(root, 'scripts/admin_pwa_release_build.sh'), 'utf8');
+  const marker = "ruby -r digest -r json -r open3 <<'RUBY'\n";
+  if (script.split(marker).length !== 2) throw Error('Build postprocessor declaration is ambiguous');
+  const ruby = script.split(marker)[1].split('\nRUBY\n')[0];
+  await writeFile(join(evidence, 'postprocessor.rb'), ruby);
+  async function stage(name, shellVersion) {
+    const stageRoot = join(evidence, name);
+    const web = join(stageRoot, 'build/web');
+    const mutable = new Set(['index.html', 'manifest.json', 'flutter_bootstrap.js', 'version.json', 'custom-sw.js']);
+    for (const entry of buildReport.build_files) {
+      const target = join(web, entry.path);
+      await mkdir(dirname(target), { recursive: true });
+      if (mutable.has(entry.path)) await copyFile(join(built, entry.path), target);
+      else await link(join(built, entry.path), target); // Immutable artifact bytes only.
+    }
+    for (const path of ['lib/app/theme/collect_colors.dart', 'scripts/templates/admin_pwa_service_worker.js']) {
+      if (!existsSync(join(root, path))) continue;
+      await mkdir(dirname(join(stageRoot, path)), { recursive: true });
+      await copyFile(join(root, path), join(stageRoot, path));
+    }
+    const index = await readFile(join(web, 'index.html'), 'utf8');
+    await writeFile(join(web, 'index.html'), index.replace('</head>', `<meta name="qa-shell-version" content="${shellVersion}"></head>`));
+    const rendered = spawnSync('ruby', ['-r', 'digest', '-r', 'json', '-r', 'open3', join(evidence, 'postprocessor.rb')],
+      { cwd: stageRoot, encoding: 'utf8', timeout: 30000 });
+    await writeFile(join(evidence, name + '.postprocess.log'), (rendered.stdout || '') + (rendered.stderr || ''));
+    if (rendered.status !== 0) throw Error(`Postprocessor failed: ${name}`);
+    const worker = await readFile(join(web, 'custom-sw.js'), 'utf8');
+    return { web, cache: worker.match(/const CACHE_NAME = "([^"]+)";/)?.[1],
+      workerSha256: sha(worker), indexSha256: await hashFile(join(web, 'index.html')) };
+  }
+  const a = await stage('version-a', 'a');
+  const b = await stage('version-b', 'b');
+  const failedUpdate = await stage('version-failed-update', 'failed-update');
+  report.stages = { a, b, failedUpdate };
+  check('shell-only-change-versions-cache', a.cache !== b.cache, { before: a.cache, after: b.cache });
+  check('shell-only-change-updates-worker-bytes', a.workerSha256 !== b.workerSha256, { before: a.workerSha256, after: b.workerSha256 });
+  let active = a, outage = false, failAsset = false, actor = 'account-a';
+  const mimes = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json',
+    '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.css': 'text/css' };
+  server = createServer(async (request, response) => {
+    const url = new URL(request.url, 'http://127.0.0.1');
+    report.requests.push({ method: request.method, pathname: url.pathname, outage,
+      qaProbe: url.searchParams.get('__qa_probe') });
+    if (outage) { request.socket.destroy(); return; }
+    if (failAsset && url.pathname === '/manifest.json') {
+      response.writeHead(503); response.end('Synthetic update outage'); return;
+    }
+    if (url.pathname === '/__qa/account') {
+      response.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      response.end(JSON.stringify({ actor })); return;
+    }
+    if (url.pathname === '/index.html') {
+      response.writeHead(308, { Location: '/', 'Cache-Control': 'no-store' }); response.end(); return;
+    }
+    let path = resolve(active.web, '.' + decodeURIComponent(url.pathname));
+    if (!path.startsWith(active.web + sep) && path !== active.web) {
+      response.writeHead(404); response.end(); return;
+    }
+    try {
+      if (!(await stat(path)).isFile()) path = join(active.web, 'index.html');
+    } catch { path = join(active.web, 'index.html'); }
+    const body = await readFile(path);
+    response.writeHead(200, { 'Content-Type': mimes[extname(path)] || 'application/octet-stream',
+      'Cache-Control': 'no-store' });
+    response.end(body);
+  });
+  await new Promise((yes, no) => { server.once('error', no); server.listen(0, '127.0.0.1', yes); });
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  report.origin = origin;
+  const playwrightPath = process.env.PLAYWRIGHT_CORE_PATH;
+  if (!playwrightPath) throw Error('Set PLAYWRIGHT_CORE_PATH to the installed runtime module');
+  const loaded = await import(playwrightPath);
+  const { chromium } = loaded.default || loaded;
+  const launchOptions = { headless: !installed,
+    executablePath: process.env.ADMIN_PWA_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    args: ['--disable-background-networking', '--disable-component-update', '--disable-sync'] };
+  const profile = join(evidence, 'isolated-chrome-profile');
+  let context;
+  if (installed) {
+    context = await chromium.launchPersistentContext(profile, { ...launchOptions,
+      serviceWorkers: 'allow', viewport: { width: 1280, height: 900 } });
+    browser = context.browser();
+    report.profile = relative(root, profile);
+  } else {
+    browser = await chromium.launch(launchOptions);
+    context = await browser.newContext({ serviceWorkers: 'allow', viewport: { width: 1280, height: 900 } });
+  }
+  report.browserVersion = browser.version();
+  contexts.push(context);
+  await context.route('**/*', (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
+  const page = await context.newPage();
+  page.on('pageerror', (error) => report.errors.push(error.message));
+  page.setDefaultTimeout(30000);
+  await page.goto(origin + '/#/admin/groups', { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => navigator.serviceWorker.controller, null, { timeout: 90000 });
+  await renderedAdmin(page);
+  const cacheKeys = await page.evaluate(() => caches.keys());
+  check('first-install-controls-rendered-admin', cacheKeys.includes(a.cache), cacheKeys);
+  check('first-shell-version', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'a', 'a');
+  const cachedPaths = await page.evaluate(async () => {
+    const keys = await caches.keys();
+    return (await Promise.all(keys.map(async (key) => (await (await caches.open(key)).keys()).map((r) => new URL(r.url).pathname)))).flat();
+  });
+  check('root-shell-is-precached', cachedPaths.includes('/') && !cachedPaths.includes('/index.html'), cachedPaths.filter((p) => p === '/' || p === '/index.html'));
+  const first = await page.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
+  actor = 'account-b';
+  const second = await page.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
+  check('no-store-response-fresh-after-account-change', first.actor === 'account-a' && second.actor === 'account-b', { first, second });
+  const privateCached = await page.evaluate(async () => Boolean(await caches.match('/__qa/account')));
+  check('non-asset-response-not-in-shell-cache', !privateCached, { privateCached });
+  outage = true; await context.setOffline(true);
+  const cold = await context.newPage();
+  try {
+    await cold.goto(origin + '/#/admin/settings', { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await renderedAdmin(cold);
+    check('offline-cold-hash-route-loads-admin-shell', true, cold.url());
+  } catch (error) { check('offline-cold-hash-route-loads-admin-shell', false, error.message); }
+  await cold.close();
+  const fallback = await context.newPage();
+  try {
+    const response = await fallback.goto(origin + '/admin/qa-unvisited', { waitUntil: 'domcontentloaded', timeout: 15000 });
+    check('offline-navigation-fallback-uses-root-shell', response?.status() === 200 &&
+      await fallback.locator('meta[name=qa-shell-version]').getAttribute('content') === 'a', response?.status());
+  } catch (error) { check('offline-navigation-fallback-uses-root-shell', false, error.message); }
+  await fallback.close();
+  outage = false; await context.setOffline(false);
+  await page.evaluate(() => { window.qaUnsavedWork = 'synthetic-unsaved-input'; });
+  active = b;
+  const controllerUpdate = await page.evaluate(async (expectChange) => {
+    const registration = await navigator.serviceWorker.ready;
+    const previous = navigator.serviceWorker.controller;
+    let listener, timer;
+    try {
+      const changed = expectChange ? new Promise((yes, no) => {
+        listener = () => {
+          if (navigator.serviceWorker.controller !== previous) yes();
+        };
+        navigator.serviceWorker.addEventListener('controllerchange', listener);
+        timer = setTimeout(() => no(Error('Updated worker did not control the page')), 90000);
+      }) : Promise.resolve();
+      await registration.update();
+      if (navigator.serviceWorker.controller !== previous) listener?.();
+      await changed;
+      return { changed: navigator.serviceWorker.controller !== previous,
+        previousUrl: previous?.scriptURL, currentUrl: navigator.serviceWorker.controller?.scriptURL };
+    } finally {
+      clearTimeout(timer);
+      if (listener) navigator.serviceWorker.removeEventListener('controllerchange', listener);
+    }
+  }, a.cache !== b.cache);
+  report.controllerUpdate = controllerUpdate;
+  if (a.cache !== b.cache) {
+    await page.waitForFunction(async (expected) => (await caches.keys()).includes(expected) &&
+      !(await caches.keys()).some((k) => k.startsWith('collect-admin-') && k !== expected), b.cache, { timeout: 90000 });
+  }
+  check('worker-update-preserves-open-page-state', await page.evaluate(() => window.qaUnsavedWork) === 'synthetic-unsaved-input', 'synthetic transient state');
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  check('new-navigation-receives-updated-shell', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'b',
+    await page.locator('meta[name=qa-shell-version]').getAttribute('content'));
+  const afterKeys = await page.evaluate(() => caches.keys());
+  check('old-shell-cache-retired', a.cache !== b.cache && afterKeys.includes(b.cache) && !afterKeys.includes(a.cache), afterKeys);
+  report.cacheShellVersions = await page.evaluate(async () => Object.fromEntries(await Promise.all(
+    (await caches.keys()).map(async (key) => {
+      const response = await (await caches.open(key)).match('/');
+      return [key, response ? (await response.text()).match(/name="qa-shell-version" content="([^"]+)"/)?.[1] : null];
+    }))));
+  active = failedUpdate; failAsset = true;
+  const rejectedUpdate = await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.ready;
+    const controller = navigator.serviceWorker.controller;
+    let timer;
+    const outcome = new Promise((resolve, reject) => {
+      const listen = () => {
+        const worker = registration.installing;
+        if (!worker) return;
+        worker.addEventListener('statechange', () => {
+          if (worker.state === 'redundant' || worker.state === 'activated') resolve(worker.state);
+        });
+      };
+      registration.addEventListener('updatefound', listen, { once: true });
+      timer = setTimeout(() => reject(Error('Update outcome not observed')), 90000);
+    });
+    try {
+      await registration.update();
+      return { state: await outcome, sameController: navigator.serviceWorker.controller === controller };
+    } finally { clearTimeout(timer); }
+  });
+  check('failed-update-does-not-replace-active-worker', rejectedUpdate.state === 'redundant' && rejectedUpdate.sameController, rejectedUpdate);
+  const failedKeys = await page.evaluate(() => caches.keys());
+  check('failed-install-removes-partial-new-cache', failedKeys.includes(b.cache) && !failedKeys.includes(failedUpdate.cache), failedKeys);
+  outage = true; await context.setOffline(true);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  check('failed-update-keeps-previous-shell-offline', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'b',
+    await page.locator('meta[name=qa-shell-version]').getAttribute('content'));
+  outage = false; failAsset = false; active = b; await context.setOffline(false);
+  await renderedAdmin(page);
+  await page.screenshot({ path: join(evidence, 'browser-admin.png') });
+  if (installed) {
+    pwaSession = await browser.newBrowserCDPSession();
+    installedManifestId = origin + '/';
+    await pwaSession.send('PWA.install', { manifestId: installedManifestId, installUrlOrBundleUrl: origin + '/' });
+    await pwaSession.send('PWA.changeAppUserSettings', { manifestId: installedManifestId, displayMode: 'standalone' });
+    report.installedDisplayPreference = 'standalone';
+    report.installedOsState = await pwaSession.send('PWA.getOsAppState', { manifestId: installedManifestId });
+    check('actual-pwa-installed-in-isolated-profile', true, report.installedOsState);
+    const launched = await pwaSession.send('PWA.launch', { manifestId: installedManifestId, url: origin + '/#/admin/groups' });
+    const app = await launchedPage(context, pwaSession, launched.targetId);
+    await renderedAdmin(app);
+    const appCdp = await context.newCDPSession(app);
+    const target = await appCdp.send('Target.getTargetInfo');
+    const standalone = await app.evaluate(() => matchMedia('(display-mode: standalone)').matches);
+    check('installed-launch-is-standalone-target', standalone && target.targetInfo.targetId === report.launchedWindows.at(-1).pageTargetId,
+      { standalone, ...report.launchedWindows.at(-1) });
+    await app.screenshot({ path: join(evidence, 'installed-admin.png') });
+    await app.close();
+    await context.close();
+    outage = true;
+    context = await chromium.launchPersistentContext(profile, { ...launchOptions,
+      serviceWorkers: 'allow', viewport: { width: 1280, height: 900 } });
+    contexts.push(context); browser = context.browser();
+    await context.setOffline(true);
+    await context.route('**/*', (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
+    pwaSession = await browser.newBrowserCDPSession();
+    const coldLaunch = await pwaSession.send('PWA.launch', { manifestId: installedManifestId, url: origin + '/#/admin/settings' });
+    const coldApp = await launchedPage(context, pwaSession, coldLaunch.targetId);
+    await renderedAdmin(coldApp);
+    const coldState = await coldApp.evaluate(() => ({ standalone: matchMedia('(display-mode: standalone)').matches,
+      shell: document.querySelector('meta[name=qa-shell-version]')?.content,
+      offline: !navigator.onLine, controller: Boolean(navigator.serviceWorker.controller), hash: location.hash }));
+    const originUnavailable = await coldApp.evaluate(async () => {
+      try { await fetch('/__qa/account'); return false; } catch { return true; }
+    });
+    check('installed-cold-browser-restart-during-origin-outage', coldState.standalone && coldState.shell === 'b' &&
+      coldState.controller && outage && originUnavailable, { ...coldState, originUnavailable, targetId: coldLaunch.targetId });
+    // Keep the server healthy for the separate network-emulation checks. A
+    // failed fetch during the origin outage cannot prove browser-level offline.
+    outage = false;
+    async function blockedNetworkProbe(label) {
+      const controlLabel = label + '-server-control';
+      const control = await fetch(origin + '/__qa/account?__qa_probe=' + controlLabel);
+      const serverHealthy = control.ok && (await control.json()).actor === 'account-b';
+      const probeUrl = origin + '/__qa/account?__qa_probe=' + label;
+      const failed = coldApp.waitForEvent('requestfailed', {
+        predicate: (request) => request.url() === probeUrl, timeout: 10000,
+      }).then((request) => request.failure()?.errorText, () => 'request-failure-not-observed');
+      const browserSucceeded = await coldApp.evaluate((url) => fetch(url, { cache: 'no-store' })
+        .then(() => true, () => false), probeUrl);
+      const errorText = await failed;
+      const serverReceivedProbe = report.requests.some((request) => request.qaProbe === label);
+      const observed = { serverHealthy, browserSucceeded, errorText, serverReceivedProbe, originOutage: outage };
+      check(label, serverHealthy && !outage && !browserSucceeded && !serverReceivedProbe &&
+        errorText === 'net::ERR_INTERNET_DISCONNECTED', observed);
+    }
+    // Context-wide emulation does not reliably apply to a PWA tab opened by
+    // Chrome. Keep origin-outage startup separate from explicit target-offline
+    // reload; navigator.onLine alone cannot prove server reachability.
+    const coldCdp = await context.newCDPSession(coldApp);
+    report.installedContextMatches = coldApp.context() === context;
+    // Refresh the automation context after Chrome has created its app target,
+    // so a new renderer also receives the intended state on reload.
+    await coldApp.context().setOffline(false);
+    await coldApp.context().setOffline(true);
+    await coldCdp.send('Network.enable');
+    await coldCdp.send('Network.emulateNetworkConditionsByRule', { emulateOfflineServiceWorker: true,
+      matchedNetworkConditions: [{ urlPattern: '', offline: true, latency: 0, downloadThroughput: -1, uploadThroughput: -1 }] });
+    await coldCdp.send('Network.overrideNetworkState', { offline: true, latency: 0, downloadThroughput: -1, uploadThroughput: -1 });
+    report.installedOfflineBeforeReload = await coldApp.evaluate(() => !navigator.onLine);
+    await blockedNetworkProbe('installed-offline-blocks-network-before-reload');
+    await coldApp.reload({ waitUntil: 'domcontentloaded' });
+    await renderedAdmin(coldApp);
+    const offlineReload = await coldApp.evaluate(() => ({ offline: !navigator.onLine,
+      shell: document.querySelector('meta[name=qa-shell-version]')?.content,
+      standalone: matchMedia('(display-mode: standalone)').matches, controller: Boolean(navigator.serviceWorker.controller) }));
+    check('installed-target-offline-reload', report.installedOfflineBeforeReload && offlineReload.offline && offlineReload.shell === 'b' &&
+      offlineReload.standalone && offlineReload.controller, offlineReload);
+    await blockedNetworkProbe('installed-offline-blocks-network-after-reload');
+    report.offlineIndicatorLimitation = 'Minimal ordinary-tab and installed-page reproduction also loses navigator.onLine state after reload. The indicator check remains failed; separate probes require a healthy server, no server receipt and Chromium ERR_INTERNET_DISCONNECTED.';
+    report.startupNetworkBoundary = 'Origin unreachable before browser restart. Device-wide offline state before app startup is not proven; explicit target-offline reload is a separate check.';
+    await coldApp.screenshot({ path: join(evidence, 'installed-cold-offline.png') });
+    outage = false; await context.setOffline(false);
+    await coldCdp.send('Network.emulateNetworkConditionsByRule', { emulateOfflineServiceWorker: false, matchedNetworkConditions: [] });
+    await coldCdp.send('Network.overrideNetworkState', { offline: false, latency: 0, downloadThroughput: -1, uploadThroughput: -1 });
+    await coldApp.reload({ waitUntil: 'domcontentloaded' });
+    const reconnected = await coldApp.evaluate(() => fetch('/__qa/account').then((response) => response.json()));
+    check('installed-window-reconnects-with-current-shell', await coldApp.evaluate(() => navigator.onLine) &&
+      await coldApp.locator('meta[name=qa-shell-version]').getAttribute('content') === 'b' && reconnected.actor === 'account-b', reconnected);
+    report.installedMode = report.checks.filter((item) => item.id.startsWith('installed-') ||
+      item.id === 'actual-pwa-installed-in-isolated-profile').every((item) => item.status === 'pass')
+      ? 'macos_chrome_install_outage_restart_and_target_offline_reload' : 'attempted_unverified';
+  }
+  report.renderedScope = 'Synthetic Admin workspace semantics rendered from the verified existing build. Complete operator tasks, real sessions and readers remain unverified; installed mode is reported separately.';
+  for (const [path, expected] of Object.entries(report.sourceInputs)) {
+    if (await hashFile(join(root, path)) !== expected) throw Error(`Source changed during run: ${path}`);
+  }
+  for (const entry of buildReport.build_files) {
+    if (await hashFile(join(built, entry.path)) !== entry.sha256) throw Error(`Original artifact changed: ${entry.path}`);
+  }
+  report.sourceInputsUnchanged = true;
+  report.originalBuildUnchanged = true;
+  report.status = report.checks.every((c) => c.status === 'pass') ? 'pass' : 'fail';
+} catch (error) {
+  report.status = 'fail'; report.error = error.stack || String(error);
+} finally {
+  if (pwaSession && installedManifestId) {
+    try {
+      await pwaSession.send('PWA.uninstall', { manifestId: installedManifestId });
+      let absent = false;
+      try { await pwaSession.send('PWA.getOsAppState', { manifestId: installedManifestId }); }
+      catch (error) { absent = /not installed|not found|unknown|no web app/i.test(error.message); }
+      report.installedAppRemoved = absent;
+      if (!absent) { report.status = 'fail'; report.errors.push('Uninstall could not be verified'); }
+    } catch (error) { report.status = 'fail'; report.errors.push('PWA uninstall: ' + error.message); }
+  }
+  for (const context of contexts) await context.close().catch((e) => report.errors.push('Context close: ' + e.message));
+  if (browser) await browser.close().catch((e) => report.errors.push('Browser close: ' + e.message));
+  if (server) {
+    server.closeAllConnections();
+    await new Promise((resolve) => server.close(resolve));
+  }
+  report.listenersClosed = !server?.listening;
+  if (report.errors.length) report.status = 'fail';
+  report.finishedAt = new Date().toISOString();
+  await save();
+}
+console.log(JSON.stringify({ status: report.status, checks: report.checks.length,
+  failed: report.checks.filter((c) => c.status === 'fail').map((c) => c.id), error: report.error }));
+process.exitCode = report.status === 'pass' ? 0 : 1;

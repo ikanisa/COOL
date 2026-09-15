@@ -3,7 +3,9 @@ begin;
 set local statement_timeout = '30s';
 do $$ begin
   if current_database() <> 'collect_hybrid_uat_20260902' then raise exception 'Isolated local hybrid UAT database required'; end if;
-  if exists(select 1 from auth.users) then raise exception 'Synthetic UAT requires empty account namespace'; end if;
+  if exists(select 1 from auth.users where id <> '99100000-0000-4000-8000-000000000001') then
+    raise exception 'Synthetic UAT permits only the isolated replay bootstrap account';
+  end if;
 end $$;
 create temp table test_results(label text primary key);
 create temp table test_values(key text primary key, value jsonb);
@@ -20,6 +22,11 @@ begin
   perform pg_temp.assert_true(caught is not null and position(fragment in caught)>0, label);
 end; $$;
 
+insert into pg_temp.test_values values('baseline', jsonb_build_object(
+  'users', (select count(*) from auth.users),
+  'member_records', (select count(*) from collect_hybrid.member_records),
+  'momo_identities', (select count(*) from collect_hybrid.member_momo_identities)
+));
 insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)
 values
  ('96000000-0000-4000-8000-000000000001','authenticated','authenticated','250788000001',now(),'{}','{}'),
@@ -27,7 +34,14 @@ values
  ('96000000-0000-4000-8000-000000000003','authenticated','authenticated','250788000003',now(),'{}','{}');
 select set_config('request.jwt.claims','{"sub":"96000000-0000-4000-8000-000000000001","role":"service_role"}',true);
 update public.profiles set is_platform_admin=true where id='96000000-0000-4000-8000-000000000001';
-select pg_temp.assert_true((select count(*)=3 from collect_hybrid.member_records), 'app profile insertion reserves registry IDs');
+insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+values ('96000000-0000-4000-8000-000000000001','+250788000001',now()-interval '2 seconds','Synthetic hybrid UAT operator');
+insert into public.admin_user_roles(user_id,role_id,reason)
+select '96000000-0000-4000-8000-000000000001',id,'Synthetic hybrid UAT operator'
+from public.admin_roles where name='platform_owner';
+insert into auth.sessions(id,user_id,created_at)
+values ('96000000-0000-4000-8000-000000000090','96000000-0000-4000-8000-000000000001',clock_timestamp());
+select pg_temp.assert_true((select count(*)=(select (value->>'member_records')::bigint+3 from pg_temp.test_values where key='baseline') from collect_hybrid.member_records), 'app profile insertion reserves registry IDs');
 select pg_temp.assert_true((select bool_and(m.collect_id=p.public_id) from collect_hybrid.member_records m join public.profiles p on p.id=m.linked_user_id), 'app IDs remain unchanged');
 select pg_temp.assert_true(not has_table_privilege('authenticated','collect_hybrid.member_momo_identities','SELECT'), 'PII table is inaccessible to authenticated clients');
 select pg_temp.assert_true(not has_table_privilege('anon','collect_hybrid.member_records','SELECT'), 'registry is inaccessible to anonymous clients');
@@ -35,15 +49,15 @@ select pg_temp.assert_true(not has_function_privilege('anon','public.admin_creat
 select pg_temp.assert_true(not has_function_privilege('authenticated','public.ingest_raw_payment_sms(uuid,uuid,text,text,text,uuid,text,timestamptz)','EXECUTE'), 'raw ingest RPC is service-only');
 
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"96000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
+select set_config('request.jwt.claims','{"sub":"96000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"96000000-0000-4000-8000-000000000090"}',true);
 select pg_temp.expect_error($q$select public.admin_create_assisted_group('Synthetic savings','Synthetic UAT creation','96000000-0000-4000-8000-000000000099')$q$, 'disabled', 'onboarding feature defaults off');
 reset role;
 update public.feature_flags set enabled=true where key='hybrid_member_onboarding';
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"96000000-0000-4000-8000-000000000002","role":"authenticated"}',true);
 select pg_temp.expect_error($q$select public.admin_create_assisted_group('Synthetic savings','Synthetic UAT creation','96000000-0000-4000-8000-000000000099')$q$, 'Admin permission', 'ordinary member cannot create assisted group');
-select pg_temp.expect_error($q$select collect_hybrid.create_assisted_group('Synthetic savings','Synthetic UAT creation','96000000-0000-4000-8000-000000000099')$q$, 'Admin permission', 'direct private command retains authorization');
-select set_config('request.jwt.claims','{"sub":"96000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
+select pg_temp.expect_error($q$select collect_hybrid.create_assisted_group('Synthetic savings','Synthetic UAT creation','96000000-0000-4000-8000-000000000099')$q$, 'permission denied', 'direct private command remains inaccessible');
+select set_config('request.jwt.claims','{"sub":"96000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"96000000-0000-4000-8000-000000000090"}',true);
 insert into pg_temp.test_values values('group', public.admin_create_assisted_group('Synthetic savings','Synthetic UAT creation','96000000-0000-4000-8000-000000000099'));
 insert into pg_temp.test_values values('public_group', public.admin_create_platform_public_group(
  'Synthetic public savings','Synthetic public group','ikimina',null,'Synthetic savings',
@@ -75,8 +89,8 @@ select pg_temp.expect_error($q$select public.admin_add_assisted_roster(
 reset role;
 select pg_temp.assert_true((select creation_origin='platform_sponsored' and is_platform_sponsored and public_status='public_approved'
  from public.collections where id=(select (value->>'collection_id')::uuid from pg_temp.test_values where key='public_group')), 'existing public creation remains sponsored and public');
-select pg_temp.assert_true((select count(*)=3 from auth.users), 'offline roster creates no fake Auth users');
-select pg_temp.assert_true((select count(*)=2 from collect_hybrid.member_momo_identities), 'failed batch and retries create no extra identities');
+select pg_temp.assert_true((select count(*)=(select (value->>'users')::bigint+3 from pg_temp.test_values where key='baseline') from auth.users), 'offline roster creates no fake Auth users');
+select pg_temp.assert_true((select count(*)=(select (value->>'momo_identities')::bigint+2 from pg_temp.test_values where key='baseline') from collect_hybrid.member_momo_identities), 'failed batch and retries create no extra identities');
 select pg_temp.assert_true((select count(*)=2 from public.collection_members where user_id is null and member_record_id is not null), 'offline memberships do not require app account');
 select pg_temp.assert_true((select momo_number='+250788123456' and last3='456'
  and match_key=encode(extensions.digest('TEST MEMBER A|456','sha256'),'hex')

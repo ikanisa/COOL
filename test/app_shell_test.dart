@@ -1064,9 +1064,10 @@ void main() {
       );
     }
 
-    final contribution = File(
+    final contribution = [
       'lib/features/payments/contribution_flow_screen.dart',
-    ).readAsStringSync();
+      'lib/features/payments/contribution_bank_flow.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
     final localizations = File(
       'lib/l10n/collect_localizations.dart',
     ).readAsStringSync();

@@ -251,10 +251,32 @@ revolut-parity-evidence-consistency:
 	@ruby scripts/qa/revolut_evidence_consistency.rb
 
 qa-tooling-test:
+	@ruby scripts/tests/public_static_routes_test.rb
+	@ruby scripts/tests/public_website_links_test.rb
+	@ruby scripts/tests/public_lighthouse_evidence_test.rb
+	@ruby scripts/tests/public_photography_test.rb
+	@ruby scripts/tests/collect_edge_function_local_gate_test.rb
 	@ruby scripts/tests/lcov_coverage_test.rb
 	@ruby scripts/tests/dart_format_test.rb
+	@ruby scripts/tests/fullstack_database_test.rb
+	@ruby scripts/tests/fullstack_database_sql_test.rb
+	@ruby scripts/tests/fullstack_database_http_test.rb
+	@python3 scripts/tests/run_edge_http_uat_test.py
 	@ruby scripts/tests/revolut_evidence_consistency_test.rb
 	@ruby scripts/tests/repo_wide_qa_uat_test.rb
+
+.PHONY: cover-catalog-test
+cover-catalog-test:
+	@node --test scripts/tests/group_cover_catalog_source_test.mjs
+
+.PHONY: public-photography-check
+public-photography-check:
+	@NODE_PATH="$${NODE_PATH:-$(CURDIR)/tools/public-photography/node_modules}" node scripts/assets/build_public_photography.mjs --check
+
+.PHONY: edge-http-test
+edge-http-test:
+	@test -n "$(EDGE_HTTP_EVIDENCE)" || (echo 'Set EDGE_HTTP_EVIDENCE to a new .cache evidence directory'; exit 1)
+	@python3 scripts/qa/run_edge_http_uat.py "$(EDGE_HTTP_EVIDENCE)"
 
 .PHONY: mobile-design-gate mobile-design-contract mobile-design-gate-test
 mobile-design-gate:
@@ -265,6 +287,16 @@ mobile-design-contract:
 
 mobile-design-gate-test:
 	@ruby scripts/tests/mobile_design_gate_test.rb
+
+.PHONY: admin-pwa-lifecycle-qa
+ADMIN_PWA_LIFECYCLE_MODE ?= browser
+admin-pwa-lifecycle-qa:
+	@test -n "$(ADMIN_PWA_FIXTURE_REPORT)" -a -n "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" || (echo 'Set ADMIN_PWA_FIXTURE_REPORT and a new ADMIN_PWA_LIFECYCLE_EVIDENCE directory'; exit 1)
+	@case "$(ADMIN_PWA_LIFECYCLE_MODE)" in \
+	  browser) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" ;; \
+	  installed) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" --installed ;; \
+	  *) echo 'ADMIN_PWA_LIFECYCLE_MODE must be browser or installed'; exit 1 ;; \
+	esac
 
 review-gallery:
 	@python3 "$${CODEX_HOME:-$$HOME/.codex}/skills/revolut-design/scripts/build_review_gallery.py" --project-root "$(CURDIR)" --config docs/release/mobile-design/review-gallery-config.json

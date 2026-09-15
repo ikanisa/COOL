@@ -13,8 +13,20 @@ end $$;
 insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)
 select ('96000000-0000-4000-8000-'||lpad(i::text,12,'0'))::uuid,
  'authenticated','authenticated','25078896000'||i,now(),'{}','{}' from generate_series(1,5) i;
-update public.profiles set public_id='96000'||right(id::text,1), display_name='PRIVATE SYNTHETIC NAME'
+update public.profiles set display_name='PRIVATE SYNTHETIC NAME'
 where id::text like '96000000-0000-4000-8000-%';
+-- Capture IDs assigned by the real registry; identity rewrites are forbidden.
+create temp table fixture_public_ids(n integer primary key, public_id text not null unique);
+insert into fixture_public_ids
+select right(id::text,12)::integer,public_id from public.profiles
+where id::text like '96000000-0000-4000-8000-%';
+insert into fixture_public_ids
+select 0,n::text from generate_series(100000,100020)n
+where not exists(select 1 from public.profiles where public_id=n::text)
+limit 1;
+grant select on fixture_public_ids to authenticated;
+create function pg_temp.fixture_public_id(p_n integer) returns text
+language sql stable as $$ select public_id from pg_temp.fixture_public_ids where n=p_n $$;
 insert into public.collections(id,slug,creator_user_id,title,category,visibility,public_status,collection_type)
 values ('96000000-0000-4000-8000-000000000010','synthetic-roster','96000000-0000-4000-8000-000000000001',
  'Synthetic roster','Other','public_approved','public_approved','other');
@@ -26,7 +38,7 @@ select '96000000-0000-4000-8000-000000000010',('96000000-0000-4000-8000-'||lpad(
 insert into public.payments(collection_id,contributor_user_id,contributor_public_id,receiver_user_id,
  receiver_momo_number_hash,amount_rwf,transaction_id,source,anonymity_choice)
 select '96000000-0000-4000-8000-000000000010',('96000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,
- '96000'||n,'96000000-0000-4000-8000-000000000001',repeat('a',64),amount,'ROSTER-MOMO-'||seq,'manual_admin',choice
+ pg_temp.fixture_public_id(n),'96000000-0000-4000-8000-000000000001',repeat('a',64),amount,'ROSTER-MOMO-'||seq,'manual_admin',choice
 from (values (1,2,1000,'anonymous'),(2,2,2000,'public_id'),(3,1,500,'public_id'),(4,1,700,'anonymous'),(5,3,900,'anonymous'))
  v(seq,n,amount,choice);
 insert into public.bank_transfer_destinations(id,version,beneficiary_name,iban,bic,bank_name,change_reason)
@@ -55,20 +67,20 @@ select pg_temp.assert_true((select count(*)=4 and count(distinct row->>'public_i
  from jsonb_array_elements(current_setting('collect.roster')::jsonb)row),'new roster has one row per ID');
 select pg_temp.assert_true((select row->>'role'='admin' and row->>'status'='active' and row->>'amount_scope'='own'
  and row->'contributions'='[{"currency":"EUR","amount_minor":12345},{"currency":"RWF","amount_minor":3000}]'::jsonb
- from jsonb_array_elements(current_setting('collect.roster')::jsonb)row where row->>'public_id'='960002'),
+ from jsonb_array_elements(current_setting('collect.roster')::jsonb)row where row->>'public_id'=pg_temp.fixture_public_id(2)),
  'own role and both rail amounts are exact, without summing currencies');
 select pg_temp.assert_true((select row->>'role'='owner' and row->>'amount_scope'='shared'
  and row->'contributions'='[{"currency":"RWF","amount_minor":500}]'::jsonb
- from jsonb_array_elements(current_setting('collect.roster')::jsonb)row where row->>'public_id'='960001'),
+ from jsonb_array_elements(current_setting('collect.roster')::jsonb)row where row->>'public_id'=pg_temp.fixture_public_id(1)),
  'peer totals include only explicitly ID-visible contributions, not hidden MoMo or bank amounts');
 select pg_temp.assert_true((select row->>'role'='receiver' and row->>'amount_scope'='hidden' and row->'contributions'='[]'::jsonb
- from jsonb_array_elements(current_setting('collect.roster')::jsonb)row where row->>'public_id'='960003'),
+ from jsonb_array_elements(current_setting('collect.roster')::jsonb)row where row->>'public_id'=pg_temp.fixture_public_id(3)),
  'hidden amounts remain unavailable, not zero');
 select pg_temp.assert_true(not exists(select 1 from jsonb_array_elements(current_setting('collect.roster')::jsonb)row
  where row ?| array['user_id','display_name','payer_name','phone','transaction_id','raw_body','anonymity_choice'])
  and current_setting('collect.roster') not like '%PRIVATE%', 'identity and evidence allowlist');
 reset role;
-update public.profiles set country_code='MT',currency_code='EUR' where public_id='960002';
+update public.profiles set country_code='MT',currency_code='EUR' where public_id=pg_temp.fixture_public_id(2);
 set local role authenticated;
 select pg_temp.assert_true(public.list_current_member_group_roster('96000000-0000-4000-8000-000000000010')=current_setting('collect.roster')::jsonb,
  'country change cannot alter historical roster amounts');

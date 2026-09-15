@@ -29,7 +29,10 @@ $$;
 insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)
 select ('98200000-0000-4000-8000-'||lpad(i::text,12,'0'))::uuid,'authenticated','authenticated',
   '25078898200'||i,case when i=5 then null else now() end,'{}','{}' from generate_series(1,8)i;
-update public.profiles set public_id='98200'||right(id::text,1) where id::text like '98200000%';
+-- Keep the immutable IDs assigned by the member registry.
+create temp table fixture_group_admin_target as
+select public_id from public.profiles where id='98200000-0000-4000-8000-000000000006';
+grant select on fixture_group_admin_target to authenticated;
 insert into public.admin_user_roles(user_id,role_id,reason)
 select u::uuid,r.id,'Synthetic legacy grant without number approval' from public.admin_roles r,
   unnest(array['98200000-0000-4000-8000-000000000001','98200000-0000-4000-8000-000000000002'])u
@@ -179,7 +182,8 @@ insert into public.collection_members(collection_id,user_id,role,status) values
 ('98200000-0000-4000-8000-000000000010','98200000-0000-4000-8000-000000000006','member','active');
 set local role authenticated;
 select pg_temp.actor(4);
-select public.add_group_admin('98200000-0000-4000-8000-000000000010','982006');
+select public.add_group_admin('98200000-0000-4000-8000-000000000010',
+  (select public_id from pg_temp.fixture_group_admin_target));
 select pg_temp.actor(6);
 select pg_temp.assert_true(public.user_is_collection_admin('98200000-0000-4000-8000-000000000010'),'unapproved group admin keeps group authority');
 select pg_temp.assert_true(not public.is_platform_admin(),'group admin never becomes platform Admin');

@@ -13,6 +13,7 @@ ruby -r json -r net/http -r uri -r time -r cgi -r digest - "$BASE_URL" "$CANONIC
 base_url = ARGV.fetch(0).delete_suffix("/")
 canonical_url = ARGV.fetch(1).delete_suffix("/")
 mode = ARGV.fetch(2)
+require File.join(ARGV.fetch(3), 'scripts/qa/public_website_links')
 
 def fetch(url, redirects_left = 3)
   uri = URI(url)
@@ -524,6 +525,27 @@ check(
   "mobile_nav_css",
   mobile_css_ok,
   "Live CSS includes the compact mobile navigation and first-viewport responsive rules.",
+)
+
+internal_links = PublicWebsiteLinks.check(
+  base_url: "#{base_url}/",
+  pages: html_routes.to_h { |route| [route, responses.fetch(route).fetch(:body).dup.force_encoding('UTF-8')] },
+  fetcher: lambda do |url|
+    key = URI(url).request_uri
+    unless responses.key?(key)
+      response, elapsed = fetch(url)
+      responses[key] = { response: response, body: response.body.to_s, headers: response.each_header.to_h, elapsed: elapsed }
+    end
+    entry = responses.fetch(key)
+    { status: entry.fetch(:response).code.to_i, body: entry.fetch(:body).dup.force_encoding('UTF-8'), content_type: entry.fetch(:headers).fetch('content-type', '') }
+  end,
+)
+check(
+  checks,
+  "internal_hyperlink_destinations",
+  internal_links.fetch(:failures).empty?,
+  "Published internal hyperlinks resolve to HTTP 200 destinations and existing HTML fragments.",
+  internal_links,
 )
 
 failed = checks.count { |item| item.fetch("status") == "fail" }

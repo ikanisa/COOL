@@ -37,9 +37,11 @@ import 'roster_file_parser.dart';
 
 part 'admin_login_runtime.dart';
 part 'admin_overview_runtime.dart';
+part 'admin_overview_components.dart';
 part 'admin_list_specs.dart';
 part 'admin_list_runtime.dart';
 part 'admin_operation_tables.dart';
+part 'admin_operation_components.dart';
 part 'admin_group_runtime.dart';
 part 'admin_payee_runtime.dart';
 part 'admin_detail_specs.dart';

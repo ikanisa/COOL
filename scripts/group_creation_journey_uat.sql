@@ -38,13 +38,7 @@ values
   (:'admin_id', 'authenticated', 'authenticated', '+250788100004', now(), '{}', '{}', now(), now());
 
 update public.profiles
-set public_id = case id
-      when :'owner_id'::uuid then '810001'
-      when :'member_id'::uuid then '810002'
-      when :'outsider_id'::uuid then '810003'
-      when :'admin_id'::uuid then '810004'
-    end,
-    country_code = 'RW',
+set country_code = 'RW',
     currency_code = 'RWF',
     momo_provider = 'mtn_momo',
     momo_number_verified_at = now(),
@@ -62,6 +56,9 @@ set public_id = case id
     end
 where id in (:'owner_id', :'member_id', :'outsider_id', :'admin_id');
 
+select public_id as member_public_id from public.profiles where id=:'member_id'
+\gset
+
 select pg_temp.assert_true(
   not has_function_privilege(
     'authenticated',
@@ -75,6 +72,10 @@ insert into public.admin_user_roles (user_id, role_id, granted_by, reason)
 select :'admin_id', role.id, :'admin_id', 'Rollback-only group journey UAT'
 from public.admin_roles role
 where role.name = 'platform_owner';
+insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+values (:'admin_id','+250788100004',now()-interval '2 seconds','Synthetic group journey reviewer');
+insert into auth.sessions(id,user_id,created_at)
+values ('81000000-0000-4000-8000-000000000092',:'admin_id',clock_timestamp());
 
 select pg_temp.assert_true(
   not exists (
@@ -365,27 +366,38 @@ from public.create_contribution_intent(
 \gset
 
 reset role;
-insert into public.raw_payment_sms (
-  collection_id,
-  receiver_user_id,
-  raw_sender,
-  raw_body,
-  body_hash,
-  receiver_momo_number_hash,
-  received_at_device,
-  parse_status
-)
-values (
-  null,
-  :'owner_id',
-  'MTN MOMO',
-  'GROUP-JOURNEY-UAT standalone OpenAI parse result',
-  encode(extensions.digest('GROUP-JOURNEY-UAT standalone OpenAI parse result', 'sha256'), 'hex'),
-  null,
-  now(),
-  'parsed'
-) returning id as raw_sms_id
+-- Synthetic device verification enters through the existing service boundary.
+-- This SQL fixture does not establish an actual Play Integrity/device result.
+select now()::text as sms_device_time,
+  encode(extensions.digest('+250788100001', 'sha256'), 'hex') as sms_receiver_hash,
+  encode(extensions.digest('GROUP-JOURNEY-UAT standalone OpenAI parse result', 'sha256'), 'hex') as sms_body_hash
 \gset
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select public.mint_native_action_capability(
+  :'owner_id', 'sms.ingest', repeat('b',64),
+  jsonb_build_object('receiver_momo_number_hash', :'sms_receiver_hash',
+    'client_envelope_id', '81000000-0000-4000-8000-000000000091',
+    'raw_sender', 'MTN MOMO', 'raw_body_sha256', :'sms_body_hash',
+    'received_at_device', :'sms_device_time'),
+  :'sms_receiver_hash', 'app.cool.mobile', 'PLAY_RECOGNIZED',
+  array['MEETS_DEVICE_INTEGRITY'], now()
+) as sms_capability
+\gset
+select public.ingest_attested_raw_payment_sms(
+  :'sms_capability', :'owner_id', null, 'MTN MOMO',
+  'GROUP-JOURNEY-UAT standalone OpenAI parse result', :'sms_body_hash',
+  '81000000-0000-4000-8000-000000000091', :'sms_receiver_hash', :'sms_device_time'
+)->>'id' as raw_sms_id
+\gset
+reset role;
+select pg_temp.assert_true(exists (
+  select 1 from public.raw_payment_sms raw
+  join public.native_action_capabilities capability on capability.id=raw.native_action_capability_id
+  where raw.id=:'raw_sms_id' and capability.consumed_at is not null
+    and raw.attestation_request_hash=capability.request_hash and raw.device_attested_at is not null
+), 'payment evidence retains its consumed device capability');
+update public.raw_payment_sms set parse_status='parsed' where id=:'raw_sms_id';
 
 insert into public.parsed_payment_events (
   raw_sms_id,
@@ -418,7 +430,7 @@ values (
   'GROUP-JOURNEY-UAT-001',
   encode(extensions.digest('+250788100002', 'sha256'), 'hex'),
   null,
-  '810002',
+  :'member_public_id',
   0.99,
   'uat-stored-openai-result',
   'collect.sms_parser.openai.v2',
@@ -438,9 +450,27 @@ select public.allocate_parsed_payment_event(:'event_id') as allocation_status
 
 reset role;
 select pg_temp.assert_true(
-  :'allocation_status' = 'allocated',
-  'one exact OpenAI-parsed SMS event must allocate automatically'
+  :'allocation_status' = 'awaiting_provider_confirmation',
+  'parsed SMS matching must stop at a review candidate before finality'
 );
+select pg_temp.assert_true(
+  exists (select 1 from public.payments where parsed_event_id=:'event_id' and status='review' and posted_at is null)
+  and not exists (select 1 from public.ledger_entries entry join public.payments payment on payment.id=entry.payment_id
+    where payment.parsed_event_id=:'event_id'),
+  'candidate matching must not create ledger credits'
+);
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select pg_temp.assert_true(
+  public.finalize_attested_payment_sms(:'raw_sms_id')->>'status'='posted',
+  'consumed attested evidence must finalize the matched payment through the service boundary'
+);
+select pg_temp.assert_true(
+  public.allocate_parsed_payment_event(:'event_id')='already_allocated'
+  and public.finalize_attested_payment_sms(:'raw_sms_id')->>'replayed'='true',
+  'allocation and finality retries must retain one posted payment'
+);
+reset role;
 select pg_temp.assert_true(
   (
     select count(*) = 2
@@ -449,7 +479,7 @@ select pg_temp.assert_true(
     where payment.parsed_event_id = :'event_id'
       and entry.entry_type in ('collection_credit', 'member_credit')
   ),
-  'standalone allocation must atomically create group and payer credits'
+  'attested finality must atomically create group and payer credits'
 );
 
 set local role authenticated;
@@ -471,7 +501,8 @@ select pg_temp.assert_true(
 
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'admin_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'admin_id', 'role', 'authenticated',
+    'session_id','81000000-0000-4000-8000-000000000092')::text,
   true
 );
 do $$ begin

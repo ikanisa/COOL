@@ -25,8 +25,18 @@ insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,ra
 select ('95000000-0000-4000-8000-' || lpad(i::text,12,'0'))::uuid,
   'authenticated','authenticated','25078895000'||i,now(),'{}','{}'
 from generate_series(1,5) i;
-update public.profiles set public_id='95000'||right(id::text,1)
+-- Capture IDs assigned by the real registry; identity rewrites are forbidden.
+create temp table fixture_public_ids(n integer primary key, public_id text not null unique);
+insert into fixture_public_ids
+select right(id::text,12)::integer,public_id from public.profiles
 where id::text like '95000000-0000-4000-8000-%';
+insert into fixture_public_ids
+select 0,n::text from generate_series(100000,100020)n
+where not exists(select 1 from public.profiles where public_id=n::text)
+limit 1;
+grant select on fixture_public_ids to authenticated;
+create function pg_temp.fixture_public_id(p_n integer) returns text
+language sql stable as $$ select public_id from pg_temp.fixture_public_ids where n=p_n $$;
 
 insert into public.collections(id,slug,creator_user_id,title,category,visibility,public_status,collection_type,is_platform_sponsored)
 values
@@ -43,11 +53,15 @@ values ('95000000-0000-4000-8000-000000000010','95000000-0000-4000-8000-00000000
 insert into public.admin_user_roles(user_id,role_id,granted_by,reason)
 select '95000000-0000-4000-8000-000000000005',id,'95000000-0000-4000-8000-000000000005','Isolated owner controls test'
 from public.admin_roles where name='platform_owner';
+insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+values ('95000000-0000-4000-8000-000000000005','+250788950005',now()-interval '2 seconds','Synthetic central operator');
+insert into auth.sessions(id,user_id,created_at)
+values ('95010000-0000-4000-8000-000000000005','95000000-0000-4000-8000-000000000005',clock_timestamp());
 
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"95000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
 -- Positive path first: this failed with 42501 before the scoped repair.
-select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','950002');
+select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(2));
 reset role;
 select pg_temp.assert_true((select creator_user_id='95000000-0000-4000-8000-000000000002' from public.collections
  where id='95000000-0000-4000-8000-000000000010'),'new owner is authoritative');
@@ -67,9 +81,13 @@ set local role authenticated;
 -- the member owner endpoint. Central Admin has a separate audited lifecycle.
 do $$ declare candidate text; begin
   foreach candidate in array array['001','003','004','005'] loop
-    perform set_config('request.jwt.claims',jsonb_build_object('sub','95000000-0000-4000-8000-000000000'||candidate,'role','authenticated')::text,true);
+    perform set_config('request.jwt.claims',jsonb_build_object('sub','95000000-0000-4000-8000-000000000'||candidate,
+      'role','authenticated','session_id',case when candidate='005' then '95010000-0000-4000-8000-000000000005' end)::text,true);
+    if candidate='005' then
+      perform pg_temp.assert_true(public.has_admin_permission('overview.read'),'central operator is actually authorized');
+    end if;
     perform pg_temp.expect_denied($q$select public.archive_group('95000000-0000-4000-8000-000000000010')$q$);
-    perform pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','950004')$q$);
+    perform pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(4))$q$);
   end loop;
 end $$;
 select set_config('request.jwt.claims','{"sub":"95000000-0000-4000-8000-000000000002","role":"authenticated"}',true);
@@ -77,20 +95,20 @@ select pg_temp.assert_true(not public.has_admin_permission('admin_users.write'),
 select pg_temp.expect_denied($q$update public.collections set creator_user_id='95000000-0000-4000-8000-000000000002' where id='95000000-0000-4000-8000-000000000011'$q$);
 select pg_temp.expect_denied($q$insert into public.collection_members(collection_id,user_id,role,status) values ('95000000-0000-4000-8000-000000000011','95000000-0000-4000-8000-000000000002','owner','active')$q$);
 select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','abc950004')$q$,'22023');
-select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','950002')$q$,'22023');
-select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','999999')$q$,'22023');
+select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(2))$q$,'22023');
+select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(0))$q$,'22023');
 select pg_temp.expect_denied($q$select public.archive_group('95000000-0000-4000-8000-000000000099')$q$);
 select public.archive_group('95000000-0000-4000-8000-000000000010');
 select public.archive_group('95000000-0000-4000-8000-000000000010');
-select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','950003')$q$,'22023');
+select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(3))$q$,'22023');
 select pg_temp.assert_true(public.list_current_user_collections('95000000-0000-4000-8000-000000000010')->0->>'moderation_status'='archived','member catalogue reflects archived state');
 -- Even the creator must use central Admin controls for a sponsored group.
 select set_config('request.jwt.claims','{"sub":"95000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
 select pg_temp.expect_denied($q$select public.archive_group('95000000-0000-4000-8000-000000000011')$q$);
-select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000011','950003')$q$);
+select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000011',pg_temp.fixture_public_id(3))$q$);
 select set_config('request.jwt.claims','{}',true);
 select pg_temp.expect_denied($q$select public.archive_group('95000000-0000-4000-8000-000000000010')$q$,'28000');
-select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010','950003')$q$,'28000');
+select pg_temp.expect_denied($q$select public.transfer_group_ownership('95000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(3))$q$,'28000');
 reset role;
 select pg_temp.assert_true((select archived_at is not null and visibility='archived' and public_status='archived'
  from public.collections where id='95000000-0000-4000-8000-000000000010'),'archive state consistent');

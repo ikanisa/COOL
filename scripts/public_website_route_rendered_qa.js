@@ -189,6 +189,19 @@ async function auditRoute(page, route, viewport) {
       bodyScrollWidth: document.body.scrollWidth,
       documentScrollWidth: document.documentElement.scrollWidth,
       viewportWidth: window.innerWidth,
+      headingTextOverflows: [...document.querySelectorAll('h1, h2, h3')].flatMap((heading) => {
+        const range = document.createRange();
+        range.selectNodeContents(heading);
+        const box = heading.getBoundingClientRect();
+        const textRects = [...range.getClientRects()];
+        const textLeft = Math.min(...textRects.map((rect) => rect.left));
+        const textRight = Math.max(...textRects.map((rect) => rect.right));
+        // Overflow-clipping ancestors can hide text without increasing the
+        // document scroll width, so measure the actual text against its box.
+        return textLeft < box.left - 1 || textRight > box.right + 1
+          ? [{ text: heading.textContent.trim(), left: box.left, right: box.right, textLeft, textRight }]
+          : [];
+      }),
       heroDevice: rect(".hero-device, .hero-editorial"),
       heroPhoto: rect(".hero .service-photo img"),
       heroArtworkLoaded: [...document.querySelectorAll('.hero img')].every((image) => image.complete && image.naturalWidth > 0),
@@ -288,6 +301,7 @@ async function auditRoute(page, route, viewport) {
     http200: Boolean(response && response.status() >= 200 && response.status() < 300),
     noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
     noHorizontalOverflow: Math.max(metrics.bodyScrollWidth, metrics.documentScrollWidth) <= metrics.viewportWidth + 1,
+    headingTextFits: metrics.headingTextOverflows.length === 0,
     hasTitleAndH1: metrics.title.length > 0 && metrics.h1.length > 0,
     ctaTrioPresent: metrics.locale === "rw"
       ? metrics.ctaCounts.rwGetApp >= 2 && metrics.ctaCounts.rwCreateGroup >= 2 && metrics.ctaCounts.rwGetInTouch >= 2

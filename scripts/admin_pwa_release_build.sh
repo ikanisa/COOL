@@ -121,14 +121,22 @@ cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
   .sort
 
 cache_urls = (["./"] + cache_paths.map { |path| "./#{path}" }).uniq
-version_paths = cache_paths.reject { |path| path == "index.html" }
-cache_schema_version = "fresh-install-v2"
-version_source = ([cache_schema_version] + version_paths.map { |path| Digest::SHA256.file(File.join("build/web", path)).hexdigest }).join("\n")
-cache_name = "collect-admin-#{Digest::SHA256.hexdigest(version_source)[0, 16]}"
-
 index = File.read(index_path)
 index = index.gsub(%r{\n\s*<!-- Collect Admin PWA service worker -->.*?</script>}m, "")
 File.write(index_path, index)
+
+worker_template = File.read("scripts/templates/admin_pwa_service_worker.js")
+%w[__COLLECT_ADMIN_CACHE_NAME__ __COLLECT_ADMIN_CACHE_URLS__].each do |marker|
+  abort("Admin service worker must contain exactly one #{marker}") unless worker_template.scan(marker).length == 1
+end
+# The root shell is cached as ./ because hosting redirects /index.html. Its
+# bytes, asset paths and worker policy must still invalidate the cache version.
+version_paths = (cache_paths + ["index.html"]).uniq.sort
+cache_schema_version = "fresh-install-v3"
+version_source = ([cache_schema_version, Digest::SHA256.hexdigest(worker_template)] + version_paths.map do |path|
+  "#{path}\0#{Digest::SHA256.file(File.join("build/web", path)).hexdigest}"
+end).join("\n")
+cache_name = "collect-admin-#{Digest::SHA256.hexdigest(version_source)[0, 16]}"
 
 bootstrap = File.read(bootstrap_path)
 bootstrap = bootstrap.gsub(
@@ -146,78 +154,8 @@ File.write(bootstrap_path, bootstrap)
 
 File.write(
   service_worker_path,
-  <<~JAVASCRIPT
-    'use strict';
-
-    const CACHE_NAME = #{cache_name.to_json};
-    const CACHE_URLS = #{JSON.pretty_generate(cache_urls)};
-
-    self.addEventListener('install', (event) => {
-      event.waitUntil(
-        caches.open(CACHE_NAME)
-          .then((cache) => Promise.all(
-            CACHE_URLS.map(async (url) => {
-              const request = new Request(url, { cache: 'reload' });
-              const response = await fetch(request);
-              if (!response.ok) {
-                throw new Error(`Failed to refresh ${url}: HTTP ${response.status}`);
-              }
-              await cache.put(request, response);
-            })
-          ))
-          .then(() => self.skipWaiting())
-      );
-    });
-
-    self.addEventListener('activate', (event) => {
-      event.waitUntil(
-        caches.keys()
-          .then((keys) => Promise.all(
-            keys
-              .filter((key) => key.startsWith('collect-admin-') && key !== CACHE_NAME)
-              .map((key) => caches.delete(key))
-          ))
-          .then(() => self.clients.claim())
-      );
-    });
-
-    async function cacheFirst(request) {
-      const cached = await caches.match(request, { ignoreSearch: true });
-      if (cached) {
-        return cached;
-      }
-
-      try {
-        const response = await fetch(request);
-        if (response && response.ok) {
-          const cache = await caches.open(CACHE_NAME);
-          await cache.put(request, response.clone());
-        }
-        return response;
-      } catch (error) {
-        if (request.mode === 'navigate') {
-          const shell = await caches.match('./index.html', { ignoreSearch: true });
-          if (shell) {
-            return shell;
-          }
-        }
-        throw error;
-      }
-    }
-
-    self.addEventListener('fetch', (event) => {
-      if (event.request.method !== 'GET') {
-        return;
-      }
-
-      const url = new URL(event.request.url);
-      if (url.origin !== self.location.origin) {
-        return;
-      }
-
-      event.respondWith(cacheFirst(event.request));
-    });
-  JAVASCRIPT
+  worker_template.gsub("__COLLECT_ADMIN_CACHE_NAME__", cache_name.to_json)
+    .gsub("__COLLECT_ADMIN_CACHE_URLS__", JSON.pretty_generate(cache_urls))
 )
 
 generated_service_worker = File.read(service_worker_path)

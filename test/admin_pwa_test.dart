@@ -154,9 +154,10 @@ void main() {
   });
 
   test('admin overview reads reconciliations and balanced ledgers', () {
-    final source = File(
+    final source = [
       'lib/admin/core/admin_overview_runtime.dart',
-    ).readAsStringSync();
+      'lib/admin/core/admin_overview_components.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
 
     expect(source, contains('admin_list_collect_reconciliations'));
     expect(source, contains('/admin/reconciliations'));
@@ -165,9 +166,10 @@ void main() {
   });
 
   test('admin overview keeps queue health readable on narrow screens', () {
-    final source = File(
+    final source = [
       'lib/admin/core/admin_overview_runtime.dart',
-    ).readAsStringSync();
+      'lib/admin/core/admin_overview_components.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
 
     expect(source, contains("return 'Next business day';"));
     expect(source, contains('textAlign: TextAlign.end'));
@@ -299,9 +301,10 @@ void main() {
       final groups = await repository.list('admin_list_collections');
       final members = await repository.list('admin_list_members');
       final users = await repository.list('admin_list_non_member_users');
-      final tableSource = File(
+      final tableSource = [
         'lib/admin/core/admin_operation_tables.dart',
-      ).readAsStringSync();
+        'lib/admin/core/admin_operation_components.dart',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
       final migration = File(
         'supabase/migrations/20260901183000_admin_operations_tables.sql',
       ).readAsStringSync();
@@ -382,9 +385,10 @@ void main() {
   test(
     'admin record surfaces use icon-led labels without losing semantics',
     () {
-      final operations = File(
+      final operations = [
         'lib/admin/core/admin_operation_tables.dart',
-      ).readAsStringSync();
+        'lib/admin/core/admin_operation_components.dart',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
       final genericTable = File(
         'lib/admin/shared/components/admin_data_table.dart',
       ).readAsStringSync();
@@ -394,9 +398,10 @@ void main() {
       final detail = File(
         'lib/admin/core/admin_detail_runtime.dart',
       ).readAsStringSync();
-      final overview = File(
+      final overview = [
         'lib/admin/core/admin_overview_runtime.dart',
-      ).readAsStringSync();
+        'lib/admin/core/admin_overview_components.dart',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
 
       expect(operations, contains('this.iconOnly = true'));
       expect(operations, contains('subtitleIcon: _groupPurposeIcon(row)'));
@@ -593,13 +598,14 @@ void main() {
   test(
     'admin PWA refreshes immutable bundles during service-worker install',
     () {
-      final releaseBuild = File(
+      final releaseBuild = [
         'scripts/admin_pwa_release_build.sh',
-      ).readAsStringSync();
+        'scripts/templates/admin_pwa_service_worker.js',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
 
       expect(
         releaseBuild,
-        contains('cache_schema_version = "fresh-install-v2"'),
+        contains('cache_schema_version = "fresh-install-v3"'),
       );
       expect(releaseBuild, contains("cache: 'reload'"));
       expect(releaseBuild, contains('await cache.put(request, response)'));

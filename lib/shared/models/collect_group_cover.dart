@@ -1,6 +1,16 @@
 import 'collect_models.dart';
 
+// BEGIN GENERATED COVER PARTS
 part 'collect_group_cover_catalog.dart';
+part 'collect_group_cover_catalog_savings_livelihoods.dart';
+part 'collect_group_cover_catalog_weddings.dart';
+part 'collect_group_cover_catalog_faith_giving.dart';
+part 'collect_group_cover_catalog_family_solidarity.dart';
+part 'collect_group_cover_catalog_education.dart';
+part 'collect_group_cover_catalog_community_projects.dart';
+part 'collect_group_cover_catalog_sport_culture.dart';
+part 'collect_group_cover_catalog_diaspora.dart';
+// END GENERATED COVER PARTS
 
 /// Versioned references use the existing persisted image_url field. They are
 /// resolved only against this allowlist, never interpreted as arbitrary paths.

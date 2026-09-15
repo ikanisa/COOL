@@ -32,6 +32,14 @@ begin
     (maker_id, 'authenticated', 'authenticated', '+250780100003', now(), '{}'::jsonb, '{}'::jsonb, now(), now()),
     (checker_id, 'authenticated', 'authenticated', '+250780100004', now(), '{}'::jsonb, '{}'::jsonb, now(), now());
 
+  -- Use the current member profile flow before testing the diaspora rail.
+  -- These account numbers are synthetic and never sent to a provider.
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'role','authenticated')::text,true);
+  perform public.update_current_member_profile('MT',null,null,null,'SYNTHETICOWNER1001');
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',contributor_id,'role','authenticated')::text,true);
+  perform public.update_current_member_profile('MT',null,null,null,'SYNTHETICMEMBER1002');
+  perform set_config('request.jwt.claims','{}',true);
+
   insert into public.admin_user_roles (user_id, role_id, granted_by, reason)
   select user_id, role.id, maker_id, 'Bank transfer rollback UAT'
   from unnest(array[maker_id, checker_id]) user_id

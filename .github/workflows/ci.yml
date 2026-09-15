@@ -324,6 +324,18 @@ jobs:
           done < <(find supabase/functions -type f -name '*.ts' | sort)
           deno check "${deno_files[@]}"
 
+      - name: Exercise Edge HTTP authorization with isolated dependencies
+        run: make edge-http-test EDGE_HTTP_EVIDENCE=.cache/edge-http-ci
+
+      - name: Preserve Edge HTTP evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: edge-http-evidence
+          path: .cache/edge-http-ci
+          include-hidden-files: true
+          retention-days: 14
+
   notification-operator:
     name: Notification operator checks
     runs-on: ubuntu-latest
@@ -341,6 +353,17 @@ jobs:
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm check
       - run: pnpm test
+
+  cover-catalog:
+    name: Generated cover catalog tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+      - run: make cover-catalog-test
 
   # ── 6. M-Money SMS contract lane (fast ~2min) ──────────────────────
   momo-sms-contracts:

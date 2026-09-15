@@ -211,6 +211,8 @@
   .revolut-public .site-footer { padding: 48px var(--web-gutter); }
 }
 @media (max-width: 360px) {
+  /* Collect's longer headings must fit the 320px layout without clipping. */
+  :root { --type-web-hero: clamp(44px, 13.75vw, 48px); }
   .revolut-public .hero { padding-block: 24px; gap: 16px; }
   .revolut-public .hero-eyebrow { margin-bottom: 12px; }
   .revolut-public .hero-intro { margin-block: 16px 20px; }

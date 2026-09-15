@@ -38,30 +38,31 @@ class AdminFilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     Widget searchField() => SizedBox(
-      child: Semantics(
-        textField: true,
-        label: 'Search admin queue',
-        hint:
-            'Filters the current admin queue by record, reference, or operator context.',
-        child: TextField(
-          controller: searchController,
-          onSubmitted: (_) => onRefresh(),
-          decoration: InputDecoration(
-            hintText: 'Search',
-            prefixIcon: const Icon(Icons.search),
-            filled: true,
-            fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-            border: OutlineInputBorder(
-              borderRadius: CollectRadius.pillBorder,
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: CollectRadius.pillBorder,
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: CollectRadius.pillBorder,
-              borderSide: BorderSide(color: colors.focusRing, width: 2),
+      child: MergeSemantics(
+        child: Semantics(
+          label: 'Search admin queue',
+          hint:
+              'Filters the current admin queue by record, reference, or operator context.',
+          child: TextField(
+            controller: searchController,
+            onSubmitted: (_) => onRefresh(),
+            decoration: InputDecoration(
+              hintText: 'Search',
+              prefixIcon: const Icon(Icons.search),
+              filled: true,
+              fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+              border: OutlineInputBorder(
+                borderRadius: CollectRadius.pillBorder,
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: CollectRadius.pillBorder,
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: CollectRadius.pillBorder,
+                borderSide: BorderSide(color: colors.focusRing, width: 2),
+              ),
             ),
           ),
         ),

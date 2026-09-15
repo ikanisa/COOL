@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'dart:ui' as ui;
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/shared/models/collect_group_cover.dart';
@@ -16,6 +17,70 @@ import '../fixtures/collect_repository_fixture.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => SharedPreferences.setMockInitialValues({}));
+
+  test(
+    'runtime cover metadata and order match the complete source catalog',
+    () {
+      final catalog =
+          jsonDecode(
+                File(
+                  'assets/group_covers/rwanda/catalog.v1.json',
+                ).readAsStringSync(),
+              )
+              as Map<String, dynamic>;
+      final assets = (catalog['assets'] as List).cast<Map<String, dynamic>>();
+      final families = {
+        for (final family
+            in (catalog['families'] as List).cast<Map<String, dynamic>>())
+          family['id']: family,
+      };
+      expect(
+        collectGroupCovers.map((cover) => cover.id),
+        assets.map((asset) => asset['id']),
+      );
+      for (var index = 0; index < assets.length; index++) {
+        final asset = assets[index];
+        final cover = collectGroupCovers[index];
+        expect(
+          {
+            'id': cover.id,
+            'version': cover.version,
+            'name': cover.name,
+            'family': cover.family,
+            'theme': cover.theme,
+            'types': cover.types,
+            'terms': cover.terms,
+            'context': cover.context,
+            'namedGroup': cover.namedGroup,
+            'generalDefault': cover.generalDefault,
+            'priority': cover.priority,
+            'focalX': cover.focalX,
+            'focalY': cover.focalY,
+          },
+          {
+            'id': asset['id'],
+            'version': asset['version'],
+            'name': asset['labels']['en'],
+            'family': asset['family'],
+            'theme': asset['theme'],
+            'types': asset['collection_types'],
+            'terms': [
+              ...(asset['labels'] as Map).values,
+              ...(families[asset['family']]!['labels'] as Map).values,
+              ...asset['search_terms'] as List,
+            ],
+            'context': asset['explicit_context'],
+            'namedGroup': asset['named_group'],
+            'generalDefault': asset['general_default'],
+            'priority': asset['editorial_priority'],
+            'focalX': asset['focal_point']['x'],
+            'focalY': asset['focal_point']['y'],
+          },
+          reason: cover.id,
+        );
+      }
+    },
+  );
 
   test(
     'covers are versioned and named covers require governed group identity',

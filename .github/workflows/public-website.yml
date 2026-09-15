@@ -12,6 +12,8 @@ on:
       - 'scripts/public_*.js'
       - 'scripts/qa/public_*.mjs'
       - 'scripts/tests/public_*.rb'
+      - 'scripts/assets/build_public_photography.mjs'
+      - 'tools/public-photography/**'
       - 'web/public/**'
       - 'lib/**'
       - 'assets/**'
@@ -32,6 +34,8 @@ on:
       - 'scripts/public_*.js'
       - 'scripts/qa/public_*.mjs'
       - 'scripts/tests/public_*.rb'
+      - 'scripts/assets/build_public_photography.mjs'
+      - 'tools/public-photography/**'
       - 'web/public/**'
       - 'lib/**'
       - 'assets/**'
@@ -59,6 +63,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+
+      - name: Verify public photo delivery
+        run: |
+          npm ci --prefix tools/public-photography --ignore-scripts
+          make public-photography-check
+          ruby scripts/tests/public_photography_test.rb
 
       - name: Run static public gates
         run: bash scripts/public_website_ci_gate.sh static

@@ -23,8 +23,18 @@ insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,ra
 select ('98000000-0000-4000-8000-' || lpad(i::text,12,'0'))::uuid,
   'authenticated','authenticated','25078898000'||i,now(),'{}','{}'
 from generate_series(1,8) i;
-update public.profiles set public_id='98000'||right(id::text,1)
+-- Capture IDs assigned by the real registry; identity rewrites are forbidden.
+create temp table fixture_public_ids(n integer primary key, public_id text not null unique);
+insert into fixture_public_ids
+select right(id::text,12)::integer,public_id from public.profiles
 where id::text like '98000000-0000-4000-8000-%';
+insert into fixture_public_ids
+select 0,n::text from generate_series(100000,100020)n
+where not exists(select 1 from public.profiles where public_id=n::text)
+limit 1;
+grant select on fixture_public_ids to authenticated;
+create function pg_temp.fixture_public_id(p_n integer) returns text
+language sql stable as $$ select public_id from pg_temp.fixture_public_ids where n=p_n $$;
 insert into public.collections(id,slug,creator_user_id,title,category,visibility,public_status,collection_type,is_platform_sponsored)
 values
  ('98000000-0000-4000-8000-000000000010','admin-contract-private','98000000-0000-4000-8000-000000000001','Synthetic group admin','Other','private','private','other',false),
@@ -41,6 +51,10 @@ values ('98000000-0000-4000-8000-000000000010','98000000-0000-4000-8000-00000000
 insert into public.admin_user_roles(user_id,role_id,granted_by,reason)
 select '98000000-0000-4000-8000-000000000008',id,'98000000-0000-4000-8000-000000000008','Synthetic scope test'
 from public.admin_roles where name='platform_owner';
+insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+values ('98000000-0000-4000-8000-000000000008','+250788980008',now()-interval '2 seconds','Synthetic central operator');
+insert into auth.sessions(id,user_id,created_at)
+values ('98010000-0000-4000-8000-000000000008','98000000-0000-4000-8000-000000000008',clock_timestamp());
 create temporary table before_groups as select * from public.collections where id::text like '98000000%';
 create temporary table before_receivers as select * from public.collection_receivers where collection_id::text like '98000000%';
 create temporary table before_profiles as select * from public.profiles where id::text like '98000000%';
@@ -52,35 +66,40 @@ set local role authenticated;
 do $$ declare i int; begin
   for i in 2..8 loop
     perform set_config('request.jwt.claims',jsonb_build_object('sub',
-      '98000000-0000-4000-8000-'||lpad(i::text,12,'0'),'role','authenticated')::text,true);
-    perform pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010','980002')$q$);
+      '98000000-0000-4000-8000-'||lpad(i::text,12,'0'),'role','authenticated',
+      'session_id',case when i=8 then '98010000-0000-4000-8000-000000000008' end)::text,true);
+    if i=8 then
+      perform pg_temp.assert_true(public.has_admin_permission('overview.read'),'central operator is actually authorized');
+    end if;
+    perform pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(2))$q$);
   end loop;
 end $$;
 select set_config('request.jwt.claims','{"sub":"98000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
-select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000011','980002')$q$);
-select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000099','980002')$q$);
+select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000011',pg_temp.fixture_public_id(2))$q$);
+select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000099',pg_temp.fixture_public_id(2))$q$);
 do $$ declare target text; begin
-  foreach target in array array['','98000','9800020','98-002','abc980002','980001','980004','980005','980006','980007','999999'] loop
+  foreach target in array array['','98000','9800020','98-002','abc980002',pg_temp.fixture_public_id(1),pg_temp.fixture_public_id(4),pg_temp.fixture_public_id(5),pg_temp.fixture_public_id(6),pg_temp.fixture_public_id(7),pg_temp.fixture_public_id(0)] loop
     perform pg_temp.expect_denied(format('select public.add_group_admin(%L,%L)',
       '98000000-0000-4000-8000-000000000010',target),'22023');
   end loop;
 end $$;
-select pg_temp.assert_true(public.add_group_admin('98000000-0000-4000-8000-000000000010',' 980002 ')=
-  '{"collection_id":"98000000-0000-4000-8000-000000000010","public_id":"980002","role":"admin","status":"active"}'::jsonb,
+select pg_temp.assert_true(public.add_group_admin('98000000-0000-4000-8000-000000000010',' '||pg_temp.fixture_public_id(2)||' ')=
+  jsonb_build_object('collection_id','98000000-0000-4000-8000-000000000010',
+    'public_id',pg_temp.fixture_public_id(2),'role','admin','status','active'),
   'exact minimal receipt, ordinary owner and member need no phone preapproval');
-select public.add_group_admin('98000000-0000-4000-8000-000000000010','980002');
-select public.add_group_admin('98000000-0000-4000-8000-000000000010','980003');
+select public.add_group_admin('98000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(2));
+select public.add_group_admin('98000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(3));
 select pg_temp.assert_true((select count(*)=1 from jsonb_array_elements(
   public.list_current_member_group_roster('98000000-0000-4000-8000-000000000010'))m
-  where m->>'public_id'='980002' and m->>'role'='admin' and m->>'status'='active'),
+  where m->>'public_id'=pg_temp.fixture_public_id(2) and m->>'role'='admin' and m->>'status'='active'),
   'authoritative roster exposes one active admin, not invited');
 select pg_temp.expect_denied($q$update public.collection_members set role='owner' where user_id='98000000-0000-4000-8000-000000000002'$q$);
 select set_config('request.jwt.claims','{"sub":"98000000-0000-4000-8000-000000000002","role":"authenticated"}',true);
 select pg_temp.assert_true(not public.has_admin_permission('admin_users.write'),'group admin has no platform privileges');
-select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010','980003')$q$);
+select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(3))$q$);
 select pg_temp.expect_denied($q$select public.archive_group('98000000-0000-4000-8000-000000000010')$q$);
 select set_config('request.jwt.claims','{}',true);
-select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010','980002')$q$,'28000');
+select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(2))$q$,'28000');
 reset role;
 select pg_temp.assert_true(not exists((select * from before_groups except select * from public.collections)
   union all (select * from public.collections where id::text like '98000000%' except select * from before_groups)),
@@ -99,7 +118,7 @@ update public.collections set archived_at=now(),public_status='archived',visibil
 where id='98000000-0000-4000-8000-000000000010';
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"98000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
-select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010','980002')$q$,'22023');
+select pg_temp.expect_denied($q$select public.add_group_admin('98000000-0000-4000-8000-000000000010',pg_temp.fixture_public_id(2))$q$,'22023');
 reset role;
 select 'GROUP_ADMIN_CONTRACT_PASS';
 rollback;

@@ -23,6 +23,7 @@ scripts/public_website_audit_evidence.sh > "$AUDIT_JSON" || true
 
 ruby -r json -r time - "$STATIC_JSON" "$LIVE_JSON" "$AUDIT_JSON" "$EVIDENCE_DIR" "$MODE" <<'RUBY'
 static_path, live_path, audit_path, evidence_dir, mode = ARGV
+require File.expand_path('scripts/qa/public_lighthouse_evidence', Dir.pwd)
 
 static = JSON.parse(File.read(static_path))
 live = JSON.parse(File.read(live_path))
@@ -50,7 +51,7 @@ required_external = {
   },
   "lighthouse_mobile" => {
     "audit_id" => "Lighthouse",
-    "description" => "Mobile Lighthouse/PageSpeed report with green target evidence.",
+    "description" => "Mobile Lighthouse/PageSpeed JSON for the expected URL and profile, within the seven-day QA evidence window and with all four category scores at 90+. HTML/PDF may supplement it.",
     "paths" => [
       File.join(evidence_dir, "lighthouse", "mobile.json"),
       File.join(evidence_dir, "lighthouse", "mobile.html"),
@@ -59,7 +60,7 @@ required_external = {
   },
   "lighthouse_desktop" => {
     "audit_id" => "Lighthouse",
-    "description" => "Desktop Lighthouse/PageSpeed report with green target evidence.",
+    "description" => "Desktop Lighthouse/PageSpeed JSON for the expected URL and profile, within the seven-day QA evidence window and with all four category scores at 90+. HTML/PDF may supplement it.",
     "paths" => [
       File.join(evidence_dir, "lighthouse", "desktop.json"),
       File.join(evidence_dir, "lighthouse", "desktop.html"),
@@ -105,29 +106,12 @@ def binary_artifact_valid?(path)
   File.file?(path) && File.size(path) > 100
 end
 
-def lighthouse_json_valid?(path)
-  return false unless File.file?(path)
-
-  parsed = JSON.parse(File.read(path))
-  categories = parsed.dig("lighthouseResult", "categories") || parsed["categories"]
-  return false unless categories.is_a?(Hash)
-
-  {
-    "performance" => 0.9,
-    "accessibility" => 0.9,
-    "best-practices" => 0.9,
-    "seo" => 0.9,
-  }.all? do |id, threshold|
-    score = categories.dig(id, "score")
-    score.is_a?(Numeric) && score >= threshold
-  end
-rescue JSON::ParserError
-  false
-end
-
-def lighthouse_artifact_valid?(path)
-  return lighthouse_json_valid?(path) if path.end_with?(".json")
-  binary_artifact_valid?(path)
+def lighthouse_artifact_valid?(path, profile)
+  PublicLighthouseEvidence.validate_file(
+    path,
+    expected_url: ENV.fetch('PUBLIC_WEBSITE_URL', 'https://collect.ikanisa.com/'),
+    profile: profile
+  ).fetch('status') == 'pass'
 end
 
 def png_dimensions(path)
@@ -228,7 +212,8 @@ def external_rule_valid?(id, rule)
       end
     end
   when "lighthouse_mobile", "lighthouse_desktop"
-    paths.any? { |path| lighthouse_artifact_valid?(path) }
+    profile = id.delete_prefix('lighthouse_')
+    paths.any? { |path| lighthouse_artifact_valid?(path, profile) }
   when "visual_approval"
     approval = paths.first
     browser_qa = paths[1]
@@ -259,7 +244,16 @@ end
 external_checks = required_external.transform_values do |rule|
   id = required_external.key(rule)
   valid = external_rule_valid?(id, rule)
-  rule.merge("status" => valid ? "pass" : "missing_or_invalid")
+  detail = rule.merge("status" => valid ? "pass" : "missing_or_invalid")
+  if %w[lighthouse_mobile lighthouse_desktop].include?(id)
+    detail['validation'] = rule.fetch('paths').map do |path|
+      PublicLighthouseEvidence.validate_file(
+        path, expected_url: ENV.fetch('PUBLIC_WEBSITE_URL', 'https://collect.ikanisa.com/'),
+        profile: id.delete_prefix('lighthouse_')
+      )
+    end
+  end
+  detail
 end
 
 code_checks = {

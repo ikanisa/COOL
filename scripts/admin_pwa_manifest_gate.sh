@@ -84,7 +84,9 @@ service_worker_required = {
   "activate clients claim" => "self.clients.claim()",
   "fetch handler" => "self.addEventListener('fetch'",
   "navigation fallback" => "request.mode === 'navigate'",
-  "Admin PWA shell" => "./index.html",
+  "Admin PWA shell" => "const SHELL_URL = new URL('./', self.location.href).href",
+  "static cache boundary" => "ASSET_URLS.has(url.href)",
+  "version-specific cache lookup" => "cache.match(key, { ignoreSearch: true })",
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
   "Admin PWA bundle" => "./main.dart.js",
   "Admin PWA manifest" => "./manifest.json"

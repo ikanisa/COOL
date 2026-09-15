@@ -108,9 +108,10 @@ void main() {
     expect(find.text('EUR 123.45'), findsOneWidget);
     expect(find.text('Exact reference'), findsOneWidget);
     expect(find.text('Open Revolut'), findsOneWidget);
-    final contributionSource = File(
+    final contributionSource = [
       'lib/features/payments/contribution_flow_screen.dart',
-    ).readAsStringSync();
+      'lib/features/payments/contribution_bank_flow.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
     final localizationSource = File(
       'lib/l10n/collect_localizations.dart',
     ).readAsStringSync();
@@ -152,6 +153,7 @@ void main() {
   test('member product surfaces expose both geographic handoffs', () {
     final paths = <String>[
       'lib/features/payments/contribution_flow_screen.dart',
+      'lib/features/payments/contribution_bank_flow.dart',
       'lib/features/settings/bank_transfer_settings_screen.dart',
       'lib/features/collections/collection_create_screen.dart',
       'lib/features/collections/group_profile_screen.dart',

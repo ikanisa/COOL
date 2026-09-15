@@ -9,7 +9,6 @@ require 'open3'
 require 'tmpdir'
 require 'time'
 require_relative 'collect_production_cutover'
-require_relative 'collect_edge_function_local_gate'
 
 module CollectHybridEdgeCutover
   ROOT = CollectProductionCutover::ROOT
@@ -18,8 +17,18 @@ module CollectHybridEdgeCutover
   PREFLIGHT = 'docs/release/SUPABASE_CONTINUATION_PREFLIGHT_V4_2026-09-03.json'.freeze
   DATABASE_READBACK = 'docs/release/HYBRID_PRIVILEGE_CUTOVER_READBACK_2026-09-03.json'.freeze
   LOCAL_GATE = 'docs/release/HYBRID_EDGE_LOCAL_GATE_2026-09-03.json'.freeze
-  SLUGS = CollectEdgeFunctionLocalGate::SLUGS
-  EXPECTED_JWT = CollectEdgeFunctionLocalGate::EXPECTED_JWT
+  # This historical deployment scope is fixed independently of full local QA.
+  SLUGS = %w[
+    verify-play-integrity ingest-payment-sms parse-payment-sms
+    prepare-roster-import collect-notification-operator
+  ].freeze
+  EXPECTED_JWT = {
+    'verify-play-integrity' => true,
+    'ingest-payment-sms' => true,
+    'parse-payment-sms' => false,
+    'prepare-roster-import' => true,
+    'collect-notification-operator' => true
+  }.freeze
   EXPECTED_BEFORE = {
     'verify-play-integrity' => {
       'version' => 3,

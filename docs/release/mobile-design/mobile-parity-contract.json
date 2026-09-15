@@ -6,10 +6,12 @@
   "authority_sha256": "f552445abe63cab63bdcda039d301d6b532f404380fb0d3d35d3563a3ec803cb",
   "criteria": ["reference_fidelity", "hierarchy_density", "typography", "colour_elevation", "spacing_shape", "icons_assets", "copy_annotations", "interaction_states", "responsive_keyboard", "accessibility_native"],
   "route_inventory": "integration_test/mobile_route_matrix_device_uat_test.dart",
+  "material_state_inventory": "integration_test/mobile_material_state_matrix_device_uat_test.dart",
   "original_reference_manifest": "docs/release/mobile-design/original-reference-manifest.json",
   "reference_registry": "docs/release/mobile-design/revolut-surface-comparisons-2026-09-05.json",
   "additional_states": ["home-discovery", "home-joined", "home-mixed", "home-empty", "home-loading", "home-error", "home-offline", "group-member", "group-nonmember", "group-owner", "auth-incomplete-number", "auth-valid-number", "auth-country-picker", "auth-otp", "auth-otp-error", "profile-rwanda", "profile-diaspora", "profile-invalid", "profile-unsaved-sheet", "contribution-amount-invalid", "contribution-quick-pick", "contribution-momo-review", "contribution-bank-review", "contribution-pending", "contribution-failed", "sms-consent-sheet", "camera-denied", "group-search-empty", "group-join", "delete-confirmation"],
   "variant_cases": ["home", "groups", "profile-edit", "contribution", "diaspora-contribution", "settings", "settings-permissions", "auth"],
+  "variant_scope": "all_base_cases",
   "variants": ["compact-320", "large-phone-430", "tablet-800", "landscape", "light", "large-text-200", "reduced-motion"],
   "keyboard_cases": ["auth", "profile-edit", "contribution", "diaspora-contribution", "group-create", "group-join"],
   "annotation_scope_notes": {

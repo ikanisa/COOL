@@ -5,6 +5,20 @@ do $$ begin
     raise exception 'Disposable Collect UAT database required';
   end if;
 end $$;
+-- Own the complete actor fixture instead of assuming an old UAT database has
+-- an approved operator. The current access gate requires a live session too.
+insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+values ('10000000-0000-0000-0000-000000000091','authenticated','authenticated',
+        '250788910091',now(),'{}','{}');
+insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+values ('10000000-0000-0000-0000-000000000091','+250788910091',now()-interval '2 seconds',
+        'Synthetic overview operator fixture');
+insert into public.admin_user_roles(user_id,role_id,reason)
+select '10000000-0000-0000-0000-000000000091',id,'Synthetic overview operator fixture'
+from public.admin_roles where name='platform_owner';
+insert into auth.sessions(id,user_id,created_at)
+values ('10000000-0000-0000-0000-000000000092','10000000-0000-0000-0000-000000000091',
+        clock_timestamp());
 do $$
 declare
   actor uuid := '10000000-0000-0000-0000-000000000091';
@@ -14,16 +28,20 @@ declare
   before_count bigint;
   after_count bigint;
 begin
-  perform set_config('request.jwt.claims', jsonb_build_object('sub',actor,'role','authenticated')::text,true);
+  perform set_config('request.jwt.claims', jsonb_build_object('sub',actor,'role','authenticated',
+    'session_id','10000000-0000-0000-0000-000000000092')::text,true);
+  set local role authenticated;
   select (item->>'value')::bigint into before_count
   from jsonb_array_elements(public.admin_overview()->'metrics') item
   where item->>'label'='Open reconciliations';
+  reset role;
   insert into public.raw_payment_sms(receiver_user_id,raw_sender,raw_body,body_hash,parse_status)
   values(actor,'LOCAL SYNTHETIC','Synthetic Admin contract, no customer data',
     encode(extensions.digest('isolated-admin-overview','sha256'),'hex'),'parsed') returning id into sms;
   insert into public.parsed_payment_events(raw_sms_id,receiver_user_id,is_mobile_money_payment,
     network,direction,amount_rwf,currency,transaction_id,confidence,parsed_json,allocation_status)
   values(sms,actor,true,'mtn_momo','incoming',1000,'RWF','LOCAL-OVERVIEW-001',0.5,'{}','needs_review') returning id into event;
+  set local role authenticated;
   metrics := public.admin_overview()->'metrics';
   select (item->>'value')::bigint into after_count
   from jsonb_array_elements(metrics) item where item->>'label'='Open reconciliations';
@@ -50,6 +68,7 @@ begin
   if has_function_privilege('anon','public.admin_overview()','EXECUTE') then
     raise exception 'Anonymous overview grant';
   end if;
+  reset role;
   raise notice 'ADMIN_HYBRID_OVERVIEW_CONTRACT_PASS';
 end $$;
 rollback;
