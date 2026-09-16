@@ -1,0 +1,267 @@
+{
+  "status": "in_progress",
+  "captured_at": "2026-09-13T10:46:11.169413+00:00",
+  "starting_commit": "7be122328d50e9b635b7fabc0513b82b10a0ea62",
+  "evidence_root": "/private/var/folders/ck/qz0k_81926v75rq1drq2y9cc0000gn/T/collect-system-qa-20260913-e8pl0an6",
+  "production_mutations": false,
+  "runtimes": {
+    "flutter": "3.44.4",
+    "dart": "3.12.2",
+    "deno": "2.5.6",
+    "notification_node": "24.20.0"
+  },
+  "runtime_input_count": 664,
+  "runtime_inputs_sha256": "c62158b03c214df7b897171257ca9c88049d41c4b93f8549a7fd19ef50548da6",
+  "tested_runtime_inputs_sha256": "c62158b03c214df7b897171257ca9c88049d41c4b93f8549a7fd19ef50548da6",
+  "runtime_fingerprint_scope": "lib/assets/supabase/android/ios/web plus manifests and public site generator; provenance only, not a release gate",
+  "changed_files": {
+    ".github/workflows/ci.yml": {
+      "current_sha256": "dea7ff14ce9489669c72da6179196d91c37370e9895e2bb893ddc800fa33bada",
+      "tested_sha256": "dea7ff14ce9489669c72da6179196d91c37370e9895e2bb893ddc800fa33bada"
+    },
+    "scripts/qa/coverage_gate.py": {
+      "current_sha256": "3d6fbf033b338f4402a9f4723d0cf78d9cc89153a7bb932bed18a61f4085ea19",
+      "tested_sha256": "3d6fbf033b338f4402a9f4723d0cf78d9cc89153a7bb932bed18a61f4085ea19"
+    },
+    "scripts/tests/coverage_gate_test.py": {
+      "current_sha256": "479ad45215e5803134cf63e6103425dad4f55ac4604294317ae59c9d8d124ea3",
+      "tested_sha256": "479ad45215e5803134cf63e6103425dad4f55ac4604294317ae59c9d8d124ea3"
+    },
+    "scripts/qa/check_momo_sms_contracts.sh": {
+      "current_sha256": "ceb05d9f1781e2f236b9e1fd20db01b8465ed8cbd02cfbb1a919d260f434431d",
+      "tested_sha256": "ceb05d9f1781e2f236b9e1fd20db01b8465ed8cbd02cfbb1a919d260f434431d"
+    },
+    "test/app_shell_test.dart": {
+      "current_sha256": "138011d29e6bbdef65f8df9051b8f875abcdeda607b1746801934c6bcd5a8bb7",
+      "tested_sha256": "dc6a4be3ea99e8845f95d6b986c5e8b11e0ce05ce44ca924586344a490dd1530"
+    },
+    "test/features/mobile_completion_test.dart": {
+      "current_sha256": "3522f3d80da4814ec23b2ea784bb6c22c7a61009e5cc8e4becdf97c58027ce8b",
+      "tested_sha256": "124a27e53d3f2c7cb20d6b312ba42e0a71c64cc3f81a2c082f7535520d972dd7"
+    }
+  },
+  "test_source_format_note": "Final Dart formatting only was applied after the successful targeted tests and full rerun; tested and current hashes retain this distinction.",
+  "full_flutter_rerun": {
+    "passed": 765,
+    "failed": 1,
+    "seed": 20260913,
+    "concurrency": 4,
+    "remaining_failure": "member offline matches approved visual baseline"
+  },
+  "line_coverage": {
+    "hit": 11870,
+    "total": 17005,
+    "threshold_percent": 40
+  },
+  "hosted_ci_current_changes": "not_run",
+  "logs": {
+    "admin-web-build.log": {
+      "sha256": "6583fcb9a010420fd5e191bfda485a1b5f059ee4e9bc480428713f765d64c51e",
+      "bytes": 798
+    },
+    "android_manifest_permissions_test.log": {
+      "sha256": "f370f988905abf5b51f8215140e2923dfa7e2bc38ea91b00a2d52e1f3f6d37c4",
+      "bytes": 163
+    },
+    "backup_export_contract_test.log": {
+      "sha256": "2ee5dbfe3f2df6817f611b937b4c40cc6b986a1689f1d0f2327e4e1686e2706c",
+      "bytes": 162
+    },
+    "collect_auth_redirect_cutover_test.log": {
+      "sha256": "38156814179eb307c7c1ef9a0f4e7ce024a1f616df68d15d7581d5017f68beae",
+      "bytes": 161
+    },
+    "collect_backup_network_probe_test.log": {
+      "sha256": "ed6bdca9e7db158bf3b24913c37465218685254055b24f6e7ab81f00f745d9b7",
+      "bytes": 170
+    },
+    "collect_encrypted_database_backup_test.log": {
+      "sha256": "877a2f56b6e64805d2c0f7659b53cefd6c351cf6c394cd9ddd5a0f01422e81e7",
+      "bytes": 163
+    },
+    "collect_hosted_preflight_test.log": {
+      "sha256": "e84621d5bf400ee7a8ab396d68454aa94d96be27ef5904da3c6500a64fc52b42",
+      "bytes": 167
+    },
+    "collect_hybrid_edge_cutover_test.log": {
+      "sha256": "98707994e5a22b5cb622b50ee864ba9d94027e50deb10b8750b6eec0f51313ed",
+      "bytes": 160
+    },
+    "collect_hybrid_privilege_cutover_test.log": {
+      "sha256": "d37c50ec442d0baac8ddbef624dee8bdbfe5ae6409bb611aaa85097c71950275",
+      "bytes": 162
+    },
+    "collect_hybrid_production_cutover_test.log": {
+      "sha256": "7ed6e94060c584665a2ea1f7211bc856524e2992c6042dc2f957fe9a9d76711a",
+      "bytes": 160
+    },
+    "collect_index_inventory_test.log": {
+      "sha256": "b8d97935dac4bfa5d810dd43e1531c77ea23ec3ba4243a911f82a210fe670e94",
+      "bytes": 162
+    },
+    "collect_migration_history_review_test.log": {
+      "sha256": "1fed8bd6fa70b7493d6924d63d02a1b9b240ab63f21a4cf96394dc84950d7fe0",
+      "bytes": 162
+    },
+    "coverage-gate.log": {
+      "sha256": "6e4e4f81212e4295646845a0778d13ef5ad97cca9d9ae3701173d528652fb6a2",
+      "bytes": 73
+    },
+    "deno-check.log": {
+      "sha256": "ef77c3c7b0f6288c9413581ef6d10e698db8ccdea2c336c66dd80bdb313d51bf",
+      "bytes": 6080
+    },
+    "deno-tests.log": {
+      "sha256": "e30fb9ca23c724a6f84b69deeb4f87d9236255683ce7d4c513e2915c17d93d1c",
+      "bytes": 8195
+    },
+    "flutter-analyze.log": {
+      "sha256": "eedebcee81d9f6e05c86facf1517648d1b48f64b20faa878c83548cc70307d0b",
+      "bytes": 97
+    },
+    "flutter-pub-get.log": {
+      "sha256": "d4cb7a3c68b4133b4f6e58c67ff5bfd13725d8021e930388cdc98da8a575919d",
+      "bytes": 68
+    },
+    "flutter-repaired-events.jsonl": {
+      "sha256": "2d9025d168d22b77a1e8d81200d1ba776c90a669184455d2636db2ffa858ad60",
+      "bytes": 477477
+    },
+    "flutter-repaired.log": {
+      "sha256": "b5e3f6ff394689de59be4058b45fe420cab7314c4c9cc51ad2d7c96fe5eb66d1",
+      "bytes": 178604
+    },
+    "flutter-test-events.jsonl": {
+      "sha256": "3840faa76d8e6b71e5f9dd253656214dc916c7d924a9c106e7b408d743384b2a",
+      "bytes": 482510
+    },
+    "flutter-tests.log": {
+      "sha256": "1d86f99eb5033ba54c23f59dcb4987457f5040a842ebda1d12ddf3801218a800",
+      "bytes": 185479
+    },
+    "ios_camera_uat_target_guard_test.log": {
+      "sha256": "285282aaf8fe3ca251e161a3254a9143b12d7ab7081984ed0fc26e84e4774b7a",
+      "bytes": 157
+    },
+    "ios_followup_uat_target_guard_test.log": {
+      "sha256": "7c71ddd151173455cc2396e56f131919386a1643477e77dc92636dbcdb6a9501",
+      "bytes": 155
+    },
+    "ios_uat_build_and_drive_test.log": {
+      "sha256": "8f16b77a8b908de3611aee1c74ad9151ba8367e9ef9f8d2f6d562b35eb2ea2c5",
+      "bytes": 158
+    },
+    "ios_uat_target_guard_test.log": {
+      "sha256": "e78fd8db3d0e4c6d69f394c52df0c7062d06a458a3867985403d4893ec2c0b0b",
+      "bytes": 158
+    },
+    "journey-smoke-events.jsonl": {
+      "sha256": "1b94f810bc4dec3406209e5760c0e95cbc11d725f76abbea7de0de82d076c0f2",
+      "bytes": 12203
+    },
+    "journey-smoke.log": {
+      "sha256": "9c4ef5ff5db7c95820ac414452b414e96eb603b2f770f1b3931ab2e62b8552a6",
+      "bytes": 3251
+    },
+    "local-baseline-results.json": {
+      "sha256": "2ce0972a615f212f26a5b03f711cc3d1d8e1407a2685917f9e4110b8f1dd1d5a",
+      "bytes": 11742
+    },
+    "migration-comparison.json": {
+      "sha256": "e00247d72f3679666f1b58b080d709e03349fd701806475e879972812eab736a",
+      "bytes": 583
+    },
+    "migration-validation.log": {
+      "sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60",
+      "bytes": 37
+    },
+    "mobile-design-contract.log": {
+      "sha256": "074fefbbcb2b3a80542ff5733b2e4127b073d92b4325b3ea6f18bcc6653c9955",
+      "bytes": 91
+    },
+    "mobile-design-gate.log": {
+      "sha256": "6265c5d80f8061ab29971666881c062668272b3b1bc4c8614924f77d2144db44",
+      "bytes": 1073
+    },
+    "mobile_design_gate_test.log": {
+      "sha256": "9a6c0f36b16ac261e47fd705a22f2b53a7b5a9aab530fb02dd751fd00f74c6ec",
+      "bytes": 192
+    },
+    "momo-lane.log": {
+      "sha256": "8c8262b652f27c725d3b1ec6a89317148bc034ba255842d21658ff9bb5a40261",
+      "bytes": 27351
+    },
+    "native_route_screenshot_audit_test.log": {
+      "sha256": "6d64866b6a983925ed214c4ac501f4533d5e0a1ab98887b3edc53eb593fd67d9",
+      "bytes": 162
+    },
+    "notification-contract.log": {
+      "sha256": "35535439848dbad733805acae2bbbc15b701146c11c8d1d224d482d3b3749763",
+      "bytes": 95
+    },
+    "notification-tool-results.json": {
+      "sha256": "e2f60fffb60b5472fba6842464cc1d55f12551d30a79510536778acba2b170d2",
+      "bytes": 1832
+    },
+    "notification-tool-tests.log": {
+      "sha256": "e6676ea02534314165d54bba1509d9b4443fb61bf600b1420e9a780268172187",
+      "bytes": 2803
+    },
+    "notification-tool-typecheck.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "offline-golden-repro.log": {
+      "sha256": "7b58e900619de10a427c4f823998af872142d8463e547bfec0b5fdc799406478",
+      "bytes": 2899
+    },
+    "offline-nav-diagnostic.log": {
+      "sha256": "5ff9a87a1aed4d983281db9fea33cc6b422f0880bb60deb6b99269312b5af792",
+      "bytes": 2977
+    },
+    "production_archive_restore_test.log": {
+      "sha256": "327c5042fc2ef6ab7b481c49183fd51d5507c697fa734b8e8b11b79d4972005d",
+      "bytes": 167
+    },
+    "production_cutover_test.log": {
+      "sha256": "7e0ca731e61b280c67f8cde6e037b8d41cf745c50802a256887d81465cf244ff",
+      "bytes": 164
+    },
+    "production_upgrade_rehearsal_test.log": {
+      "sha256": "003a14507e1bd15b8453e8a41907f7268bb53f41404aeb0d20d7b0732f0ce5c9",
+      "bytes": 162
+    },
+    "profile-country-repro.log": {
+      "sha256": "f30a058c21947b8d965fc30bed2514d339b1a6717287105ba93b44e15325132d",
+      "bytes": 267
+    },
+    "profile-order-diagnostic.log": {
+      "sha256": "9770c745657c7957a2632ac8ee49534e0017123929221dd12a038d70f3766632",
+      "bytes": 5770
+    },
+    "public-static-gate.log": {
+      "sha256": "5a5e723549e8be885fc6009a7b4e14a7e6cbc256e1c8841a6f1b0b74848751f9",
+      "bytes": 434
+    },
+    "public_app_media_test.log": {
+      "sha256": "49fd14799242c55d5081652abe2f80900bd47adff88808180997a80590ceefc2",
+      "bytes": 164
+    },
+    "repaired-random-order.log": {
+      "sha256": "9d3154bf7c4ddeea2c8ed684e4ae82134addfae753ecfdfacd53d8559ddc0ee4",
+      "bytes": 18206
+    },
+    "secret-scan.log": {
+      "sha256": "262341f21f55b0ef02534962726b4e88f2e6ca1aa05d14848d3a217c1db81e20",
+      "bytes": 122
+    },
+    "source-hygiene.log": {
+      "sha256": "0f181346a3783e5d28c91aa9ebd9e651622118c5055277b270fdc98c62c7d14b",
+      "bytes": 1011
+    },
+    "syntax-results.json": {
+      "sha256": "669f60363c2ef3357bfd6d0acfd527a01ddbb3b17979295324df41b3444f8366",
+      "bytes": 17762
+    }
+  }
+}
