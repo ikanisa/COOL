@@ -29,6 +29,9 @@
   --web-focus-inner: rgb(66 117 219 / 50%);
   --web-secondary: #505053;
   --web-widget: #f7f7f7;
+  --web-card-surface: var(--web-widget);
+  --web-card-border: #e8e8eb;
+  --web-card-padding: 28px;
   --web-night: #000000;
   --web-on-night: #f4f4f4;
   --web-pill: 9999px;
@@ -78,8 +81,9 @@
 .revolut-public.route-home .hero :is(.cta-group, .cta-touch) { background: transparent; color: var(--web-on-night); border-color: transparent; padding-inline: 12px; text-decoration: underline; text-underline-offset: 4px; }
 .revolut-public.route-home .hero-actions .button { width: auto; min-width: 0; }
 .revolut-public .hero-eyebrow, .revolut-public .section-kicker { text-transform: none; letter-spacing: var(--type-tracking-default); font-weight: var(--type-weight-medium); }
-.revolut-public main > section:not(.hero) { background: var(--web-canvas); color: var(--web-ink); }
-.revolut-public main > section:not(.hero):nth-of-type(even) { background: var(--web-widget); }
+/* Keep cards distinct from both alternating section backgrounds. */
+.revolut-public main > section:not(.hero) { --web-card-surface: var(--web-widget); background: var(--web-canvas); color: var(--web-ink); }
+.revolut-public main > section:not(.hero):nth-of-type(even) { --web-card-surface: var(--web-canvas); background: var(--web-widget); }
 .revolut-public main > section:not(.hero) h2 { font-size: var(--type-web-heading); line-height: var(--type-leading-1-05); letter-spacing: var(--type-web-tracking); font-weight: var(--type-weight-medium); color: var(--web-ink); }
 .revolut-public main > section:not(.hero) p, .revolut-public main > section:not(.hero) .section-kicker { color: var(--web-secondary); }
 /* Owner review: center the section heading beside the complete content grid. */
@@ -129,7 +133,10 @@
   gap: 24px; background: transparent; border: 0;
 }
 .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) > :is(article, .section-card, .infographic-step) {
-  background: var(--web-widget); color: var(--web-ink); border: 0; border-radius: var(--web-panel); padding: 28px; box-shadow: none; min-height: 0;
+  background: var(--web-card-surface); color: var(--web-ink); border: 1px solid var(--web-card-border); border-radius: var(--web-panel); padding: var(--web-card-padding); box-shadow: none; min-height: 0; min-width: 0; overflow-wrap: anywhere;
+}
+.revolut-public :is(.problem-list.compact, .use-case-grid) > article {
+  font-size: var(--type-web-body); font-weight: var(--type-weight-medium); line-height: var(--type-leading-1-4);
 }
 .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(strong, h3) {
   color: var(--web-ink); font-weight: var(--type-weight-medium); line-height: var(--type-leading-1-2); font-size: var(--type-size-24px);
@@ -137,7 +144,7 @@
 .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(p, span, li) {
   color: var(--web-secondary); font-weight: var(--type-weight-regular); font-size: var(--type-web-body); line-height: var(--type-leading-1-4);
 }
-.revolut-public .market-grid article { background: var(--web-widget); border: 0; border-radius: var(--web-panel); }
+.revolut-public .market-grid article { background: var(--web-card-surface); border: 1px solid var(--web-card-border); border-radius: var(--web-panel); }
 .revolut-public .market-grid article strong { color: var(--web-ink); font-weight: var(--type-weight-medium); }
 .revolut-public .start-section .button.ghost { color: var(--web-ink); border-color: var(--web-ink); }
 .revolut-public .site-footer { background: var(--web-night); color: var(--web-on-night); }
@@ -167,10 +174,11 @@
 
 .revolut-public .home-product-grid article a { color: var(--web-ink); text-decoration: underline; text-underline-offset: 4px; }
 .revolut-public :is(.craas-benefit-grid, .change-compare-grid) > article,
-.revolut-public .premium-finance-panel { background: var(--web-widget); border: 0; border-radius: var(--web-panel); box-shadow: none; }
+.revolut-public .premium-finance-panel { background: var(--web-card-surface); border: 1px solid var(--web-card-border); border-radius: var(--web-panel); box-shadow: none; }
 .revolut-public .change-compare-grid li { color: var(--web-secondary); font-weight: var(--type-weight-regular); }
 .revolut-public .change-compare-grid li::before { background: var(--web-ink); }
 .revolut-public :is(.legal-toc, .legal-priority, .legal-section, .legal-card, .legal-path, .supported-group-card, .craas-list-panel, .accumulation-panel) { background: var(--web-widget); border: 0; border-radius: var(--web-panel); box-shadow: none; }
+.revolut-public :is(.supported-group-card, .craas-list-panel, .accumulation-panel) { background: var(--web-card-surface); border: 1px solid var(--web-card-border); }
 .revolut-public :is(.legal-inline-link, .market-context a, .craas-list-panel strong, .accumulation-panel strong) { color: var(--web-ink); }
 .revolut-public :is(.legal-inline-link, .market-context a) { text-decoration: underline; text-underline-offset: 4px; }
 .revolut-public .supported-group-index { background: #e8e8eb; color: var(--web-ink); border-radius: var(--web-pill); }
@@ -191,7 +199,7 @@
   .route-home .hero-editorial { width: 1100px; right: -140px; opacity: 1; }
 }
 @media (max-width: 720px) {
-  :root { --type-web-hero: 48px; --type-web-heading: 36px; --type-web-tracking: 0; --web-gutter: 20px; }
+  :root { --type-web-hero: 48px; --type-web-heading: 36px; --type-web-tracking: 0; --web-gutter: 20px; --web-card-padding: 20px; }
   .revolut-public .site-header { padding-block: 12px; min-height: 72px; }
   .revolut-public.route-home .site-header { margin-bottom: -72px; }
   .revolut-public .site-nav { top: 72px; }
@@ -205,8 +213,12 @@
   .revolut-public .hero-device { min-height: 0; }
   .revolut-public .legal-layout { grid-template-columns: minmax(0, 1fr); }
   .revolut-public :is(.legal-content, .legal-meta, .legal-priority, .legal-card-grid, .legal-card) { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
-  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) { grid-template-columns: minmax(0, 1fr); }
-  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) > :is(article, .section-card, .infographic-step) { grid-column: auto; grid-row: auto; padding: 24px; }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) > :is(article, .section-card, .infographic-step) { grid-column: auto; grid-row: auto; padding: var(--web-card-padding); min-height: 0; min-width: 0; border-radius: 20px; }
+  .revolut-public :is(.problem-list.compact, .use-case-grid) { --web-card-padding: 16px 20px; }
+  .revolut-public :is(.problem-list.compact, .use-case-grid) > article { font-size: var(--type-web-control); }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .craas-service-grid, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(strong, h2, h3) { font-size: var(--type-size-20px); line-height: var(--type-leading-1-2); }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .craas-service-grid, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(p, span, li) { font-size: var(--type-web-control); line-height: var(--type-leading-1-4); }
   .revolut-public main > section:not(.hero) { padding: 64px var(--web-gutter); }
   .revolut-public .site-footer { padding: 48px var(--web-gutter); }
 }
