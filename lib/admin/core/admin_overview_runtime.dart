@@ -2,6 +2,9 @@ part of 'admin_runtime.dart';
 
 final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
   (ref) async {
+    var current = true;
+    ref.onDispose(() => current = false);
+    final session = ref.watch(adminAuthSessionScopeProvider);
     ref.watch(adminRealtimeTickProvider);
     final countryScope = ref.watch(adminCountryScopeProvider);
     final repository = ref.watch(adminRepositoryProvider);
@@ -52,6 +55,14 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
         countryCode: countryScope.rpcCode,
       ),
     ]);
+    // Riverpod discards a disposed provider's value, but its asynchronous body
+    // can still run. Fence the freshness side effect as well as the result.
+    if (!current ||
+        ref.read(adminAuthSessionScopeProvider) != session ||
+        !identical(ref.read(adminRepositoryProvider), repository) ||
+        ref.read(adminCountryScopeProvider) != countryScope) {
+      throw const AdminSessionChanged();
+    }
     final rawMetrics = values[0]! as List<AdminMetric>;
     final rawAttention = values[1]! as AdminListResult;
     final rawAllocations = values[2]! as AdminListResult;
@@ -75,16 +86,13 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
       visibleLimit: 100,
     );
     return _AdminOverviewWorkspace(
-      metrics: countryScope == AdminCountryScope.all
-          ? rawMetrics
-          : _scopedOverviewMetrics(
-              rawMetrics,
-              openReconciliations: attention.total ?? attention.rows.length,
-              unallocatedTransactions:
-                  (values[5]! as AdminListResult).total ?? 0,
-              allocations: (values[6]! as AdminListResult).total ?? 0,
-              payees: payees.total ?? payees.rows.length,
-            ),
+      metrics: _scopedOverviewMetrics(
+        rawMetrics,
+        openReconciliations: attention.total ?? attention.rows.length,
+        unallocatedTransactions: (values[5]! as AdminListResult).total ?? 0,
+        allocations: (values[6]! as AdminListResult).total ?? 0,
+        payees: payees.total ?? payees.rows.length,
+      ),
       attention: attention,
       allocations: allocations,
       sla: values[4] as AdminQueueSla?,
@@ -97,7 +105,6 @@ AdminListResult _scopeOverviewResult(
   AdminCountryScope scope, {
   required int visibleLimit,
 }) {
-  if (scope == AdminCountryScope.all) return result;
   final matching = result.rows
       .where((row) => adminRowMatchesCountryScope(row, scope))
       .toList(growable: false);

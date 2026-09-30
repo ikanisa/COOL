@@ -1,0 +1,7 @@
+{
+  "observed_at_utc": "2026-09-30T16:15:51.270558+00:00",
+  "readback_completed": false,
+  "reason": "Docker Desktop daemon absent; no running Docker backend or socket observed; exact app launched locally for recovery",
+  "data_mutated": false,
+  "no_engine_restart_due_to_wait_timeout": true
+}

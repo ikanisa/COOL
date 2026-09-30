@@ -8,6 +8,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
 import '../../app/theme/collect_runtime_tokens.dart';
+import '../../app/theme/collect_universal_tokens.dart';
 
 class OtpCodeField extends StatelessWidget {
   const OtpCodeField({required this.controller, this.length = 6, super.key});
@@ -102,36 +103,55 @@ class SearchWithClearField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final tokens = context.collectUniversalTokens;
+    final focusBorder = OutlineInputBorder(
+      borderRadius: CollectRadius.pillBorder,
+      borderSide: BorderSide(
+        color: tokens.focusRing,
+        width: tokens.focusRingWidth,
+      ),
+    );
     return DecoratedBox(
       decoration: BoxDecoration(
         color: CollectRuntimeTokens.inputFill(colors),
         borderRadius: CollectRadius.pillBorder,
       ),
-      child: TextField(
-        controller: controller,
-        focusNode: focusNode,
-        onChanged: onChanged,
-        minLines: 1,
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          hintText: label,
-          prefixIcon: Icon(CollectIcons.search, color: colors.textSecondary),
-          suffixIcon: controller.text.isEmpty
-              ? null
-              : IconButton(
-                  tooltip: 'Clear search',
-                  icon: const Icon(Icons.close_rounded),
-                  onPressed: () {
-                    controller.clear();
-                    onChanged('');
-                  },
-                ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x4,
-            vertical: CollectSpacing.x4,
+      child: ValueListenableBuilder<TextEditingValue>(
+        valueListenable: controller,
+        builder: (context, value, _) => Semantics(
+          label: value.text.isEmpty ? null : label,
+          child: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            onChanged: onChanged,
+            minLines: 1,
+            textInputAction: TextInputAction.search,
+            decoration: InputDecoration(
+              hintText: label,
+              prefixIcon: Icon(
+                CollectIcons.search,
+                color: colors.textSecondary,
+              ),
+              suffixIcon: value.text.isEmpty
+                  ? null
+                  : IconButton(
+                      tooltip: 'Clear search',
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () {
+                        controller.clear();
+                        onChanged('');
+                      },
+                    ),
+              border: InputBorder.none,
+              enabledBorder: tokens.highContrast
+                  ? focusBorder
+                  : InputBorder.none,
+              focusedBorder: focusBorder,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+                vertical: CollectSpacing.x4,
+              ),
+            ),
           ),
         ),
       ),

@@ -1,0 +1,89 @@
+{
+  "validated_at_utc": "2026-09-29T23:19:46.938939+00:00",
+  "status": "pass",
+  "snapshot_revision": 4,
+  "original_criteria_preserved": 102,
+  "unique_open_rows": 101,
+  "closed_ids": [
+    "G06"
+  ],
+  "priority_counts": {
+    "P0": 24,
+    "P1": 71,
+    "P2": 4,
+    "Crosscutting": 2
+  },
+  "evidence_counts": {
+    "External": 27,
+    "Partial": 67,
+    "Unverified": 7
+  },
+  "all_report_links_exist": 19,
+  "snapshot_source_and_manifest_hashes_match": 41,
+  "current_new_admin_source_hashes_match": 23,
+  "current_new_edge_source_hashes_match": 37,
+  "dated_packet_integrity": [
+    {
+      "packet": "docs/release/reconciliation-ui-2026-09-30/validation.json",
+      "manifest_sha256": "13d2f5bfcf84f0294c413f86e3ba8010da382bd1303af106a98850f6af8be12f",
+      "source_count": 51,
+      "current_source_drift": [
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "test/admin_pwa_test.dart"
+      ],
+      "artifact_count": 48,
+      "artifact_drift": [],
+      "scope": "Current hash readback of retained dated evidence; no acceptance tests rerun by this report refresh."
+    },
+    {
+      "packet": "docs/release/notification-recovery-ui-2026-09-30/verification.json",
+      "manifest_sha256": "69446c4c70308ac67fca6436953597d23eac795366b7956294cb5abf6c3677ca",
+      "source_count": 15,
+      "current_source_drift": [],
+      "artifact_count": 5,
+      "artifact_drift": [],
+      "scope": "Current hash readback of retained dated evidence; no acceptance tests rerun by this report refresh."
+    },
+    {
+      "packet": "docs/release/roster-xlsx-hardening-2026-09-30/verification.json",
+      "manifest_sha256": "75545dd97f3090efbd5dcf90caa1a474a7da2ceaa1b9b55851c9036d4386827e",
+      "source_count": 8,
+      "current_source_drift": [
+        "pubspec.yaml",
+        "pubspec.lock",
+        "supabase/functions/_shared/roster_import.ts"
+      ],
+      "artifact_count": 6,
+      "artifact_drift": [
+        "focused-analysis.txt",
+        "focused-tests.txt"
+      ],
+      "scope": "Current hash readback of retained dated evidence; no acceptance tests rerun by this report refresh."
+    },
+    {
+      "packet": "docs/release/admin-roster-provenance-2026-09-30/validation.json",
+      "manifest_sha256": "1367915d95d34f72775f8ac9f5e538e18b0f5f605445bb8041544ebafdbd2954",
+      "source_count": 23,
+      "current_source_drift": [],
+      "artifact_count": 6,
+      "artifact_drift": [],
+      "scope": "Current hash readback of retained dated evidence; no acceptance tests rerun by this report refresh."
+    },
+    {
+      "packet": "docs/release/roster-provenance-edge-postreview-2026-09-30/verification.json",
+      "manifest_sha256": "7c7555cf66ec12ba594924005bc08f390a88774ef01555703c9b3164eb394f23",
+      "source_count": 37,
+      "current_source_drift": [],
+      "artifact_count": 10,
+      "artifact_drift": [],
+      "scope": "Current hash readback of retained dated evidence; no acceptance tests rerun by this report refresh."
+    }
+  ],
+  "scope": "Task/register integrity, current hashes and metadata/count readback only; no acceptance tests rerun, cleanup, hosted mutation or whole-system acceptance by this refresh.",
+  "sha256": {
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "e4c191da8b6e122f2859ede29e3f22c66f23075df25b6aade3203e5601a8ada1",
+    "production-remaining-tasks-2026-09-30.json": "1fe6c79e03484afbff3e3cfe2b5dbead26587f1264284449332e1716e7a54921"
+  },
+  "current_local_version_drift_checked": 19
+}

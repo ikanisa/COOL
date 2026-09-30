@@ -1,0 +1,44 @@
+{
+  "database_calls": 0,
+  "governed_families": 26,
+  "launcher_guard_cases": 4,
+  "parsed": {
+    "scripts/tests/runtime_control_governance_uat.sql": {
+      "plpgsql_units": 9,
+      "sql_statements": 86
+    },
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "plpgsql_units": 24,
+      "sql_statements": 38
+    }
+  },
+  "provider_calls": 0,
+  "runtime_sql_acceptance_verified": false,
+  "scope": "offline source grammar, inventory parity, frozen client fixtures and fail-closed launcher guards only",
+  "source_sha256_after": {
+    "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json": "0ab73e7b7f9ec117fcf7b413bb8aa24ada0e4f8fc5c5194e8c6e6d28fc8c0446",
+    "docs/release/runtime-controls-2026-09-30/inventory146-attempt1/inventory.json": "ba12ad884034ccecd16fd0a57bc1f1dfc97526cf4eb4a198ffc6f5af43b3ed5c",
+    "docs/release/runtime-controls-2026-09-30/source-candidate/control-spec.json": "5288216ad5d6b11f81f24a935226bb7c515abd7592511336ce8037c383372c15",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "scripts/tests/runtime_control_governance_uat.sql": "b4958b69dc9ba771dcdaacc923bd054c68e8a288fa3a4e53f4e45e6edc189cf8",
+    "scripts/tests/runtime_control_source_gate.py": "006380d1af415063be46e386090e715a9ad3abc4e83e3c327da60992f34dd9c1",
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+    "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+    "supabase/migrations/20260930140000_roster_resource_integrity.sql": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "f22e0bcf1fd0061632dfe1293698d0fa5943f273b05fe37cab825f37cee2cbc5"
+  },
+  "source_sha256_before": {
+    "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json": "0ab73e7b7f9ec117fcf7b413bb8aa24ada0e4f8fc5c5194e8c6e6d28fc8c0446",
+    "docs/release/runtime-controls-2026-09-30/inventory146-attempt1/inventory.json": "ba12ad884034ccecd16fd0a57bc1f1dfc97526cf4eb4a198ffc6f5af43b3ed5c",
+    "docs/release/runtime-controls-2026-09-30/source-candidate/control-spec.json": "5288216ad5d6b11f81f24a935226bb7c515abd7592511336ce8037c383372c15",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "scripts/tests/runtime_control_governance_uat.sql": "b4958b69dc9ba771dcdaacc923bd054c68e8a288fa3a4e53f4e45e6edc189cf8",
+    "scripts/tests/runtime_control_source_gate.py": "006380d1af415063be46e386090e715a9ad3abc4e83e3c327da60992f34dd9c1",
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+    "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+    "supabase/migrations/20260930140000_roster_resource_integrity.sql": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "f22e0bcf1fd0061632dfe1293698d0fa5943f273b05fe37cab825f37cee2cbc5"
+  },
+  "sql_parser": "v7.7",
+  "status": "pass"
+}

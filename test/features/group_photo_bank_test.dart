@@ -85,7 +85,7 @@ void main() {
   test(
     'covers are versioned and named covers require governed group identity',
     () {
-      expect(collectGroupCovers.length, 44);
+      expect(collectGroupCovers.length, 42);
       expect(
         CollectGroupCover.resolve(
           'collect-cover:rw-09-wedding-committee:v2',

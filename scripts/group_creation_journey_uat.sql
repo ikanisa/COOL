@@ -462,13 +462,29 @@ select pg_temp.assert_true(
 set local role service_role;
 select set_config('request.jwt.claims','{"role":"service_role"}',true);
 select pg_temp.assert_true(
-  public.finalize_attested_payment_sms(:'raw_sms_id')->>'status'='posted',
-  'consumed attested evidence must finalize the matched payment through the service boundary'
+  public.finalize_attested_payment_sms(:'raw_sms_id')->>'status'='awaiting_reconciliation',
+  'consumed attested SMS cannot finalize the matched payment'
 );
 select pg_temp.assert_true(
   public.allocate_parsed_payment_event(:'event_id')='already_allocated'
-  and public.finalize_attested_payment_sms(:'raw_sms_id')->>'replayed'='true',
-  'allocation and finality retries must retain one posted payment'
+  and exists (select 1 from public.payments
+    where parsed_event_id=:'event_id' and status='review' and posted_at is null)
+  and not exists (select 1 from public.ledger_entries entry
+    join public.payments payment on payment.id=entry.payment_id
+    where payment.parsed_event_id=:'event_id'),
+  'allocation and SMS retries retain one unposted review candidate'
+);
+-- Synthetic independent provider fixture; the SMS body is not provider truth.
+select public.process_provider_finality_event(
+  '81000000-0000-4000-8000-000000000099', 'payment.confirmed',
+  repeat('d',64),
+  (select id from public.payments where parsed_event_id=:'event_id'),
+  'mtn_momo', 'GROUP-JOURNEY-UAT-001', 'PROVIDER-UAT-GROUP-001',
+  :'sms_receiver_hash', 5000, now(), repeat('e',64), null, null
+) as provider_finality \gset
+select pg_temp.assert_true(
+  :'provider_finality'::jsonb->>'replayed'='false',
+  'separate synthetic provider event posts the candidate'
 );
 reset role;
 select pg_temp.assert_true(
@@ -479,7 +495,7 @@ select pg_temp.assert_true(
     where payment.parsed_event_id = :'event_id'
       and entry.entry_type in ('collection_credit', 'member_credit')
   ),
-  'attested finality must atomically create group and payer credits'
+  'separate synthetic provider finality creates group and payer credits'
 );
 
 set local role authenticated;

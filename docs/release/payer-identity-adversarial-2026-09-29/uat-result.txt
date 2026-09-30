@@ -1,0 +1,1 @@
+PAYER_IDENTITY_ADVERSARIAL_UAT_PASS: 15 assertions; full-schema synthetic rollback only

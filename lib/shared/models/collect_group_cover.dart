@@ -9,7 +9,6 @@ part 'collect_group_cover_catalog_family_solidarity.dart';
 part 'collect_group_cover_catalog_education.dart';
 part 'collect_group_cover_catalog_community_projects.dart';
 part 'collect_group_cover_catalog_sport_culture.dart';
-part 'collect_group_cover_catalog_diaspora.dart';
 // END GENERATED COVER PARTS
 
 /// Versioned references use the existing persisted image_url field. They are
@@ -111,7 +110,6 @@ const collectCoverFamilies = <String, String>{
   'education': 'Education & skills',
   'community_projects': 'Community projects',
   'sport_culture': 'Sport & culture',
-  'diaspora': 'Diaspora',
 };
 const collectCoverContexts = <String, String>{
   'christian': 'Christian giving',

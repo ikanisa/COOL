@@ -1,0 +1,39 @@
+{
+  "status": "pass",
+  "cached_zip_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "commands": [
+    {
+      "name": "bad-checksum",
+      "command": [
+        "./gradlew",
+        "--version",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "expected_outcome_verified": true,
+      "fresh_isolated_wrapper_home": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/wrapper-bad-checksum-home-attempt16",
+      "source_distribution": "Verified local file URL; no network download",
+      "elapsed_seconds": 2.03,
+      "stdout_sha256": "a993bbb1e187fb66ed590fa7430aeb78368c0018b09975d9c6f583c543052a5a",
+      "stderr_sha256": "d3e81d1dfe1384c1ca1ae355ad763d416db683943f0bd8de45cf9aa8870ea05b"
+    },
+    {
+      "name": "verified-checksum",
+      "command": [
+        "./gradlew",
+        "--version",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "expected_outcome_verified": true,
+      "fresh_isolated_wrapper_home": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/wrapper-verified-checksum-home-attempt16",
+      "source_distribution": "Verified local file URL; no network download",
+      "elapsed_seconds": 7.25,
+      "stdout_sha256": "e63270b1529a8122df77777446e69b76e0df8a68ce6377db2bfc1c6a04b9127e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual regenerated official 9.1.0 wrapper rejects bad SHA and accepts verified local ZIP from two fresh isolated homes; no shared SDK/cache mutation"
+}

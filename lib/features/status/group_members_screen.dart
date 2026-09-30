@@ -181,14 +181,14 @@ class _MembersPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final colors = context.collectColors;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final control = CollectRuntimeTokens.chromeControl(colors);
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Semantics(
       container: true,
-      header: true,
-      label: 'Members',
+      explicitChildNodes: true,
       child: Row(
         children: [
           IconButton.filledTonal(
@@ -206,11 +206,13 @@ class _MembersPageHeader extends StatelessWidget {
           ),
           CollectSpacing.gapW12,
           Expanded(
-            child: Text(
-              'Members',
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
+            child: CollectHeadingText(
+              title: 'Members',
+              maxLines: largeText ? null : 1,
+              softWrap: largeText,
+              overflow: largeText
+                  ? TextOverflow.visible
+                  : TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: foreground,
                 fontWeight: CollectTypography.weightBold,
@@ -470,7 +472,7 @@ class _MemberSheetPill<T> extends StatelessWidget {
 
 enum _MemberFilter { all, owner, active }
 
-enum _MemberSort { collectId, newest, rwf, eur }
+enum _MemberSort { collectId, newest, rwf }
 
 String _memberFilterLabel(_MemberFilter filter) {
   return switch (filter) {
@@ -483,7 +485,6 @@ String _memberFilterLabel(_MemberFilter filter) {
 String _memberSortLabel(_MemberSort sort) {
   return switch (sort) {
     _MemberSort.rwf => 'RWF amount',
-    _MemberSort.eur => 'EUR amount',
     _MemberSort.newest => 'Newest',
     _MemberSort.collectId => 'Collect ID',
   };
@@ -492,7 +493,6 @@ String _memberSortLabel(_MemberSort sort) {
 int _compareMembers(CollectMember left, CollectMember right, _MemberSort sort) {
   return switch (sort) {
     _MemberSort.rwf => _compareVisibleAmount(left, right, 'RWF'),
-    _MemberSort.eur => _compareVisibleAmount(left, right, 'EUR'),
     _MemberSort.newest =>
       right.joinedAt != left.joinedAt
           ? right.joinedAt.compareTo(left.joinedAt)

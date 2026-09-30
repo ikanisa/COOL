@@ -1,0 +1,61 @@
+SET
+BEGIN
+SET
+DO
+CREATE TABLE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+                          ?column?                          
+------------------------------------------------------------
+ RECEIPT_V2_UAT_PASS: 7 assertions; synthetic rollback only
+(1 row)
+
+ROLLBACK

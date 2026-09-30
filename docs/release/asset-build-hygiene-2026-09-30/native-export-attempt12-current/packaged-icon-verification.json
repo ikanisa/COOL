@@ -1,0 +1,66 @@
+{
+  "status": "pass",
+  "icons": [
+    {
+      "density": "160",
+      "source": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "source_sha256": "a9c2c7aac385f8ee3d90c6ffaaf50c3247bb29f62be4b8ad804f7adf37657480",
+      "packaged_resource": "res/9w.png",
+      "packaged_sha256": "adeddd89894fe185080377c06c386c8dc750f0602bdc530e09240efcefa84294",
+      "dimensions": [
+        48,
+        48
+      ],
+      "decoded_pixels_identical": true
+    },
+    {
+      "density": "240",
+      "source": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "source_sha256": "b4b0e16ece8b2956d6d6cec9a50b1a77f03a36e272c07bb07013ce57225454dc",
+      "packaged_resource": "res/yn.png",
+      "packaged_sha256": "77ead01f8f3bbe560795d364553fea99212afdfa56968b9de3cc0fa0cc764872",
+      "dimensions": [
+        72,
+        72
+      ],
+      "decoded_pixels_identical": true
+    },
+    {
+      "density": "320",
+      "source": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "source_sha256": "e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33",
+      "packaged_resource": "res/FS.png",
+      "packaged_sha256": "db804d20c3d73f4ee1e3d93d335827fa198e8993af6f53ff27198ba24edb54cf",
+      "dimensions": [
+        96,
+        96
+      ],
+      "decoded_pixels_identical": true
+    },
+    {
+      "density": "480",
+      "source": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "source_sha256": "c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb",
+      "packaged_resource": "res/RJ.png",
+      "packaged_sha256": "fead8384065e74cda414ee4510666e819f51c302ecd249779012c11578734bc0",
+      "dimensions": [
+        144,
+        144
+      ],
+      "decoded_pixels_identical": true
+    },
+    {
+      "density": "640",
+      "source": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "source_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265",
+      "packaged_resource": "res/o-.png",
+      "packaged_sha256": "7fe458f64be6ade2ff8b1bfc0105cad768a6a514d385d2b86184b07511ed02b0",
+      "dimensions": [
+        192,
+        192
+      ],
+      "decoded_pixels_identical": true
+    }
+  ],
+  "scope": "Actual APK official icon pixel identity across five density resources; no rendered device/launcher acceptance"
+}

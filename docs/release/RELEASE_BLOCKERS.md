@@ -1,5 +1,7 @@
 # Collect Release Blockers
 
+**Historical snapshot notice:** This 20 August 2026 list applies to release `1.2.2+14` and is not the current Rwanda-only `1.2.4+23` readiness decision. See [the current go/no-go decision](GO_NO_GO_DECISION.md) and [the remaining-task checklist](PRODUCTION_READINESS_REMAINING_TASKS_2026-09-28.md). The Stripe/diaspora row below is a historical record, not an active Rwanda release requirement.
+
 Status date: 2026-08-20
 Release candidate: `1.2.2+14`
 Owner decision: **PENDING**

@@ -1,0 +1,10 @@
+{
+  "png_bytes_unchanged": true,
+  "manifest_sha256": "8e908f35379fb5455db445bc13e7488fed038fe018f1a5956917a3639762933d",
+  "removed_resources": [
+    "android/app/src/main/res/drawable-v21/launch_background.xml",
+    "android/app/src/main/res/drawable-night-v21/launch_background.xml",
+    "android/app/src/main/res/drawable/transparent.xml"
+  ],
+  "scope": "Source corrections only; final merged manifest/resources and unsigned build pending"
+}

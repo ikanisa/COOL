@@ -1,0 +1,4 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_entrypoint_rebuild_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_entrypoint_rebuild_test.dart: dedicated Admin Auth rebuild keeps the operator entrypoint
+00:01 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_logout_lifecycle_test.dart: Auth sign-out can unmount the shell before logout completes
+00:01 +2: All tests passed!

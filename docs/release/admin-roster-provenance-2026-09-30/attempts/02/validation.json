@@ -1,0 +1,117 @@
+{
+  "started_at": "2026-09-29T23:07:22.682576+00:00",
+  "source_hashes_before": {
+    "lib/admin/core/admin_roster_models.dart": "1faf030f1f4185eb28a76742e64ecd9826f01f0be31b587d3b590468ecfd401b",
+    "lib/admin/core/admin_roster_import.dart": "0df7b7f467c41a78e02657dfd3095f050918e498f75cb4fa1f3e297edfffd3f7",
+    "lib/admin/core/admin_roster_dialog.dart": "e8d5094a420f43e450f95df2f1381aa19c6373064a25b42ebcf69402d0437781",
+    "lib/admin/core/admin_group_runtime.dart": "f3299c03efc9f8c92a6a38079bf01b40aed1b13050293f7293b3356362d9d2cc",
+    "lib/admin/core/admin_runtime.dart": "6d4a273fa1b075c4c5734fda0797f21662da9329bce1d6c994d73678c00285c1",
+    "lib/admin/core/admin_repository_base.dart": "6e7a0a062ad7b6160534aec1f845a6503e50deea02c6cbca621f5486877964ba",
+    "lib/admin/core/admin_detail_runtime.dart": "c1e84ca8c90567ae61aa0a00583201ad67b60e5788fd4edb3e5d08cc4a5369cc",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_import_test.dart": "1211e78e35d8edbf350d49fabdaaab581b2e27d0ab35b70a5e1efaca230ff2eb",
+    "test/admin_roster_dialog_test.dart": "d281992e71f3e670bda2509a4a57aca57183a97202c0cc1b6b34479386d0f5e1",
+    "test/support/admin_roster_fixture.dart": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0",
+    "test/admin_pwa_test.dart": "820f0ef47525e55c4079bc2c20e39231f8451778b61494e70bcd7d7d001b5c77",
+    "test/admin_roster_file_parser_test.dart": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746",
+    "test/admin_roster_xlsx_preflight_test.dart": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "lib/app/theme/collect_theme.dart": "c821312948d711441b7bc7329763fd0a5d83a3f942a7d90c07760b1d1beb1ee1",
+    "lib/app/theme/collect_typography.dart": "41719a0ec3e80a16e5f0a3e5e7ed09e39ec827d234df8fca458e698712c794bd"
+  },
+  "commands": [
+    {
+      "name": "runtime",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=CAPTURE_ROSTER_EVIDENCE=true",
+        "--update-goldens",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_pwa_test.dart",
+        "test/admin_roster_file_parser_test.dart",
+        "test/admin_roster_xlsx_preflight_test.dart"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e248866be7e8d51255caf3d69c657c60f58047dae47ed3b4504c4c54abcf4e5a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analyze",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/core/admin_roster_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_roster_dialog.dart",
+        "lib/admin/core/admin_group_runtime.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_detail_runtime.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/support/admin_roster_fixture.dart",
+        "test/admin_pwa_test.dart",
+        "test/admin_roster_file_parser_test.dart",
+        "test/admin_roster_xlsx_preflight_test.dart"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "21cbc909017a5f8dc5845a0cb2a1d2e2a8940c162611db7df7f31573484d89ad",
+      "stderr_sha256": "97c6e102fcb379dd5d4138835586a0f5d9a3ad75eec4484ea376e5eb7cfe65fa"
+    }
+  ],
+  "database_calls": false,
+  "provider_calls": false,
+  "limitations": [
+    "Synthetic HTTP/widget fixtures; SQL execution is separately owned by root.",
+    "No hosted provider, physical device, spoken screen reader or authenticated Revolut comparator acceptance.",
+    "Draft is memory-only; reload/closing browser abandons the local draft; no persistence claim."
+  ],
+  "source_hashes_after": {
+    "lib/admin/core/admin_roster_models.dart": "1faf030f1f4185eb28a76742e64ecd9826f01f0be31b587d3b590468ecfd401b",
+    "lib/admin/core/admin_roster_import.dart": "0df7b7f467c41a78e02657dfd3095f050918e498f75cb4fa1f3e297edfffd3f7",
+    "lib/admin/core/admin_roster_dialog.dart": "e8d5094a420f43e450f95df2f1381aa19c6373064a25b42ebcf69402d0437781",
+    "lib/admin/core/admin_group_runtime.dart": "f3299c03efc9f8c92a6a38079bf01b40aed1b13050293f7293b3356362d9d2cc",
+    "lib/admin/core/admin_runtime.dart": "6d4a273fa1b075c4c5734fda0797f21662da9329bce1d6c994d73678c00285c1",
+    "lib/admin/core/admin_repository_base.dart": "6e7a0a062ad7b6160534aec1f845a6503e50deea02c6cbca621f5486877964ba",
+    "lib/admin/core/admin_detail_runtime.dart": "c1e84ca8c90567ae61aa0a00583201ad67b60e5788fd4edb3e5d08cc4a5369cc",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_import_test.dart": "1211e78e35d8edbf350d49fabdaaab581b2e27d0ab35b70a5e1efaca230ff2eb",
+    "test/admin_roster_dialog_test.dart": "d281992e71f3e670bda2509a4a57aca57183a97202c0cc1b6b34479386d0f5e1",
+    "test/support/admin_roster_fixture.dart": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0",
+    "test/admin_pwa_test.dart": "820f0ef47525e55c4079bc2c20e39231f8451778b61494e70bcd7d7d001b5c77",
+    "test/admin_roster_file_parser_test.dart": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746",
+    "test/admin_roster_xlsx_preflight_test.dart": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "lib/app/theme/collect_theme.dart": "c821312948d711441b7bc7329763fd0a5d83a3f942a7d90c07760b1d1beb1ee1",
+    "lib/app/theme/collect_typography.dart": "41719a0ec3e80a16e5f0a3e5e7ed09e39ec827d234df8fca458e698712c794bd"
+  },
+  "sources_unchanged_during_checks": true,
+  "finished_at": "2026-09-29T23:07:51.457715+00:00"
+}

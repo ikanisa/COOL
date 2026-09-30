@@ -149,13 +149,14 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
             : [
                 _LedgerTitleRow(
                   groupLabel: collection?.title ?? 'Group',
-                  totals: summary.totalsByCurrency,
+                  totals: summary?.totalsByCurrency,
                   count: feed.page?.totalCount ?? 0,
                 ),
                 InfoSecurityBanner(
                   title: 'Your confirmed balance',
-                  message:
-                      'You have ${formatCurrencyTotals(summary.ownBalancesByCurrency)} in confirmed contributions.',
+                  message: summary == null
+                      ? 'Not available'
+                      : 'You have ${formatCurrencyTotals(summary.ownBalancesByCurrency)} in confirmed contributions.',
                   tone: CollectStatusTone.info,
                 ),
                 if (!hasAnyLedgerActivity)
@@ -164,14 +165,16 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                     title: 'No ledger activity',
                     message: collection?.supportsRwandaMomo == true
                         ? 'Confirmed MoMo contributions appear here.'
-                        : 'Bank contributions appear here only after daily statement reconciliation.',
-                    action: CollectButton(
-                      label: 'Contribute now',
-                      icon: CollectIcons.bank,
-                      onPressed: () => context.go(
-                        '/groups/${widget.collectionId}/contribute',
-                      ),
-                    ),
+                        : 'This group does not have an active MoMo contribution route.',
+                    action: collection?.supportsRwandaMomo == true
+                        ? CollectButton(
+                            label: 'Contribute now',
+                            icon: CollectIcons.momo,
+                            onPressed: () => context.go(
+                              '/groups/${widget.collectionId}/contribute',
+                            ),
+                          )
+                        : null,
                   )
                 else if (!hasVisibleLedgerActivity)
                   EmptySearchState(
@@ -259,14 +262,17 @@ class _LedgerTitleRow extends StatelessWidget {
   });
 
   final String groupLabel;
-  final Map<String, int> totals;
+  final Map<String, int>? totals;
   final int count;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final amountLabel = totals == null
+        ? 'Not available'
+        : formatCurrencyTotals(totals!, separator: '\n');
     final stackAmount =
-        totals.length > 1 ||
+        (totals?.length ?? 0) > 1 ||
         MediaQuery.sizeOf(context).width < 390 ||
         MediaQuery.textScalerOf(context).scale(1) > 1.3;
     final title = Text(
@@ -285,9 +291,9 @@ class _LedgerTitleRow extends StatelessWidget {
         alignment: Alignment.centerLeft,
         fit: BoxFit.scaleDown,
         child: Text(
-          formatCurrencyTotals(totals, separator: '\n'),
+          amountLabel,
           style: CollectTypography.amountLarge(colors.textPrimary),
-          maxLines: totals.length.clamp(1, 2),
+          maxLines: (totals?.length ?? 1).clamp(1, 2),
         ),
       ),
     );
@@ -295,7 +301,9 @@ class _LedgerTitleRow extends StatelessWidget {
       container: true,
       header: true,
       label:
-          '$groupLabel ledger, ${formatCurrencyTotals(totals)}, $count confirmed entries',
+          '$groupLabel ledger, '
+          '${totals == null ? 'Group total unavailable' : formatCurrencyTotals(totals!)}, '
+          '$count confirmed entries',
       child: ExcludeSemantics(
         child: stackAmount
             ? Column(
@@ -308,7 +316,7 @@ class _LedgerTitleRow extends StatelessWidget {
                   CollectSpacing.gapW12,
                   Flexible(
                     child: Text(
-                      formatCurrencyTotals(totals),
+                      amountLabel,
                       style: CollectTypography.amountLarge(colors.textPrimary),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

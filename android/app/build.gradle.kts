@@ -3,6 +3,7 @@ import java.io.File
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.util.Locale
+import org.gradle.api.artifacts.dsl.LockMode
 
 plugins {
     id("com.android.application")
@@ -19,9 +20,18 @@ if (!collectAndroidBuildRoot.isNullOrBlank()) {
     layout.buildDirectory.set(file(collectAndroidBuildRoot).resolve("app"))
 }
 
+// Explicit source-only QA exports may build an unsigned production-flavour
+// artifact without private provider/signing inputs. Default store builds retain
+// their signing checks. The QA marker is packaged and separately verified.
+val collectUnsignedLocalQaRaw = providers.gradleProperty("collectUnsignedLocalQa").orNull
+require(collectUnsignedLocalQaRaw == null || collectUnsignedLocalQaRaw in setOf("true", "false")) {
+    "collectUnsignedLocalQa must be explicitly true or false"
+}
+val collectUnsignedLocalQa = collectUnsignedLocalQaRaw == "true"
+
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
-if (keystorePropertiesFile.exists()) {
+if (!collectUnsignedLocalQa && keystorePropertiesFile.exists()) {
     keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
 }
 fun signingEnvName(name: String): String =
@@ -29,10 +39,12 @@ fun signingEnvName(name: String): String =
         .replace(Regex("([a-z])([A-Z])"), "$1_$2")
         .uppercase(Locale.US)
 
-fun signingValue(name: String): String? =
-    (keystoreProperties[name] as String?)
+fun signingValue(name: String): String? {
+    if (collectUnsignedLocalQa) return null
+    return (keystoreProperties[name] as String?)
         ?: (findProperty(name) as String?)
         ?: System.getenv(signingEnvName(name))
+}
 
 fun String.normalizedSha256(): String = replace(":", "").uppercase(Locale.US)
 
@@ -192,13 +204,33 @@ flutter {
 }
 
 gradle.taskGraph.whenReady {
+    val sourceAnalysisTasks = setOf(
+        "lintDevDebug", "lintProductionDebug", "lintProductionRelease",
+        "lintVitalProductionRelease", "lintAnalyzeProductionRelease",
+        "testDevDebugUnitTest", "testProductionDebugUnitTest",
+    )
+    val requested = gradle.startParameter.taskNames.map { it.substringAfterLast(':') }
+    val sourceAnalysisOnly = requested.isNotEmpty() && requested.all { it in sourceAnalysisTasks }
+    val finalArtifactTasks = setOf(
+        "assembleProductionRelease", "bundleProductionRelease", "packageProductionRelease",
+        "packageProductionReleaseBundle", "signProductionReleaseBundle",
+        "validateSigningProductionRelease", "installProductionRelease",
+    )
+    val includesFinalArtifact = allTasks.any { it.project == project && it.name in finalArtifactTasks }
     val productionReleaseTaskRequested = allTasks.any { task ->
         task.name.contains("ProductionRelease", ignoreCase = true)
-    }
+    } && (!sourceAnalysisOnly || includesFinalArtifact)
     val playInstalledOverwriteTaskRequested = allTasks.any { task ->
         signProductionDebugWithPlayKey && task.name.contains("ProductionDebug", ignoreCase = true)
+    } && (!sourceAnalysisOnly || includesFinalArtifact)
+    if (sourceAnalysisOnly && !includesFinalArtifact) {
+        allTasks.filter { task ->
+            task.project == project && task.name in setOf(
+                "processProductionReleaseGoogleServices", "processProductionDebugGoogleServices",
+            )
+        }.forEach { it.enabled = false }
     }
-    if (productionReleaseTaskRequested || playInstalledOverwriteTaskRequested) {
+    if (!collectUnsignedLocalQa && (productionReleaseTaskRequested || playInstalledOverwriteTaskRequested)) {
         if (!hasReleaseSigning) {
             throw GradleException(
                 "Production Android signing requires android/key.properties or COOL_ANDROID_* environment variables " +
@@ -222,7 +254,39 @@ gradle.taskGraph.whenReady {
     }
 }
 
+// Lock only the app's reviewed production graph. Writing/enforcing these locks
+// does not modify any Flutter SDK or plugin cache project.
+dependencyLocking {
+    lockMode.set(LockMode.STRICT)
+}
+configurations.matching {
+    it.name in setOf("productionReleaseRuntimeClasspath", "productionReleaseCompileClasspath")
+}.configureEach {
+    resolutionStrategy.activateDependencyLocking()
+}
+
+if (collectUnsignedLocalQa) {
+    val markerDir = layout.buildDirectory.dir("generated/collectLocalQa/assets")
+    val marker = tasks.register("writeCollectUnsignedLocalQaMarker") {
+        outputs.dir(markerDir)
+        doLast {
+            val file = markerDir.get().file("collect-local-unsigned-qa.json").asFile
+            file.parentFile.mkdirs()
+            file.writeText("""{"kind":"local_unsigned_native_qa","store_acceptance":false,"provider_configuration":false,"signing":false}""" + "\n")
+        }
+    }
+    // AGP9 rejects Provider arguments on legacy source-set directory methods.
+    // The directory is static for this build; its explicit pre-build dependency
+    // below keeps marker generation ordered before asset merging.
+    android.sourceSets.getByName("production").assets.srcDir(markerDir.get().asFile)
+    tasks.matching { it.name == "preProductionReleaseBuild" }.configureEach { dependsOn(marker) }
+}
+
 dependencies {
+    // Kotlin's metadata alignment can materialize this already-selected compile
+    // dependency only after strict runtime lock constraints are applied. Declare
+    // the same pinned compiler version so lock generation observes it as well.
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.3.20")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("com.google.android.play:integrity:1.6.0")
     testImplementation("junit:junit:4.13.2")
@@ -240,6 +304,9 @@ tasks.configureEach {
             ),
         )
     ) {
+        enabled = false
+    }
+    if (collectUnsignedLocalQa && name == "processProductionReleaseGoogleServices") {
         enabled = false
     }
 }

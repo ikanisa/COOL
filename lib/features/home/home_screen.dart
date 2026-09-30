@@ -29,11 +29,10 @@ class HomeScreen extends ConsumerWidget {
     final collections = ref.watch(homeCollectionsProvider);
     final publicCollections = ref.watch(featuredCollectionsProvider);
     final profile = state.currentProfile;
-    final contributedGroupCount = ref.watch(
-      contributedCollectionIdsProvider.select((ids) => ids.length),
-    );
+    // A recent transaction window is not a complete financial aggregate.
+    final contributedGroupCount = state.historyPage?.ownCollectionIds.length;
     final summaries = ref.watch(collectionSummariesProvider);
-    final raisedTotals = ref.watch(raisedTotalsByCurrencyProvider);
+    final raisedTotals = state.historyPage?.ownTotals;
     // Cached and newly merged receipts need not arrive in display order.
     // Sort before taking the bounded recent preview without mutating state.
     final contributions = [...state.contributions]
@@ -59,11 +58,13 @@ class HomeScreen extends ConsumerWidget {
               quickActionsGap: CollectComponentTokens.homeHeroActionGap(
                 context,
               ),
-              metric: formatCurrencyTotals(
-                raisedTotals,
-                separator: '\n',
-                emptyCurrency: profile?.isDiaspora == true ? 'EUR' : 'RWF',
-              ),
+              metric: raisedTotals == null
+                  ? 'Not available'
+                  : formatCurrencyTotals(
+                      raisedTotals,
+                      separator: '\n',
+                      emptyCurrency: 'RWF',
+                    ),
               subtitleSemanticLabel: _supportedGroupCountLabel(
                 contributedGroupCount,
               ),
@@ -162,16 +163,18 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-String _supportedGroupCountLabel(int count) =>
-    '$count supported ${count == 1 ? 'group' : 'groups'}';
+String _supportedGroupCountLabel(int? count) => count == null
+    ? 'Contributed group count not available'
+    : 'Contributed to $count ${count == 1 ? 'group' : 'groups'}';
 
 class _SupportedGroupsIndicator extends StatelessWidget {
   const _SupportedGroupsIndicator({required this.count});
 
-  final int count;
+  final int? count;
 
   @override
   Widget build(BuildContext context) {
+    if (count == null) return const Text('Not available');
     final colors = context.collectColors;
     final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
     return Row(

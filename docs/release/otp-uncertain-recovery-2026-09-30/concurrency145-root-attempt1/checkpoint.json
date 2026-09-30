@@ -1,0 +1,30 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/concurrency145-root-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "546ad6e9a1573a638281729c9caac1eafd1fd97a8d2f61fdc9cf2fc2b451e60c",
+  "command": [
+    "ruby",
+    "scripts/tests/signed_otp_recovery_concurrency_uat.rb",
+    "--execute-local145"
+  ],
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 145,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930130000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "1d64e003ce034e33777cbd00cf040dfe48f138c210b4dc4132665933b2078918",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 1,
+  "started_at_utc": "2026-09-30T13:54:00.935741+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

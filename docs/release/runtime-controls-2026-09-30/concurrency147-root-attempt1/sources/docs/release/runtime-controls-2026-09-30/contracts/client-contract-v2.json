@@ -1,0 +1,38 @@
+{
+  "status": "source_contract_frozen_runtime_acceptance_pending",
+  "feature_flags": {
+    "rpc": "admin_set_feature_flag_v2",
+    "request_keys": ["p_key", "p_enabled", "p_expected_revision", "p_reason"],
+    "ack_keys": ["contract_version", "ok", "previous_revision", "revision", "changed", "updated_at", "key", "enabled"],
+    "contract_version": 2,
+    "revision_from": "admin_list_feature_flags.rows[].extra.runtime_revision",
+    "changed_ack": {"contract_version":2,"ok":true,"previous_revision":1,"revision":2,"changed":true,"updated_at":"2026-09-30T10:00:00+00:00","key":"qa_runtime_fixture","enabled":true},
+    "no_change_ack": {"contract_version":2,"ok":true,"previous_revision":2,"revision":2,"changed":false,"updated_at":"2026-09-30T10:00:00+00:00","key":"qa_runtime_fixture","enabled":true},
+    "legacy_rpc": "admin_set_feature_flag",
+    "legacy_error": {"sqlstate":"22023","message":"runtime_control_revision_required"}
+  },
+  "notification_preferences": {
+    "read_rpc": "get_notification_preferences_v2",
+    "read_request_keys": [],
+    "read_keys": ["contract_version", "ok", "user_id", "revision", "exists", "preferences"],
+    "save_rpc": "set_notification_preferences_v2",
+    "save_request_keys": ["p_preferences", "p_expected_revision"],
+    "ack_keys": ["contract_version", "ok", "previous_revision", "revision", "changed", "updated_at", "user_id"],
+    "preference_keys": ["contribution_confirmations", "payment_reminders", "group_updates", "security_notices"],
+    "read_example": {"contract_version":2,"ok":true,"user_id":"99720000-0000-4000-8000-000000000001","revision":1,"exists":true,"preferences":{"contribution_confirmations":true,"payment_reminders":false,"group_updates":true,"security_notices":true}},
+    "absent_example": {"contract_version":2,"ok":true,"user_id":"99720000-0000-4000-8000-000000000001","revision":0,"exists":false,"preferences":{"contribution_confirmations":true,"payment_reminders":true,"group_updates":true,"security_notices":true}},
+    "changed_ack": {"contract_version":2,"ok":true,"previous_revision":1,"revision":2,"changed":true,"updated_at":"2026-09-30T10:00:00+00:00","user_id":"99720000-0000-4000-8000-000000000001"},
+    "no_change_ack": {"contract_version":2,"ok":true,"previous_revision":2,"revision":2,"changed":false,"updated_at":"2026-09-30T10:00:00+00:00","user_id":"99720000-0000-4000-8000-000000000001"},
+    "owner": "The live authenticated session user only; no Admin permission grants ownership of another user's preferences."
+  },
+  "validation": {
+    "ack_unknown_keys": "reject",
+    "integer_revisions": "JSON integer, never strings/doubles/bools; 0 <= previous <= 1000000000; 1 <= revision <= 1000000000",
+    "revision_binding": "previous_revision equals the exact submitted expected revision; changed true requires revision=previous+1, changed false requires revision=previous",
+    "identity_binding": "feature flag key and enabled exactly match submitted values; preference user_id equals active Auth user captured at dispatch and acknowledgment",
+    "session_binding": "Reject a late reply after a session/user change; never mutate local state on missing, malformed or conflict ACK.",
+    "conflict": "SQLSTATE 40001: retain saved state and dirty intended edit; reload current server revision explicitly before retry; never silently rebase or retry an overwrite.",
+    "direct_preferences_write": "INSERT/UPDATE/DELETE are revoked; existing direct upsert must migrate before acceptance.",
+    "no_change": "Server returns unchanged revision and timestamp; no immutable change event is emitted."
+  }
+}

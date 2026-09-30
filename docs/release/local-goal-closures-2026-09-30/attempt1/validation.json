@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "captured_at_utc": "2026-09-30T14:29:17.403776+00:00",
+  "closed_goal_items": [
+    "L02",
+    "L21"
+  ],
+  "remaining_goal_items": 22,
+  "original_local_criteria_preserved": true,
+  "production_acceptance_open": 101,
+  "cleanup_manifest": "docs/release/asset-build-hygiene-2026-09-30/L21-verification.json",
+  "cleanup_manifest_sha256": "9e787a758dd7d6bab813508b55e03a64f753259b1e801f9a738f9cbaf49f31ed",
+  "source_inputs_verified": 366,
+  "evidence_inputs_verified": 12,
+  "preserved_removed_sources_verified": 2,
+  "local_register_sha256": "028260d5a7c5bf4f549b0eb8851373bd595b1ef6d405eaad28a3217c06897fd4",
+  "note": "Only localL21 closure added; original production criteria/counts remain unchanged."
+}

@@ -35,6 +35,10 @@ const headerAliases = {
     "display name",
     "display_name",
     "name",
+    "nom du membre",
+    "nom",
+    "izina ry'umunyamuryango",
+    "jina la mwanachama",
   ]),
   momo_name: new Set([
     "momo name",
@@ -42,6 +46,10 @@ const headerAliases = {
     "registered momo name",
     "registered_name",
     "account name",
+    "nom momo",
+    "nom du compte momo",
+    "izina rya momo",
+    "jina la momo",
   ]),
   momo_number: new Set([
     "momo number",
@@ -51,6 +59,11 @@ const headerAliases = {
     "phone",
     "phone number",
     "telephone",
+    "numéro momo",
+    "numero momo",
+    "numéro de téléphone",
+    "nimero ya momo",
+    "nambari ya momo",
   ]),
 };
 
@@ -110,8 +123,8 @@ export function canonicalRwandaMomoNumber(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const compact = value.trim().replace(/[\s().-]/g, "");
   const digits = compact.startsWith("+") ? compact.slice(1) : compact;
-  if (/^07\d{8}$/.test(digits)) return `+250${digits.slice(1)}`;
-  if (/^2507\d{8}$/.test(digits)) return `+${digits}`;
+  if (/^07[2389]\d{7}$/.test(digits)) return `+250${digits.slice(1)}`;
+  if (/^2507[2389]\d{7}$/.test(digits)) return `+${digits}`;
   return null;
 }
 
@@ -129,6 +142,14 @@ export function parseRosterText(content: string): RosterCandidate[] {
   const mappedHeaders = first.map(headerKey);
   const hasHeader = mappedHeaders.some((value) => value != null) &&
     !first.some(looksLikePhone);
+  if (
+    hasHeader &&
+    mappedHeaders.some((value, index) =>
+      value !== null && mappedHeaders.indexOf(value) !== index
+    )
+  ) {
+    throw new Error("Roster contains ambiguous duplicate headers");
+  }
   const indices = {
     member_name: hasHeader ? mappedHeaders.indexOf("member_name") : 0,
     momo_name: hasHeader ? mappedHeaders.indexOf("momo_name") : 1,
@@ -186,10 +207,10 @@ export function normalizeRosterCandidates(value: unknown): RosterPreview {
       ? Math.max(0, Math.min(1, confidenceValue))
       : 0;
     const issues: string[] = [];
-    if (memberName.length < 2 || memberName.length > 120) {
+    if ([...memberName].length < 2 || [...memberName].length > 120) {
       issues.push("Member name must contain 2 to 120 characters");
     }
-    if (momoName.length < 2 || momoName.length > 120) {
+    if ([...momoName].length < 2 || [...momoName].length > 120) {
       issues.push("Registered MoMo name must contain 2 to 120 characters");
     }
     if (/[\u0000-\u001f\u007f]/.test(memberName + momoName)) {

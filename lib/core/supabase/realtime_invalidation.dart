@@ -11,10 +11,6 @@ const collectMobileRealtimeAreas = <String>{
   'payment_intents',
   'payments',
   'ledger',
-  'bank_intents',
-  'bank_transactions',
-  'bank_reconciliation',
-  'bank_details',
 };
 
 const collectAdminRealtimeAreas = <String>{
@@ -25,7 +21,6 @@ const collectAdminRealtimeAreas = <String>{
   'settings',
   'system_health',
   'notifications',
-  'bank_evidence',
 };
 
 class RealtimeInvalidationSubscription {
@@ -34,54 +29,195 @@ class RealtimeInvalidationSubscription {
     required String topic,
     required Set<String> areas,
     required FutureOr<void> Function() onInvalidate,
+    String? ownerUserId,
     Duration debounce = const Duration(milliseconds: 350),
   }) : _client = client,
        _topic = topic,
-       _areas = areas,
-       _onInvalidate = onInvalidate,
-       _debounce = debounce;
+       _ownerUserId = ownerUserId,
+       _coordinator = RealtimeInvalidationCoordinator(
+         areas: areas,
+         onInvalidate: onInvalidate,
+         debounce: debounce,
+       );
 
   final SupabaseClient _client;
   final String _topic;
-  final Set<String> _areas;
-  final FutureOr<void> Function() _onInvalidate;
-  final Duration _debounce;
+  final String? _ownerUserId;
+  final RealtimeInvalidationCoordinator _coordinator;
 
   RealtimeChannel? _channel;
-  Timer? _timer;
-  bool _invalidateInFlight = false;
-  bool _invalidateRequested = false;
+  Timer? _retryTimer;
+  Timer? _stableTimer;
+  int _channelGeneration = 0;
+  int _retryAttempt = 0;
+  bool _restarting = false;
   bool _disposed = false;
 
   void start() {
-    if (_channel != null || _areas.isEmpty) return;
-    _disposed = false;
-    _channel = _client
+    if (_disposed ||
+        _channel != null ||
+        _coordinator.isEmpty ||
+        !_ownerCurrent) {
+      return;
+    }
+    try {
+      _subscribe();
+    } catch (_) {
+      _scheduleRetry();
+    }
+  }
+
+  Future<void> dispose() async {
+    _disposed = true;
+    _retryTimer?.cancel();
+    _retryTimer = null;
+    _stableTimer?.cancel();
+    _stableTimer = null;
+    _coordinator.dispose();
+    ++_channelGeneration;
+    final channel = _channel;
+    _channel = null;
+    if (channel != null) {
+      try {
+        await channel.unsubscribe();
+      } catch (_) {
+        // Local disposal still blocks callbacks if the socket is already gone.
+      }
+    }
+  }
+
+  bool get _ownerCurrent =>
+      _ownerUserId == null || _client.auth.currentUser?.id == _ownerUserId;
+
+  void _subscribe() {
+    if (_disposed || !_ownerCurrent) return;
+    final generation = ++_channelGeneration;
+    final channel = _client
         .channel(_topic)
         .onPostgresChanges(
           event: PostgresChangeEvent.insert,
           schema: 'public',
           table: 'app_realtime_events',
-          callback: _handleEvent,
-        )
-        .subscribe();
+          callback: (payload) {
+            if (generation == _channelGeneration) _handleEvent(payload);
+          },
+        );
+    _channel = channel;
+    channel.subscribe((status, error) {
+      if (generation == _channelGeneration) {
+        _handleStatus(status, error);
+      }
+    });
   }
 
-  Future<void> dispose() async {
-    _disposed = true;
-    _timer?.cancel();
-    final channel = _channel;
+  void _handleStatus(RealtimeSubscribeStatus status, Object? error) {
+    if (_disposed || !_ownerCurrent) return;
+    _coordinator.connectionStatus(status);
+    if (status == RealtimeSubscribeStatus.subscribed) {
+      _retryTimer?.cancel();
+      _retryTimer = null;
+      _stableTimer?.cancel();
+      _stableTimer = Timer(const Duration(seconds: 30), () {
+        _retryAttempt = 0;
+      });
+      return;
+    }
+    _stableTimer?.cancel();
+    _stableTimer = null;
+    if (!_restarting) _scheduleRetry();
+  }
+
+  void _scheduleRetry() {
+    if (_retryTimer != null || _disposed || !_ownerCurrent) return;
+    // The SDK retries ordinary socket drops. Recreate a channel as well when
+    // the server rejects its postgres_changes binding after a successful join.
+    final seconds = 1 << _retryAttempt.clamp(0, 5);
+    if (_retryAttempt < 5) _retryAttempt++;
+    _retryTimer = Timer(Duration(seconds: seconds), () {
+      _retryTimer = null;
+      unawaited(_restart());
+    });
+  }
+
+  Future<void> _restart() async {
+    if (_disposed || !_ownerCurrent || _restarting) return;
+    _restarting = true;
+    ++_channelGeneration;
+    final previous = _channel;
     _channel = null;
-    if (channel != null) {
-      await channel.unsubscribe();
+    try {
+      await previous?.unsubscribe();
+    } catch (_) {
+      // A failed unsubscribe is not proof of a live binding. The SDK removes
+      // the old channel when its socket closes; a new join is still required.
+    } finally {
+      _restarting = false;
+    }
+    if (_disposed || !_ownerCurrent) return;
+    try {
+      _subscribe();
+    } catch (_) {
+      _scheduleRetry();
     }
   }
 
   void _handleEvent(PostgresChangePayload payload) {
-    final area = payload.newRecord['area'];
-    if (area is! String || !_areas.contains(area)) return;
-    _timer?.cancel();
+    if (_disposed || !_ownerCurrent) return;
+    _coordinator.event(payload.newRecord);
+  }
+}
+
+/// Only invalidation IDs enter this coordinator. Financial rows are always
+/// refetched through scoped RPCs after a join or a relevant event.
+class RealtimeInvalidationCoordinator {
+  RealtimeInvalidationCoordinator({
+    required Set<String> areas,
+    required FutureOr<void> Function() onInvalidate,
+    Duration debounce = const Duration(milliseconds: 350),
+  }) : _areas = areas,
+       _onInvalidate = onInvalidate,
+       _debounce = debounce;
+
+  final Set<String> _areas;
+  final FutureOr<void> Function() _onInvalidate;
+  final Duration _debounce;
+  final Set<String> _seenIds = <String>{};
+  Timer? _timer;
+  bool _connected = false;
+  bool _invalidateInFlight = false;
+  bool _invalidateRequested = false;
+  bool _disposed = false;
+
+  bool get isEmpty => _areas.isEmpty;
+
+  void connectionStatus(RealtimeSubscribeStatus status) {
+    if (_disposed) return;
+    if (status == RealtimeSubscribeStatus.subscribed) {
+      if (_connected) return;
+      _connected = true;
+      // A change between the last RPC read and the new Realtime join is not
+      // replayed by the channel. Reconcile once after every successful join.
+      _scheduleInvalidation();
+    } else {
+      _connected = false;
+    }
+  }
+
+  void event(Map<String, dynamic> row) {
+    if (_disposed || !_connected || !_areas.contains(row['area'])) return;
+    final id = row['id'];
+    if (id is String && id.isNotEmpty) {
+      if (!_seenIds.add(id)) return;
+      if (_seenIds.length > 256) _seenIds.remove(_seenIds.first);
+    }
+    _scheduleInvalidation();
+  }
+
+  void _scheduleInvalidation() {
+    // Leading debounce: a continuous stream cannot postpone a refresh forever.
+    if (_timer != null) return;
     _timer = Timer(_debounce, () {
+      _timer = null;
       unawaited(_invalidate());
     });
   }
@@ -94,12 +230,34 @@ class RealtimeInvalidationSubscription {
     }
     _invalidateInFlight = true;
     try {
-      do {
+      _invalidateRequested = false;
+      await _refreshOnce();
+      if (_invalidateRequested && !_disposed) {
         _invalidateRequested = false;
-        await Future<void>.sync(_onInvalidate);
-      } while (_invalidateRequested && !_disposed);
+        await _refreshOnce();
+      }
     } finally {
+      final needsAnotherWindow = _invalidateRequested && !_disposed;
+      _invalidateRequested = false;
       _invalidateInFlight = false;
+      if (needsAnotherWindow) _scheduleInvalidation();
     }
+  }
+
+  Future<void> _refreshOnce() async {
+    try {
+      await Future<void>.sync(_onInvalidate);
+    } catch (_) {
+      // The next event or reconnect retries. Do not leak RPC error details
+      // through an uncaught asynchronous Realtime callback.
+    }
+  }
+
+  void dispose() {
+    _disposed = true;
+    _connected = false;
+    _timer?.cancel();
+    _timer = null;
+    _seenIds.clear();
   }
 }

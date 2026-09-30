@@ -1,0 +1,71 @@
+TypeScript compiler unavailable; Bun handler execution only (no type-check):
+bun test v1.4.0 (34cbb9a40)
+
+scripts/hardening/edge_http.test.cjs:
+(pass) OTP GET rejected without provider or DB [8.79ms]
+(pass) OTP static header rejected [3.85ms]
+(pass) OTP signed send once then complete [20.04ms]
+(pass) OTP reservation already_sent [0.28ms]
+(pass) OTP reservation throttled [0.14ms]
+(pass) OTP reservation unresolved [0.19ms]
+(pass) OTP reservation unexpected [0.11ms]
+(pass) OTP dry-run cannot claim delivered [0.26ms]
+(pass) OTP missing template does not consume quota [0.20ms]
+(pass) OTP provider body never leaks or triggers fallback resend [0.43ms]
+(pass) OTP missing provider id cannot become success [0.96ms]
+(pass) Receipt auth failure does not store [0.45ms]
+(pass) Receipt owner-bound v2 ACK returned [3.79ms]
+(pass) Receipt parsing failure retains retry state [0.17ms]
+(pass) Receipt legacy version is not a fallback [0.11ms]
+(pass) Receipt and parser fail closed on missing RPC [0.77ms]
+(pass) Receipt and parser fail closed on null version [0.43ms]
+(pass) Receipt and parser fail closed on undefined version [0.08ms]
+(pass) Receipt and parser fail closed on future version [0.95ms]
+(pass) Receipt and parser fail closed on text version [1.49ms]
+(pass) Parser rejects missing internal authorization before any database call [0.09ms]
+(pass) Parser stale lease never reports accepted processing or allocates money [2.93ms]
+(pass) Parser exact lease completion proceeds to review without finalizing payment [0.10ms]
+(pass) Parser retry repairs raw status from a stored event before review [0.06ms]
+(pass) Parser retry refuses ACK if stored event raw status cannot be repaired [0.04ms]
+(pass) Integrity uses documented OAuth grant and fixed endpoint [35.02ms]
+(pass) Integrity unlicensed app cannot mint capability [37.03ms]
+(pass) Internal notification endpoints return a stable 401 code without exposing auth internals [0.92ms]
+(pass) Notification endpoints suppress SQL and provider exception text [0.49ms]
+(pass) Operator error response suppresses internal SQL text [0.32ms]
+(pass) Operator rejects invalid input with a fixed 400 code [0.14ms]
+(pass) Operator permission denial does not disclose internal ACL names [0.06ms]
+(pass) Operator rejects oversized input before permission or service RPCs [0.10ms]
+(pass) Operator authorized health action still returns its result [0.08ms]
+(pass) Operator keeps state conflicts distinct from outages without exposing SQL text [0.10ms]
+(pass) Integrity authentication and missing configuration use stable codes only [24.22ms]
+(pass) Integrity invalid private policy does not disclose configuration state [38.08ms]
+(pass) OTP ambiguous/dry-run mode blocks: 1 [0.19ms]
+(pass) OTP ambiguous/dry-run mode blocks: yes [0.08ms]
+(pass) OTP ambiguous/dry-run mode blocks: TRUE [0.07ms]
+(pass) OTP ambiguous/dry-run mode blocks:  true  [0.06ms]
+(pass) OTP ambiguous/dry-run mode blocks: on [0.03ms]
+(pass) OTP ambiguous/dry-run mode blocks: 0 [0.03ms]
+(pass) Dispatch claims one, bounds RPCs and preserves an accepted result when completion fails [0.92ms]
+(pass) Dispatch terminal attempt is reported failed after one transport exception [0.15ms]
+
+ 45 pass
+ 0 fail
+Ran 45 tests across 1 file. [250.00ms]
+bun test v1.4.0 (34cbb9a40)
+
+scripts/hardening/roster_http.test.cjs:
+(pass) actual roster handler returns a hashed human-review preview with provenance receipts only [7.85ms]
+(pass) actual roster handler rejects incomplete with provenance receipts only [0.79ms]
+(pass) actual roster handler rejects additional tool with provenance receipts only [0.20ms]
+(pass) actual roster handler rejects wrong row type with provenance receipts only [0.19ms]
+(pass) actual roster handler rejects duplicate answer with provenance receipts only [0.75ms]
+(pass) actual roster handler rejects refusal after text with provenance receipts only [0.17ms]
+(pass) actual roster handler cancels an oversized provider stream and returns an upstream error [0.41ms]
+(pass) actual roster handler rejects malformed provider JSON without exposing its body [0.21ms]
+(pass) actual roster handler rejects spoofed upload before any provider request [0.10ms]
+(pass) actual deterministic roster preview remains usable without a model call or membership mutation [0.59ms]
+
+ 10 pass
+ 0 fail
+Ran 10 tests across 1 file. [28.00ms]
+

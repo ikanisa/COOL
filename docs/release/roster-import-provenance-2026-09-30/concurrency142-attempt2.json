@@ -1,0 +1,3646 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 142,
+  "worker_sessions": 2,
+  "provider_calls": 0,
+  "hosted_auth_requests": 0,
+  "scenarios": [
+    {
+      "scenario": "duplicate_source_single_provider_attempt",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "duplicate_review_same_revision",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "duplicate_commit_one_membership",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "session_revoke_first",
+      "state": {
+        "pid": 4496,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4503
+        ]
+      }
+    },
+    {
+      "scenario": "commit_before_session_revoke",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "role_revoke_first",
+      "state": {
+        "pid": 4496,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4503
+        ]
+      }
+    },
+    {
+      "scenario": "commit_before_role_revoke",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "feature_revoke_first",
+      "state": {
+        "pid": 4496,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          4503
+        ]
+      }
+    },
+    {
+      "scenario": "commit_before_feature_revoke",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "competing_parent_review_no_branch",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    },
+    {
+      "scenario": "latest_revision_invalidates_queued_commit",
+      "state": {
+        "pid": 4503,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          4496
+        ]
+      }
+    }
+  ],
+  "commit_acknowledgements": [
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": false,
+      "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+      "request_id": "99540000-0000-4000-8000-000000000301",
+      "revision_id": "3753b4d7-3a5f-4285-90df-d604d319ea2d",
+      "roster_count": 1,
+      "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "ec88f7741d967453e7c705ada14b39db3be1d23ac91b891f8c2eba6997c852b3"
+    },
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": false,
+      "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+      "request_id": "99540000-0000-4000-8000-000000000303",
+      "revision_id": "d0d409a9-5e5a-4b81-b3f3-24c7fc6f9916",
+      "roster_count": 1,
+      "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "fabe71bfe13a0ff54cb09b4caf81bb625ccbbd9de1c179614dc14b4215b01dd0"
+    },
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": false,
+      "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+      "request_id": "99540000-0000-4000-8000-000000000305",
+      "revision_id": "1c7e5c2f-bd8a-4198-b07c-f618148bc784",
+      "roster_count": 1,
+      "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "04a55511d5daf2f540b4e32b8c52f953a891b564b33aa15653a8efb8f932e7dd"
+    },
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": false,
+      "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+      "request_id": "99540000-0000-4000-8000-000000000307",
+      "revision_id": "e4e665f0-6a8d-43f2-a7c1-b0861e0b4376",
+      "roster_count": 1,
+      "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "0c934794fbb2743fadfbf94854c1d1a8ef311a14c50619ab6e4b757043178ab4"
+    },
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": false,
+      "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+      "request_id": "99540000-0000-4000-8000-000000000308",
+      "revision_id": "5b507f5e-36c1-45ce-872e-0e7971fce4d9",
+      "roster_count": 1,
+      "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "a70db7926548372a61c8c4c4113991858e9f4b34cbbb0b14177f68a18c6a412e"
+    }
+  ],
+  "duplicate_source_attempts": 1,
+  "duplicate_review_same_revision": true,
+  "duplicate_commit_single_membership": true,
+  "response_loss_exact_payload_retry": true,
+  "financial_rows_unchanged": true,
+  "source_sha256": "94fd6a7e7859ad2f220b88cf6419dcc99f46701411fd32eafc33ccd1f4a1e1b9",
+  "migration_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+  "baseline_tables": [
+    "auth.audit_log_entries",
+    "auth.custom_oauth_providers",
+    "auth.flow_state",
+    "auth.identities",
+    "auth.instances",
+    "auth.mfa_amr_claims",
+    "auth.mfa_challenges",
+    "auth.mfa_factors",
+    "auth.oauth_authorizations",
+    "auth.oauth_client_states",
+    "auth.oauth_clients",
+    "auth.oauth_consents",
+    "auth.one_time_tokens",
+    "auth.refresh_tokens",
+    "auth.saml_providers",
+    "auth.saml_relay_states",
+    "auth.schema_migrations",
+    "auth.sessions",
+    "auth.sso_domains",
+    "auth.sso_providers",
+    "auth.users",
+    "auth.webauthn_challenges",
+    "auth.webauthn_credentials",
+    "collect_admin_access.whatsapp_approvals",
+    "collect_auth_security.otp_phone_locks",
+    "collect_hybrid.collection_balances",
+    "collect_hybrid.group_creation_requests",
+    "collect_hybrid.member_account_claims",
+    "collect_hybrid.member_balances",
+    "collect_hybrid.member_momo_identities",
+    "collect_hybrid.member_receiving_assignments",
+    "collect_hybrid.member_records",
+    "collect_hybrid.momo_balance_snapshots",
+    "collect_hybrid.momo_journal_entries",
+    "collect_hybrid.momo_journal_lines",
+    "collect_hybrid.momo_reconciliation_exceptions",
+    "collect_hybrid.momo_reversal_requests",
+    "collect_hybrid.payer_identity_reconciliation",
+    "collect_hybrid.payment_provider_rejections",
+    "collect_hybrid.receiving_assignment_requests",
+    "collect_hybrid.roster_batches",
+    "collect_hybrid.roster_import_commits",
+    "collect_hybrid.roster_import_extractions",
+    "collect_hybrid.roster_import_results",
+    "collect_hybrid.roster_import_revisions",
+    "collect_hybrid.roster_import_sources",
+    "collect_hybrid.sms_notification_attempts",
+    "collect_hybrid.sms_notification_claim_requests",
+    "collect_hybrid.sms_notification_confirmations",
+    "collect_hybrid.sms_notification_outbox",
+    "collect_hybrid.sms_operator_heartbeats",
+    "collect_hybrid.sms_receipt_member_consents",
+    "collect_hybrid.sms_receipt_policies",
+    "collect_security.reconciliation_reviews",
+    "public.account_request_reason_options",
+    "public.admin_navigation_items",
+    "public.admin_notes",
+    "public.admin_permissions",
+    "public.admin_queue_filter_options",
+    "public.admin_queue_signals",
+    "public.admin_queue_sla_policies",
+    "public.admin_queue_specs",
+    "public.admin_role_permissions",
+    "public.admin_roles",
+    "public.admin_sensitive_access_logs",
+    "public.admin_user_roles",
+    "public.app_realtime_events",
+    "public.audit_logs",
+    "public.bank_allocation_change_requests",
+    "public.bank_destination_change_requests",
+    "public.bank_evidence_events",
+    "public.bank_statement_imports",
+    "public.bank_statement_lines",
+    "public.bank_transaction_allocations",
+    "public.bank_transactions",
+    "public.bank_transfer_destinations",
+    "public.bank_transfer_intents",
+    "public.brand_entities",
+    "public.collection_category_subtypes",
+    "public.collection_invites",
+    "public.collection_members",
+    "public.collection_purpose_templates",
+    "public.collection_receivers",
+    "public.collection_reports",
+    "public.collection_share_secrets",
+    "public.collection_type_catalog",
+    "public.collection_type_country_rules",
+    "public.collections",
+    "public.daily_bank_closes",
+    "public.feature_flags",
+    "public.journal_entries",
+    "public.journal_lines",
+    "public.ledger_entries",
+    "public.member_obligations",
+    "public.mobile_account_deletion_requests",
+    "public.mobile_support_requests",
+    "public.moderation_flags",
+    "public.native_action_capabilities",
+    "public.notification_channels",
+    "public.notification_deliveries",
+    "public.notification_delivery_attempts",
+    "public.notification_device_tokens",
+    "public.notification_event_types",
+    "public.notification_events",
+    "public.notification_preferences",
+    "public.notification_template_versions",
+    "public.notification_templates",
+    "public.otp_rate_limits",
+    "public.parsed_payment_events",
+    "public.payment_allocations",
+    "public.payment_entrypoints",
+    "public.payment_evidence_links",
+    "public.payment_intents",
+    "public.payment_provider_confirmations",
+    "public.payments",
+    "public.policy_acceptance_events",
+    "public.policy_document_sections",
+    "public.policy_documents",
+    "public.profile_country_rules",
+    "public.profiles",
+    "public.provider_finality_requests",
+    "public.raw_payment_evidence",
+    "public.raw_payment_sms",
+    "public.receiver_mode_consents",
+    "public.reconciliation_exceptions",
+    "public.reconciliation_matches",
+    "public.reconciliation_runs",
+    "public.recurring_periods",
+    "public.support_channels",
+    "public.system_settings",
+    "supabase_migrations.schema_migrations"
+  ],
+  "baseline_table_count": 131,
+  "baseline_sha256_before": "b40cf394629383ba989f65cc1def811aa5f4d367aaab7e52610ec697aa0d322c",
+  "baseline_sha256_after": "b40cf394629383ba989f65cc1def811aa5f4d367aaab7e52610ec697aa0d322c",
+  "controls_sha256_before": "d25943def03a23d44d552ff1102685495e5090de596ae04144dc79784ff5294f",
+  "controls_sha256_after": "d25943def03a23d44d552ff1102685495e5090de596ae04144dc79784ff5294f",
+  "synthetic_graph_removed": true,
+  "worker_sessions_remaining": 0,
+  "qa_only_temporarily_disabled_triggers": {
+    "collect_hybrid.roster_import_sources": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_extractions": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_revisions": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_results": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_commits": "roster_provenance_immutable"
+  },
+  "captured_transaction_ids": [
+    "2343",
+    "2344",
+    "2345",
+    "2346",
+    "2348",
+    "2349",
+    "2350",
+    "2351",
+    "2353",
+    "2354",
+    "2355",
+    "2356",
+    "2358",
+    "2359",
+    "2360",
+    "2361",
+    "2362",
+    "2363",
+    "2364",
+    "2366",
+    "2367",
+    "2368",
+    "2369",
+    "2370",
+    "2371",
+    "2373",
+    "2374",
+    "2375",
+    "2376",
+    "2377",
+    "2378",
+    "2379",
+    "2380",
+    "2382",
+    "2383",
+    "2384",
+    "2385",
+    "2386",
+    "2387",
+    "2389",
+    "2390",
+    "2391",
+    "2392",
+    "2393",
+    "2394",
+    "2395",
+    "2396",
+    "2398",
+    "2399",
+    "2400",
+    "2401",
+    "2402",
+    "2403",
+    "2405",
+    "2406",
+    "2407",
+    "2408",
+    "2409",
+    "2410",
+    "2411",
+    "2413",
+    "2414",
+    "2416",
+    "2418"
+  ],
+  "owned_row_xid_attribution": [
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000012",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000002",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:24.428501+00:00",
+        "created_at": "2026-09-29T23:25:24.428501+00:00",
+        "updated_at": "2026-09-29T23:25:24.428501+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2343",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000010001",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:24.638379+00:00",
+        "created_at": "2026-09-29T23:25:24.638379+00:00",
+        "updated_at": "2026-09-29T23:25:24.638379+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2344",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000010004",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:27.071304+00:00",
+        "created_at": "2026-09-29T23:25:27.071304+00:00",
+        "updated_at": "2026-09-29T23:25:27.071304+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2375",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000010005",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:27.57579+00:00",
+        "created_at": "2026-09-29T23:25:27.57579+00:00",
+        "updated_at": "2026-09-29T23:25:27.57579+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2383",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000010006",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:28.074133+00:00",
+        "created_at": "2026-09-29T23:25:28.074133+00:00",
+        "updated_at": "2026-09-29T23:25:28.074133+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2391",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000010007",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:28.69954+00:00",
+        "created_at": "2026-09-29T23:25:28.69954+00:00",
+        "updated_at": "2026-09-29T23:25:28.69954+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2399",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000010008",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T00:25:29.180119+00:00",
+        "created_at": "2026-09-29T23:25:29.180119+00:00",
+        "updated_at": "2026-09-29T23:25:29.180119+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2407",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000001",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": null,
+        "phone": "250788954001",
+        "created_at": null,
+        "deleted_at": null,
+        "invited_at": null,
+        "updated_at": null,
+        "instance_id": null,
+        "is_sso_user": false,
+        "banned_until": null,
+        "confirmed_at": "2026-09-29T23:25:24.421046+00:00",
+        "email_change": null,
+        "is_anonymous": false,
+        "phone_change": "",
+        "is_super_admin": null,
+        "recovery_token": null,
+        "last_sign_in_at": null,
+        "recovery_sent_at": null,
+        "confirmation_token": null,
+        "email_confirmed_at": null,
+        "phone_change_token": "",
+        "phone_confirmed_at": "2026-09-29T23:25:24.421046+00:00",
+        "confirmation_sent_at": null,
+        "email_change_sent_at": null,
+        "phone_change_sent_at": null,
+        "email_change_token_new": null,
+        "reauthentication_token": "",
+        "reauthentication_sent_at": null,
+        "email_change_token_current": "",
+        "email_change_confirm_status": 0
+      },
+      "xmin": "2343",
+      "relation": "auth.users"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000002",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": null,
+        "phone": "250788954002",
+        "created_at": null,
+        "deleted_at": null,
+        "invited_at": null,
+        "updated_at": null,
+        "instance_id": null,
+        "is_sso_user": false,
+        "banned_until": null,
+        "confirmed_at": "2026-09-29T23:25:24.421046+00:00",
+        "email_change": null,
+        "is_anonymous": false,
+        "phone_change": "",
+        "is_super_admin": null,
+        "recovery_token": null,
+        "last_sign_in_at": null,
+        "recovery_sent_at": null,
+        "confirmation_token": null,
+        "email_confirmed_at": null,
+        "phone_change_token": "",
+        "phone_confirmed_at": "2026-09-29T23:25:24.421046+00:00",
+        "confirmation_sent_at": null,
+        "email_change_sent_at": null,
+        "phone_change_sent_at": null,
+        "email_change_token_new": null,
+        "reauthentication_token": "",
+        "reauthentication_sent_at": null,
+        "email_change_token_current": "",
+        "email_change_confirm_status": 0
+      },
+      "xmin": "2343",
+      "relation": "auth.users"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster actor approval",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "expires_at": null,
+        "phone_e164": "+250788954001",
+        "revoked_at": null,
+        "revoked_by": null,
+        "approved_at": "2026-09-29T23:23:24.426846+00:00",
+        "approved_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2343",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster controller approval",
+        "user_id": "99540000-0000-4000-8000-000000000002",
+        "expires_at": null,
+        "phone_e164": "+250788954002",
+        "revoked_at": null,
+        "revoked_by": null,
+        "approved_at": "2026-09-29T23:23:24.42697+00:00",
+        "approved_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2343",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "replay": false,
+          "visibility": "private",
+          "route_ready": false,
+          "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "input_hash": "ccdf255dd8f02ed3a26099fb55f325b579182dcc8e8afd0db712005c785a361d",
+        "request_id": "73d67e21-95de-40f6-9448-3fbd18d8006c",
+        "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f"
+      },
+      "xmin": "2372",
+      "relation": "collect_hybrid.group_creation_requests"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "replay": false,
+          "visibility": "private",
+          "route_ready": false,
+          "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "input_hash": "eadde507d1149c766f1aca75111cdbfb0d3aec88b550b1a2fea353b4b6df833c",
+        "request_id": "cdd038cf-3668-44a8-8671-d3c981622b57",
+        "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507"
+      },
+      "xmin": "2404",
+      "relation": "collect_hybrid.group_creation_requests"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "replay": false,
+          "visibility": "private",
+          "route_ready": false,
+          "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "input_hash": "47db5aa37faca821745d16a95a84568374fd69e6eb116d8afee0ef41f5f7f036",
+        "request_id": "48ccad60-c407-4f5b-84c5-b1c08178bec5",
+        "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be"
+      },
+      "xmin": "2352",
+      "relation": "collect_hybrid.group_creation_requests"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "replay": false,
+          "visibility": "private",
+          "route_ready": false,
+          "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "input_hash": "a969dba2bb024ad9e0ead31e6d4715d08bcee8c492e4530e507c5e07eac18809",
+        "request_id": "ac26397b-1775-4c1d-8c16-0dd074d6722b",
+        "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc"
+      },
+      "xmin": "2417",
+      "relation": "collect_hybrid.group_creation_requests"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "replay": false,
+          "visibility": "private",
+          "route_ready": false,
+          "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "input_hash": "d89c478acd0dd174b5c9c72f4d573f9b88fc983c8dceeddf1ae878feee8f1aa8",
+        "request_id": "03b846db-2c6e-4749-a75f-ca2a04d86726",
+        "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf"
+      },
+      "xmin": "2388",
+      "relation": "collect_hybrid.group_creation_requests"
+    },
+    {
+      "row": {
+        "last3": "001",
+        "revision": 1,
+        "match_key": "e5615da82e3954126b4af8d2d3f2e88dcf59474192697c04bc7c85d390467468",
+        "member_id": "0cdecd15-198e-442f-a911-b0716f9170ad",
+        "momo_name": "SYNTHETIC MEMBER 1",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "member_name": "Synthetic member 1",
+        "momo_number": "+250789954001",
+        "normalized_name": "SYNTHETIC MEMBER 1"
+      },
+      "xmin": "2352",
+      "relation": "collect_hybrid.member_momo_identities"
+    },
+    {
+      "row": {
+        "last3": "003",
+        "revision": 1,
+        "match_key": "3fad593c7cfdec51eb60392a2a4f56195077ea8fb2c9c0ef9c7d256bd1146554",
+        "member_id": "a7e2a53b-6d05-4362-9970-d2a556608511",
+        "momo_name": "SYNTHETIC MEMBER 3",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "member_name": "Synthetic member 3",
+        "momo_number": "+250789954003",
+        "normalized_name": "SYNTHETIC MEMBER 3"
+      },
+      "xmin": "2372",
+      "relation": "collect_hybrid.member_momo_identities"
+    },
+    {
+      "row": {
+        "last3": "005",
+        "revision": 1,
+        "match_key": "c2468d22ccd7634fd69ec1090bde192ff00d354e5f0317f8ce578cba002a53ef",
+        "member_id": "7ad58eef-f2c6-4bac-ae89-b4f9c60aba95",
+        "momo_name": "SYNTHETIC MEMBER 5",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "member_name": "Synthetic member 5",
+        "momo_number": "+250789954005",
+        "normalized_name": "SYNTHETIC MEMBER 5"
+      },
+      "xmin": "2388",
+      "relation": "collect_hybrid.member_momo_identities"
+    },
+    {
+      "row": {
+        "last3": "007",
+        "revision": 1,
+        "match_key": "65d89ce2837a392eb103bcc69a9b94d790de9ee6388c620e3cd32e06c0f3d2c9",
+        "member_id": "3ffeec3e-4a8d-4478-96b1-e0e35841c603",
+        "momo_name": "SYNTHETIC MEMBER 7",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "member_name": "Synthetic member 7",
+        "momo_number": "+250789954007",
+        "normalized_name": "SYNTHETIC MEMBER 7"
+      },
+      "xmin": "2404",
+      "relation": "collect_hybrid.member_momo_identities"
+    },
+    {
+      "row": {
+        "last3": "008",
+        "revision": 1,
+        "match_key": "c6339f4c17074ef3228f23e5a8a1c6896ef394dacd9b802f03785e5899474a7b",
+        "member_id": "1c302fbf-65da-47c2-bfd7-afd752cd990e",
+        "momo_name": "SYNTHETIC MEMBER 8",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "member_name": "Reviewed member 8",
+        "momo_number": "+250789954008",
+        "normalized_name": "SYNTHETIC MEMBER 8"
+      },
+      "xmin": "2417",
+      "relation": "collect_hybrid.member_momo_identities"
+    },
+    {
+      "row": {
+        "id": "0cdecd15-198e-442f-a911-b0716f9170ad",
+        "origin": "admin_assisted",
+        "lifecycle": "active",
+        "collect_id": "690123",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "created_by": "99540000-0000-4000-8000-000000000001",
+        "linked_user_id": null
+      },
+      "xmin": "2352",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "1c302fbf-65da-47c2-bfd7-afd752cd990e",
+        "origin": "admin_assisted",
+        "lifecycle": "active",
+        "collect_id": "277776",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "created_by": "99540000-0000-4000-8000-000000000001",
+        "linked_user_id": null
+      },
+      "xmin": "2417",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "3ffeec3e-4a8d-4478-96b1-e0e35841c603",
+        "origin": "admin_assisted",
+        "lifecycle": "active",
+        "collect_id": "855415",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "created_by": "99540000-0000-4000-8000-000000000001",
+        "linked_user_id": null
+      },
+      "xmin": "2404",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "7ad58eef-f2c6-4bac-ae89-b4f9c60aba95",
+        "origin": "admin_assisted",
+        "lifecycle": "active",
+        "collect_id": "449901",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "created_by": "99540000-0000-4000-8000-000000000001",
+        "linked_user_id": null
+      },
+      "xmin": "2388",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000001",
+        "origin": "app",
+        "lifecycle": "active",
+        "collect_id": "312754",
+        "created_at": "2026-09-29T23:25:24.421046+00:00",
+        "created_by": null,
+        "linked_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2343",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000002",
+        "origin": "app",
+        "lifecycle": "active",
+        "collect_id": "738650",
+        "created_at": "2026-09-29T23:25:24.421046+00:00",
+        "created_by": null,
+        "linked_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2343",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "a7e2a53b-6d05-4362-9970-d2a556608511",
+        "origin": "admin_assisted",
+        "lifecycle": "active",
+        "collect_id": "793129",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "created_by": "99540000-0000-4000-8000-000000000001",
+        "linked_user_id": null
+      },
+      "xmin": "2372",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "rows": [
+            {
+              "member_id": "0cdecd15-198e-442f-a911-b0716f9170ad",
+              "collect_id": "690123"
+            }
+          ],
+          "replay": false,
+          "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "input_hash": "4e32d3cd990ca9a442f60ee9c04c3e5c5f9c3fcb4fff7ea890d4795e028f4287",
+        "request_id": "0ac2e0b9-1ba2-4483-8fde-e066c2a4affd",
+        "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be"
+      },
+      "xmin": "2352",
+      "relation": "collect_hybrid.roster_batches"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "rows": [
+            {
+              "member_id": "1c302fbf-65da-47c2-bfd7-afd752cd990e",
+              "collect_id": "277776"
+            }
+          ],
+          "replay": false,
+          "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "input_hash": "264f43176f0ed6b19ea18a4e0aeb1700a1c846e4b0c8ab68dd983c6ed4959935",
+        "request_id": "b38a62b5-6735-4f99-99cd-21b7ca2a84b7",
+        "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc"
+      },
+      "xmin": "2417",
+      "relation": "collect_hybrid.roster_batches"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "rows": [
+            {
+              "member_id": "3ffeec3e-4a8d-4478-96b1-e0e35841c603",
+              "collect_id": "855415"
+            }
+          ],
+          "replay": false,
+          "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "input_hash": "493abfccaffed699831592d1825f07cef1c22429de519b490fd1c20796331358",
+        "request_id": "b5c9d99a-62c1-4439-b4fd-472ee4d96202",
+        "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507"
+      },
+      "xmin": "2404",
+      "relation": "collect_hybrid.roster_batches"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "rows": [
+            {
+              "member_id": "7ad58eef-f2c6-4bac-ae89-b4f9c60aba95",
+              "collect_id": "449901"
+            }
+          ],
+          "replay": false,
+          "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "input_hash": "05ebaa058f2b3049042f22d964586f39d01811b5db460149932231f9a8a65963",
+        "request_id": "a6e08a1f-531a-40ba-ab6c-23da9d668361",
+        "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf"
+      },
+      "xmin": "2388",
+      "relation": "collect_hybrid.roster_batches"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "rows": [
+            {
+              "member_id": "a7e2a53b-6d05-4362-9970-d2a556608511",
+              "collect_id": "793129"
+            }
+          ],
+          "replay": false,
+          "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f"
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "input_hash": "bfd30e4509e2ba420ea1398ca5ada5d6704268d0ce9c08a1b8e77bdf968bd40f",
+        "request_id": "142d24fd-3aa5-441d-9dbb-ac2ba48cf698",
+        "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f"
+      },
+      "xmin": "2372",
+      "relation": "collect_hybrid.roster_batches"
+    },
+    {
+      "row": {
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "response": {
+          "ok": true,
+          "mode": "create",
+          "replayed": false,
+          "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+          "request_id": "99540000-0000-4000-8000-000000000307",
+          "revision_id": "e4e665f0-6a8d-43f2-a7c1-b0861e0b4376",
+          "roster_count": 1,
+          "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+          "contract_version": 1,
+          "share_code_ready": true,
+          "reviewed_rows_sha256": "0c934794fbb2743fadfbf94854c1d1a8ef311a14c50619ab6e4b757043178ab4"
+        },
+        "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "request_id": "99540000-0000-4000-8000-000000000307",
+        "session_id": "99540000-0000-4000-8000-000000010007",
+        "revision_id": "e4e665f0-6a8d-43f2-a7c1-b0861e0b4376",
+        "committed_at": "2026-09-29T23:25:28.928217+00:00",
+        "input_sha256": "de507659865edeea8491ff5a6088462035be83b6fcc752355110610486064e89",
+        "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507"
+      },
+      "xmin": "2403",
+      "relation": "collect_hybrid.roster_import_commits"
+    },
+    {
+      "row": {
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "response": {
+          "ok": true,
+          "mode": "create",
+          "replayed": false,
+          "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+          "request_id": "99540000-0000-4000-8000-000000000303",
+          "revision_id": "d0d409a9-5e5a-4b81-b3f3-24c7fc6f9916",
+          "roster_count": 1,
+          "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+          "contract_version": 1,
+          "share_code_ready": true,
+          "reviewed_rows_sha256": "fabe71bfe13a0ff54cb09b4caf81bb625ccbbd9de1c179614dc14b4215b01dd0"
+        },
+        "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "request_id": "99540000-0000-4000-8000-000000000303",
+        "session_id": "99540000-0000-4000-8000-000000010003",
+        "revision_id": "d0d409a9-5e5a-4b81-b3f3-24c7fc6f9916",
+        "committed_at": "2026-09-29T23:25:26.80964+00:00",
+        "input_sha256": "f82f4da935c76f2c85d314713295cb1fcc273a986c2ea399608048c87d233026",
+        "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f"
+      },
+      "xmin": "2371",
+      "relation": "collect_hybrid.roster_import_commits"
+    },
+    {
+      "row": {
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "response": {
+          "ok": true,
+          "mode": "create",
+          "replayed": false,
+          "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+          "request_id": "99540000-0000-4000-8000-000000000308",
+          "revision_id": "5b507f5e-36c1-45ce-872e-0e7971fce4d9",
+          "roster_count": 1,
+          "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+          "contract_version": 1,
+          "share_code_ready": true,
+          "reviewed_rows_sha256": "a70db7926548372a61c8c4c4113991858e9f4b34cbbb0b14177f68a18c6a412e"
+        },
+        "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "request_id": "99540000-0000-4000-8000-000000000308",
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "revision_id": "5b507f5e-36c1-45ce-872e-0e7971fce4d9",
+        "committed_at": "2026-09-29T23:25:29.55298+00:00",
+        "input_sha256": "7bfda1cdecb35b35d0d6738fcc1e5a288f4e630af965e508612999365270b120",
+        "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc"
+      },
+      "xmin": "2416",
+      "relation": "collect_hybrid.roster_import_commits"
+    },
+    {
+      "row": {
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "response": {
+          "ok": true,
+          "mode": "create",
+          "replayed": false,
+          "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+          "request_id": "99540000-0000-4000-8000-000000000301",
+          "revision_id": "3753b4d7-3a5f-4285-90df-d604d319ea2d",
+          "roster_count": 1,
+          "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+          "contract_version": 1,
+          "share_code_ready": true,
+          "reviewed_rows_sha256": "ec88f7741d967453e7c705ada14b39db3be1d23ac91b891f8c2eba6997c852b3"
+        },
+        "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "request_id": "99540000-0000-4000-8000-000000000301",
+        "session_id": "99540000-0000-4000-8000-000000010001",
+        "revision_id": "3753b4d7-3a5f-4285-90df-d604d319ea2d",
+        "committed_at": "2026-09-29T23:25:25.103398+00:00",
+        "input_sha256": "5cd44e71ca46e5e817b715a8083e0b6a3bc80fe7c93c7cfa1a4ee8272b7a9960",
+        "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be"
+      },
+      "xmin": "2351",
+      "relation": "collect_hybrid.roster_import_commits"
+    },
+    {
+      "row": {
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "response": {
+          "ok": true,
+          "mode": "create",
+          "replayed": false,
+          "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+          "request_id": "99540000-0000-4000-8000-000000000305",
+          "revision_id": "1c7e5c2f-bd8a-4198-b07c-f618148bc784",
+          "roster_count": 1,
+          "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+          "contract_version": 1,
+          "share_code_ready": true,
+          "reviewed_rows_sha256": "04a55511d5daf2f540b4e32b8c52f953a891b564b33aa15653a8efb8f932e7dd"
+        },
+        "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+        "request_id": "99540000-0000-4000-8000-000000000305",
+        "session_id": "99540000-0000-4000-8000-000000010005",
+        "revision_id": "1c7e5c2f-bd8a-4198-b07c-f618148bc784",
+        "committed_at": "2026-09-29T23:25:27.807146+00:00",
+        "input_sha256": "cfe6fddcdf5e8b6d16f79c84350799cc0022605c8ad2514b58c8dc349c67fbf2",
+        "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf"
+      },
+      "xmin": "2387",
+      "relation": "collect_hybrid.roster_import_commits"
+    },
+    {
+      "row": {
+        "id": "1dbb8de6-1e42-41ba-ba8d-40da5b9ab0f5",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "5c39e3b0-d134-4207-843c-8215d327289f",
+        "session_id": "99540000-0000-4000-8000-000000010004",
+        "recorded_at": "2026-09-29T23:25:27.14361+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2376",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "438135bd-aa21-4bb4-ac25-b95b62a662d9",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "e935ad1d-d9b0-47e7-8a80-a27404900b9a",
+        "session_id": "99540000-0000-4000-8000-000000010006",
+        "recorded_at": "2026-09-29T23:25:28.150384+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2392",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "4c0617a9-4b6b-4b14-b8d4-d4df1c742317",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "session_id": "99540000-0000-4000-8000-000000010007",
+        "recorded_at": "2026-09-29T23:25:28.772745+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2400",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "78bff312-1187-423e-bb97-ed039ec77244",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "session_id": "99540000-0000-4000-8000-000000010003",
+        "recorded_at": "2026-09-29T23:25:26.664221+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2368",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "7d975c76-229c-46bf-8f46-9f32ffc248ed",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+        "session_id": "99540000-0000-4000-8000-000000010005",
+        "recorded_at": "2026-09-29T23:25:27.640125+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2384",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "8d957095-2e26-41a1-b19e-e006aabebc53",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "97f27301-72eb-4eb9-a1a6-3fb4a5be88bd",
+        "session_id": "99540000-0000-4000-8000-000000010002",
+        "recorded_at": "2026-09-29T23:25:26.008228+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2360",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "a95b4560-f165-4a30-95e9-23f5c74ecec0",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "session_id": "99540000-0000-4000-8000-000000010001",
+        "recorded_at": "2026-09-29T23:25:24.659026+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2345",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "id": "faf9047d-df37-4762-9bd1-da66f1a8b774",
+        "model": "synthetic-model",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "recorded_at": "2026-09-29T23:25:29.248377+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2408",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010007",
+        "recorded_at": "2026-09-29T23:25:28.848265+00:00",
+        "revision_id": "533549c2-5d98-483f-99c7-e62717cb6ae0",
+        "input_sha256": "b4135447d63d25b7dc4c3c1b1198ea9bc40bc66370baa06e91c9bc1c892f8f7b",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-7",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2401",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010003",
+        "recorded_at": "2026-09-29T23:25:26.726672+00:00",
+        "revision_id": "b5e4a26d-b4d0-4c7f-b36b-183f62e761d1",
+        "input_sha256": "58b55500c8a546ea9e581bcc6f5bbf9374e3dfc6269819ed2cc00f3defb48fa4",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-3",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2369",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "5c39e3b0-d134-4207-843c-8215d327289f",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010004",
+        "recorded_at": "2026-09-29T23:25:27.191365+00:00",
+        "revision_id": "339650f6-6c9a-4464-b1b3-86fdaf6c113a",
+        "input_sha256": "7a3b6fbbd95d6fa2139390cb1159aab1f58e5cee6eaae13d058318e107a8f170",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-4",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2377",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "97f27301-72eb-4eb9-a1a6-3fb4a5be88bd",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010002",
+        "recorded_at": "2026-09-29T23:25:26.098522+00:00",
+        "revision_id": "1721608c-9d1d-4e53-ac7a-3c741e0a2158",
+        "input_sha256": "322800b2780c432d24973c7c4bef06d7e2c0dd99e1331a35dc6b3a4520e1afd7",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-2",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2361",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "recorded_at": "2026-09-29T23:25:29.329504+00:00",
+        "revision_id": "6cbd5868-98ac-471e-8b99-e5e9c162d78f",
+        "input_sha256": "8441476b82a2124a31d61d64abd84da1dde28caa0085466395a5f54c8e1ec588",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-8",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2409",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010001",
+        "recorded_at": "2026-09-29T23:25:24.90091+00:00",
+        "revision_id": "af2f1221-073d-4a02-8b34-b7b9f306963d",
+        "input_sha256": "d8525152e40e49ac6d19c6ebe324090bd9a0ebd8bad4e75102701e009fad4cfd",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-1",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2348",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "e935ad1d-d9b0-47e7-8a80-a27404900b9a",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010006",
+        "recorded_at": "2026-09-29T23:25:28.222085+00:00",
+        "revision_id": "659c1f8e-ffdb-4c1c-9dd1-960d23c77c50",
+        "input_sha256": "5e4d34cfd81f656c2c8e4665926e5118c4e2f1bddc6f9eab313538a53efa8f41",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-6",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2393",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+        "error_code": null,
+        "session_id": "99540000-0000-4000-8000-000000010005",
+        "recorded_at": "2026-09-29T23:25:27.723573+00:00",
+        "revision_id": "ff9b50d0-2c22-4781-9e3c-f6933fabb260",
+        "input_sha256": "3f4331fbbe876a6feb1b24732d1f7124f98855d0b97370c5d02b0a5a5db874d0",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-5",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2385",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "id": "0f6d6656-a385-463f-bcd4-007e338152dc",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 4",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 4",
+              "momo_number": "+250789954004"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 4",
+              "member_name": "Synthetic member 4",
+              "momo_number": "+250789954004"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "5c39e3b0-d134-4207-843c-8215d327289f",
+        "created_at": "2026-09-29T23:25:27.267209+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000204",
+        "session_id": "99540000-0000-4000-8000-000000010004",
+        "input_sha256": "a1b92d1d6776aa7139ca49cd32107cbaeebbc73409eb4ddda838eecb7e504d99",
+        "extraction_id": "1dbb8de6-1e42-41ba-ba8d-40da5b9ab0f5",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 4",
+            "member_name": "Synthetic member 4",
+            "momo_number": "+250789954004"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "339650f6-6c9a-4464-b1b3-86fdaf6c113a",
+        "reviewed_rows_sha256": "59279d98a4bf1b2b029ebb54847c10f8ceb019a7699b841f846172b07dff3137"
+      },
+      "xmin": "2378",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "1721608c-9d1d-4e53-ac7a-3c741e0a2158",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 2",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 2",
+              "momo_number": "+250789954002"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 2",
+              "member_name": "Synthetic member 2",
+              "momo_number": "+250789954002"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "97f27301-72eb-4eb9-a1a6-3fb4a5be88bd",
+        "created_at": "2026-09-29T23:25:26.098293+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010002",
+        "input_sha256": "322800b2780c432d24973c7c4bef06d7e2c0dd99e1331a35dc6b3a4520e1afd7",
+        "extraction_id": "8d957095-2e26-41a1-b19e-e006aabebc53",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 2",
+            "member_name": "Synthetic member 2",
+            "momo_number": "+250789954002"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "5c88df610d468bfad32f9d98b3c01994bda1a9b1256b743c6797c3d36c003c3e"
+      },
+      "xmin": "2361",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "1c7e5c2f-bd8a-4198-b07c-f618148bc784",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 5",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 5",
+              "momo_number": "+250789954005"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 5",
+              "member_name": "Synthetic member 5",
+              "momo_number": "+250789954005"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+        "created_at": "2026-09-29T23:25:27.787693+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000205",
+        "session_id": "99540000-0000-4000-8000-000000010005",
+        "input_sha256": "f0ed72c7e7ccb3c44c36d8e96b0ffd1f9f13225e887f6d21a779417b5ea67c04",
+        "extraction_id": "7d975c76-229c-46bf-8f46-9f32ffc248ed",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 5",
+            "member_name": "Synthetic member 5",
+            "momo_number": "+250789954005"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "ff9b50d0-2c22-4781-9e3c-f6933fabb260",
+        "reviewed_rows_sha256": "04a55511d5daf2f540b4e32b8c52f953a891b564b33aa15653a8efb8f932e7dd"
+      },
+      "xmin": "2386",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "339650f6-6c9a-4464-b1b3-86fdaf6c113a",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 4",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 4",
+              "momo_number": "+250789954004"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 4",
+              "member_name": "Synthetic member 4",
+              "momo_number": "+250789954004"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "5c39e3b0-d134-4207-843c-8215d327289f",
+        "created_at": "2026-09-29T23:25:27.191173+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010004",
+        "input_sha256": "7a3b6fbbd95d6fa2139390cb1159aab1f58e5cee6eaae13d058318e107a8f170",
+        "extraction_id": "1dbb8de6-1e42-41ba-ba8d-40da5b9ab0f5",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 4",
+            "member_name": "Synthetic member 4",
+            "momo_number": "+250789954004"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "59279d98a4bf1b2b029ebb54847c10f8ceb019a7699b841f846172b07dff3137"
+      },
+      "xmin": "2377",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "3753b4d7-3a5f-4285-90df-d604d319ea2d",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789954001"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789954001"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "created_at": "2026-09-29T23:25:24.922557+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000201",
+        "session_id": "99540000-0000-4000-8000-000000010001",
+        "input_sha256": "f9328260c06f9fe311ee59a93081481ca35dddbc87e55b90f1ea40733f9634fc",
+        "extraction_id": "a95b4560-f165-4a30-95e9-23f5c74ecec0",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 1",
+            "member_name": "Synthetic member 1",
+            "momo_number": "+250789954001"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "af2f1221-073d-4a02-8b34-b7b9f306963d",
+        "reviewed_rows_sha256": "ec88f7741d967453e7c705ada14b39db3be1d23ac91b891f8c2eba6997c852b3"
+      },
+      "xmin": "2349",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "3bb49ec1-5a79-4871-ae3b-df394cd6a2c6",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 8",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 8",
+              "momo_number": "+250789954008"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 8",
+              "member_name": "Synthetic member 8",
+              "momo_number": "+250789954008"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "created_at": "2026-09-29T23:25:29.340664+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000208",
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "input_sha256": "79dc192eb61f1beb5080854c4df3188593a532abe31b7533d45ee0ed938ad367",
+        "extraction_id": "faf9047d-df37-4762-9bd1-da66f1a8b774",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 8",
+            "member_name": "Synthetic member 8",
+            "momo_number": "+250789954008"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "6cbd5868-98ac-471e-8b99-e5e9c162d78f",
+        "reviewed_rows_sha256": "27993bbaa57ed7ad6f4f7a1efef9a01206bb1fb07326909374e684e8bb20d06c"
+      },
+      "xmin": "2410",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "415cf757-e228-4a67-a6ae-4a442e4fd1d4",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 2",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 2",
+              "momo_number": "+250789954002"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 2",
+              "member_name": "Synthetic member 2",
+              "momo_number": "+250789954002"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "97f27301-72eb-4eb9-a1a6-3fb4a5be88bd",
+        "created_at": "2026-09-29T23:25:26.194649+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000202",
+        "session_id": "99540000-0000-4000-8000-000000010002",
+        "input_sha256": "445ace48568e26bd8663815de2d46eb8a1a11b697d97389af2b6707b39039a52",
+        "extraction_id": "8d957095-2e26-41a1-b19e-e006aabebc53",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 2",
+            "member_name": "Synthetic member 2",
+            "momo_number": "+250789954002"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "1721608c-9d1d-4e53-ac7a-3c741e0a2158",
+        "reviewed_rows_sha256": "5c88df610d468bfad32f9d98b3c01994bda1a9b1256b743c6797c3d36c003c3e"
+      },
+      "xmin": "2362",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "533549c2-5d98-483f-99c7-e62717cb6ae0",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 7",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 7",
+              "momo_number": "+250789954007"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 7",
+              "member_name": "Synthetic member 7",
+              "momo_number": "+250789954007"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "created_at": "2026-09-29T23:25:28.848042+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010007",
+        "input_sha256": "b4135447d63d25b7dc4c3c1b1198ea9bc40bc66370baa06e91c9bc1c892f8f7b",
+        "extraction_id": "4c0617a9-4b6b-4b14-b8d4-d4df1c742317",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 7",
+            "member_name": "Synthetic member 7",
+            "momo_number": "+250789954007"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "0c934794fbb2743fadfbf94854c1d1a8ef311a14c50619ab6e4b757043178ab4"
+      },
+      "xmin": "2401",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "5b507f5e-36c1-45ce-872e-0e7971fce4d9",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 8",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Reviewed member 8",
+              "momo_number": "+250789954008"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 8",
+              "member_name": "Reviewed member 8",
+              "momo_number": "+250789954008"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "created_at": "2026-09-29T23:25:29.416549+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000958",
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "input_sha256": "1e54326d7369895121ccc9ec65eb887a14178b703afdb9100a69bd3d2b837219",
+        "extraction_id": "faf9047d-df37-4762-9bd1-da66f1a8b774",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 8",
+            "member_name": "Reviewed member 8",
+            "momo_number": "+250789954008"
+          }
+        ],
+        "revision_number": 3,
+        "processing_method": "human_review",
+        "parent_revision_id": "3bb49ec1-5a79-4871-ae3b-df394cd6a2c6",
+        "reviewed_rows_sha256": "a70db7926548372a61c8c4c4113991858e9f4b34cbbb0b14177f68a18c6a412e"
+      },
+      "xmin": "2413",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "659c1f8e-ffdb-4c1c-9dd1-960d23c77c50",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 6",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 6",
+              "momo_number": "+250789954006"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 6",
+              "member_name": "Synthetic member 6",
+              "momo_number": "+250789954006"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "e935ad1d-d9b0-47e7-8a80-a27404900b9a",
+        "created_at": "2026-09-29T23:25:28.221888+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010006",
+        "input_sha256": "5e4d34cfd81f656c2c8e4665926e5118c4e2f1bddc6f9eab313538a53efa8f41",
+        "extraction_id": "438135bd-aa21-4bb4-ac25-b95b62a662d9",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 6",
+            "member_name": "Synthetic member 6",
+            "momo_number": "+250789954006"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "c41527a3f91b287a711f7197f65be81a2a5d67b6f8feaee01a8702627b6ddec3"
+      },
+      "xmin": "2393",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "6cbd5868-98ac-471e-8b99-e5e9c162d78f",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 8",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 8",
+              "momo_number": "+250789954008"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 8",
+              "member_name": "Synthetic member 8",
+              "momo_number": "+250789954008"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "created_at": "2026-09-29T23:25:29.329294+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "input_sha256": "8441476b82a2124a31d61d64abd84da1dde28caa0085466395a5f54c8e1ec588",
+        "extraction_id": "faf9047d-df37-4762-9bd1-da66f1a8b774",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 8",
+            "member_name": "Synthetic member 8",
+            "momo_number": "+250789954008"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "27993bbaa57ed7ad6f4f7a1efef9a01206bb1fb07326909374e684e8bb20d06c"
+      },
+      "xmin": "2409",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "94c25d3f-dbbf-4c3b-aaf7-529cfe687f1f",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 6",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 6",
+              "momo_number": "+250789954006"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 6",
+              "member_name": "Synthetic member 6",
+              "momo_number": "+250789954006"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "e935ad1d-d9b0-47e7-8a80-a27404900b9a",
+        "created_at": "2026-09-29T23:25:28.291958+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000206",
+        "session_id": "99540000-0000-4000-8000-000000010006",
+        "input_sha256": "56e17fe51761b28f5bdd9b3abbe0de5c12f5c1a28ab4f5c13f042f8172209713",
+        "extraction_id": "438135bd-aa21-4bb4-ac25-b95b62a662d9",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 6",
+            "member_name": "Synthetic member 6",
+            "momo_number": "+250789954006"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "659c1f8e-ffdb-4c1c-9dd1-960d23c77c50",
+        "reviewed_rows_sha256": "c41527a3f91b287a711f7197f65be81a2a5d67b6f8feaee01a8702627b6ddec3"
+      },
+      "xmin": "2394",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "af2f1221-073d-4a02-8b34-b7b9f306963d",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789954001"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789954001"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "created_at": "2026-09-29T23:25:24.899972+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010001",
+        "input_sha256": "d8525152e40e49ac6d19c6ebe324090bd9a0ebd8bad4e75102701e009fad4cfd",
+        "extraction_id": "a95b4560-f165-4a30-95e9-23f5c74ecec0",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 1",
+            "member_name": "Synthetic member 1",
+            "momo_number": "+250789954001"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "ec88f7741d967453e7c705ada14b39db3be1d23ac91b891f8c2eba6997c852b3"
+      },
+      "xmin": "2348",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "b5e4a26d-b4d0-4c7f-b36b-183f62e761d1",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 3",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 3",
+              "momo_number": "+250789954003"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 3",
+              "member_name": "Synthetic member 3",
+              "momo_number": "+250789954003"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "created_at": "2026-09-29T23:25:26.726289+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010003",
+        "input_sha256": "58b55500c8a546ea9e581bcc6f5bbf9374e3dfc6269819ed2cc00f3defb48fa4",
+        "extraction_id": "78bff312-1187-423e-bb97-ed039ec77244",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 3",
+            "member_name": "Synthetic member 3",
+            "momo_number": "+250789954003"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "fabe71bfe13a0ff54cb09b4caf81bb625ccbbd9de1c179614dc14b4215b01dd0"
+      },
+      "xmin": "2369",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "d0d409a9-5e5a-4b81-b3f3-24c7fc6f9916",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 3",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 3",
+              "momo_number": "+250789954003"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 3",
+              "member_name": "Synthetic member 3",
+              "momo_number": "+250789954003"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "created_at": "2026-09-29T23:25:26.796759+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000203",
+        "session_id": "99540000-0000-4000-8000-000000010003",
+        "input_sha256": "bc21ac70a113b5f52a51865e0c947e9bd849a67be521d35aa7e1557307322599",
+        "extraction_id": "78bff312-1187-423e-bb97-ed039ec77244",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 3",
+            "member_name": "Synthetic member 3",
+            "momo_number": "+250789954003"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "b5e4a26d-b4d0-4c7f-b36b-183f62e761d1",
+        "reviewed_rows_sha256": "fabe71bfe13a0ff54cb09b4caf81bb625ccbbd9de1c179614dc14b4215b01dd0"
+      },
+      "xmin": "2370",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "e4e665f0-6a8d-43f2-a7c1-b0861e0b4376",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 7",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 7",
+              "momo_number": "+250789954007"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 7",
+              "member_name": "Synthetic member 7",
+              "momo_number": "+250789954007"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "created_at": "2026-09-29T23:25:28.915804+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000207",
+        "session_id": "99540000-0000-4000-8000-000000010007",
+        "input_sha256": "b3b8003ac6d2bfcf00ad357ba48f0650c4f2fd770b416d4e04623a2faacf914c",
+        "extraction_id": "4c0617a9-4b6b-4b14-b8d4-d4df1c742317",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 7",
+            "member_name": "Synthetic member 7",
+            "momo_number": "+250789954007"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "533549c2-5d98-483f-99c7-e62717cb6ae0",
+        "reviewed_rows_sha256": "0c934794fbb2743fadfbf94854c1d1a8ef311a14c50619ab6e4b757043178ab4"
+      },
+      "xmin": "2402",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "ff9b50d0-2c22-4781-9e3c-f6933fabb260",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [],
+              "momo_name": "SYNTHETIC MEMBER 5",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 5",
+              "momo_number": "+250789954005"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 5",
+              "member_name": "Synthetic member 5",
+              "momo_number": "+250789954005"
+            }
+          ]
+        },
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+        "created_at": "2026-09-29T23:25:27.72337+00:00",
+        "request_id": null,
+        "session_id": "99540000-0000-4000-8000-000000010005",
+        "input_sha256": "3f4331fbbe876a6feb1b24732d1f7124f98855d0b97370c5d02b0a5a5db874d0",
+        "extraction_id": "7d975c76-229c-46bf-8f46-9f32ffc248ed",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 5",
+            "member_name": "Synthetic member 5",
+            "momo_number": "+250789954005"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "04a55511d5daf2f540b4e32b8c52f953a891b564b33aa15653a8efb8f932e7dd"
+      },
+      "xmin": "2385",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:28.772637+00:00",
+        "expires_at": "2026-09-30T23:25:28.772637+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000107",
+        "session_id": "99540000-0000-4000-8000-000000010007",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "b61ab983dcdadf9ff30149d407f82d8ad06b71a1f6aec11ab121b218f31612df",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "e76d0b4ba62a93526f11caaea19187353cd016abc6b4ffd02ed2db9f341755b7",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-7.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2400",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:26.664092+00:00",
+        "expires_at": "2026-09-30T23:25:26.664092+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000103",
+        "session_id": "99540000-0000-4000-8000-000000010003",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "a5da01a2cc6eae1271c40a77f8e6d5d0302226c4796650adb82079cd01a59806",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "05289417b571f7edcf8caf0cf983f1f456845fa15806ad2b5991525e4380fa60",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-3.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2368",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "5c39e3b0-d134-4207-843c-8215d327289f",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:27.143494+00:00",
+        "expires_at": "2026-09-30T23:25:27.143494+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000104",
+        "session_id": "99540000-0000-4000-8000-000000010004",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "fa3aec7127ad88e91a07cfa29333e8be888463a5c90c1e68c0f4ff414fb227e1",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "8914526674da2ce3d7b1150ef137f98edd0e2c8895d85fa370433c643f9c02e6",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-4.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2376",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "97f27301-72eb-4eb9-a1a6-3fb4a5be88bd",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:26.008095+00:00",
+        "expires_at": "2026-09-30T23:25:26.008096+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000102",
+        "session_id": "99540000-0000-4000-8000-000000010002",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "8c28ecf915d1d0eabd5de17ea2666ef86f13381482f1d51a7515f52b9a8c513c",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "3c224def8bfeb21a70b5c75e9709a706c43e6646659dfcc56533998fd503c787",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-2.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2360",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:29.24825+00:00",
+        "expires_at": "2026-09-30T23:25:29.248251+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000108",
+        "session_id": "99540000-0000-4000-8000-000000010008",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "00c429e1449d3d74da46db10adb480ceb31fd9e01490fc769c737cd2ffb4fa03",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "7ebd32be7ecc1be3305c4c2960940f9d79edb75c1abd538c71248f1e5cb0ee57",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-8.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2408",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:24.658707+00:00",
+        "expires_at": "2026-09-30T23:25:24.658707+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000101",
+        "session_id": "99540000-0000-4000-8000-000000010001",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "7df67cfbde1690125e799c42c2075e05edc204547dacb9b2062911dad2ef7108",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "067cdeae21fc18655ccf59e3c8f2be12fd962a036453e5d25ecca76b21463b56",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-1.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2345",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "e935ad1d-d9b0-47e7-8a80-a27404900b9a",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:28.150262+00:00",
+        "expires_at": "2026-09-30T23:25:28.150262+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000106",
+        "session_id": "99540000-0000-4000-8000-000000010006",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "587f548adf671a3160637e3a542fa18e2319d8b20c556a6e5b5325492ece69e6",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "4c2b789c41e1e71c31a74109b50fca6bb9c9be059ca2a38aa0a5acc73bb82033",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-6.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2392",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "id": "ec725887-8128-4307-b741-d75e32325de1",
+        "actor_id": "99540000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-29T23:25:27.640015+00:00",
+        "expires_at": "2026-09-30T23:25:27.640015+00:00",
+        "request_id": "99540000-0000-4000-8000-000000000105",
+        "session_id": "99540000-0000-4000-8000-000000010005",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "7fa63a3cbb84e4205c2b9c2094abe7127ea1763ed3d6bdd94a750c7aed2bb62e",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "7300479c54088b2290a061ace28bbabd7b2e87d1ead02569970bc0a883ac1527",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-5.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2384",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "reason": "Synthetic role restoration for next case",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.519958+00:00",
+        "granted_by": "99540000-0000-4000-8000-000000000002",
+        "revoked_at": "2026-09-29T23:25:27.872261+00:00",
+        "revoked_by": "99540000-0000-4000-8000-000000000002",
+        "revoke_reason": "Synthetic roster role revocation"
+      },
+      "xmin": "2389",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "reason": "Synthetic role restoration for next case",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:28.003147+00:00",
+        "granted_by": "99540000-0000-4000-8000-000000000002",
+        "revoked_at": null,
+        "revoked_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2390",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster concurrency roles",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:24:24.427549+00:00",
+        "granted_by": null,
+        "revoked_at": "2026-09-29T23:25:27.332251+00:00",
+        "revoked_by": "99540000-0000-4000-8000-000000000002",
+        "revoke_reason": "Synthetic roster role revocation"
+      },
+      "xmin": "2379",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster concurrency roles",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99540000-0000-4000-8000-000000000002",
+        "created_at": "2026-09-29T23:24:24.427688+00:00",
+        "granted_by": null,
+        "revoked_at": null,
+        "revoked_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2343",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "id": "0a360484-4165-41ba-b0bd-1929a7b048b4",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000958",
+          "revision_id": "5b507f5e-36c1-45ce-872e-0e7971fce4d9",
+          "parent_revision_id": "3bb49ec1-5a79-4871-ae3b-df394cd6a2c6"
+        },
+        "entity_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "created_at": "2026-09-29T23:25:29.415313+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2413",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "10026326-3114-4171-b4f1-921f383c8d4d",
+        "action": "admin.access.deactivated",
+        "metadata": {
+          "reason": "Synthetic roster role revocation"
+        },
+        "entity_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.808219+00:00",
+        "entity_type": "profile",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2389",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "1a8e5935-265b-49f7-a2cb-b8d211685094",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic next-case feature enable",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:28.617655+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2398",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "1fda5762-35b1-4803-a3e4-d170e77ed82d",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic feature restoration for revision race",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:29.111665+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2406",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "33d7833d-1321-4096-a3c4-3e2cd0c1d3da",
+        "action": "roster.import.committed",
+        "metadata": {
+          "mode": "create",
+          "reason": "Reviewed every synthetic race member",
+          "import_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000308",
+          "revision_id": "5b507f5e-36c1-45ce-872e-0e7971fce4d9",
+          "source_sha256": "7ebd32be7ecc1be3305c4c2960940f9d79edb75c1abd538c71248f1e5cb0ee57",
+          "human_affirmed": true,
+          "reviewed_rows_sha256": "a70db7926548372a61c8c4c4113991858e9f4b34cbbb0b14177f68a18c6a412e"
+        },
+        "entity_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2416",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "3652ea97-05a0-4d6b-9e1a-65543f4cefd2",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic roster feature revocation",
+          "enabled": false
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:28.40777+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2395",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "40143129-dca8-4c64-bd85-7f695bffba32",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000204",
+          "revision_id": "0f6d6656-a385-463f-bcd4-007e338152dc",
+          "parent_revision_id": "339650f6-6c9a-4464-b1b3-86fdaf6c113a"
+        },
+        "entity_id": "5c39e3b0-d134-4207-843c-8215d327289f",
+        "created_at": "2026-09-29T23:25:27.261242+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2378",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "40cec2f5-31a7-44c6-972b-691a62a80de7",
+        "action": "collection.assisted.created",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "route_ready": false
+        },
+        "entity_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2404",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "45bba95d-217a-4dff-bc46-9c3ed45b4584",
+        "action": "collection.assisted.created",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "route_ready": false
+        },
+        "entity_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2388",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "4c49c7ac-bc92-4509-81e9-eb7c1f49aeda",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000206",
+          "revision_id": "94c25d3f-dbbf-4c3b-aaf7-529cfe687f1f",
+          "parent_revision_id": "659c1f8e-ffdb-4c1c-9dd1-960d23c77c50"
+        },
+        "entity_id": "e935ad1d-d9b0-47e7-8a80-a27404900b9a",
+        "created_at": "2026-09-29T23:25:28.285056+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2394",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "4de8e363-cdbd-4c94-9a85-82e5de2a1c9c",
+        "action": "roster.import.committed",
+        "metadata": {
+          "mode": "create",
+          "reason": "Reviewed every synthetic race member",
+          "import_id": "bec71261-998f-41a3-b204-99ddab40694f",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000301",
+          "revision_id": "3753b4d7-3a5f-4285-90df-d604d319ea2d",
+          "source_sha256": "067cdeae21fc18655ccf59e3c8f2be12fd962a036453e5d25ecca76b21463b56",
+          "human_affirmed": true,
+          "reviewed_rows_sha256": "ec88f7741d967453e7c705ada14b39db3be1d23ac91b891f8c2eba6997c852b3"
+        },
+        "entity_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2351",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "4f1f4741-66e6-43cb-ba18-643ea8e74ef9",
+        "action": "collection.assisted.roster_added",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "row_count": 1,
+          "request_id": "b5c9d99a-62c1-4439-b4fd-472ee4d96202"
+        },
+        "entity_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2404",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "5b330a34-8377-48fa-9cb5-5459b6a3a4f9",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000208",
+          "revision_id": "3bb49ec1-5a79-4871-ae3b-df394cd6a2c6",
+          "parent_revision_id": "6cbd5868-98ac-471e-8b99-e5e9c162d78f"
+        },
+        "entity_id": "b9a4d2db-eaec-4d2f-b773-bba0b4b08c79",
+        "created_at": "2026-09-29T23:25:29.33902+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2410",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "64db0a17-1102-4a3b-b1e8-8fbcc7d68e28",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000202",
+          "revision_id": "415cf757-e228-4a67-a6ae-4a442e4fd1d4",
+          "parent_revision_id": "1721608c-9d1d-4e53-ac7a-3c741e0a2158"
+        },
+        "entity_id": "97f27301-72eb-4eb9-a1a6-3fb4a5be88bd",
+        "created_at": "2026-09-29T23:25:26.184499+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2362",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "70677d30-c514-4452-8585-04089e3a41eb",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic next-case feature enable",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:26.499177+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2366",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "715bbf62-fd68-4f6e-9071-9a4d679f74a6",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000201",
+          "revision_id": "3753b4d7-3a5f-4285-90df-d604d319ea2d",
+          "parent_revision_id": "af2f1221-073d-4a02-8b34-b7b9f306963d"
+        },
+        "entity_id": "bec71261-998f-41a3-b204-99ddab40694f",
+        "created_at": "2026-09-29T23:25:24.918037+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2349",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "71f0e49f-6ad3-4b5c-99bc-0241017f8fe3",
+        "action": "roster.import.committed",
+        "metadata": {
+          "mode": "create",
+          "reason": "Reviewed every synthetic race member",
+          "import_id": "ec725887-8128-4307-b741-d75e32325de1",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000305",
+          "revision_id": "1c7e5c2f-bd8a-4198-b07c-f618148bc784",
+          "source_sha256": "7300479c54088b2290a061ace28bbabd7b2e87d1ead02569970bc0a883ac1527",
+          "human_affirmed": true,
+          "reviewed_rows_sha256": "04a55511d5daf2f540b4e32b8c52f953a891b564b33aa15653a8efb8f932e7dd"
+        },
+        "entity_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2387",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "728ed43a-b939-4789-b935-48982fd0ebcf",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic next-case feature enable",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:25.860591+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2358",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "759e56a4-eb01-4b3e-b457-27289dc0e6ee",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic next-case feature enable",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:27.001576+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2374",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "76f2d05f-0d81-4714-a3a7-6500f198751c",
+        "action": "collection.assisted.roster_added",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "row_count": 1,
+          "request_id": "b38a62b5-6735-4f99-99cd-21b7ca2a84b7"
+        },
+        "entity_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2417",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "7d20f35d-0ed9-465a-b651-201edb99e12b",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic next-case feature enable",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:27.516202+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2382",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "7f1d502c-426f-4050-b7fb-dc1fc8b0c32d",
+        "action": "collection.assisted.roster_added",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "row_count": 1,
+          "request_id": "a6e08a1f-531a-40ba-ab6c-23da9d668361"
+        },
+        "entity_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2388",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "9217bb40-5b00-4b62-9e34-a3883fce6c10",
+        "action": "collection.assisted.created",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "route_ready": false
+        },
+        "entity_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2417",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "9572ffb4-dcfd-4557-a826-4597bbf2c19e",
+        "action": "roster.import.committed",
+        "metadata": {
+          "mode": "create",
+          "reason": "Reviewed every synthetic race member",
+          "import_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000307",
+          "revision_id": "e4e665f0-6a8d-43f2-a7c1-b0861e0b4376",
+          "source_sha256": "e76d0b4ba62a93526f11caaea19187353cd016abc6b4ffd02ed2db9f341755b7",
+          "human_affirmed": true,
+          "reviewed_rows_sha256": "0c934794fbb2743fadfbf94854c1d1a8ef311a14c50619ab6e4b757043178ab4"
+        },
+        "entity_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2403",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "9a8df063-5e96-440a-ab23-a1a58d33e236",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic next-case feature enable",
+          "enabled": true
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:27.998634+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2390",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "a1e027d7-21f2-4366-aa34-7e4e42add9c1",
+        "action": "admin.access.activated",
+        "metadata": {
+          "reason": "Synthetic role restoration for next case"
+        },
+        "entity_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.516202+00:00",
+        "entity_type": "profile",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2382",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "b8e1b64c-d4ca-4d94-9e86-d034e6e9c046",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000203",
+          "revision_id": "d0d409a9-5e5a-4b81-b3f3-24c7fc6f9916",
+          "parent_revision_id": "b5e4a26d-b4d0-4c7f-b36b-183f62e761d1"
+        },
+        "entity_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+        "created_at": "2026-09-29T23:25:26.791682+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2370",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "cb08e0ab-80b2-478e-8169-1ce5699b6560",
+        "action": "collection.assisted.created",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "route_ready": false
+        },
+        "entity_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2352",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "cf2eed90-01b0-4b62-a8b7-07dcd3b62bfb",
+        "action": "admin.access.deactivated",
+        "metadata": {
+          "reason": "Synthetic roster role revocation"
+        },
+        "entity_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.329755+00:00",
+        "entity_type": "profile",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2379",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "d0a7f558-b064-4933-a366-9b13c5639b19",
+        "action": "collection.assisted.roster_added",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "row_count": 1,
+          "request_id": "0ac2e0b9-1ba2-4483-8fde-e066c2a4affd"
+        },
+        "entity_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2352",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "d60fbb6c-9bcd-45d5-ac0b-a0fb07a02f08",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000205",
+          "revision_id": "1c7e5c2f-bd8a-4198-b07c-f618148bc784",
+          "parent_revision_id": "ff9b50d0-2c22-4781-9e3c-f6933fabb260"
+        },
+        "entity_id": "ec725887-8128-4307-b741-d75e32325de1",
+        "created_at": "2026-09-29T23:25:27.778778+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2386",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "e719083b-a058-4b09-bab1-253ca7a026ba",
+        "action": "collection.assisted.created",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "route_ready": false
+        },
+        "entity_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2372",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "e7ad535a-c590-4c3d-a5db-414f45fdfbe2",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic roster feature revocation",
+          "enabled": false
+        },
+        "entity_id": null,
+        "created_at": "2026-09-29T23:25:28.929132+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2405",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "eb76ca95-925c-4f2d-9894-eecddfd44df1",
+        "action": "collection.assisted.roster_added",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "row_count": 1,
+          "request_id": "142d24fd-3aa5-441d-9dbb-ac2ba48cf698"
+        },
+        "entity_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2372",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "eb8c7a7a-cd3f-42da-8062-cc9ec5a60d83",
+        "action": "admin.access.activated",
+        "metadata": {
+          "reason": "Synthetic role restoration for next case"
+        },
+        "entity_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.998634+00:00",
+        "entity_type": "profile",
+        "actor_user_id": "99540000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2390",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "edc5631a-c3ab-4444-8ec2-9845d9fdd8f2",
+        "action": "roster.import.committed",
+        "metadata": {
+          "mode": "create",
+          "reason": "Reviewed every synthetic race member",
+          "import_id": "1c2c2383-793b-45e4-add5-45ac1446675b",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000303",
+          "revision_id": "d0d409a9-5e5a-4b81-b3f3-24c7fc6f9916",
+          "source_sha256": "05289417b571f7edcf8caf0cf983f1f456845fa15806ad2b5991525e4380fa60",
+          "human_affirmed": true,
+          "reviewed_rows_sha256": "fabe71bfe13a0ff54cb09b4caf81bb625ccbbd9de1c179614dc14b4215b01dd0"
+        },
+        "entity_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2371",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "eef2e701-3897-4ad7-b4d0-0e96350ee48e",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99540000-0000-4000-8000-000000000207",
+          "revision_id": "e4e665f0-6a8d-43f2-a7c1-b0861e0b4376",
+          "parent_revision_id": "533549c2-5d98-483f-99c7-e62717cb6ae0"
+        },
+        "entity_id": "01b7b4f1-9334-4174-ba8a-4f110ab0cc6e",
+        "created_at": "2026-09-29T23:25:28.910506+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99540000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2402",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "06cd3698-b087-4575-b660-3da978467390",
+        "role": "owner",
+        "status": "active",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+        "member_record_id": "99540000-0000-4000-8000-000000000001",
+        "invited_phone_hash": null
+      },
+      "xmin": "2352",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "0d28d86b-8244-478c-8dc6-136930ea876d",
+        "role": "member",
+        "status": "active",
+        "user_id": null,
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+        "member_record_id": "a7e2a53b-6d05-4362-9970-d2a556608511",
+        "invited_phone_hash": null
+      },
+      "xmin": "2372",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "199291dc-bf46-4183-b371-b0e0fc162eb5",
+        "role": "owner",
+        "status": "active",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+        "member_record_id": "99540000-0000-4000-8000-000000000001",
+        "invited_phone_hash": null
+      },
+      "xmin": "2404",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "209724e3-b601-4743-953c-c3647ed4a460",
+        "role": "member",
+        "status": "active",
+        "user_id": null,
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+        "member_record_id": "3ffeec3e-4a8d-4478-96b1-e0e35841c603",
+        "invited_phone_hash": null
+      },
+      "xmin": "2404",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "5909cd35-c891-4000-b123-59067bb5feaa",
+        "role": "owner",
+        "status": "active",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+        "member_record_id": "99540000-0000-4000-8000-000000000001",
+        "invited_phone_hash": null
+      },
+      "xmin": "2417",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "78149490-443e-4bad-90db-c7f0a5e21d34",
+        "role": "member",
+        "status": "active",
+        "user_id": null,
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+        "member_record_id": "7ad58eef-f2c6-4bac-ae89-b4f9c60aba95",
+        "invited_phone_hash": null
+      },
+      "xmin": "2388",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "9983f99f-7986-4f80-ae21-3afbaff2c6dd",
+        "role": "member",
+        "status": "active",
+        "user_id": null,
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+        "member_record_id": "1c302fbf-65da-47c2-bfd7-afd752cd990e",
+        "invited_phone_hash": null
+      },
+      "xmin": "2417",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "b87ab4f1-d7d3-4c09-8abc-5b80b8d57028",
+        "role": "member",
+        "status": "active",
+        "user_id": null,
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+        "member_record_id": "0cdecd15-198e-442f-a911-b0716f9170ad",
+        "invited_phone_hash": null
+      },
+      "xmin": "2352",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "c43e3839-50fb-4fe3-8a77-2867fc8c0e61",
+        "role": "owner",
+        "status": "active",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+        "member_record_id": "99540000-0000-4000-8000-000000000001",
+        "invited_phone_hash": null
+      },
+      "xmin": "2388",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "cf9b3162-968d-4b7a-b3e0-952848b8fed7",
+        "role": "owner",
+        "status": "active",
+        "user_id": "99540000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+        "member_record_id": "99540000-0000-4000-8000-000000000001",
+        "invited_phone_hash": null
+      },
+      "xmin": "2372",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "rotated_at": "2026-09-29T23:25:25.090187+00:00",
+        "rotated_by": "99540000-0000-4000-8000-000000000001",
+        "share_code": "ed627f13-afec-47b7-a155-edd89dacf920",
+        "collection_id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be"
+      },
+      "xmin": "2352",
+      "relation": "public.collection_share_secrets"
+    },
+    {
+      "row": {
+        "rotated_at": "2026-09-29T23:25:26.80553+00:00",
+        "rotated_by": "99540000-0000-4000-8000-000000000001",
+        "share_code": "b91524b5-5618-4d74-bde4-e5d605af4c09",
+        "collection_id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f"
+      },
+      "xmin": "2372",
+      "relation": "public.collection_share_secrets"
+    },
+    {
+      "row": {
+        "rotated_at": "2026-09-29T23:25:27.800495+00:00",
+        "rotated_by": "99540000-0000-4000-8000-000000000001",
+        "share_code": "c9c697f5-56a3-4a15-8ee1-7a614d8c9ae0",
+        "collection_id": "dc9e548e-e769-4a20-9789-c862813ddadf"
+      },
+      "xmin": "2388",
+      "relation": "public.collection_share_secrets"
+    },
+    {
+      "row": {
+        "rotated_at": "2026-09-29T23:25:28.92463+00:00",
+        "rotated_by": "99540000-0000-4000-8000-000000000001",
+        "share_code": "01d7408a-d18b-4364-9f65-23f1e70e0648",
+        "collection_id": "6d583553-ffef-453d-abc9-d4048f8c7507"
+      },
+      "xmin": "2404",
+      "relation": "public.collection_share_secrets"
+    },
+    {
+      "row": {
+        "rotated_at": "2026-09-29T23:25:29.533629+00:00",
+        "rotated_by": "99540000-0000-4000-8000-000000000001",
+        "share_code": "ce8b4c70-abb7-4f37-94dd-4fec947ce06d",
+        "collection_id": "c6ba58d1-d75f-43de-933a-97e6cce39afc"
+      },
+      "xmin": "2417",
+      "relation": "public.collection_share_secrets"
+    },
+    {
+      "row": {
+        "id": "1474893c-e6e3-4fe2-b4a0-a226cdc0cf3f",
+        "slug": "assisted-6167cb2b874443cd822714fa71adb43f",
+        "title": "Synthetic roster race 3",
+        "category": "Family / friends",
+        "currency": "RWF",
+        "created_at": "2026-09-29T23:25:26.80553+00:00",
+        "updated_at": "2026-09-29T23:25:26.80553+00:00",
+        "visibility": "private",
+        "archived_at": null,
+        "deadline_at": null,
+        "description": "",
+        "is_recurring": false,
+        "public_status": "private",
+        "purpose_label": null,
+        "recurring_rule": null,
+        "allow_anonymous": false,
+        "collection_type": "ikimina",
+        "cover_image_url": null,
+        "creation_origin": "admin_assisted",
+        "creator_user_id": "99540000-0000-4000-8000-000000000001",
+        "accent_color_hex": null,
+        "category_subtype": null,
+        "diaspora_enabled": false,
+        "diaspora_regions": [],
+        "moderation_status": "not_requested",
+        "recurring_cadence": "monthly",
+        "target_amount_rwf": null,
+        "suggested_amount_rwf": null,
+        "allow_public_comments": false,
+        "is_platform_sponsored": false,
+        "bank_transfer_currency": "EUR",
+        "receiver_display_label": null,
+        "contribution_visibility": "members"
+      },
+      "xmin": "2372",
+      "relation": "public.collections"
+    },
+    {
+      "row": {
+        "id": "6d583553-ffef-453d-abc9-d4048f8c7507",
+        "slug": "assisted-9767cafa90b449879e7c42581823a3dc",
+        "title": "Synthetic roster race 7",
+        "category": "Family / friends",
+        "currency": "RWF",
+        "created_at": "2026-09-29T23:25:28.92463+00:00",
+        "updated_at": "2026-09-29T23:25:28.92463+00:00",
+        "visibility": "private",
+        "archived_at": null,
+        "deadline_at": null,
+        "description": "",
+        "is_recurring": false,
+        "public_status": "private",
+        "purpose_label": null,
+        "recurring_rule": null,
+        "allow_anonymous": false,
+        "collection_type": "ikimina",
+        "cover_image_url": null,
+        "creation_origin": "admin_assisted",
+        "creator_user_id": "99540000-0000-4000-8000-000000000001",
+        "accent_color_hex": null,
+        "category_subtype": null,
+        "diaspora_enabled": false,
+        "diaspora_regions": [],
+        "moderation_status": "not_requested",
+        "recurring_cadence": "monthly",
+        "target_amount_rwf": null,
+        "suggested_amount_rwf": null,
+        "allow_public_comments": false,
+        "is_platform_sponsored": false,
+        "bank_transfer_currency": "EUR",
+        "receiver_display_label": null,
+        "contribution_visibility": "members"
+      },
+      "xmin": "2404",
+      "relation": "public.collections"
+    },
+    {
+      "row": {
+        "id": "7f8fd9f0-4b61-4315-9ff5-fc5f424d93be",
+        "slug": "assisted-32b66ab1d32c4f2c97781694fd0c8a9b",
+        "title": "Synthetic roster race 1",
+        "category": "Family / friends",
+        "currency": "RWF",
+        "created_at": "2026-09-29T23:25:25.090187+00:00",
+        "updated_at": "2026-09-29T23:25:25.090187+00:00",
+        "visibility": "private",
+        "archived_at": null,
+        "deadline_at": null,
+        "description": "",
+        "is_recurring": false,
+        "public_status": "private",
+        "purpose_label": null,
+        "recurring_rule": null,
+        "allow_anonymous": false,
+        "collection_type": "ikimina",
+        "cover_image_url": null,
+        "creation_origin": "admin_assisted",
+        "creator_user_id": "99540000-0000-4000-8000-000000000001",
+        "accent_color_hex": null,
+        "category_subtype": null,
+        "diaspora_enabled": false,
+        "diaspora_regions": [],
+        "moderation_status": "not_requested",
+        "recurring_cadence": "monthly",
+        "target_amount_rwf": null,
+        "suggested_amount_rwf": null,
+        "allow_public_comments": false,
+        "is_platform_sponsored": false,
+        "bank_transfer_currency": "EUR",
+        "receiver_display_label": null,
+        "contribution_visibility": "members"
+      },
+      "xmin": "2352",
+      "relation": "public.collections"
+    },
+    {
+      "row": {
+        "id": "c6ba58d1-d75f-43de-933a-97e6cce39afc",
+        "slug": "assisted-15f8ccd3584546a189717d0f92882e90",
+        "title": "Synthetic roster race 8",
+        "category": "Family / friends",
+        "currency": "RWF",
+        "created_at": "2026-09-29T23:25:29.533629+00:00",
+        "updated_at": "2026-09-29T23:25:29.533629+00:00",
+        "visibility": "private",
+        "archived_at": null,
+        "deadline_at": null,
+        "description": "",
+        "is_recurring": false,
+        "public_status": "private",
+        "purpose_label": null,
+        "recurring_rule": null,
+        "allow_anonymous": false,
+        "collection_type": "ikimina",
+        "cover_image_url": null,
+        "creation_origin": "admin_assisted",
+        "creator_user_id": "99540000-0000-4000-8000-000000000001",
+        "accent_color_hex": null,
+        "category_subtype": null,
+        "diaspora_enabled": false,
+        "diaspora_regions": [],
+        "moderation_status": "not_requested",
+        "recurring_cadence": "monthly",
+        "target_amount_rwf": null,
+        "suggested_amount_rwf": null,
+        "allow_public_comments": false,
+        "is_platform_sponsored": false,
+        "bank_transfer_currency": "EUR",
+        "receiver_display_label": null,
+        "contribution_visibility": "members"
+      },
+      "xmin": "2417",
+      "relation": "public.collections"
+    },
+    {
+      "row": {
+        "id": "dc9e548e-e769-4a20-9789-c862813ddadf",
+        "slug": "assisted-e0996d3368b544179f365e71fc2d1a74",
+        "title": "Synthetic roster race 5",
+        "category": "Family / friends",
+        "currency": "RWF",
+        "created_at": "2026-09-29T23:25:27.800495+00:00",
+        "updated_at": "2026-09-29T23:25:27.800495+00:00",
+        "visibility": "private",
+        "archived_at": null,
+        "deadline_at": null,
+        "description": "",
+        "is_recurring": false,
+        "public_status": "private",
+        "purpose_label": null,
+        "recurring_rule": null,
+        "allow_anonymous": false,
+        "collection_type": "ikimina",
+        "cover_image_url": null,
+        "creation_origin": "admin_assisted",
+        "creator_user_id": "99540000-0000-4000-8000-000000000001",
+        "accent_color_hex": null,
+        "category_subtype": null,
+        "diaspora_enabled": false,
+        "diaspora_regions": [],
+        "moderation_status": "not_requested",
+        "recurring_cadence": "monthly",
+        "target_amount_rwf": null,
+        "suggested_amount_rwf": null,
+        "allow_public_comments": false,
+        "is_platform_sponsored": false,
+        "bank_transfer_currency": "EUR",
+        "receiver_display_label": null,
+        "contribution_visibility": "members"
+      },
+      "xmin": "2388",
+      "relation": "public.collections"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000001",
+        "public_id": "312754",
+        "avatar_url": null,
+        "created_at": "2026-09-29T23:25:24.421046+00:00",
+        "updated_at": "2026-09-29T23:25:24.421046+00:00",
+        "momo_number": null,
+        "country_code": "RW",
+        "display_name": null,
+        "revolut_link": null,
+        "revolut_name": null,
+        "currency_code": "RWF",
+        "momo_pay_code": null,
+        "momo_provider": null,
+        "whatsapp_phone": "250788954001",
+        "revolut_account": null,
+        "momo_number_hash": null,
+        "anonymity_default": "anonymous",
+        "is_platform_admin": false,
+        "momo_number_verified_at": null
+      },
+      "xmin": "2343",
+      "relation": "public.profiles"
+    },
+    {
+      "row": {
+        "id": "99540000-0000-4000-8000-000000000002",
+        "public_id": "738650",
+        "avatar_url": null,
+        "created_at": "2026-09-29T23:25:24.421046+00:00",
+        "updated_at": "2026-09-29T23:25:24.421046+00:00",
+        "momo_number": null,
+        "country_code": "RW",
+        "display_name": null,
+        "revolut_link": null,
+        "revolut_name": null,
+        "currency_code": "RWF",
+        "momo_pay_code": null,
+        "momo_provider": null,
+        "whatsapp_phone": "250788954002",
+        "revolut_account": null,
+        "momo_number_hash": null,
+        "anonymity_default": "anonymous",
+        "is_platform_admin": false,
+        "momo_number_verified_at": null
+      },
+      "xmin": "2343",
+      "relation": "public.profiles"
+    }
+  ],
+  "checkpoint_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-provenance-20260930/concurrency142-attempt2-checkpoint.json",
+  "telemetry_disposition": "Only observed top-level and exact owned-row child XIDs plus cleanup XID removed; all pre-existing rows retained.",
+  "sequence_counters_restored": false,
+  "sequence_note": "PostgreSQL nextval counters are not rolled back or reset."
+}

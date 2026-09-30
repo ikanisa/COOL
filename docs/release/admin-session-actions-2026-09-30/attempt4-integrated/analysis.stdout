@@ -1,0 +1,4 @@
+Analyzing 15 items...                                           
+
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • test/admin_error_redaction_test.dart:25:29 • prefer_const_constructors
+

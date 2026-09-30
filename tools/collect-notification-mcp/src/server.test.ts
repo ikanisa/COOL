@@ -4,7 +4,7 @@ import { createInterface } from "node:readline";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-test("real stdio server exposes exactly nine tools and fails closed without credentials", { timeout: 15_000 }, async (t) => {
+test("real stdio server exposes twelve tools and fails closed without credentials", { timeout: 15_000 }, async (t) => {
   const child = spawn(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {}, stdio: ["pipe", "pipe", "pipe"],
   });
@@ -34,6 +34,7 @@ test("real stdio server exposes exactly nine tools and fails closed without cred
     "collect_notification_health", "collect_list_pending_receipts", "collect_claim_receipt",
     "collect_get_claimed_receipt", "collect_confirm_receipt", "collect_record_send_start",
     "collect_record_observed_outcome", "collect_release_unsent_claim", "collect_worker_heartbeat",
+    "get_collect_health", "get_notification_status", "list_notification_failures",
   ].sort());
   const health = await request("tools/call", { name: "collect_notification_health", arguments: {} });
   assert.equal(health.result.isError, true);

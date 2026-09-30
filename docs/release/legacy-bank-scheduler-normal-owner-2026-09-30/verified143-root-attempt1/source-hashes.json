@@ -1,0 +1,5 @@
+{
+  "scripts/tests/legacy_bank_scheduler_concurrency_uat.rb": "9c751f85c250522b838f957a5a0e91c11aec4f74ebcfc9f8f5f5191a4bd62962",
+  "scripts/tests/legacy_bank_scheduler_snapshot.sql": "7c9711942fad22f354a95e791e89ba96b515ab3cbdd7ebbd3688f2af9c1a13c5",
+  "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql": "5a7a4e7773b65e4fcf015ac079ea18d57cbe08d363bd8b07b87471018b941d85"
+}

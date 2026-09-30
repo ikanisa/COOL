@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -40,6 +42,19 @@ class _PagedOverviewRepository extends AdminEvidenceRepository {
     );
   }
 }
+
+class _DelayedOverviewRepository extends _PagedOverviewRepository {
+  final release = Completer<void>();
+  @override
+  Future<List<AdminMetric>> overviewMetrics() async {
+    await release.future;
+    return super.overviewMetrics();
+  }
+}
+
+final _testOverviewRepositoryProvider = StateProvider<AdminRepositoryBase>(
+  (_) => throw StateError('A synthetic repository must be supplied.'),
+);
 
 void main() {
   testWidgets(
@@ -84,4 +99,47 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  testWidgets('superseded overview cannot mark a new workspace fresh', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final old = _DelayedOverviewRepository();
+    var clock = DateTime.utc(2026, 9, 30, 10);
+    final container = ProviderContainer(
+      overrides: [
+        _testOverviewRepositoryProvider.overrideWith((_) => old),
+        adminRepositoryProvider.overrideWith(
+          (ref) => ref.watch(_testOverviewRepositoryProvider),
+        ),
+        adminClockProvider.overrideWithValue(() => clock),
+      ],
+    );
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          theme: AppTheme.dark(),
+          home: const Scaffold(body: AdminOverviewContent()),
+        ),
+      ),
+    );
+    await tester.pump();
+    expect(container.read(adminLastSuccessfulRefreshProvider), isNull);
+    container.read(_testOverviewRepositoryProvider.notifier).state =
+        _PagedOverviewRepository();
+    await tester.pumpAndSettle();
+    final acknowledged = container.read(adminLastSuccessfulRefreshProvider);
+    expect(acknowledged, clock);
+    clock = clock.add(const Duration(minutes: 5));
+    old.release.complete();
+    await tester.pumpAndSettle();
+    expect(container.read(adminLastSuccessfulRefreshProvider), acknowledged);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    container.dispose();
+  });
 }

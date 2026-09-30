@@ -1,0 +1,3 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_bookmark_browser_test.dart
+00:00 +0: actual browser sessionStorage retains only bounded schema references across adapter recreation
+00:00 +1: All tests passed!

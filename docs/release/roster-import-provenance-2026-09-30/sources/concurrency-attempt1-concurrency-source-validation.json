@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-30",
+  "scope": "Ruby syntax only; PostgreSQL execution delegated to root",
+  "command": [
+    "ruby",
+    "-c",
+    "scripts/tests/roster_import_provenance_concurrency_uat.rb"
+  ],
+  "exit_code": 0,
+  "runtime": "ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]",
+  "source_before": {
+    "scripts/tests/roster_import_provenance_concurrency_uat.rb": "c2c49f80caefc1df06ff557d9ded0378b7f006cc1e62a8d1e4b1a225885b606c",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+  },
+  "source_after": {
+    "scripts/tests/roster_import_provenance_concurrency_uat.rb": "c2c49f80caefc1df06ff557d9ded0378b7f006cc1e62a8d1e4b1a225885b606c",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+  },
+  "source_drift": [],
+  "db_calls": 0,
+  "hosted_auth_requests": 0,
+  "provider_calls": 0,
+  "sha256": {
+    "CONCURRENCY_SOURCE.md": "12ed8c94d6b61c58a87d87d915399a8e27203b9906509c8db31dc1f453b95854",
+    "concurrency-ruby-syntax.stdout": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+    "concurrency-ruby-syntax.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/citusdata/pg_cron/v1.6.4/src/job_metadata.c",
+    "path": "docs/release/legacy-bank-scheduler-normal-owner-2026-09-30/primary-source/job_metadata.c",
+    "sha256": "34e242fe33d4bdea8353582b7a143b12f8a051ee9130cc732812825ce9e94966"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/citusdata/pg_cron/v1.6.4/src/pg_cron.c",
+    "path": "docs/release/legacy-bank-scheduler-normal-owner-2026-09-30/primary-source/pg_cron.c",
+    "sha256": "9b94eab54595356aea28a4f0cfb08224d7458b4f4a8fcac56fa2cab9c2a47a69"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/citusdata/pg_cron/v1.6.4/LICENSE",
+    "path": "docs/release/legacy-bank-scheduler-normal-owner-2026-09-30/primary-source/LICENSE",
+    "sha256": "fd950845858277c0bf4346d45e2e185238a0529fbd2a946c6dd847456e71a9c9"
+  }
+]

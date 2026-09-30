@@ -1,0 +1,110 @@
+{
+  "pass": true,
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "source_sha256": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+  "cases": [
+    {
+      "label": "same hook concurrent reservation",
+      "actual_blocking_observed": true,
+      "winner": {
+        "state": "reserved",
+        "hook_id": "qa_otp_race_20260930_1",
+        "can_send": true,
+        "revision": 1,
+        "attempt_id": "8c3ed106-0879-47f6-81b0-f2c2414b6a54",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser": {
+        "state": "reserved",
+        "hook_id": "qa_otp_race_20260930_1",
+        "can_send": true,
+        "revision": 1,
+        "attempt_id": "8c3ed106-0879-47f6-81b0-f2c2414b6a54",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser_exit": 0
+    },
+    {
+      "label": "same generation concurrent begin",
+      "actual_blocking_observed": true,
+      "winner": {
+        "state": "sending",
+        "hook_id": "qa_otp_race_20260930_1",
+        "started": true,
+        "can_send": false,
+        "revision": 2,
+        "attempt_id": "8c3ed106-0879-47f6-81b0-f2c2414b6a54",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser": {
+        "state": "sending",
+        "hook_id": "qa_otp_race_20260930_1",
+        "started": false,
+        "can_send": false,
+        "revision": 2,
+        "attempt_id": "8c3ed106-0879-47f6-81b0-f2c2414b6a54",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser_exit": 0
+    },
+    {
+      "label": "accepted completion wins over concurrent ambiguous completion",
+      "actual_blocking_observed": true,
+      "winner": {
+        "state": "accepted",
+        "hook_id": "qa_otp_race_20260930_1",
+        "can_send": false,
+        "revision": 3,
+        "attempt_id": "8c3ed106-0879-47f6-81b0-f2c2414b6a54",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser": null,
+      "loser_exit": 3
+    },
+    {
+      "label": "delivered recovery wins over contradictory concurrent failed recovery",
+      "actual_blocking_observed": true,
+      "winner": {
+        "state": "delivered",
+        "hook_id": "qa_otp_race_20260930_1",
+        "can_send": false,
+        "revision": 4,
+        "attempt_id": "8c3ed106-0879-47f6-81b0-f2c2414b6a54",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser": null,
+      "loser_exit": 3
+    },
+    {
+      "label": "global quota concurrent final slot",
+      "actual_blocking_observed": true,
+      "winner": {
+        "state": "reserved",
+        "hook_id": "qa_otp_race_20260930_2",
+        "can_send": true,
+        "revision": 1,
+        "attempt_id": "b8f6a264-77d4-41c6-8dfa-4617a5dc782c",
+        "payload_hash": "9f6d803546c0bec13ddaabd9a0ddee0fe9b286ac7026b2717965819be1fb2906",
+        "contract_version": 3
+      },
+      "loser": "throttled",
+      "loser_exit": 0
+    },
+    {
+      "label": "stale repeatable-read quota snapshot",
+      "actual_blocking_observed": true,
+      "loser_exit": 3,
+      "serialization_failure": true
+    }
+  ],
+  "table_fingerprints_restored": 139,
+  "provider_requests": 0,
+  "sequences_restored": false,
+  "checkpoint_sha256": "0e677185f59de2a93ea7248db8ba194e45aa2c05a4b15e217bffbbd444837e53"
+}

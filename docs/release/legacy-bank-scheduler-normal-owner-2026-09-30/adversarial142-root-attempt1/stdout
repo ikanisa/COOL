@@ -1,0 +1,23 @@
+
+{"state": "paused_pending_verification", "job_id": 1, "replayed": false, "active_jobs": 0, "contract_version": 2}
+{"ok": true, "phase": "paused_only_rollback_rehearsal", "installer": "postgres", "historical_fixture_rows": 2, "same_transaction_verification_rejected": true, "business_and_original_history_preserved": true}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{"ok": true, "labels": ["additional canonical other-owner fixture is refused", "all original cron run history remains unchanged", "all original job metadata preserves every field except intended inactive flag", "all prior business and historical financial tables remain unchanged", "alternate host fixture is refused", "alternate port fixture is refused", "different job owner is refused by normal installer", "exact historical bytes restore a valid replay", "exact metadata and historical bytes restore valid final pause replay", "failed label without terminal timestamp still blocks", "missing canonical job name is refused", "nonempty succeeded and failed history allows exact pause replay", "queued starting history blocks pause", "readback sees all nonempty historical rows", "recent completed run requires five minute quiescent margin", "running history blocks pause before any disable", "same-count historical content drift fails"], "adversarial_checks": 17}

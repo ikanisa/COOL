@@ -247,8 +247,12 @@ class CollectRuntimeTokens {
     CollectColors colors,
     Brightness brightness,
     CollectRuntimeCardEmphasis emphasis,
-    Color? accentColor,
-  ) {
+    Color? accentColor, {
+    bool highContrast = false,
+  }) {
+    if (highContrast) {
+      return Border.all(color: colors.focusRing, width: 2);
+    }
     return switch (emphasis) {
       CollectRuntimeCardEmphasis.flat ||
       CollectRuntimeCardEmphasis.glow ||

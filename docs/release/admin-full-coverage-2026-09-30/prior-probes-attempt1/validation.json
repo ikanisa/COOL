@@ -1,0 +1,28 @@
+{
+  "phase": "prior-probes",
+  "source_unchanged": true,
+  "source_count": 480,
+  "commands": [
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/admin_full_coverage_gap_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "exit_code": 1,
+      "seconds": 2.431,
+      "sha256": "c8ff42415df754b98e747f779f4c663f67c2e126bbbf4c30b8731f46cdc6dacb"
+    }
+  ],
+  "test_count": null,
+  "test_gate_passed": false,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "source_before_sha256": "6359746808325900121b0cad9a324459d428ba109eaa8eb336c497deac8f2e8c",
+  "source_after_sha256": "6359746808325900121b0cad9a324459d428ba109eaa8eb336c497deac8f2e8c"
+}

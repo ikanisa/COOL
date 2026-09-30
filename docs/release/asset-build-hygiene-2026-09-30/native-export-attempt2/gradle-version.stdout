@@ -1,0 +1,15 @@
+
+------------------------------------------------------------
+Gradle 9.1.0
+------------------------------------------------------------
+
+Build time:    2025-09-18 13:05:56 UTC
+Revision:      e45a8dbf2470c2e2474ccc25be9f49331406a07e
+
+Kotlin:        2.2.0
+Groovy:        4.0.28
+Ant:           Apache Ant(TM) version 1.10.15 compiled on August 25 2024
+Launcher JVM:  21.0.8 (JetBrains s.r.o. 21.0.8+-14196175-b1038.72)
+Daemon JVM:    /Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home (no JDK specified, using current Java home)
+OS:            Mac OS X 26.6.2 x86_64
+

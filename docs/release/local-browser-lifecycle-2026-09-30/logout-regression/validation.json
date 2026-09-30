@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "path": "lib/admin/admin_shell.dart",
+      "sha256": "07fc0081c68a33947e2febae4ff470cee7623505ec9609c69e7563e89e4dc63b"
+    },
+    {
+      "path": "test/admin_logout_lifecycle_test.dart",
+      "sha256": "a64c0464de016e34aaa5976274c0c950f262873a63cc46d1417688fb8c499026"
+    },
+    {
+      "path": "test/admin_entrypoint_rebuild_test.dart",
+      "sha256": "25b9bc5dcfe9fd88b3dccc456f5b2ffa01f04132f2659335ff12d591e53126a1"
+    },
+    {
+      "path": "pubspec.yaml",
+      "sha256": "1093a19182a5be4cd6c9e90becc4ac4730c086073135172c65a497479682ca99"
+    },
+    {
+      "path": "pubspec.lock",
+      "sha256": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226"
+    },
+    {
+      "path": ".fvmrc",
+      "sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+    }
+  ],
+  "old_shell_sha256": "888c601edd7eb6de122b4b77af7c59ddce05827eda1acca7a29fd191333d94b4",
+  "green_tests": 2,
+  "green_analysis_items": 3,
+  "red_exit_code": 1,
+  "red_expected_error": "Cannot use ref after the widget was disposed",
+  "actual_browser_followup_pending": true
+}

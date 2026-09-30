@@ -31,8 +31,9 @@ OptionParser.new do |parser|
 end.parse!
 
 if options[:action] == 'submit'
-  gate = File.expand_path('qa/mobile_design_gate.rb', __dir__)
-  abort 'MOBILE-DESIGN-100 blocks submission' unless system('ruby', gate, '--ios')
+  root = File.expand_path('..', __dir__)
+  preflight = File.join(root, 'scripts', 'release_go_preflight.sh')
+  abort 'Production approval and release decision are incomplete' unless system('/bin/bash', preflight)
 end
 
 key_id = ENV["ASC_KEY_ID"].to_s.strip

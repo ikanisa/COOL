@@ -82,21 +82,10 @@ void main() {
             greaterThan(0.7),
           );
         }
-        await tester.tap(
-          find.byKey(const ValueKey('auth_country_code_picker')),
-        );
-        await tester.pumpAndSettle();
-        final panel = tester.widget<ColoredBox>(
-          find
-              .descendant(
-                of: find.byType(AuthCountryPickerSheet),
-                matching: find.byType(ColoredBox),
-              )
-              .first,
-        );
+        expect(find.text('+250'), findsOneWidget);
         expect(
-          _contrast(colors.authForeground, panel.color),
-          greaterThanOrEqualTo(4.5),
+          find.byKey(const ValueKey('auth_country_code_picker')),
+          findsNothing,
         );
         expect(tester.takeException(), isNull);
 

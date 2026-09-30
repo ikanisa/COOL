@@ -242,9 +242,7 @@ class _GroupsCardGrid extends StatelessWidget {
         final collection = collections[index];
         return GroupCard(
           collection: collection,
-          summary:
-              summaries[collection.id] ??
-              const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0),
+          summary: summaries[collection.id],
           variant: GroupCardVariant.publicDiscovery,
           onTap: () => context.go('/groups/${collection.id}'),
           primaryAction: collection.isPublic
@@ -291,12 +289,16 @@ int _compareGroups(
   CollectCollection right,
   Map<String, CollectionSummary> summaries,
 ) {
-  final leftSummary =
-      summaries[left.id] ??
-      const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0);
-  final rightSummary =
-      summaries[right.id] ??
-      const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0);
+  final leftSummary = summaries[left.id];
+  final rightSummary = summaries[right.id];
+  // A missing aggregate is unknown, never a measured zero. Keep groups with
+  // supplied totals ahead of groups whose totals cannot be ranked.
+  if (leftSummary == null) {
+    return rightSummary == null
+        ? left.title.toLowerCase().compareTo(right.title.toLowerCase())
+        : 1;
+  }
+  if (rightSummary == null) return -1;
   // Compare amounts only when both groups settle in the same single currency.
   // Mixed-currency groups have no meaningful global monetary ranking.
   final leftTotals = leftSummary.totalsByCurrency;

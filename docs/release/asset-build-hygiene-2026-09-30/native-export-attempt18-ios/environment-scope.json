@@ -1,0 +1,20 @@
+{
+  "inherited_environment_names": [
+    "HOME",
+    "LANG",
+    "LC_ALL",
+    "LC_CTYPE",
+    "LOGNAME",
+    "PATH",
+    "SHELL",
+    "TMPDIR",
+    "USER"
+  ],
+  "private_provider_signing_environment_supplied": false,
+  "pinned_flutter": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+  "xcode_path": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer",
+  "pub_cache": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930",
+  "cocoapods_home": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/cocoapods-attempt18-home",
+  "cocoapods_cache": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/cocoapods-attempt18-cache",
+  "runner_sha256": "deb47d6c77add2e73a97c6820a5b484b3c10597e0542af4ef1004761b658b2b1"
+}

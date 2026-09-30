@@ -1,0 +1,19 @@
+{
+  "extensions_match": true,
+  "financial_snapshot_sha256": "c294b544c37c730475fda5d76c6b8c5471a3c12535ff345fd7e3dc914281a9d4",
+  "global_roles_match": true,
+  "limitations": [
+    "synthetic local database only",
+    "Storage object bytes absent",
+    "no hosted settings or provider evidence",
+    "no approved RPO/RTO"
+  ],
+  "normalized_schema_acl_sha256": "2826135177bfe7fdbb9ebcebd17e1eb1ef6c745ffb8b8295324775341f6c219d",
+  "other_data_statements": 0,
+  "restore_target_workers_disabled": true,
+  "sequence_statements": 4,
+  "source_archive_sha256": "c84940178f575ea8b0b1e9fa61f63246f7a306981b772587787bbb9719fd02a3",
+  "status": "pass_synthetic_database_restore_not_production_recovery",
+  "table_copy_sections": 129,
+  "table_rows": 1327
+}

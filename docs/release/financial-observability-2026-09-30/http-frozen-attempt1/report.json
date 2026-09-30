@@ -1,0 +1,3328 @@
+{
+  "started_at": "2026-09-30T15:39:50.189349+00:00",
+  "status": "pass",
+  "final_acceptance": false,
+  "environment": "loopback_only_synthetic_dependencies_no_inherited_credentials",
+  "source_inputs": {
+    "supabase/functions/_shared/apns.ts": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+    "supabase/functions/_shared/apns_test.ts": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+    "supabase/functions/_shared/buri_munsi_receipt.ts": "393be3a71584c3aba27cf19211ac16a5d95b92d42cf7f928efd4cbe31a7a78eb",
+    "supabase/functions/_shared/cors.ts": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+    "supabase/functions/_shared/fcm.ts": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6",
+    "supabase/functions/_shared/fcm_test.ts": "6f4ec8c1eabfcc99161f1ea99eaa53f395f798c1e044462d187204747bbbffbb",
+    "supabase/functions/_shared/hash.ts": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719",
+    "supabase/functions/_shared/hmac.ts": "ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace",
+    "supabase/functions/_shared/hmac_test.ts": "f107f802e955ca20380312ee0282f57cacb79bce19593fd01606f0f66bc7178b",
+    "supabase/functions/_shared/integrity_policy.ts": "abda535ac2d637ee51bc1bb030dfc3a2655223fa444d3b6f9ad8bd0d90d2a807",
+    "supabase/functions/_shared/momo_sms_hybrid_test.ts": "d627b98b5cb655673df3a682e65c51f82b4eeb280cf73f7fed506abab18c58dd",
+    "supabase/functions/_shared/momo_sms_parser.ts": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1",
+    "supabase/functions/_shared/momo_sms_parser_test.ts": "e7881a50eff5982b47b73896775e93edc524c1c405b3bf8c72babd4ba7f7a365",
+    "supabase/functions/_shared/notification_operator.ts": "70760815238af71666ff4423b5f5f92c548c96960f37f6f5246ec113210441ad",
+    "supabase/functions/_shared/notification_operator_test.ts": "40a07063ad93b426cec4518f92e6d3aef5fc7584d034b0b3f8e58c98955849ac",
+    "supabase/functions/_shared/notification_retry.ts": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f",
+    "supabase/functions/_shared/notification_retry_test.ts": "48216fa3b103ecc38f2d9bfa92a6930ffb9367694e4d60da2f8e94516fbed520",
+    "supabase/functions/_shared/openai_roster.ts": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780",
+    "supabase/functions/_shared/openai_roster_test.ts": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a",
+    "supabase/functions/_shared/operational_metrics.ts": "01a52ef3869faa672b9e3fa5d3ec34fbbd89344985012f6c24ea3c0ebd8fccdd",
+    "supabase/functions/_shared/operational_metrics_test.ts": "088e4ee450f6f4221283d98131a802067b066c442d026af2eacf6955725b4a38",
+    "supabase/functions/_shared/play_integrity_binding.ts": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9",
+    "supabase/functions/_shared/play_integrity_binding_test.ts": "8128a2f0662e28cb744514a70a87ff326a74ab206c92778e7344c68bd713e50c",
+    "supabase/functions/_shared/production_contract.ts": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+    "supabase/functions/_shared/raw_sms_input.ts": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239",
+    "supabase/functions/_shared/receipt_ingestion.ts": "a932be7f256a35de599dd0179d9aa586ede41aff4cb5cb0c54ebcbac245b9fa2",
+    "supabase/functions/_shared/roster_decoder.ts": "575c44e86de2571af7813d8adb714f67949b4543316ee98f34809eebc2d4d20b",
+    "supabase/functions/_shared/roster_decoder_integration_test.ts": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+    "supabase/functions/_shared/roster_decoder_test.ts": "4e8401f7f7939196011960fda6c71835cbaf767f0225143107a96b34e55feb3a",
+    "supabase/functions/_shared/roster_file_policy.ts": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+    "supabase/functions/_shared/roster_file_policy_test.ts": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8",
+    "supabase/functions/_shared/roster_import.ts": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0",
+    "supabase/functions/_shared/roster_import_test.ts": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089",
+    "supabase/functions/_shared/roster_provenance.ts": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629",
+    "supabase/functions/_shared/roster_resource_budget.ts": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99",
+    "supabase/functions/_shared/roster_response_policy.ts": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e",
+    "supabase/functions/_shared/roster_response_policy_test.ts": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b",
+    "supabase/functions/_shared/signed_sms_hook.ts": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6",
+    "supabase/functions/_shared/supabase.ts": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+    "supabase/functions/_shared/test_assert.ts": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+    "supabase/functions/auth-send-whatsapp-otp/handler.ts": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30",
+    "supabase/functions/auth-send-whatsapp-otp/handler_test.ts": "69f6ee76b873d01efe683c6d50848885fcc7da4b933828a5a21998a7aad8b93b",
+    "supabase/functions/auth-send-whatsapp-otp/index.ts": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2",
+    "supabase/functions/collect-notification-operator/index.ts": "0d27478a37e16f4034afe421645cd27fd4aa69a74129b4d7afd1685cdd9ae39c",
+    "supabase/functions/dispatch-notifications/dispatcher.ts": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8",
+    "supabase/functions/dispatch-notifications/dispatcher_test.ts": "9796a6726faa92e6bcfb4752f128a744842d3218875d7d6acc16fb030534630d",
+    "supabase/functions/dispatch-notifications/index.ts": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472",
+    "supabase/functions/ingest-payment-sms/index.ts": "66d70d3ec115e1ab492efff0bccf330f25bdbf4f23cd7490e763ead67fc39c36",
+    "supabase/functions/parse-payment-sms/index.ts": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9",
+    "supabase/functions/prepare-roster-import/handler.ts": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+    "supabase/functions/prepare-roster-import/handler_test.ts": "4b5da661fa89abd6012b518e22dc9758984a50c8f0aa6fdcbec386034e957e64",
+    "supabase/functions/prepare-roster-import/index.ts": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb",
+    "supabase/functions/reconciliation-finalize/handler.ts": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116",
+    "supabase/functions/reconciliation-finalize/handler_test.ts": "f681e5a29be57236958ec2edfcf7f8b23af4b0f5b1b31ab142475406c05094c0",
+    "supabase/functions/reconciliation-finalize/index.ts": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c",
+    "supabase/functions/send-notification/handler.ts": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c",
+    "supabase/functions/send-notification/handler_test.ts": "1b0fc69d8729192ce2d5fd3bb77d09c5292af124ede4caeec05db87f63b3c458",
+    "supabase/functions/send-notification/index.ts": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6",
+    "supabase/functions/verify-play-integrity/index.ts": "2b09eb817963c04f94c0f31e1f03a3676df0da376639b042a5f9920b7d4333c7",
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    "supabase/config.toml": "6e1c7685fa11282762030ff759aecda684a6f9d90f7add402957ceefeb26b905",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "scripts/qa/edge_http_runtime_uat.ts": "229b7631bc625ac7f280c8b4ffafefc052355f1c27b0d7e9be200c48cfc66e3d",
+    "scripts/qa/run_edge_http_uat.py": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925",
+    "Makefile": "61240a9d41dd6e0b350a95e8ebb9c61e0ccb56aa2f649b78a385294b7bcc4997",
+    ".github/workflows/ci.yml": "f00b0c36af37ed4e74b413a619d018f3e9fd23926838c144547a94750e3f36bc"
+  },
+  "runtime": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+    "pinned_version": "2.5.6"
+  },
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "run",
+    "--check",
+    "--no-config",
+    "--lock=supabase/functions/deno.lock",
+    "--frozen",
+    "--cached-only",
+    "--no-prompt",
+    "--allow-env",
+    "--allow-net=127.0.0.1",
+    "--deny-net=graph.facebook.com,oauth2.googleapis.com,playintegrity.googleapis.com,fcm.googleapis.com,api.push.apple.com,api.sandbox.push.apple.com,api.openai.com",
+    "--allow-read=supabase/functions,supabase/config.toml",
+    "scripts/qa/edge_http_runtime_uat.ts"
+  ],
+  "dependency_lock_enforced": true,
+  "exit_code": 0,
+  "runtime_result": {
+    "started_at": "2026-09-30T15:39:50.664Z",
+    "final_acceptance": false,
+    "mode": "real_edge_http_with_recording_synthetic_auth_postgrest_and_disabled_providers",
+    "checks": [
+      {
+        "label": "configured functions exactly match existing executable entrypoints",
+        "status": "pass"
+      },
+      {
+        "label": "external provider network denied",
+        "status": "pass"
+      },
+      {
+        "label": "every configured entrypoint started exactly once",
+        "status": "pass"
+      },
+      {
+        "label": "auth-send-whatsapp-otp: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "auth-send-whatsapp-otp: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": {
+            "http_code": 405,
+            "message": "method_not_allowed"
+          }
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "auth-send-whatsapp-otp: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": {
+            "http_code": 401,
+            "message": "invalid_hook_signature"
+          }
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "auth-send-whatsapp-otp: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": {
+            "http_code": 401,
+            "message": "invalid_hook_signature"
+          }
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "collect-notification-operator: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "collect-notification-operator: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "Method not allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "collect-notification-operator: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "collect-notification-operator: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "unrecognized"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "dispatch-notifications: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "dispatch-notifications: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "Method not allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "dispatch-notifications: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "dispatch-notifications: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "ingest-payment-sms: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "ingest-payment-sms: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "method_not_allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "ingest-payment-sms: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "ingest-payment-sms: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "unrecognized"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "parse-payment-sms: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "parse-payment-sms: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "Method not allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "parse-payment-sms: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "parse-payment-sms: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "prepare-roster-import: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "prepare-roster-import: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "method_not_allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "prepare-roster-import: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "prepare-roster-import: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "unrecognized"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "reconciliation-finalize: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "reconciliation-finalize: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "method_not_allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "reconciliation-finalize: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "reconciliation-finalize: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/authorize_reconciliation_finalization_v2",
+            "method": "POST",
+            "payload": {
+              "p_review_id": "98600000-0000-4000-8000-000000000021"
+            },
+            "identity": "unrecognized"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "send-notification: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "send-notification: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "Method not allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "send-notification: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "send-notification: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "verify-play-integrity: preflight",
+        "status": "pass",
+        "http_status": 200,
+        "response": null,
+        "cors": "*",
+        "dependencies": [],
+        "no_store": false
+      },
+      {
+        "label": "verify-play-integrity: wrong method",
+        "status": "pass",
+        "http_status": 405,
+        "response": {
+          "error": "Method not allowed"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "verify-play-integrity: missing authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "verify-play-integrity: invalid authentication",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": "authentication_required"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "unrecognized"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "collect-notification-operator: member cannot operate",
+        "status": "pass",
+        "http_status": 403,
+        "response": {
+          "error": "forbidden"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/admin_current_user",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_user"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "prepare-roster-import: member cannot operate",
+        "status": "pass",
+        "http_status": 403,
+        "response": {
+          "error": "roster_import_forbidden"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "22368fb9-d9f2-4a53-a816-0be5bb7bb655",
+              "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_source_kind": "text",
+              "p_source_bytes": 68,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "operator: permission-bearing identity reaches health",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "ok": true,
+          "action": "health",
+          "result": {
+            "pending": 0
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/admin_current_user",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/collect_notification_health",
+            "method": "POST",
+            "payload": {
+              "p_operator_user_id": "98600000-0000-4000-8000-000000000001"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "dispatcher: valid internal empty queue",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "ok": true,
+          "claimed": 0,
+          "sent": 0,
+          "retrying": 0,
+          "failed": 0,
+          "completion_pending": 0,
+          "lease_lost": 0,
+          "budget_exhausted": false
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/claim_notification_deliveries",
+            "method": "POST",
+            "payload": {
+              "p_contract_version": 2,
+              "p_limit": 1
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "parser: valid internal request requires real UUID",
+        "status": "pass",
+        "http_status": 400,
+        "response": {
+          "error": "raw_sms_id must be a UUID"
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "SMS: current contract refuses unattested envelope",
+        "status": "pass",
+        "http_status": 400,
+        "response": {
+          "error": "invalid_envelope"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_rejected",
+              "p_duration_ms": 1
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "SMS telemetry: receipt_success",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "ok": true,
+          "receipt": {
+            "contract_version": 2,
+            "stored": true,
+            "raw_sms_id": "5cfa5941-71c1-4a62-ad25-58d49442b6e2",
+            "client_envelope_id": "3837bdf1-29ab-40b1-8bac-ca5b0faa92ed",
+            "owner_user_id": "98600000-0000-4000-8000-000000000001",
+            "body_sha256": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478"
+          },
+          "evidence_level": "sms_observed",
+          "processing": "accepted"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/attested_sms_contract_version",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+            "method": "POST",
+            "payload": {
+              "p_native_capability_id": "d9c13f51-d6a5-4757-bf1d-aa085d97f5cf",
+              "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+              "p_collection_id": null,
+              "p_raw_sender": "Synthetic sender canary",
+              "p_raw_body": "Synthetic private receipt canary",
+              "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+              "p_client_envelope_id": "3837bdf1-29ab-40b1-8bac-ca5b0faa92ed",
+              "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+              "p_received_at_device": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/functions/v1/parse-payment-sms",
+            "method": "POST",
+            "payload": {
+              "raw_sms_id": "5cfa5941-71c1-4a62-ad25-58d49442b6e2"
+            },
+            "identity": "unrecognized"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_processing_accepted",
+              "p_duration_ms": 1
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_ack_generated",
+              "p_duration_ms": 2
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "elapsed_ms": 2.1805840000000103
+      },
+      {
+        "label": "SMS telemetry: receipt_metric_error",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "ok": true,
+          "receipt": {
+            "contract_version": 2,
+            "stored": true,
+            "raw_sms_id": "714940bb-a3e7-4ea1-9a7f-dd327f8f1d88",
+            "client_envelope_id": "1d4c283e-e706-466a-b437-8096dca602dd",
+            "owner_user_id": "98600000-0000-4000-8000-000000000001",
+            "body_sha256": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478"
+          },
+          "evidence_level": "sms_observed",
+          "processing": "accepted"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/attested_sms_contract_version",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+            "method": "POST",
+            "payload": {
+              "p_native_capability_id": "8a9b7168-8738-458a-8f0c-1fd95c1bec33",
+              "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+              "p_collection_id": null,
+              "p_raw_sender": "Synthetic sender canary",
+              "p_raw_body": "Synthetic private receipt canary",
+              "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+              "p_client_envelope_id": "1d4c283e-e706-466a-b437-8096dca602dd",
+              "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+              "p_received_at_device": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/functions/v1/parse-payment-sms",
+            "method": "POST",
+            "payload": {
+              "raw_sms_id": "714940bb-a3e7-4ea1-9a7f-dd327f8f1d88"
+            },
+            "identity": "unrecognized"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_processing_accepted",
+              "p_duration_ms": 1
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_ack_generated",
+              "p_duration_ms": 2
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "elapsed_ms": 1.8645419999999717
+      },
+      {
+        "label": "SMS telemetry: receipt_metric_timeout",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "ok": true,
+          "receipt": {
+            "contract_version": 2,
+            "stored": true,
+            "raw_sms_id": "963dac4a-40d6-4107-bf20-1fef2b14cbc4",
+            "client_envelope_id": "3d6c63d5-7c82-401c-a64c-f6fb8c60ffa0",
+            "owner_user_id": "98600000-0000-4000-8000-000000000001",
+            "body_sha256": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478"
+          },
+          "evidence_level": "sms_observed",
+          "processing": "accepted"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/attested_sms_contract_version",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+            "method": "POST",
+            "payload": {
+              "p_native_capability_id": "8ccd976b-bff6-4673-a5ef-c1e12a1634d3",
+              "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+              "p_collection_id": null,
+              "p_raw_sender": "Synthetic sender canary",
+              "p_raw_body": "Synthetic private receipt canary",
+              "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+              "p_client_envelope_id": "3d6c63d5-7c82-401c-a64c-f6fb8c60ffa0",
+              "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+              "p_received_at_device": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/functions/v1/parse-payment-sms",
+            "method": "POST",
+            "payload": {
+              "raw_sms_id": "963dac4a-40d6-4107-bf20-1fef2b14cbc4"
+            },
+            "identity": "unrecognized"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_processing_accepted",
+              "p_duration_ms": 1
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_ack_generated",
+              "p_duration_ms": 203
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "elapsed_ms": 405.11970899999994
+      },
+      {
+        "label": "SMS telemetry: receipt_deferred",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "receipt_stored_processing_retry"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/attested_sms_contract_version",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+            "method": "POST",
+            "payload": {
+              "p_native_capability_id": "f1be969f-1d1e-4e70-be8c-20d2a8a5d26e",
+              "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+              "p_collection_id": null,
+              "p_raw_sender": "Synthetic sender canary",
+              "p_raw_body": "Synthetic private receipt canary",
+              "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+              "p_client_envelope_id": "4c7039d4-be57-418c-91b4-5bf46364ba2c",
+              "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+              "p_received_at_device": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/functions/v1/parse-payment-sms",
+            "method": "POST",
+            "payload": {
+              "raw_sms_id": "c9fe1573-0226-48c9-9838-059a4c74aa96"
+            },
+            "identity": "unrecognized"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_processing_deferred",
+              "p_duration_ms": 1
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "elapsed_ms": 2.1672909999999774
+      },
+      {
+        "label": "SMS telemetry: receipt_bad_ack",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "durable_receipt_not_verified"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/attested_sms_contract_version",
+            "method": "POST",
+            "payload": {},
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+            "method": "POST",
+            "payload": {
+              "p_native_capability_id": "1cd6cef1-ccad-4f45-9dd4-1528b44c6513",
+              "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+              "p_collection_id": null,
+              "p_raw_sender": "Synthetic sender canary",
+              "p_raw_body": "Synthetic private receipt canary",
+              "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+              "p_client_envelope_id": "d5d73b44-07d7-47ac-81fc-23fdd9a89696",
+              "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+              "p_received_at_device": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/record_operational_metric_v1",
+            "method": "POST",
+            "payload": {
+              "p_event_code": "receipt_rejected",
+              "p_duration_ms": 1
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "elapsed_ms": 1.234666999999945
+      },
+      {
+        "label": "roster: approved deterministic preview",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "contract_version": 1,
+          "ok": true,
+          "import_id": "d0ae517d-97db-41cd-874d-9bb99cf8a8fd",
+          "source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "source_kind": "text",
+          "source_receipt": {
+            "request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+            "source_size": 68,
+            "client_filename": "pasted-roster.txt",
+            "declared_mime": "text/plain",
+            "detected_type": "utf8_text",
+            "derived_sha256": null,
+            "derived_assurance": null,
+            "extraction_id": null,
+            "ai_consent": false,
+            "consent_version": null,
+            "parser_version": "collect-roster-parser-v1",
+            "schema_version": "collect-roster-rows-v1"
+          },
+          "revision_id": "0dbbf5ba-4fa6-43ed-932c-053b9a9e9ea9",
+          "parent_revision_id": null,
+          "revision_number": 1,
+          "reviewed_rows_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "rows": [
+            {
+              "source_row": 2,
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "+250788991001",
+              "confidence": 1,
+              "issues": [],
+              "ready": true
+            }
+          ],
+          "row_count": 1,
+          "ready_count": 1,
+          "error_count": 0,
+          "can_submit": false,
+          "normalized_rows": [
+            {
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "+250788991001"
+            }
+          ],
+          "requires_human_review": true,
+          "processing_method": "deterministic",
+          "model": null,
+          "expires_at": "2099-01-01T00:00:00Z"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+              "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_source_kind": "text",
+              "p_source_bytes": 68,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/create_roster_import_source",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+              "p_source_kind": "text",
+              "p_original_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_original_size": 68,
+              "p_client_filename": "pasted-roster.txt",
+              "p_declared_mime": "text/plain",
+              "p_detected_type": "utf8_text",
+              "p_derived_sha256": null,
+              "p_derived_size": null,
+              "p_ai_consent": false,
+              "p_consent_version": null,
+              "p_ai_metadata": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/complete_roster_import_preview",
+            "method": "POST",
+            "payload": {
+              "p_import_id": "d0ae517d-97db-41cd-874d-9bb99cf8a8fd",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_candidates": [
+                {
+                  "source_row": 2,
+                  "member_name": "Aline Uwase",
+                  "momo_name": "ALINE UWASE",
+                  "momo_number": "0788991001",
+                  "confidence": 1
+                }
+              ],
+              "p_processing_metadata": {
+                "processing_method": "deterministic",
+                "provider_response_sha256": null,
+                "provider_response_id": null
+              }
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "a699d657-71fb-4c39-8497-ffdb047d70a4",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "preview_ready"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: approved deterministic preview",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "contract_version": 1,
+          "ok": true,
+          "import_id": "d0ae517d-97db-41cd-874d-9bb99cf8a8fd",
+          "source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "source_kind": "text",
+          "source_receipt": {
+            "request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+            "source_size": 68,
+            "client_filename": "pasted-roster.txt",
+            "declared_mime": "text/plain",
+            "detected_type": "utf8_text",
+            "derived_sha256": null,
+            "derived_assurance": null,
+            "extraction_id": null,
+            "ai_consent": false,
+            "consent_version": null,
+            "parser_version": "collect-roster-parser-v1",
+            "schema_version": "collect-roster-rows-v1"
+          },
+          "revision_id": "0dbbf5ba-4fa6-43ed-932c-053b9a9e9ea9",
+          "parent_revision_id": null,
+          "revision_number": 1,
+          "reviewed_rows_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "rows": [
+            {
+              "source_row": 2,
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "+250788991001",
+              "confidence": 1,
+              "issues": [],
+              "ready": true
+            }
+          ],
+          "row_count": 1,
+          "ready_count": 1,
+          "error_count": 0,
+          "can_submit": false,
+          "normalized_rows": [
+            {
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "+250788991001"
+            }
+          ],
+          "requires_human_review": true,
+          "processing_method": "deterministic",
+          "model": null,
+          "expires_at": "2099-01-01T00:00:00Z"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+              "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_source_kind": "text",
+              "p_source_bytes": 68,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/create_roster_import_source",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+              "p_source_kind": "text",
+              "p_original_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_original_size": 68,
+              "p_client_filename": "pasted-roster.txt",
+              "p_declared_mime": "text/plain",
+              "p_detected_type": "utf8_text",
+              "p_derived_sha256": null,
+              "p_derived_size": null,
+              "p_ai_consent": false,
+              "p_consent_version": null,
+              "p_ai_metadata": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/complete_roster_import_preview",
+            "method": "POST",
+            "payload": {
+              "p_import_id": "d0ae517d-97db-41cd-874d-9bb99cf8a8fd",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_candidates": [
+                {
+                  "source_row": 2,
+                  "member_name": "Aline Uwase",
+                  "momo_name": "ALINE UWASE",
+                  "momo_number": "0788991001",
+                  "confidence": 1
+                }
+              ],
+              "p_processing_metadata": {
+                "processing_method": "deterministic",
+                "provider_response_sha256": null,
+                "provider_response_id": null
+              }
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "a699d657-71fb-4c39-8497-ffdb047d70a4",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "preview_ready"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: finished preview replay performs no decoder/provider work",
+        "status": "pass",
+        "http_status": 200,
+        "response": {
+          "contract_version": 1,
+          "ok": true,
+          "import_id": "d0ae517d-97db-41cd-874d-9bb99cf8a8fd",
+          "source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "source_kind": "text",
+          "source_receipt": {
+            "request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+            "source_size": 68,
+            "client_filename": "pasted-roster.txt",
+            "declared_mime": "text/plain",
+            "detected_type": "utf8_text",
+            "derived_sha256": null,
+            "derived_assurance": null,
+            "extraction_id": null,
+            "ai_consent": false,
+            "consent_version": null,
+            "parser_version": "collect-roster-parser-v1",
+            "schema_version": "collect-roster-rows-v1"
+          },
+          "revision_id": "0dbbf5ba-4fa6-43ed-932c-053b9a9e9ea9",
+          "parent_revision_id": null,
+          "revision_number": 1,
+          "reviewed_rows_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "rows": [
+            {
+              "source_row": 2,
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "+250788991001",
+              "confidence": 1,
+              "issues": [],
+              "ready": true
+            }
+          ],
+          "row_count": 1,
+          "ready_count": 1,
+          "error_count": 0,
+          "can_submit": false,
+          "normalized_rows": [
+            {
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "+250788991001"
+            }
+          ],
+          "requires_human_review": true,
+          "processing_method": "deterministic",
+          "model": null,
+          "expires_at": "2099-01-01T00:00:00Z"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+              "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_source_kind": "text",
+              "p_source_bytes": 68,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/create_roster_import_source",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+              "p_source_kind": "text",
+              "p_original_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+              "p_original_size": 68,
+              "p_client_filename": "pasted-roster.txt",
+              "p_declared_mime": "text/plain",
+              "p_detected_type": "utf8_text",
+              "p_derived_sha256": null,
+              "p_derived_size": null,
+              "p_ai_consent": false,
+              "p_consent_version": null,
+              "p_ai_metadata": null
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: roster_quota enforces verification before transmission",
+        "status": "pass",
+        "http_status": 429,
+        "response": {
+          "error": "roster_resource_limit"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "6cbaedf8-678f-4753-a4a4-a49aedfc1549",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: roster_bad_budget enforces verification before transmission",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "roster_budget_receipt_invalid"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "c707f6b4-ea47-4ac0-b0d6-d01d73145fbe",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: roster_bad_nonce enforces verification before transmission",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "roster_decoder_receipt_invalid"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "0050e782-3b0a-4a64-8428-4eccb622aa77",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/decode",
+            "method": "POST",
+            "identity": "synthetic_signed_decoder",
+            "request_id": "0050e782-3b0a-4a64-8428-4eccb622aa77",
+            "reservation_id": "2062167d-92ea-4f89-bf06-2e02fae0bbb3",
+            "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "2062167d-92ea-4f89-bf06-2e02fae0bbb3",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "failed"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: roster_bad_signature enforces verification before transmission",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "roster_decoder_receipt_invalid"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "c0a11435-8512-4543-ad60-958d7b4a94c3",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/decode",
+            "method": "POST",
+            "identity": "synthetic_signed_decoder",
+            "request_id": "c0a11435-8512-4543-ad60-958d7b4a94c3",
+            "reservation_id": "155f0dd0-85e1-45fe-9895-8c8a954d17e1",
+            "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "155f0dd0-85e1-45fe-9895-8c8a954d17e1",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "failed"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: roster_decoder_reject enforces verification before transmission",
+        "status": "pass",
+        "http_status": 422,
+        "response": {
+          "error": "roster_animation_limit"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "5e995218-cd29-4450-a37a-da1bc20af91d",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/decode",
+            "method": "POST",
+            "identity": "synthetic_signed_decoder",
+            "request_id": "5e995218-cd29-4450-a37a-da1bc20af91d",
+            "reservation_id": "387e8a6f-ed95-487c-a529-be4cf9d01e58",
+            "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "387e8a6f-ed95-487c-a529-be4cf9d01e58",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "failed"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: roster_bad_verification enforces verification before transmission",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "roster_receipt_invalid"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "ce0279a4-e538-41fd-a24e-9e93f71dc9e4",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/decode",
+            "method": "POST",
+            "identity": "synthetic_signed_decoder",
+            "request_id": "ce0279a4-e538-41fd-a24e-9e93f71dc9e4",
+            "reservation_id": "9a14afff-0869-421f-baeb-b124f87fa8f7",
+            "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+          },
+          {
+            "path": "/rest/v1/rpc/verify_roster_source_integrity",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "9a14afff-0869-421f-baeb-b124f87fa8f7",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_decoder_receipt_sha256": "9b9483c6b2c89b2f856caee732b5c66a83be748970fd7ee08ba143356d633ccc",
+              "p_decoder_build_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "p_policy_version": "collect-roster-decoder-v1",
+              "p_toolchain": {
+                "python": "3.12",
+                "pillow": "12.0.0",
+                "pypdfium2": "5.2.0",
+                "pypdf": "6.7.0",
+                "openpyxl": "3.1.5",
+                "defusedxml": "0.7.1"
+              },
+              "p_summary": {
+                "frames": 1,
+                "pages": 0,
+                "pixels": 6,
+                "expanded_bytes": 24
+              }
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "9a14afff-0869-421f-baeb-b124f87fa8f7",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "failed"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "roster: normal enforces verification before transmission",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": "roster_extraction_unavailable"
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "payload": null,
+            "identity": "synthetic_user"
+          },
+          {
+            "path": "/rest/v1/rpc/reserve_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "bae678e0-206c-4ab6-b47d-743aa88460d7",
+              "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_source_kind": "image",
+              "p_source_bytes": 77,
+              "p_derived_sha256": null
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/decode",
+            "method": "POST",
+            "identity": "synthetic_signed_decoder",
+            "request_id": "bae678e0-206c-4ab6-b47d-743aa88460d7",
+            "reservation_id": "1e4ea9d3-0275-4997-aa18-5763dafffe84",
+            "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+          },
+          {
+            "path": "/rest/v1/rpc/verify_roster_source_integrity",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "1e4ea9d3-0275-4997-aa18-5763dafffe84",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_decoder_receipt_sha256": "ab8a953f85b6f764dddf215545edaa800cd8520ff1e1478a87d5698c60cb03c4",
+              "p_decoder_build_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "p_policy_version": "collect-roster-decoder-v1",
+              "p_toolchain": {
+                "python": "3.12",
+                "pillow": "12.0.0",
+                "pypdfium2": "5.2.0",
+                "pypdf": "6.7.0",
+                "openpyxl": "3.1.5",
+                "defusedxml": "0.7.1"
+              },
+              "p_summary": {
+                "frames": 1,
+                "pages": 0,
+                "pixels": 6,
+                "expanded_bytes": 24
+              }
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/create_roster_import_source",
+            "method": "POST",
+            "payload": {
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_request_id": "bae678e0-206c-4ab6-b47d-743aa88460d7",
+              "p_source_kind": "image",
+              "p_original_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+              "p_original_size": 77,
+              "p_client_filename": "fixture.png",
+              "p_declared_mime": "image/png",
+              "p_detected_type": "image/png",
+              "p_derived_sha256": null,
+              "p_derived_size": null,
+              "p_ai_consent": true,
+              "p_consent_version": "roster-ai-extraction-v1",
+              "p_ai_metadata": {
+                "provider": "openai",
+                "model": "synthetic-model",
+                "prompt_version": "roster-extraction-v1"
+              }
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/fail_roster_import_preview",
+            "method": "POST",
+            "payload": {
+              "p_import_id": "c042d405-207a-423e-8834-bda98e8a830c",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_error_code": "roster_extraction_unavailable"
+            },
+            "identity": "synthetic_service"
+          },
+          {
+            "path": "/rest/v1/rpc/finish_roster_resources",
+            "method": "POST",
+            "payload": {
+              "p_reservation_id": "1e4ea9d3-0275-4997-aa18-5763dafffe84",
+              "p_actor_id": "98600000-0000-4000-8000-000000000001",
+              "p_session_id": "98600000-0000-4000-8000-000000000011",
+              "p_outcome": "failed"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "retired ingest-bank-email: source/config/listener absent",
+        "status": "pass"
+      },
+      {
+        "label": "retired ingest-bank-sms: source/config/listener absent",
+        "status": "pass"
+      },
+      {
+        "label": "retired ingest-bank-statement: source/config/listener absent",
+        "status": "pass"
+      },
+      {
+        "label": "OTP signed hook: valid",
+        "status": "pass",
+        "http_status": 200,
+        "response": {},
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-hook-valid-ecdc9fe2-8c41-4b3c-aa39-48544f8a15d8",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "model": "valid case returns a recorded accepted attempt; no provider dispatch"
+      },
+      {
+        "label": "OTP signed hook: expired",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": {
+            "http_code": 401,
+            "message": "invalid_hook_signature"
+          }
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true,
+        "model": "valid case returns a recorded accepted attempt; no provider dispatch"
+      },
+      {
+        "label": "OTP signed hook: modified-body",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": {
+            "http_code": 401,
+            "message": "invalid_hook_signature"
+          }
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true,
+        "model": "valid case returns a recorded accepted attempt; no provider dispatch"
+      },
+      {
+        "label": "OTP legacy static secret cannot reserve or send",
+        "status": "pass",
+        "http_status": 401,
+        "response": {
+          "error": {
+            "http_code": 401,
+            "message": "invalid_hook_signature"
+          }
+        },
+        "cors": "*",
+        "dependencies": [],
+        "no_store": true
+      },
+      {
+        "label": "OTP limiter count_error: fails closed",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": {
+            "http_code": 503,
+            "message": "otp_reservation_unavailable"
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-failure-0793a847-3661-4551-aacc-912e658e261f",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "OTP limiter insert_error: fails closed",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": {
+            "http_code": 503,
+            "message": "otp_reservation_unavailable"
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-failure-7f9e763b-baa9-44b3-bb01-a1965d4bcde5",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "OTP limiter missing_rpc: fails closed",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": {
+            "http_code": 503,
+            "message": "otp_reservation_unavailable"
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-failure-8a9f3dc8-86d1-4bbe-b827-6f2bc1b73e7b",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "OTP limiter malformed_reservation: fails closed",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": {
+            "http_code": 503,
+            "message": "otp_delivery_unresolved"
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-failure-b33290a0-107d-44c4-9436-e79585092283",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "OTP durable reservation timeout aborts without sending",
+        "status": "pass",
+        "http_status": 503,
+        "response": {
+          "error": {
+            "http_code": 503,
+            "message": "otp_delivery_unresolved"
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-timeout-a56911cb-3445-4df5-94c1-4a27414143ee",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true,
+        "elapsed_ms": 4002.4437919999996
+      },
+      {
+        "label": "OTP sixth request refused",
+        "status": "pass",
+        "http_status": 429,
+        "response": {
+          "error": {
+            "http_code": 429,
+            "message": "otp_rate_limited"
+          }
+        },
+        "cors": "*",
+        "dependencies": [
+          {
+            "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+            "method": "POST",
+            "payload": {
+              "p_hook_id": "qa-limit-8212fd71-c1ff-4247-8532-fbb85721667d",
+              "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+              "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+            },
+            "identity": "synthetic_service"
+          }
+        ],
+        "no_store": true
+      },
+      {
+        "label": "OTP concurrency: one remaining reservation allows only one transport attempt",
+        "status": "pass",
+        "statuses": [
+          503,
+          429,
+          429,
+          429,
+          429,
+          429,
+          429,
+          429
+        ],
+        "recorded_counter": 5,
+        "model": "recording v3 dependency; real SQL races verified in the separate145 packet; network permissions block the single transport attempt"
+      },
+      {
+        "label": "OTP normal: replay cannot resend",
+        "status": "pass",
+        "first": {
+          "label": "OTP normal: denied provider is unresolved",
+          "http_status": 503,
+          "response": {
+            "error": {
+              "http_code": 503,
+              "message": "otp_delivery_unresolved"
+            }
+          },
+          "cors": "*",
+          "dependencies": [
+            {
+              "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+              },
+              "identity": "synthetic_service"
+            },
+            {
+              "path": "/rest/v1/rpc/begin_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_attempt_id": "d403bf8d-b331-4ddf-a5e8-0611fb18bca7",
+                "p_revision": 1
+              },
+              "identity": "synthetic_service"
+            },
+            {
+              "path": "/rest/v1/rpc/record_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_attempt_id": "d403bf8d-b331-4ddf-a5e8-0611fb18bca7",
+                "p_revision": 2,
+                "p_outcome": "ambiguous",
+                "p_provider_message_hash": null,
+                "p_evidence_sha256": "82f260f87df56b193415aee75a7a04ea349ef9b309e6405699b6f136688c76f3"
+              },
+              "identity": "synthetic_service"
+            }
+          ],
+          "no_store": true
+        },
+        "replay": {
+          "label": "OTP normal: replay cannot resend",
+          "http_status": 503,
+          "response": {
+            "error": {
+              "http_code": 503,
+              "message": "otp_delivery_unresolved"
+            }
+          },
+          "cors": "*",
+          "dependencies": [
+            {
+              "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+              },
+              "identity": "synthetic_service"
+            }
+          ],
+          "no_store": true
+        }
+      },
+      {
+        "label": "OTP lost_record_ack: replay cannot resend",
+        "status": "pass",
+        "first": {
+          "label": "OTP lost_record_ack: denied provider is unresolved",
+          "http_status": 503,
+          "response": {
+            "error": {
+              "http_code": 503,
+              "message": "otp_delivery_unresolved"
+            }
+          },
+          "cors": "*",
+          "dependencies": [
+            {
+              "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+              },
+              "identity": "synthetic_service"
+            },
+            {
+              "path": "/rest/v1/rpc/begin_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_attempt_id": "b6e79850-db48-4a09-97ae-8499e0fe38f8",
+                "p_revision": 1
+              },
+              "identity": "synthetic_service"
+            },
+            {
+              "path": "/rest/v1/rpc/record_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_attempt_id": "b6e79850-db48-4a09-97ae-8499e0fe38f8",
+                "p_revision": 2,
+                "p_outcome": "ambiguous",
+                "p_provider_message_hash": null,
+                "p_evidence_sha256": "82f260f87df56b193415aee75a7a04ea349ef9b309e6405699b6f136688c76f3"
+              },
+              "identity": "synthetic_service"
+            }
+          ],
+          "no_store": true
+        },
+        "replay": {
+          "label": "OTP lost_record_ack: replay cannot resend",
+          "http_status": 503,
+          "response": {
+            "error": {
+              "http_code": 503,
+              "message": "otp_delivery_unresolved"
+            }
+          },
+          "cors": "*",
+          "dependencies": [
+            {
+              "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+              "method": "POST",
+              "payload": {
+                "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+                "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+                "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+              },
+              "identity": "synthetic_service"
+            }
+          ],
+          "no_store": true
+        }
+      }
+    ],
+    "entrypoints": {
+      "auth-send-whatsapp-otp": "http://127.0.0.1:57460",
+      "collect-notification-operator": "http://127.0.0.1:57461",
+      "dispatch-notifications": "http://127.0.0.1:57462",
+      "ingest-payment-sms": "http://127.0.0.1:57463",
+      "parse-payment-sms": "http://127.0.0.1:57464",
+      "prepare-roster-import": "http://127.0.0.1:57465",
+      "reconciliation-finalize": "http://127.0.0.1:57466",
+      "send-notification": "http://127.0.0.1:57467",
+      "verify-play-integrity": "http://127.0.0.1:57468"
+    },
+    "dependency_records": [
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/rest/v1/rpc/authorize_reconciliation_finalization_v2",
+        "method": "POST",
+        "payload": {
+          "p_review_id": "98600000-0000-4000-8000-000000000021"
+        },
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/admin_current_user",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "22368fb9-d9f2-4a53-a816-0be5bb7bb655",
+          "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "p_source_kind": "text",
+          "p_source_bytes": 68,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/admin_current_user",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/collect_notification_health",
+        "method": "POST",
+        "payload": {
+          "p_operator_user_id": "98600000-0000-4000-8000-000000000001"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/claim_notification_deliveries",
+        "method": "POST",
+        "payload": {
+          "p_contract_version": 2,
+          "p_limit": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_rejected",
+          "p_duration_ms": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/attested_sms_contract_version",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+        "method": "POST",
+        "payload": {
+          "p_native_capability_id": "d9c13f51-d6a5-4757-bf1d-aa085d97f5cf",
+          "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+          "p_collection_id": null,
+          "p_raw_sender": "Synthetic sender canary",
+          "p_raw_body": "Synthetic private receipt canary",
+          "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+          "p_client_envelope_id": "3837bdf1-29ab-40b1-8bac-ca5b0faa92ed",
+          "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+          "p_received_at_device": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/functions/v1/parse-payment-sms",
+        "method": "POST",
+        "payload": {
+          "raw_sms_id": "5cfa5941-71c1-4a62-ad25-58d49442b6e2"
+        },
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_processing_accepted",
+          "p_duration_ms": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_ack_generated",
+          "p_duration_ms": 2
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/attested_sms_contract_version",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+        "method": "POST",
+        "payload": {
+          "p_native_capability_id": "8a9b7168-8738-458a-8f0c-1fd95c1bec33",
+          "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+          "p_collection_id": null,
+          "p_raw_sender": "Synthetic sender canary",
+          "p_raw_body": "Synthetic private receipt canary",
+          "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+          "p_client_envelope_id": "1d4c283e-e706-466a-b437-8096dca602dd",
+          "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+          "p_received_at_device": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/functions/v1/parse-payment-sms",
+        "method": "POST",
+        "payload": {
+          "raw_sms_id": "714940bb-a3e7-4ea1-9a7f-dd327f8f1d88"
+        },
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_processing_accepted",
+          "p_duration_ms": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_ack_generated",
+          "p_duration_ms": 2
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/attested_sms_contract_version",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+        "method": "POST",
+        "payload": {
+          "p_native_capability_id": "8ccd976b-bff6-4673-a5ef-c1e12a1634d3",
+          "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+          "p_collection_id": null,
+          "p_raw_sender": "Synthetic sender canary",
+          "p_raw_body": "Synthetic private receipt canary",
+          "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+          "p_client_envelope_id": "3d6c63d5-7c82-401c-a64c-f6fb8c60ffa0",
+          "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+          "p_received_at_device": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/functions/v1/parse-payment-sms",
+        "method": "POST",
+        "payload": {
+          "raw_sms_id": "963dac4a-40d6-4107-bf20-1fef2b14cbc4"
+        },
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_processing_accepted",
+          "p_duration_ms": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_ack_generated",
+          "p_duration_ms": 203
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/attested_sms_contract_version",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+        "method": "POST",
+        "payload": {
+          "p_native_capability_id": "f1be969f-1d1e-4e70-be8c-20d2a8a5d26e",
+          "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+          "p_collection_id": null,
+          "p_raw_sender": "Synthetic sender canary",
+          "p_raw_body": "Synthetic private receipt canary",
+          "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+          "p_client_envelope_id": "4c7039d4-be57-418c-91b4-5bf46364ba2c",
+          "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+          "p_received_at_device": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/functions/v1/parse-payment-sms",
+        "method": "POST",
+        "payload": {
+          "raw_sms_id": "c9fe1573-0226-48c9-9838-059a4c74aa96"
+        },
+        "identity": "unrecognized"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_processing_deferred",
+          "p_duration_ms": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/attested_sms_contract_version",
+        "method": "POST",
+        "payload": {},
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/accept_attested_receipt_v2",
+        "method": "POST",
+        "payload": {
+          "p_native_capability_id": "1cd6cef1-ccad-4f45-9dd4-1528b44c6513",
+          "p_receiver_user_id": "98600000-0000-4000-8000-000000000001",
+          "p_collection_id": null,
+          "p_raw_sender": "Synthetic sender canary",
+          "p_raw_body": "Synthetic private receipt canary",
+          "p_body_hash": "2ce785376d9502cb9933980fd1d9f71bd824d40235ae892bcf7e3a5c0a408478",
+          "p_client_envelope_id": "d5d73b44-07d7-47ac-81fc-23fdd9a89696",
+          "p_receiver_momo_number_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65",
+          "p_received_at_device": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_operational_metric_v1",
+        "method": "POST",
+        "payload": {
+          "p_event_code": "receipt_rejected",
+          "p_duration_ms": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+          "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "p_source_kind": "text",
+          "p_source_bytes": 68,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/create_roster_import_source",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+          "p_source_kind": "text",
+          "p_original_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "p_original_size": 68,
+          "p_client_filename": "pasted-roster.txt",
+          "p_declared_mime": "text/plain",
+          "p_detected_type": "utf8_text",
+          "p_derived_sha256": null,
+          "p_derived_size": null,
+          "p_ai_consent": false,
+          "p_consent_version": null,
+          "p_ai_metadata": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/complete_roster_import_preview",
+        "method": "POST",
+        "payload": {
+          "p_import_id": "d0ae517d-97db-41cd-874d-9bb99cf8a8fd",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_candidates": [
+            {
+              "source_row": 2,
+              "member_name": "Aline Uwase",
+              "momo_name": "ALINE UWASE",
+              "momo_number": "0788991001",
+              "confidence": 1
+            }
+          ],
+          "p_processing_metadata": {
+            "processing_method": "deterministic",
+            "provider_response_sha256": null,
+            "provider_response_id": null
+          }
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/finish_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "a699d657-71fb-4c39-8497-ffdb047d70a4",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_outcome": "preview_ready"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+          "p_source_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "p_source_kind": "text",
+          "p_source_bytes": 68,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/create_roster_import_source",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "9cb927b9-b883-4cf0-ba16-9ff438c2a3ae",
+          "p_source_kind": "text",
+          "p_original_sha256": "4d7a0d1404848cbb28ba67d22da9fbe17ed4e943058d697899d3ce16f0a118c7",
+          "p_original_size": 68,
+          "p_client_filename": "pasted-roster.txt",
+          "p_declared_mime": "text/plain",
+          "p_detected_type": "utf8_text",
+          "p_derived_sha256": null,
+          "p_derived_size": null,
+          "p_ai_consent": false,
+          "p_consent_version": null,
+          "p_ai_metadata": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "6cbaedf8-678f-4753-a4a4-a49aedfc1549",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "c707f6b4-ea47-4ac0-b0d6-d01d73145fbe",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "0050e782-3b0a-4a64-8428-4eccb622aa77",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/decode",
+        "method": "POST",
+        "identity": "synthetic_signed_decoder",
+        "request_id": "0050e782-3b0a-4a64-8428-4eccb622aa77",
+        "reservation_id": "2062167d-92ea-4f89-bf06-2e02fae0bbb3",
+        "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+      },
+      {
+        "path": "/rest/v1/rpc/finish_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "2062167d-92ea-4f89-bf06-2e02fae0bbb3",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_outcome": "failed"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "c0a11435-8512-4543-ad60-958d7b4a94c3",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/decode",
+        "method": "POST",
+        "identity": "synthetic_signed_decoder",
+        "request_id": "c0a11435-8512-4543-ad60-958d7b4a94c3",
+        "reservation_id": "155f0dd0-85e1-45fe-9895-8c8a954d17e1",
+        "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+      },
+      {
+        "path": "/rest/v1/rpc/finish_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "155f0dd0-85e1-45fe-9895-8c8a954d17e1",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_outcome": "failed"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "5e995218-cd29-4450-a37a-da1bc20af91d",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/decode",
+        "method": "POST",
+        "identity": "synthetic_signed_decoder",
+        "request_id": "5e995218-cd29-4450-a37a-da1bc20af91d",
+        "reservation_id": "387e8a6f-ed95-487c-a529-be4cf9d01e58",
+        "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+      },
+      {
+        "path": "/rest/v1/rpc/finish_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "387e8a6f-ed95-487c-a529-be4cf9d01e58",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_outcome": "failed"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "ce0279a4-e538-41fd-a24e-9e93f71dc9e4",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/decode",
+        "method": "POST",
+        "identity": "synthetic_signed_decoder",
+        "request_id": "ce0279a4-e538-41fd-a24e-9e93f71dc9e4",
+        "reservation_id": "9a14afff-0869-421f-baeb-b124f87fa8f7",
+        "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+      },
+      {
+        "path": "/rest/v1/rpc/verify_roster_source_integrity",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "9a14afff-0869-421f-baeb-b124f87fa8f7",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_decoder_receipt_sha256": "9b9483c6b2c89b2f856caee732b5c66a83be748970fd7ee08ba143356d633ccc",
+          "p_decoder_build_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "p_policy_version": "collect-roster-decoder-v1",
+          "p_toolchain": {
+            "python": "3.12",
+            "pillow": "12.0.0",
+            "pypdfium2": "5.2.0",
+            "pypdf": "6.7.0",
+            "openpyxl": "3.1.5",
+            "defusedxml": "0.7.1"
+          },
+          "p_summary": {
+            "frames": 1,
+            "pages": 0,
+            "pixels": 6,
+            "expanded_bytes": 24
+          }
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/finish_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "9a14afff-0869-421f-baeb-b124f87fa8f7",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_outcome": "failed"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/auth/v1/user",
+        "method": "GET",
+        "payload": null,
+        "identity": "synthetic_user"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "bae678e0-206c-4ab6-b47d-743aa88460d7",
+          "p_source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_source_kind": "image",
+          "p_source_bytes": 77,
+          "p_derived_sha256": null
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/decode",
+        "method": "POST",
+        "identity": "synthetic_signed_decoder",
+        "request_id": "bae678e0-206c-4ab6-b47d-743aa88460d7",
+        "reservation_id": "1e4ea9d3-0275-4997-aa18-5763dafffe84",
+        "source_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9"
+      },
+      {
+        "path": "/rest/v1/rpc/verify_roster_source_integrity",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "1e4ea9d3-0275-4997-aa18-5763dafffe84",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_decoder_receipt_sha256": "ab8a953f85b6f764dddf215545edaa800cd8520ff1e1478a87d5698c60cb03c4",
+          "p_decoder_build_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "p_policy_version": "collect-roster-decoder-v1",
+          "p_toolchain": {
+            "python": "3.12",
+            "pillow": "12.0.0",
+            "pypdfium2": "5.2.0",
+            "pypdf": "6.7.0",
+            "openpyxl": "3.1.5",
+            "defusedxml": "0.7.1"
+          },
+          "p_summary": {
+            "frames": 1,
+            "pages": 0,
+            "pixels": 6,
+            "expanded_bytes": 24
+          }
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/create_roster_import_source",
+        "method": "POST",
+        "payload": {
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_request_id": "bae678e0-206c-4ab6-b47d-743aa88460d7",
+          "p_source_kind": "image",
+          "p_original_sha256": "aa8aa1a82682d22d288a740fdc4a4d225d97e57a29d1698e80a9f580261ebff9",
+          "p_original_size": 77,
+          "p_client_filename": "fixture.png",
+          "p_declared_mime": "image/png",
+          "p_detected_type": "image/png",
+          "p_derived_sha256": null,
+          "p_derived_size": null,
+          "p_ai_consent": true,
+          "p_consent_version": "roster-ai-extraction-v1",
+          "p_ai_metadata": {
+            "provider": "openai",
+            "model": "synthetic-model",
+            "prompt_version": "roster-extraction-v1"
+          }
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/fail_roster_import_preview",
+        "method": "POST",
+        "payload": {
+          "p_import_id": "c042d405-207a-423e-8834-bda98e8a830c",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_error_code": "roster_extraction_unavailable"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/finish_roster_resources",
+        "method": "POST",
+        "payload": {
+          "p_reservation_id": "1e4ea9d3-0275-4997-aa18-5763dafffe84",
+          "p_actor_id": "98600000-0000-4000-8000-000000000001",
+          "p_session_id": "98600000-0000-4000-8000-000000000011",
+          "p_outcome": "failed"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-hook-valid-ecdc9fe2-8c41-4b3c-aa39-48544f8a15d8",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-failure-0793a847-3661-4551-aacc-912e658e261f",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-failure-7f9e763b-baa9-44b3-bb01-a1965d4bcde5",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-failure-8a9f3dc8-86d1-4bbe-b827-6f2bc1b73e7b",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-failure-b33290a0-107d-44c4-9436-e79585092283",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-timeout-a56911cb-3445-4df5-94c1-4a27414143ee",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-limit-8212fd71-c1ff-4247-8532-fbb85721667d",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-0-1639f526-96cd-4320-a5bd-d87ed7888d00",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-1-b12eb2b1-b88c-4dbc-bb45-d3e5917c4efc",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-2-8e5d76c7-2fdb-485f-915a-f45ad6f2c45f",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-3-14651827-b4d5-4634-80d6-e9db13110883",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-4-dae38273-332c-4106-b91f-f657a520e3c3",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-5-774a85cc-1b76-4f72-a335-fa86efa37624",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-6-e942c562-9def-4739-ba7d-f79bd887826e",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-7-f1f18860-9b14-45b0-a7a5-e97b23d0a619",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/begin_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-0-1639f526-96cd-4320-a5bd-d87ed7888d00",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_attempt_id": "2d3721dc-8540-42ca-b3e2-c0224aa9ac29",
+          "p_revision": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-concurrent-0-1639f526-96cd-4320-a5bd-d87ed7888d00",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_attempt_id": "2d3721dc-8540-42ca-b3e2-c0224aa9ac29",
+          "p_revision": 2,
+          "p_outcome": "ambiguous",
+          "p_provider_message_hash": null,
+          "p_evidence_sha256": "82f260f87df56b193415aee75a7a04ea349ef9b309e6405699b6f136688c76f3"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/begin_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_attempt_id": "d403bf8d-b331-4ddf-a5e8-0611fb18bca7",
+          "p_revision": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_attempt_id": "d403bf8d-b331-4ddf-a5e8-0611fb18bca7",
+          "p_revision": 2,
+          "p_outcome": "ambiguous",
+          "p_provider_message_hash": null,
+          "p_evidence_sha256": "82f260f87df56b193415aee75a7a04ea349ef9b309e6405699b6f136688c76f3"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-ded8d6bc-bdd4-4601-a443-7b97e56f0836",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/begin_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_attempt_id": "b6e79850-db48-4a09-97ae-8499e0fe38f8",
+          "p_revision": 1
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/record_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_attempt_id": "b6e79850-db48-4a09-97ae-8499e0fe38f8",
+          "p_revision": 2,
+          "p_outcome": "ambiguous",
+          "p_provider_message_hash": null,
+          "p_evidence_sha256": "82f260f87df56b193415aee75a7a04ea349ef9b309e6405699b6f136688c76f3"
+        },
+        "identity": "synthetic_service"
+      },
+      {
+        "path": "/rest/v1/rpc/reserve_signed_otp_v3",
+        "method": "POST",
+        "payload": {
+          "p_hook_id": "qa-no-resend-52484d90-0eb8-4303-9872-a8005cc72ec5",
+          "p_payload_hash": "48a4d2179677372d4a0a78f67c8c962b806b032185e2078b6476378c34358695",
+          "p_phone_hash": "0687f33a48d55d7f65d3503fcdea6a5855bbb3ca5cc46e920e163eb6a47f2d65"
+        },
+        "identity": "synthetic_service"
+      }
+    ],
+    "blocked_provider_attempts": [
+      "https://graph.facebook.com/v25.0/1234/messages",
+      "https://graph.facebook.com/v25.0/1234/messages",
+      "https://graph.facebook.com/v25.0/1234/messages"
+    ],
+    "limitations": [
+      "No platform verify_jwt gateway or real Auth sign-in",
+      "Synthetic dependency responses do not prove SQL persistence or RLS",
+      "No WhatsApp/APNs/FCM/Play/OpenAI/provider delivery or acceptance"
+    ],
+    "configured_functions": [
+      "auth-send-whatsapp-otp",
+      "collect-notification-operator",
+      "dispatch-notifications",
+      "ingest-payment-sms",
+      "parse-payment-sms",
+      "prepare-roster-import",
+      "reconciliation-finalize",
+      "send-notification",
+      "verify-play-integrity"
+    ],
+    "source_entrypoints": [
+      "auth-send-whatsapp-otp",
+      "collect-notification-operator",
+      "dispatch-notifications",
+      "ingest-payment-sms",
+      "parse-payment-sms",
+      "prepare-roster-import",
+      "reconciliation-finalize",
+      "send-notification",
+      "verify-play-integrity"
+    ],
+    "status": "pass",
+    "finished_at": "2026-09-30T15:39:55.176Z",
+    "servers_closed": 11,
+    "cleanup_mode": "owned_listeners_aborted_after_scenario_responses"
+  },
+  "source_inputs_unchanged": true,
+  "finished_at": "2026-09-30T15:39:55.656788+00:00",
+  "stdout_sha256": "715a38444751b6cea5d45f6174f8f37eccb0b08ac6cdfc5f74e5c07927c9ea6b",
+  "stderr_sha256": "b36796ba89377df57fbffaf3607945c0c83403c510504fdadb46448cb3c80a59"
+}

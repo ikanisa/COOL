@@ -1,0 +1,15 @@
+{
+  "cron_log_run": "on",
+  "cron_timezone": "GMT",
+  "observed_at_utc": "2026-09-29T23:34:10.562998+00:00",
+  "canonical_history": {
+    "total": 27,
+    "last_end": "2026-09-29T21:30:01.030446+00:00",
+    "last_start": "2026-09-29T21:30:00.668751+00:00",
+    "nonterminal": 0
+  },
+  "active_cron_sessions": 0,
+  "cron_launch_active_jobs": "on",
+  "cron_use_background_workers": "off",
+  "active_bank_command_sessions": 0
+}

@@ -94,7 +94,7 @@ Raw evidence: `.cache/fullstack-qa/20260914T151002Z/pwa-continuation/`.
 | `final-checks/tooling.json` | 132 Ruby tests / 663 assertions and nine Python tests pass |
 | `final-checks/analysis.json`, `format.json`, `source-hygiene.json` | Analysis, changed-Dart formatting and repository source hygiene pass |
 | `final-checks/pwa-manifest.json`, `pwa-hosting.json` | Packaged fixture manifest and hosting-file gates pass; not a live deployment check |
-| `final-checks/android-design.json`, `ios-design.json` | Both mandatory native gates remain blocked |
+| `final-checks/android-design.json`, `ios-design.json` | Retired repository checks recorded blocked results; current native acceptance must use the owner-selected `revolut-design` skill |
 | `source-checkpoint.json` | Current packaging/worker hashes, fixture continuity, preserved settings and acceptance verified |
 | `profile-cleanup-first.json`, `profile-cleanup-final.json` | Six owned synthetic profiles removed after verified uninstall and process exit; builds and evidence retained |
 

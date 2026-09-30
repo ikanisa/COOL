@@ -1,0 +1,207 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: terms has separate page/section headings and Back at 320px 1.0x
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Terms & Conditions heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:88:11)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  terms has separate page/section headings and Back at 320px 1.0x
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: terms has separate page/section headings and Back at 320px 1.0x [E]
+  Test failed. See exception logs above.
+  The test description was: terms has separate page/section headings and Back at 320px 1.0x
+  
+00:00 +0 -1: privacy has separate page/section headings and Back at 320px 1.0x
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Privacy Policy heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:88:11)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  privacy has separate page/section headings and Back at 320px 1.0x
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -2: privacy has separate page/section headings and Back at 320px 1.0x [E]
+  Test failed. See exception logs above.
+  The test description was: privacy has separate page/section headings and Back at 320px 1.0x
+  
+00:00 +0 -2: Group header and confirmed hero stay distinct at 320px 1.0x
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Group heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:110:9)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  Group header and confirmed hero stay distinct at 320px 1.0x
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -3: Group header and confirmed hero stay distinct at 320px 1.0x [E]
+  Test failed. See exception logs above.
+  The test description was: Group header and confirmed hero stay distinct at 320px 1.0x
+  
+00:00 +0 -3: terms has separate page/section headings and Back at 320px 2.0x
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Terms & Conditions heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:88:11)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  terms has separate page/section headings and Back at 320px 2.0x
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -4: terms has separate page/section headings and Back at 320px 2.0x [E]
+  Test failed. See exception logs above.
+  The test description was: terms has separate page/section headings and Back at 320px 2.0x
+  
+00:00 +0 -4: privacy has separate page/section headings and Back at 320px 2.0x
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Privacy Policy heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:88:11)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  privacy has separate page/section headings and Back at 320px 2.0x
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -5: privacy has separate page/section headings and Back at 320px 2.0x [E]
+  Test failed. See exception logs above.
+  The test description was: privacy has separate page/section headings and Back at 320px 2.0x
+  
+00:00 +0 -5: Group header and confirmed hero stay distinct at 320px 2.0x
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Group heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:110:9)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  Group header and confirmed hero stay distinct at 320px 2.0x
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -6: Group header and confirmed hero stay distinct at 320px 2.0x [E]
+  Test failed. See exception logs above.
+  The test description was: Group header and confirmed hero stay distinct at 320px 2.0x
+  
+00:00 +0 -6: keyboard Back and header action remain independently reachable
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: WhereIterable<SemanticsNode>:[]
+   Which: has length of <0>
+One distinct Group activity heading at level 1
+
+When the exception was thrown, this was the stack:
+#4      _expectHeading (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:27:3)
+#5      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart:166:7)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart line 27
+The test description was:
+  keyboard Back and header action remain independently reachable
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +0 -7: keyboard Back and header action remain independently reachable [E]
+  Test failed. See exception logs above.
+  The test description was: keyboard Back and header action remain independently reachable
+  
+00:01 +0 -7: (tearDownAll)
+00:01 +0 -7: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart: Group header and confirmed hero stay distinct at 320px 1.0x
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart: Group header and confirmed hero stay distinct at 320px 2.0x
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart: keyboard Back and header action remain independently reachable
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/l17-shared-ui/negative/test/features/shared_chrome_accessibility_test.dart: privacy has separate page/section headings and Back at 320px 1.0x
+  ... and 3 more

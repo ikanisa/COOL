@@ -44,9 +44,19 @@ if [[ "${SEND_SMS_HOOK_SECRET:-}" != v1,whsec_* ]]; then
 fi
 
 log "updating Edge Function SEND_SMS_HOOK_SECRET"
+if [[ ! "$SEND_SMS_HOOK_SECRET" =~ ^v1,whsec_[A-Za-z0-9+/=]+$ ]]; then
+  printf '[supabase-auth][FAIL] SEND_SMS_HOOK_SECRET has an unsafe format.\n' >&2
+  exit 1
+fi
+umask 077
+secret_env_file="$(mktemp)"
+chmod 600 "$secret_env_file"
+trap 'rm -f "${secret_env_file:-}" "${response_file:-}"' EXIT
+printf 'SEND_SMS_HOOK_SECRET=%s\n' "$SEND_SMS_HOOK_SECRET" >"$secret_env_file"
 SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli secrets set \
   --project-ref "$SUPABASE_PROJECT_REF" \
-  SEND_SMS_HOOK_SECRET="$SEND_SMS_HOOK_SECRET" >/dev/null
+  --env-file "$secret_env_file" >/dev/null
+rm -f "$secret_env_file"
 
 payload="$(
   ruby -r json -e '
@@ -89,33 +99,24 @@ payload="$(
 
 patch_auth_config() {
   local request_payload="$1"
-  local response_file status
-  response_file="$(mktemp)"
-  status="$(
-    curl -sS -o "$response_file" -w "%{http_code}" -X PATCH \
+  printf '%s' "$request_payload" | \
+    supabase_management_curl -sS -o "$response_file" -w "%{http_code}" -X PATCH \
       "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/config/auth" \
-      -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
       -H "Content-Type: application/json" \
-      -d "$request_payload"
-  )"
-  printf '%s\n' "$status" >"$response_file.status"
-  printf '%s\n' "$response_file"
+      --data-binary @-
 }
 
 log "patching live Auth config"
-response_file="$(patch_auth_config "$payload")"
-status="$(cat "$response_file.status")"
+response_file="$(mktemp)"
+status="$(patch_auth_config "$payload")"
 if [[ "$status" == "402" && "$payload" == *'"password_hibp_enabled":true'* ]]; then
   log "leaked-password protection may require a paid Supabase plan; applying other Auth hardening without it"
   payload="$(ruby -r json -e 'data = JSON.parse(STDIN.read); data.delete("password_hibp_enabled"); print JSON.generate(data)' <<< "$payload")"
-  rm -f "$response_file" "$response_file.status"
-  response_file="$(patch_auth_config "$payload")"
-  status="$(cat "$response_file.status")"
+  status="$(patch_auth_config "$payload")"
 fi
 
 if [[ "$status" -lt 200 || "$status" -ge 300 ]]; then
   printf '[supabase-auth][FAIL] Auth config patch failed with HTTP %s\n' "$status" >&2
-  rm -f "$response_file" "$response_file.status"
   exit 1
 fi
 
@@ -143,4 +144,4 @@ ruby -r json -e '
     ].each { |key| puts "#{key}=#{data[key].inspect}" if data.key?(key) }
     puts "hook_send_sms_secrets=<redacted>" if data.key?("hook_send_sms_secrets")
   ' <"$response_file"
-rm -f "$response_file" "$response_file.status"
+rm -f "$response_file"

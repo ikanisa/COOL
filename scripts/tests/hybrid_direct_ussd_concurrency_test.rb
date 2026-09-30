@@ -28,6 +28,7 @@ def allocate(event_id)
   SQL
 end
 
+# An identical provider retry must preserve the event instant across sessions.
 def confirm(event_id, transaction_id, amount)
   payment_id = sql(
     "select id from public.payments where parsed_event_id='#{event_id}';",
@@ -40,7 +41,7 @@ def confirm(event_id, transaction_id, amount)
     select public.confirm_provider_payment(
       '#{payment_id}',
       'mtn_momo','#{transaction_id}','CONFIRM-#{transaction_id}',repeat('b',64),
-      #{amount},now(),repeat('c',64)
+      #{amount},'2026-09-03 00:00:00+00'::timestamptz,repeat('c',64)
     );
     commit;
   SQL

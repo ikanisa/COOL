@@ -1,0 +1,24 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/verified143-root-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "33197f4be9f0fba505218e78c875d2101c798e767557d2b293ecad30c8bf6a0e",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 143,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930110000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "478c249d11cc0b8fc6bdff25b221d6845b65374f4dccd39887c85d8b1e81f0be",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "started_at_utc": "2026-09-30T13:40:01.758208+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

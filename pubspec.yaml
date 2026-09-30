@@ -13,12 +13,15 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.6.1
   go_router: ^16.3.0
+  http: ^1.6.0
+  web: ^1.1.1
   app_links: ^7.2.1
   crypto: ^3.0.7
   intl: ^0.20.2
   logger: ^2.6.2
   qr_flutter: ^4.1.0
   supabase_flutter: ^2.10.2
+  gotrue: 2.27.1
   url_launcher: ^6.3.2
   uuid: ^4.5.3
   file_picker: ^12.2.0
@@ -39,6 +42,17 @@ dependencies:
   # Cupertino controls reachable on Apple platforms require the bundled font.
   cupertino_icons: ^1.0.9
   excel: ^4.0.6
+  # Roster ZIP bounds and lazy XML validation before spreadsheet decoding.
+  archive: 3.6.1
+  xml: 6.6.1
+
+dependency_overrides:
+  # Pinned native scene callback return contract; unchanged Dart/Android/macOS.
+  firebase_messaging:
+    path: third_party/firebase_messaging
+  # Credential-free browser invalidation; native Auth source behavior retained.
+  gotrue:
+    path: third_party/gotrue
 
 dev_dependencies:
   integration_test:
@@ -46,13 +60,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  http: ^1.6.0
 
 flutter:
   uses-material-design: true
   assets:
     - assets/brand/collect_runtime/app_icons/app-icon-rule.png
-    - assets/marketing/rwanda/
+    - assets/marketing/rwanda/kigali-woman-hero.png
+    - assets/marketing/rwanda/community-savings.png
+    - assets/marketing/rwanda/banking-together.png
+    - assets/marketing/rwanda/kigali-hills.png
+    - assets/marketing/rwanda/everyday-payments.png
+    - assets/marketing/rwanda/shared-goals.png
     - assets/group_covers/rwanda/covers/
     - assets/group_covers/rwanda/thumbs/
   licenses:

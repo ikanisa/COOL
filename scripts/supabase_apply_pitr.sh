@@ -6,6 +6,8 @@ cd "$ROOT_DIR"
 
 # shellcheck source=scripts/load_dotenv_strict.sh
 . "$ROOT_DIR/scripts/load_dotenv_strict.sh"
+# shellcheck source=scripts/supabase_cli_helpers.sh
+. "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
 
 if [[ -f .env ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
@@ -26,8 +28,7 @@ fail() {
   exit 1
 }
 
-addons_json="$(curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/billing/addons" \
-  -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")"
+addons_json="$(supabase_management_curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/billing/addons")"
 
 ADDONS_JSON="$addons_json" ruby -r json - "$PITR_ADDON_VARIANT" <<'RUBY'
 variant = ARGV.fetch(0)
@@ -56,10 +57,10 @@ if [[ "$CONFIRM_ENABLE_PITR" != "$SUPABASE_PROJECT_REF:$PITR_ADDON_VARIANT" ]]; 
 fi
 
 log "applying PITR add-on variant $PITR_ADDON_VARIANT"
-curl -fsS -X PATCH "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/billing/addons" \
-  -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+printf '%s' "{\"addon_type\":\"pitr\",\"addon_variant\":\"$PITR_ADDON_VARIANT\"}" | \
+  supabase_management_curl -fsS -X PATCH "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/billing/addons" \
   -H "Content-Type: application/json" \
-  -d "{\"addon_type\":\"pitr\",\"addon_variant\":\"$PITR_ADDON_VARIANT\"}" \
+  --data-binary @- \
   >/dev/null
 
 log "PITR add-on request accepted; rerun make supabase-ready-strict after Supabase finishes provisioning"

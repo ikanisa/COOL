@@ -1,0 +1,31 @@
+{
+  "commands": [
+    {
+      "name": "missing-lock",
+      "exit_code": 1,
+      "rejected_by_lock_state": true,
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--offline",
+        "--no-daemon"
+      ]
+    },
+    {
+      "name": "missing-entry",
+      "exit_code": 1,
+      "rejected_by_lock_state": true,
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--offline",
+        "--no-daemon"
+      ]
+    }
+  ],
+  "lock_restored_sha256": "e75fcc377acd2127fdf6bc8f151cf29288083fc786bfc673c7b2d75606b55957"
+}

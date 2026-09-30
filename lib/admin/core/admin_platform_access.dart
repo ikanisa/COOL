@@ -16,6 +16,7 @@ class _AdminPlatformAccessPanelState
   bool _busy = false;
   bool _saving = false;
   String? _error;
+  Object? _snapshotScope;
 
   @override
   void didUpdateWidget(covariant AdminPlatformAccessPanel oldWidget) {
@@ -45,6 +46,17 @@ class _AdminPlatformAccessPanelState
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
     if (!_adminHasPermission(identity, 'admin_users.read')) {
       return const SizedBox.shrink();
+    }
+    final snapshotScope = (
+      ref.watch(adminAuthSessionScopeProvider),
+      widget.userId,
+      ref.watch(adminRealtimeTickProvider),
+      ref.watch(adminRepositoryProvider),
+    );
+    if (_snapshotScope != snapshotScope) {
+      _snapshotScope = snapshotScope;
+      _snapshot = null;
+      _error = null;
     }
     _snapshot ??= _load();
     return FutureBuilder<Map<String, dynamic>>(
@@ -174,9 +186,10 @@ class _AdminPlatformAccessPanelState
 
   Future<void> _change(String operation) async {
     if (_busy) return;
+    final scope = _AdminActionScope(ref);
     final target = widget.userId;
     final operatorId = ref.read(adminIdentityProvider).valueOrNull?.userId;
-    final repository = ref.read(adminRepositoryProvider);
+    final repository = scope.repository;
     setState(() {
       _busy = true;
       _error = null;
@@ -185,12 +198,20 @@ class _AdminPlatformAccessPanelState
       final request = await showDialog<_PlatformAccessRequest>(
         context: context,
         animationStyle: CollectMotion.animationStyle(context),
-        builder: (_) => _PlatformAccessDialog(operation: operation),
+        builder: (_) => _AdminSessionDialog(
+          scope: scope,
+          child: _PlatformAccessDialog(operation: operation),
+        ),
       );
-      if (!mounted || request == null || widget.userId != target) return;
+      if (!mounted ||
+          request == null ||
+          widget.userId != target ||
+          !scope.isCurrent) {
+        return;
+      }
       setState(() => _saving = true);
       final actor = await repository.currentIdentity();
-      if (!mounted || widget.userId != target) return;
+      if (!mounted || widget.userId != target || !scope.isCurrent) return;
       if (actor?.userId != operatorId ||
           !_adminHasPermission(actor, 'admin_users.manage')) {
         throw StateError('Admin session changed');
@@ -223,7 +244,7 @@ class _AdminPlatformAccessPanelState
           ((approving || revoking) && result['user_id'] != target)) {
         throw const FormatException('Unconfirmed Admin access change');
       }
-      if (!mounted || widget.userId != target) return;
+      if (!mounted || widget.userId != target || !scope.isCurrent) return;
       setState(() {
         _snapshot = _load();
       });
@@ -242,7 +263,7 @@ class _AdminPlatformAccessPanelState
       );
       ref.read(adminRealtimeTickProvider.notifier).state += 1;
     } catch (_) {
-      if (mounted && widget.userId == target) {
+      if (mounted && widget.userId == target && scope.isCurrent) {
         setState(() {
           _error = 'Change not confirmed. Refresh access before trying again.';
           _snapshot = _load();

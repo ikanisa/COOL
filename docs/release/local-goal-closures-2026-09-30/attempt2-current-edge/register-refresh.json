@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "closed_local_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "open_local_goals": 18,
+  "original102_ids_and_criteria_preserved": true,
+  "local24_acceptances_preserved": true,
+  "full_database_baseline_sha256": "fe07fcc3f47adc88a1c74378f428a480b970eae100b55a892fc17eaae2531f82",
+  "live_registry": 146,
+  "source_migrations": 148,
+  "private_tokens_not_exported": true,
+  "prior_files_sha256": {
+    "local-implementation-register-2026-09-30.json": "028260d5a7c5bf4f549b0eb8851373bd595b1ef6d405eaad28a3217c06897fd4",
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "892c0e775acfe0ebd98f2ca24bf9dbd8df6cf9334e8c828143199e7699038260",
+    "production-remaining-tasks-2026-09-30.validation.json": "b6e9ebab04c373257d3a4fc2181072afad4daf36fa7418c0eafb9226751d0114",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "ef8a54877b1c13d66e99d8923201b46f5da74b6f098e432d16cfebebb7d0ceea",
+    "production-remaining-tasks-2026-09-30.json": "8b75ed0d3be6095191775cc05cbe22789a76fb946bcc3e0828f0f2e49614edd1"
+  }
+}

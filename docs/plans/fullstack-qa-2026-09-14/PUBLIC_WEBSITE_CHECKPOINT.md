@@ -2,7 +2,7 @@
 
 14 September 2026. Full-system execution remains active. This checkpoint
 records source discovery, read-only published-site checks and a local CSS
-repair. It does not establish release or MOBILE-DESIGN-100 acceptance.
+repair. It does not establish release or former mobile visual acceptance rule acceptance.
 
 ## Scope correction — FQA-028
 

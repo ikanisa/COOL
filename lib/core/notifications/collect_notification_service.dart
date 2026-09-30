@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,13 +8,38 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../shared/repositories/collect_repository.dart';
+import '../supabase/supabase_module.dart';
 
 final collectNotificationServiceProvider = Provider<CollectNotificationService>(
   (ref) {
-    final service = CollectNotificationService();
-    ref.onDispose(() => unawaited(service.dispose()));
+    final service = CollectNotificationService(
+      authenticatedUserId: () =>
+          ref.read(supabaseClientProvider)?.auth.currentUser?.id,
+      authenticatedSessionId: () => _notificationSessionId(
+        ref.read(supabaseClientProvider)?.auth.currentSession?.accessToken,
+      ),
+    );
+    ref.listen<String?>(collectAuthenticatedUserIdProvider, (_, owner) {
+      unawaited(service.synchronizeOwner(owner));
+    }, fireImmediately: true);
+    final authSubscription = ref
+        .read(supabaseClientProvider)
+        ?.auth
+        .onAuthStateChange
+        .listen((_) {
+          unawaited(
+            service.synchronizeOwner(
+              ref.read(supabaseClientProvider)?.auth.currentUser?.id,
+            ),
+          );
+        });
+    ref.onDispose(() {
+      unawaited(authSubscription?.cancel());
+      unawaited(service.dispose());
+    });
     return service;
   },
 );
@@ -34,10 +60,15 @@ void configureCollectAndroidPushBackgroundHandler() {
 }
 
 class CollectNotificationIntent {
-  const CollectNotificationIntent({required this.deepLink, this.eventId});
+  const CollectNotificationIntent({
+    required this.deepLink,
+    this.eventId,
+    this.recipientId,
+  });
 
   final String deepLink;
   final String? eventId;
+  final String? recipientId;
 }
 
 class CollectNotificationRegistration {
@@ -54,16 +85,46 @@ class CollectNotificationRegistration {
   final String environment;
 }
 
+enum CollectNotificationStatus {
+  notRequested,
+  checking,
+  permissionDenied,
+  unavailable,
+  retryRequired,
+  signInRequired,
+  ready;
+
+  String get message => switch (this) {
+    notRequested => 'Allow notifications to receive your updates.',
+    checking => 'Connecting notifications…',
+    permissionDenied => 'Notifications are off. Allow them in phone settings.',
+    unavailable => 'Notifications are unavailable right now. Try again later.',
+    retryRequired =>
+      'Notifications could not connect. Check your connection and try again.',
+    signInRequired => 'Sign in again to connect notifications on this device.',
+    ready => 'Notifications are connected.',
+  };
+}
+
 class CollectNotificationService {
   CollectNotificationService({
     FlutterLocalNotificationsPlugin? plugin,
     MethodChannel? nativeChannel,
+    String? Function()? authenticatedUserId,
+    String? Function()? authenticatedSessionId,
   }) : this._(
          plugin ?? FlutterLocalNotificationsPlugin(),
          nativeChannel ?? const MethodChannel(_nativeChannelName),
+         authenticatedUserId,
+         authenticatedSessionId,
        );
 
-  CollectNotificationService._(this._plugin, this._nativeChannel);
+  CollectNotificationService._(
+    this._plugin,
+    this._nativeChannel,
+    this._authenticatedUserId,
+    this._authenticatedSessionId,
+  );
 
   static const _nativeChannelName = 'app.cool.mobile/notifications';
   static const _androidChannelId = 'collect_group_updates';
@@ -81,6 +142,32 @@ class CollectNotificationService {
 
   final FlutterLocalNotificationsPlugin _plugin;
   final MethodChannel _nativeChannel;
+  final String? Function()? _authenticatedUserId;
+  final String? Function()? _authenticatedSessionId;
+  String? _sessionId;
+  final ValueNotifier<CollectNotificationStatus> registrationStatus =
+      ValueNotifier(CollectNotificationStatus.notRequested);
+  int _registrationGeneration = 0;
+  static const _registrationTimeout = Duration(seconds: 20);
+  bool _permissionUnavailable = false;
+  bool? _permissionGranted;
+  bool? get permissionGranted => _permissionGranted;
+
+  Object get registrationContext => (
+    owner: _authenticatedUserId == null ? _ownerId : _authenticatedUserId(),
+    session: _authenticatedSessionId == null
+        ? _sessionId
+        : _authenticatedSessionId(),
+    generation: _ownerGeneration,
+  );
+  bool isRegistrationContextCurrent(Object context) =>
+      !_disposed && context == registrationContext;
+
+  String? _ownerId;
+  bool _hasOwnerSynchronization = false;
+  int _ownerGeneration = 0;
+  bool _disposed = false;
+  Future<void> _notificationWork = Future<void>.value();
   final _tapPayloads = StreamController<CollectNotificationIntent>.broadcast();
   Future<void>? _initializing;
   Completer<String?>? _remoteTokenWaiter;
@@ -94,12 +181,69 @@ class CollectNotificationService {
   Stream<CollectNotificationIntent> get notificationTapPayloads =>
       _tapPayloads.stream;
 
+  /// Invalidates pending display/navigation before native cancellation awaits.
+  /// The callback reads Auth directly so delayed stream updates cannot authorize
+  /// a previous account's message.
+  Future<void> synchronizeOwner(String? rawOwner) {
+    final owner = _notificationOwner(rawOwner);
+    final session = _authenticatedSessionId?.call();
+    if (_disposed ||
+        (_hasOwnerSynchronization &&
+            owner == _ownerId &&
+            session == _sessionId)) {
+      return Future<void>.value();
+    }
+    _hasOwnerSynchronization = true;
+    _ownerId = owner;
+    _sessionId = session;
+    _permissionGranted = null;
+    ++_ownerGeneration;
+    ++_registrationGeneration;
+    registrationStatus.value = CollectNotificationStatus.notRequested;
+    _registrationRepository = null;
+    return _queueNotificationWork(() async {
+      try {
+        await _plugin.cancelAll();
+      } catch (_) {
+        // Recipient checks still deny old taps if native clearing is unavailable.
+      }
+      if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
+        try {
+          await _nativeChannel.invokeMethod<void>(
+            'setNotificationOwner',
+            owner,
+          );
+        } catch (_) {
+          // Missing native support does not enable unbound notification display.
+        }
+      }
+    });
+  }
+
+  bool _acceptRecipient(Object? rawRecipient, [int? generation]) {
+    if (_disposed || (generation != null && generation != _ownerGeneration)) {
+      return false;
+    }
+    final recipient = _notificationOwner(rawRecipient);
+    final current = _authenticatedUserId == null
+        ? _ownerId
+        : _notificationOwner(_authenticatedUserId());
+    return recipient != null && recipient == _ownerId && recipient == current;
+  }
+
+  Future<void> _queueNotificationWork(Future<void> Function() operation) {
+    final work = _notificationWork.then((_) => operation());
+    _notificationWork = work.catchError((Object _) {});
+    return work;
+  }
+
   Future<void> initialize() {
+    if (_disposed) return Future<void>.value();
     return _initializing ??= _initialize();
   }
 
   Future<void> _initialize() async {
-    if (kIsWeb) return;
+    if (kIsWeb || _disposed) return;
     try {
       const android = AndroidInitializationSettings(
         '@drawable/ic_collect_notification',
@@ -116,6 +260,7 @@ class CollectNotificationService {
           _emitTapPayload(response.payload);
         },
       );
+      if (_disposed) return;
       final launchDetails = await _plugin.getNotificationAppLaunchDetails();
       if (launchDetails?.didNotificationLaunchApp ?? false) {
         _emitTapPayload(launchDetails?.notificationResponse?.payload);
@@ -178,6 +323,7 @@ class CollectNotificationService {
   Future<void> _initializeAndroidRemoteMessaging() async {
     try {
       await Firebase.initializeApp();
+      if (_disposed) return;
       final messaging = FirebaseMessaging.instance;
       _androidMessaging = messaging;
       _androidForegroundSubscription ??= FirebaseMessaging.onMessage.listen(
@@ -209,42 +355,49 @@ class CollectNotificationService {
   }
 
   Future<bool> requestPermission() async {
+    _permissionUnavailable = kIsWeb;
     await initialize();
     if (kIsWeb) return false;
     try {
       if (defaultTargetPlatform == TargetPlatform.android) {
-        return await _plugin
-                .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin
-                >()
-                ?.requestNotificationsPermission() ??
-            false;
+        final result = await _plugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >()
+            ?.requestNotificationsPermission();
+        _permissionUnavailable = result == null;
+        return result ?? false;
       }
       if (defaultTargetPlatform == TargetPlatform.iOS) {
-        return await _plugin
-                .resolvePlatformSpecificImplementation<
-                  IOSFlutterLocalNotificationsPlugin
-                >()
-                ?.requestPermissions(alert: true, badge: true, sound: true) ??
-            false;
+        final result = await _plugin
+            .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin
+            >()
+            ?.requestPermissions(alert: true, badge: true, sound: true);
+        _permissionUnavailable = result == null;
+        return result ?? false;
       }
+      _permissionUnavailable = true;
       return false;
     } catch (_) {
+      _permissionUnavailable = true;
       return false;
     }
   }
 
   Future<bool> areNotificationsEnabled() async {
+    _permissionUnavailable = kIsWeb;
     await initialize();
     if (kIsWeb) return false;
     try {
       if (defaultTargetPlatform == TargetPlatform.android) {
-        return await _plugin
-                .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin
-                >()
-                ?.areNotificationsEnabled() ??
-            false;
+        final result = await _plugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >()
+            ?.areNotificationsEnabled();
+        _permissionUnavailable = result == null;
+        return result ?? false;
       }
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         final permissions = await _plugin
@@ -252,10 +405,13 @@ class CollectNotificationService {
               IOSFlutterLocalNotificationsPlugin
             >()
             ?.checkPermissions();
+        _permissionUnavailable = permissions == null;
         return permissions?.isEnabled ?? false;
       }
+      _permissionUnavailable = true;
       return false;
     } catch (_) {
+      _permissionUnavailable = true;
       return false;
     }
   }
@@ -310,19 +466,97 @@ class CollectNotificationService {
     return environment;
   }
 
-  Future<bool> registerDevice(CollectRepository repository) async {
+  /// Permission and server acknowledgement are separate steps. Neither a phone
+  /// prompt nor an obtained provider token establishes a registered device.
+  Future<bool> enableDevice(CollectRepository repository) async {
+    final context = registrationContext;
+    if (!_acceptRecipient(_ownerId)) return false;
+    final operation = ++_registrationGeneration;
+    registrationStatus.value = CollectNotificationStatus.checking;
+    final allowed = await requestPermission();
+    if (!isRegistrationContextCurrent(context) ||
+        operation != _registrationGeneration) {
+      return false;
+    }
+    _permissionGranted = _permissionUnavailable ? null : allowed;
+    if (!allowed) {
+      registrationStatus.value = _permissionUnavailable
+          ? CollectNotificationStatus.unavailable
+          : CollectNotificationStatus.permissionDenied;
+      return false;
+    }
+    return registerDevice(repository);
+  }
+
+  Future<bool> registerDevice(CollectRepository repository) =>
+      _attemptRegistration(repository, registration);
+
+  Future<bool> _attemptRegistration(
+    CollectRepository repository,
+    Future<CollectNotificationRegistration?> Function() obtain,
+  ) async {
+    final owner = _ownerId;
+    final context = registrationContext;
+    if (!_acceptRecipient(owner) ||
+        (_authenticatedSessionId != null &&
+            _sessionId != _authenticatedSessionId())) {
+      return false;
+    }
+    final operation = ++_registrationGeneration;
+    bool current() =>
+        isRegistrationContextCurrent(context) &&
+        operation == _registrationGeneration &&
+        _acceptRecipient(owner);
     _registrationRepository = repository;
+    registrationStatus.value = CollectNotificationStatus.checking;
     try {
-      final registration = await this.registration();
-      if (registration == null) return false;
-      await repository.registerNotificationDevice(
-        platform: registration.platform,
-        provider: registration.provider,
-        token: registration.token,
-        environment: registration.environment,
+      final allowed = await areNotificationsEnabled().timeout(
+        _registrationTimeout,
       );
+      if (!current()) return false;
+      _permissionGranted = _permissionUnavailable ? null : allowed;
+      if (!allowed) {
+        registrationStatus.value = _permissionUnavailable
+            ? CollectNotificationStatus.unavailable
+            : CollectNotificationStatus.permissionDenied;
+        return false;
+      }
+      final candidate = await obtain().timeout(_registrationTimeout);
+      if (!current()) return false;
+      if (candidate == null) {
+        registrationStatus.value = CollectNotificationStatus.unavailable;
+        return false;
+      }
+      await repository
+          .registerNotificationDevice(
+            platform: candidate.platform,
+            provider: candidate.provider,
+            token: candidate.token,
+            environment: candidate.environment,
+          )
+          .timeout(_registrationTimeout);
+      if (!current()) return false;
+      if (!repository.isNotificationDeviceRegistered(
+        provider: candidate.provider,
+        token: candidate.token,
+      )) {
+        registrationStatus.value = CollectNotificationStatus.retryRequired;
+        return false;
+      }
+      registrationStatus.value = CollectNotificationStatus.ready;
       return true;
-    } catch (_) {
+    } catch (error) {
+      if (!current()) return false;
+      final needsLogin =
+          error is AuthException ||
+          (error is PostgrestException &&
+              error.message == 'notification_registration_session_stale') ||
+          (error is StateError &&
+              error.message ==
+                  'Sign in again to register notifications on this device.');
+      registrationStatus.value = needsLogin
+          ? CollectNotificationStatus.signInRequired
+          : CollectNotificationStatus.retryRequired;
       return false;
     }
   }
@@ -334,10 +568,30 @@ class CollectNotificationService {
     String? eventType,
   }) async {
     await initialize();
-    if (kIsWeb) return;
+    if (kIsWeb || _disposed) return;
+    await _queueNotificationWork(
+      () => _displayNotification(
+        title: title,
+        body: body,
+        payload: payload,
+        eventType: eventType,
+      ),
+    );
+  }
+
+  Future<void> _displayNotification({
+    required String title,
+    required String body,
+    String? payload,
+    String? eventType,
+    String? notificationKey,
+  }) async {
     try {
       await _plugin.show(
-        id: _notificationId(title, body),
+        id: _notificationId(
+          notificationKey ?? title,
+          notificationKey == null ? body : '',
+        ),
         title: title,
         body: body,
         notificationDetails: NotificationDetails(
@@ -364,30 +618,59 @@ class CollectNotificationService {
     }
   }
 
-  Future<void> _handleAndroidForegroundMessage(RemoteMessage message) async {
-    final notification = message.notification;
-    final title = notification?.title?.trim() ?? '';
-    final body = notification?.body?.trim() ?? '';
-    if (title.isEmpty || body.isEmpty) return;
-    await showNotification(
-      title: title,
-      body: body,
-      payload: _remoteMessageData(message, 'deep_link'),
-      eventType: _remoteMessageData(message, 'type'),
-    );
+  Future<void> _handleAndroidForegroundMessage(RemoteMessage message) =>
+      handleForegroundPayload(message.data);
+
+  /// Remote display is deliberately generic; event details are read only from
+  /// the authenticated in-app inbox. This also protects old provider text.
+  Future<void> handleForegroundPayload(Map<Object?, Object?> data) async {
+    final generation = _ownerGeneration;
+    final recipient = data['recipient_id'];
+    if (!_validRemotePayload(data) ||
+        !_acceptRecipient(recipient, generation)) {
+      return;
+    }
+    await _queueNotificationWork(() async {
+      await initialize();
+      if (kIsWeb || !_acceptRecipient(recipient, generation)) return;
+      await _displayNotification(
+        title: 'Collect',
+        body: 'Open Collect to view your updates.',
+        payload: jsonEncode({
+          'collect_push_version': '2',
+          'recipient_id': recipient,
+          'collect_event_id': data['collect_event_id'],
+          'deep_link': normalizeNotificationDeepLink(data['deep_link']),
+        }),
+        eventType: data['type'] is String ? data['type'] as String : null,
+        notificationKey: '$recipient:${data['collect_event_id']}',
+      );
+    });
   }
 
   void _emitRemoteMessageIntent(RemoteMessage message) {
-    final target = normalizeNotificationDeepLink(
-      _remoteMessageData(message, 'deep_link'),
-    );
-    if (target == null || _tapPayloads.isClosed) return;
-    final rawEventId = _remoteMessageData(message, 'collect_event_id');
-    final eventId = rawEventId?.trim().isNotEmpty == true
-        ? rawEventId!.trim()
-        : null;
+    handleRemoteTap(message.data);
+  }
+
+  bool _validRemotePayload(Map<Object?, Object?> data) =>
+      data['collect_push_version'] == '2' &&
+      _notificationOwner(data['recipient_id']) != null &&
+      _notificationOwner(data['collect_event_id']) != null;
+
+  void handleRemoteTap(Map<Object?, Object?> data) {
+    if (!_validRemotePayload(data) ||
+        !_acceptRecipient(data['recipient_id']) ||
+        _tapPayloads.isClosed) {
+      return;
+    }
+    final target = normalizeNotificationDeepLink(data['deep_link']);
+    if (target == null) return;
     _tapPayloads.add(
-      CollectNotificationIntent(deepLink: target, eventId: eventId),
+      CollectNotificationIntent(
+        deepLink: target,
+        eventId: data['collect_event_id'] as String,
+        recipientId: data['recipient_id'] as String,
+      ),
     );
   }
 
@@ -448,6 +731,7 @@ class CollectNotificationService {
   }
 
   Future<void> _handleNativeMethod(MethodCall call) async {
+    if (_disposed) return;
     switch (call.method) {
       case 'remoteToken':
         final token = call.arguments is String
@@ -463,6 +747,9 @@ class CollectNotificationService {
         }
       case 'notificationTap':
         _emitNativeIntent(call.arguments);
+      case 'notificationForeground':
+        final arguments = call.arguments;
+        if (arguments is Map) await handleForegroundPayload(arguments);
     }
   }
 
@@ -473,62 +760,79 @@ class CollectNotificationService {
     String provider = 'apns',
     String? environment,
   }) async {
-    try {
-      await repository.registerNotificationDevice(
+    if (!identical(repository, _registrationRepository)) return;
+    await _attemptRegistration(
+      repository,
+      () async => CollectNotificationRegistration(
         platform: platform,
         provider: provider,
         token: token,
         environment: environment ?? await _resolveNativeEnvironment(),
-      );
-    } catch (_) {
-      // A later token refresh or app resume retries registration.
-    }
+      ),
+    );
   }
 
   void _emitTapPayload(String? payload) {
+    if (payload == null || payload.length > 2048 || _disposed) return;
+    if (payload.startsWith('{')) {
+      try {
+        final data = jsonDecode(payload);
+        if (data is Map) handleRemoteTap(data);
+      } catch (_) {
+        // Malformed or legacy remote payloads do not select account resources.
+      }
+      return;
+    }
     final target = normalizeNotificationDeepLink(payload);
-    if (target != null && !_tapPayloads.isClosed) {
+    // These plain paths are local permission confirmations. Older remote
+    // group payloads have no recipient proof and are no longer navigable.
+    if (target != null &&
+        (target == '/home' || target == '/settings/notifications') &&
+        !_tapPayloads.isClosed) {
       _tapPayloads.add(CollectNotificationIntent(deepLink: target));
     }
   }
 
   void _emitNativeIntent(Object? payload) {
-    if (payload is String) {
-      _emitTapPayload(payload);
-      return;
-    }
     if (payload is! Map) return;
-    final target = normalizeNotificationDeepLink(payload['deep_link']);
-    if (target == null || _tapPayloads.isClosed) return;
-    final rawEventId = payload['collect_event_id'];
-    final eventId = rawEventId is String && rawEventId.trim().isNotEmpty
-        ? rawEventId.trim()
-        : null;
-    _tapPayloads.add(
-      CollectNotificationIntent(deepLink: target, eventId: eventId),
-    );
+    handleRemoteTap(payload);
   }
 
   int _notificationId(String title, String body) {
-    final digest = sha1.convert('$title|$body'.codeUnits).bytes;
+    final digest = sha1.convert(utf8.encode('$title|$body')).bytes;
     return digest.take(4).fold<int>(0, (value, byte) => (value << 8) + byte) &
         _positiveNotificationIdMask;
   }
 
   Future<void> dispose() async {
+    if (_disposed) return;
+    _disposed = true;
+    ++_ownerGeneration;
+    _ownerId = null;
+    _registrationRepository = null;
     await _androidForegroundSubscription?.cancel();
     await _androidTapSubscription?.cancel();
     await _androidTokenSubscription?.cancel();
     _nativeChannel.setMethodCallHandler(null);
+    await _queueNotificationWork(() async {
+      try {
+        await _plugin.cancelAll();
+      } catch (_) {
+        // Disposal still fences all incoming handlers and navigation.
+      }
+    });
     await _tapPayloads.close();
+    registrationStatus.dispose();
   }
 }
 
-String? _remoteMessageData(RemoteMessage message, String key) {
-  final value = message.data[key];
-  if (value == null) return null;
-  return value is String ? value : value.toString();
-}
+String? _notificationOwner(Object? value) =>
+    value is String &&
+        RegExp(
+          r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+        ).hasMatch(value)
+    ? value
+    : null;
 
 String? normalizeNotificationDeepLink(Object? raw) {
   if (raw is! String) return null;
@@ -550,4 +854,19 @@ String? normalizeNotificationDeepLink(Object? raw) {
   );
   if (!exact.contains(path) && !groupRoute.hasMatch(path)) return null;
   return uri.hasQuery ? '$path?${uri.query}' : path;
+}
+
+String? _notificationSessionId(String? token) {
+  if (token == null) return null;
+  try {
+    final value = jsonDecode(
+      utf8.decode(base64Url.decode(base64Url.normalize(token.split('.')[1]))),
+    );
+    if (value is Map && value['session_id'] is String) {
+      return value['session_id'] as String;
+    }
+  } catch (_) {
+    /* Token contents must not appear in diagnostics. */
+  }
+  return token;
 }

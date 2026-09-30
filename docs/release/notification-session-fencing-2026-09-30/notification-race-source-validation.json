@@ -1,0 +1,17 @@
+{
+  "timestamp_utc": "2026-09-29T22:48:29.574855+00:00",
+  "source": "scripts/tests/notification_delivery_session_concurrency_uat.rb",
+  "source_sha256": "fe4ec9c41a837cbdadd6238c20a2767e2149ed976da6ef3ee8ff6c317fc8c827",
+  "source_sha256_before": "fe4ec9c41a837cbdadd6238c20a2767e2149ed976da6ef3ee8ff6c317fc8c827",
+  "source_unchanged": true,
+  "command": [
+    "ruby",
+    "-c",
+    "scripts/tests/notification_delivery_session_concurrency_uat.rb"
+  ],
+  "exit_code": 0,
+  "stdout": "logs/notification-race-telemetry-ruby-syntax.stdout.txt",
+  "stderr": "logs/notification-race-telemetry-ruby-syntax.stderr.txt",
+  "scope": "Ruby syntax only; no worker database/provider calls; new broad-baseline cleanup SQL unexecuted",
+  "sql_execution_status": "not_executed_by_worker"
+}

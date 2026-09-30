@@ -1,0 +1,54 @@
+{
+  "focused-flutter": {
+    "command": [
+      "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--dart-define=COLLECT_RECONCILIATION_CAPTURE=true",
+      "test/admin_reconciliation_step_up_test.dart",
+      "test/admin_reconciliation_repository_test.dart",
+      "test/admin_reconciliation_ui_test.dart"
+    ],
+    "exit_code": 0
+  },
+  "analyze": {
+    "command": [
+      "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+      "analyze",
+      "--no-pub",
+      "lib/admin/core/admin_reconciliation_runtime.dart",
+      "lib/admin/core/admin_runtime.dart",
+      "lib/admin/core/admin_repository_base.dart",
+      "lib/admin/core/admin_reconciliation_models.dart",
+      "lib/admin/core/admin_reconciliation_step_up.dart",
+      "test/admin_reconciliation_repository_test.dart",
+      "test/admin_reconciliation_ui_test.dart",
+      "test/admin_reconciliation_step_up_test.dart",
+      "test/admin_route_access_test.dart"
+    ],
+    "exit_code": 0
+  },
+  "admin-regression": {
+    "command": [
+      "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "test/admin_list_paging_test.dart",
+      "test/admin_repository_paging_test.dart",
+      "test/admin_route_access_test.dart",
+      "test/admin_session_scope_test.dart",
+      "test/admin_reason_dialog_focus_test.dart",
+      "test/admin_pwa_test.dart"
+    ],
+    "exit_code": 0
+  },
+  "style-contract": {
+    "command": [
+      "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "test/features/runtime_component_contract_test.dart"
+    ],
+    "exit_code": 0
+  }
+}

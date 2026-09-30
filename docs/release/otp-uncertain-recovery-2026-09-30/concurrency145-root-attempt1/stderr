@@ -1,0 +1,13 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/signed_otp_recovery_concurrency_uat.rb:75:in `block (2 levels) in read': Worker terminated: ERROR:  42501: permission denied for schema collect_security (RuntimeError)
+LINE 1: select 'SNAPSHOT:'||count(*) from collect_security.otp_polic...
+                                          ^
+LOCATION:  aclcheck_error, aclchk.c:2843
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/signed_otp_recovery_concurrency_uat.rb:73:in `loop'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/signed_otp_recovery_concurrency_uat.rb:73:in `block in read'
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:93:in `block in timeout'
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:33:in `block in catch'
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:33:in `catch'
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:33:in `catch'
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:108:in `timeout'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/signed_otp_recovery_concurrency_uat.rb:72:in `read'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/signed_otp_recovery_concurrency_uat.rb:169:in `<main>'

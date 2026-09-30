@@ -1,0 +1,21 @@
+{
+  "status": "failed_timeout",
+  "test_gate_passed": false,
+  "timeout_seconds": 180,
+  "source_unchanged": false,
+  "source_drift": [
+    "lib/admin/core/admin_roster_import.dart",
+    "lib/admin/core/admin_roster_models.dart",
+    "lib/features/landing/collect_landing_page.dart",
+    "lib/features/landing/public_marketing_theme.dart",
+    "lib/main_public.dart",
+    "test/admin_automations_test.dart",
+    "test/admin_roster_fresh_auth_test.dart",
+    "test/admin_sms_queue_repository_test.dart",
+    "test/features/revolut_shared_states_test.dart"
+  ],
+  "partial_test_output_retained": false,
+  "limitation": "Earlier runner raised TimeoutExpired before writing its captured output. Preserve this failed packet; no test-count or cause conclusion. Concurrent unrelated Flutter tasks observed, but causation unproven.",
+  "database_called": false,
+  "provider_called": false
+}

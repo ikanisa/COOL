@@ -1,0 +1,11 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+response.body: Target page, context or browser has been closed
+    at /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/shared-ui-accessibility-2026-09-30/attempt2/validate_browser.mjs:38:947
+    at _Page.<anonymous> (/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/shared-ui-accessibility-2026-09-30/attempt2/validate_browser.mjs:38:1045) {
+  log: []
+}
+
+Node.js v24.19.0

@@ -1,0 +1,96 @@
+{
+  "synthetic_corpus": true,
+  "provider_accuracy_verified": false,
+  "deterministic_cases": [
+    {
+      "id": "english",
+      "rejected": false,
+      "score": {
+        "expected_rows": 1,
+        "candidate_rows": 1,
+        "ready_rows": 1,
+        "exact_rows": 1,
+        "precision": 1,
+        "recall": 1,
+        "exact_order": true,
+        "invented_ready_numbers": 0,
+        "blocked_rows": 0
+      }
+    },
+    {
+      "id": "french",
+      "rejected": false,
+      "score": {
+        "expected_rows": 1,
+        "candidate_rows": 1,
+        "ready_rows": 1,
+        "exact_rows": 1,
+        "precision": 1,
+        "recall": 1,
+        "exact_order": true,
+        "invented_ready_numbers": 0,
+        "blocked_rows": 0
+      }
+    },
+    {
+      "id": "kinyarwanda",
+      "rejected": false,
+      "score": {
+        "expected_rows": 1,
+        "candidate_rows": 1,
+        "ready_rows": 1,
+        "exact_rows": 1,
+        "precision": 1,
+        "recall": 1,
+        "exact_order": true,
+        "invented_ready_numbers": 0,
+        "blocked_rows": 0
+      }
+    },
+    {
+      "id": "swahili",
+      "rejected": false,
+      "score": {
+        "expected_rows": 1,
+        "candidate_rows": 1,
+        "ready_rows": 1,
+        "exact_rows": 1,
+        "precision": 1,
+        "recall": 1,
+        "exact_order": true,
+        "invented_ready_numbers": 0,
+        "blocked_rows": 0
+      }
+    },
+    {
+      "id": "malformed",
+      "rejected": true,
+      "score": null
+    }
+  ],
+  "contract_probes": [
+    {
+      "name": "invented_number_detection",
+      "pass": true
+    },
+    {
+      "name": "ambiguous_row_blocked",
+      "pass": true
+    },
+    {
+      "name": "tool_free_nonpersistent_request",
+      "pass": true
+    }
+  ],
+  "provider_cases": [],
+  "pending_provider_cases": [
+    "scanned-multilingual",
+    "scanned-multilingual",
+    "scanned-multilingual",
+    "animation-3",
+    "animation-3",
+    "scanned-multilingual",
+    "pages-2",
+    "prompt-injection"
+  ]
+}

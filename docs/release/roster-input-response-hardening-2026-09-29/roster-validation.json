@@ -1,0 +1,65 @@
+{
+  "started_at": "2026-09-29T21:33:45.537636+00:00",
+  "runtime_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+  "source_hash_manifest_sha256": "795acce63c6ce1664b120eb59c69e4ea1ef20f79c50a8a57390d3fbbe1735181",
+  "source_files": {
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "supabase/functions/_shared/production_contract.ts": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+    "supabase/functions/_shared/roster_response_policy.ts": "2537ec6bb6c15b9f71efa61059ca6e655e2357ccec2520c65f70964b1b23d7e6",
+    "supabase/functions/_shared/roster_response_policy_test.ts": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b",
+    "supabase/functions/_shared/roster_import.ts": "f4c13d3f7a5f2ea534c39b949ab5ca8a6554438f666e1f3dfc3e2c6d7d9852b3",
+    "supabase/functions/_shared/roster_import_test.ts": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089",
+    "supabase/functions/_shared/roster_file_policy.ts": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+    "supabase/functions/_shared/roster_file_policy_test.ts": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8",
+    "supabase/functions/_shared/openai_roster.ts": "6e87391411ce3cb4189566dbb53e6bb0d31339c1ce13ed3fe10ff6e64e1f5c43",
+    "supabase/functions/_shared/openai_roster_test.ts": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a",
+    "supabase/functions/_shared/test_assert.ts": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+    "supabase/functions/_shared/cors.ts": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+    "supabase/functions/_shared/supabase.ts": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+    "supabase/functions/prepare-roster-import/index.ts": "a56aeee539a982d9f2054f56bf15238a4f01756e7f3e5435f30cad6adb43b09e"
+  },
+  "commands": [
+    {
+      "label": "roster-tests",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--cached-only",
+        "--no-prompt",
+        "--no-lock",
+        "supabase/functions/_shared/roster_response_policy_test.ts",
+        "supabase/functions/_shared/openai_roster_test.ts",
+        "supabase/functions/_shared/roster_import_test.ts",
+        "supabase/functions/_shared/roster_file_policy_test.ts"
+      ],
+      "exit_code": 0,
+      "log_sha256": "0efc8692d13544edc184c1c2b10a37afc06d7e1b0b95cd5b994771a8e405493d"
+    },
+    {
+      "label": "entrypoint-check",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "check",
+        "--no-lock",
+        "supabase/functions/prepare-roster-import/index.ts"
+      ],
+      "exit_code": 0,
+      "log_sha256": "78629ec2a6a63cd955c78cbbef7d7b20ff639137e9fa721580aac7eba5e380ce"
+    }
+  ],
+  "sources_unchanged": true,
+  "status": "pass",
+  "finished_at": "2026-09-29T21:33:58.953432+00:00",
+  "initial_entrypoint_attempt": {
+    "label": "entrypoint-check",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "check",
+      "--cached-only",
+      "--no-lock",
+      "supabase/functions/prepare-roster-import/index.ts"
+    ],
+    "exit_code": 1,
+    "log_sha256": "7eab595100a4e2e8fbc95cda77c27338b0ee168657d49a2aa5190f786b8aafa8"
+  }
+}

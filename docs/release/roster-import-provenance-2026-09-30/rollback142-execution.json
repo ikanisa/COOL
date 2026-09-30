@@ -1,0 +1,15 @@
+{
+  "captured_at_utc": "2026-09-29T23:06:07.746978+00:00",
+  "exit_code": 0,
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "migration_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+  "uat_sha256": "79363d1bd98895af40e3a5b1b0582a1a8779e10ea5ce5da82f4f7fd708bb6514",
+  "source_unchanged": true,
+  "stdout_sha256": "49c5740201505701fb072c3a029741ed65b4af8b30c3c0e21c286b3b8ad47b5f",
+  "stderr_sha256": "23588db05815a9f6d9cadb94e7fde9d32a3de602c3f6ae3a52b12f1b18d985c0",
+  "provider_calls": false
+}

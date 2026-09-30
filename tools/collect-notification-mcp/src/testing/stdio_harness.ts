@@ -102,8 +102,8 @@ export function startMcp(environment: NodeJS.ProcessEnv) {
   };
 }
 
-export async function runStdioPreflight(environment: NodeJS.ProcessEnv) {
-  const child = spawn(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("../stdio_preflight.ts", import.meta.url))], {
+export async function runStdioPreflight(environment: NodeJS.ProcessEnv, args: string[] = []) {
+  const child = spawn(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("../stdio_preflight.ts", import.meta.url)), ...args], {
     env: environment, stdio: ["ignore", "pipe", "pipe"],
   });
   let stdout = "", stderr = "";

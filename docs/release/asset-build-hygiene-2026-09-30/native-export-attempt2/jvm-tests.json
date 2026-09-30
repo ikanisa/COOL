@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "total": 12,
+  "suites": [
+    {
+      "name": "app.cool.mobile.receiver_sms.SmsQueueWorkerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "c393b1c9d35c69b301f87d5b8d2167ad0aad33b40546096db0708a960881d17e"
+    },
+    {
+      "name": "app.cool.mobile.receiver_sms.SmsQueueOwnerPolicyTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "ccff6d6f24a38aff01393f1102206dc7d707354860167aaa7252fbc1199c9e98"
+    },
+    {
+      "name": "app.cool.mobile.receiver_sms.CollectSmsReceiverTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "654724ee024fbd8807d3a2480cc65dca86e30470c06da1e08c9da8b6a799dbf1"
+    }
+  ]
+}

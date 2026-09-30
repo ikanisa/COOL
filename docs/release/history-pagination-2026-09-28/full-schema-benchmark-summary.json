@@ -1,0 +1,212 @@
+{
+  "benchmark_sql_sha256": "af21e1a2a4fcda273574f44cf300029054a40cd51176d7cd6dc233a130f975b9",
+  "database": "collect_financial_restore_empty_20260928",
+  "history_migration_sha256": "2294edc1c32cd3613e7b2654d1854daf27beaeab0a4c56ab16ce1920a8be9ff1",
+  "limitations": [
+    "no provider-confirmed evidence or journals for benchmark rows",
+    "synthetic scale is not a measured production workload",
+    "one local database run per size; timings are not p95 or p99",
+    "no hosted Supabase or signed-app readback"
+  ],
+  "method": "user triggers disabled for performance-only row loading; reenabled before RPC calls; nested auto_explain analyze and buffers",
+  "runs": [
+    {
+      "cases": [
+        {
+          "deep_items": 50,
+          "deep_total": 1001,
+          "first_items": 50,
+          "first_total": 1001,
+          "scope": "all",
+          "sort": "highest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 1001,
+          "first_items": 50,
+          "first_total": 1001,
+          "scope": "all",
+          "sort": "lowest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 1001,
+          "first_items": 50,
+          "first_total": 1001,
+          "scope": "all",
+          "sort": "newest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 1001,
+          "first_items": 50,
+          "first_total": 1001,
+          "scope": "all",
+          "sort": "oldest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 501,
+          "first_items": 50,
+          "first_total": 501,
+          "scope": "private",
+          "sort": "highest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 501,
+          "first_items": 50,
+          "first_total": 501,
+          "scope": "private",
+          "sort": "lowest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 501,
+          "first_items": 50,
+          "first_total": 501,
+          "scope": "private",
+          "sort": "newest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 501,
+          "first_items": 50,
+          "first_total": 501,
+          "scope": "private",
+          "sort": "oldest"
+        }
+      ],
+      "elapsed_ms": {
+        "eight_sort_scope_first_and_deep_cases": 47.397,
+        "no_match_search": 4.565,
+        "private_title_search": 5.97
+      },
+      "nested_function_plans": {
+        "count": 18,
+        "max_ms": 5.799,
+        "median_ms": 3.096,
+        "payment_history_index_scan_lines": 2,
+        "payment_seq_scan_lines": 32,
+        "top_n_heapsort_lines": 13
+      },
+      "private_log_sha256": {
+        "stderr": "e306247894e6cc1a5520700ef709820d24029a63669e7cc28843d1093367f2fa",
+        "stdout": "533ef0f939837645a96fbb2ab0dc8fe113f49b9dc6ceaa73b98f3dd5ad0036a8"
+      },
+      "search": {
+        "no-match-search": {
+          "items": 0,
+          "total": 0
+        },
+        "private-title-search": {
+          "items": 50,
+          "total": 501
+        }
+      },
+      "synthetic_payments_inserted": 1000,
+      "visible_all_count": 1001,
+      "visible_private_count": 501
+    },
+    {
+      "cases": [
+        {
+          "deep_items": 50,
+          "deep_total": 10001,
+          "first_items": 50,
+          "first_total": 10001,
+          "scope": "all",
+          "sort": "highest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 10001,
+          "first_items": 50,
+          "first_total": 10001,
+          "scope": "all",
+          "sort": "lowest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 10001,
+          "first_items": 50,
+          "first_total": 10001,
+          "scope": "all",
+          "sort": "newest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 10001,
+          "first_items": 50,
+          "first_total": 10001,
+          "scope": "all",
+          "sort": "oldest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 5001,
+          "first_items": 50,
+          "first_total": 5001,
+          "scope": "private",
+          "sort": "highest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 5001,
+          "first_items": 50,
+          "first_total": 5001,
+          "scope": "private",
+          "sort": "lowest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 5001,
+          "first_items": 50,
+          "first_total": 5001,
+          "scope": "private",
+          "sort": "newest"
+        },
+        {
+          "deep_items": 50,
+          "deep_total": 5001,
+          "first_items": 50,
+          "first_total": 5001,
+          "scope": "private",
+          "sort": "oldest"
+        }
+      ],
+      "elapsed_ms": {
+        "eight_sort_scope_first_and_deep_cases": 220.099,
+        "no_match_search": 20.206,
+        "private_title_search": 28.135
+      },
+      "nested_function_plans": {
+        "count": 18,
+        "max_ms": 27.865,
+        "median_ms": 18.122,
+        "payment_history_index_scan_lines": 5,
+        "payment_seq_scan_lines": 28,
+        "top_n_heapsort_lines": 9
+      },
+      "private_log_sha256": {
+        "stderr": "25d5261bdf5a793b705934f8b6094c86a2803af295b6dc50745c6229fae33313",
+        "stdout": "59938d4f4e34cf227126d373977b4e4628ad83b572f37a11694b0bb0e4fa6835"
+      },
+      "search": {
+        "no-match-search": {
+          "items": 0,
+          "total": 0
+        },
+        "private-title-search": {
+          "items": 50,
+          "total": 5001
+        }
+      },
+      "synthetic_payments_inserted": 10000,
+      "visible_all_count": 10001,
+      "visible_private_count": 5001
+    }
+  ],
+  "scope": "PostgreSQL 17.6 full restored local schema; synthetic read-plan rows; rollback only",
+  "status": "pass_synthetic_plan_rehearsal_not_production_slo"
+}

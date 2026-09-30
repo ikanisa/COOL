@@ -29,7 +29,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
             SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
             null,
         ).orEmpty().trim()
-        if (ownerUserId.isEmpty() || body.isEmpty() || body.length > MAX_SMS_BODY_CHARS ||
+        if (ownerUserId.isEmpty() || body.isEmpty() || body.toByteArray(Charsets.UTF_8).size > MAX_SMS_BODY_BYTES ||
             !isLikelyMomoReceipt(sender, body)
         ) return
 
@@ -44,7 +44,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
             .put("received_at_device", Instant.ofEpochMilli(receivedAtMillis).toString())
         val pendingResult = goAsync()
         try {
-            SmsQueueWorker.execute {
+            SmsQueueWorker.executeCapture {
                 try {
                     val result = SmsQueueStore(context.applicationContext).appendIfCapacity(
                         envelope,
@@ -62,16 +62,21 @@ class CollectSmsReceiver : BroadcastReceiver() {
                             // foreground Flutter engine after an earlier event race.
                             SmsQueueEventBus.notifyQueueChanged()
                         }
-                        SmsQueueStore.AppendResult.FULL ->
+                        SmsQueueStore.AppendResult.FULL -> {
                             Log.w(TAG, "Secure SMS queue is full; existing evidence was preserved")
+                            SmsQueueEventBus.notifyQueueChanged()
+                        }
                         SmsQueueStore.AppendResult.DISABLED -> Unit
-                        SmsQueueStore.AppendResult.FAILED ->
+                        SmsQueueStore.AppendResult.FAILED -> {
                             Log.w(TAG, "Unable to persist consented SMS queue item")
+                            SmsQueueEventBus.notifyQueueChanged()
+                        }
                     }
                 } catch (_: Exception) {
                     // Android Keystore can be temporarily unavailable. Fail closed
                     // instead of crashing or exposing the protected broadcast path.
                     Log.w(TAG, "Secure SMS queue unavailable; message was not retained")
+                    SmsQueueEventBus.notifyQueueChanged()
                 } finally {
                     pendingResult.finish()
                 }
@@ -102,8 +107,8 @@ class CollectSmsReceiver : BroadcastReceiver() {
     }
 
     internal fun isLikelyMomoReceipt(sender: String, body: String): Boolean {
-        val allowedSender = sender.length in 2..160 &&
-            (MOMO_SENDER_HINT.containsMatchIn(sender) || MOMO_CONTEXT_HINT.containsMatchIn(body))
+        val allowedSender = sender.toByteArray(Charsets.UTF_8).size in 2..96 &&
+            MOMO_SENDER_HINT.containsMatchIn(sender)
         val moneyHint = CURRENCY_HINT.containsMatchIn(body) && AMOUNT_HINT.containsMatchIn(body)
         val transactionHint = TRANSACTION_ID_HINT.containsMatchIn(body)
         val maskedReceiptHint = MASKED_PAYER_HINT.containsMatchIn(body) &&
@@ -118,7 +123,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
         private const val TAG = "CollectSmsReceiver"
         private const val MAX_PENDING_SMS = 100
         private const val MAX_SMS_SEGMENTS = 10
-        private const val MAX_SMS_BODY_CHARS = 2_000
+        private const val MAX_SMS_BODY_BYTES = 4_096
         private val MOMO_SENDER_HINT = Regex(
             "(?:momo|m[- ]?money|mobile[- ]?money|mtn|airtel)",
             RegexOption.IGNORE_CASE,

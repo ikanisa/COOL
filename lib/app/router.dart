@@ -23,7 +23,6 @@ import '../features/payments/contribute_entry_screen.dart';
 import '../features/profile/profile_edit_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/settings/app_permissions_screen.dart';
-import '../features/settings/bank_transfer_settings_screen.dart';
 import '../features/settings/settings_subscreens.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/repositories/collect_repository.dart';
@@ -85,7 +84,6 @@ const collectRoutePaths = <String>[
   '/settings',
   '/settings/profile',
   '/settings/notifications',
-  '/settings/bank-transfer',
   '/settings/permissions',
   '/settings/appearance',
   '/settings/security',
@@ -359,24 +357,6 @@ GoRouter createAppRouter({
                     ),
                   ),
                   GoRoute(
-                    path: 'bank-transfer',
-                    redirect: (context, state) {
-                      final profile = ProviderScope.containerOf(
-                        context,
-                        listen: false,
-                      ).read(collectRepositoryProvider).currentProfile;
-                      return profile?.isDiaspora == true
-                          ? null
-                          : '/settings/profile';
-                    },
-                    pageBuilder: (context, state) => _collectPage(
-                      context,
-                      state,
-                      const BankTransferSettingsScreen(),
-                      transition: _CollectRouteTransition.detail,
-                    ),
-                  ),
-                  GoRoute(
                     path: 'permissions',
                     pageBuilder: (context, state) => _collectPage(
                       context,
@@ -646,8 +626,7 @@ class _RouteNotFoundScreen extends StatelessWidget {
         const MinimalStatePanel(
           icon: CollectIcons.warning,
           title: 'This screen is unavailable.',
-          message:
-              'Return to Groups or Home without exposing bank information.',
+          message: 'This link may be out of date. Return to Groups or Home.',
           tone: CollectStatusTone.warning,
         ),
         CollectButton(

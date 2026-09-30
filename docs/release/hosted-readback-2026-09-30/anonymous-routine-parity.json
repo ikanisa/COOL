@@ -1,0 +1,63 @@
+{
+  "mode": "read_only_catalogue_body_comparison",
+  "hosted_schema": 124,
+  "local_fixture_schema": 142,
+  "routines": [
+    {
+      "routine": "collection_is_public_approved(uuid)",
+      "hosted_definition_sha256": "6763b7dda3ed98d4bc973d23758fc2ccfc08c4d124d5deff0f7eaa0712ef7ed9",
+      "local142_definition_sha256": "6763b7dda3ed98d4bc973d23758fc2ccfc08c4d124d5deff0f7eaa0712ef7ed9",
+      "exact_definition_match": true,
+      "owner_match": true,
+      "configuration_match": true,
+      "security_definer_match": true
+    },
+    {
+      "routine": "get_active_policy_document(text,text)",
+      "hosted_definition_sha256": "c76ed55d26d596c600c4fbabe3d0b8c73d8a8070f184930fd7224819811c01c9",
+      "local142_definition_sha256": "c76ed55d26d596c600c4fbabe3d0b8c73d8a8070f184930fd7224819811c01c9",
+      "exact_definition_match": true,
+      "owner_match": true,
+      "configuration_match": true,
+      "security_definer_match": true
+    },
+    {
+      "routine": "list_account_request_reasons(text,text)",
+      "hosted_definition_sha256": "68042bab084f152b918924b27dafbad1e7fd809cf9a3888b4ee96e73b75adb0e",
+      "local142_definition_sha256": "68042bab084f152b918924b27dafbad1e7fd809cf9a3888b4ee96e73b75adb0e",
+      "exact_definition_match": true,
+      "owner_match": true,
+      "configuration_match": true,
+      "security_definer_match": true
+    },
+    {
+      "routine": "public_collection_payment_route(uuid)",
+      "hosted_definition_sha256": "c6be80a3a76ab3e2a92e5e96d6567eb3c9fce582de3438907d6e9a45baff9823",
+      "local142_definition_sha256": "288f66f2db47a4072677a8feb906254ba26a82f4c9bcecaad473b2f7caad16b9",
+      "exact_definition_match": false,
+      "owner_match": true,
+      "configuration_match": true,
+      "security_definer_match": true
+    },
+    {
+      "routine": "user_can_read_collection(uuid,uuid)",
+      "hosted_definition_sha256": "10a8fb663b9341ec107430cc478144f530048d3c264fdb32d0c74c7b4eeff5d8",
+      "local142_definition_sha256": "10a8fb663b9341ec107430cc478144f530048d3c264fdb32d0c74c7b4eeff5d8",
+      "exact_definition_match": true,
+      "owner_match": true,
+      "configuration_match": true,
+      "security_definer_match": true
+    },
+    {
+      "routine": "user_is_collection_admin(uuid,uuid)",
+      "hosted_definition_sha256": "c97c40960b05e004d0ff907ea5cf3090de1e479a206a113beacdd3fa891bb69f",
+      "local142_definition_sha256": "c97c40960b05e004d0ff907ea5cf3090de1e479a206a113beacdd3fa891bb69f",
+      "exact_definition_match": true,
+      "owner_match": true,
+      "configuration_match": true,
+      "security_definer_match": true
+    }
+  ],
+  "hosted_negative_tests_executed": false,
+  "scope": "Exact six definition/owner/configuration comparison only; transitive tables/RLS/other routines remain unverified"
+}

@@ -1,0 +1,22 @@
+NOTICE:  drop cascades to function collect_security.otp_receipt_v3(collect_security.signed_otp_requests)
+NOTICE:  schema "collect_security" already exists, skipping
+NOTICE:  schema "collect_security" already exists, skipping
+NOTICE:  relation "otp_policy" already exists, skipping
+NOTICE:  relation "signed_otp_requests" already exists, skipping
+NOTICE:  constraint "signed_otp_hook_v3" of relation "signed_otp_requests" does not exist, skipping
+NOTICE:  relation "signed_otp_requests_window" already exists, skipping
+NOTICE:  trigger "signed_otp_evidence_immutable" for relation "collect_security.signed_otp_evidence" does not exist, skipping
+NOTICE:  schema "collect_security" already exists, skipping
+NOTICE:  relation "otp_policy" already exists, skipping
+NOTICE:  relation "signed_otp_requests" already exists, skipping
+NOTICE:  constraint "signed_otp_requests_hook_id_check" of relation "signed_otp_requests" does not exist, skipping
+NOTICE:  column "attempt_id" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  column "revision" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  column "started_at" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  column "accepted_at" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  column "provider_message_hash" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  column "last_evidence_sha256" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  column "contract_version" of relation "signed_otp_requests" already exists, skipping
+NOTICE:  relation "signed_otp_requests_window" already exists, skipping
+NOTICE:  relation "signed_otp_attempt_v3" already exists, skipping
+NOTICE:  relation "signed_otp_evidence" already exists, skipping

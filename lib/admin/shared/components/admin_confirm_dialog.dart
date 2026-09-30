@@ -17,13 +17,16 @@ Future<String?> showAdminReasonDialog(
   BuildContext context, {
   required String title,
   required String actionLabel,
+  Widget Function(BuildContext, Widget)? dialogWrapper,
 }) async {
   final returnFocus = FocusManager.instance.primaryFocus;
   final result = await showDialog<String>(
     context: context,
     animationStyle: CollectMotion.animationStyle(context),
-    builder: (context) =>
-        _AdminReasonDialog(title: title, actionLabel: actionLabel),
+    builder: (context) {
+      final dialog = _AdminReasonDialog(title: title, actionLabel: actionLabel);
+      return dialogWrapper?.call(context, dialog) ?? dialog;
+    },
   );
   if (context.mounted && returnFocus != null) {
     WidgetsBinding.instance.addPostFrameCallback((_) {

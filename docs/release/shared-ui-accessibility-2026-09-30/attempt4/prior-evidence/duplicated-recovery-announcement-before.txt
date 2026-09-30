@@ -1,0 +1,13 @@
+- group:
+  - button "Back"
+  - heading "Connection" [level=1]
+  - group "Data refreshed, The latest data refresh completed. This does not confirm a payment. Data refreshed The latest data refresh completed. This does not confirm a payment.":
+    - button "Refresh data"
+    - button "View groups"
+  - text: "Last data refresh: Wed, Sep 2, 12:01 PM Refreshing does not resend payments or SMS updates."
+  - button "Privacy"
+- group "Primary navigation":
+  - button "Home"
+  - button "Groups"
+  - button "Activity"
+  - button "Profile"

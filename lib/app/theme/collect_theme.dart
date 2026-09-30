@@ -75,6 +75,9 @@ class CollectTheme {
       scaffoldBackgroundColor: colors.screenBase,
       textTheme: textTheme,
       extensions: [colors, universalTokens],
+      // Flutter's default iOS switch adaptation drops SwitchThemeData and
+      // falls back to a green track. Retain these roles with native geometry.
+      adaptations: const [_CollectSwitchThemeAdaptation()],
       visualDensity: VisualDensity.standard,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       splashFactory: InkRipple.splashFactory,
@@ -266,8 +269,84 @@ class CollectTheme {
         linearTrackColor: colors.neutralContainer,
         borderRadius: CollectRadius.pillBorder,
       ),
+      // NEX-010 shows blue enabled tracks, grey off tracks and white thumbs.
+      // Keep this state role separate from the white primary-action role.
+      switchTheme: SwitchThemeData(
+        thumbColor: const WidgetStatePropertyAll(CollectColors.publicWhite),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
+            return colors.neutralContainer;
+          }
+          if (states.contains(WidgetState.selected)) {
+            return highContrast
+                ? CollectColors.referenceAccountHighlight
+                : colors.selectionColor;
+          }
+          return colors.switchInactiveTrack;
+        }),
+        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+          return highContrast || states.contains(WidgetState.focused)
+              ? contrastOutline
+              : colors.transparent;
+        }),
+        trackOutlineWidth: WidgetStateProperty.resolveWith((states) {
+          return highContrast || states.contains(WidgetState.focused) ? 2 : 0;
+        }),
+        overlayColor: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.focused)
+              ? colors.focusRing.withValues(alpha: 0.16)
+              : colors.transparent;
+        }),
+      ),
+      // LIVE-058's quiet task selector uses a raised grey selected segment.
+      // Text and selected semantics still identify the active product choice.
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return colors.neutralContainer;
+            }
+            return states.contains(WidgetState.selected)
+                ? colors.segmentSelectedSurface
+                : colors.panelSurface;
+          }),
+          foregroundColor: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.disabled)
+                ? colors.textMuted
+                : colors.textPrimary;
+          }),
+          textStyle: WidgetStatePropertyAll(textTheme.labelLarge),
+          minimumSize: const WidgetStatePropertyAll(
+            Size(CollectSpacing.target, CollectSpacing.target),
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+          ),
+          side: WidgetStateProperty.resolveWith((states) {
+            return highContrast || states.contains(WidgetState.focused)
+                ? BorderSide(color: contrastOutline, width: 2)
+                : BorderSide.none;
+          }),
+        ),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) return colors.textMuted;
+          return states.contains(WidgetState.selected)
+              ? colors.selectionColor
+              : colors.textSecondary;
+        }),
+      ),
     );
   }
+}
+
+class _CollectSwitchThemeAdaptation extends Adaptation<SwitchThemeData> {
+  const _CollectSwitchThemeAdaptation();
+
+  @override
+  SwitchThemeData adapt(ThemeData theme, SwitchThemeData defaultValue) =>
+      defaultValue;
 }
 
 extension CollectButtonStyles on BuildContext {

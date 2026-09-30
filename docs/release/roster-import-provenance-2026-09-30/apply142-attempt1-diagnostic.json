@@ -1,0 +1,10 @@
+{
+  "status": "failed_and_rolled_back",
+  "attempt1_migration_sha256": "46cc675c117a3fa6d438db8501a3e9643496a13a80305ae2a61071c27060d01e",
+  "corrected_migration_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+  "registry_after_failure": "141:20260929180000",
+  "all124_data_fingerprints_restored": true,
+  "source_table_absent": true,
+  "failure": "PLpgSQL CASE upper-bound parsing; corrected with parentheses",
+  "provider_calls": false
+}

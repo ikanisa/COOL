@@ -1,0 +1,112 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 0 accepts complete receipt: admin_retry_notification
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 0 rejects empty or missing fields: admin_retry_notification
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 0 rejects string and false success
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 1 accepts complete receipt: admin_create_platform_public_group
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 1 rejects empty or missing fields: admin_create_platform_public_group
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 1 rejects string and false success
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 2 accepts complete receipt: admin_set_group_active
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 2 rejects empty or missing fields: admin_set_group_active
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 2 rejects string and false success
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_set_group_active refuses wrong collection_id binding 2
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 3 accepts complete receipt: admin_set_group_active
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 3 rejects empty or missing fields: admin_set_group_active
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 3 rejects string and false success
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_set_group_active refuses wrong collection_id binding 3
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 4 accepts complete receipt: admin_update_platform_public_group_metadata
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 4 rejects empty or missing fields: admin_update_platform_public_group_metadata
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 4 rejects string and false success
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_update_platform_public_group_metadata refuses wrong collection_id binding 4
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 5 accepts complete receipt: admin_update_collection_support_status
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 5 rejects empty or missing fields: admin_update_collection_support_status
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 5 rejects string and false success
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 6 accepts complete receipt: admin_create_collect_payee
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 6 rejects empty or missing fields: admin_create_collect_payee
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 6 rejects string and false success
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 7 accepts complete receipt: admin_update_collect_payee
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 7 rejects empty or missing fields: admin_update_collect_payee
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 7 rejects string and false success
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_update_collect_payee refuses wrong payee_id binding 7
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 8 accepts complete receipt: admin_set_collect_payee_status
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 8 rejects empty or missing fields: admin_set_collect_payee_status
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 8 rejects string and false success
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_set_collect_payee_status refuses wrong payee_id binding 8
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 9 accepts complete receipt: admin_set_feature_flag
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 9 rejects empty or missing fields: admin_set_feature_flag
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 9 rejects string and false success
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 10 accepts complete receipt: admin_record_operator_note
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 10 rejects empty or missing fields: admin_record_operator_note
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 10 rejects string and false success
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 11 accepts complete receipt: admin_reparse_payment_event
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 11 rejects empty or missing fields: admin_reparse_payment_event
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 11 rejects string and false success
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 12 accepts complete receipt: admin_reveal_raw_sms
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 12 rejects empty or missing fields: admin_reveal_raw_sms
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 12 rejects string and false success
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 13 accepts complete receipt: admin_manual_allocate_payment
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 13 rejects empty or missing fields: admin_manual_allocate_payment
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 14 accepts complete receipt: admin_approve_whatsapp
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 14 rejects empty or missing fields: admin_approve_whatsapp
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 14 rejects string and false success
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_approve_whatsapp refuses wrong user_id binding 14
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 15 accepts complete receipt: admin_revoke_whatsapp_approval
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 15 rejects empty or missing fields: admin_revoke_whatsapp_approval
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 15 rejects string and false success
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_revoke_whatsapp_approval refuses wrong user_id binding 15
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 16 accepts complete receipt: admin_set_user_access
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 16 rejects empty or missing fields: admin_set_user_access
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 16 rejects string and false success
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 17 accepts complete receipt: admin_get_whatsapp_approval
+00:00 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 17 rejects empty or missing fields: admin_get_whatsapp_approval
+00:00 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_get_whatsapp_approval refuses wrong user_id binding 17
+00:00 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: active group cannot acknowledge archived visibility
+00:00 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: unrecognized action cannot silently imply success
+00:00 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: read suppresses same-user session change; switch-back=false
+00:00 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: read suppresses same-user session change; switch-back=true
+00:00 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: action suppresses same-user session change; switch-back=false
+00:00 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: action suppresses same-user session change; switch-back=true
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: identity suppresses same-user session change; switch-back=false
+00:00 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: identity suppresses same-user session change; switch-back=true
+00:00 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: same-session token refresh allows completion with pinned request token
+00:00 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: old-session backend error is replaced with safe session boundary
+00:00 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: signed-out request is denied before HTTP dispatch
+00:00 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: nullable identity, detail, SLA and runtime reads stay supported
+00:00 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response null
+00:00 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response {}
+00:00 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response []
+00:00 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response true
+00:00 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response {ok: true}
+00:00 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response {ok: true, status: queued, delivery_count: 1}
+00:00 +78: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: notification action rejects unconfirmed response {ok: true, status: queued, delivery_count: 0}
+00:00 +79: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: request parameters are frozen across an awaited response
+00:00 +80: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: provider generation recreates repository and denies previously captured repository
+00:00 +81: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: refresh freshness resets on replacement login and logout
+00:00 +82: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: Auth stream error denies cached session and in-flight request
+00:00 +83: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: Auth stream done denies cached session and in-flight request
+00:00 +84: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: session expiry clears authorization without an Auth event
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following _TypeError was thrown running a test:
+type '_Map<dynamic, dynamic>' is not a subtype of type 'Map<String, dynamic>?' in type cast
+
+When the exception was thrown, this was the stack:
+#0      User.fromJson (package:gotrue/src/types/user.dart:65:41)
+#1      Session.fromJson (package:gotrue/src/types/session.dart:41:23)
+#2      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart:336:30)
+#3      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#4      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  session expiry clears authorization without an Auth event
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +84 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: session expiry clears authorization without an Auth event [E]
+  Test failed. See exception logs above.
+  The test description was: session expiry clears authorization without an Auth event
+  
+00:00 +84 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart: session expiry clears authorization without an Auth event

@@ -1,0 +1,24 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/metric-concurrency-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "d78dcbb058a2fe3e3c479ddb3568dc0377d2f02ba625c55884b3fd1ce26b364e",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "74821f793f1b714eeb20d130c6de6c00aa319a6b7a8d61cae04261228bd8162c",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "started_at_utc": "2026-09-30T16:58:56.790258+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

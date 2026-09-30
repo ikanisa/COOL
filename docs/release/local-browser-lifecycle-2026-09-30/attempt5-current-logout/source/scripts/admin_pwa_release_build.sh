@@ -1,0 +1,171 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
+
+# shellcheck source=scripts/load_dotenv_strict.sh
+. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
+
+if [[ "${COLLECT_SKIP_DOTENV:-0}" != "1" && -f .env ]]; then
+  collect_load_dotenv_strict "$ROOT_DIR/.env"
+fi
+
+SUPABASE_PUBLIC_URL="${SUPABASE_PRODUCTION_URL:-${SUPABASE_URL:-}}"
+SUPABASE_PUBLIC_ANON_KEY="${SUPABASE_PRODUCTION_ANON_KEY:-${SUPABASE_ANON_KEY:-}}"
+APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
+ADMIN_APP_URL="${ADMIN_APP_URL:-https://admin.collect.ikanisa.com}"
+export SUPABASE_PUBLIC_URL SUPABASE_PUBLIC_ANON_KEY APP_PUBLIC_URL ADMIN_APP_URL
+
+if [[ -n "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
+  echo "FLUTTER_ADMIN_WEB_BUILD_ARGS is not accepted for production Admin PWA builds." >&2
+  exit 1
+fi
+if [[ -z "$SUPABASE_PUBLIC_URL" || -z "$SUPABASE_PUBLIC_ANON_KEY" ]]; then
+  echo "Missing public Supabase build config: SUPABASE_PRODUCTION_URL/SUPABASE_URL and SUPABASE_PRODUCTION_ANON_KEY/SUPABASE_ANON_KEY are required." >&2
+  exit 1
+fi
+DART_DEFINES_FILE="$(mktemp)"
+trap 'rm -f "${DART_DEFINES_FILE:-}"' EXIT
+DART_DEFINES_FILE="$DART_DEFINES_FILE" ruby -r json <<'RUBY'
+File.write(
+  ENV.fetch("DART_DEFINES_FILE"),
+  JSON.generate({
+    "SUPABASE_URL" => ENV.fetch("SUPABASE_PUBLIC_URL"),
+    "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_PUBLIC_ANON_KEY"),
+    "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL"),
+    "ADMIN_APP_URL" => ENV.fetch("ADMIN_APP_URL"),
+    "APP_ENVIRONMENT" => "production",
+    "ENABLE_ADMIN_PANEL" => "true",
+    "COLLECT_PUBLIC_LANDING_HOME" => "false"
+  })
+)
+RUBY
+BUILD_ARGS=(
+  --release
+  --no-wasm-dry-run
+  --no-web-resources-cdn
+  --no-pub
+  "--dart-define-from-file=$DART_DEFINES_FILE"
+)
+
+"$FLUTTER" build web -t lib/main_admin.dart "${BUILD_ARGS[@]}"
+
+if [[ ! -s build/web/main.dart.js ]]; then
+  echo "Admin PWA build did not produce a nonempty main.dart.js bundle." >&2
+  exit 1
+fi
+cp web/_headers build/web/_headers
+cp web/robots.txt build/web/robots.txt
+
+ruby -r digest -r json -r open3 <<'RUBY'
+source_commit, source_commit_status = Open3.capture2("git", "rev-parse", "HEAD")
+source_changes, source_status = Open3.capture2("git", "status", "--porcelain")
+version_path = "build/web/version.json"
+version = JSON.parse(File.read(version_path))
+version["source_commit"] = source_commit_status.success? ? source_commit.strip : nil
+version["source_dirty"] = !source_status.success? || !source_changes.empty?
+File.write(version_path, JSON.pretty_generate(version) + "\n")
+
+manifest_path = "build/web/manifest.json"
+index_path = "build/web/index.html"
+service_worker_path = "build/web/custom-sw.js"
+bootstrap_path = "build/web/flutter_bootstrap.js"
+color_source = File.read("lib/app/theme/collect_colors.dart")
+collect_color_hex = lambda do |name|
+  match = color_source.match(/static const #{Regexp.escape(name)} = Color\(0xFF([0-9A-Fa-f]{6})\);/)
+  abort("Collect color token #{name} not found") unless match
+  "##{match[1].upcase}"
+end
+
+manifest = JSON.parse(File.read(manifest_path))
+manifest["name"] = "Collect Admin"
+manifest["short_name"] = "Collect Admin"
+manifest["description"] = "Collect platform operations console."
+manifest["display"] = "standalone"
+manifest["start_url"] = "."
+manifest["background_color"] = collect_color_hex.call("publicWhite")
+manifest["theme_color"] = collect_color_hex.call("referenceChromeBlack")
+manifest["orientation"] = "any"
+manifest["icons"] = [
+  {
+    "src" => "icons/collect-web-512.png",
+    "sizes" => "512x512",
+    "type" => "image/png",
+    "purpose" => "any maskable"
+  }
+]
+File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
+
+index = File.read(index_path)
+index = index.sub(%r{<title>.*?</title>}m, "<title>Collect Admin</title>")
+index = index.sub(
+  %r{<meta name="description" content=".*?">}m,
+  '<meta name="description" content="Collect platform operations console.">'
+)
+File.write(index_path, index)
+
+cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
+  .select { |path| File.file?(path) }
+  .reject do |path|
+    path.end_with?(
+      ".DS_Store",
+      ".last_build_id",
+      "_headers",
+      "_redirects",
+      "index.html",
+      "custom-sw.js",
+      "flutter_service_worker.js"
+    )
+  end
+  .map { |path| path.sub(%r{\Abuild/web/}, "") }
+  .sort
+
+cache_urls = (["./"] + cache_paths.map { |path| "./#{path}" }).uniq
+index = File.read(index_path)
+index = index.gsub(%r{\n\s*<!-- Collect Admin PWA service worker -->.*?</script>}m, "")
+File.write(index_path, index)
+
+worker_template = File.read("scripts/templates/admin_pwa_service_worker.js")
+%w[__COLLECT_ADMIN_CACHE_NAME__ __COLLECT_ADMIN_CACHE_URLS__].each do |marker|
+  abort("Admin service worker must contain exactly one #{marker}") unless worker_template.scan(marker).length == 1
+end
+# The root shell is cached as ./ because hosting redirects /index.html. Its
+# bytes, asset paths and worker policy must still invalidate the cache version.
+version_paths = (cache_paths + ["index.html"]).uniq.sort
+cache_schema_version = "fresh-install-v3"
+version_source = ([cache_schema_version, Digest::SHA256.hexdigest(worker_template)] + version_paths.map do |path|
+  "#{path}\0#{Digest::SHA256.file(File.join("build/web", path)).hexdigest}"
+end).join("\n")
+cache_name = "collect-admin-#{Digest::SHA256.hexdigest(version_source)[0, 16]}"
+
+bootstrap = File.read(bootstrap_path)
+bootstrap = bootstrap.gsub(
+  %r{custom-sw\.js\?v=collect-admin-[0-9a-f]{16}},
+  "custom-sw.js?v=__COLLECT_ADMIN_SW_VERSION__"
+)
+unless bootstrap.include?("__COLLECT_ADMIN_SW_VERSION__")
+  abort("flutter_bootstrap.js is missing Collect Admin service worker placeholder")
+end
+bootstrap = bootstrap.gsub("__COLLECT_ADMIN_SW_VERSION__", cache_name)
+unless bootstrap.include?("canvasKitBaseUrl: 'canvaskit/'")
+  abort("flutter_bootstrap.js must self-host CanvasKit")
+end
+File.write(bootstrap_path, bootstrap)
+
+File.write(
+  service_worker_path,
+  worker_template.gsub("__COLLECT_ADMIN_CACHE_NAME__", cache_name.to_json)
+    .gsub("__COLLECT_ADMIN_CACHE_URLS__", JSON.pretty_generate(cache_urls))
+)
+
+generated_service_worker = File.read(service_worker_path)
+abort("custom-sw.js must not precache Cloudflare _headers metadata") if generated_service_worker.include?('"./_headers"')
+abort("custom-sw.js must not precache Cloudflare _redirects metadata") if generated_service_worker.include?('"./_redirects"')
+abort("custom-sw.js must not precache the redirected /index.html path") if generated_service_worker.include?('"./index.html"')
+RUBY
+
+/bin/bash "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
+/bin/bash "$ROOT_DIR/scripts/admin_pwa_hosting_gate.sh"

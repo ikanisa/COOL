@@ -8,7 +8,10 @@ import '../app/theme/collect_radius.dart';
 import '../app/theme/collect_runtime_assets.dart';
 import '../app/theme/collect_spacing.dart';
 import '../app/theme/collect_typography.dart';
+import '../app/theme/collect_universal_tokens.dart';
 import 'core/admin_auth_guard.dart';
+import 'core/admin_automations_page.dart';
+import 'core/admin_display_formatters.dart';
 import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
 import 'shared/components/admin_loading_state.dart';
@@ -30,11 +33,10 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
     final identity = ref.watch(adminIdentityProvider);
-    final colors = context.collectColors;
     return Scaffold(
-      backgroundColor: colors.canvas,
+      backgroundColor: context.collectUniversalTokens.adminWorkspace,
       body: ColoredBox(
-        color: colors.canvas,
+        color: context.collectUniversalTokens.adminWorkspace,
         child: identity.when(
           loading: () => const AdminLoadingState(
             title: 'Loading admin workspace',
@@ -49,22 +51,39 @@ class _AdminShellState extends ConsumerState<AdminShell> {
           data: (value) {
             if (value == null) return const AdminDeniedPage();
             ref.watch(adminRealtimeSubscriptionProvider);
-            final runtimeConfig = ref
-                .watch(adminRuntimeConfigProvider)
-                .valueOrNull;
-            final destinations = _adminNavDestinationsFor(value, runtimeConfig);
-            final requiredPermission = adminRequiredPermissionForPath(
-              widget.location,
-              runtimeConfig: runtimeConfig,
+            final configuration = ref.watch(adminRuntimeConfigProvider);
+            final ready = !configuration.isLoading && !configuration.hasError;
+            final runtimeConfig = ready ? configuration.valueOrNull : null;
+            final destinations = ready
+                ? _adminNavDestinationsFor(value, runtimeConfig)
+                : <_AdminNavDestination>[];
+            final page = configuration.when(
+              skipLoadingOnRefresh: false,
+              skipLoadingOnReload: false,
+              loading: () => const AdminLoadingState(
+                title: 'Loading admin configuration',
+                message: 'Fetching workspace navigation and queue policies.',
+              ),
+              error: (error, _) => Center(
+                child: AdminSafeErrorPanel(
+                  error: error,
+                  onRetry: () => ref.invalidate(adminRuntimeConfigProvider),
+                ),
+              ),
+              data: (config) =>
+                  adminCanOpenPath(
+                    value,
+                    widget.location,
+                    runtimeConfig: config,
+                  )
+                  ? widget.child
+                  : AdminDeniedPage(
+                      requiredPermission: adminRequiredPermissionForPath(
+                        widget.location,
+                        runtimeConfig: config,
+                      ),
+                    ),
             );
-            final page =
-                adminCanOpenPath(
-                  value,
-                  widget.location,
-                  runtimeConfig: runtimeConfig,
-                )
-                ? widget.child
-                : AdminDeniedPage(requiredPermission: requiredPermission);
 
             return LayoutBuilder(
               builder: (context, constraints) {
@@ -83,6 +102,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                         location: widget.location,
                         destinations: destinations,
                       ),
+                      const AdminSmsDispatchBanner(),
                       // The nested Navigator's opaque route blocks preceding
                       // semantics in its boundary. Keep that boundary inside
                       // the page so the persistent header remains accessible.
@@ -215,6 +235,12 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'system_health.read',
   ),
   _AdminNavDestination(
+    'Automations',
+    Icons.manage_search_outlined,
+    '/admin/automations',
+    'system_health.read',
+  ),
+  _AdminNavDestination(
     'Admin users',
     Icons.admin_panel_settings_outlined,
     '/admin/admin-users',
@@ -307,7 +333,8 @@ class _AdminSidebarState extends State<_AdminSidebar> {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final width = widget.collapsed ? 80.0 : 256.0;
+    final tokens = context.collectUniversalTokens;
+    final width = widget.collapsed ? 80.0 : tokens.adminRailWidth;
     return Semantics(
       container: true,
       explicitChildNodes: true,
@@ -317,7 +344,7 @@ class _AdminSidebarState extends State<_AdminSidebar> {
         curve: Curves.easeOutCubic,
         width: width,
         child: Material(
-          color: CollectColors.referenceChromeBlack,
+          color: tokens.adminRail,
           child: SafeArea(
             child: Column(
               children: [
@@ -491,7 +518,7 @@ class _AdminMobileNav extends StatelessWidget {
       explicitChildNodes: true,
       label: 'Collect admin mobile navigation',
       child: Material(
-        color: CollectColors.referenceChromeBlack,
+        color: context.collectUniversalTokens.adminRail,
         child: SafeArea(
           bottom: false,
           child: Padding(
@@ -659,7 +686,7 @@ class _AdminTopbar extends ConsumerWidget {
       label:
           'Signed in as ${identity.displayName}. Access: Admin. Environment: $envName.',
       child: Material(
-        color: CollectColors.referenceChromeBlack,
+        color: context.collectUniversalTokens.adminRail,
         child: SafeArea(
           bottom: false,
           child: LayoutBuilder(
@@ -742,7 +769,7 @@ class _AdminTopbar extends ConsumerWidget {
                                 Text(
                                   lastRefresh == null
                                       ? 'Not refreshed'
-                                      : 'Last refreshed: ${_clockTime(lastRefresh)}',
+                                      : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali',
                                   style: Theme.of(context).textTheme.labelMedium
                                       ?.copyWith(
                                         color: colors.onImagePrimary.withValues(
@@ -812,12 +839,7 @@ class _AdminTopbar extends ConsumerWidget {
                     const SizedBox(width: 14),
                     _EnvironmentBadge(envName: envName),
                     const SizedBox(width: 8),
-                    _AdminCountrySwitcher(
-                      scope: ref.watch(adminCountryScopeProvider),
-                      onSelected: (scope) =>
-                          ref.read(adminCountryScopeProvider.notifier).state =
-                              scope,
-                    ),
+                    const _AdminCountryBadge(),
                     const SizedBox(width: 12),
                     Semantics(
                       button: true,
@@ -827,6 +849,7 @@ class _AdminTopbar extends ConsumerWidget {
                         onSelected: (value) async {
                           if (value != 'sign-out') return;
                           await ref.read(adminRepositoryProvider).signOut();
+                          if (!context.mounted) return;
                           ref.invalidate(adminAuthStateProvider);
                           ref.invalidate(adminAuthGuardProvider);
                           ref.invalidate(adminIdentityProvider);
@@ -925,55 +948,20 @@ class _AdminTopbar extends ConsumerWidget {
   }
 }
 
-class _AdminCountrySwitcher extends StatelessWidget {
-  const _AdminCountrySwitcher({required this.scope, required this.onSelected});
-
-  final AdminCountryScope scope;
-  final ValueChanged<AdminCountryScope> onSelected;
+class _AdminCountryBadge extends StatelessWidget {
+  const _AdminCountryBadge();
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      button: true,
-      label: 'Country scope: ${scope.label}',
-      hint: 'Filters country-specific Admin operations.',
-      child: PopupMenuButton<AdminCountryScope>(
-        tooltip: 'Country: ${scope.label}',
-        initialValue: scope,
-        onSelected: onSelected,
-        itemBuilder: (context) => [
-          for (final option in AdminCountryScope.values)
-            PopupMenuItem(
-              value: option,
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Icon(option.icon),
-                title: Text(option.label),
-                trailing: option == scope
-                    ? const Icon(Icons.check_rounded)
-                    : null,
-              ),
-            ),
-        ],
-        child: SizedBox.square(
-          dimension: 48,
-          child: Center(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.onImagePrimary.withValues(alpha: 0.10),
-                shape: BoxShape.circle,
-              ),
-              child: SizedBox.square(
-                dimension: 40,
-                child: Icon(scope.icon, size: 20, color: colors.onImagePrimary),
-              ),
-            ),
-          ),
-        ),
+  Widget build(BuildContext context) => Semantics(
+    label: 'Rwanda operations',
+    child: Tooltip(
+      message: 'Rwanda',
+      child: Icon(
+        Icons.cell_tower_outlined,
+        color: context.collectColors.onImagePrimary,
       ),
-    );
-  }
+    ),
+  );
 }
 
 class _EnvironmentBadge extends StatelessWidget {
@@ -1037,12 +1025,15 @@ List<_AdminNavDestination> _adminNavDestinationsFor(
   final configuredDestinations = runtimeConfig?.navigationItems
       .map(_AdminNavDestination.fromConfig)
       .toList();
-  final source = configuredDestinations?.isEmpty == false
-      ? configuredDestinations!
-      : _adminNavDestinations;
+  final source = configuredDestinations ?? _adminNavDestinations;
   return [
     for (final destination in source)
-      if (adminIdentityAllows(identity, destination.requiredPermission))
+      if (adminIdentityAllows(identity, destination.requiredPermission) &&
+          adminCanOpenPath(
+            identity,
+            destination.path,
+            runtimeConfig: runtimeConfig,
+          ))
         destination,
   ];
 }
@@ -1052,11 +1043,18 @@ bool adminCanOpenPath(
   String path, {
   AdminRuntimeConfig? runtimeConfig,
 }) {
-  final permission = adminRequiredPermissionForPath(
-    path,
-    runtimeConfig: runtimeConfig,
-  );
-  return permission == null || adminIdentityAllows(identity, permission);
+  final baseline = adminRequiredPermissionForPath(path);
+  if (baseline != null && !adminIdentityAllows(identity, baseline)) {
+    return false;
+  }
+  for (final item
+      in runtimeConfig?.navigationItems ?? <AdminNavigationItemConfig>[]) {
+    if (_isSelected(item.path, path) &&
+        !adminIdentityAllows(identity, item.requiredPermission)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 bool adminIdentityAllows(AdminIdentity identity, String permission) {
@@ -1067,20 +1065,15 @@ String? adminRequiredPermissionForPath(
   String path, {
   AdminRuntimeConfig? runtimeConfig,
 }) {
-  final configuredDestinations = runtimeConfig?.navigationItems
-      .map(_AdminNavDestination.fromConfig)
-      .toList();
-  if (configuredDestinations?.isEmpty == false) {
-    for (final destination in configuredDestinations!.reversed) {
-      if (_isSelected(destination.path, path)) {
-        return destination.requiredPermission;
-      }
-    }
-  }
   for (final destination in _adminNavDestinations.reversed) {
     if (_isSelected(destination.path, path)) {
       return destination.requiredPermission;
     }
+  }
+  for (final item
+      in runtimeConfig?.navigationItems.reversed ??
+          <AdminNavigationItemConfig>[]) {
+    if (_isSelected(item.path, path)) return item.requiredPermission;
   }
   return null;
 }
@@ -1139,11 +1132,6 @@ String _initials(String name) {
   if (words.isEmpty) return 'CA';
   if (words.length == 1) return words.first.substring(0, 1).toUpperCase();
   return '${words.first[0]}${words.last[0]}'.toUpperCase();
-}
-
-String _clockTime(DateTime time) {
-  String two(int value) => value.toString().padLeft(2, '0');
-  return '${two(time.hour)}:${two(time.minute)}';
 }
 
 String _workspaceTitle(_AdminNavDestination? destination) {

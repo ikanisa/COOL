@@ -1,0 +1,46 @@
+{
+  "status": "pass",
+  "kind": "local_unsigned_android_qa_artifact",
+  "apk_sha256": "c44637cfee291569e8926e2742d5cf8e904eaf23b652fb82851c1bc4f34e4ba5",
+  "apk_bytes": 96462648,
+  "apk_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/build/app/outputs/apk/production/release/app-production-release-unsigned.apk",
+  "marker": {
+    "kind": "local_unsigned_native_qa",
+    "store_acceptance": false,
+    "provider_configuration": false,
+    "signing": false
+  },
+  "marker_zip_path": "assets/collect-local-unsigned-qa.json",
+  "unsigned_apksigner_rejection_verified": true,
+  "zip_integrity_verified": true,
+  "application_id": "app.cool.mobile",
+  "version": "1.2.4+23",
+  "obsolete_storage_permissions_absent": true,
+  "normal_official_icon_used": true,
+  "round_icon_claim_absent": true,
+  "backup_disabled": true,
+  "commands": [
+    {
+      "name": "apk-signature",
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "exit_code": 1
+    },
+    {
+      "name": "apk-manifest",
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "scope": "Actual clean-export compiled unsigned artifact; no provider/configuration, store, device or visual acceptance"
+}

@@ -11,8 +11,8 @@ authentication, all member and operator journeys, edge APIs, database migrations
 RLS/RPC permissions, both payment rails, reconciliation and ledgers, media,
 notifications, privacy, security, accessibility, performance, recovery and release
 operations. `docs/PRODUCT.md` supplies product behavior. The owner's
-`revolut-design/SKILL.md` is the sole design authority; adaptive-product-design
-supports journey and readiness review. Screenshots and contracts establish only
+`revolut-design/SKILL.md` is the sole design authority for visual, journey and
+readiness review. Screenshots and contracts establish only
 their stated evidence, not behavior or blanket visual acceptance.
 
 Every feature must have a source inventory entry, relevant positive and negative
@@ -72,10 +72,10 @@ Do not regenerate visual baselines without viewing and reviewing the differences
 | QA-12 | Database lifecycle and operations | All 124 current migrations, clean replay and bounded upgrade, constraints/triggers/RLS/grants/search paths, indexes/query plans/volume, concurrent races, backups/restore/recovery consistency, cron/outbox behavior | Unverified |
 | QA-13 | Notifications | FCM/APNs tokens/rotation, audience permissions, preference/consent, queue claim/retry/dedup/dead-letter, invalid tokens, delivery and taps/deep links, account switch; notification operator tool authorization | Unverified |
 | QA-14 | Public website | Every generated route, mobile menu/footer/CTA/download/deep-link destinations, legal/support copy, 404 recovery, metadata/canonicals/robots/sitemap, fonts/images/contrast, deployed headers/content and current screenshot provenance | Unverified |
-| QA-15 | Visual design, accessibility and localization | Every applicable route/state mapped to exact source cohort; shared tokens/typography/image hierarchy; Android/iOS independently; narrow/large/landscape, 200% text, 320px web reflow/zoom, keyboard/focus/modals/reader/targets/contrast/reduced motion, supported languages and data extremes | Unverified; mobile design gate required |
+| QA-15 | Visual design, accessibility and localization | Every applicable route/state mapped to exact source cohort; shared tokens/typography/image hierarchy; Android/iOS independently; narrow/large/landscape, 200% text, 320px web reflow/zoom, keyboard/focus/modals/reader/targets/contrast/reduced motion, supported languages and data extremes | Unverified; historical mobile review required |
 | QA-16 | Native and PWA resilience | Cold/warm start, permissions, SMS/camera/share/external app, background/kill/resume, offline/reconnect, storage quota/eviction, multi-tab/account isolation, active-task update/old client and rollback compatibility | Unverified |
 | QA-17 | Performance and observability | Startup/frame/scroll/memory on representative devices, dense Admin lists and database volume/query plans, lab web load/interactions and available field data; traceable failures, redacted logs/alerts/health and recovery runbooks | Unverified |
-| QA-18 | Release and end-to-end acceptance | Current mobile-design gate, artifact provenance/signing/permissions, store requirements, CI outcomes, staging/provider full journeys, production read-only drift/health and explicit human acceptance evidence; no unsupported production GO | Unverified |
+| QA-18 | Release and end-to-end acceptance | Current Revolut design review evidence, artifact provenance/signing/permissions, store requirements, CI outcomes, staging/provider full journeys, production read-only drift/health and explicit human acceptance evidence; no unsupported production GO | Unverified |
 
 ## Coverage dimensions
 

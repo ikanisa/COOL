@@ -29,9 +29,17 @@ Deno.test("OpenAI roster request is strict, non-persistent and tool-free", () =>
 
 Deno.test("OpenAI roster output is normalized and remains review-only", () => {
   const preview = previewOpenAiRoster({
+    id: "resp_fixture",
+    object: "response",
+    status: "completed",
     output: [{
+      id: "msg_fixture",
+      type: "message",
+      role: "assistant",
+      status: "completed",
       content: [{
         type: "output_text",
+        annotations: [],
         text: JSON.stringify({
           rows: [{
             source_row: 4,
@@ -44,19 +52,44 @@ Deno.test("OpenAI roster output is normalized and remains review-only", () => {
       }],
     }],
   });
-  assertEquals(preview.can_submit, true);
+  assertEquals(preview.can_submit, false);
+  assertEquals(preview.ready_count, 1);
   assertEquals(preview.normalized_rows[0].momo_number, "+250788123456");
 });
 
 Deno.test("refusals and malformed model output fail closed", () => {
   assertThrows(
-    () => responseOutputText({ output: [{ content: [{ type: "refusal" }] }] }),
+    () =>
+      responseOutputText({
+        id: "resp_fixture",
+        object: "response",
+        status: "completed",
+        output: [{
+          id: "msg_fixture",
+          type: "message",
+          role: "assistant",
+          status: "completed",
+          content: [{ type: "refusal" }],
+        }],
+      }),
     Error,
-    "declined",
+    "roster_extraction_refused",
   );
   assertThrows(
-    () => previewOpenAiRoster({ output_text: "not json" }),
+    () =>
+      previewOpenAiRoster({
+        id: "resp_fixture",
+        object: "response",
+        status: "completed",
+        output: [{
+          id: "msg_fixture",
+          type: "message",
+          role: "assistant",
+          status: "completed",
+          content: [{ type: "output_text", annotations: [], text: "not json" }],
+        }],
+      }),
     Error,
-    "not valid JSON",
+    "roster_provider_response_invalid",
   );
 });

@@ -1,0 +1,12 @@
+ERROR:  column reference "delivery_id" is ambiguous
+LINE 4:         on conflict (delivery_id, attempt_number) do nothing
+                            ^
+DETAIL:  It could refer to either a PL/pgSQL variable or a table column.
+QUERY:  insert into public.notification_delivery_attempts(delivery_id, attempt_number, outcome, error_code)
+        values (candidate.id, candidate.prior_attempt_count + candidate.attempt_count,
+          case when final_status = 'queued' then 'retry' else 'failed' end, reason)
+        on conflict (delivery_id, attempt_number) do nothing
+CONTEXT:  PL/pgSQL function claim_notification_deliveries(integer) line 55 at SQL statement
+SQL statement "SELECT pg_temp.notification_assert((select count(*)=0 from public.claim_notification_deliveries(1)),
+    'expired claim recovery honors backoff instead of sending immediately')"
+PL/pgSQL function inline_code_block line 4 at PERFORM

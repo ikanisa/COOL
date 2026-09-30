@@ -102,9 +102,9 @@ case "$resolved_output_path" in
 esac
 
 if [[ "$SUBMIT" == "true" ]]; then
-  ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb"
   # The upload path must not be able to bypass the independently pinned
   # production-backend, artifact, SMS-policy, and console-state controls.
+  "$ROOT_DIR/scripts/release_go_preflight.sh" >/dev/null
   canonical_aab="$ROOT_DIR/build/app/outputs/bundle/productionRelease/app-production-release.aab"
   [[ "$PACKAGE_NAME" == "app.cool.mobile" ]] || {
     printf '[google-play-production-upload][FAIL] --submit is pinned to app.cool.mobile.\n' >&2

@@ -8,11 +8,18 @@ class _GroupEditorialDetails extends StatelessWidget {
   });
 
   final CollectCollection collection;
-  final CollectionSummary summary;
+  final CollectionSummary? summary;
   final Widget? primaryAction;
 
   @override
   Widget build(BuildContext context) {
+    final currentSummary = summary;
+    final totalText = currentSummary == null
+        ? '—'
+        : formatCurrencyTotals(
+            currentSummary.totalsByCurrency,
+            separator: '\n',
+          );
     final foreground = context.collectColors.onImagePrimary;
     const ink = CollectGroupCardTokens.footerInk;
     final topInk = ink.withValues(
@@ -48,18 +55,18 @@ class _GroupEditorialDetails extends StatelessWidget {
                     children: [
                       _GroupEditorialMetric(
                         icon: CollectIcons.money,
-                        value: formatCurrencyTotals(
-                          summary.totalsByCurrency,
-                          separator: '\n',
-                        ),
-                        semanticLabel:
-                            'Total collected ${formatCurrencyTotals(summary.totalsByCurrency, separator: ", ")}',
+                        value: totalText,
+                        semanticLabel: currentSummary == null
+                            ? 'Total collected not available'
+                            : 'Total collected ${formatCurrencyTotals(currentSummary.totalsByCurrency, separator: ", ")}',
                       ),
                       CollectSpacing.gap4,
                       _GroupEditorialMetric(
                         icon: CollectIcons.people,
-                        value: summary.supporterCountLabel,
-                        semanticLabel: summary.supporterCountSemantics,
+                        value: currentSummary?.supporterCountLabel ?? '—',
+                        semanticLabel:
+                            currentSummary?.supporterCountSemantics ??
+                            'Contributor count not available',
                       ),
                     ],
                   ),

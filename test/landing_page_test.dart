@@ -1,7 +1,9 @@
 import 'package:collect_app/features/landing/collect_landing_page.dart';
+import 'package:collect_app/features/landing/public_marketing_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 Widget publicHarness(Widget child, {Key? key, double textScale = 1}) {
   return ProviderScope(
@@ -26,9 +28,27 @@ String visibleText() => find
     .toLowerCase();
 
 void main() {
-  testWidgets('landing page presents Rwanda MoMo and diaspora bank rails', (
-    tester,
-  ) async {
+  test('public marketing action distinguishes disabled and focused states', () {
+    final theme = CollectPublicMarketingTheme.light();
+    final style = theme.filledButtonTheme.style!;
+    expect(theme.brightness, Brightness.light);
+    final resting = style.backgroundColor!.resolve({});
+    final disabled = style.backgroundColor!.resolve({WidgetState.disabled});
+    expect(resting, CollectPublicMarketingTheme.action);
+    expect(disabled, isNot(resting));
+    expect(
+      style.foregroundColor!.resolve({WidgetState.disabled}),
+      isNot(style.foregroundColor!.resolve({})),
+    );
+    expect(style.side!.resolve({WidgetState.focused})!.width, 2);
+    final foreground = style.foregroundColor!.resolve({WidgetState.disabled})!;
+    final contrast =
+        (disabled!.computeLuminance() + .05) /
+        (foreground.computeLuminance() + .05);
+    expect(contrast, greaterThanOrEqualTo(4.5));
+  });
+
+  testWidgets('landing page presents Rwanda MoMo USSD', (tester) async {
     tester.view.physicalSize = const Size(1440, 1800);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -37,11 +57,11 @@ void main() {
     await tester.pumpWidget(publicHarness(const CollectLandingPage()));
 
     expect(
-      find.text('MoMo at home. Bank transfer in the diaspora.'),
+      find.text('Rwanda MoMo contributions, clearly recorded.'),
       findsOneWidget,
     );
     expect(find.text('Get the App'), findsWidgets);
-    expect(find.text('Create Group'), findsOneWidget);
+    expect(find.text('How groups work'), findsOneWidget);
     // Public content is now an editorial sequence below the photographic
     // hero. Validate the real task content after scrolling to its section.
     await tester.scrollUntilVisible(
@@ -56,7 +76,7 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('Standalone and privacy-first'), findsOneWidget);
-    expect(find.text('Approved beneficiary'), findsOneWidget);
+    expect(find.text('Verified MoMo receiver'), findsOneWidget);
     expect(find.text('Controlled evidence'), findsOneWidget);
     expect(find.text('Daily reconciliation'), findsOneWidget);
     expect(find.text('Balanced ledger'), findsOneWidget);
@@ -73,6 +93,38 @@ void main() {
     ]) {
       expect(text, isNot(contains(removed)));
     }
+  });
+
+  testWidgets('homepage explainer action opens the group journey page', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final router = GoRouter(
+      routes: [
+        GoRoute(path: '/', builder: (_, _) => const CollectLandingPage()),
+        GoRoute(
+          path: '/group-savings',
+          builder: (_, _) =>
+              CollectPublicPage(data: publicPageForPath('/group-savings')),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    await tester.pumpWidget(
+      ProviderScope(child: MaterialApp.router(routerConfig: router)),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('How groups work'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Rwanda MoMo contributions in one clear ledger.'),
+      findsOneWidget,
+    );
+    expect(find.text('Create Group'), findsNothing);
   });
 
   test('public route inventory excludes removed financial-expansion pages', () {
@@ -136,7 +188,7 @@ void main() {
     expect(find.textContaining('info@ikanisa.com'), findsWidgets);
     expect(find.textContaining('+250 795 588 248'), findsWidgets);
     expect(
-      find.textContaining('Diaspora daily statements determine'),
+      find.textContaining('Matched MoMo receipt evidence determines'),
       findsOneWidget,
     );
     expect(find.textContaining('OpenAI'), findsNothing);
@@ -183,15 +235,18 @@ void main() {
     expect(find.text('Collect'), findsOneWidget);
     expect(tester.takeException(), isNull);
 
-    await tester.pumpWidget(
-      publicHarness(
-        CollectPublicPage(data: publicPageForPath('/privacy')),
-        key: const ValueKey('privacy-compact'),
-        textScale: 2,
-      ),
-    );
-    await tester.pump();
-    expect(find.text('Privacy Policy and Data Deletion'), findsOneWidget);
-    expect(tester.takeException(), isNull);
+    for (final path in publicWebsitePaths.where((path) => path != '/')) {
+      final data = publicPageForPath(path);
+      await tester.pumpWidget(
+        publicHarness(
+          CollectPublicPage(data: data),
+          key: ValueKey('compact-$path'),
+          textScale: 2,
+        ),
+      );
+      await tester.pump();
+      expect(find.text(data.title), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'Compact public $path');
+    }
   });
 }

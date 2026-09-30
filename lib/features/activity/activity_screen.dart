@@ -49,7 +49,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     final total = formatCurrencyTotals(
       totals,
       separator: '\n',
-      emptyCurrency: state.currentProfile?.isDiaspora == true ? 'EUR' : 'RWF',
+      emptyCurrency: 'RWF',
     );
     final isInitialLoading =
         (feed.loading && feed.page == null) ||
@@ -163,12 +163,10 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   groupLabel: _selectedGroupLabel(collectionsById),
                 ),
                 if (visible.isEmpty && query.isDefault)
-                  EmptyIllustrationState(
+                  const EmptyIllustrationState(
                     icon: CollectIcons.activity,
                     title: 'No activity yet',
-                    message: state.currentProfile?.isRwanda == true
-                        ? 'Confirmed MoMo contributions appear here.'
-                        : 'Bank contributions appear here after statement reconciliation.',
+                    message: 'Confirmed MoMo contributions appear here.',
                   )
                 else if (visible.isEmpty)
                   EmptySearchState(

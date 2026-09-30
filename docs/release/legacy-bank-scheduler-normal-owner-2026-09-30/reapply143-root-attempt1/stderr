@@ -1,0 +1,3 @@
+NOTICE:  relation "legacy_bank_scheduler_retirements" already exists, skipping
+NOTICE:  relation "legacy_bank_scheduler_observations" already exists, skipping
+NOTICE:  relation "legacy_bank_scheduler_verifications" already exists, skipping

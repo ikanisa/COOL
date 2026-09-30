@@ -1,0 +1,11 @@
+{
+  "README.md": "c70298fc5c19002733ed23c871f3ede6d49168b0c2c9ce3008d5fed6a435e301",
+  "context-sha256.json": "0fba985994f6fe37d47279c058fefe6a208c1204fb6c5d844726e53f0f53320c",
+  "deno-tests.log": "74c3b946d2f5230fa57c6cca07dbf85dbaaef54549f2397bc7858958639cb8d3",
+  "entrypoint-check.log": "78629ec2a6a63cd955c78cbbef7d7b20ff639137e9fa721580aac7eba5e380ce",
+  "http-tests.log": "a57cc1077e90fb273478ab5fcc9135543709db3ffd07f8a2ca001de062a646df",
+  "roster-source-contract.log": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+  "runtime-verification.json": "fafea57d56c893fafc4f4345140f1bcd36055c334aa5785f87c3b819cbec8e42",
+  "source-sha256.json": "f4c9aff9db2ffd9f52dec11ad2537b3a14c9da1da2d0fec32725a63a4bec93c1",
+  "verification.json": "bc63107c6c2f66bbb7bd9eeb91aa65f7c180c4ec5ef6000b4d06e9360a2f58b2"
+}

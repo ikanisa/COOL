@@ -1,0 +1,18 @@
+[
+  {
+    "script": "scripts/tests/notification_registration_sessions_uat.sql",
+    "script_sha256": "29414fab6bb67fc26d72818961dfb620cd299ac3278de68e2605945c52f52df3",
+    "exit_code": 0,
+    "assertions": 35,
+    "all_domain_table_fingerprints_restored": true,
+    "provider_calls": false
+  },
+  {
+    "script": "scripts/tests/notification_delivery_sessions_uat.sql",
+    "script_sha256": "4736ae29086d02c8e827dec35f7e182c7027706356ad030611717e70e74f6f22",
+    "exit_code": 0,
+    "assertions": 62,
+    "all_domain_table_fingerprints_restored": true,
+    "provider_calls": false
+  }
+]

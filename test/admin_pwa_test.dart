@@ -80,30 +80,14 @@ void main() {
     expect(adminCanOpenPath(identity, '/admin/reconciliations'), isFalse);
   });
 
-  test(
-    'bank admin runtime includes maker-checker and reconciliation actions',
-    () {
-      final source = File(
-        'lib/admin/core/bank_transfer_admin_runtime.dart',
-      ).readAsStringSync();
-
-      for (final action in <String>[
-        'admin_propose_bank_destination',
-        'admin_review_bank_destination_change',
-        'admin_propose_bank_allocation',
-        'admin_review_bank_allocation',
-        "'ingest-bank-statement'",
-        'admin_run_bank_reconciliation',
-        'admin_resolve_reconciliation_exception',
-        'admin_reveal_raw_bank_evidence',
-        'admin_reopen_daily_bank_close',
-      ]) {
-        expect(source, contains(action), reason: action);
-      }
-      expect(source, contains('A checker must approve.'));
-      expect(source, contains("'p_reason'"));
-    },
-  );
+  test('retired bank admin runtime is absent', () {
+    expect(
+      File('lib/admin/core/bank_transfer_admin_runtime.dart').existsSync(),
+      isFalse,
+    );
+    final source = File('lib/admin/admin_router.dart').readAsStringSync();
+    expect(source, isNot(contains('/admin/bank-destinations')));
+  });
 
   test('admin shell keeps the essential operations navigation clean', () {
     final source = File('lib/admin/admin_shell.dart').readAsStringSync();
@@ -195,61 +179,17 @@ void main() {
     expect(migration, contains('admin.access.deactivated'));
   });
 
-  test('admin country scope covers Rwanda Malta and other countries', () async {
+  test('admin country scope includes Rwanda only', () async {
     expect(AdminCountryScope.values, <AdminCountryScope>[
-      AdminCountryScope.all,
       AdminCountryScope.rwanda,
-      AdminCountryScope.malta,
-      AdminCountryScope.other,
     ]);
-
     final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
-    final listRuntime = File(
-      'lib/admin/core/admin_list_runtime.dart',
-    ).readAsStringSync();
-    expect(shell, contains('_AdminCountrySwitcher'));
-    expect(shell, contains('PopupMenuButton<AdminCountryScope>'));
-    expect(listRuntime, contains('adminRowMatchesCountryScope'));
-    expect(listRuntime, contains('countryCode: countryScope.rpcCode'));
-
+    expect(shell, contains('Rwanda'));
     const repository = AdminEvidenceRepository();
     final members = await repository.list('admin_list_members', limit: 100);
-    final countries = members.rows
-        .map((row) => row.extra['country_code'])
-        .toSet();
-    expect(countries, containsAll(<String>{'RW', 'MT', 'GB'}));
-    final maltaMembers = await repository.list(
-      'admin_list_members',
-      limit: 100,
-      countryCode: 'MT',
-    );
-    expect(maltaMembers.rows, isNotEmpty);
+    expect(members.rows, isNotEmpty);
     expect(
-      maltaMembers.rows.every((row) => row.extra['country_code'] == 'MT'),
-      isTrue,
-    );
-    expect(
-      members.rows
-          .where(
-            (row) => adminRowMatchesCountryScope(row, AdminCountryScope.rwanda),
-          )
-          .every((row) => row.extra['country_code'] == 'RW'),
-      isTrue,
-    );
-    expect(
-      members.rows
-          .where(
-            (row) => adminRowMatchesCountryScope(row, AdminCountryScope.malta),
-          )
-          .every((row) => row.extra['country_code'] == 'MT'),
-      isTrue,
-    );
-    expect(
-      members.rows
-          .where(
-            (row) => adminRowMatchesCountryScope(row, AdminCountryScope.other),
-          )
-          .every((row) => row.extra['country_code'] == 'GB'),
+      members.rows.every((row) => row.extra['country_code'] == 'RW'),
       isTrue,
     );
   });
@@ -413,7 +353,7 @@ void main() {
       expect(genericTable, contains('class _AdminDataColumnLabel'));
       expect(genericTable, contains("label: '\$label: \$value'"));
       expect(genericTable, contains('_adminFormatCurrency(row.amount)'));
-      expect(genericTable, contains("currency == 'EUR'"));
+      expect(genericTable, isNot(contains("currency == 'EUR'")));
       expect(genericTable, contains("label == 'Debit = credit'"));
       expect(
         genericTable,
@@ -454,7 +394,7 @@ void main() {
       'supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql',
     ).readAsStringSync();
     final rosterFunction = File(
-      'supabase/functions/prepare-roster-import/index.ts',
+      'supabase/functions/prepare-roster-import/handler.ts',
     ).readAsStringSync();
     final openAiRoster = File(
       'supabase/functions/_shared/openai_roster.ts',
@@ -466,24 +406,30 @@ void main() {
     expect(groupRuntime, contains('admin_create_platform_public_group'));
     expect(groupRuntime, contains('locked permanently after creation'));
     expect(groupRuntime, contains('Create assisted group'));
-    expect(groupRuntime, contains('Prepare preview'));
-    expect(groupRuntime, contains("'csv'"));
-    expect(groupRuntime, contains("'txt'"));
-    expect(groupRuntime, contains("'xlsx'"));
-    expect(groupRuntime, contains("'pdf'"));
-    expect(groupRuntime, contains('Use OpenAI for this file'));
-    expect(groupRuntime, contains('Move extraction to editor'));
+    final rosterDialog = File(
+      'lib/admin/core/admin_roster_dialog.dart',
+    ).readAsStringSync();
+    final rosterGateway = File(
+      'lib/admin/core/admin_roster_import.dart',
+    ).readAsStringSync();
+    expect(rosterDialog, contains('Prepare preview'));
+    expect(rosterDialog, contains("'csv'"));
+    expect(rosterDialog, contains("'txt'"));
+    expect(rosterDialog, contains("'xlsx'"));
+    expect(rosterDialog, contains("'pdf'"));
+    expect(rosterDialog, contains('Use OpenAI for this file'));
+    expect(rosterDialog, contains('Save reviewed rows'));
+    expect(rosterDialog, contains('Next rows'));
     expect(rosterFileParser, contains('FormulaCellValue'));
-    expect(groupRuntime, contains('admin_create_assisted_group_with_roster'));
-    expect(groupRuntime, contains("'p_group_request_id': const Uuid().v4()"));
-    expect(groupRuntime, contains("'p_roster_request_id': const Uuid().v4()"));
+    expect(rosterGateway, contains('admin_commit_roster_import'));
+    expect(rosterGateway, contains('admin_review_roster_import'));
     expect(
       assistedMigration,
       contains('creates a private assisted group, its share code'),
     );
-    expect(rosterFunction, contains('deterministicSourceTypes'));
-    expect(rosterFunction, contains('OPENAI_API_KEY'));
-    expect(rosterFunction, contains('OPENAI_ROSTER_MODEL'));
+    expect(rosterFunction, contains('readRosterSource'));
+    expect(rosterFunction, contains('apiKey'));
+    expect(rosterFunction, contains('model'));
     expect(rosterFunction, contains('ai_consent'));
     expect(openAiRoster, contains('store: false'));
     expect(openAiRoster, isNot(contains('tools:')));
@@ -542,13 +488,6 @@ void main() {
       );
 
       expect(identity?.phoneMasked, '+250***6816');
-      expect(
-        await repository.action('admin_reveal_raw_bank_evidence', const {}),
-        {
-          'sender': 'Bank evidence',
-          'body': 'Raw bank evidence hidden in route evidence.',
-        },
-      );
       await expectLater(
         repository.sendOtp(phone: '+250788000000'),
         throwsFormatException,

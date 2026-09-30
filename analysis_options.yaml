@@ -3,6 +3,12 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   exclude:
     - build/**
+    - output/**
+    # Hash-preserved partial source evidence is not a buildable Dart package.
+    - docs/release/**/sources/**
+    - docs/release/**
+    # This standalone syntax audit uses its own pinned parser package config.
+    - scripts/tests/admin_ast_inventory.dart
   errors:
     missing_return: error
     missing_required_param: error

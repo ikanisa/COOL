@@ -1,0 +1,1 @@
+HISTORICAL_BANK_SCOPE_BOUNDARY_UAT_PASS: 11 assertions; synthetic rollback only

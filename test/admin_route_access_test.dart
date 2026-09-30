@@ -84,6 +84,7 @@ Future<ProviderContainer> _open(
   _AccessRepository repository,
   String path, {
   bool signedIn = true,
+  String sessionUserId = '00000000-0000-0000-0000-00000000e001',
 }) async {
   tester.view.physicalSize = const Size(1440, 1000);
   tester.view.devicePixelRatio = 1;
@@ -95,6 +96,13 @@ Future<ProviderContainer> _open(
       adminAuthGuardProvider.overrideWithValue(
         AdminAuthGuard(isAuthorized: signedIn),
       ),
+      adminAuthUserIdProvider.overrideWithValue(
+        signedIn ? sessionUserId : null,
+      ),
+      adminReconciliationSessionKeyProvider.overrideWith((ref) {
+        final userId = ref.watch(adminAuthUserIdProvider);
+        return userId == null ? null : '$userId/synthetic-route-session';
+      }),
       adminRepositoryProvider.overrideWithValue(repository),
     ],
   );
@@ -162,7 +170,12 @@ void main() {
           permissions: [],
         ),
       );
-      await _open(tester, repository, path);
+      await _open(
+        tester,
+        repository,
+        path,
+        sessionUserId: 'synthetic-no-permissions',
+      );
       await tester.pumpAndSettle();
       expect(find.text('Admin access required'), findsOneWidget);
       expect(repository.dataRequests, isEmpty);

@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "app_jar_verified_official_9_1_0": true,
+  "versions_unchanged": true,
+  "generated_sources_sha256": {
+    "android/gradlew": {
+      "sha256": "fb68debc1b1acf8ec55dc0d5e5495e1dedd0bd6b61f304bee61613eeb2bd9b92",
+      "bytes": 8618
+    },
+    "android/gradlew.bat": {
+      "sha256": "fedad02c18e266ec094995a5751b7fe1eb6e74f66bf75db64fae2e50eb22c234",
+      "bytes": 2896
+    },
+    "android/gradle/wrapper/gradle-wrapper.jar": {
+      "sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3",
+      "bytes": 45457
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "sha256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1",
+      "bytes": 340
+    },
+    "third_party/file_saver/android/gradle/wrapper/gradle-wrapper.properties": {
+      "sha256": "75efe174be1c322ffb28c9af5ad3fdd3e0d5d73a97210192094312064380b320",
+      "bytes": 287
+    }
+  },
+  "generation_scope": "Verified cached 9.1.0-all ZIP, isolated minimal offline Gradle project; no shared SDK/cache changes",
+  "fork_checksum_only": true,
+  "fork_wrapper_jar_absent": true
+}

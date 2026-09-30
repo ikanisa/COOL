@@ -1,0 +1,20 @@
+{
+  "captured_at_utc": "2026-09-29T23:25:59.238175+00:00",
+  "exit_code": 0,
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "source_sha256": "126e8179af488095d86b44c72deb3a580a6eebdec43fd7f6e52506970f3220e4",
+  "source_unchanged": true,
+  "all131_table_fingerprints_restored": true,
+  "controls_sha256_before": "d25943def03a23d44d552ff1102685495e5090de596ae04144dc79784ff5294f",
+  "controls_sha256_after": "d25943def03a23d44d552ff1102685495e5090de596ae04144dc79784ff5294f",
+  "stdout_sha256": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+  "stderr_sha256": "43fc47558c6a1be0499bfcc4bfe417bff1a733e43f8c96fff4c68fe77fa9cf63",
+  "receipt_cases": 2,
+  "provider_calls": false,
+  "hosted_mutations": false,
+  "sequence_counters_restored": false
+}

@@ -89,6 +89,6 @@ class PublicStaticRoutesTest < Minitest::Test
     assert_equal baseline_paths.sort, routes.select { |route| %w[page alias].include?(route[:kind]) }.map { |route| route[:path] }.sort
     assert_equal ['/app/', '/c/', '/group-link/'], routes.select { |route| route[:kind] == 'share_landing' }.map { |route| route[:path] }.sort
     assert_equal ['/c/*', '/invite/*'], routes.select { |route| route[:kind] == 'redirect_pattern' }.map { |route| route[:path] }.sort
-    assert_equal 21, routes.length
+    assert_equal 20, routes.length
   end
 end

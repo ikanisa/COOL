@@ -1,0 +1,4 @@
+{
+  "scripts/tests/roster_import_reload_concurrency_uat.rb": "29b02596640b27465346d52270efbb8d5b556e105ea4fbef7325ff15eb370757",
+  "supabase/migrations/20260930120000_roster_import_reload_recovery.sql": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9"
+}

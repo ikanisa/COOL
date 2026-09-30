@@ -19,7 +19,6 @@ void main() {
     expect(localizations.text('mtnReceiver'), 'MTN MoMo');
     expect(localizations.text('airtelReceiver'), 'Airtel Money');
     expect(localizations.text('quickAmounts'), 'Quick pick');
-    expect(localizations.text('bankTransfer'), 'Bank transfer');
     expect(localizations.text('noActivePaymentRoute'), isNotEmpty);
   });
 

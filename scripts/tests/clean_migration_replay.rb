@@ -9,6 +9,10 @@ require_relative '../qa/fullstack_database'
 current_release = !!ARGV.delete('--current-release')
 profile_cutover = !!ARGV.delete('--profile-cutover')
 fullstack_qa = !!ARGV.delete('--fullstack-qa')
+financial_qa = !!ARGV.delete('--financial-qa')
+notification_qa = !!ARGV.delete('--notification-qa')
+historical_bank_qa = !!ARGV.delete('--historical-bank-qa')
+concurrency_qa = !!ARGV.delete('--concurrency-qa')
 report_argument = ARGV.find { |argument| argument.start_with?('--report=') }
 ARGV.delete(report_argument) if report_argument
 report_path = report_argument&.split('=', 2)&.last
@@ -23,10 +27,79 @@ abort('Replay range modes are mutually exclusive') if through_version && continu
 [through_version, continue_after].compact.each do |version|
   abort('Invalid replay range version') unless version.match?(/\A[0-9]{14}\z/)
 end
-abort('Replay modes are mutually exclusive') if [current_release, profile_cutover, fullstack_qa].count(true) > 1
+abort('Replay modes are mutually exclusive') if [current_release, profile_cutover, fullstack_qa, financial_qa, notification_qa, historical_bank_qa, concurrency_qa].count(true) > 1
 target_provenance = FullstackDatabase.verify! if fullstack_qa
+if financial_qa || notification_qa || historical_bank_qa || concurrency_qa
+  fixture_name = if historical_bank_qa
+    'historical bank'
+  elsif concurrency_qa
+    'financial concurrency'
+  elsif financial_qa
+    'financial'
+  else
+    'notification'
+  end
+  fixture_project = if historical_bank_qa
+    'collect_historical_bank_qa_20260929'
+  elsif concurrency_qa
+    'collect_fin_concurrency_qa_20260929'
+  elsif financial_qa
+    'collect_financial_qa_20260928'
+  else
+    'collect_notification_qa_20260929'
+  end
+  fixture_container = "supabase_db_#{fixture_project}"
+  inspected, inspect_error, inspect_status = Open3.capture3(
+    'docker', 'inspect', fixture_container,
+    '--format', '{{json .Config.Labels}}'
+  )
+  abort(inspect_error) unless inspect_status.success?
+  labels = JSON.parse(inspected)
+  expected_workdir = if historical_bank_qa
+    File.expand_path('../../.cache/historical-bank-upgrade-20260929', __dir__)
+  elsif concurrency_qa
+    File.expand_path('../../.cache/financial-concurrency-20260929', __dir__)
+  elsif notification_qa
+    File.expand_path('../../.cache/notification-clean-qa-20260929', __dir__)
+  else
+    File.expand_path('../../.cache/financial-qa-20260928', __dir__)
+  end
+  workdir_verified = if notification_qa || historical_bank_qa || concurrency_qa
+    config = File.read(File.join(expected_workdir, 'supabase/config.toml'))
+    ports_json, ports_error, ports_status = Open3.capture3(
+      'docker', 'inspect', fixture_container, '--format', '{{json .HostConfig.PortBindings}}'
+    )
+    abort(ports_error) unless ports_status.success?
+    ports = JSON.parse(ports_json)
+    expected_port = if historical_bank_qa
+      '55622'
+    elsif concurrency_qa
+      '55722'
+    else
+      '55522'
+    end
+    labels['com.docker.compose.project'] == fixture_project &&
+      config.match?(/^project_id = "#{Regexp.escape(fixture_project)}"$/) &&
+      config.match?(/^port = #{expected_port}$/) &&
+      ports.dig('5432/tcp', 0, 'HostPort') == expected_port
+  else
+    labels['com.supabase.cli.workdir'] == expected_workdir
+  end
+  abort("#{fixture_name.capitalize} QA fixture provenance mismatch") unless
+    labels['com.supabase.cli.project'] == fixture_project &&
+    workdir_verified
+  target_provenance = { project: labels['com.supabase.cli.project'], workdir: expected_workdir }
+end
 container = if fullstack_qa
   FullstackDatabase::CONTAINER
+elsif financial_qa
+  'supabase_db_collect_financial_qa_20260928'
+elsif notification_qa
+  'supabase_db_collect_notification_qa_20260929'
+elsif historical_bank_qa
+  'supabase_db_collect_historical_bank_qa_20260929'
+elsif concurrency_qa
+  'supabase_db_collect_fin_concurrency_qa_20260929'
 elsif profile_cutover
   'supabase_db_collect_profile_cutover_replay_20260903'
 elsif current_release
@@ -132,6 +205,12 @@ payload = JSON.pretty_generate(captured_at:Time.now.utc.iso8601,container:contai
     "bounded local continuation after #{continue_after}; no customer data or provider calls"
   elsif through_version
     "clean Supabase CLI platform bootstrap through #{through_version}; no customer data or provider calls"
+  elsif financial_qa
+    'clean isolated financial QA Supabase platform bootstrap; all application migrations replayed; no customer data or provider calls'
+  elsif notification_qa
+    'clean isolated notification QA Supabase platform bootstrap; all application migrations replayed; no customer data or provider calls'
+  elsif concurrency_qa
+    'clean isolated financial concurrency QA Supabase platform bootstrap; all application migrations replayed; no customer data or provider calls'
   else
     'clean Supabase CLI platform bootstrap; all application migrations replayed; no customer data or provider calls'
   end,

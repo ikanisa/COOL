@@ -1,0 +1,3 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/roster_import_provenance_concurrency_uat.rb:430:in `<main>':  (RuntimeError)
+Cleanup failed: ERROR:  Full data baseline not restored; cleanup rolled back
+CONTEXT:  PL/pgSQL function inline_code_block line 2 at RAISE

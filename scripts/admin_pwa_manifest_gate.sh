@@ -15,7 +15,7 @@ service_worker_path = File.join(build_dir, "custom-sw.js")
 bootstrap_path = File.join(build_dir, "flutter_bootstrap.js")
 official_icon_path = File.join(build_dir, "icons", "collect-web-512.png")
 
-failures << "missing build/web/main.dart.js" unless File.exist?(main_js_path)
+failures << "missing or empty build/web/main.dart.js" unless File.file?(main_js_path) && File.size?(main_js_path)
 failures << "missing build/web/index.html" unless File.exist?(index_path)
 failures << "missing build/web/manifest.json" unless File.exist?(manifest_path)
 failures << "missing build/web/custom-sw.js" unless File.exist?(service_worker_path)
@@ -80,6 +80,9 @@ service_worker_required = {
   "versioned Collect Admin cache" => "CACHE_NAME",
   "app shell cache manifest" => "CACHE_URLS",
   "precache open" => "caches.open(CACHE_NAME)",
+  "credential-free static precache" => "credentials: 'omit'",
+  "redirect-rejecting static precache" => "redirect: 'error'",
+  "same-URL static response check" => "new URL(response.url).href !== expected.href",
   "install skip waiting" => "self.skipWaiting()",
   "activate clients claim" => "self.clients.claim()",
   "fetch handler" => "self.addEventListener('fetch'",

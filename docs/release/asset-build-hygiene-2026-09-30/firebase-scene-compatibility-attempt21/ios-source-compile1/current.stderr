@@ -1,0 +1,9 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m:499:32: warning: 'UNNotificationPresentationOptionAlert' is deprecated: first deprecated in iOS 14.0 [-Wdeprecated-declarations]
+  499 |         presentationOptions |= UNNotificationPresentationOptionAlert;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner
+In module 'UserNotifications' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_messaging-16.5.0/Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h:15:
+/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/System/Library/Frameworks/UserNotifications.framework/Headers/UNUserNotificationCenter.h:84:5: note: 'UNNotificationPresentationOptionAlert' has been explicitly marked deprecated here
+   84 |     UNNotificationPresentationOptionAlert API_DEPRECATED_WITH_REPLACEMENT("UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner", macos(10.14, 11.0), ios(10.0, 14.0), watchos(3.0, 7.0), tvos(10.0, 14.0)) = (1 << 2),
+      |     ^
+1 warning generated.

@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/repair147-preference-read-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "593db4fa03ab8dd91692f0680e9d7479c9b11f525eb193b9a48b1cb1b17322a2",
+  "executed_sql_sha256": "f866b326e17d68d0bc08d670c6f3252e1c0cdc8a51fb982cdc8fa4032d812cc8",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 147,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930150000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/runtime-controls-2026-09-30/repair147-source/correct-preference-read.sql",
+  "reviewed_source_sha256": "c12826e7152cd019259e45517a431e264884a582f61a8370f2800e23b9b02bbc",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T15:28:52.076556+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

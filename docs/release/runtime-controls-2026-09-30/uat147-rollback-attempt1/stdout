@@ -1,0 +1,33 @@
+{"role":"authenticated","sub":"99720000-0000-4000-8000-000000000001","session_id":"99720000-0000-4000-8000-000000000011"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{"ok": true, "family": "policy_documents", "changed": true, "identity": {"id": "99720000-0000-4000-8000-000000000101"}, "revision": 2, "updated_at": "2026-09-30T15:27:02.135416+00:00", "content_sha256": "79cb8a7e4d2819e71db92598c684886762e5dc5988834a98db80817526f7d02f", "contract_version": 1, "previous_revision": 1}
+
+
+
+{"ok": true, "family": "notification_template_versions", "changed": true, "identity": {"id": "99720000-0000-4000-8000-000000000121"}, "revision": 2, "updated_at": "2026-09-30T15:27:02.141261+00:00", "content_sha256": "b1e40bd49129365b2c9b89920abd4646927808625e9eac3ce1b5c1a1d978de28", "contract_version": 1, "previous_revision": 1}
+
+
+
+{"ok": true, "family": "notification_template_versions", "changed": true, "identity": {"id": "99720000-0000-4000-8000-000000000121"}, "revision": 3, "updated_at": "2026-09-30T15:27:02.147036+00:00", "content_sha256": "5d5fccc156fc9c3f1e3faead5cbcc42a4d9d67ecb61e79c13139af497d535cb2", "contract_version": 1, "previous_revision": 2}
+
+{"ok": true, "family": "notification_template_versions", "changed": true, "identity": {"id": "99720000-0000-4000-8000-000000000122"}, "revision": 1, "updated_at": "2026-09-30T15:27:02.151589+00:00", "content_sha256": "381f46e8c2c565e5361867afcc1dcb530a84e992661e4a353e405f5e430fb970", "contract_version": 1, "previous_revision": 0}
+
+
+
+{"role":"authenticated","sub":"99720000-0000-4000-8000-000000000002","session_id":"99720000-0000-4000-8000-000000000012"}

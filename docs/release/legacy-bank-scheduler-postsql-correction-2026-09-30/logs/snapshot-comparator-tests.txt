@@ -1,0 +1,14 @@
+test_accepts_already_disabled_original_job (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_accepts_already_disabled_original_job) ... ok
+test_accepts_only_disabled_canonical_job_with_preserved_history (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_accepts_only_disabled_canonical_job_with_preserved_history) ... ok
+test_rejects_changed_financial_row_hash (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_changed_financial_row_hash) ... ok
+test_rejects_forged_previous_activity (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_forged_previous_activity) ... ok
+test_rejects_history_changes (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_history_changes) ... ok
+test_rejects_missing_job (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_missing_job) ... ok
+test_rejects_missing_receipt (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_missing_receipt) ... ok
+test_rejects_unrelated_job_changes (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_unrelated_job_changes) ... ok
+test_rejects_wrong_original_identity (verify_legacy_bank_scheduler_upgrade_test.SchedulerUpgradeVerificationTest.test_rejects_wrong_original_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.000s
+
+OK

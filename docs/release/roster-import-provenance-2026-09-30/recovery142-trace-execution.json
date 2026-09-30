@@ -1,0 +1,10 @@
+{
+  "captured_at_utc": "2026-09-29T23:22:44.314931+00:00",
+  "exit_code": 1,
+  "backup_path": ".cache/roster-provenance-20260930/pre-recovery142-failed-graph.dump",
+  "backup_sha256": "32d59a34a3658f6adddf8b58b0e61a56682f9e8e1f05f3c6030124a5b384b7ad",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "d27c05cac9198893c9c658649719bdd7db2055bafb65a4432bd7cce1aa6950cb",
+  "provider_calls": false,
+  "hosted_mutations": false
+}

@@ -2,12 +2,12 @@
   "schema_version": 1,
   "bank_id": "collect-rwanda-group-covers-v1",
   "created_on": "2026-09-06",
-  "status": "44_generated_candidates_including_named_cards_and_wedding_v2",
-  "planned_asset_count": 44,
+  "status": "42_generated_candidates_including_named_cards_and_wedding_v2",
+  "planned_asset_count": 42,
   "generated_count_at_plan_creation": 0,
   "runtime_integrated": true,
   "authority": "revolut-design skill; owner Browser Comment 1 and explicit Buri munsi, Gikundiro, church, football and vibrant wedding additions, 2026-09-06",
-  "scope": "Original 40 concepts plus four owner-requested card images, including Buri munsi and Gikundiro. Six wedding concepts refreshed to version 2; originals preserved.",
+  "scope": "Original Rwanda group concepts plus owner-requested card images, including Buri munsi and Gikundiro. Six wedding concepts refreshed to version 2; originals preserved.",
   "localization_status": {
     "en": "draft",
     "rw": "draft_requires_native_review",
@@ -23,7 +23,7 @@
     ],
     "creator": "Signed-in Rwanda profile on Android with existing SMS consent and Play Integrity gates",
     "public_groups": "Platform-created or approved only",
-    "payments": "Existing Rwanda MoMo and separately governed diaspora bank-transfer rails; imagery does not confer new capability",
+    "payments": "Rwanda MoMo USSD in RWF only; imagery does not confer payment capability",
     "taxonomy_kind": "Image themes; not new database collection types",
     "persisted_photo": "Must survive save, authoritative reload and a second authorised viewer; current create path needs implementation work"
   },
@@ -130,15 +130,6 @@
         "fr": "Sport et culture"
       },
       "planned_count": 6
-    },
-    {
-      "id": "diaspora",
-      "labels": {
-        "en": "Diaspora connections",
-        "rw": "Abanyarwanda mu mahanga",
-        "fr": "Liens avec la diaspora"
-      },
-      "planned_count": 2
     }
   ],
   "sources": [
@@ -249,8 +240,8 @@
       "title": "Rwanda Community Abroad",
       "url": "https://www.minaffet.gov.rw/rwanda-community-abroad",
       "access": "Full webpage inspected.",
-      "supports": "Describes organised Rwandan diaspora associations and their connections and contributions to Rwanda.",
-      "limits": "No association is represented by these fictional scenes, and diaspora image availability does not establish diaspora group-creation eligibility or a new remittance service.",
+      "supports": "Describes organised Rwandan community groups and their local contributions.",
+      "limits": "No association is represented by these fictional scenes, and image availability does not establish group-creation eligibility or a new payment service.",
       "checked_on": "2026-09-06",
       "image_reuse": false
     },
@@ -323,7 +314,7 @@
     },
     {
       "number": 5,
-      "purpose": "Community projects, team support, culture and diaspora association",
+      "purpose": "Community projects, team support, culture and local associations",
       "asset_numbers": [
         31,
         32,
@@ -3232,158 +3223,6 @@
       "agent_visual_review": "initial_scene_review_complete"
     },
     {
-      "id": "rw-39-diaspora-family-connection",
-      "number": 39,
-      "version": 1,
-      "status": "generated_candidate",
-      "runtime_ready": false,
-      "labels": {
-        "en": "Family contributing from abroad",
-        "rw": "Umuryango uri mu mahanga",
-        "fr": "La famille contribue depuis l’étranger"
-      },
-      "family": "diaspora",
-      "theme": "diaspora_family",
-      "collection_types": [
-        "ikimina",
-        "wedding",
-        "other"
-      ],
-      "category_subtypes": [
-        "family_friends",
-        "committee",
-        "custom"
-      ],
-      "search_terms": [
-        "diaspora",
-        "abroad",
-        "amahanga",
-        "family",
-        "umuryango",
-        "étranger",
-        "famille"
-      ],
-      "explicit_context": null,
-      "general_default": false,
-      "editorial_priority": 5,
-      "depiction": {
-        "scene_mode": "people",
-        "setting": "diaspora-home",
-        "region_direction": "Rwandan diaspora, generic European home",
-        "all_people": "fictional adults",
-        "mood": "Soft cool window daylight balanced by warm wood and a muted green textile."
-      },
-      "prompt_spec": {
-        "scene": "Three Rwandan adult relatives in an ordinary contemporary European apartment discuss a shared family goal in Rwanda. One holds a phone turned away from the camera while another references an unmarked notebook. A subtle personal woven basket on a shelf may suggest a connection to home, without flags or a travel-poster collage. Focus on the family conversation, not a bank transfer interface.",
-        "materials_and_details": "Everyday contemporary clothing, ordinary home furnishings, no remittance amounts, bank logos, passports, exchange rates or identifiable recipients.",
-        "lighting_and_palette": "Soft cool window daylight balanced by warm wood and a muted green textile.",
-        "focal_subject": "The relatives discussing their shared family goal"
-      },
-      "alt_text": {
-        "en": "Illustrative scene: family contributing from abroad."
-      },
-      "focal_point": {
-        "x": 0.5,
-        "y": 0.47,
-        "status": "provisional_until_visual_review"
-      },
-      "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-39-diaspora-family-connection-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-39-diaspora-family-connection-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-39-diaspora-family-connection-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-39-diaspora-family-connection-v1.json"
-      },
-      "generation_batch": 1,
-      "source_ids": [
-        "S10"
-      ],
-      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
-      "reviews": {
-        "cultural": "pending",
-        "visual_and_crops": "pending",
-        "accessibility": "pending",
-        "localization": "pending",
-        "runtime_save_and_reload": "pending"
-      },
-      "review_note": "Diaspora imagery is available to a permitted Rwanda organiser; it does not enable diaspora group creation or change payment rails.",
-      "agent_visual_review": "initial_scene_review_complete"
-    },
-    {
-      "id": "rw-40-diaspora-community-project",
-      "number": 40,
-      "version": 1,
-      "status": "generated_candidate",
-      "runtime_ready": false,
-      "labels": {
-        "en": "A community connected to home",
-        "rw": "Abanyarwanda mu mahanga bafatanya",
-        "fr": "Une communauté liée au Rwanda"
-      },
-      "family": "diaspora",
-      "theme": "diaspora_project",
-      "collection_types": [
-        "other",
-        "ikimina"
-      ],
-      "category_subtypes": [
-        "custom",
-        "community_event"
-      ],
-      "search_terms": [
-        "diaspora",
-        "association",
-        "amahanga",
-        "project",
-        "community",
-        "communauté",
-        "projet"
-      ],
-      "explicit_context": null,
-      "general_default": false,
-      "editorial_priority": 5,
-      "depiction": {
-        "scene_mode": "people",
-        "setting": "diaspora-community-room",
-        "region_direction": "Rwandan diaspora, non-specific overseas city",
-        "all_people": "fictional adults",
-        "mood": "Clear soft indoor daylight, warm neutrals, muted navy and restrained green."
-      },
-      "prompt_spec": {
-        "scene": "Four Rwandan adult community-association members meet in a modest overseas community room to discuss a shared project back home. The group includes younger and older adults, with balanced participation around a small table. A plain project sketch and two unbranded sample materials sit at the centre. The scene should feel rooted in relationships, avoiding flags, official delegates or a symbolic world-map graphic.",
-        "materials_and_details": "Contemporary varied clothing, a realistic accessible meeting space, no embassy, organisation insignia, donor branding or financial promises.",
-        "lighting_and_palette": "Clear soft indoor daylight, warm neutrals, muted navy and restrained green.",
-        "focal_subject": "The association members and shared project materials"
-      },
-      "alt_text": {
-        "en": "Illustrative scene: a community connected to home."
-      },
-      "focal_point": {
-        "x": 0.5,
-        "y": 0.47,
-        "status": "provisional_until_visual_review"
-      },
-      "planned_files": {
-        "source": "assets/group_covers/rwanda/source/rw-40-diaspora-community-project-v1.png",
-        "cover": "assets/group_covers/rwanda/covers/rw-40-diaspora-community-project-v1.webp",
-        "thumbnail": "assets/group_covers/rwanda/thumbs/rw-40-diaspora-community-project-v1.webp",
-        "production_record": "assets/group_covers/rwanda/production/rw-40-diaspora-community-project-v1.json"
-      },
-      "generation_batch": 5,
-      "source_ids": [
-        "S10"
-      ],
-      "source_scope": "Sources inform the context; the people, composition and event are original creative proposals.",
-      "reviews": {
-        "cultural": "pending",
-        "visual_and_crops": "pending",
-        "accessibility": "pending",
-        "localization": "pending",
-        "runtime_save_and_reload": "pending"
-      },
-      "review_note": "Check local plausibility, dignified representation, object accuracy and every intended crop before runtime use.",
-      "agent_visual_review": "initial_scene_review_complete"
-    },
-    {
       "id": "rw-41-buri-munsi",
       "number": 41,
       "version": 1,
@@ -3688,10 +3527,10 @@
       "card_eyebrow": "Sport & culture"
     }
   ],
-  "generated_count": 44,
-  "generated_source_total_bytes": 98796942,
+  "generated_count": 42,
+  "generated_source_total_bytes": 94586636,
   "preserved_superseded_sources": 6,
   "runtime_integration_status": "Implemented locally; database migrations deployed and read back; application distribution and full native/cultural acceptance pending",
   "runtime_manifest": "assets/group_covers/rwanda/runtime-manifest.json",
-  "runtime_derivative_total_bytes": 4651698
+  "runtime_derivative_total_bytes": 4488758
 }

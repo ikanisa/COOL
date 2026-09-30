@@ -1,0 +1,738 @@
+{
+  "kind": "individual_prior_40_warning_dispositions",
+  "prior_warning_count": 40,
+  "warnings": [
+    {
+      "number": 1,
+      "id": "ScopedStorage",
+      "severity": "Warning",
+      "message": "READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.",
+      "locations": [
+        {
+          "line": "18",
+          "column": "23",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "source_sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+        }
+      ],
+      "disposition": "intentional permission removal directive; verify final merged manifest",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "This source declaration has tools:node=remove. Deleting it would permit a dependency manifest to reintroduce obsolete storage permissions.",
+      "reference": "https://developer.android.com/build/manage-manifests",
+      "current_source_sha256": "8e908f35379fb5455db445bc13e7488fed038fe018f1a5956917a3639762933d"
+    },
+    {
+      "number": 2,
+      "id": "ScopedStorage",
+      "severity": "Warning",
+      "message": "WRITE_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to write to shared storage, use the `MediaStore.createWriteRequest` intent.",
+      "locations": [
+        {
+          "line": "21",
+          "column": "23",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "source_sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+        }
+      ],
+      "disposition": "intentional permission removal directive; verify final merged manifest",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "This source declaration has tools:node=remove. Deleting it would permit a dependency manifest to reintroduce obsolete storage permissions.",
+      "reference": "https://developer.android.com/build/manage-manifests",
+      "current_source_sha256": "8e908f35379fb5455db445bc13e7488fed038fe018f1a5956917a3639762933d"
+    },
+    {
+      "number": 3,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "396",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Persist the stale permission-callback marker synchronously before returning without enabling capture; no success callback is emitted here. This is a small best-effort marker, not a claim that a checked persistence result exists.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+    },
+    {
+      "number": 4,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "66",
+          "column": "71",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Persist the bounded queue-overflow marker before returning FULL; the existing queue remains intact. Return is deliberately failure/full rather than ingestion success.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 5,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "117",
+          "column": "76",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Synchronously record disabled/unavailable status after queue/key failure, then return false without overwriting ciphertext.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 6,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "126",
+          "column": "76",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Record disabled/unavailable status before rejecting rebinding of a nonempty old-owner queue; preserve original evidence.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 7,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "182",
+          "column": "86",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Record unavailable state before throwing on invalid queue entry; no replacement queue is written.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 8,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "188",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Record unavailable state before throwing on a mixed-owner queue; preserve ciphertext and deny read.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 9,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "198",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Finish the availability status update before returning a successfully decrypted owner-bound queue.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 10,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "203",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Record unavailable state before throwing on decryption/key failure; preserve encrypted pending evidence.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 11,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "221",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Complete availability status after writeLocked has synchronously persisted the migrated encrypted queue; avoid returning recovery before its status write.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 12,
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "224",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit synchronous persistence",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Record migration unavailability before throwing; retain legacy data instead of discarding it.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 13,
+      "id": "UnusedAttribute",
+      "severity": "Warning",
+      "message": "Attribute `enableOnBackInvokedCallback` is only used in API level 33 and higher (current min is 24)",
+      "locations": [
+        {
+          "line": "31",
+          "column": "9",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "source_sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+        }
+      ],
+      "disposition": "retain modern platform capability",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "enableOnBackInvokedCallback opts into the Android13+ Back callback. Older supported APIs ignore the newer attribute; moving the application declaration into an API-only source manifest is not required.",
+      "reference": "https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture",
+      "current_source_sha256": "8e908f35379fb5455db445bc13e7488fed038fe018f1a5956917a3639762933d"
+    },
+    {
+      "number": 14,
+      "id": "GradleDependency",
+      "severity": "Warning",
+      "message": "A newer version of com.android.tools:desugar_jdk_libs than 2.1.4 is available: 2.1.5",
+      "locations": [
+        {
+          "line": "226",
+          "column": "27",
+          "path": "android/app/build.gradle.kts",
+          "source_sha256": "7beb5b41df2819fb448b77389a1d9cbacbb249bd596bf8b13f3afc3e2e634eaa"
+        }
+      ],
+      "disposition": "retain reviewed pinned version",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "desugar_jdk_libs2.1.4 is the existing reviewed build dependency. An available-version notice does not prove a defect; no upgrade or advisory clearance is asserted.",
+      "current_source_sha256": "3f8c04a499c3249c7131083d7f1db539ab33d63b9f49dd7817357716ee616a2b"
+    },
+    {
+      "number": 15,
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning",
+      "message": "This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable-night`.",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable-night-v21",
+          "source_sha256": null
+        }
+      ],
+      "disposition": "corrected source; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "The v21 resource is byte-identical to its unqualified counterpart under minSdk24. Exact source bytes/hash preserved before removing the redundant variant."
+    },
+    {
+      "number": 16,
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning",
+      "message": "This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable`.",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable-v21",
+          "source_sha256": null
+        }
+      ],
+      "disposition": "corrected source; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "The v21 resource is byte-identical to its unqualified counterpart under minSdk24. Exact source bytes/hash preserved before removing the redundant variant."
+    },
+    {
+      "number": 17,
+      "id": "UnusedResources",
+      "severity": "Warning",
+      "message": "The resource `R.drawable.transparent` appears to be unused",
+      "locations": [
+        {
+          "line": "2",
+          "column": "1",
+          "path": "android/app/src/main/res/drawable/transparent.xml",
+          "source_sha256": "3a889e009277a61051ae4243cbc546432dd2dfb91ba90f1f5876b9c19bcca2e5"
+        }
+      ],
+      "disposition": "corrected source; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "transparent.xml has no resource/source references. Original bytes/hash preserved before exact removal."
+    },
+    {
+      "number": 18,
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+          "source_sha256": "b4b0e16ece8b2956d6d6cec9a50b1a77f03a36e272c07bb07013ce57225454dc"
+        }
+      ],
+      "disposition": "corrected manifest; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "current_source_sha256": "b4b0e16ece8b2956d6d6cec9a50b1a77f03a36e272c07bb07013ce57225454dc"
+    },
+    {
+      "number": 19,
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+          "source_sha256": "a9c2c7aac385f8ee3d90c6ffaaf50c3247bb29f62be4b8ad804f7adf37657480"
+        }
+      ],
+      "disposition": "corrected manifest; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "current_source_sha256": "a9c2c7aac385f8ee3d90c6ffaaf50c3247bb29f62be4b8ad804f7adf37657480"
+    },
+    {
+      "number": 20,
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+          "source_sha256": "e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33"
+        }
+      ],
+      "disposition": "corrected manifest; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "current_source_sha256": "e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33"
+    },
+    {
+      "number": 21,
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+          "source_sha256": "c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb"
+        }
+      ],
+      "disposition": "corrected manifest; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "current_source_sha256": "c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb"
+    },
+    {
+      "number": 22,
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+          "source_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265"
+        }
+      ],
+      "disposition": "corrected manifest; release lint verification pending",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "current_source_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265"
+    },
+    {
+      "number": 23,
+      "id": "IconLocation",
+      "severity": "Warning",
+      "message": "Found bitmap drawable `res/drawable/collect_launcher_icon.png` in densityless folder",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable/collect_launcher_icon.png",
+          "source_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+        }
+      ],
+      "disposition": "retain canonical splash bitmap; verify resource references",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "collect_launcher_icon.png is a splash drawable used by explicit160dp framed launch backgrounds and API31 splash styles, rather than the launcher mipmap asset. Keep official byte identity; native visual/device acceptance remains separate.",
+      "current_source_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+    },
+    {
+      "number": 24,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "395",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+    },
+    {
+      "number": 25,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `String.toUri` instead?",
+      "locations": [
+        {
+          "line": "437",
+          "column": "23",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit Uri.parse after Uri.encode of the validated USSD request; the optional toUri extension provides no correctness change.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+    },
+    {
+      "number": 26,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "579",
+          "column": "20",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+    },
+    {
+      "number": 27,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "66",
+          "column": "17",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 28,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "114",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 29,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "123",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 30,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "129",
+          "column": "22",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 31,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "150",
+          "column": "9",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 32,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "160",
+          "column": "9",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 33,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "172",
+          "column": "26",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 34,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "182",
+          "column": "21",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 35,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "188",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 36,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "198",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 37,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "203",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 38,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "210",
+          "column": "16",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 39,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "221",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    },
+    {
+      "number": 40,
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "224",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "retain explicit operation semantics",
+      "original_evidence": "native-export-attempt2/lint-current-warning-inventory.json",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "reference": "https://developer.android.com/reference/android/content/SharedPreferences.Editor",
+      "current_source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+    }
+  ],
+  "scope": "Individual source review; no blanket suppression, no claim that remaining warnings vanished, native lint/artifact/device results separate"
+}

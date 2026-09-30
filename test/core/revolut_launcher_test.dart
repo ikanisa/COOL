@@ -3,16 +3,27 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Revolut launcher uses app deep link with official web fallback', () {
+  test('member payment launcher is MoMo USSD only', () {
+    // The archived helper may remain in source history; active member code
+    // must not import it as a contribution rail.
+    for (final file in Directory(
+      'lib',
+    ).listSync(recursive: true).whereType<File>()) {
+      if (!file.path.endsWith('.dart') ||
+          file.path.endsWith('/revolut_launcher.dart')) {
+        continue;
+      }
+      expect(
+        file.readAsStringSync(),
+        isNot(contains('revolut_launcher.dart')),
+        reason: file.path,
+      );
+    }
     final launcher = File(
-      'lib/core/payments/revolut_launcher.dart',
+      'lib/core/payments/momo_ussd_launcher.dart',
     ).readAsStringSync();
-
-    expect(launcher, contains("Uri.parse('revolut://')"));
-    expect(launcher, contains('https://www.revolut.com/app/'));
-    expect(launcher, contains('LaunchMode.externalApplication'));
-    expect(launcher, isNot(contains('tel:')));
-    expect(launcher, isNot(contains('ACTION_CALL')));
+    expect(launcher, contains('class MomoUssdLauncher'));
+    expect(launcher, isNot(contains('revolut://')));
   });
 
   test(

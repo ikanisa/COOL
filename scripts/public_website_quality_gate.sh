@@ -89,8 +89,7 @@ sitemap = read(sitemap_path)
 manifest_path = File.join(build_dir, "manifest.json")
 manifest_text = read(manifest_path)
 collect_icon_path = File.join(build_dir, "icons", "collect.png")
-stylesheet = read(File.join(build_dir, "styles.css")) + "\n" + read(File.join(build_dir, "sections.css"))
-design_contract_path = File.join(Dir.pwd, "docs", "release", "mobile-design", "mobile-parity-contract.json")
+stylesheet = %w[styles.css sections.css revolut.css].map { |name| read(File.join(build_dir, name)) }.join("\n")
 
 check(
   checks,
@@ -103,7 +102,6 @@ check(
 required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "Collect"],
   "/group-savings/" => ["Group savings"],
-  "/diaspora/" => ["Diaspora"],
   "/privacy/" => ["Privacy Policy", "Account deletion and data deletion"],
   "/terms/" => ["Terms"],
   "/account-deletion/" => ["Account Deletion"],
@@ -310,9 +308,9 @@ check(
   "path" => robots_path
 )
 
-required_sitemap_paths = ["/", "/group-savings", "/diaspora", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
+required_sitemap_paths = ["/", "/group-savings", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
 missing_sitemap = required_sitemap_paths.reject { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
-retired_sitemap_paths = ["/impact", "/rw/", "/rw/group-savings", "/rw/community-groups", "/subprocessors", "/privacy-request", "/cookies"]
+retired_sitemap_paths = ["/impact", "/diaspora", "/rw/", "/rw/group-savings", "/rw/community-groups", "/subprocessors", "/privacy-request", "/cookies"]
 retired_sitemap = retired_sitemap_paths.select { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
 check(
   checks,
@@ -571,7 +569,7 @@ check(
   checks,
   "pre_audit_content_parity",
   pass_if(baseline_content_ok),
-  baseline_content_ok ? "All 16 routes match the governed bank-only visible-content baseline exactly." : "Public route content differs from the governed bank-only baseline.",
+  baseline_content_ok ? "Public routes match the approved visible-content baseline." : "Public route content differs from the approved visible-content baseline.",
   "expected_routes" => baseline_content_hashes.keys.sort,
   "generated_routes" => generated_routes,
   "hash_failures" => content_hash_failures
@@ -720,7 +718,7 @@ check(
   "footer_trust_ok" => footer_trust_ok
 )
 
-cta_routes = ["/", "/group-savings/", "/diaspora/", "/insurance/", "/craas/", "/community-groups/", "/our-partners/", "/trust/"]
+cta_routes = ["/", "/group-savings/", "/insurance/", "/craas/", "/community-groups/", "/our-partners/", "/trust/"]
 cta_failures = cta_routes.reject do |route|
   html = read(route_index(build_dir, route))
   File.file?(route_index(build_dir, route)) &&
@@ -769,49 +767,36 @@ check(checks, "fee_disclaimer_absent", pass_if(fee_disclaimer_absent), fee_discl
 check(checks, "authentic_app_media", pass_if(authentic_app_media_ok), authentic_app_media_ok ? "App media matches reviewed captures and current runtime source; invented phone UI is absent." : "App screenshot provenance failed: #{app_media_error}")
 
 css_vars = css_hex_vars(stylesheet)
-design_contract_source = JSON.parse(read(design_contract_path))
-design_contract_failures = []
-design_contract_failures << "authority must be revolut-design" unless design_contract_source["authority"] == "revolut-design"
-design_contract_failures << "rule must be MOBILE-DESIGN-100" unless design_contract_source["rule"] == "MOBILE-DESIGN-100"
-design_contract_failures << "authority must use the approved skill entry point" unless design_contract_source["authority_rule"] == "SKILL.md"
-design_contract_failures << "authority SHA-256 is invalid" unless design_contract_source["authority_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
 old_public_color_tokens = %w[
   #5f5ce6 #168447 #a7465c #5f67e8 #35d071 #0a8f5b
   #ff6148 #d63b2e #f59bb3 #b4576d #b04b7a
 ]
 old_public_color_hits = old_public_color_tokens.select { |hex| stylesheet.downcase.include?(hex) }
-hex_css_var_count = css_vars.values.count { |value| value.to_s.match?(/\A#[0-9A-Fa-f]{6}\z/) }
-css_var_failures = []
-css_var_failures << "Public CSS must expose a complete runtime color variable set without a generated token JSON." if hex_css_var_count < 8
-single_source_color_contract_ok = css_var_failures.empty? &&
-  design_contract_failures.empty? &&
-  old_public_color_hits.empty? &&
-  !stylesheet.include?("--cta-mint") &&
-  !stylesheet.include?("--cta-rose")
+required_public_roles = %w[web-canvas web-ink web-action web-secondary web-widget web-card-border web-night web-on-night web-focus-outer web-focus-inner]
+css_var_failures = required_public_roles.reject { |role| stylesheet.include?("--#{role}:") }
+legacy_palette = stylesheet.match?(/--(?:periwinkle|mint|rose|orange|g[1-4]):/)
+single_source_color_contract_ok = css_var_failures.empty? && old_public_color_hits.empty? && !legacy_palette
 check(
   checks,
   "single_source_color_contract",
   pass_if(single_source_color_contract_ok),
-  single_source_color_contract_ok ? "Public site CSS exposes runtime color variables while the product contract delegates to the revolut-design authority and generated token JSON is absent." : "Public CSS variables, delegated authority fields, or old one-off public colors are not clean.",
-  "contract_path" => design_contract_path,
-  "css_var_failures" => css_var_failures,
-  "hex_css_var_count" => hex_css_var_count,
-  "design_contract_failures" => design_contract_failures,
+  single_source_color_contract_ok ? "Public marketing uses shared semantic roles and no native or logo-derived colour palette." : "Public semantic roles are missing or retired styling remains.",
+  "missing_roles" => css_var_failures,
+  "legacy_palette" => legacy_palette,
   "old_public_color_hits" => old_public_color_hits
 )
 
 cta_contrast = {
-  "cta-app" => contrast_ratio("#ffffff", css_vars.fetch("black", "#000000")),
-  "cta-group" => contrast_ratio("#ffffff", css_vars.fetch("black", "#000000")),
-  "cta-touch" => contrast_ratio("#ffffff", css_vars.fetch("black", "#000000")),
+  "marketing_primary" => contrast_ratio(css_vars.fetch("web-canvas", "#ffffff"), css_vars.fetch("web-action", "#1f1f1f")),
+  "marketing_copy" => contrast_ratio(css_vars.fetch("web-secondary", "#505053"), css_vars.fetch("web-canvas", "#ffffff")),
+  "marketing_heading" => contrast_ratio(css_vars.fetch("web-ink", "#191c1f"), css_vars.fetch("web-widget", "#f7f7f7")),
 }
-cta_contrast_ok = cta_contrast.values.all? { |ratio| ratio >= 4.5 } &&
-  stylesheet.include?(".button.cta-app,.button.cta-group,.button.cta-touch{background:var(--black);color:#fff;border-color:var(--black)")
+cta_contrast_ok = cta_contrast.values.all? { |ratio| ratio >= 4.5 }
 check(
   checks,
   "cta_white_label_contrast",
   pass_if(cta_contrast_ok),
-  cta_contrast_ok ? "Approved white CTA labels meet AA contrast against CTA button fills." : "One or more white CTA labels does not meet AA contrast against its button fill.",
+  cta_contrast_ok ? "Shared flat marketing colours meet AA contrast; rendered photography and interaction states require separate browser evidence." : "One or more shared marketing colours fails AA contrast.",
   "ratios" => cta_contrast
 )
 
@@ -871,54 +856,35 @@ check(
 
 mobile_hero_css_ok = stylesheet.match?(/\.app-capture img\{[^}]*height:auto/) &&
   stylesheet.match?(/\.hero-device\{[^}]*max-height:none/) &&
-  stylesheet.include?(".legal-page .hero-actions .button") &&
-  stylesheet.match?(/\.site-footer a\{[^}]*min-height:40px/) &&
-  stylesheet.match?(/\.site-footer a\{[^}]*min-height:44px[^}]*background:rgba\(255,255,255,\.06\)/)
+  stylesheet.match?(/\.site-footer a\{[^}]*min-height:44px/) &&
+  stylesheet.match?(/@media\s*\(max-width:\s*720px\)/)
 route_class_ok = route_identity.all? do |item|
   read(route_index(build_dir, item["route"])).match?(%r{<body class="[^"]*\broute-[^"\s]+})
 end
 route_variation_ok = root_html.match?(%r{<body class="[^"]*\broute-home\b}) &&
-  read(route_index(build_dir, "/diaspora/")).include?("content-grid-diaspora") &&
   read(route_index(build_dir, "/craas/")).include?("content-grid-craas") &&
-  read(route_index(build_dir, "/community-groups/")).include?("content-grid-community-groups") &&
-  stylesheet.include?(".content-grid-diaspora") &&
-  stylesheet.include?(".content-grid-craas") &&
-  stylesheet.include?(".content-grid-insurance") &&
-  stylesheet.include?(".content-grid-community-groups")
-compact_card_css_ok = stylesheet.match?(/\.use-case-grid\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
-  stylesheet.match?(/\.problem-list\.compact\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
-  stylesheet.match?(/\.supported-groups-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
-  stylesheet.include?(".supported-group-index") &&
-  stylesheet.include?(".supported-group-card p") &&
-  stylesheet.match?(/\.story-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
-  stylesheet.match?(/\.partner-engine-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/) &&
-  stylesheet.match?(/\.problem-list\.compact,.use-case-grid,.craas-service-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
-  stylesheet.include?(".problem-list.compact article:nth-child(5n+1)") &&
-  stylesheet.include?(".use-case-grid article:nth-child(5n+5)") &&
-  stylesheet.include?(".craas-service-grid article:nth-child(5n+5)") &&
-  stylesheet.include?(".infographic-step:nth-child(4n+1)") &&
-  stylesheet.include?(".story-grid article:nth-child(4n+4)") &&
-  stylesheet.include?(".content-grid .section-card:nth-of-type(4n+1)") &&
-  stylesheet.include?(".journey-rail article:nth-child(5n+5)") &&
-  stylesheet.include?(".insurance-step-grid article:nth-child(5n+5)") &&
-  stylesheet.include?(".partner-engine-grid article:nth-child(4n+4)") &&
-  stylesheet.include?("background:var(--black)") &&
-  stylesheet.match?(/\.content-grid,.infographic-grid,.supported-groups-grid,.story-grid,.story-grid\.four,.story-grid\.five,.story-grid\.six,.story-grid\.problem-grid,.journey-rail,.journey-rail\.group-journey,.insurance-step-grid,.partner-metric-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
-  stylesheet.match?(/\.supported-groups-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
-  stylesheet.match?(/\.partner-engine-grid,.partner-market-grid,.partner-operating-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/) &&
-  !stylesheet.include?("var(--g5)") &&
-  !stylesheet.include?("var(--g6)") &&
-  stylesheet.include?("box-shadow:0 16px 34px rgba(25,28,31,.14)") &&
-  stylesheet.include?("color:var(--white)")
+  read(route_index(build_dir, "/community-groups/")).include?("content-grid-community-groups")
+responsive_components_ok = stylesheet.include?("grid-template-columns:minmax(0,1fr)") &&
+  stylesheet.include?("overflow-wrap:anywhere") &&
+  stylesheet.include?("prefers-reduced-motion:reduce") &&
+  stylesheet.include?("forced-colors:active") &&
+  stylesheet.include?(".mobile-menu-actions")
+menu_routes = route_identity.map { |item| item["route"] } + ["/c/", "/app/", "/group-link/"]
+menu_failures = menu_routes.reject do |route|
+  html = read(route_index(build_dir, route))
+  html.include?('aria-controls="site-nav"') && html.include?('id="site-nav"') &&
+    html.include?("data-menu-button") && html.include?("data-site-nav")
+end
 check(
   checks,
   "responsive_layout_and_route_variation",
-  pass_if(mobile_hero_css_ok && route_class_ok && route_variation_ok && compact_card_css_ok),
-  mobile_hero_css_ok && route_class_ok && route_variation_ok && compact_card_css_ok ? "Mobile hero, footer tap targets, compact colorful card grids, and route-specific classes are present for responsive layout refinement." : "Responsive layout, compact card grid, or route-variation implementation is incomplete.",
+  pass_if(mobile_hero_css_ok && route_class_ok && route_variation_ok && responsive_components_ok && menu_failures.empty?),
+  "Static responsive and menu structure checks only; browser layout, task, contrast and source fidelity remain separate.",
   "mobile_hero_css_ok" => mobile_hero_css_ok,
   "route_class_ok" => route_class_ok,
   "route_variation_ok" => route_variation_ok,
-  "compact_card_css_ok" => compact_card_css_ok
+  "responsive_components_ok" => responsive_components_ok,
+  "menu_failures" => menu_failures
 )
 
 credit_readiness_ok = root_html.downcase.include?("credit-readiness") &&

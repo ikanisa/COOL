@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'admin_shell.dart';
 import 'core/admin_auth_guard.dart';
+import 'core/admin_automations_page.dart';
 import 'core/admin_repository_base.dart';
 import '../features/landing/collect_landing_page.dart';
 import 'shared/components/admin_empty_state.dart';
@@ -35,6 +36,7 @@ const adminRoutePaths = <String>[
   '/admin/settings',
   '/admin/feature-flags',
   '/admin/system-health',
+  '/admin/automations',
   '/admin/admin-users',
   '/admin/admin-users/:id',
 ];
@@ -176,6 +178,10 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             title: 'Admin users',
             rpcName: 'admin_list_admin_users',
             detailPathPrefix: '/admin/admin-users',
+          ),
+          GoRoute(
+            path: '/admin/automations',
+            builder: (context, state) => const AdminAutomationsPage(),
           ),
           _detailRoute(
             '/admin/admin-users/:id',

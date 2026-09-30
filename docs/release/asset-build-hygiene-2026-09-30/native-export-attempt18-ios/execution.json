@@ -1,0 +1,109 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "source-export",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-export-attempt18-ios/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.8,
+      "stdout_sha256": "20627891b873e05796e08ac21f6bdb55c22106a42f4cf1e6127499563f54f8a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.45,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "xcode-version",
+      "command": [
+        "xcrun",
+        "xcodebuild",
+        "-version"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.09,
+      "stdout_sha256": "694b44731d0b415c5b11d844151e466d7f5e200a95627efda377f232f1a6ab77",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.85,
+      "stdout_sha256": "54abfd8b8accd9bed4ad2916ef2624f7c25e452cd6b23a5a87528d503afc5394",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unsigned-ios-config",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "build",
+        "ios",
+        "--release",
+        "--flavor",
+        "production",
+        "--no-codesign",
+        "--no-pub",
+        "--config-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 93.55,
+      "stdout_sha256": "ee3a10667ea7561810c62c04e2cc344ced8157ac6eb3fe7a29619671995a796f",
+      "stderr_sha256": "1622f660fd70d360f0ba6dedf36c9a4424428eeeca37f22e8297605dbb71faf6"
+    },
+    {
+      "name": "unsigned-ios-build",
+      "command": [
+        "xcrun",
+        "xcodebuild",
+        "-workspace",
+        "ios/Runner.xcworkspace",
+        "-scheme",
+        "production",
+        "-configuration",
+        "Release-production",
+        "-sdk",
+        "iphoneos",
+        "-destination",
+        "generic/platform=iOS",
+        "-derivedDataPath",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/DerivedData",
+        "-clonedSourcePackagesDirPath",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/SourcePackages",
+        "-onlyUsePackageVersionsFromResolvedFile",
+        "-disableAutomaticPackageResolution",
+        "-skipPackageUpdates",
+        "CODE_SIGNING_ALLOWED=NO",
+        "CODE_SIGNING_REQUIRED=NO",
+        "CODE_SIGNING_IDENTITY=",
+        "DEVELOPMENT_TEAM=",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 170.87,
+      "stdout_sha256": "38e9dcff50ecacb2522a1abc3b49ce782466b52fc558f5a2c4b1d7334bda0389",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Isolated source-only unsigned iOS QA compilation; no credentials, signed store/provider/device acceptance"
+}

@@ -1,0 +1,191 @@
+{
+  "as_of": "2026-09-29",
+  "scope": "Current local source and retained evidence; no frozen-commit or deployed acceptance claim",
+  "files": [
+    {
+      "path": "deploy/hardening/reconciliation_approval_v2.sql",
+      "sha256": "7e1ee39bd6f665350ba6dfe8f135d02c5d0928382b0753b17705b0a2b0a58026",
+      "bytes": 9185
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/README.md",
+      "sha256": "c8e06904dc38f28567d88ec75cc88180029b69e40ef4728bd0ef58a11afa0f47",
+      "bytes": 6739
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/baseline-135-result.txt",
+      "sha256": "32f5b70c9a55b13942126d44ecb0ff1a0466e8a3ca29bbdc175ba3aa3cebf358",
+      "bytes": 444
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/baseline-135.sql",
+      "sha256": "84b0304d2c58c33b2234447b672a0df42081e465bdb5b4106d00c7a5ca9ca809",
+      "bytes": 2356
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/changed-evidence-race.json",
+      "sha256": "a5d0fa1baa53d1c56708d7e2992f86613f94fd6a44465c30c50c34076be5aaf9",
+      "bytes": 652
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/clean-136-replay.json",
+      "sha256": "a783bfecb81c07791ac009c13e29bd4057ef3c70c2902c41cef7c54953e4352e",
+      "bytes": 29798
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/clean-138-replay.json",
+      "sha256": "fdfe16c23413231258da49a762b282f5b8153b6b4131b3e410d03d3b4475628a",
+      "bytes": 30263
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/content-uat-137.stderr",
+      "sha256": "6cd6dff361e59fc150b942c6ff3abec799cd258b92d563324234b0153870ca03",
+      "bytes": 8582
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/content-uat-137.stdout",
+      "sha256": "c978f72c4eef4907e59af39332f81ad3ccbe3b6e8117c8a2920e2478a73bfc32",
+      "bytes": 710
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/content-uat-138.stderr",
+      "sha256": "0fe65142300edad616b28d63f94d94f7ac5eafa8a4b06ef8e39366c6e6600b85",
+      "bytes": 8582
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/content-uat-138.stdout",
+      "sha256": "91bf7f6db3767f624166f918b97c0ce4d324bfe8cc096d4d411c90bb08737fee",
+      "bytes": 710
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/content-uat.stderr",
+      "sha256": "535f48d0e82c76614c32de896c45bfac3871286f21516b59166b14a434f97349",
+      "bytes": 8582
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/content-uat.stdout",
+      "sha256": "6af8f567a64d4af4f548707715333a4d7e236e39501f0025b4d1ee53b5b5ccc5",
+      "bytes": 710
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/final-snapshot-138.json",
+      "sha256": "fe3325ae9c1f4855fd8847fceb27651ca7fa8ec2013007524dc081f435a9782d",
+      "bytes": 328
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/identical-finality-race-138.json",
+      "sha256": "890d98973456a2e67f17bdda56f4f287977b706ada3e661084e048c0f547dfcb",
+      "bytes": 603
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/ordering-result-137.txt",
+      "sha256": "853d5b4ad1d012b6f2e54dc64afdcd2e6df46e5bf9629931390b79c7c2278315",
+      "bytes": 98
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/ordering-result.txt",
+      "sha256": "853d5b4ad1d012b6f2e54dc64afdcd2e6df46e5bf9629931390b79c7c2278315",
+      "bytes": 98
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/post-content-uat-snapshot.json",
+      "sha256": "6cb3745f13818d99245eb6ffa7abe648857b1eccec3cf089e1bc2999609fab0b",
+      "bytes": 328
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/post-race-snapshot.json",
+      "sha256": "21f51e6357a5bcff9123fd296dd15ad9728471fb379c346dd91a566707d93cc7",
+      "bytes": 329
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/post-upgrade-snapshot.json",
+      "sha256": "6cb3745f13818d99245eb6ffa7abe648857b1eccec3cf089e1bc2999609fab0b",
+      "bytes": 328
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/pre-upgrade-snapshot.json",
+      "sha256": "b3805d1ddbd6a0720c8773c6b175295ec3f9fe91bfd76965fc0ff17767568157",
+      "bytes": 328
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/qa-tooling.log",
+      "sha256": "5b5c2086e40dd40920209fd1d882a52c5dcf32b9af212678ccca92e23254f18a",
+      "bytes": 12292
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/reversal-race-138.json",
+      "sha256": "3a454c533ba6c32035e77f163b3dd2a148ce06922991f2a40b1e34df3b25027a",
+      "bytes": 481
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/seed-race-136.json",
+      "sha256": "7b0e4d17da0f1118fdda8b95a661c4346c07f9c2171dd17f269b5e8125d042ed",
+      "bytes": 477
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/seed-race-138.json",
+      "sha256": "73bd3560f3e5da1205de619937cf391b7b06f6f7eda0857624d6cf149e6beeba",
+      "bytes": 477
+    },
+    {
+      "path": "docs/release/financial-content-binding-2026-09-29/upgrade-136.json",
+      "sha256": "23ee1006baabb86d87158df0140cc56d3a994e224f6cf24875d6a18dc8ec4954",
+      "bytes": 449
+    },
+    {
+      "path": "scripts/tests/clean_migration_replay.rb",
+      "sha256": "b8aac7e33eec7ee07b42277a67fe89a102e9508d7dbd51b493f8d70e44839f37",
+      "bytes": 10421
+    },
+    {
+      "path": "scripts/tests/financial_concurrency_seed.sql",
+      "sha256": "33eb47aa2e0f4b413b8c9266211d7d0fc8827ce92c3a53137995265f80b232b6",
+      "bytes": 6533
+    },
+    {
+      "path": "scripts/tests/financial_concurrency_uat.rb",
+      "sha256": "ef1609b6620deb27d63229f08f0bc0723a0822fa813b9f349ba59dddc56ec5c6",
+      "bytes": 6894
+    },
+    {
+      "path": "scripts/tests/financial_conflicting_finality_concurrency_uat.rb",
+      "sha256": "695594849496fd19f6d32ebd81e01bdcf476aa84a4a236199d8e2d00ee7884c8",
+      "bytes": 9660
+    },
+    {
+      "path": "scripts/tests/financial_finality_concurrency_uat.rb",
+      "sha256": "caaaa5828b87b9dd4bfd4db077cef32be7af046e7648ddeb449c1e974c9b0297",
+      "bytes": 10228
+    },
+    {
+      "path": "scripts/tests/financial_finality_content_uat.sql",
+      "sha256": "102aed412fce07e91c6e99ec02701a0726cebcd5c6f122cc24ab48effbb5cca1",
+      "bytes": 23483
+    },
+    {
+      "path": "scripts/tests/financial_provider_ordering_uat.sql",
+      "sha256": "16ced459ce6641fc0707268812b03dcd091fece1e7f62375be229575b450cd76",
+      "bytes": 5478
+    },
+    {
+      "path": "scripts/tests/financial_reversal_admin_seed.sql",
+      "sha256": "808d549b4eb1b990fe31b035aa7baa69b5e940fe8d0ee789015607201e61424e",
+      "bytes": 2893
+    },
+    {
+      "path": "scripts/tests/financial_reversal_concurrency_uat.rb",
+      "sha256": "874a37671852e7b54a059d52fb5b7886e13ecadcd19cac1248159a6b8475f05b",
+      "bytes": 9242
+    },
+    {
+      "path": "scripts/tests/hybrid_direct_ussd_concurrency_test.rb",
+      "sha256": "0afcf9842d6ffab8f222b7d05ce8c33219ea65e9bf2abcebea029780fcc5b63d",
+      "bytes": 11714
+    },
+    {
+      "path": "supabase/migrations/20260929130000_provider_finality_content_binding.sql",
+      "sha256": "96ac54d5084d42211296cc32351997a31817befa1d5f1e134429c429969c408c",
+      "bytes": 17791
+    }
+  ]
+}

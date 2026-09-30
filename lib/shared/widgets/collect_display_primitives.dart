@@ -6,6 +6,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
 import 'collect_foundation.dart';
+import 'collect_chrome.dart';
 import 'collect_tone_icon.dart';
 
 class CollectIdDisplay extends StatelessWidget {
@@ -258,8 +259,9 @@ class SectionHeader extends StatelessWidget {
                     textWidth(actionLabel!, actionStyle) +
                     CollectSpacing.x2 * 2 >
                 constraints.maxWidth;
-        final heading = Text(
-          title,
+        final heading = CollectHeadingText(
+          title: title,
+          level: 2,
           style: titleStyle,
           maxLines: stacked ? null : (largeText ? 3 : 1),
           softWrap: stacked || largeText,

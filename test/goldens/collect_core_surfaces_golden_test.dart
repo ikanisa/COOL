@@ -55,7 +55,7 @@ void main() {
     'appearance': '/settings/appearance',
   };
 
-  test('approved golden manifest covers every baseline exactly', () {
+  test('historical golden manifest covers every baseline exactly', () {
     final files =
         Directory('test/goldens/baselines')
             .listSync()
@@ -85,7 +85,7 @@ void main() {
 
   for (final surface in memberSurfaces.entries) {
     testWidgets(
-      'member ${surface.key} matches approved visual baseline',
+      'member ${surface.key} compares historical visual baseline',
       (tester) async {
         await _setViewport(tester, const Size(390, 844));
         final goldenKey = ValueKey<String>('golden-member-${surface.key}');
@@ -145,7 +145,7 @@ void main() {
   }
 
   testWidgets(
-    'public website matches approved desktop baseline',
+    'public website compares historical desktop baseline',
     (tester) async {
       await _setViewport(tester, const Size(1440, 900));
       const goldenKey = ValueKey<String>('golden-public-home');
@@ -178,7 +178,7 @@ void main() {
   );
 
   testWidgets(
-    'Admin PWA overview matches approved desktop baseline',
+    'Admin PWA overview compares historical desktop baseline',
     (tester) async {
       await _setViewport(tester, const Size(1440, 900));
       const goldenKey = ValueKey<String>('golden-admin-overview');
@@ -192,10 +192,6 @@ void main() {
           'public_requests.read',
           'collections.read',
           'users.read',
-          'bank_details.read',
-          'bank_transactions.read',
-          'bank_evidence.read',
-          'bank_reconciliation.read',
           'audit.read',
           'feature_flags.read',
           'settings.read',

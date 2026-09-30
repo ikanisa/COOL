@@ -1,0 +1,134 @@
+{
+  "date": "2026-09-30",
+  "scope": "Local Admin reconciliation implementation and mocked verification; no production acceptance",
+  "status": "local_checks_passed",
+  "test_counts": {
+    "mfa": 30,
+    "repository": 36,
+    "operator_ui": 22,
+    "existing_admin_regressions": 156,
+    "edge_handler": 25
+  },
+  "source_entry_count": 50,
+  "source_drift": [],
+  "commands": {
+    "edge-handler-tests": {
+      "command": [
+        ".cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--no-config",
+        "supabase/functions/reconciliation-finalize/handler_test.ts"
+      ],
+      "exit_code": 0
+    },
+    "edge-entrypoint-check": {
+      "command": [
+        ".cache/roster-deno-2.5.6-20260929/deno",
+        "check",
+        "--no-config",
+        "supabase/functions/reconciliation-finalize/index.ts"
+      ],
+      "exit_code": 0
+    },
+    "flutter-version": {
+      "command": [
+        "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    "deno-version": {
+      "command": [
+        ".cache/roster-deno-2.5.6-20260929/deno",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    "analyze": {
+      "command": [
+        "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/core/admin_reconciliation_runtime.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_reconciliation_step_up.dart",
+        "test/admin_reconciliation_repository_test.dart",
+        "test/admin_reconciliation_ui_test.dart",
+        "test/admin_reconciliation_step_up_test.dart",
+        "test/admin_route_access_test.dart"
+      ],
+      "exit_code": 0
+    },
+    "admin-regression": {
+      "command": [
+        "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/admin_list_paging_test.dart",
+        "test/admin_repository_paging_test.dart",
+        "test/admin_route_access_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_reason_dialog_focus_test.dart",
+        "test/admin_pwa_test.dart"
+      ],
+      "exit_code": 0
+    },
+    "focused-flutter": {
+      "command": [
+        "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=COLLECT_RECONCILIATION_CAPTURE=true",
+        "test/admin_reconciliation_step_up_test.dart",
+        "test/admin_reconciliation_repository_test.dart",
+        "test/admin_reconciliation_ui_test.dart"
+      ],
+      "exit_code": 0
+    }
+  },
+  "runtime_fingerprints": "runtime-fingerprints.json",
+  "db_mutations": 0,
+  "hosted_auth_requests": 0,
+  "provider_calls": 0,
+  "deployments": 0,
+  "sha256": {
+    "README.md": "28315e9b6d61485086dd124c581cff281e311b470f408872e3916cd2b04ca5e9",
+    "command-results-final.json": "56b8fcc25db7153bb94224ef34bcca02fd31b43e931447efa627bd91b0a71225",
+    "command-results-followup.json": "36b11669bc6aee9076e0b7b665018aaa69144822e1610a0a85951cfd8b1d8602",
+    "command-results-initial.json": "f615d8f81a675000ed72e962fe0d54ded253eec2da862254c1406d378e5324ac",
+    "logs/admin-regression-attempt-1.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/admin-regression-attempt-1.stdout.txt": "e6c842444d3894053fc7bcb0731b5c502a38f9b5f36889a16c1d07976d1395b0",
+    "logs/admin-regression.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/admin-regression.stdout.txt": "e8b623697396d28f4671e18d9cbfaf6058bac0636b178b05ace55a9ebb4fa854",
+    "logs/analyze.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/analyze.stdout.txt": "57f4daae5279ee429330740b3432b3f06561321cf17c83ccb83bd420c84c0f11",
+    "logs/deno-version.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/deno-version.stdout.txt": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0",
+    "logs/edge-entrypoint-check.stderr.txt": "8bb0fa3058410e8edea0f2182180a46aa089d2aafda79a3b904298ed3173842c",
+    "logs/edge-entrypoint-check.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/edge-handler-tests.stderr.txt": "18f96d27f255ebd78bf5f78881fa7abaa9bc8560f09be29b1d78fae4f80a8257",
+    "logs/edge-handler-tests.stdout.txt": "040764dfa319e0c7bc434138a5453faa55894b2be40be899bb6d51d0a411f888",
+    "logs/flutter-version.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/flutter-version.stdout.txt": "f440f9d1db68c68945a2eb244aee202818808f457bb02245b4d91e1d2e4e7881",
+    "logs/focused-flutter-attempt-1.stderr.txt": "a3aad1b237654e7d9ac8ab74ed966458d99f6cb78dbd95f07e011d88f418a706",
+    "logs/focused-flutter-attempt-1.stdout.txt": "d6c2d58f447599c13fa3e56884f9faf491ba5f11b923ae51071dcb121e1c8447",
+    "logs/focused-flutter-attempt-2.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/focused-flutter-attempt-2.stdout.txt": "efb8db6acbdd509b11fdaf15849a3d5685e10c848c3b0c586929c8f1cce233da",
+    "logs/focused-flutter-attempt-3.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/focused-flutter-attempt-3.stdout.txt": "bafc008b6bd1e4dd7f0d09cce8118c8f97fda512e62345833a53164e48763498",
+    "logs/focused-flutter-pre-visual-fix.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/focused-flutter-pre-visual-fix.stdout.txt": "1dad13b7b4159829710854b8c5d234099c6bdbaf0eb1388e09f2becf03588481",
+    "logs/focused-flutter.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/focused-flutter.stdout.txt": "f3a4ade13dd7b8e8980704b2d9dd56f58daa40caa9666ef3341b4418c0a39abc",
+    "runtime-fingerprints.json": "57e6d9fae8b3f975d0cb611991e669662932ee68054b2c36a777c116e77d2c8e",
+    "screens/approved-review-desktop.png": "ebe462d223342649e24a5a9b320a511a33b43a2f06670907fffe5a134d6b116f",
+    "screens/evidence-form-narrow-text-200.png": "57c090b7765eb74824724f3525278572f1e8d146034fc06fcc65a823c4392ef0",
+    "tested-source-after.json": "271ffa4a7cf3ae42b9c1c23128814b7a3383ad063d8fb09b00d31b29f0e28cfd",
+    "tested-source-attempt-1.json": "fe8d331fdd9ac908e5d28269414fbe4fe037ee5a2f15f07f87df2292927150c8",
+    "tested-source-attempt-2.json": "e42143a182679063ececa5082b988c41f618ce8cbd1b1417d1441f9e7d3fa500",
+    "tested-source-attempt-3.json": "32de5079194899449568cec7bfea597c1c5422885e764433ab22f4348d2ce428",
+    "tested-source-before.json": "271ffa4a7cf3ae42b9c1c23128814b7a3383ad063d8fb09b00d31b29f0e28cfd"
+  }
+}

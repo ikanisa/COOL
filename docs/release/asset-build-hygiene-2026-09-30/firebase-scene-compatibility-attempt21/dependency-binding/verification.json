@@ -1,0 +1,93 @@
+{
+  "changed_lock_packages": [
+    "firebase_messaging"
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "pinned-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "name": "offline-reviewed-rebind",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "name": "offline-enforced-lock",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    }
+  ],
+  "current_source_sha256": {
+    ".dart_tool/package_config.json": "6e9db07fa874a7ce6d8bb341c5dfbf1deaad6409e17eced195e742538077013f",
+    ".flutter-plugins-dependencies": "9184e8b0d45eb529cc789563adfb8397effd1a3e5e0c80ea190f42d527c7165f",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8"
+  },
+  "flutter_version": {
+    "channel": "stable",
+    "dartSdkVersion": "3.12.2",
+    "devToolsVersion": "2.57.0",
+    "engineBuildDate": "2026-06-24 02:26:40.203",
+    "engineCommitDate": "2026-06-23 23:09:55.000Z",
+    "engineContentHash": "700aebeca4c0e610f109a3979ee3e71b69d666bc",
+    "engineRevision": "a10d8ac38de835021c8d2f920dbf50a920ccc030",
+    "flutterRoot": "/Volumes/PRO-G40/Development/Flutter/flutter",
+    "flutterVersion": "3.44.4",
+    "frameworkCommitDate": "2026-06-24 11:07:06 -0700",
+    "frameworkRevision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "frameworkVersion": "3.44.4",
+    "repositoryUrl": "https://github.com/flutter/flutter.git"
+  },
+  "gotrue_binding_preserved": true,
+  "kind": "single_reviewed_package_path_binding",
+  "manifest_direct_dependencies_preserved": true,
+  "offline_execution": true,
+  "package_count": 167,
+  "recorder_sha256": "7f022db31d18c8c8ddcd96a2bc4eb093b3ef70dd4e7c1e84a59afb7a00456459",
+  "resolved_firebase_package": {
+    "languageVersion": "3.6",
+    "name": "firebase_messaging",
+    "packageUri": "lib/",
+    "rootUri": "../third_party/firebase_messaging"
+  },
+  "resolved_plugin_platforms": {
+    "android": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging/"
+    ],
+    "ios": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging/"
+    ],
+    "linux": [],
+    "macos": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging/"
+    ],
+    "web": [],
+    "windows": []
+  },
+  "signed_or_provider_acceptance": false,
+  "status": "pass",
+  "version_changes": []
+}

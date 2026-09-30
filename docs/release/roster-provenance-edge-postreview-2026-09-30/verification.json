@@ -1,0 +1,99 @@
+{
+  "status": "local_mock_boundary_pass_not_production_acceptance",
+  "started_at": "2026-09-29T23:03:08.842281+00:00",
+  "finished_at": "2026-09-29T23:03:15.862716+00:00",
+  "source_files_unchanged_during_checks": true,
+  "source_count": 37,
+  "source_manifest_sha256": "b5d731f51b22c30fbf1fc21182d52eab2a9dc3ea877ce1e2669959d7d7af428e",
+  "context_note": "Context fingerprints only; no Flutter dependency-resolution or SQL execution is claimed by this packet.",
+  "context_manifest_sha256": "0fba985994f6fe37d47279c058fefe6a208c1204fb6c5d844726e53f0f53320c",
+  "deno_version": [
+    "deno 2.5.6 (stable, release, aarch64-apple-darwin)",
+    "v8 14.0.365.5-rusty",
+    "typescript 5.9.2"
+  ],
+  "deno_binary_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+  "tests": {
+    "deno_total": 125,
+    "deno_new_provenance_handler": 74,
+    "deno_existing_roster": 51,
+    "existing_breakdown": {
+      "file_policy": 19,
+      "response_policy": 24,
+      "openai_request": 3,
+      "csv_parser": 5
+    },
+    "http_roster_bun": 10,
+    "http_existing_bun": 45,
+    "focused_static_source_contract": 1
+  },
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--cached-only",
+        "--no-prompt",
+        "--no-lock",
+        "supabase/functions/_shared/roster_file_policy_test.ts",
+        "supabase/functions/_shared/roster_response_policy_test.ts",
+        "supabase/functions/_shared/openai_roster_test.ts",
+        "supabase/functions/_shared/roster_import_test.ts",
+        "supabase/functions/prepare-roster-import/handler_test.ts"
+      ],
+      "exit_code": 0,
+      "log": "deno-tests.log",
+      "log_sha256": "8a312dacb96cf1141283364790afe19295f584697b73d7424af8127868ab7aeb"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "check",
+        "--no-lock",
+        "supabase/functions/prepare-roster-import/index.ts"
+      ],
+      "exit_code": 0,
+      "log": "entrypoint-check.log",
+      "log_sha256": "78629ec2a6a63cd955c78cbbef7d7b20ff639137e9fa721580aac7eba5e380ce"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/hardening/run_edge_http_tests.py"
+      ],
+      "exit_code": 0,
+      "log": "http-tests.log",
+      "log_sha256": "95635fba1dd1c5232e6b61428122e17d6f643c14a2e016992567295b658b3aba"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.hardening.source_integration_test.IntegrationTests.test_roster_preview_preserved"
+      ],
+      "exit_code": 0,
+      "log": "roster-source-contract.log",
+      "log_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5"
+    }
+  ],
+  "external_calls": "No database, Auth service, provider, or hosted deployment calls. Deno tests use cached remote assertions and injected Auth/RPC/fetch; entrypoint typecheck uses cached Supabase SDK. HTTP harness executes real entrypoints with local doubles.",
+  "limitations": [
+    "SQL142 contract behavior and RBAC/session/commit atomicity require separate database UAT.",
+    "Dart/Admin integration, reviewed-row presentation, stale-session barriers, and deployed contract compatibility require separate evidence.",
+    "XLSX Edge verifies only ZIP framing and separately hashes client-derived TSV; it does not validate TSV against workbook cells.",
+    "PDF/image framing and dimension limits do not prove full codec decoding, PDF page/object-stream expansion budgets or malware scanning.",
+    "No live model quality, provider spend/rate budget, retention/legal approval, representative browser memory, or production release acceptance is demonstrated."
+  ],
+  "predecessor_packet": "docs/release/roster-provenance-edge-2026-09-30",
+  "predecessor_verification_sha256": "bc63107c6c2f66bbb7bd9eeb91aa65f7c180c4ec5ef6000b4d06e9360a2f58b2",
+  "reviewed_sql_source": {
+    "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+    "sha256": "46cc675c117a3fa6d438db8501a3e9643496a13a80305ae2a61071c27060d01e",
+    "scope": "read-only source contract comparison; no database execution"
+  },
+  "initial_test_failure": {
+    "log": "initial-test-expectation-error.log",
+    "reason": "Test expectation miscounted exponent representation length; corrected expected delta from 3 to 5 bytes. Final125 pass."
+  }
+}

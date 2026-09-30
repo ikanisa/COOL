@@ -1,0 +1,12 @@
+{
+  "original_all139_tables_and_controls_restored": true,
+  "owned_row_counts": {
+    "collect_auth_security.otp_phone_locks": 2,
+    "collect_security.otp_policy": 1,
+    "collect_security.signed_otp_evidence": 2,
+    "collect_security.signed_otp_requests": 2,
+    "public.otp_rate_limits": 2
+  },
+  "reviewed_trace_sha256": "e454c72106b1e244fe923f76abd72448753eb220b3cc0c96f7759be787a4ff48",
+  "sequences_restored": false
+}

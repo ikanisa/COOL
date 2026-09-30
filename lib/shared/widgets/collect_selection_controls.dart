@@ -16,7 +16,6 @@ class PremiumSegmentedFilter<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
     return Semantics(
       container: true,
       label: 'Filter options',
@@ -28,14 +27,6 @@ class PremiumSegmentedFilter<T> extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 2),
             child: SegmentedButton<T>(
               showSelectedIcon: false,
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith((states) {
-                  if (states.contains(WidgetState.selected)) {
-                    return colors.actionColor.withValues(alpha: 0.12);
-                  }
-                  return colors.surfaceRaised;
-                }),
-              ),
               segments: [
                 for (final value in values)
                   ButtonSegment<T>(

@@ -1,0 +1,378 @@
+{
+  "passed": true,
+  "synthetic_only": true,
+  "provider_accuracy_verified": false,
+  "source_before": {
+    "tools/roster-decoder/decoder.py": "ddcecf87cfd3c10ccc31e8a2e1945c7f8944fe8d5396aa9f72e8fa86598126b4",
+    "tools/roster-decoder/generate_fixtures.py": "95b08b6775825ae21b05ba87d85340e10740b055e474999a1636d37b34c885c5",
+    "tools/roster-decoder/server.py": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+    "tools/roster-decoder/requirements.in": "b8fb6f99aae0ca996ae1e47348091911a17403413a45451c3b77575e071d3bed",
+    "tools/roster-decoder/requirements.lock": "a5fc3b5c83aef83c5e822211c798d4575d90a8adb8de01e43801c614bd992f3a",
+    "tools/roster-decoder/Dockerfile": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+    "scripts/tests/verify_roster_decoder.py": "e43a932eb5d1e2315143e2f6268272912e7eec472aa515999f28debb9ad24e58",
+    "supabase/functions/_shared/roster_decoder.ts": "575c44e86de2571af7813d8adb714f67949b4543316ee98f34809eebc2d4d20b",
+    "supabase/functions/_shared/roster_resource_budget.ts": "edbf4d374803e1bdaf47d9f37b1855b160c6401937cbb48e3a584b7c660e1b49",
+    "supabase/functions/prepare-roster-import/handler.ts": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+  },
+  "cases": [
+    {
+      "id": "scanned-multilingual",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda",
+        "synthetic"
+      ],
+      "source_sha256": "bd5b89c16285fb7aa3d62141af768aa96a620f9f8fa89fccf798ec4f0d6541f9",
+      "error": null
+    },
+    {
+      "id": "truncated",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "malformed",
+        "truncated"
+      ],
+      "source_sha256": "89462c991136998d2f8eda1f0d371e302d5a094a93077cdef57c6a991f0d7ac2",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "scanned-multilingual",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda",
+        "synthetic"
+      ],
+      "source_sha256": "2881d2538c97a86f39526b62e96cdea71d37bcf6483d8a2f43af2b9d17805944",
+      "error": null
+    },
+    {
+      "id": "truncated",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "malformed",
+        "truncated"
+      ],
+      "source_sha256": "7bf868124c8f5cbb14cb13711123e4aaafc74b1a5bf6c281617523609439acc0",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "scanned-multilingual",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda",
+        "synthetic"
+      ],
+      "source_sha256": "2088ddc49de516aac0eb9d14514977d1eb9c6615cbe25e2fa7f0a7604a589f4c",
+      "error": null
+    },
+    {
+      "id": "truncated",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "malformed",
+        "truncated"
+      ],
+      "source_sha256": "b24f960a67410286c3cee9e0b12fb17982d2c0bc909acd6157c8bb62fca3d0b3",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "bad-crc",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "malformed",
+        "CRC"
+      ],
+      "source_sha256": "45af51ef01fe84b7420ac81a4f826e9e1a3b318ea938ef38fb64e236d50e2e93",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "dimension-bomb",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "resource",
+        "dimensions"
+      ],
+      "source_sha256": "7ce6bec85b52e4d860a64bf9b2194119b64bae1c96e5c472037544c19ae227b8",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "animation-3",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "source_sha256": "94f49c54db9cf525b794b4becbf67e8823da862617949edb473785009fcc85d1",
+      "error": null
+    },
+    {
+      "id": "animation-21",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "source_sha256": "d43daa9aca5903a59c52cea4ff46cbf83f13b0395e7d532ccbbc211ded31fdde",
+      "error": "roster_animation_limit"
+    },
+    {
+      "id": "animation-3",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "source_sha256": "e4563756fd21923973e4a5f7778fb66c031109efaa642cff0a8e41799aa8de5c",
+      "error": null
+    },
+    {
+      "id": "animation-21",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "source_sha256": "1d52e199c1b6d84ef5508f3373b11668598b809d26d75f688bfa47c45687c18c",
+      "error": "roster_animation_limit"
+    },
+    {
+      "id": "scanned-multilingual",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda"
+      ],
+      "source_sha256": "a10b1ac8eaa273f33e6cfa2a04e3a7899e7efc21f980715e94d612cfecb2a76b",
+      "error": null
+    },
+    {
+      "id": "pages-2",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "pages",
+        "resource"
+      ],
+      "source_sha256": "9c40130cc9702d3f9d3045f84216fcd52e8724c20474bf63e6c184f6d95eb3f6",
+      "error": null
+    },
+    {
+      "id": "pages-21",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "pages",
+        "resource"
+      ],
+      "source_sha256": "cf7b095a12b4444d5c95ad1acfbed33bf06affa667b0d1f54bce477686bcc620",
+      "error": "roster_pdf_page_limit"
+    },
+    {
+      "id": "javascript",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "active-content"
+      ],
+      "source_sha256": "f7934af62e017e8b20305649d19f6856405e8e6712b1ed5eb2d97a13f0b78208",
+      "error": "roster_pdf_active_content"
+    },
+    {
+      "id": "encrypted",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "encrypted"
+      ],
+      "source_sha256": "eab961011713c954050a91e2b67a761072e3934e1bdebeb6e030cbfd735d272c",
+      "error": "roster_pdf_encrypted"
+    },
+    {
+      "id": "attachment",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "active-content"
+      ],
+      "source_sha256": "f40f291f91c9c7555ae1baae6c4ede5275272f0464250eee705fb8b92035b5b9",
+      "error": "roster_pdf_active_content"
+    },
+    {
+      "id": "flate-expansion",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "resource",
+        "decompression"
+      ],
+      "source_sha256": "a115e9679d1b9c9e9bfd2b7bdf44be2c511fcb8ec2d8142b1c9dbfb3108b8836",
+      "error": "roster_pdf_expansion_limit"
+    },
+    {
+      "id": "broken-xref",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "malformed",
+        "xref"
+      ],
+      "source_sha256": "e138511c6b5eb18e83547a85208b088fcdd9928301a357a98b14ea73d125d1a1",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "multilingual",
+      "status": 200,
+      "accepted": true,
+      "expected_accepted": true,
+      "labels": [
+        "French",
+        "Kinyarwanda",
+        "original-workbook"
+      ],
+      "source_sha256": "9e544bb8f17188e64d27338d77fa7294327a912e13a2982d3b3fe1a9763a1cc6",
+      "error": null
+    },
+    {
+      "id": "formula",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "formula",
+        "injection"
+      ],
+      "source_sha256": "26ac45e58dd4c4f42d2442685bafda9dc584a2ed22ab54f1d5772d31014d5e74",
+      "error": "roster_xlsx_formula"
+    },
+    {
+      "id": "oversized-grid",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "resource",
+        "rows"
+      ],
+      "source_sha256": "1b899cfb018a087f75213808df0b07dbe48056f7c137c221e4e7d73f1225a8f5",
+      "error": "roster_xlsx_expansion_limit"
+    },
+    {
+      "id": "entity",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "XML",
+        "external-reference"
+      ],
+      "source_sha256": "f074381d6aedab21599d87cbdc3f9e998fdb3af05f64cd0027fb4fec2ae2590f",
+      "error": "roster_invalid_file"
+    },
+    {
+      "id": "external",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "XML",
+        "external-reference"
+      ],
+      "source_sha256": "b4f5c5a19a11a0ecaa8d612a24570e0ed2a1a52c4c7a02d2f3f17ac75ee2dbd5",
+      "error": "roster_xlsx_external_reference"
+    },
+    {
+      "id": "zip-expansion",
+      "status": 422,
+      "accepted": false,
+      "expected_accepted": false,
+      "labels": [
+        "resource",
+        "decompression"
+      ],
+      "source_sha256": "fbf3dbddbc7a91ec4e5be4081689afc5516d81b13dd14af43d5a37f1f4dd88f6",
+      "error": "roster_xlsx_expansion_limit"
+    },
+    {
+      "id": "nonce-replay",
+      "status": 409
+    },
+    {
+      "id": "bad-signature",
+      "status": 401
+    },
+    {
+      "id": "source-substitution",
+      "status": 422
+    },
+    {
+      "id": "expired-request",
+      "status": 400
+    }
+  ],
+  "decoder_build_sha256": "2c47ff4a83979aabd0d85edd7b1797a61a176aca3d17d7e31a9f8d258e7361c1",
+  "image_id": "sha256:79afc61b97669e70a7d5dff4219d7be318b3c2220ff7a25b32ad0c15b89933ea",
+  "source_after": {
+    "tools/roster-decoder/decoder.py": "ddcecf87cfd3c10ccc31e8a2e1945c7f8944fe8d5396aa9f72e8fa86598126b4",
+    "tools/roster-decoder/generate_fixtures.py": "95b08b6775825ae21b05ba87d85340e10740b055e474999a1636d37b34c885c5",
+    "tools/roster-decoder/server.py": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+    "tools/roster-decoder/requirements.in": "b8fb6f99aae0ca996ae1e47348091911a17403413a45451c3b77575e071d3bed",
+    "tools/roster-decoder/requirements.lock": "a5fc3b5c83aef83c5e822211c798d4575d90a8adb8de01e43801c614bd992f3a",
+    "tools/roster-decoder/Dockerfile": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+    "scripts/tests/verify_roster_decoder.py": "e43a932eb5d1e2315143e2f6268272912e7eec472aa515999f28debb9ad24e58",
+    "supabase/functions/_shared/roster_decoder.ts": "575c44e86de2571af7813d8adb714f67949b4543316ee98f34809eebc2d4d20b",
+    "supabase/functions/_shared/roster_resource_budget.ts": "edbf4d374803e1bdaf47d9f37b1855b160c6401937cbb48e3a584b7c660e1b49",
+    "supabase/functions/prepare-roster-import/handler.ts": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+  },
+  "logs": {
+    "start.log": "6cab1cf5120aa0148efa1bf9314ad892145173635ddef6a73d8a5a29af8db4bc",
+    "image.log": "c1ff1e606e3b3764943a0f01a37e044c5c0f7e573b953abaec8393a13e0a83a4",
+    "cpu-limit.log": "54f0e47ca7ebef71c043030b36a4365217f7a32df97275f21461474e088e7280",
+    "generation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "supervisor.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "edge-decoder-integration.log": "ceb45bc0f99d40ab460164f9a9fc390e68d8c69c3d5845213a97c64e585f2869",
+    "port.log": "ec0d5d51a7dbe219ecd3a4c98ed999f999cc05fa54ab69ea0fe03cfb33c8e8d4",
+    "stop.log": "0f02899beaf4db71c267df538677d24351f0c03a65478fae04def6c52c0b0fd3",
+    "isolation.log": "ddf57d2eb2bf9b2fb46ea96cd615e66f62d426f520f8e0abc7aa67d5bf4e5402",
+    "build.log": "5efb300c4b98b32b401a31371bd6628595506e5a936b919b885995985562e168"
+  }
+}

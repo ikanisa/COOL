@@ -278,25 +278,12 @@ void main() {
     });
   }
 
-  testWidgets('a country change away from a queue resets its page on return', (
-    tester,
-  ) async {
+  testWidgets('group queue uses Rwanda country scope', (tester) async {
     final repository = _QueueRepository();
     final container = await _open(tester, repository);
-    await tester.ensureVisible(find.byTooltip('Next page'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Next page'));
-    await tester.pumpAndSettle();
-    container.read(adminRouterProvider).go('/admin/groups/collection-26');
-    await tester.pumpAndSettle();
-    container.read(adminCountryScopeProvider.notifier).state =
-        AdminCountryScope.malta;
-    await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Back to Groups'));
-    await tester.pumpAndSettle();
-    expect(repository.requests.last.offset, 0);
-    expect(repository.requests.last.country, 'MT');
+    expect(container.read(adminCountryScopeProvider), AdminCountryScope.rwanda);
+    expect(repository.requests.last.country, 'RW');
+    expect(find.text('Buri Munsi'), findsWidgets);
     expect(tester.takeException(), isNull);
-    await tester.pumpWidget(const SizedBox.shrink());
   });
 }

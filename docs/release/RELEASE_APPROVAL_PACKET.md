@@ -1,11 +1,15 @@
 # Collect Release Approval Packet
 
-> **Current authoritative update — 2026-09-03:** The exact current
-> `1.2.4+23` hashes, production readbacks, two remaining approvals and current
-> decision are in
-> [PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md](PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md).
-> The generated June material below is retained as historical evidence. Do not
-> reuse its artifact approvals for the current candidate.
+> **Current update — 2026-09-28: NO-GO.** The June packet and September 3
+> technical note below are historical. The changed Rwanda-only candidate has
+> no current signed APK/AAB hashes, has five failing screenshot comparisons, and lacks
+> deployed financial, provider, device, store and owner acceptance evidence.
+> See the [current decision](GO_NO_GO_DECISION.md) and [task implementation audit](PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md).
+> Existing approval records retain their historical meaning; they cannot be
+> used as a current-candidate production GO. New owner review must cover the
+> selected `revolut-design` references and the exact signed release artifacts.
+
+## Historical 21 June 2026 packet
 
 - Generated at: `2026-06-21T13:12:21Z`
 - Decision: `GO`
@@ -43,7 +47,6 @@
 - Verify: `Run the record_command for product_signoff, then ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make release-status-json`
 - Evidence to review:
   - `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
-  - `docs/release/mobile-design/mobile-parity-contract.json`
   - `scripts/collect_product_boundary_scan.sh`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/collect_product_boundary_scan.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`

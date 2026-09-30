@@ -1,17 +1,5 @@
 part of 'collect_models.dart';
 
-List<String> _stringList(Object? value) {
-  if (value is List) {
-    return [
-      for (final item in value)
-        if (item != null && item.toString().trim().isNotEmpty)
-          item.toString().trim(),
-    ];
-  }
-  if (value is String && value.trim().isNotEmpty) return [value.trim()];
-  return const [];
-}
-
 Map<String, dynamic> _mapValue(Object? value) {
   if (value is Map<String, dynamic>) return value;
   if (value is Map) return Map<String, dynamic>.from(value);

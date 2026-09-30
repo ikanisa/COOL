@@ -30,12 +30,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         title: 'Notifications',
         onTap: () => context.go('/settings/notifications'),
       ),
-      if (profile?.isDiaspora == true)
-        _SettingsTile(
-          leading: Icons.account_balance_rounded,
-          title: 'Diaspora bank transfer details',
-          onTap: () => context.go('/settings/bank-transfer'),
-        ),
       _SettingsTile(
         leading: CollectIcons.shield,
         title: 'App permissions',

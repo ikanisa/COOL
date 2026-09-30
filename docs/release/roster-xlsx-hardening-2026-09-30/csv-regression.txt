@@ -1,0 +1,10 @@
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import_test.ts
+running 5 tests from ./supabase/functions/_shared/roster_import_test.ts
+parses a quoted reviewed CSV roster ... ok (0ms)
+parses headerless tab-separated rows ... ok (0ms)
+invalid, low-confidence and duplicate numbers remain review-only ... ok (0ms)
+spreadsheet formula-like names remain review-only ... ok (0ms)
+Rwanda MoMo normalization rejects masked or foreign numbers ... ok (0ms)
+
+ok | 5 passed | 0 failed (2ms)
+

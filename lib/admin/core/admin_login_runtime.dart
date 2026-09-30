@@ -18,12 +18,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   Timer? _resendTimer;
 
   String get _phoneForAuth {
-    final raw = _phone.text.trim();
-    if (raw.startsWith('+') || raw.startsWith('00')) return raw;
-    final digits = raw
-        .replaceAll(RegExp(r'\D'), '')
-        .replaceFirst(RegExp(r'^0+'), '');
-    return '+250$digits';
+    return PhoneNormalizer.normalizeRwanda(_phone.text);
   }
 
   @override
@@ -365,7 +360,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
       return 'That code could not be verified. Check the latest WhatsApp code or request a new one.';
     }
     if (message.contains('format') || message.contains('phone')) {
-      return 'Enter a valid international WhatsApp number.';
+      return 'Enter a valid Rwanda WhatsApp number.';
     }
     if (message.contains('not authorized') ||
         message.contains('overview.read') ||

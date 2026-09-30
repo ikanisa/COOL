@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "default-assemble",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-PcollectUnsignedLocalQa=false",
+        "--dry-run",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "expected_gate_verified": true
+    },
+    {
+      "name": "default-bundle",
+      "command": [
+        "./gradlew",
+        ":app:bundleProductionRelease",
+        "-PcollectUnsignedLocalQa=false",
+        "--dry-run",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "expected_gate_verified": true
+    },
+    {
+      "name": "invalid-qa-property",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-PcollectUnsignedLocalQa=invalid",
+        "--dry-run",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "expected_gate_verified": true
+    }
+  ],
+  "scope": "Actual default assemble/bundle signing refusal and invalid QA property rejection on source-only export; no credentials supplied or real store build attempted"
+}

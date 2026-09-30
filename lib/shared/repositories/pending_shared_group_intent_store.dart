@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 typedef PendingIntentClock = DateTime Function();
 
@@ -44,7 +45,7 @@ class PendingSharedGroupIntentStore {
        _clock = clock ?? DateTime.now;
 
   static const defaultPreferencesKey = 'collect.pending_shared_group_intent.v1';
-  static const schemaVersion = 1;
+  static const schemaVersion = 2;
   // Must match join_group_by_share_code's server-side p_group_code bound.
   static const maxSlugLength = 140;
 
@@ -53,7 +54,7 @@ class PendingSharedGroupIntentStore {
   final String preferencesKey;
   final Duration maxAge;
 
-  Future<String?> readSlug() async {
+  Future<PendingSharedGroupIntent?> read() async {
     final raw = await _preferences.getString(preferencesKey);
     if (raw == null || raw.trim().isEmpty) return null;
 
@@ -62,14 +63,21 @@ class PendingSharedGroupIntentStore {
       if (decoded is! Map<String, dynamic> ||
           decoded['version'] != schemaVersion ||
           decoded['slug'] is! String ||
-          decoded['captured_at'] is! String) {
+          decoded['captured_at'] is! String ||
+          decoded['intent_id'] is! String) {
         await clear();
         return null;
       }
 
       final slug = normalizePendingSharedGroupSlug(decoded['slug'] as String);
       final capturedAt = DateTime.tryParse(decoded['captured_at'] as String);
-      if (slug == null || capturedAt == null) {
+      final intentId = decoded['intent_id'] as String;
+      final owner = decoded['owner_user_id'];
+      if (slug == null ||
+          capturedAt == null ||
+          !_uuidPattern.hasMatch(intentId) ||
+          (owner != null &&
+              (owner is! String || !_uuidPattern.hasMatch(owner)))) {
         await clear();
         return null;
       }
@@ -80,30 +88,102 @@ class PendingSharedGroupIntentStore {
         await clear();
         return null;
       }
-      return slug;
+      return PendingSharedGroupIntent(
+        slug: slug,
+        intentId: intentId.toLowerCase(),
+        ownerUserId: (owner as String?)?.toLowerCase(),
+        capturedAt: capturedAt.toUtc(),
+      );
     } on FormatException {
       await clear();
       return null;
     }
   }
 
-  Future<String> saveSlug(String rawSlug) async {
+  static const _uuid = Uuid();
+  static final _uuidPattern = RegExp(
+    r'^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+    caseSensitive: false,
+  );
+
+  Future<String?> readSlug() async => (await read())?.slug;
+
+  Future<PendingSharedGroupIntent> save(
+    String rawSlug, {
+    String? ownerUserId,
+  }) async {
     final slug = normalizePendingSharedGroupSlug(rawSlug);
     if (slug == null) {
       throw const FormatException('Group link is invalid');
+    }
+    final owner = ownerUserId == null
+        ? null
+        : normalizePendingSharedGroupOwnerUserId(ownerUserId);
+    final intent = PendingSharedGroupIntent(
+      slug: slug,
+      intentId: _uuid.v4(),
+      ownerUserId: owner,
+      capturedAt: _clock().toUtc(),
+    );
+    await write(intent);
+    return intent;
+  }
+
+  Future<String> saveSlug(String rawSlug) async => (await save(rawSlug)).slug;
+
+  Future<void> write(PendingSharedGroupIntent intent) async {
+    if (normalizePendingSharedGroupSlug(intent.slug) != intent.slug ||
+        !_uuidPattern.hasMatch(intent.intentId)) {
+      throw const FormatException('Group invitation is invalid');
+    }
+    if (intent.ownerUserId != null) {
+      if (intent.ownerUserId !=
+          normalizePendingSharedGroupOwnerUserId(intent.ownerUserId!)) {
+        throw const FormatException('Group invitation account is invalid');
+      }
     }
     await _preferences.setString(
       preferencesKey,
       jsonEncode({
         'version': schemaVersion,
-        'slug': slug,
-        'captured_at': _clock().toUtc().toIso8601String(),
+        'slug': intent.slug,
+        'intent_id': intent.intentId,
+        'owner_user_id': intent.ownerUserId,
+        'captured_at': intent.capturedAt.toIso8601String(),
       }),
     );
-    return slug;
   }
 
   Future<void> clear() => _preferences.remove(preferencesKey);
+}
+
+class PendingSharedGroupIntent {
+  const PendingSharedGroupIntent({
+    required this.slug,
+    required this.intentId,
+    required this.ownerUserId,
+    required this.capturedAt,
+  });
+
+  final String slug;
+  final String intentId;
+  final String? ownerUserId;
+  final DateTime capturedAt;
+
+  PendingSharedGroupIntent bindTo(String userId) => PendingSharedGroupIntent(
+    slug: slug,
+    intentId: intentId,
+    ownerUserId: normalizePendingSharedGroupOwnerUserId(userId),
+    capturedAt: capturedAt,
+  );
+}
+
+String normalizePendingSharedGroupOwnerUserId(String userId) {
+  final normalized = userId.trim().toLowerCase();
+  if (!PendingSharedGroupIntentStore._uuidPattern.hasMatch(normalized)) {
+    throw const FormatException('Group invitation account is invalid');
+  }
+  return normalized;
 }
 
 String? normalizePendingSharedGroupSlug(String rawSlug) {
@@ -134,13 +214,36 @@ class CollectAppLinkTarget {
 
 CollectAppLinkTarget? collectAppLinkTargetFromUri(Uri uri) {
   final scheme = uri.scheme.toLowerCase();
-  if (scheme == 'https' && uri.host.toLowerCase() == 'collect.ikanisa.com') {
-    return _collectHttpsAppLinkTarget(uri.pathSegments);
+  if (scheme == 'https' &&
+      uri.host.toLowerCase() == 'collect.ikanisa.com' &&
+      uri.userInfo.isEmpty &&
+      (!uri.hasPort || uri.port == 443)) {
+    final target = _collectHttpsAppLinkTarget(uri.pathSegments);
+    if (target?.kind == CollectAppLinkKind.group &&
+        collectGroupLinkHasAlternateTarget(uri)) {
+      return null;
+    }
+    return target;
   }
   if (scheme == 'collect') {
-    return _collectCustomSchemeTarget(uri.host.toLowerCase(), uri.pathSegments);
+    final target = _collectCustomSchemeTarget(
+      uri.host.toLowerCase(),
+      uri.pathSegments,
+    );
+    if (target?.kind == CollectAppLinkKind.group &&
+        collectGroupLinkHasAlternateTarget(uri)) {
+      return null;
+    }
+    return target;
   }
   return null;
+}
+
+bool collectGroupLinkHasAlternateTarget(Uri uri) {
+  return uri.hasFragment ||
+      uri.queryParameters.keys.any(
+        (key) => const {'code', 'slug', 'group'}.contains(key.toLowerCase()),
+      );
 }
 
 CollectAppLinkTarget? _collectHttpsAppLinkTarget(List<String> segments) {

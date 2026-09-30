@@ -1,16 +1,8 @@
 # Collect
 
-Collect is a Flutter and Supabase group-contribution platform with two explicit
-geographic rails: Rwanda uses RWF MoMo USSD and consented Android receipt SMS;
-the diaspora uses Revolut or SEPA bank transfer. Collect never custodies money
-or asks for a MoMo PIN, bank password, card detail, or OTP.
+Collect is a Rwanda-only Flutter and Supabase group-contribution platform. Contributions use whole Rwandan francs through MTN MoMo or Airtel Money USSD. Collect never holds member funds or asks for a MoMo PIN or OTP.
 
-Rwanda receipt SMS is parsed deterministically and can post only after one exact
-receiver, payer, amount, time-window, and transaction-ID match. Diaspora bank
-evidence remains subject to statement reconciliation. Ledger posting is
-idempotent, immutable, and balanced.
-
-The current product source of truth is [docs/PRODUCT.md](docs/PRODUCT.md).
+The member app, Admin PWA, public website, and Supabase contribution APIs share the Rwanda MoMo scope. The current product contract is [docs/PRODUCT.md](docs/PRODUCT.md).
 
 ## Product surfaces
 
@@ -19,56 +11,40 @@ The current product source of truth is [docs/PRODUCT.md](docs/PRODUCT.md).
 - Member routes: `lib/app/router.dart`
 - Admin routes: `lib/admin/admin_router.dart`
 - Supabase control plane: `supabase/`
-- Full bank lifecycle rollback UAT: `scripts/bank_transfer_rollback_uat.sql`
+- Read-only Rwanda MoMo linked readiness check: `scripts/rwanda_momo_readiness_uat.sql`
 
-Member navigation remains Home, Groups, and Settings. WhatsApp onboarding
-suggests the profile country and Rwanda MoMo number; members can edit their
-country and regional route details. User-created groups are private and can be
-created only on Android. Public groups are platform-sponsored.
+Members sign in with a Rwanda WhatsApp number and complete a Rwanda MoMo profile. User-created groups are private and can be created only on Android. Public groups are platform sponsored.
 
-## Rwanda MoMo lifecycle
+## MoMo USSD contribution lifecycle
 
-1. A Rwanda member signs in with WhatsApp OTP and confirms or edits the suggested
-   MTN MoMo/Airtel Money number.
-2. An Android member may create a private group after SMS consent and Play
-   Integrity verification; the profile MoMo route becomes the receiver.
-3. A contributor enters a whole-RWF amount and Collect creates one payer-bound
-   pending intent.
-4. Collect opens the provider USSD route. The member reviews and enters the PIN
-   only in the mobile-network prompt.
-5. The receiver Android app queues likely receipt SMS in encrypted local storage,
-   then uploads it from the authenticated, consented account.
-6. Edge Functions parse the receipt deterministically; Postgres allocates one
-   exact match or sends ambiguous/incomplete evidence to admin review.
-7. One successful allocation posts the transaction, member/group ledger entries,
-   audit event, and notification atomically.
-
-Diaspora members use the separately governed Revolut/SEPA lifecycle, including
-unique references, controlled bank evidence, and statement reconciliation.
+1. A member signs in with WhatsApp OTP and confirms an MTN MoMo or Airtel Money number.
+2. An eligible Android member creates a private group after explicit SMS consent and Play Integrity verification.
+3. A contributor enters a whole-RWF amount. Collect creates a pending intent bound to the payer and group receiver.
+4. Collect opens the provider USSD route. The member reviews and enters the PIN only in the mobile-network prompt.
+5. The consented receiver Android app queues likely receipt SMS in encrypted local storage and uploads it from the authenticated account.
+6. Edge Functions parse the receipt deterministically. Postgres checks receiver, payer, amount, time window, and transaction ID or sends ambiguity to Admin review. The SMS is candidate evidence, not independent proof of settlement.
+7. A production-confirmed contribution needs governed independent reconciliation or an explicitly approved constrained finality policy. The current exact-match allocation and balanced journal must be validated against that policy before release; retries must remain idempotent.
 
 ## Admin control plane
 
-The Admin PWA keeps Groups and Members separate, then presents only four
-financial Operations pages: Payees, Transactions, Reconciliations and Ledgers.
-Each page normalizes Rwanda MoMo/SMS and diaspora account records without
-weakening the different settlement and approval controls underneath them.
-
-Diaspora bank-detail and manual-allocation changes require separate maker and
-checker accounts. Rwanda review can complete only a receipt/intent pair that
-still passes the strict receiver, payer, amount and timing checks. Raw evidence
-reveal requires a dedicated permission, a reason and an audit record.
+The Admin PWA manages Rwanda Groups and Members. Its financial Operations pages cover Payees, Transactions, Reconciliations, and Ledgers. Raw receipt evidence reveal requires a dedicated permission, a reason, and an audit record.
 
 ## Validation
 
+All member app, Admin and public website design follows the owner-selected
+[`revolut-design` skill](</Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md>).
+It is the sole design authority. Shared Flutter tokens/components and public
+CSS implement its platform-specific patterns while keeping Collect's name,
+logo, terminology and workflows. Competing design references must be deleted.
+Run `make revolut-design-authority` to check reference hygiene; route/state
+comparisons and the skill's acceptance evidence are still required for a
+100% fidelity claim.
+
 ```sh
-/Users/jeanbosco/Developer/flutter/bin/flutter analyze
-/Users/jeanbosco/Developer/flutter/bin/flutter test
+flutter analyze --no-pub
+flutter test --no-pub
 ./scripts/migrations/validate_supabase_migrations.sh
 COLLECT_SKIP_DOTENV=1 SUPABASE_DB_QUERY_MODE=local ./scripts/collect_linked_uat.sh
-./scripts/collect_edge_auth_contract_uat.sh
 ```
 
-The Android production flavor declares `RECEIVE_SMS` and `CALL_PHONE` for the
-Rwanda route, but not `READ_SMS`, `SEND_SMS`, or Call Log access. Google Play
-restricted-permission approval and physical-device MoMo UAT remain release
-gates; source implementation alone does not establish either.
+The Android production flavor declares `RECEIVE_SMS` and `CALL_PHONE`, but not `READ_SMS`, `SEND_SMS`, or Call Log access. Google Play permission approval, physical-device MoMo UAT, and owner-reviewed visual, interaction, and accessibility evidence under the sole `revolut-design` skill remain separate release requirements.

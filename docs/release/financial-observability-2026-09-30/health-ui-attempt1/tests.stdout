@@ -1,0 +1,85 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_operational_health_test.dart
+00:00 +0: actual installed SQL receipt retains missing measurements and limits
+00:00 +1: one actual queue work item requires a measured scheduler
+00:00 +2: backlog boundary is inclusive and attention outranks missing telemetry
+00:00 +3: exact freshness boundary and future clock do not imply healthy data
+00:00 +4: rejects extra private diagnostic without reflecting supplied data
+00:00 +5: rejects missing required measurement without reflecting supplied data
+00:00 +6: rejects unrecognized measurement without reflecting supplied data
+00:00 +7: rejects null count without reflecting supplied data
+00:00 +8: rejects decimal count without reflecting supplied data
+00:00 +9: rejects string count without reflecting supplied data
+00:00 +10: rejects negative count without reflecting supplied data
+00:00 +11: rejects unsafe integer without reflecting supplied data
+00:00 +12: rejects decimal contract without reflecting supplied data
+00:00 +13: rejects decimal window without reflecting supplied data
+00:00 +14: rejects decimal threshold version without reflecting supplied data
+00:00 +15: rejects wrong contract without reflecting supplied data
+00:00 +16: rejects decimal alias without reflecting supplied data
+00:00 +17: rejects inconsistent alias without reflecting supplied data
+00:00 +18: rejects calendar normalization without reflecting supplied data
+00:00 +19: rejects missing timezone without reflecting supplied data
+00:00 +20: rejects unbounded TTL without reflecting supplied data
+00:00 +21: rejects unknown alert without reflecting supplied data
+00:00 +22: rejects duplicate alert without reflecting supplied data
+00:00 +23: rejects missing alert without reflecting supplied data
+00:00 +24: rejects wrong alert metric without reflecting supplied data
+00:00 +25: rejects decimal alert threshold without reflecting supplied data
+00:00 +26: rejects weakened alert threshold without reflecting supplied data
+00:00 +27: rejects fabricated measured zero without reflecting supplied data
+00:00 +28: rejects fabricated overall healthy without reflecting supplied data
+00:00 +29: rejects fabricated configuration without reflecting supplied data
+00:00 +30: rejects unbounded scheduler details without reflecting supplied data
+00:00 +31: rejects unsupported scheduler state without reflecting supplied data
+00:00 +32: rejects missing evidence limit without reflecting supplied data
+00:00 +33: rejects injected evidence text without reflecting supplied data
+00:00 +34: invalid receipt is redacted, refreshable, and never healthy
+00:00 +35: fresh missing telemetry stays unknown; no automatic fetch
+00:00 +36: future sample hides operational values and timer disposes
+00:00 +37: compact 1.0x health is scrollable, named and keyboard operable
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+A SemanticsHandle was active at the end of the test.
+All SemanticsHandle instances must be disposed by calling dispose() on the SemanticsHandle.
+
+When the exception was thrown, this was the stack:
+#0      WidgetTester._verifySemanticsHandlesWereDisposed (package:flutter_test/src/widget_tester.dart:1074:7)
+#1      WidgetTester._endOfTestVerifications (package:flutter_test/src/widget_tester.dart:1063:5)
+#2      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1968:22)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  compact 1.0x health is scrollable, named and keyboard operable
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +37 -1: compact 1.0x health is scrollable, named and keyboard operable [E]
+  Test failed. See exception logs above.
+  The test description was: compact 1.0x health is scrollable, named and keyboard operable
+  
+00:00 +37 -1: compact 2.0x health is scrollable, named and keyboard operable
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+A SemanticsHandle was active at the end of the test.
+All SemanticsHandle instances must be disposed by calling dispose() on the SemanticsHandle.
+
+When the exception was thrown, this was the stack:
+#0      WidgetTester._verifySemanticsHandlesWereDisposed (package:flutter_test/src/widget_tester.dart:1074:7)
+#1      WidgetTester._endOfTestVerifications (package:flutter_test/src/widget_tester.dart:1063:5)
+#2      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1968:22)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  compact 2.0x health is scrollable, named and keyboard operable
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +37 -2: compact 2.0x health is scrollable, named and keyboard operable [E]
+  Test failed. See exception logs above.
+  The test description was: compact 2.0x health is scrollable, named and keyboard operable
+  
+00:00 +37 -2: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_operational_health_test.dart: compact 1.0x health is scrollable, named and keyboard operable
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_operational_health_test.dart: compact 2.0x health is scrollable, named and keyboard operable

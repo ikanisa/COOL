@@ -1,5 +1,9 @@
 part of 'collect_repository.dart';
 
+class _CollectAccessMismatch implements Exception {
+  const _CollectAccessMismatch();
+}
+
 class _CollectLiveReader {
   const _CollectLiveReader(this._supabase);
 
@@ -12,7 +16,13 @@ class _CollectLiveReader {
     if (currentUser == null || currentUser.id != userId) return null;
     final row = await supabase.rpc<dynamic>('get_current_member_profile');
     if (row == null) return null;
-    return CollectProfile.fromJson(Map<String, dynamic>.from(row as Map));
+    final profile = CollectProfile.fromJson(
+      Map<String, dynamic>.from(row as Map),
+    );
+    if (profile.id != userId) {
+      throw const _CollectAccessMismatch();
+    }
+    return profile;
   }
 
   Future<CollectProfile> ensureLiveProfile(
@@ -35,7 +45,13 @@ class _CollectLiveReader {
     if (row == null) {
       throw StateError('Collect profile could not be created');
     }
-    return CollectProfile.fromJson(Map<String, dynamic>.from(row as Map));
+    final profile = CollectProfile.fromJson(
+      Map<String, dynamic>.from(row as Map),
+    );
+    if (profile.id != userId) {
+      throw const _CollectAccessMismatch();
+    }
+    return profile;
   }
 
   Future<List<CollectCollection>> fetchCollections() async {
@@ -124,11 +140,7 @@ class _CollectLiveReader {
       Map<String, dynamic>.from(response as Map),
       [for (final row in rows) Contribution.fromJson(row)],
     );
-    if (cursor == null &&
-        page.nextCursor == null &&
-        page.items.length != page.totalCount) {
-      throw const FormatException('Incomplete history response');
-    }
+    page.validateRequest(query: query, cursor: cursor);
     return page;
   }
 
@@ -159,8 +171,7 @@ class _CollectLiveReader {
       if (id is! String ||
           id.isEmpty ||
           row['collection_id'] is! String ||
-          !((rail == 'rwanda_momo' && currency == 'RWF') ||
-              (rail == 'diaspora_bank' && currency == 'EUR')) ||
+          !(rail == 'rwanda_momo' && currency == 'RWF') ||
           amount is! int ||
           amount <= 0 ||
           date is! String ||
@@ -191,22 +202,19 @@ class _CollectLiveReader {
     };
   }
 
-  Future<NotificationPreferences> fetchNotificationPreferences(
-    CollectProfile? profile,
-  ) async {
+  Future<NotificationPreferenceRead?> fetchNotificationPreferences(
+    CollectProfile? profile, {
+    required String? accessToken,
+  }) async {
     final supabase = _supabase;
-    if (supabase == null || profile == null) {
-      return NotificationPreferences.defaults;
+    if (supabase == null || profile == null) return null;
+    if (accessToken == null) {
+      throw StateError('Sign in and refresh notification preferences.');
     }
-    final rows = await supabase
-        .from('notification_preferences')
-        .select()
-        .eq('user_id', profile.id)
-        .limit(1);
-    if (rows.isEmpty) return NotificationPreferences.defaults;
-    return NotificationPreferences.fromJson(
-      Map<String, dynamic>.from(rows.first as Map),
-    );
+    final value = await supabase
+        .rpc<dynamic>('get_notification_preferences_v2')
+        .setHeader('Authorization', 'Bearer $accessToken');
+    return NotificationPreferenceRead.parse(value, profile.id);
   }
 
   Future<List<NotificationEvent>> fetchNotificationEvents(

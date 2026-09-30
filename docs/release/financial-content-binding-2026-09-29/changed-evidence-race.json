@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 137,
+  "conflict_kind": "same confirmation, different evidence",
+  "blocked_workers_at_payment_advisory_lock": 2,
+  "successful_confirmations": 1,
+  "rejected_conflicts": 1,
+  "winning_provider_confirmation": "CONFIRM-RACE2500-SAME",
+  "processed_requests": 1,
+  "processing_requests": 0,
+  "provider_confirmation_rows": 1,
+  "posted_payments": 1,
+  "legacy_ledger_entries": 2,
+  "balanced_receipt_journals": 1,
+  "confirmed_group_balance_rwf": 2500,
+  "provider_calls": 0,
+  "scope": "synthetic service-role conflict; no authenticated provider delivery"
+}

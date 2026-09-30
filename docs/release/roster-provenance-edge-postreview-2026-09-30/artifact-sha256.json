@@ -1,0 +1,12 @@
+{
+  "README.md": "4033fef1e2a8806acccbefdc844a7957038227d37454d893f0622860fc1e89fb",
+  "context-sha256.json": "0fba985994f6fe37d47279c058fefe6a208c1204fb6c5d844726e53f0f53320c",
+  "deno-tests.log": "8a312dacb96cf1141283364790afe19295f584697b73d7424af8127868ab7aeb",
+  "entrypoint-check.log": "78629ec2a6a63cd955c78cbbef7d7b20ff639137e9fa721580aac7eba5e380ce",
+  "http-tests.log": "95635fba1dd1c5232e6b61428122e17d6f643c14a2e016992567295b658b3aba",
+  "initial-test-expectation-error.log": "805ab71925ae30a06162fde361d33345510f763258a7f2dfac198d8e7713e5da",
+  "roster-source-contract.log": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+  "runtime-verification.json": "fafea57d56c893fafc4f4345140f1bcd36055c334aa5785f87c3b819cbec8e42",
+  "source-sha256.json": "b5d731f51b22c30fbf1fc21182d52eab2a9dc3ea877ce1e2669959d7d7af428e",
+  "verification.json": "7c7555cf66ec12ba594924005bc08f390a88774ef01555703c9b3164eb394f23"
+}

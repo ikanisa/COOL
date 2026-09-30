@@ -37,25 +37,11 @@ LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_
 LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
-COLLECT_COLOR_SOURCE = File.read(File.join(ROOT, "lib/app/theme/collect_colors.dart"))
-
-def collect_color_hex(name)
-  match = COLLECT_COLOR_SOURCE.match(/static const #{Regexp.escape(name)} = Color\(0xFF([0-9A-Fa-f]{6})\);/)
-  raise "Collect color token #{name} not found" unless match
-
-  "##{match[1].upcase}"
-end
-
-BRAND_PRIMARY_COLORS = {
-  "periwinkle" => collect_color_hex("referenceAccountHighlight"),
-  "mint" => collect_color_hex("referenceGroupTeal"),
-  "rose" => collect_color_hex("referenceProfileHighlight"),
-  "orange" => collect_color_hex("referencePaymentsHighlight")
-}.freeze
-BRAND_BLACK = collect_color_hex("referenceChromeBlack")
-BRAND_PAPER = collect_color_hex("publicWhite")
-BRAND_INK = collect_color_hex("publicInk")
-BRAND_SURFACE_WHITE = collect_color_hex("publicWhite")
+# September 2026 public marketing roles; native screen families stay in Flutter.
+# These identity metadata colours follow the same public cohort as revolut.css.
+BRAND_BLACK = "#000000"
+BRAND_PAPER = "#ffffff"
+BRAND_INK = "#191c1f"
 
 
 PUBLIC_FAQS = {
@@ -71,12 +57,6 @@ PUBLIC_FAQS = {
     ["Who sees member records?", "Members and authorised leaders see the information needed for group transparency; private documents are not automatically visible to other members."],
     ["How does a group start?", "The current assisted path is to talk to IKANISA support about starting a group, then complete setup through the app or supported channels."]
   ],
-  "/diaspora/" => [
-    ["Who is the diaspora page for?", "It is for Rwandan diaspora groups that save together and want clearer records for host-country bank discussions and Rwanda investment goals."],
-    ["Does Collect approve diaspora loans?", "No. A partner bank or lender makes its own credit decision under its policy."],
-    ["Why do group records matter?", "Verified contribution history can help explain savings discipline, group rules and collateral arrangements during provider review."],
-    ["Is French support planned?", "French public content is now available for the diaspora and partner pages; human legal review is still recommended before using translated wording externally in regulated materials."]
-  ],
   "/insurance/" => [
     ["Does Collect issue insurance?", "No. Licensed insurers issue cover and make claim decisions. Collect supports records, communication and customer workflows."],
     ["Why daily premiums?", "Daily or flexible micro-payments can better match the way informal earners receive income."],
@@ -90,7 +70,7 @@ PUBLIC_FAQS = {
     ["Who should use CRaaS?", "MSMEs and informal businesses that need a clearer loan file before approaching a lender."]
   ],
   "/community-groups/" => [
-    ["Which groups can use Collect?", "Ibimina, faith groups, family savings groups, cooperatives, trade associations, youth groups, women-led groups and diaspora associations can use the group-record model."],
+    ["Which groups can use Collect?", "Ibimina, faith groups, family savings groups, cooperatives, trade associations, youth groups and women-led groups can use the group-record model."],
     ["Does Collect replace group leaders?", "No. Group leaders and members keep their governance; Collect supports clearer records and operations."],
     ["Can groups save for specific goals?", "Yes. Groups can track purpose-based goals such as school fees, agricultural inputs, insurance, business assets or emergency funds."],
     ["Can members use USSD?", "Supported USSD and assisted channels are part of the inclusion model for members without smartphones."]
@@ -128,7 +108,6 @@ PAGES = [
       ["Credit-readiness support", "Prepare contribution history, documents, and request summaries before a financial provider reviews the file.", ["Readiness files", "Missing-item support", "Provider review boundary"]],
       ["Access to capital and loans", "Organize records that may support capital-access and loan conversations with the relevant provider.", ["Provider-review files", "Capital access preparation", "No approval promise"]],
       ["Microinsurance support", "Keep insurance-related records organized where approved providers are involved.", ["Protection records", "Support history", "Provider decision boundary"]],
-      ["Diaspora credit and collateral support", "Prepare group savings records for diaspora credit or group savings collateral support discussions, where a provider review is required.", ["Diaspora preparation", "Group savings collateral support", "Provider decision boundary"]]
     ]
   },
   {
@@ -141,39 +120,6 @@ PAGES = [
     media: MEDIA_GROUP,
     nav_label: "Group Savings",
     sections: []
-  },
-  {
-    path: "/diaspora/",
-    title: "Diaspora Savings | Collect by IKANISA",
-    description: "Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.",
-    h1: "Group savings that strengthen access to bank credit.",
-    intro: "Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.",
-    media: MEDIA_SHARE,
-    nav_label: "Diaspora",
-    summary_label: "Diaspora group records",
-    metrics: [
-      ["Group records", "Member contributions"],
-      ["Preparation", "Rwanda discussions"]
-    ],
-    infographic: {
-      title: "Diaspora savers face their own barriers to credit.",
-      body: "",
-      steps: [
-        ["Mobility and recovery risk", "Host-country banks may fear that a borrower could relocate or return to Rwanda before fully repaying a loan, making recovery and enforcement more difficult."],
-        ["Thin or no host-country credit history", "Credit history built in Rwanda is generally not portable, while newer migrants may not yet have enough local borrowing history or credit-score depth."],
-        ["Informal or unstable employment", "Temporary, gig, part-time, self-employed and variable-income work may not meet a bank's preference for permanent contracts and predictable monthly income."],
-        ["Insufficient acceptable security", "Individual applicants may lack locally recognised collateral, guarantees or pledged deposits that the host-country bank can control."]
-      ]
-    },
-    sections_heading: "How the diaspora use Collect",
-    sections: [
-      ["Create a savings group", "Members agree on purpose, contribution amount, leadership and rules.", []],
-      ["Save regularly", "Members contribute through Collect into the host-country partner bank.", []],
-      ["Build the group pool", "Contributions accumulate while Collect maintains the group ledger.", []],
-      ["Agree the collateral rules", "An approved share of the pool may be pledged or ring-fenced for loan.", []],
-      ["Apply for credit", "A member submits an individual loan application to the host-country partner bank.", []],
-      ["Invest at home", "Use the loan to invest in property or a business in Rwanda.", []]
-    ]
   },
   {
     path: "/insurance/",
@@ -293,13 +239,12 @@ PAGES = [
       ["Agricultural cooperatives", "Accumulate capital for inputs, equipment, storage and working capital.", []],
       ["Women and youth groups", "Build verified savings histories and access structured business-readiness support.", []],
       ["MSME associations", "Prepare members for business loans and coordinate professional services.", []],
-      ["Diaspora associations", "Create partner-bank-linked group savings and eligible collateral arrangements.", []]
     ],
     supported_groups_heading: "Collect supports community groups",
     supported_groups: [
       "Community & faith: Ibimina, religious and neighbourhood associations, family savings groups",
       "Economic: Cooperatives, trade and business associations, agricultural groups, employer and professional groups",
-      "Demographic: Women-led groups, youth savings groups, diaspora associations"
+      "Demographic: Women-led groups and youth savings groups"
     ]
   },
   {
@@ -323,7 +268,7 @@ PAGES = [
         ["Mobilise deposits", "Bring daily and group savings into clearer bank-linked records."],
         ["Build data", "Turn organised group records into repayment and credit-readiness signals."],
         ["Prepare credit", "Package MSME and group-backed files for formal bank review."],
-        ["Grow relationships", "Support deposits, lending and diaspora banking under bank approval."]
+        ["Grow relationships", "Support local savings and lending where approved by a Rwanda provider."]
       ]
     },
     sections: []
@@ -446,7 +391,6 @@ end
 
 PRIMARY_NAV = [
   ["Group Savings", "/group-savings/"],
-  ["Diaspora", "/diaspora/"],
   ["Insurance", "/insurance/"],
   ["CRaaS", "/craas/"],
   ["Community Groups", "/community-groups/"],
@@ -487,7 +431,7 @@ def nav_html(current_path)
       (href == "/craas/" && current_path == "/credit-readiness/") ||
       (href == "/insurance/" && current_path == "/protection/") ||
       (href == "/our-partners/" && current_path == "/partners/")
-    %(<a class="nav-link#{active ? " active" : ""}" href="#{href}">#{esc(label)}</a>)
+    %(<a class="nav-link#{active ? " active" : ""}" href="#{href}"#{active ? ' aria-current="page"' : ""}>#{esc(label)}</a>)
   end.join
 end
 
@@ -1061,31 +1005,29 @@ def original_home_sections_html
       </div>
     </section>
 
-    <section class="original-story light" aria-labelledby="ibimina-heading">
+    <section class="original-story" aria-labelledby="ibimina-heading">
       <div class="story-copy">
         <h2 id="ibimina-heading">Everything Collect brings together</h2>
       </div>
       <div class="story-grid four home-product-grid">
         <article><strong>Group Savings</strong><span>Digitise group savings via zero-fee microsavings and grow accumulated group capital.</span><a href="/group-savings/">Explore Group Savings</a></article>
-        <article><strong>Diaspora Group Savings</strong><span>Save together through a host-country partner bank and build collateral, access credit and capital to invest home.</span><a href="/diaspora/">Explore Diaspora</a></article>
         <article><strong>Credit Readiness</strong><span>Move from a loan inquiry to a complete, structured, bank-review-ready loan application file.</span><a href="/craas/">Explore CRaaS</a></article>
         <article><strong>Insurance</strong><span>Access insurance designed around daily and irregular income patterns to protect income and savings.</span><a href="/insurance/">Explore Insurance</a></article>
       </div>
     </section>
 
-    <section class="original-story mint" aria-labelledby="diaspora-heading">
+    <section class="original-story" aria-labelledby="rwanda-community-heading">
       <div class="story-copy">
-        <h2 id="diaspora-heading">Built for people who earn, save, and borrow differently</h2>
+        <h2 id="rwanda-community-heading">Built for people who earn, save, and borrow differently</h2>
       </div>
       <div class="story-grid four">
         <article><strong>Ibimina</strong><span>Rotating and accumulating groups that need readable activity records.</span></article>
         <article><strong>Daily earners</strong><span>People saving in small amounts around daily or irregular income.</span></article>
         <article><strong>MSMEs</strong><span>Helps businesses understand requirements, coordinate specialist services and prepare bank review-ready loan file.</span></article>
-        <article><strong>Diaspora</strong><span>Diaspora group savings at host-country partner banks. Collateral pledged and Credit access.</span></article>
       </div>
     </section>
 
-    <section class="original-story info" aria-labelledby="credit-boundary-heading">
+    <section class="original-story" aria-labelledby="credit-boundary-heading">
       <div class="story-copy">
         <h2 id="credit-boundary-heading">Payments work. Financial progress still does not.</h2>
       </div>
@@ -1094,7 +1036,6 @@ def original_home_sections_html
         <article><strong>Invisible group savings</strong><span>52% of adults save through ibimina, but many records remain manual and cannot support formal credit.</span></article>
         <article><strong>Credit-readiness gap</strong><span>Rwanda has extensive payment agents, but no scalable last-mile service helping MSMEs prepare complete, bank-ready loan files.</span></article>
         <article><strong>Microinsurance gap</strong><span>Premiums and claims processes rarely match small, irregular daily incomes.</span></article>
-        <article><strong>Diaspora credit barriers</strong><span>Mobility risk, thin credit histories, unstable employment and insufficient acceptable collateral restrict access to affordable host-country loans.</span></article>
       </div>
     </section>
   HTML
@@ -1180,45 +1121,6 @@ def group_savings_page_html
       </div>
       <div class="use-case-grid" aria-label="Group savings use cases">
         #{use_cases.map { |item| %(<article>#{esc(item)}</article>) }.join}
-      </div>
-    </section>
-  HTML
-end
-
-def diaspora_collect_changes_html
-  without_collect = [
-    "Individual borrower assessed without group support",
-    "Informal savings circle",
-    "Limited transaction evidence",
-    "Savings held outside the lending bank",
-    "No controlled collateral arrangement"
-  ]
-  with_collect = [
-    "Verified contribution history",
-    "Savings held by the potential lender",
-    "Agreed collateral structure",
-    "Group rules and accountability",
-    "Structured Rwanda investment support"
-  ]
-
-  <<~HTML
-    <section class="diaspora-change-section" aria-labelledby="diaspora-change-heading">
-      <div class="story-copy">
-        <h2 id="diaspora-change-heading">What Collect changes</h2>
-      </div>
-      <div class="change-compare-grid" aria-label="What Collect changes for diaspora groups">
-        <article>
-          <h3>Without Collect</h3>
-          <ul>
-            #{without_collect.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
-        </article>
-        <article>
-          <h3>With Collect and the partner bank</h3>
-          <ul>
-            #{with_collect.map { |item| %(<li>#{esc(item)}</li>) }.join}
-          </ul>
-        </article>
       </div>
     </section>
   HTML
@@ -1363,17 +1265,11 @@ def partner_page_html
     "Earlier visibility of repayment stress"
   ]
 
-  group_diaspora_lending = [
-    "Bank-held savings collateral",
-    "Credit-life or income-protection cover"
-  ]
-
   collect_provides = [
     "Group creation and administration",
     "Member and group ledgers",
     "Credit Readiness guide and support",
-    "Daily loan micro-repayment",
-    "Diaspora group-savings infrastructure"
+    "Daily loan micro-repayment"
   ]
 
   bank_provides = [
@@ -1416,9 +1312,8 @@ def partner_page_html
           #{list_html.call(daily_income_lending)}
         </article>
         <article>
-          <strong>Group-backed and diaspora lending</strong>
-          <p>Verified group savings can provide an additional risk-control layer for eligible lending.</p>
-          #{list_html.call(group_diaspora_lending)}
+          <strong>Rwanda group savings records</strong>
+          <p>Verified local contribution records can support eligible Rwanda provider review.</p>
         </article>
         <article>
           <strong>Stronger MSME credit origination</strong>
@@ -1470,7 +1365,6 @@ def hero_visual_html(page)
   id = {
     "/" => "home",
     "/group-savings/" => "group-detail",
-    "/diaspora/" => "diaspora-contribution",
     "/community-groups/" => "groups",
     "/trust/" => "security",
     "/security/" => "security",
@@ -1483,7 +1377,7 @@ def hero_visual_html(page)
   <<~HTML
     <figure class="app-capture" data-app-screen="#{esc(id)}">
       <img src="#{esc(media.fetch('url'))}" alt="#{esc(media.fetch('alt'))}" width="#{media.fetch('width')}" height="#{media.fetch('height')}" fetchpriority="high">
-      <figcaption>Collect app · Example data</figcaption>
+      <figcaption>#{media.fetch('capture_kind') == 'browser_flutter_fixture' ? 'Collect interface preview' : 'Collect app'} · Example data</figcaption>
     </figure>
   HTML
 end
@@ -1564,8 +1458,6 @@ def page_html(page, current_path: page[:path])
 
         #{current_path == "/craas/" || current_path == "/credit-readiness/" ? craas_page_html : ""}
 
-        #{current_path == "/diaspora/" ? diaspora_collect_changes_html : ""}
-
         #{current_path == "/insurance/" ? insurance_page_html : ""}
 
         #{current_path == "/" ? original_home_sections_html : ""}
@@ -1606,8 +1498,6 @@ def rwanda_photography_html(current_path)
             ["community-savings.png", "People planning their community savings together"]
           when "/craas/", "/credit-readiness/", "/our-partners/", "/partners/"
             ["banking-together.png", "A business owner discussing a financial plan"]
-          when "/diaspora/"
-            ["shared-goals.png", "Friends planning a shared goal together"]
           when "/insurance/"
             ["everyday-payments.png", "A shop owner and customer using their phones"]
           end
@@ -1683,9 +1573,11 @@ def share_landing_page_html(kind:)
           <img src="/icons/collect.png" alt="" width="42" height="42">
           <span><strong>Collect</strong><small>by IKANISA</small></span>
         </a>
-        <nav class="site-nav" aria-label="Public website">
+        <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <nav id="site-nav" class="site-nav" data-site-nav aria-label="Public website">
           <a class="nav-link" href="/group-savings/">Group Savings</a>
           <a class="nav-link" href="/trust/">Trust &amp; Security</a>
+          <div class="mobile-menu-actions"><a class="button primary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a></div>
         </nav>
         <div class="header-actions">
           <a class="button secondary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a>
@@ -1740,555 +1632,7 @@ def share_landing_page_html(kind:)
 end
 
 def stylesheet
-  <<~CSS
-    @font-face {
-      font-family: "Inter";
-      src: url("/#{TYPEFACE_ASSET}") format("truetype");
-      font-style: normal;
-      font-weight: 400 700;
-      font-display: swap;
-    }
-    :root {
-      color-scheme: dark light;
-      --paper: #{BRAND_PAPER};
-      --ink: #{BRAND_INK};
-      --muted: #505053;
-      --night: #{BRAND_BLACK};
-      --panel: #12111c;
-      --line: rgba(255, 255, 255, .14);
-      --periwinkle: #{BRAND_PRIMARY_COLORS.fetch("periwinkle")};
-      --mint: #{BRAND_PRIMARY_COLORS.fetch("mint")};
-      --rose: #{BRAND_PRIMARY_COLORS.fetch("rose")};
-      --orange: #{BRAND_PRIMARY_COLORS.fetch("orange")};
-      --g1: #{BRAND_PRIMARY_COLORS.fetch("periwinkle")};
-      --g2: #{BRAND_PRIMARY_COLORS.fetch("mint")};
-      --g3: #{BRAND_PRIMARY_COLORS.fetch("rose")};
-      --g4: #{BRAND_PRIMARY_COLORS.fetch("orange")};
-      --black: #{BRAND_BLACK};
-      --urgent: #{BRAND_PRIMARY_COLORS.fetch("orange")};
-      --white: #{BRAND_SURFACE_WHITE};
-      --focus: #a7a2ff;
-      --type-weight-regular: 400;
-      --type-weight-medium: 500;
-      --type-weight-semibold: 600;
-      --type-weight-bold: 700;
-      --type-size-rem-088: .88rem;
-      --type-size-10px: 10px;
-      --type-size-11px: 11px;
-      --type-size-12px: 12px;
-      --type-size-13px: 13px;
-      --type-size-14px: 14px;
-      --type-size-15px: 15px;
-      --type-size-16px: 16px;
-      --type-size-18px: 18px;
-      --type-size-19px: 19px;
-      --type-size-20px: 20px;
-      --type-size-22px: 22px;
-      --type-size-24px: 24px;
-      --type-size-25px: 25px;
-      --type-size-26px: 26px;
-      --type-size-27px: 27px;
-      --type-size-32px: 32px;
-      --type-size-34px: 34px;
-      --type-size-50px: 50px;
-      --type-size-fluid-12px-3-35vw-14px: clamp(12px, 3.35vw, 14px);
-      --type-size-fluid-13px-3-45vw-15px: clamp(13px, 3.45vw, 15px);
-      --type-size-fluid-15px-4-2vw-17px: clamp(15px, 4.2vw, 17px);
-      --type-size-fluid-15px-4vw-17px: clamp(15px, 4vw, 17px);
-      --type-size-fluid-17px-4-4vw-20px: clamp(17px, 4.4vw, 20px);
-      --type-size-fluid-18px-1-6vw-22px: clamp(18px, 1.6vw, 22px);
-      --type-size-fluid-18px-1-8vw-24px: clamp(18px, 1.8vw, 24px);
-      --type-size-fluid-18px-1-9vw-23px: clamp(18px, 1.9vw, 23px);
-      --type-size-fluid-18px-2vw-28px: clamp(18px, 2vw, 28px);
-      --type-size-fluid-19px-2-1vw-25px: clamp(19px, 2.1vw, 25px);
-      --type-size-fluid-20px-1-8vw-26px: clamp(20px, 1.8vw, 26px);
-      --type-size-fluid-20px-2vw-28px: clamp(20px, 2vw, 28px);
-      --type-size-fluid-20px-4vw-24px: clamp(20px, 4vw, 24px);
-      --type-size-fluid-20px-5-8vw-24px: clamp(20px, 5.8vw, 24px);
-      --type-size-fluid-22px-2-1vw-30px: clamp(22px, 2.1vw, 30px);
-      --type-size-fluid-22px-2-4vw-34px: clamp(22px, 2.4vw, 34px);
-      --type-size-fluid-24px-2-4vw-34px: clamp(24px, 2.4vw, 34px);
-      --type-size-fluid-26px-3vw-40px: clamp(26px, 3vw, 40px);
-      --type-size-fluid-27px-3vw-38px: clamp(27px, 3vw, 38px);
-      --type-size-fluid-28px-4vw-42px: clamp(28px, 4vw, 42px);
-      --type-size-fluid-29px-8vw-34px: clamp(29px, 8vw, 34px);
-      --type-size-fluid-30px-8-6vw-38px: clamp(30px, 8.6vw, 38px);
-      --type-size-fluid-32px-4vw-54px: clamp(32px, 4vw, 54px);
-      --type-size-fluid-34px-5vw-62px: clamp(34px, 5vw, 62px);
-      --type-size-fluid-34px-5vw-64px: clamp(34px, 5vw, 64px);
-      --type-size-fluid-38px-5-6vw-66px: clamp(38px, 5.6vw, 66px);
-      --type-size-fluid-42px-5vw-62px: clamp(42px, 5vw, 62px);
-      --type-size-fluid-42px-6vw-72px: clamp(42px, 6vw, 72px);
-      --type-size-fluid-44px-8vw-96px: clamp(44px, 8vw, 96px);
-      --type-leading-0-9: .9;
-      --type-leading-0-94: .94;
-      --type-leading-0-95: .95;
-      --type-leading-0-96: .96;
-      --type-leading-1: 1;
-      --type-leading-1-02: 1.02;
-      --type-leading-1-04: 1.04;
-      --type-leading-1-05: 1.05;
-      --type-leading-1-06: 1.06;
-      --type-leading-1-08: 1.08;
-      --type-leading-1-1: 1.1;
-      --type-leading-1-12: 1.12;
-      --type-leading-1-15: 1.15;
-      --type-leading-1-16: 1.16;
-      --type-leading-1-18: 1.18;
-      --type-leading-1-2: 1.2;
-      --type-leading-1-22: 1.22;
-      --type-leading-1-24: 1.24;
-      --type-leading-1-25: 1.25;
-      --type-leading-1-26: 1.26;
-      --type-leading-1-28: 1.28;
-      --type-leading-1-3: 1.3;
-      --type-leading-1-34: 1.34;
-      --type-leading-1-35: 1.35;
-      --type-leading-1-36: 1.36;
-      --type-leading-1-38: 1.38;
-      --type-leading-1-4: 1.4;
-      --type-leading-1-45: 1.45;
-      --type-leading-1-5: 1.5;
-      --type-leading-1-55: 1.55;
-      --type-tracking-default: 0;
-      --type-tracking-wide: .08em;
-      --type-tracking-wider: .12em;
-      font-family: "Inter";
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--night); color: var(--paper); letter-spacing: var(--type-tracking-default); }
-    a { color: inherit; }
-    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-    .skip-link { position: absolute; left: 16px; top: -80px; z-index: 10; background: var(--paper); color: var(--ink); padding: 10px 12px; border-radius: 8px; }
-    .skip-link:focus { top: 16px; }
-    .site-header { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 18px clamp(20px, 4vw, 48px); position: sticky; top: 0; z-index: 5; background: rgba(5, 5, 16, .86); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.08); }
-    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: max-content; }
-    .brand img { border-radius: 10px; }
-    .brand strong, .brand small { display: block; line-height: var(--type-leading-1); }
-    .brand strong { font-size: var(--type-size-19px); font-weight: var(--type-weight-bold); }
-    .brand small { color: rgba(255,255,255,.7); font-weight: var(--type-weight-bold); margin-top: 3px; }
-    .site-nav { display: flex; gap: 2px; align-items: center; flex: 1; justify-content: center; min-width: 0; }
-    .nav-link { text-decoration: none; font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); color: rgba(255,255,255,.72); padding: 10px 8px; border-radius: 10px; white-space: nowrap; }
-    .header-actions, .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .header-actions { flex: 0 0 auto; flex-wrap: nowrap; gap: 8px; }
-    .button, button { min-height: 44px; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; text-decoration: none; font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); cursor: pointer; }
-    .button { white-space: nowrap; }
-    .header-actions .button { padding: 11px 14px; font-size: var(--type-size-13px); }
-    .button.primary, .button.secondary { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
-    .button.ghost { background: transparent; color: var(--paper); }
-    .button.cta-app, .button.cta-group, .button.cta-touch { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 14px 34px rgba(5,5,16,.26); }
-    .share-link-hero { min-height: calc(100svh - 72px); }
-    .share-link-hero .hero-actions .button { min-height: 44px; }
-    .share-link-code { display: inline-flex; max-width: 100%; margin: 0 0 22px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: var(--mint); font-weight: var(--type-weight-bold); overflow-wrap: anywhere; }
-    .share-link-status { min-height: 24px; margin: 14px 0 0; color: rgba(255,255,255,.78); }
-    .share-link-widget { justify-items: start; }
-    .share-link-widget img { border-radius: 18px; }
-    .share-link-widget > span { font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); letter-spacing: var(--type-tracking-wide); }
-    .share-link-widget > strong { font-size: var(--type-size-fluid-28px-4vw-42px); line-height: var(--type-leading-1-05); }
-    .share-link-widget p { margin: 0; color: rgba(255,255,255,.72); font-size: var(--type-size-17px); line-height: var(--type-leading-1-5); }
-    .menu-button { display: none; background: rgba(255,255,255,.08); color: var(--paper); }
-    .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(63,69,247,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(53,161,183,.16), transparent 32%), #050510; }
-    .legal-hero { min-height: auto; grid-template-columns: minmax(0, .92fr) minmax(260px, .58fr); padding-top: clamp(36px, 6vw, 72px); padding-bottom: clamp(36px, 6vw, 72px); }
-    .legal-page .hero-actions .button { min-height: 40px; padding: 9px 13px; font-size: var(--type-size-13px); }
-    .legal-page .hero-intro { max-width: 660px; }
-    .section-kicker { color: var(--mint); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); text-transform: uppercase; letter-spacing: var(--type-tracking-wide); margin: 0 0 18px; }
-    .hero-eyebrow { color: var(--mint); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); text-transform: uppercase; letter-spacing: var(--type-tracking-wider); margin: 0 0 18px; }
-    section { scroll-margin-top: 96px; }
-    h1 { font-size: var(--type-size-fluid-44px-8vw-96px); line-height: var(--type-leading-0-94); margin: 0; max-width: 920px; font-weight: var(--type-weight-bold); }
-    .hero-intro { color: rgba(255,255,255,.74); font-size: var(--type-size-fluid-19px-2-1vw-25px); line-height: var(--type-leading-1-38); max-width: 760px; margin: 26px 0 30px; }
-    .hero-device { position: relative; min-height: 520px; display: grid; place-items: center; }
-    .hero-widget { width: min(94%, 450px); min-height: 430px; border-radius: 34px; padding: 28px; color: var(--paper); border: 1px solid rgba(255,255,255,.18); background: linear-gradient(145deg, rgba(255,255,255,.11), rgba(63,69,247,.16)); box-shadow: 0 34px 90px rgba(0,0,0,.42); display: grid; gap: 16px; align-content: center; overflow: hidden; }
-    .hero-widget strong, .hero-widget span, .hero-widget em, .hero-widget small { overflow-wrap: anywhere; }
-    .widget-topline span, .widget-note, .hero-widget small, .hero-widget > span, .hero-widget li { color: rgba(255,255,255,.7); }
-    .widget-topline strong { display: block; font-size: var(--type-size-fluid-28px-4vw-42px); line-height: var(--type-leading-1); margin-top: 8px; }
-    .widget-note { font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-35); }
-    .legal-inline-link { display: inline-flex; min-height: 44px; align-items: center; color: #4a3fd6; font-weight: var(--type-weight-bold); text-decoration-thickness: 2px; text-underline-offset: 4px; }
-    .app-capture { width: min(100%, 300px); margin: 0; }
-    .app-capture img { display: block; width: 100%; height: auto; border: 1px solid #343438; border-radius: 28px; }
-    .app-capture figcaption { margin-top: 14px; color: #c9c9ce; text-align: center; font-size: var(--type-size-13px); line-height: var(--type-leading-1-5); }
-    .service-photo { width: 100%; margin: 0; }
-    .service-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 28px; }
-    .infographic-band h2 { font-size: var(--type-size-fluid-34px-5vw-64px); line-height: var(--type-leading-1); margin: 0; }
-    .infographic-band p { color: var(--muted); line-height: var(--type-leading-1-55); }
-    .infographic-band { display: grid; gap: 28px; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #f2f4ff; color: var(--ink); }
-    .infographic-copy { max-width: 860px; }
-    .infographic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .infographic-step { min-height: 150px; border: 1px solid #e1d9f0; border-radius: 18px; padding: 18px; background: rgba(255,253,251,.86); box-shadow: 0 14px 34px rgba(25,28,31,.06); }
-    .infographic-step:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); }
-    .infographic-step:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
-    .infographic-step:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
-    .infographic-step:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
-    .infographic-step:nth-child(4n+4) { background: #fff6e8; border-top-color: var(--g4); }
-    .infographic-step:nth-child(n) p, .infographic-step:nth-child(n) ul { color: var(--muted); }
-    .infographic-step h3 { margin: 16px 0 8px; font-size: var(--type-size-19px); line-height: var(--type-leading-1-12); }
-    .infographic-step p { margin: 0; font-size: var(--type-size-14px); }
-    .infographic-step ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: var(--type-leading-1-45); font-size: var(--type-size-14px); }
-    .infographic-step li + li { margin-top: 6px; }
-    .explain-band, .start-section, .market-context, .proof-section, .faq-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: var(--paper); color: var(--ink); }
-    .proof-section { background: #11101a; color: var(--paper); }
-    .faq-section { background: #fffdfb; color: var(--ink); }
-    .explain-band h2, .start-section h2, .market-context h2, .proof-section h2, .faq-section h2 { font-size: var(--type-size-fluid-34px-5vw-64px); line-height: var(--type-leading-1); margin: 0; }
-    .brand-word { color: var(--periwinkle); }
-    .market-context p { color: var(--muted); line-height: var(--type-leading-1-55); }
-    .source-note { font-size: var(--type-size-13px); max-width: 680px; }
-    .source-note a { color: #2f3db9; font-weight: var(--type-weight-bold); }
-    .market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid #e5deef; border-radius: 20px; overflow: hidden; background: #fffdfb; }
-    .market-grid article { min-height: 154px; padding: 24px; border-right: 1px solid #e5deef; border-bottom: 1px solid #e5deef; display: grid; align-content: end; }
-    .market-grid article:nth-child(1) { background: #f2f4ff; }
-    .market-grid article:nth-child(2) { background: #ecfbf1; }
-    .market-grid article:nth-child(3) { background: #fff3f3; }
-    .market-grid article:nth-child(4) { background: #fff6e8; }
-    .market-grid article:nth-child(2n) { border-right: 0; }
-    .market-grid article:nth-last-child(-n+2) { border-bottom: 0; }
-    .market-grid strong { display: block; font-size: var(--type-size-fluid-42px-5vw-62px); line-height: var(--type-leading-0-9); color: var(--g1); }
-    .market-grid span { display: block; margin-top: 12px; color: var(--muted); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-3); }
-    .step-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .step-list li, .section-card { border: 1px solid #e5deef; border-radius: 16px; padding: 18px; background: #fffdfb; }
-    .step-list strong, .step-list span { display: block; }
-    .step-list span { color: var(--muted); margin-top: 4px; line-height: var(--type-leading-1-45); }
-    .content-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
-    .content-grid-heading { grid-column: 1 / -1; margin: 0 0 10px; font-size: var(--type-size-fluid-42px-6vw-72px); line-height: var(--type-leading-0-95); letter-spacing: var(--type-tracking-default); max-width: 920px; }
-    .content-grid-diaspora { grid-template-columns: repeat(3, minmax(0, 1fr)); background: #f7f8ff; }
-    .content-grid-craas, .content-grid-credit-readiness { grid-template-columns: repeat(3, minmax(0, 1fr)); background: #fffdfb; }
-    .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-column: auto; border-top: 4px solid var(--periwinkle); }
-    .content-grid-insurance, .content-grid-protection { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .content-grid-insurance .section-card, .content-grid-protection .section-card { min-height: 184px; align-content: start; }
-    .content-grid-community-groups { background: #ecfbf1; }
-    .content-grid-community-groups .section-card { min-height: 180px; display: grid; align-content: end; }
-    .content-grid .section-card { box-shadow: 0 14px 34px rgba(25,28,31,.08); }
-    .content-grid .section-card:nth-of-type(4n+1) { background: #f2f4ff; }
-    .content-grid .section-card:nth-of-type(4n+2) { background: #ecfbf1; }
-    .content-grid .section-card:nth-of-type(4n+3) { background: #fff3f3; }
-    .content-grid .section-card:nth-of-type(4n+4) { background: #fff6e8; }
-    .legal-content { display: grid; gap: 18px; padding: clamp(48px, 7vw, 86px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
-    .legal-layout { display: grid; grid-template-columns: minmax(220px, .32fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 64px); align-items: start; }
-    .legal-layout.no-sidebar { grid-template-columns: 1fr; }
-    .legal-sidebar { position: sticky; top: 100px; display: grid; gap: 16px; }
-    .legal-meta { margin: 0; color: var(--muted); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-35); }
-    .legal-toc { display: grid; gap: 8px; border: 1px solid #e5deef; border-radius: 14px; padding: 16px; background: #ffffff; box-shadow: 0 14px 34px rgba(25,28,31,.05); }
-    .legal-toc strong { color: var(--ink); font-size: var(--type-size-14px); text-transform: uppercase; letter-spacing: var(--type-tracking-wide); }
-    .legal-toc a { min-height: 36px; display: flex; align-items: center; color: var(--muted); text-decoration: none; font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-25); border-radius: 9px; padding: 7px 9px; }
-    .legal-toc a:hover, .legal-toc a:focus-visible { color: var(--ink); background: #f2f4ff; }
-    .legal-main { display: grid; gap: 18px; min-width: 0; }
-    .legal-priority { display: grid; gap: 14px; border: 1px solid #d9d3ea; border-radius: 18px; padding: clamp(18px, 3vw, 28px); background: linear-gradient(135deg, #ffffff, #f7f8ff); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
-    .legal-section, .legal-card { border: 1px solid #e5deef; border-radius: 16px; padding: clamp(20px, 3vw, 30px); background: rgba(255,255,255,.82); box-shadow: 0 18px 48px rgba(25,28,31,.05); }
-    .legal-section h2, .legal-card h3 { margin: 0 0 12px; line-height: var(--type-leading-1-08); color: var(--ink); }
-    .legal-section h2 { font-size: var(--type-size-fluid-26px-3vw-40px); }
-    .legal-card h3 { font-size: var(--type-size-20px); }
-    .legal-section h3 { margin: 22px 0 10px; font-size: var(--type-size-19px); line-height: var(--type-leading-1-15); }
-    .legal-section p, .legal-card p, .legal-details dd { color: var(--muted); line-height: var(--type-leading-1-55); }
-    .legal-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .legal-details { display: grid; grid-template-columns: minmax(140px, .35fr) minmax(0, 1fr); gap: 10px 18px; margin: 16px 0; }
-    .legal-details dt { color: var(--ink); font-weight: var(--type-weight-bold); }
-    .legal-details dd { margin: 0; overflow-wrap: anywhere; }
-    .legal-path { display: inline-flex; padding: 8px 10px; border-radius: 10px; background: #f2f4ff; color: var(--ink); font-weight: var(--type-weight-bold); }
-    .supported-groups-section { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: clamp(24px, 5vw, 72px); align-items: start; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
-    .supported-groups-copy { position: sticky; top: 104px; }
-    .supported-groups-section h2 { margin: 0; max-width: 560px; font-size: var(--type-size-fluid-38px-5-6vw-66px); line-height: var(--type-leading-0-96); letter-spacing: var(--type-tracking-default); }
-    .supported-groups-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
-    .supported-group-card { min-height: 176px; border: 1px solid rgba(25,28,31,.12); border-radius: 18px; padding: 18px; display: grid; align-content: start; gap: 12px; color: var(--ink); background: var(--web-widget); box-shadow: none; overflow: hidden; }
-    .supported-group-card strong, .supported-group-card p, .supported-group-index { position: relative; z-index: 1; }
-    .supported-group-card strong { color: var(--ink); font-size: var(--type-size-fluid-18px-1-9vw-23px); line-height: var(--type-leading-1-04); font-weight: var(--type-weight-bold); letter-spacing: var(--type-tracking-default); }
-    .supported-group-card p { margin: 0; color: rgba(25,28,31,.72); font-size: var(--type-size-15px); line-height: var(--type-leading-1-34); font-weight: var(--type-weight-bold); }
-    .supported-group-index { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--web-canvas); color: var(--web-ink); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
-    .section-number { color: var(--periwinkle); font-weight: var(--type-weight-bold); }
-    .section-card h2 { margin: 18px 0 10px; font-size: var(--type-size-24px); line-height: var(--type-leading-1-12); }
-    .section-card p, .start-section p { color: var(--muted); line-height: var(--type-leading-1-55); }
-    .proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .proof-grid article { min-height: 158px; padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); }
-    .proof-grid strong, .proof-grid span { display: block; }
-    .proof-grid strong { font-size: var(--type-size-18px); line-height: var(--type-leading-1-05); font-weight: var(--type-weight-bold); }
-    .proof-grid span { margin-top: 10px; color: rgba(255,255,255,.7); line-height: var(--type-leading-1-45); }
-    .faq-list { display: grid; gap: 12px; }
-    .faq-list details { border: 1px solid rgba(63,69,247,.22); border-radius: 16px; background: #ffffff; padding: 0 18px; }
-    .faq-list summary { min-height: 58px; display: flex; align-items: center; cursor: pointer; color: var(--ink); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-2); }
-    .faq-list details p { margin: 0 0 18px; color: var(--muted); line-height: var(--type-leading-1-5); }
-    .localized-hero { min-height: auto; }
-    .localized-content { background: #f2f4ff; }
-    .bullet-list { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-    .bullet-list li { position: relative; padding-left: 22px; color: var(--muted); line-height: var(--type-leading-1-4); font-weight: var(--type-weight-bold); }
-    .bullet-list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
-    .original-story { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #11101a; color: var(--paper); }
-    .original-story.light { background: #fffdfb; color: var(--ink); }
-    .original-story.mint { background: #ecfbf1; color: var(--ink); }
-    .original-story.danger { background: #fff3f3; color: var(--ink); }
-    .original-story.info { background: #f2f4ff; color: var(--ink); }
-    .original-story h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
-    .original-story p { color: color-mix(in srgb, currentColor 72%, transparent); line-height: var(--type-leading-1-55); }
-    .story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .story-grid.four { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .story-grid.home-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .story-grid.problem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .story-grid.five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .story-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .story-grid article { min-height: 142px; border: 1px solid rgba(63,69,247,.2); border-radius: 16px; padding: 18px; background: rgba(255,255,255,.72); color: var(--ink); }
-    .original-story:not(.light):not(.mint):not(.danger):not(.info) .story-grid article { background: rgba(255,255,255,.08); color: var(--paper); border-color: rgba(255,255,255,.14); }
-    .story-grid article:nth-child(n) { color: var(--ink); border-color: transparent; border-top: 5px solid var(--g1); box-shadow: 0 16px 34px rgba(25,28,31,.1); }
-    .story-grid article:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
-    .story-grid article:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
-    .story-grid article:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
-    .story-grid article:nth-child(4n+4) { background: #fff6e8; border-top-color: var(--g4); }
-    .story-grid strong, .story-grid span { display: block; }
-    .story-grid strong { font-size: var(--type-size-18px); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-05); }
-    .story-grid span { margin-top: 10px; color: color-mix(in srgb, currentColor 68%, transparent); line-height: var(--type-leading-1-35); }
-    .story-grid a { display: inline-flex; margin-top: 18px; color: #4b55c9; font-weight: var(--type-weight-bold); text-decoration: none; }
-    .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
-    .group-problem-section { background: #fffdfb; color: var(--ink); }
-    .group-workflow-section { background: #11101a; color: var(--paper); }
-    .group-feature-section { background: #f2f4ff; color: var(--ink); }
-    .group-accumulation-section { background: #ecfbf1; color: var(--ink); }
-    .group-use-section { background: #fffdfb; color: var(--ink); }
-    .group-problem-section h2, .group-workflow-section h2, .group-feature-section h2, .group-accumulation-section h2, .group-use-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
-    .group-problem-section p, .group-accumulation-section p { color: var(--muted); line-height: var(--type-leading-1-55); font-size: var(--type-size-18px); }
-    .problem-list { display: grid; gap: 12px; }
-    .problem-list article, .use-case-grid article { border: 1px solid #e5deef; border-radius: 16px; padding: 18px; background: rgba(255,255,255,.78); color: var(--ink); font-weight: var(--type-weight-bold); line-height: var(--type-leading-1-2); }
-    .problem-list.compact article, .use-case-grid article { min-height: 112px; display: grid; align-items: center; color: var(--ink); border-color: transparent; box-shadow: 0 16px 34px rgba(25,28,31,.14); }
-    .problem-list.compact article:nth-child(5n+1), .use-case-grid article:nth-child(5n+1) { background: var(--g1); }
-    .problem-list.compact article:nth-child(5n+2), .use-case-grid article:nth-child(5n+2) { background: var(--g2); }
-    .problem-list.compact article:nth-child(5n+3), .use-case-grid article:nth-child(5n+3) { background: var(--g3); }
-    .problem-list.compact article:nth-child(5n+4), .use-case-grid article:nth-child(5n+4) { background: var(--g4); }
-    .problem-list.compact article:nth-child(5n+5), .use-case-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
-    .problem-list.compact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .group-journey { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .group-journey article { min-height: 210px; }
-    .group-journey article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
-    .group-journey article:nth-child(4n) { border-right: 0; }
-    .group-journey article:nth-last-child(-n+4) { border-bottom: 0; }
-    .group-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .accumulation-panel { border: 1px solid rgba(25,28,31,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
-    .accumulation-panel p { margin-top: 0; }
-    .accumulation-panel strong, .accumulation-panel span { display: block; }
-    .accumulation-panel strong { color: #164a2b; font-size: var(--type-size-24px); line-height: var(--type-leading-1-1); }
-    .accumulation-panel span { margin-top: 8px; color: var(--muted); line-height: var(--type-leading-1-45); }
-    .use-case-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .journey-rail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid rgba(255,255,255,.16); border-radius: 22px; overflow: hidden; background: rgba(255,255,255,.06); }
-    .journey-rail article { min-height: 190px; padding: 22px; border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); display: grid; align-content: end; }
-    .journey-rail article:nth-child(5n+1), .insurance-step-grid article:nth-child(5n+1) { background: var(--g1); }
-    .journey-rail article:nth-child(5n+2), .insurance-step-grid article:nth-child(5n+2) { background: var(--g2); }
-    .journey-rail article:nth-child(5n+3), .insurance-step-grid article:nth-child(5n+3) { background: var(--g3); }
-    .journey-rail article:nth-child(5n+4), .insurance-step-grid article:nth-child(5n+4) { background: var(--g4); }
-    .journey-rail article:nth-child(5n+1), .journey-rail article:nth-child(5n+2), .journey-rail article:nth-child(5n+3), .journey-rail article:nth-child(5n+4), .insurance-step-grid article:nth-child(5n+1), .insurance-step-grid article:nth-child(5n+2), .insurance-step-grid article:nth-child(5n+3), .insurance-step-grid article:nth-child(5n+4) { color: var(--ink); }
-    .journey-rail article:nth-child(5n+5), .insurance-step-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
-    .journey-rail article:nth-child(3n) { border-right: 0; }
-    .journey-rail article:nth-last-child(-n+3) { border-bottom: 0; }
-    .journey-rail span { color: rgba(25,28,31,.72); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); }
-    .journey-rail strong { display: block; margin-top: 42px; font-size: var(--type-size-fluid-22px-2-1vw-30px); line-height: var(--type-leading-1); }
-    .journey-rail p { margin: 14px 0 0; color: rgba(25,28,31,.78); line-height: var(--type-leading-1-38); }
-    .journey-rail article:nth-child(5n+5) span, .insurance-step-grid article:nth-child(5n+5) span { color: var(--mint); }
-    .journey-rail article:nth-child(5n+5) p, .insurance-step-grid article:nth-child(5n+5) p { color: rgba(255,255,255,.72); }
-    .journey-rail.group-journey { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .journey-rail.group-journey article { min-height: 210px; }
-    .journey-rail.group-journey article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
-    .journey-rail.group-journey article:nth-child(4n) { border-right: 1px solid rgba(255,255,255,.14); }
-    .journey-rail.group-journey article:nth-child(3n) { border-right: 0; }
-    .journey-rail.group-journey article:nth-last-child(-n+4) { border-bottom: 1px solid rgba(255,255,255,.14); }
-    .journey-rail.group-journey article:nth-last-child(-n+3) { border-bottom: 0; }
-    .diaspora-change-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #11101a; color: var(--paper); }
-    .diaspora-change-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
-    .change-compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-    .change-compare-grid article { border: 1px solid rgba(255,255,255,.14); border-radius: 22px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.07); min-height: 360px; }
-    .change-compare-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.22), rgba(63,69,247,.16)); }
-    .change-compare-grid h3 { margin: 0 0 18px; font-size: var(--type-size-fluid-24px-2-4vw-34px); line-height: var(--type-leading-1-04); }
-    .change-compare-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .change-compare-grid li { position: relative; padding-left: 22px; color: rgba(255,255,255,.78); line-height: var(--type-leading-1-35); font-weight: var(--type-weight-bold); }
-    .change-compare-grid li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
-    .insurance-work-section, .insurance-finance-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
-    .insurance-work-section { background: #11101a; color: var(--paper); }
-    .insurance-finance-section { background: #ecfbf1; color: var(--ink); }
-    .insurance-work-section h2, .insurance-finance-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
-    .insurance-step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .insurance-step-grid article { min-height: 190px; border: 1px solid rgba(255,255,255,.14); border-radius: 22px; padding: 24px; background: rgba(255,255,255,.07); display: grid; align-content: end; }
-    .insurance-step-grid span { color: rgba(25,28,31,.72); font-size: var(--type-size-13px); font-weight: var(--type-weight-bold); }
-    .insurance-step-grid p { margin: 42px 0 0; color: rgba(25,28,31,.78); line-height: var(--type-leading-1-38); font-size: var(--type-size-fluid-18px-1-6vw-22px); font-weight: var(--type-weight-bold); }
-    .premium-finance-panel { border: 1px solid rgba(25,28,31,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(63,69,247,.14)); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
-    .premium-finance-panel p { margin: 0; color: var(--muted); line-height: var(--type-leading-1-55); font-size: var(--type-size-fluid-20px-2vw-28px); font-weight: var(--type-weight-bold); }
-    .craas-specialist-section, .craas-bank-section, .craas-benefits-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
-    .craas-specialist-section { background: #11101a; color: var(--paper); }
-    .craas-bank-section { background: #fffdfb; color: var(--ink); }
-    .craas-benefits-section { background: #ecfbf1; color: var(--ink); }
-    .craas-specialist-section h2, .craas-bank-section h2, .craas-benefits-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
-    .craas-service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .craas-service-grid article { min-height: 132px; border-radius: 20px; padding: 22px; color: var(--ink); box-shadow: 0 18px 42px rgba(0,0,0,.18); display: grid; align-content: end; }
-    .craas-service-grid article:nth-child(5n+1) { background: var(--g1); }
-    .craas-service-grid article:nth-child(5n+2) { background: var(--g2); }
-    .craas-service-grid article:nth-child(5n+3) { background: var(--g3); }
-    .craas-service-grid article:nth-child(5n+4) { background: var(--g4); }
-    .craas-service-grid article:nth-child(5n+5) { background: var(--black); color: var(--white); }
-    .craas-service-grid strong { font-size: var(--type-size-fluid-18px-2vw-28px); line-height: var(--type-leading-1-05); font-weight: var(--type-weight-bold); }
-    .craas-list-panel, .craas-benefit-grid article { border: 1px solid rgba(25,28,31,.12); border-radius: 24px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(25,28,31,.06); }
-    .craas-list-panel ul, .craas-benefit-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .craas-list-panel ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .craas-list-panel li, .craas-benefit-grid li { position: relative; padding-left: 22px; color: var(--muted); line-height: var(--type-leading-1-35); font-weight: var(--type-weight-bold); }
-    .craas-list-panel li::before, .craas-benefit-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
-    .craas-benefit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-    .craas-benefit-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.18), rgba(63,69,247,.12)); }
-    .craas-benefit-grid h3 { margin: 0 0 18px; font-size: var(--type-size-fluid-24px-2-4vw-34px); line-height: var(--type-leading-1-04); }
-    .partner-opportunity-section, .partner-market-section, .partner-operating-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
-    .partner-opportunity-section { background: #fffdfb; color: var(--ink); }
-    .partner-market-section { background: #f2f4ff; color: var(--ink); }
-    .partner-operating-section { background: #11101a; color: var(--paper); }
-    .partner-opportunity-section h2, .partner-market-section h2, .partner-operating-section h2 { font-size: var(--type-size-fluid-34px-5vw-62px); line-height: var(--type-leading-1); margin: 0; }
-    .partner-metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .partner-metric-grid article { min-height: 150px; border-radius: 22px; padding: 24px; background: #11101a; color: var(--paper); display: grid; align-content: end; box-shadow: 0 18px 42px rgba(25,28,31,.12); }
-    .partner-metric-grid article:nth-child(1) { background: var(--black); }
-    .partner-metric-grid article:nth-child(2) { background: var(--g2); }
-    .partner-metric-grid article:nth-child(3) { background: var(--g1); }
-    .partner-metric-grid article:nth-child(4) { background: var(--g4); }
-    .partner-metric-grid article:nth-child(2), .partner-metric-grid article:nth-child(3), .partner-metric-grid article:nth-child(4) { color: var(--ink); }
-    .partner-metric-grid strong, .partner-metric-grid span { display: block; }
-    .partner-metric-grid strong { font-size: var(--type-size-fluid-32px-4vw-54px); line-height: var(--type-leading-0-95); font-weight: var(--type-weight-bold); }
-    .partner-metric-grid span { margin-top: 12px; color: rgba(255,253,251,.82); line-height: var(--type-leading-1-25); font-weight: var(--type-weight-bold); }
-    .partner-metric-grid article:nth-child(2) span, .partner-metric-grid article:nth-child(3) span, .partner-metric-grid article:nth-child(4) span { color: rgba(25,28,31,.78); }
-    .partner-engine-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .partner-engine-grid article { border: 1px solid transparent; border-top: 5px solid var(--g1); border-radius: 18px; padding: 16px; background: #f2f4ff; box-shadow: 0 16px 34px rgba(25,28,31,.08); }
-    .partner-engine-grid article:nth-child(4n+1) { background: #f2f4ff; border-top-color: var(--g1); }
-    .partner-engine-grid article:nth-child(4n+2) { background: #ecfbf1; border-top-color: var(--g2); }
-    .partner-engine-grid article:nth-child(4n+3) { background: #fff3f3; border-top-color: var(--g3); }
-    .partner-engine-grid article:nth-child(4n+4) { background: #fff6e8; border-top-color: var(--g4); }
-    .partner-engine-grid strong { display: block; font-size: var(--type-size-fluid-18px-1-8vw-24px); line-height: var(--type-leading-1-06); font-weight: var(--type-weight-bold); }
-    .partner-engine-grid p { margin: 10px 0 0; color: var(--muted); line-height: var(--type-leading-1-26); font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); }
-    .partner-engine-grid ul { display: grid; grid-template-columns: 1fr; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
-    .partner-engine-grid li { position: relative; padding-left: 15px; color: var(--muted); line-height: var(--type-leading-1-18); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
-    .partner-engine-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 7px; height: 7px; border-radius: 999px; background: var(--g2); }
-    .partner-market-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .partner-market-grid article { min-height: 226px; border-radius: 22px; padding: 24px; color: var(--ink); box-shadow: 0 18px 42px rgba(25,28,31,.12); display: grid; align-content: start; }
-    .partner-market-grid article:nth-child(1) { background: var(--g1); }
-    .partner-market-grid article:nth-child(2) { background: var(--g2); }
-    .partner-market-grid article:nth-child(3) { background: var(--g4); }
-    .partner-market-grid article:nth-child(4) { background: var(--g3); }
-    .partner-market-grid article:nth-child(5) { grid-column: auto; background: var(--black); color: var(--white); }
-    .partner-market-grid strong, .partner-market-grid span, .partner-market-grid p { display: block; }
-    .partner-market-grid strong { font-size: var(--type-size-fluid-22px-2-4vw-34px); line-height: var(--type-leading-1-02); font-weight: var(--type-weight-bold); }
-    .partner-market-grid span { margin-top: 14px; color: rgba(25,28,31,.78); font-size: var(--type-size-15px); line-height: var(--type-leading-1-25); font-weight: var(--type-weight-bold); }
-    .partner-market-grid p { margin: 20px 0 0; color: rgba(25,28,31,.78); line-height: var(--type-leading-1-4); font-size: var(--type-size-16px); font-weight: var(--type-weight-bold); }
-    .partner-market-grid article:nth-child(5) span, .partner-market-grid article:nth-child(5) p { color: rgba(255,253,251,.82); }
-    .partner-operating-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-    .partner-operating-grid article { min-height: 0; border: 1px solid rgba(255,255,255,.14); border-top: 5px solid var(--g1); border-radius: 22px; padding: 20px; background: rgba(255,255,255,.07); }
-    .partner-operating-grid article:nth-child(2) { border-top-color: var(--g2); background: rgba(255,255,255,.09); }
-    .partner-operating-grid article:nth-child(3) { border-top-color: var(--g4); background: rgba(255,255,255,.09); }
-    .partner-operating-grid h3 { margin: 0 0 14px; font-size: var(--type-size-fluid-20px-1-8vw-26px); line-height: var(--type-leading-1-05); }
-    .partner-operating-grid p { margin: 0 0 12px; color: rgba(255,255,255,.72); line-height: var(--type-leading-1-28); font-size: var(--type-size-14px); font-weight: var(--type-weight-bold); }
-    .partner-operating-grid ul { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
-    .partner-operating-grid li { position: relative; padding-left: 16px; color: rgba(255,255,255,.78); line-height: var(--type-leading-1-18); font-size: var(--type-size-12px); font-weight: var(--type-weight-bold); }
-    .partner-operating-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
-    .start-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
-    .legal-start-section { padding-top: clamp(34px, 5vw, 58px); padding-bottom: clamp(34px, 5vw, 58px); }
-    .legal-start-section h2 { max-width: 780px; }
-    .legal-start-section .button { min-height: 40px; padding: 10px 14px; font-size: var(--type-size-13px); }
-    .button.on-light:not(.cta-app):not(.cta-group):not(.cta-touch) { color: var(--ink); border-color: #ded8ea; }
-    .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 28px; padding: 36px clamp(20px, 5vw, 64px); border-top: 1px solid rgba(255,255,255,.12); background: #050510; }
-    .footer-identity { max-width: 760px; }
-    .footer-identity p { margin: 8px 0 0; color: rgba(255,255,255,.68); font-size: var(--type-size-rem-088); line-height: var(--type-leading-1-55); }
-    .footer-support { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .whatsapp-contact { min-height: 28px; display: inline-flex; align-items: center; gap: 7px; color: rgba(255,255,255,.78); font-weight: var(--type-weight-bold); text-decoration: none; border-radius: 9px; }
-    .whatsapp-contact:hover, .whatsapp-contact:focus-visible { color: var(--paper); background: rgba(255,255,255,.08); }
-    .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 10px; }
-    .site-footer a { min-height: 40px; display: inline-flex; align-items: center; color: rgba(255,255,255,.82); font-weight: var(--type-weight-bold); border-radius: 9px; padding: 8px 10px; }
-    .site-footer a:hover, .site-footer a:focus-visible { background: rgba(255,255,255,.08); color: var(--paper); }
-    @media (max-width: 1120px) and (min-width: 981px) {
-      .site-header { flex-wrap: nowrap; }
-      .menu-button { display: inline-flex; margin-left: auto; }
-      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
-      .site-nav.open { display: flex; }
-      .header-actions { display: none; }
-      .content-grid-diaspora { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 980px) {
-      .site-header { flex-wrap: nowrap; }
-      .menu-button { display: inline-flex; margin-left: auto; }
-      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
-      .site-nav.open { display: flex; }
-      .header-actions { display: none; }
-      .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 40px; }
-      .legal-hero { grid-template-columns: 1fr; padding-top: 32px; padding-bottom: 32px; }
-      .hero-device { min-height: 360px; }
-      .hero-widget { width: min(100%, 390px); min-height: 350px; }
-      .content-grid, .infographic-grid { grid-template-columns: 1fr 1fr; }
-      .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-column: auto; }
-      .explain-band, .start-section, .market-context, .proof-section, .faq-section, .original-story, .supported-groups-section { grid-template-columns: 1fr; }
-      .supported-groups-copy { position: static; }
-      .supported-groups-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; }
-      .problem-list.compact, .use-case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .partner-engine-grid, .partner-operating-grid, .partner-market-grid, .partner-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .partner-engine-grid strong { font-size: var(--type-size-fluid-20px-4vw-24px); }
-      .partner-engine-grid p { margin-top: 10px; font-size: var(--type-size-14px); line-height: var(--type-leading-1-3); }
-      .partner-engine-grid ul { grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
-      .partner-engine-grid li { font-size: var(--type-size-12px); line-height: var(--type-leading-1-22); padding-left: 14px; }
-      .partner-engine-grid li::before { width: 6px; height: 6px; }
-      .legal-layout { grid-template-columns: 1fr; }
-      .legal-sidebar { position: static; }
-      .craas-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr 1fr; }
-      .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail.group-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail article { border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-child(2n) { border-right: 0; }
-      .journey-rail article:not(:nth-last-child(-n+2)) { border-bottom: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
-    }
-    @media (max-width: 560px) {
-      .site-header { padding: 14px 20px; gap: 12px; }
-      .brand strong { font-size: var(--type-size-18px); }
-      .hero { padding: 22px 20px 30px; gap: 16px; }
-      .legal-hero { grid-template-columns: 1fr; padding-top: 20px; padding-bottom: 24px; }
-      h1 { font-size: var(--type-size-fluid-30px-8-6vw-38px); line-height: var(--type-leading-1); }
-      .hero-intro { font-size: var(--type-size-15px); line-height: var(--type-leading-1-36); margin: 14px 0 16px; }
-      .hero-actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
-      .button { width: 100%; }
-      .hero-actions .button { min-height: 42px; padding: 10px 14px; }
-      .legal-page .hero-actions .button { min-height: 38px; }
-      .hero-device { min-height: 0; max-height: none; align-items: center; }
-      .hero-widget { width: 100%; min-height: 300px; border-radius: 24px; padding: 20px; }
-      .content-grid, .infographic-grid, .supported-groups-grid, .story-grid, .story-grid.four, .story-grid.five, .story-grid.six, .story-grid.problem-grid, .journey-rail, .journey-rail.group-journey, .insurance-step-grid, .partner-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .content-grid .section-card, .infographic-step, .story-grid article, .journey-rail article, .insurance-step-grid article, .partner-metric-grid article { min-height: 120px; padding: 14px; border-radius: 14px; }
-      .infographic-step h3, .story-grid strong { font-size: var(--type-size-fluid-15px-4vw-17px); line-height: var(--type-leading-1-06); }
-      .infographic-step p, .story-grid span, .journey-rail p, .insurance-step-grid p { font-size: var(--type-size-13px); line-height: var(--type-leading-1-24); }
-      .journey-rail strong { margin-top: 16px; font-size: var(--type-size-fluid-17px-4-4vw-20px); }
-      .journey-rail p, .insurance-step-grid p { margin-top: 10px; }
-      .content-grid-diaspora .section-card:first-of-type, .content-grid-craas .section-card, .content-grid-credit-readiness .section-card { grid-row: auto; grid-column: auto; }
-      .legal-card-grid, .legal-details, .legal-layout { grid-template-columns: 1fr; }
-      .localized-nav { display: flex; position: static; padding: 0; background: transparent; border-bottom: 0; box-shadow: none; }
-      .proof-grid { grid-template-columns: 1fr; }
-      .explain-band, .start-section, .market-context, .proof-section, .faq-section, .content-grid, .supported-groups-section { padding: 48px 20px; }
-      .supported-groups-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .supported-group-card { min-height: 154px; padding: 14px; border-radius: 14px; gap: 9px; }
-      .supported-group-index { width: 32px; height: 32px; border-radius: 10px; font-size: var(--type-size-11px); }
-      .supported-group-card strong { font-size: var(--type-size-fluid-15px-4-2vw-17px); line-height: var(--type-leading-1-05); }
-      .supported-group-card p { font-size: var(--type-size-fluid-12px-3-35vw-14px); line-height: var(--type-leading-1-25); }
-      .legal-content { padding: 48px 20px; }
-      .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; padding: 48px 20px; }
-      .infographic-band h2, .explain-band h2, .start-section h2, .market-context h2, .original-story h2, .group-problem-section h2, .group-workflow-section h2, .group-feature-section h2, .group-accumulation-section h2, .group-use-section h2, .diaspora-change-section h2, .insurance-work-section h2, .insurance-finance-section h2, .craas-specialist-section h2, .craas-bank-section h2, .craas-benefits-section h2, .partner-opportunity-section h2, .partner-market-section h2, .partner-operating-section h2, .content-grid-heading, .supported-groups-section h2 { font-size: var(--type-size-fluid-29px-8vw-34px); line-height: var(--type-leading-1-02); }
-      .problem-list.compact, .use-case-grid, .craas-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .problem-list.compact article, .use-case-grid article, .craas-service-grid article { min-height: 96px; padding: 14px; border-radius: 14px; font-size: var(--type-size-fluid-13px-3-45vw-15px); line-height: var(--type-leading-1-16); }
-      .change-compare-grid, .craas-list-panel ul, .craas-benefit-grid { grid-template-columns: 1fr; }
-      .partner-engine-grid, .partner-market-grid, .partner-operating-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .partner-engine-grid strong { font-size: var(--type-size-fluid-20px-5-8vw-24px); }
-      .partner-market-grid article:nth-child(5) { grid-column: auto; }
-      .market-grid { grid-template-columns: 1fr; }
-      .market-grid article { min-height: 128px; border-right: 0; }
-      .market-grid article:nth-last-child(2) { border-bottom: 1px solid #e5deef; }
-      .original-story { padding: 48px 20px; }
-      .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail article { min-height: 120px; border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-child(2n) { border-right: 0; }
-      .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
-      .site-footer { grid-template-columns: 1fr; }
-      .site-footer nav { justify-content: flex-start; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .site-footer a { justify-content: center; min-height: 44px; background: rgba(255,255,255,.06); }
-    }
-    @media (max-width: 1180px) and (min-width: 981px) {
-      .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .journey-rail article { border-right: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-child(2n) { border-right: 0; }
-      .journey-rail article:nth-last-child(-n+3) { border-bottom: 1px solid rgba(255,255,255,.14); }
-      .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
-    }
-  CSS
+  File.read(File.join(ROOT, "web/public/layout.css"))
 end
 
 def minify_css(css)
@@ -2308,10 +1652,10 @@ def split_stylesheets(css)
     content-grid infographic infographic-step supported-groups section-card bullet-list legal-
     group-problem group-workflow group-feature group-accumulation group-use
     problem-list use-case-grid group-journey journey-rail accumulation-panel
-    diaspora-change change-compare insurance-work insurance-finance
+    change-compare insurance-work insurance-finance
     insurance-step premium-finance craas- partner- story-grid.five story-grid.six
     story-grid market-grid source-note home-flow section-number localized-
-    diaspora-card protection-card readiness-card community-card partner-card
+    protection-card readiness-card community-card partner-card
     trust-card policy-card terms-card deletion-card data-card
     activity-list app-list app-segments corridor-map faq-list home-app-card
     ledger- member- proof-grid protection-item record-card shield-mark

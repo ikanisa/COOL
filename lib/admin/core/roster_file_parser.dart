@@ -1,16 +1,26 @@
 import 'package:excel/excel.dart' as spreadsheet;
 
+import 'roster_xlsx_preflight.dart';
+
 String decodeRosterXlsx(List<int> bytes) {
-  final workbook = spreadsheet.Excel.decodeBytes(bytes);
+  final safeBytes = preflightRosterXlsx(bytes);
+  final spreadsheet.Excel workbook;
+  try {
+    workbook = spreadsheet.Excel.decodeBytes(safeBytes);
+  } catch (_) {
+    throw StateError(
+      'The XLSX file is malformed or uses unsupported features.',
+    );
+  }
   final output = <String>['Member name\tMoMo name\tMoMo number'];
   var candidateRows = 0;
   for (final sheet in workbook.tables.values) {
     final rows = sheet.rows
         .map((row) => row.map(_safeRosterCellText).toList())
         .where((row) => row.any((value) => value.isNotEmpty))
-        .toList();
-    if (rows.isEmpty) continue;
-    final indices = _rosterHeaderIndices(rows.first);
+        .iterator;
+    if (!rows.moveNext()) continue;
+    final indices = _rosterHeaderIndices(rows.current);
     final hasHeader = indices.values.any((index) => index >= 0);
     final memberIndex = hasHeader ? indices['member_name'] ?? -1 : 0;
     final momoNameIndex = hasHeader ? indices['momo_name'] ?? -1 : 1;
@@ -20,7 +30,9 @@ String decodeRosterXlsx(List<int> bytes) {
         'Each XLSX sheet with a header must include a MoMo number column.',
       );
     }
-    for (final row in rows.skip(hasHeader ? 1 : 0)) {
+    if (hasHeader && !rows.moveNext()) continue;
+    do {
+      final row = rows.current;
       String at(int index) => index >= 0 && index < row.length
           ? row[index].replaceAll(RegExp(r'[\t\r\n]+'), ' ').trim()
           : '';
@@ -36,7 +48,7 @@ String decodeRosterXlsx(List<int> bytes) {
       if (candidateRows > 500) {
         throw StateError('Roster preview is limited to 500 members.');
       }
-    }
+    } while (rows.moveNext());
   }
   if (candidateRows == 0) {
     throw StateError('The XLSX file has no member rows.');

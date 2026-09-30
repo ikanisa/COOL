@@ -22,6 +22,9 @@ object SmsQueueEventBus {
         listeners.remove(listener)
     }
 
+    /** Lets a newly attached Flutter listener replay a metadata-only drain hint. */
+    fun currentSequence(): Long = sequence.get()
+
     fun notifyQueueChanged() {
         val nextSequence = sequence.incrementAndGet()
         listeners.forEach { listener ->

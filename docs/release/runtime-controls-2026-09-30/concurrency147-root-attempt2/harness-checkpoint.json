@@ -1,0 +1,2698 @@
+{
+  "phase": "complete",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+  "source_sha256": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+  "baseline_tables": [
+    "auth.audit_log_entries",
+    "auth.custom_oauth_providers",
+    "auth.flow_state",
+    "auth.identities",
+    "auth.instances",
+    "auth.mfa_amr_claims",
+    "auth.mfa_challenges",
+    "auth.mfa_factors",
+    "auth.oauth_authorizations",
+    "auth.oauth_client_states",
+    "auth.oauth_clients",
+    "auth.oauth_consents",
+    "auth.one_time_tokens",
+    "auth.refresh_tokens",
+    "auth.saml_providers",
+    "auth.saml_relay_states",
+    "auth.schema_migrations",
+    "auth.sessions",
+    "auth.sso_domains",
+    "auth.sso_providers",
+    "auth.users",
+    "auth.webauthn_challenges",
+    "auth.webauthn_credentials",
+    "collect_admin_access.whatsapp_approvals",
+    "collect_auth_security.otp_phone_locks",
+    "collect_hybrid.collection_balances",
+    "collect_hybrid.group_creation_requests",
+    "collect_hybrid.legacy_bank_scheduler_observations",
+    "collect_hybrid.legacy_bank_scheduler_retirements",
+    "collect_hybrid.legacy_bank_scheduler_verifications",
+    "collect_hybrid.member_account_claims",
+    "collect_hybrid.member_balances",
+    "collect_hybrid.member_momo_identities",
+    "collect_hybrid.member_receiving_assignments",
+    "collect_hybrid.member_records",
+    "collect_hybrid.momo_balance_snapshots",
+    "collect_hybrid.momo_journal_entries",
+    "collect_hybrid.momo_journal_lines",
+    "collect_hybrid.momo_reconciliation_exceptions",
+    "collect_hybrid.momo_reversal_requests",
+    "collect_hybrid.payer_identity_reconciliation",
+    "collect_hybrid.payment_provider_rejections",
+    "collect_hybrid.receiving_assignment_requests",
+    "collect_hybrid.roster_batches",
+    "collect_hybrid.roster_import_commits",
+    "collect_hybrid.roster_import_editor_drafts",
+    "collect_hybrid.roster_import_extractions",
+    "collect_hybrid.roster_import_recovery_intents",
+    "collect_hybrid.roster_import_results",
+    "collect_hybrid.roster_import_revisions",
+    "collect_hybrid.roster_import_sources",
+    "collect_hybrid.roster_resource_completions",
+    "collect_hybrid.roster_resource_policy",
+    "collect_hybrid.roster_resource_reservations",
+    "collect_hybrid.roster_source_verifications",
+    "collect_hybrid.sms_notification_attempts",
+    "collect_hybrid.sms_notification_claim_requests",
+    "collect_hybrid.sms_notification_confirmations",
+    "collect_hybrid.sms_notification_outbox",
+    "collect_hybrid.sms_operator_heartbeats",
+    "collect_hybrid.sms_receipt_member_consents",
+    "collect_hybrid.sms_receipt_policies",
+    "collect_security.otp_policy",
+    "collect_security.reconciliation_reviews",
+    "collect_security.runtime_control_events",
+    "collect_security.runtime_control_heads",
+    "collect_security.signed_otp_evidence",
+    "collect_security.signed_otp_requests",
+    "public.account_request_reason_options",
+    "public.admin_navigation_items",
+    "public.admin_notes",
+    "public.admin_permissions",
+    "public.admin_queue_filter_options",
+    "public.admin_queue_signals",
+    "public.admin_queue_sla_policies",
+    "public.admin_queue_specs",
+    "public.admin_role_permissions",
+    "public.admin_roles",
+    "public.admin_sensitive_access_logs",
+    "public.admin_user_roles",
+    "public.app_realtime_events",
+    "public.audit_logs",
+    "public.bank_allocation_change_requests",
+    "public.bank_destination_change_requests",
+    "public.bank_evidence_events",
+    "public.bank_statement_imports",
+    "public.bank_statement_lines",
+    "public.bank_transaction_allocations",
+    "public.bank_transactions",
+    "public.bank_transfer_destinations",
+    "public.bank_transfer_intents",
+    "public.brand_entities",
+    "public.collection_category_subtypes",
+    "public.collection_invites",
+    "public.collection_members",
+    "public.collection_purpose_templates",
+    "public.collection_receivers",
+    "public.collection_reports",
+    "public.collection_share_secrets",
+    "public.collection_type_catalog",
+    "public.collection_type_country_rules",
+    "public.collections",
+    "public.daily_bank_closes",
+    "public.feature_flags",
+    "public.journal_entries",
+    "public.journal_lines",
+    "public.ledger_entries",
+    "public.member_obligations",
+    "public.mobile_account_deletion_requests",
+    "public.mobile_support_requests",
+    "public.moderation_flags",
+    "public.native_action_capabilities",
+    "public.notification_channels",
+    "public.notification_deliveries",
+    "public.notification_delivery_attempts",
+    "public.notification_device_tokens",
+    "public.notification_event_types",
+    "public.notification_events",
+    "public.notification_preferences",
+    "public.notification_template_versions",
+    "public.notification_templates",
+    "public.otp_rate_limits",
+    "public.parsed_payment_events",
+    "public.payment_allocations",
+    "public.payment_entrypoints",
+    "public.payment_evidence_links",
+    "public.payment_intents",
+    "public.payment_provider_confirmations",
+    "public.payments",
+    "public.policy_acceptance_events",
+    "public.policy_document_sections",
+    "public.policy_documents",
+    "public.profile_country_rules",
+    "public.profiles",
+    "public.provider_finality_requests",
+    "public.raw_payment_evidence",
+    "public.raw_payment_sms",
+    "public.receiver_mode_consents",
+    "public.reconciliation_exceptions",
+    "public.reconciliation_matches",
+    "public.reconciliation_runs",
+    "public.recurring_periods",
+    "public.support_channels",
+    "public.system_settings",
+    "supabase_migrations.schema_migrations"
+  ],
+  "baseline_sha256": "bec1449b827ea4e01156a78ecdf9191b5e8c398785758128ed53528cd04978a8",
+  "baseline_fingerprints": {
+    "auth.users": {
+      "rows": 1,
+      "sha256": "3a40fbbdcfeb9bfb76b84a7d7aaa6d2e3411d6a9a3b0fe023b2f54dfbc4688d6"
+    },
+    "auth.sessions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.instances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.flow_state": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.identities": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.profiles": {
+      "rows": 1,
+      "sha256": "7f1d7c952b2d2f10e0489ecefca16ef75142448ce8916d39e8313c7e73aaf25f"
+    },
+    "auth.mfa_factors": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.sso_domains": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.audit_logs": {
+      "rows": 2,
+      "sha256": "c46522d672389005cea05322545d2d443818fbeaee970310d95a14587d782c36"
+    },
+    "auth.oauth_clients": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.sso_providers": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_notes": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_roles": {
+      "rows": 7,
+      "sha256": "2b5b193e2e11a6d7ed9db25582cce721afc25278e9fdddc92929fe48254b8375"
+    },
+    "public.collections": {
+      "rows": 2,
+      "sha256": "08cee26c8ecbf35836e6eb0a4f9d62f963bf3403c2617e3fa17109c2cd30552b"
+    },
+    "auth.mfa_amr_claims": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.mfa_challenges": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.oauth_consents": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.refresh_tokens": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.saml_providers": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.one_time_tokens": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.feature_flags": {
+      "rows": 8,
+      "sha256": "adef8a888303ef133fcd949fe6bcf13ea154c6aba51ad13d03021b766418bb15"
+    },
+    "public.journal_lines": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.brand_entities": {
+      "rows": 1,
+      "sha256": "1c3e51d807e3fb5a872e358838a23db7d6b19a8c548107aebe4161ebec86921c"
+    },
+    "public.ledger_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.audit_log_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.saml_relay_states": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.schema_migrations": {
+      "rows": 76,
+      "sha256": "462c2cb2ee63477c701731ee33b7d04a9037d2740a3f4ab7326c0d0bae8589c5"
+    },
+    "public.journal_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.otp_rate_limits": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_intents": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.system_settings": {
+      "rows": 2,
+      "sha256": "e2dcd62d0f603f2648f1f55a040e46c6bfca74f023049c05013df6afb76f147c"
+    },
+    "public.admin_user_roles": {
+      "rows": 1,
+      "sha256": "5b0b07a6f8b54cec3bbca7c9febcd265ea295503c5d4630870bef05848bc67b2"
+    },
+    "public.moderation_flags": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.policy_documents": {
+      "rows": 4,
+      "sha256": "06a711d8ef7a6d0e6c14dcb0727f6690c7bf0aa8294345607403b1dc290534ed"
+    },
+    "public.support_channels": {
+      "rows": 2,
+      "sha256": "3f52b12ec10dc67637c8fffbf4a4109330ee09461bedfbac2775ce5cef509195"
+    },
+    "auth.oauth_client_states": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.webauthn_challenges": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_permissions": {
+      "rows": 35,
+      "sha256": "4b81f41aee240a60e9b8bcf555336b881d9d8f471dea4365477a91ae7732c64c"
+    },
+    "public.admin_queue_specs": {
+      "rows": 31,
+      "sha256": "85ea8b8a4003c8caa720e0977dc91b3728bdb1a236a448d4f1e2b76e3209ca96"
+    },
+    "public.bank_transactions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.daily_bank_closes": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.recurring_periods": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.oauth_authorizations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.webauthn_credentials": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_invites": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_members": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_reports": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.member_obligations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_queue_signals": {
+      "rows": 30,
+      "sha256": "329af6c9f0d4f678302259b2ea11dd7ecefaa70a4a99804a083a02e35510f90e"
+    },
+    "public.app_realtime_events": {
+      "rows": 501,
+      "sha256": "6511f8e0e3cc9159e21ba22f40989b8333fd1e3b4ed2797bc48d6272f54d3068"
+    },
+    "public.notification_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_entrypoints": {
+      "rows": 1,
+      "sha256": "11a38cb68c0c32231e37b200030750cb59b1a7e9d8cad0760d015795e738e443"
+    },
+    "public.reconciliation_runs": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auth.custom_oauth_providers": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.otp_policy": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.bank_evidence_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.bank_statement_lines": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_receivers": {
+      "rows": 2,
+      "sha256": "bfcc2a4f7dc72034674755aba3d48edf2c09198e3d2edab1f39a3025721b7294"
+    },
+    "public.raw_payment_evidence": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.bank_transfer_intents": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_channels": {
+      "rows": 1,
+      "sha256": "5e281dbf11f5a7f7606c4ae939f7ef712c353df52f7d3ca0d975acfb80563578"
+    },
+    "public.parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.profile_country_rules": {
+      "rows": 1,
+      "sha256": "5bb74e5cb1e41e742be1a06e00de0eb44963bd4be812c6db4e77723dad39b839"
+    },
+    "collect_hybrid.member_records": {
+      "rows": 1,
+      "sha256": "bf6842bf63db40b372beb45d8a74e87e7629c76b1dd10bf22149f7dc5116f581"
+    },
+    "collect_hybrid.roster_batches": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_navigation_items": {
+      "rows": 32,
+      "sha256": "6543f8af7214a2c865866004fc5d6da8d874cc717a8ad8a0ac56e8146ada86c2"
+    },
+    "public.admin_role_permissions": {
+      "rows": 125,
+      "sha256": "dcd86aaed314b95976a2d223e60d77b6517271cca63f76dbb93fb869eb10681c"
+    },
+    "public.bank_statement_imports": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_templates": {
+      "rows": 4,
+      "sha256": "0e5d54360a1d041dc74c0872acf1752b0960df4598ac6313fcac8f172ce3b481"
+    },
+    "public.payment_evidence_links": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.receiver_mode_consents": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.reconciliation_matches": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.member_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_type_catalog": {
+      "rows": 5,
+      "sha256": "cf6d12fe78bd0f84a034fc07d27c56e4806cd54ee3004406ed44d92493fca795"
+    },
+    "public.mobile_support_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_queue_sla_policies": {
+      "rows": 28,
+      "sha256": "38d1e31b7d7a50ad364e6a2a765eb8a395727409d99c50a9705f407f3e748db0"
+    },
+    "public.collection_share_secrets": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_event_types": {
+      "rows": 4,
+      "sha256": "80806522801c710496bbfa4c666d0447589b7843a71fc8899c250b66751c25a6"
+    },
+    "public.notification_preferences": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.policy_acceptance_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.policy_document_sections": {
+      "rows": 20,
+      "sha256": "d1741116eaefb85762cf2a868687f885fc1253b8e6eda69d04bb44da7a17eceb"
+    },
+    "public.reconciliation_exceptions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_journal_lines": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_queue_filter_options": {
+      "rows": 182,
+      "sha256": "6f9cb24aa2129ca5d82dcc43e47972e0ce49a4b7397ada32669f4c5cee36668b"
+    },
+    "public.bank_transfer_destinations": {
+      "rows": 1,
+      "sha256": "841ce50431355a9e51107bf9fb9462dd87c91b69adc6406bebf58d95d0bae84d"
+    },
+    "public.native_action_capabilities": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_device_tokens": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.provider_finality_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.collection_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.admin_sensitive_access_logs": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_journal_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_receipt_policies": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.bank_transaction_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_category_subtypes": {
+      "rows": 13,
+      "sha256": "4739a4c5faa54aec4580d813298be62e3ab215ee3cd1c85f4d62b3a05d811173"
+    },
+    "public.collection_purpose_templates": {
+      "rows": 9,
+      "sha256": "e9fef30c6f7296689515fb2d204cfc107eb8291a4028919544898bb7ffa7dcc7"
+    },
+    "collect_hybrid.member_account_claims": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_commits": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_results": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_sources": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.signed_otp_evidence": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.signed_otp_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.collection_type_country_rules": {
+      "rows": 5,
+      "sha256": "d0060deb3bafb35a82ebb76dde0342acb0abbad733846ccda77ff72fd8dfe1e2"
+    },
+    "collect_auth_security.otp_phone_locks": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.member_momo_identities": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_balance_snapshots": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_reversal_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_resource_policy": {
+      "rows": 1,
+      "sha256": "bd2691079e7c4e8188ccfa4066bf273d50d0c3209675313a53e0e65729279148"
+    },
+    "public.account_request_reason_options": {
+      "rows": 3,
+      "sha256": "de627cfb5206c3a106d5f49b64e9c4e1511554883218ca749adcacf322d316d9"
+    },
+    "public.notification_delivery_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_template_versions": {
+      "rows": 4,
+      "sha256": "dd137d1714966ebc5582434ff1d7dd6e39a7c263f3b95e4f3f933db4e340ba45"
+    },
+    "public.payment_provider_confirmations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "supabase_migrations.schema_migrations": {
+      "rows": 147,
+      "sha256": "51be5f2e26c24baee0b87f0391f675bf82bfdafd1769ca9c9cea8e0664cd7501"
+    },
+    "collect_hybrid.group_creation_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_revisions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_operator_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.runtime_control_heads": {
+      "rows": 390,
+      "sha256": "a1518eeab63c6af20c4d962e8782bff027656a992f892ef3834545975b8cc892"
+    },
+    "public.bank_allocation_change_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_admin_access.whatsapp_approvals": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.reconciliation_reviews": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.runtime_control_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.bank_destination_change_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.mobile_account_deletion_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_extractions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_editor_drafts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_resource_completions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_source_verifications": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_receipt_member_consents": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.member_receiving_assignments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_resource_reservations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.payer_identity_reconciliation": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.receiving_assignment_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_reconciliation_exceptions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.roster_import_recovery_intents": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_confirmations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_claim_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.legacy_bank_scheduler_retirements": {
+      "rows": 1,
+      "sha256": "8761fdee4ecc9678d63562892c81163e518b80c6cb1763a9a1f1e08f1b3fef6d"
+    },
+    "collect_hybrid.legacy_bank_scheduler_observations": {
+      "rows": 1,
+      "sha256": "fe9c3022c3daab1a9b31275a9146aa0c4249c2ca4a133da5578a6188d8290d3c"
+    },
+    "collect_hybrid.legacy_bank_scheduler_verifications": {
+      "rows": 1,
+      "sha256": "16ea54fd6ded3ebb77c8db21e69cbab06167bb6b23d7ab49a8118e6467a38151"
+    }
+  },
+  "controls_sha256": "f4c0c8c97934e2ffe6ef10b07250536988925c260b97b5a86fa4bef6c59174f1",
+  "restore_rows": {
+    "flag": [
+      {
+        "key": "hybrid_member_onboarding",
+        "enabled": false,
+        "metadata": {
+        },
+        "created_at": "2026-09-29T23:02:19.741092+00:00",
+        "updated_at": "2026-09-29T23:02:19.741092+00:00",
+        "updated_by": null,
+        "description": "Pilot gate: private assisted groups and reviewed offline rosters; does not enable payment posting or SMS",
+        "updated_reason": null
+      }
+    ],
+    "otp": [
+
+    ],
+    "roster": [
+      {
+        "id": true,
+        "version": 1,
+        "actor_active": 2,
+        "global_active": 20,
+        "actor_daily_bytes": 104857600,
+        "global_daily_bytes": 1073741824,
+        "actor_daily_requests": 100,
+        "ai_attempt_cost_units": 10000,
+        "global_daily_requests": 1000,
+        "actor_daily_cost_units": 100000,
+        "global_daily_cost_units": 1000000
+      }
+    ],
+    "heads": [
+      {
+        "family": "feature_flags",
+        "identity": {
+          "key": "hybrid_member_onboarding"
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:26:55.28042+00:00",
+        "content_sha256": "5e5d03c403bbc267f19c57301f7cf53be2d9201166033cc2288b22e424faa506"
+      },
+      {
+        "family": "roster_resource_policy",
+        "identity": {
+          "id": true
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:26:55.299021+00:00",
+        "content_sha256": "bd2691079e7c4e8188ccfa4066bf273d50d0c3209675313a53e0e65729279148"
+      }
+    ]
+  },
+  "baseline_event_ids": [
+
+  ],
+  "tracked_transaction_ids": [
+    "3061",
+    "3062",
+    "3065",
+    "3068",
+    "3069",
+    "3074",
+    "3077",
+    "3080",
+    "3083",
+    "3086",
+    "3087",
+    "3092",
+    "3095",
+    "3098",
+    "3101",
+    "3105",
+    "3106",
+    "3108",
+    "3109",
+    "3110",
+    "3111",
+    "3114",
+    "3115",
+    "3116"
+  ],
+  "owned_row_xid_attribution": [
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000012",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99730000-0000-4000-8000-000000000002",
+        "factor_id": null,
+        "not_after": "2026-09-30T16:30:58.680505+00:00",
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:58.680505+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "3061",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000001",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": null,
+        "phone": "250788973001",
+        "created_at": null,
+        "deleted_at": null,
+        "invited_at": null,
+        "updated_at": null,
+        "instance_id": null,
+        "is_sso_user": false,
+        "banned_until": null,
+        "confirmed_at": "2026-09-30T15:30:58.680505+00:00",
+        "email_change": null,
+        "is_anonymous": false,
+        "phone_change": "",
+        "is_super_admin": null,
+        "recovery_token": null,
+        "last_sign_in_at": null,
+        "recovery_sent_at": null,
+        "confirmation_token": null,
+        "email_confirmed_at": null,
+        "phone_change_token": "",
+        "phone_confirmed_at": "2026-09-30T15:30:58.680505+00:00",
+        "confirmation_sent_at": null,
+        "email_change_sent_at": null,
+        "phone_change_sent_at": null,
+        "email_change_token_new": null,
+        "reauthentication_token": "",
+        "reauthentication_sent_at": null,
+        "email_change_token_current": "",
+        "email_change_confirm_status": 0
+      },
+      "xmin": "3061",
+      "relation": "auth.users"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000002",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": null,
+        "phone": "250788973002",
+        "created_at": null,
+        "deleted_at": null,
+        "invited_at": null,
+        "updated_at": null,
+        "instance_id": null,
+        "is_sso_user": false,
+        "banned_until": null,
+        "confirmed_at": "2026-09-30T15:30:58.680505+00:00",
+        "email_change": null,
+        "is_anonymous": false,
+        "phone_change": "",
+        "is_super_admin": null,
+        "recovery_token": null,
+        "last_sign_in_at": null,
+        "recovery_sent_at": null,
+        "confirmation_token": null,
+        "email_confirmed_at": null,
+        "phone_change_token": "",
+        "phone_confirmed_at": "2026-09-30T15:30:58.680505+00:00",
+        "confirmation_sent_at": null,
+        "email_change_sent_at": null,
+        "phone_change_sent_at": null,
+        "email_change_token_new": null,
+        "reauthentication_token": "",
+        "reauthentication_sent_at": null,
+        "email_change_token_current": "",
+        "email_change_confirm_status": 0
+      },
+      "xmin": "3061",
+      "relation": "auth.users"
+    },
+    {
+      "row": {
+        "reason": "Synthetic runtime actor approval",
+        "user_id": "99730000-0000-4000-8000-000000000001",
+        "expires_at": null,
+        "phone_e164": "+250788973001",
+        "revoked_at": null,
+        "revoked_by": null,
+        "approved_at": "2026-09-30T15:28:58.688497+00:00",
+        "approved_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "3061",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "row": {
+        "reason": "Synthetic runtime controller approval",
+        "user_id": "99730000-0000-4000-8000-000000000002",
+        "expires_at": null,
+        "phone_e164": "+250788973002",
+        "revoked_at": null,
+        "revoked_by": null,
+        "approved_at": "2026-09-30T15:28:58.688618+00:00",
+        "approved_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "3061",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "row": {
+        "revision": 1,
+        "phone_hash": "785ed1d5a00c07e5970fcd63213bc91006791bb4d420fcf82961cce62de293e7"
+      },
+      "xmin": "3109",
+      "relation": "collect_auth_security.otp_phone_locks"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000001",
+        "origin": "app",
+        "lifecycle": "active",
+        "collect_id": "872491",
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "created_by": null,
+        "linked_user_id": "99730000-0000-4000-8000-000000000001"
+      },
+      "xmin": "3061",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000002",
+        "origin": "app",
+        "lifecycle": "active",
+        "collect_id": "258068",
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "created_by": null,
+        "linked_user_id": "99730000-0000-4000-8000-000000000002"
+      },
+      "xmin": "3061",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "74c492a1-3340-458f-abdd-10f9da6b3b0c",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "cost_units": 10000,
+        "expires_at": "2026-09-30T15:33:59.815012+00:00",
+        "request_id": "99730000-0000-4000-8000-000000000201",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "reserved_at": "2026-09-30T15:30:59.815012+00:00",
+        "source_kind": "image",
+        "input_sha256": "4e11e006ae2369ec7bd6551417c6689280646b4782e82eb2de0349f9d44ff083",
+        "source_bytes": 100,
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "derived_sha256": null,
+        "policy_version": 1
+      },
+      "xmin": "3106",
+      "relation": "collect_hybrid.roster_resource_reservations"
+    },
+    {
+      "row": {
+        "id": "13baa568-3fd2-46a7-a0c3-7a5d7f84bd84",
+        "family": "notification_preferences",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": true,
+        "revision": 1,
+        "authority": "live_operator",
+        "operation": "insert",
+        "new_sha256": null,
+        "old_sha256": null,
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:59.626361+00:00",
+        "reason_sha256": "374f473778e89fb9ccc525458356f94d168029671282a0031a247245e6b79209",
+        "changed_fields": [
+          "contribution_confirmations",
+          "group_updates",
+          "payment_reminders",
+          "security_notices",
+          "user_id"
+        ],
+        "identity_sha256": "35fb878e02db79c021c04005db2a1861a6ba0865855cdb20ea9d5316ae699f52",
+        "previous_revision": 0,
+        "reason_characters": 36
+      },
+      "xmin": "3100",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "1c8fef98-8d75-4288-ae19-593ea81263b1",
+        "family": "policy_documents",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": false,
+        "revision": 2,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "c7fd70cc486633f16caa087f752f668c33f753a5d24bc517afcb198c25661378",
+        "old_sha256": "f935ada7cfbd4ecdcdc4d906e3d93648618f071504e633f4bfddd3114d7eeaf5",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:59.102249+00:00",
+        "reason_sha256": "a2c72127b7ccb112e1b691e2ad8740747e5f6a2689cdd677b741310f3d6053dc",
+        "changed_fields": [
+          "published_at",
+          "status"
+        ],
+        "identity_sha256": "60ce5c48ab8539b3bd9c96ed06e0a26ea501ebd5f5c4279f488d361fd83bd732",
+        "previous_revision": 1,
+        "reason_characters": 32
+      },
+      "xmin": "3076",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "1ecb98c7-5e43-4eb7-bd56-e9bf5897ba66",
+        "family": "policy_document_sections",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": false,
+        "revision": 2,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "abc7138c1ffe5c04299550e73d8db484de0ebdd0a2168c75b551dd23513f10dd",
+        "old_sha256": "b88008a9294798362c6b45e623110b48682cbb25ac81f108e665d35b3c0c17a8",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:59.389475+00:00",
+        "reason_sha256": "493bf1c6d906807ddb4c1f5e3d1b877d940c8a3b5032282827e316e64f1078c3",
+        "changed_fields": [
+          "body"
+        ],
+        "identity_sha256": "21125fa6ce93c3e5068ae12e83c49bf71dd310e8b6ae07749a9b0863480c74bd",
+        "previous_revision": 1,
+        "reason_characters": 32
+      },
+      "xmin": "3089",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "2041e7ba-6eb1-4394-b305-f853158a18e3",
+        "family": "feature_flags",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": false,
+        "revision": 3,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "83837e13a339d14d5cd1aa4935354f5eb527b5a4adadefa5c94c08becbf2a3e8",
+        "old_sha256": "261aceb93310f46ecaa0ee291fe77fab46d51af92b907a81f0dce5d604c27146",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:59.005004+00:00",
+        "reason_sha256": "ea4247237a796d443b472737a52ca6d44797e88b4fe4c6117c5ac1acf7bfcb7b",
+        "changed_fields": [
+          "enabled"
+        ],
+        "identity_sha256": "1e6cf86a4627fe5768e83ba0ceaa6c877c854b5e457b89d716ffca01abfb8bf8",
+        "previous_revision": 2,
+        "reason_characters": 30
+      },
+      "xmin": "3071",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "211554ff-54ca-476e-b704-870583ad1bd0",
+        "family": "feature_flags",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 2,
+        "authority": "database_owner",
+        "operation": "update",
+        "new_sha256": "e8656c9796c460d49dd15dc7e18ee801d0f5630b4515672695c8a864ef3b2cad",
+        "old_sha256": "5e5d03c403bbc267f19c57301f7cf53be2d9201166033cc2288b22e424faa506",
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.69688+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "enabled"
+        ],
+        "identity_sha256": "a3600b807c9bbcef96b8211f339e7dde648c35fcf4fb0069f367c030a23a1640",
+        "previous_revision": 1,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "2a958630-995f-4cd7-a907-c7e689e03ab6",
+        "family": "feature_flags",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": false,
+        "revision": 2,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "261aceb93310f46ecaa0ee291fe77fab46d51af92b907a81f0dce5d604c27146",
+        "old_sha256": "83837e13a339d14d5cd1aa4935354f5eb527b5a4adadefa5c94c08becbf2a3e8",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:58.858977+00:00",
+        "reason_sha256": "ea4247237a796d443b472737a52ca6d44797e88b4fe4c6117c5ac1acf7bfcb7b",
+        "changed_fields": [
+          "enabled"
+        ],
+        "identity_sha256": "1e6cf86a4627fe5768e83ba0ceaa6c877c854b5e457b89d716ffca01abfb8bf8",
+        "previous_revision": 1,
+        "reason_characters": 30
+      },
+      "xmin": "3064",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "3461ec92-15dc-4f6e-ab25-fae9c37ca95e",
+        "family": "policy_document_sections",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": false,
+        "revision": 2,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "3a7f603a95c5fabaf8929d521dd3ac79c4fe4c8f70a368a697d39c4c0be17ecb",
+        "old_sha256": "cba6bf4748479f273a0021fae157b30515723f2b1c1ba0032670bf80af8ad174",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:59.198228+00:00",
+        "reason_sha256": "9c8bbe1f051bbe8f040768b42c58abc2217cf567c5c26be39dfed1a3b33863bb",
+        "changed_fields": [
+          "body"
+        ],
+        "identity_sha256": "d5e235b89762c3290f8b22b63bb1ae265ac72db86b799328bf2cf70743685ba3",
+        "previous_revision": 1,
+        "reason_characters": 28
+      },
+      "xmin": "3082",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "3627502f-4a6e-45d3-84e6-f606fb3dfa9b",
+        "family": "policy_document_sections",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "acbfb5208eae13f1398af1f6a88107f71b9091405ece8248064f05cc38df4285",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.703635+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "body",
+          "display_order",
+          "id",
+          "metadata",
+          "policy_document_id",
+          "section_key",
+          "title"
+        ],
+        "identity_sha256": "2a760e570226810886e8685366c34adbd8c09b5ddb2f10598db2a5d52952cd4c",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "583d0b92-00ed-4fc1-8021-c0cddfc678d4",
+        "family": "notification_template_versions",
+        "actor_id": "99730000-0000-4000-8000-000000000001",
+        "redacted": false,
+        "revision": 2,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "6769daf63d9665d25f61722c3a3f44e91d06cf1e0168efb72dd99e26a5db5ebd",
+        "old_sha256": "5c0134499bf8392a6592a61d09bd852ea5bd24f5a3f611885e771e536863d15c",
+        "session_id": "99730000-0000-4000-8000-000000000011",
+        "recorded_at": "2026-09-30T15:30:59.511957+00:00",
+        "reason_sha256": "0fbf182af33c095276601b508a695192de4cfc985a43f8d93e2d78e9402da6a7",
+        "changed_fields": [
+          "published_at",
+          "status"
+        ],
+        "identity_sha256": "941598adcdf9c9d7244064a4c5ad3a0e287f65a63fdab254072ed4e191439551",
+        "previous_revision": 1,
+        "reason_characters": 30
+      },
+      "xmin": "3094",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "670543a1-fe7b-4995-ae42-08e7f10ed723",
+        "family": "notification_template_versions",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "5c0134499bf8392a6592a61d09bd852ea5bd24f5a3f611885e771e536863d15c",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.713433+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "body_template",
+          "effective_at",
+          "id",
+          "metadata",
+          "published_at",
+          "status",
+          "template_key",
+          "title_template",
+          "version"
+        ],
+        "identity_sha256": "941598adcdf9c9d7244064a4c5ad3a0e287f65a63fdab254072ed4e191439551",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "6ddb3445-a1fd-4b49-9571-41dbd8a29129",
+        "family": "otp_policy",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "299efdbdfac75f5c2ef512300e131a45542d43430cefc2b2f7d90e103973f823",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.716402+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "enabled",
+          "global_daily_limit",
+          "global_hourly_limit",
+          "singleton"
+        ],
+        "identity_sha256": "3d56938291d690db4ccb55155533bee4afcfede0c54ee46da2fe16553d8f8bc5",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "852b0fa0-21d7-4126-bdfb-e2466abdee6e",
+        "family": "notification_templates",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "144d4710e671e22910e9608cba39f71bde29202bc8d666c7134f4da1de3befc7",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.71042+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "enabled",
+          "event_type_key",
+          "key",
+          "locale",
+          "metadata"
+        ],
+        "identity_sha256": "1e6cf86a4627fe5768e83ba0ceaa6c877c854b5e457b89d716ffca01abfb8bf8",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "85a67da1-4b69-40fd-88cb-9b093e8d8cec",
+        "family": "policy_documents",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "5dfe31f84297c9d28660b190f5e0c3a810224a732b89861bbaa607bb82a036f0",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.700698+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "effective_at",
+          "id",
+          "kind",
+          "locale",
+          "metadata",
+          "published_at",
+          "status",
+          "summary",
+          "title",
+          "version"
+        ],
+        "identity_sha256": "5ace596f88e9a51695f1a85b5df8bf2451d79c4bae93c42036fee102a007b28f",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "8bf01c51-bf7f-4683-8e47-28552f39f156",
+        "family": "feature_flags",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "83837e13a339d14d5cd1aa4935354f5eb527b5a4adadefa5c94c08becbf2a3e8",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.694774+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "description",
+          "enabled",
+          "key",
+          "metadata"
+        ],
+        "identity_sha256": "1e6cf86a4627fe5768e83ba0ceaa6c877c854b5e457b89d716ffca01abfb8bf8",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "955c2d7a-5ed0-40cb-bb4c-6e607d8117eb",
+        "family": "policy_documents",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "f935ada7cfbd4ecdcdc4d906e3d93648618f071504e633f4bfddd3114d7eeaf5",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.700029+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "effective_at",
+          "id",
+          "kind",
+          "locale",
+          "metadata",
+          "published_at",
+          "status",
+          "summary",
+          "title",
+          "version"
+        ],
+        "identity_sha256": "60ce5c48ab8539b3bd9c96ed06e0a26ea501ebd5f5c4279f488d361fd83bd732",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "9a4b0bc1-f7ca-4378-848f-00e65728a027",
+        "family": "policy_documents",
+        "actor_id": "99730000-0000-4000-8000-000000000002",
+        "redacted": false,
+        "revision": 2,
+        "authority": "live_operator",
+        "operation": "update",
+        "new_sha256": "0faf041a9f340eb83c90fee456e3f24ca469922b057fd9d3d05b5073f70481d9",
+        "old_sha256": "5dfe31f84297c9d28660b190f5e0c3a810224a732b89861bbaa607bb82a036f0",
+        "session_id": "99730000-0000-4000-8000-000000000012",
+        "recorded_at": "2026-09-30T15:30:59.293422+00:00",
+        "reason_sha256": "a473ac016194e7f8977eff7d727d34245555a6936d5d1fe6ea146a315a531453",
+        "changed_fields": [
+          "published_at",
+          "status"
+        ],
+        "identity_sha256": "5ace596f88e9a51695f1a85b5df8bf2451d79c4bae93c42036fee102a007b28f",
+        "previous_revision": 1,
+        "reason_characters": 32
+      },
+      "xmin": "3085",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "aee03baf-2bee-4e76-a075-030b5efcdbd3",
+        "family": "policy_document_sections",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "b88008a9294798362c6b45e623110b48682cbb25ac81f108e665d35b3c0c17a8",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.706268+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "body",
+          "display_order",
+          "id",
+          "metadata",
+          "policy_document_id",
+          "section_key",
+          "title"
+        ],
+        "identity_sha256": "21125fa6ce93c3e5068ae12e83c49bf71dd310e8b6ae07749a9b0863480c74bd",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "f88d8c41-26c3-4704-b4d4-7344776eb770",
+        "family": "policy_documents",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "54dcd172419556c0e7f461e021f3e1238988b2e4d6dd4c39150a7df3f0e991d7",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.70113+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "effective_at",
+          "id",
+          "kind",
+          "locale",
+          "metadata",
+          "published_at",
+          "status",
+          "summary",
+          "title",
+          "version"
+        ],
+        "identity_sha256": "df7115f51ecf708cdb5affe685580e354d397c36bdf4d122b84a1f69e833ffa9",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "id": "f9cca021-42e1-426e-9343-3d812684b700",
+        "family": "policy_document_sections",
+        "actor_id": null,
+        "redacted": false,
+        "revision": 1,
+        "authority": "database_owner",
+        "operation": "insert",
+        "new_sha256": "cba6bf4748479f273a0021fae157b30515723f2b1c1ba0032670bf80af8ad174",
+        "old_sha256": null,
+        "session_id": null,
+        "recorded_at": "2026-09-30T15:30:58.704838+00:00",
+        "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "changed_fields": [
+          "body",
+          "display_order",
+          "id",
+          "metadata",
+          "policy_document_id",
+          "section_key",
+          "title"
+        ],
+        "identity_sha256": "d5e235b89762c3290f8b22b63bb1ae265ac72db86b799328bf2cf70743685ba3",
+        "previous_revision": 0,
+        "reason_characters": 26
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_events"
+    },
+    {
+      "row": {
+        "family": "feature_flags",
+        "identity": {
+          "key": "hybrid_member_onboarding"
+        },
+        "revision": 2,
+        "updated_at": "2026-09-30T15:30:58.696774+00:00",
+        "content_sha256": "e8656c9796c460d49dd15dc7e18ee801d0f5630b4515672695c8a864ef3b2cad"
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "feature_flags",
+        "identity": {
+          "key": "qa_runtime_147_concurrency"
+        },
+        "revision": 3,
+        "updated_at": "2026-09-30T15:30:59.004904+00:00",
+        "content_sha256": "83837e13a339d14d5cd1aa4935354f5eb527b5a4adadefa5c94c08becbf2a3e8"
+      },
+      "xmin": "3071",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "notification_preferences",
+        "identity": {
+          "user_id": "99730000-0000-4000-8000-000000000001"
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:30:59.625803+00:00",
+        "content_sha256": "f64a3e2e81bc00cfa3bd4d4452f9e268f6c6b69fd28341cf05acd618124f1151"
+      },
+      "xmin": "3100",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "notification_template_versions",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000121"
+        },
+        "revision": 2,
+        "updated_at": "2026-09-30T15:30:59.511825+00:00",
+        "content_sha256": "6769daf63d9665d25f61722c3a3f44e91d06cf1e0168efb72dd99e26a5db5ebd"
+      },
+      "xmin": "3094",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "notification_templates",
+        "identity": {
+          "key": "qa_runtime_147_concurrency"
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:30:58.709905+00:00",
+        "content_sha256": "144d4710e671e22910e9608cba39f71bde29202bc8d666c7134f4da1de3befc7"
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "otp_policy",
+        "identity": {
+          "singleton": true
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:30:58.716195+00:00",
+        "content_sha256": "299efdbdfac75f5c2ef512300e131a45542d43430cefc2b2f7d90e103973f823"
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "policy_document_sections",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000111"
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:30:58.703497+00:00",
+        "content_sha256": "acbfb5208eae13f1398af1f6a88107f71b9091405ece8248064f05cc38df4285"
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "policy_document_sections",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000112"
+        },
+        "revision": 2,
+        "updated_at": "2026-09-30T15:30:59.198091+00:00",
+        "content_sha256": "3a7f603a95c5fabaf8929d521dd3ac79c4fe4c8f70a368a697d39c4c0be17ecb"
+      },
+      "xmin": "3082",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "policy_document_sections",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000113"
+        },
+        "revision": 2,
+        "updated_at": "2026-09-30T15:30:59.389391+00:00",
+        "content_sha256": "abc7138c1ffe5c04299550e73d8db484de0ebdd0a2168c75b551dd23513f10dd"
+      },
+      "xmin": "3089",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "policy_documents",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000101"
+        },
+        "revision": 2,
+        "updated_at": "2026-09-30T15:30:59.102087+00:00",
+        "content_sha256": "c7fd70cc486633f16caa087f752f668c33f753a5d24bc517afcb198c25661378"
+      },
+      "xmin": "3076",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "policy_documents",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000102"
+        },
+        "revision": 2,
+        "updated_at": "2026-09-30T15:30:59.293198+00:00",
+        "content_sha256": "0faf041a9f340eb83c90fee456e3f24ca469922b057fd9d3d05b5073f70481d9"
+      },
+      "xmin": "3085",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "policy_documents",
+        "identity": {
+          "id": "99730000-0000-4000-8000-000000000103"
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:30:58.701086+00:00",
+        "content_sha256": "54dcd172419556c0e7f461e021f3e1238988b2e4d6dd4c39150a7df3f0e991d7"
+      },
+      "xmin": "3061",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "family": "roster_resource_policy",
+        "identity": {
+          "id": true
+        },
+        "revision": 1,
+        "updated_at": "2026-09-30T15:26:55.299021+00:00",
+        "content_sha256": "bd2691079e7c4e8188ccfa4066bf273d50d0c3209675313a53e0e65729279148"
+      },
+      "xmin": "2971",
+      "relation": "collect_security.runtime_control_heads"
+    },
+    {
+      "row": {
+        "status": "reserved",
+        "hook_id": "qa_runtime_147_1",
+        "revision": 1,
+        "attempt_id": "4303de42-613e-4413-98dc-14aecfc2f881",
+        "phone_hash": "785ed1d5a00c07e5970fcd63213bc91006791bb4d420fcf82961cce62de293e7",
+        "started_at": null,
+        "accepted_at": null,
+        "delivered_at": null,
+        "payload_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "requested_at": "2026-09-30T15:30:59.908762+00:00",
+        "contract_version": 3,
+        "last_evidence_sha256": null,
+        "provider_message_hash": null
+      },
+      "xmin": "3109",
+      "relation": "collect_security.signed_otp_requests"
+    },
+    {
+      "row": {
+        "reason": "Synthetic runtime roles",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99730000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T15:29:58.689184+00:00",
+        "granted_by": null,
+        "revoked_at": "2026-09-30T15:31:00.114273+00:00",
+        "revoked_by": "99730000-0000-4000-8000-000000000002",
+        "revoke_reason": "Synthetic runtime role revocation"
+      },
+      "xmin": "3110",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "reason": "Synthetic runtime roles",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99730000-0000-4000-8000-000000000002",
+        "created_at": "2026-09-30T15:29:58.689289+00:00",
+        "granted_by": null,
+        "revoked_at": null,
+        "revoked_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "3061",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "id": "4ddeace4-0759-443c-9d56-5e75eb733cb8",
+        "action": "admin.access.deactivated",
+        "metadata": {
+          "reason": "Synthetic runtime role revocation"
+        },
+        "entity_id": "99730000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T15:31:00.111761+00:00",
+        "entity_type": "profile",
+        "actor_user_id": "99730000-0000-4000-8000-000000000002"
+      },
+      "xmin": "3110",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "key": "hybrid_member_onboarding",
+        "enabled": true,
+        "metadata": {
+        },
+        "created_at": "2026-09-29T23:02:19.741092+00:00",
+        "updated_at": "2026-09-30T15:30:58.696706+00:00",
+        "updated_by": null,
+        "description": "Pilot gate: private assisted groups and reviewed offline rosters; does not enable payment posting or SMS",
+        "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143"
+      },
+      "xmin": "3061",
+      "relation": "public.feature_flags"
+    },
+    {
+      "row": {
+        "key": "qa_runtime_147_concurrency",
+        "enabled": false,
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:59.004823+00:00",
+        "updated_by": "99730000-0000-4000-8000-000000000001",
+        "description": "Synthetic conflict flag",
+        "updated_reason": "runtime_control:ea4247237a796d443b472737a52ca6d44797e88b4fe4c6117c5ac1acf7bfcb7b"
+      },
+      "xmin": "3071",
+      "relation": "public.feature_flags"
+    },
+    {
+      "row": {
+        "user_id": "99730000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T15:30:59.615898+00:00",
+        "updated_at": "2026-09-30T15:30:59.625348+00:00",
+        "group_updates": true,
+        "security_notices": true,
+        "payment_reminders": false,
+        "contribution_confirmations": true
+      },
+      "xmin": "3100",
+      "relation": "public.notification_preferences"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000121",
+        "status": "published",
+        "version": "qa-runtime-147-concurrent",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:59.511625+00:00",
+        "updated_by": "99730000-0000-4000-8000-000000000001",
+        "effective_at": "2026-09-30T15:30:58.680505+00:00",
+        "published_at": "2026-09-30T15:30:59.511479+00:00",
+        "template_key": "qa_runtime_147_concurrency",
+        "body_template": "Synthetic body",
+        "title_template": "Synthetic notice",
+        "updated_reason": "runtime_control:0fbf182af33c095276601b508a695192de4cfc985a43f8d93e2d78e9402da6a7"
+      },
+      "xmin": "3094",
+      "relation": "public.notification_template_versions"
+    },
+    {
+      "row": {
+        "key": "qa_runtime_147_concurrency",
+        "locale": "en",
+        "enabled": true,
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:58.70943+00:00",
+        "updated_by": null,
+        "event_type_key": "security_notice",
+        "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143"
+      },
+      "xmin": "3094",
+      "relation": "public.notification_templates"
+    },
+    {
+      "row": {
+        "id": "d67dd6b6-9c0f-4a49-b2fd-9f80fc199594",
+        "ip_hash": null,
+        "phone_hash": "785ed1d5a00c07e5970fcd63213bc91006791bb4d420fcf82961cce62de293e7",
+        "requested_at": "2026-09-30T15:30:59.909375+00:00"
+      },
+      "xmin": "3109",
+      "relation": "public.otp_rate_limits"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000111",
+        "body": "Synthetic body",
+        "title": "Synthetic section",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:58.703296+00:00",
+        "updated_by": null,
+        "section_key": "qa",
+        "display_order": 100,
+        "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+        "policy_document_id": "99730000-0000-4000-8000-000000000101"
+      },
+      "xmin": "3061",
+      "relation": "public.policy_document_sections"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000112",
+        "body": "Committed draft edit",
+        "title": "Synthetic section",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:59.197872+00:00",
+        "updated_by": "99730000-0000-4000-8000-000000000001",
+        "section_key": "qa",
+        "display_order": 100,
+        "updated_reason": "runtime_control:9c8bbe1f051bbe8f040768b42c58abc2217cf567c5c26be39dfed1a3b33863bb",
+        "policy_document_id": "99730000-0000-4000-8000-000000000102"
+      },
+      "xmin": "3082",
+      "relation": "public.policy_document_sections"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000113",
+        "body": "Committed snapshot fence edit",
+        "title": "Synthetic section",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:59.389305+00:00",
+        "updated_by": "99730000-0000-4000-8000-000000000001",
+        "section_key": "qa",
+        "display_order": 100,
+        "updated_reason": "runtime_control:493bf1c6d906807ddb4c1f5e3d1b877d940c8a3b5032282827e316e64f1078c3",
+        "policy_document_id": "99730000-0000-4000-8000-000000000103"
+      },
+      "xmin": "3089",
+      "relation": "public.policy_document_sections"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000101",
+        "kind": "terms",
+        "title": "Synthetic policy",
+        "locale": "en",
+        "status": "published",
+        "summary": null,
+        "version": "qa-runtime-147-concurrent",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:59.101854+00:00",
+        "updated_by": "99730000-0000-4000-8000-000000000001",
+        "effective_at": "2026-09-30T15:30:58.680505+00:00",
+        "published_at": "2026-09-30T15:30:59.10086+00:00",
+        "updated_reason": "runtime_control:a2c72127b7ccb112e1b691e2ad8740747e5f6a2689cdd677b741310f3d6053dc"
+      },
+      "xmin": "3076",
+      "relation": "public.policy_documents"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000102",
+        "kind": "terms",
+        "title": "Synthetic policy",
+        "locale": "en",
+        "status": "published",
+        "summary": null,
+        "version": "qa-runtime-147-edit-first",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:59.293019+00:00",
+        "updated_by": "99730000-0000-4000-8000-000000000002",
+        "effective_at": "2026-09-30T15:30:58.680505+00:00",
+        "published_at": "2026-09-30T15:30:59.29278+00:00",
+        "updated_reason": "runtime_control:a473ac016194e7f8977eff7d727d34245555a6936d5d1fe6ea146a315a531453"
+      },
+      "xmin": "3085",
+      "relation": "public.policy_documents"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000103",
+        "kind": "terms",
+        "title": "Synthetic policy",
+        "locale": "en",
+        "status": "draft",
+        "summary": null,
+        "version": "qa-runtime-147-stale-publication",
+        "metadata": {
+        },
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:58.701045+00:00",
+        "updated_by": null,
+        "effective_at": "2026-09-30T15:30:58.680505+00:00",
+        "published_at": null,
+        "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143"
+      },
+      "xmin": "3089",
+      "relation": "public.policy_documents"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000001",
+        "public_id": "872491",
+        "avatar_url": null,
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:58.680505+00:00",
+        "momo_number": null,
+        "country_code": "RW",
+        "display_name": null,
+        "revolut_link": null,
+        "revolut_name": null,
+        "currency_code": "RWF",
+        "momo_pay_code": null,
+        "momo_provider": null,
+        "whatsapp_phone": "250788973001",
+        "revolut_account": null,
+        "momo_number_hash": null,
+        "anonymity_default": "anonymous",
+        "is_platform_admin": false,
+        "momo_number_verified_at": null
+      },
+      "xmin": "3061",
+      "relation": "public.profiles"
+    },
+    {
+      "row": {
+        "id": "99730000-0000-4000-8000-000000000002",
+        "public_id": "258068",
+        "avatar_url": null,
+        "created_at": "2026-09-30T15:30:58.680505+00:00",
+        "updated_at": "2026-09-30T15:30:58.680505+00:00",
+        "momo_number": null,
+        "country_code": "RW",
+        "display_name": null,
+        "revolut_link": null,
+        "revolut_name": null,
+        "currency_code": "RWF",
+        "momo_pay_code": null,
+        "momo_provider": null,
+        "whatsapp_phone": "250788973002",
+        "revolut_account": null,
+        "momo_number_hash": null,
+        "anonymity_default": "anonymous",
+        "is_platform_admin": false,
+        "momo_number_verified_at": null
+      },
+      "xmin": "3061",
+      "relation": "public.profiles"
+    }
+  ],
+  "event_child_xids": [
+    "3064",
+    "3071",
+    "3076",
+    "3082",
+    "3085",
+    "3089",
+    "3094",
+    "3100"
+  ],
+  "synthetic_row_xids": [
+    "3061",
+    "3061",
+    "3061",
+    "3061",
+    "3061",
+    "3109",
+    "3061",
+    "3061",
+    "3106",
+    "3109",
+    "3110",
+    "3061",
+    "3110",
+    "3100",
+    "3094",
+    "3094",
+    "3109",
+    "3061",
+    "3082",
+    "3089",
+    "3076",
+    "3085",
+    "3089",
+    "3061",
+    "3061"
+  ],
+  "scenario_result": {
+    "status": "pass",
+    "fixture": "collect_fin_concurrency_qa_20260929",
+    "migration_count": 147,
+    "worker_sessions": 2,
+    "provider_calls": 0,
+    "hosted_requests": 0,
+    "scenarios": [
+      {
+        "scenario": "same_expected_revision_has_one_winner",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "stale_repeatable_read_configuration_conflicts",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "publication_fences_late_section_edit",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "draft_section_edit_precedes_publication",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "stale_rr_publication_cannot_publish_old_section_snapshot",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "published_template_fences_parent_reinterpretation",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "same_user_preferences_cannot_stale_overwrite",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "transactionid",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "actual146_reservation_physical_fence_survives147",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "actual145_reservation_physical_fence_survives147",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "transactionid",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "effective_admin_revocation_fences_waiting_edit",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "logout_fences_waiting_owned_preference_edit",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      }
+    ],
+    "no_fake_quota_revisions_or_events": true,
+    "source_sha256": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "migration_sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "baseline_tables": [
+      "auth.audit_log_entries",
+      "auth.custom_oauth_providers",
+      "auth.flow_state",
+      "auth.identities",
+      "auth.instances",
+      "auth.mfa_amr_claims",
+      "auth.mfa_challenges",
+      "auth.mfa_factors",
+      "auth.oauth_authorizations",
+      "auth.oauth_client_states",
+      "auth.oauth_clients",
+      "auth.oauth_consents",
+      "auth.one_time_tokens",
+      "auth.refresh_tokens",
+      "auth.saml_providers",
+      "auth.saml_relay_states",
+      "auth.schema_migrations",
+      "auth.sessions",
+      "auth.sso_domains",
+      "auth.sso_providers",
+      "auth.users",
+      "auth.webauthn_challenges",
+      "auth.webauthn_credentials",
+      "collect_admin_access.whatsapp_approvals",
+      "collect_auth_security.otp_phone_locks",
+      "collect_hybrid.collection_balances",
+      "collect_hybrid.group_creation_requests",
+      "collect_hybrid.legacy_bank_scheduler_observations",
+      "collect_hybrid.legacy_bank_scheduler_retirements",
+      "collect_hybrid.legacy_bank_scheduler_verifications",
+      "collect_hybrid.member_account_claims",
+      "collect_hybrid.member_balances",
+      "collect_hybrid.member_momo_identities",
+      "collect_hybrid.member_receiving_assignments",
+      "collect_hybrid.member_records",
+      "collect_hybrid.momo_balance_snapshots",
+      "collect_hybrid.momo_journal_entries",
+      "collect_hybrid.momo_journal_lines",
+      "collect_hybrid.momo_reconciliation_exceptions",
+      "collect_hybrid.momo_reversal_requests",
+      "collect_hybrid.payer_identity_reconciliation",
+      "collect_hybrid.payment_provider_rejections",
+      "collect_hybrid.receiving_assignment_requests",
+      "collect_hybrid.roster_batches",
+      "collect_hybrid.roster_import_commits",
+      "collect_hybrid.roster_import_editor_drafts",
+      "collect_hybrid.roster_import_extractions",
+      "collect_hybrid.roster_import_recovery_intents",
+      "collect_hybrid.roster_import_results",
+      "collect_hybrid.roster_import_revisions",
+      "collect_hybrid.roster_import_sources",
+      "collect_hybrid.roster_resource_completions",
+      "collect_hybrid.roster_resource_policy",
+      "collect_hybrid.roster_resource_reservations",
+      "collect_hybrid.roster_source_verifications",
+      "collect_hybrid.sms_notification_attempts",
+      "collect_hybrid.sms_notification_claim_requests",
+      "collect_hybrid.sms_notification_confirmations",
+      "collect_hybrid.sms_notification_outbox",
+      "collect_hybrid.sms_operator_heartbeats",
+      "collect_hybrid.sms_receipt_member_consents",
+      "collect_hybrid.sms_receipt_policies",
+      "collect_security.otp_policy",
+      "collect_security.reconciliation_reviews",
+      "collect_security.runtime_control_events",
+      "collect_security.runtime_control_heads",
+      "collect_security.signed_otp_evidence",
+      "collect_security.signed_otp_requests",
+      "public.account_request_reason_options",
+      "public.admin_navigation_items",
+      "public.admin_notes",
+      "public.admin_permissions",
+      "public.admin_queue_filter_options",
+      "public.admin_queue_signals",
+      "public.admin_queue_sla_policies",
+      "public.admin_queue_specs",
+      "public.admin_role_permissions",
+      "public.admin_roles",
+      "public.admin_sensitive_access_logs",
+      "public.admin_user_roles",
+      "public.app_realtime_events",
+      "public.audit_logs",
+      "public.bank_allocation_change_requests",
+      "public.bank_destination_change_requests",
+      "public.bank_evidence_events",
+      "public.bank_statement_imports",
+      "public.bank_statement_lines",
+      "public.bank_transaction_allocations",
+      "public.bank_transactions",
+      "public.bank_transfer_destinations",
+      "public.bank_transfer_intents",
+      "public.brand_entities",
+      "public.collection_category_subtypes",
+      "public.collection_invites",
+      "public.collection_members",
+      "public.collection_purpose_templates",
+      "public.collection_receivers",
+      "public.collection_reports",
+      "public.collection_share_secrets",
+      "public.collection_type_catalog",
+      "public.collection_type_country_rules",
+      "public.collections",
+      "public.daily_bank_closes",
+      "public.feature_flags",
+      "public.journal_entries",
+      "public.journal_lines",
+      "public.ledger_entries",
+      "public.member_obligations",
+      "public.mobile_account_deletion_requests",
+      "public.mobile_support_requests",
+      "public.moderation_flags",
+      "public.native_action_capabilities",
+      "public.notification_channels",
+      "public.notification_deliveries",
+      "public.notification_delivery_attempts",
+      "public.notification_device_tokens",
+      "public.notification_event_types",
+      "public.notification_events",
+      "public.notification_preferences",
+      "public.notification_template_versions",
+      "public.notification_templates",
+      "public.otp_rate_limits",
+      "public.parsed_payment_events",
+      "public.payment_allocations",
+      "public.payment_entrypoints",
+      "public.payment_evidence_links",
+      "public.payment_intents",
+      "public.payment_provider_confirmations",
+      "public.payments",
+      "public.policy_acceptance_events",
+      "public.policy_document_sections",
+      "public.policy_documents",
+      "public.profile_country_rules",
+      "public.profiles",
+      "public.provider_finality_requests",
+      "public.raw_payment_evidence",
+      "public.raw_payment_sms",
+      "public.receiver_mode_consents",
+      "public.reconciliation_exceptions",
+      "public.reconciliation_matches",
+      "public.reconciliation_runs",
+      "public.recurring_periods",
+      "public.support_channels",
+      "public.system_settings",
+      "supabase_migrations.schema_migrations"
+    ],
+    "baseline_table_count": 145,
+    "baseline_sha256_before": "bec1449b827ea4e01156a78ecdf9191b5e8c398785758128ed53528cd04978a8",
+    "baseline_sha256_after": "bec1449b827ea4e01156a78ecdf9191b5e8c398785758128ed53528cd04978a8",
+    "controls_sha256_before": "f4c0c8c97934e2ffe6ef10b07250536988925c260b97b5a86fa4bef6c59174f1",
+    "controls_sha256_after": "f4c0c8c97934e2ffe6ef10b07250536988925c260b97b5a86fa4bef6c59174f1",
+    "synthetic_rows_removed": true,
+    "worker_sessions_remaining": 0,
+    "captured_transaction_ids": [
+      "3061",
+      "3062",
+      "3065",
+      "3068",
+      "3069",
+      "3074",
+      "3077",
+      "3080",
+      "3083",
+      "3086",
+      "3087",
+      "3092",
+      "3095",
+      "3098",
+      "3101",
+      "3105",
+      "3106",
+      "3108",
+      "3109",
+      "3110",
+      "3111",
+      "3114",
+      "3115",
+      "3064",
+      "3071",
+      "3076",
+      "3082",
+      "3085",
+      "3089",
+      "3094",
+      "3100"
+    ],
+    "checkpoint_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/harness-checkpoint.json",
+    "sequence_counters_restored": false
+  },
+  "primary_failure": null,
+  "result": {
+    "status": "pass",
+    "fixture": "collect_fin_concurrency_qa_20260929",
+    "migration_count": 147,
+    "worker_sessions": 2,
+    "provider_calls": 0,
+    "hosted_requests": 0,
+    "scenarios": [
+      {
+        "scenario": "same_expected_revision_has_one_winner",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "stale_repeatable_read_configuration_conflicts",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "publication_fences_late_section_edit",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "draft_section_edit_precedes_publication",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "stale_rr_publication_cannot_publish_old_section_snapshot",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "published_template_fences_parent_reinterpretation",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "same_user_preferences_cannot_stale_overwrite",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "transactionid",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "actual146_reservation_physical_fence_survives147",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "actual145_reservation_physical_fence_survives147",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "transactionid",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "effective_admin_revocation_fences_waiting_edit",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      },
+      {
+        "scenario": "logout_fences_waiting_owned_preference_edit",
+        "state": {
+          "pid": 13261,
+          "wait_type": "Lock",
+          "wait_event": "advisory",
+          "blocking_pids": [
+            13254
+          ]
+        }
+      }
+    ],
+    "no_fake_quota_revisions_or_events": true,
+    "source_sha256": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "migration_sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "baseline_tables": [
+      "auth.audit_log_entries",
+      "auth.custom_oauth_providers",
+      "auth.flow_state",
+      "auth.identities",
+      "auth.instances",
+      "auth.mfa_amr_claims",
+      "auth.mfa_challenges",
+      "auth.mfa_factors",
+      "auth.oauth_authorizations",
+      "auth.oauth_client_states",
+      "auth.oauth_clients",
+      "auth.oauth_consents",
+      "auth.one_time_tokens",
+      "auth.refresh_tokens",
+      "auth.saml_providers",
+      "auth.saml_relay_states",
+      "auth.schema_migrations",
+      "auth.sessions",
+      "auth.sso_domains",
+      "auth.sso_providers",
+      "auth.users",
+      "auth.webauthn_challenges",
+      "auth.webauthn_credentials",
+      "collect_admin_access.whatsapp_approvals",
+      "collect_auth_security.otp_phone_locks",
+      "collect_hybrid.collection_balances",
+      "collect_hybrid.group_creation_requests",
+      "collect_hybrid.legacy_bank_scheduler_observations",
+      "collect_hybrid.legacy_bank_scheduler_retirements",
+      "collect_hybrid.legacy_bank_scheduler_verifications",
+      "collect_hybrid.member_account_claims",
+      "collect_hybrid.member_balances",
+      "collect_hybrid.member_momo_identities",
+      "collect_hybrid.member_receiving_assignments",
+      "collect_hybrid.member_records",
+      "collect_hybrid.momo_balance_snapshots",
+      "collect_hybrid.momo_journal_entries",
+      "collect_hybrid.momo_journal_lines",
+      "collect_hybrid.momo_reconciliation_exceptions",
+      "collect_hybrid.momo_reversal_requests",
+      "collect_hybrid.payer_identity_reconciliation",
+      "collect_hybrid.payment_provider_rejections",
+      "collect_hybrid.receiving_assignment_requests",
+      "collect_hybrid.roster_batches",
+      "collect_hybrid.roster_import_commits",
+      "collect_hybrid.roster_import_editor_drafts",
+      "collect_hybrid.roster_import_extractions",
+      "collect_hybrid.roster_import_recovery_intents",
+      "collect_hybrid.roster_import_results",
+      "collect_hybrid.roster_import_revisions",
+      "collect_hybrid.roster_import_sources",
+      "collect_hybrid.roster_resource_completions",
+      "collect_hybrid.roster_resource_policy",
+      "collect_hybrid.roster_resource_reservations",
+      "collect_hybrid.roster_source_verifications",
+      "collect_hybrid.sms_notification_attempts",
+      "collect_hybrid.sms_notification_claim_requests",
+      "collect_hybrid.sms_notification_confirmations",
+      "collect_hybrid.sms_notification_outbox",
+      "collect_hybrid.sms_operator_heartbeats",
+      "collect_hybrid.sms_receipt_member_consents",
+      "collect_hybrid.sms_receipt_policies",
+      "collect_security.otp_policy",
+      "collect_security.reconciliation_reviews",
+      "collect_security.runtime_control_events",
+      "collect_security.runtime_control_heads",
+      "collect_security.signed_otp_evidence",
+      "collect_security.signed_otp_requests",
+      "public.account_request_reason_options",
+      "public.admin_navigation_items",
+      "public.admin_notes",
+      "public.admin_permissions",
+      "public.admin_queue_filter_options",
+      "public.admin_queue_signals",
+      "public.admin_queue_sla_policies",
+      "public.admin_queue_specs",
+      "public.admin_role_permissions",
+      "public.admin_roles",
+      "public.admin_sensitive_access_logs",
+      "public.admin_user_roles",
+      "public.app_realtime_events",
+      "public.audit_logs",
+      "public.bank_allocation_change_requests",
+      "public.bank_destination_change_requests",
+      "public.bank_evidence_events",
+      "public.bank_statement_imports",
+      "public.bank_statement_lines",
+      "public.bank_transaction_allocations",
+      "public.bank_transactions",
+      "public.bank_transfer_destinations",
+      "public.bank_transfer_intents",
+      "public.brand_entities",
+      "public.collection_category_subtypes",
+      "public.collection_invites",
+      "public.collection_members",
+      "public.collection_purpose_templates",
+      "public.collection_receivers",
+      "public.collection_reports",
+      "public.collection_share_secrets",
+      "public.collection_type_catalog",
+      "public.collection_type_country_rules",
+      "public.collections",
+      "public.daily_bank_closes",
+      "public.feature_flags",
+      "public.journal_entries",
+      "public.journal_lines",
+      "public.ledger_entries",
+      "public.member_obligations",
+      "public.mobile_account_deletion_requests",
+      "public.mobile_support_requests",
+      "public.moderation_flags",
+      "public.native_action_capabilities",
+      "public.notification_channels",
+      "public.notification_deliveries",
+      "public.notification_delivery_attempts",
+      "public.notification_device_tokens",
+      "public.notification_event_types",
+      "public.notification_events",
+      "public.notification_preferences",
+      "public.notification_template_versions",
+      "public.notification_templates",
+      "public.otp_rate_limits",
+      "public.parsed_payment_events",
+      "public.payment_allocations",
+      "public.payment_entrypoints",
+      "public.payment_evidence_links",
+      "public.payment_intents",
+      "public.payment_provider_confirmations",
+      "public.payments",
+      "public.policy_acceptance_events",
+      "public.policy_document_sections",
+      "public.policy_documents",
+      "public.profile_country_rules",
+      "public.profiles",
+      "public.provider_finality_requests",
+      "public.raw_payment_evidence",
+      "public.raw_payment_sms",
+      "public.receiver_mode_consents",
+      "public.reconciliation_exceptions",
+      "public.reconciliation_matches",
+      "public.reconciliation_runs",
+      "public.recurring_periods",
+      "public.support_channels",
+      "public.system_settings",
+      "supabase_migrations.schema_migrations"
+    ],
+    "baseline_table_count": 145,
+    "baseline_sha256_before": "bec1449b827ea4e01156a78ecdf9191b5e8c398785758128ed53528cd04978a8",
+    "baseline_sha256_after": "bec1449b827ea4e01156a78ecdf9191b5e8c398785758128ed53528cd04978a8",
+    "controls_sha256_before": "f4c0c8c97934e2ffe6ef10b07250536988925c260b97b5a86fa4bef6c59174f1",
+    "controls_sha256_after": "f4c0c8c97934e2ffe6ef10b07250536988925c260b97b5a86fa4bef6c59174f1",
+    "synthetic_rows_removed": true,
+    "worker_sessions_remaining": 0,
+    "captured_transaction_ids": [
+      "3061",
+      "3062",
+      "3065",
+      "3068",
+      "3069",
+      "3074",
+      "3077",
+      "3080",
+      "3083",
+      "3086",
+      "3087",
+      "3092",
+      "3095",
+      "3098",
+      "3101",
+      "3105",
+      "3106",
+      "3108",
+      "3109",
+      "3110",
+      "3111",
+      "3114",
+      "3115",
+      "3064",
+      "3071",
+      "3076",
+      "3082",
+      "3085",
+      "3089",
+      "3094",
+      "3100"
+    ],
+    "checkpoint_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/harness-checkpoint.json",
+    "sequence_counters_restored": false
+  }
+}

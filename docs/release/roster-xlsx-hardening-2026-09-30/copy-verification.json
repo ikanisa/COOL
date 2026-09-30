@@ -1,0 +1,8 @@
+{
+  "verification.json": "75545dd97f3090efbd5dcf90caa1a474a7da2ceaa1b9b55851c9036d4386827e",
+  "pinned-version.json": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+  "pinned-focused-tests.txt": "dea07d93bc5415f11cda7eafad835264b988ee5f9b7be7507ff442adaa9c8487",
+  "pinned-focused-analysis.txt": "c9a054873e36b4fe4aee06e5a557292bba761443e68dc087a0d82a7a67eacafb",
+  "pinned-pub-resolution.txt": "d4cb7a3c68b4133b4f6e58c67ff5bfd13725d8021e930388cdc98da8a575919d",
+  "csv-regression.txt": "35352d0fad932c95f9d762aef5a3e4ded6774d17e9b8bdd3da45d41865925cb0"
+}

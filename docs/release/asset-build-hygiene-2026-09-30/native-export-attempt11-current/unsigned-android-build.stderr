@@ -1,0 +1,24 @@
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt11-current/android/app/build.gradle.kts' line: 278
+
+* What went wrong:
+Error : You cannot add Provider instances to the Android SourceSet API.
+It is not possible for Android Studio to determine if the Provider points
+to a directory that contains generated (read-only) or static (read-write) files. 
+
+Instead you should use the Sources interface in the Variant API, in particular
+SourceDirectories.addGeneratedDirectory and SourceDirectories.addStaticDirectories.
+
+You can re-enable the behavior by setting the `android.sourceset.disallowProvider=false` to gradle.properties.
+However, be aware that any Gradle Task dependency will not be automatically carried.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 37s

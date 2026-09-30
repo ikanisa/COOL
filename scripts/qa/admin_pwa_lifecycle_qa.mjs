@@ -209,13 +209,29 @@ try {
     return (await Promise.all(keys.map(async (key) => (await (await caches.open(key)).keys()).map((r) => new URL(r.url).pathname)))).flat();
   });
   check('root-shell-is-precached', cachedPaths.includes('/') && !cachedPaths.includes('/index.html'), cachedPaths.filter((p) => p === '/' || p === '/index.html'));
+  const sibling = await context.newPage();
+  await sibling.goto(origin + '/#/admin/transactions', { waitUntil: 'domcontentloaded' });
+  await renderedAdmin(sibling);
   const first = await page.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
+  const siblingFirst = await sibling.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
   actor = 'account-b';
   const second = await page.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
-  check('no-store-response-fresh-after-account-change', first.actor === 'account-a' && second.actor === 'account-b', { first, second });
+  const siblingSecond = await sibling.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
+  check('no-store-response-fresh-after-account-change',
+    first.actor === 'account-a' && siblingFirst.actor === 'account-a' &&
+    second.actor === 'account-b' && siblingSecond.actor === 'account-b',
+    { first, siblingFirst, second, siblingSecond });
   const privateCached = await page.evaluate(async () => Boolean(await caches.match('/__qa/account')));
-  check('non-asset-response-not-in-shell-cache', !privateCached, { privateCached });
+  const siblingPrivateCached = await sibling.evaluate(async () => Boolean(await caches.match('/__qa/account')));
+  check('non-asset-response-not-in-shell-cache', !privateCached && !siblingPrivateCached,
+    { privateCached, siblingPrivateCached });
   outage = true; await context.setOffline(true);
+  const offlinePrivate = await Promise.all([page, sibling].map((tab) => tab.evaluate(async () => {
+    try { await fetch('/__qa/account'); return 'unexpected-response'; }
+    catch { return 'network-failed'; }
+  })));
+  check('offline-private-response-unavailable-in-both-tabs',
+    offlinePrivate.every((result) => result === 'network-failed'), offlinePrivate);
   const cold = await context.newPage();
   try {
     await cold.goto(origin + '/#/admin/settings', { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -266,6 +282,9 @@ try {
     await page.locator('meta[name=qa-shell-version]').getAttribute('content'));
   const afterKeys = await page.evaluate(() => caches.keys());
   check('old-shell-cache-retired', a.cache !== b.cache && afterKeys.includes(b.cache) && !afterKeys.includes(a.cache), afterKeys);
+  const siblingAfterUpdate = await sibling.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
+  check('open-sibling-tab-uses-fresh-private-response-after-worker-update',
+    siblingAfterUpdate.actor === 'account-b', siblingAfterUpdate);
   report.cacheShellVersions = await page.evaluate(async () => Object.fromEntries(await Promise.all(
     (await caches.keys()).map(async (key) => {
       const response = await (await caches.open(key)).match('/');
@@ -300,6 +319,7 @@ try {
   check('failed-update-keeps-previous-shell-offline', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'b',
     await page.locator('meta[name=qa-shell-version]').getAttribute('content'));
   outage = false; failAsset = false; active = b; await context.setOffline(false);
+  await sibling.close();
   await renderedAdmin(page);
   await page.screenshot({ path: join(evidence, 'browser-admin.png') });
   if (installed) {

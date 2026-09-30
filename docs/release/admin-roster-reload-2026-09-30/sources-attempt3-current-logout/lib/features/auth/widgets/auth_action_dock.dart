@@ -1,0 +1,196 @@
+part of 'auth_screen_widgets.dart';
+
+class AuthActionDock extends StatelessWidget {
+  const AuthActionDock({
+    required this.otpSent,
+    required this.submitting,
+    required this.resendRemaining,
+    required this.canSubmit,
+    required this.canResend,
+    required this.onSubmit,
+    required this.onAnotherNumber,
+    required this.onResend,
+    this.embedded = false,
+    super.key,
+  });
+
+  final bool otpSent;
+  final bool submitting;
+  final int resendRemaining;
+  final bool canSubmit;
+  final bool canResend;
+  final VoidCallback? onSubmit;
+  final VoidCallback? onAnotherNumber;
+  final VoidCallback? onResend;
+  final bool embedded;
+
+  @override
+  Widget build(BuildContext context) {
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
+    return Padding(
+      padding: embedded
+          ? EdgeInsets.zero
+          : const EdgeInsets.fromLTRB(
+              CollectSpacing.x5,
+              CollectSpacing.x2,
+              CollectSpacing.x5,
+              CollectSpacing.x4,
+            ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Semantics(
+            liveRegion: submitting,
+            label: submitting
+                ? otpSent
+                      ? 'Verifying code'
+                      : 'Sending WhatsApp code'
+                : null,
+            child: _AuthNativeActionButton(
+              key: const ValueKey('auth_submit_button'),
+              label: submitting
+                  ? otpSent
+                        ? 'Verifying code'
+                        : 'Sending code'
+                  : otpSent
+                  ? 'Verify and continue'
+                  : 'Send WhatsApp code',
+              busy: submitting,
+              onPressed: canSubmit ? onSubmit : null,
+            ),
+          ),
+          if (otpSent) ...[
+            CollectSpacing.gap8,
+            if (usesAccessibilityText) ...[
+              _AuthNativeActionButton(
+                key: const ValueKey('auth_change_button'),
+                label: 'Change number',
+                onPressed: onAnotherNumber,
+                isPrimary: false,
+              ),
+              _AuthNativeActionButton(
+                key: const ValueKey('auth_resend_button'),
+                label: resendRemaining > 0 ? '${resendRemaining}s' : 'Resend',
+                onPressed: canResend ? onResend : null,
+                isPrimary: false,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: _AuthNativeActionButton(
+                      key: const ValueKey('auth_change_button'),
+                      label: 'Change number',
+                      onPressed: onAnotherNumber,
+                      isPrimary: false,
+                    ),
+                  ),
+                  Expanded(
+                    child: _AuthNativeActionButton(
+                      key: const ValueKey('auth_resend_button'),
+                      label: resendRemaining > 0
+                          ? '${resendRemaining}s'
+                          : 'Resend',
+                      onPressed: canResend ? onResend : null,
+                      isPrimary: false,
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _AuthNativeActionButton extends StatelessWidget {
+  const _AuthNativeActionButton({
+    required this.label,
+    required this.onPressed,
+    this.busy = false,
+    this.isPrimary = true,
+    super.key,
+  });
+
+  final String label;
+  final bool busy;
+  final VoidCallback? onPressed;
+  final bool isPrimary;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final enabled = onPressed != null;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
+    final buttonHeight = usesAccessibilityText
+        ? (isPrimary ? 76.0 : 64.0)
+        : (isPrimary ? 56.0 : 48.0);
+    final foreground = isPrimary
+        ? colors.authActionForeground.withValues(alpha: enabled ? 1 : 0.46)
+        : colors.authForeground.withValues(alpha: enabled ? 0.92 : 0.38);
+    final background = isPrimary
+        ? enabled
+              ? colors.authForeground
+              : colors.authForeground.withValues(alpha: 0.46)
+        : CollectColors.transparentColor;
+    return SizedBox(
+      width: double.infinity,
+      // Larger text may wrap: let the content determine the height instead of
+      // clipping a two-line action inside the normal fixed-height control.
+      height: usesAccessibilityText ? null : buttonHeight,
+      child: TextButton(
+        style: ButtonStyle(
+          minimumSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(isPrimary ? 28 : 14),
+            ),
+          ),
+          backgroundColor: WidgetStatePropertyAll(background),
+          foregroundColor: WidgetStatePropertyAll(foreground),
+          padding: WidgetStatePropertyAll(
+            EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x4,
+              vertical: usesAccessibilityText ? CollectSpacing.x3 : 0,
+            ),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (busy)
+              SizedBox.square(
+                dimension: isPrimary ? 19 : 17,
+                child: CircularProgressIndicator(
+                  key: const ValueKey('auth_submit_progress'),
+                  strokeWidth: 2,
+                  color: foreground,
+                ),
+              ),
+            if (busy) CollectSpacing.gapW8,
+            Flexible(
+              child: Text(
+                label,
+                // TextButton's DefaultTextStyle otherwise supplies maxLines: 1.
+                maxLines: usesAccessibilityText ? 3 : 1,
+                textAlign: TextAlign.center,
+                softWrap: usesAccessibilityText,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: foreground,
+                  fontWeight: CollectTypography.weightBold,
+                  letterSpacing: CollectTypography.trackingDefault,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

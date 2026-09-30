@@ -13,9 +13,6 @@ EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
   collect-notification-operator
   dispatch-notifications
-  ingest-bank-email
-  ingest-bank-sms
-  ingest-bank-statement
   ingest-payment-sms
   parse-payment-sms
   prepare-roster-import
@@ -29,7 +26,6 @@ REQUIRED_SECRETS=(
   WHATSAPP_AUTH_TEMPLATE_NAME
   SEND_SMS_HOOK_SECRET
   INTERNAL_FUNCTION_SECRET
-  BANK_EMAIL_INGEST_HMAC_SECRET
   APNS_KEY_ID
   APNS_TEAM_ID
   APNS_BUNDLE_ID
@@ -184,7 +180,7 @@ db_query_file() {
     warn "Management API query failed; falling back to READINESS_DATABASE_URL."
   fi
 
-  psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$query_file"
+  collect_psql_url_service "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$query_file"
 }
 
 db_query() {
@@ -306,19 +302,8 @@ check_app_contract_columns() {
         ('parsed_payment_events', 'collection_id'),
         ('native_action_capabilities', 'request_payload'),
         ('payments', 'posted_at'),
-        ('collections', 'bank_transfer_currency'),
         ('profiles', 'country_code'),
         ('profiles', 'currency_code'),
-        ('profiles', 'revolut_name'),
-        ('bank_transfer_destinations', 'iban'),
-        ('bank_transfer_intents', 'transfer_reference'),
-        ('raw_payment_evidence', 'body_hash'),
-        ('bank_evidence_events', 'allocation_status'),
-        ('bank_transactions', 'transaction_key'),
-        ('bank_statement_lines', 'match_status'),
-        ('reconciliation_exceptions', 'exception_type'),
-        ('daily_bank_closes', 'variance_minor'),
-        ('journal_lines', 'direction')
     )
     select expected.table_name || '.' || expected.column_name
     from expected
@@ -824,75 +809,36 @@ check_sql_privileges() {
         ('authenticated', 'admin_create_assisted_group_with_roster', 'EXECUTE'),
         ('authenticated', 'admin_create_collect_payee', 'EXECUTE'),
         ('authenticated', 'admin_create_platform_public_group', 'EXECUTE'),
-        ('authenticated', 'admin_get_bank_allocation_request', 'EXECUTE'),
-        ('authenticated', 'admin_get_bank_destination', 'EXECUTE'),
-        ('authenticated', 'admin_get_bank_destination_change_request', 'EXECUTE'),
-        ('authenticated', 'admin_get_bank_evidence', 'EXECUTE'),
-        ('authenticated', 'admin_get_bank_transaction', 'EXECUTE'),
-        ('authenticated', 'admin_get_bank_transfer_intent', 'EXECUTE'),
         ('authenticated', 'admin_get_collect_transaction', 'EXECUTE'),
-        ('authenticated', 'admin_get_journal_entry', 'EXECUTE'),
-        ('authenticated', 'admin_get_reconciliation_exception', 'EXECUTE'),
-        ('authenticated', 'admin_get_reconciliation_run', 'EXECUTE'),
         ('authenticated', 'admin_get_whatsapp_approval', 'EXECUTE'),
-        ('authenticated', 'admin_import_bank_statement', 'EXECUTE'),
-        ('authenticated', 'admin_list_bank_allocation_requests', 'EXECUTE'),
-        ('authenticated', 'admin_list_bank_destination_change_requests', 'EXECUTE'),
-        ('authenticated', 'admin_list_bank_destinations', 'EXECUTE'),
-        ('authenticated', 'admin_list_bank_evidence', 'EXECUTE'),
-        ('authenticated', 'admin_list_bank_transactions', 'EXECUTE'),
-        ('authenticated', 'admin_list_bank_transfer_intents', 'EXECUTE'),
         ('authenticated', 'admin_list_collect_ledgers', 'EXECUTE'),
         ('authenticated', 'admin_list_collect_payees', 'EXECUTE'),
         ('authenticated', 'admin_list_collect_reconciliations', 'EXECUTE'),
         ('authenticated', 'admin_list_collect_transactions', 'EXECUTE'),
         ('authenticated', 'admin_list_country_scoped', 'EXECUTE'),
-        ('authenticated', 'admin_list_journal_entries', 'EXECUTE'),
         ('authenticated', 'admin_list_members', 'EXECUTE'),
         ('authenticated', 'admin_list_non_member_users', 'EXECUTE'),
         ('authenticated', 'admin_list_platform_payee_candidates', 'EXECUTE'),
-        ('authenticated', 'admin_list_reconciliation_exceptions', 'EXECUTE'),
-        ('authenticated', 'admin_list_reconciliation_runs', 'EXECUTE'),
         ('authenticated', 'admin_manual_allocate_payment', 'EXECUTE'),
-        ('authenticated', 'admin_propose_bank_allocation', 'EXECUTE'),
-        ('authenticated', 'admin_propose_bank_destination', 'EXECUTE'),
-        ('authenticated', 'admin_reopen_daily_bank_close', 'EXECUTE'),
-        ('authenticated', 'admin_resolve_reconciliation_exception', 'EXECUTE'),
-        ('authenticated', 'admin_reveal_raw_bank_evidence', 'EXECUTE'),
-        ('authenticated', 'admin_review_bank_allocation', 'EXECUTE'),
-        ('authenticated', 'admin_review_bank_destination_change', 'EXECUTE'),
         ('authenticated', 'admin_revoke_whatsapp_approval', 'EXECUTE'),
-        ('authenticated', 'admin_run_bank_reconciliation', 'EXECUTE'),
         ('authenticated', 'admin_set_collect_payee_status', 'EXECUTE'),
         ('authenticated', 'admin_set_group_active', 'EXECUTE'),
         ('authenticated', 'admin_set_user_access', 'EXECUTE'),
         ('authenticated', 'admin_update_collect_payee', 'EXECUTE'),
         ('authenticated', 'admin_update_platform_public_group', 'EXECUTE'),
         ('authenticated', 'admin_update_platform_public_group_metadata', 'EXECUTE'),
-        ('authenticated', 'cancel_bank_transfer_intent', 'EXECUTE'),
         ('authenticated', 'collect_admin_mask_name', 'EXECUTE'),
         ('authenticated', 'collect_admin_mask_sender', 'EXECUTE'),
-        ('authenticated', 'create_bank_transfer_intent', 'EXECUTE'),
         ('authenticated', 'create_private_group_with_owner_attested', 'EXECUTE'),
-        ('authenticated', 'get_bank_transfer_destination', 'EXECUTE'),
-        ('authenticated', 'get_bank_transfer_intent', 'EXECUTE'),
-        ('authenticated', 'ingest_bank_evidence', 'EXECUTE'),
         ('authenticated', 'list_current_member_collection_balances', 'EXECUTE'),
         ('authenticated', 'list_current_member_group_roster', 'EXECUTE'),
         ('authenticated', 'list_current_member_history_page', 'EXECUTE'),
         ('authenticated', 'list_current_member_payment_history', 'EXECUTE'),
         ('authenticated', 'list_current_member_payment_intents', 'EXECUTE'),
         ('authenticated', 'list_current_member_recent_intents', 'EXECUTE'),
-        ('authenticated', 'list_current_user_bank_collection_summaries', 'EXECUTE'),
-        ('authenticated', 'list_current_user_bank_contributions', 'EXECUTE'),
-        ('authenticated', 'list_current_user_bank_transfer_intents', 'EXECUTE'),
         ('authenticated', 'list_current_user_collections', 'EXECUTE'),
         ('authenticated', 'list_current_user_contributions', 'EXECUTE'),
-        ('authenticated', 'mark_bank_transfer_handoff_opened', 'EXECUTE'),
-        ('authenticated', 'mask_iban', 'EXECUTE'),
         ('authenticated', 'public_collection_payment_route', 'EXECUTE'),
-        ('authenticated', 'run_daily_bank_reconciliation', 'EXECUTE'),
-        ('authenticated', 'update_bank_transfer_group_profile', 'EXECUTE'),
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),
         ('authenticated', 'user_is_collection_admin', 'EXECUTE')
     ),
@@ -1049,147 +995,96 @@ check_sql_privileges() {
   [[ -z "$missing_column_grants" ]] || fail "SQL column privilege contract violations: $missing_column_grants"
 }
 
-check_bank_sql_privileges() {
-  log "checking hybrid Rwanda MoMo and diaspora bank SQL privilege boundary"
+check_rwanda_momo_sql_privileges() {
+  log "checking Rwanda MoMo SQL access boundary"
   local violations
   violations="$(db_query "
-    with required_authenticated(routine_name) as (
-      values
-        ('get_bank_transfer_destination'),
-        ('create_bank_transfer_intent'),
-        ('list_current_user_bank_transfer_intents'),
-        ('get_bank_transfer_intent'),
-        ('mark_bank_transfer_handoff_opened'),
-        ('cancel_bank_transfer_intent'),
-        ('list_current_user_bank_contributions'),
-        ('list_current_user_bank_collection_summaries'),
-        ('update_bank_transfer_group_profile'),
-        ('create_private_group_with_owner_attested'),
-        ('create_contribution_intent'),
-        ('list_current_user_payment_intents'),
-        ('record_sms_access_consent'),
-        ('admin_propose_bank_destination'),
-        ('admin_review_bank_destination_change'),
-        ('admin_list_bank_destinations'),
-        ('admin_list_bank_destination_change_requests'),
-        ('admin_list_bank_transfer_intents'),
-        ('admin_list_bank_transactions'),
-        ('admin_list_bank_evidence'),
-        ('admin_list_reconciliation_runs'),
-        ('admin_list_reconciliation_exceptions'),
-        ('admin_list_bank_allocation_requests'),
-        ('admin_list_journal_entries'),
-        ('admin_import_bank_statement'),
-        ('admin_run_bank_reconciliation'),
-        ('admin_propose_bank_allocation'),
-        ('admin_review_bank_allocation'),
-        ('admin_resolve_reconciliation_exception'),
-        ('admin_reveal_raw_bank_evidence'),
-        ('admin_reopen_daily_bank_close')
+    with retired_function_grants as (
+      select 'retired payment routine grant: ' || privilege.grantee || ' ' || privilege.routine_name issue
+      from information_schema.routine_privileges privilege
+      where privilege.specific_schema = 'public'
+        and privilege.grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+        and privilege.routine_name ~ '(bank|diaspora|stripe|sepa)'
     ),
-    missing_authenticated as (
-      select 'missing authenticated EXECUTE on ' || required.routine_name issue
-      from required_authenticated required
+    retired_table_grants as (
+      select 'retired payment table grant: ' || grantee || ' ' || table_name issue
+      from information_schema.table_privileges
+      where table_schema = 'public'
+        and grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+        and table_name ~ '^(bank_|daily_bank_)'
+    ),
+    country_rules as (
+      select 'non-Rwanda country rule remains: ' || country_code issue
+      from public.profile_country_rules
+      where country_code <> 'RW'
+    ),
+    retired_flags as (
+      select 'retired payment flag remains: ' || key issue
+      from public.feature_flags where key = 'bank_transfer_v1'
+    ),
+    required_constraints as (
+      select 'missing Rwanda MoMo write constraint: ' || expected.name issue
+      from (values
+        ('profiles_rwanda_momo_only'),
+        ('collections_rwanda_momo_only')
+      ) expected(name)
       where not exists (
-        select 1 from information_schema.routine_privileges privilege
-        where privilege.specific_schema = 'public'
-          and privilege.routine_name = required.routine_name
-          and privilege.grantee = 'authenticated'
-          and privilege.privilege_type = 'EXECUTE'
+        select 1 from pg_constraint constraint_row
+        where constraint_row.conname = expected.name
+          and constraint_row.connamespace = 'public'::regnamespace
       )
     ),
-    forbidden_public_momo as (
-      select 'public MoMo function grant: ' || privilege.grantee || ' ' || privilege.routine_name issue
-      from information_schema.routine_privileges privilege
-      where privilege.specific_schema = 'public'
-        and privilege.grantee in ('PUBLIC', 'anon')
-        and privilege.routine_name in (
-          'create_payment_intent', 'create_contribution_intent',
-          'create_payment_intent_with_instructions',
-          'list_current_user_payment_intents', 'record_sms_access_consent',
-          'create_group_with_owner_attested',
-          'update_collection_profile_and_receiver', 'update_collection_receiver',
-          'ingest_raw_payment_sms', 'claim_raw_payment_sms_for_parse',
-          'attested_sms_contract_version',
-          'ingest_attested_raw_payment_sms', 'finalize_attested_payment_sms',
-          'allocate_parsed_payment_event', 'post_payment_from_event',
-          'record_provider_finality_and_post', 'process_provider_finality_event',
-          'confirm_provider_payment', 'reject_provider_payment',
-          'admin_assign_hybrid_receiving_route', 'admin_reverse_momo_payment',
-          'admin_list_payment_intents', 'admin_get_payment_intent',
-          'admin_list_payments', 'admin_get_payment',
-          'admin_list_payment_events', 'admin_get_payment_event',
-          'admin_list_allocations', 'admin_list_unallocated',
-          'admin_list_ledger', 'admin_list_receivers', 'admin_get_receiver',
-          'admin_list_sms_metadata', 'admin_get_sms_metadata',
-          'admin_reparse_payment_event', 'admin_reveal_raw_sms'
-        )
+    member_read_contract as (
+      select 'member read API contains retired payment logic: ' || required.signature issue
+      from (values
+        ('collect_member_actions.payment_history()'::regprocedure),
+        ('public.list_current_member_payment_intents()'::regprocedure),
+        ('public.list_current_member_collection_balances()'::regprocedure)
+      ) required(signature)
+      where pg_get_functiondef(required.signature) ~
+        '(bank_transactions|bank_transfer_intents|diaspora_bank)'
     ),
-    forbidden_client_service_functions as (
-      select 'client grant on service-only MoMo function: ' || privilege.grantee || ' ' || privilege.routine_name issue
-      from information_schema.routine_privileges privilege
-      where privilege.specific_schema = 'public'
-        and privilege.grantee = 'authenticated'
-        and privilege.routine_name in (
-          'ingest_raw_payment_sms', 'claim_raw_payment_sms_for_parse',
-          'attested_sms_contract_version',
-          'ingest_attested_raw_payment_sms', 'finalize_attested_payment_sms',
-          'allocate_parsed_payment_event', 'post_payment_from_event',
-          'confirm_provider_payment', 'reject_provider_payment',
-          'process_provider_finality_event'
-        )
+    retired_profile_overloads as (
+      select 'retired member profile overload remains' issue
+      where to_regprocedure('public.update_current_member_profile(text,text,text,text,text)') is not null
+         or to_regprocedure('public.update_current_member_profile(text,text,text,text,text,text)') is not null
     ),
-    forbidden_bank_tables as (
-      select 'direct bank table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name || '.' || grant_row.column_name issue
-      from information_schema.column_privileges grant_row
-      where grant_row.table_schema = 'public'
-        and grant_row.grantee in ('anon', 'authenticated')
-        and grant_row.table_name in (
-          'bank_transfer_destinations', 'bank_destination_change_requests',
-          'bank_transfer_intents', 'raw_payment_evidence', 'bank_evidence_events',
-          'bank_transactions', 'payment_evidence_links',
-          'bank_transaction_allocations', 'bank_statement_imports',
-          'bank_statement_lines', 'reconciliation_runs',
-          'reconciliation_matches', 'reconciliation_exceptions',
-          'daily_bank_closes', 'journal_entries', 'journal_lines',
-          'bank_allocation_change_requests'
-        )
+    payment_write_guards as (
+      select 'Rwanda MoMo payment write guard missing: ' || expected.name issue
+      from (values
+        ('payment_intents_rwanda_momo_only'),
+        ('payments_rwanda_momo_only')
+      ) expected(name)
+      where not exists (
+        select 1 from pg_trigger trigger_row
+        where trigger_row.tgname = expected.name and not trigger_row.tgisinternal
+      )
     ),
-    forbidden_legacy_tables as (
-      select 'legacy financial table grant: ' || grant_row.grantee || ' ' || grant_row.privilege_type || ' on ' || grant_row.table_name || '.' || grant_row.column_name issue
-      from information_schema.column_privileges grant_row
-      where grant_row.table_schema = 'public'
-        and grant_row.grantee in ('anon', 'authenticated')
-        and grant_row.table_name in (
-          'payment_intents', 'raw_payment_sms', 'parsed_payment_events',
-          'payments', 'ledger_entries', 'collection_receivers',
-          'payment_provider_confirmations', 'provider_finality_requests',
-          'public_contributions_view'
-        )
-    ),
-    forbidden_member_names as (
-      select 'member name column grant: ' || grantee || ' ' || privilege_type || ' on profiles.' || column_name issue
-      from information_schema.column_privileges
-      where table_schema='public' and table_name='profiles'
-        and column_name in ('display_name','revolut_name')
-        and grantee in ('PUBLIC','anon','authenticated')
-    ),
-    forbidden_private_data as (
-      select 'private identity data grant: ' || grantee || ' ' || privilege_type || ' on ' || table_schema || '.' || table_name || '.' || column_name issue
-      from information_schema.column_privileges
-      where table_schema in ('collect_hybrid','collect_admin_access')
-        and grantee in ('PUBLIC','anon','authenticated')
+    required_routines as (
+      select 'missing Rwanda MoMo profile API grant' issue
+      where not has_function_privilege(
+        'authenticated', 'public.update_current_member_profile(text,text,text,text)', 'EXECUTE'
+      )
+      union all
+      select 'missing Rwanda MoMo group API grant'
+      where not has_function_privilege(
+        'authenticated',
+        'public.update_rwanda_momo_group_profile(uuid,text,text,text,text,boolean,text,text,text,text,boolean)',
+        'EXECUTE'
+      )
     )
-    select issue from missing_authenticated
-    union all select issue from forbidden_public_momo
-    union all select issue from forbidden_client_service_functions
-    union all select issue from forbidden_bank_tables
-    union all select issue from forbidden_legacy_tables
-    union all select issue from forbidden_member_names
-    union all select issue from forbidden_private_data
+    select issue from retired_function_grants
+    union all select issue from retired_table_grants
+    union all select issue from country_rules
+    union all select issue from retired_flags
+    union all select issue from required_constraints
+    union all select issue from member_read_contract
+    union all select issue from retired_profile_overloads
+    union all select issue from payment_write_guards
+    union all select issue from required_routines
     order by issue;
   ")"
-  [[ -z "$violations" ]] || fail "Hybrid payment SQL privilege violations: $violations"
+  [[ -z "$violations" ]] || fail "Rwanda MoMo SQL boundary violations: $violations"
 }
 
 check_edge_function_auth_contract() {
@@ -1199,9 +1094,6 @@ expected = {
   "auth-send-whatsapp-otp" => :webhook,
   "collect-notification-operator" => :user,
   "dispatch-notifications" => :internal,
-  "ingest-bank-email" => :hmac,
-  "ingest-bank-sms" => :user,
-  "ingest-bank-statement" => :user,
   "ingest-payment-sms" => :user,
   "parse-payment-sms" => :internal,
   "prepare-roster-import" => :user,
@@ -1215,7 +1107,6 @@ disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*
 no_verify_functions = [
   "auth-send-whatsapp-otp",
   "dispatch-notifications",
-  "ingest-bank-email",
   "parse-payment-sms",
   "send-notification",
 ]
@@ -1232,10 +1123,6 @@ expected.each do |name, mode|
   when :webhook
     issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
     issues << "#{name} must verify Standard Webhooks signatures" unless source.include?("standardwebhooks") && source.include?("Webhook")
-  when :hmac
-    issues << "#{name} must verify BANK_EMAIL_INGEST_HMAC_SECRET" unless source.include?("BANK_EMAIL_INGEST_HMAC_SECRET")
-    issues << "#{name} must verify timestamped HMAC" unless source.include?("verifyTimestampedHmac")
-    issues << "#{name} must use service-role ingestion" unless source.include?("serviceClient()")
   when :internal
     issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
   when :user
@@ -1248,7 +1135,7 @@ expected.each do |name, mode|
 end
 
 deploy = File.read("scripts/supabase_deploy.sh")
-issues << "deploy script must deploy HMAC and internal endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("ingest-bank-email") && deploy.include?("--no-verify-jwt")
+issues << "deploy script must deploy HMAC and internal endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("dispatch-notifications") && deploy.include?("--no-verify-jwt")
 
 if issues.any?
   warn issues.join("\n")
@@ -1273,26 +1160,25 @@ check_functions() {
   fi
 
   local base_url="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1"
-  local body_file status
+  local response status body
 
-  body_file="$(mktemp)"
-  status="$(curl -sS -o "$body_file" -w '%{http_code}' \
+  response="$(collect_curl_secret_header x-hook-secret "$SEND_SMS_HOOK_SECRET" -sS -w '\n%{http_code}' \
     -X POST "$base_url/auth-send-whatsapp-otp" \
     -H 'content-type: application/json' \
-    -H "x-hook-secret: $SEND_SMS_HOOK_SECRET" \
     --data '{"user":{"phone":"+250788123456"},"sms":{}}')"
+  status="${response##*$'\n'}"
+  body="${response%$'\n'*}"
   [[ "$status" == "400" ]] || fail "auth-send-whatsapp-otp probe expected HTTP 400, got $status"
-  grep -q 'Invalid OTP hook payload' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
+  [[ "$body" == *'Invalid OTP hook payload'* ]] || fail "auth-send-whatsapp-otp probe did not reach hook code"
 
   local fn
-  for fn in collect-notification-operator ingest-bank-sms ingest-bank-statement ingest-bank-email ingest-payment-sms parse-payment-sms prepare-roster-import verify-play-integrity; do
-    status="$(curl -sS -o "$body_file" -w '%{http_code}' \
+  for fn in collect-notification-operator ingest-payment-sms parse-payment-sms prepare-roster-import verify-play-integrity; do
+    status="$(curl -sS -o /dev/null -w '%{http_code}' \
       -X POST "$base_url/$fn" \
       -H 'content-type: application/json' \
       --data '{}')"
     [[ "$status" == "401" ]] || fail "$fn unauthenticated probe expected HTTP 401, got $status"
   done
-  rm -f "$body_file"
 }
 
 check_secrets() {
@@ -1324,14 +1210,16 @@ check_secrets() {
 
 check_auth_config() {
   log "checking Auth production configuration"
-  local auth_config
-  auth_config="$(curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/config/auth" \
-    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")"
-
   local issues
-  issues="$(ruby - "$auth_config" <<'RUBY'
+  issues="$(
+  set -euo pipefail
+  auth_config_file="$(mktemp)"
+  chmod 600 "$auth_config_file"
+  trap 'rm -f "$auth_config_file"' EXIT
+  supabase_management_curl -fsS -o "$auth_config_file" "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/config/auth"
+  ruby - "$auth_config_file" <<'RUBY'
 require "json"
-data = JSON.parse(ARGV.fetch(0))
+data = JSON.parse(File.read(ARGV.fetch(0)))
 
 issues = []
 
@@ -1412,14 +1300,12 @@ RUBY
 check_platform_settings() {
   log "checking platform production settings"
   local project
-  project="$(curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF" \
-    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" || true)"
+  project="$(supabase_management_curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF" || true)"
   local organization_id
   organization_id="$(ruby -r json -e 'data = JSON.parse(STDIN.read); puts data["organization_id"].to_s' <<< "$project" 2>/dev/null || true)"
   if [[ -n "$organization_id" ]]; then
     local organization
-    organization="$(curl -fsS "https://api.supabase.com/v1/organizations/$organization_id" \
-      -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" || true)"
+    organization="$(supabase_management_curl -fsS "https://api.supabase.com/v1/organizations/$organization_id" || true)"
     local plan
     plan="$(ruby -r json -e 'data = JSON.parse(STDIN.read); puts data["plan"].to_s' <<< "$organization" 2>/dev/null || true)"
     if [[ "$plan" == "free" ]]; then
@@ -1476,7 +1362,7 @@ main() {
   check_hybrid_financial_core_contract
   check_hybrid_sms_notification_contract
   check_explicit_indexes
-  check_bank_sql_privileges
+  check_rwanda_momo_sql_privileges
   "$ROOT_DIR/scripts/collect_linked_uat.sh"
   "$ROOT_DIR/scripts/collect_admin_security_uat.sh"
   check_edge_function_auth_contract

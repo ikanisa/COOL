@@ -22,9 +22,8 @@ class CollectTypography {
     color,
   ).copyWith(fontFamily: marketingFontFamily);
 
-  // This is the only approved text weight scale. Inter is variable, but the
-  // product deliberately limits runtime typography to these four roles so
-  // browser defaults and one-off screen weights cannot drift into the UI.
+  // Shared rendering roles adapt the selected reference hierarchy. These
+  // weights are implementation values, not exported native source tokens.
   static const FontWeight weightRegular = FontWeight.w400;
   static const FontWeight weightMedium = FontWeight.w500;
   static const FontWeight weightSemibold = FontWeight.w600;

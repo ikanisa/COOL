@@ -55,9 +55,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   final Color textSecondary;
   final Color textMuted;
 
-  // Rendered adapters sampled from the owner's 5 September 2026 Desktop
-  // cohort. Measurement locations/hashes are in the mobile-design evidence.
-  // These are not exported native design tokens or logo-derived colours.
+  // Rendered adapter colours; these are not exported native design tokens or
+  // logo-derived colours.
   static const referenceChromeBlack = Color(0xFF000000);
   static const referenceAccountHighlight = Color(0xFF3656FD);
   static const referenceAccountBlue = Color(0xFF051194);
@@ -65,6 +64,11 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const referenceGroupTeal = Color(0xFF36ADC1);
   static const referencePaymentsHighlight = Color(0xFF6A3CDE);
   static const referenceProfileHighlight = Color(0xFF953DF5);
+  // Rendered observations from NEX-010's visible Interface switches and
+  // LIVE-058's recipient segment. Native token exports remain unavailable.
+  static const referenceSwitchBlue = Color(0xFF6D92FC);
+  static const referenceSwitchGrey = Color(0xFF807F85);
+  static const referenceSegmentSelected = Color(0xFF49494D);
   static const publicInk = Color(0xFF191C1F);
   static const publicSecondary = Color(0xFF505053);
   static const transparentColor = Color(0x00000000);
@@ -174,6 +178,11 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get transparent => transparentColor;
   Color get onAccent => _isDarkPalette ? publicBlack : publicWhite;
   Color get selectedOnAccent => onAccent;
+  Color get selectionColor =>
+      _isDarkPalette ? referenceSwitchBlue : referenceAccountHighlight;
+  Color get switchInactiveTrack => referenceSwitchGrey;
+  Color get segmentSelectedSurface =>
+      _isDarkPalette ? referenceSegmentSelected : surfaceMuted;
   Color get onImagePrimary => publicWhite;
   Color get onImageMuted => publicWhite.withValues(alpha: 0.72);
   // Auth uses its own indigo backdrop; focused sheets stay neutral. Light and

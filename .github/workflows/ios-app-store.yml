@@ -109,7 +109,7 @@ jobs:
       - name: Flutter dependencies and checks
         run: |
           flutter --version
-          flutter pub get
+          flutter pub get --enforce-lockfile
           flutter analyze --no-pub
           flutter test --no-pub test/features/mobile_completion_test.dart test/shared/collect_repository_test.dart test/security_hygiene_test.dart
 

@@ -22,6 +22,7 @@ class _HomeDesignRepository extends FixtureCollectRepository {
     state = state.copyWith(
       contributions: [],
       paymentIntents: [],
+      historyPage: null,
       collectionSummaries: {},
       collections: switch (scenario) {
         'discovery' => publicGroups.toList(),

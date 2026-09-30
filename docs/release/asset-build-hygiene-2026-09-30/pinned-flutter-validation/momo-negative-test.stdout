@@ -1,0 +1,4 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/revolut_launcher_test.dart
+00:00 +0: member payment launcher is MoMo USSD only
+00:00 +1: production Android exposes validated MoMo USSD and call permission
+00:00 +2: All tests passed!

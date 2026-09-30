@@ -1,0 +1,1 @@
+scripts/tests/operational_metric_concurrency_uat.rb:124:in `<main>': Full table/catalog restoration or worker termination failed (RuntimeError)

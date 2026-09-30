@@ -1,0 +1,50 @@
+{
+  "validated_at_utc": "2026-09-30T14:22:10.714805+00:00",
+  "status": "pass",
+  "scope": "Revision5 register integrity and scoped local database evidence; not whole-system acceptance",
+  "snapshot_revision": 5,
+  "original_criteria_preserved": true,
+  "local_criteria_preserved": true,
+  "unique_open_rows": 101,
+  "closed_ids": [
+    "G06"
+  ],
+  "local_goal_closed_ids": [
+    "L02",
+    "L21"
+  ],
+  "priority_counts": {
+    "P0": 24,
+    "P1": 71,
+    "P2": 4,
+    "Crosscutting": 2
+  },
+  "evidence_counts": {
+    "External": 27,
+    "Partial": 67,
+    "Unverified": 7
+  },
+  "all_original_ids_preserved": true,
+  "all_report_links_exist": true,
+  "source_documents_match": true,
+  "database_runtime_manifest_sha256": "e159e2f60c914f845ae7bc8b8fd4d917d86d74f6af72b49392fed5f2755b3f3e",
+  "database_runtime_inputs_match": true,
+  "external_state_refreshed": false,
+  "sha256": {
+    "local-implementation-register-2026-09-30.json": "028260d5a7c5bf4f549b0eb8851373bd595b1ef6d405eaad28a3217c06897fd4",
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "892c0e775acfe0ebd98f2ca24bf9dbd8df6cf9334e8c828143199e7699038260",
+    "production-remaining-tasks-2026-09-30.json": "8b75ed0d3be6095191775cc05cbe22789a76fb946bcc3e0828f0f2e49614edd1",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "ef8a54877b1c13d66e99d8923201b46f5da74b6f098e432d16cfebebb7d0ceea"
+  },
+  "prior_revision_preserved": {
+    "local-implementation-register-2026-09-30.json": "603f6e2ae069f3d5f0b8525a17af1ec958537779fe8fd18f862bf149523fa1f6",
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "873a9970f2734aad3198854b61e2ecb8b1065690de318cca4aaa2916f5ee35c6",
+    "production-remaining-tasks-2026-09-30.json": "1fe6c79e03484afbff3e3cfe2b5dbead26587f1264284449332e1716e7a54921",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "e4c191da8b6e122f2859ede29e3f22c66f23075df25b6aade3203e5601a8ada1",
+    "production-remaining-tasks-2026-09-30.validation.json": "a475d6241543cd93fdb102e5e9a197b84b8917556a6dbec89233c9b276b7ce34"
+  },
+  "local_progress_refreshed_at_utc": "2026-09-30T14:29:17.403776+00:00",
+  "cleanup_manifest_sha256": "9e787a758dd7d6bab813508b55e03a64f753259b1e801f9a738f9cbaf49f31ed",
+  "cleanup_all366_source_inputs_current": true,
+  "cleanup_all12_evidence_inputs_intact": true
+}

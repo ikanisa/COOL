@@ -296,12 +296,31 @@ select pg_temp.assert_true(
 set local role service_role;
 select set_config('request.jwt.claims','{"role":"service_role"}',true);
 select pg_temp.assert_true(
-  public.finalize_attested_payment_sms(:'confirmed_sms_id')->>'status'='posted',
-  'attested evidence finalizes the candidate through the service boundary'
+  public.finalize_attested_payment_sms(:'confirmed_sms_id')->>'status'='awaiting_reconciliation',
+  'attested SMS cannot finalize the candidate'
 );
 select pg_temp.assert_true(
-  public.finalize_attested_payment_sms(:'confirmed_sms_id')->>'replayed'='true',
-  'finality replay preserves the original payment'
+  exists (select 1 from public.payments
+    where parsed_event_id='40000000-0000-4000-8000-000000000001'
+      and status='review' and posted_at is null)
+  and not exists (select 1 from public.ledger_entries entry
+    join public.payments payment on payment.id=entry.payment_id
+    where payment.parsed_event_id='40000000-0000-4000-8000-000000000001'),
+  'attested SMS replay leaves the review candidate and ledger unchanged'
+);
+-- Independent provider evidence is a separate synthetic fixture here; this
+-- rollback-only UAT does not prove any live provider integration.
+select public.process_provider_finality_event(
+  '40000000-0000-4000-8000-000000000099', 'payment.confirmed',
+  repeat('d',64),
+  (select id from public.payments
+   where parsed_event_id='40000000-0000-4000-8000-000000000001'),
+  'mtn_momo', 'CONTROLLED-TXN-001', 'PROVIDER-UAT-CONTROLLED-001',
+  :'receiver_hash', 10000, now(), repeat('e',64), null, null
+) as provider_finality \gset
+select pg_temp.assert_true(
+  :'provider_finality'::jsonb->>'replayed'='false',
+  'separate synthetic provider event posts the candidate'
 );
 
 select pg_temp.assert_true(

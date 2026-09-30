@@ -1,0 +1,2 @@
+NOTICE:  schema "collect_security" already exists, skipping
+NOTICE:  trigger "signed_otp_evidence_immutable" for relation "collect_security.signed_otp_evidence" does not exist, skipping

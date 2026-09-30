@@ -3,6 +3,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
+# shellcheck source=scripts/supabase_cli_helpers.sh
+. "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
 
 if [[ -z "${DATABASE_URL:-}" ]]; then
   DATABASE_URL="postgresql://postgres@127.0.0.1:54332/postgres"
@@ -14,7 +16,7 @@ if [[ "$DATABASE_URL" != postgresql://*127.0.0.1* && "$DATABASE_URL" != postgres
 fi
 
 if command -v psql >/dev/null 2>&1; then
-  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/group_creation_journey_uat.sql
+  collect_psql_url_service "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/group_creation_journey_uat.sql
 elif [[ "$DATABASE_URL" == postgresql://*127.0.0.1* || "$DATABASE_URL" == postgresql://*localhost* ]] &&
   docker inspect supabase_db_collect >/dev/null 2>&1; then
   docker exec -i supabase_db_collect psql -U postgres -d postgres \

@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-09-29T22:17:41.514631+00:00",
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "removed_exact_synthetic_member": "99890000-0000-4000-8000-000000000001",
+  "incoming_foreign_keys_checked": 12,
+  "older9988_member_rows_preserved": true,
+  "source_sha256": "0efaf58fd152f0b78fcedd4972c59c551ed9b93a9ea46300ea41899e300afd0e",
+  "purpose": "Complete missing profile-trigger artifact cleanup after139upgrade; no real or pre-existing member removed."
+}

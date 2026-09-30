@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_runtime_assets.dart';
 import '../../app/theme/collect_typography.dart';
+import 'public_marketing_theme.dart';
 
 /// Public marketing composition only; member and operator UI stay in Inter.
 class PublicMarketingHero extends StatelessWidget {
@@ -37,7 +38,7 @@ class PublicMarketingHero extends StatelessWidget {
         );
         const white = CollectColors.publicWhite;
         return ColoredBox(
-          color: CollectColors.referenceAccountBlue,
+          color: CollectPublicMarketingTheme.heroBackdrop,
           child: Stack(
             children: [
               if (!highContrast)

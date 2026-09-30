@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/repositories/pending_shared_group_intent_store.dart';
+import '../../core/supabase/supabase_module.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -22,46 +25,125 @@ class GroupLinkScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
-  late Future<void> _openGroup;
+  late Future<void> _prepareInvitation;
+  PendingSharedGroupIntent? _invitation;
+  bool _joining = false;
+  String? _joinError;
 
   @override
   void initState() {
     super.initState();
-    _openGroup = Future<void>.microtask(_joinAndOpen);
+    _prepareInvitation = Future<void>.microtask(_prepare);
+  }
+
+  @override
+  void didUpdateWidget(covariant GroupLinkScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.slug == widget.slug) return;
+    _invitation = null;
+    _joinError = null;
+    _joining = false;
+    _prepareInvitation = Future<void>.microtask(_prepare);
+  }
+
+  Future<void> _prepare() async {
+    if (_shouldOpenStoreFallback()) return;
+    final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
+    final ownerId = ref.read(collectAuthenticatedUserIdProvider);
+    final existing = await pendingIntent.currentRecord();
+    PendingSharedGroupIntent invitation;
+    if (existing?.slug == widget.slug) {
+      if (existing!.ownerUserId != null && existing.ownerUserId != ownerId) {
+        throw StateError('Invitation belongs to a different account.');
+      }
+      if (ownerId == null) {
+        invitation = existing;
+      } else {
+        final current = await pendingIntent.currentRecordForOwner(ownerId);
+        if (current == null) {
+          throw StateError('Invitation expired or was replaced.');
+        }
+        invitation = current;
+      }
+    } else {
+      invitation = await pendingIntent.retainRecord(
+        widget.slug,
+        ownerUserId: ownerId,
+      );
+    }
+    if (!mounted) return;
+    _invitation = invitation;
+  }
+
+  void _retryPrepare() {
+    setState(() {
+      _prepareInvitation = Future<void>.microtask(_prepare);
+    });
   }
 
   Future<void> _joinAndOpen() async {
-    if (_shouldOpenStoreFallback()) {
-      await launchUrl(
-        _storeFallbackUri(),
-        mode: LaunchMode.externalApplication,
-      );
-      return;
-    }
-    final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
-    final slug = await pendingIntent.retain(widget.slug);
-    if (!mounted) return;
-    final profile = ref.read(collectRepositoryProvider).currentProfile;
-    if (profile == null) {
-      if (!mounted) return;
+    if (_joining) return;
+    final ownerId = ref.read(collectAuthenticatedUserIdProvider);
+    if (ownerId == null) {
       context.go('/auth');
       return;
     }
-    await requireMemberProfileReady(context, ref);
-    if (!mounted) return;
-    final collection = await ref
-        .read(collectRepositoryProvider.notifier)
-        .joinGroupBySlug(slug);
-    final cleared = await pendingIntent.clearIfMatches(slug);
-    if (!mounted) return;
-    if (!cleared) return;
-    context.go('/groups/${collection.id}');
-  }
-
-  void _retry() {
     setState(() {
-      _openGroup = Future<void>.microtask(_joinAndOpen);
+      _joining = true;
+      _joinError = null;
     });
+    try {
+      final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
+      final expected = _invitation;
+      final current = await pendingIntent.currentRecordForOwner(ownerId);
+      if (expected?.ownerUserId != null && expected!.ownerUserId != ownerId) {
+        throw StateError('Account changed. Open the link again.');
+      }
+      if (expected != null &&
+          current != null &&
+          current.slug == widget.slug &&
+          current.intentId != expected.intentId) {
+        setState(() {
+          _invitation = current;
+          _joinError =
+              'This invitation was refreshed. Review it and choose Join again.';
+        });
+        return;
+      }
+      if (expected == null ||
+          current == null ||
+          current.intentId != expected.intentId ||
+          current.slug != widget.slug) {
+        throw StateError('Invitation changed. Open the latest link again.');
+      }
+      if (!mounted) return;
+      await requireMemberProfileReady(context, ref);
+      if (!mounted) return;
+      if (ref.read(collectAuthenticatedUserIdProvider) != ownerId ||
+          ref.read(collectRepositoryProvider).currentProfile?.id != ownerId) {
+        throw StateError('Account changed. Open the link again.');
+      }
+      final collection = await ref
+          .read(collectRepositoryProvider.notifier)
+          .joinGroupBySlug(current.slug);
+      if (!mounted) return;
+      if (ref.read(collectAuthenticatedUserIdProvider) != ownerId ||
+          ref.read(collectRepositoryProvider).currentProfile?.id != ownerId) {
+        throw StateError('Account changed. Open the link again.');
+      }
+      // A later invitation can replace this record while the server joins.
+      // Keep that newer record, but show the successful membership here.
+      await pendingIntent.clearIfMatchesRecord(current);
+      if (!mounted) return;
+      if (ref.read(collectAuthenticatedUserIdProvider) != ownerId) {
+        throw StateError('Account changed. Open the link again.');
+      }
+      context.go('/groups/${collection.id}');
+    } catch (error) {
+      if (mounted) setState(() => _joinError = _safeGroupLinkError(error));
+    } finally {
+      if (mounted) setState(() => _joining = false);
+    }
   }
 
   @override
@@ -100,28 +182,54 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
     }
 
     return FutureBuilder<void>(
-      future: _openGroup,
+      future: _prepareInvitation,
       builder: (context, snapshot) {
         final value = _groupLinkSnapshotValue(snapshot);
-        final hasError = snapshot.hasError;
         return ScreenScaffold(
-          title: hasError ? 'Group link' : 'Opening group',
+          title: 'Group invitation',
           subtitle: widget.slug,
           children: [
             CollectBottomSheet(
               child: CollectAsyncStateView<void>(
                 value: value,
-                loadingTitle: 'Opening group',
-                loadingMessage: 'Joining the group.',
+                loadingTitle: 'Checking invitation',
+                loadingMessage: 'Saving this link on your device.',
                 loadingIcon: CollectIcons.qr,
                 errorTitle: 'Link failed',
                 errorMessage: _safeGroupLinkError(snapshot.error),
-                onRetry: _retry,
-                data: (context, _) => const MinimalStatePanel(
-                  icon: CollectIcons.qr,
-                  title: 'Opening group',
-                  message: 'Taking you to the group.',
-                  tone: CollectStatusTone.info,
+                onRetry: _retryPrepare,
+                data: (context, _) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const MinimalStatePanel(
+                      icon: CollectIcons.qr,
+                      title: 'Review this group invitation',
+                      message: 'Choose Join to add this group to your account.',
+                      tone: CollectStatusTone.info,
+                    ),
+                    if (_joinError != null) ...[
+                      CollectSpacing.gap16,
+                      MinimalStatePanel(
+                        icon: CollectIcons.warning,
+                        title: 'Could not join',
+                        message: _joinError!,
+                        tone: CollectStatusTone.warning,
+                      ),
+                    ],
+                    CollectSpacing.gap16,
+                    CollectButton(
+                      label: _joining
+                          ? 'Joining group'
+                          : ref.read(collectAuthenticatedUserIdProvider) == null
+                          ? 'Sign in to join'
+                          : 'Join group',
+                      icon: CollectIcons.qr,
+                      onPressed: _joining
+                          ? null
+                          : () => unawaited(_joinAndOpen()),
+                      expand: true,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -135,6 +243,13 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
 String _safeGroupLinkError(Object? error) {
   if (error is FormatException) return error.message;
   final message = error?.toString().toLowerCase() ?? '';
+  if (message.contains('different account') ||
+      message.contains('account changed')) {
+    return 'This invitation was opened with another account. Open the link again after switching accounts.';
+  }
+  if (message.contains('invitation changed')) {
+    return 'A newer invitation is ready. Open the latest link again.';
+  }
   if (message.contains('removed by a group admin')) {
     return 'Your membership was removed. Contact a group admin if this needs review.';
   }
@@ -171,40 +286,39 @@ Uri _storeFallbackUri() {
   return Uri.parse(collectGooglePlayUrl);
 }
 
-String collectGroupSlugFromInput(String input) {
+String collectGroupSlugFromInput(String input, {Uri? trustedPublicOrigin}) {
   final trimmed = input.trim();
   if (trimmed.isEmpty) return '';
+  final rawCode = normalizePendingSharedGroupSlug(trimmed);
+  if (rawCode != null) return rawCode;
   final uri = Uri.tryParse(trimmed);
-  if (uri != null) {
-    final fragmentUri = Uri.tryParse(uri.fragment);
-    final candidates = [
-      uri.queryParameters['code'],
-      uri.queryParameters['slug'],
-      uri.queryParameters['group'],
-      if (fragmentUri != null) ..._slugSegments(fragmentUri.pathSegments),
-      ..._slugSegments(uri.pathSegments),
-    ];
-    for (final candidate in candidates) {
-      final clean = candidate?.trim();
-      if (clean != null && clean.isNotEmpty) {
-        final normalized = normalizePendingSharedGroupSlug(clean);
-        if (normalized != null) return normalized;
-      }
-    }
+  if (uri == null ||
+      !uri.hasScheme ||
+      collectGroupLinkHasAlternateTarget(uri)) {
+    return '';
   }
-  final rawCandidate = trimmed
-      .replaceFirst(RegExp(r'^/?c/'), '')
-      .replaceFirst(RegExp(r'^/?groups/'), '')
-      .trim();
-  return normalizePendingSharedGroupSlug(rawCandidate) ?? '';
-}
-
-List<String?> _slugSegments(List<String> segments) {
-  final cIndex = segments.indexOf('c');
-  final groupIndex = segments.indexOf('groups');
-  return [
-    if (cIndex != -1 && cIndex + 1 < segments.length) segments[cIndex + 1],
-    if (groupIndex != -1 && groupIndex + 1 < segments.length)
-      segments[groupIndex + 1],
-  ];
+  final canonical = collectAppLinkTargetFromUri(uri);
+  if (canonical?.kind == CollectAppLinkKind.group) {
+    return canonical!.value!;
+  }
+  final origin = trustedPublicOrigin;
+  if (origin == null ||
+      uri.scheme != 'https' ||
+      uri.host.toLowerCase() != origin.host.toLowerCase() ||
+      uri.port != origin.port ||
+      uri.userInfo.isNotEmpty) {
+    return '';
+  }
+  final prefix = origin.pathSegments
+      .where((segment) => segment.isNotEmpty)
+      .toList(growable: false);
+  final segments = uri.pathSegments
+      .where((segment) => segment.isNotEmpty)
+      .toList(growable: false);
+  if (segments.length != prefix.length + 2 ||
+      !listEquals(segments.take(prefix.length).toList(), prefix) ||
+      segments[prefix.length] != 'c') {
+    return '';
+  }
+  return normalizePendingSharedGroupSlug(segments.last) ?? '';
 }

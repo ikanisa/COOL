@@ -29,7 +29,8 @@ Future<void> createAdminPayee(
   WidgetRef ref, {
   required VoidCallback onDone,
 }) async {
-  final repository = ref.read(adminRepositoryProvider);
+  final scope = _AdminActionScope(ref);
+  final repository = scope.repository;
   late final AdminListResult candidateResult;
   try {
     candidateResult = await repository.list(
@@ -40,13 +41,13 @@ Future<void> createAdminPayee(
       sortBy: 'created_at_asc',
     );
   } catch (error) {
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
     return;
   }
-  if (!context.mounted) return;
+  if (!context.mounted || !scope.isCurrent) return;
   if (candidateResult.rows.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -67,124 +68,127 @@ Future<void> createAdminPayee(
   final submitted = await showDialog<bool>(
     context: context,
     animationStyle: CollectMotion.animationStyle(context),
-    builder: (dialogContext) => StatefulBuilder(
-      builder: (dialogContext, setDialogState) => AlertDialog(
-        scrollable: true,
-        title: const Text('Create official payee'),
-        content: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 560),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const InfoSecurityBanner(
-                    title: 'Route becomes immutable',
-                    message:
-                        'Confirm the MoMo number or code and provider before creating the payee. They can never be edited afterward; deactivate the payee if it must no longer receive contributions.',
-                    tone: CollectStatusTone.warning,
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    initialValue: collectionId,
-                    decoration: const InputDecoration(
-                      labelText: 'Platform public group',
+    builder: (dialogContext) => _AdminSessionDialog(
+      scope: scope,
+      child: StatefulBuilder(
+        builder: (dialogContext, setDialogState) => AlertDialog(
+          scrollable: true,
+          title: const Text('Create official payee'),
+          content: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const InfoSecurityBanner(
+                      title: 'Route becomes immutable',
+                      message:
+                          'Confirm the MoMo number or code and provider before creating the payee. They can never be edited afterward; deactivate the payee if it must no longer receive contributions.',
+                      tone: CollectStatusTone.warning,
                     ),
-                    items: [
-                      for (final candidate in candidateResult.rows)
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      initialValue: collectionId,
+                      decoration: const InputDecoration(
+                        labelText: 'Platform public group',
+                      ),
+                      items: [
+                        for (final candidate in candidateResult.rows)
+                          DropdownMenuItem(
+                            value: candidate.id,
+                            child: Text(candidate.title),
+                          ),
+                      ],
+                      onChanged: (value) {
+                        if (value != null) {
+                          setDialogState(() => collectionId = value);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: label,
+                      decoration: const InputDecoration(
+                        labelText: 'Official payee name',
+                      ),
+                      validator: (value) => (value ?? '').trim().length < 2
+                          ? 'Enter the official payee name'
+                          : null,
+                    ),
+                    const SizedBox(height: 12),
+                    DropdownButtonFormField<String>(
+                      initialValue: network,
+                      decoration: const InputDecoration(labelText: 'Provider'),
+                      items: const [
                         DropdownMenuItem(
-                          value: candidate.id,
-                          child: Text(candidate.title),
+                          value: 'mtn_momo',
+                          child: Text('MTN MoMo'),
                         ),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) {
-                        setDialogState(() => collectionId = value);
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: label,
-                    decoration: const InputDecoration(
-                      labelText: 'Official payee name',
+                        DropdownMenuItem(
+                          value: 'airtel_money',
+                          child: Text('Airtel Money'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        if (value != null) {
+                          setDialogState(() => network = value);
+                        }
+                      },
                     ),
-                    validator: (value) => (value ?? '').trim().length < 2
-                        ? 'Enter the official payee name'
-                        : null,
-                  ),
-                  const SizedBox(height: 12),
-                  DropdownButtonFormField<String>(
-                    initialValue: network,
-                    decoration: const InputDecoration(labelText: 'Provider'),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'mtn_momo',
-                        child: Text('MTN MoMo'),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: momoCode,
+                      keyboardType: TextInputType.number,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        labelText: 'MoMo number or code',
+                        helperText: 'Locked permanently after creation.',
                       ),
-                      DropdownMenuItem(
-                        value: 'airtel_money',
-                        child: Text('Airtel Money'),
+                      validator: (value) =>
+                          RegExp(r'^\d{4,12}$').hasMatch((value ?? '').trim())
+                          ? null
+                          : 'Enter 4 to 12 digits',
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: reason,
+                      minLines: 2,
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                        labelText: 'Creation reason',
+                        helperText: 'Required for the audit trail.',
                       ),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) {
-                        setDialogState(() => network = value);
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: momoCode,
-                    keyboardType: TextInputType.number,
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      labelText: 'MoMo number or code',
-                      helperText: 'Locked permanently after creation.',
+                      validator: (value) => (value ?? '').trim().length < 8
+                          ? 'Enter at least 8 characters'
+                          : null,
                     ),
-                    validator: (value) =>
-                        RegExp(r'^\d{4,12}$').hasMatch((value ?? '').trim())
-                        ? null
-                        : 'Enter 4 to 12 digits',
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: reason,
-                    minLines: 2,
-                    maxLines: 4,
-                    decoration: const InputDecoration(
-                      labelText: 'Creation reason',
-                      helperText: 'Required for the audit trail.',
-                    ),
-                    validator: (value) => (value ?? '').trim().length < 8
-                        ? 'Enter at least 8 characters'
-                        : null,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                if (formKey.currentState?.validate() ?? false) {
+                  Navigator.pop(dialogContext, true);
+                }
+              },
+              child: const Text('Create payee'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (formKey.currentState?.validate() ?? false) {
-                Navigator.pop(dialogContext, true);
-              }
-            },
-            child: const Text('Create payee'),
-          ),
-        ],
       ),
     ),
   );
-  if (submitted != true) {
+  if (submitted != true || !context.mounted || !scope.isCurrent) {
     label.dispose();
     momoCode.dispose();
     reason.dispose();
@@ -198,14 +202,15 @@ Future<void> createAdminPayee(
       'p_network': network,
       'p_reason': reason.text.trim(),
     });
+    if (!context.mounted || !scope.isCurrent) return;
     onDone();
     ref.read(adminRealtimeTickProvider.notifier).state += 1;
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Official payee created and activated')),
     );
   } catch (error) {
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
@@ -222,93 +227,96 @@ Future<void> editAdminPayee(
   required AdminTableRowData row,
   required VoidCallback onDone,
 }) async {
+  final scope = _AdminActionScope(ref);
   final formKey = GlobalKey<FormState>();
   final label = TextEditingController(text: row.title);
   final reason = TextEditingController();
   final submitted = await showDialog<bool>(
     context: context,
     animationStyle: CollectMotion.animationStyle(context),
-    builder: (dialogContext) => AlertDialog(
-      scrollable: true,
-      title: const Text('Edit official payee'),
-      content: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 520),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InfoSecurityBanner(
-                title: 'MoMo route is locked',
-                message:
-                    '${row.subtitle}. Only the official payee name can be edited.',
-                tone: CollectStatusTone.privacy,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: label,
-                decoration: const InputDecoration(
-                  labelText: 'Official payee name',
+    builder: (dialogContext) => _AdminSessionDialog(
+      scope: scope,
+      child: AlertDialog(
+        scrollable: true,
+        title: const Text('Edit official payee'),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InfoSecurityBanner(
+                  title: 'MoMo route is locked',
+                  message:
+                      '${row.subtitle}. Only the official payee name can be edited.',
+                  tone: CollectStatusTone.privacy,
                 ),
-                validator: (value) => (value ?? '').trim().length < 2
-                    ? 'Enter the official payee name'
-                    : null,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: reason,
-                minLines: 2,
-                maxLines: 4,
-                decoration: const InputDecoration(
-                  labelText: 'Change reason',
-                  helperText: 'Required for the audit trail.',
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: label,
+                  decoration: const InputDecoration(
+                    labelText: 'Official payee name',
+                  ),
+                  validator: (value) => (value ?? '').trim().length < 2
+                      ? 'Enter the official payee name'
+                      : null,
                 ),
-                validator: (value) => (value ?? '').trim().length < 8
-                    ? 'Enter at least 8 characters'
-                    : null,
-              ),
-            ],
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: reason,
+                  minLines: 2,
+                  maxLines: 4,
+                  decoration: const InputDecoration(
+                    labelText: 'Change reason',
+                    helperText: 'Required for the audit trail.',
+                  ),
+                  validator: (value) => (value ?? '').trim().length < 8
+                      ? 'Enter at least 8 characters'
+                      : null,
+                ),
+              ],
+            ),
           ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              if (formKey.currentState?.validate() ?? false) {
+                Navigator.pop(dialogContext, true);
+              }
+            },
+            child: const Text('Save name'),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext, false),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: () {
-            if (formKey.currentState?.validate() ?? false) {
-              Navigator.pop(dialogContext, true);
-            }
-          },
-          child: const Text('Save name'),
-        ),
-      ],
     ),
   );
-  if (submitted != true) {
+  if (submitted != true || !context.mounted || !scope.isCurrent) {
     label.dispose();
     reason.dispose();
     return;
   }
   try {
-    await ref
-        .read(adminRepositoryProvider)
-        .action('admin_update_collect_payee', {
-          'p_payee_id': _adminPayeeUuid(row.id),
-          'p_label': label.text.trim(),
-          'p_reason': reason.text.trim(),
-        });
+    await scope.repository.action('admin_update_collect_payee', {
+      'p_payee_id': _adminPayeeUuid(row.id),
+      'p_label': label.text.trim(),
+      'p_reason': reason.text.trim(),
+    });
+    if (!context.mounted || !scope.isCurrent) return;
     onDone();
     ref.read(adminRealtimeTickProvider.notifier).state += 1;
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Official payee name updated')),
     );
   } catch (error) {
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
@@ -325,24 +333,25 @@ Future<void> setAdminPayeeActive(
   required bool active,
   required VoidCallback onDone,
 }) async {
+  final scope = _AdminActionScope(ref);
   final reason = await showAdminReasonDialog(
     context,
+    dialogWrapper: (_, child) =>
+        _AdminSessionDialog(scope: scope, child: child),
     title: active ? 'Activate official payee' : 'Deactivate official payee',
     actionLabel: active ? 'Activate payee' : 'Deactivate payee',
   );
-  if (reason == null) return;
+  if (reason == null || !context.mounted || !scope.isCurrent) return;
   try {
-    await ref.read(adminRepositoryProvider).action(
-      'admin_set_collect_payee_status',
-      {
-        'p_payee_id': _adminPayeeUuid(row.id),
-        'p_active': active,
-        'p_reason': reason,
-      },
-    );
+    await scope.repository.action('admin_set_collect_payee_status', {
+      'p_payee_id': _adminPayeeUuid(row.id),
+      'p_active': active,
+      'p_reason': reason,
+    });
+    if (!context.mounted || !scope.isCurrent) return;
     onDone();
     ref.read(adminRealtimeTickProvider.notifier).state += 1;
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -351,7 +360,7 @@ Future<void> setAdminPayeeActive(
       ),
     );
   } catch (error) {
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));

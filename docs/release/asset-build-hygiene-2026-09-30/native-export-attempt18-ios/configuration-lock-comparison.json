@@ -1,0 +1,18 @@
+{
+  "pubspec.lock": {
+    "before_sha256": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "after_sha256": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226"
+  },
+  "ios/Podfile.lock": {
+    "before_sha256": "8e05cdad2da562dfbcfd98e01883d974d2aee135bae5448c8af8527d07cc1d5e",
+    "after_sha256": "8e05cdad2da562dfbcfd98e01883d974d2aee135bae5448c8af8527d07cc1d5e"
+  },
+  "ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+    "before_sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213",
+    "after_sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+  },
+  "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+    "before_sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213",
+    "after_sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+  }
+}

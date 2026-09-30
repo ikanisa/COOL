@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 8291,
+      "sha256": "66f89b47259e5c6d6201595684f7d0e17d86f0d5ee67485dddf2b9b0abcef139"
+    },
+    {
+      "path": "independent-review.json",
+      "bytes": 764,
+      "sha256": "39c59305efa55706a42bdacc8ad0f11127df14e58b7b3f842ce0f8924ae06589"
+    },
+    {
+      "path": "logs/migration-source-gate.txt",
+      "bytes": 37,
+      "sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60"
+    },
+    {
+      "path": "logs/python-version.txt",
+      "bytes": 15,
+      "sha256": "4c3569f5da09975434dd9fd9a91fadbc4367a91d8f3c3fab59e9241ab9ee4bd8"
+    },
+    {
+      "path": "logs/ruby-syntax.txt",
+      "bytes": 10,
+      "sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b"
+    },
+    {
+      "path": "logs/ruby-version.txt",
+      "bytes": 72,
+      "sha256": "79c717f412b1077b1f79db335cbb49c0d2d9e3d8e82df51e62d5fefbcd4c18e5"
+    },
+    {
+      "path": "logs/scoped-diff-check.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/scoped-whitespace.txt",
+      "bytes": 63,
+      "sha256": "73171e1d04c1bd723ecbecc319f6dabebe62af9af1a4b3ce6f3838046307abd4"
+    },
+    {
+      "path": "logs/snapshot-verifier-tests.txt",
+      "bytes": 1534,
+      "sha256": "3dd175546de7eed151d8ac294e50c5ac16d179618ed813d39ad3b3eb70308449"
+    },
+    {
+      "path": "logs/source-tests.txt",
+      "bytes": 168,
+      "sha256": "69ad90b1625c3b9a5b6526f7b6508c0d15b61a0a8e7f0acc291a4ccd37c46946"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 2020,
+      "sha256": "db4bc4c6603a04c0fae4216ddd362e31a68304cfb16dc50bc4d38d4ac141bdf8"
+    },
+    {
+      "path": "source-snapshot/scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+      "bytes": 6133,
+      "sha256": "33dcbfd6b3468cd998da01f7a9b5a7745cea9e28ed4e5154cc00bbfe2ee6bb47"
+    },
+    {
+      "path": "source-snapshot/scripts/tests/legacy_bank_scheduler_retirement_uat.sql",
+      "bytes": 12611,
+      "sha256": "a190bffc1212c410a200e6b99d4db6910bf0cea5d948f535e7bb1640c4d25952"
+    },
+    {
+      "path": "source-snapshot/scripts/tests/legacy_bank_scheduler_snapshot.sql",
+      "bytes": 3071,
+      "sha256": "0a153c47c32099cfde4d727ff842f2e075fcb0de8a01a692d7251c0280da9c19"
+    },
+    {
+      "path": "source-snapshot/scripts/tests/verify_legacy_bank_scheduler_upgrade.py",
+      "bytes": 3486,
+      "sha256": "eaacf4fe9dc1f3efd3e691da92712c269d52572256725037fbfc49c5f6e5d0ab"
+    },
+    {
+      "path": "source-snapshot/scripts/tests/verify_legacy_bank_scheduler_upgrade_test.py",
+      "bytes": 3216,
+      "sha256": "3db22aeef7519eda7b432edafb629322630cb90d6b8037af14ff9d8338e09b21"
+    },
+    {
+      "path": "source-snapshot/supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+      "bytes": 7801,
+      "sha256": "a3e29f1314a4a94d1ef2bd19709aa745dca5f0e456bb70dab769d6b42c92ba85"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 3088,
+      "sha256": "3ddf6b5f087e02e18a2609ac84c5c15bf6e3d232e5c6e3e85c122ac056275a3f"
+    }
+  ]
+}

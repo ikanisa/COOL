@@ -1,0 +1,6 @@
+Compiling tool/public_app_media_capture.dart for the Web...     
+Font asset "CupertinoIcons.ttf" was tree-shaken, reducing it from 257628 to 1472 bytes (99.4% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "Font-Awesome-7-Brands-Regular-400.otf" was tree-shaken, reducing it from 215132 to 1624 bytes (99.2% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "MaterialIcons-Regular.otf" was tree-shaken, reducing it from 1645184 to 17104 bytes (99.0% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Compiling tool/public_app_media_capture.dart for the Web...        32.8s
+✓ Built .cache/public-app-media-20260930/attempt3/build

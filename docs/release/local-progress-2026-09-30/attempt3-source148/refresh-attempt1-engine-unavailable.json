@@ -1,0 +1,10 @@
+{
+  "status": "preflight_failed_before_register_writes",
+  "reason": "missing Docker socket and no running Docker/backend process; only vmnetd helper remained",
+  "recovery": "reopened exact configured Docker app, inspected fixture labels/port/persisted disabled network and cron GUCs before starting exact fixture",
+  "fixture_pre_start_state": {
+    "running": false,
+    "exit_code": 137
+  },
+  "provider_called": false
+}

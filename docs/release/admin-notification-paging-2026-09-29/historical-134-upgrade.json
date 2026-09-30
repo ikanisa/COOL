@@ -1,0 +1,34 @@
+{
+  "captured_at": "2026-09-28T22:59:06.733131+00:00",
+  "financial_evidence_rows": 16,
+  "financial_evidence_sha256": "c294b544c37c730475fda5d76c6b8c5471a3c12535ff345fd7e3dc914281a9d4",
+  "grants_and_indexes": {
+    "admin_indexes": 2,
+    "anon_notification_execute": false,
+    "anon_profile_select": false,
+    "anon_receipt_execute": false,
+    "cron_jobs": 1,
+    "member_notification_execute": true,
+    "member_receipt_execute": false,
+    "temporary_approval": 0,
+    "temporary_session": 0
+  },
+  "group_balance_rwf": 1500,
+  "limitations": [
+    "synthetic historical fixture with 16 selected financial/evidence rows",
+    "no representative customer history or hosted schema readback",
+    "no signed-client compatibility or rollback/roll-forward acceptance",
+    "no independent provider evidence or production approval"
+  ],
+  "migration_count": "133 -> 134",
+  "migration_sha256": "03692c5da0e9bd3371a6530eb7876f8a658f088166d13936ee44d2c154063890",
+  "notification_page_cases": 3,
+  "scheduler_and_network_workers": "off|postgres|template1|0",
+  "sequence_statements_match": true,
+  "source_archive_sha256": "6037999ae339ecadf2494100e24e27da1c2d24b1087e7e550762e50edec446b9",
+  "source_fixture": "collect_financial_qa_20260928/postgres",
+  "status": "pass_local_synthetic_historical_133_to_134",
+  "target_fixture": "collect_notification_qa_20260929/collect_notification_upgrade_20260929",
+  "unchanged_table_rows": 1194,
+  "unchanged_table_sections": 128
+}

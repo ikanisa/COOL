@@ -1,0 +1,20 @@
+{
+  "captured_at": "2026-09-29T22:18:02.478809+00:00",
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "labels_and_port_verified": true,
+  "predecessor_count": 139,
+  "result_count": 140,
+  "migration_sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+  "staged_numbered_identical": true,
+  "existing_domain_tables_unchanged": 123,
+  "new_empty_relations": [
+    "collect_security.reconciliation_reviews"
+  ],
+  "financial_evidence_unchanged": true,
+  "backup_path": ".cache/governed-reconciliation-20260930/pre140.dump",
+  "backup_sha256": "ac78ec0c939bbed3e5897ab5db75072ff210853b31b56d7a51d7eb4d33614cac",
+  "provider_calls": false,
+  "cron_launch_active_jobs": false,
+  "pg_net_batch_size": 0
+}

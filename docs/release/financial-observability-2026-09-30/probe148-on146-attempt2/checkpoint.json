@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/probe148-on146-attempt2/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "eb2003b698325cb9b1a27daa69dfa1e143b9f3857edaabc3af4a987daf4003eb",
+  "executed_sql_sha256": "c494213261f7a36d39b37bf4d5c4d9a6ac611fd34c0c6529aec116f3d5a96be6",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 146,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930140000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "8b9c801f4ae01a0e7fbb7efb6f64427f9fdc26eddd12b1ff3e038def67094065",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/probe148-on146-v2.sql",
+  "reviewed_source_sha256": "147c8988325a1a9aa10b6c5bed88c5dfbf50b46ad7104c439cc948ab8f90d53f",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T15:10:17.825302+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

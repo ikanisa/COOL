@@ -1,0 +1,81 @@
+{
+  "actual_assertions": 18,
+  "actual_cases": 8,
+  "artifact_sha256": "d1909cbf1b9fc3af9479826b1998bc3e148cffbd8b870bd3ab3c55928f111e37",
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "clang",
+        "-fobjc-arc",
+        "-O2",
+        "-Werror=mismatched-return-types",
+        "-Werror=return-type",
+        "-framework",
+        "Foundation",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/prior-callback-dispatch.m",
+        "-o",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/prior-probe"
+      ],
+      "exit_code": 1,
+      "name": "prior-compile",
+      "stderr_sha256": "7f9281722afd471f371fcbd3f82bfb46b910d7efbd453c3bb5aa6914e07ab1c1",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "clang",
+        "-fobjc-arc",
+        "-O2",
+        "-Werror=mismatched-return-types",
+        "-Werror=return-type",
+        "-framework",
+        "Foundation",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/current-callback-dispatch.m",
+        "-o",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/current-probe"
+      ],
+      "exit_code": 0,
+      "name": "current-compile",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/current-probe"
+      ],
+      "exit_code": 0,
+      "name": "current-native-runtime",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c24a9d6ef97305d953433bdd80d04e0a9910b08effac9bad05595263d0bf1f67"
+    }
+  ],
+  "database_calls": 0,
+  "hosted_calls": 0,
+  "kind": "native_foundation_isolated_actual_callback_dispatch",
+  "native_full_plugin_compile_accepted": false,
+  "prior_source_native_compile_rejected": true,
+  "provider_calls": 0,
+  "scope": "Exact source-derived plugin callback/protocol/engine dispatch compiled and executed on macOS Foundation stand-ins; not full Firebase SDK/iOS device/provider acceptance",
+  "source_sha256_after": {
+    "/Volumes/PRO-G40/Development/Flutter/flutter/engine/src/flutter/shell/platform/darwin/ios/framework/Headers/FlutterSceneLifeCycle.h": "b4d90b84efbe3ce2f8db38397e312fe7f0c97d0ad7bbca8763a24b6ebf2d2217",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/engine/src/flutter/shell/platform/darwin/ios/framework/Source/FlutterSceneLifeCycle.mm": "d8fb9cd6822c39c53a3c2ece909cffdb69192a91bd73a5aa619ebacd45fdfb1f",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/source-snapshot/upstream-package/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "516812ae674cdb5dec462e74f3da4830fcc62cf5ff99c0cd83099ec32307ee0c",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/firebase_scene_callback_probe.py": "acecfcbb0552527f963633d5ae98fe1fe54de33c0b144a62d1a684c1dcd52d87",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72"
+  },
+  "source_sha256_before": {
+    "/Volumes/PRO-G40/Development/Flutter/flutter/engine/src/flutter/shell/platform/darwin/ios/framework/Headers/FlutterSceneLifeCycle.h": "b4d90b84efbe3ce2f8db38397e312fe7f0c97d0ad7bbca8763a24b6ebf2d2217",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/engine/src/flutter/shell/platform/darwin/ios/framework/Source/FlutterSceneLifeCycle.mm": "d8fb9cd6822c39c53a3c2ece909cffdb69192a91bd73a5aa619ebacd45fdfb1f",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/source-snapshot/upstream-package/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "516812ae674cdb5dec462e74f3da4830fcc62cf5ff99c0cd83099ec32307ee0c",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/firebase_scene_callback_probe.py": "acecfcbb0552527f963633d5ae98fe1fe54de33c0b144a62d1a684c1dcd52d87",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72"
+  },
+  "sources_unchanged": true,
+  "status": "pass"
+}

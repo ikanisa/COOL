@@ -1,0 +1,44 @@
+{
+  "timestamp_utc": "2026-09-29T22:46:41.591585+00:00",
+  "scope": "nine offline guard tests and Python compilation only; no database, provider or real pg_restore invocation",
+  "source_hashes_before": {
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/notification_upgrade_telemetry_test.py": "d5bea2c46cf9b915f1d790205b0d74a67fb9f6b47b5287ba61c03267710c2f24",
+    "scripts/tests/notification_session_upgrade_seed.sql": "846492070ecf3f534e78002bd88aae3821a0ddefadeec37ac2b4008e59fd1269",
+    "scripts/tests/notification_session_upgrade_verify.sql": "6e342059617b0d1dd0ca34f4b8a16d0f187c60ca1b2236489294bb1595b7a6ff",
+    "docs/release/notification-session-fencing-2026-09-30/TELEMETRY_QA_SOURCE.md": "1170eeb0d4c4180b28cf196f0fa4a7db1ed0fed020a689d3a37be6149441cc51"
+  },
+  "source_hashes_after": {
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/notification_upgrade_telemetry_test.py": "d5bea2c46cf9b915f1d790205b0d74a67fb9f6b47b5287ba61c03267710c2f24",
+    "scripts/tests/notification_session_upgrade_seed.sql": "846492070ecf3f534e78002bd88aae3821a0ddefadeec37ac2b4008e59fd1269",
+    "scripts/tests/notification_session_upgrade_verify.sql": "6e342059617b0d1dd0ca34f4b8a16d0f187c60ca1b2236489294bb1595b7a6ff",
+    "docs/release/notification-session-fencing-2026-09-30/TELEMETRY_QA_SOURCE.md": "1170eeb0d4c4180b28cf196f0fa4a7db1ed0fed020a689d3a37be6149441cc51"
+  },
+  "source_unchanged": true,
+  "runs": [
+    {
+      "command": [
+        "python3",
+        "scripts/tests/notification_upgrade_telemetry_test.py"
+      ],
+      "exit_code": 0,
+      "stdout": "logs/telemetry-offline-tests.stdout.txt",
+      "stderr": "logs/telemetry-offline-tests.stderr.txt"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "py_compile",
+        "scripts/tests/notification_upgrade_telemetry.py",
+        "scripts/tests/notification_upgrade_telemetry_test.py"
+      ],
+      "exit_code": 0,
+      "stdout": "logs/telemetry-python-compile.stdout.txt",
+      "stderr": "logs/telemetry-python-compile.stderr.txt"
+    }
+  ],
+  "sql_execution_status": "not_executed_by_worker",
+  "migration141_unchanged_sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+}

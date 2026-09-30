@@ -7,9 +7,6 @@ CollectStatusTone paymentStatusTone(String status) {
     'needs_review' ||
     'review' => CollectStatusTone.warning,
     'expired' || 'failed' || 'exception' => CollectStatusTone.danger,
-    'awaiting_transfer' ||
-    'handoff_opened' ||
-    'awaiting_bank_evidence' ||
     'pending' => CollectStatusTone.info,
     _ => CollectStatusTone.neutral,
   };
@@ -19,9 +16,6 @@ String paymentStatusLabel(String status) {
   return switch (status) {
     'reconciled' || 'confirmed' => 'Reconciled',
     'received_unreconciled' => 'Received — awaiting reconciliation',
-    'awaiting_transfer' => 'Awaiting bank transfer',
-    'handoff_opened' => 'Banking app opened',
-    'awaiting_bank_evidence' => 'Awaiting bank evidence',
     'needs_review' || 'review' => 'Needs review',
     'expired' => 'Expired',
     'pending' => 'Pending',

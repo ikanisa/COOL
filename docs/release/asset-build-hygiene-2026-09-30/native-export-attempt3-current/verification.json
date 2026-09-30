@@ -1,0 +1,34 @@
+{
+  "status": "incomplete",
+  "commands": [
+    {
+      "name": "pub-enforce",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "54abfd8b8accd9bed4ad2916ef2624f7c25e452cd6b23a5a87528d503afc5394",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-lock",
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--write-locks",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "a1f2197abf85ab32ddeaeb07e2442f82197fe1e285596f7f26b7a8cb7c776661",
+      "stderr_sha256": "0446de0fc460cc775b191bd1a6630b8270d2f8c0271694cf7d40467984542042"
+    }
+  ],
+  "source_export_sha256": "0c7fcb801f5838e6804485c1dabdc64cf64718307a76889f531fd4dae0d15a70",
+  "scope": "Current exact unsigned source export with reviewed app-only graph locks; no productionstore/provider acceptance"
+}

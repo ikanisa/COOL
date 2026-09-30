@@ -1,0 +1,27 @@
+running 10 tests from ./supabase/functions/dispatch-notifications/dispatcher_test.ts
+dispatch claims only after the previous delivery is completed ... ok (0ms)
+accepted push with a lost completion response is never marked for retry ... ok (0ms)
+transport failure uses the lease attempt and exhausts the fifth attempt ... ok (0ms)
+retryable provider failure below exhaustion is reported as queued ... ok (0ms)
+invalid provider token is terminal without an in-process retry ... ok (0ms)
+dispatch stops claiming with a full send budget still reserved ... ok (0ms)
+an empty queue ends without provider or completion calls ... ok (0ms)
+claim failure cannot cause a provider call ... ok (0ms)
+lost lease preflight cannot send or complete the replacement claim ... ok (0ms)
+legacy claim without a fence fails before preflight and provider calls ... ok (0ms)
+running 12 tests from ./supabase/functions/_shared/fcm_test.ts
+FCM sender emits private channel-routed data and classifies invalid tokens ... ok (2ms)
+FCM accepted unreadable stream never becomes a retryable send ... ok (0ms)
+FCM accepted oversized body never becomes a retryable send ... ok (6ms)
+FCM accepted invalid UTF-8 never becomes a retryable send ... ok (0ms)
+FCM accepted malformed JSON never becomes a retryable send ... ok (0ms)
+FCM accepted null payload never becomes a retryable send ... ok (0ms)
+FCM accepted malformed error shape never becomes a retryable send ... ok (0ms)
+FCM accepted message retains its documented message name ... ok (0ms)
+FCM HTTP 503 retains status classification with malformed details ... ok (0ms)
+FCM HTTP 429 retains status classification with malformed details ... ok (0ms)
+FCM HTTP 400 retains status classification with malformed details ... ok (0ms)
+FCM HTTP 404 retains status classification with malformed details ... ok (0ms)
+
+ok | 22 passed | 0 failed (41ms)
+

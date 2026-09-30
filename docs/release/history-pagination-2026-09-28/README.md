@@ -1,0 +1,117 @@
+# Relational member history and recent intents — 2026-09-28
+
+## Status and scope
+
+This is an additive database candidate for D02 and D04, applied after
+`20260925190000_rwanda_momo_only.sql`. It replaces the internals of
+`collect_member_actions.history_page(uuid,text,text,jsonb,integer)` and
+`collect_member_actions.recent_intents(uuid)`. The public RPC signatures, JSON
+keys, `RWF` MoMo rail, four sort modes, `50`-row app request and
+`{revision,after}` cursor remain the same. The previously applied
+`20260902100046_member_bounded_history_pages.sql` is unchanged.
+
+The new history path reads `public.payments` directly. It keeps the existing
+actor visibility rule: a posted RWF payment is visible if it belongs to the
+actor or its collection is readable by the actor. Group-title search only
+uses titles from readable groups; private peer transaction IDs and contributor
+details are never used for search or returned. `momo:<payment UUID>` is the
+stable tie breaker. A cursor resolves its anchor by primary key, checks it
+still belongs to the matching authorized set, and uses relational keyset
+predicates for `newest`, `oldest`, `highest` and `lowest`. Only `limit + 1`
+candidate rows enter the JSON page aggregation. No offset, row-number ranking
+of the complete history, or `payment_history()` JSON expansion remains in this
+RPC.
+
+Complete count, total, own total and own group IDs are computed over all
+matching relational rows. This is deliberate: a partial page cannot supply
+complete financial totals. The revision uses a constant-space XOR aggregate
+of per-row SHA-256 digests, then keeps the existing 32-character cursor wire
+format. A changed row set or visible row content changes the revision with
+overwhelming probability. This is a change detector, not a proof of identical
+snapshots; cryptographic collisions remain theoretically possible. These
+aggregate and revision scans are O(matching rows) on every page, but do not
+build or retain an all-history JSON/string array. Search uses substring
+matching and is not index accelerated by these new B-tree indexes.
+
+The recent-intent path selects the actor's newest 50 MoMo intents before
+joining receiver details or building JSON. An exact actor-owned ID bypasses
+the recent window so old deep links still resolve. `pending_count` is an exact
+count of unexpired `pending` requests across the actor's full intent history;
+it does not count other actors or expired pending rows. The receiver lookup
+preserves the historical hash match and latest matching receiver ordering.
+
+The migration adds partial payment indexes for both access paths and all four
+sorts, plus intent recent/pending and receiver lookup indexes. It validates a
+constraint requiring a posting timestamp on posted RWF payments, since a null
+timestamp cannot satisfy the current history order or Dart decoder. A
+pre-existing invalid row fails migration validation for reconciliation. Index
+creation and constraint validation must be sized and scheduled on a realistic
+database; they may hold locks and increase payment write cost.
+
+## Local evidence
+
+`bash scripts/tests/history_relational_sql_scratch.sh` passed on PostgreSQL
+17 with synthetic, rolled-back data. The scratch schema checks migration
+parsing and executes four sorts across 121 visible rows, page ties and terminal
+cursors, complete totals, group and text filters, private reference masking,
+privacy and permission revision changes, a 50-row recent intent window,
+pending count, historical exact-ID lookup, missing identity and function
+privileges. The script creates and removes its own local container. It is a
+targeted SQL contract test, not a replay of the complete Supabase schema.
+
+The missing `scripts/qa/candidate_check_scope.json` was recovered byte-for-byte
+from the selected Drive current-v2 source after this candidate was built.
+`python3 scripts/tests/member_history_source_test.py` then passed all 11
+source-wiring checks, and `python3 scripts/qa/verify_candidate.py --run`
+passed its 58-file format scope, analyzer and 25 declared Dart test files.
+The verifier explicitly reports design acceptance unassessed and release
+authorization false. No Flutter model or public wrapper source changed in
+this history increment.
+
+## Full-schema synthetic plan rehearsal — 29 September
+
+The [guarded benchmark SQL](../../../scripts/tests/member_history_full_schema_benchmark.sql) ran in the separate task-owned PostgreSQL 17.6 restored database with all 133 current migrations. It inserted **1,000** and then **10,000** synthetic performance-only posted rows in separate rollback transactions, split between one private and one public Rwanda group. Payment user triggers were disabled only while loading those rows and reenabled before all RPC calls. These rows had no provider confirmation or journal and are not financial-validity evidence. Cron and `pg_net` workers were disabled. The [summary JSON](full-schema-benchmark-summary.json) was generated by the [log verifier](../../../scripts/tests/summarize_member_history_benchmark.py); full nested `auto_explain` logs remain in ignored task-owned `.cache` storage, with their SHA-256 hashes in the summary.
+
+All four sorts returned 50 first-page and 50 deep-page rows for both all-groups and selected-private-group scopes. Counts were **1,001/501** at the smaller size and **10,001/5,001** at the larger size; private-title search matched its group and a no-match search returned zero. Each run captured 18 nested function plans with actual rows and shared-buffer observations. The eight-case batch took **47.397 ms** at 1,000 rows and **220.099 ms** at 10,000 rows; median nested function duration was **3.096 ms** and **18.122 ms**, respectively. These are single local executions, not p95/p99 or an approved service objective. The 10,000-row plans show some selected-group pages using `payments_history_collection_*` indexes while exact totals/revisions and some page paths still scan matching payments; the all-groups path also uses sequential scans and bounded sorts.
+
+The benchmark transactions rolled back. A fresh restore verifier then confirmed that all 1,327 original table rows, roles, schema/ACL and the 16-row financial snapshot still match the source; all payment triggers were enabled again and the task-owned restore container was stopped. The benchmark SQL SHA-256 is `af21e1a2a4fcda273574f44cf300029054a40cd51176d7cd6dc233a130f975b9`, the summarizer SHA-256 is `6140c78ded27aae4c9a815819a3007b2498e464b0b69324ff7f0802ff46f114a`, and the summary JSON SHA-256 is `dccc649cd81a064657502514284f057fd4595b7f3fa4da8a872a6b64a30a07f0`.
+
+## Full-schema recent-intent plan rehearsal — 29 September
+
+The [guarded recent-intent SQL](../../../scripts/tests/recent_intents_full_schema_benchmark.sql) ran in the same isolated restored schema in two separate rollback transactions with **1,000** and **10,000** synthetic, performance-only intent rows for one actor. The [summary JSON](recent-intents-full-schema-summary.json) is checked by the [log verifier](../../../scripts/tests/summarize_recent_intents_benchmark.py); private `auto_explain` actual-buffer logs remain in ignored task-owned `.cache`, with hashes in the summary. User triggers were disabled only for loading and reenabled before RPC reads.
+
+At both sizes, the newest request returned exactly 50 rows (including row 50, excluding row 51), an old exact ID returned one row, a missing ID returned none, and a second actor saw neither another actor's recent nor exact-ID result. The exact active `pending_count` was **533** and **5,333**, respectively; expired pending rows remained visible as expired in the recent list but were excluded from that count. Receiver data resolved. The 10,000-row recent plan read 50 rows through `payment_intents_member_recent_idx`; exact ID used the primary key; pending counts used `payment_intents_member_pending_idx` for 5,333 active matches. The 1,000-row owner count chose a sequential scan, while zero-match second-actor counts used the pending index. The receiver table was tiny and its plan cannot establish receiver-index scaling.
+
+The single local recent-call timings were **3.253 ms** at 1,000 intents and **2.107 ms** at 10,000; exact old-ID calls were **1.147 ms** and **1.297 ms**. These timings are one-run observations affected by cache/planner state, not latency percentiles or a production service objective. The benchmark loads one actor's history and does not represent deployed actor distributions, concurrency, notification volume or provider behavior.
+
+Both benchmark transactions rolled back. The independent restore verifier again matched all 1,327 source table rows, four sequences, global roles, normalized schema/ACL and the 16-row financial snapshot; the isolated restore container was then stopped. SHA-256: benchmark SQL `470708c362ae9b2c98affd5ed3aa1dbb3c8d8da7f1450cab4a1591688de126f8`, summarizer `73b7de5ccff6d0f2a13256bfcc3422e240fcc8b9fb115f219fb4f28510a14027`, summary JSON `818dde36f87127119970d6038f9b41ed836b5e3f0366c51b23d8ae9d5814fecf`.
+
+## Full-schema interleaved history UAT — 29 September
+
+The [guarded runner](../../../scripts/tests/history_full_schema_interleaved_uat.py) cloned the verified task-owned 133-migration PostgreSQL 17.6 database, added 55 synthetic posted rows and a second authenticated private-group member, then exercised the actual public history RPC. The member received a 20-row first page and a distinct 20-row second page, with a complete 56-row total and private peer transaction IDs masked. A separate committed synthetic post increased the count to 57 and the amount by RWF 7,777; the old cursor failed closed. Reversing that synthetic row returned the count and total to baseline, again rejecting the old cursor. Revoking the viewer's group membership rejected its old cursor and reduced its fresh private-group history to zero, while the contributor retained 56 own rows. The internal function and public wrapper are both declared `STABLE`, so their reads use the calling query's snapshot.
+
+The [sanitized result](history-interleaved-full-schema-summary.json) was written only after the test clone was dropped. The original restored database was reopened and the independent restore verifier again matched 129 table sections, 1,327 rows, global roles, schema/ACL and the 16-row financial snapshot. This is synthetic visibility and cursor evidence; the inserted rows had no provider or ledger evidence, and the changes were committed between RPC calls rather than during one call. It does not prove real financial reversal, installed-app behavior, hosted concurrency or a production service objective. SHA-256: runner `6951bb0349f81c7fff5577c96d7b7500ac1f360fcf91b6c44acc4994d304d1a5`; summary `dc655655198f6fece41a86fc681bd20ba4bec06a6828391249a14e7cfd443a30`.
+
+## Acceptance still open
+
+1. The full 133-migration clean replay and small 127+6 historical-row upgrade
+   now pass locally; extend the upgrade to representative historical data,
+   verify all public wrappers and grants against the authorized hosted schema,
+   and retain a candidate-bound migration and compatibility decision.
+2. The nested `auto_explain` rehearsal covers first/deep pages, four sorts,
+   selected/all-group scopes and empty/nonempty searches at two synthetic
+   sizes. Add middle pages, compare with the old JSON implementation at an
+   approved representative workload, measure repeat-run variance and p95/p99,
+   and set an accepted latency/scan-growth limit before release.
+3. Compare the recent-intent and exact pending-count plans with the old path
+   under representative multi-actor and notification volume, repeat runs for
+   variance/p95/p99, and measure receiver lookup/index scaling. Measure
+   migration lock and index build time before scheduling a live apply.
+4. Extend the full-schema interleaved post/reversal/membership proof to the
+   Dart decoder and installed app; add privacy-choice changes, actual governed
+   financial reversal, in-call concurrency pressure and hosted RLS behavior.
+
+D01, D02 and D04 remain open for representative workload and old-path
+comparison, hosted readback and release acceptance. The
+new local plan evidence does not approve a production migration or service
+objective.

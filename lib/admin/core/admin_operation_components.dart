@@ -239,52 +239,41 @@ class _AdminOpenButton extends StatelessWidget {
 
 class _AdminRailLabel extends StatelessWidget {
   const _AdminRailLabel({required this.rail});
-
   final String rail;
 
   @override
-  Widget build(BuildContext context) {
-    final isMomo = rail == 'rw_momo';
-    return Tooltip(
-      message: isMomo
-          ? 'Rwanda MoMo USSD receipt'
-          : 'Diaspora account transfer',
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _AdminRailIcon(rail: rail),
-          const SizedBox(width: 7),
-          Text(isMomo ? 'MoMo' : 'Bank'),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => const Tooltip(
+    message: 'Rwanda MoMo USSD receipt',
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.sms_outlined, size: 18),
+        SizedBox(width: 7),
+        Text('MoMo'),
+      ],
+    ),
+  );
 }
 
 class _AdminRailIcon extends StatelessWidget {
   const _AdminRailIcon({required this.rail});
-
   final String rail;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final isMomo = rail == 'rw_momo';
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: (isMomo ? colors.success : colors.info).withValues(alpha: 0.14),
-        shape: BoxShape.circle,
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
+      color: context.collectColors.success.withValues(alpha: 0.14),
+      shape: BoxShape.circle,
+    ),
+    child: SizedBox.square(
+      dimension: 34,
+      child: Icon(
+        Icons.sms_outlined,
+        size: 18,
+        color: context.collectColors.successForeground,
       ),
-      child: SizedBox.square(
-        dimension: 34,
-        child: Icon(
-          isMomo ? Icons.sms_outlined : Icons.account_balance_outlined,
-          size: 18,
-          color: isMomo ? colors.successForeground : colors.infoForeground,
-        ),
-      ),
-    );
-  }
+    ),
+  );
 }
 
 class _AdminAccessLabel extends StatelessWidget {
@@ -343,57 +332,43 @@ class _AdminGroupRouteLabel extends StatelessWidget {
 
 class _AdminCountryLabel extends StatelessWidget {
   const _AdminCountryLabel({required this.countryCode});
-
   final String countryCode;
 
   @override
-  Widget build(BuildContext context) {
-    final isRwanda = countryCode == 'RW';
-    return Tooltip(
-      message: isRwanda ? 'Rwanda member' : 'Diaspora member',
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            isRwanda ? Icons.phone_android_outlined : Icons.public_outlined,
-            size: 18,
-          ),
-          const SizedBox(width: 7),
-          Text(isRwanda ? 'RW' : countryCode),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => const Tooltip(
+    message: 'Rwanda member',
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.phone_android_outlined, size: 18),
+        SizedBox(width: 7),
+        Text('RW'),
+      ],
+    ),
+  );
 }
 
 class _AdminMemberPaymentLabel extends StatelessWidget {
   const _AdminMemberPaymentLabel({required this.row});
-
   final AdminTableRowData row;
 
   @override
-  Widget build(BuildContext context) {
-    final isRwanda = _country(row) == 'RW';
-    final label = _memberPaymentLabel(row);
-    return Tooltip(
-      message: isRwanda
-          ? 'Masked Rwanda MoMo profile'
-          : 'Diaspora Revolut profile readiness',
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            isRwanda
-                ? Icons.phone_android_outlined
-                : Icons.account_balance_outlined,
-            size: 18,
+  Widget build(BuildContext context) => Tooltip(
+    message: 'Masked Rwanda MoMo profile',
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.phone_android_outlined, size: 18),
+        const SizedBox(width: 7),
+        Flexible(
+          child: Text(
+            _memberPaymentLabel(row),
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(width: 7),
-          Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
 }
 
 class _AdminOperationsSummary extends StatelessWidget {
@@ -661,11 +636,8 @@ class _AdminOperationsField extends StatelessWidget {
   }
 }
 
-String _rail(AdminTableRowData row) => _extraText(
-  row,
-  'rail',
-  fallback: row.id.startsWith('momo:') ? 'rw_momo' : 'diaspora_account',
-);
+String _rail(AdminTableRowData row) =>
+    _extraText(row, 'rail', fallback: 'rw_momo');
 
 String _transactionReference(AdminTableRowData row) =>
     adminCompactTransactionReference(
@@ -684,28 +656,13 @@ String _momoSender(AdminTableRowData row) {
 }
 
 String _transactionDisplayAmount(AdminTableRowData row) {
-  final raw = row.amount.trim();
-  if (raw.isEmpty) return '—';
-  if (_rail(row) == 'rw_momo') {
-    final digits = raw.replaceAll(RegExp(r'[^0-9\-]'), '');
-    final amount = int.tryParse(digits);
-    return amount == null ? raw : formatRwf(amount);
-  }
-  final currency = RegExp(r'\b[A-Z]{3}\b').firstMatch(raw)?.group(0) ?? 'EUR';
-  final normalized = raw.replaceAll(RegExp(r'[^0-9.\-]'), '');
-  final amount = double.tryParse(normalized);
-  return amount == null
-      ? raw
-      : formatMoneyMinor((amount * 100).round(), currency: currency);
+  final digits = row.amount.replaceAll(RegExp(r'[^0-9\-]'), '');
+  final amount = int.tryParse(digits);
+  return amount == null ? '—' : formatRwf(amount);
 }
 
-String _transactionSource(AdminTableRowData row) => _extraText(
-  row,
-  'source_label',
-  fallback: _rail(row) == 'rw_momo'
-      ? 'MTN MoMo receipt'
-      : 'EUR account transfer',
-);
+String _transactionSource(AdminTableRowData row) =>
+    _extraText(row, 'source_label', fallback: 'MoMo receipt SMS');
 
 bool _isPublicGroup(AdminTableRowData row) =>
     row.status == 'public_approved' ||
@@ -757,18 +714,11 @@ String _maskedReceiver(AdminTableRowData row) {
 String _country(AdminTableRowData row) =>
     _extraText(row, 'country_code', fallback: 'RW').toUpperCase();
 
-String _memberPaymentLabel(AdminTableRowData row) {
-  if (_country(row) == 'RW') {
-    return _extraText(
-      row,
-      'momo_masked',
-      fallback: _extraText(row, 'momo_provider', fallback: 'MoMo not set'),
-    );
-  }
-  return _extraBool(row, 'has_revolut_profile')
-      ? 'Revolut ready'
-      : 'Revolut incomplete';
-}
+String _memberPaymentLabel(AdminTableRowData row) => _extraText(
+  row,
+  'momo_masked',
+  fallback: _extraText(row, 'momo_provider', fallback: 'MoMo not set'),
+);
 
 String _extraText(AdminTableRowData row, String key, {String fallback = ''}) {
   final value = row.extra[key];

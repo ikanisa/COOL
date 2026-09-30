@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 136,
+  "blocked_workers_at_advisory_lock": 2,
+  "worker_outcomes": [
+    "awaiting_provider_confirmation",
+    "ignored"
+  ],
+  "review_payments_for_reference": 1,
+  "ignored_duplicate_events": 1,
+  "posted_payments_for_reference": 0,
+  "journal_entries_for_reference": 0,
+  "provider_calls": 0,
+  "scope": "synthetic local Supabase fixture; real provider finality not exercised"
+}

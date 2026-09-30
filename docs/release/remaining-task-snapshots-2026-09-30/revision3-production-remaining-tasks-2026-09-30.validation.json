@@ -1,0 +1,68 @@
+{
+  "validated_at_utc": "2026-09-29T22:55:51.661887+00:00",
+  "status": "pass",
+  "snapshot_revision": 3,
+  "original_criteria_preserved": 102,
+  "unique_open_rows": 101,
+  "closed_ids": [
+    "G06"
+  ],
+  "priority_counts": {
+    "P0": 24,
+    "P1": 71,
+    "P2": 4,
+    "Crosscutting": 2
+  },
+  "evidence_counts": {
+    "External": 29,
+    "Partial": 65,
+    "Unverified": 7
+  },
+  "all_report_links_exist": 21,
+  "snapshot_source_and_manifest_hashes_match": 32,
+  "new_result_source_hashes_verified": 7,
+  "dated_packet_integrity": [
+    {
+      "packet": "docs/release/reconciliation-ui-2026-09-30/validation.json",
+      "manifest_sha256": "13d2f5bfcf84f0294c413f86e3ba8010da382bd1303af106a98850f6af8be12f",
+      "source_count": 51,
+      "current_source_drift": [
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_runtime.dart"
+      ],
+      "artifact_count": 48,
+      "artifact_drift": [],
+      "scope": "Hash readback of dated evidence; no tests rerun by this refresh."
+    },
+    {
+      "packet": "docs/release/notification-recovery-ui-2026-09-30/verification.json",
+      "manifest_sha256": "69446c4c70308ac67fca6436953597d23eac795366b7956294cb5abf6c3677ca",
+      "source_count": 15,
+      "current_source_drift": [],
+      "artifact_count": 5,
+      "artifact_drift": [],
+      "scope": "Hash readback of dated evidence; no tests rerun by this refresh."
+    },
+    {
+      "packet": "docs/release/roster-xlsx-hardening-2026-09-30/verification.json",
+      "manifest_sha256": "75545dd97f3090efbd5dcf90caa1a474a7da2ceaa1b9b55851c9036d4386827e",
+      "source_count": 8,
+      "current_source_drift": [
+        "pubspec.yaml",
+        "pubspec.lock",
+        "supabase/functions/_shared/roster_import.ts"
+      ],
+      "artifact_count": 6,
+      "artifact_drift": [
+        "focused-analysis.txt",
+        "focused-tests.txt"
+      ],
+      "scope": "Hash readback of dated evidence; no tests rerun by this refresh."
+    }
+  ],
+  "scope": "Task/register integrity and current evidence readback only; no whole-system acceptance or tests executed by this refresh.",
+  "sha256": {
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "44ddfec67823d3df3216796ce1b74faf891f2377d3a8cb16582edce5e52811d4",
+    "production-remaining-tasks-2026-09-30.json": "91d533d13df625d2458c56f1cc057473b7c49fb8b865daa99ecaad36d377ec7a"
+  }
+}

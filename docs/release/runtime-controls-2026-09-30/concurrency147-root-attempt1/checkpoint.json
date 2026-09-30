@@ -1,0 +1,45 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/concurrency147-root-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "372601095f187084cff7b483bafdc36b7b28b73217b0fee01bd724e46abaef7c",
+  "command": [
+    "/usr/bin/ruby",
+    "scripts/tests/runtime_control_concurrency_uat.rb"
+  ],
+  "ended_at_utc": "2026-09-30T15:29:55.145126+00:00",
+  "failure": {
+    "message": "Actual147 race command failed; preserve checkpoint and inspect state",
+    "type": "RuntimeError"
+  },
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 147,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930150000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "operation": "eleven_real147_blocking_races",
+  "provider_calls": false,
+  "recorder_sha256": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+  "ruby_sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "source_hashes_before": {
+    "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json": "0ab73e7b7f9ec117fcf7b413bb8aa24ada0e4f8fc5c5194e8c6e6d28fc8c0446",
+    "scripts/tests/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/run_runtime_control_acceptance.py": "403b9cc277932aa166029d09de800c5d6bdf7428f5745ae6681088618a13cd66",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "scripts/tests/runtime_control_governance_uat.sql": "6e83bb6c16eb98f509ca12b70374458dbd296f5c8967ed7ac7bd8760ed0d434b",
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f"
+  },
+  "sql_return_code": 1,
+  "started_at_utc": "2026-09-30T15:29:54.743743+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

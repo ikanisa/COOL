@@ -45,6 +45,18 @@ class _CollectionDetailScreenState
         ],
       );
     }
+    if (collection == null && state.lastError != null) {
+      return ScreenScaffold(
+        title: 'Group',
+        showHeader: false,
+        children: [
+          CollectDataLoadFailure(
+            onRetry: () =>
+                ref.read(collectRepositoryProvider.notifier).loadInitial(),
+          ),
+        ],
+      );
+    }
     if (collection == null) return const MissingGroupStateScreen();
     if (collection.isArchived) {
       return ArchivedGroupStateScreen(
@@ -53,6 +65,9 @@ class _CollectionDetailScreenState
       );
     }
     final summary = repo.summaryFor(widget.collectionId);
+    final totalLabel = summary == null
+        ? 'Not available'
+        : formatCurrencyTotals(summary.totalsByCurrency, separator: '\n');
     final historyQuery = MemberHistoryQuery(collectionId: widget.collectionId);
     final history = ref.watch(memberHistoryProvider(historyQuery));
     final visibleContributions =
@@ -75,18 +90,20 @@ class _CollectionDetailScreenState
       topChrome: const CollectPlainPageHeader(title: 'Group'),
       hero: CollectScreenHero(
         title: collection.title,
-        metric: formatCurrencyTotals(summary.totalsByCurrency, separator: '\n'),
+        metric: totalLabel,
         subtitleWidget: CollectPeopleCount(
-          count: summary.supporterCount,
+          count: summary?.supporterCount,
           color: CollectRuntimeTokens.chromeMutedForeground(
             context.collectColors,
           ),
         ),
-        subtitleSemanticLabel: summary.supporterCountSemantics,
+        subtitleSemanticLabel:
+            summary?.supporterCountSemantics ?? 'Contributor count unavailable',
         icon: collectionTypeIcon(collection.collectionType),
         semanticLabel:
-            '${collection.title}, ${formatCurrencyTotals(summary.totalsByCurrency, separator: "\n")} raised, '
-            '${summary.supporterCountSemantics}',
+            '${collection.title}, '
+            '${summary == null ? 'Group total unavailable' : '$totalLabel raised'}, '
+            '${summary?.supporterCountSemantics ?? 'Contributor count unavailable'}',
         quickActions: [
           if (canContribute) ...[
             CollectHeroQuickAction(
@@ -138,7 +155,9 @@ class _CollectionDetailScreenState
         if (isMember) ...[
           InfoSecurityBanner(
             title: 'Your confirmed balance',
-            message: formatCurrencyTotals(summary.ownBalancesByCurrency),
+            message: summary == null
+                ? 'Not available'
+                : formatCurrencyTotals(summary.ownBalancesByCurrency),
             tone: CollectStatusTone.info,
           ),
           CollectSpacing.gap16,
@@ -150,12 +169,7 @@ class _CollectionDetailScreenState
           ),
           CollectSpacing.gap16,
         ],
-        Semantics(
-          container: true,
-          header: true,
-          label: 'Activity',
-          child: const SectionHeader(title: 'Activity'),
-        ),
+        const SectionHeader(title: 'Activity'),
         if (history.loading && history.page == null)
           const Center(child: CircularProgressIndicator())
         else if (history.error != null && history.page == null)

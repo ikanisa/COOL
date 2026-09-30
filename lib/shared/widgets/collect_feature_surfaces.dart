@@ -19,6 +19,7 @@ class CollectVisualFeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final enlargedText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     return CollectCard(
       onTap: onTap,
       emphasis: CollectCardEmphasis.tonal,
@@ -38,7 +39,7 @@ class CollectVisualFeatureCard extends StatelessWidget {
                     color: colors.textPrimary,
                     fontWeight: CollectTypography.weightBold,
                   ),
-                  maxLines: 2,
+                  maxLines: enlargedText ? null : 2,
                 ),
                 CollectSpacing.gap4,
                 Text(
@@ -47,7 +48,7 @@ class CollectVisualFeatureCard extends StatelessWidget {
                     color: colors.textSecondary,
                     height: CollectTypography.leadingLabel,
                   ),
-                  maxLines: 3,
+                  maxLines: enlargedText ? null : 3,
                 ),
               ],
             ),
@@ -79,6 +80,7 @@ class CollectListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final enlargedText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final visibleSubtitle = _visibleSubtitle(subtitle);
     return Semantics(
       container: true,
@@ -105,7 +107,7 @@ class CollectListTile extends StatelessWidget {
                       Text(
                         title,
                         style: Theme.of(context).textTheme.titleSmall,
-                        maxLines: 2,
+                        maxLines: enlargedText ? null : 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       if (visibleSubtitle != null) ...[
@@ -114,7 +116,7 @@ class CollectListTile extends StatelessWidget {
                           visibleSubtitle,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(color: colors.textSecondary),
-                          maxLines: subtitleMaxLines,
+                          maxLines: enlargedText ? null : subtitleMaxLines,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
@@ -186,6 +188,18 @@ class EmptyIllustrationState extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            CollectSpacing.gap12,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ExcludeSemantics(
+                child: Text(
+                  message,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: context.collectColors.textSecondary,
+                  ),
+                ),
+              ),
             ),
             if (action != null) ...[
               CollectSpacing.gap12,

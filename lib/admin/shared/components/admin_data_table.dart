@@ -250,11 +250,6 @@ class _AdminCompactRecordCard extends StatelessWidget {
                 Expanded(
                   child: _RecordCell(row: row, rpcName: rpcName),
                 ),
-                if (_adminRowStatusVisible(rpcName, row.status)) ...[
-                  const SizedBox(width: 8),
-                  AdminStatusChip(label: row.status),
-                ],
-                if (trailing != null) ...[const SizedBox(width: 4), trailing!],
                 if (onOpen != null) ...[
                   const SizedBox(width: 4),
                   IconButton.filledTonal(
@@ -265,6 +260,20 @@ class _AdminCompactRecordCard extends StatelessWidget {
                 ],
               ],
             ),
+            if (_adminRowStatusVisible(rpcName, row.status) ||
+                trailing != null) ...[
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  if (_adminRowStatusVisible(rpcName, row.status))
+                    AdminStatusChip(label: row.status),
+                  ?trailing,
+                ],
+              ),
+            ],
             const SizedBox(height: 14),
             Divider(color: colors.borderSoft),
             const SizedBox(height: 10),
@@ -322,13 +331,25 @@ class _CompactValue extends StatelessWidget {
             Icon(icon, size: 18),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                value,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: CollectTypography.weightMedium,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: context.collectColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    value,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: CollectTypography.weightMedium,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -429,7 +450,14 @@ class _AdminDataColumnLabel extends StatelessWidget {
       child: Semantics(
         label: label,
         excludeSemantics: true,
-        child: Icon(icon, size: 18),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18),
+            const SizedBox(width: 6),
+            Text(label),
+          ],
+        ),
       ),
     );
   }
@@ -466,9 +494,7 @@ String _adminDisplayValue(
 }
 
 String _adminFormatCurrency(String value) {
-  final match = RegExp(
-    r'^(RWF|EUR)\s+([0-9,]+(?:\.[0-9]+)?)(\s*=)?$',
-  ).firstMatch(value.trim());
+  final match = RegExp(r'^(RWF)\s+([0-9,]+)(\s*=)?$').firstMatch(value.trim());
   if (match == null) return value;
 
   final currency = match.group(1)!;
@@ -476,9 +502,7 @@ String _adminFormatCurrency(String value) {
   final parsed = double.tryParse(rawAmount);
   if (parsed == null) return value;
 
-  final fixed = currency == 'EUR'
-      ? parsed.toStringAsFixed(2)
-      : parsed.round().toString();
+  final fixed = parsed.round().toString();
   final parts = fixed.split('.');
   final digits = parts.first;
   final grouped = StringBuffer();
@@ -521,22 +545,7 @@ class _RecordCell extends StatelessWidget {
 }
 
 String _date(DateTime? value) {
-  if (value == null) return '—';
-  const months = <String>[
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  return '${value.day} ${months[value.month - 1]} ${value.year}';
+  return adminKigaliDateTime(value);
 }
 
 String _adminRecordTitle(AdminTableRowData row, String rpcName) {

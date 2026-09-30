@@ -1,42 +1,25 @@
-# Collect architecture
+# Collect architecture: Rwanda MoMo scope
 
-Collect prepares and records group contributions through two external rails:
-Rwanda MoMo USSD and diaspora EUR bank/Revolut transfer. It is not a wallet,
-payment processor or custodian.
+Collect is a Rwanda-only group-contribution and record-keeping service. Members use whole Rwandan francs through MTN MoMo or Airtel Money USSD. Collect does not hold funds, collect a MoMo PIN or OTP, or claim that a device-observed SMS independently proves settlement. Historical diaspora and bank-transfer code or records are outside the current product scope and require explicit proof of inactivity before production GO.
 
 ## Member journey
 
-1. WhatsApp verification suggests the profile country and, for Rwanda numbers,
-   the local MoMo provider/number. The member may edit those profile details.
-2. A Rwanda member enters a whole-RWF amount; Supabase creates an exact MoMo
-   intent and Android opens the governed USSD request. The PIN stays in MoMo.
-3. With explicit consent, Android captures only likely incoming MoMo receipts.
-   Edge parsing extracts bounded facts and the database performs the unique
-   member/group allocation and exact-once ledger post.
-4. A diaspora member receives an exact EUR bank-transfer request, approved
-   beneficiary snapshot and reference, then authorises outside Collect in
-   Revolut or a banking app.
-5. Controlled bank evidence creates a candidate; daily statement
-   reconciliation provides finality and posts the balanced journal once.
+1. WhatsApp verification and a completed Rwanda profile establish the member's Collect ID, country `RW`, currency `RWF`, and MoMo provider/number.
+2. An eligible member enters a whole-RWF amount. Supabase creates a pending intent bound to the payer and exact group receiver; Android opens the provider's USSD prompt. The PIN remains with the mobile network.
+3. With explicit consent on an eligible Android receiver device, Collect captures only newly arriving likely MoMo receipt SMS into a protected queue. Authenticated ingestion and deterministic parsing produce candidate evidence.
+4. The server evaluates owner, receiver, payer, amount, transaction ID, time window, replay and ambiguity. A durable acknowledgement may clear only the exact persisted envelope for the current owner.
+5. Financial confirmation and balanced ledger posting require independent provider/statement reconciliation or an explicitly approved constrained finality policy. Until that policy is implemented and proven on the deployed backend, candidate receipt matches remain a production-readiness gap.
 
 ## Runtime surfaces
 
-- Flutter member app and public web: profiles, private/public groups, regional
-  contribution instructions, status, notifications and ledger views.
-- Flutter Admin PWA: Groups and Members plus four normalized financial
-  Operations pages—Payees, Transactions, Reconciliations and Ledgers. The
-  underlying Rwanda parsing/allocation and diaspora maker-checker/statement
-  controls remain rail-specific and auditable.
-- Supabase Postgres: RLS, scoped RPCs, idempotency, reconciliation and ledger.
-- Edge Functions: WhatsApp OTP, authenticated MoMo receipt ingestion/parsing,
-  Play Integrity verification, bank evidence ingestion and notifications.
-- Firebase Cloud Messaging: device notification delivery; no financial finality.
+- Flutter member app and public website: Rwanda profiles, private/public groups, MoMo contribution instructions, truthful pending/unknown status, notifications and ledger views.
+- Flutter Admin PWA: Groups and Members plus MoMo Payees, Transactions, Reconciliations and Ledgers, with scoped roles and audited exception handling.
+- Supabase Postgres: row-level security, scoped RPCs, idempotent evidence and posting transitions, reconciliation and immutable balanced journal.
+- Supabase Edge Functions: WhatsApp OTP, authenticated receipt ingestion/parsing, Play Integrity verification and notifications.
+- Firebase Cloud Messaging: device notification delivery; it does not prove financial finality.
 
-## Security boundaries
+## Security and release boundaries
 
-Android requests `RECEIVE_SMS` only for consented Rwanda MoMo receipt capture;
-it never requests inbox history (`READ_SMS`) or message sending. USSD uses the
-phone permission, and Android-only group creation is bound to Play Integrity.
-Raw SMS stays in a protected device queue until authenticated ingestion and is
-never logged. Bank email ingestion requires a timestamped HMAC. Raw evidence
-reveal is capability-gated, reason-gated and audited.
+Android requests `RECEIVE_SMS` only for consented Rwanda receipt capture; it does not request inbox history (`READ_SMS`) or message sending. USSD uses the phone permission. Group creation on Android is bound to product eligibility and Play Integrity. Raw SMS remains protected until authenticated durable ingestion, and raw-evidence reveal is capability-gated, reason-gated and audited.
+
+Current source, staged SQL, deployed database/function state, physical MTN/Airtel journeys, signed store artifacts, privacy/legal position and accountable approval must be verified against one release candidate. Existing historical bank paths and documentation are not evidence that a bank rail is supported in the Rwanda-only release.

@@ -1,0 +1,566 @@
+{
+  "schema_version": 1,
+  "kind": "historical lint warning inventory",
+  "source_report": "prior-2026-09-29-lint-devDebug.xml",
+  "source_report_sha256": "cb8ddb01f8f777bedaee60dfd1bcb249bb108c0d49161a89c73b195f1319c230",
+  "current_candidate_analysis": false,
+  "warning_count": 40,
+  "counts": {
+    "ScopedStorage": 2,
+    "ApplySharedPref": 10,
+    "UnusedAttribute": 1,
+    "GradleDependency": 1,
+    "ObsoleteSdkInt": 2,
+    "UnusedResources": 1,
+    "IconLauncherShape": 5,
+    "IconLocation": 1,
+    "UseKtx": 17
+  },
+  "warnings": [
+    {
+      "id": "ScopedStorage",
+      "severity": "Warning",
+      "message": "READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.",
+      "locations": [
+        {
+          "line": "18",
+          "column": "23",
+          "path": "android/app/src/main/AndroidManifest.xml"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ScopedStorage",
+      "severity": "Warning",
+      "message": "WRITE_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to write to shared storage, use the `MediaStore.createWriteRequest` intent.",
+      "locations": [
+        {
+          "line": "21",
+          "column": "23",
+          "path": "android/app/src/main/AndroidManifest.xml"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "396",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "66",
+          "column": "71",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "117",
+          "column": "76",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "126",
+          "column": "76",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "182",
+          "column": "86",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "188",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "198",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "203",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "221",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "224",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UnusedAttribute",
+      "severity": "Warning",
+      "message": "Attribute `enableOnBackInvokedCallback` is only used in API level 33 and higher (current min is 24)",
+      "locations": [
+        {
+          "line": "31",
+          "column": "9",
+          "path": "android/app/src/main/AndroidManifest.xml"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "GradleDependency",
+      "severity": "Warning",
+      "message": "A newer version of com.android.tools:desugar_jdk_libs than 2.1.4 is available: 2.1.5",
+      "locations": [
+        {
+          "line": "226",
+          "column": "27",
+          "path": "android/app/build.gradle.kts"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning",
+      "message": "This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable-night`.",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable-night-v21"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning",
+      "message": "This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable`.",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable-v21"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UnusedResources",
+      "severity": "Warning",
+      "message": "The resource `R.drawable.transparent` appears to be unused",
+      "locations": [
+        {
+          "line": "2",
+          "column": "1",
+          "path": "android/app/src/main/res/drawable/transparent.xml"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "IconLocation",
+      "severity": "Warning",
+      "message": "Found bitmap drawable `res/drawable/collect_launcher_icon.png` in densityless folder",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable/collect_launcher_icon.png"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "395",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `String.toUri` instead?",
+      "locations": [
+        {
+          "line": "437",
+          "column": "23",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "579",
+          "column": "20",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "66",
+          "column": "17",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "114",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "123",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "129",
+          "column": "22",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "150",
+          "column": "9",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "160",
+          "column": "9",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "172",
+          "column": "26",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "182",
+          "column": "21",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "188",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "198",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "203",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "210",
+          "column": "16",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "221",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "224",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+        }
+      ],
+      "current_source_verified": false,
+      "disposition": "pending current-source/native-release review"
+    }
+  ],
+  "scope": "Prior2026-09-29 development lint locations only; current sources and release variant require fresh analysis."
+}

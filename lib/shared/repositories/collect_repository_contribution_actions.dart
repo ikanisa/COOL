@@ -196,7 +196,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
 
     if (supabase != null && supabase.auth.currentUser != null) {
       await supabase.rpc<void>(
-        'update_bank_transfer_group_profile',
+        'update_rwanda_momo_group_profile',
         params: {
           'p_collection_id': collectionId,
           'p_group_name': cleanTitle,
@@ -283,22 +283,14 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       }
     }
     if (supabase != null && supabase.auth.currentUser != null) {
-      final response = contributionRail == 'rwanda_momo'
-          ? await supabase.rpc<dynamic>(
-              'create_contribution_intent',
-              params: {
-                'collection': draft.collectionId,
-                'p_expected_amount_rwf': draft.amountRwf,
-                'p_sender_phone_hash': HashUtils.phoneHash(profile.momoNumber),
-              },
-            )
-          : await supabase.rpc<dynamic>(
-              'create_bank_transfer_intent',
-              params: {
-                'p_collection_id': draft.collectionId,
-                'p_amount_minor': draft.amountMinor,
-              },
-            );
+      final response = await supabase.rpc<dynamic>(
+        'create_contribution_intent',
+        params: {
+          'collection': draft.collectionId,
+          'p_expected_amount_rwf': draft.amountRwf,
+          'p_sender_phone_hash': HashUtils.phoneHash(profile.momoNumber),
+        },
+      );
       final responseRow = response is List && response.isNotEmpty
           ? response.first
           : response;
@@ -332,41 +324,18 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       throw StateError('Sign in before starting a contribution.');
     }
 
-    final intent = contributionRail == 'rwanda_momo'
-        ? PaymentIntentModel(
-            id: _uuid.v4(),
-            collectionId: collection.id,
-            expectedAmountRwf: draft.amountRwf,
-            rail: 'rwanda_momo',
-            receiverMomoNumber: collection.receiverMomoNumber ?? '',
-            receiverMomoLabel: collection.receiverDisplayLabel,
-            momoNetwork: collection.receiverNetwork,
-            senderPhoneHash: HashUtils.phoneHash(profile.momoNumber),
-            currency: 'RWF',
-            status: 'pending',
-            createdAt: DateTime.now(),
-            expiresAt: DateTime.now().add(const Duration(hours: 24)),
-          )
-        : PaymentIntentModel(
-            id: _uuid.v4(),
-            collectionId: collection.id,
-            expectedAmountMinor: draft.amountMinor,
-            transferReference:
-                'COL-${_uuid.v4().replaceAll('-', '').substring(0, 10).toUpperCase()}',
-            destination: const BankTransferDestination(
-              id: 'fixture-bank',
-              beneficiaryName: 'IKANISA Collect',
-              iban: 'DE89370400440532013000',
-              ibanMasked: 'DE89••••3000',
-              bic: 'COBADEFFXXX',
-              bankName: 'Collect Bank',
-              status: 'active',
-              enabled: true,
-            ),
-            status: 'awaiting_transfer',
-            createdAt: DateTime.now(),
-            expiresAt: DateTime.now().add(const Duration(hours: 48)),
-          );
+    final intent = PaymentIntentModel(
+      id: _uuid.v4(),
+      collectionId: collection.id,
+      expectedAmountRwf: draft.amountRwf,
+      receiverMomoNumber: collection.receiverMomoNumber ?? '',
+      receiverMomoLabel: collection.receiverDisplayLabel,
+      momoNetwork: collection.receiverNetwork,
+      senderPhoneHash: HashUtils.phoneHash(profile.momoNumber),
+      status: 'pending',
+      createdAt: DateTime.now(),
+      expiresAt: DateTime.now().add(const Duration(hours: 24)),
+    );
     state = state.copyWith(
       paymentIntents: [...state.paymentIntents, intent],
       collections: [
@@ -380,6 +349,8 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     return intent;
   }
 
+  // Preserve the public wrapper for existing direct callers. A no-op is never
+  // success: all successful returns are backed by a validated durable receipt.
   Future<void> ingestBankNotificationSms(
     String body, {
     String? clientEnvelopeId,
@@ -387,154 +358,166 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     String? receivedAtDevice,
     bool refreshAfterIngest = true,
   }) async {
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
-      final profile = state.currentProfile;
-      if (profile?.isRwanda != true) return;
-      final user = supabase.auth.currentUser!;
-      final cleanBody = body.trim();
-      final cleanSender = rawSender.trim();
-      final envelopeId = clientEnvelopeId ?? _uuid.v4();
-      final parsedReceivedAt = DateTime.tryParse(
-        receivedAtDevice?.trim() ?? '',
-      );
-      final cleanReceivedAt = parsedReceivedAt == null
-          ? null
-          : receivedAtDevice!.trim();
-      final receiverHash = HashUtils.phoneHash(profile!.momoNumber);
-      await supabase.rpc<void>(
-        'record_sms_access_consent',
-        params: {
-          'enabled': true,
-          'momo_number_hash': receiverHash,
-          'build_channel': 'android_sms_ingest_attested',
-          'device_label': 'flutter_android_play_integrity',
-        },
-      );
-      final nonce = _uuid.v4();
-      const integrity = PlayIntegrityService();
-      final requestHash = integrity.buildSmsIngestionRequestHash(
-        subjectId: user.id,
-        nonce: nonce,
-        receiverMomoNumberHash: receiverHash,
-        clientEnvelopeId: envelopeId,
-        rawSender: cleanSender,
-        rawBody: cleanBody,
-        receivedAtDevice: cleanReceivedAt,
-      );
-      final token = await integrity.requestStandardToken(
-        requestHash: requestHash,
-      );
-      if (token == null || token.isEmpty) {
-        throw StateError(
-          'Install the approved Android build to verify MoMo receipt SMS.',
-        );
-      }
-      final verdict = await integrity.verifySmsWithServer(
-        supabase: supabase,
-        requestHash: requestHash,
-        integrityToken: token,
-        subjectId: user.id,
-        nonce: nonce,
-        receiverMomoNumberHash: receiverHash,
-        clientEnvelopeId: envelopeId,
-        rawSender: cleanSender,
-        rawBody: cleanBody,
-        receivedAtDevice: cleanReceivedAt,
-      );
-      if (verdict?.hasUsableNativeCapability != true) {
-        throw StateError('Android receipt verification did not pass.');
-      }
-      await supabase.functions.invoke(
-        'ingest-payment-sms',
-        body: {
-          'native_capability': verdict!.nativeCapability,
-          'client_envelope_id': envelopeId,
-          'raw_sender': cleanSender,
-          'raw_body': cleanBody,
-          'receiver_momo_number': profile.momoNumber,
-          'received_at_device': cleanReceivedAt,
-        },
-      );
-      if (refreshAfterIngest) await loadInitial();
+    final owner = state.currentProfile?.id;
+    if (owner == null) throw StateError('Sign in before sending a receipt.');
+    await _acceptSmsReceipt(
+      body,
+      expectedOwner: owner,
+      clientEnvelopeId: clientEnvelopeId ?? _uuid.v4(),
+      rawSender: rawSender,
+      receivedAtDevice: receivedAtDevice,
+    );
+    if (refreshAfterIngest) await loadInitial();
+  }
+
+  void _requireSmsOwner(String owner, SupabaseClient client) {
+    if (!mounted ||
+        !identical(client, _supabase) ||
+        client.auth.currentUser?.id != owner ||
+        state.currentProfile?.id != owner ||
+        state.currentProfile?.isRwanda != true) {
+      throw StateError('Account changed. Receipt remains queued.');
     }
   }
 
-  Future<BankTransferDestination> getBankTransferDestination() async {
-    final supabase = _supabase;
-    if (supabase != null) {
-      if (supabase.auth.currentUser == null) {
-        throw StateError('Sign in to load approved bank details.');
+  Future<DurableSmsReceipt> _acceptSmsReceipt(
+    String body, {
+    required String expectedOwner,
+    required String clientEnvelopeId,
+    required String rawSender,
+    required String? receivedAtDevice,
+  }) async {
+    final client = _supabase;
+    if (client == null) throw StateError('Connect before sending a receipt.');
+    _requireSmsOwner(expectedOwner, client);
+    if (body.trim().isEmpty) throw const FormatException('Receipt is empty.');
+    final profile = state.currentProfile!;
+    final momoNumber = profile.momoNumber;
+    void checkOwner() {
+      _requireSmsOwner(expectedOwner, client);
+      if (state.currentProfile?.momoNumber != momoNumber) {
+        throw StateError('Receiving account changed. Receipt remains queued.');
       }
-      final response = await supabase.rpc<dynamic>(
-        'get_bank_transfer_destination',
-      );
-      return BankTransferDestination.fromJson(
-        Map<String, dynamic>.from(response as Map),
-      );
     }
-    if (!_allowLocalWrites) {
-      throw StateError('Connect to load approved bank details.');
+
+    final status = await _smsAccessChannel.status();
+    checkOwner();
+    if (!status.enabled || !status.granted) {
+      throw StateError('Receipt access unavailable. Receipt remains queued.');
     }
-    return const BankTransferDestination(
-      id: 'fixture-bank',
-      beneficiaryName: 'IKANISA Collect',
-      iban: 'DE89370400440532013000',
-      ibanMasked: 'DE89••••3000',
-      bic: 'COBADEFFXXX',
-      bankName: 'Collect Bank',
-      status: 'active',
-      enabled: true,
+    final sender = rawSender.trim();
+    final receiverHash = HashUtils.phoneHash(momoNumber);
+    await client.rpc<void>(
+      'record_sms_access_consent',
+      params: {
+        'enabled': true,
+        'momo_number_hash': receiverHash,
+        'build_channel': 'android_sms_ingest_attested',
+        'device_label': 'flutter_android_play_integrity',
+      },
+    );
+    checkOwner();
+    final nonce = _uuid.v4();
+    const integrity = PlayIntegrityService();
+    final requestHash = integrity.buildSmsIngestionRequestHash(
+      subjectId: expectedOwner,
+      nonce: nonce,
+      receiverMomoNumberHash: receiverHash,
+      clientEnvelopeId: clientEnvelopeId,
+      rawSender: sender,
+      rawBody: body,
+      receivedAtDevice: receivedAtDevice,
+    );
+    final token = await integrity.requestStandardToken(
+      requestHash: requestHash,
+    );
+    checkOwner();
+    if (token == null || token.isEmpty) {
+      throw StateError('Receipt verification is unavailable.');
+    }
+    final verdict = await integrity.verifySmsWithServer(
+      supabase: client,
+      requestHash: requestHash,
+      integrityToken: token,
+      subjectId: expectedOwner,
+      nonce: nonce,
+      receiverMomoNumberHash: receiverHash,
+      clientEnvelopeId: clientEnvelopeId,
+      rawSender: sender,
+      rawBody: body,
+      receivedAtDevice: receivedAtDevice,
+    );
+    checkOwner();
+    if (verdict?.hasUsableNativeCapability != true) {
+      throw StateError('Receipt verification did not pass.');
+    }
+    final response = await client.functions.invoke(
+      'ingest-payment-sms',
+      body: {
+        'native_capability': verdict!.nativeCapability,
+        'client_envelope_id': clientEnvelopeId,
+        'raw_sender': sender,
+        'raw_body': body,
+        'receiver_momo_number': momoNumber,
+        'received_at_device': receivedAtDevice,
+      },
+    );
+    checkOwner();
+    if (response.status < 200 || response.status >= 300) {
+      throw StateError('Receipt is not acknowledged. Try again.');
+    }
+    return DurableSmsReceipt.decode(
+      response.data,
+      expectedOwner: expectedOwner,
+      expectedEnvelope: clientEnvelopeId,
+      rawBody: body,
     );
   }
 
-  Future<void> markBankTransferHandoffOpened(String intentId) async {
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase.rpc<void>(
-        'mark_bank_transfer_handoff_opened',
-        params: {'p_intent_id': intentId},
-      );
-      await loadInitial();
-      return;
-    }
-    final intents = [
-      for (final intent in state.paymentIntents)
-        if (intent.id == intentId)
-          PaymentIntentModel(
-            id: intent.id,
-            collectionId: intent.collectionId,
-            expectedAmountMinor: intent.expectedAmountMinor,
-            transferReference: intent.transferReference,
-            destination: intent.destination,
-            currency: intent.currency,
-            status: 'handoff_opened',
-            createdAt: intent.createdAt,
-            expiresAt: intent.expiresAt,
-          )
-        else
-          intent,
-    ];
-    state = state.copyWith(paymentIntents: intents);
-  }
-
-  Future<bool> setSmsAccess(bool enabled) async {
+  Future<bool> setSmsAccess(bool enabled, {String? expectedOwnerUserId}) async {
     final profile = state.currentProfile;
+    final supabase = _supabase;
+    final owner = profile?.id;
+    void requireCurrentOwner() {
+      if (owner == null ||
+          (supabase != null && supabase.auth.currentUser?.id != owner) ||
+          state.currentProfile?.id != owner ||
+          (expectedOwnerUserId != null && expectedOwnerUserId != owner)) {
+        throw StateError('SMS access account changed. Try again.');
+      }
+    }
+
     if (enabled && (profile == null || !profile.isRwanda)) {
       throw StateError(
         'MoMo receipt SMS access is available only for Rwanda profiles.',
       );
     }
-    final supabase = _supabase;
+    requireCurrentOwner();
     final granted = await _smsAccessChannel.setEnabled(
       enabled,
-      ownerUserId: profile?.id,
+      ownerUserId: owner,
     );
+    if ((supabase != null && supabase.auth.currentUser?.id != owner) ||
+        state.currentProfile?.id != owner) {
+      await _smsAccessChannel.suspendUnlessOwner(
+        supabase?.auth.currentUser?.id,
+      );
+      throw StateError('SMS access account changed. Try again.');
+    }
+    if (!enabled && !granted) {
+      final nativeStatus = await _smsAccessChannel.status();
+      if ((SmsAccessChannel.requiresNativeBridge &&
+              !nativeStatus.bridgeAvailable) ||
+          nativeStatus.consentEnabled) {
+        throw StateError('SMS capture could not be stopped on this device.');
+      }
+    }
     final consentEnabled = enabled && granted;
     try {
       if (supabase != null &&
           supabase.auth.currentUser != null &&
           profile != null) {
+        requireCurrentOwner();
         await supabase.rpc<void>(
           'record_sms_access_consent',
           params: {
@@ -546,12 +529,15 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
             'device_label': 'flutter_app',
           },
         );
+        requireCurrentOwner();
       } else if (enabled) {
         throw StateError('An authenticated Rwanda session is required.');
       }
     } catch (_) {
       if (enabled) {
-        await _smsAccessChannel.setEnabled(false, ownerUserId: profile?.id);
+        await _smsAccessChannel.suspendUnlessOwner(
+          supabase?.auth.currentUser?.id,
+        );
       }
       state = state.copyWith(
         smsAccessEnabled: false,
@@ -571,6 +557,8 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     if (nativeStatus.supported &&
         nativeStatus.declared &&
         !nativeStatus.enabled &&
+        !nativeStatus.queueUnavailable &&
+        !nativeStatus.queueOverflowed &&
         state.currentProfile != null &&
         _supabase?.auth.currentUser != null) {
       await setSmsAccess(false);
@@ -582,6 +570,10 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
           nativeStatus.permanentlyDenied ||
           (nativeStatus.requestedBefore && !nativeStatus.granted),
       smsQueueOverflowed: nativeStatus.queueOverflowed,
+      smsSyncNeedsAttention:
+          state.smsSyncNeedsAttention ||
+          nativeStatus.queueUnavailable ||
+          nativeStatus.queueOverflowed,
     );
     return nativeStatus;
   }
@@ -600,12 +592,28 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
   }
 
   Future<int> _runPendingSmsAccessSync() async {
+    final owner = state.currentProfile?.id;
     try {
       final ingested = await _drainPendingSmsAccess();
-      state = state.copyWith(smsSyncNeedsAttention: false);
+      final nativeStatus = await _smsAccessChannel.status();
+      if (mounted &&
+          state.currentProfile?.id == owner &&
+          _supabase?.auth.currentUser?.id == owner) {
+        state = state.copyWith(
+          smsSyncNeedsAttention:
+              nativeStatus.queueUnavailable ||
+              nativeStatus.queueOverflowed ||
+              (state.smsSyncNeedsAttention &&
+                  (!nativeStatus.enabled || !nativeStatus.granted)),
+        );
+      }
       return ingested;
     } catch (_) {
-      state = state.copyWith(smsSyncNeedsAttention: true);
+      if (mounted &&
+          state.currentProfile?.id == owner &&
+          _supabase?.auth.currentUser?.id == owner) {
+        state = state.copyWith(smsSyncNeedsAttention: true);
+      }
       rethrow;
     }
   }
@@ -621,35 +629,45 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
 
   Future<int> _syncPendingSmsAccessPass() async {
     final profile = state.currentProfile;
-    if (profile == null) return 0;
-    final status = await refreshSmsAccessStatus();
-    if (!status.enabled) return 0;
-    final pending = await _smsAccessChannel.readPendingSms();
+    final client = _supabase;
+    if (profile == null || client == null) return 0;
+    final owner = profile.id;
+    _requireSmsOwner(owner, client);
+    final status = await _smsAccessChannel.status();
+    _requireSmsOwner(owner, client);
+    if (!status.enabled || !status.granted) return 0;
+    final pending = await _smsAccessChannel.readPendingSms(ownerUserId: owner);
+    _requireSmsOwner(owner, client);
     var ingested = 0;
     for (final item in pending) {
-      if (item.rawBody.trim().isEmpty) continue;
-      if (item.ownerUserId != profile.id) {
-        await _smsAccessChannel.setEnabled(false, ownerUserId: profile.id);
-        throw StateError(
-          'Queued SMS belongs to a different account and was quarantined.',
-        );
+      _requireSmsOwner(owner, client);
+      if (item.ownerUserId != owner || item.rawBody.trim().isEmpty) {
+        // No disableAndClear call: an account mismatch is not consent to destroy evidence.
+        throw StateError('Queued receipt ownership needs review.');
       }
-      await ingestBankNotificationSms(
+      final receipt = await _acceptSmsReceipt(
         item.rawBody,
+        expectedOwner: owner,
         clientEnvelopeId: item.id,
         rawSender: item.rawSender,
         receivedAtDevice: item.receivedAtDevice.trim().isEmpty
             ? null
             : item.receivedAtDevice,
-        refreshAfterIngest: false,
       );
-      final acknowledged = await _smsAccessChannel.acknowledgePendingSms([
-        item.id,
-      ]);
-      if (!acknowledged) break;
+      _requireSmsOwner(owner, client);
+      final acknowledged = await _smsAccessChannel.acknowledgeDurableReceipt(
+        receipt,
+      );
+      _requireSmsOwner(owner, client);
+      if (!acknowledged) {
+        throw StateError(
+          'Receipt remains queued until acknowledgement can be verified.',
+        );
+      }
       ingested += 1;
     }
-    if (ingested > 0 && _supabase?.auth.currentUser != null) {
+    if (ingested > 0) {
+      _requireSmsOwner(owner, client);
       await loadInitial(syncPendingSms: false);
     }
     return ingested;

@@ -1,0 +1,97 @@
+{
+  "recorded_at_utc": "2026-09-29T23:24:43.787259+00:00",
+  "scope": "Source-only candidate143; no database/provider/hosted execution",
+  "status": "source_checks_passed_database_acceptance_pending",
+  "ruby_source_tests": 9,
+  "ruby_assertions": 114,
+  "python_verifier_tests": 9,
+  "sql_uat_prepared_assertions": 32,
+  "sql_uat_executed": false,
+  "migration_applied": false,
+  "source_copies_sha256_verified": true,
+  "source_unchanged_during_checks": true,
+  "commands": [
+    {
+      "name": "ruby-version",
+      "command": [
+        "ruby",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "logs/ruby-version.txt"
+    },
+    {
+      "name": "python-version",
+      "command": [
+        "python3",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "logs/python-version.txt"
+    },
+    {
+      "name": "source-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+        "--seed",
+        "143"
+      ],
+      "exit_code": 0,
+      "log": "logs/source-tests.txt"
+    },
+    {
+      "name": "ruby-syntax",
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb"
+      ],
+      "exit_code": 0,
+      "log": "logs/ruby-syntax.txt"
+    },
+    {
+      "name": "snapshot-verifier-tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "verify_legacy_bank_scheduler_upgrade_test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "logs/snapshot-verifier-tests.txt"
+    },
+    {
+      "name": "migration-source-gate",
+      "command": [
+        "bash",
+        "scripts/migrations/validate_supabase_migrations.sh"
+      ],
+      "exit_code": 0,
+      "log": "logs/migration-source-gate.txt"
+    },
+    {
+      "name": "scoped-whitespace",
+      "command": [
+        "python3",
+        "-c",
+        "from pathlib import Path\nimport sys\nfiles=sys.argv[1:]\nissues=[]\nfor file in files:\n text=Path(file).read_text()\n issues.extend(f'{file}:{n}: trailing whitespace' for n,line in enumerate(text.splitlines(),1) if line.rstrip()!=line)\n if not text.endswith('\\n'): issues.append(f'{file}: missing final newline')\nprint('\\n'.join(issues) if issues else f'Passed whitespace checks on {len(files)} files including untracked source')\nraise SystemExit(bool(issues))",
+        "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+        "scripts/tests/legacy_bank_scheduler_retirement_uat.sql",
+        "scripts/tests/legacy_bank_scheduler_snapshot.sql",
+        "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+        "scripts/tests/verify_legacy_bank_scheduler_upgrade.py",
+        "scripts/tests/verify_legacy_bank_scheduler_upgrade_test.py"
+      ],
+      "exit_code": 0,
+      "log": "logs/scoped-whitespace.txt"
+    }
+  ],
+  "independent_review": "independent-review.json",
+  "canonical_command_sha256": "58ca13bd6915f92b194de581f89815718ac50a5d702055a4df3f07c0486bd597"
+}

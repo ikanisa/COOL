@@ -1,0 +1,29 @@
+{
+  "sources": {
+    "android/app/src/main/res/drawable-v21/launch_background.xml": {
+      "sha256": "776c1a7b5949571e5fb70e7a40712f87ea7a8a9ce09f3c2003e8273b37ddeee1",
+      "bytes": 371
+    },
+    "android/app/src/main/res/drawable-night-v21/launch_background.xml": {
+      "sha256": "776c1a7b5949571e5fb70e7a40712f87ea7a8a9ce09f3c2003e8273b37ddeee1",
+      "bytes": 371
+    },
+    "android/app/src/main/res/drawable/transparent.xml": {
+      "sha256": "3a889e009277a61051ae4243cbc546432dd2dfb91ba90f1f5876b9c19bcca2e5",
+      "bytes": 198
+    },
+    "android/app/src/main/AndroidManifest.xml": {
+      "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e",
+      "bytes": 5323
+    }
+  },
+  "png_sha256": {
+    "android/app/src/main/res/mipmap-mdpi/ic_launcher.png": "a9c2c7aac385f8ee3d90c6ffaaf50c3247bb29f62be4b8ad804f7adf37657480",
+    "android/app/src/main/res/mipmap-hdpi/ic_launcher.png": "b4b0e16ece8b2956d6d6cec9a50b1a77f03a36e272c07bb07013ce57225454dc",
+    "android/app/src/main/res/drawable/collect_launcher_icon.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265",
+    "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png": "c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb",
+    "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": "e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33"
+  },
+  "scope": "Exactly three reviewed redundant/unreferenced resources; optional square roundIcon declaration removal"
+}

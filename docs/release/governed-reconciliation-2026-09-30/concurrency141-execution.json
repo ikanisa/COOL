@@ -1,0 +1,8 @@
+{
+  "captured_at_utc": "2026-09-29T22:43:39.433296+00:00",
+  "script": "scripts/tests/reconciliation_workflow_concurrency_uat.rb",
+  "script_sha256": "807f85da100d5335b4b40798fc17e2abce6b884445b937baf99c13be58e1bc6a",
+  "exit_code": 0,
+  "baseline_backup": ".cache/notification-sessions-20260930/pre141-acceptance.dump",
+  "baseline_backup_sha256": "96c7ad289e1a2c7d6bf6a4a2e83ea34d781b27f2aee56e74e69ee4224bdafbe4"
+}

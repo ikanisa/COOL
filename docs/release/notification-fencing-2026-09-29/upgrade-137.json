@@ -1,0 +1,21 @@
+{
+  "captured_at": "2026-09-29T21:35:26Z",
+  "container": "supabase_db_collect_fin_concurrency_qa_20260929",
+  "target_provenance": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "workdir": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/financial-concurrency-20260929"
+  },
+  "mode": "bounded local continuation after 20260929130000; no customer data or provider calls",
+  "server_version": "17.6",
+  "cron_launch_active_jobs": false,
+  "synthetic_bootstrap_owner": false,
+  "migrations": [
+    {
+      "migration": "20260929140000_notification_delivery_fencing.sql",
+      "sha256": "abbd69486171002e0ce6bcdc7046e0170e6412ec03b022c1127ef31cd6572275",
+      "status": "pass",
+      "seconds": 0.068
+    }
+  ],
+  "status": "pass"
+}

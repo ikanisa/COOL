@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import '../../app/env/app_env.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/supabase/auth_otp_gateway.dart';
-import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import 'widgets/auth_screen_widgets.dart';
@@ -29,14 +27,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _authActionDockKey = GlobalKey();
   bool _shortViewportRevealPending = false;
   final _errorNoticeKey = GlobalKey();
-  var _selectedCountry = Country.parse('RW');
   bool _otpSent = false;
   bool _submitting = false;
   Timer? _resendTimer;
   int _resendRemaining = 0;
   String? _error;
 
-  String get _countryCode => '+${_selectedCountry.phoneCode}';
+  String get _countryCode => '+250';
 
   String get _phoneForAuth {
     final raw = _phone.text.trim();
@@ -49,26 +46,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   String? get _normalizedPhoneOrNull {
     try {
-      return PhoneNormalizer.normalizeForCountry(
-        input: _phone.text,
-        phoneCode: _selectedCountry.phoneCode,
-        exampleNationalNumber: _selectedCountry.example,
-      );
+      return PhoneNormalizer.normalizeRwanda(_phone.text);
     } on FormatException {
       return null;
     }
   }
 
-  String get _profileCountryCode {
-    final raw = _phone.text.trim();
-    if (raw.startsWith('+') || raw.startsWith('00')) {
-      return CollectProfileCountryRules.inferCountryCodeFromPhone(
-        _phoneForAuth,
-        fallback: _selectedCountry.countryCode,
-      );
-    }
-    return _selectedCountry.countryCode;
-  }
+  String get _profileCountryCode => 'RW';
 
   bool get _captchaReady {
     final env = ref.read(appEnvProvider);
@@ -157,7 +141,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         errorKey: _errorNoticeKey,
                         resendRemaining: _resendRemaining,
                         countryCode: _countryCode,
-                        onCountryTap: _showCountryPicker,
                         onPhoneChanged: () => setState(() => _error = null),
                         onOtpChanged: () => setState(() => _error = null),
                         onCaptchaChanged: () => setState(() => _error = null),
@@ -228,7 +211,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       final phone = _normalizedPhoneOrNull;
       if (phone == null) {
         throw const FormatException(
-          'Enter the complete WhatsApp phone number for the selected country.',
+          'Enter a valid Rwanda WhatsApp phone number.',
         );
       }
       final otpGateway = ref.read(authOtpGatewayProvider);
@@ -314,7 +297,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       final phone = _normalizedPhoneOrNull;
       if (phone == null) {
         throw const FormatException(
-          'Enter the complete WhatsApp phone number for the selected country.',
+          'Enter a valid Rwanda WhatsApp phone number.',
         );
       }
       final captchaToken = env.authCaptchaEnabled
@@ -405,15 +388,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       });
       WidgetsBinding.instance.scheduleFrame();
     }
-  }
-
-  Future<void> _showCountryPicker() async {
-    final country = await showCollectCountryPicker(context);
-    if (!mounted || country == null) return;
-    setState(() {
-      _selectedCountry = country;
-      _error = null;
-    });
   }
 
   void _startResendCooldown() {

@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "xcode-version",
+      "command": [
+        "xcrun",
+        "xcodebuild",
+        "-version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "694b44731d0b415c5b11d844151e466d7f5e200a95627efda377f232f1a6ab77",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ios-sdk",
+      "command": [
+        "xcrun",
+        "--sdk",
+        "iphoneos",
+        "--show-sdk-version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "7b01c549928398a045692f24bcac7803b348524cdd76f21265b02984b2ba556a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "swift-version",
+      "command": [
+        "xcrun",
+        "swift",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "c469aee809408e0f8f981436d9afb0cf3deb47b1647747357cf47aa1d7f9f922",
+      "stderr_sha256": "bbc8b176d3c74d4c5a7fd00b40280f98168e116d5272273bfe8e71407625540e"
+    },
+    {
+      "name": "pods-version",
+      "command": [
+        "/Users/jeanbosco/.local/bin/pod",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "c6e6b7a91d2e4a7ad8d6967aca6d10ea98daf4d1927ebf7a7e2f3f23742dcf4b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual installed local Xcode/iOS SDK/Swift/CocoaPods discovery only; no build or device operation",
+  "developer_dir": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer"
+}

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'app/theme/app_theme.dart';
+import 'features/landing/public_marketing_theme.dart';
 import 'app/theme/collect_colors.dart';
 import 'app/theme/collect_typography.dart';
 import 'features/landing/collect_landing_page.dart';
@@ -45,8 +45,8 @@ class CollectPublicWebsiteApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Collect by IKANISA',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      theme: CollectPublicMarketingTheme.light(),
+      themeMode: ThemeMode.light,
       routerConfig: router,
     );
   }
@@ -92,7 +92,7 @@ class _PublicNotFoundPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: CollectColors.referenceChromeBlack,
-                    fontWeight: CollectTypography.weightBold,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 12),

@@ -1,0 +1,409 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../app/env/app_env.dart';
+import '../../core/security/phone_normalizer.dart';
+import '../../core/supabase/auth_otp_gateway.dart';
+import '../../shared/repositories/collect_repository.dart';
+import '../../shared/widgets/collect_components.dart';
+import 'widgets/auth_screen_widgets.dart';
+
+class AuthScreen extends ConsumerStatefulWidget {
+  const AuthScreen({super.key});
+
+  @override
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends ConsumerState<AuthScreen> {
+  final _phone = TextEditingController();
+  final _otp = TextEditingController();
+  final _captchaToken = TextEditingController();
+  final _scrollController = ScrollController();
+  final _formViewportController = ScrollController();
+  final _authActionDockKey = GlobalKey();
+  bool _shortViewportRevealPending = false;
+  final _errorNoticeKey = GlobalKey();
+  bool _otpSent = false;
+  bool _submitting = false;
+  Timer? _resendTimer;
+  int _resendRemaining = 0;
+  String? _error;
+
+  String get _countryCode => '+250';
+
+  String get _phoneForAuth {
+    final raw = _phone.text.trim();
+    if (raw.startsWith('+') || raw.startsWith('00')) return raw;
+    final digits = raw
+        .replaceAll(RegExp(r'\D'), '')
+        .replaceFirst(RegExp(r'^0+'), '');
+    return '$_countryCode$digits';
+  }
+
+  String? get _normalizedPhoneOrNull {
+    try {
+      return PhoneNormalizer.normalizeRwanda(_phone.text);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  String get _profileCountryCode => 'RW';
+
+  bool get _captchaReady {
+    final env = ref.read(appEnvProvider);
+    return !env.authCaptchaEnabled || _captchaToken.text.trim().isNotEmpty;
+  }
+
+  bool get _otpComplete =>
+      _otp.text.replaceAll(RegExp(r'\D'), '').length == AuthOtpEntry.digitCount;
+
+  bool get _canSubmit {
+    if (_submitting || !_captchaReady || _normalizedPhoneOrNull == null) {
+      return false;
+    }
+    return !_otpSent || _otpComplete;
+  }
+
+  bool get _canResend =>
+      _otpSent &&
+      !_submitting &&
+      _resendRemaining == 0 &&
+      _captchaReady &&
+      _normalizedPhoneOrNull != null;
+
+  @override
+  void dispose() {
+    _phone.dispose();
+    _otp.dispose();
+    _captchaToken.dispose();
+    _scrollController.dispose();
+    _formViewportController.dispose();
+    _resendTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final env = ref.watch(appEnvProvider);
+    final mediaQuery = MediaQuery.of(context);
+    final textScale = mediaQuery.textScaler.scale(1).clamp(1.0, 1.5);
+    final availableHeight =
+        mediaQuery.size.height - mediaQuery.viewInsets.bottom;
+    if (availableHeight < 320 * textScale) {
+      _scheduleShortViewportReveal();
+    }
+    final displayPhone = _maskedPhoneForDisplay(
+      _normalizedPhoneOrNull ?? _phoneForAuth,
+    );
+    return Scaffold(
+      backgroundColor: context.collectColors.authCanvas,
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.collectColors.authCanvas,
+          gradient: CollectRuntimeTokens.overviewBackdrop(
+            context.collectColors,
+            Theme.of(context).brightness,
+            CollectBackdropTone.authentication,
+            highContrast: MediaQuery.highContrastOf(context),
+          ),
+        ),
+        child: SafeArea(
+          child: CollectFormViewport(
+            controller: _formViewportController,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.fromLTRB(
+                      CollectSpacing.x5,
+                      CollectSpacing.x3,
+                      CollectSpacing.x5,
+                      CollectSpacing.x5,
+                    ),
+                    children: [
+                      const AuthIdentityHeader(),
+                      CollectSpacing.gap24,
+                      AuthHeadline(otpSent: _otpSent, phone: displayPhone),
+                      CollectSpacing.gap24,
+                      AuthInputPanel(
+                        otpSent: _otpSent,
+                        phoneController: _phone,
+                        otpController: _otp,
+                        captchaController: _captchaToken,
+                        env: env,
+                        error: _error,
+                        errorKey: _errorNoticeKey,
+                        resendRemaining: _resendRemaining,
+                        countryCode: _countryCode,
+                        onPhoneChanged: () => setState(() => _error = null),
+                        onOtpChanged: () => setState(() => _error = null),
+                        onCaptchaChanged: () => setState(() => _error = null),
+                      ),
+                    ],
+                  ),
+                ),
+                AuthActionDock(
+                  key: _authActionDockKey,
+                  otpSent: _otpSent,
+                  submitting: _submitting,
+                  resendRemaining: _resendRemaining,
+                  canSubmit: _canSubmit,
+                  canResend: _canResend,
+                  onSubmit: _canSubmit ? () => _submit(env) : null,
+                  onAnotherNumber: _submitting
+                      ? null
+                      : () => setState(() {
+                          _resendTimer?.cancel();
+                          _otpSent = false;
+                          _otp.clear();
+                          _resendRemaining = 0;
+                          _error = null;
+                        }),
+                  onResend: _canResend ? () => _resendCode(env) : null,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _scheduleShortViewportReveal() {
+    if (_shortViewportRevealPending) return;
+    _shortViewportRevealPending = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _shortViewportRevealPending = false;
+      if (!mounted) return;
+      final actionContext = _authActionDockKey.currentContext;
+      if (actionContext != null) {
+        // The dock normally sits below the nested form list. When the native
+        // keyboard leaves a short viewport, reveal the dock through the outer
+        // form scroller while retaining the focused field and its draft.
+        unawaited(
+          Scrollable.ensureVisible(
+            actionContext,
+            alignment: 1,
+            duration: Duration.zero,
+          ),
+        );
+        return;
+      }
+      if (_formViewportController.hasClients) {
+        final position = _formViewportController.position;
+        if (position.pixels < position.maxScrollExtent) {
+          _formViewportController.jumpTo(position.maxScrollExtent);
+        }
+      }
+    });
+  }
+
+  Future<void> _submit(AppEnv env) async {
+    if (_submitting) return;
+    setState(() => _error = null);
+    try {
+      final phone = _normalizedPhoneOrNull;
+      if (phone == null) {
+        throw const FormatException(
+          'Enter a valid Rwanda WhatsApp phone number.',
+        );
+      }
+      final otpGateway = ref.read(authOtpGatewayProvider);
+      final captchaToken = env.authCaptchaEnabled
+          ? _captchaToken.text.trim()
+          : '';
+      if (env.authCaptchaEnabled && captchaToken.isEmpty) {
+        throw const FormatException('Complete CAPTCHA verification first.');
+      }
+      if (!_otpSent) {
+        FocusManager.instance.primaryFocus?.unfocus();
+        final confirmed = await _confirmPhoneNumber(phone);
+        if (!mounted || !confirmed) return;
+        setState(() => _submitting = true);
+        await _sendOtp(otpGateway, phone, captchaToken);
+        if (!mounted) return;
+        setState(() {
+          _otpSent = true;
+          _submitting = false;
+        });
+        _startResendCooldown();
+        return;
+      }
+      setState(() => _submitting = true);
+      if (otpGateway == null) {
+        throw StateError('WhatsApp sign-in is unavailable.');
+      }
+      await otpGateway.verifyWhatsAppOtp(
+        phone: phone,
+        otp: _otp.text,
+        captchaToken: captchaToken.isEmpty ? null : captchaToken,
+      );
+      if (!mounted) return;
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .signInWithOtp(
+            phone: phone,
+            otp: _otp.text,
+            countryCode: _profileCountryCode,
+          );
+      if (!mounted) return;
+      context.go(_safePostAuthTarget(context) ?? '/home');
+    } catch (error) {
+      _showAuthError(error);
+    }
+  }
+
+  String? _safePostAuthTarget(BuildContext context) {
+    final raw = GoRouterState.of(context).uri.queryParameters['next'];
+    if (raw == null || raw.isEmpty) return null;
+    final target = Uri.tryParse(raw);
+    if (target == null ||
+        target.hasScheme ||
+        target.hasAuthority ||
+        !target.path.startsWith('/') ||
+        target.path.startsWith('//') ||
+        target.path == '/' ||
+        target.path == '/auth') {
+      return null;
+    }
+    return target.toString();
+  }
+
+  Future<bool> _confirmPhoneNumber(String phone) async {
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
+      builder: (context) => AuthPhoneConfirmationSheet(phone: phone),
+    );
+    return confirmed ?? false;
+  }
+
+  Future<void> _resendCode(AppEnv env) async {
+    setState(() {
+      _submitting = true;
+      _error = null;
+      _otp.clear();
+    });
+    try {
+      final phone = _normalizedPhoneOrNull;
+      if (phone == null) {
+        throw const FormatException(
+          'Enter a valid Rwanda WhatsApp phone number.',
+        );
+      }
+      final captchaToken = env.authCaptchaEnabled
+          ? _captchaToken.text.trim()
+          : '';
+      if (env.authCaptchaEnabled && captchaToken.isEmpty) {
+        throw const FormatException('Complete CAPTCHA verification first.');
+      }
+      await _sendOtp(ref.read(authOtpGatewayProvider), phone, captchaToken);
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      _startResendCooldown();
+    } catch (error) {
+      _showAuthError(error);
+    }
+  }
+
+  Future<void> _sendOtp(
+    AuthOtpGateway? otpGateway,
+    String phone,
+    String captchaToken,
+  ) async {
+    if (otpGateway == null) {
+      throw StateError('WhatsApp sign-in is unavailable.');
+    }
+    await otpGateway.sendWhatsAppOtp(
+      phone: phone,
+      captchaToken: captchaToken.isEmpty ? null : captchaToken,
+    );
+  }
+
+  String _maskedPhoneForDisplay(String phone) {
+    final digits = phone.replaceAll(RegExp(r'\D'), '');
+    if (digits.length <= 4) return phone;
+    final visible = digits.substring(digits.length - 4);
+    if (phone.startsWith('+250') || digits.startsWith('250')) {
+      return '+250 *** $visible';
+    }
+    return '+*** $visible';
+  }
+
+  String _safeAuthErrorMessage(Object error) {
+    final text = error.toString().toLowerCase();
+    if (text.contains('token has expired') ||
+        text.contains('invalid') ||
+        text.contains('otp')) {
+      return 'That WhatsApp code is invalid or expired. Request a fresh code and try again.';
+    }
+    if (text.contains('network') ||
+        text.contains('socket') ||
+        text.contains('connection')) {
+      return 'Network connection failed. Check your connection and try again.';
+    }
+    if (text.contains('captcha')) {
+      return 'Complete CAPTCHA verification first.';
+    }
+    if (text.contains('unavailable')) {
+      return 'WhatsApp sign-in is unavailable right now. Try again later.';
+    }
+    return 'Sign-in failed. Try again.';
+  }
+
+  void _showAuthError(Object error) {
+    if (!mounted) return;
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _error = _safeAuthErrorMessage(error);
+      _submitting = false;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _revealAuthError();
+    });
+  }
+
+  void _revealAuthError({bool buildOffscreenNotice = true}) {
+    if (!mounted || _error == null || !_scrollController.hasClients) return;
+    final noticeContext = _errorNoticeKey.currentContext;
+    if (noticeContext != null) {
+      // Keep the actual error in view, including when enlarged text puts the
+      // input panel below the heading. The notice is also a semantic live region.
+      unawaited(Scrollable.ensureVisible(noticeContext));
+    } else if (buildOffscreenNotice) {
+      // The lazy form may not have built its final panel yet. Reveal that panel
+      // first, then align the notice using its measured bounds on the next frame.
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _revealAuthError(buildOffscreenNotice: false);
+      });
+      WidgetsBinding.instance.scheduleFrame();
+    }
+  }
+
+  void _startResendCooldown() {
+    _resendTimer?.cancel();
+    setState(() => _resendRemaining = 45);
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      if (_resendRemaining <= 1) {
+        timer.cancel();
+        setState(() => _resendRemaining = 0);
+        return;
+      }
+      setState(() => _resendRemaining -= 1);
+    });
+  }
+}

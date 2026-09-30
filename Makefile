@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Users/jeanbosco/Developer/flutter/bin/flutter
 DART ?= /Users/jeanbosco/Developer/flutter/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json mobile-design-gate mobile-design-contract mobile-design-gate-test review-gallery android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json revolut-parity-source-hygiene revolut-parity-source-hygiene-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -17,9 +17,7 @@ help:
 	@echo "  make admin-pwa-live-gate Validate deployed Admin PWA URL headers and PWA files"
 	@echo "  make admin-pwa-render-smoke Capture rendered desktop/mobile Admin PWA evidence"
 	@echo "  make mobile-route-render-smoke Capture representative mobile route screenshots"
-	@echo "  make mobile-route-artifact-gate Validate the Collect mobile evidence adapter"
-	@echo "  make mobile-design-contract Validate the MOBILE-DESIGN-100 contract"
-	@echo "  make review-gallery Build the local gallery with the revolut-design skill"
+	@echo "  make mobile-route-artifact-gate MOBILE_ROUTE_RENDER_EVIDENCE_DIR='...' Validate a completed mobile route capture"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
 	@echo "  make ios-physical-route-uat ARGS='...' Run exact-device, staging-only physical iPhone route UAT"
 	@echo "  make ios-physical-lifecycle-uat ARGS='...' Run exact-device physical iPhone lifecycle UAT"
@@ -42,7 +40,7 @@ help:
 	@echo "  make record-release-approval ARGS='...' Safely record one signed release approval"
 	@echo "  make release-worktree-review Validate release branch/worktree review status"
 	@echo "  make collect-product-boundary-scan Validate Collect app product-boundary copy"
-	@echo "  make revolut-parity-source-hygiene Validate exclusive Inter, official assets, fixture isolation, product boundaries, and secret hygiene"
+	@echo "  make source-integrity Check asset hashes, fixture isolation, secrets and product boundaries"
 	@echo "  make repo-wide-qa-uat  Run strict repo-wide QA/UAT production-readiness gate"
 	@echo "  make verify            Run format check, analyzer, and tests"
 	@echo "  make release-status    Summarize strict release status without printing secrets"
@@ -243,16 +241,35 @@ collect-product-boundary-scan:
 collect-product-boundary-scan-json:
 	@./scripts/collect_product_boundary_scan.sh --json
 
-revolut-parity-source-hygiene:
-	@./scripts/revolut_parity_source_hygiene_gate.sh
+.PHONY: format-check qa-tooling-test source-integrity source-integrity-json
 
-.PHONY: format-check revolut-parity-evidence-consistency qa-tooling-test
-revolut-parity-evidence-consistency:
-	@ruby scripts/qa/revolut_evidence_consistency.rb
+.PHONY: revolut-design-authority revolut-design-authority-json
+revolut-design-authority:
+	@python3 scripts/qa/revolut_design_authority.py
+
+revolut-design-authority-json:
+	@python3 scripts/qa/revolut_design_authority.py --json
+
+source-integrity:
+	@./scripts/source_integrity_gate.sh
+
+source-integrity-json:
+	@./scripts/source_integrity_gate.sh --json
 
 qa-tooling-test:
+	@python3 scripts/tests/supabase_secret_transport_test.py
+	@python3 scripts/tests/candidate_runner_test.py
+	@python3 scripts/tests/integrated_candidate_runner_test.py
+	@python3 scripts/tests/recovery_list_source_test.py
+	@python3 scripts/tests/group_summary_source_test.py
+	@python3 scripts/tests/payment_decoding_source_test.py
+	@python3 scripts/tests/payment_intent_source_test.py
+	@node scripts/tests/admin_pwa_worker_cache_test.mjs
+	@ruby scripts/tests/admin_pwa_bundle_gate_test.rb
+	@ruby scripts/tests/asset_hygiene_integration_test.rb
 	@ruby scripts/tests/public_static_routes_test.rb
 	@ruby scripts/tests/public_website_links_test.rb
+	@ruby scripts/tests/public_website_ci_gate_test.rb
 	@ruby scripts/tests/public_lighthouse_evidence_test.rb
 	@ruby scripts/tests/public_photography_test.rb
 	@ruby scripts/tests/collect_edge_function_local_gate_test.rb
@@ -262,8 +279,10 @@ qa-tooling-test:
 	@ruby scripts/tests/fullstack_database_sql_test.rb
 	@ruby scripts/tests/fullstack_database_http_test.rb
 	@python3 scripts/tests/run_edge_http_uat_test.py
-	@ruby scripts/tests/revolut_evidence_consistency_test.rb
 	@ruby scripts/tests/repo_wide_qa_uat_test.rb
+	@ruby scripts/tests/mobile_route_artifact_gate_test.rb
+	@ruby scripts/tests/release_go_preflight_test.rb
+	@ruby scripts/tests/release_status_fail_closed_test.rb
 
 .PHONY: cover-catalog-test
 cover-catalog-test:
@@ -278,16 +297,6 @@ edge-http-test:
 	@test -n "$(EDGE_HTTP_EVIDENCE)" || (echo 'Set EDGE_HTTP_EVIDENCE to a new .cache evidence directory'; exit 1)
 	@python3 scripts/qa/run_edge_http_uat.py "$(EDGE_HTTP_EVIDENCE)"
 
-.PHONY: mobile-design-gate mobile-design-contract mobile-design-gate-test
-mobile-design-gate:
-	@ruby scripts/qa/mobile_design_gate.rb
-
-mobile-design-contract:
-	@ruby scripts/qa/mobile_design_gate.rb --check-contract
-
-mobile-design-gate-test:
-	@ruby scripts/tests/mobile_design_gate_test.rb
-
 .PHONY: admin-pwa-lifecycle-qa
 ADMIN_PWA_LIFECYCLE_MODE ?= browser
 admin-pwa-lifecycle-qa:
@@ -297,12 +306,6 @@ admin-pwa-lifecycle-qa:
 	  installed) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" --installed ;; \
 	  *) echo 'ADMIN_PWA_LIFECYCLE_MODE must be browser or installed'; exit 1 ;; \
 	esac
-
-review-gallery:
-	@python3 "$${CODEX_HOME:-$$HOME/.codex}/skills/revolut-design/scripts/build_review_gallery.py" --project-root "$(CURDIR)" --config docs/release/mobile-design/review-gallery-config.json
-
-revolut-parity-source-hygiene-json:
-	@./scripts/revolut_parity_source_hygiene_gate.sh --json
 
 repo-wide-qa-uat:
 	@./scripts/repo_wide_qa_uat.sh

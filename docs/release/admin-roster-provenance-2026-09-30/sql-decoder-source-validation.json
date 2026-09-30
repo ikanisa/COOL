@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "test/admin_roster_sql_receipts_test.dart"
+  ],
+  "exit_code": 0,
+  "source_hashes": {
+    "test/admin_roster_sql_receipts_test.dart": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac",
+    "scripts/tests/roster_import_provenance_receipts_uat.sql": "126e8179af488095d86b44c72deb3a580a6eebdec43fd7f6e52506970f3220e4"
+  },
+  "actual_sql_receipt_execution": "pending root-owned rollback SQL stdout",
+  "database_calls": false,
+  "provider_calls": false
+}

@@ -22,7 +22,7 @@ const _captureKey = ValueKey('profile-editor-capture');
 class _FixtureSmsAccess extends SmsAccessChannel {
   const _FixtureSmsAccess();
   @override
-  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => true;
 }
 
 void main() {
@@ -97,32 +97,19 @@ void main() {
     matching: find.byType(TextField),
   );
 
-  for (final diaspora in [false, true]) {
+  for (final _ in [1]) {
     for (final scale in [1.0, 2.0]) {
       testWidgets(
-        '${diaspora ? 'Diaspora' : 'Rwanda'} profile reaches Save by touch with landscape keyboard at $scale',
+        'Rwanda profile reaches Save by touch with landscape keyboard at $scale',
         (tester) async {
           final repository = await pumpEditor(
             tester,
             size: const Size(844, 390),
             keyboard: 208,
             scale: scale,
-            profile: diaspora
-                ? const CollectProfile(
-                    id: 'diaspora-profile',
-                    publicId: '123456',
-                    whatsappPhone: '+35699123456',
-                    countryCode: 'MT',
-                    currencyCode: 'EUR',
-                    revolutAccount: '000123456789',
-                  )
-                : null,
+            profile: null,
           );
-          final field = input(
-            diaspora
-                ? 'profile_revolut_account_input'
-                : 'profile_momo_number_input',
-          );
+          final field = input('profile_momo_number_input');
           // Build the lazy form field before focusing it. Only the subsequent
           // drag is the behavior under test; it must reach the footer itself.
           for (
@@ -140,7 +127,7 @@ void main() {
           }
           await tester.ensureVisible(field);
           await tester.pumpAndSettle();
-          final draft = diaspora ? '000123456780' : '0788123457';
+          const draft = '0788123457';
           final saved = repository.state.currentProfile;
           await tester.enterText(field, draft);
           await tester.pumpAndSettle();
@@ -175,7 +162,7 @@ void main() {
     }
   }
 
-  testWidgets('verified WhatsApp is separate from the country action', (
+  testWidgets('verified WhatsApp is read only beside fixed Rwanda profile', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
@@ -185,13 +172,10 @@ void main() {
         find.byKey(const ValueKey('profile_whatsapp_semantics')),
       );
       expect(whatsapp.flagsCollection.isReadOnly, isTrue);
-      expect(whatsapp.flagsCollection.isButton, isFalse);
-      expect(whatsapp.label, isNot(contains('Profile country')));
-      final country = tester.getSemantics(
+      expect(
         find.byKey(const ValueKey('profile_country_picker')),
+        findsNothing,
       );
-      expect(country.flagsCollection.isButton, isTrue);
-      expect(country.label, isNot(contains('WhatsApp')));
     } finally {
       semantics.dispose();
     }
@@ -223,38 +207,18 @@ void main() {
     ('landscape', Size(740, 390), 1.0, ThemeMode.dark, 0.0),
     ('keyboard', Size(390, 844), 1.0, ThemeMode.dark, 300.0),
   ];
+
   for (final size in [const Size(320, 740), const Size(1184, 841)]) {
-    testWidgets('diaspora profile has only account number at ${size.width}', (
+    testWidgets('Rwanda MoMo number remains editable at ${size.width}', (
       tester,
     ) async {
-      final repository = await pumpEditor(
-        tester,
-        size: size,
-        profile: const CollectProfile(
-          id: 'diaspora-profile',
-          publicId: '123456',
-          whatsappPhone: '+35699123456',
-          countryCode: 'MT',
-          currencyCode: 'EUR',
-          revolutAccount: '000123456789',
-        ),
+      await pumpEditor(tester, size: size);
+      expect(input('profile_momo_number_input'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('profile_country_picker')),
+        findsNothing,
       );
-      expect(find.text('Account number'), findsOneWidget);
-      expect(find.text('Revolut'), findsNothing);
-      expect(find.text('Revolut.me link'), findsNothing);
-      expect(find.text('MoMo number'), findsNothing);
-      expect(find.text('Account name'), findsNothing);
-      expect(tester.takeException(), isNull);
-      await capture(tester, 'diaspora-account-${size.width.toInt()}');
-      await tester.enterText(
-        input('profile_revolut_account_input'),
-        '0001 2345 6790',
-      );
-      await tester.pump();
-      await tester.tap(find.text('Save'));
-      await tester.pumpAndSettle();
-      expect(repository.state.currentProfile?.revolutAccount, '000123456790');
-      expect(repository.state.currentProfile?.isComplete, isTrue);
+      await capture(tester, 'rwanda-momo-${size.width.toInt()}');
       expect(tester.takeException(), isNull);
     });
   }

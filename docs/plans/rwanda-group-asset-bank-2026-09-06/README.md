@@ -2,7 +2,7 @@
 
 Prepared 6 September 2026 for the owner's Browser Comment 1 on the Collect mobile review gallery.
 
-**Deliverable status: 44 active image concepts generated and saved, with 44 current prompts and provenance records. Runtime integration: implemented locally; database deployed and verified; application distribution and full native acceptance pending.** Open the [local review gallery](http://collect.localhost:4194/) or read [generation status](production/GENERATION-STATUS.md). This document plans the image bank and its use in group creation; it does not close the skill-owned MOBILE-DESIGN-100 rule.
+**Deliverable status: 44 active image concepts generated and saved, with 44 current prompts and provenance records. Runtime integration: implemented locally; database deployed and verified; application distribution and full native acceptance pending.** Open the [local review gallery](http://collect.localhost:4194/) or read [generation status](production/GENERATION-STATUS.md). This document plans the image bank and its use in group creation; it does not close the skill-owned former mobile visual acceptance rule rule.
 
 ## The intended experience
 
@@ -215,7 +215,7 @@ This new bank is separate from assets/marketing/rwanda/ and its existing SOURCE.
 | 3b. Owner-requested expansion | Add Buri munsi, Gikundiro, church and football cards; refresh all six weddings | Ten new originals saved; 44 active concepts, six previous wedding versions preserved |
 | 4. Prepare runtime assets | Review local plausibility/dress/objects; compress derivatives; refine focal points and labels | Forty-four reviewed covers/thumbs, source/derivative provenance, measured sizes and no missing files |
 | 5. Integrate picker and persistence | Shared picker, draft state, schema/RPC/model/cache/media updates | Selection survives authoritative reload and appears for another authorised viewer |
-| 6. Validate affected journeys | Meaningful filter, permission, save/recovery and responsive/accessibility evidence | Current implementation and native evidence; applicable mobile-design gate remains authoritative |
+| 6. Validate affected journeys | Meaningful filter, permission, save/recovery and responsive/accessibility evidence | Current implementation and native evidence reviewed against the Revolut design skill |
 
 The initial generation phase produced 40 selected originals, including the eight calibration anchors. There were 42 built-in calls: the first bereavement and cultural-troupe candidates were replaced after initial inspection. The selected originals and exact prompt hashes are recorded in [generation-run.json](production/generation-run.json). Every source copy matches the returned original byte for byte. Cultural review and the full native crop matrix remain separate from generation. The batch structure does not request approval after every eight calls.
 
@@ -241,7 +241,7 @@ All label translations in the manifest are drafts. Before release, a Kinyarwanda
 | Long group name, multiple currency totals, supporter count | Subjects and text stay legible on the actual tall card; photography never obscures financial meaning |
 | Build and affected gate evidence | Current source/artifact binding and actual visual review; a passing script or gallery alone is insufficient |
 
-Keep the existing MOBILE-DESIGN-100 criteria and all required cases. Do not lower scores, remove required evidence or regenerate baselines merely to get a pass. This task prepares documentation/tooling and changes no visible mobile surface, so it makes no new mobile acceptance or APK production-GO claim.
+Apply the owner-selected `revolut-design` skill and its applicable mobile acceptance requirements. Keep required route/state, interaction and accessibility evidence; repository scoring rules supply no design authority. Do not regenerate regression baselines merely to hide a difference. This planning task makes no mobile acceptance or APK production-GO claim.
 
 ## Use the saved generation pack
 

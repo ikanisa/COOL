@@ -1,0 +1,23 @@
+{
+  "url": "https://api.github.com/repos/denoland/deno/releases/258329669",
+  "html_url": "https://github.com/denoland/deno/releases/tag/v2.5.6",
+  "tag_name": "v2.5.6",
+  "published_at": "2025-10-30T04:46:32Z",
+  "draft": false,
+  "prerelease": false,
+  "source_json_sha256": "f2345296717edc8711e16e3dd06d6d76ce00c0a343873a0084bb177a0a966f23",
+  "assets": [
+    {
+      "name": "deno-aarch64-apple-darwin.zip",
+      "size": 40627212,
+      "digest": "sha256:32a5b2bcf49432715719c7c769529269fbd08cafdc059b7cecd42f9d771059ab",
+      "browser_download_url": "https://github.com/denoland/deno/releases/download/v2.5.6/deno-aarch64-apple-darwin.zip"
+    },
+    {
+      "name": "deno-aarch64-apple-darwin.zip.sha256sum",
+      "size": 96,
+      "digest": "sha256:4d3173c27a7ce7eaae528678b34aa27169ae73cb85e2f29f42080f166084f9ef",
+      "browser_download_url": "https://github.com/denoland/deno/releases/download/v2.5.6/deno-aarch64-apple-darwin.zip.sha256sum"
+    }
+  ]
+}

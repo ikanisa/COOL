@@ -12,7 +12,7 @@ PWA LIVE GATE PASS; HUMAN RELEASE SIGNOFF PENDING**.
 | Client secrets | Pass by tests/scans | Focused tests and release scans cover obvious API key, token, JWT, and database URL patterns. |
 | Local env files | Pass | `.env`, `.env.local`, and `.env.json` remain ignored/untracked. |
 | Android SMS permissions | Implemented and emulator-validated; Play approval pending | Production and internal-receiver manifests request only `RECEIVE_SMS`, not inbox-history access. Native status, consent, runtime request, denial recovery, turn-off, optional telephony compatibility, and Android 16 emulator flows pass. Play version 12 contains only `RECEIVE_SMS`; the corrected declaration is awaiting Play review. |
-| Android SMS queue | Pass by local contracts and Android 16 emulator UAT | Newly delivered provider-filtered messages use an Android Keystore AES/GCM queue. Entries remain retryable until successful ingestion acknowledgement, are bounded, and are cleared when access is disabled. Real-provider and physical-device evidence remains separate. |
+| Android SMS queue | Local hardening in progress; installed-device verification pending | Newly delivered provider-filtered messages use an Android Keystore AES/GCM queue. Ordinary access disable stops capture while retaining encrypted owner-bound receipts until server acknowledgement or a separately approved retention action. Real-provider and physical-device evidence remains separate. |
 | Native notifications | Implemented locally; live delivery pending | Android 13+ runtime permission, native settings recovery, four notification channels, private lock-screen visibility, FCM token lifecycle, tap/deep-link handling, and FCM HTTP v1 dispatch are implemented. Live Firebase credentials and end-to-end delivery evidence are still required. |
 | Identity privacy | Pass locally | Current UX uses generated 6-digit Collect ID and does not ask for or display real names. |
 | Payment privacy | Pass locally | Contributor flow creates payment intents and does not expose manual transaction reporting. |
@@ -27,7 +27,7 @@ PWA LIVE GATE PASS; HUMAN RELEASE SIGNOFF PENDING**.
 1. Obtain Google Play approval for the SMS Permissions Declaration before
    publishing a production build that requests `RECEIVE_SMS`.
 2. Run real Android SMS access UAT with sanitized foreground, background,
-   killed-app, offline-retry, disable/clear, and denial-recovery scenarios.
+   killed-app, offline-retry, disable/preserve/re-enable, and denial-recovery scenarios.
 3. Configure server-side `FCM_SERVICE_ACCOUNT_JSON` and record live Android
    foreground/background/tap delivery evidence without exposing device tokens.
 4. Run the release secret scan in the final release environment.

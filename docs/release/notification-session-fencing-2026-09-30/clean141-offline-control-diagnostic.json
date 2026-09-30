@@ -1,0 +1,14 @@
+{
+  "captured_at_utc": "2026-09-29T23:01:47.257171+00:00",
+  "status": "verified_empty_platform_resume",
+  "original_runner_exit_code": 1,
+  "failure": "Offline-control assertion after successful exact local platform reset; no application migration was executed.",
+  "settings_before": "on:200",
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "reset_repeated": false,
+  "populated_backup_verified": true
+}

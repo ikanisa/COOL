@@ -37,7 +37,6 @@ String _formatDetailFieldValue(String label, String value) {
     'Members' => '$count ${count == 1 ? 'member' : 'members'}',
     'Groups' => '$count ${count == 1 ? 'group' : 'groups'}',
     'Attempts' => '$count ${count == 1 ? 'retry' : 'retries'} available',
-    'Bank evidence' => '$count pending',
     'Reconciliation exceptions' => '$count open',
     'Allocation approvals' => '$count pending',
     'Queued notifications' => '$count queued',

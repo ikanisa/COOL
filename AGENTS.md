@@ -12,20 +12,15 @@ Do not report any surface as 100% matched while a material difference or
 required comparator, interaction or route/state evidence remains unverified.
 Web marketing and Business/operator references are distinct from native UI.
 
-## Critical release blocker: mobile design parity
+## Remove competing references
 
-Read `/Users/jeanbosco/.codex/skills/revolut-design/SKILL.md` and its bundled
-`references/mobile-design-100.md` before changing any visible mobile surface.
-The **MOBILE-DESIGN-100** rule is mandatory. The selected reference and the owner's browser annotations
-apply to all corresponding signed-in, membership, geographic, loading, error,
-and accessibility states, not just the screenshot used during implementation.
+Do not add or restore another design skill, visual specification, generated
+mockup or legacy palette as a design reference. Delete obsolete competing
+references rather than retaining them as an alternative design system.
+Collect logos, artwork, product requirements and regression captures remain
+product evidence. Runtime tokens and components are adapters of the selected
+skill, not independent design rules.
 
-Do not mark mobile work complete or an APK production GO while
-`make mobile-design-gate` fails. A successful build, source check, test count,
-Admin review, or old screenshot is not mobile design acceptance. Never lower
-the score, delete a required case, regenerate a baseline without visual review,
-or invent approval to make this gate pass. Keep building local QA candidates to
-fix the blockers; do not distribute them as approved production releases.
-
-Preserve existing user changes, signed-in device data, payment behaviour, and
-production access controls. Use isolated fixture builds for destructive UAT.
+Run `make revolut-design-authority` after changes to references, themes or shared
+components. This checks sole-authority hygiene; it does not certify visual
+fidelity. Use the skill's `MOBILE-DESIGN-100` rule for mobile acceptance.

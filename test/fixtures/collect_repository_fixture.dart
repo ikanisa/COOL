@@ -187,6 +187,26 @@ CollectState _fixtureCollectState({
       ),
     ],
     contributions: contributions,
+    collectionSummaries: const {
+      'qa-private-group': CollectionSummary(
+        amountRaisedRwf: 35000,
+        supporterCount: 1,
+        currentUserBalanceRwf: 35000,
+      ),
+    },
+    historyPage: MemberHistoryPage(
+      items: List<Contribution>.unmodifiable(
+        <Contribution>[...contributions]
+          ..sort((left, right) => right.createdAt.compareTo(left.createdAt)),
+      ),
+      totalCount: contributions.length,
+      totals: {
+        'RWF': contributions.fold<int>(0, (sum, item) => sum + item.amountRwf),
+      },
+      ownTotals: const {'RWF': 35000},
+      ownCollectionIds: const {'qa-private-group'},
+      revision: '00000000000000000000000000000000',
+    ),
     notificationEvents: [
       NotificationEvent(
         id: 'notif-contribution-confirmed',

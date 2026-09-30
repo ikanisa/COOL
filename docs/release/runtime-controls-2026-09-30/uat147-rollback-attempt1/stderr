@@ -1,0 +1,10 @@
+WARNING:  no privileges were granted for "pg_temp_26"
+ERROR:  invalid input syntax for type json
+LINE 1: ... when (receipt->>'exists')::boolean then receipt->'value'-ar...
+                                                             ^
+DETAIL:  Token "value" is invalid.
+QUERY:  preferences:=case when (receipt->>'exists')::boolean then receipt->'value'-array['user_id','created_at','updated_at']
+  else '{"contribution_confirmations":true,"payment_reminders":true,"group_updates":true,"security_notices":true}'::jsonb end
+CONTEXT:  JSON data, line 1: value
+PL/pgSQL function public.get_notification_preferences_v2() line 4 at assignment
+PL/pgSQL function inline_code_block line 2 at assignment

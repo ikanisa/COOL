@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-30",
+  "scope": "Source contract checks only; no PostgreSQL parsing or execution",
+  "command": [
+    "ruby",
+    "scripts/tests/roster_import_provenance_source_test.rb",
+    "--seed",
+    "142"
+  ],
+  "exit_code": 0,
+  "test_count": 13,
+  "assertion_count": 210,
+  "db_calls": 0,
+  "hosted_auth_requests": 0,
+  "provider_calls": 0,
+  "source_before": {
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "46cc675c117a3fa6d438db8501a3e9643496a13a80305ae2a61071c27060d01e",
+    "scripts/tests/roster_import_provenance_uat.sql": "79363d1bd98895af40e3a5b1b0582a1a8779e10ea5ce5da82f4f7fd708bb6514",
+    "scripts/tests/roster_import_provenance_source_test.rb": "1954b5cee87df6e23a64877f6973648a670d52f53741be347d60fdf50443c369",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+  },
+  "source_after": {
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "46cc675c117a3fa6d438db8501a3e9643496a13a80305ae2a61071c27060d01e",
+    "scripts/tests/roster_import_provenance_uat.sql": "79363d1bd98895af40e3a5b1b0582a1a8779e10ea5ce5da82f4f7fd708bb6514",
+    "scripts/tests/roster_import_provenance_source_test.rb": "1954b5cee87df6e23a64877f6973648a670d52f53741be347d60fdf50443c369",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+  },
+  "source_drift": [],
+  "logs": {
+    "source-tests.stdout": "b789ad6c3388beae7235a7dc5a0f43491895bd3130a413e7a2ef3d433d4ead74",
+    "source-tests.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

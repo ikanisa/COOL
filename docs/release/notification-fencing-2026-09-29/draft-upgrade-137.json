@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "container": "supabase_db_collect_fin_concurrency_qa_20260929",
+  "captured_at": "2026-09-29T21:32:49.511976+00:00",
+  "migration": "20260929140000_notification_delivery_fencing.sql",
+  "sha256": "361c0c965ef965c8245089d3dca6e7c1df77fe8765d7d76b2981f05364edc3d1",
+  "predecessor": "20260929130000",
+  "migration_count": 137,
+  "mode": "136-to-137 upgrade of guarded synthetic fixture; push queue empty; no hosted data or provider calls"
+}

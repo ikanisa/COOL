@@ -21,7 +21,7 @@ class GroupCard extends StatelessWidget {
   });
 
   final CollectCollection collection;
-  final CollectionSummary summary;
+  final CollectionSummary? summary;
   final VoidCallback? onTap;
   final Widget? primaryAction;
   final GroupCardVariant variant;
@@ -63,12 +63,7 @@ class GroupListPanel extends StatelessWidget {
           for (var index = 0; index < collections.length; index += 1) ...[
             _GroupListRow(
               collection: collections[index],
-              summary:
-                  summaries[collections[index].id] ??
-                  const CollectionSummary(
-                    amountRaisedRwf: 0,
-                    supporterCount: 0,
-                  ),
+              summary: summaries[collections[index].id],
               onTap: onGroupTap == null
                   ? null
                   : () => onGroupTap!(collections[index]),
@@ -88,25 +83,80 @@ class GroupListPanel extends StatelessWidget {
   }
 }
 
+/// Lazy equivalent of [GroupListPanel] for ScreenScaffold.sliver.
+///
+/// Never wrap this in a shrink-wrapped list or a box-to-sliver adapter.
+/// Filtering, sorting, membership checks and financial values stay with the
+/// caller; only near-viewport rows are built by the existing lazy card.
+class GroupListSliver extends StatelessWidget {
+  const GroupListSliver({
+    required this.collections,
+    required this.summaries,
+    this.onGroupTap,
+    super.key,
+  });
+
+  final List<CollectCollection> collections;
+  final Map<String, CollectionSummary> summaries;
+  final ValueChanged<CollectCollection>? onGroupTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectSliverCardList(
+      itemCount: collections.length,
+      padding: EdgeInsets.zero,
+      emphasis: CollectCardEmphasis.normal,
+      itemBuilder: (context, index) {
+        final collection = collections[index];
+        return _GroupListRow(
+          key: ValueKey('group-list-${collection.id}'),
+          collection: collection,
+          summary: summaries[collection.id],
+          onTap: onGroupTap == null ? null : () => onGroupTap!(collection),
+        );
+      },
+      separatorBuilder: (context, index) => Divider(
+        height: 1,
+        thickness: 1,
+        indent: 76,
+        color: context.collectColors.border.withValues(alpha: 0.54),
+      ),
+    );
+  }
+}
+
 class _GroupListRow extends StatelessWidget {
   const _GroupListRow({
     required this.collection,
     required this.summary,
     this.onTap,
+    super.key,
   });
 
   final CollectCollection collection;
-  final CollectionSummary summary;
+  final CollectionSummary? summary;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final accent = _groupAccent(context, collection);
-    final formattedAmount = formatCurrencyTotals(
-      summary.totalsByCurrency,
-      separator: '\n',
-    );
+    // Missing data is not a measured zero. A local copy permits sound
+    // null promotion without asserting that a public nullable field is present.
+    final currentSummary = summary;
+    final formattedAmount = currentSummary == null
+        ? 'Not available'
+        : formatCurrencyTotals(
+            currentSummary.totalsByCurrency,
+            separator: '\n',
+          );
+    final countLabel = currentSummary?.supporterCountLabel ?? '—';
+    final countSemantics =
+        currentSummary?.supporterCountSemantics ??
+        'Contributor count unavailable';
+    final amountSemantics = currentSummary == null
+        ? 'Group total unavailable'
+        : formattedAmount;
     final row = Padding(
       padding: const EdgeInsets.fromLTRB(
         CollectSpacing.x3,
@@ -151,7 +201,7 @@ class _GroupListRow extends StatelessWidget {
                 Semantics(
                   label:
                       '${collection.collectionType.label}, '
-                      '${summary.supporterCountSemantics}',
+                      '$countSemantics',
                   child: ExcludeSemantics(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -163,7 +213,7 @@ class _GroupListRow extends StatelessWidget {
                         ),
                         CollectSpacing.gapW4,
                         Text(
-                          summary.supporterCountLabel,
+                          countLabel,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 color: colors.textSecondary,
@@ -184,17 +234,30 @@ class _GroupListRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerRight,
-                  child: Text(
+                if (currentSummary == null)
+                  Text(
                     formattedAmount,
-                    style: CollectTypography.amountCompact(
-                      colors.textPrimary,
-                    ).copyWith(fontWeight: CollectTypography.weightSemibold),
-                    maxLines: summary.totalsByCurrency.length.clamp(1, 2),
+                    softWrap: true,
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colors.textSecondary,
+                    ),
+                  )
+                else
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      formattedAmount,
+                      style: CollectTypography.amountCompact(
+                        colors.textPrimary,
+                      ).copyWith(fontWeight: CollectTypography.weightSemibold),
+                      maxLines: currentSummary.totalsByCurrency.length.clamp(
+                        1,
+                        2,
+                      ),
+                    ),
                   ),
-                ),
                 CollectSpacing.gap4,
                 Icon(CollectIcons.chevron, size: 18, color: colors.textMuted),
               ],
@@ -213,8 +276,8 @@ class _GroupListRow extends StatelessWidget {
       button: onTap != null,
       onTap: handleTap,
       label:
-          '${collection.title}, $formattedAmount, '
-          '${summary.supporterCountSemantics}',
+          '${collection.title}, $amountSemantics, '
+          '$countSemantics',
       child: ExcludeSemantics(
         child: onTap == null ? row : InkWell(onTap: handleTap, child: row),
       ),

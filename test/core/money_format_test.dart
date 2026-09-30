@@ -2,19 +2,25 @@ import 'package:collect_app/core/utils/money_format.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('formats whole RWF and diaspora minor units independently', () {
+  test('formats whole Rwanda francs', () {
     expect(formatRwf(0), 'RWF 0');
     expect(formatRwf(5000), 'RWF 5,000');
     expect(formatRwf(1250000), 'RWF 1,250,000');
-    expect(formatMoneyMinor(5000), 'EUR 50.00');
+    expect(formatMoneyMinor(5000), 'RWF 5,000');
+    expect(formatMoneyMinor(-5000), 'RWF -5,000');
   });
 
-  test('formats money with a locale without losing the ISO currency', () {
-    final frenchRwf = formatRwf(1250000, localeName: 'fr');
-    final frenchEur = formatMoneyMinor(5000, currency: 'EUR', localeName: 'fr');
+  test('RWF keeps its currency label in another device locale', () {
+    final formatted = formatRwf(1250000, localeName: 'fr');
+    expect(formatted, contains('RWF'));
+    expect(formatted, isNot('RWF 1,250,000'));
+  });
 
-    expect(frenchRwf, contains('RWF'));
-    expect(frenchRwf, isNot('RWF 1,250,000'));
-    expect(frenchEur, contains('EUR'));
+  test('foreign currencies fail closed', () {
+    expect(
+      () => formatMoneyMinor(5000, currency: 'EUR'),
+      throwsFormatException,
+    );
+    expect(() => formatCurrencyTotals({'EUR': 5000}), throwsFormatException);
   });
 }

@@ -1,0 +1,6 @@
+{
+  "migration_sha256": "50c140c6561cac1754d5c4ea7fd5b45b809b2d4c2f704aaff4f20d053ab9c087",
+  "uat_sha256": "96996e403a88a0bf551c50cc6411e9da566cb991f26c5c2013d92119ac5ce25e",
+  "probe_sha256": "c6508374c41bbbdf2d2d11c621c1c13503946b80d3a5a91213be903e75bad63c",
+  "source_only_probe": "Installs reviewed148 bodies inside rollback; registry remains146; no provider/scheduler writes"
+}

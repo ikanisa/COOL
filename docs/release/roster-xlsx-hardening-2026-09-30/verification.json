@@ -1,0 +1,101 @@
+{
+  "timestamp_utc": "2026-09-29T22:05:12.122314+00:00",
+  "runtime": {
+    "frameworkVersion": "3.44.4",
+    "channel": "stable",
+    "repositoryUrl": "https://github.com/flutter/flutter.git",
+    "frameworkRevision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "frameworkCommitDate": "2026-06-24 11:07:06 -0700",
+    "engineRevision": "a10d8ac38de835021c8d2f920dbf50a920ccc030",
+    "engineCommitDate": "2026-06-23 23:09:55.000Z",
+    "engineContentHash": "700aebeca4c0e610f109a3979ee3e71b69d666bc",
+    "engineBuildDate": "2026-06-24 02:26:40.203",
+    "dartSdkVersion": "3.12.2",
+    "devToolsVersion": "2.57.0",
+    "flutterVersion": "3.44.4",
+    "flutterRoot": "/Volumes/PRO-G40/Development/Flutter/flutter"
+  },
+  "checks": [
+    {
+      "log": "pinned-version.json",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0
+    },
+    {
+      "log": "pinned-pub-resolution.txt",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0
+    },
+    {
+      "log": "pinned-focused-tests.txt",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/admin_roster_file_parser_test.dart",
+        "test/admin_roster_xlsx_preflight_test.dart"
+      ],
+      "exit_code": 0
+    },
+    {
+      "log": "pinned-focused-analysis.txt",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "lib/admin/core/roster_file_parser.dart",
+        "lib/admin/core/roster_xlsx_preflight.dart",
+        "test/admin_roster_file_parser_test.dart",
+        "test/admin_roster_xlsx_preflight_test.dart"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "manifest_unchanged_during_pinned_resolution": true,
+  "source_sha256": {
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_file_parser_test.dart": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746",
+    "test/admin_roster_xlsx_preflight_test.dart": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3",
+    "pubspec.yaml": "29824e3da40edf28f4788f3187b9c31717d44a6c28736bcfa877a6dea5f30d4a",
+    "pubspec.lock": "18b1fb54d3f1d9ceb2480f129dd1773b54c703a3914918dc5d5a624fef995824",
+    "supabase/functions/_shared/roster_import.ts": "f4c13d3f7a5f2ea534c39b949ab5ca8a6554438f666e1f3dfc3e2c6d7d9852b3",
+    "supabase/functions/_shared/roster_import_test.ts": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089"
+  },
+  "logs_sha256": {
+    "pinned-focused-tests.txt": "dea07d93bc5415f11cda7eafad835264b988ee5f9b7be7507ff442adaa9c8487",
+    "focused-analysis.txt": "ca3d3c9cc72502bdf08281eaf6a5fccbb0d7af779ba8c91af194d48d86c85d11",
+    "pinned-pub-resolution.txt": "d4cb7a3c68b4133b4f6e58c67ff5bfd13725d8021e930388cdc98da8a575919d",
+    "focused-tests.txt": "5105316f9db40212e7f12d81cf49f9dd1cd6735132128d7db31006c979047d77",
+    "csv-regression.txt": "35352d0fad932c95f9d762aef5a3e4ded6774d17e9b8bdd3da45d41865925cb0",
+    "pinned-focused-analysis.txt": "c9a054873e36b4fe4aee06e5a557292bba761443e68dc087a0d82a7a67eacafb"
+  },
+  "csv_regression": {
+    "runtime": "Deno 2.5.6",
+    "passed": 5,
+    "failed": 0,
+    "command": [
+      ".cache/roster-deno-2.5.6-20260929/deno",
+      "test",
+      "--cached-only",
+      "--no-prompt",
+      "--no-lock",
+      "supabase/functions/_shared/roster_import_test.ts"
+    ]
+  },
+  "focused_flutter": {
+    "passed": 57,
+    "failed": 0
+  }
+}

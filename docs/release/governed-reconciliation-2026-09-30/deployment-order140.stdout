@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 140,
+  "numbered_sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+  "staged_sha256": "0371a10c99d28fa7cd24fbc03421a83c84914b55ae2e621f61ddec0e25a1e552",
+  "scope": "synthetic predecessor-shaped review and actual source installation orders under rollback",
+  "provider_calls": false,
+  "results": [
+    {
+      "order": [
+        "staged",
+        "numbered"
+      ],
+      "status": "pass",
+      "legacy_review_bytes_preserved": true,
+      "no_session_backfill": true,
+      "immutable_evidence": true,
+      "direct_finality_grants_denied": true,
+      "legacy_finalization_denied": true,
+      "financial_evidence_unchanged": true,
+      "rolled_back": true,
+      "warnings": [
+        "NOTICE:  schema \"collect_security\" already exists, skipping",
+        "NOTICE:  relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  trigger \"reconciliation_review_immutable\" for relation \"collect_security.reconciliation_reviews\" does not exist, skipping",
+        "NOTICE:  schema \"collect_security\" already exists, skipping",
+        "NOTICE:  relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  column \"proposed_session_id\" of relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  column \"approved_session_id\" of relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  relation \"reconciliation_reviews_payment_created_idx\" already exists, skipping"
+      ]
+    },
+    {
+      "order": [
+        "numbered",
+        "staged"
+      ],
+      "status": "pass",
+      "legacy_review_bytes_preserved": true,
+      "no_session_backfill": true,
+      "immutable_evidence": true,
+      "direct_finality_grants_denied": true,
+      "legacy_finalization_denied": true,
+      "financial_evidence_unchanged": true,
+      "rolled_back": true,
+      "warnings": [
+        "NOTICE:  schema \"collect_security\" already exists, skipping",
+        "NOTICE:  relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  trigger \"reconciliation_review_immutable\" for relation \"collect_security.reconciliation_reviews\" does not exist, skipping",
+        "NOTICE:  schema \"collect_security\" already exists, skipping",
+        "NOTICE:  relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  column \"proposed_session_id\" of relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  column \"approved_session_id\" of relation \"reconciliation_reviews\" already exists, skipping",
+        "NOTICE:  relation \"reconciliation_reviews_payment_created_idx\" already exists, skipping"
+      ]
+    }
+  ]
+}

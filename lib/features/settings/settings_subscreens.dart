@@ -23,11 +23,35 @@ class NotificationSettingsScreen extends ConsumerStatefulWidget {
 class _NotificationSettingsScreenState
     extends ConsumerState<NotificationSettingsScreen> {
   bool _saving = false;
+  bool _refreshing = false;
+  int _operationEpoch = 0;
+  String? _operationError;
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
+    ref.listen(collectRepositoryProvider, (previous, next) {
+      if (previous?.currentProfile?.id != next.currentProfile?.id) {
+        _operationEpoch++;
+        if (mounted) {
+          setState(() {
+            _saving = false;
+            _refreshing = false;
+            _operationError = null;
+          });
+        }
+      }
+    });
+    final repository = ref.read(collectRepositoryProvider.notifier);
     final preferences = state.notificationPreferences;
+    final pending = repository.pendingNotificationPreferences;
+    final needsRefresh = repository.notificationPreferencesNeedsRefresh;
+    final busy = _saving || _refreshing;
+    final canEdit =
+        state.currentProfile != null &&
+        !busy &&
+        !needsRefresh &&
+        pending == null;
     return ScreenScaffold(
       title: 'Notifications',
       showHeader: false,
@@ -37,19 +61,94 @@ class _NotificationSettingsScreenState
         icon: CollectIcons.pending,
       ),
       children: [
-        if (_saving)
+        if (busy)
           Semantics(
             liveRegion: true,
-            label: 'Saving notification preferences',
+            label: _refreshing
+                ? 'Refreshing notification preferences'
+                : 'Saving notification preferences',
             child: const LinearProgressIndicator(),
           ),
+        if (needsRefresh || _operationError != null)
+          Semantics(
+            liveRegion: true,
+            child: Text(
+              _operationError ??
+                  (pending == null
+                      ? 'Connect and refresh to load your saved preferences before changing them.'
+                      : 'Your change was not confirmed. Refresh to review the latest saved preferences before trying again.'),
+            ),
+          ),
+        if (needsRefresh || pending != null)
+          CollectButton(
+            label: 'Refresh preferences',
+            icon: CollectIcons.sync,
+            variant: CollectButtonVariant.secondary,
+            onPressed: state.currentProfile == null || busy ? null : _refresh,
+            expand: true,
+          ),
+        if (pending != null) ...[
+          const SectionHeader(title: 'Pending change'),
+          Text(
+            needsRefresh
+                ? 'Your intended preferences are retained. Refresh before reviewing and saving them.'
+                : 'Review your intended preferences against the saved preferences below. Saving applies every intended preference.',
+          ),
+          _SettingsOptionPanel(
+            children: [
+              for (final item in [
+                (
+                  'Contribution confirmations',
+                  preferences.contributionConfirmations,
+                  pending.contributionConfirmations,
+                ),
+                (
+                  'Contribution reminders',
+                  preferences.paymentReminders,
+                  pending.paymentReminders,
+                ),
+                (
+                  'Group updates',
+                  preferences.groupUpdates,
+                  pending.groupUpdates,
+                ),
+                (
+                  'Security notices',
+                  preferences.securityNotices,
+                  pending.securityNotices,
+                ),
+              ])
+                Padding(
+                  padding: const EdgeInsets.all(CollectSpacing.x3),
+                  child: Text(
+                    needsRefresh
+                        ? '${item.$1}: intended ${item.$3 ? 'On' : 'Off'}'
+                        : '${item.$1}: saved ${item.$2 ? 'On' : 'Off'}, intended ${item.$3 ? 'On' : 'Off'}',
+                  ),
+                ),
+            ],
+          ),
+          CollectButton(
+            label: 'Save pending change',
+            onPressed: state.currentProfile == null || busy || needsRefresh
+                ? null
+                : () => _save(pending),
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Discard pending change',
+            variant: CollectButtonVariant.subtle,
+            onPressed: busy ? null : _discard,
+            expand: true,
+          ),
+        ],
         _SettingsOptionPanel(
           children: [
             _SettingsSwitchRow(
               title: 'Contribution confirmations',
               subtitle: 'Confirmed contributions and ledger updates.',
               value: preferences.contributionConfirmations,
-              onChanged: state.currentProfile == null || _saving
+              onChanged: !canEdit
                   ? null
                   : (value) => _save(
                       preferences.copyWith(contributionConfirmations: value),
@@ -59,7 +158,7 @@ class _NotificationSettingsScreenState
               title: 'Contribution reminders',
               subtitle: 'Pending contribution reminders before expiry.',
               value: preferences.paymentReminders,
-              onChanged: state.currentProfile == null || _saving
+              onChanged: !canEdit
                   ? null
                   : (value) =>
                         _save(preferences.copyWith(paymentReminders: value)),
@@ -68,7 +167,7 @@ class _NotificationSettingsScreenState
               title: 'Group updates',
               subtitle: 'Membership and group-management changes.',
               value: preferences.groupUpdates,
-              onChanged: state.currentProfile == null || _saving
+              onChanged: !canEdit
                   ? null
                   : (value) => _save(preferences.copyWith(groupUpdates: value)),
             ),
@@ -76,7 +175,7 @@ class _NotificationSettingsScreenState
               title: 'Security notices',
               subtitle: 'Important account and privacy alerts.',
               value: preferences.securityNotices,
-              onChanged: state.currentProfile == null || _saving
+              onChanged: !canEdit
                   ? null
                   : (value) =>
                         _save(preferences.copyWith(securityNotices: value)),
@@ -95,20 +194,64 @@ class _NotificationSettingsScreenState
   }
 
   Future<void> _save(NotificationPreferences preferences) async {
-    setState(() => _saving = true);
+    final operation = ++_operationEpoch;
+    setState(() {
+      _saving = true;
+      _operationError = null;
+    });
     try {
       await ref
           .read(collectRepositoryProvider.notifier)
           .updateNotificationPreferences(preferences);
     } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Could not save notification preferences. Try again.'),
-        ),
+      if (!mounted || operation != _operationEpoch) return;
+      setState(
+        () => _operationError =
+            'Your change was not confirmed. Refresh preferences before trying again.',
       );
     } finally {
-      if (mounted) setState(() => _saving = false);
+      if (mounted && operation == _operationEpoch) {
+        setState(() => _saving = false);
+      }
+    }
+  }
+
+  Future<void> _refresh() async {
+    final operation = ++_operationEpoch;
+    setState(() {
+      _refreshing = true;
+      _operationError = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .refreshNotificationPreferences();
+    } catch (_) {
+      if (!mounted || operation != _operationEpoch) return;
+      setState(
+        () => _operationError =
+            'Could not refresh preferences. Connect and try Refresh again.',
+      );
+    } finally {
+      if (mounted && operation == _operationEpoch) {
+        setState(() => _refreshing = false);
+      }
+    }
+  }
+
+  void _discard() {
+    try {
+      ref
+          .read(collectRepositoryProvider.notifier)
+          .discardPendingNotificationPreferences();
+    } catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Wait for the current save before discarding the change.',
+          ),
+        ),
+      );
     }
   }
 }
@@ -193,8 +336,6 @@ class SecuritySettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isRwanda =
-        ref.watch(collectRepositoryProvider).currentProfile?.isRwanda == true;
     return ScreenScaffold(
       title: 'Security',
       showHeader: false,
@@ -204,13 +345,10 @@ class SecuritySettingsScreen extends ConsumerWidget {
         icon: CollectIcons.shield,
       ),
       children: [
-        InfoSecurityBanner(
-          title: isRwanda
-              ? 'Approve payments in MoMo'
-              : 'Approve transfers in your bank app',
-          message: isRwanda
-              ? 'Never share your MoMo PIN. Enter it only in your provider’s payment prompt.'
-              : 'Collect never asks for a bank password, PIN, card detail, or banking-app credential.',
+        const InfoSecurityBanner(
+          title: 'Approve payments in MoMo',
+          message:
+              'Never share your MoMo PIN. Enter it only in your provider’s payment prompt.',
           tone: CollectStatusTone.warning,
         ),
         _SettingsOptionPanel(
@@ -222,11 +360,10 @@ class SecuritySettingsScreen extends ConsumerWidget {
               onTap: () => context.go('/settings/account'),
             ),
             _SettingsLinkRow(
-              icon: isRwanda ? Icons.smartphone_rounded : CollectIcons.bank,
+              icon: Icons.smartphone_rounded,
               title: 'Contribution verification',
-              subtitle: isRwanda
-                  ? 'Confirmed MoMo receipts update your contribution records.'
-                  : 'Only statement-reconciled bank receipts reach ledgers.',
+              subtitle:
+                  'Confirmed MoMo receipts update your contribution records.',
               onTap: () => context.go('/activity'),
             ),
             _SettingsLinkRow(
@@ -346,12 +483,12 @@ class _SettingsSubpageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
     final colors = context.collectColors;
     final foreground = CollectRuntimeTokens.chromeForeground(colors);
     return Semantics(
       container: true,
-      header: true,
-      label: title,
+      explicitChildNodes: true,
       child: Row(
         children: [
           IconButton(
@@ -366,15 +503,17 @@ class _SettingsSubpageHeader extends StatelessWidget {
           ...[
             CollectSpacing.gapW12,
             Expanded(
-              child: Text(
-                title,
+              child: CollectHeadingText(
+                title: title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: foreground,
                   fontWeight: CollectTypography.weightBold,
                   letterSpacing: CollectTypography.trackingDefault,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                maxLines: largeText ? null : 1,
+                overflow: largeText
+                    ? TextOverflow.visible
+                    : TextOverflow.ellipsis,
               ),
             ),
           ],

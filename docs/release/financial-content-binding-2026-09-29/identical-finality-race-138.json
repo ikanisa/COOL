@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 138,
+  "blocked_workers": 2,
+  "observed_wait_events": [
+    "advisory",
+    "advisory"
+  ],
+  "processed_request_ids": 2,
+  "provider_confirmation_rows": 1,
+  "posted_payments_for_reference": 1,
+  "legacy_ledger_entries": 2,
+  "canonical_receipt_journals": 1,
+  "canonical_debit_rwf": 2500,
+  "canonical_credit_rwf": 2500,
+  "confirmed_group_balance_rwf": 2500,
+  "identical_request_replayed": true,
+  "provider_calls": 0,
+  "scope": "synthetic service-role gateway; real provider evidence not exercised"
+}

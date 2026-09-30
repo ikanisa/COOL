@@ -1,0 +1,33 @@
+{
+  "captured_at_utc": "2026-09-29T22:42:15.684887+00:00",
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "labels_and_port_verified": true,
+  "migration_count": 141,
+  "migration_sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+  "tests": [
+    {
+      "script": "scripts/tests/notification_registration_sessions_uat.sql",
+      "script_sha256": "29414fab6bb67fc26d72818961dfb620cd299ac3278de68e2605945c52f52df3",
+      "exit_code": 0,
+      "assertions": 35,
+      "all_domain_table_fingerprints_restored": true,
+      "provider_calls": false
+    },
+    {
+      "script": "scripts/tests/notification_delivery_sessions_uat.sql",
+      "script_sha256": "4736ae29086d02c8e827dec35f7e182c7027706356ad030611717e70e74f6f22",
+      "exit_code": 0,
+      "assertions": 62,
+      "all_domain_table_fingerprints_restored": true,
+      "provider_calls": false
+    }
+  ],
+  "domain_table_count": 124,
+  "backup_path": ".cache/notification-sessions-20260930/pre141-acceptance.dump",
+  "backup_sha256": "96c7ad289e1a2c7d6bf6a4a2e83ea34d781b27f2aee56e74e69ee4224bdafbe4",
+  "sequence_counters_restored": false,
+  "provider_calls": false,
+  "cron_launch_active_jobs": false,
+  "pg_net_batch_size": 0
+}

@@ -1,0 +1,13 @@
+Exception in thread "main" java.lang.RuntimeException: Verification of Gradle distribution failed!
+
+Your Gradle distribution may have been tampered with.
+Confirm that the 'distributionSha256Sum' property in your gradle-wrapper.properties file is correct and you are downloading the wrapper from a trusted source.
+
+Distribution Url: file:///Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip
+Download Location: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/wrapper-bad-checksum-home-attempt16/wrapper/dists/gradle-9.1.0-all/aka6o0ra7qfmhcq9s18ompt4b/gradle-9.1.0-all.zip
+Expected checksum: '0000000000000000000000000000000000000000000000000000000000000000'
+Actual checksum:   'b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85'
+Visit https://gradle.org/release-checksums/ to verify the checksums of official distributions. If your build uses a custom distribution, see with its provider.
+	at org.gradle.wrapper.Install.verifyDownloadChecksum(SourceFile:2)
+	at org.gradle.wrapper.Install$1.call(SourceFile:12)
+	at org.gradle.wrapper.GradleWrapperMain.main(SourceFile:67)

@@ -1,0 +1,4 @@
+{"role":"service_role"}
+CONFIRM_THEN_REJECT_PASS
+{"role":"service_role"}
+REJECT_THEN_CONFIRM_PASS

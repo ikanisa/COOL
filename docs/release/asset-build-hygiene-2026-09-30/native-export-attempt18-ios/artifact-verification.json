@@ -1,0 +1,63 @@
+{
+  "status": "pass",
+  "kind": "local_unsigned_ios_qa_artifact",
+  "bundle": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app",
+  "bundle_file_count": 199,
+  "bundle_regular_file_bytes": 41575135,
+  "bundle_manifest_sha256": "bbe86bbdd0428b125b5ca719dec6637d8a03268c39f9bbd158aa0e5756ac8106",
+  "main_executable_sha256": "8dea635af10f3f39f80f33c0e0369bf02d0a545f0e9e895297d509a60a594870",
+  "bundle_identifier": "app.cool.mobile",
+  "version": "1.2.4+23",
+  "sdk": "iphoneos27.0",
+  "compiled_platform": "iOS device arm64, generic destination",
+  "root_bundle_unsigned_verified": true,
+  "embedded_provisioning_profile_absent": true,
+  "declared_exported_sources_unchanged": true,
+  "source_file_count": 744,
+  "commands": [
+    {
+      "name": "app-signature",
+      "command": [
+        "codesign",
+        "--verify",
+        "--strict",
+        "--deep",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "769e2ce1a01d7a6f570d630c4b47554a40f643270ce001f7c48386e97851532b"
+    },
+    {
+      "name": "app-signature-details",
+      "command": [
+        "codesign",
+        "--display",
+        "--verbose=4",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "67c3a7caa52c73ffddc8563a6937e281daa6e42ba5f4957a351c7046ee70f38f"
+    },
+    {
+      "name": "app-platform",
+      "command": [
+        "xcrun",
+        "vtool",
+        "-show-build",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app/Collect"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "0b157f5ba5534a1cbdb8860ed1f4d7117ee7702561eb5c81261164832f23d274",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "marker": {
+    "kind": "local_unsigned_native_qa",
+    "signing": false,
+    "store_acceptance": false,
+    "provider_configuration": false
+  },
+  "scope": "Actual clean pre-gotrue source export compilation and unsigned artifact inspection; no device/simulator, native visual, signed store, provider or current whole-runtime acceptance"
+}

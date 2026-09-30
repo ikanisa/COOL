@@ -4,6 +4,10 @@ Status date: 2026-08-04
 Scope: Collect member iPhone/iPad app, current controlled source
 Decision: **NOT READY FOR APP STORE RELEASE**
 
+The owner-selected `revolut-design` skill is the sole UI/UX authority. This
+dated report records platform, accessibility and release evidence; it supplies
+no alternate visual reference or current design acceptance.
+
 ## Current result
 
 The Flutter/iOS source, store artwork, metadata, privacy declaration, release
@@ -90,22 +94,6 @@ App Store Connect state were not produced or verified.
 | App icon and materials | Opaque complete icon set; Flutter surfaces retain legible product hierarchy | Dark/clear/tinted iOS 26 icon variants need approved layered brand assets; do not synthesize them |
 | Store review | Reviewer access is deterministic, seeded, and separated from live customer authentication | Human review notes, credentials, legal entity, age rating, trader status, and final submission remain open |
 
-## Mobbin benchmark follow-up
-
-The signed-in Mobbin library was reviewed against Splitwise's current iOS
-screens and its onboarding, adding-an-expense, split-options, group-detail, and
-activity flow taxonomy. Collect already had the strongest transferable patterns:
-group-first context, a dominant financial amount, compact activity, explicit
-review, and a single anchored primary action.
-
-The contribution journey now adds a visible two-step label, explains that the
-MoMo destination is confirmed next, preserves one editable semantic control,
-and advances from the native keyboard's Done action. Receipt
-itemisation, expense-splitting modes, debt balances, multi-page promotional
-onboarding, and reminder features were not copied because they do not match
-Collect's verified-contribution model. No Mobbin or third-party visual assets
-were imported.
-
 ## Evidence completed
 
 - `flutter analyze --no-pub`: pass after iOS changes.
@@ -190,6 +178,3 @@ were imported.
   <https://developer.apple.com/app-store/review/guidelines/>
 - Accessibility labels must be based on testing all common tasks:
   <https://developer.apple.com/help/app-store-connect/manage-app-accessibility/overview-of-accessibility-nutrition-labels/>
-- iOS 26 materials and icon treatments should preserve hierarchy and legibility:
-  <https://developer.apple.com/design/human-interface-guidelines/materials>
-  and <https://developer.apple.com/design/human-interface-guidelines/app-icons>

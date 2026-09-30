@@ -5,9 +5,7 @@ class NativeRouteScreenshotAudit
   # Only these route aliases intentionally share a visual destination. All
   # other identical captures indicate stale, missing or wrong-screen evidence.
   VISUAL_ALIASES = [
-    %w[settings-bank-transfer profile-edit],
     %w[root-signed-in app-invite-link app-share-entry home],
-    %w[public-buri-momo diaspora-public-buri-momo],
     %w[group-create groups share-expired-request share-invalid share-expired],
     %w[shared-group-link group-detail],
     %w[auth root-redirect],

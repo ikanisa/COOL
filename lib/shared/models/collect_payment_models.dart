@@ -10,69 +10,7 @@ class PaymentIntentDraft {
   final String collectionId;
   final int amountRwf;
 
-  /// Compatibility name retained for APIs that expose a generic minor amount.
-  /// Rwanda values are whole RWF; diaspora values are currency minor units.
   int get amountMinor => amountRwf;
-}
-
-@immutable
-class BankTransferDestination {
-  const BankTransferDestination({
-    required this.id,
-    required this.beneficiaryName,
-    required this.iban,
-    required this.ibanMasked,
-    required this.bic,
-    required this.bankName,
-    this.currency = 'EUR',
-    this.transferScheme = 'sepa_credit_transfer',
-    this.supportsInstant = true,
-    this.status = 'draft',
-    this.isPlaceholder = false,
-    this.enabled = false,
-  });
-
-  static const placeholder = BankTransferDestination(
-    id: 'placeholder',
-    beneficiaryName: 'PLACEHOLDER — DO NOT TRANSFER',
-    iban: 'XX00PLACEHOLDER0000000000',
-    ibanMasked: 'XX00••••0000',
-    bic: 'PLACEHOL',
-    bankName: 'PLACEHOLDER BANK',
-    isPlaceholder: true,
-  );
-
-  final String id;
-  final String beneficiaryName;
-  final String iban;
-  final String ibanMasked;
-  final String bic;
-  final String bankName;
-  final String currency;
-  final String transferScheme;
-  final bool supportsInstant;
-  final String status;
-  final bool isPlaceholder;
-  final bool enabled;
-
-  factory BankTransferDestination.fromJson(Map<String, dynamic> json) {
-    return BankTransferDestination(
-      id: (json['id'] as String?) ?? 'unavailable',
-      beneficiaryName:
-          (json['beneficiary_name'] as String?) ?? 'Beneficiary unavailable',
-      iban: (json['iban'] as String?) ?? '',
-      ibanMasked: (json['iban_masked'] as String?) ?? '',
-      bic: (json['bic'] as String?) ?? '',
-      bankName: (json['bank_name'] as String?) ?? '',
-      currency: (json['currency'] as String?) ?? 'EUR',
-      transferScheme:
-          (json['transfer_scheme'] as String?) ?? 'sepa_credit_transfer',
-      supportsInstant: json['supports_instant'] != false,
-      status: (json['status'] as String?) ?? 'draft',
-      isPlaceholder: json['is_placeholder'] == true,
-      enabled: json['enabled'] == true,
-    );
-  }
 }
 
 @immutable
@@ -82,15 +20,13 @@ class PaymentIntentModel {
     required this.collectionId,
     int? expectedAmountMinor,
     int? expectedAmountRwf,
-    this.rail = 'diaspora_bank',
+    this.rail = 'rwanda_momo',
     this.receiverMomoNumber = '',
     this.receiverMomoNumberHash = '',
     this.receiverMomoLabel = '',
     this.momoNetwork = 'mtn_momo',
     this.senderPhoneHash = '',
-    this.transferReference = '',
-    this.destination = BankTransferDestination.placeholder,
-    this.currency = 'EUR',
+    this.currency = 'RWF',
     required this.status,
     required this.createdAt,
     required this.expiresAt,
@@ -105,73 +41,70 @@ class PaymentIntentModel {
   final String receiverMomoLabel;
   final String momoNetwork;
   final String senderPhoneHash;
-  final String transferReference;
-  final BankTransferDestination destination;
   final String currency;
   final String status;
   final DateTime createdAt;
   final DateTime expiresAt;
 
   int get expectedAmountRwf => expectedAmountMinor;
-  bool get isRwandaMomo => rail == 'rwanda_momo';
-  String get receiverLabel =>
-      isRwandaMomo ? receiverMomoLabel : destination.beneficiaryName;
-  String get network => isRwandaMomo ? momoNetwork : 'sepa';
-
+  bool get isRwandaMomo => rail == 'rwanda_momo' && currency == 'RWF';
+  String get receiverLabel => receiverMomoLabel;
+  String get network => momoNetwork;
   bool get isAwaitingTransfer =>
-      (isRwandaMomo
-              ? const {'pending'}
-              : const {
-                  'awaiting_transfer',
-                  'handoff_opened',
-                  'awaiting_bank_evidence',
-                  'received_unreconciled',
-                })
-          .contains(status) &&
+      isRwandaMomo &&
+      status == 'pending' &&
       DateTime.now().toUtc().isBefore(expiresAt.toUtc());
 
   factory PaymentIntentModel.fromJson(Map<String, dynamic> json) {
-    final createdAt = _dateTime(json['created_at']);
-    final expiresAt = _dateTime(json['expires_at']);
-    final storedStatus = (json['status'] as String?) ?? 'awaiting_transfer';
-    final destinationJson = json['destination'] ?? json['destination_snapshot'];
+    final rail = json['rail'] ?? 'rwanda_momo';
+    final currency = json['currency'] ?? 'RWF';
+    if (rail != 'rwanda_momo' || currency != 'RWF') {
+      throw const FormatException('Only Rwanda MoMo intents are supported');
+    }
+    if (json['destination'] != null ||
+        json['destination_snapshot'] != null ||
+        json['transfer_reference'] != null) {
+      throw const FormatException('Unsupported payment intent route metadata');
+    }
+    final createdAt = _paymentTimestamp(json['created_at'], 'created_at');
+    final expiresAt = _paymentTimestamp(json['expires_at'], 'expires_at');
+    // Expired historical intents are valid data; inverted lifetimes are not.
+    if (!expiresAt.isAfter(createdAt)) {
+      throw const FormatException('Invalid payment intent lifetime');
+    }
     return PaymentIntentModel(
-      id: json['id'] as String,
-      collectionId: json['collection_id'] as String,
-      expectedAmountMinor:
-          (json['amount_minor'] as num?)?.toInt() ??
-          (json['expected_amount_rwf'] as num?)?.toInt() ??
-          0,
-      rail:
-          json['rail']?.toString() ??
-          (json['receiver_momo_number'] != null
-              ? 'rwanda_momo'
-              : 'diaspora_bank'),
-      receiverMomoNumber:
-          (json['receiver_momo_number'] as String?)?.trim() ?? '',
-      receiverMomoNumberHash:
-          (json['receiver_momo_number_hash'] as String?)?.trim() ?? '',
-      receiverMomoLabel: (json['receiver_label'] as String?)?.trim() ?? '',
-      momoNetwork: (json['network'] as String?)?.trim() ?? 'mtn_momo',
-      senderPhoneHash: (json['sender_phone_hash'] as String?)?.trim() ?? '',
-      transferReference: (json['transfer_reference'] as String?) ?? '',
-      destination: destinationJson is Map
-          ? BankTransferDestination.fromJson(
-              Map<String, dynamic>.from(destinationJson),
-            )
-          : BankTransferDestination.placeholder,
-      currency:
-          (json['currency'] as String?) ??
-          (json['receiver_momo_number'] != null ? 'RWF' : 'EUR'),
-      status:
-          const {
-                'awaiting_transfer',
-                'handoff_opened',
-                'awaiting_bank_evidence',
-              }.contains(storedStatus) &&
-              !expiresAt.isAfter(DateTime.now().toUtc())
-          ? 'expired'
-          : storedStatus,
+      id: _paymentIdentifier(json['id'], 'id'),
+      collectionId: _paymentIdentifier(json['collection_id'], 'collection_id'),
+      expectedAmountMinor: _paymentAmount(
+        json,
+        'amount_minor',
+        'expected_amount_rwf',
+      ),
+      rail: 'rwanda_momo',
+      receiverMomoNumber: _paymentOptionalText(
+        json['receiver_momo_number'],
+        'receiver_momo_number',
+      ).trim(),
+      receiverMomoNumberHash: _paymentOptionalText(
+        json['receiver_momo_number_hash'],
+        'receiver_momo_number_hash',
+      ).trim(),
+      receiverMomoLabel: _paymentOptionalText(
+        json['receiver_label'],
+        'receiver_label',
+      ).trim(),
+      momoNetwork: _paymentOptionalText(
+        json['network'],
+        'network',
+        fallback: 'mtn_momo',
+      ).trim(),
+      senderPhoneHash: _paymentOptionalText(
+        json['sender_phone_hash'],
+        'sender_phone_hash',
+      ).trim(),
+      currency: 'RWF',
+      // Never manufacture an actionable pending state from an absent status.
+      status: _paymentIdentifier(json['status'], 'status'),
       createdAt: createdAt,
       expiresAt: expiresAt,
     );
@@ -203,24 +136,37 @@ class Contribution {
   int get amountMinor => amountRwf;
 
   factory Contribution.fromJson(Map<String, dynamic> json) {
+    if ((json['currency'] ?? 'RWF') != 'RWF' ||
+        (json['rail'] ?? 'rwanda_momo') != 'rwanda_momo') {
+      throw const FormatException('Only RWF MoMo contributions are supported');
+    }
+    final ownership = json['is_current_user_contribution'];
+    if (ownership != null && ownership is! bool) {
+      throw const FormatException('Invalid payment field: ownership');
+    }
     return Contribution(
-      id: (json['payment_id'] as String?) ?? json['id'] as String,
-      collectionId: json['collection_id'] as String,
-      amountRwf:
-          (json['amount_minor'] as num?)?.toInt() ??
-          (json['amount_rwf'] as num?)?.toInt() ??
-          0,
-      currency:
-          (json['currency'] as String?) ??
-          (json.containsKey('amount_minor') ? 'EUR' : 'RWF'),
-      supporterLabel:
-          (json['supporter_label'] as String?) ??
-          (json['contributor_public_id'] == null
-              ? 'Collect member'
-              : 'Collect ID ${json['contributor_public_id']}'),
-      createdAt: _dateTime(json['posted_at'] ?? json['created_at']),
-      transactionId: json['transaction_id'] as String?,
-      isCurrentUserContribution: json['is_current_user_contribution'] == true,
+      // payment_id and id can belong to different schemas; retain precedence.
+      id: _paymentIdentifier(json['payment_id'] ?? json['id'], 'payment_id'),
+      collectionId: _paymentIdentifier(json['collection_id'], 'collection_id'),
+      amountRwf: _paymentAmount(json, 'amount_minor', 'amount_rwf'),
+      currency: 'RWF',
+      supporterLabel: _paymentOptionalText(
+        json['supporter_label'],
+        'supporter_label',
+        fallback: json['contributor_public_id'] == null
+            ? 'Collect member'
+            : 'Collect ID ${json['contributor_public_id']}',
+      ),
+      // Posting and creation are different events. Preserve posting precedence;
+      // do not require their values to agree or replace a missing date with now.
+      createdAt: _paymentTimestamp(
+        json['posted_at'] ?? json['created_at'],
+        'posted_at',
+      ),
+      transactionId: json['transaction_id'] == null
+          ? null
+          : _paymentOptionalText(json['transaction_id'], 'transaction_id'),
+      isCurrentUserContribution: ownership == true,
     );
   }
 }
@@ -248,15 +194,27 @@ class ParsedPaymentEvent {
   final String? collectionId;
 
   factory ParsedPaymentEvent.fromJson(Map<String, dynamic> json) {
+    if (json['currency'] != 'RWF') {
+      throw const FormatException('Only RWF MoMo events are supported');
+    }
     return ParsedPaymentEvent(
-      id: json['id'] as String,
-      amountRwf: (json['amount_rwf'] as num?)?.toInt() ?? 0,
-      transactionId: json['transaction_id'] as String?,
-      senderLabel: 'Bank SMS',
-      allocationStatus: (json['allocation_status'] as String?) ?? 'unallocated',
-      confidence: (json['confidence'] as num?)?.toDouble() ?? 0,
-      createdAt: _dateTime(json['created_at']),
-      collectionId: json['collection_id'] as String?,
+      id: _paymentIdentifier(json['id'], 'id'),
+      // An incomplete receipt belongs in the controlled review queue; do not
+      // display an unknown amount as a confirmed zero-RWF event.
+      amountRwf: _paymentAmount(json, 'amount_rwf', 'amount_minor'),
+      transactionId: json['transaction_id'] == null
+          ? null
+          : _paymentIdentifier(json['transaction_id'], 'transaction_id'),
+      senderLabel: 'MoMo receipt',
+      allocationStatus: _paymentIdentifier(
+        json['allocation_status'],
+        'allocation_status',
+      ),
+      confidence: _paymentConfidence(json['confidence']),
+      createdAt: _paymentTimestamp(json['created_at'], 'created_at'),
+      collectionId: json['collection_id'] == null
+          ? null
+          : _paymentIdentifier(json['collection_id'], 'collection_id'),
     );
   }
 }

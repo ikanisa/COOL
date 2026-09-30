@@ -1,0 +1,77 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "inventory",
+      "command": [
+        "python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/inventory.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "5c6f781b4e3ce39d1e30ac96dd88c4583cbf784f768d3510d9b2ed99bd2746a4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom",
+      "command": [
+        "python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/inventory.json",
+        "--output",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduce",
+      "command": [
+        "python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "2d67bf9361d4960358624e14d2b4454b40bb9114c183042d30cb491108b05cc7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-reproduce",
+      "command": [
+        "python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/inventory.json",
+        "--output",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "schema",
+      "command": [
+        "python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "cc4a66fd034aac0803b8b8f122a48dfad60f31906b11ab66b62df667827cfbbb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "inventory_sha256": "7df3497e279ffdad45cb4fc4025e16af52facb75064e7100e3481f0d59145e17",
+  "sbom_sha256": "f69ea2d81174ea02b1f22f1c4c5ed3d90222ce12c1e47e21be9160cf662cb584",
+  "package_occurrences": 598,
+  "components": 688,
+  "declared_assets": 95,
+  "input_files": 94,
+  "scope": "Current source declaration/lock inputs only; active Dart UI/current artifact compilation and advisory/license acceptance are outside this inventory"
+}

@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
-  for (final country in ['RW', 'GB']) {
+  for (final country in ['RW']) {
     testWidgets('$country security guidance follows its contribution rail', (
       tester,
     ) async {
@@ -20,11 +20,9 @@ void main() {
           publicId: '123456',
           whatsappPhone: '+250788123456',
           countryCode: country,
-          currencyCode: country == 'RW' ? 'RWF' : 'GBP',
+          currencyCode: 'RWF',
           momoProvider: 'mtn_momo',
           momoNumber: '0788123456',
-          revolutLink: 'https://revolut.me/localtest',
-          revolutAccount: '000123456789',
         ),
       );
       final router = createAppRouter(initialLocation: '/settings/security');
@@ -39,14 +37,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(
-        find.text(
-          country == 'RW'
-              ? 'Approve payments in MoMo'
-              : 'Approve transfers in your bank app',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Approve payments in MoMo'), findsOneWidget);
       if (country == 'RW') {
         expect(
           find.textContaining('statement-reconciled bank receipts'),

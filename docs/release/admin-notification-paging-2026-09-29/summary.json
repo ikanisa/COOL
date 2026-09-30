@@ -1,0 +1,163 @@
+{
+  "benchmark_sql_sha256": "36ac3d57e9fa378368db17b25661c01a681ac749472c6fcc15aada93cd1fa6fc",
+  "candidate_migration_sha256": "03692c5da0e9bd3371a6530eb7876f8a658f088166d13936ee44d2c154063890",
+  "limitations": [
+    "single local execution per size and case; no p95 or p99",
+    "synthetic one-user notification distribution and one delivery per event",
+    "no full clean replay including proposed migration",
+    "no hosted database, deployment, signed build or live index-build timing"
+  ],
+  "method": "actual authenticated Admin RPC; nested auto_explain analyze/buffers; 25-row pages; exact totals",
+  "parity_runner_sha256": "791ff498724b9665a32026e9d80357a1d55a5d3b977b7426db5ecbf658e78786",
+  "parity_transcript_sha256": "96b415507241413ba9addecd8ae85b056dd3d6f3efcfc4e6f0a7300561003dad",
+  "runs": [
+    {
+      "candidate": {
+        "cases": {
+          "deep-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 1.901,
+            "total": 1001
+          },
+          "failed-asc": {
+            "items": 25,
+            "single_call_elapsed_ms": 2.531,
+            "total": 333
+          },
+          "first-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 3.008,
+            "total": 1001
+          }
+        },
+        "delivery_index_probe_count_per_case": 1,
+        "delivery_index_probe_loops": {
+          "deep-desc": 25,
+          "failed-asc": 25,
+          "first-desc": 25
+        },
+        "private_log_sha256": {
+          "stderr": "6aee4c161e211d54b598b5e4d913351182fe0477464b42f395ad26dc29af7a64",
+          "stdout": "18fd7abe66dd7a1a83bfc334043ba91e2726078b68283869657c3e03bbaef739"
+        },
+        "synthetic_events_inserted": 1000,
+        "top_plan_shared_buffer_hits": {
+          "deep-desc": 157,
+          "failed-asc": 122,
+          "first-desc": 128
+        }
+      },
+      "events": 1000,
+      "old": {
+        "cases": {
+          "deep-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 3.641,
+            "total": 1001
+          },
+          "failed-asc": {
+            "items": 25,
+            "single_call_elapsed_ms": 2.958,
+            "total": 333
+          },
+          "first-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 9.644,
+            "total": 1001
+          }
+        },
+        "delivery_index_probe_count_per_case": 2,
+        "delivery_index_probe_loops": {
+          "deep-desc": 1001,
+          "failed-asc": 333,
+          "first-desc": 1001
+        },
+        "private_log_sha256": {
+          "stderr": "97a05e2e871ac566b70bb9216b21506019c2b3044c1d1790bac3063a15a1f310",
+          "stdout": "2a8ef670bf943f0c5324282f1d4137299a4861897b1ee984f1619ea5b0a7eb68"
+        },
+        "synthetic_events_inserted": 1000,
+        "top_plan_shared_buffer_hits": {
+          "deep-desc": 6025,
+          "failed-asc": 2019,
+          "first-desc": 6036
+        }
+      }
+    },
+    {
+      "candidate": {
+        "cases": {
+          "deep-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 5.525,
+            "total": 10001
+          },
+          "failed-asc": {
+            "items": 25,
+            "single_call_elapsed_ms": 2.529,
+            "total": 3333
+          },
+          "first-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 3.851,
+            "total": 10001
+          }
+        },
+        "delivery_index_probe_count_per_case": 1,
+        "delivery_index_probe_loops": {
+          "deep-desc": 25,
+          "failed-asc": 25,
+          "first-desc": 25
+        },
+        "private_log_sha256": {
+          "stderr": "c0e3f0642d5a681c1810d32aa546edbdc02148e42472e2ac86134e1c692d0d77",
+          "stdout": "9277eff86c80bbd83af13f05b0941c82be8132cf813c75adf4000e35567b10f0"
+        },
+        "synthetic_events_inserted": 10000,
+        "top_plan_shared_buffer_hits": {
+          "deep-desc": 530,
+          "failed-asc": 325,
+          "first-desc": 330
+        }
+      },
+      "events": 10000,
+      "old": {
+        "cases": {
+          "deep-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 37.612,
+            "total": 10001
+          },
+          "failed-asc": {
+            "items": 25,
+            "single_call_elapsed_ms": 14.91,
+            "total": 3333
+          },
+          "first-desc": {
+            "items": 25,
+            "single_call_elapsed_ms": 38.115,
+            "total": 10001
+          }
+        },
+        "delivery_index_probe_count_per_case": 2,
+        "delivery_index_probe_loops": {
+          "deep-desc": 10001,
+          "failed-asc": 3333,
+          "first-desc": 10001
+        },
+        "private_log_sha256": {
+          "stderr": "702901e6b6f3ea048f95d1afe1429cd55732c4f9eaf185d99d52594720b32c8c",
+          "stdout": "b2d14bacbbd5307ebaa5a68ac815a95bf9a759c3280cced349b004ba1b9a59f4"
+        },
+        "synthetic_events_inserted": 10000,
+        "top_plan_shared_buffer_hits": {
+          "deep-desc": 60209,
+          "failed-asc": 20203,
+          "first-desc": 60221
+        }
+      }
+    }
+  ],
+  "scope": "PostgreSQL 17.6 restored 133-migration fixture; proposed migration applied only inside rollback transactions",
+  "status": "pass_local_candidate_not_release"
+}

@@ -1,0 +1,1674 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-29",
+  "product": "Collect",
+  "release_decision": "NO-GO",
+  "scope": "100 original production tasks and two overlapping crosscutting checks",
+  "base_commit": "c2569a47c7f87de68a60c4a247b5c5e3ca640f06",
+  "frozen_candidate": false,
+  "open_acceptance_checks": 101,
+  "locally_closed_ids": [
+    "G06"
+  ],
+  "open_by_priority": {
+    "P0": 24,
+    "P1": 71,
+    "P2": 4,
+    "Crosscutting": 2
+  },
+  "open_by_evidence_status": {
+    "External": 29,
+    "Partial": 65,
+    "Unverified": 7
+  },
+  "assigned_owners_verified": false,
+  "external_state_refreshed_for_this_report": false,
+  "source_documents": [
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-29.md",
+      "sha256": "c06235bcd3514269af76e0d9aef69dd2f46bda4d16fc0941c2fe2f8d79d37003"
+    },
+    {
+      "path": "docs/release/PRODUCTION_READINESS_REMAINING_TASKS_2026-09-28.md",
+      "sha256": "a6f11eba6672f3f0d972d761cc6676d92edc5ea0fa6eea423981326c5babbfd9"
+    },
+    {
+      "path": "docs/release/PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+      "sha256": "bd679f5113561886b06406dabb28fe3171804d03d7de95d7c9be7079dd4db02c"
+    }
+  ],
+  "items": [
+    {
+      "id": "G01",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Remove broad Drive write/sharing grants from source, configuration and delivery evidence; retain permission readback proving access is limited to approved collaborators. Recheck the 28 September observation.",
+      "open": true,
+      "title": "Restrict COOL sharing to named collaborators",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Owner confirms no anyone/domain writer grants on source, configs and delivery evidence; retain before/after permission evidence.",
+      "current_evidence": "Fresh 28 September metadata readback for the COOL root and the review environment file still showed `anyone`/`writer`; the [trust checkpoint](SOURCE_PRESERVATION_AND_TRUST_2026-09-28.md) records the scope. The available connector cannot revoke permissions. The owner must restrict both grants and retain before/after readback.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G01"
+      }
+    },
+    {
+      "id": "G02",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Preserve revisions/access evidence and establish the actual exposure window, affected material and personal-data scope. Record findings without inferring access from open sharing alone.",
+      "open": true,
+      "title": "Preserve exposure evidence and scope affected content",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Read-only revision/access review and incident triage identify time window, credential classes and affected personal data; no unsupported breach conclusion.",
+      "current_evidence": "docs/release/EXTERNAL_REVIEW_EVIDENCE_2026-09-28.md preserves moved source evidence; no access-log or incident-scope determination was verified. Security owner must review revisions, access, affected data and timeline.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G02"
+      }
+    },
+    {
+      "id": "G03",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Scan Git history, ignored archives and outputs with redacted results; rotate or disable genuinely exposed credentials and prove old credentials no longer work.",
+      "open": true,
+      "title": "Invalidate real exposed review credentials and isolate secrets",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Review account disabled/rotated as appropriate; secret scan includes Git history, archives and build outputs with redacted results.",
+      "current_evidence": "make release-secret-scan passed for the current tracked/untracked tree, but history and ignored archives were outside that scan and no credential rotation was verified. Scan retained history/archive copies and rotate any actual exposed review credential.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G03"
+      }
+    },
+    {
+      "id": "G04",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Name the release owner and canonical trusted Git origin; verify protected merges/artifact publication despite the earlier protection-API 403. Bind reviewed imports to the trusted source.",
+      "open": true,
+      "title": "Establish the trusted full Git origin and release owner",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "One protected repository, named owner, verified trusted commit and reviewed imports; Drive is not the build authority.",
+      "current_evidence": "Fresh remote `main` equals local HEAD `c2569a47c7f87de68a60c4a247b5c5e3ca640f06`; `git fsck --full --strict` passed, and [verified private Git bundles](SOURCE_PRESERVATION_AND_TRUST_2026-09-28.md) preserve reachable history plus a recovered dangling WIP commit. The checkout remains dirty and the branch-protection API returned plan-restricted 403. Name a release owner, prove trusted origin and protected commit, then bind imports to it.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G04"
+      }
+    },
+    {
+      "id": "G05",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Finish representative compatibility validation of the selected Increment 11/v2 changes, preserve all merge decisions, integrate remaining corrections and freeze one reviewed release commit. Repeat full validation on that commit.",
+      "open": true,
+      "title": "Freeze the reviewed Increment 11 and v2 reconciliation in one release commit",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "All four conflicting paths and eight unique paths receive merge decisions; no test/fix silently lost; resulting commit recorded.",
+      "current_evidence": "The [Drive incorporation ledger](DRIVE_INCORPORATED_FILES_2026-09-28.md) records 147 cumulative paths, 145 active after two raw manifests were archived; a fresh selected-v2 comparison leaves seven deliberately excluded retired-rule files. A [hash-checked private snapshot](SOURCE_PRESERVATION_AND_TRUST_2026-09-28.md) preserves 397 changed/new files and 96 tracked deletions. The [Increment 11 reconciliation](INCREMENT_11_BRANCH_RECONCILIATION_2026-09-28.md) records decisions for all four conflicts and eight unique paths; the [ten adapted-file diff review](increment-11-adapted-review-2026-09-29/README.md) verified both archived ZIPs and reviewed every adapted path. Current focused suites pass 229 Flutter and 24 Python checks; aggregate QA tooling and source-integrity gates pass. A [pre-cutover bank upgrade](historical-bank-upgrade-2026-09-29/README.md) preserved seven synthetic historical record fingerprints through migration 134. Representative/hosted schema compatibility, one protected release commit and exact-commit full test results remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G05"
+      }
+    },
+    {
+      "id": "G06",
+      "priority": "P0",
+      "evidence_status": "Local",
+      "remaining_work": "No further repository design-governance change is required by this task; U01 and X01 remain open for visual acceptance.",
+      "open": false,
+      "title": "Remove the retired repository scoring rule and retain `revolut-design` as sole UI/UX authority",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Current: operative scripts, CI, release wrappers and the active source tree no longer invoke or name the retired rule. Exact-byte historical evidence was moved to the [external review archive](EXTERNAL_REVIEW_EVIDENCE_2026-09-28.md). The installed skill entry point SHA-256 is `59ed494b2dd61684a8f2f516385ba601cfa549b7541bc1e9706df50e28fe3e1a`. This closes source governance only; U01 and production approval remain open.",
+      "current_evidence": "AGENTS.md, active release wiring and the current task register now use revolut-design and owner visual review; historical bytes were archived outside the active repo with hash readback in docs/release/EXTERNAL_REVIEW_EVIDENCE_2026-09-28.md. A final active-tree scan, including ignored files, found no named retired rule or old style-gate script reference. CI now runs source integrity checks without a separate aesthetic rule set; U01 and X01 remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G06"
+      }
+    },
+    {
+      "id": "G07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Produce a manifest binding the frozen source, dependency locks, toolchain, build inputs and signed artifact hashes; retain trusted review evidence.",
+      "open": true,
+      "title": "Create a baseline-to-release provenance manifest",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Commit, dependency locks, toolchain versions, build inputs and signed artifact hashes link to one reviewable release record.",
+      "current_evidence": "The [source checkpoint](SOURCE_PRESERVATION_AND_TRUST_2026-09-28.md) records current HEAD, remote parity and verified preservation hashes; docs/release/GO_NO_GO_DECISION.md names release provenance requirements and scripts/qa/native_build_provenance.rb supports checks. No exact release-commit manifest with current signed artifact hashes exists. Generate and review it from the frozen build.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G07"
+      }
+    },
+    {
+      "id": "G08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Prove an isolated clean checkout builds without private archives, ignored outputs or undeclared files. Verify artifact locations and ignore rules before removing anything.",
+      "open": true,
+      "title": "Separate build output, private configuration and delivery archives",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Clean checkout builds without archived outputs; ignore rules and allowed artifact locations are tested.",
+      "current_evidence": ".gitignore and the external evidence archive separate some outputs; generated `test/goldens/failures/` images are now ignored, while the five review candidates and their hashes are retained in the release evidence folder. A clean-checkout dependency and ignored-output audit is absent. Prove builds need no archived output or private files.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G08"
+      }
+    },
+    {
+      "id": "G09",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Configure and export actual required checks/reviews, code ownership, trusted runners and restricted publication credentials; demonstrate enforcement on protected release paths.",
+      "open": true,
+      "title": "Protect merges and artifact publication",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Required checks/reviews, CODEOWNERS and restricted release credentials are verified by repository policy export.",
+      "current_evidence": ".github/workflows/ci.yml and hardening-contracts.yml exist. scripts/release_go_preflight.sh now blocks direct store submission unless approval evidence and the release decision are GO, and release_status.sh fails closed on approval/mobile probe errors; local preflight tests pass. Hosted runs were startup_failure and repository protection readback failed with 403. Configure and verify required checks, reviews and release credentials in GitHub.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G09"
+      }
+    },
+    {
+      "id": "G10",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Assign a named accountable owner to every blocker, with dependency, next action, dated evidence and decision/deferral. Bind one decision register to the release candidate.",
+      "open": true,
+      "title": "Maintain a single release decision register",
+      "accountable_person": null,
+      "responsible_roles": "Repository/release owner, security owner, engineering lead",
+      "original_acceptance": "Every release blocker has an owner, evidence link, accepted scope and decision; no checksum/test count is called production approval.",
+      "current_evidence": "The remaining-task register and docs/release/GO_NO_GO_DECISION.md record open gates, but no single signed, owner-assigned candidate decision register exists. Add accountable owner, dated evidence and disposition for each release blocker.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "G10"
+      }
+    },
+    {
+      "id": "S01",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Obtain security, finance and operations review of the complete receipt-to-ledger threat model, including the newly found finality and notification boundaries; verify deployed functions, callers and provider trust.",
+      "open": true,
+      "title": "Threat-model receipt capture through financial posting",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Trust boundaries, attacker capabilities, evidence levels and abuse cases reviewed by backend, mobile and operations owners.",
+      "current_evidence": "The [source-backed threat packet](security-threat-model-2026-09-28/README.md) covers OTP, native receipt custody, Edge boundaries, payment finality, Admin and storage; 122 source anchors were validated. It identifies the historical SMS self-finalizer and the new local containment migration. Full-schema/deployed checks and security, finance and operations owner decisions remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S01"
+      }
+    },
+    {
+      "id": "S02",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Stage the real OTP hook and prove malformed, unsupported-country and invalid Rwanda numbers fail before reservation/provider calls; valid supported numbers must authenticate.",
+      "open": true,
+      "title": "Enforce Rwanda phone validation before OTP reservation/send",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Malformed, blank, overlong and non-supported-country inputs rejected without provider calls; valid normalized cases pass.",
+      "current_evidence": "supabase/functions/auth-send-whatsapp-otp/index.ts normalizes Rwanda numbers before reserve/send. Stage the hook and prove malformed and unsupported inputs never reach the provider, while valid real numbers work.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S02"
+      }
+    },
+    {
+      "id": "S03",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Implement or configure trusted end-user source/network and bot controls before the signed OTP hook; the hook caller IP is not the end-user IP. Approve per-phone/global spend limits and test concurrent reservations, bypasses and safe throttling.",
+      "open": true,
+      "title": "Implement layered OTP abuse and spend limits",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Per-phone, source/network and global quotas withstand concurrent tests; limits cover bypass paths and return safe throttling responses.",
+      "current_evidence": "deploy/hardening/signed_otp_limits_v2.sql and supabase/migrations/20260914213600_atomic_otp_rate_limit.sql provide rate-limit source. Run concurrent SQL/provider tests and configure source/network and global spend controls. Current source review confirms the staged signed reservation passes no end-user source identity and the numbered atomic quota counts by phone. Implement or configure a trusted pre-hook source/network and bot-control boundary; do not use the Supabase hook caller IP as the end-user IP.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S03"
+      }
+    },
+    {
+      "id": "S04",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Implement evidence-based recovery for reserved-but-unresolved OTP sends without blindly resending an uncertain delivery. Verify actual signed hook configuration, signature checks, stale/replayed requests and the complete recovery procedure.",
+      "open": true,
+      "title": "Resolve SMS-hook signature compatibility",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Unsigned/replayed/stale requests fail except any explicitly approved scoped migration path; signed hook integration passes.",
+      "current_evidence": "The WhatsApp OTP hook verifies signed payloads in source and reserves send IDs, but current deployed hook configuration and real signed Supabase delivery were not read back. Test signature, replay, stale request and unresolved-send recovery in staging. The staged reservation has reserved/sent states and unresolved retries return 503. Define and implement an evidence-based recovery control or operator procedure for uncertain sends before treating recovery as a completed feature.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S04"
+      }
+    },
+    {
+      "id": "S05",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Read production Auth/hook settings and exact release configuration; prove reusable test OTP mappings, bypasses and unbounded review accounts are disabled.",
+      "open": true,
+      "title": "Prove production OTP test mode is disabled",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Production configuration and release artifacts contain no reusable OTP bypass; review accounts isolated and expiry controlled.",
+      "current_evidence": "No current production Auth/hook configuration or signed artifact was accessible. Inspect production test-account and OTP settings and prove no reusable bypass in the exact release.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S05"
+      }
+    },
+    {
+      "id": "S06",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test Play Integrity on certificate/version-bound builds: replay, expiry, redemption, quota, outages and unsupported-device behavior, with approved expected outcomes.",
+      "open": true,
+      "title": "Complete Play Integrity policy and redemption tests",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Licensed install decision, version policy, hash binding, expiry, replay, quota and unsupported device cases have expected outcomes.",
+      "current_evidence": "supabase/functions/verify-play-integrity/index.ts and test/core/play_integrity_service_test.dart contain candidate policy. Exercise certificate-bound real builds, replay/quota/outage and unsupported-device cases.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S06"
+      }
+    },
+    {
+      "id": "S07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Extend stable-error verification to deployed gateways, logs, exports and SDK failures. Test a corpus containing secrets, phone data, provider responses and SQL details for leakage.",
+      "open": true,
+      "title": "Replace raw public errors with safe stable codes",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Error corpus containing tokens, phone numbers, provider bodies and SQL details does not escape HTTP responses or routine logs.",
+      "current_evidence": "The [eight-entrypoint Edge error audit](edge-error-audit-2026-09-28/README.md) found and corrected internal auth/configuration text, an operator ACL leak, and a validation-status regression. The operator now bounds input JSON and returns stable permission/conflict/503 errors; isolated HTTP handler tests passed 38/38, and Deno checked all eight handlers. Release scripts now pass bearer and hook headers through mode-0600 curl config files, Auth payloads through stdin, and the hook secret to the CLI through a mode-0600 env file; synthetic transport tests pass. Deployed HTTP, gateway, logs and exports still need a sensitive-error corpus and version readback.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S07"
+      }
+    },
+    {
+      "id": "S08",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Export actual hosted grants, RLS and security-definer functions; test every role, cross-group ID, receiver/operator/service action and concurrent revocation. Verify finality helper grants and migration-order effects.",
+      "open": true,
+      "title": "Audit actual grants, RLS and security-definer functions",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Role-by-role exported grants and negative tests prove least privilege for anonymous/member/operator/service roles and raw SMS.",
+      "current_evidence": "deploy/hardening/readiness_readonly.sql and RLS/grant migrations are source evidence only; Supabase project readback was unavailable. A [synthetic restore negative control](financial-core-2026-09-28/README.md) found that `pg_restore` into a prebootstrapped target exited zero with matching data but widened `anon`/`authenticated` receipt execution and `anon` profile SELECT; a fresh empty-database restore retained the source denials. A guarded 17-assertion rollback-only local role test covers service-only financial entrypoints, raw-SMS/direct-money denial, non-admin Admin RLS/RPC denial and private-group history. A separate 15-assertion local Admin test covers approved-role access and approval/role/session invalidation. The [retired-bank UAT](historical-bank-boundary-2026-09-29/README.md) adds 11 rollback-only assertions and catalog-scans 33 retired functions plus ten bank tables with no API-role grants. The [pre-cutover bank UAT](historical-bank-upgrade-2026-09-29/README.md) adds 14 assertions on retained records, API denial, current-read isolation and old profile-call boundaries. Export actual hosted grants and extend the matrix to receiver/operator/service actions, concurrency and all cross-group IDs on the authorized schema.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S08"
+      }
+    },
+    {
+      "id": "S09",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Complete the deployed Admin role/action matrix, step-up policy and sensitive-action audit; prove approval/role/session revocation takes effect during concurrent UI and server actions.",
+      "open": true,
+      "title": "Verify admin authorization and step-up policy",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "Member sessions cannot access admin data/actions; grants/revocation invalidate access; sensitive actions require audit reason and selected stronger authentication.",
+      "current_evidence": "lib/admin/core/admin_auth_guard.dart and admin permission migrations provide controls. The [local Admin access refresh correction](ui-truth-corrections-2026-09-28/README.md) invalidates stale approval snapshots on operator/target/realtime changes. The [local financial packet](financial-core-2026-09-28/README.md) proves synthetic non-admin RPC denial, an approved platform-owner payment read and reasoned raw-SMS reveal with an audit row, then immediate denial after approval revocation, role revocation or session expiry; stale sessions predating renewed grants fail. Deployed revocation, concurrent races and step-up behavior remain unverified. Test the complete role/action matrix and audited sensitive actions.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S09"
+      }
+    },
+    {
+      "id": "S10",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Add explicit deadlines to notification enqueue/wake-up calls and reject dispatch redirects; implement provider Retry-After and jitter. Rehearse OTP, Integrity, parsing and push outages, bounded side effects, quotas, throughput and coordinated hosted rollout.",
+      "open": true,
+      "title": "Add bounded provider requests and retry policy",
+      "accountable_person": null,
+      "responsible_roles": "Security lead, backend/authentication engineer, Admin owner",
+      "original_acceptance": "OTP/Integrity/provider calls have explicit timeout/backoff budgets; retry class respects idempotence and does not multiply side effects.",
+      "current_evidence": "[Notification packet](notification-fencing-2026-09-29/README.md) verifies required claim protocol, bounded dispatcher calls, pre-send lease validation, exact token/attempt completion and accepted-send uncertainty handling. 52 rollback SQL checks, overlapping claim/reassignment sessions and 22 pinned Deno tests pass. OTP/Integrity/parser/provider outages, Retry-After, jitter, representative throughput and hosted evidence remain open. Current source review also found no explicit deadline on send-notification enqueue/wake-up calls and no redirect rejection on its dispatch fetch; complete those bounds alongside provider backoff.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "S10"
+      }
+    },
+    {
+      "id": "F01",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Approve requested, handed-off, SMS-observed, reconciled and final meanings; align DB, Edge, Android, Dart and all financial wording. Test the coordinated rollout and commit-timeout/account-switch boundaries.",
+      "open": true,
+      "title": "Define and implement financial evidence levels",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Requested, handed-off, SMS-observed, reconciled and final statuses have approved meanings; no device-only proof is mislabeled independent provider confirmation.",
+      "current_evidence": "supabase/functions/ingest-payment-sms/index.ts responds with sms_observed, and lib/core/security/durable_sms_receipt.dart explicitly separates storage ACK from settlement. Approve all evidence-level meanings and validate them across DB, Edge, Android, Dart and UI.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F01"
+      }
+    },
+    {
+      "id": "F02",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Prove an authorized independent provider/statement reconciliation path or an explicitly approved constrained finality policy, including exceptions, corrections and reversals. Verify source authenticity before final posting claims.",
+      "open": true,
+      "title": "Establish independent reconciliation or approved constrained finality",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Authorized provider records or controlled statements resolve confirmations/reversals; any SMS-only risk boundary is documented with controls and explicit approval.",
+      "current_evidence": "deploy/hardening/reconciliation_approval_v2.sql is a staged maker/checker candidate; no independent provider/statement finality or live approval was verified. Prove the authorized reconciliation source and approved exception/reversal policy before final claims.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F02"
+      }
+    },
+    {
+      "id": "F03",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Run missing/null/unsupported/future receipt-contract cases against deployed handlers and mixed client versions; verify no mutation, actionable alerts and safe coordinated rollout.",
+      "open": true,
+      "title": "Fail closed on missing/unknown attestation contract",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Missing RPC, null, unexpected and future versions block secure ingestion with actionable alert; supported staged rollout succeeds.",
+      "current_evidence": "supabase/functions/_shared/receipt_ingestion.ts calls requireReceiptContract before acceptance. The numbered v2 contract migration is in the [133/133 clean full-schema replay](financial-core-2026-09-28/README.md), and its rollback-only UAT passed seven assertions. Five synthetic missing/null/undefined/future/text-version cases now exercise the real receipt and parser handlers and verify no downstream evidence call; the Bun handler suite passed 43/43. Hosted-version readback, mixed-client rollout, alerting and installed-device behavior remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F03"
+      }
+    },
+    {
+      "id": "F04",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "On installed devices, prove only an exact durable, current-owner server ACK deletes the corresponding envelope; test no-op/malformed success, wrong owner, transport/commit timeout and consent/account-switch races.",
+      "open": true,
+      "title": "Return durable receipt acknowledgements before local deletion",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "ACK requires exact server-persisted envelope ID and current owner; signed-out, no-op, wrong-owner, malformed success and transport failure never delete evidence.",
+      "current_evidence": "lib/core/security/durable_sms_receipt.dart validates v2 stored ACK, owner and envelope, while SmsQueueStore.kt deletes only exact acknowledged bodies; disabling capture retains pending ciphertext, and account switch suspends capture. The numbered v2 contract passed seven synthetic full-schema assertions, and Android unit tests passed after the native patch. Complete wrong-owner, no-op, transport timeout, revoked consent and account-switch tests on installed devices.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F04"
+      }
+    },
+    {
+      "id": "F05",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Exercise transient/permanent Keystore failure, corrupt ciphertext, quarantine, reinstall and support recovery on physical devices; transient faults must retain recoverable evidence.",
+      "open": true,
+      "title": "Preserve ciphertext on transient Keystore failures",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Transient locked/unavailable key leaves ciphertext recoverable; genuine corruption gets explicit quarantine and support signal, not silent empty success.",
+      "current_evidence": "SmsQueueStore.kt records queue-unavailable state and retains ciphertext on read failure. Test transient/permanent Keystore failure, quarantine, reinstall and recovery on physical devices.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F05"
+      }
+    },
+    {
+      "id": "F06",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Approve queue capacity and overflow policy; test 100/101 boundaries, bursts and prolonged offline use with persistent attention signals and recoverable evidence.",
+      "open": true,
+      "title": "Define capacity and overflow recovery for receipt queue",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "100/101 boundary, burst and prolonged-offline tests demonstrate retained evidence, overflow visibility and a documented recovery route.",
+      "current_evidence": "SmsQueueStore.kt has overflow/unavailable flags and queue tests; approved capacity and OS-durable recovery remain open. Test 100/101, burst and prolonged-offline evidence retention and operator recovery.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F06"
+      }
+    },
+    {
+      "id": "F07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Decide late-upload/expired-intent/grace and clock-skew policy; align SQL and operator wording, then test before/at/after expiry, delayed upload and concurrent workers without device-only final credit.",
+      "open": true,
+      "title": "Resolve late receipt/expired-intent semantics",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Before/at/after-expiry and skew outcomes are deterministic, auditable and cannot create credit without independent provider confirmation.",
+      "current_evidence": "The [full-schema rollback-only boundary packet](financial-core-2026-09-28/README.md) tests six on-time, exact-expiry, late-upload and early-device-clock cases plus direct-call guards. A receipt uploaded one minute after expiry is held for review even if the attested device time preceded expiry; the two-hour device-evidence allowance does not currently permit late-upload matching because the allocator first expires pending intents and the posting helper requires an active intent. No case posted credit or changed the ledger; the restored source fingerprint matched after rollback. Financial-owner policy for review-only grace versus always-hold, real clock integrity, concurrent/delayed upload, operator resolution and deployed behavior remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F07"
+      }
+    },
+    {
+      "id": "F08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Extend the locally verified replay/rejection correction to representative historical and authenticated provider cases, cross-payment duplicate references, delayed events and reversal variants; verify deployed definitions and balanced journals.",
+      "open": true,
+      "title": "Prove transaction idempotence and reversal accounting",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Duplicate/reordered/conflicting references, simultaneous workers and compensation create no duplicate credit; journals balance and audit chain is intact.",
+      "current_evidence": "[Latest content-binding packet](financial-content-binding-2026-09-29/README.md): three unsafe success cases reproduced on 135; migration 136 now binds normalized RPC input, exact confirmation fields and immutable candidate-bound rejection, while legacy identity-unknown retries fail closed. 78 rollback adversarial checks and a same-confirmation/conflicting-evidence two-worker race passed. A clean 138 replay, duplicate SMS, identical-confirmation and balanced Admin compensation races also pass. Earlier135 lock-order evidence remains in its packet. Real authenticated provider evidence, representative historical variants, cross-payment duplicate references, deployed grants/functions and full acceptance remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F08"
+      }
+    },
+    {
+      "id": "F09",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Extend exact confirmed-payer matching to concurrent candidates, duplicate memberships and deployed/provider identity; ambiguous or conflicting evidence must enter the governed exception process without automatic credit. Validate historical remediation.",
+      "open": true,
+      "title": "Validate payer identity and ambiguous matches",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Same amount, same phone suffix/name, multiple pending intents, route changes and duplicate memberships require exact identity or operator review.",
+      "current_evidence": "`20260928170000_confirmed_momo_payer_posting.sql` and `20260928171000_strict_intent_sms_match.sql` bind positive posting to confirmed Auth identity and hold direct/public-ID conflicts for review. The 40-assertion synthetic full-schema UAT covers several zero/multiple/conflicting candidate and route cases. A [15-assertion full-schema adversarial run](payer-identity-adversarial-2026-09-29/README.md) separated two same-amount/name/suffix payers by confirmed Auth hash, held missing or conflicting identity without credit, and held two same-payer routes without a receiver as ambiguous. Concurrent matching, duplicate memberships, deployed/provider identity, operator review and historical remediation remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F09"
+      }
+    },
+    {
+      "id": "F10",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Implement and wire the operator maker/checker UI, immutable evidence audit and trusted finalization runner. Execute full-schema proposal/approval, independent actors, expiry/revocation, wrapper/gateway lock order, both deployment-order ACL scenarios, finite evidence times and Admin dispute flows; authenticate real evidence.",
+      "open": true,
+      "title": "Implement reconciliation operations and dispute evidence",
+      "accountable_person": null,
+      "responsible_roles": "Financial-control owner, backend/ledger engineer, Android engineer, reconciliation operator",
+      "original_acceptance": "Every exception links receipt, intent, route, journal and resolution; maker/checker where required; notifications cannot independently mark a payment final.",
+      "current_evidence": "[Content-binding work](financial-content-binding-2026-09-29/README.md) aligns the staged approval finalizer with the gateway payment-advisory lock order and rejects nonfinite evidence time during proposal/approval/finalization. Staged maker/checker SQL is still not promoted or fully exercised here. Execute full-schema proposal/approval, revocation, wrapper/direct concurrency, both deployment sequences, immutable evidence audit and Admin dispute flows before deployment. No application/Edge callers of the staged propose/approve/finalize reconciliation RPCs were found; the current Admin reconciliation route still exposes allocation. Implement the maker/checker operator interface and trusted finalization caller before end-to-end acceptance.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "F10"
+      }
+    },
+    {
+      "id": "D01",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Capture representative history plans for all sorts, scopes and first/middle/deep pages; compare old/new paths and repeated p95/p99, buffers and scan growth against approved limits.",
+      "open": true,
+      "title": "Profile real history SQL with representative volumes",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "EXPLAIN ANALYZE BUFFERS captured in isolated staging for all sorts and group scopes; latency/scan growth documented.",
+      "current_evidence": "The [full-schema synthetic plan packet](history-pagination-2026-09-28/README.md) captures 18 nested `auto_explain` plans with actual buffers at 1,000 and 10,000 performance-only rows: all four sorts, selected/all-group first and deep pages, and empty/nonempty searches. The eight-case batch measured 47.397 ms and 220.099 ms in single local runs. Some selected-group pages use history indexes; exact totals/revisions and all-group paths still scan matching payments. Representative workload, old-JSON comparison, middle-page and p95/p99 evidence remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D01"
+      }
+    },
+    {
+      "id": "D02",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Finish relational keyset performance/authorization validation and hosted RPC/index readback. Verify page depth avoids whole-history JSON reconstruction; measure remaining total/revision scans.",
+      "open": true,
+      "title": "Replace whole-JSON history paging with relational keyset reads",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Actor-authorized query uses stable ordering/indexes; page depth does not require rebuilding full JSON history; benchmark comparison retained.",
+      "current_evidence": "The new [additive relational history migration](history-pagination-2026-09-28/README.md) replaces the JSON-wide ranking with a limit-plus-one keyset page and indexed payment paths. The isolated PostgreSQL 17 scratch fixture passed all four sorts across 121 visible rows; the 133-migration full-schema replay and 1,000/10,000-row first/deep-page benchmark now pass locally. The old JSON baseline, representative traffic, middle pages, hosted readback and release decision remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D02"
+      }
+    },
+    {
+      "id": "D03",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test client and installed-app handling of posting, governed reversal, privacy/membership changes and concurrent reads; require consistent totals/revisions or explicit refresh, including hosted RLS.",
+      "open": true,
+      "title": "Keep aggregate and revision consistency across pages",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Posting, reversal and permission changes produce consistent totals or a refresh-required response; no mismatched snapshot is accepted.",
+      "current_evidence": "The new history SQL retains revision-bound cursors and hashes relational row content. The [full-schema interleaved UAT](history-pagination-2026-09-28/README.md) used the actual authenticated public RPC in a task-owned 133-migration clone: a distinct second page, complete private-group totals and masked peer IDs passed; committed synthetic posting, reversal and membership revocation each rejected the stale cursor and fresh reads reflected the changed count, amount or access. The clone was dropped and the source restore still matched its 1,327-row/schema/ACL/financial fingerprint. Synthetic rows have no provider or ledger evidence; Dart/installed-app behavior, real governed reversal, in-call concurrency and hosted RLS remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D03"
+      }
+    },
+    {
+      "id": "D04",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Validate bounded recent-intent and notification work at representative multi-actor/receiver volumes; compare previous paths, measure exact totals and migration/index timing, and read back deployed definitions.",
+      "open": true,
+      "title": "Bound recent intent and notification database work",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Row limits precede JSON aggregation, old actor-owned IDs resolve, exact count policies are measured, and notification detail work is page bounded.",
+      "current_evidence": "The [full-schema recent-intent plan packet](history-pagination-2026-09-28/README.md) verifies a 50-row window, old exact-ID lookup, exact active-pending counts and cross-actor isolation at 1,000/10,000 synthetic intents. The new [Admin notification paging candidate](admin-notification-paging-2026-09-29/README.md) preserves complete JSON across ten cases and moves delivery counts after the 25-row page; 10,000-event nested plans reduce delivery probes from 10,001 twice to 25 once on first and deep pages. It is the 134th numbered migration and passed both a separate clean 134/134 PostgreSQL 17.6 replay and a small 133-to-134 historical fixture upgrade. Exact notification totals still scan filtered events; representative multi-actor volume, old-path comparison for recent intents, receiver scaling, hosted readback and live migration/index timing remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D04"
+      }
+    },
+    {
+      "id": "D05",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test all ownership totals against server-authored immutable identity, forged labels, name/phone-suffix collisions and cached payloads.",
+      "open": true,
+      "title": "Replace label-based ownership attribution",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Totals use server-authored immutable member/user identity; substring/suffix collisions and forged labels cannot change own totals.",
+      "current_evidence": "Server-authored is_current_user_contribution appears in the history SQL and client models. Test immutable identity against forged labels, suffix collisions and cached payloads in full checkout.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D05"
+      }
+    },
+    {
+      "id": "D06",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Exercise every history/group/ledger consumer with complete, absent, stale and zero server summaries; a partial page must never be presented as a complete financial total.",
+      "open": true,
+      "title": "Remove complete-total fallbacks from partial histories",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Unavailable/stale/zero states distinct on every consumer; absent aggregate never computed from a truncated page as a complete total.",
+      "current_evidence": "lib/shared/repositories/collect_repository_history.dart and focused member-history tests guard missing or partial totals; deployed aggregate behavior is unverified. Exercise every consumer with complete, absent, stale and zero summaries against staging RPCs.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D06"
+      }
+    },
+    {
+      "id": "D07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Run every Admin paged RPC through client/database contracts: boundaries, filters, exact totals, last-page shrink, deterministic concurrent ordering, country scope and role denial.",
+      "open": true,
+      "title": "Validate every admin paged RPC against strict client contract",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Page boundaries, filters, totals, duplicates, last-page shrink and country scope pass against actual staging RPCs.",
+      "current_evidence": "The [Admin paging review](admin-paging-2026-09-28/README.md) fixed expired-offset zero-total recovery and added 25/26/50/51 boundary tests; five focused suites passed 75 tests. The [notification candidate](admin-notification-paging-2026-09-29/README.md) also preserves ten old/new JSON page cases, including filters, sorts and expired offset, while bounding delivery detail work after paging. Complete Admin RPC coverage, deployed role/filter/country checks, deterministic ordering under concurrent writes and representative-volume plans remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D07"
+      }
+    },
+    {
+      "id": "D08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Audit all modern/legacy financial inputs and actual RPC/cache payloads for exact integer bounds, aliases, identifiers, timezone/calendar validity and preserved valid historical values.",
+      "open": true,
+      "title": "Extend exact-number and date validation across all financial inputs",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Intent, contribution, modern/legacy summaries and cache paths cover safe-integer bounds, aliases, timezone/calendar errors and valid historical records.",
+      "current_evidence": "Parsed event decoding now rejects missing/fractional/unsafe RWF amounts, invalid zoned dates and confidence, and malformed identifiers/status; legacy transfer cache markers cannot masquerade as Rwanda MoMo. Focused payment and cache tests passed, including the new event decoder suite. Audit every remaining money input and actual DB payload before closure.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D08"
+      }
+    },
+    {
+      "id": "D09",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Rehearse representative historical data through all 138 current migrations; validate staged reconciliation, old installed clients, rollback/roll-forward and authorized hosted recovery while preserving balances, receipts and effective grants.",
+      "open": true,
+      "title": "Rehearse migration and rollback/roll-forward order",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Clean and realistic upgrade databases reach expected schema; incompatible clients fail safely; financial data is preserved.",
+      "current_evidence": "The [financial evidence packet](financial-core-2026-09-28/README.md) records Docker-label provenance, PostgreSQL 17.6, an earlier 133/133 clean replay, 40 rollback-only financial assertions and seven receipt-v2 assertions. The guarded 127+6 historical-row upgrade preserved a synthetic posted RWF 1,500 payment, balanced journals and the 16-row financial/evidence hash; an unverified intent was cancelled with an open exception. A full 133-migration archive restored into an empty target with 129 table sections/1,327 rows, schema/ACL and roles matching, while a prebootstrapped restore was rejected for grant drift. Notification migration **134** passed a [separate clean 134/134 replay](admin-notification-paging-2026-09-29/clean-134-replay.json) and a [guarded 133-to-134 historical upgrade](admin-notification-paging-2026-09-29/historical-134-upgrade.json): the 16-row financial hash, RWF 1,500 balance, 128 other table-data sections and sequences matched, and three rollback-only Admin pages passed. A [126+8 predecessor bank rehearsal](historical-bank-upgrade-2026-09-29/README.md) preserved seven synthetic bank/profile/group/membership fingerprints through migration 134 and passed 14 rollback-only isolation assertions. The [provider lock-order migration 135](financial-concurrency-2026-09-29/README.md) passed clean replay and a populated 134-to-135 upgrade with 14 financial/evidence rows unchanged. Representative historical volume, incompatible installed clients, staged reconciliation approval, backwards restore/roll-forward, hosted readback and exact signed-candidate tests remain open. The [latest integrated packet](financial-content-binding-2026-09-29/README.md) adds clean 138/138 replay and guarded136/137/138 continuation; those remain synthetic local evidence.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D09"
+      }
+    },
+    {
+      "id": "D10",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test deployed Realtime reconnect/missed/duplicate messages, offline revocation and account switches under load; verify bounded refresh and no wrong-account cached data.",
+      "open": true,
+      "title": "Test Realtime reconnect and invalidation boundaries",
+      "accountable_person": null,
+      "responsible_roles": "Database/backend engineer, data/QA lead",
+      "original_acceptance": "Only authorized areas invalidate; missed/repeated messages trigger bounded refresh without wrong-account leakage or query storms.",
+      "current_evidence": "The [mobile realtime/cache review](realtime-cache-2026-09-28/README.md) adds rejoin catch-up, 256-ID duplicate suppression, at most two reads per debounce window, bounded channel retry, owner-bound disposal and permission-loss cache clearing. The combined focused group passed 27 tests. Deployed websocket/RLS, physical account switch, offline revocation and load checks remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "D10"
+      }
+    },
+    {
+      "id": "M01",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Obtain the exact Android package/version restricted-SMS permission decision, release disclosure and core-use evidence; retain actual Play readback tied to signed artifact hashes.",
+      "open": true,
+      "title": "Complete Google Play SMS permission submission evidence",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Release permission list, disclosure, core-use demonstration and approval/accepted policy path documented for actual package/version.",
+      "current_evidence": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json shows the current SMS decision pending and current AAB/APK hashes null; the validator fails closed. Submit the exact package/version evidence and retain Play approval readback.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M01"
+      }
+    },
+    {
+      "id": "M02",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Verify real SMS capture and authenticated drain through process death, reboot, Doze, offline recovery and force stop; record OS limits and retained pending evidence.",
+      "open": true,
+      "title": "Implement or verify OS-durable receipt drain behavior",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Process death, reboot, Doze, network restoration and force-stop expectations documented; no claim that a daemon executor guarantees delivery.",
+      "current_evidence": "The [SMS queue durability review](sms-queue-durability-2026-09-28/README.md) adds a dedicated native capture lane, metadata-only event replay on Flutter attach, and capped foreground retry for failed authenticated drains. Android JVM tests passed 11/11 and focused Flutter tests 40/40. Capture before an interrupted commit and OS background execution remain unproven; run real SMS, process-death, reboot, Doze and force-stop tests.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M02"
+      }
+    },
+    {
+      "id": "M03",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Run one valid/malformed multipart/provider SMS corpus against native capture and server receipt bounds; prove matching decisions at each boundary.",
+      "open": true,
+      "title": "Align native/server receipt validation bounds",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Sender/body length, multipart, timestamp, envelope ID and provider grammar contract tested at both boundaries.",
+      "current_evidence": "Receipt bounds are implemented in SmsQueueStore.kt, receipt_ingestion.ts and shared production_contract.ts; cross-boundary real multipart/provider fixtures were not completed. Execute the same malformed and valid corpus on native and server.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M03"
+      }
+    },
+    {
+      "id": "M04",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test sign-out and account-switch races at every async native queue/permission boundary on devices; retain old-owner ciphertext and prevent cross-account drain.",
+      "open": true,
+      "title": "Run account-switch races on native queue bridge",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Sign-out, token expiry and account switch at each await preserve/quarantine correct owner evidence and never acknowledge the wrong account.",
+      "current_evidence": "MainActivity.kt and SmsQueueStore.kt now recheck authenticated queue owner during async reads and pending permission callbacks; a denied permission callback now disables capture without deleting old-owner ciphertext. Android unit tests and focused Dart tests passed. Run physical account-switch races at each await and preserve old-owner evidence.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M04"
+      }
+    },
+    {
+      "id": "M05",
+      "priority": "P1",
+      "evidence_status": "Unverified",
+      "remaining_work": "Exercise release-build backup, restore, reinstall, permanent key loss and consent revocation; prove no raw-SMS leakage and documented recovery behavior.",
+      "open": true,
+      "title": "Validate backup, reinstall and key-loss behavior",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Release merged manifests and on-device restore tests confirm no leaked raw SMS and explicit recovery expectations when a key is lost.",
+      "current_evidence": "android/app/src/main/res/xml/data_extraction_rules.xml and encrypted queue code exist, but restored/reinstalled release behavior was not observed. Test backup, permanent key loss, consent revocation and no raw-SMS leakage.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M05"
+      }
+    },
+    {
+      "id": "M06",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Validate truthful Android/iOS capabilities and complete group, membership, contribution and receipt journeys; unsupported operations must have useful explanations/recovery.",
+      "open": true,
+      "title": "Verify Android versus iOS capability matrix",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Group creation restrictions, joining, contribution handoff and receipt dependency shown accurately; unsupported iOS actions are not dead-end buttons.",
+      "current_evidence": "iOS/Android platform code and UI capability checks exist, but a signed cross-platform matrix was not verified. Run each group, contribution and receipt journey on both platforms and remove unsupported dead ends.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M06"
+      }
+    },
+    {
+      "id": "M07",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Inspect the signed iOS archive's merged app/SDK privacy manifests, required-reason APIs, entitlements, APNS environment and associated domains.",
+      "open": true,
+      "title": "Audit merged iOS privacy/entitlement output",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "App plus SDK manifests, required-reason APIs, APNS environment and associated domains verified from actual archived IPA.",
+      "current_evidence": "iOS/Runner/PrivacyInfo.xcprivacy, entitlements and export plists are source files; no current archived IPA was available. Inspect merged app/SDK privacy manifests and entitlements from the signed archive.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M07"
+      }
+    },
+    {
+      "id": "M08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Run installed links, QR and notification navigation for fresh install, signed-out, wrong account/group, revoked membership, expired and malformed input. Preserve authorization throughout recovery.",
+      "open": true,
+      "title": "Test links and notification routes by identity/state",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Fresh install, signed-out, wrong group, revoked member and malformed URL cases preserve authorization and return useful recovery.",
+      "current_evidence": "Shared group links now persist a 24-hour owner-bound invitation with generation ID and require an explicit Join action; canonical URL and QR parsing reject alternate targets, and repository state is fenced across account switches. Eighteen focused Dart tests passed. The updated interrupted-intent ADB UAT is syntax checked but was not run because no device was connected; notification, revoked-member and full installed identity/state cases remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M08"
+      }
+    },
+    {
+      "id": "M09",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Run MTN/Airtel real-SIM USSD tests including dual-SIM, cancellation, route changes, invalid receiver and return to app; launch must never be reported as payment success.",
+      "open": true,
+      "title": "Test MoMo USSD on real supported networks/SIMs",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "MTN/Airtel, route deactivation, dual-SIM, cancel, invalid receiver and return-to-app scenarios never equate USSD launch with payment success.",
+      "current_evidence": "The [local prelaunch recheck](momo-prelaunch-recheck-2026-09-28/README.md) now repeats the live intent RPC, compares the exact prepared receiver/amount/owner-bound intent, and clears stale widget state on account change; six synthetic guard/widget tests passed. No MTN/Airtel real-SIM result or deployed-function readback was available. Run supported-network, route-deactivation, dual-SIM cancellation/return and signed-device account-switch tests without equating launch to paid status.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M09"
+      }
+    },
+    {
+      "id": "M10",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Record crash/ANR, memory-pressure, thermal, long-session and background baselines on minimum supported physical devices and exact release versions.",
+      "open": true,
+      "title": "Record native crash/ANR and low-resource baseline",
+      "accountable_person": null,
+      "responsible_roles": "Mobile engineer, device QA, store account owner",
+      "original_acceptance": "Selected minimum devices sustain long-session/thermal, memory pressure, background and accessibility journeys with version-bound evidence.",
+      "current_evidence": "integration_test/mobile_performance_device_uat_test.dart is a test entry point, not a current physical-device baseline. Capture crash/ANR, thermal, memory and long-session evidence for minimum devices.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "M10"
+      }
+    },
+    {
+      "id": "U01",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Review all material mobile/Admin/public routes and loading, empty, failure, geography, membership, responsive and accessibility states against verified applicable references. Resolve differences and obtain owner review on the exact build.",
+      "open": true,
+      "title": "Complete route/state visual review under `revolut-design`",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Member, Admin and public surfaces mapped to actual states and approved references without a parallel scoring rule.",
+      "current_evidence": "The [recovered visual review](VISUAL_CANDIDATE_REVIEW_2026-09-28.md) restores historical golden comparisons and records five current candidate renders. Thirteen of 14 dated cohort references are present, while one cohort file and all ten paths in the older original-mobile index are absent; all ten recorded Drive IDs returned 404 to the connected account. Current native, Admin and public route comparisons with the selected design skill, accessibility states and owner review remain open. Capture installed and browser route evidence against the exact release artifacts before claiming visual acceptance.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U01"
+      }
+    },
+    {
+      "id": "U02",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test compact 320×568 layouts, 2× text and real keyboards through validation and submission; retain focus and reachability of every required action.",
+      "open": true,
+      "title": "Test compact contribution forms and text scaling",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "320x568, 2x text and visible keyboard retain all fields/actions; focus retained while typing; errors and submit reachable.",
+      "current_evidence": "test/features/contribution_landscape_keyboard_test.dart and responsive form tests cover some compact layouts. Run 320x568, 2x text and real keyboard journeys on the current build, including error and submit reachability.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U02"
+      }
+    },
+    {
+      "id": "U03",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Complete actual TalkBack, VoiceOver and desktop keyboard tasks, including labels, focus, errors, dialogs, tables and sensitive/destructive controls.",
+      "open": true,
+      "title": "Verify screen-reader and keyboard navigation",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "TalkBack, VoiceOver and desktop keyboard cover focus order, labels, errors, dialogs, tables and disabled destructive actions.",
+      "current_evidence": "Accessibility tests exist for auth, Admin headers and native permission sheets. Complete TalkBack, VoiceOver and desktop keyboard task runs with actual focus, error and dialog evidence.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U03"
+      }
+    },
+    {
+      "id": "U04",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Finish consistent Kinyarwanda/English financial terminology on every visual and spoken route; distinguish pending, observed, confirmed, unavailable, stale and genuine zero.",
+      "open": true,
+      "title": "Standardize financial terminology and availability states",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Member/group/contribute terminology consistent; unknown, stale, zero, observed and confirmed values unmistakably different.",
+      "current_evidence": "lib/l10n/collect_localizations.dart and current Rwanda-only copy separate pending and confirmed states in several routes. The Activity and Ledger empty states now visibly describe confirmed MoMo records; a group without an active MoMo route no longer offers a contribution button, and the shared empty-state component visibly renders its guidance. Three [route tests](../../test/features/rwanda_scope_empty_states_test.dart) pass. Audit every financial route and Kinyarwanda/English spoken wording for unknown, stale, zero and observed status.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U04"
+      }
+    },
+    {
+      "id": "U05",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Review rendered offline/recovery states using real data/queue conditions; failed refresh must remain truthful, retry must work and persistent receipt attention must remain visible.",
+      "open": true,
+      "title": "Review offline and recovery states against actual data",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Refresh never claims payment success, no-SMS-replay option verified, no-op/failed refresh cannot report success, queue attention stays visible.",
+      "current_evidence": "Offline/recovery widgets and test/connection_recovery_screen_test.dart exist. [Local route correction](ui-truth-corrections-2026-09-28/README.md) now shows retry for failed initial group-detail reads instead of a false removed-link message. No complete actual-data rendered review was verified. Check refresh failures, no-SMS replay and persistent queue attention on the release candidate.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U05"
+      }
+    },
+    {
+      "id": "U06",
+      "priority": "P1",
+      "evidence_status": "Unverified",
+      "remaining_work": "Walk every declared Admin route and operation with its intended role, actual data source and authorization; preserve necessary audit, health, import and support tools.",
+      "open": true,
+      "title": "Validate admin operation flows rather than minimize route count",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "All 24 declared paths have an intentional role, data source and authorization; consolidation does not remove needed audit/health tools.",
+      "current_evidence": "lib/admin/admin_router.dart declares the Admin path set, and the local access panel now refreshes on operator/target/realtime changes; no current end-to-end role/data-source review of all declared paths was verified. Walk each route with its operator and authorization evidence.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U06"
+      }
+    },
+    {
+      "id": "U07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Verify deployed public/Admin entrypoints, bundles, environments, authentication, security headers and old caches; public content must not expose private account data.",
+      "open": true,
+      "title": "Verify public/admin deployment isolation and security headers",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Actual responses and bundles show correct entrypoint, restrictive headers appropriate to Flutter, no private data in public caches and no mixed environment.",
+      "current_evidence": "scripts/hardening/admin_headers.py and admin_headers_test.py provide local header control; deployment response headers and bundle isolation were not read back. Test real public/Admin domains, auth, caches and headers after deploy.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U07"
+      }
+    },
+    {
+      "id": "U08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Test deployed PWA warm upgrade, failed updates, offline behavior, multiple tabs, logout, revocation and account switching without stale private content.",
+      "open": true,
+      "title": "Test PWA upgrade, offline and logout caching",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Old/new service workers, failed update, multiple tabs, revoked Admin and account switch do not display another account financial data.",
+      "current_evidence": "The [Admin PWA cache review](admin-pwa-cache-2026-09-28/README.md) adds credential-free static precache, redirect rejection, auth-user-keyed providers and two-tab synthetic lifecycle checks. The worker VM test and 233 Admin tests passed. Real authenticated account switch, revocation, warm worker upgrade and offline behavior on the deployed origin remain unverified.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U08"
+      }
+    },
+    {
+      "id": "U09",
+      "priority": "P2",
+      "evidence_status": "Unverified",
+      "remaining_work": "Run representative Rwanda-member comprehension tests in Kinyarwanda and English for money destination, status and recovery; document findings and corrections or approved deferral.",
+      "open": true,
+      "title": "Validate real member comprehension and localization",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Rwanda representative users explain where funds go, pending/confirmed distinction and recovery; Kinyarwanda/English copy and long names tested.",
+      "current_evidence": "Localized strings and synthetic UI tests are present, but no representative Rwanda-member comprehension study was verified. Test money-location and pending/confirmed understanding with long names in both languages.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U09"
+      }
+    },
+    {
+      "id": "U10",
+      "priority": "P1",
+      "evidence_status": "Unverified",
+      "remaining_work": "Profile layout/rebuild/raster/compositing costs on representative minimum devices; fix measured hotspots and verify lazy rendering before further structural redesign.",
+      "open": true,
+      "title": "Measure layout/compositing costs before further redesign",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner, mobile/web engineer, accessibility QA",
+      "original_acceptance": "Profile traces identify rebuild/raster hotspots on minimum device; lazy rendering preserved; no unmeasured FPS or automatic native rewrite claim.",
+      "current_evidence": "Lazy-list and mobile performance tests exist, but no current minimum-device frame/raster traces were verified. Profile layout/compositing before further UI restructuring.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "U10"
+      }
+    },
+    {
+      "id": "P01",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Obtain a reviewed regulatory classification, partner-role assessment and permitted claims for the actual Rwanda money/receipt/credit-readiness flows; record required authorizations or supported scope decisions.",
+      "open": true,
+      "title": "Confirm product regulatory classification and permitted claims",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Counsel reviews actual money/receipt/loan flows and partner roles; applicable authorizations or documented scope exclusions obtained without assuming non-custodial means exempt.",
+      "current_evidence": "docs/PRIVACY_AND_COMPLIANCE_NOTES.md explicitly leaves classification and claims open. Counsel and responsible business owner must review actual Rwanda money, credit-readiness, provider and partner flows.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P01"
+      }
+    },
+    {
+      "id": "P02",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Establish and evidence responsible entity, controller/processor roles, registration status, privacy/DPO contacts and a complete processing inventory.",
+      "open": true,
+      "title": "Evidence controller/processor registration and roles",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Responsible entity, registration status, DPO/contact and processing inventory match actual product and vendors.",
+      "current_evidence": "The privacy note identifies registration/role proof as open; no current controller/processor registration readback was verified. Record responsible entity, registration, DPO/contact and processing inventory.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P02"
+      }
+    },
+    {
+      "id": "P03",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Verify actual hosting, backup, logs and AI processing locations; obtain the required transfer/storage determination and supporting grounds.",
+      "open": true,
+      "title": "Document cross-border transfer and storage basis",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Actual hosting/backups/logs/AI locations and required overseas storage authorization documented; transfer grounds reviewed separately.",
+      "current_evidence": "The privacy note lacks verified hosting, backup, log and AI locations or transfer approval. Map actual data paths and obtain current legal/privacy determination.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P03"
+      }
+    },
+    {
+      "id": "P04",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Complete processor/vendor and subprocessor diligence, agreements, purpose limits, retention and incident obligations for cloud, messaging, AI and support services.",
+      "open": true,
+      "title": "Complete processor/vendor agreements and due diligence",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Supabase, messaging, cloud, AI and support vendors mapped with subprocessors, purposes, retention and incident obligations.",
+      "current_evidence": "No executed Supabase, messaging, cloud, AI and support processor agreements were verified. Obtain vendor/subprocessor due diligence and retention/incident terms.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P04"
+      }
+    },
+    {
+      "id": "P05",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Approve and implement minimization, retention, deletion and legal holds by data class, including raw receipts, hashes, journals, evidence, caches and analytics.",
+      "open": true,
+      "title": "Define data minimization and retention schedule",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Raw SMS, names, phone hashes, financial journals, evidence and analytics each have purpose, access, duration and deletion/hold rules.",
+      "current_evidence": "docs/PRIVACY_AND_COMPLIANCE_NOTES.md describes categories and need for retained financial evidence, but no approved schedule is implemented end to end. Set purpose, access, duration, deletion and hold rules by data class.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P05"
+      }
+    },
+    {
+      "id": "P06",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Complete evidence-led exposure and reportability assessment, timeline and required actions with accountable security/privacy review. Open sharing alone is not proof of data access.",
+      "open": true,
+      "title": "Complete exposure and breach-reportability assessment",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Privacy/security leads determine actual incident scope and notification duties; preserve timeline and deadlines without treating open sharing alone as proven breach.",
+      "current_evidence": "Open Drive sharing is a risk lead, not proof of personal-data access; no incident scope/notification decision was verified. Security/privacy owners must determine exposure, timeline and reportability.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P06"
+      }
+    },
+    {
+      "id": "P07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Implement current-session/recipient checks before foreground push display and a minimized-payload/cancellation policy; test accepted delayed pushes across account switches on devices. Test native/browser caches, sessions, clipboard, exports and previews through logout, lock and reinstall while preserving recoverable financial evidence.",
+      "open": true,
+      "title": "Implement cache/session privacy controls",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Account-scoped encryption/minimization, logout clearing, clipboard/export and notification previews tested; no irreversible financial evidence deletion by accident.",
+      "current_evidence": "lib/core/security/protected_snapshot_store.dart and lib/shared/repositories/collect_offline_cache.dart provide local cache controls. Test logout, account switch, Keychain/Keystore, browser cache, clipboard/export and notification previews on real builds. Current source review found foreground FCM display uses the supplied title/body without a current-session/recipient check, and the server data payload lacks a recipient-binding marker. Add recipient-bound display and minimized-payload/cancellation controls, then test delayed accepted pushes through account changes. This source finding is not a claim of a reproduced device leak.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P07"
+      }
+    },
+    {
+      "id": "P08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Demonstrate account deletion from reauthentication and status tracking through server/vendor/device cleanup, with a truthful explanation and controlled access for lawfully retained records.",
+      "open": true,
+      "title": "Verify account deletion end to end",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "In-app initiation, reauthentication, status tracking, vendor deletion and legally retained records explanation demonstrated; disabling account alone not called deletion.",
+      "current_evidence": "lib/features/status/account_legal_screens.dart and account-reason migrations provide initiation paths. Prove reauthentication, server/vendor deletion, native/browser clearing and legally retained records end to end.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P08"
+      }
+    },
+    {
+      "id": "P09",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Reconcile consent, SMS/payer-data disclosures, AI use and store privacy declarations with exact signed behavior and the approved legal basis.",
+      "open": true,
+      "title": "Align consent, disclosures and store privacy labels",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "SMS purpose and optionality, processing of payer data, AI extraction and financial-data storage match actual release behavior and reviewed legal basis.",
+      "current_evidence": "Store listing and privacy notes have Rwanda-only draft claims, but current signed behavior and Play/App Store declarations lack owner/legal readback. Reconcile consent screens, payer data and AI use with actual release and labels.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P09"
+      }
+    },
+    {
+      "id": "P10",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Approve and rehearse auditable disputes, correction entries, support, legal-hold and deletion-exception procedures; distinguish app records from provider funds.",
+      "open": true,
+      "title": "Document disputes, correction and retention exceptions",
+      "accountable_person": null,
+      "responsible_roles": "Accountable business owner, qualified counsel/privacy lead, security owner",
+      "original_acceptance": "Member support process distinguishes app records from provider funds; correction uses traceable entries and legal hold/deletion decisions are auditable.",
+      "current_evidence": "Financial and privacy notes call for correction/retention exceptions; no approved support procedure was verified. Define auditable dispute, correction-entry and legal-hold/deletion workflows.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "P10"
+      }
+    },
+    {
+      "id": "Q01",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Resolve unchanged locks on the exact pinned SDK from a frozen clean checkout; complete native/iOS/Edge dependency locking and fork provenance/distribution-rights review. Reconcile the currently stale candidate inventory. Pinned Deno 2.5.6 roster verification is already retained locally.",
+      "open": true,
+      "title": "Resolve locked dependencies on exact pinned SDK",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Clean isolated full checkout resolves committed locks; local fork provenance/licensing recorded; dependency changes reviewed.",
+      "current_evidence": "The committed `pubspec.lock` resolved from a fresh isolated Pub cache under pinned Flutter 3.44.4/Dart 3.12.2 with `flutter pub get --enforce-lockfile`; the manifest and lock hashes stayed unchanged. The [complete official `file_saver` 0.4.0 archive comparison](supply-chain-2026-09-28/file-saver-fork-comparison.json) verified its SHA-256, byte-identical BSD license, 43 identical common files, three modified common files and 138 omitted non-runtime files; the Dart MIME delta is formatter-equivalent. CI now enforces the lock and checks fork source. Repeat in a frozen clean checkout; resolve native/iOS/Edge graphs and review artifact contents, advisories and distribution rights. Current inventory.py --check reports a stale candidate inventory. Reconcile/regenerate after reviewed source freeze; no root/function deno.lock is present. The roster packet now proves exact Deno 2.5.6 type checking and 51 tests, with all 14 source hashes matching.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q01"
+      }
+    },
+    {
+      "id": "Q02",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Repeat non-writing formatting and full Flutter/native/generated-source/release-variant analysis on the frozen candidate; resolve or explicitly disposition all warnings, including the 40 recorded Android lint warnings.",
+      "open": true,
+      "title": "Run formatter and full static analysis",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Exact reconciled commit passes non-writing format check and fatal analysis across member/admin code; all failures fixed or explicitly dispositioned.",
+      "current_evidence": "`make format-check` and `flutter analyze --fatal-infos --no-pub` pass on the current checkout. Android `:app:lintDevDebug :app:testDevDebugUnitTest --offline --no-daemon` passes after an API-aware SMS capability fix, with zero lint errors and 40 warnings (see [native static-analysis packet](native-static-analysis-2026-09-29/README.md)). Disposition warnings and generated-source/release-variant checks, then repeat all gates against the final frozen commit with retained logs.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q02"
+      }
+    },
+    {
+      "id": "Q03",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Resolve the five visual failures through reviewed references, then run complete Flutter, native, Edge, database and installed/browser integration suites on one candidate. Retain exclusions and actual logs.",
+      "open": true,
+      "title": "Run all existing and new Dart/native/Edge tests",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Full suite plus both retained branch suites executes; real results separated from source-string and fake-SDK tooling tests.",
+      "current_evidence": "The [new full Flutter run](full-flutter-check-2026-09-29/README.md) ended **1,378 passed and five unresolved historical screenshot differences** on this dirty checkout. Eight profile/MoMo save failures seen in the preceding run were corrected; four focused profile/permission suites passed 137 tests and the account-switch race suite passed seven. The five current generated PNGs match the prior candidate hashes. Focused group-link Dart tests passed 18/18, Android `:app:testDevDebugUnitTest` passed, Edge HTTP handler tests passed 38/38, and [full-schema financial SQL](financial-core-2026-09-28/README.md) passed a 133-migration clean replay with 40 plus seven rollback-only assertions. The recovered Drive scope file enabled a clean 58-file/25-suite candidate verifier run and 43 standalone source-wiring checks. Resolve reviewed visuals, then run all Flutter/native/Edge/DB suites on one frozen protected commit with retained logs. Retained full-Flutter and roster logs currently match their evidence hashes but are ignored by *.log; bind and retain the actual logs in the final candidate or verified evidence archive.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q03"
+      }
+    },
+    {
+      "id": "Q04",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Produce signed production AAB/APK and scoped iOS archive; verify configuration, version, signatures, merged permissions and hashes, then install/test those exact bytes. Resolve missing signing material through its owner.",
+      "open": true,
+      "title": "Build actual production Android and iOS artifacts",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Signed production AAB/APK and IPA built with production-safe config; install/run smoke and merged permissions verified; dev APK proxy not substituted.",
+      "current_evidence": "Current AAB/APK hash fields are null, no candidate binaries were found in build/, and the configured signing keystore was absent. Produce signed Android and scoped iOS archives, inspect merged permissions and install/test those exact bytes.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q04"
+      }
+    },
+    {
+      "id": "Q05",
+      "priority": "P0",
+      "evidence_status": "Partial",
+      "remaining_work": "Build clean public and Admin release artifacts with correct public configuration and fresh required screenshots; verify candidate hashes, deployed auth/route separation, headers, warm update and offline/logout behavior.",
+      "open": true,
+      "title": "Build and test public and admin release web artifacts",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Each entrypoint built from clean directory with correct environment; browser smoke, navigation and auth separation pass on deployment candidate.",
+      "current_evidence": "Both member and Admin Flutter web entrypoints compiled in source-only QA outputs, and public static route tests passed 7/7. scripts/public_website_ci_gate.sh fails closed because current runtime fingerprints require fresh app screenshots; no iOS simulator was available. The [Admin CI correction](admin-ci-build-2026-09-29/README.md) adds a main-only production-configured candidate job with PWA gates, clean-commit check, output hashes and retained artifact, while preserving the existing all-branch compile-only check name. Empty JavaScript bundles now fail the builder and manifest gate. No hosted candidate was built because this checkout lacks production public Supabase configuration; deployed auth, warm update and hashes remain open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q05"
+      }
+    },
+    {
+      "id": "Q06",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Define and measure critical-path negative/concurrency coverage and mutation expectations for auth, receipt ACK, allocation/finality/reversal and account switching. An aggregate coverage floor alone is insufficient.",
+      "open": true,
+      "title": "Set critical-path coverage and mutation-test expectations",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Authentication, money, receipt ACK, allocation/reversal and account-switch paths have explicit negative/concurrency coverage; 40% global floor not sole criterion.",
+      "current_evidence": "Critical-path tests exist across receipt ACK, OTP, history and account switch, but no approved coverage/mutation targets or complete negative matrix exists. Define critical assertions and measure them on the frozen candidate.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q06"
+      }
+    },
+    {
+      "id": "Q07",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Reconcile and regenerate the currently stale candidate inventory from reviewed frozen source; finish iOS/Edge/native graphs and signed-artifact SBOMs. Review advisories, licenses, image/font redistribution and fork provenance; validate the resulting inventory.",
+      "open": true,
+      "title": "Generate dependency inventory, SBOM and license review",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Dart, Gradle, CocoaPods, Deno/npm and local forks checked against supported versions/advisories; approved fonts and asset licenses retained.",
+      "current_evidence": "The reproducible [candidate supply-chain inventory](supply-chain-2026-09-28/README.md) covers 353 package/import entries and 97 declared assets; 42 group source-image and 84 runtime-derivative hashes match. A published-source comparison verifies the complete local `file_saver` fork delta. The [offline Android production runtime graph](supply-chain-2026-09-28/android-production-runtime-resolved.json) resolves 156 selected external modules and 16 project components without failed modules, with raw Gradle output retained. This is cached metadata from a dirty checkout; iOS/Edge graphs, font redistribution rights, advisories, licenses and signed-artifact SBOMs still need independent review. The current supply-chain inventory --check fails against candidate-inventory.json; regenerate and review it from the frozen candidate, retaining the resolved-graph and license gaps.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q07"
+      }
+    },
+    {
+      "id": "Q08",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Verify hosted production-readiness workflow execution, trusted refs, isolated PR credentials, protected environments, reviewer requirements and retained build/check evidence.",
+      "open": true,
+      "title": "Protect production-readiness workflow",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "PR jobs use isolated credentials; protected release job blocks on missing settings, checks trusted ref and records approvals plus read-only check results.",
+      "current_evidence": ".github/workflows/supabase-readiness.yml and hardening-contracts.yml exist. The [Admin candidate build](admin-ci-build-2026-09-29/README.md) is now source-bound and main-only, with missing public configuration failing closed. Hosted runs previously reported startup_failure and required policy readback was unavailable. Verify trusted ref, isolated PR credentials, protected environment and reviewer checks.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q08"
+      }
+    },
+    {
+      "id": "Q09",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Bind signed artifacts to the protected commit, locks, toolchain and actual test runs with independently retained provenance and hash readback.",
+      "open": true,
+      "title": "Produce verifiable source-to-artifact provenance",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "Signed build manifest links commit, locks, test result URLs and production artifact hashes outside public-writable storage.",
+      "current_evidence": "Native provenance helper and dated release packets exist, but no current signed artifact hashes tied to a protected commit. Generate attested manifest and retain independent readback.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q09"
+      }
+    },
+    {
+      "id": "Q10",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Rehearse high-risk member/Admin/receipt-to-ledger journeys and app/backend rollback or roll-forward using the exact signed candidate; preserve pending receipts, balances and compatibility.",
+      "open": true,
+      "title": "Run release regression and rollback rehearsal",
+      "accountable_person": null,
+      "responsible_roles": "Release/build engineer, QA lead, security/supply-chain reviewer",
+      "original_acceptance": "All high-risk CUJs pass on signed candidate; reverting app/backend compatibility or rolling forward preserves pending receipts and ledger invariants.",
+      "current_evidence": "Rollback scripts and UAT entry points exist, but no exact signed candidate or complete controlled backend rehearsal was verified. Run member/Admin financial regression and rollback/roll-forward on the same artifacts.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "Q10"
+      }
+    },
+    {
+      "id": "O01",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Read back the authorized target project, migrations, function versions, grants/RLS, advisors and configuration with timestamps; resolve drift before deploying or relying on behavior.",
+      "open": true,
+      "title": "Capture current authorized production-readiness evidence",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Project identity, migration/Edge versions, advisors, RLS, settings and environment mapping reviewed with timestamp; local config not substituted.",
+      "current_evidence": "Supabase project listing returned no accessible project and no authorized current migration/function/RLS/grant readback was captured. Obtain read-only project identity, deployment hashes, advisor and setting evidence.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O01"
+      }
+    },
+    {
+      "id": "O02",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Approve RPO/RTO and demonstrate isolated recovery of the actual database, roles/grants, Auth, configuration and receipt/ledger evidence; reconcile balances and measure recovery time.",
+      "open": true,
+      "title": "Configure recovery objectives and demonstrate a restore",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Approved RPO/RTO, backup/PITR configuration, isolated restore and ledger/receipt reconciliation documented from the actual environment.",
+      "current_evidence": "The [current synthetic restore packet](financial-core-2026-09-28/README.md) verifies a full PostgreSQL 17.6 archive restored into a new empty task-owned database: 129 table sections/1,327 rows, four sequences, schema/ACL, global roles and financial snapshot match; workers are disabled. A prebootstrapped target was rejected because effective grants widened despite zero restore errors. No approved current RPO/RTO, hosted database/Storage-object restore, provider configuration, off-site copy or accountable recovery signoff exists. Restore and reconcile the actual authorized environment before closure.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O02"
+      }
+    },
+    {
+      "id": "O03",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Demonstrate Storage-object and external-evidence backup/version recovery separately from database restore, including manifests and effective access policies.",
+      "open": true,
+      "title": "Protect Storage assets and external evidence separately",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Object backup/version recovery covers files absent from DB backups; manifests and access policies survive restore.",
+      "current_evidence": "Asset manifests and backup scripts cover some local objects, but live Storage versioning/recovery/access policies were not read back. Demonstrate object recovery separately from database restore.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O03"
+      }
+    },
+    {
+      "id": "O04",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Configure and test actual OTP bot controls for valid, absent, expired and failed challenges without breaking supported WhatsApp/Supabase journeys.",
+      "open": true,
+      "title": "Integrate bot protection without breaking OTP journeys",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Actual WhatsApp/Supabase flow handles valid, missing, expired and failed challenges; approved settings and abuse tests recorded.",
+      "current_evidence": "OTP hook source can enforce normalized inputs and reservation; no current bot challenge/provider setting was read back. Exercise valid, missing, expired and failed challenge paths in the actual supported flow.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O04"
+      }
+    },
+    {
+      "id": "O05",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Establish and verify recurring dispatch so due retries and stale claims recover without a new notification. Validate hosted claim fencing, ownership, scheduler/provider failures and device account changes; complete audited dead-letter support and representative capacity/operating evidence.",
+      "open": true,
+      "title": "Validate notification scheduler and lease recovery",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Stalled workers, provider failures, expired tokens and retry exhaustion recover without endless loops; dead-letter operator path exists.",
+      "current_evidence": "[Notification migrations 137–138](notification-fencing-2026-09-29/README.md) correct owner/token matching, stale completion, exhausted-claim recovery, cumulative attempt history and Admin retry eligibility. 52 SQL assertions passed on upgrade and clean 138 schemas, including authenticated Admin read/retry/audit and role denials. Real two-session tests on 137/138 prevented duplicate claims and token reassignment, then removed synthetic rows with 18-table digests unchanged. Pinned Deno 2.5.6 typecheck and 22 focused tests passed. Hosted scheduler, real providers/devices, outage/backoff and dead-letter operating acceptance remain open. A recurring dispatch schedule was not found in repository source; hosted scheduling is unverified. Establish and prove recovery of due retries/stale claims without relying on a new incoming notification.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O05"
+      }
+    },
+    {
+      "id": "O06",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Wire redacted receipt/financial metrics and alerts for queue age, ACK/parse failures, unmatched evidence, reconciliation age and reversals. Add native push queue-age, lease-loss, completion-pending and scheduler-health monitoring; the existing SMS-outbox health function does not cover those push controls. Rehearse operator response.",
+      "open": true,
+      "title": "Add actionable receipt and financial observability",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Dashboards show queue depth/age, ACK failures, parsing failures, unmatched receipts, reconciliation age and duplicate/reversal events with redacted correlation IDs.",
+      "current_evidence": "Admin receipt queue and support surfaces exist, but no current operator dashboards/alerts for queue age, ACK, parse, unmatched, reversal and reconciliation were verified. Wire redacted metrics and rehearse alerts. Existing collect_notification_health covers a separate SMS outbox. Add native push queue-age, lease-loss, completion-pending and recurring-scheduler monitoring with redacted operator alerts.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O06"
+      }
+    },
+    {
+      "id": "O07",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Run representative user/history/receipt/provider/notification load tests; approve measured p95/p99, capacity, backlog-drain and availability objectives before pilot.",
+      "open": true,
+      "title": "Load-test capacity and set service objectives",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Representative users/history/receipt burst loads, p95/p99 latency and backlog drain times measured; thresholds approved before pilot.",
+      "current_evidence": "No representative current p95/p99/backlog load evidence or approved objectives were verified. Load-test actual database/provider/notification paths before pilot.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O07"
+      }
+    },
+    {
+      "id": "O08",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Approve and test OTP, notification, storage and AI cost budgets, per-account/global limits and alerts using measured retry/traffic assumptions.",
+      "open": true,
+      "title": "Set operating-cost budgets and alerts",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Model cost per OTP, receipt, notification and roster extraction including retries; alerts/limits tested; no invented traffic or margin figures.",
+      "current_evidence": "No approved or tested OTP, notification, storage or AI budget/alert readback was verified. Model costs with measured traffic assumptions and exercise limits.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O08"
+      }
+    },
+    {
+      "id": "O09",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Assign on-call/escalation roles and rehearse provider outage, stuck queue, compromise, corrupt cache, wrong allocation and rollback procedures.",
+      "open": true,
+      "title": "Write and rehearse incident/support runbooks",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "On-call roles handle provider outage, stuck queue, compromised account, corrupt cache, wrong allocation and rollback with escalation criteria.",
+      "current_evidence": "docs/SUPABASE_OPERATIONS_RUNBOOK.md states safe procedures and tests, but on-call roles and incident drills were not verified. Rehearse outage, stuck queue, compromise, wrong allocation and rollback.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O09"
+      }
+    },
+    {
+      "id": "O10",
+      "priority": "P0",
+      "evidence_status": "External",
+      "remaining_work": "Run a bounded authorized pilot with daily independent reconciliation, support, monitoring and stop/rollback criteria; obtain an evidence-backed accountable GO decision before expansion.",
+      "open": true,
+      "title": "Run gated pilot and signed production decision",
+      "accountable_person": null,
+      "responsible_roles": "Platform/SRE owner, support/reconciliation operators, accountable release owner",
+      "original_acceptance": "Small authorized cohort, daily reconciliation, stop/rollback criteria, support coverage and evidence-backed signoffs completed before expanding.",
+      "current_evidence": "There is no current provider-backed pilot, daily reconciliation, stop criteria evidence or signed GO. Run a bounded authorized cohort only after prior gates pass, then record accountable decision.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "O10"
+      }
+    },
+    {
+      "id": "A01",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Verify the full roster preview-to-commit path: validated human approval, immutable source/approver audit, permission checks and no model-authorized membership or money mutation.",
+      "open": true,
+      "title": "Keep AI roster extraction preview-only and audited",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "No model result writes membership or financial state without validated human approval and source/approver audit trail.",
+      "current_evidence": "supabase/functions/prepare-roster-import/index.ts returns AI candidates with requires_human_review=true and can_submit=false. Audit the separate Admin commit route and durable source/approver trail end to end.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A01"
+      }
+    },
+    {
+      "id": "A02",
+      "priority": "P1",
+      "evidence_status": "Unverified",
+      "remaining_work": "Build a ground-truth evaluation covering scans, multilingual text, duplicate/ambiguous identities and prompt injection; measure error classes and prove safe rejection/correction.",
+      "open": true,
+      "title": "Evaluate extraction on multilingual and adversarial files",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Ground-truth corpus includes scans, duplicates, ambiguous names/numbers and prompt injection; precision/error categories and rejection behavior documented.",
+      "current_evidence": "The roster function and parser tests exist, but no ground-truth multilingual, scanned and prompt-injection fixture evaluation was verified. Build a labeled corpus and report rejection/error classes.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A02"
+      }
+    },
+    {
+      "id": "A03",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Complete bounded image/PDF decoding and page/animation expansion controls, plus durable concurrent per-account/global budgets. Add XLSX ZIP/XML/shared-string, sheet/cell and decoded-size limits before workbook allocation. The 51 pinned-runtime roster tests cover existing framing/output controls; actual deployed/vendor validation remains.",
+      "open": true,
+      "title": "Validate actual upload bytes and resource budgets",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "MIME spoofing, oversized/page-heavy/corrupt files and decompression bombs are rejected or sandboxed before vendor calls.",
+      "current_evidence": "[Roster hardening packet](roster-input-response-hardening-2026-09-29/README.md) records bounded canonical base64, PNG CRC/framing, JPEG/WebP dimensions/framing, PDF trailer/xref checks, streamed 1 MiB provider response limit and strict AI output structure/types/lengths with preview-only behavior. 51 tests and entrypoint typechecking pass under exact Deno 2.5.6; 14 source fingerprints match. Full codec/PDF/animation expansion controls, durable account quotas, actual vendor/deployed validation remain open. A01 source/approver audit and A02 ground-truth evaluation remain separate. Current Admin XLSX parsing calls Excel.decodeBytes before enforcing the row limit and materializes sheet rows; ZIP/XML/shared-string, sheet/cell and decoded-size limits must precede allocation. Durable per-account/global budget enforcement remains open.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A03"
+      }
+    },
+    {
+      "id": "A04",
+      "priority": "P1",
+      "evidence_status": "External",
+      "remaining_work": "Verify actual AI vendor retention/store settings, processing geography, consent/legal basis and minimization; obtain vendor/privacy evidence rather than inferring it from request flags.",
+      "open": true,
+      "title": "Verify AI retention, consent and processing configuration",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "store=false, vendor retention controls, data-subject basis, geography and minimization documented; no blanket zero-retention claim.",
+      "current_evidence": "AI request source can be reviewed locally, but vendor retention, actual deployment config, consent basis and geography were not read back. Verify store setting, vendor terms and minimization with privacy owner.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A04"
+      }
+    },
+    {
+      "id": "A05",
+      "priority": "P2",
+      "evidence_status": "Partial",
+      "remaining_work": "Trace every active asset, font and icon through all builds/references and licenses, including font redistribution rights. Reconcile the seven indexed local asset deletions with the reviewed Git/manifest inventory; establish reachability before further removals.",
+      "open": true,
+      "title": "Complete asset-reference reachability inventory",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Every declared asset/font/icon is traced from active sources/builds and licensed; deletion candidates proven unused on all supported surfaces.",
+      "current_evidence": "assets/group_covers/rwanda/catalog.v1.json inventories 42 concepts and 84 derivatives; this is not full runtime reachability/license proof. Trace every approved asset/font/icon through active builds before deletion. The current asset checker reports 174 matching approved hashes and seven indexed files deleted locally; reconcile intended Git/manifest deletions before further cleanup. Public-web font provenance does not establish redistribution rights.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A05"
+      }
+    },
+    {
+      "id": "A06",
+      "priority": "P2",
+      "evidence_status": "Unverified",
+      "remaining_work": "Resolve the current asset-check failure from seven indexed files deleted locally; 174 approved file hashes match. Verify all approved bytes and dimensions against independent trusted provenance and document intended removals or changed artwork without automatic restoration.",
+      "open": true,
+      "title": "Verify remaining approved asset bytes and dimensions",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Previously unverified approved assets checked against immutable trusted manifest; stale summaries corrected without silently approving changed artwork.",
+      "current_evidence": "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256 and asset tests exist, but not all remaining approved bytes/dimensions were checked against independent trusted provenance. Complete immutable manifest readback. The current asset checker fails on seven indexed paths deleted locally while all 174 present approved hashes match. Reconcile reviewed deletions; that checker does not establish dimensions, font licensing or complete runtime reachability.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A06"
+      }
+    },
+    {
+      "id": "A07",
+      "priority": "P2",
+      "evidence_status": "Unverified",
+      "remaining_work": "Identify proven unused code/dependencies and prepare a reviewed deletion-only change; run Android/iOS/Admin/public build and route regression before removal is accepted.",
+      "open": true,
+      "title": "Remove proven dead code/dependencies with regression checks",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Deletion-only candidate reviewed; Android/iOS/admin/public builds and all route tests pass; no blanket SVG/font removal based on filename.",
+      "current_evidence": "Historical source and assets remain; no deletion-only dead-code candidate with full route/build regression was verified. Establish reachability first, then remove only proven unused dependencies/files.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A07"
+      }
+    },
+    {
+      "id": "A08",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Inventory mutable runtime settings and product copy; test permissions, validation, versions and audit. Keep stable application strings distinct from governed operator settings.",
+      "open": true,
+      "title": "Govern dynamic settings and product copy",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Existing runtime config/policy RPCs inventoried; thresholds and mutable content have versioning, validation and permissions; stable strings remain local where appropriate.",
+      "current_evidence": "supabase/migrations/20260704100000_public_runtime_config.sql and policy RPCs provide mutable settings. Inventory all controls, validate permissions/versioning and distinguish stable local copy from operator settings.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A08"
+      }
+    },
+    {
+      "id": "A09",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Bound XLSX ZIP/XML/shared-string expansion and sheet/cell allocation before decoding; the current row limit is applied too late for that protection. Test imports/exports and sensitive reveals for formula injection, limits, redaction, reason/consent, grants, retries and server-side audit.",
+      "open": true,
+      "title": "Test admin exports, imports and sensitive-data reveal",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Formula injection, row limits, redaction, consent and reason prompts covered; all grants/retries/reveals audited server-side.",
+      "current_evidence": "lib/admin/core/roster_file_parser.dart and admin sensitive-data UI provide local controls. Test formula injection, row limits, redaction, audit reason and server-side grants/retries/reveal logs. lib/admin/core/roster_file_parser.dart decodes XLSX before the row limit. Add pre-allocation ZIP/XML/shared-string expansion and sheet/cell limits; a 5 MiB upload cap alone does not bound decoded resources.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A09"
+      }
+    },
+    {
+      "id": "A10",
+      "priority": "P1",
+      "evidence_status": "Partial",
+      "remaining_work": "Publish a handover bound to one source/deployment/artifact set with test scope, approved exceptions, contacts and accountable release decision. Deliberately retain ignored test logs in the candidate or verified archive, and reconcile the dependency/asset inventories.",
+      "open": true,
+      "title": "Publish handover and evidence index for one candidate",
+      "accountable_person": null,
+      "responsible_roles": "Admin/backend engineer, privacy/security owner, asset owner, release lead",
+      "original_acceptance": "Owner receives source commit, artifact links, exact tested scope, operational contacts, open exceptions and signed gate status; old branches clearly historical.",
+      "current_evidence": "This audit and source inventory provide a handover draft, but there is no single reviewed commit, signed artifact, deployment readback or approved gate packet. Publish the candidate-bound evidence index and responsible contacts after those exist. The current dependency inventory is stale and the asset inventory has seven indexed local deletions to reconcile. *.log is ignored, including roster and full-Flutter evidence logs; deliberately include them in the final deliverable or verify their archival retention.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "A10"
+      }
+    },
+    {
+      "id": "X01",
+      "priority": "Crosscutting",
+      "evidence_status": "Partial",
+      "remaining_work": "Resolve all five retained visual differences; obtain valid reference coverage or explicitly reviewed adaptations, then bind route/state, interaction, accessibility and owner annotations to the exact installed/browser build. Missing original references remain an evidence gap.",
+      "open": true,
+      "title": "Complete mobile visual review",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner and accountable release owner",
+      "original_acceptance": "(U01, Q03–Q04). The [recovered comparison report](VISUAL_CANDIDATE_REVIEW_2026-09-28.md) records five current differences, unchanged baseline hashes and source availability gaps. Validate the original reference images; bind the approved comparison cohort, owner browser annotations, route/state and accessibility cases to the current installed build; resolve the visual differences and open findings through review. Do not blindly regenerate baselines or claim owner approval.",
+      "current_evidence": "The [current visual review](VISUAL_CANDIDATE_REVIEW_2026-09-28.md) identifies five differences and preserves unchanged historical baselines and candidate PNG hashes. One dated cohort reference and all ten older original-mobile image paths remain missing; installed interaction/accessibility and owner review are incomplete. Resolve each finding against the selected skill cohort on the exact build; retain annotations and review decision.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "X01"
+      }
+    },
+    {
+      "id": "X02",
+      "priority": "Crosscutting",
+      "evidence_status": "Partial",
+      "remaining_work": "Verify Rwanda-only RWF/MTN/Airtel MoMo scope across deployed routes, public/support/privacy/store material and historical-data access. Prove representative upgrade retention without restoring retired capabilities to the active product.",
+      "open": true,
+      "title": "Reconcile the Rwanda-only release scope",
+      "accountable_person": null,
+      "responsible_roles": "Product/design owner and accountable release owner",
+      "original_acceptance": "(G10, U04, P01, Q09). The member Activity and Ledger empty states and an Admin detail label no longer advertise bank contributions; the Ledger hides contribution when a group lacks an active MoMo route. A [rollback-only current-schema UAT](historical-bank-boundary-2026-09-29/README.md) passed 11 synthetic assertions. A separate [pre-cutover upgrade](historical-bank-upgrade-2026-09-29/README.md) retained actual predecessor-style synthetic EUR bank and diaspora records through migration 134, with 14 active-scope, grant and old-profile-call assertions. Audit current architecture, deployment, public/support, privacy and store descriptions against the active Rwanda-only RWF/MTN/Airtel MoMo product. Prove representative hosted upgrade retention and the governed historical audit path; do not represent historical rails as current production capabilities or approvals.",
+      "current_evidence": "README.md, docs/PRODUCT.md, docs/ARCHITECTURE.md, docs/PRIVACY_AND_COMPLIANCE_NOTES.md, store packet and Fastlane full description describe Rwanda-only MoMo. A fresh scan found stale bank-contribution copy in member Activity, Ledger and an Admin detail spec; the local correction removes those references, hides the Ledger contribution action when its group has no active MoMo route, and corrects old test fixture wording. Three focused route tests and the full Flutter run exercise the change. A [guarded current-schema bank boundary UAT](historical-bank-boundary-2026-09-29/README.md) passed 11 rollback-only assertions for synthetic EUR relation retention, member read isolation and all 33 retired-function/ten bank-table API grants. A [predecessor-style bank/diaspora upgrade](historical-bank-upgrade-2026-09-29/README.md) preserved seven synthetic record fingerprints and passed 14 scope, grant and old-profile-call assertions. Verify representative hosted upgrade, deployed routes, support/privacy/store settings and governed historical audit access before scope approval.",
+      "evidence_reference": {
+        "document": "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md",
+        "task_id": "X02"
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "scope": "Source contracts and Ruby syntax only; no database calls",
+  "db_calls": 0,
+  "sql_execution_verified": false,
+  "commands": {
+    "post141-ruby-syntax": {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/reconciliation_post141_deployment_uat.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "post141-ruby-syntax.stdout",
+      "stderr": "post141-ruby-syntax.stderr"
+    },
+    "post141-source-contract": {
+      "command": [
+        "ruby",
+        "scripts/tests/reconciliation_post141_deployment_uat.rb",
+        "--source-only"
+      ],
+      "exit_code": 0,
+      "stdout": "post141-source-contract.stdout",
+      "stderr": "post141-source-contract.stderr"
+    }
+  },
+  "source_sha256": "9c060d84b7fd5c432954423f1c3319f71e23329ac8cf02752a62a72e9e3e38df",
+  "runtime": "ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]",
+  "source_contracts": {
+    "source_sha256": {
+      "deploy/hardening/reconciliation_approval_v2.sql": "0371a10c99d28fa7cd24fbc03421a83c84914b55ae2e621f61ddec0e25a1e552",
+      "scripts/tests/reconciliation_workflow_uat.sql": "40e4231e4db13a0ed21b76ef7ba3944b9863b925af9ced4c4bb323f9c7c2f002",
+      "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+    },
+    "harness_sha256": "9c060d84b7fd5c432954423f1c3319f71e23329ac8cf02752a62a72e9e3e38df",
+    "rollback_staged_sha256": "46c4833eac210ae272cc1b8649ba758d84196d93e887143b9d26b788420b37ff",
+    "integrated_workflow_sha256": "33e79a1e647543e2c02d959158b77420738bacdb0adbe1373281f94614c5769f",
+    "integrated_variant_changes": [
+      "141-only count/version/message guard",
+      "additional isolated141/provider/ACL/identity guards",
+      "distinct integrated141 pass marker and provenance comment"
+    ],
+    "original140_script_modified": false,
+    "staged_refusal_precedes_mutations": true,
+    "status": "source_contracts_passed",
+    "db_calls": 0,
+    "sql_execution_verified": false,
+    "expected_workflow_assertions": 58
+  },
+  "sha256": {
+    "POST141_SOURCE_VALIDATION.md": "dfd613864dbad8e5e8b1fc1ce4fa9392334dd0799c3717fb4d0f4009065588c5",
+    "post141-ruby-syntax.stdout": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+    "post141-ruby-syntax.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "post141-source-contract.stdout": "be9f71684cf44c68ba9aaae371659b63552117209d7c3815819e8709d736a240",
+    "post141-source-contract.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

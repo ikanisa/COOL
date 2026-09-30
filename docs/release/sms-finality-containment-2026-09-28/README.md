@@ -1,0 +1,13 @@
+# SMS observation and payment finality — local containment
+
+**Decision:** production NO-GO pending realistic upgrade rehearsal, deployed-function readback, and an authorized independent provider or statement evidence path. Nothing in this packet was deployed.
+
+The historical `20260903084000_hybrid_direct_ussd_financial_core.sql` defines `finalize_attested_payment_sms` to call `process_provider_finality_event` with values derived from an attested SMS. Device attestation proves a receipt envelope; it does not prove that funds settled. A service-role caller of that historical function could therefore post a matched review payment without an independent provider record.
+
+`supabase/migrations/20260928160000_sms_observation_never_settles.sql` additively replaces the function. It checks the service role and receipt ID, returns `awaiting_reconciliation` with `sms_observed`, and performs no payment, confirmation, ledger or journal write. It leaves pre-existing posted rows unchanged. The receipt-v2 contract is now a separate numbered migration (`20260928174000_attested_receipt_v2_contract.sql`); neither was applied to a hosted target as part of this work.
+
+Three rollback-only UAT scripts were corrected to assert that SMS observation and retry leave a candidate in review with no financial entries. Their later positive-posting checks now inject a **separate synthetic provider event** in the isolated fixture. That fixture tests the service-side posting path and does not establish a real provider integration or evidence authenticity. The historical UAT filename remains for its rehearsal callers; its pass marker now names the evidence boundary.
+
+`bash scripts/tests/sms_observation_sql_scratch.sh` passed against disposable PostgreSQL 17: the migration replaced a simulated older posting body, a service-role call returned an await-only response, payment and ledger remained unchanged, and the authenticated role lacked execute permission. A later isolated full Supabase-platform replay passed 133/133 numbered migrations, and the rollback-only hybrid financial UAT passed 40 assertions; see [the evidence packet](../financial-core-2026-09-28/README.md). A further small synthetic 127+6 historical-row upgrade preserved the posted journal and receipt evidence. Representative historical volume, concurrent replay, hosted parity and actual provider evidence remain unverified.
+
+Before release, rehearse a realistic upgrade and the staged reconciliation approval SQL in a governed clone; run concurrent replay/reversal cases; inspect actual target `pg_get_functiondef`, grants and all service-role callers; verify the independent provider record and dual-control process; then bind results to one frozen candidate and approved release decision.

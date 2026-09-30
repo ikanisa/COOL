@@ -1,0 +1,57 @@
+[0m[38;5;245mrunning 53 tests from ./supabase/functions/auth-send-whatsapp-otp/handler_test.ts[0m
+OTP signed acceptance is charged once and is never mislabeled delivered ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+OTP simultaneous signed replay has one send claim and one quota charge ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+OTP changed signed body under same hook cannot send or consume another quota ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP http error stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP quota error stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP gateway error stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP empty ack stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP empty message id stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP multiple message ids stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP control in message id stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP nontext message id stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP invalid json stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP oversized body stays ambiguous without blind resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP transport exception redacted and charged ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP transport exception redacted and charged ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP transport exception redacted and charged ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP accepted completion with lost ACK recovers from durable acceptance without resend ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP provider accepted but completion absent remains unresolved until explicit evidence recovery ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP lost begin ACK cannot launch a provider send on replay ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable sending read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable ambiguous read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable not_sent read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable failed read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable expired read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable accepted read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP durable delivered read cannot launch another send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"contract_version":2} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"payload_hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"hook_id":"wrong"} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"attempt_id":"broken"} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"state":"unexpected"} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"revision":0} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"revision":"1"} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"can_send":"true"} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed durable receipt blocks before sending: {"state":"accepted","can_send":true} ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP throttling sends nothing ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: SEND_SMS_HOOK_SECRET ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: WHATSAPP_GRAPH_API_VERSION ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: WHATSAPP_PHONE_NUMBER_ID ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: WHATSAPP_CLOUD_OTP_AUTH_BUTTON ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: WHATSAPP_CLOUD_API_TOKEN ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: WHATSAPP_AUTH_TEMPLATE_NAME ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP missing configuration consumes no quota: WHATSAPP_AUTH_TEMPLATE_LANGUAGE ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP stale signed hook cannot reserve or send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP key rotation validates previous secret and does not accept an unrelated secret ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP malformed phone and OTP cannot reserve or send ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP unknown dependency errors and forged PublicError codes never disclose data ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP late completion from another attempt cannot acknowledge success ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP GET and OPTIONS do not consume quota ... [0m[32mok[0m [0m[38;5;245m(0ms)[0m
+OTP never-resolving provider obeys deadline, records ambiguity and never resends ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+OTP never-resolving reservation obeys total hook deadline and sends nothing ... [0m[32mok[0m [0m[38;5;245m(22ms)[0m
+OTP accepted send with stalled completion returns unresolved within hook deadline ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+OTP stalled provider response body times out as ambiguity without leaking or resending ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+
+[0m[32mok[0m | 53 passed | 0 failed [0m[38;5;245m(112ms)[0m
+

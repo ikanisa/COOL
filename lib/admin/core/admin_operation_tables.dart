@@ -10,8 +10,6 @@ class _AdminTransactionWorkspace extends StatelessWidget {
   Widget build(BuildContext context) {
     final allocated = rows.where((row) => row.status == 'allocated').length;
     final review = rows.where((row) => row.status != 'allocated').length;
-    final momo = rows.where((row) => _rail(row) == 'rw_momo').length;
-    final bank = rows.length - momo;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,7 +17,7 @@ class _AdminTransactionWorkspace extends StatelessWidget {
           semanticLabel:
               'Transaction page summary, ${rows.length} transactions, '
               '$allocated allocated, $review requiring attention, '
-              '$momo Rwanda MoMo and $bank diaspora bank transfers',
+              'Rwanda MoMo transactions only',
           items: [
             _AdminOperationsSummaryItem(
               icon: Icons.receipt_long_outlined,
@@ -36,11 +34,6 @@ class _AdminTransactionWorkspace extends StatelessWidget {
               value: '$review',
               label: 'Attention',
             ),
-            _AdminOperationsSummaryItem(
-              icon: Icons.swap_horiz_outlined,
-              value: '$momo / $bank',
-              label: 'MoMo / bank',
-            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -50,7 +43,9 @@ class _AdminTransactionWorkspace extends StatelessWidget {
           label: 'Admin records table, ${rows.length} rows',
           child: LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth < 900) {
+              // Readable status text needs room beside the remaining columns
+              // and the row action; use cards before the action moves offscreen.
+              if (constraints.maxWidth < 1180) {
                 return _AdminTransactionCards(rows: rows, onOpen: onOpen);
               }
               return _AdminTransactionTable(rows: rows, onOpen: onOpen);
@@ -113,7 +108,7 @@ class _AdminGroupsWorkspace extends StatelessWidget {
           label: 'Admin records table, ${rows.length} rows',
           child: LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth < 980) {
+              if (constraints.maxWidth < 1280) {
                 return _AdminGroupCards(rows: rows, onOpen: onOpen);
               }
               return _AdminGroupTable(rows: rows, onOpen: onOpen);
@@ -139,7 +134,6 @@ class _AdminMembersWorkspace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rwanda = rows.where((row) => _country(row) == 'RW').length;
-    final diaspora = rows.length - rwanda;
     final admins = rows.where((row) => row.status == 'admin').length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +141,7 @@ class _AdminMembersWorkspace extends StatelessWidget {
         _AdminOperationsSummary(
           semanticLabel:
               '$scopeLabel page summary, ${rows.length} ${scopeLabel.toLowerCase()}, $rwanda Rwanda, '
-              '$diaspora diaspora, $admins platform admins',
+              '$admins platform admins',
           items: [
             _AdminOperationsSummaryItem(
               icon: Icons.people_outline,
@@ -158,11 +152,6 @@ class _AdminMembersWorkspace extends StatelessWidget {
               icon: Icons.phone_android_outlined,
               value: '$rwanda',
               label: 'Rwanda',
-            ),
-            _AdminOperationsSummaryItem(
-              icon: Icons.public_outlined,
-              value: '$diaspora',
-              label: 'Diaspora',
             ),
             if (admins > 0)
               _AdminOperationsSummaryItem(
@@ -179,7 +168,7 @@ class _AdminMembersWorkspace extends StatelessWidget {
           label: 'Admin records table, ${rows.length} rows',
           child: LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth < 920) {
+              if (constraints.maxWidth < 1020) {
                 return _AdminMemberCards(
                   rows: rows,
                   onOpen: onOpen,

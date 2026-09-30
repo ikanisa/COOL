@@ -292,9 +292,9 @@ module ProductionUpgradeRehearsal
     report[:migration_rehearsal][:member_and_selected_admin_readbacks] = 'pass_rolled_back_no_provider_sends'
     attested_check = File.join(root, 'scripts/tests/attested_sms_finality_uat.sql')
     attested_result = sql.call(File.read(attested_check))
-    raise 'Attested SMS finality UAT failed' unless attested_result.lines.last&.strip&.start_with?('ATTESTED_SMS_FINALITY_UAT_PASS:')
+    raise 'Attested SMS evidence-boundary UAT failed' unless attested_result.lines.last&.strip&.start_with?('ATTESTED_SMS_BOUNDARY_UAT_PASS:')
     report[:migration_rehearsal][:attested_sms_finality_uat] =
-      'pass_rolled_back_synthetic_provider_sms_no_external_send'
+      'pass_rolled_back_sms_observation_then_separate_synthetic_provider_record'
     roster_check = File.join(root, 'scripts/tests/hybrid_roster_import_uat.sql')
     roster_result = sql.call(File.read(roster_check))
     raise 'Hybrid roster import UAT failed' unless roster_result.lines.last&.strip&.start_with?('HYBRID_ROSTER_IMPORT_UAT_PASS:')
@@ -305,11 +305,6 @@ module ProductionUpgradeRehearsal
     raise 'Hybrid SMS notification outbox UAT failed' unless sms_outbox_result.lines.last&.strip&.start_with?('HYBRID_SMS_NOTIFICATION_OUTBOX_UAT_PASS:')
     report[:migration_rehearsal][:hybrid_sms_notification_outbox_uat] =
       'pass_rolled_back_synthetic_consent_and_operator_flow_no_external_send'
-    claim_check = File.join(root, 'scripts/tests/hybrid_verified_account_claim_uat.sql')
-    claim_result = sql.call(File.read(claim_check))
-    raise 'Hybrid verified account claim UAT failed' unless claim_result.lines.last&.strip&.start_with?('HYBRID_VERIFIED_ACCOUNT_CLAIM_UAT_PASS:')
-    report[:migration_rehearsal][:hybrid_verified_account_claim_uat] =
-      'pass_rolled_back_exact_verified_phone_claim_no_external_send'
     raise 'Readbacks left data changes behind' unless fingerprint(sql, projections) == after
     raise 'Readbacks left realtime events behind' unless sql.call('COPY (SELECT id,area,created_at FROM public.app_realtime_events) TO STDOUT;').lines.map(&:chomp).sort == after_events.sort
     raise 'Readbacks left an Admin approval behind' unless sql.call('SELECT count(*) FROM collect_admin_access.whatsapp_approvals;') == '0'

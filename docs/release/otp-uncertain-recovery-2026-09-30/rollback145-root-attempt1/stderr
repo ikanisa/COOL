@@ -1,0 +1,4 @@
+ERROR:  FAIL: missing policy fails closed
+CONTEXT:  PL/pgSQL function pg_temp_94.check_otp_v3(boolean,text) line 3 at RAISE
+SQL statement "SELECT pg_temp.check_otp_v3(sqlstate=expected,label)"
+PL/pgSQL function pg_temp_94.otp_v3_denied(text,text,text) line 4 at PERFORM

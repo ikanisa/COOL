@@ -163,7 +163,6 @@ Future<String> _handle(String? message) async {
                 whatsappPhone: '+250788123456',
                 countryCode: 'DE',
                 currencyCode: 'EUR',
-                revolutAccount: '000123456789',
               )
             : null,
       );

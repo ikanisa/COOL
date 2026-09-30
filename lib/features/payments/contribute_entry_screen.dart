@@ -33,7 +33,10 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
     final collections = ref.watch(activeCollectionsProvider);
-    final summaries = ref.watch(collectionSummariesProvider);
+    // Use the loaded aggregate snapshot only. The legacy summary provider can
+    // synthesize totals from a partial activity page, which is not a group total.
+    // An absent aggregate stays absent and the row displays Not available.
+    final summaries = state.collectionSummaries;
     final profile = state.currentProfile;
     final query = _query.trim().toLowerCase();
     final privateCollections = collections.where((collection) {
@@ -73,6 +76,44 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
       ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      sliver: isInitialLoading || !hasVisibleGroups
+          ? null
+          : SliverMainAxisGroup(
+              slivers: [
+                if (visiblePrivateCollections.isNotEmpty) ...[
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: CollectSpacing.x3,
+                      ),
+                      child: SectionHeader(title: 'Your groups'),
+                    ),
+                  ),
+                  GroupListSliver(
+                    collections: visiblePrivateCollections,
+                    summaries: summaries,
+                    onGroupTap: (collection) =>
+                        context.go('/groups/${collection.id}/contribute'),
+                  ),
+                ],
+                if (visiblePublicCollections.isNotEmpty) ...[
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: CollectSpacing.x3,
+                      ),
+                      child: SectionHeader(title: 'Public groups'),
+                    ),
+                  ),
+                  GroupListSliver(
+                    collections: visiblePublicCollections,
+                    summaries: summaries,
+                    onGroupTap: (collection) =>
+                        context.go('/groups/${collection.id}/contribute'),
+                  ),
+                ],
+              ],
+            ),
       children: isInitialLoading
           ? const [
               CollectScreenLoadingState(
@@ -111,27 +152,7 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
                     _search.clear();
                     _query = '';
                   }),
-                )
-              else ...[
-                if (visiblePrivateCollections.isNotEmpty) ...[
-                  const SectionHeader(title: 'Your groups'),
-                  GroupListPanel(
-                    collections: visiblePrivateCollections,
-                    summaries: summaries,
-                    onGroupTap: (collection) =>
-                        context.go('/groups/${collection.id}/contribute'),
-                  ),
-                ],
-                if (visiblePublicCollections.isNotEmpty) ...[
-                  const SectionHeader(title: 'Public groups'),
-                  GroupListPanel(
-                    collections: visiblePublicCollections,
-                    summaries: summaries,
-                    onGroupTap: (collection) =>
-                        context.go('/groups/${collection.id}/contribute'),
-                  ),
-                ],
-              ],
+                ),
             ],
     );
   }

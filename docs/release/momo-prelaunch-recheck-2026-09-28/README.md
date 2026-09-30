@@ -1,0 +1,9 @@
+# MoMo prelaunch recheck — 28 September 2026
+
+**Local source status: implemented and focused tests pass. Release status: NO-GO.**
+
+The contribution screen previously kept its prepared intent in widget state and opened USSD from that snapshot. Another operator could deactivate or replace the receiver, the intent could expire, or the member could change account before tapping the button. A historical intent read is unsuitable for this check because it deliberately retains inactive receiver details for history.
+
+The Open MoMo USSD action now repeats the live `create_contribution_intent` call through `CollectRepository.createPaymentIntent` immediately before launch. That server function checks the authenticated profile, membership, active receiver, amount, payer identity and pending expiry. The client launches only if the returned intent exactly matches the ID, group, amount, receiver number/hash/label/network, payer hash and lifetime the member reviewed. A mismatch or failed recheck clears the prepared step; account changes also clear the local snapshot before it can be shown to the next account. A successful USSD launch still means only that the network prompt opened; it never marks a contribution paid.
+
+The pure guard and widget tests passed **6/6**, covering unchanged launch, changed receiver without a launch, account switch clearing, and rejected changed/expired/final intents. These tests use synthetic repository data and a mocked USSD channel. The live Supabase function, route deactivation races, real MTN/Airtel SIM prompts, dual-SIM behavior and signed-device account switches remain unverified. There is an unavoidable interval between a server recheck and an external network prompt; members must still review the network prompt's receiver and amount. No production migration or client release was deployed by this change.

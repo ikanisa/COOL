@@ -1,0 +1,21 @@
+test_ack_body_hash_is_checked_in_sql (__main__.IntegrationTests.test_ack_body_hash_is_checked_in_sql) ... ok
+test_both_decoding_branches_keep_public_tests (__main__.IntegrationTests.test_both_decoding_branches_keep_public_tests) ... ok
+test_ciphertext_not_deleted_on_read_failure (__main__.IntegrationTests.test_ciphertext_not_deleted_on_read_failure) ... ok
+test_ingest_has_no_legacy_fallback (__main__.IntegrationTests.test_ingest_has_no_legacy_fallback) ... ok
+test_integrity_oauth_contract (__main__.IntegrationTests.test_integrity_oauth_contract) ... ok
+test_mismatch_does_not_clear_queue (__main__.IntegrationTests.test_mismatch_does_not_clear_queue) ... ok
+test_native_ack_is_owner_bound (__main__.IntegrationTests.test_native_ack_is_owner_bound) ... ok
+test_otp_no_static_secret (__main__.IntegrationTests.test_otp_no_static_secret) ... ok
+test_owner_not_display_label (__main__.IntegrationTests.test_owner_not_display_label) ... ok
+test_owner_rechecked_before_native_ack (__main__.IntegrationTests.test_owner_rechecked_before_native_ack) ... ok
+test_parser_never_self_confirms (__main__.IntegrationTests.test_parser_never_self_confirms) ... ok
+test_phone_body_does_not_supply_sender (__main__.IntegrationTests.test_phone_body_does_not_supply_sender) ... ok
+test_privileged_readiness_not_pr_triggered (__main__.IntegrationTests.test_privileged_readiness_not_pr_triggered) ... ok
+test_reconciliation_actor_not_caller_supplied (__main__.IntegrationTests.test_reconciliation_actor_not_caller_supplied) ... ok
+test_roster_preview_preserved (__main__.IntegrationTests.test_roster_preview_preserved) ... ok
+test_sql_finality_is_contained (__main__.IntegrationTests.test_sql_finality_is_contained) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.001s
+
+OK

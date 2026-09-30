@@ -18,23 +18,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class _LargeHistoryRepository extends FixtureCollectRepository {
   _LargeHistoryRepository() : super(fixtureNow: DateTime.utc(2026, 9, 2)) {
+    final contributions = List.generate(
+      1000,
+      (index) => Contribution(
+        id: 'synthetic-$index',
+        collectionId: 'qa-private-group',
+        amountRwf: index.isEven ? 1000 : 125,
+        currency: 'RWF',
+        supporterLabel: 'Collect ID ${400000 + index}',
+        isCurrentUserContribution: true,
+        transactionId: 'SYNTHETIC-$index',
+        createdAt: DateTime.utc(2026, 9, 2).subtract(Duration(minutes: index)),
+      ),
+    );
     state = state.copyWith(
-      contributions: List.generate(
-        1000,
-        (index) => Contribution(
-          id: 'synthetic-$index',
-          collectionId: 'qa-private-group',
-          amountRwf: index.isEven ? 1000 : 125,
-          currency: index.isEven ? 'RWF' : 'EUR',
-          supporterLabel: 'Collect ID ${400000 + index}',
-          isCurrentUserContribution: true,
-          transactionId: 'SYNTHETIC-$index',
-          createdAt: DateTime.utc(
-            2026,
-            9,
-            2,
-          ).subtract(Duration(minutes: index)),
-        ),
+      contributions: contributions,
+      historyPage: MemberHistoryPage(
+        items: List.unmodifiable(contributions),
+        totalCount: contributions.length,
+        totals: const {'RWF': 562500},
+        ownTotals: const {'RWF': 562500},
+        ownCollectionIds: const {'qa-private-group'},
+        revision: '00000000000000000000000000000000',
       ),
     );
   }
@@ -174,18 +179,16 @@ void main() {
       expect(rows, findsOneWidget);
       expect(find.textContaining('400999'), findsWidgets);
       if (route != '/groups/qa-private-group/members') {
-        expect(find.text('EUR 1.25'), findsWidgets);
+        expect(find.text('RWF 125'), findsWidgets);
       }
       expect(tester.takeException(), isNull);
     });
   }
 
-  testWidgets('activity totals cover all rows and retain separate currencies', (
-    tester,
-  ) async {
+  testWidgets('activity totals cover all Rwanda MoMo rows', (tester) async {
     await pumpScreen(tester, '/activity');
-    expect(find.text('EUR 625.00\nRWF 500,000'), findsOneWidget);
+    expect(find.text('RWF 562,500'), findsOneWidget);
     expect(find.textContaining('1000'), findsWidgets);
-    expect(find.text('RWF 562,500'), findsNothing);
+    expect(find.textContaining('EUR'), findsNothing);
   });
 }

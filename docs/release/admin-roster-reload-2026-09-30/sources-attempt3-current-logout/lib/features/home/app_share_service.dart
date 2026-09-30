@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../../app/env/app_env.dart';
+import '../../shared/models/collect_models.dart';
+import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/collect_share_links.dart';
+import '../../shared/utils/collect_share_origin.dart';
+
+String collectAppInviteLinkFor(AppEnv env, CollectProfile? profile) {
+  final publicId = profile?.publicId.trim();
+  if (publicId != null && publicId.isNotEmpty) {
+    return collectPublicLink(env, ['invite', publicId]);
+  }
+  return collectPublicLink(env, const ['app']);
+}
+
+String collectAppShareMessageFor(AppEnv env, CollectProfile? profile) {
+  final link = collectAppInviteLinkFor(env, profile);
+  return 'Join me on Collect for group contributions in Rwanda. '
+      'Open the app or get it for your phone: $link';
+}
+
+Future<void> shareCollectApp({
+  required BuildContext context,
+  required WidgetRef ref,
+}) async {
+  final env = ref.read(appEnvProvider);
+  final profile = ref.read(collectRepositoryProvider).currentProfile;
+  final link = collectAppInviteLinkFor(env, profile);
+  final message = collectAppShareMessageFor(env, profile);
+
+  try {
+    await SharePlus.instance.share(
+      ShareParams(
+        title: 'Collect',
+        subject: 'Join me on Collect',
+        text: message,
+        sharePositionOrigin: collectSharePositionOrigin(context),
+        downloadFallbackEnabled: true,
+      ),
+    );
+  } catch (_) {
+    await Clipboard.setData(ClipboardData(text: link));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Collect invite link copied.')),
+    );
+  }
+}

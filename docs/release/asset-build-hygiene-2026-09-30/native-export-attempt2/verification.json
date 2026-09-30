@@ -1,0 +1,73 @@
+{
+  "status": "incomplete",
+  "commands": [
+    {
+      "name": "pub-enforce",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "54abfd8b8accd9bed4ad2916ef2624f7c25e452cd6b23a5a87528d503afc5394",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gradle-version",
+      "command": [
+        "./gradlew",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "00b2792427a2ba77fb397838f4c08c978306a4148fb2276010f87ff71891decb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "dev-native-lint-jvm",
+      "command": [
+        "./gradlew",
+        ":app:lintDevDebug",
+        ":app:testDevDebugUnitTest",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "13264ff79349884eb85f044784b4826f15fee9a8ab15967cb63d09517d86aad5",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2"
+    },
+    {
+      "name": "production-source-analysis",
+      "command": [
+        "./gradlew",
+        ":app:lintProductionRelease",
+        ":app:testProductionReleaseUnitTest",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "34e6a14af21ded32e98d5c34d0e6acc73769840c8175a45558d790666ba8f10a",
+      "stderr_sha256": "8786eaf5865e3681f151d525827578aa0cc43a5a6b2b70b0dbda192b71efc802"
+    },
+    {
+      "name": "production-runtime-graph",
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt2/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "47e9d2c8eb51020b257c7d2f409ffb02f8cdae2e746397b5b88b772694a865cb",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    }
+  ],
+  "source_export_sha256": "055b1832bcfe24c35cd96a9df723c5a8ac287cde817972f01518b25b6a1fca7a",
+  "flutter": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+  "jdk": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+  "provider_private_files_absent": true,
+  "signing_private_files_absent": true,
+  "scope": "Local unsigned source-analysis/dependency graph on exact exported current sources; no signed/store/provider acceptance"
+}

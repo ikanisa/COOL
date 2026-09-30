@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source review views from the existing native gate and tested route factories.
+"""Source review views from route/state fixtures and tested route factories.
 
 This writes planning CSV/JSON only. It cannot create acceptance or infer that a
 screen was rendered. Repository calls are lexical candidates, not a call graph.
@@ -9,7 +9,6 @@ import hashlib
 import json
 import pathlib
 import re
-import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -103,8 +102,6 @@ def main():
     if len(exported) != 1 or sha(report_path.parent / 'stdout.jsonl') != report['stdout_sha256']:
         raise ValueError('Exactly one hash-bound route export required')
     observations = exported[0]
-    code = "require './scripts/qa/mobile_design_gate'; g=MobileDesignGate.new(Dir.pwd); puts JSON.generate(routes:g.inventory_specs('route_inventory','Route'),states:g.inventory_specs('material_state_inventory','State'),cases:g.required_cases,contract:g.contract,fingerprints:g.fingerprints)"
-    inventory = json.loads(subprocess.check_output(['ruby', '-e', code], cwd=ROOT, text=True))
     library_files = sorted((ROOT / 'lib').rglob('*.dart'))
     types = {}
     for path in library_files:
@@ -140,38 +137,32 @@ def main():
                            'source_report': str(report_path.relative_to(ROOT)),
                            'evidence_status': 'source_and_callback_discovery_only',
                            'rendered_task_backend_visual_acceptance': 'unverified'})
-    specs = inventory['routes'] + inventory['states']
-    legacy = set(inventory['contract']['additional_states']) - {spec['id'] for spec in specs}
     case_rows = []
-    for case in inventory['cases']:
-        base, variant = case.rsplit('@', 1)
-        matching = [spec for spec in specs if spec['id'] == base]
-        case_rows.append({'case_id': case, 'base_id': base, 'variant': variant,
-                          'route_locations': '|'.join(sorted({spec['route'] for spec in matching})),
+    for route in sorted({row['route'] for row in observations}):
+        matching = [row for row in observations if row['route'] == route]
+        case_rows.append({'case_id': route, 'base_id': route, 'variant': 'route_factory',
+                          'route_locations': route,
                           'harness_declarations': json.dumps(matching, sort_keys=True),
-                          'mapping_status': 'declared_harness_case' if matching else 'contract_case_without_exact_harness_id',
+                          'mapping_status': 'route_factory_observed',
                           'required_platforms': 'android|ios', 'android_acceptance': 'unverified',
-                          'ios_acceptance': 'unverified', 'comparator_review': 'unverified'})
+                          'ios_acceptance': 'unverified'})
     OUTPUT.mkdir(parents=True, exist_ok=True)
     write_csv('member-route-dependencies.csv', route_rows)
     write_csv('member-native-cases.csv', case_rows)
     summary = {'status': 'in_progress_source_discovery', 'final_acceptance': False,
                'route_templates': len(route_rows), 'factory_guard_observations': len(observations),
-               'native_route_specs': len(inventory['routes']), 'native_material_specs': len(inventory['states']),
-               'required_cases_per_platform': len(case_rows), 'legacy_cases_without_exact_harness_id': sorted(legacy),
+               'required_cases_per_platform': len(case_rows),
                'repository_method_candidates': methods, 'repository_direct_api_declarations': api_declarations,
-               'native_gate_fingerprints': inventory['fingerprints'],
                'route_report': str(report_path.relative_to(ROOT)), 'route_report_sha256': sha(report_path),
                'limitations': ['Factories and guard callbacks were exercised; destination screens were not mounted.',
                               'File-level dependencies can include neighboring screens and miss delegated provider/service calls.',
                               'Lexical method/API candidates are not resolved control flow or server-enforcement evidence.',
-                              'Legacy contract cases remain required; apparent aliases were not silently merged.',
-                              'Complete membership/role/geography/overlay/keyboard/theme and runtime support mapping remains open.',
-                              'Comparator, native artifact, quality and independent/owner reviews remain unverified.'],
+                              'Route observations are source coverage only, not design or release acceptance.',
+                              'Complete membership/role/geography/overlay/keyboard/theme and runtime support mapping remains open.'],
                'output_hashes': {name: sha(OUTPUT / name) for name in ['member-route-dependencies.csv', 'member-native-cases.csv']}}
     (OUTPUT / 'member-coverage-summary.json').write_text(json.dumps(summary, indent=2) + '\n')
     print(json.dumps({key: summary[key] for key in ['route_templates', 'factory_guard_observations',
-                                                 'native_route_specs', 'native_material_specs', 'required_cases_per_platform']}))
+                                                 'required_cases_per_platform']}))
 
 
 if __name__ == '__main__':

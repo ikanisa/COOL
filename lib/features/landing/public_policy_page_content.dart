@@ -6,28 +6,27 @@ const _publicPolicyPages = <CollectPublicPageData>[
     navLabel: 'Privacy',
     title: 'Privacy Policy and Data Deletion',
     intro:
-        'Collect uses the minimum account, group, MoMo and diaspora bank evidence needed to operate reconciled contribution records.',
+        'Collect uses the account, group and MoMo receipt evidence needed to operate reconciled Rwanda contribution records.',
     sections: [
       CollectPublicSectionData(
         title: 'Information Collect uses',
         body:
-            'Collect stores account identifiers, profile details, group membership, MoMo or diaspora bank requests, contribution records, notification preferences and audit evidence.',
+            'Collect stores account identifiers, Rwanda MoMo profile details, group membership, contribution requests, contribution records, notification preferences and audit evidence.',
         bullets: [
           'WhatsApp sign-in phone and six-digit Collect ID',
-          'User-confirmed country and country-derived local currency',
+          'Rwanda profile and RWF currency',
           'Rwanda MoMo provider and editable local 07 number',
-          'Diaspora Revolut link and account details',
           'Members are identified by Collect ID; personal names from MoMo receipts stay in access-controlled Admin records',
-          'Consented MoMo receipts and controlled bank evidence',
+          'Consented MoMo receipt evidence',
         ],
       ),
       CollectPublicSectionData(
         title: 'How payment evidence is handled',
         body:
-            'Likely MoMo receipt SMS and diaspora bank evidence are sent to Collect servers for structured extraction and reconciliation. Raw evidence and full phone or account values are not displayed publicly.',
+            'Likely MoMo receipt SMS is sent to Collect servers for structured extraction and reconciliation. Raw evidence and full phone values are not displayed publicly.',
         bullets: [
           'Parsers cannot update balances',
-          'Diaspora daily statements determine bank-settlement finality',
+          'Matched MoMo receipt evidence determines ledger posting',
           'Server logs and public pages must not contain raw messages, PINs or OTPs',
         ],
       ),
@@ -90,7 +89,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
             'Contact info@ikanisa.com and identify the Collect account using a safe verification method requested by support.',
         bullets: [
           'Never send a PIN or OTP',
-          'Do not email raw receipts or bank screenshots unless support provides a protected channel',
+          'Do not email raw receipts unless support provides a protected channel',
           'You will receive an explanation of the completed action',
         ],
       ),
@@ -101,7 +100,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     navLabel: 'Terms',
     title: 'Collect Terms of Service',
     intro:
-        'These terms cover account access, private groups, Rwanda MoMo contributions, diaspora bank contributions and the contribution ledger.',
+        'These terms cover account access, private groups, Rwanda MoMo contributions and the contribution ledger.',
     sections: [
       CollectPublicSectionData(
         title: 'Using Collect',
@@ -109,14 +108,14 @@ const _publicPolicyPages = <CollectPublicPageData>[
             'Use accurate group and transfer information. Do not impersonate others, create misleading groups or submit false transfer claims.',
         bullets: [
           'User-created groups are private and created only on Android',
-          'Members approve MoMo in USSD or bank transfers outside Collect',
+          'Members approve MoMo in USSD',
           'Collect may hold incomplete or disputed evidence for review',
         ],
       ),
       CollectPublicSectionData(
         title: 'Contribution records',
         body:
-            'A ledger entry is created only after the server reconciles an incoming MoMo receipt or diaspora bank transaction to one pending member request.',
+            'A ledger entry is created only after the server reconciles an incoming MoMo receipt to one pending member request.',
         bullets: [
           'Duplicate transaction evidence cannot post twice',
           'Corrections and reversals remain audited',

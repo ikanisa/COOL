@@ -36,6 +36,7 @@ def main():
         raise SystemExit('New evidence directory under this repository .cache required')
     output.mkdir(mode=0o700, parents=True)
     paths = [*sorted((ROOT / 'supabase/functions').rglob('*.ts')),
+             ROOT / 'supabase/functions/deno.lock',
              ROOT / 'supabase/config.toml', ROOT / '.dvmrc',
              ROOT / 'scripts/qa/edge_http_runtime_uat.ts', ROOT / 'scripts/qa/run_edge_http_uat.py',
              ROOT / 'Makefile', ROOT / '.github/workflows/ci.yml']
@@ -62,11 +63,13 @@ def main():
         if info.get('denoVersion') != pin:
             raise RuntimeError('Deno must exactly match .dvmrc')
         report['runtime'] = {'path': str(binary), 'sha256': digest(binary), 'pinned_version': pin}
-        command = [str(binary), 'run', '--check', '--no-config', '--no-lock', '--cached-only', '--no-prompt',
+        command = [str(binary), 'run', '--check', '--no-config',
+                   '--lock=supabase/functions/deno.lock', '--frozen', '--cached-only', '--no-prompt',
                    '--allow-env', '--allow-net=127.0.0.1',
                    '--deny-net=graph.facebook.com,oauth2.googleapis.com,playintegrity.googleapis.com,fcm.googleapis.com,api.push.apple.com,api.sandbox.push.apple.com,api.openai.com',
                    '--allow-read=supabase/functions,supabase/config.toml', 'scripts/qa/edge_http_runtime_uat.ts']
         report['command'] = command
+        report['dependency_lock_enforced'] = True
         # The child cannot inherit hosted keys, provider accounts, or dotenv files.
         env = {'PATH': os.defpath, 'DENO_DIR': info['denoDir'],
                'NO_COLOR': '1', 'DENO_NO_UPDATE_CHECK': '1'}

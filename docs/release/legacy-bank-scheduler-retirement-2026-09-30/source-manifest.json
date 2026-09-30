@@ -1,0 +1,55 @@
+{
+  "source_unchanged_during_checks": true,
+  "files": [
+    {
+      "path": "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+      "bytes": 7801,
+      "sha256": "a3e29f1314a4a94d1ef2bd19709aa745dca5f0e456bb70dab769d6b42c92ba85"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_retirement_uat.sql",
+      "bytes": 12611,
+      "sha256": "a190bffc1212c410a200e6b99d4db6910bf0cea5d948f535e7bb1640c4d25952"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_snapshot.sql",
+      "bytes": 3071,
+      "sha256": "0a153c47c32099cfde4d727ff842f2e075fcb0de8a01a692d7251c0280da9c19"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+      "bytes": 6133,
+      "sha256": "33dcbfd6b3468cd998da01f7a9b5a7745cea9e28ed4e5154cc00bbfe2ee6bb47"
+    },
+    {
+      "path": "scripts/tests/verify_legacy_bank_scheduler_upgrade.py",
+      "bytes": 3486,
+      "sha256": "eaacf4fe9dc1f3efd3e691da92712c269d52572256725037fbfc49c5f6e5d0ab"
+    },
+    {
+      "path": "scripts/tests/verify_legacy_bank_scheduler_upgrade_test.py",
+      "bytes": 3216,
+      "sha256": "3db22aeef7519eda7b432edafb629322630cb90d6b8037af14ff9d8338e09b21"
+    },
+    {
+      "path": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+      "bytes": 141383,
+      "sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e"
+    },
+    {
+      "path": "supabase/migrations/20260925190000_rwanda_momo_only.sql",
+      "bytes": 21033,
+      "sha256": "89953426da70529801848beb0db04699a0c37b2b82d6f8aaa98e8123b1201fd8"
+    },
+    {
+      "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "bytes": 38882,
+      "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+    },
+    {
+      "path": "docs/release/hosted-readback-2026-09-30/catalog-readback.json",
+      "bytes": 248077,
+      "sha256": "4a13e77ee96b7e9916841dd10cd70608cbe91ae3cb4671909d3df35709b48954"
+    }
+  ]
+}

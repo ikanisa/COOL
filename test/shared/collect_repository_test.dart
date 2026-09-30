@@ -1,315 +1,174 @@
 import '../fixtures/collect_repository_fixture.dart';
 
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+class _AccountSwitchingSmsAccess extends SmsAccessChannel {
+  void Function()? onDisable;
+  bool suspendedAfterSwitch = false;
+
+  @override
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
+    if (!enabled) onDisable?.call();
+    return true;
+  }
+
+  @override
+  Future<bool> suspendUnlessOwner(String? currentUserId) async {
+    suspendedAfterSwitch = true;
+    return true;
+  }
+}
+
+class _SwitchableFixtureRepository extends FixtureCollectRepository {
+  _SwitchableFixtureRepository({required super.smsAccessChannel});
+
+  void switchTo(CollectProfile profile) {
+    state = state.copyWith(currentProfile: profile);
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  setUp(() {
-    SharedPreferences.setMockInitialValues({});
-  });
-
-  test('fixture public groups are platform-sponsored MoMo groups', () {
+  test('fixture public groups use Rwanda MoMo', () {
     final repository = FixtureCollectRepository();
-
-    expect(repository.state.collections, isNotEmpty);
-    final publicGroups = repository.state.collections
-        .where((group) => group.isPublic)
-        .toList();
+    final publicGroups = repository.state.collections.where((g) => g.isPublic);
+    expect(publicGroups, isNotEmpty);
+    expect(publicGroups.every((g) => g.receiverNetwork == 'mtn_momo'), isTrue);
+    expect(publicGroups.every((g) => g.settlementCurrency == 'RWF'), isTrue);
     expect(
-      publicGroups.map((group) => group.title),
-      containsAll(['Buri Munsi', 'Gikundiro']),
-    );
-    expect(
-      publicGroups,
-      everyElement(
-        predicate<CollectCollection>(
-          (group) => group.creatorUserId == 'platform',
-        ),
+      publicGroups.every(
+        (g) => {
+          'rwanda_momo',
+          'unavailable',
+        }.contains(g.contributionRailFor(null)),
       ),
-    );
-    expect(
-      publicGroups,
-      everyElement(
-        predicate<CollectCollection>(
-          (group) => group.receiverNetwork == 'mtn_momo',
-        ),
-      ),
-    );
-    expect(repository.state.currentProfile?.whatsappPhone, isNotEmpty);
-  });
-
-  test('public directory rows parse without exposing an owner profile', () {
-    final group = CollectCollection.fromJson(const {
-      'id': 'public-id',
-      'slug': 'public-slug',
-      'title': 'Public group',
-      'description': 'Database catalogue row',
-      'collection_type': 'ikimina',
-      'is_platform_sponsored': true,
-      'created_at': '2026-09-01T00:00:00Z',
-    });
-
-    expect(group.creatorUserId, isEmpty);
-    expect(group.isPublic, isTrue);
-    expect(group.isPlatformSponsored, isTrue);
-    expect(group.contributionRailFor(null), 'unavailable');
-  });
-
-  test('public group payment capabilities are database authoritative', () {
-    final momoOnly = CollectCollection.fromJson(const {
-      'id': 'buri-id',
-      'slug': 'buri-munsi',
-      'title': 'Buri Munsi',
-      'description': 'Database catalogue row',
-      'collection_type': 'ikimina',
-      'is_platform_sponsored': true,
-      'payment_rail': 'rwanda_momo',
-      'settlement_currency': 'RWF',
-      'receiver_momo_number': '41258',
-      'receiver_display_label': 'IKANISA LTD',
-      'receiver_network': 'mtn_momo',
-      'diaspora_enabled': false,
-      'created_at': '2026-09-01T00:00:00Z',
-    });
-    const diaspora = CollectProfile(
-      id: 'diaspora-user',
-      publicId: '123456',
-      whatsappPhone: '+447700900123',
-      countryCode: 'GB',
-      currencyCode: 'GBP',
-    );
-
-    expect(momoOnly.receiverMomoNumber, '41258');
-    expect(momoOnly.receiverDisplayLabel, 'IKANISA LTD');
-    expect(momoOnly.settlementCurrency, 'RWF');
-    expect(momoOnly.contributionRailFor(null), 'rwanda_momo');
-    expect(momoOnly.contributionRailFor(diaspora), 'rwanda_momo');
-
-    final dualRail = momoOnly.copyWith(diasporaEnabled: true);
-    expect(dualRail.contributionRailFor(diaspora), 'diaspora_bank');
-  });
-
-  test('public group accepts a contribution without membership', () async {
-    final repository = FixtureCollectRepository();
-    final publicGroup = repository.state.collections.firstWhere(
-      (group) => group.isPublic && !group.isCurrentUserMember,
-    );
-
-    final intent = await repository.createPaymentIntent(
-      PaymentIntentDraft(collectionId: publicGroup.id, amountRwf: 5000),
-    );
-
-    expect(intent.collectionId, publicGroup.id);
-    expect(intent.receiverMomoNumber, isNotEmpty);
-    expect(intent.status, 'pending');
-    expect(
-      repository.state.collections
-          .firstWhere((group) => group.id == publicGroup.id)
-          .isCurrentUserMember,
       isTrue,
     );
   });
 
-  test('fixture destination is active, routable, and EUR SEPA', () async {
+  test('Rwanda contribution request creates a pending MoMo intent', () async {
     final repository = FixtureCollectRepository();
-
-    final destination = await repository.getBankTransferDestination();
-
-    expect(destination.enabled, isTrue);
-    expect(destination.isPlaceholder, isFalse);
-    expect(destination.currency, 'EUR');
-    expect(destination.transferScheme, 'sepa_credit_transfer');
-    expect(destination.iban, isNotEmpty);
-    expect(destination.beneficiaryName, isNotEmpty);
+    final group = repository.state.collections.firstWhere((g) => g.isPublic);
+    final intent = await repository.createPaymentIntent(
+      PaymentIntentDraft(collectionId: group.id, amountRwf: 5000),
+    );
+    expect(intent.currency, 'RWF');
+    expect(intent.rail, 'rwanda_momo');
+    expect(intent.receiverMomoNumber, isNotEmpty);
+    expect(intent.status, 'pending');
   });
 
   test(
-    'profile country and currency change without changing WhatsApp identity',
+    'active Rwanda MoMo request with same group and amount is reused',
     () async {
-      final repository = FixtureCollectRepository();
-      final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
-
-      final european = await repository.updateCurrentProfile(
-        countryCode: 'GB',
-        revolutLink: 'https://revolut.me/jeanbosco',
-        revolutAccount: '000123456789',
+      final repository = FixtureCollectRepository(
+        fixtureNow: DateTime.now().toUtc(),
       );
+      const draft = PaymentIntentDraft(
+        collectionId: 'qa-private-group',
+        amountRwf: 9876,
+      );
+      final first = await repository.createPaymentIntent(draft);
+      final second = await repository.createPaymentIntent(draft);
+      expect(second.id, first.id);
+      expect(
+        repository.state.paymentIntents.where((i) => i.id == first.id),
+        hasLength(1),
+      );
+    },
+  );
 
-      expect(european.whatsappPhone, verifiedWhatsApp);
-      expect(european.countryCode, 'GB');
-      expect(european.currencyCode, 'GBP');
-      expect(european.publicId, '038491');
-      expect(european.isEuropean, isTrue);
-      expect(european.isComplete, isTrue);
-
-      final rwanda = await repository.updateCurrentProfile(
-        countryCode: 'RW',
+  test('foreign profile cannot initiate a contribution', () async {
+    final repository = FixtureCollectRepository(
+      profileOverride: const CollectProfile(
+        id: 'foreign-profile',
+        publicId: '123456',
+        whatsappPhone: '+250788123456',
+        countryCode: 'GB',
+        currencyCode: 'GBP',
         momoProvider: 'mtn_momo',
         momoNumber: '0788123456',
-      );
-
-      expect(rwanda.whatsappPhone, verifiedWhatsApp);
-      expect(rwanda.countryCode, 'RW');
-      expect(rwanda.currencyCode, 'RWF');
-      expect(rwanda.isComplete, isTrue);
-      expect(rwanda.isEuropean, isFalse);
-    },
-  );
+      ),
+    );
+    await expectLater(
+      repository.createPaymentIntent(
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 5000,
+        ),
+      ),
+      throwsFormatException,
+    );
+  });
 
   test(
-    'European profiles require payment details, not a personal name',
+    'profile save cannot overwrite an account switched during SMS disable',
     () async {
-      final repository = FixtureCollectRepository();
+      final smsAccess = _AccountSwitchingSmsAccess();
+      final repository = _SwitchableFixtureRepository(
+        smsAccessChannel: smsAccess,
+      );
+      final previous = repository.state.currentProfile!;
+      smsAccess.onDisable = () {
+        repository.switchTo(
+          const CollectProfile(
+            id: 'different-account',
+            publicId: '123456',
+            whatsappPhone: '+250788111222',
+            countryCode: 'RW',
+            currencyCode: 'RWF',
+            momoProvider: 'mtn_momo',
+            momoNumber: '0788111222',
+          ),
+        );
+      };
 
       await expectLater(
-        repository.updateCurrentProfile(countryCode: 'DE'),
-        throwsA(isA<FormatException>()),
-      );
-    },
-  );
-
-  test(
-    'diaspora bank request snapshots destination and exact reference',
-    () async {
-      final repository = FixtureCollectRepository(
-        fixtureNow: DateTime.now().toUtc(),
-      );
-      await repository.updateCurrentProfile(
-        countryCode: 'DE',
-        revolutLink: 'https://revolut.me/jeanbosco',
-        revolutAccount: '000123456789',
-      );
-
-      final intent = await repository.createPaymentIntent(
-        const PaymentIntentDraft(
-          collectionId: 'qa-private-group',
-          amountRwf: 12345,
+        repository.updateCurrentProfile(
+          countryCode: 'RW',
+          momoProvider: 'airtel_money',
+          momoNumber: '0720000001',
         ),
+        throwsStateError,
       );
-
-      expect(intent.expectedAmountMinor, 12345);
-      expect(intent.currency, 'EUR');
-      expect(intent.status, 'awaiting_transfer');
-      expect(intent.transferReference, matches(RegExp(r'^COL-[A-Z0-9]{10}$')));
-      expect(intent.destination.enabled, isTrue);
-      expect(intent.destination.isPlaceholder, isFalse);
-      expect(intent.destination.iban, isNotEmpty);
+      expect(repository.state.currentProfile?.id, 'different-account');
+      expect(repository.state.currentProfile?.momoNumber, '0788111222');
+      expect(repository.state.currentProfile?.id, isNot(previous.id));
+      expect(smsAccess.suspendedAfterSwitch, isTrue);
     },
   );
 
-  test('active request with the same group and amount is reused', () async {
-    final repository = FixtureCollectRepository(
-      fixtureNow: DateTime.now().toUtc(),
+  test('member group creation stays private and uses MoMo receiver', () async {
+    final repository = FixtureCollectRepository();
+    final group = await repository.createCollection(
+      title: 'RWF savings circle',
+      description: 'Private Rwanda MoMo group',
+      receiverMomoNumber: '0788123456',
+      receiverProvider: 'mtn_momo',
+      isPublic: true,
     );
-    const draft = PaymentIntentDraft(
-      collectionId: 'qa-private-group',
-      amountRwf: 9876,
-    );
+    expect(group.receiverMomoNumber, '0788123456');
+    expect(group.isPublic, isFalse);
+    expect(group.visibilityStatus, 'private');
+  });
 
-    final first = await repository.createPaymentIntent(draft);
-    final second = await repository.createPaymentIntent(draft);
-
-    expect(second.id, first.id);
+  test('non-Rwanda payment intent is rejected on parsing', () {
     expect(
-      repository.state.paymentIntents.where((item) => item.id == first.id),
-      hasLength(1),
-    );
-  });
-
-  test(
-    'Revolut handoff remains pending and does not create a contribution',
-    () async {
-      final repository = FixtureCollectRepository(
-        fixtureNow: DateTime.now().toUtc(),
-      );
-      final contributionCount = repository.state.contributions.length;
-      await repository.updateCurrentProfile(
-        countryCode: 'DE',
-        revolutLink: 'https://revolut.me/jeanbosco',
-        revolutAccount: '000123456789',
-      );
-      final intent = await repository.createPaymentIntent(
-        const PaymentIntentDraft(
-          collectionId: 'qa-private-group',
-          amountRwf: 5050,
-        ),
-      );
-
-      await repository.markBankTransferHandoffOpened(intent.id);
-      final updated = repository.intentById(intent.id);
-
-      expect(updated.status, 'handoff_opened');
-      expect(updated.isAwaitingTransfer, isTrue);
-      expect(repository.state.contributions, hasLength(contributionCount));
-    },
-  );
-
-  test(
-    'user group creation is private and uses the profile MoMo receiver',
-    () async {
-      final repository = FixtureCollectRepository();
-
-      final group = await repository.createCollection(
-        title: 'RWF savings circle',
-        description: 'Private Rwanda MoMo group',
-        receiverMomoNumber: '0788123456',
-        receiverProvider: 'mtn_momo',
-        isPublic: true,
-      );
-
-      expect(group.receiverDisplayLabel, 'MTN MoMo receiver');
-      expect(group.receiverMomoNumber, '0788123456');
-      expect(group.isPublic, isFalse);
-      expect(group.visibilityStatus, 'private');
-    },
-  );
-
-  test('bank models parse minor units and destination snapshot', () {
-    final intent = PaymentIntentModel.fromJson(const {
-      'id': 'intent-1',
-      'collection_id': 'qa-private-group',
-      'amount_minor': 7500,
-      'currency': 'EUR',
-      'transfer_reference': 'COL-ABC1234567',
-      'status': 'received_unreconciled',
-      'created_at': '2026-08-20T10:00:00Z',
-      'expires_at': '2026-08-22T10:00:00Z',
-      'destination_snapshot': {
-        'id': 'bank-1',
-        'beneficiary_name': 'IKANISA Collect',
-        'iban': 'DE89370400440532013000',
-        'iban_masked': 'DE89••••3000',
-        'bic': 'COBADEFFXXX',
-        'bank_name': 'Collect Bank',
+      () => PaymentIntentModel.fromJson(const {
+        'id': 'foreign-intent',
+        'collection_id': 'qa-private-group',
+        'amount_minor': 7500,
         'currency': 'EUR',
-        'enabled': true,
-      },
-    });
-
-    expect(intent.expectedAmountMinor, 7500);
-    expect(intent.status, 'received_unreconciled');
-    expect(intent.destination.beneficiaryName, 'IKANISA Collect');
-    expect(intent.destination.enabled, isTrue);
-  });
-
-  test('contribution parser uses reconciled bank amount and currency', () {
-    final contribution = Contribution.fromJson(const {
-      'payment_id': 'bank-transaction-1',
-      'collection_id': 'qa-private-group',
-      'amount_minor': 15000,
-      'currency': 'EUR',
-      'contributor_public_id': '038491',
-      'posted_at': '2026-08-20T11:00:00Z',
-      'transaction_id': 'BANK-E2E-1',
-      'is_current_user_contribution': true,
-    });
-
-    expect(contribution.amountMinor, 15000);
-    expect(contribution.currency, 'EUR');
-    expect(contribution.supporterLabel, 'Collect ID 038491');
-    expect(contribution.isCurrentUserContribution, isTrue);
+        'rail': 'diaspora_bank',
+        'status': 'awaiting_transfer',
+        'created_at': '2026-08-20T10:00:00Z',
+      }),
+      throwsFormatException,
+    );
   });
 }

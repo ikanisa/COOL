@@ -5,6 +5,10 @@ Repository: `ikanisa/COOL`
 Audited revision: `dc87acf1af987de52aa6027d6c364d6e686a651f` plus the code-owned fixes listed below  
 Current app version: `1.2.2+10`
 
+This is dated technical and release evidence. The owner-selected
+`revolut-design` skill is the sole UI/UX authority; historical regression
+baselines and this report do not approve a visual system or current build.
+
 ## Decision
 
 **NO-GO for a new production release.** The repository has strong automated
@@ -24,7 +28,7 @@ approval was inferred or performed during this audit.
 | Flutter source quality | Pass | Pinned Flutter `3.44.4` / Dart `3.12.2`; formatting clean; `flutter analyze --no-pub` has no findings. |
 | Automated tests | Pass | `443/443` Flutter tests pass with `78.75%` line coverage (`9,675/12,286`). |
 | Mobile rendered routes | Pass | `35/35` routes render nonblank at `390x844`; evidence is in `.cache/mobile_route_render_smoke/20260804-audit`. |
-| Visual regression | Pass | Fourteen approved surfaces pass. The comparator permits only `0.05%` pixel drift for host-specific subpixel rasterization; geometry, viewport, and baseline membership remain exact. |
+| Historical visual regression | Dated pass | Fourteen regression comparisons passed against the then-existing baselines. Their raster tolerance and baseline membership describe that historical test run and supply no design acceptance. Current route/state review must use the owner-selected `revolut-design` skill. |
 | Accessibility and adaptive UI | Pass in automation | Contrast, 44/48 dp targets, reduced motion, high contrast, large text, compact phone, tablet, and route semantics are covered. Physical TalkBack/VoiceOver approval is not current. |
 | Public website | Pass live; external completion evidence open | Static gate `55/55`, live gate `34/34`, four browser viewports pass. Lighthouse mobile: performance `0.96`, accessibility `0.96`, best practices `1.00`, SEO `1.00`; desktop: `1.00`, `0.96`, `1.00`, `1.00`. |
 | Admin PWA source build | Pass | Current local manifest and hosting gates pass; current live-config render smoke passes at `.cache/admin_pwa_render_smoke/current-live-config`. |

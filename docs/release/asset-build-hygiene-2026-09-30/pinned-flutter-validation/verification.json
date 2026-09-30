@@ -1,0 +1,111 @@
+{
+  "status": "fail",
+  "runtime": {
+    "frameworkVersion": "3.44.4",
+    "channel": "stable",
+    "repositoryUrl": "https://github.com/flutter/flutter.git",
+    "frameworkRevision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "frameworkCommitDate": "2026-06-24 11:07:06 -0700",
+    "engineRevision": "a10d8ac38de835021c8d2f920dbf50a920ccc030",
+    "engineCommitDate": "2026-06-23 23:09:55.000Z",
+    "engineContentHash": "700aebeca4c0e610f109a3979ee3e71b69d666bc",
+    "engineBuildDate": "2026-06-24 02:26:40.203",
+    "dartSdkVersion": "3.12.2",
+    "devToolsVersion": "2.57.0",
+    "flutterVersion": "3.44.4",
+    "flutterRoot": "/Volumes/PRO-G40/Development/Flutter/flutter"
+  },
+  "expected_flutter": "3.44.4",
+  "flutter_executable": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+  "flutter_executable_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+  "dart_executable_sha256": "446e63e382b331c327cd17b001b025c2cb11c18ceddd2b34bfcd65cfb8cdecc2",
+  "source_before": {
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    "pubspec.yaml": "1093a19182a5be4cd6c9e90becc4ac4730c086073135172c65a497479682ca99",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "analysis_options.yaml": "45cb457a834954280fb66bef61dea6cf9f570e0b04cf93c819bbee42bdcdeb41",
+    "tool/public_app_media_capture.dart": "923597dbd061c4d192db3574b768ca80659550557c6cdfaee007a71d77a2a430",
+    "lib/main.dart": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+    "lib/main_admin.dart": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381",
+    "lib/main_public.dart": "d0fbff2f06ddadbe44c02ba5d5a611777e053bd5ab1882f1c633b3131d048026",
+    "test/core/revolut_launcher_test.dart": "cb13d409b682a178fd77dbd5b35ccf416d51e7fab21226407ab295ec01ba221c"
+  },
+  "source_after": {
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    "pubspec.yaml": "1093a19182a5be4cd6c9e90becc4ac4730c086073135172c65a497479682ca99",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "analysis_options.yaml": "45cb457a834954280fb66bef61dea6cf9f570e0b04cf93c819bbee42bdcdeb41",
+    "tool/public_app_media_capture.dart": "923597dbd061c4d192db3574b768ca80659550557c6cdfaee007a71d77a2a430",
+    "lib/main.dart": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+    "lib/main_admin.dart": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381",
+    "lib/main_public.dart": "d0fbff2f06ddadbe44c02ba5d5a611777e053bd5ab1882f1c633b3131d048026",
+    "test/core/revolut_launcher_test.dart": "cb13d409b682a178fd77dbd5b35ccf416d51e7fab21226407ab295ec01ba221c"
+  },
+  "sources_unchanged": true,
+  "commands": [
+    {
+      "name": "pub-lock-reconcile",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "54abfd8b8accd9bed4ad2916ef2624f7c25e452cd6b23a5a87528d503afc5394",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-check",
+      "command": [
+        "ruby",
+        "scripts/qa/dart_format.rb",
+        "--check"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "9c6d3af765146d14c8e9398b30ff0218472f4f5a46294ba32b0cbc5d71cd74cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "capture-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--fatal-infos",
+        "--no-pub",
+        "tool/public_app_media_capture.dart"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "1c39f79580ef63e4ef093fb4ec598d629d3b8ab77746d133d5b8c55009072f20",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "momo-negative-test",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/core/revolut_launcher_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "6f7b260dc7493fb25d078c6ed91a8d63c4b7cfdb0414b0a88f9bf239326136ad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "full-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--fatal-infos",
+        "--no-pub"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "d4eb035d3996a3d78bae81957017c49cd7ee8f4873bf5e04d3e6906ca59f8868",
+      "stderr_sha256": "8a256e7b3316ef05caedabaf24a19018f41664aa66f4a6c90e1e4d4bec139831"
+    }
+  ],
+  "pub_cache_scope": "Fresh isolated local cache; require exact lockfile; no dependency version changes",
+  "scope": "Exact installed pinned Flutter source gates on current checkout; clean-export/native acceptance separate"
+}

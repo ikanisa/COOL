@@ -34,17 +34,117 @@ class PendingSharedGroupIntentController extends StateNotifier<String?> {
 
   final PendingSharedGroupIntentStore _store;
   late Future<void> _operation;
+  PendingSharedGroupIntent? _intent;
 
   Future<String?> current() async {
     await _operation;
     return state;
   }
 
-  Future<String> retain(String rawSlug) {
+  Future<PendingSharedGroupIntent?> currentRecord() async {
+    await _operation;
+    return _intent;
+  }
+
+  Future<PendingSharedGroupIntent> retainRecord(
+    String rawSlug, {
+    String? ownerUserId,
+  }) {
     return _enqueue(() async {
-      final slug = await _store.saveSlug(rawSlug);
-      if (mounted) state = slug;
-      return slug;
+      final intent = await _store.save(rawSlug, ownerUserId: ownerUserId);
+      _intent = intent;
+      if (mounted) state = intent.slug;
+      return intent;
+    });
+  }
+
+  /// Repeated delivery of the same App Link keeps the invitation currently
+  /// visible on screen. A new slug or account creates a new record.
+  Future<PendingSharedGroupIntent> retainIncomingRecord(
+    String rawSlug, {
+    String? ownerUserId,
+  }) {
+    return _enqueue(() async {
+      final slug = normalizePendingSharedGroupSlug(rawSlug);
+      if (slug == null) throw const FormatException('Group link is invalid');
+      final owner = ownerUserId == null
+          ? null
+          : normalizePendingSharedGroupOwnerUserId(ownerUserId);
+      final existing = _intent;
+      if (existing != null &&
+          existing.slug == slug &&
+          (existing.ownerUserId == owner ||
+              (existing.ownerUserId == null && owner != null))) {
+        final persisted = await _store.read();
+        if (persisted?.intentId == existing.intentId &&
+            persisted?.ownerUserId == existing.ownerUserId) {
+          if (owner != null && persisted!.ownerUserId == null) {
+            final bound = persisted.bindTo(owner);
+            await _store.write(bound);
+            _intent = bound;
+            return bound;
+          }
+          return persisted!;
+        }
+      }
+      final intent = await _store.save(slug, ownerUserId: owner);
+      _intent = intent;
+      if (mounted) state = intent.slug;
+      return intent;
+    });
+  }
+
+  Future<String> retain(String rawSlug, {String? ownerUserId}) async =>
+      (await retainRecord(rawSlug, ownerUserId: ownerUserId)).slug;
+
+  Future<PendingSharedGroupIntent?> currentRecordForOwner(String userId) {
+    return _enqueue(() async {
+      final intent = _intent;
+      if (intent == null) return null;
+      final persisted = await _store.read();
+      if (persisted == null ||
+          persisted.intentId != intent.intentId ||
+          persisted.ownerUserId != intent.ownerUserId) {
+        _intent = persisted;
+        if (mounted) state = persisted?.slug;
+        return null;
+      }
+      final normalizedUserId = normalizePendingSharedGroupOwnerUserId(userId);
+      if (intent.ownerUserId != null &&
+          intent.ownerUserId != normalizedUserId) {
+        await _store.clear();
+        _intent = null;
+        if (mounted) state = null;
+        return null;
+      }
+      if (intent.ownerUserId == null) {
+        final bound = intent.bindTo(normalizedUserId);
+        await _store.write(bound);
+        _intent = bound;
+        return bound;
+      }
+      return intent;
+    });
+  }
+
+  Future<bool> clearIfMatchesRecord(PendingSharedGroupIntent expected) {
+    return _enqueue(() async {
+      final intent = _intent;
+      if (intent == null ||
+          intent.slug != expected.slug ||
+          intent.intentId != expected.intentId ||
+          intent.ownerUserId != expected.ownerUserId) {
+        return false;
+      }
+      final persisted = await _store.read();
+      if (persisted?.intentId != expected.intentId ||
+          persisted?.ownerUserId != expected.ownerUserId) {
+        return false;
+      }
+      await _store.clear();
+      _intent = null;
+      if (mounted) state = null;
+      return true;
     });
   }
 
@@ -53,6 +153,7 @@ class PendingSharedGroupIntentController extends StateNotifier<String?> {
       final slug = normalizePendingSharedGroupSlug(rawSlug);
       if (slug == null || state != slug) return false;
       await _store.clear();
+      _intent = null;
       if (mounted) state = null;
       return true;
     });
@@ -61,14 +162,18 @@ class PendingSharedGroupIntentController extends StateNotifier<String?> {
   Future<void> clear() {
     return _enqueue(() async {
       await _store.clear();
+      _intent = null;
       if (mounted) state = null;
     });
   }
 
   Future<void> _restore() async {
     try {
-      final restored = await _store.readSlug();
-      if (mounted && state == null) state = restored;
+      final restored = await _store.read();
+      if (mounted && state == null) {
+        _intent = restored;
+        state = restored?.slug;
+      }
     } catch (_) {
       // A local preference failure must not crash startup. A newly received
       // intent still fails closed in retain() if it cannot be persisted.

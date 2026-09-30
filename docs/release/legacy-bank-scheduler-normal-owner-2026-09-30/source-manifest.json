@@ -1,0 +1,55 @@
+{
+  "captured_at": "2026-09-30T13:31:09.683691+00:00",
+  "sources": [
+    {
+      "path": "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+      "bytes": 18239,
+      "sha256": "5a7a4e7773b65e4fcf015ac079ea18d57cbe08d363bd8b07b87471018b941d85"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_concurrency_uat.rb",
+      "bytes": 13344,
+      "sha256": "9c751f85c250522b838f957a5a0e91c11aec4f74ebcfc9f8f5f5191a4bd62962"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_populated_adversarial_uat.rb",
+      "bytes": 7672,
+      "sha256": "0e6af7b327ac9410f424e0ddef18587666a4c2767745b9f1eda87493dcba2422"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_populated_uat.rb",
+      "bytes": 5967,
+      "sha256": "3709accef8b13bb4f26a4504f04d406154bf7035aff3011f175c8abbfbbc9afa"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+      "bytes": 5368,
+      "sha256": "534d367907fa304634882e8ced4a262cfa19f339e17012ea0dc99355d8998eb0"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_retirement_uat.sql",
+      "bytes": 12013,
+      "sha256": "9ea09583503e0309e1426b9522b2fc701daae7a8a97d42cd2c1a885688e0f79e"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_snapshot.sql",
+      "bytes": 4231,
+      "sha256": "7c9711942fad22f354a95e791e89ba96b515ab3cbdd7ebbd3688f2af9c1a13c5"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_snapshot_source_test.rb",
+      "bytes": 975,
+      "sha256": "3ff1c124a728e1b59864baeacb11582a063191e139d5625dfc6ef32db5bace6e"
+    },
+    {
+      "path": "scripts/tests/verify_legacy_bank_scheduler_upgrade.py",
+      "bytes": 5826,
+      "sha256": "e244ccb9aa8683a8ab1f54a5169c189ce4f8159008926ba87efe55ecb01f4509"
+    },
+    {
+      "path": "scripts/tests/verify_legacy_bank_scheduler_upgrade_test.py",
+      "bytes": 4259,
+      "sha256": "05a2109d23065fc824426674d16e5a9112df729cec25d67544af65be14e6bf55"
+    }
+  ]
+}

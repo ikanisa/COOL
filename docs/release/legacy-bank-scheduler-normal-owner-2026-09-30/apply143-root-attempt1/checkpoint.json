@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/apply143-root-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "1a4a3f8c1c331e1ad2573899bd16288610150fc1a0f5039d10d0a880068ab70f",
+  "executed_sql_sha256": "c682cff9f43ff36a8ef94f0e85a3bf823ea74be710731d8b6138b1749fd5777c",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 142,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930100000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "4ad704fbad801c048da49338bdcffa5bd1a6139c21fb3a38841847efc722de48",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+  "reviewed_source_sha256": "5a7a4e7773b65e4fcf015ac079ea18d57cbe08d363bd8b07b87471018b941d85",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T13:35:59.540751+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

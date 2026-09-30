@@ -45,10 +45,19 @@ should_scan_file() {
 scan_file() {
   local path="$1"
   LC_ALL=C perl -0777 -e '
+    use Digest::SHA qw(sha256_hex);
     my $file = shift @ARGV;
     open my $fh, "<:raw", $file or exit 0;
     local $/;
     my $text = <$fh>;
+    # Public upstream JWT unit fixtures are retained byte-for-byte. A change
+    # to either file revokes this exception; other secret rules still apply.
+    my %upstream_jwt_fixtures = (
+      "third_party/gotrue/test/client_test.dart" =>
+        "4bdb86ee4499ba6332ba690ddfd9eb7990fdb0c2869c97af7f4563533319f6ee",
+      "third_party/gotrue/test/get_claims_test.dart" =>
+        "4172db82411fb90360f50af4a6e19abe0302d61530cf777043f0626ef58da6cb",
+    );
     my @rules = (
       ["OpenAI API key", qr/sk-proj-[A-Za-z0-9_-]{20,}/],
       ["Supabase access token", qr/sbp_[A-Za-z0-9]{20,}/],
@@ -57,6 +66,9 @@ scan_file() {
       ["Meta Graph API token", qr/EAAG[A-Za-z0-9]{20,}/],
     );
     for my $rule (@rules) {
+      next if $rule->[0] eq "JWT-like token" &&
+        exists $upstream_jwt_fixtures{$file} &&
+        sha256_hex($text) eq $upstream_jwt_fixtures{$file};
       if ($text =~ $rule->[1]) {
         print "Potential secret pattern: $rule->[0] in $file\n";
         exit 42;

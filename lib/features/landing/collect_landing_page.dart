@@ -10,6 +10,7 @@ import '../../app/theme/collect_typography.dart';
 import '../../shared/repositories/collect_repository.dart';
 import 'public_content.dart';
 import 'public_marketing_hero.dart';
+import 'public_marketing_theme.dart';
 
 export 'public_content.dart';
 
@@ -59,80 +60,83 @@ class _CollectLandingPageState extends ConsumerState<CollectLandingPage> {
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(collectRuntimeConfigProvider);
-    return Scaffold(
-      backgroundColor: CollectColors.publicWhite,
-      body: Stack(
-        children: [
-          SelectionArea(
-            child: NotificationListener<ScrollMetricsNotification>(
-              onNotification: (_) {
-                WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => _syncNavigation(),
-                );
-                return false;
-              },
-              child: CustomScrollView(
-                controller: _scrollController,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: PublicMarketingHero(
-                      key: _heroKey,
-                      title: 'MoMo at home. Bank transfer in the diaspora.',
-                      intro:
-                          'Rwanda members contribute in RWF through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect updates the ledger only after the correct payment evidence is reconciled.',
-                      actions: [
-                        FilledButton(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: CollectColors.publicBlack,
-                            foregroundColor: CollectColors.publicWhite,
+    return PublicMarketingSurface(
+      builder: (context) => Scaffold(
+        backgroundColor: CollectColors.publicWhite,
+        body: Stack(
+          children: [
+            SelectionArea(
+              child: NotificationListener<ScrollMetricsNotification>(
+                onNotification: (_) {
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => _syncNavigation(),
+                  );
+                  return false;
+                },
+                child: CustomScrollView(
+                  controller: _scrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: PublicMarketingHero(
+                        key: _heroKey,
+                        title: 'Rwanda MoMo contributions, clearly recorded.',
+                        intro:
+                            'Members contribute in RWF through MoMo USSD. Collect updates the ledger only after trusted receipt evidence is reconciled.',
+                        actions: [
+                          FilledButton(
+                            style: FilledButton.styleFrom(
+                              backgroundColor:
+                                  CollectPublicMarketingTheme.action,
+                              foregroundColor: CollectColors.publicWhite,
+                            ),
+                            onPressed: () =>
+                                _openUri(context, config.appDownloadUrl),
+                            child: const Text('Get the App'),
                           ),
-                          onPressed: () =>
-                              _openUri(context, config.appDownloadUrl),
-                          child: const Text('Get the App'),
-                        ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: CollectColors.publicWhite,
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: CollectColors.publicWhite,
+                            ),
+                            onPressed: () => context.go('/group-savings'),
+                            child: const Text('How groups work'),
                           ),
-                          onPressed: () => context.go('/group-savings'),
-                          child: const Text('Create Group'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: _PageWidth(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 48),
-                        child: _JourneyPreview(),
+                        ],
                       ),
                     ),
-                  ),
-                  const SliverToBoxAdapter(child: _JourneySection()),
-                  const SliverToBoxAdapter(child: _SafetySection()),
-                  SliverToBoxAdapter(
-                    child: _PublicFooter(
-                      supportEmail: config.supportEmail,
-                      supportPhone: config.whatsAppSupportDisplay,
+                    const SliverToBoxAdapter(
+                      child: _PageWidth(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 48),
+                          child: _JourneyPreview(),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    const SliverToBoxAdapter(child: _JourneySection()),
+                    const SliverToBoxAdapter(child: _SafetySection()),
+                    SliverToBoxAdapter(
+                      child: _PublicFooter(
+                        supportEmail: config.supportEmail,
+                        supportPhone: config.whatsAppSupportDisplay,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Material(
-              key: _navigationKey,
-              color: _navigationOnLight
-                  ? CollectColors.publicWhite
-                  : CollectColors.transparentColor,
-              child: _PublicHomeNavigation(onLight: _navigationOnLight),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Material(
+                key: _navigationKey,
+                color: _navigationOnLight
+                    ? CollectColors.publicWhite
+                    : CollectColors.transparentColor,
+                child: _PublicHomeNavigation(onLight: _navigationOnLight),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -146,7 +150,7 @@ class _PublicHomeNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final foreground = onLight
-        ? CollectColors.referenceChromeBlack
+        ? CollectColors.publicInk
         : CollectColors.publicWhite;
     return SafeArea(
       bottom: false,
@@ -194,83 +198,86 @@ class CollectPublicPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(collectRuntimeConfigProvider);
-    return Scaffold(
-      backgroundColor: CollectColors.publicWhite,
-      appBar: AppBar(
+    return PublicMarketingSurface(
+      builder: (context) => Scaffold(
         backgroundColor: CollectColors.publicWhite,
-        title: Text(data.navLabel),
-        leading: IconButton(
-          tooltip: 'Collect home',
-          onPressed: () => context.go('/'),
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'Get the App',
-            onPressed: () => _openUri(context, config.appDownloadUrl),
-            icon: const Icon(Icons.download_rounded),
+        appBar: AppBar(
+          backgroundColor: CollectColors.publicWhite,
+          title: Text(data.navLabel),
+          leading: IconButton(
+            tooltip: 'Collect home',
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.arrow_back_rounded),
           ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: SelectionArea(
-        child: ListView(
-          padding: const EdgeInsets.only(bottom: 0),
-          children: [
-            _PageWidth(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 56),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      publicSummaryLabel(data),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: CollectColors.referenceAccountHighlight,
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      data.title,
-                      style: CollectTypography.marketingHeading(
-                        CollectColors.referenceChromeBlack,
-                        compact: MediaQuery.sizeOf(context).width < 720,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 760),
-                      child: Text(
-                        data.intro,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: CollectColors.publicSecondary,
-                          height: CollectTypography.leadingBody,
+          actions: [
+            IconButton(
+              tooltip: 'Get the App',
+              onPressed: () => _openUri(context, config.appDownloadUrl),
+              icon: const Icon(Icons.download_rounded),
+            ),
+            const SizedBox(width: 8),
+          ],
+        ),
+        body: SelectionArea(
+          child: ListView(
+            padding: const EdgeInsets.only(bottom: 0),
+            children: [
+              _PageWidth(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 56),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        publicSummaryLabel(data),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: CollectColors.publicInk,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 36),
-                    for (final section in data.sections)
-                      _PublicSection(section: section),
-                    if (!data.isPolicy)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: FilledButton.icon(
-                          onPressed: () =>
-                              _openUri(context, config.appDownloadUrl),
-                          icon: const Icon(Icons.download_rounded),
-                          label: const Text('Get the App'),
+                      const SizedBox(height: 12),
+                      Text(
+                        data.title,
+                        style: CollectTypography.marketingHeading(
+                          CollectColors.publicInk,
+                          compact: MediaQuery.sizeOf(context).width < 720,
                         ),
                       ),
-                  ],
+                      const SizedBox(height: 20),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 760),
+                        child: Text(
+                          data.intro,
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: CollectColors.publicSecondary,
+                                height: CollectTypography.leadingBody,
+                              ),
+                        ),
+                      ),
+                      const SizedBox(height: 36),
+                      for (final section in data.sections)
+                        _PublicSection(section: section),
+                      if (!data.isPolicy)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: FilledButton.icon(
+                            onPressed: () =>
+                                _openUri(context, config.appDownloadUrl),
+                            icon: const Icon(Icons.download_rounded),
+                            label: const Text('Get the App'),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            _PublicFooter(
-              supportEmail: config.supportEmail,
-              supportPhone: config.whatsAppSupportDisplay,
-            ),
-          ],
+              _PublicFooter(
+                supportEmail: config.supportEmail,
+                supportPhone: config.whatsAppSupportDisplay,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -283,7 +290,7 @@ class _JourneyPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: CollectColors.publicWhite,
+      color: CollectPublicMarketingTheme.widget,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -291,9 +298,9 @@ class _JourneyPreview extends StatelessWidget {
           children: [
             Text(
               'Contribution received',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: CollectTypography.weightBold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 18),
             const _PreviewRow(label: 'MoMo request', value: 'RWF 25,000'),
@@ -326,9 +333,9 @@ class _PreviewRow extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontWeight: CollectTypography.weightBold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -352,7 +359,7 @@ class _JourneySection extends StatelessWidget {
               Text(
                 'One clear contribution journey',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: CollectTypography.weightBold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 28),
@@ -375,7 +382,7 @@ class _JourneySection extends StatelessWidget {
                     number: '3',
                     title: 'Approve outside Collect',
                     body:
-                        'Rwanda opens MoMo USSD; diaspora opens Revolut or a bank app.',
+                        'Open MoMo USSD and approve the payment on your phone.',
                   ),
                   _StepCard(
                     number: '4',
@@ -408,19 +415,23 @@ class _StepCard extends StatelessWidget {
     return SizedBox(
       width: 250,
       child: Card(
-        color: CollectColors.publicWhite,
+        color: CollectPublicMarketingTheme.widget,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(child: Text(number)),
+              CircleAvatar(
+                backgroundColor: CollectPublicMarketingTheme.border,
+                foregroundColor: CollectColors.publicInk,
+                child: Text(number),
+              ),
               const SizedBox(height: 16),
               Text(
                 title,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: CollectTypography.weightBold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
               Text(body),
@@ -445,13 +456,13 @@ class _SafetySection extends StatelessWidget {
           children: [
             Text(
               'Standalone and privacy-first',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: CollectTypography.weightBold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 16),
             Text(
-              'Collect records Rwanda MoMo and diaspora bank contributions. It does not ask for MoMo PINs, banking credentials, OTPs or pasted transaction IDs.',
+              'Collect records Rwanda MoMo contributions. It does not ask for MoMo PINs, OTPs or pasted transaction IDs.',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: CollectColors.publicSecondary,
                 height: CollectTypography.leadingBody,
@@ -463,15 +474,15 @@ class _SafetySection extends StatelessWidget {
               runSpacing: 16,
               children: [
                 _SafetyCard(
-                  icon: Icons.account_balance_outlined,
-                  title: 'Approved beneficiary',
-                  body:
-                      'Maker-checker approval controls every bank-detail change.',
+                  icon: Icons.phone_android_outlined,
+                  title: 'Verified MoMo receiver',
+                  body: 'Check the group receiver before approving in USSD.',
                 ),
                 _SafetyCard(
                   icon: Icons.fact_check_outlined,
                   title: 'Controlled evidence',
-                  body: 'SMS, email and statement channels are authenticated.',
+                  body:
+                      'MoMo receipt intake is authenticated and checked for duplicates.',
                 ),
                 _SafetyCard(
                   icon: Icons.rule_rounded,
@@ -513,13 +524,13 @@ class _SafetyCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: CollectColors.referenceAccountHighlight),
+              Icon(icon, color: CollectColors.publicInk),
               const SizedBox(height: 14),
               Text(
                 title,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: CollectTypography.weightBold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
               Text(body),
@@ -541,7 +552,7 @@ class _PublicSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 32),
       child: Card(
-        color: CollectColors.publicWhite,
+        color: CollectPublicMarketingTheme.widget,
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -550,7 +561,7 @@ class _PublicSection extends StatelessWidget {
               Text(
                 section.title,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: CollectTypography.weightBold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 12),
@@ -590,7 +601,7 @@ class _PublicFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: CollectColors.referenceChromeBlack,
+      color: CollectColors.publicBlack,
       child: _PageWidth(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 28),
@@ -603,18 +614,27 @@ class _PublicFooter extends StatelessWidget {
                 'Collect by IKANISA',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.white,
-                  fontWeight: CollectTypography.weightBold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: CollectColors.publicWhite,
+                ),
                 onPressed: () => context.go('/group-savings'),
                 child: const Text('How it works'),
               ),
               TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: CollectColors.publicWhite,
+                ),
                 onPressed: () => context.go('/privacy'),
                 child: const Text('Privacy'),
               ),
               TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: CollectColors.publicWhite,
+                ),
                 onPressed: () => context.go('/terms'),
                 child: const Text('Terms'),
               ),

@@ -1,0 +1,51 @@
+{
+  "captured_at": "2026-09-28T21:13:47Z",
+  "container": "supabase_db_collect_financial_qa_20260928",
+  "target_provenance": {
+    "project": "collect_financial_qa_20260928",
+    "workdir": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/financial-qa-20260928"
+  },
+  "mode": "bounded local continuation after 20260925190000; no customer data or provider calls",
+  "server_version": "17.6",
+  "cron_launch_active_jobs": false,
+  "synthetic_bootstrap_owner": false,
+  "migrations": [
+    {
+      "migration": "20260928150000_relational_member_history_pages.sql",
+      "sha256": "2294edc1c32cd3613e7b2654d1854daf27beaeab0a4c56ab16ce1920a8be9ff1",
+      "status": "pass",
+      "seconds": 0.078
+    },
+    {
+      "migration": "20260928160000_sms_observation_never_settles.sql",
+      "sha256": "2b71a2c88cdf873785280952baecf33ed46416832870970d0e745a375770e211",
+      "status": "pass",
+      "seconds": 0.062
+    },
+    {
+      "migration": "20260928170000_confirmed_momo_payer_posting.sql",
+      "sha256": "f7f644d1d3c129d1b89c658737760db2d86fcd9b78bcb43b8225eb4b67ff1182",
+      "status": "pass",
+      "seconds": 0.071
+    },
+    {
+      "migration": "20260928171000_strict_intent_sms_match.sql",
+      "sha256": "76881df09407ac72dbddd8c4c61bec9748c385df7ca7bae72656b4fa75fd55d0",
+      "status": "pass",
+      "seconds": 0.057
+    },
+    {
+      "migration": "20260928172000_allow_incomplete_rwanda_onboarding_profile.sql",
+      "sha256": "cd00aa5738b0fabff23a2b48cbf606d108c5a7f4b1f6f488459fcca26ce56021",
+      "status": "pass",
+      "seconds": 0.057
+    },
+    {
+      "migration": "20260928174000_attested_receipt_v2_contract.sql",
+      "sha256": "f91c7caa730da9022dfdc2ebfab9fa9d4fa8d32910a66b1d848b91a2cc8373d7",
+      "status": "pass",
+      "seconds": 0.06
+    }
+  ],
+  "status": "pass"
+}

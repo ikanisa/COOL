@@ -1,0 +1,115 @@
+BEGIN
+SET
+DO
+CREATE TABLE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+ assert_true 
+-------------
+ 
+(1 row)
+
+SET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+SET
+                              set_config                               
+-----------------------------------------------------------------------
+ {"sub":"99100000-0000-4000-8000-000000000002","role":"authenticated"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+RESET
+SET
+                              set_config                               
+-----------------------------------------------------------------------
+ {"sub":"99100000-0000-4000-8000-000000000001","role":"authenticated"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+                                 ?column?                                 
+--------------------------------------------------------------------------
+ FINANCIAL_ROLE_BOUNDARY_UAT_PASS: 17 assertions; synthetic rollback only
+(1 row)
+
+ROLLBACK

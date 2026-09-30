@@ -5,6 +5,8 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/repositories/pending_shared_group_intent_store.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
@@ -14,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _seedMarkerKey = 'collect.evidence.interrupted_intent_seeded.v1';
 const _seedSlug = 'qa-private-group';
+const _evidenceUserId = '11111111-1111-4111-8111-111111111111';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +34,22 @@ Future<void> main() async {
     ProviderScope(
       overrides: [
         appRouterProvider.overrideWithValue(router),
+        collectAuthenticatedUserIdProvider.overrideWithValue(_evidenceUserId),
         collectIncomingAppLinksProvider.overrideWithValue(
           AppLinks().uriLinkStream,
         ),
         collectRepositoryProvider.overrideWith(
-          (ref) => FixtureCollectRepository(),
+          (ref) => FixtureCollectRepository(
+            profileOverride: const CollectProfile(
+              id: _evidenceUserId,
+              publicId: '038491',
+              whatsappPhone: '+250788123456',
+              countryCode: 'RW',
+              currencyCode: 'RWF',
+              momoProvider: 'mtn_momo',
+              momoNumber: '0788123456',
+            ),
+          ),
         ),
         collectThemeModeProvider.overrideWith(
           (ref) => CollectThemeModeController(

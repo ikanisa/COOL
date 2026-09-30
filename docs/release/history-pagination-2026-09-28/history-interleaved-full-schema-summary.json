@@ -1,0 +1,18 @@
+{
+  "distinct_second_page": true,
+  "initial_posted_count": 56,
+  "limitations": [
+    "synthetic rows have no provider or ledger evidence",
+    "commits are interleaved between RPC calls, not during one RPC",
+    "no hosted readback, signed app, or real provider reversal"
+  ],
+  "page_limit": 20,
+  "post_refresh_count": 57,
+  "reversal_refresh_count": 56,
+  "revoked_viewer_count": 0,
+  "scope": "isolated 133-migration PostgreSQL 17.6 clone of verified task-owned restore",
+  "stale_cursor_rejected_after_post_reversal_revocation": true,
+  "status": "pass_synthetic_interleaved_history_not_production_uat",
+  "synthetic_source_archive_sha256": "c84940178f575ea8b0b1e9fa61f63246f7a306981b772587787bbb9719fd02a3",
+  "viewer_peer_details_masked": true
+}

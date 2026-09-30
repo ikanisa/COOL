@@ -43,12 +43,12 @@ abort("Code-owned completion checks failed: #{failed_code.keys.join(", ")}") unl
 
 puts "Strict completion status: #{payload.fetch("status")}"
 puts "External missing count: #{payload.fetch("missing_external_count")}"
-if payload.fetch("status") != "pass" && payload.fetch("missing_external_count").zero?
-  abort("Completion gate failed without external missing artifacts")
+if payload.fetch("status") != "pass"
+  abort("Public website completion gate failed")
 end
 RUBY
 
-  return 0
+  return "$completion_rc"
 }
 
 case "$MODE" in

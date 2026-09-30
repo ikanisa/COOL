@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "scope": "local_actual_Supabase_SDK_mock_HTTP_and_contract_regression",
+  "test_count": 205,
+  "analysis_clean": true,
+  "source_files": 332,
+  "source_unchanged": true,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "seconds": 0.478,
+      "log_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/shared/notification_preference_runtime_test.dart",
+        "test/admin_feature_flag_runtime_test.dart",
+        "test/admin_action_contracts_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/shared/realtime_invalidation_recovery_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "exit_code": 0,
+      "seconds": 20.975,
+      "log_sha256": "5be00da76653610399c3ceb3c0196da08db6214f88d490ef1ddad12680333b3b"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/shared/repositories/runtime_control_contract.dart",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/shared/repositories/collect_repository_live_reader.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "test/shared/notification_preference_runtime_test.dart",
+        "test/admin_feature_flag_runtime_test.dart",
+        "test/admin_action_contracts_test.dart",
+        "test/shared/realtime_invalidation_recovery_test.dart"
+      ],
+      "exit_code": 0,
+      "seconds": 1.898,
+      "log_sha256": "b7b40b564ce0a95f9f7c8e58f66131ec6ed5685ba80dbcc57d98327ebc949581"
+    }
+  ],
+  "source_before_sha256": "511f7c7755fb445908193c98e28aec7b1c4be1e3ebbc0be127623013d5f1b873",
+  "source_after_sha256": "511f7c7755fb445908193c98e28aec7b1c4be1e3ebbc0be127623013d5f1b873",
+  "database_called": false,
+  "provider_called": false,
+  "hosted_activation_verified": false,
+  "limitation": "HTTP payloads/Auth records are synthetic; real SQL acceptance is the independent root147 packet. Settings UI follow-up is separately verified."
+}

@@ -1,0 +1,21 @@
+{
+  "archive_sha256": "c84940178f575ea8b0b1e9fa61f63246f7a306981b772587787bbb9719fd02a3",
+  "cause": "The target retained broader grants after a successful import. The exact mechanism has not been independently isolated; pre-existing platform privileges are a candidate.",
+  "checked_at_utc": "2026-09-28T21:30:58.497300+00:00",
+  "decision": "REJECT_PREBOOTSTRAPPED_TARGET_SECURITY_PARITY_FAILED",
+  "disposition": "Reject this target. Verify full schema/ACL and effective role access on a fresh empty database before any restore acceptance.",
+  "full_table_data_fingerprint_match": true,
+  "prebootstrapped_target_effective_privileges": {
+    "anon_profile_select": true,
+    "anon_receipt_execute": true,
+    "member_receipt_execute": true
+  },
+  "restore_command": "pg_restore --clean --if-exists --single-transaction --exit-on-error into prebootstrapped Supabase postgres",
+  "restore_exit_code": 0,
+  "schema_acl_dump_match": false,
+  "source_effective_privileges": {
+    "anon_profile_select": false,
+    "anon_receipt_execute": false,
+    "member_receipt_execute": false
+  }
+}

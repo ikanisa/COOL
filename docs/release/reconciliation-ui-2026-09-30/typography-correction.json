@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-30",
+  "source": "lib/admin/core/admin_reconciliation_runtime.dart",
+  "before_sha256": "4340b1ffa182b7a70eb0a1df55f011f855cc24188d45b635710be778fcdce501",
+  "after_sha256": "72f210e5c840561d05cae0ba8120074ab0020ff52d2d47182d6627050b3f1096",
+  "change": "Two error text styles inherit the existing theme bodyMedium style and preserve semantic colors.",
+  "source_changed_in_this_correction": [
+    "lib/admin/core/admin_reconciliation_runtime.dart"
+  ],
+  "manifest_added": [
+    "test/features/runtime_component_contract_test.dart"
+  ],
+  "rerun": {
+    "focused_flutter": 88,
+    "existing_admin_regression": 156,
+    "shared_style_contract": 47,
+    "analyzer_files": 9
+  },
+  "retained_unchanged": {
+    "edge_handler_tests": 25,
+    "edge_entrypoint_check": "pass"
+  },
+  "source_drift": [],
+  "runtime_drift": [],
+  "db_mutations": 0,
+  "hosted_auth_requests": 0,
+  "provider_calls": 0,
+  "deployments": 0
+}

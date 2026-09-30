@@ -1,0 +1,161 @@
+{
+  "captured_at": "2026-09-30T13:32:03.134658+00:00",
+  "scope": "worker_produced_source_packet_only_excludes_root_runtime",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "bytes": 8783,
+      "sha256": "18410980140207c69ed0f3cd17ea8a0fe6aab8115a8d975adaa92a90771d4e3c"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 1997,
+      "sha256": "e46922d89992c53f0bbb1efb484a5d151a295b6754ec00fed594abfa120559fe"
+    },
+    {
+      "path": "source-verification.json",
+      "bytes": 1843,
+      "sha256": "55db04348f4f6b4263de3df63f76bca197973573e48b2e66a6f018b0dab8de9e"
+    },
+    {
+      "path": "populated142-143-rollback.sql",
+      "bytes": 23171,
+      "sha256": "1c759b6f7c097b4424e6393d3f95fa239aeeb9913ee17ed5103c3d2f8656a14d"
+    },
+    {
+      "path": "populated142-143-adversarial-rollback.sql",
+      "bytes": 30009,
+      "sha256": "ace8e10ef220ff03a6ef9d502f9d9293d5be46539d812fbdd30a749c4ab880c6"
+    },
+    {
+      "path": "logs/source-test-1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/source-test-1.stdout",
+      "bytes": 168,
+      "sha256": "a43a9dae228f5e1addc5c6099c79f2d1bccba41321eb5333bd278a7882aa425d"
+    },
+    {
+      "path": "logs/source-test-2.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/source-test-2.stdout",
+      "bytes": 163,
+      "sha256": "d9ffc5883171af457888e92453afd500ffc6f6b15ab0c8b744aca80552522fb6"
+    },
+    {
+      "path": "logs/source-test-3.stderr",
+      "bytes": 101,
+      "sha256": "33060fd73862c5e1af97335504d5b45211fce6d229657f556d8deceeadc52ce4"
+    },
+    {
+      "path": "logs/source-test-3.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/source-test-4.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/source-test-4.stdout",
+      "bytes": 10,
+      "sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b"
+    },
+    {
+      "path": "logs/source-test-5.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/source-test-5.stdout",
+      "bytes": 10,
+      "sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b"
+    },
+    {
+      "path": "logs/source-test-6.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/source-test-6.stdout",
+      "bytes": 10,
+      "sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b"
+    },
+    {
+      "path": "prior-source/20260930110000_retire_legacy_bank_scheduler.sql",
+      "bytes": 7801,
+      "sha256": "a3e29f1314a4a94d1ef2bd19709aa745dca5f0e456bb70dab769d6b42c92ba85"
+    },
+    {
+      "path": "prior-source/candidate143-13c90489.sql",
+      "bytes": 17960,
+      "sha256": "13c90489ec886d419cbab52783dd175563ac2428f9e2e46ffad263dbbc8d1b94"
+    },
+    {
+      "path": "prior-source/legacy_bank_scheduler_retirement_source_test.rb",
+      "bytes": 6133,
+      "sha256": "33dcbfd6b3468cd998da01f7a9b5a7745cea9e28ed4e5154cc00bbfe2ee6bb47"
+    },
+    {
+      "path": "prior-source/legacy_bank_scheduler_retirement_uat.sql",
+      "bytes": 12611,
+      "sha256": "a190bffc1212c410a200e6b99d4db6910bf0cea5d948f535e7bb1640c4d25952"
+    },
+    {
+      "path": "prior-source/legacy_bank_scheduler_snapshot.sql",
+      "bytes": 3085,
+      "sha256": "076a3618bbedd628ba464118a25cc9a7686bd24021698585b1e6b09d20554e07"
+    },
+    {
+      "path": "prior-source/legacy_bank_scheduler_snapshot_source_test.rb",
+      "bytes": 2963,
+      "sha256": "ce4fc64b40cb69137f6cc45e230da5a4cd8a5f57f44a9f316a2fd490961d0a57"
+    },
+    {
+      "path": "prior-source/populated142-143-adversarial-1a893fe0.sql",
+      "bytes": 29730,
+      "sha256": "1a893fe02c561c0809722648e24f511e710f5eb6715d4786365cf25abd6cb088"
+    },
+    {
+      "path": "prior-source/populated142-143-aeb2cb24.sql",
+      "bytes": 22892,
+      "sha256": "aeb2cb249f67c7d4a90eabb03f3cd6f24c1310b3c91799b60f105258f269a946"
+    },
+    {
+      "path": "prior-source/verify_legacy_bank_scheduler_upgrade.py",
+      "bytes": 3486,
+      "sha256": "eaacf4fe9dc1f3efd3e691da92712c269d52572256725037fbfc49c5f6e5d0ab"
+    },
+    {
+      "path": "prior-source/verify_legacy_bank_scheduler_upgrade_test.py",
+      "bytes": 3216,
+      "sha256": "3db22aeef7519eda7b432edafb629322630cb90d6b8037af14ff9d8338e09b21"
+    },
+    {
+      "path": "primary-source/LICENSE",
+      "bytes": 918,
+      "sha256": "fd950845858277c0bf4346d45e2e185238a0529fbd2a946c6dd847456e71a9c9"
+    },
+    {
+      "path": "primary-source/job_metadata.c",
+      "bytes": 38881,
+      "sha256": "34e242fe33d4bdea8353582b7a143b12f8a051ee9130cc732812825ce9e94966"
+    },
+    {
+      "path": "primary-source/manifest.json",
+      "bytes": 833,
+      "sha256": "38a523be18638f6cddc4f4fb9b1c6cb7052af2ae8589ed10dae65eda7866dedd"
+    },
+    {
+      "path": "primary-source/pg_cron.c",
+      "bytes": 59302,
+      "sha256": "9b94eab54595356aea28a4f0cfb08224d7458b4f4a8fcac56fa2cab9c2a47a69"
+    }
+  ]
+}

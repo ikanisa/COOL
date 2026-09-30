@@ -1,0 +1,19 @@
+{
+  "commands": [
+    {
+      "name": "runtime",
+      "exit_code": 1,
+      "expected_success": true,
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--offline",
+        "--no-daemon"
+      ]
+    }
+  ],
+  "lock_restored_sha256": "ed5d3fd1206e25771fa0cf47588d21b5b180b8962d7316684d6acffaa41de599",
+  "scope": "Actual Gradle strict-lock positive and adversarial runs on isolated export; no SDK/cache or root lock mutation"
+}

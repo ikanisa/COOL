@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-09-30T13:59:08.984448+00:00",
+  "native_capture_passed": false,
+  "native_build_started": false,
+  "commands_observed": [
+    {
+      "command": [
+        "xcrun",
+        "simctl",
+        "create",
+        "Collect public media 20260930 disposable",
+        "com.apple.CoreSimulator.SimDeviceType.iPhone-13",
+        "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
+      ],
+      "exit_code": 22
+    },
+    {
+      "command": [
+        "xcrun",
+        "simctl",
+        "--set",
+        "/Users/jeanbosco/Library/Developer/CoreSimulator/CollectPublicMedia20260930",
+        "create",
+        "Collect media 20260930 disposable",
+        "com.apple.CoreSimulator.SimDeviceType.iPhone-13",
+        "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
+      ],
+      "exit_code": 22
+    }
+  ],
+  "observed_error": "Device was allocated but was stuck in creation state; CoreSimulatorService filesystem writes rejected with EPERM.",
+  "service_log_lines": [
+    "Sep 30 15:40:38 Jeans-Mac-mini CoreSimulatorService[56225] <Error>: Failed to re-create device that was encountered in the creation state (Collect public media 20260930 disposable (16A3959D-CAFE-4C23-BA8E-7E58290953AA, iOS 26.5, Creating)): Error Domain=NSCocoaErrorDomain Code=513 \"You don\u2019t have permission to save the file \u201c16A3959D-CAFE-4C23-BA8E-7E58290953AA\u201d in the folder \u201cDevices\u201d.\" UserInfo={NSFilePath=/Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/Devices/16A3959D-CAFE-4C23-BA8E-7E58290953AA, NSURL=file:///Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/Devices/16A3959D-CAFE-4C23-BA8E-7E58290953AA, NSUnderlyingError=0xcbc800b70 {Error Domain=NSPOSIXErrorDomain Code=1 \"Operation not permitted\"}}",
+    "Sep 30 15:40:38 Jeans-Mac-mini CoreSimulatorService[56225] <Error>: New device is stuck in creation state, deleting: Collect public media 20260930 disposable (16A3959D-CAFE-4C23-BA8E-7E58290953AA, iOS 26.5, Creating)",
+    "Sep 30 15:41:32 Jeans-Mac-mini CoreSimulatorService[56225] <Error>: Error copying sample content to path /Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7/data : Error Domain=NSCocoaErrorDomain Code=513 \"You don\u2019t have permission to save the file \u201cAA631DB4-74F7-43FF-9760-23EBE857EDB7\u201d in the folder \u201cCollectPublicMedia20260930\u201d.\" UserInfo={NSFilePath=/Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7, NSURL=file:///Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7, NSUnderlyingError=0xcbc8010b0 {Error Domain=NSPOSIXErrorDomain Code=1 \"Operation not permitted\"}}",
+    "Sep 30 15:41:32 Jeans-Mac-mini CoreSimulatorService[56225] <Error>: Error Domain=NSCocoaErrorDomain Code=513 \"You don\u2019t have permission to save the file \u201cAA631DB4-74F7-43FF-9760-23EBE857EDB7\u201d in the folder \u201cCollectPublicMedia20260930\u201d.\" UserInfo={NSFilePath=/Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7, NSURL=file:///Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7, NSUnderlyingError=0xcbc8010b0 {Error Domain=NSPOSIXErrorDomain Code=1 \"Operation not permitted\"}}",
+    "Sep 30 15:41:32 Jeans-Mac-mini CoreSimulatorService[56225] <Error>: Failed to re-create device that was encountered in the creation state (Collect media 20260930 disposable (AA631DB4-74F7-43FF-9760-23EBE857EDB7, iOS 26.5, Creating)): Error Domain=NSCocoaErrorDomain Code=513 \"You don\u2019t have permission to save the file \u201cAA631DB4-74F7-43FF-9760-23EBE857EDB7\u201d in the folder \u201cCollectPublicMedia20260930\u201d.\" UserInfo={NSFilePath=/Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7, NSURL=file:///Volumes/PRO-G40/Development/Apple/Developer/CoreSimulator/CollectPublicMedia20260930/AA631DB4-74F7-43FF-9760-23EBE857EDB7, NSUnderlyingError=0xcbc8010b0 {Error Domain=NSPOSIXErrorDomain Code=1 \"Operation not permitted\"}}"
+  ],
+  "scope": "Local native environment diagnosis; no native screenshots produced, no native gate passed."
+}

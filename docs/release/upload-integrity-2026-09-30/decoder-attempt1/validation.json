@@ -1,0 +1,27 @@
+{
+  "passed": false,
+  "synthetic_only": true,
+  "provider_accuracy_verified": false,
+  "source_before": {
+    "tools/roster-decoder/decoder.py": "ddcecf87cfd3c10ccc31e8a2e1945c7f8944fe8d5396aa9f72e8fa86598126b4",
+    "tools/roster-decoder/generate_fixtures.py": "95b08b6775825ae21b05ba87d85340e10740b055e474999a1636d37b34c885c5",
+    "tools/roster-decoder/server.py": "c84c06794132fb35dee27be7fc2b01e90dcce258359594306866d899c4f95c19",
+    "tools/roster-decoder/requirements.in": "b8fb6f99aae0ca996ae1e47348091911a17403413a45451c3b77575e071d3bed",
+    "tools/roster-decoder/requirements.lock": "a5fc3b5c83aef83c5e822211c798d4575d90a8adb8de01e43801c614bd992f3a",
+    "tools/roster-decoder/Dockerfile": "3e3b9d84d5479e90ec7e540fefc3bd40efec1fa829ff1f511c29cd3fbd2fff48",
+    "scripts/tests/verify_roster_decoder.py": "127f1fe5f31f1be2dd6edf322def98a7c1ee19483a44b554ae59f8e9842d7d3c",
+    "supabase/functions/_shared/roster_decoder.ts": "4dc8e31c510d10d6853bf8d9f8b41df634f6bdb5b0ea33742cd882e12a1ad1d7",
+    "supabase/functions/_shared/roster_resource_budget.ts": "edbf4d374803e1bdaf47d9f37b1855b160c6401937cbb48e3a584b7c660e1b49",
+    "supabase/functions/prepare-roster-import/handler.ts": "913aa4376f6a5f906abb44737794a158142d53f4a588b0d5505eccedf90b6410"
+  },
+  "cases": [],
+  "image_id": "sha256:0066c04dd3db478b5e87d82c205d318bbc96636b486b8ae4d9b6366296b322f3",
+  "logs": {
+    "start.log": "e5e413034ab45d3a51fc5437b48d4c6a383b2ce823f4491f42950388ef611ad7",
+    "image.log": "e1b23247381d20e85411b0ba6d149a6526a08ecb8d8a4a542ce6df7500a74a1e",
+    "generation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "port.log": "784937af00b414364f99ac1a9897cd7406d4b40d1bdce2ec87df4d1db39ae1bf",
+    "stop.log": "905393dae1c581833c4a5119d9174e7ec07d74c07054df2696a6a169e0996c04",
+    "build.log": "b542d76ec803bb87e936f652430cff7be09e4b84e27cfb278eceab5fb1ee8a98"
+  }
+}

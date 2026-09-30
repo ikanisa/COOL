@@ -1,13 +1,14 @@
 # Collect Release Status
 
-> **Current authoritative update — 2026-09-03:** The production backend and
-> Admin PWA technical cutovers are complete, and the native candidate has been
-> rebuilt as `1.2.4+23`. Public distribution remains **NO-GO** pending the exact
-> current-artifact Android signing review and final release-owner signoff. Use
-> [PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md](PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md)
-> for the current hashes, production readbacks and approval commands. The
-> dated material below is retained as historical evidence and is not the
-> current release decision.
+> **Current remaining-work update — 2026-09-30:** The recovered checkout contains
+> substantial uncommitted changes, and the current release decision is **NO-GO**.
+> Use the [production implementation goal](PRODUCTION_IMPLEMENTATION_GOAL_2026-09-28.md),
+> [exhaustive remaining-task list](PRODUCTION_REMAINING_TASKS_2026-09-30.md),
+> [original acceptance definitions](PRODUCTION_READINESS_REMAINING_TASKS_2026-09-28.md),
+> [implementation audit](PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md), and
+> [current decision](GO_NO_GO_DECISION.md). The 3 September backend, Admin and
+> native evidence below is historical and is not acceptance of the changed
+> checkout or proof that the current migrations were deployed.
 
 Status date: 2026-08-20
 Release candidate: **none — current source is not artifact-frozen**

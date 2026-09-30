@@ -1,0 +1,32 @@
+{
+  "captured_at_utc": "2026-09-29T22:58:35.191458+00:00",
+  "status": "local_upgrade_verified_after_reviewed_qa_telemetry_disposition",
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "migration_count": 141,
+  "migration_sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+  "all124_domain_table_fingerprints_restored": true,
+  "original560_telemetry_rows_preserved": true,
+  "financial_evidence_unchanged": true,
+  "financial_after": {
+    "evidence_rows": 21,
+    "last_migration": "20260929180000",
+    "payment_status": "reversed",
+    "migration_count": 141,
+    "financial_sha256": "575abcd0b980ba84f28c7922957edbc36ad0450943f46ec9881e14abb25d2527",
+    "receipt_journals": 1,
+    "provider_requests": 2,
+    "reversal_journals": 1,
+    "confirmed_balance_rwf": 0,
+    "provider_confirmations": 1
+  },
+  "attribution_limitation": "Original phase XIDs were not captured contemporaneously. Root explicitly attributed the exact observed5/2/3 synthetic batches using source pattern, ordered timestamps and the immutable backup delta; no retrospective capture claim.",
+  "reviewed_trace_sha256": "d5b94682787f550bf9f337afcc43f602234e812dc90d69fcb93b8325b1d314a2",
+  "disposition_sha256": "6b5432df5899b179f08d321380008e9061078455b9b12c10c28dbff243f8c2bf",
+  "provider_calls": false,
+  "deployed_upgrade_acceptance": false,
+  "sequence_counters_restored": false
+}

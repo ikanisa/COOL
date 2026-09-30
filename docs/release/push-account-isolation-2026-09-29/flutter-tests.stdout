@@ -1,0 +1,75 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: current owner receives only generic text and a bound tap payload
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: wrong owner cannot display or navigate
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: missing owner cannot display or navigate
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: malformed owner cannot display or navigate
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: missing contract cannot display or navigate
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: future contract cannot display or navigate
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: numeric contract cannot display or navigate
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: missing event cannot display or navigate
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: malformed event cannot display or navigate
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: signed-out startup clears existing notifications and denies messages
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: direct Auth change denies old owner before stream synchronization
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: account switch during native initialization cancels old display
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: in-flight old show is cleared before the new owner display
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: tap remains recipient-bound and old displayed payload is rejected
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: legacy private routes and external links cannot select resources
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_account_isolation_test.dart: disposed service clears displays and rejects future work
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/security_hygiene_test.dart: strict dotenv loader treats configuration as guarded data
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/security_hygiene_test.dart: strict dotenv loader treats configuration as guarded data
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/security_hygiene_test.dart: strict dotenv loader treats configuration as guarded data
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/security_hygiene_test.dart: strict dotenv loader treats configuration as guarded data
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app opens authentication without a second Flutter splash
+00:01 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: app boots with persisted dark-first theme mode
+00:01 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync runs after launch and each completed foreground resume
+00:01 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: native permission refresh is independent of internal SMS capture
+00:01 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: notification taps navigate only through the safe route bridge
+00:01 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync coalesces overlapping resumes and retries after failure
+00:01 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: failed SMS drain retries with capped foreground backoff
+00:01 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry pauses with app and resumes on user return
+00:01 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: repeated SMS failures cannot schedule faster than capped backoff
+00:01 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry is canceled when the owner signs out
+00:01 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: unknown routes render branded recovery actions
+00:01 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: offline and sync routes render recovery states
+00:02 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: main Collect routes are registered
+00:02 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: large-width shell uses consolidated four-destination rail
+00:02 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: main mobile routes use the shared transition page helper
+00:02 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: iOS detail screens use native Cupertino navigation
+00:02 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: mobile chrome exposes native refresh and haptic affordances
+00:02 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: mobile native performance profiling has a device evidence gate
+00:02 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: mobile route screenshot smoke covers every production screen route
+00:02 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: physical-device route matrix covers mobile screenshot smoke routes
+00:02 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: Android UAT records early device blockers as summary evidence
+00:02 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: orange is reserved away from routine CTA and decorative surfaces
+00:02 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: runtime assets preserve Collect identity
+00:02 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: theme loads
+00:02 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: theme controller supports a deterministic initial mode
+00:02 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: member and admin apps use persisted Collect theme mode
+00:02 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: system mode activates the high-contrast runtime theme
+00:02 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: mobile route smoke never injects fixture data at runtime
+00:02 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: App Store artwork uses an isolated synthetic preview target
+00:02 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: primary mobile screens use their reference chrome patterns
+00:02 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: member feedback surfaces do not render raw exception strings
+00:02 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: group card media primitives stay out of the base component barrel
+00:02 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: review-note cleanup removes verbose permission and group filter UI
+00:02 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: reduced motion returns zero animation duration
+00:02 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: normal motion preserves declared animation timing
+00:02 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: all owned modal and route motion uses the reduced-motion policy
+00:02 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: native SMS capability is not hidden behind legacy feature flags
+00:02 +73: All tests passed!

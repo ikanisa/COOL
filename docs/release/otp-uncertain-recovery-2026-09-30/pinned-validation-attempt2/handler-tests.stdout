@@ -1,0 +1,82 @@
+running 53 tests from ./supabase/functions/auth-send-whatsapp-otp/handler_test.ts
+OTP signed acceptance is charged once and is never mislabeled delivered ... ok (12ms)
+OTP simultaneous signed replay has one send claim and one quota charge ... ok (1ms)
+OTP changed signed body under same hook cannot send or consume another quota ... ok (0ms)
+OTP http error stays ambiguous without blind resend ... ok (0ms)
+OTP quota error stays ambiguous without blind resend ... ok (0ms)
+OTP gateway error stays ambiguous without blind resend ... ok (0ms)
+OTP empty ack stays ambiguous without blind resend ... ok (0ms)
+OTP empty message id stays ambiguous without blind resend ... ok (0ms)
+OTP multiple message ids stays ambiguous without blind resend ... ok (0ms)
+OTP control in message id stays ambiguous without blind resend ... ok (0ms)
+OTP nontext message id stays ambiguous without blind resend ... ok (0ms)
+OTP invalid json stays ambiguous without blind resend ... ok (0ms)
+OTP oversized body stays ambiguous without blind resend ... ok (0ms)
+OTP transport exception redacted and charged ... ok (0ms)
+OTP transport exception redacted and charged ... ok (0ms)
+OTP transport exception redacted and charged ... ok (0ms)
+OTP accepted completion with lost ACK recovers from durable acceptance without resend ... ok (0ms)
+OTP provider accepted but completion absent remains unresolved until explicit evidence recovery ... ok (0ms)
+OTP lost begin ACK cannot launch a provider send on replay ... ok (0ms)
+OTP durable sending read cannot launch another send ... ok (0ms)
+OTP durable ambiguous read cannot launch another send ... ok (0ms)
+OTP durable not_sent read cannot launch another send ... ok (0ms)
+OTP durable failed read cannot launch another send ... FAILED (0ms)
+OTP durable expired read cannot launch another send ... FAILED (0ms)
+OTP durable accepted read cannot launch another send ... ok (0ms)
+OTP durable delivered read cannot launch another send ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"contract_version":2} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"payload_hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"hook_id":"wrong"} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"attempt_id":"broken"} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"state":"unexpected"} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"revision":0} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"revision":"1"} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"can_send":"true"} ... ok (0ms)
+OTP malformed durable receipt blocks before sending: {"state":"accepted","can_send":true} ... ok (0ms)
+OTP throttling sends nothing ... ok (0ms)
+OTP missing configuration consumes no quota: SEND_SMS_HOOK_SECRET ... ok (0ms)
+OTP missing configuration consumes no quota: WHATSAPP_GRAPH_API_VERSION ... ok (0ms)
+OTP missing configuration consumes no quota: WHATSAPP_PHONE_NUMBER_ID ... ok (0ms)
+OTP missing configuration consumes no quota: WHATSAPP_CLOUD_OTP_AUTH_BUTTON ... ok (0ms)
+OTP missing configuration consumes no quota: WHATSAPP_CLOUD_API_TOKEN ... ok (0ms)
+OTP missing configuration consumes no quota: WHATSAPP_AUTH_TEMPLATE_NAME ... ok (0ms)
+OTP missing configuration consumes no quota: WHATSAPP_AUTH_TEMPLATE_LANGUAGE ... ok (0ms)
+OTP stale signed hook cannot reserve or send ... ok (0ms)
+OTP key rotation validates previous secret and does not accept an unrelated secret ... ok (0ms)
+OTP malformed phone and OTP cannot reserve or send ... ok (0ms)
+OTP unknown dependency errors and forged PublicError codes never disclose data ... ok (0ms)
+OTP late completion from another attempt cannot acknowledge success ... ok (0ms)
+OTP GET and OPTIONS do not consume quota ... ok (0ms)
+OTP never-resolving provider obeys deadline, records ambiguity and never resends ... ok (13ms)
+OTP never-resolving reservation obeys total hook deadline and sends nothing ... ok (21ms)
+OTP accepted send with stalled completion returns unresolved within hook deadline ... ok (33ms)
+OTP stalled provider response body times out as ambiguity without leaking or resending ... ok (12ms)
+
+ ERRORS 
+
+OTP durable failed read cannot launch another send => ./supabase/functions/auth-send-whatsapp-otp/handler_test.ts:384:8
+error: Error: Expected "{\"error\":{\"http_code\":502,\"message\":\"otp_not_sent\"}}", received "{\"error\":{\"http_code\":502,\"message\":\"otp_delivery_failed\"}}"
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/test_assert.ts:6:9)
+    at assertError (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler_test.ts:154:3)
+    at eventLoopTick (ext:core/01_core.js:179:7)
+    at async file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler_test.ts:407:15
+
+OTP durable expired read cannot launch another send => ./supabase/functions/auth-send-whatsapp-otp/handler_test.ts:384:8
+error: Error: Expected "{\"error\":{\"http_code\":502,\"message\":\"otp_not_sent\"}}", received "{\"error\":{\"http_code\":502,\"message\":\"otp_expired\"}}"
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/test_assert.ts:6:9)
+    at assertError (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler_test.ts:154:3)
+    at eventLoopTick (ext:core/01_core.js:179:7)
+    at async file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler_test.ts:407:15
+
+ FAILURES 
+
+OTP durable failed read cannot launch another send => ./supabase/functions/auth-send-whatsapp-otp/handler_test.ts:384:8
+OTP durable expired read cannot launch another send => ./supabase/functions/auth-send-whatsapp-otp/handler_test.ts:384:8
+
+FAILED | 51 passed | 2 failed (108ms)
+

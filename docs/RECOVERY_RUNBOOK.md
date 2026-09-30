@@ -77,6 +77,10 @@ substitute for human approval to export customer data.
 7. Measure elapsed recovery time and actual source-snapshot age against the
    approved RTO/RPO. Record gaps, signoff, retention and controlled cleanup.
 
+### Current synthetic restore caution — 28 September 2026
+
+The [current-version financial restore packet](release/financial-core-2026-09-28/README.md) demonstrates why step 4 is mandatory. A 133-migration synthetic database archive restored into a prebootstrapped Supabase database with `pg_restore` exit zero and matching table data, but the target gained `anon`/`authenticated` receipt-function execution and `anon` profile-table SELECT. That target was **rejected**. Restoring the same archive into a new empty `template0` database preserved 129 table sections, 1,327 rows, four sequences, schema/ACLs, effective denials and global roles under a task-owned isolated fixture. Use an empty restore database and verify actual grants before considering a restored environment safe. The local packet does not replace hosted, Storage, RPO/RTO or owner acceptance.
+
 ## Local evidence, 2 September 2026
 
 The engagement's `backend/41-paginated-local-restore.json` records the

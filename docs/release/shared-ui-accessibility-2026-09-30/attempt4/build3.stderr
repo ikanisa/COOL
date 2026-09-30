@@ -1,0 +1,11 @@
+The --pwa-strategy option is deprecated and will be removed in a future Flutter release.
+For more information, see: https://github.com/flutter/flutter/issues/156910
+Wasm dry run findings:
+Found incompatibilities with WebAssembly.
+
+file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_html-0.1.4+1/lib/web_delegate.dart 97:11 - invalid_runtime_check_with_js_interop_types lint violation: Runtime check between 'Object' and 'DOMException' checks whether a Dart value is a JS interop type, which might not be platform-consistent. (7)
+file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_html-0.1.4+1/lib/web_delegate.dart 129:11 - invalid_runtime_check_with_js_interop_types lint violation: Runtime check between 'Object' and 'DOMException' checks whether a Dart value is a JS interop type, which might not be platform-consistent. (7)
+
+Consider addressing these issues to enable wasm builds. See docs for more info: https://docs.flutter.dev/platform-integration/web/wasm
+
+Use --no-wasm-dry-run to disable these warnings.

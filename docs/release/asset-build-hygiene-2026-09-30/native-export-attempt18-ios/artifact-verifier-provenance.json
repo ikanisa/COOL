@@ -1,0 +1,6 @@
+{
+  "retained_verifier_sha256": "b6e4e5cab91451bada70dec6ddefbe279a29937a9d37de9bd3392ca2c5428d86",
+  "artifact_verification_sha256": "6ced85594a3dd7065aaeda899a2eb3e86afb22ab10168da347e16ae28ae94e13",
+  "bundle_manifest_sha256": "bbe86bbdd0428b125b5ca719dec6637d8a03268c39f9bbd158aa0e5756ac8106",
+  "scope": "Retained exact owned inspection code and its bound actual unsigned bundle evidence; compilation source snapshot is separately preserved"
+}

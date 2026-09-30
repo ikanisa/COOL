@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 
 import 'collect_profile_country_rules.dart';
-import 'collect_diaspora_profile_rules.dart';
 export 'collect_profile_country_rules.dart';
-export 'collect_diaspora_profile_rules.dart';
 
 part 'collect_payment_models.dart';
+part 'collect_payment_json.dart';
 part 'collect_model_json_helpers.dart';
+part 'collect_summary_json.dart';
 
 const collectDefaultBrandDisplayName = 'Collect by IKANISA';
 const collectDefaultLegalName = 'IKANISA Ltd.';
@@ -27,17 +27,17 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Data we collect',
     body:
-        'Collect stores your numeric Collect ID, selected country and local currency, WhatsApp sign-in phone, Rwanda MoMo provider and number, diaspora Revolut details, group memberships, contribution requests, ledger records, and permission status. The member app does not request or display personal names. Names contained in consented MoMo receipts remain in access-controlled Admin reconciliation records.',
+        'Collect stores your numeric Collect ID, Rwanda profile, WhatsApp sign-in phone, and MoMo provider and number, group memberships, contribution requests, ledger records, and permission status. The member app does not request or display personal names. Names contained in consented MoMo receipts remain in access-controlled Admin reconciliation records.',
   ),
   CollectPolicySection(
     title: 'How we use data',
     body:
-        'We use this data to create and join groups, verify MoMo or diaspora bank contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain reconciliation audit records.',
+        'We use this data to create and join groups, verify MoMo contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain reconciliation audit records.',
   ),
   CollectPolicySection(
     title: 'What stays private',
     body:
-        'Sign-in phones, MoMo numbers, diaspora account details, payer details, raw receipt text, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe contribution status.',
+        'Sign-in phones, MoMo numbers, payer details, raw receipt text, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe contribution status.',
   ),
   CollectPolicySection(
     title: 'Sharing',
@@ -55,12 +55,12 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Using Collect',
     body:
-        'Collect helps groups organize contributions, open Rwanda MoMo USSD, prepare diaspora bank-transfer requests, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information.',
+        'Collect helps groups organize contributions, open Rwanda MoMo USSD, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information.',
   ),
   CollectPolicySection(
     title: 'Contribution rails',
     body:
-        'Rwanda members approve MoMo payments in USSD; diaspora members approve bank transfers outside Collect in Revolut or their banking app. Collect never asks for a MoMo PIN, bank credentials, card details, OTP, or banking-app sign-in secrets.',
+        'Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or OTPs.',
   ),
   CollectPolicySection(
     title: 'Group ownership',
@@ -70,7 +70,7 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Disputes and corrections',
     body:
-        'If a contribution is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use request status, MoMo receipt facts, diaspora bank references, statements, and audit logs to investigate.',
+        'If a contribution is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use request status, MoMo receipt facts, and audit logs to investigate.',
   ),
   CollectPolicySection(
     title: 'Acceptable use',
@@ -545,8 +545,6 @@ class CollectProfile {
     this.momoProvider = '',
     this.momoNumber = '',
     this.momoPayCode = '',
-    this.revolutLink = '',
-    this.revolutAccount = '',
   });
 
   final String id;
@@ -557,8 +555,6 @@ class CollectProfile {
   final String momoProvider;
   final String momoNumber;
   final String momoPayCode;
-  final String revolutLink;
-  final String revolutAccount;
 
   factory CollectProfile.fromJson(Map<String, dynamic> json) {
     final whatsappPhone = (json['whatsapp_phone'] as String?)?.trim() ?? '';
@@ -582,29 +578,19 @@ class CollectProfile {
           (json['momo_number'] as String?)?.trim() ??
           _defaultRwandaMomoNumber(whatsappPhone, countryCode),
       momoPayCode: (json['momo_pay_code'] as String?)?.trim() ?? '',
-      revolutLink: (json['revolut_link'] as String?)?.trim() ?? '',
-      revolutAccount: (json['revolut_account'] as String?)?.trim() ?? '',
     );
   }
 
   bool get isRwanda => countryCode.trim().toUpperCase() == 'RW';
-  bool get isDiaspora =>
-      !isRwanda && CollectProfileCountryRules.isSupportedCountry(countryCode);
-  bool get isEuropean =>
-      CollectProfileCountryRules.isEuropeanCountry(countryCode);
-
   bool get isComplete =>
       RegExp(r'^\d{6}$').hasMatch(publicId) &&
       whatsappPhone.trim().isNotEmpty &&
-      CollectProfileCountryRules.isSupportedCountry(countryCode) &&
-      currencyCode.trim().toUpperCase() ==
-          CollectProfileCountryRules.currencyForCountry(countryCode) &&
-      (isRwanda
-          ? const {'mtn_momo', 'airtel_money'}.contains(momoProvider) &&
-                (momoProvider == 'mtn_momo'
-                    ? RegExp(r'^07[89][0-9]{7}$').hasMatch(momoNumber)
-                    : RegExp(r'^07[23][0-9]{7}$').hasMatch(momoNumber))
-          : CollectDiasporaProfileRules.isValidAccount(revolutAccount));
+      isRwanda &&
+      currencyCode == 'RWF' &&
+      const {'mtn_momo', 'airtel_money'}.contains(momoProvider) &&
+      (momoProvider == 'mtn_momo'
+          ? RegExp(r'^07[89][0-9]{7}$').hasMatch(momoNumber)
+          : RegExp(r'^07[23][0-9]{7}$').hasMatch(momoNumber));
 
   CollectProfile copyWith({
     String? countryCode,
@@ -612,8 +598,6 @@ class CollectProfile {
     String? momoProvider,
     String? momoNumber,
     String? momoPayCode,
-    String? revolutLink,
-    String? revolutAccount,
   }) {
     return CollectProfile(
       id: id,
@@ -624,8 +608,6 @@ class CollectProfile {
       momoProvider: momoProvider ?? this.momoProvider,
       momoNumber: momoNumber ?? this.momoNumber,
       momoPayCode: momoPayCode ?? this.momoPayCode,
-      revolutLink: revolutLink ?? this.revolutLink,
-      revolutAccount: revolutAccount ?? this.revolutAccount,
     );
   }
 
@@ -657,8 +639,6 @@ class CollectCollection {
     this.recurringCadence = 'monthly',
     String? visibilityStatus,
     this.suggestedAmountRwf,
-    this.diasporaEnabled = false,
-    this.diasporaRegions = const [],
     this.moderationStatus = 'not_requested',
     required this.createdAt,
   }) : primaryPaymentRail =
@@ -691,8 +671,6 @@ class CollectCollection {
   final String recurringCadence;
   final String visibilityStatus;
   final int? suggestedAmountRwf;
-  final bool diasporaEnabled;
-  final List<String> diasporaRegions;
   final String moderationStatus;
   final DateTime createdAt;
 
@@ -703,23 +681,10 @@ class CollectCollection {
       receiverNetwork == 'mtn_momo' ||
       receiverNetwork == 'airtel_money';
 
-  bool get supportsDiasporaBank => diasporaEnabled || !isPlatformSponsored;
-
-  /// Selects a contribution journey from database-owned group capabilities.
-  /// Profile geography only chooses between rails a group actually supports;
-  /// it can never turn a MoMo-only group into a bank-transfer destination.
-  String contributionRailFor(CollectProfile? profile) {
-    if (supportsRwandaMomo &&
-        (!supportsDiasporaBank || profile?.isDiaspora != true)) {
-      return 'rwanda_momo';
-    }
-    if (supportsDiasporaBank && profile?.isDiaspora == true) {
-      return 'diaspora_bank';
-    }
-    if (supportsRwandaMomo) return 'rwanda_momo';
-    if (supportsDiasporaBank) return 'diaspora_bank';
-    return 'unavailable';
-  }
+  String contributionRailFor(CollectProfile? profile) =>
+      supportsRwandaMomo && (profile == null || profile.isRwanda)
+      ? 'rwanda_momo'
+      : 'unavailable';
 
   factory CollectCollection.fromJson(Map<String, dynamic> json) {
     final receivers = json['collection_receivers'];
@@ -785,8 +750,6 @@ class CollectCollection {
               ? 'public_approved'
               : 'private'),
       suggestedAmountRwf: (json['suggested_amount_rwf'] as num?)?.toInt(),
-      diasporaEnabled: (json['diaspora_enabled'] as bool?) ?? false,
-      diasporaRegions: _stringList(json['diaspora_regions']),
       moderationStatus:
           (json['moderation_status'] as String?) ?? 'not_requested',
       createdAt: _dateTime(json['created_at']),
@@ -815,8 +778,6 @@ class CollectCollection {
     String? recurringCadence,
     String? visibilityStatus,
     int? suggestedAmountRwf,
-    bool? diasporaEnabled,
-    List<String>? diasporaRegions,
     String? moderationStatus,
   }) {
     return CollectCollection(
@@ -842,8 +803,6 @@ class CollectCollection {
       recurringCadence: recurringCadence ?? this.recurringCadence,
       visibilityStatus: visibilityStatus ?? this.visibilityStatus,
       suggestedAmountRwf: suggestedAmountRwf ?? this.suggestedAmountRwf,
-      diasporaEnabled: diasporaEnabled ?? this.diasporaEnabled,
-      diasporaRegions: diasporaRegions ?? this.diasporaRegions,
       moderationStatus: moderationStatus ?? this.moderationStatus,
       createdAt: createdAt,
     );
@@ -913,7 +872,7 @@ class CollectionSummary {
       final own = <String, int>{};
       for (final row in balances) {
         if (row is! Map ||
-            !const {'RWF', 'EUR'}.contains(row['currency']) ||
+            row['currency'] != 'RWF' ||
             row['amount_raised_minor'] is! int ||
             row['current_user_balance_minor'] is! int ||
             totals.containsKey(row['currency'])) {
@@ -927,22 +886,22 @@ class CollectionSummary {
         totals: totals,
         ownBalances: own,
         supporterCount: count as int?,
-        emptyCurrency: json['currency'] as String? ?? 'RWF',
+        emptyCurrency: _summaryCurrency(json['currency']),
       );
     }
     return CollectionSummary(
-      amountRaisedRwf:
-          (json['amount_raised_minor'] as num?)?.toInt() ??
-          (json['amount_raised_rwf'] as num?)?.toInt() ??
-          0,
-      supporterCount: (json['supporter_count'] as num?)?.toInt() ?? 0,
-      currentUserBalanceRwf:
-          (json['current_user_balance_minor'] as num?)?.toInt() ??
-          (json['current_user_balance_rwf'] as num?)?.toInt() ??
-          0,
-      currency:
-          (json['currency'] as String?) ??
-          (json.containsKey('amount_raised_minor') ? 'EUR' : 'RWF'),
+      amountRaisedRwf: _summaryAliasedInteger(
+        json,
+        'amount_raised_minor',
+        'amount_raised_rwf',
+      ),
+      supporterCount: _summaryContributorCount(json['supporter_count']),
+      currentUserBalanceRwf: _summaryAliasedInteger(
+        json,
+        'current_user_balance_minor',
+        'current_user_balance_rwf',
+      ),
+      currency: _summaryCurrency(json['currency']),
     );
   }
 }
@@ -1112,7 +1071,7 @@ class CollectMember {
     final totals = <String, int>{};
     for (final row in amounts) {
       if (row is! Map ||
-          !const {'RWF', 'EUR'}.contains(row['currency']) ||
+          row['currency'] != 'RWF' ||
           row['amount_minor'] is! int ||
           (row['amount_minor'] as int) <= 0 ||
           totals.containsKey(row['currency'])) {

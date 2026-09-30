@@ -84,6 +84,25 @@ capture() {
   [[ -s "$SCREENSHOT_DIR/$name.png" ]] || fail "Screenshot $name is empty."
 }
 
+tap_text() {
+  local text="$1"
+  local ui_file="$2"
+  local point
+  point="$(ruby -r rexml/document -r rexml/xpath -e '
+    document = REXML::Document.new(File.read(ARGV.fetch(0)))
+    target = ARGV.fetch(1)
+    node = REXML::XPath.first(document, "//node[@text=\"#{target}\"]") ||
+      REXML::XPath.first(document, "//node[@content-desc=\"#{target}\"]")
+    abort "tap target missing: #{target}" unless node
+    bounds = node.attributes["bounds"].to_s.scan(/\d+/).map(&:to_i)
+    abort "tap bounds missing: #{target}" unless bounds.length == 4
+    puts "#{(bounds[0] + bounds[2]) / 2} #{(bounds[1] + bounds[3]) / 2}"
+  ' "$ui_file" "$text")" || fail "Could not locate $text in the Android UI."
+  local tap_x tap_y
+  read -r tap_x tap_y <<<"$point"
+  "$ADB" -s "$DEVICE_ID" shell input tap "$tap_x" "$tap_y"
+}
+
 start_launcher() {
   "$ADB" -s "$DEVICE_ID" shell am start -W \
     -n "$PACKAGE/$ACTIVITY" >>"$LOG_FILE"
@@ -120,9 +139,11 @@ fi
 record "process_death_verified=true"
 
 start_launcher
-wait_for_text "QA private group" "02-cold-recovered" 120 ||
-  fail "The cold restart did not restore and open the persisted group intent."
-capture "02-cold-restart-recovered"
+wait_for_text "qa-private-group" "02-cold-recovered" 120 ||
+  fail "The cold restart did not restore the pending invitation."
+wait_for_text "Join group" "02-cold-recovered" 30 ||
+  fail "The cold restart joined without the member's explicit action."
+capture "02-cold-restart-pending-invitation"
 recovered_pid="$("$ADB" -s "$DEVICE_ID" shell pidof "$PACKAGE" | tr -d '\r')"
 [[ -n "$recovered_pid" && "$recovered_pid" != "$seed_pid" ]] ||
   fail "Cold restart did not create a distinct application process."
@@ -131,11 +152,13 @@ record "recovered_pid=$recovered_pid"
 "$ADB" -s "$DEVICE_ID" shell am start -W \
   -a android.intent.action.VIEW \
   -c android.intent.category.BROWSABLE \
-  -d "https://collect.ikanisa.com/c/kigali-lions-away-kit" \
+  -d "https://collect.ikanisa.com/c/public-sport-fixture" \
   "$PACKAGE" >>"$LOG_FILE"
-wait_for_text "Kigali Lions away kit" "03-warm-link" 120 ||
-  fail "The warm App Link did not open the second controlled group."
-capture "03-warm-app-link"
+wait_for_text "public-sport-fixture" "03-warm-link" 120 ||
+  fail "The warm App Link did not retain the second controlled invitation."
+wait_for_text "Join group" "03-warm-link" 30 ||
+  fail "The warm App Link joined without the member's explicit action."
+capture "03-warm-app-link-pending-invitation"
 warm_pid="$("$ADB" -s "$DEVICE_ID" shell pidof "$PACKAGE" | tr -d '\r')"
 [[ "$warm_pid" == "$recovered_pid" ]] ||
   fail "Warm App Link replaced the process instead of using the singleTop activity."
@@ -143,9 +166,22 @@ record "warm_single_process_verified=true"
 
 "$ADB" -s "$DEVICE_ID" shell am force-stop "$PACKAGE"
 start_launcher
-wait_for_text "Total collected" "04-cleared-restart" 120 ||
-  fail "A completed intent was replayed after its success-clearing restart."
-capture "04-completed-intents-not-replayed"
+wait_for_text "public-sport-fixture" "04-pending-restart" 120 ||
+  fail "The latest unjoined invitation was lost after process death."
+wait_for_text "Join group" "04-pending-restart" 30 ||
+  fail "The latest invitation joined automatically after process death."
+capture "04-latest-invitation-still-pending"
+tap_text "Join group" "$UI_DIR/04-pending-restart.xml"
+wait_for_text "Gikundiro" "05-explicit-join" 120 ||
+  fail "Explicit Join did not open the controlled fixture group."
+capture "05-explicit-join-completed"
+record "explicit_join_verified=true"
+
+"$ADB" -s "$DEVICE_ID" shell am force-stop "$PACKAGE"
+start_launcher
+wait_for_text "Total collected" "06-cleared-restart" 120 ||
+  fail "A completed invitation was replayed after its success-clearing restart."
+capture "06-completed-intent-not-replayed"
 record "completed_intents_not_replayed=true"
 
 "$ADB" -s "$DEVICE_ID" shell dumpsys activity activities \
@@ -184,9 +220,11 @@ puts JSON.pretty_generate(
     "persisted_before_process_death" => true,
     "process_death_and_distinct_cold_restart" =>
       ENV.fetch("SEED_PID") != ENV.fetch("RECOVERED_PID"),
-    "cold_restart_recovered_intent" => true,
+    "cold_restart_recovered_pending_invitation" => true,
     "warm_app_link_same_process" =>
       ENV.fetch("RECOVERED_PID") == ENV.fetch("WARM_PID"),
+    "second_invitation_persisted_until_explicit_join" => true,
+    "explicit_join_required_and_completed" => true,
     "completed_intents_not_replayed" => true
   },
   "artifact_sha256" => hashes

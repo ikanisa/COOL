@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/notifications/collect_notification_service.dart';
 import '../core/security/sms_access_channel.dart';
+import '../core/supabase/supabase_module.dart';
 import '../l10n/collect_localizations.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
@@ -91,8 +92,19 @@ class _MomoReceiptSmsReceiverHost extends ConsumerStatefulWidget {
 class _MomoReceiptSmsReceiverHostState
     extends ConsumerState<_MomoReceiptSmsReceiverHost>
     with WidgetsBindingObserver {
+  static const _retryDelays = [
+    Duration(seconds: 5),
+    Duration(seconds: 15),
+    Duration(minutes: 1),
+    Duration(minutes: 5),
+    Duration(minutes: 15),
+  ];
   StreamSubscription<void>? _subscription;
   Future<int>? _syncInFlight;
+  Timer? _retryTimer;
+  int _retryAttempt = 0;
+  bool _syncRequested = false;
+  bool _foreground = true;
   late final bool _enabled;
 
   @override
@@ -109,6 +121,7 @@ class _MomoReceiptSmsReceiverHostState
 
   @override
   void dispose() {
+    _retryTimer?.cancel();
     if (_enabled) WidgetsBinding.instance.removeObserver(this);
     unawaited(_subscription?.cancel());
     super.dispose();
@@ -116,20 +129,77 @@ class _MomoReceiptSmsReceiverHostState
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) _sync();
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.detached) {
+      _foreground = false;
+      _retryTimer?.cancel();
+      _retryTimer = null;
+    } else if (state == AppLifecycleState.resumed) {
+      _foreground = true;
+      _sync();
+    }
   }
 
-  void _sync() {
-    if (!_enabled || _syncInFlight != null) return;
+  void _sync({bool newSignal = true}) {
+    if (!_enabled || !_foreground || !mounted) return;
+    if (newSignal) {
+      _retryTimer?.cancel();
+      _retryTimer = null;
+      _retryAttempt = 0;
+    }
+    if (_syncInFlight != null) {
+      _syncRequested = true;
+      return;
+    }
+    final owner = ref.read(collectRepositoryProvider).currentProfile?.id;
     final sync = ref
         .read(collectRepositoryProvider.notifier)
         .syncPendingSmsAccess();
     _syncInFlight = sync;
     unawaited(
-      sync.catchError((_) => 0).whenComplete(() {
-        if (identical(_syncInFlight, sync)) _syncInFlight = null;
-      }),
+      sync.then<void>(
+        (_) => _finishSync(sync, owner, failed: false),
+        onError: (Object _, StackTrace _) =>
+            _finishSync(sync, owner, failed: true),
+      ),
     );
+  }
+
+  void _finishSync(Future<int> sync, String? owner, {required bool failed}) {
+    if (!identical(_syncInFlight, sync)) return;
+    _syncInFlight = null;
+    if (!mounted || !_enabled) return;
+    final currentOwner = ref.read(collectRepositoryProvider).currentProfile?.id;
+    if (currentOwner != owner) {
+      _retryTimer?.cancel();
+      _retryTimer = null;
+      _retryAttempt = 0;
+      _syncRequested = false;
+      if (currentOwner != null) _sync();
+      return;
+    }
+    if (_syncRequested) {
+      _syncRequested = false;
+      _sync();
+      return;
+    }
+    if (!failed) {
+      _retryAttempt = 0;
+      return;
+    }
+    if (!_foreground || currentOwner == null) return;
+    // A single foreground timer retries without persisting an auth token or
+    // continuously waking a background process. Delay is capped at 15 minutes.
+    final index = _retryAttempt < _retryDelays.length
+        ? _retryAttempt
+        : _retryDelays.length - 1;
+    if (_retryAttempt < _retryDelays.length) _retryAttempt++;
+    _retryTimer?.cancel();
+    _retryTimer = Timer(_retryDelays[index], () {
+      _retryTimer = null;
+      _sync(newSignal: false);
+    });
   }
 
   @override
@@ -138,7 +208,14 @@ class _MomoReceiptSmsReceiverHostState
       ref.listen<String?>(
         collectRepositoryProvider.select((state) => state.currentProfile?.id),
         (_, current) {
-          if (current != null) _sync();
+          if (current == null) {
+            _retryTimer?.cancel();
+            _retryTimer = null;
+            _retryAttempt = 0;
+            _syncRequested = false;
+          } else {
+            _sync();
+          }
         },
       );
     }
@@ -176,6 +253,13 @@ class _NotificationIntentHostState
   }
 
   void _scheduleNavigation(CollectNotificationIntent intent) {
+    final client = ref.read(supabaseClientProvider);
+    final owner = client == null
+        ? ref.read(collectAuthenticatedUserIdProvider)
+        : client.auth.currentUser?.id;
+    if (intent.recipientId != null && intent.recipientId != owner) {
+      return;
+    }
     final eventId = intent.eventId;
     if (eventId != null) {
       unawaited(_markNotificationRead(eventId));
@@ -214,7 +298,6 @@ class _PendingSharedGroupIntentRecoveryHostState
     extends ConsumerState<_PendingSharedGroupIntentRecoveryHost> {
   StreamSubscription<Uri>? _appLinkSubscription;
   var _recoveryScheduled = false;
-  String? _joinInFlightSlug;
   String? _navigationTarget;
 
   @override
@@ -245,13 +328,14 @@ class _PendingSharedGroupIntentRecoveryHostState
       case CollectAppLinkKind.group:
         final slug = target.value!;
         try {
-          await ref.read(pendingSharedGroupSlugProvider.notifier).retain(slug);
+          await ref
+              .read(pendingSharedGroupSlugProvider.notifier)
+              .retainIncomingRecord(
+                slug,
+                ownerUserId: ref.read(collectAuthenticatedUserIdProvider),
+              );
           if (!mounted) return;
-          if (!ref.read(profileReadinessProvider).readyForGroupCreation) {
-            _scheduleNavigation('/c/${Uri.encodeComponent(slug)}');
-          } else {
-            _scheduleRecovery();
-          }
+          _scheduleNavigation('/c/${Uri.encodeComponent(slug)}');
         } catch (_) {
           // Never navigate from a link that was not durably retained.
         }
@@ -277,31 +361,22 @@ class _PendingSharedGroupIntentRecoveryHostState
   }
 
   Future<void> _recover() async {
-    final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
-    final slug = await pendingIntent.current();
-    if (!mounted || slug == null) return;
-    final readiness = ref.read(profileReadinessProvider);
-    if (!readiness.readyForGroupCreation) return;
-
-    final router = ref.read(appRouterProvider);
-    final intentPath = '/c/${Uri.encodeComponent(slug)}';
-    if (router.routeInformationProvider.value.uri.path == intentPath) return;
-    if (_joinInFlightSlug == slug) return;
-    _joinInFlightSlug = slug;
     try {
-      final collection = await ref
-          .read(collectRepositoryProvider.notifier)
-          .joinGroupBySlug(slug);
-      final cleared = await pendingIntent.clearIfMatches(slug);
-      if (!mounted || !cleared) return;
-      _scheduleNavigation('/groups/${collection.id}');
-    } catch (_) {
-      if (!mounted) return;
-      // Keep the durable intent and hand the failure to the normal link route,
-      // which exposes its governed retry state.
+      final pendingIntent = ref.read(pendingSharedGroupSlugProvider.notifier);
+      final ownerId = ref.read(collectAuthenticatedUserIdProvider);
+      if (ownerId == null) return;
+      final intent = await pendingIntent.currentRecordForOwner(ownerId);
+      if (!mounted || intent == null) return;
+      final readiness = ref.read(profileReadinessProvider);
+      if (!readiness.readyForGroupCreation) return;
+
+      final router = ref.read(appRouterProvider);
+      final intentPath = '/c/${Uri.encodeComponent(intent.slug)}';
+      if (router.routeInformationProvider.value.uri.path == intentPath) return;
       _scheduleNavigation(intentPath);
-    } finally {
-      if (_joinInFlightSlug == slug) _joinInFlightSlug = null;
+    } catch (_) {
+      // Local persistence can fail while binding or clearing a pending link.
+      // A link must never navigate from a record that could not be verified.
     }
   }
 
@@ -407,14 +482,18 @@ class _NotificationRegistrationHostState
       if (notificationsEnabled) {
         ref.read(notificationPermissionStatusProvider.notifier).state =
             CollectDevicePermissionStatus.granted;
-        final repository = ref.read(collectRepositoryProvider.notifier);
-        unawaited(notifications.registerDevice(repository));
       } else if (permissionState == CollectDevicePermissionStatus.granted) {
         // A previously granted permission becoming disabled is a denial.
         // Preserve both the initial not-requested state and an explicit denial:
         // Android's resumed callback can race the result of the native prompt.
         ref.read(notificationPermissionStatusProvider.notifier).state =
             CollectDevicePermissionStatus.denied;
+      }
+      // The service checks permission and publishes registration recovery even
+      // when a previously allowed permission was revoked in phone settings.
+      final repository = ref.read(collectRepositoryProvider.notifier);
+      if (repository.isLive) {
+        unawaited(notifications.registerDevice(repository));
       }
     } catch (_) {
       // Device notification registration is retried on the next resume.

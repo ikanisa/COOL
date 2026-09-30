@@ -1,0 +1,1 @@
+HISTORICAL_BANK_UPGRADE_UAT_PASS: 14 assertions; synthetic rollback only

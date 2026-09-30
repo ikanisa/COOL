@@ -1,0 +1,200 @@
+{
+  "status": "fail",
+  "kind": "actual_Chromium_explicit_synthetic_Flutter_fixture",
+  "started_at": "2026-09-30T15:11:33.960Z",
+  "provider_calls": 0,
+  "hosted_calls": 0,
+  "database_calls": 0,
+  "source_files": 532,
+  "artifact_files": 154,
+  "artifact_manifest_sha256": "4422c1024272ffe79a2e7ad305121604f021ab54d661cdf087fff24fb0ebffbc",
+  "source_manifest_sha256": "fa95abe4601365e98ee8be5b8408ceea1c2045a5684984660b9ef580c838aa7e",
+  "cases": [
+    {
+      "id": "terms-320-1x",
+      "route": "/settings/legal/terms",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 54,
+        "right": 304,
+        "bottom": 74,
+        "width": 228,
+        "height": 20
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Terms & Conditions\" [level=1]\n  - group \"Collect helps groups organize contributions, open Rwanda MoMo USSD, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information. Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or OTPs. Every member-created group is private and can be created only in the Android app. Group owners manage profile details and membership. Public groups are platform-sponsored and approved by Collect. If a contribution is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use request status, MoMo receipt facts, and audit logs to investigate. Do not create misleading groups, impersonate another person, abuse QR links, submit false contribution claims, or use Collect to request illegal or unauthorized transfers.\":\n    - heading \"Using Collect\" [level=2]\n    - heading \"Contribution rails\" [level=2]\n    - heading \"Group ownership\" [level=2]\n    - heading \"Disputes and corrections\" [level=2]",
+      "screenshot": {
+        "path": "terms-320-1x.png",
+        "sha256": "803d63d59e86d96c389e6f35c1188e93eb1e34477e56f04d8a2fd5b116fc7003"
+      }
+    },
+    {
+      "id": "privacy-320-1x",
+      "route": "/settings/legal/privacy",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 54,
+        "right": 304,
+        "bottom": 74,
+        "width": 228,
+        "height": 20
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Privacy Policy\" [level=1]\n  - group:\n    - heading \"Data we collect\" [level=2]\n    - heading \"How we use data\" [level=2]\n    - heading \"What stays private\" [level=2]",
+      "screenshot": {
+        "path": "privacy-320-1x.png",
+        "sha256": "88b7f1762ac4d721a836f3e6d7ba08ea8ce3f3b64b7aa964cf88ab7181618398"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "terms-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 54,
+          "right": 304,
+          "bottom": 74,
+          "width": 228,
+          "height": 20
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "terms-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-section-heading",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 54,
+          "right": 304,
+          "bottom": 74,
+          "width": 228,
+          "height": 20
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "privacy-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-section-heading",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-page-heading",
+      "status": "fail"
+    }
+  ],
+  "errors": [],
+  "blocked_requests": [
+    {
+      "id": "terms-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "privacy-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "security-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    }
+  ],
+  "served_resources": {
+    "index.html": "f415c50929191456b1c65c766d6abc32cf5abb6997bbce02534ad6708b0cc6de",
+    "flutter_bootstrap.js": "310123311c6125ae51d4237ec4b40004009ca89437928530ac8fc4cb6f596c33",
+    "canvaskit/chromium/canvaskit.js": "d2aceb0e24ead163ab289a165ca0e26a36fa26d7118f5a295b8854d59d892896",
+    "canvaskit/chromium/canvaskit.wasm": "c2fc2864763540922c71d464e983bebf97b3a5312fd01c6a8988969747d13314",
+    "main.dart.js": "ffa69f7c4a661c86c5b027445c8a740cb7ef4de32ca39bdcb171dfa65dc6fb46",
+    "assets/assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/FontManifest.json": "6ceffb39cf0c64923dd000d962bfa4664f39a51f0712604ad6e2e67bf424aafd",
+    "assets/fonts/MaterialIcons-Regular.otf": "5087f3cbda9b6fb18935c6e87d47a21bcc2ab4c61137534606c919ef1fa12122",
+    "assets/assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf": "0df29d6561467c7a3c263aaca7d95bfd17d74e6fd2d7a9e8ab7149cd787fce10",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf": "c6265ca5839938625a3c8c37a00cdcb2633d1ad6ab2c096c97b590a27162b67a",
+    "icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "3d90c370aa4cf00dc57ee2b902f6652147c0f81e03e483df584a9c08b1687c9d",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf": "c1091147299a846195bbca8b26528de6c9af842f236e7db44a1c2e8c9df52372"
+  },
+  "bound_runtime": "Flutter3.44.4/ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "native_acceptance": false,
+  "screen_reader_speech_verified": false,
+  "design_fidelity_percentage": null,
+  "origin": "http://127.0.0.1:51242",
+  "browser": "151.0.7922.34",
+  "failure": "Assertion failed:security-320-1x-page-heading",
+  "finished_at": "2026-09-30T15:11:41.740Z"
+}

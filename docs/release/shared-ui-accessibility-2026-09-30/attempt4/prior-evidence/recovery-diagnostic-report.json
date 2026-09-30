@@ -1,0 +1,106 @@
+{
+  "status": "fail",
+  "kind": "actual_Chromium_explicit_synthetic_Flutter_fixture",
+  "started_at": "2026-09-30T15:36:02.540Z",
+  "provider_calls": 0,
+  "hosted_calls": 0,
+  "database_calls": 0,
+  "source_files": 532,
+  "artifact_files": 154,
+  "artifact_manifest_sha256": "19003d7749961e8cd04bb7dace8e9303df20ee7668e002c23d3a3a21d79db319",
+  "source_manifest_sha256": "7855d5b7ca5810446a414f9e95a6386dee71f76363711390f3c4bba8ee6996f8",
+  "cases": [],
+  "checks": [
+    {
+      "id": "offline-success-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 84.5,
+          "right": 187.5625,
+          "bottom": 107.5,
+          "width": 111.5625,
+          "height": 23
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-success-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-truthful-stale",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-refresh-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 32,
+          "top": 324,
+          "right": 288,
+          "bottom": 372,
+          "width": 256,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    }
+  ],
+  "errors": [],
+  "blocked_requests": [
+    {
+      "id": "offline-success-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    }
+  ],
+  "served_resources": {
+    "index.html": "f415c50929191456b1c65c766d6abc32cf5abb6997bbce02534ad6708b0cc6de",
+    "flutter_bootstrap.js": "310123311c6125ae51d4237ec4b40004009ca89437928530ac8fc4cb6f596c33",
+    "canvaskit/chromium/canvaskit.js": "d2aceb0e24ead163ab289a165ca0e26a36fa26d7118f5a295b8854d59d892896",
+    "canvaskit/chromium/canvaskit.wasm": "c2fc2864763540922c71d464e983bebf97b3a5312fd01c6a8988969747d13314",
+    "main.dart.js": "b4583d3c520e389d24d02ce4ad111683e689731e520fcc94caa830d1a2c86756",
+    "assets/assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/FontManifest.json": "6ceffb39cf0c64923dd000d962bfa4664f39a51f0712604ad6e2e67bf424aafd",
+    "assets/fonts/MaterialIcons-Regular.otf": "5087f3cbda9b6fb18935c6e87d47a21bcc2ab4c61137534606c919ef1fa12122",
+    "assets/assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf": "0df29d6561467c7a3c263aaca7d95bfd17d74e6fd2d7a9e8ab7149cd787fce10",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf": "c6265ca5839938625a3c8c37a00cdcb2633d1ad6ab2c096c97b590a27162b67a",
+    "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "3d90c370aa4cf00dc57ee2b902f6652147c0f81e03e483df584a9c08b1687c9d",
+    "icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf": "c1091147299a846195bbca8b26528de6c9af842f236e7db44a1c2e8c9df52372"
+  },
+  "bound_runtime": "Flutter3.44.4/ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "native_acceptance": false,
+  "screen_reader_speech_verified": false,
+  "design_fidelity_percentage": null,
+  "origin": "http://127.0.0.1:57017",
+  "browser": "151.0.7922.34",
+  "resource_body_errors": [],
+  "failure": "page.waitForFunction: Timeout 30000ms exceeded.",
+  "finished_at": "2026-09-30T15:36:37.548Z"
+}

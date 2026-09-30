@@ -1,7 +1,7 @@
-Collect helps savings groups organize members, record contributions, review reconciled group activity, and prepare credit-readiness records.
+Collect helps Rwanda savings groups organize members, record whole-RWF contributions, and review reconciled group activity.
 
-Members can view the approved beneficiary, IBAN, BIC, exact Collect reference, and amount before opening Revolut or another banking app. Collect does not initiate, authorize, process, or custody a bank transfer. The user selects the beneficiary and authorizes the transfer entirely in their banking app.
+Members see the exact MTN MoMo or Airtel Money group receiver and amount before opening the provider USSD prompt. The member authorizes payment with the mobile network; Collect never asks for a MoMo PIN or OTP and does not hold member funds.
 
-On Android, a group receiver can optionally allow Collect to receive newly arriving MTN MoMo or Airtel Money transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off at any time. A contribution becomes confirmed, changes a balance, and posts to the group ledger only after governed reconciliation.
+On eligible Android receiver devices, members may explicitly consent to Collect receiving newly arriving MoMo transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off. An observed SMS is not independent settlement proof; pending and ambiguous contributions require governed reconciliation before a production confirmation claim.
 
-Collect keeps account support and deletion controls accessible in the app and is operated by IKANISA for group savings, support, and credit-readiness workflows.
+Collect provides in-app account support and deletion controls. The service is operated by IKANISA for Rwanda group-contribution and record-keeping workflows.

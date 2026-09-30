@@ -25,6 +25,8 @@ cd "$ROOT_DIR"
 
 # shellcheck source=scripts/load_dotenv_strict.sh
 . "$ROOT_DIR/scripts/load_dotenv_strict.sh"
+# shellcheck source=scripts/supabase_cli_helpers.sh
+. "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
 
 if [[ -f .env ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
@@ -75,7 +77,7 @@ schema_file="$backup_dir/public_schema.sql"
 data_file="$backup_dir/public_data.sql"
 
 printf '[supabase-backup] writing schema dump to %s\n' "$schema_file"
-"$PG_DUMP_BIN" "$DATABASE_URL" \
+collect_pg_url_service "$DATABASE_URL" "$PG_DUMP_BIN" \
   --schema=public \
   --schema-only \
   --no-owner \
@@ -84,7 +86,7 @@ printf '[supabase-backup] writing schema dump to %s\n' "$schema_file"
 
 if [[ "${INCLUDE_DATA:-0}" == "1" ]]; then
   printf '[supabase-backup] writing data dump to %s\n' "$data_file"
-  "$PG_DUMP_BIN" "$DATABASE_URL" \
+  collect_pg_url_service "$DATABASE_URL" "$PG_DUMP_BIN" \
     --schema=public \
     --data-only \
     --no-owner \

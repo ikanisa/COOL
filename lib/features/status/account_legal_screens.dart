@@ -36,8 +36,8 @@ class LegalScreen extends ConsumerWidget {
         InfoSecurityBanner(
           title: isPrivacy ? 'Public boundary' : 'Security responsibility',
           message: isPrivacy
-              ? 'Private bank evidence and support records are not public-group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
-              : 'Confirm the beneficiary, unique reference, and amount before approving a bank transfer. Collect support messages do not request payment credentials or sign-in secrets.',
+              ? 'Private MoMo receipt evidence and support records are not public-group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
+              : 'Confirm the MoMo receiver and RWF amount before approving in USSD. Collect support messages do not request a PIN or OTP.',
           tone: isPrivacy
               ? CollectStatusTone.privacy
               : CollectStatusTone.warning,
@@ -61,8 +61,7 @@ class _LegalPageHeader extends StatelessWidget {
     final border = CollectRuntimeTokens.chromeControlBorder(colors);
     return Semantics(
       container: true,
-      header: true,
-      label: title,
+      explicitChildNodes: true,
       child: Row(
         children: [
           IconButton.filledTonal(
@@ -80,8 +79,8 @@ class _LegalPageHeader extends StatelessWidget {
           ),
           CollectSpacing.gapW12,
           Expanded(
-            child: Text(
-              title,
+            child: CollectHeadingText(
+              title: title,
               maxLines: largeText ? null : 1,
               softWrap: largeText,
               overflow: largeText
@@ -116,11 +115,9 @@ class _LegalText extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              section.title,
-              softWrap: true,
-              overflow: TextOverflow.visible,
-              textWidthBasis: TextWidthBasis.parent,
+            CollectHeadingText(
+              title: section.title,
+              level: 2,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: CollectTypography.weightBold,
               ),

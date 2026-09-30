@@ -1,0 +1,81 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 569,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "seconds": 0.38,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/sql-reads148-attempt4-extended/stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_full_coverage_gap_test.dart",
+        "test/admin_read_contracts_test.dart",
+        "test/admin_roster_gateway_expiry_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_reload_test.dart",
+        "test/admin_action_contracts_test.dart",
+        "test/admin_feature_flag_runtime_test.dart",
+        "test/admin_runtime_control_gap_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "exit_code": 1,
+      "seconds": 10.908,
+      "sha256": "e2f1d2538927c770b10d02b3c7ddde119fceaccb69f40ebcb596e3bf1329b439"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_full_coverage_gap_test.dart",
+        "test/admin_read_contracts_test.dart",
+        "test/admin_roster_gateway_expiry_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_reload_test.dart",
+        "test/admin_action_contracts_test.dart",
+        "test/admin_feature_flag_runtime_test.dart",
+        "test/admin_runtime_control_gap_test.dart"
+      ],
+      "exit_code": 0,
+      "seconds": 2.182,
+      "sha256": "f6c54d27e2c6883dfd37aaa5d9f63948abfae7b4c3ee6acdbfbf04201a4a30ce"
+    }
+  ],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": false,
+  "test_gate_passed": false,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "source_before_sha256": "fcc118d8e2cb5e14fc482cc90d7e782f7cd55f29cea4e0515a2659d7840bd9b6",
+  "source_after_sha256": "fcc118d8e2cb5e14fc482cc90d7e782f7cd55f29cea4e0515a2659d7840bd9b6"
+}

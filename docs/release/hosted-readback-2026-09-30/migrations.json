@@ -1,0 +1,500 @@
+{
+  "migrations": [
+    {
+      "version": "202605230001",
+      "name": "collect_baseline"
+    },
+    {
+      "version": "202605230002",
+      "name": "fix_invite_rpc_lint"
+    },
+    {
+      "version": "202605230003",
+      "name": "harden_rls_indexes"
+    },
+    {
+      "version": "202605230004",
+      "name": "restore_payment_intent_paid_rpc"
+    },
+    {
+      "version": "202605230005",
+      "name": "restore_sms_collection_scope"
+    },
+    {
+      "version": "202605230006",
+      "name": "finalize_payment_intent_hardening"
+    },
+    {
+      "version": "202605230007",
+      "name": "revoke_public_function_execute"
+    },
+    {
+      "version": "202605230008",
+      "name": "admin_panel"
+    },
+    {
+      "version": "202605230009",
+      "name": "add_client_safe_views"
+    },
+    {
+      "version": "202605230010",
+      "name": "grant_collection_receiver_read"
+    },
+    {
+      "version": "202605230011",
+      "name": "fix_receiver_consent_execute_grant"
+    },
+    {
+      "version": "202605230012",
+      "name": "admin_user_receiver_management"
+    },
+    {
+      "version": "202605230013",
+      "name": "admin_role_audit_actions"
+    },
+    {
+      "version": "202605230014",
+      "name": "admin_new_rpc_privileges"
+    },
+    {
+      "version": "202605230015",
+      "name": "admin_collection_moderation"
+    },
+    {
+      "version": "202605230016",
+      "name": "drop_unowned_admin_helpers"
+    },
+    {
+      "version": "202605230017",
+      "name": "admin_list_filter_contracts"
+    },
+    {
+      "version": "20260523203132",
+      "name": "tighten_admin_role_permissions"
+    },
+    {
+      "version": "20260523204235",
+      "name": "set_views_security_invoker"
+    },
+    {
+      "version": "20260523205502",
+      "name": "set_helper_function_search_paths"
+    },
+    {
+      "version": "20260523210723",
+      "name": "split_permissive_select_policies"
+    },
+    {
+      "version": "20260523212244",
+      "name": "revoke_anon_platform_admin_helper"
+    },
+    {
+      "version": "20260523213113",
+      "name": "disable_graphql_introspection"
+    },
+    {
+      "version": "202605250001",
+      "name": "app_realtime_invalidation"
+    },
+    {
+      "version": "202605270001",
+      "name": "sms_first_group_payment_intents"
+    },
+    {
+      "version": "20260531162852",
+      "name": "harden_sms_first_function_grants"
+    },
+    {
+      "version": "20260531190000",
+      "name": "mobile_production_state_support"
+    },
+    {
+      "version": "20260601230000",
+      "name": "preserve_contribution_sender_hash"
+    },
+    {
+      "version": "20260602050000",
+      "name": "harden_mobile_state_rls_initplan"
+    },
+    {
+      "version": "20260607130500",
+      "name": "update_collection_profile_rpc"
+    },
+    {
+      "version": "20260608090000",
+      "name": "native_notifications"
+    },
+    {
+      "version": "20260611111500",
+      "name": "harden_mobile_profile_rpcs"
+    },
+    {
+      "version": "20260611113000",
+      "name": "harden_notification_rls_initplan"
+    },
+    {
+      "version": "20260611114500",
+      "name": "tighten_notification_rpc_grants"
+    },
+    {
+      "version": "20260611171920",
+      "name": "admin_whatsapp_operator_login"
+    },
+    {
+      "version": "20260611184934",
+      "name": "fix_admin_whatsapp_bootstrap_phone_lookup"
+    },
+    {
+      "version": "20260612103000",
+      "name": "disable_browser_admin_bootstrap"
+    },
+    {
+      "version": "20260612110000",
+      "name": "admin_payment_event_server_paging"
+    },
+    {
+      "version": "20260612111500",
+      "name": "drop_legacy_payment_event_queue_overloads"
+    },
+    {
+      "version": "20260612113000",
+      "name": "revoke_anon_admin_queue_paging"
+    },
+    {
+      "version": "20260619003000",
+      "name": "profile_momo_pay_code"
+    },
+    {
+      "version": "20260622090000",
+      "name": "market_expansion_categories_stripe_foundation"
+    },
+    {
+      "version": "20260626193000",
+      "name": "gate_notification_enqueue_by_preferences"
+    },
+    {
+      "version": "20260627143000",
+      "name": "restrict_admin_permission_helper_probing"
+    },
+    {
+      "version": "20260627171000",
+      "name": "harden_diaspora_stripe_table_grants"
+    },
+    {
+      "version": "20260627183000",
+      "name": "add_admin_operator_note_rpc"
+    },
+    {
+      "version": "20260627184500",
+      "name": "add_admin_queue_sla_policies"
+    },
+    {
+      "version": "20260627190000",
+      "name": "add_admin_collection_status_rpc"
+    },
+    {
+      "version": "20260627191000",
+      "name": "add_admin_feature_flag_toggle_rpc"
+    },
+    {
+      "version": "20260701090000",
+      "name": "developer_account_seed_data"
+    },
+    {
+      "version": "20260701100000",
+      "name": "group_owner_controls"
+    },
+    {
+      "version": "20260703170000",
+      "name": "harden_developer_and_group_rpcs"
+    },
+    {
+      "version": "20260703224559",
+      "name": "collection_type_catalog_runtime"
+    },
+    {
+      "version": "20260703225455",
+      "name": "notification_templates_runtime"
+    },
+    {
+      "version": "20260704100000",
+      "name": "public_runtime_config"
+    },
+    {
+      "version": "20260704110000",
+      "name": "admin_runtime_metadata"
+    },
+    {
+      "version": "20260704120000",
+      "name": "policy_documents_account_reasons"
+    },
+    {
+      "version": "20260704133000",
+      "name": "split_runtime_metadata_select_policies"
+    },
+    {
+      "version": "20260730134500",
+      "name": "grant_mobile_request_own_read"
+    },
+    {
+      "version": "20260804150000",
+      "name": "native_push_delivery"
+    },
+    {
+      "version": "20260805120000",
+      "name": "android_fcm_push_delivery"
+    },
+    {
+      "version": "20260808093000",
+      "name": "qualify_notification_token_digest"
+    },
+    {
+      "version": "20260812073431",
+      "name": "remove_legacy_mock_groups_and_classify_home"
+    },
+    {
+      "version": "20260812080000",
+      "name": "restore_mobile_notification_preferences_grants"
+    },
+    {
+      "version": "20260812090000",
+      "name": "expand_momo_pay_code_length"
+    },
+    {
+      "version": "20260812100000",
+      "name": "remove_developer_dummy_data"
+    },
+    {
+      "version": "20260812110000",
+      "name": "correct_momo_merchant_ussd_template"
+    },
+    {
+      "version": "20260815050900",
+      "name": "harden_momo_sms_standalone_posting"
+    },
+    {
+      "version": "20260815051035",
+      "name": "harden_group_creation_journey"
+    },
+    {
+      "version": "20260815054500",
+      "name": "close_group_journey_database_lint"
+    },
+    {
+      "version": "20260815062536",
+      "name": "complete_admin_operations_control_plane"
+    },
+    {
+      "version": "20260815071500",
+      "name": "bind_contribution_payer_identity"
+    },
+    {
+      "version": "20260815082500",
+      "name": "close_group_authorization_privacy"
+    },
+    {
+      "version": "20260815083000",
+      "name": "require_provider_finality"
+    },
+    {
+      "version": "20260815083500",
+      "name": "claim_sms_parser_work"
+    },
+    {
+      "version": "20260815084000",
+      "name": "atomic_sms_ingestion"
+    },
+    {
+      "version": "20260815084500",
+      "name": "revoke_non_dml_table_privileges"
+    },
+    {
+      "version": "20260815085000",
+      "name": "atomic_provider_finality_gateway"
+    },
+    {
+      "version": "20260820160000",
+      "name": "restore_momo_sms_standalone"
+    },
+    {
+      "version": "20260820162240",
+      "name": "bank_transfer_only_financial_control_plane"
+    },
+    {
+      "version": "20260820185500",
+      "name": "revoke_direct_bank_transfer_intent_read"
+    },
+    {
+      "version": "20260828100000",
+      "name": "profile_country_session_independence"
+    },
+    {
+      "version": "20260831084239",
+      "name": "expand_admin_queue_sla_support"
+    },
+    {
+      "version": "20260831084646",
+      "name": "hybrid_geographic_payment_rails"
+    },
+    {
+      "version": "20260831095454",
+      "name": "collect_admin_operations_model"
+    },
+    {
+      "version": "20260901134820",
+      "name": "platform_public_groups"
+    },
+    {
+      "version": "20260901135728",
+      "name": "public_group_directory"
+    },
+    {
+      "version": "20260901141842",
+      "name": "public_contribution_auto_membership"
+    },
+    {
+      "version": "20260901160000",
+      "name": "collect_admin_payee_management"
+    },
+    {
+      "version": "20260901183000",
+      "name": "admin_operations_tables"
+    },
+    {
+      "version": "20260901193000",
+      "name": "admin_group_lifecycle"
+    },
+    {
+      "version": "20260901194500",
+      "name": "admin_users_and_members"
+    },
+    {
+      "version": "20260901200000",
+      "name": "localize_public_group_payment_routes"
+    },
+    {
+      "version": "20260901210000",
+      "name": "admin_single_access_role"
+    },
+    {
+      "version": "20260901220000",
+      "name": "admin_country_scope_contract"
+    },
+    {
+      "version": "20260901223000",
+      "name": "live_admin_uat_fixes"
+    },
+    {
+      "version": "20260901230000",
+      "name": "admin_people_detail_contract"
+    },
+    {
+      "version": "20260902073741",
+      "name": "member_profile_numeric_identity"
+    },
+    {
+      "version": "20260902075721",
+      "name": "member_collection_read_contract"
+    },
+    {
+      "version": "20260902081017",
+      "name": "hybrid_admin_overview_metrics"
+    },
+    {
+      "version": "20260902081830",
+      "name": "member_profile_read_allowlist"
+    },
+    {
+      "version": "20260902083940",
+      "name": "member_cross_rail_history"
+    },
+    {
+      "version": "20260902090210",
+      "name": "member_group_owner_controls"
+    },
+    {
+      "version": "20260902091314",
+      "name": "member_group_roster"
+    },
+    {
+      "version": "20260902093609",
+      "name": "member_history_query_plan"
+    },
+    {
+      "version": "20260902100046",
+      "name": "member_bounded_history_pages"
+    },
+    {
+      "version": "20260902120435",
+      "name": "hybrid_receipt_capture_contract"
+    },
+    {
+      "version": "20260902120555",
+      "name": "hybrid_member_registry"
+    },
+    {
+      "version": "20260902134420",
+      "name": "member_add_group_admin"
+    },
+    {
+      "version": "20260902140151",
+      "name": "platform_admin_whatsapp_approval"
+    },
+    {
+      "version": "20260902212721",
+      "name": "revoke_official_payee_trigger_execute"
+    },
+    {
+      "version": "20260903083947",
+      "name": "member_profile_rpc_only_writes"
+    },
+    {
+      "version": "20260903084000",
+      "name": "hybrid_direct_ussd_financial_core"
+    },
+    {
+      "version": "20260903085000",
+      "name": "hybrid_roster_import_control_plane"
+    },
+    {
+      "version": "20260903090000",
+      "name": "hybrid_sms_notification_outbox"
+    },
+    {
+      "version": "20260903090500",
+      "name": "admin_sms_receipt_queue"
+    },
+    {
+      "version": "20260903091000",
+      "name": "hybrid_verified_account_claim"
+    },
+    {
+      "version": "20260903091500",
+      "name": "hybrid_member_directory_views"
+    },
+    {
+      "version": "20260903092000",
+      "name": "admin_sms_receipt_failed_filter"
+    },
+    {
+      "version": "20260903092500",
+      "name": "revoke_hybrid_internal_function_execute"
+    },
+    {
+      "version": "20260903200322",
+      "name": "hybrid_directory_presentation"
+    },
+    {
+      "version": "20260903201326",
+      "name": "geographic_member_profile_gates"
+    },
+    {
+      "version": "20260906093000",
+      "name": "member_profile_momo_code"
+    },
+    {
+      "version": "20260906160000",
+      "name": "group_cover_bank_and_atomic_creation_media"
+    }
+  ]
+}

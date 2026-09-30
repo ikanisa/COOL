@@ -53,6 +53,7 @@ Deno.test("APNs sender emits a bounded alert payload and classifies retry", asyn
       environment: "production",
       title: "Contribution confirmed",
       body: "RWF 5,000 has been confirmed.",
+      recipientId: "99870000-0000-4000-8000-000000000001",
       eventId: "event-1",
       eventType: "contribution_confirmed",
       deepLink: "/groups/group-1/ledger",
@@ -74,8 +75,55 @@ Deno.test("APNs sender emits a bounded alert payload and classifies retry", asyn
   assertEquals(request.headers.get("apns-topic"), "app.cool.mobile");
   assertEquals(request.headers.get("apns-push-type"), "alert");
   const payload = await request.json();
+  assertEquals(payload.aps.alert, {
+    title: "Collect",
+    body: "Open Collect to view your updates",
+  });
+  assertEquals(payload.recipient_id, "99870000-0000-4000-8000-000000000001");
+  assertEquals(payload.collect_push_version, "2");
+  assertEquals(JSON.stringify(payload).includes("RWF 5,000"), false);
   assertEquals(payload.deep_link, "/groups/group-1/ledger");
   assertEquals(result.ok, false);
   assertEquals(result.retryable, true);
   assertEquals(result.errorCode, "TooManyRequests");
+});
+
+Deno.test("APNs retry floors follow 15-minute 5xx and throttled-token policy", async () => {
+  for (
+    const [status, reason, header, floor] of [
+      [503, "Shutdown", "60", 900],
+      [500, "InternalServerError", "1200", 1200],
+      [429, "TooManyProviderTokenUpdates", "60", 1200],
+      [429, "TooManyRequests", "120", 120],
+      [410, "Unregistered", "900", null],
+    ] as const
+  ) {
+    const result = await sendApnsMessage(
+      {
+        keyId: "synthetic",
+        teamId: "synthetic",
+        bundleId: "app.collect",
+        privateKeyBase64: "unused",
+      },
+      "synthetic",
+      {
+        token: "synthetic",
+        environment: "production",
+        title: "Private",
+        body: "Private",
+        recipientId: "99870000-0000-4000-8000-000000000001",
+        eventId: "synthetic",
+        eventType: "notice",
+      },
+      () =>
+        Promise.resolve(
+          new Response(JSON.stringify({ reason }), {
+            status,
+            headers: { "retry-after": header },
+          }),
+        ),
+    );
+    assertEquals(result.retryAfterSeconds, floor);
+    assertEquals(result.retryable, status === 429 || status >= 500);
+  }
 });

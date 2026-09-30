@@ -1,0 +1,61 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_file_parser_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_file_parser_test.dart: XLSX roster decoding reconciles rows across sheets
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: (setUpAll)
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: (setUpAll)
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: native zlib level 0 is accepted and canonicalized to stored entries
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: native zlib level 1 is accepted and canonicalized to stored entries
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: native zlib level 6 is accepted and canonicalized to stored entries
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: native zlib level 9 is accepted and canonicalized to stored entries
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: stored ZIP and signed data descriptors are accepted
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: 500 member rows plus header are accepted
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: 501 members cannot hide behind the per-sheet header allowance
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: headerless rows and leading blank rows retain the roster contract
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: missing phone header and empty workbooks still fail clearly
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: 5 MiB input bound runs before ZIP parsing
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: entry count is bounded before expansion
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: declared entry size and compression expansion ratio are bounded
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: aggregate expanded size is bounded even with moderate per-entry ratios
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: forged small expanded size cannot bypass actual output bound
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: empty deflate blocks cannot consume unbounded work
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: forged central/local sizes, CRC and names are rejected
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: truncation, missing directory, trailing junk and extra disk are rejected
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: overlapping local offsets and duplicate names are rejected
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: unsafe ZIP entry ../escape.xml is rejected
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: unsafe ZIP entry /absolute.xml is rejected
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: unsafe ZIP entry xl\evil.xml is rejected
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: unsafe ZIP entry xl/./evil.xml is rejected
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: unsafe ZIP entry xl//evil.xml is rejected
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: unsafe ZIP entry xl/evil%2fpart.xml is rejected
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: encryption, unsupported compression, ZIP64 and symlinks are rejected
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: damaged or missing descriptor is rejected
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: reserved block is rejected even with correct zero CRC/size
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: missing final block is rejected even with correct zero CRC/size
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: bad stored complement is rejected even with correct zero CRC/size
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: truncated fixed block is rejected even with correct zero CRC/size
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: truncated dynamic tree is rejected even with correct zero CRC/size
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: extra compressed bytes is rejected even with correct zero CRC/size
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: back reference before output is rejected even with correct zero CRC/size
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: reserved literal symbol is rejected even with correct zero CRC/size
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: oversubscribed dynamic tree is rejected even with correct zero CRC/size
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: sparse row is rejected before sheet decoding
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: sparse column is rejected before sheet decoding
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: forged dimension is rejected before sheet decoding
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: row/cell mismatch is rejected before sheet decoding
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: duplicate row is rejected before sheet decoding
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: duplicate cell is rejected before sheet decoding
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: column metadata is rejected before sheet decoding
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: XML nesting is rejected before sheet decoding
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: DTD is rejected before sheet decoding
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: broken XML is rejected before sheet decoding
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: duplicate attributes is rejected before sheet decoding
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: overlong cell is rejected before sheet decoding
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: bad shared string index is rejected before sheet decoding
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: negative shared string index is rejected before sheet decoding
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: bad style index is rejected before sheet decoding
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: merged regions and hidden formulas are rejected before decoding
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: excess shared strings and rich-text expansion are bounded
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: actual XML event, attribute and style counts are bounded
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: missing/aliased sheet parts and too many sheets are rejected
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: external relationships, escaping targets and active content are rejected
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_xlsx_preflight_test.dart: (tearDownAll)
+00:00 +57: All tests passed!

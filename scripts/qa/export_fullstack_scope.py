@@ -11,7 +11,6 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "docs/plans/fullstack-qa-2026-09-14"
-MOBILE_CASES = "docs/release/mobile-design/mobile-parity-contract.json"
 rows = []
 
 
@@ -46,7 +45,7 @@ def catalog(source, name):
 for surface in ["android_member", "ios_member", "member_browser"]:
     for route, line in catalog("lib/app/router.dart", "collectRoutePaths"):
         append(
-            surface, route, "lib/app/router.dart", line, MOBILE_CASES,
+            surface, route, "lib/app/router.dart", line,
             "runtime_availability_unverified" if surface == "member_browser" else "declared",
         )
 
@@ -93,7 +92,6 @@ summary = {
         "Platform and installed runtime availability", "API/RPC/table/storage dependencies",
         "Source comparators and independent acceptance evidence",
     ],
-    "mobile_case_authority": MOBILE_CASES,
     "scope_sha256": hashlib.sha256((OUTPUT / "scope.csv").read_bytes()).hexdigest(),
 }
 (OUTPUT / "scope-summary.json").write_text(json.dumps(summary, indent=2) + "\n")

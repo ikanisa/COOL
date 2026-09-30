@@ -1,0 +1,11 @@
+{
+  "reviewer": "/root/notification_recovery",
+  "mode": "read-only source review; no edits, delegation or DB/provider/hosted calls",
+  "reviewed_migration_sha256": "8366af7a3bfc9caaaa91ebaaf552452ab0ea4a05972fd145224b51ef7202f9ca",
+  "blocking_source_findings": [],
+  "acceptance_boundaries": [
+    "Differently named jobs executing the same legacy function are outside the canonical name proof; review full cron inventory before claiming all bank scheduling retired.",
+    "The UAT cannot prove scheduler-process pause/drain; retain operator evidence."
+  ],
+  "postreview_adjustment": "Added cron-table lock before audit DDL so full migration replay follows the same cron-to-audit lock order as the helper; one source assertion added and focused suite rerun."
+}

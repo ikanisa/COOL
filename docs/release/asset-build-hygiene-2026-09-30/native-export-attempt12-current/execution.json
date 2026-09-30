@@ -1,0 +1,66 @@
+{
+  "commands": [
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "54abfd8b8accd9bed4ad2916ef2624f7c25e452cd6b23a5a87528d503afc5394",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unsigned-android-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "8132a98e628ace1f4f44656e1d5d388efd316150f5a3dbc3704d24cc3f40d689",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2"
+    },
+    {
+      "name": "production-native-lint",
+      "command": [
+        "./gradlew",
+        ":app:lintProductionRelease",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d61429af65a02b40dab8daa8109701bc8410ada3c6678d0008474d4500befe98",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    {
+      "name": "dev-native-jvm",
+      "command": [
+        "./gradlew",
+        ":app:testDevDebugUnitTest",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "54acd699e5fc77a7fd7750e9ab9c5557327cd5eaa429f2e819b64187b0301bde",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2"
+    }
+  ],
+  "status": "pass",
+  "scope": "Clean source-only export; explicit local unsigned native QA, no store/provider acceptance"
+}

@@ -13,7 +13,7 @@ if [[ "${COLLECT_SKIP_DOTENV:-0}" != "1" && -f .env ]]; then
   collect_load_dotenv_strict "$ROOT_DIR/.env"
 fi
 
-UAT_SQL="$ROOT_DIR/scripts/bank_transfer_rollback_uat.sql"
+UAT_SQL="$ROOT_DIR/scripts/rwanda_momo_readiness_uat.sql"
 SUPABASE_DB_QUERY_MODE="${SUPABASE_DB_QUERY_MODE:-linked}"
 SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS="${SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS:-30}"
 
@@ -46,7 +46,7 @@ if [[ "$SUPABASE_DB_QUERY_MODE" == "local" ]]; then
   fi
   docker exec -i "$local_db_container" \
     psql -U postgres -d postgres -v ON_ERROR_STOP=1 < "$UAT_SQL"
-  printf '[collect-linked-uat] bank-transfer rollback UAT passed via local database query\n'
+  printf '[collect-linked-uat] Rwanda MoMo readiness UAT passed via local database query\n'
   exit 0
 fi
 
@@ -58,7 +58,7 @@ if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
   if [[ "$SUPABASE_DB_QUERY_MODE" == "linked" ]]; then
     if run_with_timeout "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" \
       supabase_cli db query --linked -f "$UAT_SQL" -o json --agent=yes >/dev/null; then
-      printf '[collect-linked-uat] bank-transfer rollback UAT passed via linked database query\n'
+      printf '[collect-linked-uat] Rwanda MoMo readiness UAT passed via linked database query\n'
       exit 0
     fi
     printf '[collect-linked-uat][WARN] Linked query failed after %ss; trying the Management API query path.\n' \
@@ -67,11 +67,11 @@ if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
 
   if [[ -n "${SUPABASE_ACCESS_TOKEN:-}" && -n "${SUPABASE_PROJECT_REF:-}" ]] &&
     supabase_management_query_file "$UAT_SQL" >/dev/null; then
-    printf '[collect-linked-uat] bank-transfer rollback UAT passed via Supabase Management API query\n'
+    printf '[collect-linked-uat] Rwanda MoMo readiness UAT passed via Supabase Management API query\n'
     exit 0
   fi
   printf '[collect-linked-uat][WARN] Management API query failed; falling back to the readiness database URL.\n' >&2
 fi
 
-psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$UAT_SQL"
-printf '[collect-linked-uat] bank-transfer rollback UAT passed via direct database query\n'
+collect_psql_url_service "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$UAT_SQL"
+printf '[collect-linked-uat] Rwanda MoMo readiness UAT passed via direct database query\n'

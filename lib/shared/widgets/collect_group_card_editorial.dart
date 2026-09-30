@@ -42,7 +42,7 @@ class _EditorialGroupCard extends StatelessWidget {
   });
 
   final CollectCollection collection;
-  final CollectionSummary summary;
+  final CollectionSummary? summary;
   final GroupCardVariant variant;
   final VoidCallback? onTap;
   final Widget? primaryAction;

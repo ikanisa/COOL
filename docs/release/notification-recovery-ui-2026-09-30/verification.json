@@ -1,0 +1,100 @@
+{
+  "created_at_utc": "2026-09-29T22:36:24.832034+00:00",
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "environment": {
+    "PUB_CACHE": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-qa-20260929"
+  },
+  "scope": "P07 observable notification registration recovery; local mocked service/widget/HTTP regressions",
+  "checks": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "log": "runtime.json",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/core/notification_registration_recovery_test.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/shared/member_history_pagination_test.dart",
+        "test/core/notification_account_isolation_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/security_hygiene_test.dart",
+        "test/app_shell_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "log": "focused-tests.txt",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "lib/core/notifications/collect_notification_service.dart",
+        "lib/features/settings/app_permissions_screen.dart",
+        "lib/features/status/native_permission_sheets.dart",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/app/app.dart",
+        "test/core/notification_registration_recovery_test.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/security_hygiene_test.dart"
+      ],
+      "log": "focused-analysis.txt",
+      "exit_code": 0
+    }
+  ],
+  "source_sha256_before": {
+    "lib/core/notifications/collect_notification_service.dart": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+    "lib/features/settings/app_permissions_screen.dart": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+    "lib/features/status/native_permission_sheets.dart": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+    "lib/shared/repositories/collect_repository.dart": "fa89b92ba3416db75719c7cd358b440f64147cb7ce067e68d49577246e3044cd",
+    "lib/app/app.dart": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+    "test/core/notification_registration_recovery_test.dart": "239a9a0d9494feec14058a45a98db24cd77378f26e26d755c71e6c9d929bc0dd",
+    "test/shared/repository_session_fencing_test.dart": "9439166cd7424f9b39b573ce3e68bdf81897f3689663c8768aa7d05b909a2968",
+    "test/features/runtime_component_contract_test.dart": "f59de230244dd023827334727d22bc48cbf5e6f43e665a096a3cfeaf3dbfaa35",
+    "test/security_hygiene_test.dart": "7b20be95d39bbe31f3a40d2a0ebb4667d939633610ee194911308d0a6ebd206c",
+    "test/shared/member_history_pagination_test.dart": "af1122916d848770d66fda29e0b06b6608feaf38c49fa34695952c36f2849503",
+    "test/core/notification_account_isolation_test.dart": "ca4e9cb2e549032282afc75e656471e4359a3ab052126cfae5d13117cc86aff0",
+    "test/app_shell_test.dart": "a473c3ec1afaf94a056945f3b58ef2dfdce6838d124c8afd265b15bdf239a992",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "lib/admin/core/admin_reconciliation_runtime.dart": "72f210e5c840561d05cae0ba8120074ab0020ff52d2d47182d6627050b3f1096"
+  },
+  "source_sha256_after": {
+    "lib/core/notifications/collect_notification_service.dart": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+    "lib/features/settings/app_permissions_screen.dart": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+    "lib/features/status/native_permission_sheets.dart": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+    "lib/shared/repositories/collect_repository.dart": "fa89b92ba3416db75719c7cd358b440f64147cb7ce067e68d49577246e3044cd",
+    "lib/app/app.dart": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+    "test/core/notification_registration_recovery_test.dart": "239a9a0d9494feec14058a45a98db24cd77378f26e26d755c71e6c9d929bc0dd",
+    "test/shared/repository_session_fencing_test.dart": "9439166cd7424f9b39b573ce3e68bdf81897f3689663c8768aa7d05b909a2968",
+    "test/features/runtime_component_contract_test.dart": "f59de230244dd023827334727d22bc48cbf5e6f43e665a096a3cfeaf3dbfaa35",
+    "test/security_hygiene_test.dart": "7b20be95d39bbe31f3a40d2a0ebb4667d939633610ee194911308d0a6ebd206c",
+    "test/shared/member_history_pagination_test.dart": "af1122916d848770d66fda29e0b06b6608feaf38c49fa34695952c36f2849503",
+    "test/core/notification_account_isolation_test.dart": "ca4e9cb2e549032282afc75e656471e4359a3ab052126cfae5d13117cc86aff0",
+    "test/app_shell_test.dart": "a473c3ec1afaf94a056945f3b58ef2dfdce6838d124c8afd265b15bdf239a992",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "lib/admin/core/admin_reconciliation_runtime.dart": "72f210e5c840561d05cae0ba8120074ab0020ff52d2d47182d6627050b3f1096"
+  },
+  "source_unchanged_during_checks": true,
+  "log_sha256": {
+    "runtime.json": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+    "focused-tests.txt": "c89e836f38f6aa43d15fa7b151accb08562e3f34764986e2cab62377587ec5ab",
+    "focused-analysis.txt": "9e5662886aaf5277e4342c532eebd670f1388fd8b4d3be2eccb6846acb598227"
+  },
+  "screenshots_sha256": {
+    "settings-large-light.png": "8d99758225aa0203a001edd2444972bce00f1f15f8d0f4c0dc3f3e93bf4eea1c",
+    "settings-dark.png": "72b781bcc01d10113f24431c34019cc8f2baf2f6d195bd90eda821bacd73b455"
+  }
+}

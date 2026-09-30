@@ -1,0 +1,28 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/adversarial142-root-attempt1/before.dump",
+  "backup_sha256": "6381fa775019259db4a4c04247dcd37f696009b43d4e26ab54a50c91401f8795",
+  "executed_sql_sha256": "7809a050682ca9434b00f92a6701e4dfbd81b73936a011f63073e5eec21e2da7",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 142,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930100000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "59a47709bd0f25860cadefdcc0681d1767423e4934654c70e86f0184cf5ca81b",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/legacy-bank-scheduler-normal-owner-2026-09-30/populated142-143-adversarial-rollback.sql",
+  "reviewed_source_sha256": "ace8e10ef220ff03a6ef9d502f9d9293d5be46539d812fbdd30a749c4ab880c6",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "supabase_admin",
+  "started_at_utc": "2026-09-30T13:34:38.635890+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

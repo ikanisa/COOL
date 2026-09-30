@@ -1,0 +1,30 @@
+{
+  "captured_at": "2026-09-29T22:13:58.418778+00:00",
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "labels_verified": true,
+  "port": 55722,
+  "migration_sha256": "f19370b10ce41cce353ad0cd70c603482e0eeea301dcca18a4ca38565c6d6f19",
+  "predecessor_count": 138,
+  "result_count": 139,
+  "old_live_claim_invalidated": true,
+  "expiry_history_preserved": true,
+  "synthetic_graph_removed": true,
+  "financial_evidence": {
+    "evidence_rows": 21,
+    "payment_status": "reversed",
+    "financial_sha256": "575abcd0b980ba84f28c7922957edbc36ad0450943f46ec9881e14abb25d2527",
+    "receipt_journals": 1,
+    "provider_requests": 2,
+    "reversal_journals": 1,
+    "confirmed_balance_rwf": 0,
+    "provider_confirmations": 1
+  },
+  "financial_evidence_unchanged": true,
+  "cron_launch_active_jobs": false,
+  "pg_net_batch_size": 0,
+  "provider_calls": false,
+  "backup_path": ".cache/workflow-upgrade-20260929/pre139.dump",
+  "backup_sha256": "4a8f78d46f520dd337e5c03eba31b10874421a74c7bed45ce0b892e06a8edf4a",
+  "verification_correction": "Initial runner compared full snapshot JSON including expected138-to139 registry metadata and falsely failed after successful upgrade/cleanup. This read-only verification separately checks expected registry transition and compares every financial field; it does not rerun migration or seed."
+}

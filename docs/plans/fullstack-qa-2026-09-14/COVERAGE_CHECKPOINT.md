@@ -110,14 +110,14 @@ Raw evidence lives in `.cache/fullstack-qa/20260914T151002Z/coverage-continuatio
 | `final-checks/flutter-focused.json` | 60 tests pass, zero failures/skips; includes the route test, app-shell and security-hygiene contracts |
 | `final-checks/analysis.json`, `format.json`, `source-hygiene.json` | Analysis, changed-Dart formatting and repository source hygiene pass |
 | `final-checks/mobile-contract.json`, `evidence-consistency.json` | Valid contract and consistent blocked evidence; no release approval |
-| `final-checks/android-design.json`, `ios-design.json` | Both actual mandatory gates return blocked with null scores |
+| `final-checks/android-design.json`, `ios-design.json` | Retired repository checks recorded blocked results in this dated run; their scores and criteria supply no current design authority |
 | `final-checks/report.json` | All 505 recorded inputs unchanged during execution; native blocked results stay separate |
 | `source-checkpoint.json` | Previous requirements, contract fields, acceptance, harnesses, settings and generated output hashes verified |
 
 The Ruby total is 132 tests and 663 assertions. The separate three-test route
 run overlaps the 60-test focused regression; these numbers must not be added
 as independent product coverage. Passing execution-integrity reports do not
-convert either blocked mobile gate to a pass.
+establish current mobile acceptance under the owner-selected `revolut-design` skill.
 
 Both gates stop during artifact/acceptance validation: current signed release
 artifacts and build provenance are missing, acceptance bindings are absent

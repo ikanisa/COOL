@@ -1,0 +1,39 @@
+{
+  "at_utc": "2026-09-30T13:06:20.246921+00:00",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "test/admin_action_session_test.dart",
+    "test/admin_action_contracts_test.dart"
+  ],
+  "exit_code": 1,
+  "before": {
+    "lib/admin/core/admin_runtime.dart": "4d58570e31fc7f3e481105213668f25dc7fc806fe29b465259fb8a73fc90f63a",
+    "lib/admin/core/admin_overview_runtime.dart": "d1032fd33b14afc2cc2b394ef57e613f11a82146bc7e4a6fd63c4d63208ad61a",
+    "lib/admin/core/admin_auth_guard.dart": "7d4150e1047716600e9039dde6897ed6536bbba2be906ace62a27245b539f199",
+    "test/admin_action_session_test.dart": "d1af686eae158aec780c0c80543a39f9077b2ceda7401877b39b41cced6e6d7d",
+    "lib/admin/core/admin_action_contracts.dart": "122064e0fb25ff84ced02b8b33383d33baeb3639a34d0629a6095ab4e7737041",
+    "test/admin_action_contracts_test.dart": "39e39d50da10537cfe09efd294cd38131a544a96889108ec2aedca594f172293",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    ".dart_tool/package_config.json": "c488913db1fe9f85c30f9e6a8920059aa9fbf869747fe0ec4446664992aa28b6"
+  },
+  "after": {
+    "lib/admin/core/admin_runtime.dart": "4d58570e31fc7f3e481105213668f25dc7fc806fe29b465259fb8a73fc90f63a",
+    "lib/admin/core/admin_overview_runtime.dart": "d1032fd33b14afc2cc2b394ef57e613f11a82146bc7e4a6fd63c4d63208ad61a",
+    "lib/admin/core/admin_auth_guard.dart": "7d4150e1047716600e9039dde6897ed6536bbba2be906ace62a27245b539f199",
+    "test/admin_action_session_test.dart": "d1af686eae158aec780c0c80543a39f9077b2ceda7401877b39b41cced6e6d7d",
+    "lib/admin/core/admin_action_contracts.dart": "122064e0fb25ff84ced02b8b33383d33baeb3639a34d0629a6095ab4e7737041",
+    "test/admin_action_contracts_test.dart": "39e39d50da10537cfe09efd294cd38131a544a96889108ec2aedca594f172293",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    ".dart_tool/package_config.json": "c488913db1fe9f85c30f9e6a8920059aa9fbf869747fe0ec4446664992aa28b6"
+  },
+  "source_unchanged": true,
+  "stdout_sha256": "657600d0dfa048d4cc66da073b2f40e4ef8d9d7478cea46aa98b535355122e28",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scope": "local mocked Auth/HTTP; no database/provider/hosted calls"
+}

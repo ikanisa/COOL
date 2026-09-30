@@ -94,8 +94,15 @@ class CollectComponentTokens {
     );
     return InputDecoration(
       labelText: label,
-      helperText: helper,
-      helperMaxLines: 1,
+      helper: helper == null
+          ? null
+          : Text(
+              helper,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+              softWrap: true,
+            ),
       prefixText: prefix,
       filled: false,
       border: border,

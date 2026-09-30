@@ -1,0 +1,26 @@
+{
+  "status": "reviewed_source_inputs",
+  "swiftpm": {
+    "native_plugin_resolution_status": "not verified against a fresh iOS build",
+    "pod_lock_package_count": 1,
+    "podfile_lock_cocoapods": "1.16.2",
+    "swiftpm_pin_count": 13,
+    "swiftpm_resolved_files_identical": true
+  },
+  "cocoapods_version": "1.16.2",
+  "flutter_version": "3.44.4",
+  "framework_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "source_locks": {
+    "ios/Podfile": "59305a73dfde47d853f6f785d3878fd1038c5cec8527e0fb47303e797da8b5cb",
+    "ios/Podfile.lock": "8e05cdad2da562dfbcfd98e01883d974d2aee135bae5448c8af8527d07cc1d5e",
+    "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213",
+    "ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+  },
+  "build_strategy": {
+    "source_export": "Fresh native-source-only export outside checkout; omit ignored/private signing/provider inputs",
+    "configuration": "Flutter release production --no-codesign --no-pub --config-only after enforced Pub lock",
+    "native_build": "Xcode generic iOS destination with onlyUsePackageVersionsFromResolvedFile and disableAutomaticPackageResolution; signing disabled",
+    "acceptance": "Actual unsigned compiled bundle, source/generated bindings, exact lock comparison and artifact hashes; no simulator/device/store/provider acceptance"
+  },
+  "pending_actual_build": true
+}

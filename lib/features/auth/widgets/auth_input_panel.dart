@@ -11,7 +11,6 @@ class AuthInputPanel extends StatelessWidget {
     required this.errorKey,
     required this.resendRemaining,
     required this.countryCode,
-    required this.onCountryTap,
     required this.onPhoneChanged,
     required this.onOtpChanged,
     required this.onCaptchaChanged,
@@ -27,7 +26,6 @@ class AuthInputPanel extends StatelessWidget {
   final Key errorKey;
   final int resendRemaining;
   final String countryCode;
-  final VoidCallback onCountryTap;
   final VoidCallback onPhoneChanged;
   final VoidCallback onOtpChanged;
   final VoidCallback onCaptchaChanged;
@@ -43,7 +41,6 @@ class AuthInputPanel extends StatelessWidget {
           AuthPhoneEntry(
             controller: phoneController,
             countryCode: countryCode,
-            onCountryTap: onCountryTap,
             onChanged: onPhoneChanged,
           ),
         if (otpSent) ...[
@@ -88,14 +85,12 @@ class AuthPhoneEntry extends StatelessWidget {
   const AuthPhoneEntry({
     required this.controller,
     required this.countryCode,
-    required this.onCountryTap,
     required this.onChanged,
     super.key,
   });
 
   final TextEditingController controller;
   final String countryCode;
-  final VoidCallback onCountryTap;
   final VoidCallback onChanged;
 
   @override
@@ -117,38 +112,25 @@ class AuthPhoneEntry extends StatelessWidget {
           children: [
             Material(
               color: CollectColors.transparentColor,
-              child: InkWell(
-                key: const ValueKey('auth_country_code_picker'),
-                borderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(16),
-                ),
-                onTap: onCountryTap,
-                child: SizedBox(
-                  height: fieldHeight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          countryCode,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: foreground,
-                                fontWeight: CollectTypography.weightSemibold,
-                                fontFeatures: const [
-                                  FontFeature.tabularFigures(),
-                                ],
-                              ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          CollectIcons.chevronDown,
-                          color: foreground.withValues(alpha: 0.58),
-                          size: 16,
-                        ),
-                      ],
-                    ),
+              child: SizedBox(
+                height: fieldHeight,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 12),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        countryCode,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: foreground,
+                              fontWeight: CollectTypography.weightSemibold,
+                              fontFeatures: const [
+                                FontFeature.tabularFigures(),
+                              ],
+                            ),
+                      ),
+                    ],
                   ),
                 ),
               ),

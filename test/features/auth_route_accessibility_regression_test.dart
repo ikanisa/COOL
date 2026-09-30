@@ -71,7 +71,6 @@ void main() {
           body: AuthPhoneEntry(
             controller: controller,
             countryCode: '+250',
-            onCountryTap: () {},
             onChanged: () {},
           ),
         ),

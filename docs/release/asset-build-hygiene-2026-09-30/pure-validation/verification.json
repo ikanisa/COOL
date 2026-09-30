@@ -1,0 +1,177 @@
+{
+  "scope": "Owned pure-source/asset/media/inventory regression gates only",
+  "commands": [
+    {
+      "name": "asset-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_manifest_integrity_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "fe68442de2cc1bc2478d92c4fb6ff9a15f9b386d622b7ba6fa81894ebaac7164",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asset-integration",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_hygiene_integration_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "cded0c2678e7b3e87a7a60d2df2157fb55036d2d5f09377859f47c85d781e61d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "ea96839b2b01bec10852f07c38c3e743e02fccde2642747a48690c72a42f6664",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reachability-tests",
+      "command": [
+        "python3",
+        "scripts/tests/runtime_reachability_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "87e0fc072e190b6834bcdb944df770cdde91fa9dcf2ead9314a50335f200ed3f"
+    },
+    {
+      "name": "supply-chain-tests",
+      "command": [
+        "python3",
+        "scripts/tests/supply_chain_source_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "209637c5270ea62667d3505f25f6e8e713fd220b3020983b799e40ff6ae4138a"
+    },
+    {
+      "name": "asset-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/asset_manifest_integrity.rb",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "20f5c4d56f573823bec72a3b3aee4efa9cdd51ae486a424c681c32f06ca9b4a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "group-runtime",
+      "command": [
+        "ruby",
+        "scripts/qa/group_runtime_integrity.rb",
+        "--root",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "13eaf63d81cb0b4257ac29656158e2926439e06947208b12f405b402792e89e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "public-media",
+      "command": [
+        "ruby",
+        "-r",
+        "./scripts/public_app_media",
+        "-e",
+        "puts JSON.pretty_generate(PublicAppMedia.new(Dir.pwd).screens.transform_values { |row| row.reject { |key, _| key == \"source\" } })"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "8fdbd1710216d8040cef9332907da60f11c21c4803812d26e459ba0fb5311ff9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduce",
+      "command": [
+        "python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "docs/release/asset-build-hygiene-2026-09-30/source-dependency-inventory-final.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "a36c5564966c543d683652eeab89d1b77473d6bbbdf6b65dedfb9de618f1a377",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-reproduce",
+      "command": [
+        "python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "docs/release/asset-build-hygiene-2026-09-30/source-dependency-inventory-final.json",
+        "--output",
+        "docs/release/asset-build-hygiene-2026-09-30/source-sbom-final.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-schema",
+      "command": [
+        "python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "docs/release/asset-build-hygiene-2026-09-30/source-sbom-final.cdx.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "3b5edf20e4469d9e408072df2599d28a3b2df23e01eea64020a3da6a08435a59",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_before": {
+    "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+    "scripts/tests/asset_manifest_integrity_test.rb": "c0ae5f0bcc990d9a3b85c4e80a4f97c4c15b4269d9183b53d2f066af53f9e645",
+    "scripts/tests/asset_hygiene_integration_test.rb": "905f2f16eb9a6439090bdf13f119d51b9285d1a870f1036d6fcc29e1c66b384e",
+    "scripts/public_app_media.rb": "53aeb15ef8a4c2da2d814b8f3375f71ba0b77fea7656d73a84a9d1e859fe3ad0",
+    "scripts/tests/public_app_media_test.rb": "1cbc09a31132a8a09e5c5e4c8ebd133d1423b8ea492fa453f115b2d65cf4e89b",
+    "scripts/qa/runtime_reachability.py": "dc210e11c357e5a3a47ae97fb92189cd98ee3d7fc23c4602d487e20616e93a7a",
+    "scripts/tests/runtime_reachability_test.py": "8d91af9907458c769d23aa7da0ab15efefd18ca4967b9aefdb7bbc4a51db699d",
+    "scripts/supply_chain/inventory.py": "f76e4c13d4815ec9df10ada5e721f2a8c9010b5d8d0127857596a15a2f6629e1",
+    "scripts/supply_chain/source_sbom.py": "d06af3f33811b3f27449a9c5214c030894c51da2231924486db1af9950536e87",
+    "scripts/supply_chain/validate_source_sbom.py": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51",
+    "scripts/tests/supply_chain_source_test.py": "3e9a053d131814d547274d822ac215992b5bc778b386f126c948b901f2dfa64e",
+    "scripts/assets/publish_public_app_media.py": "6230ee76b422fdcc7be3ce977e49b490361e758346c22d0a7d79cfe961781a7a",
+    "scripts/public_static_site_build.rb": "fbfde27673c1dc4161ad5b16412527455acc322265fc2d0c3733561daea3a0b3",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "f09c6b412dc9cae5cb00dc2a9ae97a9977f6ec5f0f78f0b4063fc900bbe2f534",
+    "assets/group_covers/rwanda/catalog.v1.json": "9a40ad95a58ddf3e47d47d95d61ce2a22e49e3fe3db94a4b3467fe88ff810b7d",
+    "assets/group_covers/rwanda/runtime-manifest.json": "35a6aab429e853299e77168d4fd5898a9232cce12c7b4c1a7ae2140afa721e32",
+    "pubspec.yaml": "1093a19182a5be4cd6c9e90becc4ac4730c086073135172c65a497479682ca99",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "web/public/app-screens/manifest.json": "7577a21b6c5080b90d5f0dda89bbe004ba3e808266551cc8fb22931f50389016",
+    "web/public/app-screens/capture-provenance.json": "ce0e069a051552f0f9906eb94f98aaf53d9d2b921f26173d267c1fc0406c6120"
+  },
+  "source_after": {
+    "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+    "scripts/tests/asset_manifest_integrity_test.rb": "c0ae5f0bcc990d9a3b85c4e80a4f97c4c15b4269d9183b53d2f066af53f9e645",
+    "scripts/tests/asset_hygiene_integration_test.rb": "905f2f16eb9a6439090bdf13f119d51b9285d1a870f1036d6fcc29e1c66b384e",
+    "scripts/public_app_media.rb": "53aeb15ef8a4c2da2d814b8f3375f71ba0b77fea7656d73a84a9d1e859fe3ad0",
+    "scripts/tests/public_app_media_test.rb": "1cbc09a31132a8a09e5c5e4c8ebd133d1423b8ea492fa453f115b2d65cf4e89b",
+    "scripts/qa/runtime_reachability.py": "dc210e11c357e5a3a47ae97fb92189cd98ee3d7fc23c4602d487e20616e93a7a",
+    "scripts/tests/runtime_reachability_test.py": "8d91af9907458c769d23aa7da0ab15efefd18ca4967b9aefdb7bbc4a51db699d",
+    "scripts/supply_chain/inventory.py": "f76e4c13d4815ec9df10ada5e721f2a8c9010b5d8d0127857596a15a2f6629e1",
+    "scripts/supply_chain/source_sbom.py": "d06af3f33811b3f27449a9c5214c030894c51da2231924486db1af9950536e87",
+    "scripts/supply_chain/validate_source_sbom.py": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51",
+    "scripts/tests/supply_chain_source_test.py": "3e9a053d131814d547274d822ac215992b5bc778b386f126c948b901f2dfa64e",
+    "scripts/assets/publish_public_app_media.py": "6230ee76b422fdcc7be3ce977e49b490361e758346c22d0a7d79cfe961781a7a",
+    "scripts/public_static_site_build.rb": "fbfde27673c1dc4161ad5b16412527455acc322265fc2d0c3733561daea3a0b3",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "f09c6b412dc9cae5cb00dc2a9ae97a9977f6ec5f0f78f0b4063fc900bbe2f534",
+    "assets/group_covers/rwanda/catalog.v1.json": "9a40ad95a58ddf3e47d47d95d61ce2a22e49e3fe3db94a4b3467fe88ff810b7d",
+    "assets/group_covers/rwanda/runtime-manifest.json": "35a6aab429e853299e77168d4fd5898a9232cce12c7b4c1a7ae2140afa721e32",
+    "pubspec.yaml": "1093a19182a5be4cd6c9e90becc4ac4730c086073135172c65a497479682ca99",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "web/public/app-screens/manifest.json": "7577a21b6c5080b90d5f0dda89bbe004ba3e808266551cc8fb22931f50389016",
+    "web/public/app-screens/capture-provenance.json": "ce0e069a051552f0f9906eb94f98aaf53d9d2b921f26173d267c1fc0406c6120"
+  },
+  "sources_unchanged": true,
+  "status": "pass"
+}

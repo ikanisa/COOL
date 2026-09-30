@@ -1,0 +1,3150 @@
+{
+  "$schema": "https://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/upload-edge-http-runtime-20260930.graph-entry.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0d1c8147540f8f90c6b738efadeba528c386f0e1e7c0df16d14a58504a00d980"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/upload-edge-http-runtime-20260930.graph-entry.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/edge_http_runtime_uat.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "af0f9f710bd07a50a18fa633ba3d8b675290c41ac81c2ffbbd1bb1a6a5d86eec"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/edge_http_runtime_uat.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/apns.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/apns.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/fcm.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/fcm.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hash.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hash.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hmac.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hmac.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/integrity_policy.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "abda535ac2d637ee51bc1bb030dfc3a2655223fa444d3b6f9ad8bd0d90d2a807"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/integrity_policy.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/momo_sms_parser.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/momo_sms_parser.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_operator.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "70760815238af71666ff4423b5f5f92c548c96960f37f6f5246ec113210441ad"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_operator.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_retry.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_retry.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/openai_roster.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/openai_roster.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/play_integrity_binding.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/play_integrity_binding.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/receipt_ingestion.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a932be7f256a35de599dd0179d9aa586ede41aff4cb5cb0c54ebcbac245b9fa2"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/receipt_ingestion.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "575c44e86de2571af7813d8adb714f67949b4543316ee98f34809eebc2d4d20b"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_file_policy.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_file_policy.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_provenance.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_provenance.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_resource_budget.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_resource_budget.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_response_policy.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_response_policy.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/signed_sms_hook.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/signed_sms_hook.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/collect-notification-operator/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0d27478a37e16f4034afe421645cd27fd4aa69a74129b4d7afd1685cdd9ae39c"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/collect-notification-operator/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/dispatcher.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/dispatcher.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/ingest-payment-sms/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e39aaac2116a023af5dae50b6c77e0d00bea4a86c9605c42cb5c9fdd4623329f"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/ingest-payment-sms/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/parse-payment-sms/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/parse-payment-sms/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/handler.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/handler.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/handler.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/handler.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/handler.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/handler.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/verify-play-integrity/index.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2b09eb817963c04f94c0f31e1f03a3676df0da376639b042a5f9920b7d4333c7"
+        }
+      ],
+      "name": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/verify-play-integrity/index.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/denonext/auth-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f6da730cffd5a80dc988870c19e575c42b4e5c288401ccb081815231e681e795"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/denonext/auth-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "291524b7fcc94e2dac0c00f31e2e49e1b4a9a5d343c6db50f26290d1a70ecfac"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthAdminApi.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "19a5d3f42489d005a53d67ae649f9fef9bf6dd651fc3de5095996df9cbebdca9"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthAdminApi.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "53a64328101f5b4b6e34a51b5cea5170b7f96876bb128a38d4bfc53aef7c4194"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthClient.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cf0e07748570a1c3b096171cbfbe0acc49b6135d7d618f1ebff4ddfcced1db11"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthClient.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "66b13f846271363889f1531aab026931c5cfde2c521979cc54ccbad91c15f4d5"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueAdminApi.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b5fb62bf3f804ab8da486e83c2b31ea65b4959df9d8eaf0fb505973efc8c53ee"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueAdminApi.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "680b7312802a42ec54b49930e43e9a48dab023edf857cd52dac900bd673f3ab3"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueClient.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "288ca4a86514802a76299884f01f6474b2c09cf1b6eb06f6835e55ce0d30c63f"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueClient.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "43a6ef9f2f0dbcb263982cb7dffdaf22b859b1d56e38151092f02b59c378bf5e"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/index.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "017098a784457600a525f787e6a85b574d04c345135af3d9836d99c45db849b9"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/index.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "df0ca7da7fb29b904ba09d85033d50f7f77d5e7b2b1a0088ba32353b96e4b7cc"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/error-codes.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "641a3bbdd7fd417d55f0af9b3b9c3b274c0bd9113a2dccb647805a6e669cd5df"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/error-codes.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "e4d215b93d7d81c96dd3ca2213bdf00d0f22b908dd02255602023bfd0df1a471"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1aed9c841d3573303c967b1dfeec1f0943b10155ccc3f8cbaf9e0f4ab5539171"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "5ec61ebcb01f557e905cd4791345e4d2864097c847779c67b478a4a50980a753"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/fetch.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "36e5e3ad0f5589e05bb7290f6e4a1798dfc6e88159fd6429d7891064b6cf0532"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/fetch.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "f631741c546c6fe4aa1f7f5db17b5b3e8b2dfeb4909a1cb9b26c7a54efa6486d"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/helpers.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ce0fb9e16845c8ba634b033abf2c591d7a7580626e72d08ded93c8dad12c8d46"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/helpers.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "4017b1d8cab5b9dc83651736163e014d18bdf7e9d36ce640acb67726fd30722e"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/locks.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5282cb7115fe0f98f37c4fb31654666616df77b1955d64da2055f77ce7dbbe0d"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/locks.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "9354ca0aa09d255b2ea7f302c1e9c8470352389a710299e966832bd95ba4e406"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1ea1a9b345a9c980afc5f9a85b68ccc562ed5934902b9776bc133870c98d5c18"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "c2c2d15c9ae9b9b8509333ea289b2286a442ae6eea526651f1bd1e908497488d"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/ethereum.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e5018dc354343818c5728501f5f12831d529747d2e55572ad9032c101803186d"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/ethereum.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "1a13345132a2a0185e18f57681bc347d6ae1deb4efd45a501269029c3b819ba1"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/solana.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "126fecd2009606a76835756b3a2e83b1bcbde622f1bda04ceacf4d2c33d4742e"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/solana.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "6eb5286f43afb14e56d09690a9164cb869d215f49a0b6ed506f9f1864e1544b7"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8f94ae13c85031f6babcb511f96f15b1a32bf3d8f1c8ff562887a8dc5770f392"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "8aea0bad79152978ca531326d778523fc10fe4ab0537a13ec639c8fe0909c072"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "834ec2497427b8286fec4eb3061d521e2d6f30709d9be287083782143dee1713"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "ad9a7e1af295f4ebcbe32897c8c5775878b830e503af071896ac8143b3376959"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.errors.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "09e6dadfe0ef533f780ed655cd178b8aaaaab892e68b546f111b315535e0eb1b"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.errors.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "fb42d65082d157ce343a124441588bd660d267a3ee127001838111d001a29ae1"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/functions-js@2.112.0/denonext/functions-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b5089849752c4626599515146b8f492592a0a5d0935a056e443a82fd78850a48"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/functions-js@2.112.0/denonext/functions-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "0c6ca2b027c29d771ff5543a4c63b440f698a470d3381fec70e766843078c9c8"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/FunctionsClient.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cd34c98ffae9c74e409ef37b5ffa3e01b9a7674a0c5128874ccad40d139603a4"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/FunctionsClient.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "403213e56d6b331ea0451713a0385ba280881ab064345c40bbc085d0e43b0bf0"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/index.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "48e129b111f5984ce0b9360f7e150a449c7e108f506266a76c66f60b9c10284c"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/index.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "b8380dc63a705e1ffbf2c8c4a750969fb77db5252ad8b79677aef47dbe3c8cfc"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/types.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3dc7011192f8700b38942a73daab85665006a6df314bd0ccde139c96cfe12634"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/types.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "3ba292927a800b7d839996a1ffda2a17698f75c0ea760f42e40810c10b1843d7"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/denonext/phoenix.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "40bd2a70829cd847848baac58e635bacd83fd62188f6624b44e2c295341004eb"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/denonext/phoenix.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "3fa47fd5771193743db2b486b3b51a4d7b860b130f8f853b79a6ed2d01a4afe7"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "91dd84153ab0cd56b37dbf1e11d1fc5d4b8eaf3e33c6e9c13305eaa8f0c62502"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "453a17422b14f184ce2670a7e6397434c4068b1002bbdc917bfaba9c74424b71"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/constants.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9a593a3e78e440dc371e6af28ab546c0feece343df290f51104119ddf536f5d0"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/constants.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "5080b22d8766313904c5fadce1575bc840324771c24d0deaa285c69a672bb28d"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/index.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d8c3e50a3eadfda6aaf7c1ac8649dc7e48e01a1fcf378b52c82de90c90cf114e"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/index.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "b0ba3846b98d4a4e63a71f53d64963b69ea2a7c9e4279228b215d7669deab939"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/longpoll.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0b052701865060b099e36cfaaf24878b87523a06140f6178e775c2242f2e0672"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/longpoll.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "08fe078287a3a55c803738518ac1b65b9f5c1b835bff792533f5497094af02e9"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/presence.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "91b0f001b2ab459eacc6716f89f90fc7e7d30bf77b750aa458da64d622d5b89f"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/presence.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "6064cd59101600f12f12f5b8df9421ad7c8909d2b141f4998137c7acb46d24b0"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/push.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7d9f2a60de24cf8cc64097e608d84a7cefb523223dc73d53132a145044991843"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/push.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "957dd74d6e615c0dfa1c8477631e0f5e3129db8d843548ae6d91f727d0202c6d"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/serializer.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a561dfe7465d05d6acd1bd42b7d7feb4cec3a7969a1314a54330fdd8a043a261"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/serializer.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "4ab8215ca02a5bf542843120f7f92f002d51da4122f4f56d5abe91629cb045aa"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/socket.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d7e595701d3bad0c568436b015e834d13cba312889a8bb8cbcd521290a60cfa0"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/socket.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "3478b01ab577d8d76cdc6655f543941cb2972aa98d33234c14a0d831893c47c5"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/timer.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "44f84527d6b089382f8888ebe7fd05aa05b6c8810de44f661e08b2a27d66a687"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/timer.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "3bc51cec11af37d9de1b7e105fbb08a1b943980b273305d966778fed643c51ed"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d2414b3200520cd2bbdcae5a03d8efaa6053bdbedc7fac20b069d47e796de77c"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "59fa02ee12058c76a93fa85cc03cef1b77e35d800aa26e542003b57a17bfbb8d"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/postgrest-js@2.112.0/denonext/postgrest-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "30a3c4d17757cd16e8f3132b53e4653150d4082136136fd0015b3cab4fadf286"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/postgrest-js@2.112.0/denonext/postgrest-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "adf81ebc7fb6f7fe9be3fe06dd64234568ded57818957a5359e6bae1637e007b"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/postgrest-js@2.112.0/dist/index.d.mts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7c91be42030c45136329126e13e4671ac01720d97c1ad52025dda7e4789b1d15"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/postgrest-js@2.112.0/dist/index.d.mts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "ed85a65fa0f01ca1107ba280daec79c7c8d680648c8498a644c1bb1222a6c43e"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/denonext/realtime-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "235abaeff11509f873bdb3ad9c933affd88c1361e226127e88861ebef9cbd9ed"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/denonext/realtime-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "f5ab907e64ac917dfb637440d43197d3f57cc3c78c59018bb0a177fc9f791051"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeChannel.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "376a517597f01c127e0e882ac0a314c6c9f759c4ffe639a55968fee2a88c20ef"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeChannel.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "39fad9c18b111200f0b22ee46fc58a0c3a6a48ddc2f09f8a5dbf89dc397016a1"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeClient.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4bbb64ad181e0256f1a820066860a09e015139604f32cb769c738f8c15a0e45d"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeClient.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "48cea87273cc0e284536990d16d81542c0e8fb19354448c9afb1ac4221ad41cd"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePostgresFilterBuilder.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fd55880e5226e05ca2930ebe63939e22c096fa832167bf5cc380d0dd68ea145f"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePostgresFilterBuilder.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "c47d08ea4f65fbef7ed9962f5af123dfbd2faa73109360b33f5a8b68887aef00"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePresence.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b840436e422af6e58ec348f3017b7334d4db5725dc2b237a4d50a3dcf2ccbf9f"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePresence.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "511695aef2ef2ccf5bc9ee63bf169fcbca5fdae98799a57375f09c9b4a87838a"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/index.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "99e68da84ef35dc759daf8c733d6448e5e7069edb3c93161bad645a7ebd1b1d9"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/index.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "a13aeb669f05184197710ce8912dc04ea1299935ddbf8549ae8c36cb3620f9da"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/constants.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a19beec6ec79b44f96ad6ab364a2beeb5648e490a565d11853251fc326530cf2"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/constants.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "800f0b6a646ab8a8ae635f21c81a573e96aebd28f925706a03689a9551d51710"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/serializer.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0d205fcd3908e0f73b2f19c36ce88539482979f9d1f6434e1e9a29e35010fa00"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/serializer.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "63c78662a8258dea2e0da97d0dc457bab2f9e9a07162c7ec883e435db9cb4da8"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/websocket-factory.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c1c3abe399fd21977b5edac770e4ce0d27d89c94775df424e811729e56d7c4b3"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/websocket-factory.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "20a1c1623063cb43c086ef87e7e6862e3ef8416fd7d837960c8f0b1fa9976f17"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/phoenix/types.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "959cc64f7fb3df108b2b182a7f3652157318b0a0c09ed6adca66927e0f34d901"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/phoenix/types.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "5d9886c4080352df736c49c79b66d318719a5282d6b6d4c748687f9c777003f6"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/storage-js@2.112.0/denonext/storage-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "760781a8e1135d58562540a6e8b4ca906a77f7c74557984dc0b75c49b1aad208"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/storage-js@2.112.0/denonext/storage-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "4df3c1c2aaca7c95fb49feed1f0aab684081a61c0867bea3471c6fa901f9ba58"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/storage-js@2.112.0/dist/index.d.mts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ee4b8d2a6a6a16c5875ef83eb76b366e3aa3d4473dbdeeeb07689e08369a1cce"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/storage-js@2.112.0/dist/index.d.mts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "bdfc1e6d318b79b8be11c56e6946d8c008b366bdf138d23ea005473c7641dc82"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/supabase-js@2.112.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f420344a1c52d354b8af85dfdcfa10d2178c0840526dbc39768a24de3b956a95"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/supabase-js@2.112.0",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "a85f607c0e51edfeba982d49b8dcbe29dbe1c982210cfcb2c2f3415ba32b58bf"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/dist/tracingRegistry.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "33dc23b135b9841c1ccd7bc16473470e52ecdba6a30726b6e7cb99ef3ae71893"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/dist/tracingRegistry.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "96c1f11fedba3a46ca72719bd8ce03284306da3a09a28a5fe755788c457778c2"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/supabase-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9420e48e8c497d6db012975227f7ea2082c54fd97a452fdfa9de8a41b6539124"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/supabase-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "200ff43fec5aa2fc4674f52904dd49f3ac507af74b00cf04047156502c9bcb1a"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/@supabase/supabase-js@2.112.0/dist/index.d.mts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "68dc7c5357b7fd1345e0f048d573ce685e899ae848e5f17a98ee1721ca9fa9b4"
+        }
+      ],
+      "name": "https://esm.sh/@supabase/supabase-js@2.112.0/dist/index.d.mts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "cc966ce3a0933315e4dceec2a433c009c10bb4fff73dd14c0224ec6b953b1b49"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/iceberg-js@0.8.1/denonext/iceberg-js.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d839d81a2e3966500ca2cdd0c1cb458e9608bacfc91f7bb67a69b2e878dcdb4f"
+        }
+      ],
+      "name": "https://esm.sh/iceberg-js@0.8.1/denonext/iceberg-js.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "accca8716140d3b6d63b622763ac96744125b7f3ba856120f2e66f4d377aee11"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/iceberg-js@0.8.1/dist/index.d.ts",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "447b6a80636a59c918ed18af1019de1efa94109a086e8fd8f3d20eb9b9a6937b"
+        }
+      ],
+      "name": "https://esm.sh/iceberg-js@0.8.1/dist/index.d.ts",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "8b8759ec7308809ae2a62b1905e8472fa52fc6f6126a776111ace64a1ed281f7"
+        },
+        {
+          "name": "collect:observed_lock_hash",
+          "value": "not present; compiler-observed cached module only"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/iceberg-js@0.8.1?target=denonext",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "58c849d7fe2bf4eca4a84eb501e83c161a7d8c34ca1bec15a962b3bec3062633"
+        }
+      ],
+      "name": "https://esm.sh/iceberg-js@0.8.1?target=denonext",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "96f29a43b5cdcc4c14d166d467ffdb1b5734b86f03095a732083e1639f19d1fe"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "https://esm.sh/tslib@2.8.1/denonext/tslib.mjs",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c38da5dd6da6281964435002ce204cd586634fe3bdfb24a0ee116f48cf3292e9"
+        }
+      ],
+      "name": "https://esm.sh/tslib@2.8.1/denonext/tslib.mjs",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "esm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        },
+        {
+          "name": "collect:cached_container_sha256",
+          "value": "97288e0bebed4a25a766b2683d020e1103c68c5edfc0931057af86a5aed7e8b4"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "bom-ref": "node:buffer",
+      "name": "node:buffer",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "node"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "node:process",
+      "name": "node:process",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "node"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "npm:/standardwebhooks@1.0.0",
+      "name": "npm:/standardwebhooks@1.0.0",
+      "properties": [
+        {
+          "name": "collect:compiler_module_kind",
+          "value": "npm"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "npm-package:@stablelib/base64@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d5b9cf42a4b14ae737222e8c841caca160a0e7c8fdeda523b82499ac64a60f136ab72b488b493cbad51e9c0c1364de15e665d7606b15508f73781ab2fa304e49"
+        }
+      ],
+      "name": "@stablelib/base64",
+      "properties": [
+        {
+          "name": "collect:integrity_scope",
+          "value": "Observed npm lock integrity; archive bytes not independently retained"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library",
+      "version": "1.0.1"
+    },
+    {
+      "bom-ref": "npm-package:@types/node@24.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "df1c86de9302ab7a1808d83bfd93fe135a284da181e1c1bc25646caaa39841d6d6358e336da5741279eb77bb2d8e224415909ac9b7088294e32561d17c14880f"
+        }
+      ],
+      "name": "@types/node",
+      "properties": [
+        {
+          "name": "collect:integrity_scope",
+          "value": "Observed npm lock integrity; archive bytes not independently retained"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library",
+      "version": "24.2.0"
+    },
+    {
+      "bom-ref": "npm-package:fast-sha256@1.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9f5d5118ffe5ad610523f6d677280bc6123ea557a8d59608570bef3e45bb6b397facecbe1771d8459d8ae73784f669a4850a69caff6c405c7424cf5469b9e93d"
+        }
+      ],
+      "name": "fast-sha256",
+      "properties": [
+        {
+          "name": "collect:integrity_scope",
+          "value": "Observed npm lock integrity; archive bytes not independently retained"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "bom-ref": "npm-package:standardwebhooks@1.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "05b1c63902bda251cf32f40d1d6ba5e8c625ad14c038a9f4deb39ee00f0edc22d684d7f860706aab61c928a0beb1faa9c62058e76a4d79eb03ea32222c3cfc8e"
+        }
+      ],
+      "name": "standardwebhooks",
+      "properties": [
+        {
+          "name": "collect:integrity_scope",
+          "value": "Observed npm lock integrity; archive bytes not independently retained"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "npm-package:undici-types@7.10.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b79172fe77e7fb5e0bb8e73628d620ef9bd9a82969022aac715bccca036796c1c1169497749698b5731c74d2e997f42f7373f6701decea5395e759eab05ab86a"
+        }
+      ],
+      "name": "undici-types",
+      "properties": [
+        {
+          "name": "collect:integrity_scope",
+          "value": "Observed npm lock integrity; archive bytes not independently retained"
+        },
+        {
+          "name": "collect:license_approval",
+          "value": "false"
+        }
+      ],
+      "type": "library",
+      "version": "7.10.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/edge_http_runtime_uat.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/collect-notification-operator/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/ingest-payment-sms/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/parse-payment-sms/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/index.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/verify-play-integrity/index.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/upload-edge-http-runtime-20260930.graph-entry.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hmac.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts",
+        "npm:/standardwebhooks@1.0.0"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/edge_http_runtime_uat.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_retry.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/apns.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_retry.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/fcm.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hash.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hmac.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/integrity_policy.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/momo_sms_parser.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_operator.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_retry.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_response_policy.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/openai_roster.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/play_integrity_binding.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hash.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/receipt_ingestion.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_provenance.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_file_policy.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_file_policy.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_provenance.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_resource_budget.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_response_policy.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/signed_sms_hook.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "https://esm.sh/@supabase/supabase-js@2.112.0"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hash.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/signed_sms_hook.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/handler.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/auth-send-whatsapp-otp/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/notification_operator.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/collect-notification-operator/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/dispatcher.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/apns.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/fcm.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/dispatcher.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/dispatch-notifications/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/receipt_ingestion.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/ingest-payment-sms/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/hash.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/momo_sms_parser.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/parse-payment-sms/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/openai_roster.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_import.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_provenance.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_resource_budget.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_response_policy.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/handler.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/handler.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/handler.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/handler.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/reconciliation-finalize/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/handler.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/handler.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/send-notification/index.ts"
+    },
+    {
+      "dependsOn": [
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/cors.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/integrity_policy.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/play_integrity_binding.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/production_contract.ts",
+        "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/supabase.ts"
+      ],
+      "ref": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/verify-play-integrity/index.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/tslib@2.8.1/denonext/tslib.mjs"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/denonext/auth-js.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueAdminApi.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthAdminApi.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueClient.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthClient.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/fetch.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueAdminApi.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueAdminApi.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/fetch.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/helpers.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueClient.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthAdminApi.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/AuthClient.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueAdminApi.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueClient.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/locks.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/index.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/error-codes.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/error-codes.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/fetch.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/helpers.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/locks.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/fetch.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/ethereum.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/solana.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/ethereum.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/web3/solana.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/GoTrueClient.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/errors.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.errors.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/types.d.ts",
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.dom.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/lib/webauthn.errors.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/tslib@2.8.1/denonext/tslib.mjs"
+      ],
+      "ref": "https://esm.sh/@supabase/functions-js@2.112.0/denonext/functions-js.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/FunctionsClient.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/FunctionsClient.d.ts",
+        "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/index.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/types.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/denonext/phoenix.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/push.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/socket.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/timer.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/constants.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/longpoll.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/presence.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/push.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/serializer.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/socket.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/timer.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/index.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/longpoll.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/presence.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/push.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/serializer.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/channel.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/longpoll.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/timer.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/socket.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/timer.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/constants.d.ts",
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/longpoll.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/types.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/postgrest-js@2.112.0/denonext/postgrest-js.mjs"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/postgrest-js@2.112.0/dist/index.d.mts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/denonext/phoenix.mjs",
+        "node:process"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/denonext/realtime-js.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/index.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeClient.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePostgresFilterBuilder.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePresence.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/constants.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/phoenix/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeChannel.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeChannel.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/constants.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/serializer.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/websocket-factory.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/phoenix/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeClient.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePostgresFilterBuilder.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeChannel.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePresence.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeChannel.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimeClient.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/RealtimePresence.d.ts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/websocket-factory.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/index.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/phoenix/types.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/constants.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/serializer.d.ts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/lib/websocket-factory.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/phoenix@0.4.5/priv/static/types/index.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/phoenix/types.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/iceberg-js@0.8.1?target=denonext",
+        "node:buffer"
+      ],
+      "ref": "https://esm.sh/@supabase/storage-js@2.112.0/denonext/storage-js.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/iceberg-js@0.8.1/dist/index.d.ts"
+      ],
+      "ref": "https://esm.sh/@supabase/storage-js@2.112.0/dist/index.d.mts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/denonext/auth-js.mjs",
+        "https://esm.sh/@supabase/functions-js@2.112.0/denonext/functions-js.mjs",
+        "https://esm.sh/@supabase/postgrest-js@2.112.0/denonext/postgrest-js.mjs",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/denonext/realtime-js.mjs",
+        "https://esm.sh/@supabase/storage-js@2.112.0/denonext/storage-js.mjs",
+        "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/dist/tracingRegistry.mjs",
+        "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/supabase-js.mjs"
+      ],
+      "ref": "https://esm.sh/@supabase/supabase-js@2.112.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/dist/tracingRegistry.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/denonext/auth-js.mjs",
+        "https://esm.sh/@supabase/functions-js@2.112.0/denonext/functions-js.mjs",
+        "https://esm.sh/@supabase/postgrest-js@2.112.0/denonext/postgrest-js.mjs",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/denonext/realtime-js.mjs",
+        "https://esm.sh/@supabase/storage-js@2.112.0/denonext/storage-js.mjs",
+        "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/dist/tracingRegistry.mjs",
+        "node:process"
+      ],
+      "ref": "https://esm.sh/@supabase/supabase-js@2.112.0/denonext/supabase-js.mjs"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/@supabase/auth-js@2.112.0/dist/module/index.d.ts",
+        "https://esm.sh/@supabase/functions-js@2.112.0/dist/module/index.d.ts",
+        "https://esm.sh/@supabase/postgrest-js@2.112.0/dist/index.d.mts",
+        "https://esm.sh/@supabase/realtime-js@2.112.0/dist/module/index.d.ts",
+        "https://esm.sh/@supabase/storage-js@2.112.0/dist/index.d.mts"
+      ],
+      "ref": "https://esm.sh/@supabase/supabase-js@2.112.0/dist/index.d.mts"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/iceberg-js@0.8.1/denonext/iceberg-js.mjs"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/iceberg-js@0.8.1/dist/index.d.ts"
+    },
+    {
+      "dependsOn": [
+        "https://esm.sh/iceberg-js@0.8.1/denonext/iceberg-js.mjs"
+      ],
+      "ref": "https://esm.sh/iceberg-js@0.8.1?target=denonext"
+    },
+    {
+      "dependsOn": [],
+      "ref": "https://esm.sh/tslib@2.8.1/denonext/tslib.mjs"
+    },
+    {
+      "dependsOn": [],
+      "ref": "node:buffer"
+    },
+    {
+      "dependsOn": [],
+      "ref": "node:process"
+    },
+    {
+      "dependsOn": [
+        "npm-package:standardwebhooks@1.0.0"
+      ],
+      "ref": "npm:/standardwebhooks@1.0.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "npm-package:@stablelib/base64@1.0.1"
+    },
+    {
+      "dependsOn": [
+        "npm-package:undici-types@7.10.0"
+      ],
+      "ref": "npm-package:@types/node@24.2.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "npm-package:fast-sha256@1.3.0"
+    },
+    {
+      "dependsOn": [
+        "npm-package:@stablelib/base64@1.0.1",
+        "npm-package:fast-sha256@1.3.0"
+      ],
+      "ref": "npm-package:standardwebhooks@1.0.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "npm-package:undici-types@7.10.0"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "name": "Collect Edge observed compiler closure",
+      "type": "application"
+    },
+    "properties": [
+      {
+        "name": "collect:graph_sha256",
+        "value": "550741334f21f62534cffa1efbaf9ec5da18d2c4b7438e8700da9a2a7129bd6a"
+      },
+      {
+        "name": "collect:lock_sha256",
+        "value": "076f805df13fd7306779790418d89fb29d1020e7f841132ce80583b2a515eebb"
+      },
+      {
+        "name": "collect:lock_enforced_execution",
+        "value": "false"
+      },
+      {
+        "name": "collect:source_sha256",
+        "value": "{\".cache/upload-edge-http-runtime-20260930.graph-entry.ts\":\"0d1c8147540f8f90c6b738efadeba528c386f0e1e7c0df16d14a58504a00d980\",\"scripts/qa/edge_http_runtime_uat.ts\":\"af0f9f710bd07a50a18fa633ba3d8b675290c41ac81c2ffbbd1bb1a6a5d86eec\",\"supabase/functions/_shared/apns.ts\":\"a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d\",\"supabase/functions/_shared/cors.ts\":\"e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d\",\"supabase/functions/_shared/fcm.ts\":\"00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6\",\"supabase/functions/_shared/hash.ts\":\"5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719\",\"supabase/functions/_shared/hmac.ts\":\"ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace\",\"supabase/functions/_shared/integrity_policy.ts\":\"abda535ac2d637ee51bc1bb030dfc3a2655223fa444d3b6f9ad8bd0d90d2a807\",\"supabase/functions/_shared/momo_sms_parser.ts\":\"9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1\",\"supabase/functions/_shared/notification_operator.ts\":\"70760815238af71666ff4423b5f5f92c548c96960f37f6f5246ec113210441ad\",\"supabase/functions/_shared/notification_retry.ts\":\"f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f\",\"supabase/functions/_shared/openai_roster.ts\":\"817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780\",\"supabase/functions/_shared/play_integrity_binding.ts\":\"bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9\",\"supabase/functions/_shared/production_contract.ts\":\"ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1\",\"supabase/functions/_shared/receipt_ingestion.ts\":\"a932be7f256a35de599dd0179d9aa586ede41aff4cb5cb0c54ebcbac245b9fa2\",\"supabase/functions/_shared/roster_decoder.ts\":\"575c44e86de2571af7813d8adb714f67949b4543316ee98f34809eebc2d4d20b\",\"supabase/functions/_shared/roster_file_policy.ts\":\"a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75\",\"supabase/functions/_shared/roster_import.ts\":\"82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0\",\"supabase/functions/_shared/roster_provenance.ts\":\"2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629\",\"supabase/functions/_shared/roster_resource_budget.ts\":\"0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99\",\"supabase/functions/_shared/roster_response_policy.ts\":\"dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e\",\"supabase/functions/_shared/signed_sms_hook.ts\":\"b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6\",\"supabase/functions/_shared/supabase.ts\":\"5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4\",\"supabase/functions/auth-send-whatsapp-otp/handler.ts\":\"69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30\",\"supabase/functions/auth-send-whatsapp-otp/index.ts\":\"607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2\",\"supabase/functions/collect-notification-operator/index.ts\":\"0d27478a37e16f4034afe421645cd27fd4aa69a74129b4d7afd1685cdd9ae39c\",\"supabase/functions/dispatch-notifications/dispatcher.ts\":\"f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8\",\"supabase/functions/dispatch-notifications/index.ts\":\"9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472\",\"supabase/functions/ingest-payment-sms/index.ts\":\"e39aaac2116a023af5dae50b6c77e0d00bea4a86c9605c42cb5c9fdd4623329f\",\"supabase/functions/parse-payment-sms/index.ts\":\"695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9\",\"supabase/functions/prepare-roster-import/handler.ts\":\"1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7\",\"supabase/functions/prepare-roster-import/index.ts\":\"7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb\",\"supabase/functions/reconciliation-finalize/handler.ts\":\"c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116\",\"supabase/functions/reconciliation-finalize/index.ts\":\"e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c\",\"supabase/functions/send-notification/handler.ts\":\"8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c\",\"supabase/functions/send-notification/index.ts\":\"ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6\",\"supabase/functions/verify-play-integrity/index.ts\":\"2b09eb817963c04f94c0f31e1f03a3676df0da376639b042a5f9920b7d4333c7\"}"
+      },
+      {
+        "name": "collect:scope",
+        "value": "Observed static compiler closure for all declared Edge entrypoints plus actual HTTP harness; no lock-enforced execution claim"
+      },
+      {
+        "name": "collect:unknowns",
+        "value": "[\"Dynamic conditional import paths not present in compiler graph\",\"Independent npm archive bytes\",\"Current advisory/license/hosted acceptance\"]"
+      }
+    ]
+  },
+  "specVersion": "1.6",
+  "version": 1
+}

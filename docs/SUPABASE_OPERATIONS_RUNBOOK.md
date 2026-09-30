@@ -1,164 +1,42 @@
-# Supabase Operations Runbook
+# Supabase operations runbook: Rwanda MoMo release
 
-Updated: 2026-08-31
+Updated: 2026-09-28. This runbook covers the current Rwanda-only RWF/MTN MoMo/Airtel Money product. Older bank/Stripe/geographic migrations and functions remain historical source or deployed-state questions, not current release capabilities. No production change is authorized by this document alone.
 
-This runbook covers the geographic Groups backend: Rwanda MoMo USSD with
-consented Android receipt evidence, plus diaspora bank/Revolut transfers.
-Collect never accepts a MoMo PIN or bank credential and never treats opening an
-external payment surface as success.
+## Safe execution
 
-## Safe Command Rules
+- Use synthetic records and a disposable full-schema project for destructive UAT. Do not print service-role, notification, WhatsApp or signing secrets, raw SMS, payer details or customer phone numbers.
+- Use approved allow-listed database/network access. Preserve a pre-change migration/function/grant readback and a rollback/roll-forward plan.
+- Treat missing credentials, skipped checks, and absent deployed readback as blocked rather than passed.
 
-- Do not print service-role keys, notification-provider keys, WhatsApp hook
-  secrets, raw bank evidence, payer details, or customer phone numbers.
-- Use synthetic data and rollback transactions for automated UAT.
-- Apply database changes only from an allow-listed database network.
-
-## Migration Deployment
-
-Validate locally:
+## Source and migration validation
 
 ```sh
 ./scripts/migrations/validate_supabase_migrations.sh
+COLLECT_SKIP_DOTENV=1 SUPABASE_DB_QUERY_MODE=local ./scripts/collect_linked_uat.sh
 ```
 
-Dry-run from an allow-listed network:
+The historical 20 August checkpoint ended at `20260820185500_revoke_direct_bank_transfer_intent_read.sql`; it is not evidence of the current linked project state. Compare the exact reviewed commit and full local migration ledger with an authorized timestamped deployed readback. Rehearse all pending numbered migrations and the staged SQL in `deploy/hardening/` in a disposable full-schema project first. The staged SQL is not registered or executed production migration evidence.
 
-```sh
-supabase db push --dry-run --skip-vault
-```
+A production dry-run or push, where authorized, must be reviewed against the pinned CLI behavior and an approved plan; do not execute it merely because local validation passed. Check RLS, grants, security-definer functions, direct table writes, actor revocation, replay, account switch, retry, reversal and ledger balance before and after.
 
-Apply after review:
+## Edge Functions and legacy routes
 
-```sh
-supabase db push --skip-vault
-```
+Compare Rwanda functions `auth-send-whatsapp-otp`, `dispatch-notifications`, `ingest-payment-sms`, `parse-payment-sms`, `verify-play-integrity` and `send-notification` with the deployed inventory and exact source hashes. Run negative and positive HTTP tests with synthetic payloads, signed hooks and supported Play verdicts. Confirm actual WhatsApp provider timeouts/quotas, notification delivery, key rotation and safe public errors.
 
-The reviewed local migration ledger must be compared with production by dry-run.
-The explicit `--skip-vault` flag keeps this schema-only release from changing
-configured Vault secrets as a side effect of a current Supabase CLI `db push`.
-At the confirmed 2026-08-20 production checkpoint it ends at:
+Bank evidence and Stripe functions from historical releases may exist in source or deployment. For the Rwanda-only candidate, prove that unsupported bank routes, grants and UI entry points cannot create current member financial state. Preserve historical data/migrations; disable or scope runtime exposure only through a reviewed deployment plan.
 
-```text
-supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql
-```
+## Controlled Rwanda UAT
 
-The local chain below remains pending until a dry-run, controlled push,
-migration-history readback, and RPC UAT prove it on the linked project:
+1. Verify Rwanda WhatsApp identity, profile, provider/07 number, Collect ID and account-switch isolation.
+2. Create an eligible private group on an exact signed Android build; test SMS consent, denial, revocation and Play Integrity behavior.
+3. Create an exact whole-RWF intent and hand off only to provider USSD. Never enter a PIN or real funds in synthetic UAT.
+4. Exercise new receipt capture, protected queue, owner-bound encrypted storage, durable exact ACK, offline/reboot/overflow and key-loss recovery on supported devices.
+5. Exercise bounded parsing, unique matching, ambiguity, duplicate/replay, timeout, reversal, approved reconciliation and immutable balanced posting in an isolated database.
+6. Verify Admin roles, revocation, audited exception/reveal workflow, complete history paging, notifications and accurate unavailable states.
+7. With authorized live access, independently reconcile actual provider/statement evidence and a controlled pilot; retain sanitized evidence, daily close and stop criteria.
 
-```text
-supabase/migrations/20260828100000_profile_country_session_independence.sql
-supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql
-supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql
-```
+## Web, backup and release
 
-## Edge Functions
+Build and inspect member/public and Admin artifacts from a clean protected commit. Test deployed response headers, auth isolation, warm cache updates, logout and offline behavior. Set RPO/RTO and restore database, Storage, configuration/auth and evidence to an isolated environment, then reconcile ledger balances.
 
-Active functions:
-
-```text
-auth-send-whatsapp-otp
-dispatch-notifications
-ingest-bank-email
-ingest-bank-sms
-ingest-bank-statement
-ingest-payment-sms
-parse-payment-sms
-verify-play-integrity
-send-notification
-```
-
-Validate:
-
-```sh
-./scripts/collect_edge_auth_contract_uat.sh
-deno check supabase/functions/ingest-bank-email/index.ts \
-  supabase/functions/ingest-bank-sms/index.ts \
-  supabase/functions/ingest-bank-statement/index.ts \
-  supabase/functions/ingest-payment-sms/index.ts \
-  supabase/functions/parse-payment-sms/index.ts \
-  supabase/functions/verify-play-integrity/index.ts
-```
-
-Deploy active functions through:
-
-```sh
-./scripts/supabase_deploy.sh
-```
-
-## Linked UAT
-
-Admin/security:
-
-```sh
-./scripts/collect_admin_security_uat.sh
-```
-
-MoMo and bank reconciliation/allocation:
-
-```sh
-./scripts/collect_linked_uat.sh
-```
-
-The rollback UAT must prove scoped MoMo parsing/allocation plus maker-checker
-bank governance, statement finality, balanced ledger posting and rollback.
-
-## Controlled Rwanda MoMo UAT
-
-1. Verify WhatsApp-derived Rwanda country/provider/07 number, then edit and save it.
-2. Create a private group on a Play-Integrity-approved Android build.
-3. Grant receipt access and verify the app has `RECEIVE_SMS` but no `READ_SMS`.
-4. Create one exact RWF intent and approve it only in MoMo USSD.
-5. Receive a synthetic safe receipt, verify authenticated ingestion and bounded parsing.
-6. Prove one unique member/group allocation and one balanced ledger post.
-7. Prove duplicates are idempotent and ambiguous/unmatched receipts remain in the admin queue.
-
-## Controlled Bank Evidence UAT
-
-Run with sanitized evidence:
-
-1. Two independent administrators approve the real EUR beneficiary.
-2. A member creates a bank-transfer contribution request.
-3. The member authorizes the transfer outside Collect in their banking app.
-4. Controlled SMS or email creates candidate evidence.
-5. The parser extracts bounded transaction fields and deduplicates the event.
-6. Candidate evidence never changes the member or group balance.
-7. A controlled daily statement import provides bank finality.
-8. Reconciliation matches the unique Collect reference and posts one balanced ledger transaction.
-9. Ambiguous, duplicate, unmatched, or unauthorized events remain in exceptions.
-
-## Admin PWA
-
-Local:
-
-```sh
-./scripts/admin_pwa_release_build.sh
-ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current ./scripts/admin_pwa_render_smoke.sh
-```
-
-Live:
-
-```sh
-ADMIN_PWA_LIVE_URL="https://<admin-host>" ./scripts/admin_pwa_live_gate.sh --json
-```
-
-## Release Status
-
-```sh
-make release-status-json
-make supabase-go-live-gate-json
-make supabase-platform-packet-json
-make supabase-post-operator-checklist-json
-```
-
-Current blockers include linked migration/UAT, real Android SMS/USSD acceptance,
-Google Play restricted-SMS approval, Play Integrity configuration, diaspora bank
-acceptance, Admin PWA live proof, current store artifacts and accountable signoff.
-
-## Incident Handling
-
-- Stop writes before destructive recovery.
-- Preserve raw evidence immutable.
-- Use audited admin reparse/review for ambiguous parsed events.
-- Do not manually post ledger entries outside approved database functions.
-- After recovery, rerun linked UAT and Admin PWA gates.
+Run existing source/readiness scripts against the exact candidate, record pass/fail/skip separately, and attach current artifact hashes, deployment readback, physical device/provider results, monitoring/incident rehearsals and accountable owner decision. The current 28 September integration is **NO-GO** because those external and production artifacts are not yet verified.

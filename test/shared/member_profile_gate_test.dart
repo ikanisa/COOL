@@ -16,24 +16,24 @@ void main() {
     momoProvider: 'mtn_momo',
     momoNumber: '0788123456',
   );
-  const diaspora = CollectProfile(
-    id: 'diaspora',
+  const foreign = CollectProfile(
+    id: 'foreign',
     publicId: '654321',
-    whatsappPhone: '+35699123456',
+    whatsappPhone: '+250788123456',
     countryCode: 'MT',
     currencyCode: 'EUR',
-    revolutAccount: '000123456789',
+    momoProvider: 'mtn_momo',
+    momoNumber: '0788123456',
   );
 
   for (final profile in [
     rw.copyWith(momoNumber: ''),
     rw.copyWith(momoProvider: ''),
     rw.copyWith(currencyCode: 'EUR'),
-    diaspora.copyWith(revolutAccount: ''),
-    diaspora.copyWith(revolutAccount: 'not an account'),
+    foreign,
   ]) {
     test(
-      'incomplete ${profile.id} cannot join, contribute or create: ${profile.momoNumber}/${profile.momoProvider}/${profile.currencyCode}/${profile.revolutAccount}',
+      'incomplete ${profile.id} cannot join, contribute or create: ${profile.momoNumber}/${profile.momoProvider}/${profile.currencyCode}',
       () async {
         final repo = FixtureCollectRepository(profileOverride: profile);
         addTearDown(repo.dispose);
@@ -58,15 +58,12 @@ void main() {
     );
   }
 
-  for (final profile in [rw, diaspora]) {
-    test(
-      'complete ${profile.id} can join without the other country rail',
-      () async {
-        final repo = FixtureCollectRepository(profileOverride: profile);
-        addTearDown(repo.dispose);
-        final group = repo.state.collections.first;
-        expect((await repo.joinGroupBySlug(group.slug)).id, group.id);
-      },
-    );
+  for (final profile in [rw]) {
+    test('complete ${profile.id} can join through Rwanda MoMo', () async {
+      final repo = FixtureCollectRepository(profileOverride: profile);
+      addTearDown(repo.dispose);
+      final group = repo.state.collections.first;
+      expect((await repo.joinGroupBySlug(group.slug)).id, group.id);
+    });
   }
 }

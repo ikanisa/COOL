@@ -1,0 +1,15 @@
+{
+  "authority": "Owner-selected revolut-design skill; Business/operator adaptation",
+  "reference_files": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "59ed494b2dd61684a8f2f516385ba601cfa549b7541bc1e9706df50e28fe3e1a",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/brand-adaptation.md": "135a13f0672dc0384668b92c5ac88e77b9219c5760f10cdcaff8ec456501f9fd",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/DESIGN.md": "255cc09f017cd53c8f7d1cf201a12101a3c95b611fd84e193b750b14bd18353d",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md": "3243d4de659c1cb9b89dda537219facc1023ac0ff71aadd7da98d6ade3e3d6fb",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc"
+  },
+  "target_images": {
+    "roster-compact-2x-errors.png": "2bf8f305080d7400c4a6cbe5a026ecc650b53cd3474ec5af46730404f0bc5b72",
+    "roster-page-2-light.png": "049397c3e05f52b48d47b425265670bf1e05981d6173b77e498d88975cfcf12f"
+  },
+  "visual_review": "Actual bundled-font captures inspected; row26 correction visible;320px2x field errors wrap fully; not an authenticated reference comparator."
+}

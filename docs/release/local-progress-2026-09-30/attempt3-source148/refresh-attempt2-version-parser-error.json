@@ -1,0 +1,8 @@
+{
+  "status": "preflight_failed_before_register_writes",
+  "reason": "19 historic filenames use12-digit versions; slicing14characters included underscore/name and created false missing versions",
+  "source_sha256": "3d526165608c58a3aec853b87c48876707236335032f7037e9da55fd04316f1b",
+  "installed_count": 148,
+  "actual_source_count": 149,
+  "provider_called": false
+}

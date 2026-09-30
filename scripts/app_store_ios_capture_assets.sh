@@ -18,7 +18,7 @@ IPAD_FINAL_DIR="$OUTPUT_ROOT/final/ipadPro129"
 routes=(
   "01-home|home"
   "02-contribute|contribution"
-  "03-bank-details|settings-bank-transfer"
+  "03-momo-permissions|settings-permissions"
   "04-ledger|ledger"
   "05-share|share"
 )
@@ -33,7 +33,7 @@ run_capture() {
   local evidence_dir="$2"
 
   MOBILE_ROUTE_RENDER_EVIDENCE_DIR="$evidence_dir" \
-    MOBILE_ROUTE_RENDER_ROUTE_FILTER="home,contribution,settings-bank-transfer,ledger,share" \
+    MOBILE_ROUTE_RENDER_ROUTE_FILTER="home,contribution,settings-permissions,ledger,share" \
     MOBILE_ROUTE_RENDER_VIEWPORT="$viewport" \
     MOBILE_ROUTE_RENDER_BUILD_ARGS="--release --no-wasm-dry-run --no-pub -t tool/main_store_preview.dart --dart-define=COLLECT_MOBILE_EVIDENCE_PLATFORM=ios" \
     "$ROOT_DIR/scripts/mobile_route_render_smoke.sh"
@@ -117,8 +117,8 @@ ruby -r json -r time -e '
     },
     "routes" => [
       { "slot" => "01-home", "route" => "/home", "purpose" => "collections overview and featured groups" },
-      { "slot" => "02-contribute", "route" => "/groups/qa-private-group/contribute", "purpose" => "bank-transfer request, approved beneficiary, and external banking handoff" },
-      { "slot" => "03-bank-details", "route" => "/settings/bank-transfer", "purpose" => "approved beneficiary and reusable bank details" },
+      { "slot" => "02-contribute", "route" => "/groups/qa-private-group/contribute", "purpose" => "Rwanda MoMo USSD contribution request" },
+      { "slot" => "03-momo-permissions", "route" => "/settings/permissions", "purpose" => "MoMo receipt permission controls" },
       { "slot" => "04-ledger", "route" => "/groups/qa-private-group/ledger", "purpose" => "collection ledger and transactions" },
       { "slot" => "05-share", "route" => "/groups/qa-private-group/share", "purpose" => "shareable collection QR and link" }
     ],

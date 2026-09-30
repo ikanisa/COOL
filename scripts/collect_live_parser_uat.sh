@@ -82,7 +82,7 @@ parser_db_exec() {
   done
 
   if [[ "$PARSER_UAT_DB_MODE" == "direct" ]]; then
-    psql_cli "$PARSER_UAT_DATABASE_URL" "${direct_args[@]}"
+    collect_psql_url_service "$PARSER_UAT_DATABASE_URL" "${direct_args[@]}"
     return
   fi
 

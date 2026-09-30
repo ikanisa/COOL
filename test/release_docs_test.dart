@@ -4,30 +4,23 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('current product documents define the geographic payment boundary', () {
-    final product = File('docs/PRODUCT.md').readAsStringSync();
-    final revised = File(
+  test('current product documents define Rwanda MoMo USSD scope', () {
+    for (final path in [
+      'docs/PRODUCT.md',
       'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md',
-    ).readAsStringSync();
-    final readme = File('README.md').readAsStringSync();
-
-    for (final source in [product, revised, readme]) {
-      expect(source, contains('MoMo'));
-      expect(source, contains('Rwanda'));
-      expect(source.toLowerCase(), contains('android'));
-      expect(source, contains('SEPA'));
-      expect(source, contains('Revolut'));
-      expect(source.toLowerCase(), contains('bank transfer'));
-      expect(source.toLowerCase(), contains('statement'));
-      expect(source.toLowerCase(), contains('reconcil'));
+      'README.md',
+    ]) {
+      final source = File(path).readAsStringSync();
+      expect(source, contains('Rwanda'), reason: path);
+      expect(source, contains('MoMo'), reason: path);
+      expect(source, contains('USSD'), reason: path);
+      expect(source.toLowerCase(), isNot(contains('diaspora')), reason: path);
+      expect(
+        source.toLowerCase(),
+        isNot(contains('bank transfer')),
+        reason: path,
+      );
     }
-    expect(
-      product.replaceAll(RegExp(r'\s+'), ' '),
-      contains('does not operate a wallet'),
-    );
-    expect(product, contains('does not operate a wallet'));
-    expect(revised, contains('non-routable placeholder'));
-    expect(revised, contains('maker-checker'));
   });
 
   test('environment keeps production credentials server-side', () {
@@ -35,7 +28,6 @@ void main() {
     final example = File('.env.example').readAsStringSync();
 
     for (final secret in <String>[
-      'BANK_EMAIL_INGEST_HMAC_SECRET',
       'FCM_SERVICE_ACCOUNT_JSON',
       'APNS_PRIVATE_KEY_BASE64',
       'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
@@ -72,9 +64,8 @@ void main() {
     final config = File('supabase/config.toml').readAsStringSync();
     const expected = <String>[
       'auth-send-whatsapp-otp',
-      'ingest-bank-email',
-      'ingest-bank-sms',
-      'ingest-bank-statement',
+      'collect-notification-operator',
+      'prepare-roster-import',
       'send-notification',
       'dispatch-notifications',
       'ingest-payment-sms',
@@ -118,16 +109,15 @@ void main() {
     },
   );
 
-  test('production readiness requires bank, push, and Play secrets', () {
+  test('production readiness requires MoMo, push, and Play controls', () {
     final readiness = File(
       'scripts/supabase_production_readiness.sh',
     ).readAsStringSync();
 
-    expect(readiness, contains('BANK_EMAIL_INGEST_HMAC_SECRET'));
     expect(readiness, contains('FCM_SERVICE_ACCOUNT_JSON'));
     expect(readiness, contains('APNS_PRIVATE_KEY_BASE64'));
     expect(readiness, contains('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'));
-    expect(readiness, contains('check_bank_sql_privileges'));
+    expect(readiness, contains('check_rwanda_momo_sql_privileges'));
     expect(readiness, contains('Production Auth has a fixed SMS test OTP'));
     expect(readiness, contains('sms_test_otp_valid_until'));
     expect(readiness, isNot(contains('STRIPE_SECRET_KEY')));
@@ -159,25 +149,15 @@ void main() {
     expect(inventory, contains('update_current_profile()'));
   });
 
-  test(
-    'rollback UAT proves statement finality and balanced exact-once ledger',
-    () {
-      final uat = File(
-        'scripts/bank_transfer_rollback_uat.sql',
-      ).readAsStringSync();
-
-      expect(uat, startsWith('begin;'));
-      expect(uat.trimRight(), endsWith('rollback;'));
-      expect(uat, contains('BANK_TRANSFER_ROLLBACK_UAT_PASS'));
-      expect(uat, contains('Maker-checker destination self-approval'));
-      expect(uat, contains('received_unreconciled'));
-      expect(uat, contains('reconciled'));
-      expect(uat, contains('debit'));
-      expect(uat, contains('credit'));
-      expect(uat, contains('daily_bank_closes'));
-      expect(uat, contains('stripe_customers'));
-    },
-  );
+  test('Rwanda MoMo linked readiness check verifies the active boundary', () {
+    final uat = File(
+      'scripts/rwanda_momo_readiness_uat.sql',
+    ).readAsStringSync();
+    expect(uat, contains("country_code = 'RW'"));
+    expect(uat, contains("currency_code = 'RWF'"));
+    expect(uat, contains('RWANDA_MOMO_READINESS_UAT_PASS'));
+    expect(uat, contains('retired payment routines remain executable'));
+  });
 
   test('linked database UAT has an HTTPS Management API fallback', () {
     final helpers = File('scripts/supabase_cli_helpers.sh').readAsStringSync();

@@ -1,0 +1,36 @@
+{
+  "status": "pass",
+  "manifest": "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256",
+  "approved_count": 174,
+  "observed_count": 174,
+  "missing": [
+
+  ],
+  "unexpected": [
+
+  ],
+  "hash_mismatches": [
+
+  ],
+  "manifest_errors": [
+
+  ],
+  "scope": "Current Git tracked and non-ignored untracked visual assets, with absent indexed paths reported separately; no Git history or submodule traversal",
+  "asset_mutations": false,
+  "indexed_absent_visual_paths": [
+    "assets/group_covers/rwanda/covers/rw-39-diaspora-family-connection-v1.webp",
+    "assets/group_covers/rwanda/covers/rw-40-diaspora-community-project-v1.webp",
+    "assets/group_covers/rwanda/source/rw-39-diaspora-family-connection-v1.png",
+    "assets/group_covers/rwanda/source/rw-40-diaspora-community-project-v1.png",
+    "assets/group_covers/rwanda/thumbs/rw-39-diaspora-family-connection-v1.webp",
+    "assets/group_covers/rwanda/thumbs/rw-40-diaspora-community-project-v1.webp",
+    "web/public/app-screens/account-deletion-832163ce2213.png",
+    "web/public/app-screens/diaspora-contribution-7e087bed1a9c.png",
+    "web/public/app-screens/group-detail-aa0624e7c7d5.png",
+    "web/public/app-screens/groups-08cfb5130784.png",
+    "web/public/app-screens/home-c0a62ed4ced3.png",
+    "web/public/app-screens/privacy-7b76225f8802.png",
+    "web/public/app-screens/security-ab4cafded6f0.png",
+    "web/public/app-screens/terms-f670cece7e23.png"
+  ]
+}

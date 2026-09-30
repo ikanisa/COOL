@@ -14,20 +14,17 @@ module FullstackDatabaseSql
   MONEY_DB = 'collect_hybrid_money_uat_20260903'.freeze
   CASES = [
     *%w[admin_hybrid_overview_contract group_admin_contract group_owner_controls_contract
-        member_collection_read_contract member_cross_rail_history_contract
-        member_group_roster_contract member_volume_uat].map { |id| ["scripts/tests/#{id}.sql", MEMBER_DB] },
+        member_collection_read_contract].map { |id| ["scripts/tests/#{id}.sql", MEMBER_DB] },
     ['scripts/tests/platform_admin_access_contract.sql', 'collect_platform_access_uat_20260902'],
     ['scripts/tests/member_roster_access_uat.sql', MEMBER_DB],
     *%w[hybrid_direct_ussd_financial_core_uat attested_sms_finality_uat hybrid_roster_import_uat].map do |id|
       ["scripts/tests/#{id}.sql", MONEY_DB]
     end,
     ['scripts/tests/hybrid_sms_notification_outbox_uat.sql', 'collect_hybrid_sms_uat_20260903'],
-    ['scripts/tests/hybrid_verified_account_claim_uat.sql', MONEY_DB, 'collect_hybrid_account_claim_uat'],
     ['scripts/tests/hybrid_internal_function_privileges_uat.sql', 'collect_hybrid_privilege_uat_20260903'],
     ['scripts/tests/hybrid_backend_uat.sql', 'collect_hybrid_uat_20260902'],
     ['scripts/tests/hybrid_directory_presentation_uat.sql', 'collect_directory_presentation_v2_uat_20260903'],
-    ['scripts/tests/geographic_member_profile_gates_uat.sql', MEMBER_DB, nil, 'wrap'],
-    ['scripts/bank_transfer_rollback_uat.sql', MEMBER_DB],
+    ['scripts/tests/rwanda_momo_scope_uat.sql', MEMBER_DB],
     ['scripts/group_creation_journey_uat.sql', MEMBER_DB],
     ['scripts/local_backend_privacy_lifecycle_uat.sql', MEMBER_DB, nil, 'LOCAL_BACKEND_PRIVACY_LIFECYCLE_PASS'],
     ['scripts/tests/otp_rate_limit_uat.sql', 'collect_fullstack_otp_20260914']

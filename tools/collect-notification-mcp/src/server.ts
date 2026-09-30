@@ -3,6 +3,7 @@ import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import * as z from "zod/v4";
 
 import { callNotificationOperator } from "./operator_client.ts";
+import { callOperationalRead } from "./operational_client.ts";
 
 const uuid = z.string().uuid();
 const sha256 = z.string().regex(/^[0-9a-f]{64}$/);
@@ -22,6 +23,39 @@ function createServer() {
       instructions:
         "Read health and pending work first. Never infer a destination, message, balance, confirmation, send result, or delivery. A receipt requires a current claim, exact receipt read, explicit user confirmation, send-start record, one Messages action, UI readback, and an observed outcome. Never retry an uncertain attempt.",
     },
+  );
+
+  const readOnlyAnnotations = {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true};
+  server.registerTool(
+    "get_collect_health",
+    {
+      description: "Read the versioned, redacted Collect database operational health sample. Returns bounded counts, alert reason codes and sample freshness. Unknown or stale measurements remain unknown; this does not establish gateway, Codex supervisor, provider configuration or device delivery.",
+      inputSchema: z.strictObject({}),
+      annotations: readOnlyAnnotations,
+    },
+    async () => toolResult(await callOperationalRead("health", {})),
+  );
+  server.registerTool(
+    "get_notification_status",
+    {
+      description: "Read one Collect assisted SMS receipt state by opaque notification ID using the current Admin session. Returns reason-coded status and timestamps, with recipient, message, financial and free-form diagnostic content removed. Observed sent is operator UI evidence.",
+      inputSchema: z.strictObject({notification_id: uuid}),
+      annotations: readOnlyAnnotations,
+    },
+    async input => toolResult(await callOperationalRead("status", input)),
+  );
+  server.registerTool(
+    "list_notification_failures",
+    {
+      description: "Read a bounded page of failed-no-send or uncertain Collect assisted SMS receipts. Status is required by the allowlisted query; uncertain receipts require investigation and must never be automatically retried. Returns opaque IDs, reason-coded states and timestamps only.",
+      inputSchema: z.strictObject({
+        status: z.enum(["failed_no_send", "uncertain"]).default("failed_no_send"),
+        limit: z.number().int().min(1).max(25).default(20),
+        offset: z.number().int().min(0).max(10_000).default(0),
+      }),
+      annotations: readOnlyAnnotations,
+    },
+    async input => toolResult(await callOperationalRead("failures", input)),
   );
 
   server.registerTool(

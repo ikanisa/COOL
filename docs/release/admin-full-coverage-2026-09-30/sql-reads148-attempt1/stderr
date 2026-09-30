@@ -1,0 +1,3 @@
+ERROR:  column s.member_balance_rwf does not exist
+LINE 7:  'buri_munsi.payment_received',1,1234,s.member_balance_rwf,s...
+                                              ^

@@ -1,0 +1,2 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/roster_import_provenance_concurrency_uat.rb:49:in `query': ERROR:  permission denied for table schema_migrations (RuntimeError)
+	from scripts/tests/roster_import_provenance_recovery_uat.rb:131:in `<main>'

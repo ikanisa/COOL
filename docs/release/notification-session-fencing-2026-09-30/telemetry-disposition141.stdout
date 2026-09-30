@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "result": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/notification-session-fencing-2026-09-30/telemetry-disposition141.json",
+  "deleted_exact_events": 10,
+  "preserved_baseline_events": 560,
+  "restored_tables": 124
+}

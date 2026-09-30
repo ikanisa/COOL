@@ -1,0 +1,15 @@
+{
+  "frameworkVersion": "3.44.3",
+  "channel": "[user-branch]",
+  "repositoryUrl": "unknown source",
+  "frameworkRevision": "e1fd963c6f6922bd32afde2e9698a363cd0406d2",
+  "frameworkCommitDate": "2026-06-18 14:59:18 -0700",
+  "engineRevision": "a4ce257c68517c1410f4b48ac9852ab5642a3f8d",
+  "engineCommitDate": "2026-06-18 17:14:12.000Z",
+  "engineContentHash": "97bcd50733ba183d436566477a85414db19fdb97",
+  "engineBuildDate": "2026-06-18 19:51:45.020",
+  "dartSdkVersion": "3.12.2",
+  "devToolsVersion": "2.57.0",
+  "flutterVersion": "3.44.3",
+  "flutterRoot": "/Volumes/PRO-G40/Development/Flutter/flutter_3_44_codex"
+}

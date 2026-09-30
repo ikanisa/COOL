@@ -106,9 +106,9 @@ android/.kotlin/errors/
 # Design tool exports & operator output
 stitch_exports/
 stitch.json
-test/goldens/failures/
 test/shared/failures/
 test/features/partners/failures/
+test/goldens/failures/
 
 # Local release output
 output/
@@ -123,3 +123,10 @@ third_party/**/build/
 .bundle/
 vendor/bundle/
 fastlane/report.xml
+
+# Reproducible release builds and compiler caches remain local. Review reports,
+# source snapshots and the publication inventory retain their provenance.
+/docs/release/shared-ui-accessibility-2026-09-30/attempt*/artifact/
+/docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/admin-build/
+/docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/public-build/
+/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/*-module-cache/

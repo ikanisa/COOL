@@ -45,6 +45,7 @@ class AdminFilterBar extends StatelessWidget {
               'Filters the current admin queue by record, reference, or operator context.',
           child: TextField(
             controller: searchController,
+            textInputAction: TextInputAction.search,
             onSubmitted: (_) => onRefresh(),
             decoration: InputDecoration(
               hintText: 'Search',
@@ -91,6 +92,7 @@ class AdminFilterBar extends StatelessWidget {
       onSelected: onStatusChanged,
     );
     final sortFilter = _AdminFilterMenu(
+      key: const Key('admin-sort-filter-select'),
       tooltip: 'Sort: ${sortLabel.isEmpty ? 'Newest' : sortLabel}',
       semanticLabel:
           'Sort order, ${sortLabel.isEmpty ? 'Newest' : sortLabel} selected',
@@ -101,6 +103,11 @@ class AdminFilterBar extends StatelessWidget {
     );
 
     final refreshButton = IconButton.filled(
+      key: const Key('admin-queue-refresh'),
+      constraints: const BoxConstraints.tightFor(
+        width: kMinInteractiveDimension,
+        height: kMinInteractiveDimension,
+      ),
       tooltip: 'Refresh',
       style: IconButton.styleFrom(
         backgroundColor: colors.textPrimary,
@@ -118,16 +125,39 @@ class AdminFilterBar extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            Expanded(child: searchField()),
-            const SizedBox(width: 8),
-            statusFilter,
-            const SizedBox(width: 4),
-            sortFilter,
-            const SizedBox(width: 4),
-            refreshButton,
-          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Measure at the actual input font size, not scale(1), so nonlinear
+            // text scaling also gets a full-width search field when needed.
+            final fontSize =
+                Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
+            final enlargedText =
+                MediaQuery.textScalerOf(context).scale(fontSize) >
+                fontSize * 1.3;
+            final width = constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : MediaQuery.sizeOf(context).width;
+            const spacing = 4.0;
+            const controlsWidth = 3 * kMinInteractiveDimension + 3 * spacing;
+            final searchWidth = width < 480 || enlargedText
+                ? width
+                : width - controlsWidth;
+            return Wrap(
+              spacing: spacing,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                SizedBox(
+                  key: const Key('admin-queue-search-slot'),
+                  width: searchWidth,
+                  child: searchField(),
+                ),
+                statusFilter,
+                sortFilter,
+                refreshButton,
+              ],
+            );
+          },
         ),
       ),
     );
@@ -166,6 +196,7 @@ class _AdminFilterMenu extends StatelessWidget {
           for (final option in options)
             PopupMenuItem<String>(
               value: option.value,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 children: [
                   SizedBox(
@@ -175,7 +206,7 @@ class _AdminFilterMenu extends StatelessWidget {
                         : null,
                   ),
                   const SizedBox(width: 8),
-                  Text(option.label),
+                  Flexible(child: Text(option.label, softWrap: true)),
                 ],
               ),
             ),
@@ -189,7 +220,7 @@ class _AdminFilterMenu extends StatelessWidget {
             ),
           ),
           child: SizedBox.square(
-            dimension: 46,
+            dimension: kMinInteractiveDimension,
             child: Icon(icon, size: 20, color: colors.textPrimary),
           ),
         ),

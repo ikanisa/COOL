@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
+import '../../../app/theme/collect_typography.dart';
 
 class AdminStatusChip extends StatelessWidget {
   const AdminStatusChip({required this.label, super.key});
@@ -10,19 +11,30 @@ class AdminStatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final normalized = label.toLowerCase();
+    final normalized = label.trim().toLowerCase().replaceAll(
+      RegExp(r'[_-]+'),
+      ' ',
+    );
     final tone =
         normalized.contains('review') ||
             normalized.contains('pending') ||
             normalized.contains('open') ||
             normalized.contains('ambiguous') ||
-            normalized.contains('unallocated')
+            normalized.contains('unallocated') ||
+            normalized.contains('unmatched') ||
+            normalized.contains('unbalanced') ||
+            normalized.contains('unknown') ||
+            normalized.contains('uncertain') ||
+            normalized.contains('awaiting')
         ? CollectStatusTone.warning
         : normalized.contains('failed') ||
+              normalized.contains('failure') ||
               normalized.contains('blocked') ||
               normalized.contains('expired') ||
               normalized.contains('inactive') ||
-              normalized.contains('retired')
+              normalized.contains('retired') ||
+              normalized.contains('undelivered') ||
+              normalized.contains('revoked')
         ? CollectStatusTone.danger
         : normalized.contains('active') ||
               normalized.contains('allocated') ||
@@ -33,7 +45,11 @@ class AdminStatusChip extends StatelessWidget {
               normalized.contains('matched') ||
               normalized.contains('reconciled') ||
               normalized.contains('posted') ||
-              normalized.contains('parsed')
+              normalized == 'parsed' ||
+              normalized == 'sent' ||
+              normalized == 'delivered' ||
+              normalized == 'read' ||
+              normalized == 'observed sent'
         ? CollectStatusTone.success
         : CollectStatusTone.info;
     final foreground = colors.statusForeground(tone);
@@ -43,15 +59,40 @@ class AdminStatusChip extends StatelessWidget {
       child: ExcludeSemantics(
         child: Tooltip(
           message: readableLabel,
+          excludeFromSemantics: true,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: colors.statusBackground(tone),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(999),
               border: Border.all(color: foreground.withValues(alpha: 0.26)),
             ),
-            child: SizedBox.square(
-              dimension: 32,
-              child: Icon(_statusIcon(normalized), size: 17, color: foreground),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 176, minHeight: 32),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(_statusIcon(normalized), size: 17, color: foreground),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        readableLabel,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              color: foreground,
+                              fontWeight: CollectTypography.weightMedium,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -72,16 +113,30 @@ IconData _statusIcon(String normalized) {
     return Icons.pause_circle_outline;
   }
   if (normalized.contains('failed') ||
+      normalized.contains('failure') ||
       normalized.contains('blocked') ||
-      normalized.contains('expired')) {
+      normalized.contains('expired') ||
+      normalized.contains('undelivered') ||
+      normalized.contains('revoked')) {
     return Icons.error_outline;
   }
   if (normalized.contains('review') ||
       normalized.contains('ambiguous') ||
-      normalized.contains('unallocated')) {
+      normalized.contains('unallocated') ||
+      normalized.contains('unmatched') ||
+      normalized.contains('unbalanced') ||
+      normalized.contains('unknown') ||
+      normalized.contains('uncertain')) {
     return Icons.priority_high_rounded;
   }
-  if (normalized.contains('pending') || normalized.contains('open')) {
+  if (normalized.contains('pending') ||
+      normalized.contains('open') ||
+      normalized.contains('awaiting') ||
+      normalized == 'queued' ||
+      normalized == 'claimed' ||
+      normalized == 'sending' ||
+      normalized == 'send started' ||
+      normalized == 'processing') {
     return Icons.schedule_outlined;
   }
   if (normalized.contains('active') ||
@@ -93,7 +148,11 @@ IconData _statusIcon(String normalized) {
       normalized.contains('matched') ||
       normalized.contains('reconciled') ||
       normalized.contains('posted') ||
-      normalized.contains('parsed')) {
+      normalized == 'parsed' ||
+      normalized == 'sent' ||
+      normalized == 'delivered' ||
+      normalized == 'read' ||
+      normalized == 'observed sent') {
     return Icons.check_circle_outline;
   }
   return Icons.info_outline;

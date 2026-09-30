@@ -1,0 +1,12 @@
+{
+  "tests": [
+    "flutter test --no-pub test/features/shared_chrome_accessibility_test.dart test/connection_recovery_screen_test.dart test/connection_recovery_screens_test.dart test/features/mobile_responsive_matrix_test.dart"
+  ],
+  "negative": [
+    "flutter test --no-pub --plain-name \"quick action words stay whole\" test/features/shared_chrome_accessibility_test.dart (isolated negative-compact source)"
+  ],
+  "build": "flutter build web --release --no-pub --no-web-resources-cdn --pwa-strategy=none --target tool/public_app_media_capture.dart --dart-define=COLLECT_PUBLIC_MEDIA_CAPTURE=true --dart-define=COLLECT_PUBLIC_LANDING_HOME=false --output .cache/l17-shared-ui/build4",
+  "sdk": "/Volumes/PRO-G40/Development/Flutter/flutter",
+  "browser": "node validate_browser.mjs FRESH_CACHE_OUTPUT",
+  "fixture_only": true
+}

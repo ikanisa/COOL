@@ -67,8 +67,9 @@ class MemberProfileRpcOnlyWritesTest < Minitest::Test
       reset role;
       select pg_temp.assert_true((select momo_number_hash=repeat('f',64) and momo_number='0788123401'
         from public.profiles where id='#{ACTOR}'),'unrelated hash accepted without changing phone');
-      select pg_temp.assert_true(public._authenticated_momo_phone_hash('#{ACTOR}')=repeat('f',64),
-        'contribution helper consumes the tampered hash');
+      select pg_temp.assert_true(public._authenticated_momo_phone_hash('#{ACTOR}')=
+        encode(extensions.digest('+250788123401','sha256'),'hex'),
+        'contribution helper derives the confirmed Auth phone despite a tampered profile hash');
       select pg_temp.assert_true((select count(*) from public.audit_logs)=(select n from audit_before),
         'direct write bypasses profile audit');
       select 'PROFILE_WRITE_TEST_PASS';

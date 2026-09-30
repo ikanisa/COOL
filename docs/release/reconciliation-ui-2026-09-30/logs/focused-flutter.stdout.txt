@@ -1,0 +1,92 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects non-exact six digit code "" without network
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects non-exact six digit code "12345" without network
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects non-exact six digit code "1234567" without network
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects non-exact six digit code "123 56" without network
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects non-exact six digit code "１２３４５６" without network
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects non-exact six digit code "123456\n" without network
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: verified TOTP upgrades only the current user and session
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: fences new user after list
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: fences same user new session after list
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: fences new user after challenge
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: fences same user new session after challenge
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: fences new user after verify
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: fences same user new session after verify
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: sign-out while challenge is pending cannot verify or restore account
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: provider disposal fences a pending response
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: requires an existing verified authenticator without enrollment
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: never guesses between multiple authenticators
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: concurrent submissions do not create competing challenges
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: untrusted failures are redacted and a later retry is allowed
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects verified response with wrong aal1
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects verified response with wrong user
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects verified response with wrong session
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: rejects verified response with wrong expiry
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: missing or expiring local session never calls Auth
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: Supabase transport uses Auth contracts, filters factors and never refreshes
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: Auth failure 429 maps to safe verification_rate_limited
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: Auth failure 422 maps to safe verification_failed
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: Auth failure 422 maps to safe verification_failed
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: Auth failure 403 maps to safe step_up_unavailable
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_step_up_test.dart: provider adopts and emits MFA event through the pinned main SDK
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: validates posted acknowledgment replay=false
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: validates posted acknowledgment replay=true
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: validates reversed acknowledgment replay=true
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality review_id=99920000-0000-4000-8000-000000000002
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality review_id=null
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality payment_id=99920000-0000-4000-8000-000000000002
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality payment_id=invalid
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality replayed=false
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality replayed=null
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality payment_status=review
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality evidence_level=sms
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects malformed finality evidence_level=null
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: reversed acknowledgment must be an exact replay
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: denial never invokes a fallback endpoint
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: invalid input IDs fail before network calls
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: review pages preserve exact filter and offset
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: all-review history sends null payment filter
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects wrong payment review page
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects unknown status review page
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects truncated review page
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects duplicate review page
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects missing total review page
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects invalid or leaked lineage payment_id
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects invalid or leaked lineage id
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects invalid or leaked lineage proposed_session_id
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: rejects invalid or leaked lineage audit
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: reviews cannot publish after account change
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: reviews cannot publish after same-user session change
+00:00 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: detail cannot publish after account change
+00:00 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: detail cannot publish after same-user session change
+00:00 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: proposal cannot publish after account change
+00:00 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: proposal cannot publish after same-user session change
+00:00 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: approval cannot publish after account change
+00:00 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: approval cannot publish after same-user session change
+00:00 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: finalization cannot publish after account change
+00:00 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_repository_test.dart: finalization cannot publish after same-user session change
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: (setUpAll)
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: actual reconciliation route renders the protected review queue
+00:01 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: read denial prevents any reconciliation request
+00:01 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: read-only operator cannot propose or approve
+00:01 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: maker cannot approve own evidence
+00:01 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:01 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: missing verified factor is actionable and never submits approval
+00:01 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: reversed replay never claims a new posted payment
+00:02 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: expired approval disables financial action and explains recovery
+00:02 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: revoked actor error is safe and actionable
+00:02 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: shrinking later queue page recovers to previous server page
+00:02 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: all history and per-payment reviews reach every server page
+00:02 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: lineage pages all audit records without private metadata
+00:02 +78: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: visible lineage closes on account switch
+00:03 +79: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: visible lineage closes on same-user session switch
+00:03 +80: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending lineage result is discarded after account switch
+00:03 +81: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending finalization cannot show success to a new session
+00:03 +82: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: cancelling step-up performs no financial action
+00:03 +83: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:03 +84: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: role revocation hides lineage and a later grant reloads cleanly
+00:03 +85: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:04 +86: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: approved reviewer surface has an explicit bounded action
+00:04 +87: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:04 +88: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: (tearDownAll)
+00:04 +88: All tests passed!

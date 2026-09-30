@@ -1,0 +1,69 @@
+{
+  "prepared_at": "2026-09-29T21:35:57.660065+00:00",
+  "status": "pass",
+  "source_files_rechecked": 14,
+  "source_files_match_pinned_run": true,
+  "copied_files": [
+    {
+      "file": "verification.json",
+      "source": ".cache/roster-deno-2.5.6-20260929/verification.json",
+      "sha256": "fafea57d56c893fafc4f4345140f1bcd36055c334aa5785f87c3b819cbec8e42",
+      "bytes": 893,
+      "copy_matches": true
+    },
+    {
+      "file": "roster-validation.json",
+      "source": ".cache/roster-deno-2.5.6-20260929/roster-validation.json",
+      "sha256": "3c4589d0a0991757cba19d18081a19b6ce4a56382828bc29c70c6bd9adc70466",
+      "bytes": 3470,
+      "copy_matches": true
+    },
+    {
+      "file": "source-sha256.json",
+      "source": ".cache/roster-deno-2.5.6-20260929/source-sha256.json",
+      "sha256": "795acce63c6ce1664b120eb59c69e4ea1ef20f79c50a8a57390d3fbbe1735181",
+      "bytes": 1648,
+      "copy_matches": true
+    },
+    {
+      "file": "roster-tests.log",
+      "source": ".cache/roster-deno-2.5.6-20260929/roster-tests.log",
+      "sha256": "0efc8692d13544edc184c1c2b10a37afc06d7e1b0b95cd5b994771a8e405493d",
+      "bytes": 4407,
+      "copy_matches": true
+    },
+    {
+      "file": "entrypoint-check.log",
+      "source": ".cache/roster-deno-2.5.6-20260929/entrypoint-check.log",
+      "sha256": "78629ec2a6a63cd955c78cbbef7d7b20ff639137e9fa721580aac7eba5e380ce",
+      "bytes": 110,
+      "copy_matches": true
+    },
+    {
+      "file": "entrypoint-check-initial-flag-error.log",
+      "source": ".cache/roster-deno-2.5.6-20260929/entrypoint-check-initial-flag-error.log",
+      "sha256": "7eab595100a4e2e8fbc95cda77c27338b0ee168657d49a2aa5190f786b8aafa8",
+      "bytes": 138,
+      "copy_matches": true
+    },
+    {
+      "file": "deno-aarch64-apple-darwin.zip.sha256sum",
+      "source": ".cache/roster-deno-2.5.6-20260929/deno-aarch64-apple-darwin.zip.sha256sum",
+      "sha256": "4d3173c27a7ce7eaae528678b34aa27169ae73cb85e2f29f42080f166084f9ef",
+      "bytes": 96,
+      "copy_matches": true
+    }
+  ],
+  "generated_files": [
+    {
+      "file": "official-release-assets.json",
+      "sha256": "25c1ed7e14053d931fbd39ea86e7f9234196e937c3e455bc92881a1589167666",
+      "bytes": 968
+    },
+    {
+      "file": "README.md",
+      "sha256": "89c260cd1fd4b663e073bd9bfc5f54a7fdd6c69930e64fae78238789fc35375c",
+      "bytes": 7680
+    }
+  ]
+}

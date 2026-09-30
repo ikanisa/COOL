@@ -1,0 +1,33 @@
+{
+  "sources": {
+    "android/gradlew": {
+      "sha256": "ec56c02543666d92d9ac5ae7fcc48f88ce4de0deb8b7f9b39928ca46f68c1b2b",
+      "bytes": 4971,
+      "mode": "0o700"
+    },
+    "android/gradlew.bat": {
+      "sha256": "c13c6e91b9a517783976de213d46398c661ea9e17651376d7301e839eaedcc62",
+      "bytes": 2404,
+      "mode": "0o700"
+    },
+    "android/gradle/wrapper/gradle-wrapper.jar": {
+      "sha256": "16caeaf66d57a0d1d2087fef6a97efa62de8da69afa5b908f40db35afc4342da",
+      "bytes": 53636,
+      "mode": "0o700"
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "sha256": "3221993eac1057198d652b7437105e2953ca4850d415eb0eb2b9625874fd059e",
+      "bytes": 202,
+      "mode": "0o700"
+    },
+    "third_party/file_saver/android/gradle/wrapper/gradle-wrapper.properties": {
+      "sha256": "f83fd11364dfd555c710c7db1073cea5e8a58a01e28752b2d04bf08132d8d6b5",
+      "bytes": 200,
+      "mode": "0o700"
+    }
+  },
+  "official_source": "https://gradle.org/release-checksums/",
+  "distribution_9_1_0_all_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "distribution_8_7_all_sha256": "194717442575a6f96e1c1befa2c30e9a4fc90f701d7aee33eb879b79e7ff05c0",
+  "old_app_jar_official_launcher_version": "2.10"
+}

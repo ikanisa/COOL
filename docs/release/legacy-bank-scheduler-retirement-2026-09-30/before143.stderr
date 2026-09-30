@@ -1,0 +1,17 @@
+ERROR:  column reference "h" is ambiguous
+LINE 9: ...56', encode(extensions.digest(coalesce(string_agg(h, '' orde...
+                                                             ^
+DETAIL:  It could refer to either a PL/pgSQL variable or a table column.
+QUERY:  jsonb_build_object(
+    'migration_count', (select count(*) from supabase_migrations.schema_migrations),
+    'migration_max', (select max(version) from supabase_migrations.schema_migrations),
+    'business_tables', business,
+    'cron_jobs', (select coalesce(jsonb_agg(jsonb_build_object(
+      'id', jobid, 'name', jobname, 'schedule', schedule, 'owner', username,
+      'database', database, 'host', nodename, 'port', nodeport, 'active', active,
+      'command_sha256', encode(extensions.digest(command, 'sha256'), 'hex')) order by jobid), '[]') from cron.job),
+    'cron_history', (select jsonb_build_object('rows', count(*), 'sha256', encode(extensions.digest(coalesce(string_agg(h, '' order by h), ''), 'sha256'), 'hex'))
+      from (select encode(extensions.digest(to_jsonb(d)::text, 'sha256'), 'hex') h from cron.job_run_details d) hashes),
+    'retirement_audit', receipts
+  )
+CONTEXT:  PL/pgSQL function pg_temp_35.scheduler_upgrade_snapshot() line 14 at RETURN

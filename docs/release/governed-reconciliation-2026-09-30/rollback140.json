@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-09-29T22:18:15.155266+00:00",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 140,
+  "script": "scripts/tests/reconciliation_workflow_uat.sql",
+  "script_sha256": "40e4231e4db13a0ed21b76ef7ba3944b9863b925af9ced4c4bb323f9c7c2f002",
+  "exit_code": 0,
+  "rollback_completed": true,
+  "provider_calls": false
+}

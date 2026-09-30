@@ -180,7 +180,7 @@ run_query() {
     printf '[schema-inventory][WARN] Management API query failed; falling back to READINESS_DATABASE_URL.\n' >&2
   fi
 
-  psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$tmp_sql"
+  collect_psql_url_service "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$tmp_sql"
 }
 
 inventory_output="$(run_query)"

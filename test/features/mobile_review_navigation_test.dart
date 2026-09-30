@@ -32,8 +32,8 @@ void main() {
     await tester.pumpAndSettle();
 
     for (final entry in const {
-      '/offline': 'You are offline',
-      '/sync': 'Sync needs attention',
+      '/offline': 'Connection',
+      '/sync': 'Data sync',
       '/groups/qa-private-group/profile': 'Group profile',
       '/groups/qa-private-group/ledger': 'Ledger',
       '/activity': 'Activity',

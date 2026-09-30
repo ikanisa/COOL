@@ -1,0 +1,1014 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 144,
+  "worker_sessions": 2,
+  "provider_calls": 0,
+  "hosted_auth_requests": 0,
+  "scenarios": [
+    {
+      "scenario": "duplicate_checkpoint_exact_replay",
+      "state": {
+        "pid": 6670,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          6663
+        ]
+      }
+    },
+    {
+      "scenario": "competing_tabs_checkpoint_compare_and_swap",
+      "state": {
+        "pid": 6670,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          6663
+        ]
+      }
+    },
+    {
+      "scenario": "duplicate_staged_review_no_execution",
+      "state": {
+        "pid": 6670,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          6663
+        ]
+      }
+    },
+    {
+      "scenario": "readonly_reload_waits_for_commit_receipt",
+      "state": {
+        "pid": 6670,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          6663
+        ]
+      }
+    },
+    {
+      "scenario": "concurrent_commit_replays_one_membership",
+      "state": {
+        "pid": 6670,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          6663
+        ]
+      }
+    },
+    {
+      "scenario": "feature_revocation_blocks_pending_reload",
+      "state": {
+        "pid": 6670,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          6663
+        ]
+      }
+    }
+  ],
+  "commit_acknowledgements": [
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": false,
+      "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+      "request_id": "99680000-0000-4000-8000-000000000301",
+      "revision_id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+      "roster_count": 1,
+      "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1"
+    },
+    {
+      "ok": true,
+      "mode": "create",
+      "replayed": true,
+      "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+      "request_id": "99680000-0000-4000-8000-000000000301",
+      "revision_id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+      "roster_count": 1,
+      "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+      "contract_version": 1,
+      "share_code_ready": true,
+      "reviewed_rows_sha256": "7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1"
+    }
+  ],
+  "read_only_recovery": true,
+  "checkpoint_cas": true,
+  "financial_rows_unchanged": true,
+  "source_sha256": "29b02596640b27465346d52270efbb8d5b556e105ea4fbef7325ff15eb370757",
+  "migration_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+  "baseline_tables": [
+    "auth.audit_log_entries",
+    "auth.custom_oauth_providers",
+    "auth.flow_state",
+    "auth.identities",
+    "auth.instances",
+    "auth.mfa_amr_claims",
+    "auth.mfa_challenges",
+    "auth.mfa_factors",
+    "auth.oauth_authorizations",
+    "auth.oauth_client_states",
+    "auth.oauth_clients",
+    "auth.oauth_consents",
+    "auth.one_time_tokens",
+    "auth.refresh_tokens",
+    "auth.saml_providers",
+    "auth.saml_relay_states",
+    "auth.schema_migrations",
+    "auth.sessions",
+    "auth.sso_domains",
+    "auth.sso_providers",
+    "auth.users",
+    "auth.webauthn_challenges",
+    "auth.webauthn_credentials",
+    "collect_admin_access.whatsapp_approvals",
+    "collect_auth_security.otp_phone_locks",
+    "collect_hybrid.collection_balances",
+    "collect_hybrid.group_creation_requests",
+    "collect_hybrid.legacy_bank_scheduler_observations",
+    "collect_hybrid.legacy_bank_scheduler_retirements",
+    "collect_hybrid.legacy_bank_scheduler_verifications",
+    "collect_hybrid.member_account_claims",
+    "collect_hybrid.member_balances",
+    "collect_hybrid.member_momo_identities",
+    "collect_hybrid.member_receiving_assignments",
+    "collect_hybrid.member_records",
+    "collect_hybrid.momo_balance_snapshots",
+    "collect_hybrid.momo_journal_entries",
+    "collect_hybrid.momo_journal_lines",
+    "collect_hybrid.momo_reconciliation_exceptions",
+    "collect_hybrid.momo_reversal_requests",
+    "collect_hybrid.payer_identity_reconciliation",
+    "collect_hybrid.payment_provider_rejections",
+    "collect_hybrid.receiving_assignment_requests",
+    "collect_hybrid.roster_batches",
+    "collect_hybrid.roster_import_commits",
+    "collect_hybrid.roster_import_editor_drafts",
+    "collect_hybrid.roster_import_extractions",
+    "collect_hybrid.roster_import_recovery_intents",
+    "collect_hybrid.roster_import_results",
+    "collect_hybrid.roster_import_revisions",
+    "collect_hybrid.roster_import_sources",
+    "collect_hybrid.sms_notification_attempts",
+    "collect_hybrid.sms_notification_claim_requests",
+    "collect_hybrid.sms_notification_confirmations",
+    "collect_hybrid.sms_notification_outbox",
+    "collect_hybrid.sms_operator_heartbeats",
+    "collect_hybrid.sms_receipt_member_consents",
+    "collect_hybrid.sms_receipt_policies",
+    "collect_security.reconciliation_reviews",
+    "public.account_request_reason_options",
+    "public.admin_navigation_items",
+    "public.admin_notes",
+    "public.admin_permissions",
+    "public.admin_queue_filter_options",
+    "public.admin_queue_signals",
+    "public.admin_queue_sla_policies",
+    "public.admin_queue_specs",
+    "public.admin_role_permissions",
+    "public.admin_roles",
+    "public.admin_sensitive_access_logs",
+    "public.admin_user_roles",
+    "public.app_realtime_events",
+    "public.audit_logs",
+    "public.bank_allocation_change_requests",
+    "public.bank_destination_change_requests",
+    "public.bank_evidence_events",
+    "public.bank_statement_imports",
+    "public.bank_statement_lines",
+    "public.bank_transaction_allocations",
+    "public.bank_transactions",
+    "public.bank_transfer_destinations",
+    "public.bank_transfer_intents",
+    "public.brand_entities",
+    "public.collection_category_subtypes",
+    "public.collection_invites",
+    "public.collection_members",
+    "public.collection_purpose_templates",
+    "public.collection_receivers",
+    "public.collection_reports",
+    "public.collection_share_secrets",
+    "public.collection_type_catalog",
+    "public.collection_type_country_rules",
+    "public.collections",
+    "public.daily_bank_closes",
+    "public.feature_flags",
+    "public.journal_entries",
+    "public.journal_lines",
+    "public.ledger_entries",
+    "public.member_obligations",
+    "public.mobile_account_deletion_requests",
+    "public.mobile_support_requests",
+    "public.moderation_flags",
+    "public.native_action_capabilities",
+    "public.notification_channels",
+    "public.notification_deliveries",
+    "public.notification_delivery_attempts",
+    "public.notification_device_tokens",
+    "public.notification_event_types",
+    "public.notification_events",
+    "public.notification_preferences",
+    "public.notification_template_versions",
+    "public.notification_templates",
+    "public.otp_rate_limits",
+    "public.parsed_payment_events",
+    "public.payment_allocations",
+    "public.payment_entrypoints",
+    "public.payment_evidence_links",
+    "public.payment_intents",
+    "public.payment_provider_confirmations",
+    "public.payments",
+    "public.policy_acceptance_events",
+    "public.policy_document_sections",
+    "public.policy_documents",
+    "public.profile_country_rules",
+    "public.profiles",
+    "public.provider_finality_requests",
+    "public.raw_payment_evidence",
+    "public.raw_payment_sms",
+    "public.receiver_mode_consents",
+    "public.reconciliation_exceptions",
+    "public.reconciliation_matches",
+    "public.reconciliation_runs",
+    "public.recurring_periods",
+    "public.support_channels",
+    "public.system_settings",
+    "supabase_migrations.schema_migrations"
+  ],
+  "baseline_table_count": 136,
+  "baseline_sha256_before": "998217b3fa06aa711d783c832c4487e4397036aeff1c26deae42ee54ff378c7b",
+  "baseline_sha256_after": "998217b3fa06aa711d783c832c4487e4397036aeff1c26deae42ee54ff378c7b",
+  "controls_sha256_before": "828f67c78ee084c28c542969a0dec0a1da5972130bd3119dafd220f45724c51e",
+  "controls_sha256_after": "828f67c78ee084c28c542969a0dec0a1da5972130bd3119dafd220f45724c51e",
+  "synthetic_graph_removed": true,
+  "worker_sessions_remaining": 0,
+  "qa_only_temporarily_disabled_triggers": {
+    "collect_hybrid.roster_import_sources": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_extractions": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_revisions": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_results": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_commits": "roster_provenance_immutable",
+    "collect_hybrid.roster_import_recovery_intents": "roster_recovery_intent_immutable"
+  },
+  "captured_transaction_ids": [
+    "2750",
+    "2751",
+    "2752",
+    "2753",
+    "2754",
+    "2755",
+    "2756",
+    "2757",
+    "2759",
+    "2760",
+    "2761",
+    "2762",
+    "2763",
+    "2764",
+    "2766",
+    "2767",
+    "2768",
+    "2769",
+    "2770",
+    "2772"
+  ],
+  "owned_row_xid_attribution": [
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000012",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99680000-0000-4000-8000-000000000002",
+        "factor_id": null,
+        "not_after": "2026-09-30T14:44:42.959458+00:00",
+        "created_at": "2026-09-30T13:44:42.959458+00:00",
+        "updated_at": "2026-09-30T13:44:42.959458+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2750",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000010001",
+        "ip": null,
+        "aal": "aal1",
+        "tag": null,
+        "scopes": null,
+        "user_id": "99680000-0000-4000-8000-000000000001",
+        "factor_id": null,
+        "not_after": "2026-09-30T14:44:43.116937+00:00",
+        "created_at": "2026-09-30T13:44:43.116937+00:00",
+        "updated_at": "2026-09-30T13:44:43.116937+00:00",
+        "user_agent": null,
+        "refreshed_at": null,
+        "oauth_client_id": null,
+        "refresh_token_counter": null,
+        "refresh_token_hmac_key": null
+      },
+      "xmin": "2751",
+      "relation": "auth.sessions"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000001",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": null,
+        "phone": "250788968001",
+        "created_at": null,
+        "deleted_at": null,
+        "invited_at": null,
+        "updated_at": null,
+        "instance_id": null,
+        "is_sso_user": false,
+        "banned_until": null,
+        "confirmed_at": "2026-09-30T13:44:42.955641+00:00",
+        "email_change": null,
+        "is_anonymous": false,
+        "phone_change": "",
+        "is_super_admin": null,
+        "recovery_token": null,
+        "last_sign_in_at": null,
+        "recovery_sent_at": null,
+        "confirmation_token": null,
+        "email_confirmed_at": null,
+        "phone_change_token": "",
+        "phone_confirmed_at": "2026-09-30T13:44:42.955641+00:00",
+        "confirmation_sent_at": null,
+        "email_change_sent_at": null,
+        "phone_change_sent_at": null,
+        "email_change_token_new": null,
+        "reauthentication_token": "",
+        "reauthentication_sent_at": null,
+        "email_change_token_current": "",
+        "email_change_confirm_status": 0
+      },
+      "xmin": "2750",
+      "relation": "auth.users"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000002",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": null,
+        "phone": "250788968002",
+        "created_at": null,
+        "deleted_at": null,
+        "invited_at": null,
+        "updated_at": null,
+        "instance_id": null,
+        "is_sso_user": false,
+        "banned_until": null,
+        "confirmed_at": "2026-09-30T13:44:42.955641+00:00",
+        "email_change": null,
+        "is_anonymous": false,
+        "phone_change": "",
+        "is_super_admin": null,
+        "recovery_token": null,
+        "last_sign_in_at": null,
+        "recovery_sent_at": null,
+        "confirmation_token": null,
+        "email_confirmed_at": null,
+        "phone_change_token": "",
+        "phone_confirmed_at": "2026-09-30T13:44:42.955641+00:00",
+        "confirmation_sent_at": null,
+        "email_change_sent_at": null,
+        "phone_change_sent_at": null,
+        "email_change_token_new": null,
+        "reauthentication_token": "",
+        "reauthentication_sent_at": null,
+        "email_change_token_current": "",
+        "email_change_confirm_status": 0
+      },
+      "xmin": "2750",
+      "relation": "auth.users"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster actor approval",
+        "user_id": "99680000-0000-4000-8000-000000000001",
+        "expires_at": null,
+        "phone_e164": "+250788968001",
+        "revoked_at": null,
+        "revoked_by": null,
+        "approved_at": "2026-09-30T13:42:42.958778+00:00",
+        "approved_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2750",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster controller approval",
+        "user_id": "99680000-0000-4000-8000-000000000002",
+        "expires_at": null,
+        "phone_e164": "+250788968002",
+        "revoked_at": null,
+        "revoked_by": null,
+        "approved_at": "2026-09-30T13:42:42.958845+00:00",
+        "approved_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2750",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "replay": false,
+          "visibility": "private",
+          "route_ready": false,
+          "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21"
+        },
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "input_hash": "0556a169b2f8461f83dd0ce4e8817c9c061b2dead72f9c275909a04e2a015967",
+        "request_id": "4c51d548-9ec8-4e4b-941d-57d92e321767",
+        "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21"
+      },
+      "xmin": "2765",
+      "relation": "collect_hybrid.group_creation_requests"
+    },
+    {
+      "row": {
+        "last3": "001",
+        "revision": 1,
+        "match_key": "e5615da82e3954126b4af8d2d3f2e88dcf59474192697c04bc7c85d390467468",
+        "member_id": "9c673631-e1fe-45b0-be32-e012affb0e6c",
+        "momo_name": "SYNTHETIC MEMBER 1",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "member_name": "Synthetic member 1",
+        "momo_number": "+250789968001",
+        "normalized_name": "SYNTHETIC MEMBER 1"
+      },
+      "xmin": "2765",
+      "relation": "collect_hybrid.member_momo_identities"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000001",
+        "origin": "app",
+        "lifecycle": "active",
+        "collect_id": "048282",
+        "created_at": "2026-09-30T13:44:42.955641+00:00",
+        "created_by": null,
+        "linked_user_id": "99680000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2750",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000002",
+        "origin": "app",
+        "lifecycle": "active",
+        "collect_id": "255755",
+        "created_at": "2026-09-30T13:44:42.955641+00:00",
+        "created_by": null,
+        "linked_user_id": "99680000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2750",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "id": "9c673631-e1fe-45b0-be32-e012affb0e6c",
+        "origin": "admin_assisted",
+        "lifecycle": "active",
+        "collect_id": "299295",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "created_by": "99680000-0000-4000-8000-000000000001",
+        "linked_user_id": null
+      },
+      "xmin": "2765",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "row": {
+        "result": {
+          "ok": true,
+          "rows": [
+            {
+              "member_id": "9c673631-e1fe-45b0-be32-e012affb0e6c",
+              "collect_id": "299295"
+            }
+          ],
+          "replay": false,
+          "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21"
+        },
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "input_hash": "3c0195f3651d6b63727425cbd09751d6cdf9f29cccdebf054f4c9d2f54943cc2",
+        "request_id": "c2b6e37e-5eb4-4f4d-98de-aac41f272df2",
+        "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21"
+      },
+      "xmin": "2765",
+      "relation": "collect_hybrid.roster_batches"
+    },
+    {
+      "row": {
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "response": {
+          "ok": true,
+          "mode": "create",
+          "replayed": false,
+          "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+          "request_id": "99680000-0000-4000-8000-000000000301",
+          "revision_id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+          "roster_count": 1,
+          "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+          "contract_version": 1,
+          "share_code_ready": true,
+          "reviewed_rows_sha256": "7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1"
+        },
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "request_id": "99680000-0000-4000-8000-000000000301",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "revision_id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+        "committed_at": "2026-09-30T13:44:43.613717+00:00",
+        "input_sha256": "864cfc44aacc2e747f7271fdd4b8fd33e2b6e2ae391763c61fdaea72525cd9c8",
+        "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21"
+      },
+      "xmin": "2764",
+      "relation": "collect_hybrid.roster_import_commits"
+    },
+    {
+      "row": {
+        "payload": "{\"parent_revision_id\":\"72422dd7-e169-4c30-8ded-46db8e63c00e\",\"rows\":[{\"member_name\":\"Synthetic member 1\",\"momo_name\":\"SYNTHETIC MEMBER 1\",\"momo_number\":\"+250789968001\"}],\"title\":\"Private concurrent draft\",\"reason\":\"Saved synthetic recovery values\"}",
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "expires_at": "2026-10-01T13:44:43.171515+00:00",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "updated_at": "2026-09-30T13:44:43.306648+00:00",
+        "checkpoint_id": "99680000-0000-4000-8000-000000000402",
+        "payload_sha256": "d0b2e4fc766c8250c76c13a26fe565c17b270d2aad69158777c178cb8b168d58"
+      },
+      "xmin": "2756",
+      "relation": "collect_hybrid.roster_import_editor_drafts"
+    },
+    {
+      "row": {
+        "id": "54e965ff-3d5e-4d99-9f72-3dac17c8ad8c",
+        "model": "synthetic-model",
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "provider": "openai",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "recorded_at": "2026-09-30T13:44:43.171632+00:00",
+        "prompt_version": "roster-extraction-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2752",
+      "relation": "collect_hybrid.roster_import_extractions"
+    },
+    {
+      "row": {
+        "kind": "commit",
+        "payload": "{\n  \"p_request_id\": \"99680000-0000-4000-8000-000000000301\",\n  \"p_import_id\": \"d9ade325-26ba-462e-87bf-635f82814aaf\",\n  \"p_revision_id\": \"645828d2-3d5f-4376-bb9e-19a9861fb6d8\",\n  \"p_reviewed_rows_sha256\": \"7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1\",\n  \"p_human_affirmed\": true,\n  \"p_mode\": \"create\",\n  \"p_collection_id\": null,\n  \"p_title\": \"Synthetic roster reload race 1\",\n  \"p_reason\": \"Reviewed every synthetic race member\"\n}",
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "created_at": "2026-09-30T13:44:43.596324+00:00",
+        "expires_at": "2026-10-01T13:44:43.171515+00:00",
+        "request_id": "99680000-0000-4000-8000-000000000301",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "payload_sha256": "f1de44ab1ddda0a5e4ce810ac2d986d75a49e5ac37990c2bdb9c2356186e03e3"
+      },
+      "xmin": "2763",
+      "relation": "collect_hybrid.roster_import_recovery_intents"
+    },
+    {
+      "row": {
+        "kind": "review",
+        "payload": "{\n  \"p_import_id\": \"d9ade325-26ba-462e-87bf-635f82814aaf\",\n  \"p_parent_revision_id\": \"72422dd7-e169-4c30-8ded-46db8e63c00e\",\n  \"p_rows\": [\n    {\n      \"member_name\": \"Synthetic member 1\",\n      \"momo_name\": \"SYNTHETIC MEMBER 1\",\n      \"momo_number\": \"+250789968001\"\n    }\n  ],\n  \"p_reason\": \"Reviewed synthetic race rows\",\n  \"p_request_id\": \"99680000-0000-4000-8000-000000000201\"\n}",
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "created_at": "2026-09-30T13:44:43.360855+00:00",
+        "expires_at": "2026-10-01T13:44:43.171515+00:00",
+        "request_id": "99680000-0000-4000-8000-000000000201",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "payload_sha256": "0c27c275d212d82dab1a88ed385ce6e0bf8856f6a6e7e94e5811482c81b5d4c6"
+      },
+      "xmin": "2759",
+      "relation": "collect_hybrid.roster_import_recovery_intents"
+    },
+    {
+      "row": {
+        "state": "preview_ready",
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "error_code": null,
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "recorded_at": "2026-09-30T13:44:43.236795+00:00",
+        "revision_id": "72422dd7-e169-4c30-8ded-46db8e63c00e",
+        "input_sha256": "e8cad0678d6cea3261d9c7124793d0dbc16699799d1a334d72621993fbf2db70",
+        "processing_metadata": {
+          "processing_method": "openai_structured_extraction",
+          "provider_response_id": "synthetic-response-1",
+          "provider_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "xmin": "2753",
+      "relation": "collect_hybrid.roster_import_results"
+    },
+    {
+      "row": {
+        "id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+        "reason": "Reviewed synthetic race rows",
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [
+
+              ],
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789968001"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789968001"
+            }
+          ]
+        },
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "created_at": "2026-09-30T13:44:43.526655+00:00",
+        "request_id": "99680000-0000-4000-8000-000000000201",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "input_sha256": "0f315effc9a5b935a1ba76795af8badaf18f75101873087a693d99a4c8a08957",
+        "extraction_id": "54e965ff-3d5e-4d99-9f72-3dac17c8ad8c",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 1",
+            "member_name": "Synthetic member 1",
+            "momo_number": "+250789968001"
+          }
+        ],
+        "revision_number": 2,
+        "processing_method": "human_review",
+        "parent_revision_id": "72422dd7-e169-4c30-8ded-46db8e63c00e",
+        "reviewed_rows_sha256": "7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1"
+      },
+      "xmin": "2762",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "72422dd7-e169-4c30-8ded-46db8e63c00e",
+        "reason": null,
+        "preview": {
+          "rows": [
+            {
+              "ready": true,
+              "issues": [
+
+              ],
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "confidence": 1,
+              "source_row": 1,
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789968001"
+            }
+          ],
+          "row_count": 1,
+          "error_count": 0,
+          "ready_count": 1,
+          "normalized_rows": [
+            {
+              "momo_name": "SYNTHETIC MEMBER 1",
+              "member_name": "Synthetic member 1",
+              "momo_number": "+250789968001"
+            }
+          ]
+        },
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "created_at": "2026-09-30T13:44:43.236545+00:00",
+        "request_id": null,
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "input_sha256": "e8cad0678d6cea3261d9c7124793d0dbc16699799d1a334d72621993fbf2db70",
+        "extraction_id": "54e965ff-3d5e-4d99-9f72-3dac17c8ad8c",
+        "normalized_rows": [
+          {
+            "momo_name": "SYNTHETIC MEMBER 1",
+            "member_name": "Synthetic member 1",
+            "momo_number": "+250789968001"
+          }
+        ],
+        "revision_number": 1,
+        "processing_method": "openai_structured_extraction",
+        "parent_revision_id": null,
+        "reviewed_rows_sha256": "7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1"
+      },
+      "xmin": "2753",
+      "relation": "collect_hybrid.roster_import_revisions"
+    },
+    {
+      "row": {
+        "id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "actor_id": "99680000-0000-4000-8000-000000000001",
+        "ai_consent": true,
+        "created_at": "2026-09-30T13:44:43.171515+00:00",
+        "expires_at": "2026-10-01T13:44:43.171515+00:00",
+        "request_id": "99680000-0000-4000-8000-000000000101",
+        "session_id": "99680000-0000-4000-8000-000000010001",
+        "source_kind": "pdf",
+        "source_size": 99,
+        "derived_size": null,
+        "input_sha256": "582f3fa4f7f20f3b4bb21108bd19ffc4a7b5e7eacb636336f51cfb6c97d89dd6",
+        "declared_mime": "application/pdf",
+        "detected_type": "application/pdf",
+        "source_sha256": "067cdeae21fc18655ccf59e3c8f2be12fd962a036453e5d25ecca76b21463b56",
+        "derived_sha256": null,
+        "parser_version": "collect-roster-parser-v1",
+        "schema_version": "collect-roster-rows-v1",
+        "client_filename": "synthetic-1.pdf",
+        "consent_version": "roster-ai-extraction-v1"
+      },
+      "xmin": "2752",
+      "relation": "collect_hybrid.roster_import_sources"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster concurrency roles",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99680000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T13:43:42.959067+00:00",
+        "granted_by": null,
+        "revoked_at": null,
+        "revoked_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2750",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "reason": "Synthetic roster concurrency roles",
+        "role_id": "5b10b73a-e1a5-4b10-837b-593db2448918",
+        "user_id": "99680000-0000-4000-8000-000000000002",
+        "created_at": "2026-09-30T13:43:42.95911+00:00",
+        "granted_by": null,
+        "revoked_at": null,
+        "revoked_by": null,
+        "revoke_reason": null
+      },
+      "xmin": "2750",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "row": {
+        "id": "7aaa9604-5eb1-4767-9839-6f03640d1522",
+        "action": "admin.feature_flag.updated",
+        "metadata": {
+          "key": "hybrid_member_onboarding",
+          "reason": "Synthetic reload revocation test",
+          "enabled": false
+        },
+        "entity_id": null,
+        "created_at": "2026-09-30T13:44:43.867926+00:00",
+        "entity_type": "feature_flag",
+        "actor_user_id": "99680000-0000-4000-8000-000000000002"
+      },
+      "xmin": "2769",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "a23223df-eb4b-472e-9c4e-d5211effdff5",
+        "action": "roster.import.committed",
+        "metadata": {
+          "mode": "create",
+          "reason": "Reviewed every synthetic race member",
+          "import_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+          "row_count": 1,
+          "request_id": "99680000-0000-4000-8000-000000000301",
+          "revision_id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+          "source_sha256": "067cdeae21fc18655ccf59e3c8f2be12fd962a036453e5d25ecca76b21463b56",
+          "human_affirmed": true,
+          "reviewed_rows_sha256": "7dd32143366687a6815cad73bd37c8f3dfc15a8160fe4179bbbdc70f369747f1"
+        },
+        "entity_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99680000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2764",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "a776a2b1-dea1-4c8a-b39c-8985a3b4ffc8",
+        "action": "collection.assisted.created",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "route_ready": false
+        },
+        "entity_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99680000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2765",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "b18fe71f-477d-42f8-b9b6-3ad062adfd63",
+        "action": "collection.assisted.roster_added",
+        "metadata": {
+          "reason": "Reviewed every synthetic race member",
+          "row_count": 1,
+          "request_id": "c2b6e37e-5eb4-4f4d-98de-aac41f272df2"
+        },
+        "entity_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "entity_type": "collection",
+        "actor_user_id": "99680000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2765",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "e6861b4d-e8c0-491f-8704-488852621e6c",
+        "action": "roster.import.reviewed",
+        "metadata": {
+          "reason": "Reviewed synthetic race rows",
+          "row_count": 1,
+          "request_id": "99680000-0000-4000-8000-000000000201",
+          "revision_id": "645828d2-3d5f-4376-bb9e-19a9861fb6d8",
+          "parent_revision_id": "72422dd7-e169-4c30-8ded-46db8e63c00e"
+        },
+        "entity_id": "d9ade325-26ba-462e-87bf-635f82814aaf",
+        "created_at": "2026-09-30T13:44:43.520899+00:00",
+        "entity_type": "roster_import",
+        "actor_user_id": "99680000-0000-4000-8000-000000000001"
+      },
+      "xmin": "2762",
+      "relation": "public.audit_logs"
+    },
+    {
+      "row": {
+        "id": "0697571e-d3d8-432d-90ed-d1d347e92b53",
+        "role": "owner",
+        "status": "active",
+        "user_id": "99680000-0000-4000-8000-000000000001",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+        "member_record_id": "99680000-0000-4000-8000-000000000001",
+        "invited_phone_hash": null
+      },
+      "xmin": "2765",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "id": "ff36731a-cc41-4d6e-abbb-5b54e5447cd3",
+        "role": "member",
+        "status": "active",
+        "user_id": null,
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+        "member_record_id": "9c673631-e1fe-45b0-be32-e012affb0e6c",
+        "invited_phone_hash": null
+      },
+      "xmin": "2765",
+      "relation": "public.collection_members"
+    },
+    {
+      "row": {
+        "rotated_at": "2026-09-30T13:44:43.604709+00:00",
+        "rotated_by": "99680000-0000-4000-8000-000000000001",
+        "share_code": "f7dfd58a-1280-4957-87ae-412fbb0a5360",
+        "collection_id": "b402418d-0922-46d7-89ff-48cb2af38e21"
+      },
+      "xmin": "2765",
+      "relation": "public.collection_share_secrets"
+    },
+    {
+      "row": {
+        "id": "b402418d-0922-46d7-89ff-48cb2af38e21",
+        "slug": "assisted-46471bbc8bd942e68fa6a7373eabb9c4",
+        "title": "Synthetic roster reload race 1",
+        "category": "Family / friends",
+        "currency": "RWF",
+        "created_at": "2026-09-30T13:44:43.604709+00:00",
+        "updated_at": "2026-09-30T13:44:43.604709+00:00",
+        "visibility": "private",
+        "archived_at": null,
+        "deadline_at": null,
+        "description": "",
+        "is_recurring": false,
+        "public_status": "private",
+        "purpose_label": null,
+        "recurring_rule": null,
+        "allow_anonymous": false,
+        "collection_type": "ikimina",
+        "cover_image_url": null,
+        "creation_origin": "admin_assisted",
+        "creator_user_id": "99680000-0000-4000-8000-000000000001",
+        "accent_color_hex": null,
+        "category_subtype": null,
+        "diaspora_enabled": false,
+        "diaspora_regions": [
+
+        ],
+        "moderation_status": "not_requested",
+        "recurring_cadence": "monthly",
+        "target_amount_rwf": null,
+        "suggested_amount_rwf": null,
+        "allow_public_comments": false,
+        "is_platform_sponsored": false,
+        "bank_transfer_currency": "EUR",
+        "receiver_display_label": null,
+        "contribution_visibility": "members"
+      },
+      "xmin": "2765",
+      "relation": "public.collections"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000001",
+        "public_id": "048282",
+        "avatar_url": null,
+        "created_at": "2026-09-30T13:44:42.955641+00:00",
+        "updated_at": "2026-09-30T13:44:42.955641+00:00",
+        "momo_number": null,
+        "country_code": "RW",
+        "display_name": null,
+        "revolut_link": null,
+        "revolut_name": null,
+        "currency_code": "RWF",
+        "momo_pay_code": null,
+        "momo_provider": null,
+        "whatsapp_phone": "250788968001",
+        "revolut_account": null,
+        "momo_number_hash": null,
+        "anonymity_default": "anonymous",
+        "is_platform_admin": false,
+        "momo_number_verified_at": null
+      },
+      "xmin": "2750",
+      "relation": "public.profiles"
+    },
+    {
+      "row": {
+        "id": "99680000-0000-4000-8000-000000000002",
+        "public_id": "255755",
+        "avatar_url": null,
+        "created_at": "2026-09-30T13:44:42.955641+00:00",
+        "updated_at": "2026-09-30T13:44:42.955641+00:00",
+        "momo_number": null,
+        "country_code": "RW",
+        "display_name": null,
+        "revolut_link": null,
+        "revolut_name": null,
+        "currency_code": "RWF",
+        "momo_pay_code": null,
+        "momo_provider": null,
+        "whatsapp_phone": "250788968002",
+        "revolut_account": null,
+        "momo_number_hash": null,
+        "anonymity_default": "anonymous",
+        "is_platform_admin": false,
+        "momo_number_verified_at": null
+      },
+      "xmin": "2750",
+      "relation": "public.profiles"
+    }
+  ],
+  "checkpoint_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/checkpoint144.json",
+  "telemetry_disposition": "Only observed top-level and exact owned-row child XIDs plus cleanup XID removed; all pre-existing rows retained.",
+  "sequence_counters_restored": false,
+  "sequence_note": "PostgreSQL nextval counters are not rolled back or reset."
+}

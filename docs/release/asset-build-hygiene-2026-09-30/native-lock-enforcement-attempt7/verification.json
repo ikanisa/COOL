@@ -1,0 +1,30 @@
+{
+  "commands": [
+    {
+      "name": "runtime-observed-lock-refresh",
+      "exit_code": 0,
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--write-locks",
+        "--offline",
+        "--no-daemon"
+      ]
+    },
+    {
+      "name": "runtime-strict",
+      "exit_code": 1,
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--offline",
+        "--no-daemon"
+      ]
+    }
+  ],
+  "lock_sha256": "ed5d3fd1206e25771fa0cf47588d21b5b180b8962d7316684d6acffaa41de599"
+}

@@ -1,0 +1,198 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../app/theme/collect_component_tokens.dart';
+import '../../core/utils/date_format.dart';
+import '../../core/utils/money_format.dart';
+import '../../shared/repositories/collect_repository.dart';
+import '../../shared/models/collect_models.dart';
+import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
+import '../../shared/widgets/collect_group_cards.dart';
+import '../../shared/widgets/screen_scaffold.dart';
+import 'app_share_service.dart';
+
+part 'home_public_groups_section.dart';
+
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(collectRepositoryProvider);
+    final isInitialLoading =
+        state.isLoading &&
+        state.collections.isEmpty &&
+        state.contributions.isEmpty &&
+        state.paymentIntents.isEmpty;
+    final collections = ref.watch(homeCollectionsProvider);
+    final publicCollections = ref.watch(featuredCollectionsProvider);
+    final profile = state.currentProfile;
+    // A recent transaction window is not a complete financial aggregate.
+    final contributedGroupCount = state.historyPage?.ownCollectionIds.length;
+    final summaries = ref.watch(collectionSummariesProvider);
+    final raisedTotals = state.historyPage?.ownTotals;
+    // Cached and newly merged receipts need not arrive in display order.
+    // Sort before taking the bounded recent preview without mutating state.
+    final contributions = [...state.contributions]
+      ..sort((a, b) {
+        final byDate = b.createdAt.compareTo(a.createdAt);
+        return byDate != 0 ? byDate : b.id.compareTo(a.id);
+      });
+    return ScreenScaffold(
+      title: 'Home',
+      showHeader: false,
+      compact: true,
+      topChrome: CollectScreenTopChrome(
+        avatarLabel: profile?.publicId,
+        avatarTooltip: 'Profile',
+        searchLabel: 'Search groups',
+        onAvatarTap: () => context.go('/settings'),
+        onSearchTap: () => context.go('/groups'),
+      ),
+      hero: isInitialLoading || state.hasInitialLoadFailure
+          ? null
+          : CollectScreenHero(
+              centerGap: CollectComponentTokens.homeHeroLeading(context),
+              quickActionsGap: CollectComponentTokens.homeHeroActionGap(
+                context,
+              ),
+              metric: raisedTotals == null
+                  ? 'Not available'
+                  : formatCurrencyTotals(
+                      raisedTotals,
+                      separator: '\n',
+                      emptyCurrency: 'RWF',
+                    ),
+              subtitleSemanticLabel: _supportedGroupCountLabel(
+                contributedGroupCount,
+              ),
+              subtitleWidget: _SupportedGroupsIndicator(
+                count: contributedGroupCount,
+              ),
+              quickActions: [
+                CollectHeroQuickAction(
+                  icon: CollectIcons.donate,
+                  label: 'Contribute',
+                  onTap: () => context.go('/contribute'),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.people,
+                  label: 'Explore Groups',
+                  onTap: () => context.go('/groups?filter=featured'),
+                ),
+                CollectHeroQuickAction(
+                  icon: CollectIcons.share,
+                  label: 'Share',
+                  onTap: () => shareCollectApp(context: context, ref: ref),
+                ),
+              ],
+            ),
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      children: [
+        if (isInitialLoading)
+          const CollectScreenLoadingState(
+            title: 'Loading home',
+            message: 'Refreshing groups, balances, and recent activity.',
+            icon: CollectIcons.home,
+            skeletonCount: 1,
+          ),
+        if (state.hasInitialLoadFailure)
+          CollectDataLoadFailure(
+            onRetry: () =>
+                ref.read(collectRepositoryProvider.notifier).loadInitial(),
+          ),
+        if (!isInitialLoading && !state.hasInitialLoadFailure) ...[
+          if (contributions.isNotEmpty) ...[
+            const SectionHeader(title: 'Activity'),
+            CollectCard(
+              child: Column(
+                children: [
+                  for (final contribution in contributions.take(5))
+                    ActivityFeedItem(
+                      title: compactCollectIdLabel(contribution.supporterLabel),
+                      amount: contribution.amountRwf,
+                      currency: contribution.currency,
+                      meta: formatCollectDateTime(contribution.createdAt),
+                      onTap: () => context.go(
+                        '/groups/${contribution.collectionId}/ledger',
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+          if (collections.isNotEmpty) ...[
+            _HomeGroupsSection(
+              key: const ValueKey('home_my_groups'),
+              title: 'My groups',
+              groupsRoute: '/groups?filter=member',
+              collections: collections,
+              summaries: summaries,
+            ),
+          ],
+          if (collections.isEmpty)
+            MinimalStatePanel(
+              icon: CollectIcons.people,
+              title: 'No groups yet',
+              message: 'Find a public group and start contributing.',
+              primaryAction: CollectButton(
+                label: 'Explore Groups',
+                icon: CollectIcons.people,
+                onPressed: () => context.go('/groups?filter=featured'),
+                expand: true,
+              ),
+            ),
+        ],
+        _HomeGroupsSection(
+          key: const ValueKey('home_featured_groups'),
+          title: 'Featured Groups',
+          groupsRoute: '/groups?filter=featured',
+          collections: publicCollections,
+          summaries: summaries,
+          showWhenEmpty: true,
+          isLoading: isInitialLoading,
+          emptyMessage: state.hasInitialLoadFailure
+              ? 'Featured groups could not be loaded. Try again.'
+              : 'Public groups selected by Collect will appear here.',
+        ),
+      ],
+    );
+  }
+}
+
+String _supportedGroupCountLabel(int? count) => count == null
+    ? 'Contributed group count not available'
+    : 'Contributed to $count ${count == 1 ? 'group' : 'groups'}';
+
+class _SupportedGroupsIndicator extends StatelessWidget {
+  const _SupportedGroupsIndicator({required this.count});
+
+  final int? count;
+
+  @override
+  Widget build(BuildContext context) {
+    if (count == null) return const Text('Not available');
+    final colors = context.collectColors;
+    final muted = CollectRuntimeTokens.chromeMutedForeground(colors);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(CollectIcons.people, size: 22, color: muted),
+        CollectSpacing.gapW8,
+        Text(
+          '$count',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: muted,
+            fontWeight: CollectTypography.weightSemibold,
+            height: CollectTypography.leadingLabel,
+            letterSpacing: CollectTypography.trackingDefault,
+          ),
+        ),
+      ],
+    );
+  }
+}

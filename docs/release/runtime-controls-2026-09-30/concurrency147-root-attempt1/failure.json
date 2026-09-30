@@ -1,0 +1,9 @@
+{
+  "actual_return_code": 1,
+  "baseline_restored": true,
+  "command_failure": {
+    "message": "Actual147 race command failed; preserve checkpoint and inspect state",
+    "type": "RuntimeError"
+  },
+  "sources_unchanged": true
+}

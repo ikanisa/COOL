@@ -1,0 +1,15 @@
+{
+  "captured_at_utc": "2026-09-29T23:08:29.344378+00:00",
+  "exit_code": 1,
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "source_sha256": "c2c49f80caefc1df06ff557d9ded0378b7f006cc1e62a8d1e4b1a225885b606c",
+  "backup_path": ".cache/roster-provenance-20260930/pre-concurrency142.dump",
+  "backup_sha256": "500e66e7de0c0720aa8107b41b9c95444676411cf5fe2fe2711f667439732ed2",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "2c75d9c436c864c21aa5b5dddf0e3d8ca28cd4b68336abcbe6d3cdb9c00212a4",
+  "provider_calls": false
+}

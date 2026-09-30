@@ -285,12 +285,11 @@ class _CollectBottomNavItem extends StatelessWidget {
       button: true,
       selected: selected,
       label: destination.label,
-      onTap: onTap,
-      child: ExcludeSemantics(
-        child: InkResponse(
-          onTap: onTap,
-          containedInkWell: true,
-          highlightShape: BoxShape.rectangle,
+      child: InkResponse(
+        onTap: onTap,
+        containedInkWell: true,
+        highlightShape: BoxShape.rectangle,
+        child: ExcludeSemantics(
           child: AnimatedContainer(
             key: ValueKey('collect-nav-${destination.label.toLowerCase()}'),
             duration: CollectMotion.duration(context, CollectMotion.fast),

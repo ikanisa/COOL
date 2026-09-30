@@ -1,0 +1,302 @@
+part of 'collection_create_screen.dart';
+
+class _CreateGroupReview extends StatelessWidget {
+  const _CreateGroupReview({
+    required this.title,
+    required this.description,
+    required this.collectionTypeOption,
+    required this.receiver,
+    required this.accentColor,
+    required this.hasPhoto,
+    required this.isPublicRequested,
+    this.error,
+  });
+
+  final String title;
+  final String description;
+  final CollectionTypeCatalogItem collectionTypeOption;
+  final String receiver;
+  final Color accentColor;
+  final bool hasPhoto;
+  final bool isPublicRequested;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: accentColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Review group', style: Theme.of(context).textTheme.titleLarge),
+          CollectSpacing.gap12,
+          CollectListTile(
+            leading: collectionTypeIcon(collectionTypeOption.type),
+            title: collectionTypeOption.label,
+            subtitle: collectionTypeOption.shortPurpose,
+          ),
+          CollectListTile(
+            leading: CollectIcons.collections,
+            title: title.isEmpty ? 'Group name missing' : title,
+            subtitle: description,
+          ),
+          CollectListTile(
+            leading: CollectIcons.momo,
+            title: receiver.isEmpty ? 'Receiver missing' : receiver,
+          ),
+          CollectListTile(
+            leading: CollectIcons.photo,
+            title: hasPhoto ? 'Group photo selected' : 'No group photo',
+          ),
+          CollectListTile(
+            leading: isPublicRequested
+                ? CollectIcons.people
+                : CollectIcons.lock,
+            title: isPublicRequested
+                ? 'Public review requested'
+                : 'Private group',
+            subtitle: isPublicRequested
+                ? 'The group stays private until approved.'
+                : 'Only people with a valid share link can join.',
+          ),
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: 'Create failed',
+              message: error!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _CollectionTypeGrid extends StatelessWidget {
+  const _CollectionTypeGrid({
+    required this.selected,
+    required this.options,
+    required this.onChanged,
+  });
+
+  final CollectionType selected;
+  final List<CollectionTypeCatalogItem> options;
+  final ValueChanged<CollectionType> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectionTypeIconSelector(
+      selected: selected,
+      options: options,
+      onChanged: onChanged,
+    );
+  }
+}
+
+class _GroupColorPalette extends StatelessWidget {
+  const _GroupColorPalette({
+    required this.selectedHex,
+    required this.onChanged,
+  });
+
+  final String selectedHex;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Group color', style: Theme.of(context).textTheme.labelLarge),
+        CollectSpacing.gap8,
+        Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children: [
+            for (final option in CollectColors.groupAccentOptions)
+              _ColorSwatchButton(
+                option: option,
+                selected: selectedHex == option.hex,
+                onTap: () => onChanged(option.hex),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _CreateGroupPhotoRow extends StatelessWidget {
+  const _CreateGroupPhotoRow({
+    required this.title,
+    required this.accentColor,
+    required this.imageBytes,
+    required this.onPick,
+    this.onRemove,
+  });
+
+  final String title;
+  final Color accentColor;
+  final Uint8List? imageBytes;
+  final VoidCallback onPick;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final displayTitle = title.isEmpty ? 'Group image' : title;
+    final preview = ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: SizedBox.square(
+        dimension: 82,
+        child: ColoredBox(
+          color: colors.surfaceMuted,
+          child: imageBytes == null
+              ? Icon(CollectIcons.photo, color: colors.textPrimary, size: 30)
+              : Image.memory(
+                  imageBytes!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    CollectIcons.photo,
+                    color: colors.textPrimary,
+                    size: 30,
+                  ),
+                ),
+        ),
+      ),
+    );
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          displayTitle,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: colors.textPrimary,
+            fontWeight: CollectTypography.weightBold,
+          ),
+        ),
+        CollectSpacing.gap4,
+        Text(
+          imageBytes == null ? 'Optional group photo' : 'Photo selected',
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+        ),
+      ],
+    );
+    final actions = Wrap(
+      spacing: CollectSpacing.x2,
+      children: [
+        IconButton.filledTonal(
+          tooltip: imageBytes == null ? 'Add photo' : 'Change photo',
+          onPressed: onPick,
+          icon: const Icon(CollectIcons.photo),
+        ),
+        if (onRemove != null)
+          IconButton.filledTonal(
+            tooltip: 'Remove photo',
+            onPressed: onRemove,
+            icon: const Icon(Icons.close_rounded),
+          ),
+      ],
+    );
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.all(CollectSpacing.x3),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final stacked =
+              constraints.maxWidth < 300 ||
+              MediaQuery.textScalerOf(context).scale(16) >= 16 * 1.3;
+          return stacked
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [preview, const Spacer(), actions]),
+                    CollectSpacing.gap16,
+                    details,
+                  ],
+                )
+              : Row(
+                  children: [
+                    preview,
+                    CollectSpacing.gapW16,
+                    Expanded(child: details),
+                    actions,
+                  ],
+                );
+        },
+      ),
+    );
+  }
+}
+
+class _MobileCreatePanel extends StatelessWidget {
+  const _MobileCreatePanel({required this.children, this.error});
+
+  final List<Widget> children;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.all(CollectSpacing.x4),
+      child: Column(
+        children: [
+          for (var index = 0; index < children.length; index += 1) ...[
+            children[index],
+            if (index != children.length - 1) CollectSpacing.gap12,
+          ],
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: 'Create failed',
+              message: error!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ColorSwatchButton extends StatelessWidget {
+  const _ColorSwatchButton({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final CollectPaletteOption option;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedForeground = CollectColors.foregroundOn(option.color);
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Group color ${option.hex}',
+      child: Material(
+        color: option.color,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: selected
+                ? Icon(CollectIcons.check, size: 20, color: selectedForeground)
+                : null,
+          ),
+        ),
+      ),
+    );
+  }
+}

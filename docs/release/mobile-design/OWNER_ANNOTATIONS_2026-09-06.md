@@ -1,6 +1,6 @@
 # Owner annotation corrections — 6 September 2026
 
-Local implementation and scoped verification passed. `MOBILE-DESIGN-100` remains blocked; this is not production approval or a claim of complete design fidelity.
+This is historical owner-annotation and implementation evidence from 6 September 2026. The owner-selected `revolut-design` skill is the sole UI/UX authority. Local scoped verification passed at that time; it is not current production approval or a claim of complete design fidelity. References to the then-current bank journey and test counts require revalidation against today's Rwanda-only source.
 
 ## Implemented behavior
 
@@ -12,7 +12,7 @@ Local implementation and scoped verification passed. `MOBILE-DESIGN-100` remains
 
 ## Evidence
 
-The final full run passed **192 widget tests**, covering Home discovery and states, profile validation/save/draft switching, payment behavior, native bank contribution, offline cache, accessibility geometry and responsive layouts. Initial test-only timing/scroll failures were corrected and the entire affected suite rerun successfully. The final JSON test report is authoritative.
+The final full run was reported to pass **192 widget tests**, covering Home discovery and states, profile validation/save/draft switching, payment behavior, native bank contribution, offline cache, accessibility geometry and responsive layouts. Initial test-only timing/scroll failures were corrected and the entire affected suite rerun successfully. This retained narrative supplies dated product evidence; the retired JSON report is absent and this record does not validate a current run.
 
 The rebuilt Android development fixture passed **36 native input cases**, with **68 actual OS screenshots**, across portrait/landscape and 100%/200% OS text size. This includes the new MoMo-code tab. Source and harness hashes matched before and after the final run. The installed APK hash matched the retained QA artifact. All 68 images decoded and passed the green-focus-frame raster check. No `E/flutter` or `FATAL EXCEPTION` was found in the final run log.
 
@@ -26,7 +26,7 @@ The disposable Collect QA emulator’s original settings were restored and the e
 
 - [Latest Home and form review](http://collect.localhost:4191/responsive.html?v=20260906-owner-updates)
 - [Complete native keyboard matrix](http://collect.localhost:4191/native-keyboard.html)
-- [Machine-readable verification](owner-annotations-verification-2026-09-06.json)
+- The former machine-readable verification file has been removed; it supplies no current acceptance evidence.
 - Evidence: `.cache/revolut-design-20260906/owner-annotations/`
 - Authoritative native run: `native-final/`; earlier interrupted recipient/code-tab runs are superseded.
 - The root acceptance status, required cases, annotations and open findings are retained unchanged. Full reference/state review, native screen-reader evidence, current iOS keyboard evidence and exact production artifact acceptance remain open.

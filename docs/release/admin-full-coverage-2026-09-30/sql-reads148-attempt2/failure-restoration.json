@@ -1,0 +1,19 @@
+{
+  "guard": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "sequences_restored": false,
+  "status": "restored",
+  "stderr_sha256": "8f0d95ce2b5a0c4192c5323af26cee17de8bdf185f408b867cec2cd98e914b1e",
+  "table_count": 146,
+  "unchanged": true
+}

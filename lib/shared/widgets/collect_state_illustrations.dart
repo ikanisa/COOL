@@ -34,7 +34,7 @@ class MinimalStatePanel extends StatelessWidget {
       accentColor: colors.statusForeground(tone),
       child: Semantics(
         container: true,
-        label: message.trim().isEmpty ? title : '$title, $message',
+        explicitChildNodes: true,
         child: ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: usesAccessibilityText ? double.infinity : contentMaxWidth,
@@ -44,8 +44,9 @@ class MinimalStatePanel extends StatelessWidget {
             children: [
               CollectToneIcon(icon: icon, tone: tone, large: true),
               CollectSpacing.gap16,
-              Text(
-                title,
+              CollectHeadingText(
+                title: title,
+                level: 2,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.textPrimary,
                   fontWeight: CollectTypography.weightBold,

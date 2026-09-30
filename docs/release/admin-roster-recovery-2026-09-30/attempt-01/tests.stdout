@@ -1,0 +1,98 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: lost commit is recovered from matching server receipt without a second write
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: a consumed import with another request receipt is terminal, never fallback success
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status import_id mismatch keeps uncertain commit locked
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status state mismatch keeps uncertain commit locked
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status expires_at mismatch keeps uncertain commit locked
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status commit mismatch keeps uncertain commit locked
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status error_code mismatch keeps uncertain commit locked
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status cannot substitute source lineage or a mismatched commit acknowledgement
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: session change during status recovery hides private state and suppresses acknowledgement
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_revision_limit stops review writes and checks status without replacing the pending request
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_request_conflict stops review writes and checks status without replacing the pending request
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_revision_superseded stops review writes and checks status without replacing the pending request
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_actor_unavailable clears PII and prevents every further draft action
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_session_required clears PII and prevents every further draft action
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_feature_disabled clears PII and prevents every further draft action
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: roster_import_unavailable clears PII and prevents every further draft action
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: upload request conflict never blindly repeats or changes its request ID
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: real gateway status read pins refreshed same-session token and maps SQL denial safely
+00:00 +17 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: real gateway status read pins refreshed same-session token and maps SQL denial safely [E]
+  Expected: throws <Instance of 'AdminRosterRequestError'> with `safe code`: 'roster_feature_disabled'
+    Actual: <Instance of 'Future<Object?>'>
+     Which: threw <Instance of 'AdminRosterRequestError'>
+            stack package:collect_app/admin/core/admin_roster_import.dart 242:7  SupabaseAdminRosterGateway._rpc
+                  ===== asynchronous gap ===========================
+                  package:matcher                                                expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8              expectLater
+                  test/admin_roster_import_test.dart 267:13                      main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                     _CustomZone.registerUnaryCallback
+                  test/admin_roster_import_test.dart 263:7                       main.<fn>
+                  
+            which has `safe code` with value 'unknown' which is different.
+                  Expected: roster_fea ...
+                    Actual: unknown
+                            ^
+                   Differ at offset 0
+  
+  package:matcher                                    expectLater
+  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+  test/admin_roster_import_test.dart 267:13          main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                         _CustomZone.registerUnaryCallback
+  test/admin_roster_import_test.dart 263:7           main.<fn>
+  
+00:00 +17 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: same-session refresh during upload succeeds and does not change the in-flight Authorization
+00:00 +18 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: terminal roster_extraction_timeout calls for explicit new upload, keeps old draft
+00:00 +19 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: terminal roster_extraction_refused calls for explicit new upload, keeps old draft
+00:00 +20 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: terminal roster_extraction_incomplete calls for explicit new upload, keeps old draft
+00:00 +21 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: terminal roster_provider_response_invalid calls for explicit new upload, keeps old draft
+00:00 +22 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: terminal roster_provider_response_too_large calls for explicit new upload, keeps old draft
+00:00 +23 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: terminal roster_extraction_unavailable calls for explicit new upload, keeps old draft
+00:00 +24 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: uploads preserve original CSV/TXT/AI bytes and distinguish pasted text
+00:00 +25 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: XLSX transmits workbook bytes and separately identified TSV after preflight
+00:00 +26 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: unsafe filename is bounded without dropping the extension
+00:00 +27 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +28 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +29 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +30 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +31 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +32 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +33 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (setUpAll)
+00:00 +33 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: rejects commit ACK import_id mismatch and retains retry
+00:00 +34 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +35 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +36 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +37 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +38 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +39 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +40 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +41 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +42 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +43 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +44 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +45 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +46 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +47 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +48 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +49 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +50 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +51 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +52 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +53 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +54 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +55 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +56 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +57 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:00 +58 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:02 +59 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: existing group retry requires status check and retains exact payload after null ACK
+00:02 +60 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: account/session invalidation immediately hides source, rows and text while extraction waits
+00:02 +61 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: AI source confidence remains visible after saving human edits
+00:02 +62 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: keyboard traversal and Escape keep the explicit-discard draft recoverable
+00:02 +63 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: 320px and 2x text retain reachable fields, errors, review and discard actions
+00:02 +64 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (tearDownAll)
+00:02 +64 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: real gateway status read pins refreshed same-session token and maps SQL denial safely

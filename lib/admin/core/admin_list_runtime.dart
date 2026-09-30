@@ -14,7 +14,8 @@ extension CollectAdminOperationSpec on CollectAdminOperation {
     CollectAdminOperation.payees => 'Official receivers for public groups.',
     CollectAdminOperation.transactions =>
       'Received payments and allocation state.',
-    CollectAdminOperation.reconciliations => 'Payments needing allocation.',
+    CollectAdminOperation.reconciliations =>
+      'Independent evidence review before ledger posting.',
     CollectAdminOperation.ledgers => 'Balanced postings.',
   };
 
@@ -33,7 +34,7 @@ extension CollectAdminOperationSpec on CollectAdminOperation {
 
   String? get actionKind => switch (this) {
     CollectAdminOperation.payees => 'collect_payee_manage',
-    CollectAdminOperation.reconciliations => 'collect_allocate',
+    CollectAdminOperation.reconciliations => null,
     _ => null,
   };
 
@@ -51,15 +52,18 @@ class AdminCollectOperationsPage extends StatelessWidget {
   final CollectAdminOperation operation;
 
   @override
-  Widget build(BuildContext context) => AdminRpcListPage(
-    title: operation.title,
-    rpcName: operation.rpcName,
-    detailPathPrefix: operation.detailPath,
-    actionKind: operation.actionKind,
-    subtitleOverride: operation.subtitle,
-    valueLabelOverride: operation.valueLabel,
-    minimal: true,
-  );
+  Widget build(BuildContext context) =>
+      operation == CollectAdminOperation.reconciliations
+      ? const AdminReconciliationPage()
+      : AdminRpcListPage(
+          title: operation.title,
+          rpcName: operation.rpcName,
+          detailPathPrefix: operation.detailPath,
+          actionKind: operation.actionKind,
+          subtitleOverride: operation.subtitle,
+          valueLabelOverride: operation.valueLabel,
+          minimal: true,
+        );
 }
 
 class AdminRpcListPage extends ConsumerStatefulWidget {
@@ -111,6 +115,7 @@ final _adminQueueViewStatesProvider =
       ref.watch(
         adminIdentityProvider.select((value) => value.valueOrNull?.userId),
       );
+      ref.watch(adminAuthSessionScopeProvider);
       return {};
     });
 
@@ -126,8 +131,11 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   var _status = '';
   var _sortBy = 'created_at_desc';
   var _page = 0;
-  late Future<AdminListResult> _future;
+  var _requestGeneration = 0;
+  var _appliedSearch = '';
+  late Future<AdminLoadedPage> _future;
   var _lastRealtimeTick = 0;
+  var _appliedRealtimeTick = 0;
   late AdminCountryScope _lastCountryScope;
 
   @override
@@ -137,6 +145,8 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     _viewStates = ref.read(_adminQueueViewStatesProvider);
     final saved = _viewStates[widget.rpcName];
     _search = TextEditingController(text: saved?.search ?? '');
+    _appliedSearch = _search.text;
+    _lastRealtimeTick = ref.read(adminRealtimeTickProvider);
     _status = saved?.status ?? '';
     _sortBy = saved?.sortBy ?? 'created_at_desc';
     if (saved != null && saved.country == _lastCountryScope) {
@@ -148,7 +158,34 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   }
 
   @override
+  void didUpdateWidget(covariant AdminRpcListPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.rpcName == widget.rpcName) return;
+    _rememberView(rpcName: oldWidget.rpcName);
+    _lastCountryScope = ref.read(adminCountryScopeProvider);
+    final currentViewStates = ref.read(_adminQueueViewStatesProvider);
+    // Do not restore another account's route preferences during a simultaneous
+    // route/account change. Its provider owns a separate in-memory map.
+    _viewStates = currentViewStates;
+    _canRememberView = true;
+    final saved = _viewStates[widget.rpcName];
+    _search.text = saved?.search ?? '';
+    _appliedSearch = _search.text;
+    _status = saved?.status ?? '';
+    _sortBy = saved?.sortBy ?? 'created_at_desc';
+    if (saved != null && saved.country == _lastCountryScope) {
+      _page = saved.page;
+      _restoreScrollOffset = saved.scrollOffset;
+    } else {
+      _page = 0;
+      _restoreScrollOffset = 0;
+    }
+    _future = _load();
+  }
+
+  @override
   void dispose() {
+    _requestGeneration++;
     _rememberView();
     _search.dispose();
     _scroll.dispose();
@@ -159,12 +196,14 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   Widget build(BuildContext context) {
     final currentViewStates = ref.watch(_adminQueueViewStatesProvider);
     if (!identical(currentViewStates, _viewStates)) {
+      _requestGeneration++;
       _canRememberView = false;
       _viewStates = currentViewStates;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         setState(() {
           _search.clear();
+          _appliedSearch = '';
           _status = '';
           _sortBy = 'created_at_desc';
           _page = 0;
@@ -179,15 +218,14 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     final countryScope = ref.watch(adminCountryScopeProvider);
     if (_lastRealtimeTick != realtimeTick) {
       _lastRealtimeTick = realtimeTick;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _refresh();
-      });
     }
     if (_lastCountryScope != countryScope) {
+      _requestGeneration++;
       _lastCountryScope = countryScope;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _refresh(resetPage: true);
       });
+      return const AdminLoadingState(title: 'Loading admin workspace');
     }
     final runtimeConfig = ref.watch(adminRuntimeConfigProvider).valueOrNull;
     final spec = _AdminListSpec.forRpc(
@@ -210,11 +248,6 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!widget.minimal)
-            _AdminBankQueueActions(
-              rpcName: widget.rpcName,
-              onDone: () => _refresh(resetPage: true),
-            ),
           AdminFilterBar(
             searchController: _search,
             status: _status,
@@ -224,17 +257,40 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             onStatusChanged: (value) => setState(() {
               _status = value;
               _page = 0;
-              _future = _load();
+              _restoreScrollOffset = 0;
+              _future = _load(applySearch: true);
             }),
             onSortChanged: (value) => setState(() {
               _sortBy = value;
               _page = 0;
-              _future = _load();
+              _restoreScrollOffset = 0;
+              _future = _load(applySearch: true);
             }),
             onRefresh: () => _refresh(resetPage: true),
           ),
+          if (_lastRealtimeTick != _appliedRealtimeTick) ...[
+            const SizedBox(height: 12),
+            Semantics(
+              liveRegion: true,
+              child: const InfoSecurityBanner(
+                key: Key('admin-new-activity-banner'),
+                title: 'New activity available',
+                message:
+                    'Refresh to load the latest records. Current rows stay in place.',
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                key: const Key('admin-apply-new-activity'),
+                onPressed: () => _refresh(),
+                icon: const Icon(Icons.refresh_outlined),
+                label: const Text('Refresh records'),
+              ),
+            ),
+          ],
           const SizedBox(height: 16),
-          FutureBuilder<AdminListResult>(
+          FutureBuilder<AdminLoadedPage>(
             future: _future,
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
@@ -249,39 +305,24 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                   onRetry: () => _refresh(),
                 );
               }
-              final result = snapshot.data;
-              final loadedRows = result?.rows ?? const <AdminTableRowData>[];
-              final scoped =
-                  adminRpcUsesCountryScope(widget.rpcName) &&
-                  countryScope != AdminCountryScope.all;
-              final countryRows = scoped
-                  ? loadedRows
-                        .where(
-                          (row) =>
-                              adminRowMatchesCountryScope(row, countryScope),
-                        )
-                        .toList(growable: false)
-                  : loadedRows;
-              // The scoped RPC has already filtered and paged the result.
-              // Preserve its complete count instead of capping it at one batch.
-              final total = result?.total ?? countryRows.length;
-              final maxPage = total == 0
-                  ? 0
-                  : ((total - 1) / _pageSize).floor();
-              final page = _page.clamp(0, maxPage);
-              final rows = countryRows;
+              final loaded = snapshot.requireData;
+              final rows = loaded.result.rows;
+              final scoped = adminRpcUsesCountryScope(widget.rpcName);
+              final total = loaded.total;
+              final page = loaded.page;
+              final maxPage = loaded.lastPage;
               if (rows.isEmpty) {
                 return AdminEmptyState(
                   title: scoped
                       ? 'No ${widget.title.toLowerCase()} in ${countryScope.label}'
                       : 'No ${widget.title.toLowerCase()}',
                   message: scoped
-                      ? 'Choose another country or refresh.'
+                      ? 'Refresh or change the filters.'
                       : _adminEmptyMessage(widget.rpcName),
                 );
               }
-              final start = page * _pageSize;
-              final end = (start + rows.length).clamp(0, total);
+              final start = loaded.start;
+              final end = loaded.end;
               final restoreOffset = _restoreScrollOffset;
               if (restoreOffset != null) {
                 _restoreScrollOffset = null;
@@ -334,17 +375,19 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                   if (total > _pageSize) ...[
                     const SizedBox(height: 12),
                     _AdminPaginationBar(
-                      start: start + 1,
+                      start: start,
                       end: end,
                       total: total,
                       canGoBack: page > 0,
                       canGoNext: page < maxPage,
                       onPrevious: () => setState(() {
                         _page = page - 1;
+                        _restoreScrollOffset = 0;
                         _future = _load();
                       }),
                       onNext: () => setState(() {
                         _page = page + 1;
+                        _restoreScrollOffset = 0;
                         _future = _load();
                       }),
                     ),
@@ -358,31 +401,73 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     );
   }
 
-  Future<AdminListResult> _load() async {
+  Future<AdminLoadedPage> _load({bool applySearch = false}) async {
+    final generation = ++_requestGeneration;
+    // A realtime event advertises new work without replacing rows under an
+    // operator's focus or pointer. Only an explicit load consumes that event.
+    _appliedRealtimeTick = ref.read(adminRealtimeTickProvider);
+    _lastRealtimeTick = _appliedRealtimeTick;
+    final repository = ref.read(adminRepositoryProvider);
+    final sessionScope = ref.read(adminAuthSessionScopeProvider);
     final countryScope = ref.read(adminCountryScopeProvider);
-    final result = await ref
-        .read(adminRepositoryProvider)
-        .list(
-          widget.rpcName,
-          search: _search.text,
-          status: _status,
-          limit: _pageSize,
-          offset: _page * _pageSize,
-          sortBy: _sortBy,
+    final userId = ref.read(adminIdentityProvider).valueOrNull?.userId;
+    final rpcName = widget.rpcName;
+    if (applySearch) _appliedSearch = _search.text.trim();
+    // Freeze the query before awaiting: a retry must not mix an old page with
+    // a newly typed search, another route, country, or Admin identity.
+    final search = _appliedSearch;
+    final status = _status;
+    final sortBy = _sortBy;
+    final requestedPage = _page;
+    bool isCurrent() =>
+        mounted &&
+        generation == _requestGeneration &&
+        ref.read(adminAuthSessionScopeProvider) == sessionScope &&
+        identical(ref.read(adminRepositoryProvider), repository) &&
+        widget.rpcName == rpcName &&
+        ref.read(adminCountryScopeProvider) == countryScope &&
+        ref.read(adminIdentityProvider).valueOrNull?.userId == userId;
+    final loaded = await loadAdminListPage(
+      page: requestedPage,
+      pageSize: _pageSize,
+      isCurrent: isCurrent,
+      fetch: (limit, offset) async {
+        final result = await repository.list(
+          rpcName,
+          search: search,
+          status: status,
+          limit: limit,
+          offset: offset,
+          sortBy: sortBy,
           countryCode: countryScope.rpcCode,
         );
-    if (mounted) {
-      ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
-        adminClockProvider,
-      )();
-    }
-    return result;
+        if (adminRpcUsesCountryScope(rpcName) &&
+            result.rows.any(
+              (row) => !adminRowMatchesCountryScope(row, countryScope),
+            )) {
+          throw const FormatException(
+            'Admin list returned rows outside the requested country.',
+          );
+        }
+        return result;
+      },
+    );
+    if (!isCurrent()) throw const AdminPageRequestSuperseded();
+    _page = loaded.page;
+    if (loaded.page != requestedPage) _restoreScrollOffset = 0;
+    ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
+      adminClockProvider,
+    )();
+    return loaded;
   }
 
   void _refresh({bool resetPage = false}) {
     setState(() {
-      if (resetPage) _page = 0;
-      _future = _load();
+      if (resetPage) {
+        _page = 0;
+        _restoreScrollOffset = 0;
+      }
+      _future = _load(applySearch: resetPage);
     });
   }
 
@@ -393,10 +478,10 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     context.go('$prefix/${Uri.encodeComponent(row.id)}');
   }
 
-  void _rememberView() {
+  void _rememberView({String? rpcName}) {
     if (!_canRememberView) return;
-    _viewStates[widget.rpcName] = _AdminQueueViewState(
-      search: _search.text,
+    _viewStates[rpcName ?? widget.rpcName] = _AdminQueueViewState(
+      search: _appliedSearch,
       status: _status,
       sortBy: _sortBy,
       page: _page,
@@ -419,10 +504,6 @@ String _adminQueueValueLabel(String rpcName) => switch (rpcName) {
   'admin_list_hybrid_sms_receipts' => 'Amount',
   'admin_list_notifications' => 'Deliveries',
   'admin_list_admin_users' => 'Access',
-  'admin_list_bank_destinations' ||
-  'admin_list_bank_destination_change_requests' ||
-  'admin_list_reconciliation_runs' ||
-  'admin_list_reconciliation_exceptions' => 'Detail',
   'admin_list_users' ||
   'admin_list_members' ||
   'admin_list_non_member_users' ||
@@ -548,8 +629,7 @@ class _AdminRowActions extends ConsumerWidget {
           ),
         ],
       'collect_allocate'
-          when (_adminHasPermission(identity, 'payments.allocate') ||
-                  _adminHasPermission(identity, 'bank_allocations.propose')) &&
+          when (_adminHasPermission(identity, 'payments.allocate')) &&
               (row.extra['can_allocate'] == true ||
                   '${row.extra['event_id'] ?? ''}'.isNotEmpty ||
                   '${row.extra['transaction_id'] ?? ''}'.isNotEmpty) =>
@@ -611,17 +691,28 @@ class _AdminRowActions extends ConsumerWidget {
   }
 
   Future<void> _reparse(BuildContext context, WidgetRef ref) async {
+    final scope = _AdminActionScope(ref);
     final reason = await showAdminReasonDialog(
       context,
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
       title: 'Request MoMo SMS reparse',
       actionLabel: 'Request reparse',
     );
-    if (reason == null) return;
-    await ref.read(adminRepositoryProvider).action(
-      'admin_reparse_payment_event',
-      {'p_event_id': row.id, 'p_reason': reason},
-    );
-    onDone();
+    if (reason == null || !context.mounted || !scope.isCurrent) return;
+    try {
+      await scope.repository.action('admin_reparse_payment_event', {
+        'p_event_id': row.id,
+        'p_reason': reason,
+      });
+      if (!context.mounted || !scope.isCurrent) return;
+      onDone();
+    } catch (error) {
+      if (!context.mounted || !scope.isCurrent) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
+    }
   }
 
   Future<void> _setFeatureFlag(
@@ -629,21 +720,49 @@ class _AdminRowActions extends ConsumerWidget {
     WidgetRef ref, {
     required bool enabled,
   }) async {
+    final revision = row.extra['runtime_revision'];
+    if (revision is! int || revision < 1 || revision > 1000000000) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Refresh this feature flag before saving.'),
+        ),
+      );
+      return;
+    }
+    final scope = _AdminActionScope(ref);
     final reason = await showAdminReasonDialog(
       context,
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
       title: enabled ? 'Enable feature flag' : 'Disable feature flag',
       actionLabel: enabled ? 'Enable flag' : 'Disable flag',
     );
-    if (reason == null) return;
-    await ref.read(adminRepositoryProvider).action('admin_set_feature_flag', {
-      'p_key': row.title,
-      'p_enabled': enabled,
-      'p_reason': reason,
-    });
-    onDone();
+    if (reason == null || !context.mounted || !scope.isCurrent) return;
+    try {
+      await scope.repository.action('admin_set_feature_flag_v2', {
+        'p_key': row.title,
+        'p_enabled': enabled,
+        'p_expected_revision': revision,
+        'p_reason': reason,
+      });
+      if (!context.mounted || !scope.isCurrent) return;
+      onDone();
+    } catch (error) {
+      if (!context.mounted || !scope.isCurrent) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            error is PostgrestException && error.code == '40001'
+                ? 'This feature flag changed. Refresh and review it before saving again.'
+                : _adminActionErrorMessage(error),
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> _allocate(BuildContext context, WidgetRef ref) async {
+    final scope = _AdminActionScope(ref);
     final isRwanda = row.extra['rail'] == 'rw_momo';
     final targetId = TextEditingController(
       text:
@@ -653,85 +772,71 @@ class _AdminRowActions extends ConsumerWidget {
     final submitted = await showDialog<bool>(
       context: context,
       animationStyle: CollectMotion.animationStyle(context),
-      builder: (dialogContext) => AlertDialog(
-        scrollable: true,
-        title: Text(isRwanda ? 'Allocate transaction' : 'Propose allocation'),
-        content: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 520),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: targetId,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  labelText: isRwanda
-                      ? 'Group UUID'
-                      : 'Group contribution intent UUID',
+      builder: (dialogContext) => _AdminSessionDialog(
+        scope: scope,
+        child: AlertDialog(
+          scrollable: true,
+          title: Text(isRwanda ? 'Allocate transaction' : 'Propose allocation'),
+          content: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 520),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: targetId,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    labelText: isRwanda
+                        ? 'Group UUID'
+                        : 'Group contribution intent UUID',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: reason,
-                minLines: 2,
-                maxLines: 4,
-                decoration: const InputDecoration(
-                  labelText: 'Allocation reason',
-                  helperText: 'Required for the audit trail.',
+                const SizedBox(height: 12),
+                TextField(
+                  controller: reason,
+                  minLines: 2,
+                  maxLines: 4,
+                  decoration: const InputDecoration(
+                    labelText: 'Allocation reason',
+                    helperText: 'Required for the audit trail.',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: const Text('Allocate'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(isRwanda ? 'Allocate' : 'Submit for approval'),
-          ),
-        ],
       ),
     );
-    if (submitted != true) {
+    if (submitted != true || !context.mounted || !scope.isCurrent) {
       targetId.dispose();
       reason.dispose();
       return;
     }
     try {
-      if (isRwanda) {
-        await ref
-            .read(adminRepositoryProvider)
-            .action('admin_manual_allocate_payment', {
-              'p_event_id': row.extra['event_id'],
-              'p_collection_id': targetId.text.trim(),
-              'p_payment_intent_id': row.extra['payment_intent_id'],
-              'p_reason': reason.text.trim(),
-            });
-      } else {
-        await ref
-            .read(adminRepositoryProvider)
-            .action('admin_propose_bank_allocation', {
-              'p_bank_transaction_id': row.extra['transaction_id'],
-              'p_bank_transfer_intent_id': targetId.text.trim(),
-              'p_reason': reason.text.trim(),
-            });
-      }
+      await scope.repository.action('admin_manual_allocate_payment', {
+        'p_event_id': row.extra['event_id'],
+        'p_collection_id': targetId.text.trim(),
+        'p_payment_intent_id': row.extra['payment_intent_id'],
+        'p_reason': reason.text.trim(),
+      });
+      if (!context.mounted || !scope.isCurrent) return;
       onDone();
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            isRwanda
-                ? 'Transaction allocated'
-                : 'Allocation submitted for independent approval',
-          ),
-        ),
-      );
+      if (!context.mounted || !scope.isCurrent) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Transaction allocated')));
     } catch (_) {
-      if (!context.mounted) return;
+      if (!context.mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

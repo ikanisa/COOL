@@ -34,6 +34,8 @@
   --web-card-padding: 28px;
   --web-night: #000000;
   --web-on-night: #f4f4f4;
+  --web-on-night-secondary: rgb(255 255 255 / 70%);
+  --web-on-night-widget: rgb(255 255 255 / 10%);
   --web-pill: 9999px;
   --web-panel: 24px;
   --web-gutter: 48px;
@@ -65,7 +67,7 @@
 .revolut-public .hero .button.cta-touch { border-color: transparent; }
 .revolut-public.route-home .site-header { margin-bottom: -80px; background: transparent; color: var(--web-on-night); }
 .revolut-public.route-home .site-header .brand small, .revolut-public.route-home .site-header .nav-link { color: inherit; }
-.revolut-public.route-home .site-header .nav-link:hover { background: rgb(255 255 255 / 12%); }
+.revolut-public.route-home .site-header .nav-link:hover { background: var(--web-on-night-widget); }
 .revolut-public.route-home .site-header .cta-app, .revolut-public.route-home .menu-button { background: var(--web-canvas); color: var(--web-ink); border-color: var(--web-canvas); }
 .revolut-public.route-home .site-header.on-light, .revolut-public.route-home.menu-open .site-header { background: var(--web-canvas); color: var(--web-ink); }
 .revolut-public.route-home .site-header.on-light .cta-app { background: var(--web-action); color: var(--web-canvas); border-color: var(--web-action); }
@@ -86,9 +88,11 @@
 .revolut-public main > section:not(.hero):nth-of-type(even) { --web-card-surface: var(--web-canvas); background: var(--web-widget); }
 .revolut-public main > section:not(.hero) h2 { font-size: var(--type-web-heading); line-height: var(--type-leading-1-05); letter-spacing: var(--type-web-tracking); font-weight: var(--type-weight-medium); color: var(--web-ink); }
 .revolut-public main > section:not(.hero) p, .revolut-public main > section:not(.hero) .section-kicker { color: var(--web-secondary); }
-/* Owner review: center the section heading beside the complete content grid. */
+.revolut-public main > section:not(.hero) .section-card h2 { font-size: 28px; line-height: 1.15; letter-spacing: 0; }
+.revolut-public main > section.legal-content :is(.legal-section, .legal-priority) h2 { font-size: 32px; line-height: 1.2; letter-spacing: 0; }
+/* Product copy adapts the selected marketing hierarchy at the available width. */
 @media (min-width: 981px) {
-  .revolut-public :is(.original-story, .group-workflow-section, .group-feature-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-market-section, .partner-operating-section) > .story-copy {
+  .revolut-public :is(.original-story, .group-workflow-section, .group-feature-section, .group-use-section, .insurance-work-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-market-section, .partner-operating-section) > .story-copy {
     align-self: center;
   }
   .revolut-public .insurance-finance-section {
@@ -98,35 +102,18 @@
     grid-template-columns: minmax(200px, .25fr) minmax(0, 1fr);
     gap: clamp(24px, 3vw, 48px);
   }
-  .revolut-public :is(.original-story[aria-labelledby="ibimina-heading"], .original-story[aria-labelledby="diaspora-heading"], .group-workflow-section, .group-feature-section, .group-use-section, .craas-specialist-section) {
+  .revolut-public :is(.original-story[aria-labelledby="ibimina-heading"], .original-story[aria-labelledby="rwanda-community-heading"], .group-workflow-section, .group-feature-section, .group-use-section, .craas-specialist-section) {
     grid-template-columns: minmax(260px, .25fr) minmax(0, 1fr);
     gap: clamp(24px, 3vw, 48px);
   }
 }
 @media (min-width: 721px) {
-  .revolut-public :is(.partner-engine-grid, .original-story[aria-labelledby="ibimina-heading"] > .story-grid, .original-story[aria-labelledby="diaspora-heading"] > .story-grid, .group-journey, .group-feature-grid, .group-use-section > .use-case-grid, .craas-service-grid), .revolut-public:is(.route-diaspora, .route-our-partners, .route-partners) .infographic-grid {
+  .revolut-public :is(.partner-engine-grid, .original-story[aria-labelledby="ibimina-heading"] > .story-grid, .original-story[aria-labelledby="rwanda-community-heading"] > .story-grid, .group-journey, .group-feature-grid, .group-use-section > .use-case-grid, .craas-service-grid), .revolut-public:is(.route-our-partners, .route-partners) .infographic-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1200px) {
-  .revolut-public :is(.partner-engine-grid, .original-story[aria-labelledby="ibimina-heading"] > .story-grid, .original-story[aria-labelledby="diaspora-heading"] > .story-grid, .group-journey, .group-feature-grid, .group-use-section > .use-case-grid, .craas-service-grid), .revolut-public:is(.route-diaspora, .route-our-partners, .route-partners) .infographic-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .revolut-public .group-workflow-section > .journey-rail.group-journey > article,
-  .revolut-public.route-group-savings .group-feature-section > .group-feature-grid > article {
-    padding: 20px;
   }
 }
 @media (min-width: 981px) and (max-width: 1279px) {
   .revolut-public .partner-operating-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1440px) {
-  .revolut-public .group-workflow-section > .journey-rail.group-journey { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .revolut-public:is(.route-insurance, .route-protection) .infographic-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 16px;
-  }
-  .revolut-public:is(.route-insurance, .route-protection) .infographic-grid > article.infographic-step { padding: 20px; }
 }
 .revolut-public .section-card, .revolut-public .infographic-step, .revolut-public .supported-group-card { border-radius: var(--web-panel); box-shadow: none; }
 .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) {
@@ -169,8 +156,7 @@
   .rwanda-editorial img { aspect-ratio: 3 / 2; }
   .rwanda-story > span { font-size: var(--type-size-22px); padding: 20px; }
 }
-/* Service illustrations are explanatory artwork. Their focused task surfaces
-   use the same neutral native family; they are not executable app screens. */
+/* Collect's retained app captures are product evidence inside a marketing page. */
 
 .revolut-public .home-product-grid article a { color: var(--web-ink); text-decoration: underline; text-underline-offset: 4px; }
 .revolut-public :is(.craas-benefit-grid, .change-compare-grid) > article,
@@ -188,7 +174,6 @@
   :root { --type-web-hero: 64px; --type-web-heading: 44px; --web-gutter: 32px; }
   .revolut-public .menu-button { display: inline-flex; margin-left: auto; }
   .revolut-public .header-actions { display: none; }
-  .revolut-public.route-share-link .header-actions { display: flex; margin-left: auto; }
   .revolut-public .site-nav { display: none; position: fixed; inset: 80px 0 0; padding: 24px var(--web-gutter); background: var(--web-canvas); color: var(--web-ink); border: 0; box-shadow: none; overflow-y: auto; }
   .revolut-public .site-nav.open { display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; justify-content: flex-start; }
   .revolut-public .site-nav .nav-link { border-radius: 0; font-size: var(--type-size-24px); padding: 18px 0; border-bottom: 1px solid var(--web-widget); white-space: normal; }
@@ -213,6 +198,7 @@
   .revolut-public .hero-device { min-height: 0; }
   .revolut-public .legal-layout { grid-template-columns: minmax(0, 1fr); }
   .revolut-public :is(.legal-content, .legal-meta, .legal-priority, .legal-card-grid, .legal-card) { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+  .revolut-public main > section.legal-content :is(.legal-section, .legal-priority) h2 { font-size: 24px; }
   .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) > :is(article, .section-card, .infographic-step) { grid-column: auto; grid-row: auto; padding: var(--web-card-padding); min-height: 0; min-width: 0; border-radius: 20px; }
   .revolut-public :is(.problem-list.compact, .use-case-grid) { --web-card-padding: 16px 20px; }

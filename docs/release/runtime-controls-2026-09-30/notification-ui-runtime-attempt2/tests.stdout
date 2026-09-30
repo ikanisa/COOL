@@ -1,0 +1,8 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart
+00:00 +0: fresh server read explicitly enables editing without any write
+00:00 +1: conflict retains intent; refresh reviews all differences and never silently retries
+00:00 +2: discard after uncertainty never writes or authorizes an unseen revision
+00:00 +3: old refresh failure stays silent after account switch
+00:00 +4: old refresh failure stays silent after A to B to A
+00:00 +5: compact enlarged recovery controls remain scrollable without overflow
+00:01 +6: All tests passed!

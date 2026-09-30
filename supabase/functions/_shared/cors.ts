@@ -8,7 +8,7 @@ export const corsHeaders = {
 export function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" },
   });
 }
 
@@ -18,24 +18,20 @@ export function requireEnv(name: string): string {
   return value;
 }
 
+const authFailureMessages = new Set([
+  "Authentication required",
+  "Internal function authorization failed",
+  "Unauthorized",
+]);
+
+function isAuthFailure(error: unknown): boolean {
+  return error instanceof Error && authFailureMessages.has(error.message);
+}
+
 export function safeErrorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-  if (typeof error === "object" && error !== null && "message" in error) {
-    const message = (error as { message?: unknown }).message;
-    if (typeof message === "string" && message.trim()) return message;
-  }
-  if (typeof error === "string" && error.trim()) return error;
-  return "Unknown error";
+  return isAuthFailure(error) ? "authentication_required" : "service_unavailable";
 }
 
 export function authErrorStatus(error: unknown): number | null {
-  const message = safeErrorMessage(error);
-  if (
-    message === "Authentication required" ||
-    message === "Internal function authorization failed" ||
-    message === "Unauthorized"
-  ) {
-    return 401;
-  }
-  return null;
+  return isAuthFailure(error) ? 401 : null;
 }

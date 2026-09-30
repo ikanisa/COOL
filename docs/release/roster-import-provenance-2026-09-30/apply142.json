@@ -1,0 +1,27 @@
+{
+  "captured_at_utc": "2026-09-29T23:06:07.482323+00:00",
+  "status": "pass",
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "predecessor_count": 141,
+  "result_count": 142,
+  "migration_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+  "all124_existing_table_fingerprints_unchanged": true,
+  "five_new_provenance_tables_empty": [
+    "collect_hybrid.roster_import_commits",
+    "collect_hybrid.roster_import_extractions",
+    "collect_hybrid.roster_import_results",
+    "collect_hybrid.roster_import_revisions",
+    "collect_hybrid.roster_import_sources"
+  ],
+  "backup_path": ".cache/roster-provenance-20260930/pre142-attempt2-clean141.dump",
+  "backup_sha256": "834c963e5c3bce02c5c57456c7443378c1d337dd0f908deeb09df5789add573d",
+  "data_scope": "Clean141 plus synthetic bootstrapowner, not representative customer data",
+  "provider_calls": false,
+  "hosted_deployment": false,
+  "cron_launch_active_jobs": false,
+  "pg_net_batch_size": 0
+}

@@ -1,0 +1,88 @@
+
+
+
+
+
+
+
+
+
+{"role":"service_role"}
+
+
+
+{"role":"authenticated"}
+
+{"role":"service_role"}
+
+
+
+
+
+
+
+
+
+
+
+{"state": "reserved", "hook_id": "qa_otp_20260930_phone4", "can_send": true, "revision": 1, "attempt_id": "440d7b93-abd7-4c62-baa8-339313658d31", "payload_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "contract_version": 3}
+{"state": "reserved", "hook_id": "qa_otp_20260930_phone5", "can_send": true, "revision": 1, "attempt_id": "ca008935-7143-44f9-b7ed-49d964f0084c", "payload_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "contract_version": 3}
+
+
+256 ASCII hook characters are admitted without regex engine failure
+257 hook characters denied before quota
+anonymous actual reserve denied
+anonymous reserve execute denied
+begin single-send fencing
+changed accepted completion denied
+changed body under same hook denied
+changed phone under same hook denied
+confirmed not-sent is terminal without resend
+contradictory terminal status rejected
+cross-attempt evidence denied
+delivered replay reads outcome without another send
+delivery timestamp only after delivery evidence
+denied attempts record no admitted send
+disabled policy fails closed
+duplicate begin cannot send
+durable evidence cannot be deleted
+durable evidence cannot be rewritten
+empty hook identity denied
+enabled global budget enforced
+enabled reservation is eligible once
+exact accepted completion replay idempotent
+exact reservation replay returns same attempt
+extra private evidence fields rejected
+failed status never claims delivered timestamp
+fifth charged attempt exhausts phone quota despite not-sent/uncertainty
+independently verified delivery outcome records explicitly
+late accepted completion may resolve expired lease without resend
+late accepted completion replay idempotent
+legacy completion cannot claim success
+legacy unresolved cannot authorize another send
+lost acceptance completion recovered with bound evidence
+malformed identity denied
+member actual read denied
+member recovery execute denied
+mismatched exact evidence hash denied
+missing policy fails closed
+non ASCII hook identity denied
+not-sent replay cannot begin
+provider acceptance persists as accepted
+replays preserve one quota reservation
+same evidence recovery idempotent
+service cannot browse private schema
+service cannot change quota policy
+service direct evidence insert denied
+service direct reservation read denied
+service reserve execute present
+stale expected revision rejected
+stale sending lease becomes ambiguous
+timeout/error outcome ambiguous and no resend
+uncertain/failed/not-sent attempts retain per-phone quota
+unsent expired reservation cannot send old OTP
+unverified recovery source rejected
+verified provider failure terminal and distinct from delivery
+wrong generation begin denied
+wrong JWT role denied despite service execution role
+SIGNED_OTP_RECOVERY_UAT_PASS: 56 checks

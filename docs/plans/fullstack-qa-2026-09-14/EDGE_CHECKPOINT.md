@@ -135,4 +135,4 @@ fluctuate. Native capacity remains unresolved. Broader route/state coverage,
 Admin actions, installed PWA behavior, real Auth/provider/device journeys,
 performance/recovery, public legal destinations, fresh native media and
 independent/owner visual acceptance remain in the full plan.
-MOBILE-DESIGN-100 remains mandatory; neither native platform is approved.
+former mobile visual acceptance rule remains mandatory; neither native platform is approved.

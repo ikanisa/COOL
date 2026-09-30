@@ -1,5 +1,40 @@
 part of 'collect_chrome.dart';
 
+/// A title has its own heading node, independent of nearby navigation controls.
+/// Text supplies its name once; page containers must not repeat that label.
+class CollectHeadingText extends StatelessWidget {
+  const CollectHeadingText({
+    required this.title,
+    this.level = 1,
+    this.style,
+    this.maxLines,
+    this.softWrap = true,
+    this.overflow = TextOverflow.visible,
+    super.key,
+  }) : assert(level >= 1 && level <= 6);
+
+  final String title;
+  final int level;
+  final TextStyle? style;
+  final int? maxLines;
+  final bool softWrap;
+  final TextOverflow overflow;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    container: true,
+    headingLevel: level,
+    child: Text(
+      title,
+      style: style,
+      maxLines: maxLines,
+      softWrap: softWrap,
+      overflow: overflow,
+      textWidthBasis: TextWidthBasis.parent,
+    ),
+  );
+}
+
 class ScreenHeader extends StatelessWidget {
   const ScreenHeader({
     required this.title,
@@ -41,8 +76,7 @@ class ScreenHeader extends StatelessWidget {
     ];
     return Semantics(
       container: true,
-      header: true,
-      label: title,
+      explicitChildNodes: true,
       child: Row(
         children: [
           IconButton(
@@ -66,8 +100,8 @@ class ScreenHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  title,
+                CollectHeadingText(
+                  title: title,
                   style: textTheme.headlineSmall?.copyWith(
                     color: foreground,
                     fontWeight: CollectTypography.weightSemibold,
@@ -176,16 +210,16 @@ class CollectScreenTopChrome extends StatelessWidget {
             button: onAvatarTap != null,
             enabled: onAvatarTap != null,
             label: avatarTooltip,
-            onTap: handleAvatarTap,
-            child: ExcludeSemantics(
-              child: Tooltip(
-                message: avatarTooltip,
-                child: Material(
-                  color: control,
-                  shape: const CircleBorder(),
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: handleAvatarTap,
+            child: Tooltip(
+              message: avatarTooltip,
+              excludeFromSemantics: true,
+              child: Material(
+                color: control,
+                shape: const CircleBorder(),
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: handleAvatarTap,
+                  child: ExcludeSemantics(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -229,16 +263,16 @@ class CollectScreenTopChrome extends StatelessWidget {
               button: onSearchTap != null,
               enabled: onSearchTap != null,
               label: searchLabel,
-              onTap: handleSearchTap,
-              child: ExcludeSemantics(
-                child: Tooltip(
-                  message: searchLabel,
-                  child: Material(
-                    color: control,
+              child: Tooltip(
+                message: searchLabel,
+                excludeFromSemantics: true,
+                child: Material(
+                  color: control,
+                  borderRadius: CollectRadius.pillBorder,
+                  child: InkWell(
                     borderRadius: CollectRadius.pillBorder,
-                    child: InkWell(
-                      borderRadius: CollectRadius.pillBorder,
-                      onTap: handleSearchTap,
+                    onTap: handleSearchTap,
+                    child: ExcludeSemantics(
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: CollectRadius.pillBorder,
@@ -282,30 +316,20 @@ class CollectScreenTopChrome extends StatelessWidget {
           ),
           for (final action in actions.take(2)) ...[
             CollectSpacing.gapW8,
-            Semantics(
-              button: true,
-              label: action.tooltip,
-              onTap: () {
+            IconButton(
+              tooltip: action.tooltip,
+              onPressed: () {
                 CollectHaptics.selection();
                 action.onPressed();
               },
-              child: ExcludeSemantics(
-                child: IconButton(
-                  tooltip: action.tooltip,
-                  onPressed: () {
-                    CollectHaptics.selection();
-                    action.onPressed();
-                  },
-                  icon: Icon(action.icon),
-                  color: foreground,
-                  style: IconButton.styleFrom(
-                    fixedSize: const Size.square(CollectSpacing.iconTarget),
-                    minimumSize: const Size.square(CollectSpacing.iconTarget),
-                    padding: EdgeInsets.zero,
-                    backgroundColor: control,
-                    side: BorderSide(color: border),
-                  ),
-                ),
+              icon: Icon(action.icon),
+              color: foreground,
+              style: IconButton.styleFrom(
+                fixedSize: const Size.square(CollectSpacing.iconTarget),
+                minimumSize: const Size.square(CollectSpacing.iconTarget),
+                padding: EdgeInsets.zero,
+                backgroundColor: control,
+                side: BorderSide(color: border),
               ),
             ),
           ],
@@ -379,7 +403,7 @@ class CollectScreenHero extends StatelessWidget {
       children: [
         Semantics(
           container: true,
-          header: true,
+          headingLevel: 2,
           label:
               semanticLabel ??
               [
@@ -500,10 +524,34 @@ class CollectHeroQuickActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final largeText = MediaQuery.textScalerOf(context).scale(1) > 1.3;
-    if (largeText) {
-      return LayoutBuilder(
-        builder: (context, constraints) {
+    final scaler = MediaQuery.textScalerOf(context);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var useTwoColumns = scaler.scale(1) > 1.3;
+        if (!useTwoColumns && actions.length > 2) {
+          final itemWidth =
+              (constraints.maxWidth -
+                  CollectSpacing.x2 * (actions.length - 1)) /
+              actions.length;
+          final style = Theme.of(context).textTheme.bodySmall?.copyWith(
+            fontWeight: CollectTypography.weightRegular,
+            letterSpacing: CollectTypography.trackingDefault,
+          );
+          // Keep whole words readable at compact widths without shrinking text.
+          // Multiword labels may still wrap at their natural spaces.
+          for (final action in actions) {
+            for (final word in action.label.trim().split(RegExp(r'\s+'))) {
+              final painter = TextPainter(
+                text: TextSpan(text: word, style: style),
+                textDirection: Directionality.of(context),
+                textScaler: scaler,
+              )..layout();
+              useTwoColumns |= painter.width > itemWidth;
+              painter.dispose();
+            }
+          }
+        }
+        if (useTwoColumns) {
           final itemWidth = (constraints.maxWidth - CollectSpacing.x2) / 2;
           return Wrap(
             spacing: CollectSpacing.x2,
@@ -517,20 +565,20 @@ class CollectHeroQuickActionRow extends StatelessWidget {
                 ),
             ],
           );
-        },
-      );
-    }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (var index = 0; index < actions.length; index += 1) ...[
-          Expanded(
-            child: _CollectHeroQuickActionButton(action: actions[index]),
-          ),
-          if (index != actions.length - 1) CollectSpacing.gapW8,
-        ],
-      ],
+        }
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var index = 0; index < actions.length; index += 1) ...[
+              Expanded(
+                child: _CollectHeroQuickActionButton(action: actions[index]),
+              ),
+              if (index != actions.length - 1) CollectSpacing.gapW8,
+            ],
+          ],
+        );
+      },
     );
   }
 }
@@ -558,14 +606,13 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
       button: true,
       enabled: enabled,
       label: action.label,
-      onTap: enabled ? handleTap : null,
-      child: ExcludeSemantics(
-        child: Tooltip(
-          message: action.tooltip ?? action.label,
-          excludeFromSemantics: true,
-          child: InkWell(
-            borderRadius: CollectRadius.pillBorder,
-            onTap: enabled ? handleTap : null,
+      child: Tooltip(
+        message: action.tooltip ?? action.label,
+        excludeFromSemantics: true,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: enabled ? handleTap : null,
+          child: ExcludeSemantics(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

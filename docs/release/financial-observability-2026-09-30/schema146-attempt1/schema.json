@@ -1,0 +1,1009 @@
+{
+  "columns": [
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "payment_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "parsed_event_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "collection_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "member_record_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "entry_type",
+      "type": "text",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "amount_rwf",
+      "type": "bigint",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "external_reference",
+      "type": "text",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "reverses_entry_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "created_by",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "posted_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.momo_journal_entries"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_lines"
+    },
+    {
+      "name": "journal_entry_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_journal_lines"
+    },
+    {
+      "name": "account_code",
+      "type": "text",
+      "table": "collect_hybrid.momo_journal_lines"
+    },
+    {
+      "name": "direction",
+      "type": "text",
+      "table": "collect_hybrid.momo_journal_lines"
+    },
+    {
+      "name": "amount_rwf",
+      "type": "bigint",
+      "table": "collect_hybrid.momo_journal_lines"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.momo_journal_lines"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "parsed_event_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "code",
+      "type": "text",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "details",
+      "type": "jsonb",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "resolved_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.momo_reconciliation_exceptions"
+    },
+    {
+      "name": "request_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_reversal_requests"
+    },
+    {
+      "name": "payment_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_reversal_requests"
+    },
+    {
+      "name": "actor_id",
+      "type": "uuid",
+      "table": "collect_hybrid.momo_reversal_requests"
+    },
+    {
+      "name": "input_hash",
+      "type": "text",
+      "table": "collect_hybrid.momo_reversal_requests"
+    },
+    {
+      "name": "result",
+      "type": "jsonb",
+      "table": "collect_hybrid.momo_reversal_requests"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.momo_reversal_requests"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "outbox_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "confirmation_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "operator_user_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "worker_id",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "claim_token",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "fence_version",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "attempt_number",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "destination_sha256",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "destination_revision",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "body_sha256",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "state",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "send_started_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "outcome_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "evidence_reference",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "outcome_note",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_attempts"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "payment_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "snapshot_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "collection_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "member_record_id",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "destination_e164",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "destination_sha256",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "destination_revision",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "policy_revision",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "consent_revision",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "template_key",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "template_version",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "amount_rwf",
+      "type": "bigint",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "member_balance_rwf",
+      "type": "bigint",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "group_balance_rwf",
+      "type": "bigint",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "reference",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "message_body",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "body_sha256",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "state",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "suppression_reason",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "fence_version",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "claim_token",
+      "type": "uuid",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "claimed_by",
+      "type": "text",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "claim_expires_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "attempt_count",
+      "type": "integer",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "updated_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "observed_sent_at",
+      "type": "timestamp with time zone",
+      "table": "collect_hybrid.sms_notification_outbox"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "payment_id",
+      "type": "uuid",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "payment_fingerprint",
+      "type": "text",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "evidence_sha256",
+      "type": "text",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "source_reference",
+      "type": "text",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "occurred_at",
+      "type": "timestamp with time zone",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "proposal_reason",
+      "type": "text",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "approval_reason",
+      "type": "text",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "proposed_by",
+      "type": "uuid",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "proposed_at",
+      "type": "timestamp with time zone",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "approved_by",
+      "type": "uuid",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "approved_at",
+      "type": "timestamp with time zone",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "consumed_at",
+      "type": "timestamp with time zone",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "proposed_session_id",
+      "type": "uuid",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "approved_session_id",
+      "type": "uuid",
+      "table": "collect_security.reconciliation_reviews"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "event_id",
+      "type": "uuid",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "device_id",
+      "type": "uuid",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "attempt_count",
+      "type": "integer",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "next_attempt_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "last_attempt_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "sent_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "provider_message_id",
+      "type": "text",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "last_error_code",
+      "type": "text",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "updated_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "prior_attempt_count",
+      "type": "integer",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "claim_token",
+      "type": "uuid",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "claim_expires_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "claim_user_id",
+      "type": "uuid",
+      "table": "public.notification_deliveries"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "delivery_id",
+      "type": "uuid",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "attempt_number",
+      "type": "integer",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "outcome",
+      "type": "text",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "provider_message_id",
+      "type": "text",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "error_code",
+      "type": "text",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "latency_ms",
+      "type": "integer",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "attempted_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_delivery_attempts"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "user_id",
+      "type": "uuid",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "collection_id",
+      "type": "uuid",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "type",
+      "type": "text",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "title",
+      "type": "text",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "body",
+      "type": "text",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "deep_link",
+      "type": "text",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "sent_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "read_at",
+      "type": "timestamp with time zone",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "last_error_code",
+      "type": "text",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "bank_transfer_intent_id",
+      "type": "uuid",
+      "table": "public.notification_events"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "raw_sms_id",
+      "type": "uuid",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "collection_id",
+      "type": "uuid",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "receiver_user_id",
+      "type": "uuid",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "is_mobile_money_payment",
+      "type": "boolean",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "network",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "direction",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "amount_rwf",
+      "type": "bigint",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "currency",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "transaction_id",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "sender_name",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "sender_phone_hash",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "receiver_phone_hash",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "transaction_time",
+      "type": "timestamp with time zone",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "detected_collection_code",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "detected_user_public_id",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "confidence",
+      "type": "numeric",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "parser_model",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "parser_schema_version",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "parsed_json",
+      "type": "jsonb",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "allocation_status",
+      "type": "USER-DEFINED",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "review_reason",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "payer_last3",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "payer_match_key",
+      "type": "text",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "wallet_balance_rwf",
+      "type": "bigint",
+      "table": "public.parsed_payment_events"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "parsed_event_id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "payment_intent_id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "collection_id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "contributor_user_id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "contributor_public_id",
+      "type": "character",
+      "table": "public.payments"
+    },
+    {
+      "name": "receiver_user_id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "receiver_momo_number_hash",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "amount_rwf",
+      "type": "bigint",
+      "table": "public.payments"
+    },
+    {
+      "name": "currency",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "transaction_id",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "source",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "anonymity_choice",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "posted_at",
+      "type": "timestamp with time zone",
+      "table": "public.payments"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "public.payments"
+    },
+    {
+      "name": "provider_network",
+      "type": "text",
+      "table": "public.payments"
+    },
+    {
+      "name": "member_record_id",
+      "type": "uuid",
+      "table": "public.payments"
+    },
+    {
+      "name": "request_id",
+      "type": "uuid",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "event_type",
+      "type": "text",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "payload_sha256",
+      "type": "text",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "payment_id",
+      "type": "uuid",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "provider_network",
+      "type": "text",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "provider_reference",
+      "type": "text",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "result_payment_id",
+      "type": "uuid",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "received_at",
+      "type": "timestamp with time zone",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "processed_at",
+      "type": "timestamp with time zone",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "input_sha256",
+      "type": "text",
+      "table": "public.provider_finality_requests"
+    },
+    {
+      "name": "id",
+      "type": "uuid",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "collection_id",
+      "type": "uuid",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "receiver_user_id",
+      "type": "uuid",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "raw_sender",
+      "type": "text",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "raw_body",
+      "type": "text",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "body_hash",
+      "type": "text",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "receiver_momo_number_hash",
+      "type": "text",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "received_at_device",
+      "type": "timestamp with time zone",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "ingested_at",
+      "type": "timestamp with time zone",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "parse_status",
+      "type": "text",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "client_envelope_id",
+      "type": "uuid",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "parse_started_at",
+      "type": "timestamp with time zone",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "parse_lease_id",
+      "type": "uuid",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "native_action_capability_id",
+      "type": "uuid",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "attestation_request_hash",
+      "type": "text",
+      "table": "public.raw_payment_sms"
+    },
+    {
+      "name": "device_attested_at",
+      "type": "timestamp with time zone",
+      "table": "public.raw_payment_sms"
+    }
+  ],
+  "functions": [
+    {
+      "signature": "admin_system_health(text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.admin_system_health(p_id text DEFAULT 'system'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  perform public.assert_admin_permission('system_health.read');\n  return jsonb_build_object(\n    'id', coalesce(nullif(p_id, ''), 'system'),\n    'database', 'reachable',\n    'auth', case when auth.uid() is null then 'unauthenticated' else 'authenticated' end,\n    'parser_pending_sms', (select count(*) from public.raw_payment_sms where parse_status = 'pending'),\n    'failed_sms_parse', (select count(*) from public.raw_payment_sms where parse_status = 'failed'),\n    'unallocated_events', (select count(*) from public.parsed_payment_events where allocation_status in ('unallocated', 'ambiguous', 'needs_review')),\n    'queued_notifications', (select count(*) from public.notification_deliveries where status = 'queued'),\n    'processing_notifications', (select count(*) from public.notification_deliveries where status = 'processing'),\n    'failed_notifications', (select count(*) from public.notification_deliveries where status = 'failed'),\n    'checked_at', now()\n  );\nend;\n$function$\n"
+    },
+    {
+      "signature": "assert_admin_permission(text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.assert_admin_permission(permission text)\n RETURNS void\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  if auth.uid() is null then\n    raise exception 'Authentication required';\n  end if;\n  if not public.has_admin_permission(permission, auth.uid()) then\n    raise exception 'Admin permission % required', permission;\n  end if;\nend;\n$function$\n"
+    }
+  ]
+}

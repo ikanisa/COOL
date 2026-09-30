@@ -1,0 +1,84 @@
+{
+  "recorded_at_utc": "2026-09-29T23:29:10.683866+00:00",
+  "status": "source_checks_passed_sql_retry_not_executed_by_worker",
+  "root_reported_failure": "Pre143 snapshot at142 raised ambiguous h in static cron_history aggregate; transaction rolled back before migration143 application.",
+  "corrected_helper_sha256": "076a3618bbedd628ba464118a25cc9a7686bd24021698585b1e6b09d20554e07",
+  "original_packet_preserved": true,
+  "original_packet_artifacts_verified": 18,
+  "original_packet_artifact_manifest_sha256": "442406af246108ac06926e290b513e7fb9572167c273cefc59cec2bd83b857de",
+  "ruby_regression_tests": 5,
+  "ruby_regression_assertions": 46,
+  "ruby_prior_tests": 9,
+  "ruby_prior_assertions": 114,
+  "python_comparator_tests": 9,
+  "sql_executed_by_worker": false,
+  "source_copies_verified": true,
+  "commands": [
+    {
+      "name": "ruby-version",
+      "command": [
+        "ruby",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "logs/ruby-version.txt"
+    },
+    {
+      "name": "python-version",
+      "command": [
+        "python3",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "logs/python-version.txt"
+    },
+    {
+      "name": "snapshot-source-regression",
+      "command": [
+        "ruby",
+        "scripts/tests/legacy_bank_scheduler_snapshot_source_test.rb",
+        "--seed",
+        "143"
+      ],
+      "exit_code": 0,
+      "log": "logs/snapshot-source-regression.txt"
+    },
+    {
+      "name": "retirement-source-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+        "--seed",
+        "143"
+      ],
+      "exit_code": 0,
+      "log": "logs/retirement-source-tests.txt"
+    },
+    {
+      "name": "snapshot-source-syntax",
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/legacy_bank_scheduler_snapshot_source_test.rb"
+      ],
+      "exit_code": 0,
+      "log": "logs/snapshot-source-syntax.txt"
+    },
+    {
+      "name": "snapshot-comparator-tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "verify_legacy_bank_scheduler_upgrade_test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "logs/snapshot-comparator-tests.txt"
+    }
+  ]
+}

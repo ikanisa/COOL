@@ -1,0 +1,66 @@
+{
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "mode": "read_only_catalogue_definitions",
+  "routines": [
+    {
+      "routine": "collection_is_public_approved(uuid)",
+      "owner": "postgres",
+      "security_definer": true,
+      "configuration": [
+        "search_path=public"
+      ],
+      "definition_sha256": "6763b7dda3ed98d4bc973d23758fc2ccfc08c4d124d5deff0f7eaa0712ef7ed9",
+      "definition": "CREATE OR REPLACE FUNCTION public.collection_is_public_approved(target_collection_id uuid)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select exists (\n    select 1\n    from public.collections c\n    where c.id = target_collection_id\n      and c.public_status = 'public_approved'\n      and c.archived_at is null\n  );\n$function$\n"
+    },
+    {
+      "routine": "get_active_policy_document(text,text)",
+      "owner": "postgres",
+      "security_definer": true,
+      "configuration": [
+        "search_path=public"
+      ],
+      "definition_sha256": "c76ed55d26d596c600c4fbabe3d0b8c73d8a8070f184930fd7224819811c01c9",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_active_policy_document(p_kind text, p_locale text DEFAULT 'en'::text)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  with selected_document as (\n    select pd.*\n    from policy_documents pd\n    where pd.kind = lower(trim(p_kind))\n      and pd.locale in (coalesce(nullif(trim(p_locale), ''), 'en'), 'en')\n      and pd.status = 'published'\n      and pd.effective_at <= now()\n    order by\n      case when pd.locale = coalesce(nullif(trim(p_locale), ''), 'en') then 0 else 1 end,\n      pd.effective_at desc,\n      pd.version desc\n    limit 1\n  )\n  select coalesce(\n    (\n      select jsonb_build_object(\n        'id', sd.id,\n        'kind', sd.kind,\n        'locale', sd.locale,\n        'version', sd.version,\n        'title', sd.title,\n        'summary', sd.summary,\n        'effective_at', sd.effective_at,\n        'sections', coalesce((\n          select jsonb_agg(\n            jsonb_build_object(\n              'key', pds.section_key,\n              'title', pds.title,\n              'body', pds.body,\n              'display_order', pds.display_order\n            )\n            order by pds.display_order, pds.section_key\n          )\n          from policy_document_sections pds\n          where pds.policy_document_id = sd.id\n        ), '[]'::jsonb)\n      )\n      from selected_document sd\n    ),\n    '{}'::jsonb\n  );\n$function$\n"
+    },
+    {
+      "routine": "list_account_request_reasons(text,text)",
+      "owner": "postgres",
+      "security_definer": true,
+      "configuration": [
+        "search_path=public"
+      ],
+      "definition_sha256": "68042bab084f152b918924b27dafbad1e7fd809cf9a3888b4ee96e73b75adb0e",
+      "definition": "CREATE OR REPLACE FUNCTION public.list_account_request_reasons(p_request_type text DEFAULT 'account_deletion'::text, p_locale text DEFAULT 'en'::text)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  with selected_reasons as (\n    select distinct on (aro.key)\n      aro.key,\n      aro.request_type,\n      aro.locale,\n      aro.label,\n      aro.description,\n      aro.display_order\n    from account_request_reason_options aro\n    where aro.request_type = coalesce(nullif(trim(p_request_type), ''), 'account_deletion')\n      and aro.locale in (coalesce(nullif(trim(p_locale), ''), 'en'), 'en')\n      and aro.enabled\n    order by\n      aro.key,\n      case when aro.locale = coalesce(nullif(trim(p_locale), ''), 'en') then 0 else 1 end,\n      aro.display_order\n  )\n  select coalesce(\n    jsonb_agg(\n      jsonb_build_object(\n        'key', sr.key,\n        'request_type', sr.request_type,\n        'locale', sr.locale,\n        'label', sr.label,\n        'description', sr.description,\n        'display_order', sr.display_order\n      )\n      order by sr.display_order, sr.key\n    ),\n    '[]'::jsonb\n  )\n  from selected_reasons sr;\n$function$\n"
+    },
+    {
+      "routine": "public_collection_payment_route(uuid)",
+      "owner": "postgres",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c6be80a3a76ab3e2a92e5e96d6567eb3c9fce582de3438907d6e9a45baff9823",
+      "definition": "CREATE OR REPLACE FUNCTION public.public_collection_payment_route(p_collection_id uuid)\n RETURNS TABLE(payment_rail text, settlement_currency text, receiver_momo_number text, receiver_display_label text, receiver_network text)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select\n    'rwanda_momo'::text,\n    'RWF'::text,\n    receiver.momo_number,\n    receiver.label,\n    receiver.network\n  from public.collections collection\n  join lateral (\n    select route.momo_number, route.label, route.network\n    from public.collection_receivers route\n    where route.collection_id = collection.id\n      and route.is_active\n      and route.network in ('mtn_momo', 'airtel_money')\n    order by route.created_at\n    limit 1\n  ) receiver on true\n  where collection.id = p_collection_id\n    and collection.public_status = 'public_approved'\n    and collection.is_platform_sponsored\n    and collection.archived_at is null;\n$function$\n"
+    },
+    {
+      "routine": "user_can_read_collection(uuid,uuid)",
+      "owner": "postgres",
+      "security_definer": true,
+      "configuration": [
+        "search_path=public"
+      ],
+      "definition_sha256": "10a8fb663b9341ec107430cc478144f530048d3c264fdb32d0c74c7b4eeff5d8",
+      "definition": "CREATE OR REPLACE FUNCTION public.user_can_read_collection(collection uuid, user_uuid uuid DEFAULT auth.uid())\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select case\n    when auth.role() = 'service_role'\n      or user_uuid is not distinct from auth.uid() then\n      exists (\n        select 1\n        from public.collections item\n        where item.id = collection\n          and (\n            item.public_status = 'public_approved'\n            or item.creator_user_id = user_uuid\n            or public.is_platform_admin(user_uuid)\n            or exists (\n              select 1\n              from public.collection_members membership\n              where membership.collection_id = item.id\n                and membership.status = 'active'\n                and (\n                  membership.user_id = user_uuid\n                  or collect_hybrid.member_record_belongs_to_user(\n                    membership.member_record_id, user_uuid\n                  )\n                )\n            )\n          )\n      )\n    else false\n  end;\n$function$\n"
+    },
+    {
+      "routine": "user_is_collection_admin(uuid,uuid)",
+      "owner": "postgres",
+      "security_definer": true,
+      "configuration": [
+        "search_path=public"
+      ],
+      "definition_sha256": "c97c40960b05e004d0ff907ea5cf3090de1e479a206a113beacdd3fa891bb69f",
+      "definition": "CREATE OR REPLACE FUNCTION public.user_is_collection_admin(collection uuid, user_uuid uuid DEFAULT auth.uid())\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select case\n    when auth.role() = 'service_role'\n      or user_uuid is not distinct from auth.uid() then\n      public.is_platform_admin(user_uuid)\n      or exists (\n        select 1 from public.collections item\n        where item.id = collection and item.creator_user_id = user_uuid\n      )\n      or exists (\n        select 1\n        from public.collection_members membership\n        where membership.collection_id = collection\n          and membership.status = 'active'\n          and membership.role in ('owner', 'admin', 'receiver')\n          and (\n            membership.user_id = user_uuid\n            or collect_hybrid.member_record_belongs_to_user(\n              membership.member_record_id, user_uuid\n            )\n          )\n      )\n    else false\n  end;\n$function$\n"
+    }
+  ]
+}

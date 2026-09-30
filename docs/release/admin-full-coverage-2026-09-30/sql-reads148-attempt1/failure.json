@@ -1,0 +1,6 @@
+{
+  "baseline_restored": true,
+  "error_type": "RuntimeError",
+  "message": "SQL failed; preserve output and inspect authoritative state before retrying",
+  "status": "failed"
+}

@@ -15,7 +15,7 @@ actual profile-save assertions and this task's stronger QA gates.
 
 The design-instruction changes in those older commits conflict with the
 instructions explicitly supplied by the user in this task. The current
-`AGENTS.md`, mobile contract's `references/mobile-design-100.md` binding and
+`AGENTS.md`, mobile contract's `references/retired-mobile-review-rule.md` binding and
 the corresponding gate constant are retained from this task. The installed
 rule continues to validate against the recorded SHA-256. The repaired current
 evidence-consistency CI check also remains enabled. The historical September

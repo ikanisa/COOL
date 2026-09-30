@@ -15,7 +15,7 @@ DEFAULT_BUILD_NUMBER="${PACKAGE_VERSION##*+}"
 BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-$DEFAULT_BUILD_NAME}"
 BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-$DEFAULT_BUILD_NUMBER}"
 BUILD_STARTED_EPOCH="$(date +%s)"
-DESIGN_SOURCE_BEFORE="$(ruby scripts/qa/mobile_design_build_provenance.rb begin ios)"
+NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin ios)"
 readonly EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"
 SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
 SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"
@@ -78,5 +78,5 @@ then
   exit 1
 fi
 
-ruby scripts/qa/mobile_design_build_provenance.rb finish ios \
-  "$DESIGN_SOURCE_BEFORE" "${BUILD_NAME}+${BUILD_NUMBER}" "$BUILD_STARTED_EPOCH"
+ruby scripts/qa/native_build_provenance.rb finish ios \
+  "$NATIVE_SOURCE_BEFORE" "${BUILD_NAME}+${BUILD_NUMBER}" "$BUILD_STARTED_EPOCH"

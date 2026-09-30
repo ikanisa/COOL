@@ -1,0 +1,55 @@
+{
+  "validated_at_utc": "2026-09-30T15:14:31.471964+00:00",
+  "status": "pass",
+  "scope": "Revision5 register integrity and scoped local database evidence; not whole-system acceptance",
+  "snapshot_revision": 6,
+  "original_criteria_preserved": true,
+  "local_criteria_preserved": true,
+  "unique_open_rows": 101,
+  "closed_ids": [
+    "G06"
+  ],
+  "local_goal_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "priority_counts": {
+    "P0": 24,
+    "P1": 71,
+    "P2": 4,
+    "Crosscutting": 2
+  },
+  "evidence_counts": {
+    "External": 27,
+    "Partial": 67,
+    "Unverified": 7
+  },
+  "all_original_ids_preserved": true,
+  "all_report_links_exist": true,
+  "source_documents_match": true,
+  "database_runtime_manifest_sha256": "e159e2f60c914f845ae7bc8b8fd4d917d86d74f6af72b49392fed5f2755b3f3e",
+  "database_runtime_inputs_match": true,
+  "external_state_refreshed": false,
+  "sha256": {
+    "docs/release/local-implementation-register-2026-09-30.json": "eab92b64a9160e9b7f2c1ffc2507d2e869774022e4142a23ea2239f7d1ed8e07",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "56f60d219a73a0364acf9732644b1760abfe8e97b1bb04ac1905259cc30aaea8",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "6080a0accd691782280021d438bb9f793e8925d39b29216cd34025cdb15f9208",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "4abbb6bfc5278ec8f478eb93ee8a62d68ce3aec94e0aeeea973617b49f375381"
+  },
+  "prior_revision_preserved": {
+    "local-implementation-register-2026-09-30.json": "603f6e2ae069f3d5f0b8525a17af1ec958537779fe8fd18f862bf149523fa1f6",
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "873a9970f2734aad3198854b61e2ecb8b1065690de318cca4aaa2916f5ee35c6",
+    "production-remaining-tasks-2026-09-30.json": "1fe6c79e03484afbff3e3cfe2b5dbead26587f1264284449332e1716e7a54921",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "e4c191da8b6e122f2859ede29e3f22c66f23075df25b6aade3203e5601a8ada1",
+    "production-remaining-tasks-2026-09-30.validation.json": "a475d6241543cd93fdb102e5e9a197b84b8917556a6dbec89233c9b276b7ce34"
+  },
+  "local_progress_refreshed_at_utc": "2026-09-30T15:14:31.471964+00:00",
+  "current_edge_closure_sha256": "4419ee7546d73dcd39cbd890d4799056b73cb25492963e086443f7cda63a932f",
+  "cleanup_currentness": "Prior cleanup certificate is dated after subsequent source changes; current rebind pending.",
+  "edge_sources_verified": 78,
+  "edge_evidence_verified": 23
+}

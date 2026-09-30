@@ -9,7 +9,7 @@ The final application regression passes **867 tests, zero failures and zero
 skips**, with 615 unchanged recorded source inputs. Coverage is
 12,744 / 17,072 lines (74.65%) against the unchanged 40% CI minimum. Analysis,
 formatting, source hygiene and the exact 1,200-line CI size step pass. Both
-native MOBILE-DESIGN-100 gates remain blocked. The final isolated web build
+native former mobile visual acceptance rule gates remain blocked. The final isolated web build
 passes with 413 unchanged build-source inputs and 154 hashed output files.
 
 ## Confirmed defects and local repairs

@@ -1,4 +1,7 @@
 \set ON_ERROR_STOP on
+-- Historical filename retained for existing rehearsal callers. Current
+-- assertions require SMS observation to leave money unposted; a separate
+-- synthetic provider fixture exercises positive settlement on a rollback clone.
 begin;
 set local statement_timeout = '30s';
 
@@ -67,7 +70,7 @@ insert into public.collections(
   diaspora_enabled, creation_origin
 ) values (
   '99000000-0000-4000-8000-000000000010', 'attested-sms-finality-uat',
-  '99000000-0000-4000-8000-000000000001', 'Attested SMS finality UAT',
+  '99000000-0000-4000-8000-000000000001', 'SMS evidence boundary UAT',
   'Family / friends', 'private', 'private', 'ikimina', 'members', false,
   false, 'member_app'
 );
@@ -196,33 +199,33 @@ select public.finalize_attested_payment_sms(
 ) as finality \gset
 reset role;
 select pg_temp.assert_true(
-  :'finality'::jsonb ->> 'status' = 'posted'
-    and :'finality'::jsonb ->> 'payment_id'
-      = '99000000-0000-4000-8000-000000000060',
-  'attested provider SMS finalizes its matching review candidate'
+  :'finality'::jsonb ->> 'status' = 'awaiting_reconciliation'
+    and :'finality'::jsonb ->> 'evidence_level' = 'sms_observed'
+    and :'finality'::jsonb ->> 'payment_id' is null,
+  'attested SMS is stored evidence and cannot settle its candidate'
 );
 select pg_temp.assert_true(
-  (select status = 'posted' and posted_at is not null
+  (select status = 'review' and posted_at is null
    from public.payments where id = '99000000-0000-4000-8000-000000000060'),
-  'provider-attested candidate transitions to posted'
+  'SMS observation retains the review candidate'
 );
 select pg_temp.assert_true(
-  (select count(*) = 1 from public.payment_provider_confirmations
+  (select count(*) = 0 from public.payment_provider_confirmations
    where payment_id = '99000000-0000-4000-8000-000000000060'),
-  'one immutable provider confirmation is retained'
+  'SMS observation creates no provider confirmation'
 );
 select pg_temp.assert_true(
-  (select count(*) = 2 and sum(amount_rwf) = 2468
+  (select count(*) = 0
    from public.ledger_entries
    where payment_id = '99000000-0000-4000-8000-000000000060'),
-  'legacy read projection receives one group and one member credit'
+  'SMS observation creates no ledger credit'
 );
 select pg_temp.assert_true(
-  (select count(*) = 1
+  (select count(*) = 0
    from collect_hybrid.momo_journal_entries
    where payment_id = '99000000-0000-4000-8000-000000000060'
      and entry_type = 'receipt'),
-  'canonical journal posts exactly one balanced receipt'
+  'SMS observation creates no canonical journal receipt'
 );
 set local role service_role;
 select set_config('request.jwt.claims', '{"role":"service_role"}', true);
@@ -230,11 +233,37 @@ select public.finalize_attested_payment_sms(
   (:'ingestion'::jsonb ->> 'id')::uuid
 ) as replay_finality \gset
 select pg_temp.assert_true(
-  :'replay_finality'::jsonb ->> 'status' = 'posted'
-    and :'replay_finality'::jsonb ->> 'replayed' = 'true',
-  'attested finality retry is idempotent'
+  :'replay_finality'::jsonb = :'finality'::jsonb,
+  'SMS observation retry retains the same non-settlement result'
+);
+-- This separate synthetic service fixture models an independently obtained
+-- provider record. No SMS field is used as the provider request/evidence hash.
+select public.process_provider_finality_event(
+  '99000000-0000-4000-8000-000000000070', 'payment.confirmed',
+  repeat('d', 64), '99000000-0000-4000-8000-000000000060',
+  'mtn_momo', 'ATTESTED1234', 'PROVIDER-UAT-ATTESTED1234',
+  repeat('a', 64), 1234, now(), repeat('e', 64), null, null
+) as provider_finality \gset
+select pg_temp.assert_true(
+  :'provider_finality'::jsonb ->> 'payment_id'
+    = '99000000-0000-4000-8000-000000000060'
+    and :'provider_finality'::jsonb ->> 'replayed' = 'false',
+  'separate synthetic provider fixture can settle the review candidate'
 );
 reset role;
+select pg_temp.assert_true(
+  (select status = 'posted' and posted_at is not null
+   from public.payments where id = '99000000-0000-4000-8000-000000000060')
+  and (select count(*) = 1 from public.payment_provider_confirmations
+       where payment_id = '99000000-0000-4000-8000-000000000060')
+  and (select count(*) = 2 and sum(amount_rwf) = 2468
+       from public.ledger_entries
+       where payment_id = '99000000-0000-4000-8000-000000000060')
+  and (select count(*) = 1 from collect_hybrid.momo_journal_entries
+       where payment_id = '99000000-0000-4000-8000-000000000060'
+         and entry_type = 'receipt'),
+  'only the separate synthetic provider event creates financial entries'
+);
 
 select pg_temp.assert_true(
   not has_function_privilege(
@@ -254,7 +283,7 @@ select pg_temp.assert_true(
   ) and has_function_privilege(
     'service_role', 'public.finalize_attested_payment_sms(uuid)', 'execute'
   ),
-  'service boundary can ingest and finalize attested evidence'
+  'service boundary can ingest evidence and query its non-settlement status'
 );
 select pg_temp.assert_true(
   exists (
@@ -272,7 +301,7 @@ select pg_temp.assert_true(
 );
 
 select label from pg_temp.test_results order by label;
-select 'ATTESTED_SMS_FINALITY_UAT_PASS: '
+select 'ATTESTED_SMS_BOUNDARY_UAT_PASS: '
   || count(*) || ' assertions; synthetic rollback only'
 from pg_temp.test_results;
 rollback;

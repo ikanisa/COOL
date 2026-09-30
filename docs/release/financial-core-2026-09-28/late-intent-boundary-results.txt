@@ -1,0 +1,7 @@
+1|active-on-time|awaiting_provider_confirmation|matched|1
+2|exact-expiry|needs_review|expired|0
+3|one-minute-late-upload|needs_review|expired|0
+4|past-two-hour-evidence-window|needs_review|expired|0
+5|fourteen-minute-early-device-clock|awaiting_provider_confirmation|matched|1
+6|sixteen-minute-early-device-clock|needs_review|pending|0
+LATE_INTENT_BOUNDARY_UAT_PASS_8

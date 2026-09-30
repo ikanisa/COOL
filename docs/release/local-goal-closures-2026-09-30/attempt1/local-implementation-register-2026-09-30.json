@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-09-30T14:19:53.722641+00:00",
+  "scope": "All24 user-requested local implementation goals, without changing original production acceptance criteria",
+  "goal_item_count": 24,
+  "locally_closed_goal_items": [
+    "L02"
+  ],
+  "production_release_decision": "NO-GO; unchanged original register",
+  "verification_rule": "Close an item only with authoritative current source and complete matching-scope local implementation/runtime evidence; dated scoped passes do not imply whole-system acceptance.",
+  "items": [
+    {
+      "id": "L01",
+      "goal_item": 1,
+      "parent_ids": "A01/P07",
+      "title": "Roster browser-reload recovery",
+      "status": "in_progress",
+      "local_acceptance": "Implement144 server/client recovery with session-bound reference-only browser storage, exact serialized payload hashes, bounded private drafts/intents, explicit save/recovery/resumption, request replay, expiry/purge and CAS conflict tests. No private rows, reasons, titles, bytes or Auth tokens in browser storage.",
+      "completion_evidence": [
+        "docs/release/roster-import-provenance-2026-09-30/runtime-verification.json",
+        "docs/release/admin-roster-recovery-2026-09-30/validation.json",
+        "docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/validation.json",
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_dependency_substeps": [
+        "142 guarded recovery restored131-table baseline",
+        "142 eleven real concurrency scenarios pass with baseline restoration",
+        "Actual SQL-to-Dart original/status receipts pass; terminal/status recovery implemented"
+      ],
+      "verified_progress": "Actual144 receipts/adversarial/six blocking races restore136 tables;91 integrated roster,57 workbook and1 actual Chromium adapter tests pass in213-input dated packet. Full browser reload/tab/session lifecycle remains."
+    },
+    {
+      "id": "L02",
+      "goal_item": 2,
+      "parent_ids": "X02/D09",
+      "title": "Normal-owner bank scheduler retirement",
+      "status": "complete",
+      "local_acceptance": "Implement143 using owner cron APIs with ordinary installer privileges, immutable pause and postcommit observation/verification, real blocking concurrency and unchanged unrelated jobs/history/business fingerprints.",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_progress": "Complete local normal-owner143 acceptance: populated history/adversarial rollback, separate postcommit observation/final verification71.034822seconds,6 canary+9 verification races,32 role/immutability checks, source reapply and current inactive canonical readback. Original productionX02 hosted acceptance remains open.",
+      "completed_at_utc": "2026-09-30T14:19:53.722641+00:00",
+      "completion_manifest_sha256": "e159e2f60c914f845ae7bc8b8fd4d917d86d74f6af72b49392fed5f2755b3f3e"
+    },
+    {
+      "id": "L03",
+      "goal_item": 3,
+      "parent_ids": "S09/U06",
+      "title": "Admin session isolation",
+      "status": "in_progress",
+      "local_acceptance": "Fence every Admin provider, request and dialog with session generation, pinned request authorization, A-to-B-to-A sticky invalidation, expiry and Auth-stream error/done handling. Clear stale private state and suppress old success/freshness side effects.",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json"
+      ],
+      "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain."
+    },
+    {
+      "id": "L04",
+      "goal_item": 4,
+      "parent_ids": "S09/A09",
+      "title": "Operation acknowledgements",
+      "status": "in_progress",
+      "local_acceptance": "Inventory every sensitive action and validate its exact response contract, typed fields, request-bound IDs/status and immutable route facts before success. Reject null/malformed/stale/mismatched responses and preserve uncertain outcomes.",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json"
+      ],
+      "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain."
+    },
+    {
+      "id": "L05",
+      "goal_item": 5,
+      "parent_ids": "U06",
+      "title": "Complete Admin route/action matrix",
+      "status": "in_progress",
+      "local_acceptance": "Enumerate every local route/action/data source and prove allowed, denied, revoked, loading, empty, failure and durable audited-result behavior. Include grant/export/reveal/retry/reason flows.",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json"
+      ],
+      "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain."
+    },
+    {
+      "id": "L06",
+      "goal_item": 6,
+      "parent_ids": "S04",
+      "title": "Uncertain OTP recovery",
+      "status": "in_progress",
+      "local_acceptance": "Implement durable single-send intent and evidence-bound accepted/not-sent/ambiguous/delivered recovery. Simulate timeout, response loss, late completion, replay and concurrent claims; unknown delivery must never trigger blind resend or release spent quota.",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_progress": "Corrected PostgreSQL hook-ID regex preserves valid256-character IDs.56 actual rollback checks,9 legacy-v2 upgrade checks and6 real races pass; failed-race graph recovered to exact139-table baseline. Final current Edge HTTP integration remains."
+    },
+    {
+      "id": "L07",
+      "goal_item": 7,
+      "parent_ids": "S07",
+      "title": "Error redaction",
+      "status": "in_progress",
+      "local_acceptance": "Exercise secrets, phone/receipt data, provider/SQL details and malformed SDK errors across client/Edge/log/export surfaces. Verify only stable actionable messages and redacted structured telemetry reach users.",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json"
+      ],
+      "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain."
+    },
+    {
+      "id": "L08",
+      "goal_item": 8,
+      "parent_ids": "S08",
+      "title": "Local role and cross-group authorization",
+      "status": "pending",
+      "local_acceptance": "Run anonymous/member/operator/service and cross-group negative tests, raw-SMS isolation, effective grants/RLS and both concurrent revocation orders against final local definitions.",
+      "completion_evidence": []
+    },
+    {
+      "id": "L09",
+      "goal_item": 9,
+      "parent_ids": "A03",
+      "title": "Full upload decoding safety",
+      "status": "in_progress",
+      "local_acceptance": "Implement full bounded image/PDF validation or a validated sandbox with page/object/animation/decompression limits. Test corrupt/spoofed/polyglot/page-heavy/expansion inputs before vendor calls.",
+      "completion_evidence": [
+        "docs/release/upload-integrity-2026-09-30/decoder-attempt5-object-streams/validation.json",
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_progress": "Bounded five-format Linux parser, seccomp network denial, memory/CPU limits and32 actual codec/auth/expansion cases including compressed PDF object streams pass. Final current Edge HTTP integration remains."
+    },
+    {
+      "id": "L10",
+      "goal_item": 10,
+      "parent_ids": "A03",
+      "title": "Durable concurrent upload/extraction limits",
+      "status": "in_progress",
+      "local_acceptance": "Implement actor/global concurrent and resource/cost reservations with idempotent recovery, timeouts, exhaustion, abuse and multiple-worker local tests.",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_progress": "Corrected146 applies as normal owner,139 old tables preserved\u2192143;29 quota/permission checks and7 real resource races pass, including stale REPEATABLE READ40001. All143 baseline tables/controls restored. Current Edge budget integration remains."
+    },
+    {
+      "id": "L11",
+      "goal_item": 11,
+      "parent_ids": "A03/A09",
+      "title": "Trusted XLSX transformation",
+      "status": "in_progress",
+      "local_acceptance": "Verify original workbook bytes against derived TSV using a trusted bounded parser. Reject inconsistent or substituted content and test workbook expansion, malformed relationships and row/cell limits.",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/upload-integrity-2026-09-30/decoder-attempt5-object-streams/validation.json"
+      ],
+      "verified_progress": "Trusted original XLSX\u2192TSV decoder and8 actual signed Deno integrations pass. Actual146 reservation/verification\u2192142 preview/review/commit\u2192144 reload and lost cleanup-ACK repair pass. Final Edge HTTP gate remains."
+    },
+    {
+      "id": "L12",
+      "goal_item": 12,
+      "parent_ids": "A09",
+      "title": "Import/export and sensitive-action protection",
+      "status": "pending",
+      "local_acceptance": "Test formula injection, row/resource bounds, data minimization, redaction, permission denial, accountable reasons and durable import/export/reveal/grant/retry audit.",
+      "completion_evidence": []
+    },
+    {
+      "id": "L13",
+      "goal_item": 13,
+      "parent_ids": "A02",
+      "title": "Multilingual/adversarial evaluation tooling",
+      "status": "in_progress",
+      "local_acceptance": "Create labeled multilingual/scanned/malformed/duplicate/ambiguous/prompt-injection fixtures and a reproducible local evaluation harness measuring error classes and safe rejection/correction.",
+      "completion_evidence": [
+        "docs/release/upload-integrity-2026-09-30/decoder-attempt5-object-streams/validation.json"
+      ],
+      "verified_progress": "Labeled multilingual/adversarial corpus and evaluation tooling implemented;155 deterministic/response/evaluation regressions,5 labeled deterministic measurements and3 contract probes pass. Live provider accuracy is explicitly unmeasured; current HTTP harness integration remains."
+    },
+    {
+      "id": "L14",
+      "goal_item": 14,
+      "parent_ids": "D01-D04/D07",
+      "title": "Generated-dataset query benchmarks",
+      "status": "pending",
+      "local_acceptance": "Benchmark realistic generated volumes, all sorts/scopes/page depths and concurrent paging. Correct ordering, excessive scanning, whole-history reconstruction, aggregation growth and queue-shrink behavior.",
+      "completion_evidence": []
+    },
+    {
+      "id": "L15",
+      "goal_item": 15,
+      "parent_ids": "D05-D08",
+      "title": "Identity/totals/money/ID/date correctness",
+      "status": "pending",
+      "local_acceptance": "Audit every consumer and modern/legacy RPC/cache/input path for immutable identity, collision/forgery denial, complete versus partial/absent/stale/zero totals, exact integer bounds, aliases, IDs and valid calendar/timezone behavior.",
+      "completion_evidence": []
+    },
+    {
+      "id": "L16",
+      "goal_item": 16,
+      "parent_ids": "D10/P07",
+      "title": "Cache/reconnect/session isolation",
+      "status": "in_progress",
+      "local_acceptance": "Automate duplicate/missed Realtime events, reconnect/offline revocation, bounded refresh, stale completion and account/session switching. No wrong-account private cache or misleading freshness.",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json"
+      ],
+      "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain."
+    },
+    {
+      "id": "L17",
+      "goal_item": 17,
+      "parent_ids": "U02/U04/U05",
+      "title": "Shared Revolut interface corrections",
+      "status": "in_progress",
+      "local_acceptance": "Fix compact320x568/enlarged2x text, keyboard reachability, focus, semantic labels and financial/recovery wording through shared components. Preserve Collect workflows and test meaningful affected states.",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json"
+      ],
+      "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+      "verified_progress": "Current browser captures identify remaining heading semantics, empty group-detail navigation capsule and missing visible Security Back arrow; full shared-component corrections remain."
+    },
+    {
+      "id": "L18",
+      "goal_item": 18,
+      "parent_ids": "U07/U08",
+      "title": "Actual local browser/PWA lifecycle",
+      "status": "in_progress",
+      "local_acceptance": "Build/serve distinct public/Admin artifacts and test route/auth/bundle isolation, updates/failures, offline, real multiple tabs, logout/revocation/session switch and cache invalidation in a local browser.",
+      "completion_evidence": [],
+      "verified_progress": "Normal actual Admin/public artifacts built; shipped CSP/configured-origin Auth rebuild/reference-only bookmark checks pass in dated browser attempt. Complete reload/input/multitab/cache/install/offline/logout acceptance remains; final builds must use pinned Flutter3.44.4."
+    },
+    {
+      "id": "L19",
+      "goal_item": 19,
+      "parent_ids": "O06",
+      "title": "Redacted financial/receipt/push observability",
+      "status": "pending",
+      "local_acceptance": "Implement queue age, ACK/parse/unmatched/reconciliation/reversal and push lease/completion/scheduler health metrics. Test redaction, alert thresholds, missing/stale health and local response procedures.",
+      "completion_evidence": []
+    },
+    {
+      "id": "L20",
+      "goal_item": 20,
+      "parent_ids": "A08",
+      "title": "Mutable settings/copy governance",
+      "status": "pending",
+      "local_acceptance": "Inventory dynamic settings/copy, validate types/ranges/versions, enforce caller permissions and audit updates/conflicts. Preserve stable application strings as code.",
+      "completion_evidence": []
+    },
+    {
+      "id": "L21",
+      "goal_item": 21,
+      "parent_ids": "A05/A07",
+      "title": "Proven asset/code/dependency cleanup",
+      "status": "in_progress",
+      "local_acceptance": "Produce reachability evidence, reconcile seven indexed missing assets and remove only demonstrably unused code/assets/dependencies. Preserve licensed/provenance decisions and run affected local regressions.",
+      "completion_evidence": [],
+      "verified_progress": "194/194 remaining Dart runtime files reachable;2 proven unused source files removed;95/95 bundled asset paths classified used.174 approved present hashes match. Final affected regression/asset reconciliation evidence remains."
+    },
+    {
+      "id": "L22",
+      "goal_item": 22,
+      "parent_ids": "Q01/Q02/Q07",
+      "title": "Locks/inventory/SBOM/build hygiene",
+      "status": "in_progress",
+      "local_acceptance": "Reconcile exact pinned-runtime locks and inventories, generate local SBOMs, fix formatting/analyzer/native lint including40 recorded warnings, and prove clean-checkout builds without undeclared ignored/private files.",
+      "completion_evidence": [],
+      "verified_progress": "Exact installed Flutter3.44.4 SDK identified; earlier3.44.3 captures are accurately dated. Source SBOM453 components generated; final native lint/locks/formatter/fatal analysis/resolved inventories/unsigned builds remain."
+    },
+    {
+      "id": "L23",
+      "goal_item": 23,
+      "parent_ids": "D09/Q03/Q06",
+      "title": "Final-set integrated local verification",
+      "status": "in_progress",
+      "local_acceptance": "Run final frozen migration-set clean and populated upgrades, rollback/roll-forward and incompatible-client tests. Execute full local Dart/native/Edge/database/browser suites and critical auth/ACK/finality/reversal/session concurrency/mutation coverage. Preserve financial/receipt baselines.",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_progress": "Exact isolated registry now146, all143 tables restored after scoped tests. Last full clean migration replay remains141; final frozen clean/populated upgrade and whole-suite acceptance remain."
+    },
+    {
+      "id": "L24",
+      "goal_item": 24,
+      "parent_ids": "G07/A10",
+      "title": "Bound evidence and handover register",
+      "status": "in_progress",
+      "local_acceptance": "Package source/lock/toolchain/build/test/log hashes and exact commands/exclusions against one final local source set. Preserve dated failures and earlier evidence, refresh this24-item register and reconcile historical versus current packets.",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "verified_progress": "21 actual143\u2013146 runtime packets consolidated with222 bound inputs and fresh canonical registry hash readback. Eight recorder-corruption tests pass. Remaining application/native/browser/Edge/source-lock-build integration packets remain."
+    }
+  ],
+  "latest_verified_local_result": {
+    "manifest": "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+    "manifest_sha256": "e159e2f60c914f845ae7bc8b8fd4d917d86d74f6af72b49392fed5f2755b3f3e",
+    "scope": "Actual isolated local143\u2013146 installation, rollback, upgrade and blocking concurrency evidence",
+    "counts": {
+      "otp_recovery_checks": 56,
+      "otp_recovery_races": 6,
+      "otp_v2_upgrade_checks": 9,
+      "recorder_corruption_tests": 8,
+      "resource_checks": 29,
+      "resource_races": 7,
+      "roster_reload_races": 6,
+      "scheduler_canary_races": 6,
+      "scheduler_normal_owner_checks": 32,
+      "scheduler_verification_races": 9
+    },
+    "migration_count": 146,
+    "table_count": 143,
+    "whole_goal_complete": false
+  },
+  "snapshot_revision": 2,
+  "current_local_migration_count": 146,
+  "current_local_table_count": 143
+}

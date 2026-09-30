@@ -178,14 +178,16 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                                   : CollectIcons.lock,
                             ),
                             CollectStatusChip(
-                              label: formatCurrencyTotals(
-                                summary.totalsByCurrency,
-                                separator: '\n',
-                              ),
+                              label: summary == null
+                                  ? 'Not available'
+                                  : formatCurrencyTotals(
+                                      summary.totalsByCurrency,
+                                      separator: '\n',
+                                    ),
                               tone: CollectStatusTone.info,
                               icon: CollectIcons.ledger,
                             ),
-                            CollectPeopleCount(count: summary.supporterCount),
+                            CollectPeopleCount(count: summary?.supporterCount),
                           ],
                         ),
                         CollectSpacing.gap16,

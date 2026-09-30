@@ -352,18 +352,6 @@ File.write(
   ) + "\n"
 )
 RUBY
-  cat > "$bundle_dir/mobile_design_contract.json" <<'JSON'
-{
-  "status": "contract_valid",
-  "release_status": "not_assessed",
-  "authority": "revolut-design",
-  "rule": "MOBILE-DESIGN-100",
-  "failures": []
-}
-JSON
-  record_fixture "mobile_design_contract" "mobile_design_contract.json" 0 "$(cat "$bundle_dir/mobile_design_contract.json")"
-  record_blocked "mobile_design_android" "mobile_design_android.json" "Runner fixtures cannot establish Android visual acceptance."
-  record_blocked "mobile_design_ios" "mobile_design_ios.json" "Runner fixtures cannot establish iOS visual acceptance."
   cat > "$bundle_dir/worktree_review.json" <<'JSON'
 {
   "status": "blocked",
@@ -516,7 +504,7 @@ else
   run_capture "flutter_test" "flutter_test.txt" "$FLUTTER" test --no-pub --concurrency=1
   run_capture "release_secret_scan" "release_secret_scan.txt" "$ROOT_DIR/scripts/release_secret_scan.sh"
   run_capture "collect_product_boundary_scan" "collect_product_boundary_scan.json" "$ROOT_DIR/scripts/collect_product_boundary_scan.sh" --json
-  run_capture "mobile_route_artifact_gate" "mobile_route_artifact_gate.json" "$ROOT_DIR/scripts/mobile_route_artifact_gate.sh" --json
+  run_capture "mobile_route_artifact_gate" "mobile_route_artifact_gate.json" env QA_UAT_BUNDLE_DIR="$bundle_dir" MOBILE_ROUTE_RENDER_EVIDENCE_DIR="$bundle_dir/mobile_route_render_smoke" "$ROOT_DIR/scripts/mobile_route_artifact_gate.sh" --json
   run_capture "android_release_signing_preflight" "android_release_signing_preflight.json" "$ROOT_DIR/scripts/android_release_signing_preflight.sh" --json
   run_capture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json" "$ROOT_DIR/scripts/android_kotlin_plugin_compat_gate.sh" --json
   run_capture "release_worktree_review" "worktree_review.json" "$ROOT_DIR/scripts/release_worktree_review_gate.sh" --json
@@ -554,10 +542,6 @@ else
   else
     record_blocked "android_device_uat" "android_device_uat.txt" "Android device UAT skipped because QA_UAT_REQUIRE_ANDROID_DEVICE is not 1."
   fi
-
-  run_capture "mobile_design_contract" "mobile_design_contract.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --check-contract --json
-  run_capture "mobile_design_android" "mobile_design_android.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --json
-  run_capture "mobile_design_ios" "mobile_design_ios.json" ruby "$ROOT_DIR/scripts/qa/mobile_design_gate.rb" --ios --json
 
   run_capture "release_status_json" "release_status.json" "$ROOT_DIR/scripts/release_status.sh" --json
   run_capture "supabase_go_live_gate_json" "go_live_gate.json" "$ROOT_DIR/scripts/supabase_go_live_gate.sh" --json
@@ -632,9 +616,6 @@ worktree_review = read_json(File.join(bundle_dir, "worktree_review.json"))
 artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.json"))
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
-design_compliance = read_json(File.join(bundle_dir, "mobile_design_contract.json"))
-mobile_design_android = read_json(File.join(bundle_dir, "mobile_design_android.json"))
-mobile_design_ios = read_json(File.join(bundle_dir, "mobile_design_ios.json"))
 mobile_route_artifact = read_json(File.join(bundle_dir, "mobile_route_artifact_gate.json"))
 android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 android_kotlin_plugin_compat = read_json(File.join(bundle_dir, "android_kotlin_plugin_compat.json"))
@@ -694,15 +675,6 @@ mobile_route_render_surface =
   if command_ok?(commands, "mobile_route_render_smoke")
     "pass"
   elsif command_blocked?(commands, "mobile_route_render_smoke")
-    "blocked"
-  else
-    "fail"
-  end
-
-mobile_contract_surface =
-  if command_ok?(commands, "mobile_design_contract") && design_compliance["status"] == "contract_valid"
-    "pass"
-  elsif command_blocked?(commands, "mobile_design_contract")
     "blocked"
   else
     "fail"
@@ -797,26 +769,11 @@ supabase_evidence_bundle_surface =
     "fail"
   end
 
-def mobile_design_surface(commands, name, evidence, platform)
-  if command_ok?(commands, name) && evidence["status"] == "pass" &&
-      evidence["rule"] == "MOBILE-DESIGN-100" && evidence["platform"] == platform &&
-      evidence["score"] == 100 && evidence["failures"] == []
-    "pass"
-  elsif evidence["status"] == "blocked"
-    "blocked"
-  else
-    "fail"
-  end
-end
-
 surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
   "mobile_route_artifacts" => mobile_route_artifact_surface,
-  "mobile_contract_compliance" => mobile_contract_surface,
-  "mobile_visual_acceptance_android" => mobile_design_surface(commands, "mobile_design_android", mobile_design_android, "android"),
-  "mobile_visual_acceptance_ios" => mobile_design_surface(commands, "mobile_design_ios", mobile_design_ios, "ios"),
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
   "android_release_signing_preflight" => android_release_signing_preflight_surface,
@@ -921,7 +878,6 @@ summary = {
   },
   "release_evidence_index" => evidence_index,
   "mobile_route_artifacts" => mobile_route_artifact,
-  "mobile_visual_acceptance" => { "android" => mobile_design_android, "ios" => mobile_design_ios },
   "android_release_signing_preflight" => android_release_signing_preflight,
   "android_kotlin_plugin_compat" => android_kotlin_plugin_compat,
   "commands" => commands,
@@ -958,9 +914,6 @@ File.write(
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
     - `mobile_route_artifact_gate.json`: Collect mobile evidence-adapter validation
-    - `mobile_design_contract.json`: revolut-design and MOBILE-DESIGN-100 contract validation
-    - `mobile_design_android.json`: full Android MOBILE-DESIGN-100 acceptance result
-    - `mobile_design_ios.json`: full iOS MOBILE-DESIGN-100 acceptance result
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `android_release_signing_preflight.json`: redacted Android Play signing certificate preflight

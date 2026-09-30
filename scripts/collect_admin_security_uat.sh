@@ -582,5 +582,5 @@ if [[ "$SUPABASE_DB_QUERY_MODE" != "direct" ]]; then
   printf '[collect-admin-uat][WARN] Management API query failed; falling back to READINESS_DATABASE_URL.\n' >&2
 fi
 
-psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$tmp_sql"
+collect_psql_url_service "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$tmp_sql"
 printf '[collect-admin-uat] rollback admin/security UAT passed via direct database query\n'

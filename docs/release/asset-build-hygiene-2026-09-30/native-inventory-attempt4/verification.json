@@ -1,0 +1,32 @@
+{
+  "commands": [
+    {
+      "name": "runtime",
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "--write-locks",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "compile",
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt3-current/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "-PcollectInventoryConfiguration=productionReleaseCompileClasspath",
+        "--write-locks",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "scope": "Observed current Gradle tooling against explicitly overlaid dated native source export"
+}

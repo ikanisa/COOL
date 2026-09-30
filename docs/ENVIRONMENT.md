@@ -26,8 +26,7 @@ that SDK. CI resolves the same version from `.fvmrc`.
   linked to Collect under Play Integrity API settings)
 
 Android production builds set both SMS switches to `true`, but receipt access
-remains off until an authenticated Rwanda member explicitly consents. Diaspora
-profiles do not use the SMS path. The app never requests `READ_SMS`. The
+remains off until an authenticated Rwanda member explicitly consents. The app never requests `READ_SMS`. The
 production Android build fails closed unless the linked Play Integrity project
 number is present; do not substitute the Firebase project number unless Play
 Console confirms that it is the linked project.
@@ -44,11 +43,6 @@ Core:
 - `WHATSAPP_PHONE_NUMBER_ID`
 - `WHATSAPP_AUTH_TEMPLATE_NAME`
 - `SEND_SMS_HOOK_SECRET`
-
-Bank evidence:
-
-- `BANK_EMAIL_INGEST_HMAC_SECRET` for the controlled email-ingestion adapter
-- `BANK_SMS_INGEST_HMAC_SECRET` only when an external SMS relay is enabled
 
 Android device verification:
 
@@ -78,12 +72,11 @@ HMAC, WhatsApp, FCM, or APNs secrets in Flutter dart-defines or committed files.
 
 No flavor embeds payment-provider credentials. Rwanda members approve a
 pre-filled MTN MoMo request or the Airtel merchant menu in USSD and enter their
-PIN only there. Diaspora members use the approved beneficiary and reference,
-then open Revolut through its application link or web fallback.
+PIN only there.
 
 ## Local Supabase
 
 The repository uses non-default ports in `supabase/config.toml`. Local database,
-API, and Auth are sufficient for migrations, RLS, SQL lint, and rollback UAT.
+API, and Auth are sufficient for migrations, RLS, SQL lint, and Rwanda MoMo readiness UAT.
 Operator scripts resolve `SUPABASE_BIN` first, then a local CLI. Linked-database
 scripts similarly resolve `PSQL_BIN` before their documented fallback.

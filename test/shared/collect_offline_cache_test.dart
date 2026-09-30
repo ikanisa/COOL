@@ -34,44 +34,85 @@ void main() {
   });
 
   test(
-    'cached summary preserves EUR minor units and drops untyped legacy totals',
+    'cached RWF summary survives and foreign totals are discarded',
     () async {
       SharedPreferences.setMockInitialValues({});
       const cache = CollectOfflineCache();
-      final snapshot = CollectOfflineSnapshot(
-        savedAt: DateTime.utc(2026, 9, 2),
-        currentProfile: null,
-        collections: const [],
-        paymentIntents: const [],
-        contributions: const [],
-        collectionSummaries: const {
-          'bank-group': CollectionSummary(
-            amountRaisedRwf: 12345,
-            supporterCount: 1,
-            currency: 'EUR',
-          ),
-        },
+      await cache.save(
+        CollectOfflineSnapshot(
+          savedAt: DateTime.utc(2026, 9, 2),
+          currentProfile: null,
+          collections: const [],
+          paymentIntents: const [],
+          contributions: const [],
+          collectionSummaries: const {
+            'rwanda-group': CollectionSummary(
+              amountRaisedRwf: 12345,
+              supporterCount: 1,
+            ),
+            'foreign-group': CollectionSummary(
+              amountRaisedRwf: 500,
+              supporterCount: 1,
+              currency: 'EUR',
+            ),
+          },
+        ),
       );
-      await cache.save(snapshot);
       final restored = await cache.read();
-      expect(restored!.collectionSummaries['bank-group']!.currency, 'EUR');
       expect(
-        restored.collectionSummaries['bank-group']!.amountRaisedMinor,
+        restored!.collectionSummaries['rwanda-group']!.amountRaisedMinor,
         12345,
       );
-      final legacy = snapshot.toJson();
-      ((legacy['collection_summaries'] as Map)['bank-group'] as Map).remove(
-        'currency',
-      );
-      ((legacy['collection_summaries'] as Map)['bank-group'] as Map).remove(
-        'balances',
-      );
       expect(
-        CollectOfflineSnapshot.fromJson(legacy).collectionSummaries,
-        isEmpty,
+        restored.collectionSummaries.containsKey('foreign-group'),
+        isFalse,
       );
     },
   );
+
+  test('mixed legacy history does not erase cached Rwanda balances', () async {
+    SharedPreferences.setMockInitialValues({
+      'collect.offline_snapshot.v4': jsonEncode({
+        'version': 4,
+        'saved_at': '2026-09-02T10:00:00Z',
+        'current_profile': {
+          'id': 'legacy-user',
+          'public_id': '123456',
+          'whatsapp_phone': '+447700900123',
+          'country_code': 'GB',
+          'currency_code': 'EUR',
+        },
+        'collections': [],
+        'payment_intents': [],
+        'contributions': [],
+        'history_page': {
+          'totals': {'EUR': 125},
+          'own_totals': {'EUR': 125},
+          'items': [],
+        },
+        'collection_summaries': {
+          'rwanda-group': {
+            'currency': 'RWF',
+            'balances': [
+              {
+                'currency': 'RWF',
+                'amount_raised_minor': 12345,
+                'current_user_balance_minor': 3000,
+              },
+            ],
+          },
+        },
+      }),
+    });
+    final restored = await const CollectOfflineCache().read();
+    expect(restored, isNotNull);
+    expect(restored!.currentProfile, isNull);
+    expect(restored.historyPage, isNull);
+    expect(
+      restored.collectionSummaries['rwanda-group']!.amountRaisedMinor,
+      12345,
+    );
+  });
 
   test(
     'legacy cached names are stripped without deleting the profile',
@@ -168,8 +209,7 @@ void main() {
         'currency_code',
         'momo_provider',
         'momo_number',
-        'revolut_link',
-        'revolut_account',
+        'momo_pay_code',
       ]),
     );
     expect(

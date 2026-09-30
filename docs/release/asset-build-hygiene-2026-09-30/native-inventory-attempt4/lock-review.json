@@ -1,0 +1,20 @@
+{
+  "scope": "App-only observed current production classpaths; selected runtime modules unchanged from pre-lock baseline",
+  "runtime_baseline_module_versions_unchanged": true,
+  "lock_sha256": "ed5d3fd1206e25771fa0cf47588d21b5b180b8962d7316684d6acffaa41de599",
+  "lock_entry_count": 184,
+  "graphs": {
+    "runtime": {
+      "components": 172,
+      "edges": 834,
+      "external_artifacts": 141,
+      "all_artifact_hashes_present": true
+    },
+    "compile": {
+      "components": 64,
+      "edges": 247,
+      "external_artifacts": 47,
+      "all_artifact_hashes_present": true
+    }
+  }
+}

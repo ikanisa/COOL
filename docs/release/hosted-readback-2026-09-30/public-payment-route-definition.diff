@@ -1,0 +1,11 @@
+--- hosted124
++++ local142
+@@ -23,5 +23,7 @@
+   where collection.id = p_collection_id
+     and collection.public_status = 'public_approved'
+     and collection.is_platform_sponsored
+-    and collection.archived_at is null;
++    and collection.archived_at is null
++    and collection.currency = 'RWF'
++    and not collection.diaspora_enabled;
+ $function$

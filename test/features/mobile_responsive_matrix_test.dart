@@ -7,7 +7,6 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
-import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -22,7 +21,7 @@ class _FixtureSmsAccess extends SmsAccessChannel {
   const _FixtureSmsAccess();
 
   @override
-  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => true;
 }
 
 // These are layout simulations with the complete router and shell. They do not
@@ -36,13 +35,6 @@ const _routes = [
     '/groups/qa-private-group/contribute',
     'How much?',
     action: 'Continue to MoMo',
-  ),
-  _Route(
-    'diaspora-contribution',
-    '/groups/qa-private-group/contribute',
-    'How much?',
-    action: 'Review transfer',
-    diaspora: true,
   ),
   _Route('settings', '/settings', 'Account details'),
   _Route('settings-permissions', '/settings/permissions', 'App permissions'),
@@ -93,6 +85,14 @@ void main() {
         await _capture(tester, '${route.name}-${variant.name}');
         if (route.action case final String action) {
           final target = find.text(action);
+          if (target.evaluate().isEmpty) {
+            await tester.scrollUntilVisible(
+              target,
+              100,
+              scrollable: find.byType(Scrollable).first,
+              maxScrolls: 30,
+            );
+          }
           await tester.ensureVisible(target);
           await tester.pumpAndSettle();
           expect(target.hitTestable(), findsOneWidget);
@@ -157,13 +157,6 @@ void main() {
 
   final forms = [
     ..._routes.where((route) => route.action != null),
-    const _Route(
-      'diaspora-profile',
-      '/settings/profile',
-      'Profile',
-      action: 'Save',
-      diaspora: true,
-    ),
     const _Route(
       'group-create',
       '/groups/create',
@@ -232,8 +225,6 @@ void main() {
           await tester.enterText(field, switch (route.name) {
             'auth' || 'profile-edit' => '788123457',
             'group-create' => 'Kigali savings circle',
-            'diaspora-profile' => '000123456780',
-            'diaspora-contribution' => '12.34',
             _ => '1234',
           });
           await tester.pumpAndSettle();
@@ -263,18 +254,14 @@ void main() {
           );
           expect(tester.takeException(), isNull);
           await _capture(tester, '${route.name}-${variant.name}-action');
-          if (route.name == 'profile-edit' ||
-              route.name == 'diaspora-profile') {
+          if (route.name == 'profile-edit') {
             final container = ProviderScope.containerOf(tester.element(action));
             await tester.tap(action);
             await tester.pumpAndSettle();
             final profile = container
                 .read(collectRepositoryProvider)
                 .currentProfile!;
-            expect(
-              route.diaspora ? profile.revolutAccount : profile.momoNumber,
-              route.diaspora ? '000123456780' : '0788123457',
-            );
+            expect(profile.momoNumber, '0788123457');
             expect(find.text('Profile saved.'), findsOneWidget);
             expect(tester.takeException(), isNull);
           }
@@ -302,16 +289,7 @@ Future<void> _open(WidgetTester tester, _Route route, _Variant variant) async {
   final repository = FixtureCollectRepository(
     seeded: route.name != 'auth',
     smsAccessChannel: const _FixtureSmsAccess(),
-    profileOverride: route.diaspora
-        ? const CollectProfile(
-            id: 'local-user',
-            publicId: '038491',
-            whatsappPhone: '+250788123456',
-            countryCode: 'DE',
-            currencyCode: 'EUR',
-            revolutAccount: '000123456789',
-          )
-        : null,
+    profileOverride: null,
   );
   final router = createAppRouter(initialLocation: route.path);
   addTearDown(router.dispose);
@@ -362,18 +340,11 @@ Future<void> _capture(WidgetTester tester, String name) async {
 }
 
 class _Route {
-  const _Route(
-    this.name,
-    this.path,
-    this.marker, {
-    this.action,
-    this.diaspora = false,
-  });
+  const _Route(this.name, this.path, this.marker, {this.action});
   final String name;
   final String path;
   final String marker;
   final String? action;
-  final bool diaspora;
 }
 
 class _Variant {

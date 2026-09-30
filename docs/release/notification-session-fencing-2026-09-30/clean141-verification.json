@@ -1,0 +1,23 @@
+{
+  "captured_at_utc": "2026-09-29T23:02:30.268085+00:00",
+  "status": "pass",
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "migration_count": 141,
+  "last_migration": "20260929180000",
+  "source_unchanged_during_replay": true,
+  "replay_exit_code": 0,
+  "replay_result_sha256": "0fa74c9fc76cb0dab99cee22047523e4fa4d7b09c4327711afe84ce57627ff25",
+  "source_manifest_sha256": "51a2b525d9d9e9f009928d3a73efdcdc4e5ef21276abe30f83219d2be43aac9e",
+  "populated141_backup_sha256": "0a6486a1910395c10342e809cc1cfe03f68ede7ea1f62ea8988c6ca691e98b34",
+  "populated_financial_history_preserved_in_backup": true,
+  "fixture_now": "Clean141 with one synthetic bootstrap owner; original RACE graph retained in backup, not the clean fixture.",
+  "platform_reset_default_controls_diagnostic": "clean141-offline-control-diagnostic.json",
+  "provider_calls": false,
+  "hosted_deployments": false,
+  "cron_launch_active_jobs": false,
+  "pg_net_batch_size": 0
+}

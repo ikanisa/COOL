@@ -1,0 +1,9 @@
+{
+  "actual_exit_code": 1,
+  "source_sha256": "1ad329453f3a6de5a07509cdbf713e8e0c282e738e68d28ee27de209df642782",
+  "phase": "test compilation",
+  "failure": "Local variable client referenced before declaration in MockClient callback",
+  "full_command": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter test --no-pub --concurrency=1 test/features/notification_preferences_recovery_ui_test.dart",
+  "log_scope": "Compiler output retained in task tool response; no disk stdout was recorded for this first attempt",
+  "runtime_tests_executed": 0
+}

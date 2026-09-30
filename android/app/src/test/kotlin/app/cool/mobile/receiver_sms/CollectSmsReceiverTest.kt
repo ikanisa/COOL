@@ -124,6 +124,7 @@ class CollectSmsReceiverTest {
 
     @Test
     fun queueEventBusEmitsMonotonicMetadataOnlySignals() {
+        val before = SmsQueueEventBus.currentSequence()
         val observed = mutableListOf<Long>()
         val listener: (Long) -> Unit = observed::add
         SmsQueueEventBus.addListener(listener)
@@ -135,6 +136,8 @@ class CollectSmsReceiverTest {
         }
 
         assertEquals(2, observed.size)
+        assertTrue(observed[0] > before)
         assertTrue(observed[1] > observed[0])
+        assertEquals(observed[1], SmsQueueEventBus.currentSequence())
     }
 }

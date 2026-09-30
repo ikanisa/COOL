@@ -15,7 +15,7 @@ void main() {
   const longTitle =
       'Abanyamuryango ba Kigali saving together for our shared future';
   final totals = CollectionSummary.multiCurrency(
-    totals: const {'RWF': 12345678, 'EUR': 250099, 'USD': 81234},
+    totals: const {'RWF': 12345678},
     ownBalances: const {},
     supporterCount: null,
   );
@@ -81,7 +81,7 @@ void main() {
   for (final brightness in Brightness.values) {
     for (final variant in GroupCardVariant.values) {
       testWidgets(
-        '$variant preserves long names and all currencies in $brightness at 200%',
+        '$variant preserves long names and RWF amounts in $brightness at 200%',
         (tester) async {
           final semantics = tester.ensureSemantics();
           try {
@@ -103,12 +103,12 @@ void main() {
               lessThan(card.width),
             );
             expect(card.height, greaterThan(card.width));
-            final amount = find.textContaining('EUR');
+            final amount = find.textContaining('RWF');
             expect(amount, findsOneWidget);
             final paragraph = tester.renderObject<RenderParagraph>(amount);
             expect(paragraph.didExceedMaxLines, isFalse);
             expect(paragraph.text.toPlainText(), contains('RWF'));
-            expect(paragraph.text.toPlainText(), contains('USD'));
+            expect(paragraph.text.toPlainText(), isNot(contains('EUR')));
             expect(find.text('—'), findsOneWidget);
             expect(
               find.bySemanticsLabel(RegExp('Contributor count unavailable')),

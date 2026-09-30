@@ -10,10 +10,10 @@ fallback and stored test-record findings remain open.
 Status: **Live list counts reconcile; Admin corrections and migration deployed.
 Configuration gaps remain. “No hardcoded data” is not fully established.**
 
-Requested by Jean Bosco as an extension of the mobile design audit. Live checks
-used the existing authenticated Admin session and read-only SQL transactions
-against project `lhbowpbcpwoiparwnwgt`. Production data was not changed during
-that initial audit; the later authorized deployment is recorded above.
+Requested by Jean Bosco as an Admin and Supabase data audit. Live checks used
+the existing authenticated Admin session and read-only SQL transactions against
+project `lhbowpbcpwoiparwnwgt`. Production data was not changed during that
+initial audit; the later authorized deployment is recorded above.
 
 ## Live readback
 
@@ -56,8 +56,8 @@ events have been reconciled.
 
 The reproducing tests failed before the changes. The two new regressions and
 the existing Admin suites passed 30 tests afterward. The changed Admin overview
-golden was inspected before updating it; the review is recorded in
-`../release/mobile-design/CONTINUATION_2026-09-04.md`.
+reference was inspected before updating it; this remains historical Admin QA
+evidence.
 
 These changes are now deployed. The production-configured Admin build completed and
 both its manifest and hosting gates passed. Its `main.dart.js` SHA-256 is

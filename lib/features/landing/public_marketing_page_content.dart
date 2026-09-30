@@ -4,9 +4,9 @@ const _publicMarketingPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/group-savings',
     navLabel: 'How it works',
-    title: 'Local MoMo and diaspora bank contributions in one clear ledger.',
+    title: 'Rwanda MoMo contributions in one clear ledger.',
     intro:
-        'Rwanda members contribute through MoMo USSD. Diaspora members use Revolut or bank transfer. Collect records either rail only after matching evidence is reconciled.',
+        'Members in Rwanda contribute in RWF through MoMo USSD. Collect records a contribution after trusted receipt evidence is reconciled.',
     sections: [
       CollectPublicSectionData(
         title: 'Create the group and invite members',
@@ -19,22 +19,22 @@ const _publicMarketingPages = <CollectPublicPageData>[
         ],
       ),
       CollectPublicSectionData(
-        title: 'Use the right rail for your country',
+        title: 'Approve with MoMo USSD',
         body:
-            'A Rwanda member enters a whole-RWF amount and opens MoMo USSD. A diaspora member receives the approved beneficiary and reference, then opens Revolut or a banking app.',
+            'Enter a whole-RWF amount, check the MoMo receiver, and approve the payment in USSD.',
         bullets: [
-          'Collect never asks for a MoMo PIN, bank password or OTP',
+          'Collect never asks for a MoMo PIN or OTP',
           'Members do not upload receipts or report transaction IDs',
-          'Payment approval stays in USSD or the banking app',
+          'Payment approval stays in USSD',
         ],
       ),
       CollectPublicSectionData(
         title: 'See one balanced update',
         body:
-            'A receipt posts only when trusted evidence matches one active request by receiver, sender, amount, time window and transaction identity. Diaspora settlement retains its bank-statement control.',
+            'A receipt posts only when trusted MoMo evidence matches one active request by receiver, sender, amount, time window and transaction identity.',
         bullets: [
           'The group total and payer total update together',
-          'Duplicate evidence and statement lines cannot post twice',
+          'Duplicate receipt evidence cannot post twice',
           'Incomplete or ambiguous receipts remain in the admin review queue',
         ],
       ),
@@ -60,7 +60,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Keep private details private',
         body:
-            'Member surfaces use Collect IDs and safe contribution status. Full phone numbers, MoMo receipts and bank evidence stay out of public pages.',
+            'Member surfaces use Collect IDs and safe contribution status. Full phone numbers and MoMo receipts stay out of public pages.',
         bullets: [
           'Private group access is membership-gated',
           'Payer-level balances are visible only to the payer and authorized group roles',
@@ -74,22 +74,22 @@ const _publicMarketingPages = <CollectPublicPageData>[
     navLabel: 'Trust',
     title: 'Evidence, reconciliation and posting are separate controls.',
     intro:
-        'Collect accepts consented Android MoMo receipt SMS in Rwanda and controlled bank evidence for diaspora while keeping transaction posting on the server.',
+        'Collect accepts consented Android MoMo receipt SMS and keeps transaction posting on the server.',
     sections: [
       CollectPublicSectionData(
         title: 'Evidence ingestion is controlled',
         body:
-            'The Android app requests SMS receipt access only for Rwanda MoMo use. Diaspora bank evidence uses controlled operational channels with authenticated endpoints and duplicate protection.',
+            'The Android app requests SMS receipt access for MoMo use. Receipt intake has authenticated endpoints and duplicate protection.',
         bullets: [
           'Consent and permission state are recorded',
           'Only likely MoMo receipt messages are submitted',
-          'Diaspora bank statements remain authoritative for settlement',
+          'Receipt matching is required before ledger posting',
         ],
       ),
       CollectPublicSectionData(
         title: 'Deterministic parsers extract receipt facts',
         body:
-            'Supabase Edge Functions validate MoMo and diaspora bank evidence into strict schemas without allowing a parser to choose a group or post a balance.',
+            'Supabase Edge Functions validate MoMo receipt evidence into strict schemas without allowing a parser to choose a group or post a balance.',
         bullets: [
           'References, amounts and transaction identifiers are normalized',
           'Raw evidence has separate audited reveal permission',
@@ -99,7 +99,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Postgres enforces the match',
         body:
-            'Locked database functions check the correct rail, receiver, payer, exact amount, time window, transaction uniqueness and independent allocation controls.',
+            'Locked database functions check the MoMo receiver, payer, exact RWF amount, time window, transaction uniqueness and allocation controls.',
         bullets: [
           'One exact pending contribution request is required',
           'Group and payer credits are created in one transaction',

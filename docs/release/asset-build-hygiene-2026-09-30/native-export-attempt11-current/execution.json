@@ -1,0 +1,52 @@
+{
+  "commands": [
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "java-version",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "dbda36612f632e4fd5e0ec62e9ec30b38c8388c090eaf3db8928353d7f62f1e8"
+    },
+    {
+      "name": "pub-enforce",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "54abfd8b8accd9bed4ad2916ef2624f7c25e452cd6b23a5a87528d503afc5394",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unsigned-android-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "16ff39be6a5138b267171bcfa9c2cdb2545bd7695c8d40192a6cbdda8fa35639",
+      "stderr_sha256": "435bf6e8e5ef90a38b0b183fe5395982dbc4b27eb36691f87049adca959c6b59"
+    }
+  ],
+  "status": "incomplete",
+  "scope": "Clean source export; explicit local unsigned native QA, no store/provider acceptance"
+}

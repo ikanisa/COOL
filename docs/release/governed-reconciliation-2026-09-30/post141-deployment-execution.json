@@ -1,0 +1,8 @@
+{
+  "captured_at_utc": "2026-09-29T22:45:42.537411+00:00",
+  "script": "scripts/tests/reconciliation_post141_deployment_uat.rb",
+  "script_sha256": "9c060d84b7fd5c432954423f1c3319f71e23329ac8cf02752a62a72e9e3e38df",
+  "exit_code": 0,
+  "provider_calls": false,
+  "fixture_backup": ".cache/notification-sessions-20260930/pre141-acceptance.dump"
+}

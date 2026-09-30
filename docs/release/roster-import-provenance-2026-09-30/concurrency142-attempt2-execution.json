@@ -1,0 +1,13 @@
+{
+  "captured_at_utc": "2026-09-29T23:25:30.376431+00:00",
+  "exit_code": 0,
+  "source_sha256": "94fd6a7e7859ad2f220b88cf6419dcc99f46701411fd32eafc33ccd1f4a1e1b9",
+  "source_unchanged_during_run": true,
+  "backup_path": ".cache/roster-provenance-20260930/pre-concurrency142-attempt2.dump",
+  "backup_sha256": "94c0ea2f29f114a7d48fcd6c3bf5e0957ba6261fc42a8e5f8948a70870148214",
+  "stdout_sha256": "13304d0e22fcacbcb328b46fc9e6b551c838255ee9ea135cfc8693cb8bb64565",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checkpoint_path": ".cache/roster-provenance-20260930/concurrency142-attempt2-checkpoint.json",
+  "checkpoint_sha256": "54f62fe526b52e5a816f2a52afc84dcf3c07c9df590f221d0a37f910fab4658d",
+  "provider_calls": false
+}

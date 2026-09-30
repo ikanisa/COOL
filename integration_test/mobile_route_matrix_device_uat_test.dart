@@ -513,5 +513,4 @@ const _diasporaProfile = CollectProfile(
   whatsappPhone: '+250788123456',
   countryCode: 'DE',
   currencyCode: 'EUR',
-  revolutAccount: '000123456789',
 );

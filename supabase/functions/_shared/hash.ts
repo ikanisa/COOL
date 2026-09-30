@@ -10,18 +10,15 @@ export async function sha256Hex(value: string): Promise<string> {
 export function normalizeRwandaPhone(
   input: string | null | undefined,
 ): string | null {
-  if (!input) return null;
-  const trimmed = input.trim();
-  if (!trimmed) return null;
-  let digits = trimmed.replace(/[^\d+]/g, "");
+  if (typeof input !== "string") return null;
+  const value = input.trim();
+  if (!value || value.length > 32 || !/^[+0-9() -]+$/.test(value)) return null;
+  let digits = value.replace(/[() -]/g, "");
   if (digits.startsWith("+")) digits = digits.slice(1);
-  if (digits.startsWith("00")) digits = digits.slice(2);
-  if (digits.startsWith("250") && digits.length === 12) return `+${digits}`;
-  if (digits.startsWith("0") && digits.length === 10) {
-    return `+250${digits.slice(1)}`;
-  }
-  if (digits.length === 9 && /^[2378]/.test(digits)) return `+250${digits}`;
-  return trimmed.startsWith("+") ? trimmed : `+${digits}`;
+  else if (digits.startsWith("00")) digits = digits.slice(2);
+  if (/^07[2389][0-9]{7}$/.test(digits)) digits = `250${digits.slice(1)}`;
+  else if (/^7[2389][0-9]{7}$/.test(digits)) digits = `250${digits}`;
+  return /^2507[2389][0-9]{7}$/.test(digits) ? `+${digits}` : null;
 }
 
 export async function hashPhone(

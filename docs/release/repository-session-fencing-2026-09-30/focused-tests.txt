@@ -1,0 +1,39 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace same-user new-session bookkeeping
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: same-session token refresh preserves current registration but pins request authorization
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late same-device registration cleanup uses original session only
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: current stale-session registration error requests a fresh login
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late stale-session rejection does not change newer account error state
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: failed stale registration cleanup cannot affect the newer login
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: out-of-order same-session registration cannot overwrite a newer token
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: registration completing after logout cannot repopulate bookkeeping
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: new registration is refused while that session is signing out
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: old sign-out waiting for unregister_notification_device cannot touch B
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: old sign-out waiting for record_sms_access_consent cannot touch B
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: old sign-out waiting for unregister_notification_device cannot touch new same-user session
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: old sign-out waiting for record_sms_access_consent cannot touch new same-user session
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late GoTrue logout HTTP response cannot clear B
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late GoTrue logout HTTP response cannot clear same-user new session
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: GoTrue PKCE storage await cannot make repository clear a newer login
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: failed old cleanup RPC cannot trigger native/cache fallback against B
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: best-effort unregister/consent failures still use local session revocation
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: native disable failure fails closed without revoking or clearing current account
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: cache cleanup failure is reported and cannot restore stale data
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late native disable completion does not re-disable a new session
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late auth-change cleanup cannot clear a later session cache or state
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: disposed repository ignores late registration completion
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: (setUpAll)
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Home metrics and pending count use complete server aggregates
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: load more coalesces concurrent taps and preserves complete aggregates
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: failed page keeps rows and cursor; retry succeeds without duplication
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: changed revision never appends to the old snapshot
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: disposed search/old account controller cannot publish late results
+00:01 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: revision, cursor, duplicates and aggregate schema fail closed
+00:01 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: paged offline snapshot retains full totals and old cache cannot read it
+00:01 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: sign-out clear wins over an already queued snapshot write
+00:01 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: MoMo invalidations refresh mobile financial state
+00:01 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: late bootstrap response is ignored after authentication changes
+00:02 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: (tearDownAll)
+00:02 +35: All tests passed!

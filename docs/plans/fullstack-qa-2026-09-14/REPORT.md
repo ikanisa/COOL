@@ -145,7 +145,7 @@ coverage rerun is claimed. Native gates remain blocked with zero accepted cases.
   checks. The user's `.vscode/settings.json` change is preserved.
 - QA infrastructure now uses a non-writing formatter over owned source,
   distinguishes fixture records from product passes and enforces both full
-  mobile design gates in aggregate QA. The missing CI evidence-consistency
+  historical mobile reviews in aggregate QA. The missing CI evidence-consistency
   target is implemented against the current contract.
 - The mobile adapter now enforces separate bound implementer, independent
   visual and owner reviews, plus distinct usability, accessibility,

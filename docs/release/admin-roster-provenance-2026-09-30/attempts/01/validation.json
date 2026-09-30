@@ -1,0 +1,103 @@
+{
+  "started_at": "2026-09-29T23:03:49.811807+00:00",
+  "source_hashes_before": {
+    "lib/admin/core/admin_roster_models.dart": "51870666e19324dba5c7ccfa73ab4e672ec531a97a1d013a3b8e3e94f53e20d1",
+    "lib/admin/core/admin_roster_import.dart": "03e1e53fe16f407ed60501b7fd1e300b97c9d80f4149b2fe7f30e59b536e1b89",
+    "lib/admin/core/admin_roster_dialog.dart": "e8d5094a420f43e450f95df2f1381aa19c6373064a25b42ebcf69402d0437781",
+    "lib/admin/core/admin_group_runtime.dart": "f3299c03efc9f8c92a6a38079bf01b40aed1b13050293f7293b3356362d9d2cc",
+    "lib/admin/core/admin_runtime.dart": "6d4a273fa1b075c4c5734fda0797f21662da9329bce1d6c994d73678c00285c1",
+    "lib/admin/core/admin_repository_base.dart": "6e7a0a062ad7b6160534aec1f845a6503e50deea02c6cbca621f5486877964ba",
+    "lib/admin/core/admin_detail_runtime.dart": "c1e84ca8c90567ae61aa0a00583201ad67b60e5788fd4edb3e5d08cc4a5369cc",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_import_test.dart": "f6e81a7f9f795114d12216a1942f8e555f6e4e6d501a4f6fc49697968f10f27b",
+    "test/admin_roster_dialog_test.dart": "206206992f90bcce6fd1a7c30b63fb3f85226f7f2d4ed3984e55e8cdd29bfc5c",
+    "test/support/admin_roster_fixture.dart": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0",
+    "test/admin_pwa_test.dart": "820f0ef47525e55c4079bc2c20e39231f8451778b61494e70bcd7d7d001b5c77",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "46cc675c117a3fa6d438db8501a3e9643496a13a80305ae2a61071c27060d01e"
+  },
+  "commands": [
+    {
+      "name": "runtime",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=CAPTURE_ROSTER_EVIDENCE=true",
+        "--update-goldens",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_pwa_test.dart",
+        "test/roster_file_parser_test.dart",
+        "test/roster_xlsx_preflight_test.dart"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "773238191c4f869ec534922159523205126b5e74b8bbdc15758dc95e54128daf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analyze",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/core/admin_roster_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_roster_dialog.dart",
+        "lib/admin/core/admin_group_runtime.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_detail_runtime.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/support/admin_roster_fixture.dart",
+        "test/admin_pwa_test.dart"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "604b011177923f540143964528e97a4803a9af5b7bb571651c68f9abef429804",
+      "stderr_sha256": "c4efed1ded3171a4e23d014ea234ca1460382c1a705eed9cc2229dd1a13a6b8a"
+    }
+  ],
+  "database_calls": false,
+  "provider_calls": false,
+  "limitations": [
+    "Synthetic HTTP/widget fixtures; SQL execution is separately owned by root.",
+    "No hosted provider, physical device, keyboard screen reader or authenticated Revolut comparator acceptance.",
+    "Draft is memory-only; reload/closing browser abandons the local draft; no persistence claim."
+  ],
+  "source_hashes_after": {
+    "lib/admin/core/admin_roster_models.dart": "51870666e19324dba5c7ccfa73ab4e672ec531a97a1d013a3b8e3e94f53e20d1",
+    "lib/admin/core/admin_roster_import.dart": "03e1e53fe16f407ed60501b7fd1e300b97c9d80f4149b2fe7f30e59b536e1b89",
+    "lib/admin/core/admin_roster_dialog.dart": "e8d5094a420f43e450f95df2f1381aa19c6373064a25b42ebcf69402d0437781",
+    "lib/admin/core/admin_group_runtime.dart": "f3299c03efc9f8c92a6a38079bf01b40aed1b13050293f7293b3356362d9d2cc",
+    "lib/admin/core/admin_runtime.dart": "6d4a273fa1b075c4c5734fda0797f21662da9329bce1d6c994d73678c00285c1",
+    "lib/admin/core/admin_repository_base.dart": "6e7a0a062ad7b6160534aec1f845a6503e50deea02c6cbca621f5486877964ba",
+    "lib/admin/core/admin_detail_runtime.dart": "c1e84ca8c90567ae61aa0a00583201ad67b60e5788fd4edb3e5d08cc4a5369cc",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_import_test.dart": "f6e81a7f9f795114d12216a1942f8e555f6e4e6d501a4f6fc49697968f10f27b",
+    "test/admin_roster_dialog_test.dart": "206206992f90bcce6fd1a7c30b63fb3f85226f7f2d4ed3984e55e8cdd29bfc5c",
+    "test/support/admin_roster_fixture.dart": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0",
+    "test/admin_pwa_test.dart": "820f0ef47525e55c4079bc2c20e39231f8451778b61494e70bcd7d7d001b5c77",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "46cc675c117a3fa6d438db8501a3e9643496a13a80305ae2a61071c27060d01e"
+  },
+  "sources_unchanged_during_checks": true,
+  "finished_at": "2026-09-29T23:04:44.055092+00:00"
+}

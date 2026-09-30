@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/sql-reads148-attempt4-extended/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "4b69e49e157b2856b4f0025945a7a5514a00a2d3df89e65b1cc186c16e521f3f",
+  "executed_sql_sha256": "a0594d22739a62dfc0e14d194a90c36cace22e663251dfb8b4609f844f09985d",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "74821f793f1b714eeb20d130c6de6c00aa319a6b7a8d61cae04261228bd8162c",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/sql-source/root-read-receipts-148-extended.sql",
+  "reviewed_source_sha256": "e7e3044e0bcabc3ddcf49cf0e739711df1374962dfb5b59dc31f332d7ec58f6a",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T16:40:04.348935+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

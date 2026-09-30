@@ -234,13 +234,11 @@ class _ProfileDetails extends StatelessWidget {
     required this.country,
     required this.currencyCode,
     required this.whatsappPhone,
-    required this.onCountryTap,
   });
 
   final Country country;
   final String currencyCode;
   final String whatsappPhone;
-  final VoidCallback? onCountryTap;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -252,17 +250,12 @@ class _ProfileDetails extends StatelessWidget {
         Semantics(
           label: 'Profile country, ${country.name}, currency $currencyCode',
           container: true,
-          button: true,
-          enabled: onCountryTap != null,
-          child: InkWell(
-            key: const ValueKey('profile_country_picker'),
-            onTap: onCountryTap,
-            child: _ProfileDetailRow(
-              leading: const Icon(CollectIcons.public),
-              label: 'Country',
-              value: '${country.name} · $currencyCode',
-              trailing: const Icon(CollectIcons.chevron),
-            ),
+          readOnly: true,
+          child: _ProfileDetailRow(
+            leading: const Icon(CollectIcons.public),
+            label: 'Country',
+            value: '${country.name} · $currencyCode',
+            trailing: const SizedBox.shrink(),
           ),
         ),
         Semantics(

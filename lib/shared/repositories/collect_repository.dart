@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,11 +11,13 @@ import '../../core/security/hash_utils.dart';
 import '../../core/security/play_integrity_service.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
+import '../../core/security/durable_sms_receipt.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
 import '../models/collect_models.dart';
 import '../models/member_history_page.dart';
 import 'collect_offline_cache.dart';
+import 'runtime_control_contract.dart';
 
 export '../models/member_history_page.dart';
 
@@ -36,7 +39,7 @@ class CollectRepository extends StateNotifier<CollectState>
          smsAccessChannel,
          _emptyCollectState(),
          false,
-         offlineCache ?? const CollectOfflineCache(),
+         offlineCache ?? const CollectOfflineCache.protected(),
        );
 
   /// Test harness injection only. App entrypoints use the empty live constructor.
@@ -67,7 +70,28 @@ class CollectRepository extends StateNotifier<CollectState>
          for (final entry in fixtureAdditionalMembers.entries)
            entry.key: List<CollectMember>.unmodifiable(entry.value),
        }),
-       super(initialState);
+       super(initialState) {
+    _observedAuthIdentity = _sessionIdentity(_supabase?.auth.currentSession);
+    _authSubscription = _supabase?.auth.onAuthStateChange.listen((_) {
+      final identity = _sessionIdentity(_supabase.auth.currentSession);
+      if (!mounted || identity == _observedAuthIdentity) return;
+      _observedAuthIdentity = identity;
+      final generation = ++_authGeneration;
+      ++_notificationRegistrationGeneration;
+      ++_notificationPreferencesGeneration;
+      ++_notificationPreferencesReadGeneration;
+      _notificationPreferencesRevision = null;
+      _notificationPreferencesIntent = null;
+      _notificationPreferencesNeedsRefresh = false;
+      _notificationPreferencesSaveOperation = null;
+      _registeredNotification = null;
+      _signingOutIdentity = null;
+      ++_loadGeneration;
+      _stopRealtimeSync();
+      state = _emptyCollectState();
+      unawaited(_reloadAfterAccountChange(identity, generation));
+    });
+  }
 
   @override
   final SupabaseClient? _supabase;
@@ -79,9 +103,42 @@ class CollectRepository extends StateNotifier<CollectState>
   final bool _allowLocalWrites;
   final CollectOfflineCache _offlineCache;
   final Map<String, List<CollectMember>> _fixtureAdditionalMembers;
+  StreamSubscription<AuthState>? _authSubscription;
+  _CollectAuthIdentity? _observedAuthIdentity;
   RealtimeInvalidationSubscription? _realtimeSync;
-  String? _registeredNotificationProvider;
-  String? _registeredNotificationToken;
+  String? _realtimeOwnerId;
+  _CollectNotificationRegistration? _registeredNotification;
+  _CollectAuthIdentity? _signingOutIdentity;
+  int _authGeneration = 0;
+  int _notificationRegistrationGeneration = 0;
+  int _notificationPreferencesGeneration = 0;
+  int _notificationPreferencesReadGeneration = 0;
+  int? _notificationPreferencesRevision;
+  int? _notificationPreferencesSaveOperation;
+  NotificationPreferences? _notificationPreferencesIntent;
+  bool _notificationPreferencesNeedsRefresh = false;
+
+  int? get notificationPreferencesRevision => _notificationPreferencesRevision;
+  NotificationPreferences? get pendingNotificationPreferences =>
+      _notificationPreferencesIntent;
+  bool get notificationPreferencesNeedsRefresh =>
+      !(_supabase == null && _allowLocalWrites) &&
+      (_notificationPreferencesNeedsRefresh ||
+          _notificationPreferencesRevision == null);
+
+  /// Discard an unsaved choice without granting permission to retry an
+  /// uncertain write. The current server revision still requires refresh.
+  void discardPendingNotificationPreferences() {
+    if (_notificationPreferencesSaveOperation != null) {
+      throw StateError(
+        'Wait for the notification preference save before discarding.',
+      );
+    }
+    _notificationPreferencesIntent = null;
+    state = state.copyWith();
+  }
+
+  int _signOutGeneration = 0;
   final Map<String, List<CollectMember>> _fixtureRosterOverrides = {};
   int _loadGeneration = 0;
 
@@ -95,9 +152,27 @@ class CollectRepository extends StateNotifier<CollectState>
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
     final generation = ++_loadGeneration;
+    final preferencesSession = _captureSession();
+    final preferencesGeneration = _notificationPreferencesGeneration;
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase == null) return;
+    final nativeOwnerSynced = await _smsAccessChannel.suspendUnlessOwner(
+      user?.id,
+    );
+    if (!nativeOwnerSynced) {
+      final nativeStatus = await _smsAccessChannel.status();
+      if (mounted &&
+          ((SmsAccessChannel.requiresNativeBridge &&
+                  !nativeStatus.bridgeAvailable) ||
+              nativeStatus.consentEnabled)) {
+        state = state.copyWith(smsSyncNeedsAttention: true);
+      }
+    }
+    if (!_acceptLoad(generation, user?.id)) return;
+    if (_realtimeOwnerId != null && _realtimeOwnerId != user?.id) {
+      _stopRealtimeSync();
+    }
     if (state.currentProfile != null && state.currentProfile!.id != user?.id) {
       state = _emptyCollectState();
     }
@@ -131,6 +206,7 @@ class CollectRepository extends StateNotifier<CollectState>
     }
 
     state = state.copyWith(isLoading: true, usingStaleCache: false);
+    int? preferencesReadAttempt;
     try {
       final profile = await _liveReader.fetchProfile(user.id);
       final collections = await _liveReader.fetchCollections();
@@ -139,12 +215,39 @@ class CollectRepository extends StateNotifier<CollectState>
         const MemberHistoryQuery(),
       );
       final collectionSummaries = await _liveReader.fetchCollectionSummaries();
+      final preferencesRead = ++_notificationPreferencesReadGeneration;
+      preferencesReadAttempt = preferencesRead;
       final notificationPreferences = await _liveReader
-          .fetchNotificationPreferences(profile);
+          .fetchNotificationPreferences(
+            profile,
+            accessToken: preferencesSession.accessToken,
+          );
       final notificationEvents = await _liveReader.fetchNotificationEvents(
         profile,
       );
       if (!_acceptLoad(generation, user.id)) return;
+      final acceptPreferences =
+          !_notificationPreferencesNeedsRefresh &&
+          _acceptNotificationPreferencesRead(
+            preferencesSession,
+            preferencesGeneration,
+            preferencesRead,
+          );
+      if (acceptPreferences) {
+        _notificationPreferencesRevision = notificationPreferences?.revision;
+      }
+      final visibleCollectionIds = collections.map((item) => item.id).toSet();
+      if (collectionSummaries.keys.any(
+        (id) => !visibleCollectionIds.contains(id),
+      )) {
+        throw const _CollectAccessMismatch();
+      }
+      final priorCollectionIds = state.collections
+          .map((item) => item.id)
+          .toSet();
+      final accessReduced = priorCollectionIds.any(
+        (id) => !visibleCollectionIds.contains(id),
+      );
       state = state.copyWith(
         currentProfile: profile,
         collections: collections,
@@ -154,15 +257,58 @@ class CollectRepository extends StateNotifier<CollectState>
         historyPage: history,
         collectionSummaries: collectionSummaries,
         notificationEvents: notificationEvents,
-        notificationPreferences: notificationPreferences,
+        notificationPreferences: acceptPreferences
+            ? notificationPreferences?.preferences ??
+                  NotificationPreferences.defaults
+            : state.notificationPreferences,
         isLoading: false,
         usingStaleCache: false,
         lastSuccessfulSyncAt: DateTime.now().toUtc(),
       );
-      unawaited(_offlineCache.save(_offlineSnapshotFromState()));
+      if (accessReduced || profile == null || _offlineRestoreSuspended) {
+        // Remove the previous protected snapshot before any later offline read
+        // can revive a group that the current scoped RPC no longer returns.
+        try {
+          await _offlineCache.clear();
+          _offlineRestoreSuspended = false;
+        } catch (_) {
+          _offlineRestoreSuspended = true;
+        }
+      }
+      if (!_acceptLoad(generation, user.id)) return;
+      unawaited(
+        _offlineCache.save(_offlineSnapshotFromState()).catchError((Object _) {
+          // Optional encrypted cache failure never converts a successful server
+          // read into a failed financial operation. No payload is logged.
+        }),
+      );
       _ensureRealtimeSync();
     } catch (error) {
       if (!_acceptLoad(generation, user.id)) return;
+      if (!_isAccessFailure(error) &&
+          (preferencesGeneration != _notificationPreferencesGeneration ||
+              (preferencesReadAttempt != null &&
+                  preferencesReadAttempt !=
+                      _notificationPreferencesReadGeneration))) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
+      _notificationPreferencesRevision = null;
+      _notificationPreferencesNeedsRefresh = true;
+      if (_isAccessFailure(error)) {
+        _stopRealtimeSync();
+        state = _emptyCollectState().copyWith(
+          lastError:
+              'Member access could not be verified. Reconnect and refresh.',
+        );
+        _offlineRestoreSuspended = true;
+        try {
+          await _offlineCache.clear();
+        } catch (_) {
+          // Retain the in-memory deny even when protected storage is locked.
+        }
+        return;
+      }
       final restored = await restoreOfflineSnapshot(reason: error.toString());
       if (!_acceptLoad(generation, user.id)) return;
       if (!restored) {
@@ -172,6 +318,56 @@ class CollectRepository extends StateNotifier<CollectState>
           lastError: error.toString(),
         );
       }
+    }
+  }
+
+  bool _offlineRestoreSuspended = false;
+
+  bool _isAccessFailure(Object error) =>
+      error is _CollectAccessMismatch ||
+      (error is PostgrestException &&
+          const {
+            '28000',
+            '42501',
+            'PGRST301',
+            '401',
+            '403',
+          }.contains(error.code)) ||
+      (error is AuthException &&
+          const {'401', '403'}.contains(error.statusCode));
+
+  Future<void> _reloadAfterAccountChange(
+    _CollectAuthIdentity? identity,
+    int generation,
+  ) async {
+    bool current() =>
+        mounted &&
+        generation == _authGeneration &&
+        identity == _sessionIdentity(_supabase?.auth.currentSession);
+    if (!current()) return;
+    final userId = identity?.userId;
+    final nativeOwnerSynced = await _smsAccessChannel.suspendUnlessOwner(
+      userId,
+    );
+    if (!current()) return;
+    if (!nativeOwnerSynced) {
+      final nativeStatus = await _smsAccessChannel.status();
+      if (current() &&
+          ((SmsAccessChannel.requiresNativeBridge &&
+                  !nativeStatus.bridgeAvailable) ||
+              nativeStatus.consentEnabled)) {
+        state = state.copyWith(smsSyncNeedsAttention: true);
+      }
+    }
+    if (!current()) return;
+    try {
+      await _offlineCache.clear();
+      if (current()) _offlineRestoreSuspended = false;
+    } catch (_) {
+      if (current()) _offlineRestoreSuspended = true;
+    }
+    if (current() && userId != null) {
+      await loadInitial();
     }
   }
 
@@ -256,9 +452,17 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   Future<bool> restoreOfflineSnapshot({required String reason}) async {
+    if (_offlineRestoreSuspended) return false;
     final generation = _loadGeneration;
     final initialUserId = _supabase?.auth.currentUser?.id;
-    final cached = await _offlineCache.read();
+    CollectOfflineSnapshot? cached;
+    try {
+      cached = await _offlineCache.read(ownerUserId: initialUserId);
+    } catch (_) {
+      // Key unavailable or clear failed: do not expose plaintext or turn a cache
+      // problem into a second unhandled failure of the live refresh operation.
+      return false;
+    }
     if (!mounted ||
         generation != _loadGeneration ||
         initialUserId != _supabase?.auth.currentUser?.id) {
@@ -308,7 +512,7 @@ class CollectRepository extends StateNotifier<CollectState>
     if (otp.trim().length < 4) {
       throw const FormatException('Enter the WhatsApp OTP code');
     }
-    final normalized = PhoneNormalizer.normalizeInternational(phone);
+    final normalized = PhoneNormalizer.normalizeRwanda(phone);
     final requestedCountry = CollectProfileCountryRules.normalizeCountryCode(
       countryCode,
     );
@@ -361,44 +565,140 @@ class CollectRepository extends StateNotifier<CollectState>
           )
         : existingProfile;
     state = state.copyWith(currentProfile: profile);
-    unawaited(_offlineCache.save(_offlineSnapshotFromState()));
+    unawaited(
+      _offlineCache.save(_offlineSnapshotFromState()).catchError((Object _) {
+        // Optional encrypted cache failure never converts a successful server
+        // read into a failed financial operation. No payload is logged.
+      }),
+    );
     return profile;
   }
 
-  Future<void> signOut() async {
-    ++_loadGeneration;
+  _CollectSessionFence _captureSession() {
+    final session = _supabase?.auth.currentSession;
+    return (
+      identity: _sessionIdentity(session),
+      accessToken: session?.accessToken,
+      generation: _authGeneration,
+    );
+  }
+
+  bool _isCurrentSession(_CollectSessionFence session) =>
+      mounted &&
+      session.generation == _authGeneration &&
+      session.identity == _sessionIdentity(_supabase?.auth.currentSession);
+
+  Future<void> _revokeCapturedSession(_CollectSessionFence session) async {
     final supabase = _supabase;
-    final provider = _registeredNotificationProvider;
-    final token = _registeredNotificationToken;
-    if (supabase != null &&
-        supabase.auth.currentUser != null &&
-        provider != null &&
-        token != null) {
-      try {
-        await supabase.rpc<void>(
-          'unregister_notification_device',
-          params: {'p_provider': provider, 'p_token': token},
-        );
-      } catch (_) {
-        // Server-side token reassignment prevents cross-account delivery if a
-        // best-effort sign-out cleanup cannot reach the backend.
-      }
+    final accessToken = session.accessToken;
+    if (supabase == null || accessToken == null) return;
+    try {
+      // This method only revokes the captured server session. The SDK admin
+      // method defaults to GLOBAL, so an explicit LOCAL scope is essential.
+      await supabase.auth.admin.signOut(accessToken, scope: SignOutScope.local);
+    } on AuthException catch (error) {
+      if (!const {'401', '403', '404'}.contains(error.statusCode)) rethrow;
     }
+  }
+
+  Future<void> signOut() async {
+    final session = _captureSession();
+    final operation = ++_signOutGeneration;
+    ++_notificationRegistrationGeneration;
+    _signingOutIdentity = session.identity;
+    final registration = _registeredNotification;
+    _registeredNotification = null;
     final profile = state.currentProfile;
-    if (profile != null) {
+    final owner = session.identity?.userId ?? profile?.id;
+    final supabase = _supabase;
+    bool current() =>
+        operation == _signOutGeneration && _isCurrentSession(session);
+    ++_loadGeneration;
+    _stopRealtimeSync();
+    try {
+      // Native disable is bound to the original owner; never suspend whichever
+      // account happens to be active after an RPC or platform await completes.
+      final stopped = owner == null
+          ? await _smsAccessChannel.suspendUnlessOwner(null)
+          : await _smsAccessChannel.setEnabled(false, ownerUserId: owner);
+      if (!current()) return await _revokeCapturedSession(session);
+      if (!stopped) {
+        final nativeStatus = await _smsAccessChannel.status();
+        if (!current()) return await _revokeCapturedSession(session);
+        if ((SmsAccessChannel.requiresNativeBridge &&
+                !nativeStatus.bridgeAvailable) ||
+            nativeStatus.consentEnabled) {
+          throw StateError('SMS capture could not be stopped before sign-out.');
+        }
+      }
+      if (supabase != null && session.accessToken != null) {
+        if (registration != null && registration.identity == session.identity) {
+          try {
+            await supabase
+                .rpc<void>(
+                  'unregister_notification_device',
+                  params: {
+                    'p_provider': registration.provider,
+                    'p_token': registration.token,
+                  },
+                )
+                .setHeader('Authorization', 'Bearer ${session.accessToken}');
+          } catch (_) {
+            // Session-bound Auth revocation is still required below. Migration
+            // 141 revokes its devices, including a registration completing late.
+          }
+        }
+        if (!current()) return await _revokeCapturedSession(session);
+        if (profile != null && profile.id == owner) {
+          try {
+            await supabase
+                .rpc<void>(
+                  'record_sms_access_consent',
+                  params: {
+                    'enabled': false,
+                    'momo_number_hash': profile.momoNumber.trim().isEmpty
+                        ? null
+                        : HashUtils.phoneHash(profile.momoNumber),
+                    'build_channel': 'android_sms_access',
+                    'device_label': 'flutter_app',
+                  },
+                )
+                .setHeader('Authorization', 'Bearer ${session.accessToken}');
+          } catch (_) {
+            // Offline audit failure does not re-enable native capture. Never
+            // retry through a newly active account or mutate its UI state.
+          }
+        }
+      }
+      if (!current()) return await _revokeCapturedSession(session);
+      // CollectOfflineCache serializes this clear ahead of all later saves.
+      // A newer session's reload waits for those cache operations before saving.
       try {
-        await setSmsAccess(false);
+        await _offlineCache.clear();
       } catch (_) {
-        // Privacy takes precedence over the server audit record when sign-out
-        // happens while the backend is unavailable.
-        await _smsAccessChannel.setEnabled(false, ownerUserId: profile.id);
+        if (!current()) return await _revokeCapturedSession(session);
+        _offlineRestoreSuspended = true;
+        throw StateError('Local account data could not be cleared. Try again.');
+      }
+      if (!current()) return await _revokeCapturedSession(session);
+      if (supabase != null && session.identity != null) {
+        // Pinned GoTrue 2.27.1 clears its current session synchronously before
+        // its first await and captures its token for the later LOCAL HTTP call.
+        // Check immediately before invoking; do no account cleanup afterward.
+        final logout = supabase.auth.signOut(scope: SignOutScope.local);
+        if (mounted && supabase.auth.currentSession == null) {
+          state = _emptyCollectState();
+        }
+        await logout;
+      } else {
+        state = _emptyCollectState();
+      }
+    } finally {
+      if (operation == _signOutGeneration &&
+          _signingOutIdentity == session.identity) {
+        _signingOutIdentity = null;
       }
     }
-    await _offlineCache.clear();
-    await _supabase?.auth.signOut();
-    _registeredNotificationProvider = null;
-    _registeredNotificationToken = null;
-    state = _emptyCollectState();
   }
 
   Future<void> requestAccountDeletion({required String reason}) async {
@@ -428,66 +728,54 @@ class CollectRepository extends StateNotifier<CollectState>
     String? momoProvider,
     String? momoNumber,
     String? momoPayCode,
-    String? revolutLink,
-    String? revolutAccount,
   }) async {
     final current = _requireProfile();
     final cleanCountry = CollectProfileCountryRules.normalizeCountryCode(
       countryCode,
     );
     if (!CollectProfileCountryRules.isSupportedCountry(cleanCountry)) {
-      throw const FormatException('Choose a supported profile country.');
+      throw const FormatException('Collect requires a Rwanda profile.');
     }
-    final isRwanda = cleanCountry == 'RW';
     final cleanMomoProvider = (momoProvider ?? '').trim().toLowerCase();
-    final cleanMomoNumber = isRwanda
-        ? _normalizeLocalRwandaMomo(momoNumber ?? '')
-        : '';
-    final cleanMomoPayCode = isRwanda
-        ? (momoPayCode ?? current.momoPayCode).trim()
-        : '';
+    final cleanMomoNumber = _normalizeLocalRwandaMomo(momoNumber ?? '');
+    final cleanMomoPayCode = (momoPayCode ?? current.momoPayCode).trim();
     if (cleanMomoPayCode.isNotEmpty &&
         !RegExp(r'^[0-9]{4,9}$').hasMatch(cleanMomoPayCode)) {
       throw const FormatException('Enter a MoMo code with 4 to 9 digits.');
     }
-    final cleanRevolutAccount = CollectDiasporaProfileRules.normalizeAccount(
-      revolutAccount ?? '',
-    );
-    if (isRwanda &&
-        !const {'mtn_momo', 'airtel_money'}.contains(cleanMomoProvider)) {
+    if (!const {'mtn_momo', 'airtel_money'}.contains(cleanMomoProvider)) {
       throw const FormatException('Choose MTN MoMo or Airtel Money.');
     }
-    if (isRwanda &&
-        !(cleanMomoProvider == 'mtn_momo'
-            ? RegExp(r'^07[89][0-9]{7}$').hasMatch(cleanMomoNumber)
-            : RegExp(r'^07[23][0-9]{7}$').hasMatch(cleanMomoNumber))) {
+    if (!(cleanMomoProvider == 'mtn_momo'
+        ? RegExp(r'^07[89][0-9]{7}$').hasMatch(cleanMomoNumber)
+        : RegExp(r'^07[23][0-9]{7}$').hasMatch(cleanMomoNumber))) {
       throw const FormatException(
         'The MoMo provider does not match that Rwanda mobile number.',
       );
     }
-    if (!isRwanda &&
-        !CollectDiasporaProfileRules.isValidAccount(cleanRevolutAccount)) {
-      throw const FormatException('Enter a valid account number.');
+    final supabase = _supabase;
+    void requireCurrentOwner() {
+      if (state.currentProfile?.id != current.id ||
+          (supabase != null && supabase.auth.currentUser?.id != current.id)) {
+        throw StateError('Profile account changed. Try again.');
+      }
     }
 
-    final supabase = _supabase;
     late final CollectProfile updated;
     if (supabase != null && supabase.auth.currentUser != null) {
       final row = await supabase.rpc<dynamic>(
         'update_current_member_profile',
         params: {
           'p_country_code': cleanCountry,
-          'p_momo_provider': isRwanda ? cleanMomoProvider : null,
-          'p_momo_number': isRwanda ? cleanMomoNumber : null,
-          'p_momo_pay_code': isRwanda ? cleanMomoPayCode : null,
-          // Retain the RPC signature for older clients; links are not required.
-          'p_revolut_link': null,
-          'p_revolut_account': isRwanda ? null : cleanRevolutAccount,
+          'p_momo_provider': cleanMomoProvider,
+          'p_momo_number': cleanMomoNumber,
+          'p_momo_pay_code': cleanMomoPayCode,
         },
       );
       if (row is! Map) {
         throw StateError('Collect profile could not be updated.');
       }
+      requireCurrentOwner();
       updated = CollectProfile.fromJson(Map<String, dynamic>.from(row));
     } else {
       if (!_allowLocalWrites) {
@@ -498,23 +786,75 @@ class CollectRepository extends StateNotifier<CollectState>
         currencyCode: CollectProfileCountryRules.currencyForCountry(
           cleanCountry,
         ),
-        momoProvider: isRwanda ? cleanMomoProvider : '',
-        momoNumber: isRwanda ? cleanMomoNumber : '',
+        momoProvider: cleanMomoProvider,
+        momoNumber: cleanMomoNumber,
         momoPayCode: cleanMomoPayCode,
-        revolutLink: isRwanda ? '' : current.revolutLink,
-        revolutAccount: isRwanda ? '' : cleanRevolutAccount,
       );
     }
 
-    if (current.isRwanda &&
-        (!updated.isRwanda ||
-            current.momoNumber != updated.momoNumber ||
-            current.momoProvider != updated.momoProvider)) {
-      await setSmsAccess(false);
+    requireCurrentOwner();
+    if (current.momoNumber != updated.momoNumber ||
+        current.momoProvider != updated.momoProvider) {
+      await setSmsAccess(false, expectedOwnerUserId: current.id);
     }
+    requireCurrentOwner();
     state = state.copyWith(currentProfile: updated);
     await _offlineCache.save(_offlineSnapshotFromState());
     return updated;
+  }
+
+  bool _acceptNotificationPreferencesRead(
+    _CollectSessionFence session,
+    int mutation,
+    int read,
+  ) =>
+      _isCurrentSession(session) &&
+      _signingOutIdentity != session.identity &&
+      mutation == _notificationPreferencesGeneration &&
+      read == _notificationPreferencesReadGeneration;
+
+  /// User-requested refresh acknowledges the current server revision. Pending
+  /// intended changes remain available for review; this never retries a save.
+  Future<void> refreshNotificationPreferences() async {
+    final profile = _requireProfile();
+    final session = _captureSession();
+    if (session.identity?.userId != profile.id ||
+        session.accessToken == null ||
+        _signingOutIdentity == session.identity) {
+      throw StateError('Sign in and refresh notification preferences.');
+    }
+    if (_notificationPreferencesSaveOperation != null) {
+      throw StateError(
+        'Wait for the notification preference save before refreshing.',
+      );
+    }
+    _notificationPreferencesRevision = null;
+    _notificationPreferencesNeedsRefresh = true;
+    state = state.copyWith();
+    final mutation = _notificationPreferencesGeneration;
+    final read = ++_notificationPreferencesReadGeneration;
+    try {
+      final receipt = await _liveReader.fetchNotificationPreferences(
+        profile,
+        accessToken: session.accessToken,
+      );
+      if (!_acceptNotificationPreferencesRead(session, mutation, read) ||
+          receipt == null) {
+        throw StateError(
+          'Notification preference refresh belongs to an earlier operation.',
+        );
+      }
+      _notificationPreferencesRevision = receipt.revision;
+      _notificationPreferencesNeedsRefresh = false;
+      state = state.copyWith(notificationPreferences: receipt.preferences);
+    } catch (_) {
+      if (!_acceptNotificationPreferencesRead(session, mutation, read)) {
+        throw StateError(
+          'Notification preference refresh belongs to an earlier operation.',
+        );
+      }
+      rethrow;
+    }
   }
 
   Future<void> updateNotificationPreferences(
@@ -522,14 +862,83 @@ class CollectRepository extends StateNotifier<CollectState>
   ) async {
     final profile = _requireProfile();
     final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase.from('notification_preferences').upsert({
-        'user_id': profile.id,
-        ...preferences.toJson(),
-        'updated_at': DateTime.now().toUtc().toIso8601String(),
-      });
+    if (supabase == null) {
+      if (!_allowLocalWrites) {
+        throw StateError('Connect before saving notification preferences.');
+      }
+      state = state.copyWith(notificationPreferences: preferences);
+      return;
     }
-    state = state.copyWith(notificationPreferences: preferences);
+    final session = _captureSession();
+    if (session.identity?.userId != profile.id ||
+        session.accessToken == null ||
+        _signingOutIdentity == session.identity) {
+      throw StateError('Sign in and refresh notification preferences.');
+    }
+    _notificationPreferencesIntent = preferences;
+    final revision = _notificationPreferencesRevision;
+    if (revision == null || _notificationPreferencesNeedsRefresh) {
+      _notificationPreferencesNeedsRefresh = true;
+      state = state.copyWith();
+      throw StateError('Refresh notification preferences before saving.');
+    }
+    if (_notificationPreferencesSaveOperation != null) {
+      state = state.copyWith();
+      throw StateError('A notification preference save is still pending.');
+    }
+    final operation = ++_notificationPreferencesGeneration;
+    ++_notificationPreferencesReadGeneration;
+    _notificationPreferencesSaveOperation = operation;
+    bool current() =>
+        _isCurrentSession(session) &&
+        _signingOutIdentity != session.identity &&
+        operation == _notificationPreferencesGeneration;
+    try {
+      final response = await supabase
+          .rpc<dynamic>(
+            'set_notification_preferences_v2',
+            params: {
+              'p_preferences': preferences.toJson(),
+              'p_expected_revision': revision,
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}');
+      if (!current()) {
+        throw StateError(
+          'Notification preference save belongs to an earlier session.',
+        );
+      }
+      final acknowledgedRevision = notificationPreferenceSaveRevision(
+        response,
+        userId: profile.id,
+        expectedRevision: revision,
+      );
+      // A reload can start during the request. Its older server snapshot must
+      // never replace an acknowledged write, even when the session is unchanged.
+      ++_notificationPreferencesReadGeneration;
+      _notificationPreferencesRevision = acknowledgedRevision;
+      if (jsonEncode(_notificationPreferencesIntent?.toJson()) ==
+          jsonEncode(preferences.toJson())) {
+        _notificationPreferencesIntent = null;
+      }
+      state = state.copyWith(notificationPreferences: preferences);
+    } catch (_) {
+      if (!current()) {
+        throw StateError(
+          'Notification preference save belongs to an earlier session.',
+        );
+      }
+      // An uncertain/malformed/conflicting reply requires an explicit refresh;
+      // neither cached defaults nor a background reload authorizes an overwrite.
+      _notificationPreferencesRevision = null;
+      _notificationPreferencesNeedsRefresh = true;
+      state = state.copyWith();
+      rethrow;
+    } finally {
+      if (_notificationPreferencesSaveOperation == operation) {
+        _notificationPreferencesSaveOperation = null;
+      }
+    }
   }
 
   Future<void> markNotificationRead(String eventId) async {
@@ -553,28 +962,100 @@ class CollectRepository extends StateNotifier<CollectState>
     );
   }
 
+  /// Only an acknowledged registration for the current session is connected.
+  bool isNotificationDeviceRegistered({
+    required String provider,
+    required String token,
+  }) {
+    final registration = _registeredNotification;
+    return mounted &&
+        registration != null &&
+        registration.identity ==
+            _sessionIdentity(_supabase?.auth.currentSession) &&
+        registration.identity != _signingOutIdentity &&
+        registration.provider == provider &&
+        registration.token == token;
+  }
+
   Future<void> registerNotificationDevice({
     required String platform,
     required String provider,
     required String token,
     required String environment,
   }) async {
-    _requireProfile();
+    final profile = _requireProfile();
     final supabase = _supabase;
-    if (supabase == null || supabase.auth.currentUser == null) return;
-    await supabase.rpc<dynamic>(
-      'register_notification_device',
-      params: {
-        'p_platform': platform,
-        'p_provider': provider,
-        'p_token': token,
-        'p_environment': environment,
-        'p_locale': 'en',
-        'p_app_version': null,
-      },
+    final session = _captureSession();
+    if (supabase == null ||
+        session.identity == null ||
+        session.accessToken == null) {
+      return;
+    }
+    if (profile.id != session.identity!.userId ||
+        _signingOutIdentity == session.identity) {
+      throw StateError(
+        'Notification registration requires the current signed-in session.',
+      );
+    }
+    final operation = ++_notificationRegistrationGeneration;
+    try {
+      final acknowledgedDevice = await supabase
+          .rpc<dynamic>(
+            'register_notification_device',
+            params: {
+              'p_platform': platform,
+              'p_provider': provider,
+              'p_token': token,
+              'p_environment': environment,
+              'p_locale': 'en',
+              'p_app_version': null,
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}');
+      if (acknowledgedDevice is! String ||
+          !RegExp(
+            r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+          ).hasMatch(acknowledgedDevice.trim().toLowerCase())) {
+        throw StateError('Notifications could not connect. Try again.');
+      }
+    } on PostgrestException catch (error) {
+      if (!_isCurrentSession(session) ||
+          operation != _notificationRegistrationGeneration) {
+        return;
+      }
+      if (error.message == 'notification_registration_session_stale') {
+        const message =
+            'Sign in again to register notifications on this device.';
+        state = state.copyWith(lastError: message);
+        throw StateError(message);
+      }
+      rethrow;
+    }
+    if (!_isCurrentSession(session) ||
+        operation != _notificationRegistrationGeneration ||
+        _signingOutIdentity == session.identity) {
+      if (_sessionIdentity(supabase.auth.currentSession) != session.identity) {
+        try {
+          // An already-sent registration cannot be cancelled. Cleanup remains
+          // bound to the old server session; migration 141 cannot disable a
+          // row already reassigned to the newer session.
+          await supabase
+              .rpc<void>(
+                'unregister_notification_device',
+                params: {'p_provider': provider, 'p_token': token},
+              )
+              .setHeader('Authorization', 'Bearer ${session.accessToken}');
+        } catch (_) {
+          // Server ordering/session revocation is authoritative when offline.
+        }
+      }
+      return;
+    }
+    _registeredNotification = (
+      identity: session.identity!,
+      provider: provider,
+      token: token,
     );
-    _registeredNotificationProvider = provider;
-    _registeredNotificationToken = token;
   }
 
   Future<void> createSupportRequest({
@@ -662,12 +1143,25 @@ class CollectRepository extends StateNotifier<CollectState>
     _requireReadyProfile();
     final supabase = _supabase;
 
-    if (supabase != null && supabase.auth.currentUser != null) {
+    final ownerId = supabase?.auth.currentUser?.id;
+    if (supabase != null && ownerId != null) {
+      final generation = _loadGeneration;
+      void requireOriginalSession() {
+        if (!mounted ||
+            generation != _loadGeneration ||
+            supabase.auth.currentUser?.id != ownerId ||
+            state.currentProfile?.id != ownerId) {
+          throw StateError('Account changed during group join.');
+        }
+      }
+
       final response = await supabase.rpc<dynamic>(
         'join_group_by_share_code',
         params: {'p_group_code': normalizedSlug},
       );
+      requireOriginalSession();
       final collection = await _liveReader.fetchCollection(response as String);
+      requireOriginalSession();
       final existing = state.collections.indexWhere(
         (item) => item.id == collection.id,
       );
@@ -795,6 +1289,7 @@ class CollectRepository extends StateNotifier<CollectState>
     final fixtureRoster = _fixtureRosterOverrides[collectionId];
     if (fixtureRoster != null) return List.unmodifiable(fixtureRoster);
     final profile = state.currentProfile;
+    final summary = summaryFor(collectionId);
     return [
       if (profile != null &&
           (collection.creatorUserId == profile.id ||
@@ -806,9 +1301,9 @@ class CollectRepository extends StateNotifier<CollectState>
           joinedAt: collection.createdAt,
           amountScope: 'own',
           contributionTotals: {
-            for (final entry in summaryFor(
-              collectionId,
-            ).ownBalancesByCurrency.entries)
+            for (final entry
+                in summary?.ownBalancesByCurrency.entries ??
+                    const <MapEntry<String, int>>[])
               if (entry.value > 0) entry.key: entry.value,
           },
         ),
@@ -1014,14 +1509,10 @@ class CollectRepository extends StateNotifier<CollectState>
       );
       return OwnerGroupHealth.fromJson(Map<String, dynamic>.from(row as Map));
     }
-    final destination = await getBankTransferDestination();
     return OwnerGroupHealth(
       collectionId: collectionId,
       smsAccessEnabled: state.smsAccessEnabled,
-      receiverConfigured:
-          destination.enabled &&
-          !destination.isPlaceholder &&
-          destination.iban.trim().isNotEmpty,
+      receiverConfigured: collectionById(collectionId).supportsRwandaMomo,
       pendingPaymentIntents: state.paymentIntents
           .where(
             (item) =>
@@ -1035,65 +1526,41 @@ class CollectRepository extends StateNotifier<CollectState>
 
   void _ensureRealtimeSync() {
     final supabase = _supabase;
-    if (_realtimeSync != null ||
-        supabase == null ||
-        supabase.auth.currentUser == null) {
-      return;
-    }
+    final userId = supabase?.auth.currentUser?.id;
+    if (supabase == null || userId == null) return;
+    if (_realtimeSync != null && _realtimeOwnerId == userId) return;
+    _stopRealtimeSync();
+    _realtimeOwnerId = userId;
     _realtimeSync = RealtimeInvalidationSubscription(
       client: supabase,
       topic: 'collect:mobile:invalidation',
       areas: collectMobileRealtimeAreas,
+      ownerUserId: userId,
       onInvalidate: () async {
-        if (mounted) await loadInitial();
+        if (mounted && supabase.auth.currentUser?.id == userId) {
+          await loadInitial();
+        }
       },
     )..start();
   }
 
+  void _stopRealtimeSync() {
+    final subscription = _realtimeSync;
+    _realtimeSync = null;
+    _realtimeOwnerId = null;
+    if (subscription != null) unawaited(subscription.dispose());
+  }
+
   @override
   void dispose() {
-    unawaited(_realtimeSync?.dispose());
+    unawaited(_authSubscription?.cancel());
+    _stopRealtimeSync();
     super.dispose();
   }
 
-  CollectionSummary summaryFor(String collectionId) {
-    final authoritative = state.collectionSummaries[collectionId];
-    if (authoritative != null) return authoritative;
-    final contributions = contributionsFor(collectionId);
-    final currency = maybeCollectionById(collectionId)?.settlementCurrency;
-    final totals = <String, int>{};
-    final own = <String, int>{};
-    final identities = <String>{};
-    var knownCount = true;
-    for (final item in contributions) {
-      totals.update(
-        item.currency,
-        (value) => value + item.amountMinor,
-        ifAbsent: () => item.amountMinor,
-      );
-      if (item.isCurrentUserContribution) {
-        own.update(
-          item.currency,
-          (value) => value + item.amountMinor,
-          ifAbsent: () => item.amountMinor,
-        );
-        identities.add('self');
-      } else if (RegExp(
-        r'^Collect ID [0-9]{6}$',
-      ).hasMatch(item.supporterLabel)) {
-        identities.add(item.supporterLabel);
-      } else {
-        // Masked labels cannot be used as unique person identifiers.
-        knownCount = false;
-      }
-    }
-    return CollectionSummary.multiCurrency(
-      totals: totals,
-      ownBalances: own,
-      emptyCurrency: currency != null && currency != 'XXX' ? currency : 'RWF',
-      supporterCount: knownCount ? identities.length : null,
-    );
-  }
+  /// A recent history page cannot establish a complete group or own balance.
+  CollectionSummary? summaryFor(String collectionId) =>
+      state.collectionSummaries[collectionId];
 
   List<Contribution> contributionsFor(String collectionId) =>
       state.contributions
@@ -1111,13 +1578,7 @@ class CollectRepository extends StateNotifier<CollectState>
   CollectProfile _requireReadyProfile() {
     final profile = _requireProfile();
     if (!profile.isComplete) {
-      throw FormatException(
-        profile.isRwanda
-            ? 'Complete your profile with a valid MoMo number first.'
-            : profile.isDiaspora
-            ? 'Complete your profile with an account number first.'
-            : 'Choose your country and complete your profile first.',
-      );
+      throw const FormatException('Complete your Rwanda MoMo profile first.');
     }
     return profile;
   }
@@ -1144,4 +1605,40 @@ class CollectRepository extends StateNotifier<CollectState>
     }
     return profile;
   }
+}
+
+// JWT claims here distinguish local lifecycle operations only; server Auth/RLS
+// remains authoritative. Access-token fallback keeps malformed/legacy sessions
+// isolated; such tokens do not bypass the server's required session_id check.
+typedef _CollectAuthIdentity = ({String userId, String sessionId});
+typedef _CollectSessionFence = ({
+  _CollectAuthIdentity? identity,
+  String? accessToken,
+  int generation,
+});
+typedef _CollectNotificationRegistration = ({
+  _CollectAuthIdentity identity,
+  String provider,
+  String token,
+});
+
+_CollectAuthIdentity? _sessionIdentity(Session? session) {
+  if (session == null) return null;
+  var identity = session.accessToken;
+  try {
+    final parts = session.accessToken.split('.');
+    if (parts.length == 3) {
+      final claims = jsonDecode(
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+      );
+      if (claims is Map &&
+          claims['session_id'] is String &&
+          (claims['session_id'] as String).isNotEmpty) {
+        identity = claims['session_id'] as String;
+      }
+    }
+  } catch (_) {
+    // Do not expose token contents in exceptions or diagnostics.
+  }
+  return (userId: session.user.id, sessionId: identity);
 }

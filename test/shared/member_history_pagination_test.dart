@@ -9,6 +9,7 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
 import 'package:collect_app/core/supabase/realtime_invalidation.dart';
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -23,6 +24,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _revision = '11111111111111111111111111111111';
+
+class _AvailableSmsAccessChannel extends SmsAccessChannel {
+  const _AvailableSmsAccessChannel();
+
+  @override
+  Future<bool> suspendUnlessOwner(String? currentUserId) async => true;
+
+  @override
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => true;
+}
+
 MemberHistoryPage _page(
   List<int> indexes, {
   bool more = true,
@@ -32,18 +44,18 @@ MemberHistoryPage _page(
   items: [
     for (final i in indexes)
       Contribution(
-        id: i == 59 ? 'bank:$i' : 'momo:$i',
+        id: 'momo:$i',
         collectionId: i == 59 ? 'older-group' : 'qa-private-group',
         amountRwf: i == 59 ? 125 : 1000,
-        currency: i == 59 ? 'EUR' : 'RWF',
+        currency: 'RWF',
         supporterLabel: 'Collect ID ${400000 + i}',
         isCurrentUserContribution: true,
         createdAt: DateTime.utc(2026, 9, 2).subtract(Duration(minutes: i)),
       ),
   ],
   totalCount: count,
-  totals: count == 1 ? const {'EUR': 125} : const {'RWF': 59000, 'EUR': 125},
-  ownTotals: count == 1 ? const {'EUR': 125} : const {'RWF': 59000, 'EUR': 125},
+  totals: count == 1 ? const {'RWF': 125} : const {'RWF': 59125},
+  ownTotals: count == 1 ? const {'RWF': 125} : const {'RWF': 59125},
   ownCollectionIds: count == 1
       ? const {'older-group'}
       : const {'qa-private-group', 'older-group'},
@@ -108,10 +120,7 @@ void main() {
     );
     addTearDown(container.dispose);
     expect(repo.state.contributions.length, 50);
-    expect(container.read(raisedTotalsByCurrencyProvider), {
-      'RWF': 59000,
-      'EUR': 125,
-    });
+    expect(container.read(raisedTotalsByCurrencyProvider), {'RWF': 59125});
     expect(container.read(contributedCollectionIdsProvider), {
       'qa-private-group',
       'older-group',
@@ -135,7 +144,7 @@ void main() {
       );
       await request;
       expect(feed.state.page!.items.length, 60);
-      expect(feed.state.page!.totals, {'RWF': 59000, 'EUR': 125});
+      expect(feed.state.page!.totals, {'RWF': 59125});
       expect(feed.state.page!.nextCursor, isNull);
     },
   );
@@ -236,7 +245,7 @@ void main() {
       final restored = (await cache.read())!;
       expect(restored.contributions.length, 50);
       expect(restored.historyPage!.totalCount, 60);
-      expect(restored.historyPage!.ownTotals, {'RWF': 59000, 'EUR': 125});
+      expect(restored.historyPage!.ownTotals, {'RWF': 59125});
       expect(restored.pendingIntentCount, 100);
       final prefs = await SharedPreferences.getInstance();
       expect(prefs.containsKey('collect.offline_snapshot.v3'), isFalse);
@@ -260,17 +269,10 @@ void main() {
     expect(await cache.read(), isNull);
   });
 
-  test('MoMo and bank invalidations both refresh mobile financial state', () {
+  test('MoMo invalidations refresh mobile financial state', () {
     expect(
       collectMobileRealtimeAreas,
-      containsAll([
-        'payments',
-        'payment_intents',
-        'ledger',
-        'bank_intents',
-        'bank_transactions',
-        'bank_reconciliation',
-      ]),
+      containsAll(['payments', 'payment_intents', 'ledger']),
     );
   });
 
@@ -302,7 +304,7 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(find.textContaining('59,000'), findsWidgets);
+      expect(find.textContaining('59,125'), findsWidgets);
       await tester.runAsync(
         () => _capture(captureKey, '43-paged-history-first-390.png'),
       );
@@ -351,6 +353,7 @@ void main() {
     'late bootstrap response is ignored after authentication changes',
     () async {
       final response = Completer<http.Response>();
+      final profileRequestStarted = Completer<void>();
       var profileRequested = false;
       final client = SupabaseClient(
         'http://127.0.0.1:1',
@@ -359,6 +362,7 @@ void main() {
         httpClient: MockClient((request) async {
           if (request.url.path.endsWith('get_current_member_profile')) {
             profileRequested = true;
+            profileRequestStarted.complete();
             return response.future;
           }
           return http.Response(
@@ -384,10 +388,13 @@ void main() {
           },
         }),
       );
-      final repo = CollectRepository(supabase: client);
+      final repo = CollectRepository(
+        supabase: client,
+        smsAccessChannel: const _AvailableSmsAccessChannel(),
+      );
       addTearDown(repo.dispose);
       final load = repo.loadInitial();
-      await Future<void>.delayed(Duration.zero);
+      await profileRequestStarted.future;
       expect(profileRequested, isTrue);
       await repo.signOut();
       response.complete(

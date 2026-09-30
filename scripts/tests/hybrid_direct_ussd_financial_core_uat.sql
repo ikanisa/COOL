@@ -51,6 +51,28 @@ insert into auth.users(
    '250788970001', now(), '{}', '{}'),
   ('97000000-0000-4000-8000-000000000002', 'authenticated', 'authenticated',
    '250788970002', now(), '{}', '{}');
+select pg_temp.assert_true(
+  (select country_code is null and currency_code is null
+   from public.profiles where id = '97000000-0000-4000-8000-000000000002'),
+  'Auth-created member profile permits the empty Rwanda onboarding state'
+);
+select pg_temp.expect_error(
+  $$update public.profiles set country_code = 'MT', currency_code = 'EUR'
+    where id = '97000000-0000-4000-8000-000000000002'$$,
+  'profiles_rwanda_momo_only',
+  'new foreign member profile is rejected'
+);
+select pg_temp.expect_error(
+  $$update public.profiles set country_code = 'RW', currency_code = null
+    where id = '97000000-0000-4000-8000-000000000002'$$,
+  'profiles_rwanda_momo_only',
+  'mixed incomplete country and currency profile is rejected'
+);
+update public.profiles
+set country_code = 'RW', currency_code = 'RWF',
+    momo_provider = 'mtn_momo', momo_number = '0788970002',
+    momo_number_hash = encode(extensions.digest('+250788970002', 'sha256'), 'hex')
+where id = '97000000-0000-4000-8000-000000000002';
 update public.profiles set is_platform_admin = true
 where id = '97000000-0000-4000-8000-000000000001';
 insert into public.admin_user_roles(user_id, role_id, granted_by, reason, created_at)
@@ -271,7 +293,8 @@ from unnest(array[
   '97000000-0000-4000-8000-000000000804'::uuid,
   '97000000-0000-4000-8000-000000000805'::uuid,
   '97000000-0000-4000-8000-000000000806'::uuid,
-  '97000000-0000-4000-8000-000000000807'::uuid
+  '97000000-0000-4000-8000-000000000807'::uuid,
+  '97000000-0000-4000-8000-000000000808'::uuid
 ]) capability_id;
 
 insert into public.raw_payment_sms(
@@ -396,11 +419,12 @@ select pg_temp.assert_true(
 insert into public.payment_intents(
   id, collection_id, contributor_user_id, contributor_public_id,
   contribution_code, expected_amount_rwf, receiver_momo_number_hash,
-  status, anonymity_choice, expires_at
+  sender_phone_hash, status, anonymity_choice, expires_at
 ) select
   '97000000-0000-4000-8000-000000000302',
   (select (value->>'collection_id')::uuid from pg_temp.test_values where key = 'group_two'),
   profile.id, profile.public_id, 'INTENT-FINALITY-001', 1200, repeat('a', 64),
+  encode(extensions.digest('+250788970002', 'sha256'), 'hex'),
   'pending', 'public_id', now() + interval '1 hour'
 from public.profiles profile
 where profile.id = '97000000-0000-4000-8000-000000000002';
@@ -421,12 +445,13 @@ insert into public.raw_payment_sms(
 insert into public.parsed_payment_events(
   id, raw_sms_id, receiver_user_id, is_mobile_money_payment, network,
   direction, amount_rwf, currency, transaction_id, receiver_phone_hash,
-  detected_user_public_id, confidence, parser_schema_version
+  sender_phone_hash, detected_user_public_id, confidence, parser_schema_version
 ) select
   '97000000-0000-4000-8000-000000000217',
   '97000000-0000-4000-8000-000000000207',
   '97000000-0000-4000-8000-000000000001', true, 'mtn_momo',
   'incoming', 1200, 'RWF', 'INTENT1200', repeat('a', 64),
+  encode(extensions.digest('+250788970002', 'sha256'), 'hex'),
   profile.public_id, 0.99, 'collect.sms_parser.v4'
 from public.profiles profile
 where profile.id = '97000000-0000-4000-8000-000000000002';
@@ -639,11 +664,12 @@ select pg_temp.assert_true(
 insert into public.payment_intents(
   id, collection_id, contributor_user_id, contributor_public_id,
   contribution_code, expected_amount_rwf, receiver_momo_number_hash,
-  status, anonymity_choice, expires_at
+  sender_phone_hash, status, anonymity_choice, expires_at
 ) select
   '97000000-0000-4000-8000-000000000301',
   (select (value->>'collection_id')::uuid from pg_temp.test_values where key = 'group_two'),
   profile.id, profile.public_id, 'DIRECT-DISAGREE-001', 900, repeat('a', 64),
+  encode(extensions.digest('+250788970002', 'sha256'), 'hex'),
   'pending', 'public_id', now() + interval '1 hour'
 from public.profiles profile
 where profile.id = '97000000-0000-4000-8000-000000000002';
@@ -662,13 +688,14 @@ insert into public.raw_payment_sms(
 insert into public.parsed_payment_events(
   id, raw_sms_id, receiver_user_id, is_mobile_money_payment, network,
   direction, amount_rwf, currency, transaction_id, receiver_phone_hash,
-  detected_user_public_id, confidence, payer_last3, payer_match_key,
+  sender_phone_hash, detected_user_public_id, confidence, payer_last3, payer_match_key,
   parser_schema_version
 ) select
   '97000000-0000-4000-8000-000000000214',
   '97000000-0000-4000-8000-000000000204',
   '97000000-0000-4000-8000-000000000001', true, 'mtn_momo',
   'incoming', 900, 'RWF', 'DISAGREE', repeat('a', 64),
+  encode(extensions.digest('+250788970002', 'sha256'), 'hex'),
   (select public_id from public.profiles where id = '97000000-0000-4000-8000-000000000002'),
   0.99, '456', identity.match_key, 'collect.sms_parser.v4'
 from collect_hybrid.member_momo_identities identity
@@ -687,6 +714,53 @@ select pg_temp.assert_true(
   and not exists(select 1 from public.payments payment
     where payment.parsed_event_id = '97000000-0000-4000-8000-000000000214'),
   'disagreement records a specific exception and no money'
+);
+
+-- A public ID naming another payer cannot route through an otherwise exact
+-- direct assignment when no verified intent backs that identity.
+insert into public.raw_payment_sms(
+  id, receiver_user_id, raw_sender, raw_body, body_hash,
+  receiver_momo_number_hash, received_at_device, parse_status,
+  native_action_capability_id, attestation_request_hash, device_attested_at
+) values (
+  '97000000-0000-4000-8000-000000000208',
+  '97000000-0000-4000-8000-000000000001', 'M-Money',
+  'Txn IDENTITY901. You have received 901 RWF from UNIQUE MEMBER (***456).',
+  encode(extensions.digest(
+    'Txn IDENTITY901. You have received 901 RWF from UNIQUE MEMBER (***456).',
+    'sha256'), 'hex'),
+  repeat('a', 64), now(), 'parsed',
+  '97000000-0000-4000-8000-000000000808', repeat('b', 64), now()
+);
+insert into public.parsed_payment_events(
+  id, raw_sms_id, receiver_user_id, is_mobile_money_payment, network,
+  direction, amount_rwf, currency, transaction_id, receiver_phone_hash,
+  detected_user_public_id, confidence, payer_last3, payer_match_key,
+  parser_schema_version
+) select
+  '97000000-0000-4000-8000-000000000218',
+  '97000000-0000-4000-8000-000000000208',
+  '97000000-0000-4000-8000-000000000001', true, 'mtn_momo',
+  'incoming', 901, 'RWF', 'IDENTITY901', repeat('a', 64),
+  (select public_id from public.profiles
+    where id = '97000000-0000-4000-8000-000000000002'),
+  0.99, '456', identity.match_key, 'collect.sms_parser.v4'
+from collect_hybrid.member_momo_identities identity
+where identity.momo_number = '+250788000456';
+set local role service_role;
+select set_config('request.jwt.claims', '{"role":"service_role"}', true);
+select pg_temp.assert_true(
+  public.allocate_parsed_payment_event('97000000-0000-4000-8000-000000000218') = 'ambiguous',
+  'conflicting public ID cannot auto-allocate through direct assignment'
+);
+reset role;
+select pg_temp.assert_true(
+  exists(select 1 from collect_hybrid.momo_reconciliation_exceptions exception
+    where exception.parsed_event_id = '97000000-0000-4000-8000-000000000218'
+      and exception.code = 'payer_identity_conflict' and exception.status = 'open')
+  and not exists(select 1 from public.payments payment
+    where payment.parsed_event_id = '97000000-0000-4000-8000-000000000218'),
+  'conflicting public ID is retained for review without posting money'
 );
 
 set local role authenticated;

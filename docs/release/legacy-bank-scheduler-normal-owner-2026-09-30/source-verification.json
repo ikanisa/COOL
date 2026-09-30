@@ -1,0 +1,73 @@
+{
+  "captured_at": "2026-09-30T13:31:10.026175+00:00",
+  "scope": "pure_source_and_comparator_only",
+  "source_manifest_sha256": "e46922d89992c53f0bbb1efb484a5d151a295b6754ec00fed594abfa120559fe",
+  "stable_sources": true,
+  "commands": [
+    {
+      "command": [
+        "ruby",
+        "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "source-test-1.stdout",
+      "stderr": "source-test-1.stderr"
+    },
+    {
+      "command": [
+        "ruby",
+        "scripts/tests/legacy_bank_scheduler_snapshot_source_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "source-test-2.stdout",
+      "stderr": "source-test-2.stderr"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "verify_legacy_bank_scheduler_upgrade_test.py"
+      ],
+      "exit_code": 0,
+      "stdout": "source-test-3.stdout",
+      "stderr": "source-test-3.stderr"
+    },
+    {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/legacy_bank_scheduler_concurrency_uat.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "source-test-4.stdout",
+      "stderr": "source-test-4.stderr"
+    },
+    {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/legacy_bank_scheduler_populated_uat.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "source-test-5.stdout",
+      "stderr": "source-test-5.stderr"
+    },
+    {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/legacy_bank_scheduler_populated_adversarial_uat.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "source-test-6.stdout",
+      "stderr": "source-test-6.stderr"
+    }
+  ],
+  "database_execution_by_worker": false,
+  "runtime_acceptance": "unverified_until_root_receipts"
+}

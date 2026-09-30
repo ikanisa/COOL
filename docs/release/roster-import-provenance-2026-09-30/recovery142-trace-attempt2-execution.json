@@ -1,0 +1,10 @@
+{
+  "captured_at_utc": "2026-09-29T23:24:16.066124+00:00",
+  "exit_code": 0,
+  "recovery_source_sha256": "666c66c853665fc2d993a87e42ea5e7cc83df9f7ee1b994e9ebfd69cd4cd8166",
+  "stdout_sha256": "cf71e34e12e6178c8532c30bb63e018e407f2b7dac8b8337ed90c369845eb546",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "provider_calls": false,
+  "hosted_mutations": false,
+  "trace_sha256": "cf71e34e12e6178c8532c30bb63e018e407f2b7dac8b8337ed90c369845eb546"
+}

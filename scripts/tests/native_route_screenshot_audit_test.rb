@@ -26,9 +26,9 @@ class NativeRouteScreenshotAuditTest < Minitest::Test
     assert_equal [%w[groups home]], result.fetch('unexpected_duplicate_groups')
   end
 
-  def test_momo_and_bank_captures_cannot_be_interchanged
-    refute audit('public-buri-momo' => 'bank', 'diaspora-contribution' => 'bank').fetch('accepted')
-    assert audit('public-buri-momo' => 'momo', 'diaspora-public-buri-momo' => 'momo').fetch('accepted')
+  def test_momo_and_profile_captures_cannot_be_interchanged
+    refute audit('public-buri-momo' => 'same', 'profile-edit' => 'same').fetch('accepted')
+    assert audit('public-buri-momo' => 'momo', 'profile-edit' => 'profile').fetch('accepted')
   end
 
   def test_empty_evidence_cannot_pass

@@ -35,7 +35,7 @@ class _RosterRepository extends FixtureCollectRepository {
           status: 'active',
           joinedAt: DateTime.utc(2026, 9, 2),
           amountScope: 'own',
-          contributionTotals: const {'EUR': 12345, 'RWF': 3000},
+          contributionTotals: const {'RWF': 3000},
         ),
         CollectMember(
           publicId: '234567',
@@ -109,7 +109,7 @@ void main() {
           final key = await pumpRoster(tester, width: width, scale: scale);
           expect(find.text('Admin · Active'), findsOneWidget);
           expect(find.text('Owner · Active'), findsOneWidget);
-          expect(find.text('EUR 123.45\nRWF 3,000'), findsOneWidget);
+          expect(find.text('RWF 3,000'), findsOneWidget);
           expect(find.text('Your contributions'), findsOneWidget);
           expect(find.text('Shared contributions'), findsOneWidget);
           expect(find.text('RWF 0'), findsNothing);
@@ -166,33 +166,30 @@ void main() {
       );
     }
   }
-  testWidgets(
-    'roster search is numeric and amount sorting is currency-specific',
-    (tester) async {
-      await pumpRoster(tester);
-      await tester.tap(find.text('Collect ID').last);
-      await tester.pumpAndSettle();
-      expect(find.text('RWF amount'), findsOneWidget);
-      expect(find.text('EUR amount'), findsOneWidget);
-      expect(find.text('Top'), findsNothing);
-      await tester.tap(find.text('EUR amount'));
-      await tester.pumpAndSettle();
-      expect(
-        tester
-            .widgetList<FinancialListRow>(find.byType(FinancialListRow))
-            .first
-            .title,
-        '038491',
-      );
-      await tester.enterText(find.byType(TextField), '234567');
-      await tester.pumpAndSettle();
-      final row = tester.widget<FinancialListRow>(
-        find.byType(FinancialListRow),
-      );
-      expect(row.title, '234567');
-      expect(row.amounts, isEmpty);
-      expect(find.textContaining('RWF'), findsNothing);
-      expect(find.text('No members found'), findsNothing);
-    },
-  );
+  testWidgets('roster search is numeric and amount sorting is RWF-specific', (
+    tester,
+  ) async {
+    await pumpRoster(tester);
+    await tester.tap(find.text('Collect ID').last);
+    await tester.pumpAndSettle();
+    expect(find.text('RWF amount'), findsOneWidget);
+    expect(find.text('EUR amount'), findsNothing);
+    expect(find.text('Top'), findsNothing);
+    await tester.tap(find.text('RWF amount'));
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widgetList<FinancialListRow>(find.byType(FinancialListRow))
+          .first
+          .title,
+      '038491',
+    );
+    await tester.enterText(find.byType(TextField), '234567');
+    await tester.pumpAndSettle();
+    final row = tester.widget<FinancialListRow>(find.byType(FinancialListRow));
+    expect(row.title, '234567');
+    expect(row.amounts, isEmpty);
+    expect(row.amounts, isEmpty);
+    expect(find.text('No members found'), findsNothing);
+  });
 }

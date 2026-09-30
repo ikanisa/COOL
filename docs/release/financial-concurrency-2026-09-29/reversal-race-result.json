@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 135,
+  "blocked_workers_at_advisory_lock": 2,
+  "reversal_requests": 1,
+  "reversal_journals": 1,
+  "compensating_legacy_entries": 2,
+  "reversal_debit_rwf": 2500,
+  "reversal_credit_rwf": 2500,
+  "group_balance_after_rwf": 0,
+  "worker_fresh_count": 1,
+  "worker_replay_count": 1,
+  "provider_calls": 0,
+  "scope": "synthetic approved local Admin session; no real provider reversal"
+}

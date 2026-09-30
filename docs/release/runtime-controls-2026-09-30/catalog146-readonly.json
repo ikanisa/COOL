@@ -1,0 +1,625 @@
+[
+  {
+    "rls": true,
+    "table": "collection_purpose_templates",
+    "columns": [
+      {
+        "name": "collection_type_key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "label",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "display_order",
+        "type": "integer",
+        "not_null": true
+      },
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "not_null": true
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "collection_type_catalog",
+    "columns": [
+      {
+        "name": "key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "label",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "short_purpose",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "icon_key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "default_category_subtype",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "default_purpose_template_key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "display_order",
+        "type": "integer",
+        "not_null": true
+      },
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "not_null": true
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "feature_flags",
+    "columns": [
+      {
+        "name": "key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "not_null": true
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      }
+    ],
+    "api_write_roles": [
+      "anon",
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "moderation_flags",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "entity_type",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "entity_id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "reason",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "created_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "resolved_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "resolution_note",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "resolved_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "anon",
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "notification_template_versions",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "template_key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "version",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "title_template",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "body_template",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "effective_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "published_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "notification_templates",
+    "columns": [
+      {
+        "name": "key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "event_type_key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "locale",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "not_null": true
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "policy_acceptance_events",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "policy_document_id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "accepted_version",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "accepted_locale",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "accepted_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "source",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "policy_document_sections",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "policy_document_id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "section_key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "body",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "display_order",
+        "type": "integer",
+        "not_null": true
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "policy_documents",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "kind",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "locale",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "version",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "summary",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "effective_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "published_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      }
+    ],
+    "api_write_roles": [
+      "authenticated",
+      "service_role"
+    ]
+  },
+  {
+    "rls": true,
+    "table": "system_settings",
+    "columns": [
+      {
+        "name": "key",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "value",
+        "type": "jsonb",
+        "not_null": true
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "not_null": true
+      },
+      {
+        "name": "is_sensitive",
+        "type": "boolean",
+        "not_null": true
+      },
+      {
+        "name": "updated_by",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "updated_reason",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": true
+      }
+    ],
+    "api_write_roles": [
+      "anon",
+      "authenticated",
+      "service_role"
+    ]
+  }
+]

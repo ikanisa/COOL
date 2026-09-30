@@ -4,6 +4,7 @@ require "shellwords"
 require "json"
 require "fileutils"
 require "tempfile"
+require "digest"
 
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
 COLLECT_IOS_APPLE_ID = "6783960331"
@@ -92,11 +93,15 @@ platform :android do
 
   desc "Upload Collect production AAB and metadata to Google Play after credentials are available"
   lane :play_production_submit do
-    sh("ruby ./scripts/qa/mobile_design_gate.rb")
     UI.user_error!("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON is required") if ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"].to_s.empty?
+    aab_path = File.expand_path("../build/app/outputs/bundle/productionRelease/app-production-release.aab", __dir__)
+    UI.user_error!("Canonical production AAB is required") unless File.file?(aab_path) && !File.symlink?(aab_path)
+    before_sha256 = Digest::SHA256.file(aab_path).hexdigest
+    sh("./scripts/release_go_preflight.sh")
     sh("./scripts/google_play_console_audit_packet.sh --json")
     sh("./scripts/google_play_metadata_export.sh --json")
     sh("./scripts/google_play_optimization_gate.sh --json")
+    UI.user_error!("Production AAB changed after readiness checks") unless Digest::SHA256.file(aab_path).hexdigest == before_sha256
     supply
   end
 end
@@ -231,10 +236,9 @@ platform :ios do
 
   desc "Upload the latest signed IPA to TestFlight without submitting for App Review"
   lane :upload_review_build do
-    sh("ruby ./scripts/qa/mobile_design_gate.rb --ios")
+    sh("./scripts/ios_app_store_readiness_gate.sh --json")
     api_key = collect_app_store_connect_api_key
-    # Upload exactly the artifact whose hash passed MOBILE-DESIGN-100, never
-    # whichever unrelated IPA happens to have the most recent modification.
+    # Upload the exact IPA produced by the reviewed build wrapper.
     ipa_path = File.expand_path("../build/ios/ipa/Collect.ipa", __dir__)
     UI.user_error!("Collect.ipa is missing. Run fastlane ios build_review_ipa first.") unless File.file?(ipa_path)
     release_notes = File.read("metadata/en-GB/release_notes.txt").strip

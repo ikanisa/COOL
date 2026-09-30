@@ -10,11 +10,11 @@
       "en-US": "Discover Featured Groups from Home, choose from new Rwanda group photos, and enjoy refreshed group cards. Save your MoMo number with an optional merchant code. This update also improves sign-in, contribution screens, keyboard layouts, and larger-text support."
     },
     "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
-    "aab_sha256": "0064221fbf0dd23e12f47d5e9d2b90d71e8bc3b89a5d179fca58ffa5d4d2dc34",
+    "aab_sha256": null,
     "apk_path": "build/app/outputs/flutter-apk/app-production-release.apk",
-    "apk_sha256": "1bc238d8deadb221d0e1ab9ac94ab8484ef93c0e418b6ab098121af8167a9dec",
-    "candidate_status": "signed_not_uploaded",
-    "play_console_state": "version_21_live_version_23_candidate_prepared_not_uploaded",
+    "apk_sha256": null,
+    "candidate_status": "blocked_current_signed_artifacts_missing",
+    "play_console_state": "unverified_for_current_release_candidate",
     "rollout_percentage": null,
     "review_submitted_at": null,
     "device_catalog_delta": {
@@ -81,7 +81,7 @@
     "default_language": "en-US",
     "app_name": "Collect",
     "short_description": "Group savings, contribution records, and credit-readiness support.",
-    "full_description": "Collect helps savings groups organize members, record contributions, review reconciled group activity, and prepare credit-readiness records.\n\nMembers can view the approved beneficiary, IBAN, BIC, exact Collect reference, and amount before opening Revolut or another banking app. Collect does not initiate, authorize, process, or custody a bank transfer. The user selects the beneficiary and authorizes the transfer entirely in their banking app.\n\nOn Android, a group receiver can optionally allow Collect to receive newly arriving MTN MoMo or Airtel Money transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off at any time. A contribution becomes confirmed, changes a balance, and posts to the group ledger only after governed reconciliation.\n\nCollect keeps account support and deletion controls accessible in the app and is operated by IKANISA for group savings, support, and credit-readiness workflows.",
+    "full_description": "Collect helps Rwanda savings groups organize members, record whole-RWF contributions, and review reconciled group activity.\n\nMembers see the exact MTN MoMo or Airtel Money group receiver and amount before opening the provider USSD prompt. The member authorizes payment with the mobile network; Collect never asks for a MoMo PIN or OTP and does not hold member funds.\n\nOn eligible Android receiver devices, members may explicitly consent to Collect receiving newly arriving MoMo transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off. An observed SMS is not independent settlement proof; pending and ambiguous contributions require governed reconciliation before a production confirmation claim.\n\nCollect provides in-app account support and deletion controls. The service is operated by IKANISA for Rwanda group-contribution and record-keeping workflows.",
     "category": "FINANCE",
     "tags_to_confirm_in_console": [
       "Savings",
@@ -109,7 +109,7 @@
         "approval_basis": "Current Collect-owned official-mark composition and product copy; independently retained from the deleted legacy runtime-media set."
       },
       "phone_screenshots": {
-        "status": "current_product_capture",
+        "status": "historical_fixture_capture_requires_current_candidate_review",
         "minimum_required": 2,
         "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
         "exported_count": 6,
@@ -132,7 +132,7 @@
         }
       },
       "seven_inch_screenshots": {
-        "status": "current_product_capture",
+        "status": "historical_fixture_capture_requires_current_candidate_review",
         "minimum_required": 4,
         "path": "fastlane/metadata/android/en-US/images/sevenInchScreenshots",
         "exported_count": 6,
@@ -155,7 +155,7 @@
         }
       },
       "ten_inch_screenshots": {
-        "status": "current_product_capture",
+        "status": "historical_fixture_capture_requires_current_candidate_review",
         "minimum_required": 4,
         "path": "fastlane/metadata/android/en-US/images/tenInchScreenshots",
         "exported_count": 6,
@@ -185,10 +185,6 @@
           "status": "defer_until_default_listing_approved"
         },
         {
-          "segment": "Diaspora group savings",
-          "status": "defer_until_default_listing_approved"
-        },
-        {
           "segment": "Provider and partner credit-readiness",
           "status": "defer_until_default_listing_approved"
         }
@@ -209,9 +205,9 @@
     "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
     "app_access": {
       "reviewer_access_required": true,
-      "status": "production_verified_and_console_corrected_2026_08_20_pending_review_submission",
+      "status": "historical_review_account_verified_2026_08_20_current_candidate_unverified",
       "account_creation_method": "Phone number plus WhatsApp one-time password (username and other authentication in Play terminology).",
-      "notes": "Play Sign in details declares restricted access and contains the dedicated reviewer phone, fixed OTP, and exact WhatsApp OTP navigation instructions. The credentials were verified against live production Auth on 2026-08-20; secret values are not retained in this packet or test evidence."
+      "notes": "Play Sign in details declares restricted access and contains the dedicated reviewer phone, fixed OTP, and exact WhatsApp OTP navigation instructions. The credentials were verified against live production Auth on 2026-08-20; secret values are not retained in this packet or test evidence. Current access and reviewer instructions must be reverified for the exact release candidate before submission."
     },
     "data_safety": {
       "collected_data_categories": [
@@ -233,7 +229,6 @@
           "category": "Financial info",
           "examples": [
             "group contribution records",
-            "bank-transfer intent references",
             "credit-readiness records"
           ],
           "purpose": [
@@ -268,7 +263,7 @@
       ],
       "sharing": {
         "status": "confirm_in_console",
-        "expected_answer": "Only share data with service providers or partners required to operate savings, support, bank reconciliation, credit-readiness, fraud prevention, legal, audit, or customer-requested workflows."
+        "expected_answer": "Only share data with service providers or partners required to operate Rwanda group savings, MoMo reconciliation, support, credit-readiness where actually enabled, fraud prevention, legal, audit, or customer-requested workflows."
       },
       "security_practices": {
         "data_encrypted_in_transit": "confirm_in_console",
@@ -280,7 +275,7 @@
       "ads": "No ads dependency found; confirm no ads in Play Console.",
       "target_audience": "Adults and general savings-group users; confirm children are not the target audience.",
       "content_rating": "Complete questionnaire as finance/productivity style app; record certificate after submission.",
-      "financial_features": "Group savings and reconciled contribution records; Collect does not initiate, authorize, process, or custody bank transfers and has no Play Billing dependency.",
+      "financial_features": "Rwanda group savings and reconciled RWF contribution records. Collect opens the provider MoMo USSD prompt but does not collect a PIN/OTP, hold member funds, or itself prove settlement. No Play Billing dependency is claimed.",
       "health": "Not a health app.",
       "news": "Not a news app.",
       "government": "Not a government app."
@@ -356,6 +351,8 @@
     "https://support.google.com/googleplay/android-developer/answer/9845334",
     "https://support.google.com/googleplay/android-developer/answer/9867158"
   ],
-  "console_completion_status": "version_23_signed_candidate_metadata_and_store_images_prepared_mobile_design_acceptance_upload_and_play_review_pending",
-  "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
+  "console_completion_status": "rwanda_only_scope_draft_signed_artifacts_and_current_play_review_pending",
+  "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data.",
+  "scope_reviewed_at": "2026-09-28",
+  "scope_review_status": "rwanda_only_draft_current_console_and_signed_artifacts_unverified"
 }

@@ -1,0 +1,23 @@
+{"role":"anon"}
+
+
+
+{"role":"authenticated","sub":"99600000-0000-4000-8000-000000000001"}
+
+
+
+{"role":"service_role"}
+
+{"role":"service_role"}
+{"role":"service_role"}
+
+{"role":"service_role"}
+{"role":"service_role"}
+{"role":"service_role"}
+{"replayed": false, "payment_id": "b40800a1-d4a6-4922-8bf6-394630de177e"}
+{"sub":"99100000-0000-4000-8000-000000000001","role":"authenticated","session_id":"99600000-0000-4000-8000-000000000907"}
+{"ok": true, "replay": false, "payment_id": "b40800a1-d4a6-4922-8bf6-394630de177e", "group_balance_after_rwf": 0, "member_balance_after_rwf": 0, "reversal_journal_entry_id": "5784a9e7-5175-4da0-bbf8-5c72705b0a52"}
+{"role":"service_role"}
+
+
+FINANCIAL_FINALITY_CONTENT_UAT_PASS

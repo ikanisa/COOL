@@ -1,0 +1,9 @@
+# Full Flutter test check — 29 September 2026
+
+**Result: 1,378 passed; five failed historical visual comparisons. Q03 and X01 remain open.** The test ran on the current modified checkout, with `--no-pub`, concurrency four, integration-tag exclusion and random ordering seed `20260929`. Its complete [raw log](full-flutter.log) is 362,403 bytes, SHA-256 `e0340f00eca4578a8a54e3c069efb2338698b2d845d8bf6df67ffa43bc4a3dcd`. It is not a test of a frozen release commit, signed app, or deployed backend. Device integration tests were excluded.
+
+An earlier full run on this checkout exposed eight failing profile/MoMo save cases alongside the five historical image comparisons. The profile save now fences an account switch during asynchronous SMS capture suspension, and three test SMS channel fakes acknowledge successful disable in the same way as the Android implementation. The four focused profile/permission suites passed 137 tests; the repository account-switch race suite passed seven. The subsequent complete run has no behavioral failures outside the five visual comparisons.
+
+The remaining failures are member authentication (0.35%), contribution entry (0.56%), connection recovery (47.34%), public home (6.12%) and Admin overview (18.00%). All five generated PNG hashes exactly match the candidate hashes in the [28 September visual manifest](../visual-review-2026-09-28/manifest.json); the historical baselines were not regenerated. The [visual review](../VISUAL_CANDIDATE_REVIEW_2026-09-28.md) describes the route-specific findings and missing reference evidence. Resolve these through the owner-selected `revolut-design` skill and route/state review before acceptance.
+
+To close Q03, run Flutter, Android/iOS, Edge, database and installed/browser integration checks against one reviewed frozen commit and retain their results. This local Flutter result establishes only the listed test scope at the source state tested here.

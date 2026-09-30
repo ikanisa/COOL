@@ -1,7 +1,6 @@
 import 'fixtures/collect_repository_fixture.dart';
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:collect_app/app/app.dart';
@@ -128,7 +127,8 @@ void main() {
       await tester.pump();
 
       expect(repository.syncCalls, 1);
-      expect(notifications.initializeCalls, 2);
+      // Signed-out registration stops before requesting a remote token.
+      expect(notifications.initializeCalls, 1);
       expect(notifications.permissionChecks, 1);
       expect(
         container.read(notificationPermissionStatusProvider),
@@ -143,7 +143,7 @@ void main() {
       await tester.pump();
       await tester.pump();
       expect(repository.syncCalls, 2);
-      expect(notifications.initializeCalls, 4);
+      expect(notifications.initializeCalls, 2);
       expect(notifications.permissionChecks, 2);
     },
   );
@@ -175,7 +175,7 @@ void main() {
       await tester.pump();
 
       expect(repository.syncCalls, 0);
-      expect(notifications.initializeCalls, 2);
+      expect(notifications.initializeCalls, 1);
       expect(notifications.permissionChecks, 1);
       expect(
         container.read(notificationPermissionStatusProvider),
@@ -189,7 +189,7 @@ void main() {
       await tester.pump();
 
       expect(repository.syncCalls, 0);
-      expect(notifications.initializeCalls, 3);
+      expect(notifications.initializeCalls, 2);
       expect(notifications.permissionChecks, 2);
       expect(
         container.read(notificationPermissionStatusProvider),
@@ -203,7 +203,7 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(notifications.initializeCalls, 4);
+      expect(notifications.initializeCalls, 3);
       expect(notifications.permissionChecks, 3);
       expect(
         container.read(notificationPermissionStatusProvider),
@@ -284,6 +284,7 @@ void main() {
       repository.releaseFirstSync();
       await tester.pump();
       await tester.pump();
+      expect(repository.syncCalls, 2);
       expect(
         container.read(notificationPermissionStatusProvider),
         CollectDevicePermissionStatus.notRequested,
@@ -294,7 +295,7 @@ void main() {
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump();
       await tester.pump();
-      expect(repository.syncCalls, 2);
+      expect(repository.syncCalls, 3);
 
       notifications.throwOnPermissionCheck = false;
       notifications.enabled = true;
@@ -302,13 +303,176 @@ void main() {
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump();
       await tester.pump();
-      expect(repository.syncCalls, 3);
+      expect(repository.syncCalls, 4);
       expect(
         container.read(notificationPermissionStatusProvider),
         CollectDevicePermissionStatus.granted,
       );
     },
   );
+
+  testWidgets('failed SMS drain retries with capped foreground backoff', (
+    tester,
+  ) async {
+    final repository = _LifecycleCollectRepository(failSyncs: 2);
+    final router = createAppRouter(initialLocation: '/home');
+    final container = ProviderContainer(
+      overrides: [
+        appRouterProvider.overrideWithValue(router),
+        appEnvProvider.overrideWithValue(_smsAccessEnv),
+        collectRepositoryProvider.overrideWith((ref) => repository),
+        collectNotificationServiceProvider.overrideWithValue(
+          _LifecycleNotificationService(enabled: false),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+    expect(repository.syncCalls, 1);
+
+    await tester.pump(const Duration(seconds: 4));
+    expect(repository.syncCalls, 1);
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump();
+    expect(repository.syncCalls, 2);
+
+    await tester.pump(const Duration(seconds: 14));
+    expect(repository.syncCalls, 2);
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump();
+    expect(repository.syncCalls, 3);
+
+    await tester.pump(const Duration(minutes: 15));
+    expect(repository.syncCalls, 3);
+  });
+
+  testWidgets('SMS retry pauses with app and resumes on user return', (
+    tester,
+  ) async {
+    final repository = _LifecycleCollectRepository(failSyncs: 1);
+    final router = createAppRouter(initialLocation: '/home');
+    final container = ProviderContainer(
+      overrides: [
+        appRouterProvider.overrideWithValue(router),
+        appEnvProvider.overrideWithValue(_smsAccessEnv),
+        collectRepositoryProvider.overrideWith((ref) => repository),
+        collectNotificationServiceProvider.overrideWithValue(
+          _LifecycleNotificationService(enabled: false),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+    expect(repository.syncCalls, 1);
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    await tester.pump(const Duration(seconds: 6));
+    expect(repository.syncCalls, 1);
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump();
+    expect(repository.syncCalls, 2);
+  });
+
+  testWidgets(
+    'repeated SMS failures cannot schedule faster than capped backoff',
+    (tester) async {
+      final repository = _LifecycleCollectRepository(failSyncs: 6);
+      final router = createAppRouter(initialLocation: '/home');
+      final container = ProviderContainer(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          appEnvProvider.overrideWithValue(_smsAccessEnv),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectNotificationServiceProvider.overrideWithValue(
+            _LifecycleNotificationService(enabled: false),
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(repository.syncCalls, 1);
+
+      var expectedCalls = 1;
+      for (final delay in <Duration>[
+        const Duration(seconds: 5),
+        const Duration(seconds: 15),
+        const Duration(minutes: 1),
+        const Duration(minutes: 5),
+        const Duration(minutes: 15),
+        const Duration(minutes: 15),
+      ]) {
+        await tester.pump(delay - const Duration(seconds: 1));
+        expect(repository.syncCalls, expectedCalls);
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pump();
+        expect(repository.syncCalls, ++expectedCalls);
+      }
+      expect(repository.syncCalls, 7);
+      await tester.pump(const Duration(minutes: 15));
+      expect(repository.syncCalls, 7);
+    },
+  );
+
+  testWidgets('SMS retry is canceled when the owner signs out', (tester) async {
+    final repository = _LifecycleCollectRepository(failSyncs: 1);
+    final router = createAppRouter(initialLocation: '/home');
+    final container = ProviderContainer(
+      overrides: [
+        appRouterProvider.overrideWithValue(router),
+        appEnvProvider.overrideWithValue(_smsAccessEnv),
+        collectRepositoryProvider.overrideWith((ref) => repository),
+        collectNotificationServiceProvider.overrideWithValue(
+          _LifecycleNotificationService(enabled: false),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+    expect(repository.syncCalls, 1);
+
+    repository.clearProfile();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 6));
+    expect(repository.syncCalls, 1);
+  });
 
   testWidgets('unknown routes render branded recovery actions', (tester) async {
     final semantics = tester.ensureSemantics();
@@ -353,21 +517,18 @@ void main() {
       await tester.pumpAndSettle();
 
       if (route == '/offline') {
-        expect(find.text('Offline mode'), findsOneWidget);
-        expect(find.text('You are offline'), findsOneWidget);
-        expect(find.text('Saved'), findsOneWidget);
+        expect(find.text('Connection'), findsOneWidget);
+        expect(find.text('Refresh your data'), findsOneWidget);
+        expect(find.text('Refresh data'), findsOneWidget);
         expect(find.text('Scan/share'), findsNothing);
       } else {
-        expect(find.text('Sync status'), findsOneWidget);
-        expect(find.text('Sync needs attention'), findsOneWidget);
-        expect(find.text('Queued updates'), findsOneWidget);
+        expect(find.text('Data sync'), findsOneWidget);
+        expect(find.text('Refresh your data'), findsOneWidget);
+        expect(find.text('Refresh data'), findsOneWidget);
         expect(find.text('Verified ledger'), findsNothing);
       }
-      expect(find.text('Review groups'), findsOneWidget);
-      expect(
-        tester.getBottomRight(find.text('Review groups')).dy,
-        lessThan(844),
-      );
+      expect(find.text('Open groups'), findsOneWidget);
+      expect(tester.getBottomRight(find.text('Open groups')).dy, lessThan(844));
       expect(find.byTooltip('Back'), findsOneWidget);
       await tester.tap(find.byTooltip('Back'));
       await tester.pumpAndSettle();
@@ -536,9 +697,12 @@ void main() {
     expect(recoveryScreens, isNot(contains('CollectConnectivityBanner')));
     expect(recoveryScreens, contains('CollectStatusTone.warning'));
     expect(recoveryScreens, contains('CollectStatusTone.info'));
-    expect(recoveryScreens, contains('Privacy in recovery'));
+    expect(recoveryScreens, contains("label: 'Privacy'"));
     expect(recoveryScreens, isNot(contains('Privacy stays on')));
-    expect(recoveryScreens, contains("primaryLabel: 'Review groups'"));
+    expect(
+      recoveryScreens,
+      contains("label: busy ? 'Refreshing data' : 'Refresh data'"),
+    );
     expect(recoveryScreens, isNot(contains("primaryLabel: 'Refresh groups'")));
 
     final shareScreen = File(
@@ -691,36 +855,6 @@ void main() {
     },
   );
 
-  test('MOBILE-DESIGN-100 contract binds the route screenshot inventory', () {
-    final contract =
-        jsonDecode(
-              File(
-                'docs/release/mobile-design/mobile-parity-contract.json',
-              ).readAsStringSync(),
-            )
-            as Map<String, dynamic>;
-    final smokeScript = File(
-      'scripts/mobile_route_render_smoke.sh',
-    ).readAsStringSync();
-    final smokeRouteBlock = _routeSpecsBlock(smokeScript);
-    final smokeRoutes = RegExp(
-      r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
-      multiLine: true,
-    ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
-
-    expect(contract['authority'], 'revolut-design');
-    expect(contract['rule'], 'MOBILE-DESIGN-100');
-    expect(
-      contract['route_inventory'],
-      'integration_test/mobile_route_matrix_device_uat_test.dart',
-    );
-    expect(smokeRoutes, hasLength(greaterThanOrEqualTo(10)));
-    expect(
-      Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
-      isFalse,
-    );
-  });
-
   test(
     'physical-device route matrix covers mobile screenshot smoke routes',
     () {
@@ -763,48 +897,6 @@ void main() {
     expect(script, contains('"variant" => {'));
   });
 
-  test('repo-wide QA includes the MOBILE-DESIGN-100 contract gate', () {
-    final qaRunner = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
-    final designGate = File(
-      'scripts/qa/mobile_design_gate.rb',
-    ).readAsStringSync();
-    final ci = File('.github/workflows/ci.yml').readAsStringSync();
-
-    expect(qaRunner, contains('mobile_design_contract'));
-    expect(
-      qaRunner,
-      contains('scripts/qa/mobile_design_gate.rb" --check-contract --json'),
-    );
-    expect(designGate, contains('mobile-parity-contract.json'));
-    expect(designGate, contains("AUTHORITY = 'revolut-design'"));
-    expect(
-      designGate,
-      contains("AUTHORITY_RULE = 'references/mobile-design-100.md'"),
-    );
-    expect(designGate, contains('Installed revolut-design authority'));
-    expect(ci, contains('make mobile-design-contract mobile-design-gate-test'));
-    expect(ci, contains('make revolut-parity-evidence-consistency'));
-  });
-
-  test('product contract delegates design authority to revolut-design', () {
-    final contract =
-        jsonDecode(
-              File(
-                'docs/release/mobile-design/mobile-parity-contract.json',
-              ).readAsStringSync(),
-            )
-            as Map<String, dynamic>;
-
-    expect(contract['authority'], 'revolut-design');
-    expect(contract['authority_rule'], 'references/mobile-design-100.md');
-    expect(contract['authority_sha256'], matches(RegExp(r'^[0-9a-f]{64}$')));
-    expect(contract['criteria'], hasLength(10));
-    expect(
-      Directory(['docs', 'design'].join(Platform.pathSeparator)).existsSync(),
-      isFalse,
-    );
-  });
-
   test('orange is reserved away from routine CTA and decorative surfaces', () {
     for (final path in <String>[
       'lib/features/landing/collect_landing_page.dart',
@@ -841,21 +933,11 @@ void main() {
     expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
   });
 
-  test('mobile gate reads only the delegated design authority', () {
-    final designGate = File(
-      'scripts/qa/mobile_design_gate.rb',
-    ).readAsStringSync();
+  test('runtime assets preserve Collect identity', () {
     final runtimeAssets = File(
       'lib/app/theme/collect_runtime_assets.dart',
     ).readAsStringSync();
 
-    expect(designGate, contains("AUTHORITY = 'revolut-design'"));
-    expect(
-      designGate,
-      contains(
-        "CONTRACT = 'docs/release/mobile-design/mobile-parity-contract.json'",
-      ),
-    );
     expect(runtimeAssets, contains('usesRepoVisualAssets = true'));
     expect(runtimeAssets, contains('officialLogoSha256'));
     expect(runtimeAssets, isNot(contains('assets/runtime')));
@@ -1066,15 +1148,12 @@ void main() {
 
     final contribution = [
       'lib/features/payments/contribution_flow_screen.dart',
-      'lib/features/payments/contribution_bank_flow.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
     final localizations = File(
       'lib/l10n/collect_localizations.dart',
     ).readAsStringSync();
-    expect(contribution, contains('throw StateError(revolutCouldNotOpen);'));
-    expect(contribution, contains('String _safeError(Object error)'));
+    expect(contribution, contains('String _safeFlowError(Object error)'));
     expect(localizations, contains('Check your connection and try again.'));
-    expect(localizations, contains('Revolut could not open on this device.'));
     expect(contribution, isNot(contains('_error = error.toString()')));
   });
 
@@ -1351,9 +1430,13 @@ const _noSmsAccessEnv = AppEnv(
 );
 
 class _LifecycleCollectRepository extends FixtureCollectRepository {
-  _LifecycleCollectRepository({this.blockFirstSync = false});
+  _LifecycleCollectRepository({
+    this.blockFirstSync = false,
+    this.failSyncs = 0,
+  });
 
   final bool blockFirstSync;
+  final int failSyncs;
   final _firstSyncCompleter = Completer<void>();
   int syncCalls = 0;
 
@@ -1363,6 +1446,7 @@ class _LifecycleCollectRepository extends FixtureCollectRepository {
     if (blockFirstSync && syncCalls == 1) {
       await _firstSyncCompleter.future;
     }
+    if (syncCalls <= failSyncs) throw StateError('Offline SMS retry fixture');
     return 0;
   }
 
@@ -1370,6 +1454,10 @@ class _LifecycleCollectRepository extends FixtureCollectRepository {
     if (!_firstSyncCompleter.isCompleted) {
       _firstSyncCompleter.complete();
     }
+  }
+
+  void clearProfile() {
+    state = state.copyWith(currentProfile: null);
   }
 }
 

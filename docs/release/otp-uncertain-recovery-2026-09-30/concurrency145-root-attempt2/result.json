@@ -1,0 +1,42 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/concurrency145-root-attempt2/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "c6828744af0ab6512265b161147069605d4ad7921f2fa96a6cb341328e8e5c06",
+  "command": [
+    "ruby",
+    "scripts/tests/signed_otp_recovery_concurrency_uat.rb",
+    "--execute-local145"
+  ],
+  "completed_at_utc": "2026-09-30T14:02:37.057027+00:00",
+  "exact_rollback_equivalence_required": true,
+  "expected_changed_tables": [],
+  "failures": [],
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 145,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930130000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "old_tables_preserved": true,
+  "provider_calls": false,
+  "recorder_sha256": "1d64e003ce034e33777cbd00cf040dfe48f138c210b4dc4132665933b2078918",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "started_at_utc": "2026-09-30T14:02:34.784172+00:00",
+  "status": "pass",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "d21995a14960a6faced3ca06a9e054b739c5cc57a2480b8343a66623378efe30",
+  "tables_after": 139,
+  "tables_before": 139,
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+  "unaffected_tables_preserved": true,
+  "unchanged": true
+}

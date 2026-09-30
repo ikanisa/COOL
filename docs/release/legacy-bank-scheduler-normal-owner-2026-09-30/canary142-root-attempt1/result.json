@@ -1,0 +1,30 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/canary142-root-attempt1/before.dump",
+  "backup_sha256": "7497adc0ffde576fdc07d70bfa7c7bfcd897e888bcb45f488cc269fa37e95fc2",
+  "completed_at_utc": "2026-09-30T13:32:41.035722+00:00",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 142,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930100000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "old_tables_preserved": true,
+  "provider_calls": false,
+  "recorder_sha256": "3f0b4f8c7ca224e31fd43d8ac0732a448f8101decdd739f22d87abba64a0613d",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "started_at_utc": "2026-09-30T13:32:39.005683+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "9f6a7cbf33ef16edde8909a9e02023decad693a2f34188820cde9215ddce6b7b",
+  "tables_after": 131,
+  "tables_before": 131,
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+  "unchanged": true
+}

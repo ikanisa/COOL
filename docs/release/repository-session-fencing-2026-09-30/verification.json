@@ -1,0 +1,73 @@
+{
+  "created_at_utc": "2026-09-29T22:23:20.110139+00:00",
+  "scope": "P07 repository session fencing; local mocked HTTP tests only",
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "environment": {
+    "PUB_CACHE": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-qa-20260929"
+  },
+  "source_sha256_before": {
+    "lib/shared/repositories/collect_repository.dart": "1690d504a099c4ebcbbe0852d0d96c14731a2429465205181f6b5e72dc946b8e",
+    "test/shared/repository_session_fencing_test.dart": "99b6a9c41da3622981ea2f90f7c2b9d5b6093f84a705b0cb34f1e6284b86ebb0",
+    "test/shared/member_history_pagination_test.dart": "af1122916d848770d66fda29e0b06b6608feaf38c49fa34695952c36f2849503",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/gotrue-2.27.1/lib/src/gotrue_client.dart": "ddf36b5f8edc8ac83fbbd7d7a1d6afa7a4ff5523baa5bd8540c0345769c9159d",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/gotrue-2.27.1/lib/src/gotrue_admin_api.dart": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/supabase-2.16.0/lib/src/auth_http_client.dart": "685d647d24f1018ebf4fb29f6c3cddef5664aeade24e5aa8a3a230d390e09ac5",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/supabase_flutter-2.17.1/lib/src/supabase_auth.dart": "f1eceb88ee0449cd8a5a1ada256633232919b7ea7987e3308c94c3cd205c902b"
+  },
+  "source_sha256_after": {
+    "lib/shared/repositories/collect_repository.dart": "1690d504a099c4ebcbbe0852d0d96c14731a2429465205181f6b5e72dc946b8e",
+    "test/shared/repository_session_fencing_test.dart": "99b6a9c41da3622981ea2f90f7c2b9d5b6093f84a705b0cb34f1e6284b86ebb0",
+    "test/shared/member_history_pagination_test.dart": "af1122916d848770d66fda29e0b06b6608feaf38c49fa34695952c36f2849503",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/gotrue-2.27.1/lib/src/gotrue_client.dart": "ddf36b5f8edc8ac83fbbd7d7a1d6afa7a4ff5523baa5bd8540c0345769c9159d",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/gotrue-2.27.1/lib/src/gotrue_admin_api.dart": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/supabase-2.16.0/lib/src/auth_http_client.dart": "685d647d24f1018ebf4fb29f6c3cddef5664aeade24e5aa8a3a230d390e09ac5",
+    ".cache/pub-cache-qa-20260929/hosted/pub.dev/supabase_flutter-2.17.1/lib/src/supabase_auth.dart": "f1eceb88ee0449cd8a5a1ada256633232919b7ea7987e3308c94c3cd205c902b"
+  },
+  "source_unchanged_during_checks": true,
+  "checks": [
+    {
+      "log": "runtime.json",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0
+    },
+    {
+      "log": "focused-tests.txt",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/shared/member_history_pagination_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "exit_code": 0
+    },
+    {
+      "log": "focused-analysis.txt",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "lib/shared/repositories/collect_repository.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/shared/member_history_pagination_test.dart"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "log_sha256": {
+    "runtime.json": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+    "focused-tests.txt": "7d4e7d1560ab1c4c7e17cce79a7a366e0c3b53768faabd69dc9f5acaef0d0d09",
+    "focused-analysis.txt": "3487fc13b7eaa83656acd1175a0d6a505ad214a0e4580115e3a433f8f27a5c44"
+  }
+}

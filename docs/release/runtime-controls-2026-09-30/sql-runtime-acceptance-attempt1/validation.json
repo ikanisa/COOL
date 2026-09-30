@@ -1,0 +1,128 @@
+{
+  "status": "pass",
+  "scope": "Local runtime-control SQL acceptance; L20 clients and complete acceptance remain open",
+  "captured_at_utc": "2026-09-30T15:45:28.269130+00:00",
+  "sources": {
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "scripts/tests/runtime_control_governance_uat.sql": "6e83bb6c16eb98f509ca12b70374458dbd296f5c8967ed7ac7bd8760ed0d434b",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json": "0ab73e7b7f9ec117fcf7b413bb8aa24ada0e4f8fc5c5194e8c6e6d28fc8c0446"
+  },
+  "evidence_hashes": {
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/after.json": "9fe622546b38b929841de6143ef518cc2a8d5bd31c9ee3f994f145d4b6cbdc90",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/backup-archive-list.txt": "5ea0f41d6c305bb6e2e3c67ab7361ea6734335c56e45ad0ac3d730827f41de54",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/before.json": "30586e67b7c2a5a37f5ce24a9123922ff398687e1ec31dabcad0607274967c64",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/checkpoint.json": "13508acb7a39e05f9ee6afbdae422e46fdbd233c4d0231e73c310b639c0d9ce9",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/executed-upgrade.sql": "50f285ae8599c7e0ee3fbe0a834e9747e590f827d5dca65ace67673826e449fc",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/recorder-sources/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/recorder-sources/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/result.json": "5799d07df795b2c9948667b608adee9a5b90a50893d96817a8262582b98726c8",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/reviewed-source.sql": "e449a7a6ca408ad1f3ce357adbd8c197f4de02c8f080e3c09267d3ee8cb29c13",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/release/runtime-controls-2026-09-30/install147-normal-owner-attempt1/stdout": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/after.json": "7133f8c7f872b481ad6e682bec0394d0995c25ebb20f71c3073283e18e4baf08",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/backup-archive-list.txt": "faa8f83c119c36961f0fa95ef0f52a27849ce766ca43d016ccfc1364a9b90c0f",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/before.json": "9fe622546b38b929841de6143ef518cc2a8d5bd31c9ee3f994f145d4b6cbdc90",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/checkpoint.json": "24406f421ce57f7c8f24b7e9f95a5564191a4ab3c95142eccec5c69144e88b1f",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/recorder-sources/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/recorder-sources/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/result.json": "4795f614657c030c44b850040339e0e801234ab262a3b8b18a4084450027d400",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/reviewed-source.sql": "c12826e7152cd019259e45517a431e264884a582f61a8370f2800e23b9b02bbc",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/release/runtime-controls-2026-09-30/repair147-preference-read-attempt1/stdout": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/after.json": "7133f8c7f872b481ad6e682bec0394d0995c25ebb20f71c3073283e18e4baf08",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/backup-archive-list.txt": "b287c079e86efe41283108e45ce8efcf6717513f3768f00d58e9972cc8dacdab",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/before.json": "7133f8c7f872b481ad6e682bec0394d0995c25ebb20f71c3073283e18e4baf08",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/checkpoint.json": "59b9eb3f9297fd18d4cef8e619e6f10ece2d148a77e13e643147bc61cc82514e",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/recorder-sources/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/recorder-sources/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/result.json": "a619498fb1fce211f97045e0748abe4135a6c7d1ff153b55b060d5afa8f61f05",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/reviewed-source.sql": "6e83bb6c16eb98f509ca12b70374458dbd296f5c8967ed7ac7bd8760ed0d434b",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/stderr": "1f9157c93233bed58213bd0cee8a334a226b4b28e1b6d1cb1da7ed90e1408c0f",
+    "docs/release/runtime-controls-2026-09-30/uat147-rollback-attempt2/stdout": "571e1a436f1ac038de15002a231911f22282ebe00270b7a6aa4c2fb7a98a3ce4",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/after.json": "7133f8c7f872b481ad6e682bec0394d0995c25ebb20f71c3073283e18e4baf08",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/backup-archive-list.txt": "3eea6780447d01a49b6382c364601aa9b7329a2048b604e7a4dd17b923fb7af8",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/before.json": "7133f8c7f872b481ad6e682bec0394d0995c25ebb20f71c3073283e18e4baf08",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/checkpoint.json": "a4788971736caa11f2f9d9309e248a515c68324a326ee7ab276b95af14b0728d",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/harness-checkpoint.json": "80df3a530e7beba9c703e7fec472a7dee7508645bf4a352f9ea27cf50f7f4179",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/recorder-sources/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/recorder-sources/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/result.json": "0d463a0e54fbde49b2df3cb1bf186480df37b93512433c666c026d7d147888b5",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/source-hashes-after.json": "cb9a9d64a31f3fb35a3df1ef5d220365a046fd9fd07f609ad9c1f91ffbe29e39",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/source-hashes-before.json": "cb9a9d64a31f3fb35a3df1ef5d220365a046fd9fd07f609ad9c1f91ffbe29e39",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json": "0ab73e7b7f9ec117fcf7b413bb8aa24ada0e4f8fc5c5194e8c6e6d28fc8c0446",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/scripts/tests/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/scripts/tests/run_runtime_control_acceptance.py": "23f27d012f7b570a66dc09bae7386340fcba46f6447e1a30d8bc1ce7887aca72",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/scripts/tests/runtime_control_governance_uat.sql": "6e83bb6c16eb98f509ca12b70374458dbd296f5c8967ed7ac7bd8760ed0d434b",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/sources/supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/release/runtime-controls-2026-09-30/concurrency147-root-attempt2/stdout": "5f8596986cdc04c4a0706b362ba8bf2183ef6f9930c5939674ef462f1f466090"
+  },
+  "operations": {
+    "install147-normal-owner-attempt1": {
+      "actual_exit": 0,
+      "tables_before": 143,
+      "tables_after": 145,
+      "all_old_rows_preserved": true,
+      "exact_restore": false,
+      "cron_preserved": true
+    },
+    "repair147-preference-read-attempt1": {
+      "actual_exit": 0,
+      "tables_before": 145,
+      "tables_after": 145,
+      "all_old_rows_preserved": true,
+      "exact_restore": false,
+      "cron_preserved": true
+    },
+    "uat147-rollback-attempt2": {
+      "actual_exit": 0,
+      "tables_before": 145,
+      "tables_after": 145,
+      "all_old_rows_preserved": true,
+      "exact_restore": true,
+      "cron_preserved": true
+    },
+    "concurrency147-root-attempt2": {
+      "actual_exit": 0,
+      "tables_before": 145,
+      "tables_after": 145,
+      "all_old_rows_preserved": true,
+      "exact_restore": true,
+      "cron_preserved": true
+    }
+  },
+  "uat_assertions": 110,
+  "actual_blocking_races": 11,
+  "provider_calls": 0,
+  "hosted_calls": 0,
+  "current_live_guard": {
+    "net": "0",
+    "busy": 0,
+    "cron": "off",
+    "user": "postgres",
+    "count": 148,
+    "latest": "20260930160000",
+    "cron_dml": false,
+    "database": "postgres",
+    "superuser": false,
+    "stats_visible": true
+  },
+  "current_registry_source_sha256": {
+    "20260930150000": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "20260930160000": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+  },
+  "normal_owner_install_with_reviewed_one_expression_correction": true,
+  "preserved_failures": [
+    "uat147-rollback-attempt1",
+    "concurrency147-root-attempt1"
+  ],
+  "next_requirements": [
+    "Client v2 feature and notification preference acceptance",
+    "Final clean/populated corrected-source replay",
+    "Full source-bound local handover"
+  ],
+  "whole_L20_complete": false
+}

@@ -21,7 +21,7 @@ Purpose: review the entire Collect system, reproduce failures, improve the exist
 
 This scope covers the COOL/Collect repository and its deployed services. Sponsored groups such as Buri Munsi and Gikundiro are Collect product data here; this plan does not expand into unrelated application repositories.
 
-Design authority is solely [`revolut-design`](/Users/jeanbosco/.codex/skills/revolut-design/SKILL.md), including [`MOBILE-DESIGN-100`](/Users/jeanbosco/.codex/skills/revolut-design/references/mobile-design-100.md). Apply the skill's quality standard and operational procedures F01–F08, V01–V08, A01–A10, M01–M06, W01–W06, S01–S06 and P01–P08 where applicable. Repository contracts, screenshots and reports bind product evidence; they cannot override that authority.
+Design authority is solely [`revolut-design`](/Users/jeanbosco/.codex/skills/revolut-design/SKILL.md), including [`former mobile visual acceptance rule`](/Users/jeanbosco/.codex/skills/revolut-design/references/retired-mobile-review-rule.md). Apply the skill's quality standard and operational procedures F01–F08, V01–V08, A01–A10, M01–M06, W01–W06, S01–S06 and P01–P08 where applicable. Repository contracts, screenshots and reports bind product evidence; they cannot override that authority.
 
 Preserve Collect's identity, current routes/navigation, terminology, real content, geographic payment rails, permissions and business rules. Native Dark · Glow, Business/operator and public marketing comparators remain distinct cohorts. Map Home blue, Groups teal, Activity purple, Profile rewards-family violet/blue and WhatsApp login blue-indigo where applicable, with the correct quiet task/overlay and semantic treatments. These examples do not limit the colour/state inventory. Source marks and private account images remain reference-only. Keep legitimate existing Revolut/SEPA handoff terminology where it describes Collect's actual payment rail.
 
@@ -37,9 +37,6 @@ Discovery was performed on branch `codex/recovered-pro-g40-2026-09-10`, HEAD `ca
 | Test inventory | 73 Flutter test files, 12 integration test files, 11 Edge test files | File counts only; full tests have not been rerun for this plan |
 | Backend inventory | 124 local SQL migrations, 11 Edge Function entry points | Reconcile live state afresh; local counts do not prove deployment |
 | Design authority bundle | Skill `verify_bundle.py` passed | Bundle integrity only; full external collection and app fidelity remain separate |
-| Mobile contract | `--check-contract --json` returned `contract_valid` | Does not establish visual acceptance |
-| Android mobile design gate | Blocked; 20 findings at the initial evidence-validation stage | Restore/verify exact reference evidence, then rerun; this is not a complete count of UI defects |
-| CI target contract | CI calls missing `revolut-parity-evidence-consistency` | Repair the missing evidence check without weakening its intended enforcement |
 | Build capacity | Approximately 2.2 GiB available during discovery | Resolve build headroom before high-growth native builds |
 
 Additional tooling issues visible in source: the aggregate QA runner's format check can modify files; its fixture mode emits simulated pass records; and the local Edge gate lists five function entry points while the repository contains eleven. Audit those boundaries before using aggregate results. Simulated runner tests may test the runner itself, but must never count as product QA passes.
@@ -105,7 +102,7 @@ Capture native Android and iOS separately at supported compact/large sizes, land
 
 Inspect the actual selected reference and current target together. Correct shared tokens and components before route-specific layout. Recheck every affected consumer and all current owner annotations, including their related states. Preserve account data on existing signed-in devices.
 
-Exit: Android and iOS each have their own behavior, visual, accessibility, performance and resilience results. Browser fixtures cannot approve a native build. Production visual acceptance additionally requires exact artifact installation/readback and all MOBILE-DESIGN-100 reviews.
+Exit: Android and iOS each have their own behavior, visual, accessibility, performance and resilience results. Browser fixtures cannot approve a native build. Production visual acceptance additionally requires exact artifact installation/readback and all former mobile visual acceptance rule reviews.
 
 ### P5 — Review Admin and installed PWA workflows
 
@@ -186,11 +183,8 @@ Run from the workspace root unless noted. This map identifies reuse candidates, 
 | Tool paths | `source ../dev-env.sh` | Internal SDK/runtime paths; preserve pinned dependencies |
 | Format/analyze/tests | `dart format --output=none --set-exit-if-changed lib test integration_test`; `flutter analyze --no-pub`; `flutter test --no-pub --concurrency=1` | Record baseline, test failures and native/platform differences; inventory other owned Dart sources too |
 | Script/CI contracts | Existing `scripts/tests/`, `.github/workflows/`, `Makefile` | Select local tests after checking their behavior; validate referenced commands and all applicable entry points |
-| Hygiene | `make release-secret-scan`; `make collect-product-boundary-scan`; `make revolut-parity-source-hygiene` | Redacted output; distinguish stale evidence from runtime defect |
-| Design contract/tool tests | `make mobile-design-contract mobile-design-gate-test` | Validity is separate from full acceptance |
-| Android design acceptance | `make mobile-design-gate` | Mandatory fail-closed gate; no skipped cases or fake approval |
-| iOS design acceptance | `ruby scripts/qa/mobile_design_gate.rb --ios --json` | Separate platform/artifact result |
-| Reference bundle/gallery | Skill `scripts/verify_bundle.py`; `make review-gallery` | Verify collection separately; gallery never writes acceptance |
+| Hygiene | `make release-secret-scan`; `make collect-product-boundary-scan` | Redacted output; distinguish stale evidence from runtime defect |
+| Visual and interaction review | Current route/state, fixture and artifact inspections | Manual approval evidence only; no retired gate commands |
 | Migration/backend validation | `scripts/migrations/validate_supabase_migrations.sh`; `make supabase-linked-uat-local`; `make supabase-lifecycle-uat`; `make supabase-concurrent-join-uat`; `make supabase-edge-auth-uat` | Bind an isolated database; rollback alone does not neutralize external side effects |
 | Financial/security SQL | Existing `scripts/*uat.sql`, `scripts/tests/`, bank-transfer and Admin-security UAT | Run local synthetic fixtures; inspect wrappers for linked-production defaults |
 | Edge Functions | CI's Deno test/type-check discovery; `scripts/audits/collect_edge_function_local_gate.rb` | Expand/reconcile five-function helper scope to all eleven entry points; retain test discovery |

@@ -1,0 +1,40 @@
+{
+  "captured_at_utc": "2026-09-29T22:30:46.840161+00:00",
+  "status": "partial_verification_requires_realtime_delta_disposition",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "labels_and_port_verified": true,
+  "registry": "141:20260929180000",
+  "migration_applied": true,
+  "seed_verifier_result": "NOTIFICATION_SESSION_UPGRADE_PASS",
+  "preserved_domain_table_count": 123,
+  "changed_table_count": 1,
+  "delta": {
+    "public.app_realtime_events": {
+      "before": {
+        "rows": 560,
+        "sha256": "2ad472f60484e657bc798b68cb2f11b93c679b6eadd4b208451bf1d26ffe8254"
+      },
+      "after": {
+        "rows": 570,
+        "sha256": "a58053eb9b99fe8264d86a13d1cb9a70a8339d85e9926a64fe1718cfef9a6929"
+      }
+    }
+  },
+  "financial_evidence_unchanged": true,
+  "financial_fields": {
+    "evidence_rows": 21,
+    "payment_status": "reversed",
+    "financial_sha256": "575abcd0b980ba84f28c7922957edbc36ad0450943f46ec9881e14abb25d2527",
+    "receipt_journals": 1,
+    "provider_requests": 2,
+    "reversal_journals": 1,
+    "confirmed_balance_rwf": 0,
+    "provider_confirmations": 1
+  },
+  "runner_assertion": "after==before failed; app_realtime_events560→570 only",
+  "disposition": "Keep full-upgrade acceptance pending until these synthetic Realtime events are traced and complete baseline comparison is rerun. Do not reseed or rerun migration blindly.",
+  "provider_calls": false,
+  "cron_launch_active_jobs": false,
+  "pg_net_batch_size": 0,
+  "migration_sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+}

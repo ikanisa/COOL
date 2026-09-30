@@ -17,9 +17,13 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
         icon: const Icon(Icons.arrow_back_rounded),
       ),
       child: FutureBuilder<Map<String, dynamic>>(
-        future: ref
-            .read(adminRepositoryProvider)
-            .detail('admin_get_collect_transaction', id),
+        key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
+        future: ref.watch(
+          adminDetailRecordProvider((
+            rpc: 'admin_get_collect_transaction',
+            id: id,
+          )).future,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const AdminLoadingState(
@@ -39,7 +43,6 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
             return const AdminEmptyState(title: 'Transaction not found');
           }
           final rawSmsId = '${data['raw_sms_id'] ?? ''}'.trim();
-          final rawBankEventId = '${data['raw_bank_event_id'] ?? ''}'.trim();
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,6 +56,7 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
                   _adminHasPermission(identity, 'sms.raw.reveal')) ...[
                 const SizedBox(height: 16),
                 AdminSensitiveDataGate(
+                  key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
                   label: 'Raw transaction message',
                   onReveal: (reason) async {
                     final response = await ref
@@ -62,25 +66,6 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
                           'p_reason': reason,
                         });
                     return '${response['message'] ?? ''}';
-                  },
-                ),
-              ],
-              if (rawBankEventId.isNotEmpty &&
-                  _adminHasPermission(
-                    identity,
-                    'bank_evidence.raw.reveal',
-                  )) ...[
-                const SizedBox(height: 16),
-                AdminSensitiveDataGate(
-                  label: 'Raw diaspora account message',
-                  onReveal: (reason) async {
-                    final response = await ref
-                        .read(adminRepositoryProvider)
-                        .action('admin_reveal_raw_bank_evidence', {
-                          'p_event_id': rawBankEventId,
-                          'p_reason': reason,
-                        });
-                    return '${response['body'] ?? ''}';
                   },
                 ),
               ],
@@ -118,9 +103,13 @@ class AdminSmsDetailPage extends ConsumerWidget {
               icon: const Icon(Icons.arrow_back_rounded),
             ),
       child: FutureBuilder<Map<String, dynamic>>(
-        future: ref
-            .read(adminRepositoryProvider)
-            .detail('admin_get_sms_metadata', id),
+        key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
+        future: ref.watch(
+          adminDetailRecordProvider((
+            rpc: 'admin_get_sms_metadata',
+            id: id,
+          )).future,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const AdminLoadingState(
@@ -147,6 +136,7 @@ class AdminSmsDetailPage extends ConsumerWidget {
               if (identity?.permissions.contains('sms.raw.reveal') == true) ...[
                 const SizedBox(height: 16),
                 AdminSensitiveDataGate(
+                  key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
                   label: 'Raw MoMo receipt SMS',
                   onReveal: (reason) async {
                     final response = await ref
@@ -196,7 +186,10 @@ class AdminDetailPage extends ConsumerWidget {
               icon: const Icon(Icons.arrow_back_rounded),
             ),
       child: FutureBuilder<Map<String, dynamic>>(
-        future: ref.read(adminRepositoryProvider).detail(rpcName, id),
+        key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
+        future: ref.watch(
+          adminDetailRecordProvider((rpc: rpcName, id: id)).future,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return AdminLoadingState(
@@ -212,6 +205,14 @@ class AdminDetailPage extends ConsumerWidget {
             );
           }
           final data = snapshot.data ?? const {};
+          if (rpcName == 'admin_system_health') {
+            return AdminOperationalHealthPanel(
+              data: data,
+              clock: ref.watch(adminClockProvider),
+              onRefresh: () =>
+                  ref.read(adminRealtimeTickProvider.notifier).state += 1,
+            );
+          }
           if (data.isEmpty) {
             return const AdminEmptyState(title: 'Record not found');
           }
@@ -224,7 +225,6 @@ class AdminDetailPage extends ConsumerWidget {
                 id: id,
                 data: data,
               ),
-              _AdminBankDetailActions(rpcName: rpcName, id: id, data: data),
             ],
           );
         },
@@ -399,6 +399,27 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
               ],
               if (rpcName == 'admin_get_collection' &&
                   _adminHasPermission(identity, 'collections.moderate') &&
+                  _adminHasPermission(identity, 'users.read') &&
+                  data['creation_origin'] == 'admin_assisted' &&
+                  data['visibility'] == 'private' &&
+                  data['public_status'] == 'private' &&
+                  data['archived_at'] == null &&
+                  data['currency'] == 'RWF' &&
+                  data['diaspora_enabled'] == false) ...[
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () => createAdminAssistedGroup(
+                    context,
+                    ref,
+                    collectionId: id,
+                    onDone: () {},
+                  ),
+                  icon: const Icon(Icons.group_add_outlined),
+                  label: const Text('Add reviewed members'),
+                ),
+              ],
+              if (rpcName == 'admin_get_collection' &&
+                  _adminHasPermission(identity, 'collections.moderate') &&
                   data['is_platform_sponsored'] == true) ...[
                 const SizedBox(height: 12),
                 _AdminPlatformPublicGroupEditor(collectionId: id, data: data),
@@ -411,24 +432,28 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
   }
 
   Future<void> _retryNotification(BuildContext context, WidgetRef ref) async {
+    final scope = _AdminActionScope(ref);
     final reason = await showAdminReasonDialog(
       context,
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
       title: 'Retry notification delivery',
       actionLabel: 'Retry delivery',
     );
-    if (reason == null) return;
+    if (reason == null || !context.mounted || !scope.isCurrent) return;
     try {
-      await ref.read(adminRepositoryProvider).action(
-        'admin_retry_notification',
-        {'p_event_id': id, 'p_reason': reason},
-      );
+      await scope.repository.action('admin_retry_notification', {
+        'p_event_id': id,
+        'p_reason': reason,
+      });
+      if (!context.mounted || !scope.isCurrent) return;
       ref.read(adminRealtimeTickProvider.notifier).state += 1;
-      if (!context.mounted) return;
+      if (!context.mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Failed delivery returned to queue')),
       );
     } catch (error) {
-      if (!context.mounted) return;
+      if (!context.mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
@@ -440,21 +465,33 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
     WidgetRef ref,
     String entityType,
   ) async {
+    final scope = _AdminActionScope(ref);
     final note = await showAdminReasonDialog(
       context,
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
       title: 'Record operator note',
       actionLabel: 'Record note',
     );
-    if (note == null) return;
-    await ref.read(adminRepositoryProvider).action(
-      'admin_record_operator_note',
-      {'p_entity_type': entityType, 'p_entity_id': id, 'p_body': note},
-    );
-    ref.read(adminRealtimeTickProvider.notifier).state += 1;
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Operator note recorded')));
+    if (note == null || !context.mounted || !scope.isCurrent) return;
+    try {
+      await scope.repository.action('admin_record_operator_note', {
+        'p_entity_type': entityType,
+        'p_entity_id': id,
+        'p_body': note,
+      });
+      if (!context.mounted || !scope.isCurrent) return;
+      ref.read(adminRealtimeTickProvider.notifier).state += 1;
+      if (!context.mounted || !scope.isCurrent) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Operator note recorded')));
+    } catch (error) {
+      if (!context.mounted || !scope.isCurrent) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
+    }
   }
 }
 
@@ -465,6 +502,10 @@ int _detailInt(Object? value) {
 }
 
 String _adminActionErrorMessage(Object error) {
+  if (error is AdminSessionChanged) return error.toString();
+  if (error is FormatException) {
+    return 'The action was not acknowledged. Refresh the record before trying again.';
+  }
   final message = error.toString().toLowerCase();
   if (message.contains('last platform owner') ||
       message.contains('last admin')) {
@@ -579,39 +620,41 @@ class _AdminCollectionStatusButton extends ConsumerWidget {
   }
 
   Future<void> _updateStatus(BuildContext context, WidgetRef ref) async {
+    final scope = _AdminActionScope(ref);
     final reason = await showAdminReasonDialog(
       context,
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
       title: '$label group',
       actionLabel: label,
     );
-    if (reason == null) return;
+    if (reason == null || !context.mounted || !scope.isCurrent) return;
     final lifecycleAction = status == 'active' || status == 'inactive';
     try {
-      await ref
-          .read(adminRepositoryProvider)
-          .action(
-            lifecycleAction
-                ? 'admin_set_group_active'
-                : 'admin_update_collection_support_status',
-            lifecycleAction
-                ? {
-                    'p_collection_id': collectionId,
-                    'p_active': status == 'active',
-                    'p_reason': reason,
-                  }
-                : {
-                    'p_collection_id': collectionId,
-                    'p_status': status,
-                    'p_reason': reason,
-                  },
-          );
+      await scope.repository.action(
+        lifecycleAction
+            ? 'admin_set_group_active'
+            : 'admin_update_collection_support_status',
+        lifecycleAction
+            ? {
+                'p_collection_id': collectionId,
+                'p_active': status == 'active',
+                'p_reason': reason,
+              }
+            : {
+                'p_collection_id': collectionId,
+                'p_status': status,
+                'p_reason': reason,
+              },
+      );
+      if (!context.mounted || !scope.isCurrent) return;
       ref.read(adminRealtimeTickProvider.notifier).state += 1;
-      if (!context.mounted) return;
+      if (!context.mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Group updated: $label')));
     } catch (error) {
-      if (!context.mounted) return;
+      if (!context.mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
@@ -812,17 +855,19 @@ class _AdminPlatformPublicGroupEditorState
   }
 
   Future<void> _save() async {
+    final scope = _AdminActionScope(ref);
     if (!(_formKey.currentState?.validate() ?? false)) return;
     final reason = await showAdminReasonDialog(
       context,
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
       title: 'Update public group',
       actionLabel: 'Save changes',
     );
-    if (reason == null || !mounted) return;
+    if (reason == null || !mounted || !scope.isCurrent) return;
     setState(() => _working = true);
     try {
-      await ref
-          .read(adminRepositoryProvider)
+      await scope.repository
           .action('admin_update_platform_public_group_metadata', {
             'p_collection_id': widget.collectionId,
             'p_title': _title.text.trim(),
@@ -833,13 +878,14 @@ class _AdminPlatformPublicGroupEditorState
             'p_receiver_label': _receiverLabel.text.trim(),
             'p_reason': reason,
           });
+      if (!context.mounted || !scope.isCurrent) return;
       ref.read(adminRealtimeTickProvider.notifier).state += 1;
-      if (!mounted) return;
+      if (!mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Public group updated in Supabase')),
       );
     } catch (error) {
-      if (!mounted) return;
+      if (!mounted || !scope.isCurrent) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));

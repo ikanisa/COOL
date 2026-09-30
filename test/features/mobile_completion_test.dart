@@ -3,10 +3,8 @@ import '../fixtures/collect_repository_fixture.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
-import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
-import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
@@ -43,21 +41,19 @@ class _TestAuthOtpGateway implements AuthOtpGateway {
   }
 }
 
-const _diasporaProfile = CollectProfile(
+const _incompleteRwandaProfile = CollectProfile(
   id: 'local-user',
   publicId: '038491',
   whatsappPhone: '+250788123456',
-  countryCode: 'GB',
-  currencyCode: 'GBP',
-  revolutLink: 'https://revolut.me/collectmember',
-  revolutAccount: '000123456789',
+  countryCode: 'RW',
+  currencyCode: 'RWF',
 );
 
 class _TestSmsAccessChannel extends SmsAccessChannel {
   const _TestSmsAccessChannel();
 
   @override
-  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => enabled;
+  Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async => true;
 }
 
 class _PlatformOwnerRepository extends FixtureCollectRepository {
@@ -188,41 +184,26 @@ void main() {
     expect(find.text('Profile'), findsNothing);
   });
 
-  testWidgets('Buri Munsi never falls back to bank transfer by profile', (
+  testWidgets('incomplete Rwanda profile cannot start a contribution', (
     tester,
   ) async {
     final repository = FixtureCollectRepository(
-      profileOverride: _diasporaProfile,
+      profileOverride: _incompleteRwandaProfile,
     );
-
+    final priorIntents = repository.state.paymentIntents.length;
     await pumpRoute(
       tester,
       '/groups/col-public-savings-fixture/contribute',
       legalConsentAccepted: true,
       repository: repository,
     );
-
-    expect(find.text('MoMo contribution'), findsNothing);
-    expect(
-      find.text('Enter your contribution in Rwanda francs.'),
-      findsNothing,
-    );
-    expect(find.text('1 / 2'), findsNothing);
-    expect(find.text('Quick pick'), findsOneWidget);
-    expect(find.text('IKANISA LTD'), findsOneWidget);
-    expect(find.text('41258'), findsOneWidget);
-    expect(find.textContaining('MTN MoMo'), findsNothing);
-    expect(find.textContaining('MoMo receiver'), findsNothing);
-    expect(find.text('Approve in MoMo'), findsNothing);
-    expect(find.textContaining('secure MTN MoMo prompt'), findsNothing);
-    expect(find.text('1,000'), findsOneWidget);
-    expect(find.text('2,000'), findsOneWidget);
-    expect(find.text('5,000'), findsOneWidget);
-    expect(find.text('10,000'), findsOneWidget);
-    expect(find.text('20,000'), findsNothing);
-    expect(find.text('50,000'), findsNothing);
-    expect(find.text('Bank transfer'), findsNothing);
-    expect(find.text('EUR '), findsNothing);
+    await tester.enterText(find.byType(TextField).first, '1000');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('native_profile_editor')), findsOneWidget);
+    expect(repository.state.paymentIntents, hasLength(priorIntents));
+    expect(find.text('Review transfer'), findsNothing);
   });
 
   testWidgets('MoMo payee stays complete at narrow width and large text', (
@@ -492,7 +473,7 @@ void main() {
       '/settings',
       legalConsentAccepted: true,
       repository: FixtureCollectRepository(
-        profileOverride: _diasporaProfile.copyWith(revolutAccount: ''),
+        profileOverride: _incompleteRwandaProfile,
       ),
     );
 
@@ -947,101 +928,6 @@ void main() {
     }
   });
 
-  testWidgets('contribution review reuses an exact pending bank request', (
-    tester,
-  ) async {
-    final repository = FixtureCollectRepository(
-      profileOverride: _diasporaProfile,
-    );
-    final pendingIntent = await repository.createPaymentIntent(
-      const PaymentIntentDraft(
-        collectionId: 'qa-private-group',
-        amountRwf: 15000,
-      ),
-    );
-    await pumpRoute(
-      tester,
-      '/groups/qa-private-group/contribute',
-      legalConsentAccepted: true,
-      repository: repository,
-    );
-
-    await tester.enterText(find.byType(TextField).first, '150.00');
-    await tester.pump();
-    await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
-    await tester.pump();
-
-    expect(find.text('Review transfer'), findsWidgets);
-    expect(find.text(pendingIntent.transferReference), findsOneWidget);
-    expect(find.text('Open Revolut'), findsOneWidget);
-    expect(repository.state.paymentIntents, hasLength(2));
-  });
-
-  testWidgets('contribution review replaces an expired bank request', (
-    tester,
-  ) async {
-    SharedPreferences.setMockInitialValues({});
-    const cache = CollectOfflineCache(
-      preferencesKey: 'collect.offline_snapshot.expired_intent_widget_test',
-    );
-    final seeded = FixtureCollectRepository(profileOverride: _diasporaProfile);
-    final now = DateTime.now();
-    await cache.save(
-      CollectOfflineSnapshot(
-        savedAt: now,
-        currentProfile: seeded.state.currentProfile,
-        collections: seeded.state.collections,
-        paymentIntents: [
-          PaymentIntentModel(
-            id: 'expired-intent',
-            collectionId: 'qa-private-group',
-            expectedAmountMinor: 15000,
-            rail: 'diaspora_bank',
-            transferReference: 'COL-EXPIRED001',
-            destination: const BankTransferDestination(
-              id: 'fixture-bank',
-              beneficiaryName: 'IKANISA Collect',
-              iban: 'DE89370400440532013000',
-              ibanMasked: 'DE89••••3000',
-              bic: 'COBADEFFXXX',
-              bankName: 'Collect Bank',
-              status: 'active',
-              enabled: true,
-            ),
-            status: 'awaiting_transfer',
-            createdAt: now.subtract(const Duration(days: 2)),
-            expiresAt: now.subtract(const Duration(days: 1)),
-          ),
-        ],
-        contributions: seeded.state.contributions,
-      ),
-    );
-    final repository = FixtureCollectRepository(
-      seeded: false,
-      offlineCache: cache,
-    );
-    expect(
-      await repository.restoreOfflineSnapshot(reason: 'offline fixture'),
-      isTrue,
-    );
-    await pumpRoute(
-      tester,
-      '/groups/qa-private-group/contribute',
-      legalConsentAccepted: true,
-      repository: repository,
-    );
-
-    await tester.enterText(find.byType(TextField).first, '150.00');
-    await tester.pump();
-    await tester.tap(find.widgetWithText(FilledButton, 'Review transfer'));
-    await tester.pump();
-
-    expect(find.text('Review transfer'), findsWidgets);
-    expect(find.text('COL-EXPIRED001'), findsNothing);
-    expect(find.text('Open Revolut'), findsOneWidget);
-    expect(repository.state.paymentIntents, hasLength(2));
-  });
-
   testWidgets('auth screen removes legacy decorative WhatsApp chrome', (
     tester,
   ) async {
@@ -1060,7 +946,7 @@ void main() {
       expect(find.bySemanticsLabel('WhatsApp'), findsNothing);
       expect(
         find.byKey(const ValueKey('auth_country_code_picker')),
-        findsOneWidget,
+        findsNothing,
       );
       expect(
         find.byKey(const ValueKey('auth_whatsapp_phone_input')),
@@ -1084,7 +970,7 @@ void main() {
       authOtpGateway: authOtpGateway,
     );
 
-    await tester.enterText(find.byType(TextField).first, '+250700000001');
+    await tester.enterText(find.byType(TextField).first, '+250788000001');
     await tester.pump();
     expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
     await tester.tap(find.text('Send WhatsApp code'));
@@ -1098,7 +984,7 @@ void main() {
     await tester.tap(find.text('Edit number'));
     await tester.pumpAndSettle();
     expect(find.text('OTP'), findsNothing);
-    expect(find.text('+250700000001'), findsOneWidget);
+    expect(find.text('+250788000001'), findsOneWidget);
 
     await tester.tap(find.text('Send WhatsApp code'));
     await tester.pumpAndSettle();
@@ -1136,89 +1022,38 @@ void main() {
     expect(find.byIcon(CollectIcons.people), findsWidgets);
     expect(find.text('0 supported groups'), findsNothing);
     expect(find.text('WhatsApp verified.'), findsNothing);
-    expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
+    expect(repository.state.currentProfile?.whatsappPhone, '+250788000001');
     expect(repository.state.collections, isEmpty);
     expect(repository.state.contributions, isEmpty);
   });
 
-  testWidgets('auth country code chip opens all-country picker', (
-    tester,
-  ) async {
+  testWidgets('auth fixes Rwanda calling code', (tester) async {
     await pumpRoute(tester, '/auth', legalConsentAccepted: true);
-
+    expect(find.text('+250'), findsOneWidget);
     expect(
       find.byKey(const ValueKey('auth_country_code_picker')),
-      findsOneWidget,
+      findsNothing,
     );
-    expect(find.text('+250'), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('auth_country_code_picker')));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Search country'), findsOneWidget);
-    expect(find.textContaining('Rwanda'), findsWidgets);
-    expect(find.textContaining('+250'), findsWidgets);
-
-    await tester.tap(find.byKey(const ValueKey('auth_country_row_AF_93')));
-    await tester.pumpAndSettle();
-
-    expect(find.byKey(const ValueKey('auth_country_list')), findsNothing);
-    expect(find.text('+93'), findsOneWidget);
   });
 
-  testWidgets('country picker preserves full codes and names at 200% text', (
+  testWidgets('Rwanda calling code remains visible at 200% text', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-
-    await tester.pumpWidget(
-      MaterialApp(
-        theme: AppTheme.dark(),
-        home: MediaQuery(
-          data: MediaQueryData.fromView(
-            tester.view,
-          ).copyWith(textScaler: const TextScaler.linear(2)),
-          child: const Scaffold(body: AuthCountryPickerSheet()),
-        ),
-      ),
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await pumpRoute(tester, '/auth', legalConsentAccepted: true, textScale: 2);
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('auth_whatsapp_phone_input')),
+      200,
+      scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
-
-    final longCode = find.byKey(const ValueKey('auth_country_code_AS_1684'));
-    await tester.scrollUntilVisible(
-      longCode,
-      160,
-      scrollable: find.descendant(
-        of: find.byKey(const ValueKey('auth_country_list')),
-        matching: find.byType(Scrollable),
-      ),
-    );
-    await tester.pump();
-
-    final codeText = tester.widget<Text>(longCode);
-    expect(codeText.data, '+1684');
-    expect(codeText.maxLines, 1);
-    expect(codeText.softWrap, isFalse);
-    expect(tester.getSize(longCode).width, greaterThan(45));
-
-    final countryName = find.byKey(const ValueKey('auth_country_name_AS_1684'));
-    final countryNameText = tester.widget<Text>(countryName);
-    final countryNameParagraph = tester.renderObject<RenderParagraph>(
-      countryName,
-    );
-    expect(countryNameText.data, 'American Samoa');
-    expect(countryNameText.maxLines, isNull);
-    expect(countryNameText.softWrap, isTrue);
-    expect(countryNameParagraph.didExceedMaxLines, isFalse);
-    expect(
-      countryNameParagraph.textScaler.scale(
-        countryNameParagraph.text.style?.fontSize ?? 14,
-      ),
-      (countryNameParagraph.text.style?.fontSize ?? 14) * 2,
-    );
+    expect(find.text('+250'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -1446,90 +1281,41 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets(
-    'profile country updates currency without changing verified WhatsApp',
-    (tester) async {
-      SharedPreferences.setMockInitialValues({});
-      // Earlier widget tests may leave unawaited writes in their disposed fake
-      // async zone. This persistence journey owns its cache key and write queue.
-      const cache = CollectOfflineCache(
-        preferencesKey: 'mobile_completion.profile_country',
-      );
-      final repository = FixtureCollectRepository(
-        smsAccessChannel: const _TestSmsAccessChannel(),
-        offlineCache: cache,
-      );
-      final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
-      await pumpRoute(
-        tester,
-        '/settings/profile',
-        repository: repository,
-        legalConsentAccepted: true,
-      );
-
-      await tester.scrollUntilVisible(
-        find.byKey(const ValueKey('profile_country_picker')),
-        240,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pump();
-      expect(find.text('WhatsApp'), findsOneWidget);
-      expect(find.textContaining(verifiedWhatsApp), findsOneWidget);
-      expect(find.text('Rwanda · RWF'), findsOneWidget);
-      expect(
-        find.byKey(const ValueKey('profile_revolut_name_input')),
-        findsNothing,
-      );
-
-      await tester.tap(find.byKey(const ValueKey('profile_country_picker')));
-      await tester.pumpAndSettle();
-      await tester.enterText(
-        find.byKey(const ValueKey('auth_country_search_input')),
-        'United Kingdom',
-      );
-      await tester.pump();
-      await tester.tap(find.byKey(const ValueKey('auth_country_row_GB_44')));
-      await tester.pumpAndSettle();
-
-      expect(find.text('United Kingdom · GBP'), findsOneWidget);
-      expect(
-        find.byKey(const ValueKey('profile_revolut_name_input')),
-        findsNothing,
-      );
-      expect(find.text('Name'), findsNothing);
-      expect(find.text('Account name'), findsNothing);
-      expect(
-        find.byKey(const ValueKey('profile_revolut_link_input')),
-        findsNothing,
-      );
-      await tester.scrollUntilVisible(
-        find.byKey(const ValueKey('profile_revolut_account_input')),
-        160,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.enterText(
-        find.descendant(
-          of: find.byKey(const ValueKey('profile_revolut_account_input')),
-          matching: find.byType(TextField),
-        ),
-        '000123456789',
-      );
-      await tester.pump();
-      await pressFilledButton(tester, 'Save');
-      expect(find.text('Profile saved.'), findsOneWidget);
-
-      final updated = repository.state.currentProfile!;
-      expect(updated.whatsappPhone, verifiedWhatsApp);
-      expect(updated.countryCode, 'GB');
-      expect(updated.currencyCode, 'GBP');
-      expect(updated.isComplete, isTrue);
-      final persisted = (await cache.read())!.currentProfile!;
-      expect(persisted.whatsappPhone, verifiedWhatsApp);
-      expect(persisted.countryCode, 'GB');
-      expect(persisted.currencyCode, 'GBP');
-      expect(persisted.revolutAccount, '000123456789');
-    },
-  );
+  testWidgets('Rwanda MoMo profile saves without changing verified WhatsApp', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    const cache = CollectOfflineCache(
+      preferencesKey: 'mobile_completion.rwanda_profile',
+    );
+    final repository = FixtureCollectRepository(
+      smsAccessChannel: const _TestSmsAccessChannel(),
+      offlineCache: cache,
+    );
+    final verifiedWhatsApp = repository.state.currentProfile!.whatsappPhone;
+    await pumpRoute(
+      tester,
+      '/settings/profile',
+      repository: repository,
+      legalConsentAccepted: true,
+    );
+    final field = find.descendant(
+      of: find.byKey(const ValueKey('profile_momo_number_input')),
+      matching: find.byType(TextField),
+    );
+    await tester.scrollUntilVisible(
+      field,
+      160,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.enterText(field, '0788123457');
+    await tester.pump();
+    await pressFilledButton(tester, 'Save');
+    expect(repository.state.currentProfile!.whatsappPhone, verifiedWhatsApp);
+    expect(repository.state.currentProfile!.countryCode, 'RW');
+    expect(repository.state.currentProfile!.currencyCode, 'RWF');
+    expect((await cache.read())!.currentProfile!.momoNumber, '0788123457');
+  });
 
   testWidgets('home groups and activity sections support large text', (
     tester,

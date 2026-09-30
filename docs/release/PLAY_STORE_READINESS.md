@@ -1,6 +1,6 @@
 # Play Store Readiness
 
-Status date: 2026-09-01
+Status date: 2026-09-28. The 1 September control-plane readback below is historical; revalidate it for the current Rwanda-only source and signed package before release.
 
 Use this file as the concise Play readiness index. Store metadata lives under
 `fastlane/metadata/android/en-US/`, and structured Play Console evidence lives
@@ -16,6 +16,7 @@ Current boundaries:
 - Store listing, Data safety, app access, testing track, vitals, and reporting
   evidence must be refreshed from Play Console before any new external claim.
 - Do not submit Play Console changes without explicit recorded owner approval.
+- The current Rwanda-only listing draft is synchronized between Fastlane metadata and the Play packet. Current APK/AAB hashes are absent, screenshots require refresh, and restricted-SMS approval remains pending; old candidate hashes are not release evidence.
 
 ## Play Integrity
 

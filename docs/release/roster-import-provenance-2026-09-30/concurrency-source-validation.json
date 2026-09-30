@@ -1,0 +1,40 @@
+{
+  "captured_at_utc": "2026-09-29T23:16:03.278786+00:00",
+  "scope": "Source and Ruby syntax only; root owns database rehearsal and execution",
+  "commands": [
+    {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/roster_import_provenance_concurrency_uat.rb"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/roster_import_provenance_recovery_uat.rb"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "runtime": "ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]",
+  "source_before": {
+    "scripts/tests/roster_import_provenance_concurrency_uat.rb": "94fd6a7e7859ad2f220b88cf6419dcc99f46701411fd32eafc33ccd1f4a1e1b9",
+    "scripts/tests/roster_import_provenance_recovery_uat.rb": "0b3dc92c4e6f0edf4a7673b772c492dcd82587612ff82a294c3024e86df40bcb",
+    "scripts/tests/roster_import_provenance_receipts_uat.sql": "126e8179af488095d86b44c72deb3a580a6eebdec43fd7f6e52506970f3220e4",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+  },
+  "source_after": {
+    "scripts/tests/roster_import_provenance_concurrency_uat.rb": "94fd6a7e7859ad2f220b88cf6419dcc99f46701411fd32eafc33ccd1f4a1e1b9",
+    "scripts/tests/roster_import_provenance_recovery_uat.rb": "0b3dc92c4e6f0edf4a7673b772c492dcd82587612ff82a294c3024e86df40bcb",
+    "scripts/tests/roster_import_provenance_receipts_uat.sql": "126e8179af488095d86b44c72deb3a580a6eebdec43fd7f6e52506970f3220e4",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+  },
+  "source_drift": [],
+  "db_calls": 0,
+  "provider_calls": 0,
+  "failed_attempt_preserved": "sources/concurrency-attempt1-c2c49f80.rb",
+  "correction": "Attribute PostgreSQL child XIDs through exact owned graph rows, persist root-selected checkpoint before mutation, and show per-table cleanup residuals."
+}

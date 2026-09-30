@@ -1,8 +1,7 @@
+import {boundedJson,publicFailure,requireReceiptContract,PublicError} from "../_shared/production_contract.ts";
 import {
-  authErrorStatus,
   corsHeaders,
   jsonResponse,
-  safeErrorMessage,
 } from "../_shared/cors.ts";
 import { requireInternalRequest, serviceClient } from "../_shared/supabase.ts";
 import { hashPhone, sha256Hex } from "../_shared/hash.ts";
@@ -11,21 +10,11 @@ import { normalizeMomoName, parseMomoSms } from "../_shared/momo_sms_parser.ts";
 const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-async function finalizeIfAvailable(
-  supabase: ReturnType<typeof serviceClient>,
-  rawSmsId: string,
-) {
-  const contract = await supabase.rpc("attested_sms_contract_version");
-  const contractMissing = contract.error?.code === "PGRST202" ||
-    /could not find the function/i.test(contract.error?.message ?? "");
-  if (contract.error && !contractMissing) throw contract.error;
-  if (contract.data !== 1) return { status: "legacy_contract" };
-  const { data, error } = await supabase.rpc(
-    "finalize_attested_payment_sms",
-    { p_raw_sms_id: rawSmsId },
-  );
-  if (error) throw error;
-  return data;
+async function finalityStatus(supabase: ReturnType<typeof serviceClient>) {
+  const contract=await supabase.rpc("attested_sms_contract_version");
+  if (contract.error) throw new PublicError("receipt_contract_unavailable",503);
+  requireReceiptContract(contract.data);
+  return {status:"awaiting_reconciliation",evidence_level:"sms_observed"};
 }
 
 Deno.serve(async (req) => {
@@ -39,7 +28,7 @@ Deno.serve(async (req) => {
   let leaseId: string | null = null;
   try {
     requireInternalRequest(req);
-    const payload = await req.json();
+    const payload = await boundedJson(req);
     rawSmsId = typeof payload?.raw_sms_id === "string"
       ? payload.raw_sms_id.trim()
       : null;
@@ -47,6 +36,7 @@ Deno.serve(async (req) => {
       return jsonResponse({ error: "raw_sms_id must be a UUID" }, 400);
     }
     const supabase = serviceClient();
+    await finalityStatus(supabase);
     const { data: existing, error: existingError } = await supabase
       .from("parsed_payment_events")
       .select("id, allocation_status, parser_model")
@@ -54,6 +44,18 @@ Deno.serve(async (req) => {
       .maybeSingle();
     if (existingError) throw existingError;
     if (existing) {
+      // An event can commit just before a worker loses its parse lease. A
+      // retry repairs the raw-row state from that durable event before ACK.
+      const { data: repaired, error: repairError } = await supabase
+        .from("raw_payment_sms")
+        .update({ parse_status: "parsed", parse_started_at: null, parse_lease_id: null })
+        .eq("id", rawSmsId)
+        .select("id")
+        .maybeSingle();
+      if (repairError) throw repairError;
+      if (repaired?.id !== rawSmsId) {
+        throw new PublicError("receipt_parse_state_unavailable", 503);
+      }
       const { data: allocation, error: allocationError } =
         existing.allocation_status === "unallocated"
           ? await supabase.rpc("allocate_parsed_payment_event", {
@@ -61,7 +63,7 @@ Deno.serve(async (req) => {
           })
           : { data: existing.allocation_status, error: null };
       if (allocationError) throw allocationError;
-      const finality = await finalizeIfAvailable(supabase, rawSmsId);
+      const finality = await finalityStatus(supabase);
       return jsonResponse({
         ok: true,
         parsed_event_id: existing.id,
@@ -122,7 +124,7 @@ Deno.serve(async (req) => {
       .select("id")
       .single();
     if (insertError) throw insertError;
-    const { error: completionError } = await supabase
+    const { data: completed, error: completionError } = await supabase
       .from("raw_payment_sms")
       .update({
         parse_status: "parsed",
@@ -130,14 +132,21 @@ Deno.serve(async (req) => {
         parse_lease_id: null,
       })
       .eq("id", rawSmsId)
-      .eq("parse_lease_id", leaseId);
+      .eq("parse_lease_id", leaseId)
+      .select("id")
+      .maybeSingle();
     if (completionError) throw completionError;
+    // PostgREST reports zero matched rows as a successful UPDATE. A stale
+    // worker must not return a completed parse after another worker owns it.
+    if (completed?.id !== rawSmsId) {
+      throw new PublicError("receipt_parse_lease_lost", 503);
+    }
     const { data: allocation, error: allocationError } = await supabase.rpc(
       "allocate_parsed_payment_event",
       { event_id: event.id },
     );
     if (allocationError) throw allocationError;
-    const finality = await finalizeIfAvailable(supabase, rawSmsId);
+    const finality = await finalityStatus(supabase);
     return jsonResponse({
       ok: true,
       parsed_event_id: event.id,
@@ -153,7 +162,7 @@ Deno.serve(async (req) => {
         parse_lease_id: null,
       }).eq("id", rawSmsId).eq("parse_lease_id", leaseId);
     }
-    const authStatus = authErrorStatus(error) ?? 502;
-    return jsonResponse({ error: safeErrorMessage(error) }, authStatus);
+    const failure=publicFailure(error);
+    return jsonResponse({error:failure.error},failure.status);
   }
 });

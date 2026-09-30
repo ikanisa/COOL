@@ -200,7 +200,13 @@ void main() {
       await client.auth.signOut(scope: SignOutScope.local);
       response.complete(http.Response(jsonEncode(_receipt), 200));
       await assertion;
-      expect(repo.state, same(before));
+      expect(repo.state, isNot(same(before)));
+      expect(repo.state.currentProfile, isNull);
+      expect(repo.state.collections, isEmpty);
+      expect(repo.state.paymentIntents, isEmpty);
+      expect(repo.state.contributions, isEmpty);
+      expect(repo.state.collectionSummaries, isEmpty);
+      expect(repo.state.historyPage, isNull);
     },
   );
 }

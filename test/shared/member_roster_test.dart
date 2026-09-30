@@ -19,7 +19,6 @@ const _own = <String, Object?>{
   'joined_at': '2026-09-01T00:00:00Z',
   'amount_scope': 'own',
   'contributions': [
-    {'currency': 'EUR', 'amount_minor': 12345},
     {'currency': 'RWF', 'amount_minor': 3000},
   ],
 };
@@ -98,9 +97,9 @@ void main() {
       final row = CollectMember.fromJson(_own);
       expect(row.publicId, '038491');
       expect(row.role, 'admin');
-      expect(row.contributionTotals, {'EUR': 12345, 'RWF': 3000});
+      expect(row.contributionTotals, {'RWF': 3000});
       expect(row.contributionCaption, 'Your contributions');
-      expect(() => row.contributionTotals['EUR'] = 0, throwsUnsupportedError);
+      expect(() => row.contributionTotals['RWF'] = 0, throwsUnsupportedError);
       final shared = CollectMember.fromJson(
         Map<String, dynamic>.of(_own)
           ..addAll(const {'public_id': '123456', 'amount_scope': 'shared'}),
@@ -184,7 +183,7 @@ void main() {
     addTearDown(repo.dispose);
     final members = await repo.membersForCollection('qa-private-group');
     expect(members.single.role, 'admin');
-    expect(members.single.contributionTotals['EUR'], 12345);
+    expect(members.single.contributionTotals['RWF'], 3000);
   });
   test(
     'missing authentication never falls back to a synthetic live roster',

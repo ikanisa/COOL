@@ -70,10 +70,9 @@ queue mutations, zero provider sends and no credentials printed. The existing
 automation was updated through the Codex tool, not duplicated; its return
 confirms ACTIVE status and its prompt preserves the no-send boundary.
 
-Independent release check: `make mobile-design-gate` currently **BLOCKED** on
-mobile approval, stale/absent acceptance hashes/version, open findings and
-missing/mismatched APK/AAB build evidence. No mobile design file, baseline or
-acceptance was changed to hide this result.
+Independent release evidence remained **BLOCKED** on approval, stale/absent
+acceptance hashes/version, open findings and missing/mismatched APK/AAB build
+evidence. No baseline or acceptance was changed to hide this result.
 
 The physical gates remain: confirm which handset receives merchant 41258
 M-Money receipts, obtain a real feature-phone member's complete identity, verify

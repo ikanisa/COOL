@@ -1,0 +1,13 @@
+{
+  "flutter": "3.44.4",
+  "dart": "3.12.2",
+  "deno": "2.5.6",
+  "sha256": {
+    "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "/Volumes/PRO-G40/Development/User-Developer/flutter/bin/cache/dart-sdk/bin/dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-qa-20260929/hosted/pub.dev/gotrue-2.27.1/lib/src/gotrue_client.dart": "ddf36b5f8edc8ac83fbbd7d7a1d6afa7a4ff5523baa5bd8540c0345769c9159d",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-qa-20260929/hosted/pub.dev/gotrue-2.27.1/lib/src/gotrue_mfa_api.dart": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/package_config.json": "c488913db1fe9f85c30f9e6a8920059aa9fbf869747fe0ec4446664992aa28b6"
+  }
+}

@@ -1,0 +1,6 @@
+{"role":"service_role"}
+{"replayed": false, "payment_id": "783a3b00-5a11-4c6c-a5dc-ac91cbdeaa51"}
+BUG_CHANGED_AMOUNT_ACCEPTED:{"replayed": false, "payment_id": "783a3b00-5a11-4c6c-a5dc-ac91cbdeaa51"}
+BUG_SAME_HASH_CHANGED_INPUT_REPLAY:{"replayed": true, "payment_id": "783a3b00-5a11-4c6c-a5dc-ac91cbdeaa51"}
+{"role":"service_role"}
+BUG_WRONG_REJECTION_IDENTITY_ACCEPTED:{"replayed": false, "payment_id": "783a3b00-5a11-4c6c-a5dc-ac91cbdeaa51"}

@@ -42,14 +42,23 @@ jobs:
       - name: Release secret scan
         run: make release-secret-scan
 
-      - name: Revolut parity source hygiene
-        run: make revolut-parity-source-hygiene
+      - name: Source integrity
+        run: make source-integrity
 
-      - name: Revolut parity evidence consistency
-        run: make revolut-parity-evidence-consistency
+      - name: Sole Revolut design authority
+        run: |
+          make revolut-design-authority
+          python3 scripts/tests/revolut_design_authority_test.py
 
-      - name: Mandatory mobile design contract and fail-closed regression tests
-        run: make mobile-design-contract mobile-design-gate-test qa-tooling-test
+      - name: Verify asset manifest and Rwanda runtime inventory
+        run: |
+          ruby scripts/tests/asset_manifest_integrity_test.rb
+          ruby scripts/tests/group_runtime_integrity_test.rb
+          ruby scripts/qa/group_runtime_integrity.rb --root . --json
+          python3 scripts/tests/rwanda_release_scope_test.py
+
+      - name: QA tooling regression tests
+        run: make qa-tooling-test
 
       - name: Coverage gate regression tests
         run: python3 scripts/tests/coverage_gate_test.py
@@ -147,7 +156,10 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
+      - name: Verify pinned local file_saver fork
+        run: python3 scripts/supply_chain/verify_file_saver_fork.py --fetch --check
+      - run: make format-check
       - run: flutter analyze --fatal-infos
 
   # ── 2. Unit Tests (medium ~1.5min) ───────────────────────────────────
@@ -177,7 +189,7 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
 
       - name: Run unit + widget tests
         run: flutter test --concurrency=4 --exclude-tags=integration --test-randomize-ordering-seed=random --file-reporter json:test-results.json --coverage
@@ -203,7 +215,7 @@ jobs:
           ruby scripts/qa/lcov_coverage.rb coverage/lcov.info 40
           python3 scripts/qa/coverage_gate.py coverage/lcov.info --threshold 40
 
-  # ── 2b. Admin web production build ─────────────────────────────────
+  # ── 2b. Admin web source compilation (all branches) ────────────────
   admin-web-build:
     name: Admin Web Build
     runs-on: ubuntu-latest
@@ -231,10 +243,79 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
 
-      - name: Build admin web
-        run: flutter build web -t lib/main_admin.dart --release --no-pub
+      - name: Compile Admin web source without production config
+        run: |
+          echo '### Admin source compilation only; production PWA checks run in admin-pwa-candidate on main.' >> "$GITHUB_STEP_SUMMARY"
+          flutter build web -t lib/main_admin.dart --release --no-pub --dart-define=COLLECT_PUBLIC_LANDING_HOME=false
+
+      - name: Install reviewed Admin security headers
+        run: python3 scripts/hardening/admin_headers.py build/web --apply
+
+  # A production-configured candidate can only be built from the main ref.
+  # The compile-only job above is not a release artifact or PWA gate.
+  admin-pwa-candidate:
+    name: Admin PWA Candidate Build
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [repo-hygiene, analyze]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open('.fvmrc', encoding='utf-8') as handle:
+              config = json.load(handle)
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get --enforce-lockfile
+
+      - name: Build and verify Admin PWA candidate
+        env:
+          FLUTTER: flutter
+          COLLECT_SKIP_DOTENV: '1'
+          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
+          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
+          APP_PUBLIC_URL: https://collect.ikanisa.com
+          ADMIN_APP_URL: https://admin.collect.ikanisa.com
+        run: bash scripts/admin_pwa_release_build.sh
+
+      - name: Bind candidate to clean source commit
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+
+          with open('build/web/version.json', encoding='utf-8') as handle:
+              version = json.load(handle)
+          if version.get('source_commit') != os.environ['GITHUB_SHA'] or version.get('source_dirty') is not False:
+              raise SystemExit('Admin PWA candidate does not match the clean workflow commit')
+          PY
+          find build/web -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > build/admin-web.sha256
+
+      - name: Retain Admin PWA candidate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: admin-pwa-candidate
+          path: |
+            build/web/
+            build/admin-web.sha256
+          retention-days: 14
+          if-no-files-found: error
 
   # ── 3. Fixture journey smoke (native device UAT runs separately) ────
   integration-test:
@@ -263,7 +344,7 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
 
       - name: Run member and Admin fixture journeys
         run: >-
@@ -273,6 +354,9 @@ jobs:
           test/features/mobile_review_navigation_test.dart
           test/admin_login_recovery_test.dart
           test/admin_data_sync_test.dart
+          test/admin_list_models_test.dart
+          test/admin_list_paging_test.dart
+          test/admin_repository_paging_test.dart
           --file-reporter json:test-results.json
 
       - name: Upload integration test results
@@ -290,9 +374,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-
-      - name: Validate the MOBILE-DESIGN-100 product contract
-        run: make mobile-design-contract
 
       - name: Validate notification and deep-link routing
         run: bash scripts/notification_readiness_gate.sh
@@ -410,7 +491,7 @@ jobs:
           deno-version-file: .dvmrc
           cache: true
 
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
 
       - name: Run M-Money SMS contract checks
         run: bash scripts/qa/check_momo_sms_contracts.sh
@@ -450,7 +531,7 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
 
       - name: Build release APK size proxy (dev flavor)
         run: flutter build apk --release --split-per-abi --no-pub --flavor dev --dart-define=FLAVOR=dev

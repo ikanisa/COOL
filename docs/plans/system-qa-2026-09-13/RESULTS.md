@@ -61,8 +61,6 @@ the test checkout. No production data or schema was modified.
 | Source design hygiene | Pass | `source-hygiene.log` |
 | Secret scan | Pass using tracked-file fallback; gitleaks is unavailable | `secret-scan.log` |
 | Notification route contract | Pass | `notification-contract.log` |
-| Mobile design contract structure | Valid, not visual acceptance | `mobile-design-contract.log` |
-| Mobile design release gate | Blocked | `mobile-design-gate.log` |
 | Public static CI command | Blocked by stale app screenshots after 7 media tests pass | `public-static-gate.log` |
 
 Test counts overlap between full and focused suites; do not add them into a count
@@ -78,10 +76,9 @@ as intended, but the golden test image also omits the bottom navigation. Both
 previous and candidate PNGs were opened. The test still finds navigation at
 `Rect(16,772,374,832)`, and the existing browser review visibly renders it. That
 does not explain or clear the golden discrepancy, nor prove native behavior.
-The baseline and original tolerance remain unchanged. Failure images are under
-`project/test/goldens/failures/` in the bundle. Reproduce the paint/capture issue,
-check the current native candidate, and review the resulting image before any
-baseline update.
+The baseline and original tolerance remain unchanged. Reproduce the
+paint/capture issue, check the current native candidate, and review the
+resulting image before any baseline update.
 
 **QA-F07 — Public app imagery is stale.** `public_static_site_build.rb` rejects
 the app screenshot runtime fingerprint. Fresh current-source captures and visual

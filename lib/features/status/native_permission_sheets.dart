@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../core/notifications/collect_notification_service.dart';
@@ -19,7 +20,7 @@ Future<void> showSmsAccessSheet(
     icon: CollectIcons.sms,
     title: 'SMS access',
     message:
-        'This separately signed operations build uses Android SMS access only for new beneficiary-bank notifications after you opt in. It does not read inbox history or unrelated SMS.',
+        'This separately signed operations build uses Android SMS access only for new MoMo receipt messages after you opt in. It does not read inbox history or unrelated SMS.',
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,
@@ -91,13 +92,27 @@ Future<void> _requestNotificationsFromSheet(
   WidgetRef ref,
 ) async {
   final navigator = Navigator.of(context, rootNavigator: true);
-  final granted = await requestNativeNotifications(ref);
-  if (!navigator.mounted) return;
-  ref.read(notificationPermissionStatusProvider.notifier).state = granted
-      ? CollectDevicePermissionStatus.granted
-      : CollectDevicePermissionStatus.denied;
+  final service = ref.read(collectNotificationServiceProvider);
+  final fence = service.registrationContext;
+  final connected = await requestNativeNotifications(ref);
+  if (!context.mounted ||
+      !navigator.mounted ||
+      !service.isRegistrationContextCurrent(fence)) {
+    return;
+  }
+  ref
+      .read(notificationPermissionStatusProvider.notifier)
+      .state = switch (service.permissionGranted) {
+    true => CollectDevicePermissionStatus.granted,
+    false => CollectDevicePermissionStatus.denied,
+    null => CollectDevicePermissionStatus.notRequested,
+  };
   await navigator.maybePop();
-  if (granted || !navigator.mounted) return;
+  if (connected ||
+      !navigator.mounted ||
+      !service.isRegistrationContextCurrent(fence)) {
+    return;
+  }
   await _showNotificationRecoverySheet(navigator.context, ref);
 }
 
@@ -105,17 +120,22 @@ Future<void> _showNotificationRecoverySheet(
   BuildContext context,
   WidgetRef ref,
 ) {
+  final status = ref
+      .read(collectNotificationServiceProvider)
+      .registrationStatus
+      .value;
+  final requiresLogin = status == CollectNotificationStatus.signInRequired;
   return _showNativeSettingsSheet(
     context,
     icon: CollectIcons.pending,
     title: 'Notifications',
-    message:
-        'Notification permission was not enabled. Try the phone prompt again or update Collect in app settings.',
+    message: status.message,
     tone: CollectStatusTone.warning,
-    primaryLabel: 'Try again',
+    primaryLabel: requiresLogin ? 'Sign in again' : 'Try again',
     primaryIcon: CollectIcons.sync,
-    onPrimary: (sheetContext) =>
-        _requestNotificationsFromSheet(sheetContext, ref),
+    onPrimary: (sheetContext) => requiresLogin
+        ? signInForNotifications(sheetContext, ref)
+        : _requestNotificationsFromSheet(sheetContext, ref),
     secondaryLabel: 'Open app settings',
     secondaryIcon: CollectIcons.settings,
     onSecondary: (sheetContext) {
@@ -125,19 +145,29 @@ Future<void> _showNotificationRecoverySheet(
   );
 }
 
+Future<void> signInForNotifications(BuildContext context, WidgetRef ref) async {
+  final repository = ref.read(collectRepositoryProvider.notifier);
+  final service = ref.read(collectNotificationServiceProvider);
+  final fence = service.registrationContext;
+  try {
+    await repository.signOut();
+    if (context.mounted && !repository.isLive) context.go('/auth');
+  } catch (_) {
+    if (context.mounted &&
+        repository.isLive &&
+        service.isRegistrationContextCurrent(fence)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not sign out. Try again.')),
+      );
+    }
+  }
+}
+
 Future<bool> requestNativeNotifications(WidgetRef ref) async {
   final service = ref.read(collectNotificationServiceProvider);
-  final granted = await service.requestPermission();
-  if (!granted) return false;
   final repository = ref.read(collectRepositoryProvider.notifier);
-  unawaited(service.registerDevice(repository));
-  await service.showNotification(
-    title: 'Collect notifications enabled',
-    body:
-        'Contribution reminders, group updates, and security notices are enabled.',
-    payload: '/home',
-  );
-  return true;
+  // Phone permission alone never establishes a notification connection.
+  return service.enableDevice(repository);
 }
 
 Future<void> _showNativeSettingsSheet(
@@ -148,11 +178,12 @@ Future<void> _showNativeSettingsSheet(
   required CollectStatusTone tone,
   required String primaryLabel,
   required IconData primaryIcon,
-  required ValueChanged<BuildContext> onPrimary,
+  required FutureOr<void> Function(BuildContext) onPrimary,
   required String secondaryLabel,
   required IconData secondaryIcon,
   required ValueChanged<BuildContext> onSecondary,
 }) {
+  var submitting = false;
   return showModalBottomSheet<void>(
     context: context,
     useRootNavigator: true,
@@ -160,48 +191,61 @@ Future<void> _showNativeSettingsSheet(
     isScrollControlled: true,
     backgroundColor: context.collectColors.transparent,
     sheetAnimationStyle: CollectMotion.animationStyle(context),
-    builder: (sheetContext) {
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-          CollectSpacing.x4,
-          CollectSpacing.x4,
-          CollectSpacing.x4,
-          MediaQuery.viewInsetsOf(sheetContext).bottom +
-              MediaQuery.paddingOf(sheetContext).bottom +
-              CollectSpacing.x4,
-        ),
-        child: SingleChildScrollView(
-          child: CollectBottomSheet(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CollectPermissionEducationSheet(
-                  icon: icon,
-                  title: title,
-                  message: 'Use native phone settings.',
-                  education: message,
-                  tone: tone,
-                ),
-                CollectSpacing.gap16,
-                CollectButton(
-                  label: primaryLabel,
-                  icon: primaryIcon,
-                  onPressed: () => onPrimary(sheetContext),
-                  expand: true,
-                ),
-                CollectButton(
-                  label: secondaryLabel,
-                  icon: secondaryIcon,
-                  onPressed: () => onSecondary(sheetContext),
-                  variant: CollectButtonVariant.secondary,
-                  expand: true,
-                ),
-              ],
+    builder: (sheetContext) => StatefulBuilder(
+      builder: (sheetContext, setSheetState) {
+        return Padding(
+          padding: EdgeInsets.fromLTRB(
+            CollectSpacing.x4,
+            CollectSpacing.x4,
+            CollectSpacing.x4,
+            MediaQuery.viewInsetsOf(sheetContext).bottom +
+                MediaQuery.paddingOf(sheetContext).bottom +
+                CollectSpacing.x4,
+          ),
+          child: SingleChildScrollView(
+            child: CollectBottomSheet(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CollectPermissionEducationSheet(
+                    icon: icon,
+                    title: title,
+                    message: 'Use native phone settings.',
+                    education: message,
+                    tone: tone,
+                  ),
+                  CollectSpacing.gap16,
+                  CollectButton(
+                    label: primaryLabel,
+                    icon: primaryIcon,
+                    onPressed: submitting
+                        ? null
+                        : () async {
+                            setSheetState(() => submitting = true);
+                            try {
+                              await onPrimary(sheetContext);
+                            } finally {
+                              if (sheetContext.mounted) {
+                                setSheetState(() => submitting = false);
+                              }
+                            }
+                          },
+                    expand: true,
+                  ),
+                  CollectButton(
+                    label: secondaryLabel,
+                    icon: secondaryIcon,
+                    onPressed: () => onSecondary(sheetContext),
+                    variant: CollectButtonVariant.secondary,
+                    expand: true,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
+        );
+      },
+    ),
   );
 }
 

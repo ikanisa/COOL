@@ -37,6 +37,113 @@ psql_cli() {
   fi
 }
 
+# curl's -H option exposes bearer and hook secrets in the process argument list.
+# Keep the header in a short-lived, owner-only config file; callers must pass
+# sensitive request bodies with --data-binary @- rather than as an argument.
+collect_curl_secret_header() (
+  set -euo pipefail
+  local header_name="${1:?secret header name is required}"
+  local header_value="${2:?secret header value is required}"
+  shift 2
+  local LC_ALL=C
+  if [[ ! "$header_name" =~ ^[A-Za-z0-9-]+$ ||
+        ! "$header_value" =~ ^[[:print:]]+$ ||
+        "$header_value" == *\"* || "$header_value" == *\\* ]]; then
+    printf '[supabase-curl][FAIL] Secret header contains unsupported characters.\n' >&2
+    exit 1
+  fi
+
+  umask 077
+  local header_config
+  header_config="$(mktemp)"
+  chmod 600 "$header_config"
+  local cleanup_command
+  printf -v cleanup_command 'rm -f -- %q' "$header_config"
+  trap "$cleanup_command" EXIT
+  printf 'header = "%s: %s"\n' "$header_name" "$header_value" >"$header_config"
+  curl -q --config "$header_config" "$@"
+)
+
+supabase_management_curl() {
+  : "${SUPABASE_ACCESS_TOKEN:?SUPABASE_ACCESS_TOKEN is required}"
+  collect_curl_secret_header Authorization "Bearer $SUPABASE_ACCESS_TOKEN" "$@"
+}
+
+# libpq service and password files keep URI credentials out of client process
+# arguments. The URL is parsed as data and both files are removed on every exit.
+collect_pg_url_service() (
+  set -euo pipefail
+  local database_url="${1:?database URL is required}"
+  local client="${2:?PostgreSQL client is required}"
+  shift 2
+  umask 077
+  local service_file password_file
+  service_file="$(mktemp)"
+  password_file="$(mktemp)"
+  chmod 600 "$service_file"
+  chmod 600 "$password_file"
+  local cleanup_command
+  printf -v cleanup_command 'rm -f -- %q %q' "$service_file" "$password_file"
+  trap "$cleanup_command" EXIT
+  COLLECT_PSQL_URL="$database_url" ruby -r uri - "$service_file" "$password_file" <<'RUBY'
+begin
+  uri = URI.parse(ENV.fetch('COLLECT_PSQL_URL'))
+rescue URI::InvalidURIError, ArgumentError
+  abort('[supabase-psql][FAIL] Invalid PostgreSQL URI')
+end
+abort('[supabase-psql][FAIL] PostgreSQL URI required') unless %w[postgres postgresql].include?(uri.scheme)
+abort('[supabase-psql][FAIL] Host and database required') if uri.host.to_s.empty? || uri.path.to_s.sub(%r{\A/}, '').empty?
+
+unescape = ->(value) { URI::DEFAULT_PARSER.unescape(value.to_s) }
+host = uri.host.to_s
+host = host[1...-1] if host.start_with?('[') && host.end_with?(']')
+values = {
+  'host' => host,
+  'dbname' => unescape.call(uri.path.sub(%r{\A/}, '')),
+}
+values['port'] = uri.port.to_s if uri.port
+values['user'] = unescape.call(uri.user) if uri.user
+password = unescape.call(uri.password) if uri.password
+
+allowed_query = %w[sslmode connect_timeout channel_binding application_name options
+                   target_session_attrs gssencmode sslrootcert sslcert sslkey
+                   keepalives keepalives_idle keepalives_interval keepalives_count]
+uri.query.to_s.split('&').reject(&:empty?).each do |item|
+  raw_key, raw_value = item.split('=', 2)
+  key = unescape.call(raw_key)
+  abort('[supabase-psql][FAIL] Unsupported PostgreSQL URI option') unless allowed_query.include?(key)
+  values[key] = unescape.call(raw_value)
+end
+
+values.each do |key, value|
+  abort("[supabase-psql][FAIL] Invalid #{key} value") if value.empty? || value.match?(/[\x00\r\n]/) || value.match?(/\A\s|\s\z/)
+end
+abort('[supabase-psql][FAIL] Invalid password value') if password && password.match?(/[\x00\r\n]/)
+File.open(ARGV.fetch(0), File::WRONLY | File::TRUNC, 0o600) do |file|
+  file.puts('[collect_readiness]')
+  values.each { |key, value| file.puts("#{key}=#{value}") }
+end
+if password
+  escaped_password = password.gsub(/[\\:]/) { |char| "\\#{char}" }
+  File.open(ARGV.fetch(1), File::WRONLY | File::TRUNC, 0o600) do |file|
+    file.puts("*:*:*:*:#{escaped_password}")
+  end
+end
+RUBY
+  if [[ -s "$password_file" ]]; then
+    unset PGPASSWORD
+    PGSERVICEFILE="$service_file" PGPASSFILE="$password_file" "$client" 'service=collect_readiness' "$@"
+  else
+    PGSERVICEFILE="$service_file" "$client" 'service=collect_readiness' "$@"
+  fi
+)
+
+collect_psql_url_service() {
+  local database_url="${1:?database URL is required}"
+  shift
+  collect_pg_url_service "$database_url" psql_cli "$@"
+}
+
 supabase_management_query_file() {
   local query_file="$1"
   supabase_management_query "$(<"$query_file")"
@@ -52,11 +159,10 @@ supabase_management_query() {
 print JSON.generate(query: ENV.fetch("QUERY_SQL"), parameters: [])
 RUBY
 )"
-  response="$(curl -sS -w '\n%{http_code}' \
+  response="$(printf '%s' "$payload" | supabase_management_curl -sS -w '\n%{http_code}' \
     -X POST "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/database/query" \
-    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
     -H "Content-Type: application/json" \
-    --data-binary "$payload")"
+    --data-binary @-)"
   http_status="${response##*$'\n'}"
   body="${response%$'\n'*}"
 

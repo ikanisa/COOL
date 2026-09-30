@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -90,7 +91,10 @@ Future<void> mount(
   addTearDown(tester.view.resetDevicePixelRatio);
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [adminRepositoryProvider.overrideWithValue(repository)],
+      overrides: [
+        adminAuthUserIdProvider.overrideWithValue(operatorId),
+        adminRepositoryProvider.overrideWithValue(repository),
+      ],
       child: MaterialApp(
         theme: AppTheme.dark(),
         builder: (context, child) => MediaQuery(
@@ -175,6 +179,31 @@ void main() {
     await mount(tester, repo);
     expect(find.byTooltip('WhatsApp approval required'), findsOneWidget);
     expect(find.byType(FilledButton), findsNothing);
+  });
+  testWidgets('external approval update refreshes the access panel', (
+    tester,
+  ) async {
+    final repo = AccessRepository();
+    await mount(tester, repo);
+    expect(find.text('Approve WhatsApp'), findsOneWidget);
+    expect(find.byTooltip('WhatsApp approval required'), findsOneWidget);
+
+    repo
+      ..approved = true
+      ..granted = true;
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(AdminPlatformAccessPanel)),
+    );
+    container.read(adminRealtimeTickProvider.notifier).state += 1;
+    await tester.pumpAndSettle();
+
+    expect(find.byTooltip('Active'), findsOneWidget);
+    expect(find.text('Deactivate Admin'), findsOneWidget);
+    expect(find.text('Approve WhatsApp'), findsNothing);
+    expect(
+      repo.calls.where((call) => call.$1 == 'admin_get_whatsapp_approval'),
+      hasLength(2),
+    );
   });
   testWidgets('approval then activation are separate confirmed actions', (
     tester,

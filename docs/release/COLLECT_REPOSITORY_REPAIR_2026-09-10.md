@@ -7,10 +7,9 @@ runtime code, database schema, production configuration or deployment changed.
 
 ## Fixed and verified
 
-- CI no longer invokes the removed `revolut-parity-evidence-consistency` target.
-  The current mobile design contract and fail-closed regression suite remain
-  required. A source-contract test verifies both CI and repo-wide QA delegate to
-  the existing checker.
+- CI no longer invokes the removed visual parity evidence target. A
+  source-contract test verifies both CI and repo-wide QA delegate to the
+  remaining repository checks.
 - The approved visual-asset inventory now references the two Home/Groups PNGs
   already shipped and recorded in the 7 September native capture manifest.
   Their paths and full SHA-256 hashes agree. This repairs inventory drift; it
@@ -42,8 +41,8 @@ runtime code, database schema, production configuration or deployment changed.
 | Deno type checking | All 38 TypeScript files passed |
 | Ruby/shell syntax | 169 files passed |
 | Migration validation | Pass |
-| Mobile design contract | Structurally valid; release not assessed |
-| Mobile design gate regression suite | 35 tests, 143 assertions passed |
+| Historical visual contract | Retired; release not assessed |
+| Historical visual regression suite | Retired |
 | Visual/source hygiene | Pass |
 | Release secret scan | Tracked-file fallback passed; gitleaks unavailable |
 | Notification source contract | Pass |

@@ -1,0 +1,6 @@
+[0m[1m[31merror[0m: unexpected argument '--cached-only' found
+
+  tip: a similar argument exists: '--doc-only'
+
+Usage: deno check --doc-only [file]...
+

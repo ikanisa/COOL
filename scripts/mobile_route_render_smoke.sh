@@ -143,7 +143,6 @@ route_specs=(
   "group-profile|/groups/qa-private-group/profile|workflow"
   "members|/groups/qa-private-group/members|workflow"
   "settings|/settings|primary"
-  "settings-bank-transfer|/settings/bank-transfer|workflow"
   "settings-permissions|/settings/permissions|utility"
   "settings-notifications|/settings/notifications|utility"
   "settings-appearance|/settings/appearance|utility"

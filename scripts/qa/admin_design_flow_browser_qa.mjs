@@ -9,10 +9,6 @@ const loaded=await import(process.env.PLAYWRIGHT_CORE_PATH || '/Users/jeanbosco/
 const {chromium}=loaded.default || loaded;
 const viewports=[{name:'compact_320x740',width:320,height:740},{name:'compact_390x844',width:390,height:844},{name:'tablet_834x1194',width:834,height:1194},{name:'desktop_1440x900',width:1440,height:900}];
 const flows=[
- {name:'country-menu',route:'/admin/groups',steps:['Country: All countries'],marker:'Malta',menu:true},
- {name:'rwanda-scope',route:'/admin/groups',steps:['Country: All countries','Rwanda'],marker:'Country scope: Rwanda',state:true},
- {name:'malta-scope',route:'/admin/groups',steps:['Country: All countries','Malta'],marker:'Country scope: Malta',state:true},
- {name:'other-country-scope',route:'/admin/groups',steps:['Country: All countries','Other countries'],marker:'Country scope: Other countries',state:true},
  {name:'operator-menu',route:'/admin/groups',steps:['Operator menu'],marker:'Sign out',menu:true},
  {name:'create-group-menu',route:'/admin/groups',steps:['Create group'],marker:'Create assisted group',menu:true},
  {name:'create-assisted-group',route:'/admin/groups',steps:['Create group','Create assisted group'],marker:'Create assisted group'},
@@ -21,8 +17,6 @@ const flows=[
  {name:'edit-payee',route:'/admin/payees',steps:['Edit IKANISA LTD'],marker:'Edit official payee'},
  {name:'deactivate-payee',route:'/admin/payees',steps:['Deactivate IKANISA LTD'],marker:'Deactivate official payee'},
  {name:'allocate-rwanda-payment',route:'/admin/reconciliations',steps:['Allocate Unallocated transaction 681601'],marker:'Allocate transaction'},
- {name:'propose-bank-allocation',route:'/admin/reconciliations',steps:['Allocate Unallocated transaction 681602'],marker:'Propose allocation'},
- {name:'feature-flag-reason',route:'/admin/feature-flags',steps:['Disable feature flag Diaspora bank transfers'],marker:'Disable feature flag'},
  {name:'notification-retry-reason',route:'/admin/notifications/notification-1',steps:['Retry failed delivery'],marker:'Retry notification'},
  {name:'revoke-admin-approval',route:'/admin/admin-users/admin-user-1',steps:['Revoke approval'],marker:'Revoke approval'},
  {name:'deactivate-admin',route:'/admin/admin-users/admin-user-1',steps:['Deactivate Admin'],marker:'Deactivate Admin'},

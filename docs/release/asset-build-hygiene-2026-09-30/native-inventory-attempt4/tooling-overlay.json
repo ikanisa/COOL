@@ -1,0 +1,8 @@
+{
+  "base_export": "native-export-attempt3-current/source-export.json",
+  "overlay_sha256": {
+    "scripts/supply_chain/gradle_runtime_inventory.init.gradle": "3f3e2d0784716cc8380554c10d30160008921487a9feec5c1615cecad9d72f50",
+    "android/app/build.gradle.kts": "3df2af740440b62515383ed4b12415285e82c98b3b80e94d1faf62bbcab6021c"
+  },
+  "scope": "Dependency inventory only; no current runtime build claim"
+}

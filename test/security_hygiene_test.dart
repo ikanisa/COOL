@@ -207,9 +207,16 @@ void main() {
         nativePermissionSheets,
         contains('collectNotificationServiceProvider'),
       );
-      expect(nativePermissionSheets, contains('registerDevice(repository)'));
-      expect(nativePermissionSheets, contains('showNotification('));
-      expect(nativePermissionSheets, contains("payload: '/home'"));
+      expect(
+        nativePermissionSheets,
+        contains('service.enableDevice(repository)'),
+      );
+      expect(
+        nativePermissionSheets,
+        isNot(contains('Collect notifications enabled')),
+      );
+      expect(service, contains('isNotificationDeviceRegistered'));
+      expect(service, contains('CollectNotificationStatus.ready'));
       expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
       expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
       expect(repository, contains('register_notification_device'));
@@ -490,36 +497,6 @@ void main() {
     expect(makefile, contains('collect-product-boundary-scan:'));
     expect(makefile, contains('./scripts/collect_product_boundary_scan.sh'));
   });
-
-  test(
-    'Revolut parity source hygiene gate enforces typography and official assets',
-    () {
-      final result = runProcessSync(
-        './scripts/revolut_parity_source_hygiene_gate.sh',
-        ['--json'],
-      );
-      expect(result.exitCode, 0, reason: result.stderr as String);
-
-      final output = result.stdout as String;
-      expect(output, contains('"status": "pass"'));
-      expect(output, contains('"surface_scoped_typefaces"'));
-      expect(output, contains('"no_prohibited_product_artwork"'));
-      expect(output, contains('"official_logo_identity"'));
-      expect(output, contains('"centralized_feature_typography"'));
-      expect(output, contains('"fixture_isolation"'));
-      expect(output, contains('"secret_scan"'));
-      expect(output, contains('"product_boundary"'));
-
-      final makefile = File('Makefile').readAsStringSync();
-      final workflow = File('.github/workflows/ci.yml').readAsStringSync();
-      expect(makefile, contains('revolut-parity-source-hygiene:'));
-      expect(
-        makefile,
-        contains('./scripts/revolut_parity_source_hygiene_gate.sh'),
-      );
-      expect(workflow, contains('make revolut-parity-source-hygiene'));
-    },
-  );
 
   test('local env files stay ignored and Codex env stays placeholder-only', () {
     final trackedEnvFiles = runProcessSync('git', [

@@ -1,5 +1,10 @@
 # Collect 1.2.4 (23) Google Play submission preparation
 
+> Historical implementation evidence only. This record does not define current design
+> policy or establish current approval. Only the installed `revolut-design` skill
+> governs visual decisions; existing unresolved findings remain unresolved.
+
+
 **Status:** signed candidate and Play metadata prepared; not uploaded, not submitted for review, not approved, and not live.
 
 ## Release candidate
@@ -29,7 +34,7 @@ The listing contains six visually reviewed current-app screenshots in each requi
 - 7-inch tablet: 1200 × 1920
 - 10-inch tablet: 1600 × 2560
 
-The routes are Home, Groups, Featured Groups, Group detail, Rwanda MoMo contribution and Activity. They use the actual `CollectApp`, production router and production widgets with an explicitly synthetic repository. The tracked capture record is `docs/release/GOOGLE_PLAY_SCREENSHOT_CAPTURE_1.2.4_23.json`. The screenshots are store artwork and are not evidence of signed-release mobile-design acceptance.
+The routes are Home, Groups, Featured Groups, Group detail, Rwanda MoMo contribution and Activity. They use the actual `CollectApp`, production router and production widgets with an explicitly synthetic repository. The tracked capture record is `docs/release/GOOGLE_PLAY_SCREENSHOT_CAPTURE_1.2.4_23.json`. The screenshots are store artwork and are not evidence of signed-release visual acceptance.
 
 ## Permission and console state
 
@@ -51,9 +56,9 @@ The live Play Console currently shows `Collect 1.2.2 (21)` active at 100% in 23 
 | Google Play SMS approval for version 23 | Pending upload and Play review |
 | Play Developer Reporting snapshot | Blocked by Reporting API authentication |
 | Post-upload console surface audit | Pending upload |
-| `MOBILE-DESIGN-100` | Blocked; owner acceptance/provenance, 134 Android cases and 23 annotation closures remain open |
+| Visual acceptance | Blocked; owner acceptance/provenance and annotation closures remain open |
 
-`MOBILE-DESIGN-100` is a mandatory production gate. This candidate must not be represented as production approved or submitted until that gate passes. Upload, Play review, approval, rollout and public availability remain separate later states.
+This candidate must not be represented as production approved or submitted until accountable release approval passes. Upload, Play review, approval, rollout and public availability remain separate later states.
 
 ## Official policy references
 

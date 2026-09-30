@@ -24,7 +24,12 @@ class _FailedInitialReadRepository extends FixtureCollectRepository {
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  for (final route in ['/home', '/groups', '/activity']) {
+  for (final route in [
+    '/home',
+    '/groups',
+    '/activity',
+    '/groups/unloaded-group',
+  ]) {
     testWidgets('$route distinguishes a failed read from an empty account', (
       tester,
     ) async {

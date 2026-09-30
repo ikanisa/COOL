@@ -82,7 +82,12 @@ void main() {
       // ignore: avoid_print
       print('collect_sms_permission_uat:permission-granted');
 
-      expect(await smsAccess.readPendingSms(), isEmpty);
+      expect(
+        await smsAccess.readPendingSms(
+          ownerUserId: repository.state.currentProfile!.id,
+        ),
+        isEmpty,
+      );
       // ignore: avoid_print
       print('collect_sms_permission_uat:account-bound-opt-in-pass');
 
@@ -100,7 +105,12 @@ void main() {
         timeout: const Duration(seconds: 20),
       );
       expect((await smsAccess.status()).enabled, isFalse);
-      expect(await smsAccess.readPendingSms(), isEmpty);
+      expect(
+        await smsAccess.readPendingSms(
+          ownerUserId: repository.state.currentProfile!.id,
+        ),
+        isEmpty,
+      );
       // ignore: avoid_print
       print('collect_sms_permission_uat:turn-off-pass');
     },
@@ -114,12 +124,18 @@ class _DeviceSmsPermissionRepository extends FixtureCollectRepository {
   final SmsAccessChannel _smsAccess;
 
   @override
-  Future<bool> setSmsAccess(bool enabled) async {
+  Future<bool> setSmsAccess(bool enabled, {String? expectedOwnerUserId}) async {
     final profile = state.currentProfile;
-    final granted = await _smsAccess.setEnabled(
-      enabled,
-      ownerUserId: profile?.id,
-    );
+    final owner = profile?.id;
+    if (owner == null ||
+        (expectedOwnerUserId != null && expectedOwnerUserId != owner)) {
+      throw StateError('SMS access account changed. Try again.');
+    }
+    final granted = await _smsAccess.setEnabled(enabled, ownerUserId: owner);
+    if (state.currentProfile?.id != owner) {
+      await _smsAccess.suspendUnlessOwner(state.currentProfile?.id);
+      throw StateError('SMS access account changed. Try again.');
+    }
     final consentEnabled = enabled && granted;
     state = state.copyWith(
       smsAccessEnabled: consentEnabled,

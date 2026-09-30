@@ -383,9 +383,6 @@ verify_jwt = false
 [functions.collect-notification-operator]
 verify_jwt = true
 
-[functions.ingest-bank-sms]
-verify_jwt = true
-
 [functions.ingest-payment-sms]
 verify_jwt = true
 
@@ -398,14 +395,11 @@ verify_jwt = true
 [functions.verify-play-integrity]
 verify_jwt = true
 
-[functions.ingest-bank-email]
-verify_jwt = false
-
-[functions.ingest-bank-statement]
-verify_jwt = true
-
 [functions.send-notification]
 verify_jwt = false
+
+[functions.reconciliation-finalize]
+verify_jwt = true
 
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"

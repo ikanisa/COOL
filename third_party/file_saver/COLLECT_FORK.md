@@ -21,11 +21,29 @@ licence is retained in `LICENSE`.
 3. Replace `kotlinOptions` with `kotlin.compilerOptions` targeting JVM 17.
 
 The Dart API and all platform implementation source remain otherwise
-unchanged. The migration follows Flutter's plugin-author built-in Kotlin
-guidance. Collect remains on Flutter 3.44/AGP 8, so the app cannot enable and
-validate `android.builtInKotlin=true` until Flutter 3.47 or later; this fork
-removes the unconditional upstream blocker without overstating that platform
-gate as closed.
+unchanged. The migration follows Flutter's
+[plugin-author built-in Kotlin guidance](https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors).
+Collect currently pins Flutter 3.44.4 and AGP 9.0.1, with
+`android.builtInKotlin=false` and `android.newDsl=false` in
+`android/gradle.properties`. Flutter 3.44 supports this temporary legacy-KGP
+compatibility mode on AGP 9; enabling built-in Kotlin requires Flutter 3.47
+or later and migration of every plugin. This fork removes the unconditional
+upstream KGP application, but the full native graph and signed build still
+require validation.
+
+## Published-source comparison
+
+The [29 September comparison](../../docs/release/supply-chain-2026-09-28/file-saver-fork-comparison.json)
+checks every file in the published pub.dev 0.4.0 archive, SHA-256
+`68c9a085d9bb4546e0a31d1e583a48d7c17a6987d538788ea064f0043b1fc02d`,
+against this fork. Of 184 upstream files, 43 common files are byte-identical;
+the only changed common files are `android/build.gradle`, `pubspec.yaml`, and
+`lib/src/utils/mime_types.dart`. The MIME file becomes identical after Dart
+formatting. The 138 omitted upstream files are examples, tests, README/images,
+or an IDE project file; no package runtime or licence file was omitted. The
+upstream `LICENSE` is byte-identical. `COLLECT_FORK.md` is the one added file.
+Run `python3 scripts/supply_chain/verify_file_saver_fork.py --fetch --check`
+from the repository root to repeat the published-archive comparison.
 
 ## Update rule
 

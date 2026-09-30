@@ -1,0 +1,96 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: bookmark serialized schema contains only references/digests; no private values
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: reload is read-only until explicit recovery; saved editor values restored without affirmation
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: reload without saved editor draft restores acknowledged rows and warns about unsaved edits
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: staged commit recovered after response loss requires fresh human affirmation; no automatic writes
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: lost successful commit acknowledgement recovered with exact matching request and no write
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: staged review recovery executes same immutable request only on explicit review
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: incorrect stage ACK must not execute or show review success
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: lost commit is recovered from matching server receipt without a second write
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: lost commit is recovered from matching server receipt without a second write
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: lost commit is recovered from matching server receipt without a second write
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: lost commit is recovered from matching server receipt without a second write
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: checkpoint conflict retains unsaved values until explicit recovery adopts latest server draft
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: checkpoint conflict retains unsaved values until explicit recovery adopts latest server draft
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_import_test.dart: status import_id mismatch keeps uncertain commit locked
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +78: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +79: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +80: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +81: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions
+00:01 +82: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: feature revocation hides private rows and shows actionable close state
+00:01 +82: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_reload_test.dart: actual rollback SQL144 receipts decode staged and completed recovery exactly
+  Skip: Requires root-executed rollback-only144 fixture output.
+00:01 +82 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: feature revocation hides private rows and shows actionable close state
+00:02 +83 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: terminal review limit disables retry and requires an explicit saved status check
+00:02 +84 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: page26 edits persist on return and commit requires saved review plus all-pages affirmation
+00:05 +85 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: existing group retry requires status check and retains exact payload after null ACK
+00:06 +86 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: account/session invalidation immediately hides source, rows and text while extraction waits
+00:06 +87 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: AI source confidence remains visible after saving human edits
+00:06 +88 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: keyboard traversal and Escape keep the explicit-discard draft recoverable
+00:06 +89 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: 320px and 2x text retain reachable fields, errors, review and discard actions
+00:06 +90 ~1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_roster_dialog_test.dart: (tearDownAll)
+00:06 +90 ~1: All tests passed!

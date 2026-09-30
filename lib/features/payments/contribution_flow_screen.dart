@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/payments/revolut_launcher.dart';
 import '../../core/payments/momo_ussd_launcher.dart';
+import '../../core/payments/momo_ussd_intent_guard.dart';
 import '../../core/utils/money_format.dart';
 import '../../l10n/collect_localizations.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_form_viewport.dart' as forms;
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_empty_state.dart';
-part 'contribution_bank_flow.dart';
 
 class ContributionFlowScreen extends ConsumerWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
@@ -25,12 +25,10 @@ class ContributionFlowScreen extends ConsumerWidget {
     final repository = ref.read(collectRepositoryProvider.notifier);
     final collection = repository.maybeCollectionById(collectionId);
     if (collection == null) return const MissingGroupStateScreen();
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    return switch (collection.contributionRailFor(profile)) {
+    return switch (collection.contributionRailFor(
+      ref.watch(collectRepositoryProvider).currentProfile,
+    )) {
       'rwanda_momo' => _RwandaMomoContributionFlow(collectionId: collectionId),
-      'diaspora_bank' => _DiasporaBankContributionFlow(
-        collectionId: collectionId,
-      ),
       _ => _UnavailableContributionRoute(collection: collection),
     };
   }
@@ -80,6 +78,7 @@ class _RwandaMomoContributionFlowState
     extends ConsumerState<_RwandaMomoContributionFlow> {
   final _amount = TextEditingController();
   PaymentIntentModel? _intent;
+  String? _preparedProfileId;
   bool _working = false;
   bool _ussdOpened = false;
   String? _error;
@@ -92,6 +91,19 @@ class _RwandaMomoContributionFlowState
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<String?>(
+      collectRepositoryProvider.select((state) => state.currentProfile?.id),
+      (previous, next) {
+        if (previous != next && _intent != null) {
+          setState(() {
+            _intent = null;
+            _preparedProfileId = null;
+            _ussdOpened = false;
+            _error = null;
+          });
+        }
+      },
+    );
     final l10n = CollectLocalizations.of(context);
     final repository = ref.read(collectRepositoryProvider.notifier);
     final collection = repository.maybeCollectionById(widget.collectionId);
@@ -138,121 +150,110 @@ class _RwandaMomoContributionFlowState
     return Scaffold(
       backgroundColor: context.collectColors.canvas,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) => _KeyboardSafeContributionViewport(
-            child: SizedBox(
-              key: const ValueKey('native_momo_contribution_flow'),
-              width: constraints.maxWidth.clamp(0, 430).toDouble(),
-              height: constraints.maxHeight.clamp(320, double.infinity),
-              child: Column(
-                children: [
-                  _NativeContributionAppBar(
-                    title: collection.title,
-                    onBack: () => context.go('/groups/${widget.collectionId}'),
-                  ),
-                  Expanded(
-                    child: AnimatedSwitcher(
-                      duration: CollectMotion.duration(
-                        context,
-                        CollectMotion.medium,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            key: const ValueKey('native_momo_contribution_flow'),
+            width: 430,
+            height: double.infinity,
+            child: forms.CollectFormViewport(
+              maxWidth: 430,
+              header: _NativeContributionAppBar(
+                title: collection.title,
+                onBack: () => context.go('/groups/${widget.collectionId}'),
+              ),
+              bodyPadding: const EdgeInsets.fromLTRB(
+                CollectSpacing.x5,
+                CollectSpacing.x6,
+                CollectSpacing.x5,
+                CollectSpacing.x8,
+              ),
+              body: AnimatedSwitcher(
+                duration: CollectMotion.duration(context, CollectMotion.medium),
+                child: Column(
+                  key: ValueKey(isAmountStep),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (isAmountStep) ...[
+                      _NativeAmountEntry(
+                        controller: _amount,
+                        errorText: amountError,
+                        onSubmitted: _prepare,
+                        onPreset: _setAmount,
+                        onChanged: () => setState(() => _error = null),
                       ),
-                      child: ListView(
-                        key: ValueKey(isAmountStep),
-                        padding: const EdgeInsets.fromLTRB(
-                          CollectSpacing.x5,
-                          CollectSpacing.x6,
-                          CollectSpacing.x5,
-                          CollectSpacing.x8,
-                        ),
-                        children: [
-                          if (isAmountStep) ...[
-                            _NativeAmountEntry(
-                              controller: _amount,
-                              errorText: amountError,
-                              onSubmitted: _prepare,
-                              onPreset: _setAmount,
-                              onChanged: () => setState(() => _error = null),
-                            ),
-                          ] else ...[
-                            _NativeAmountReview(
-                              amountRwf: _intent!.expectedAmountRwf,
-                            ),
-                          ],
-                          CollectSpacing.gap32,
-                          Text(
-                            l10n.text('payingTo'),
-                            style: CollectTypography.eyebrowLabel(
-                              context.collectColors.textMuted,
-                            ),
-                          ),
-                          CollectSpacing.gap12,
-                          _NativeMomoReceiverTile(
-                            name: collection.receiverDisplayLabel,
-                            receiver: receiver,
-                          ),
-                          if (!isAmountStep) ...[
-                            CollectSpacing.gap20,
-                            _NativeMomoTrustNote(
-                              title: l10n.text('approveInMomo'),
-                              message: l10n.text(
-                                'approveOnlyInsideMomoMessage',
-                              ),
-                            ),
-                          ],
-                          if (_ussdOpened) ...[
-                            CollectSpacing.gap16,
-                            _NativeMomoStatus(
-                              title: l10n.text('waitingForReceipt'),
-                              message: l10n.text('waitingForReceiptMessage'),
-                            ),
-                          ],
-                          if (flowError != null) ...[
-                            CollectSpacing.gap16,
-                            _NativeMomoStatus(
-                              title: l10n.text('momoCouldNotContinue'),
-                              message: flowError,
-                              isError: true,
-                            ),
-                          ],
-                        ],
+                    ] else ...[
+                      _NativeAmountReview(
+                        amountRwf: _intent!.expectedAmountRwf,
+                      ),
+                    ],
+                    CollectSpacing.gap32,
+                    Text(
+                      l10n.text('payingTo'),
+                      style: CollectTypography.eyebrowLabel(
+                        context.collectColors.textMuted,
                       ),
                     ),
-                  ),
-                  _NativeContributionBottomBar(
-                    primaryLabel: isAmountStep
-                        ? (_working
-                              ? l10n.text('preparingMomo')
-                              : l10n.text('continueToMomo'))
-                        : (_working
-                              ? l10n.text('openingMomo')
-                              : l10n.text('openMomoUssd')),
-                    primaryIcon: isAmountStep
-                        ? CollectIcons.arrowForward
-                        : CollectIcons.momo,
-                    onPrimary:
-                        _working ||
-                            (isAmountStep &&
-                                (int.tryParse(
-                                          _amount.text.replaceAll(',', ''),
-                                        ) ??
-                                        0) <=
-                                    0)
-                        ? null
-                        : isAmountStep
-                        ? _prepare
-                        : _openUssd,
-                    secondaryLabel: isAmountStep
-                        ? null
-                        : l10n.text('editAmount'),
-                    onSecondary: _working || isAmountStep
-                        ? null
-                        : () => setState(() {
-                            _intent = null;
-                            _ussdOpened = false;
-                            _error = null;
-                          }),
-                  ),
-                ],
+                    CollectSpacing.gap12,
+                    _NativeMomoReceiverTile(
+                      name: collection.receiverDisplayLabel,
+                      receiver: receiver,
+                    ),
+                    if (!isAmountStep) ...[
+                      CollectSpacing.gap20,
+                      _NativeMomoTrustNote(
+                        title: l10n.text('approveInMomo'),
+                        message: l10n.text('approveOnlyInsideMomoMessage'),
+                      ),
+                    ],
+                    if (_ussdOpened) ...[
+                      CollectSpacing.gap16,
+                      _NativeMomoStatus(
+                        title: l10n.text('waitingForReceipt'),
+                        message: l10n.text('waitingForReceiptMessage'),
+                      ),
+                    ],
+                    if (flowError != null) ...[
+                      CollectSpacing.gap16,
+                      _NativeMomoStatus(
+                        title: l10n.text('momoCouldNotContinue'),
+                        message: flowError,
+                        isError: true,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              actions: _NativeContributionBottomBar(
+                primaryLabel: isAmountStep
+                    ? (_working
+                          ? l10n.text('preparingMomo')
+                          : l10n.text('continueToMomo'))
+                    : (_working
+                          ? l10n.text('openingMomo')
+                          : l10n.text('openMomoUssd')),
+                primaryIcon: isAmountStep
+                    ? CollectIcons.arrowForward
+                    : CollectIcons.momo,
+                onPrimary:
+                    _working ||
+                        (isAmountStep &&
+                            (int.tryParse(_amount.text.replaceAll(',', '')) ??
+                                    0) <=
+                                0)
+                    ? null
+                    : isAmountStep
+                    ? _prepare
+                    : _openUssd,
+                secondaryLabel: isAmountStep ? null : l10n.text('editAmount'),
+                onSecondary: _working || isAmountStep
+                    ? null
+                    : () => setState(() {
+                        _intent = null;
+                        _preparedProfileId = null;
+                        _ussdOpened = false;
+                        _error = null;
+                      }),
               ),
             ),
           ),
@@ -277,7 +278,11 @@ class _RwandaMomoContributionFlowState
 
   Future<void> _prepare() async {
     if (_working || _intent != null) return;
-    if (ref.read(collectRepositoryProvider).currentProfile == null) {
+    final preparedProfileId = ref
+        .read(collectRepositoryProvider)
+        .currentProfile
+        ?.id;
+    if (preparedProfileId == null) {
       context.go(
         Uri(
           path: '/auth',
@@ -312,7 +317,12 @@ class _RwandaMomoContributionFlowState
               amountRwf: amount,
             ),
           );
-      if (mounted) setState(() => _intent = intent);
+      if (mounted) {
+        setState(() {
+          _intent = intent;
+          _preparedProfileId = preparedProfileId;
+        });
+      }
     } catch (error) {
       if (mounted) setState(() => _error = _safeFlowError(error));
     } finally {
@@ -327,17 +337,68 @@ class _RwandaMomoContributionFlowState
       _working = true;
       _error = null;
     });
+    var preflightConfirmed = false;
     try {
-      final receiver = intent.receiverMomoNumber.replaceAll(RegExp(r'\D'), '');
+      if (_preparedProfileId == null ||
+          ref.read(collectRepositoryProvider).currentProfile?.id !=
+              _preparedProfileId) {
+        throw StateError('Account changed');
+      }
+      // This live RPC rechecks account, membership, expiry and the active
+      // receiver. The recent-intents history RPC intentionally retains old
+      // receivers and cannot authorize opening a payment prompt.
+      final current = await ref
+          .read(collectRepositoryProvider.notifier)
+          .createPaymentIntent(
+            PaymentIntentDraft(
+              collectionId: widget.collectionId,
+              amountRwf: intent.expectedAmountRwf,
+            ),
+          );
+      if (!mounted) return;
+      if (ref.read(collectRepositoryProvider).currentProfile?.id !=
+          _preparedProfileId) {
+        throw StateError('Account changed');
+      }
+      if (!preparedMomoIntentStillActionable(
+        intent,
+        current,
+        now: DateTime.now(),
+      )) {
+        setState(() {
+          _intent = null;
+          _preparedProfileId = null;
+          _ussdOpened = false;
+          _error = CollectLocalizations.of(
+            context,
+          ).text('paymentDetailsChanged');
+        });
+        return;
+      }
+      preflightConfirmed = true;
+      final receiver = current.receiverMomoNumber.replaceAll(RegExp(r'\D'), '');
       final opened = await const MomoUssdLauncher().launch(
         receiver: receiver,
-        amountRwf: intent.expectedAmountRwf,
-        provider: intent.momoNetwork,
+        amountRwf: current.expectedAmountRwf,
+        provider: current.momoNetwork,
       );
       if (!opened) throw StateError('MoMo USSD could not open.');
       if (mounted) setState(() => _ussdOpened = true);
     } catch (error) {
-      if (mounted) setState(() => _error = _safeFlowError(error));
+      if (mounted) {
+        setState(() {
+          if (!preflightConfirmed) {
+            _intent = null;
+            _preparedProfileId = null;
+            _ussdOpened = false;
+          }
+          _error = preflightConfirmed
+              ? _safeFlowError(error)
+              : CollectLocalizations.of(
+                  context,
+                ).text('paymentDetailsUnavailable');
+        });
+      }
     } finally {
       if (mounted) setState(() => _working = false);
     }
@@ -348,20 +409,6 @@ class _RwandaMomoContributionFlowState
     if (error is FormatException) return error.message.toString();
     return CollectLocalizations.of(context).text('checkConnection');
   }
-}
-
-/// When a landscape keyboard leaves less room than the fixed header/actions,
-/// keep a usable content viewport and let the entire flow scroll above the IME.
-/// At normal heights this has zero scroll extent and keeps the actions pinned.
-class _KeyboardSafeContributionViewport extends StatelessWidget {
-  const _KeyboardSafeContributionViewport({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    child: Align(alignment: Alignment.topCenter, child: child),
-  );
 }
 
 class _NativeContributionAppBar extends StatelessWidget {
@@ -816,6 +863,95 @@ class _NativeContributionBottomBar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Keep the entire monetary value visible; horizontal clipping can change its
+/// apparent magnitude. Large text gets a separate currency line and a measured
+/// type size rather than a cramped prefix beside a scrolling amount.
+class _NativeCurrencyInput extends StatelessWidget {
+  const _NativeCurrencyInput({
+    required this.currency,
+    required this.hint,
+    required this.controller,
+    required this.keyboardType,
+    required this.formatter,
+    required this.onChanged,
+    required this.onSubmitted,
+  });
+
+  final String currency;
+  final String hint;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final TextInputFormatter formatter;
+  final VoidCallback onChanged;
+  final VoidCallback onSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final scaler = MediaQuery.textScalerOf(context);
+    final label = Text(
+      currency,
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+        color: colors.textMuted,
+        fontWeight: CollectTypography.weightSemibold,
+      ),
+    );
+    final field = LayoutBuilder(
+      builder: (context, constraints) {
+        var style = CollectTypography.amountHero(colors.textPrimary);
+        final value = controller.text.isEmpty ? hint : controller.text;
+        final painter = TextPainter(
+          textDirection: TextDirection.ltr,
+          textScaler: scaler,
+        );
+        // Leave room for the cursor; recalculate after typing and preset changes.
+        final available = (constraints.maxWidth - 4).clamp(
+          1.0,
+          double.infinity,
+        );
+        for (var attempt = 0; attempt < 40; attempt++) {
+          painter.text = TextSpan(text: value, style: style);
+          painter.layout();
+          if (painter.width <= available) break;
+          style = style.copyWith(fontSize: style.fontSize! * 0.94);
+        }
+        painter.dispose();
+        return TextField(
+          controller: controller,
+          autofocus: true,
+          keyboardType: keyboardType,
+          textInputAction: TextInputAction.done,
+          inputFormatters: [formatter],
+          onChanged: (_) => onChanged(),
+          style: style,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: style.copyWith(color: colors.textMuted),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+          ),
+          onSubmitted: (_) => onSubmitted(),
+        );
+      },
+    );
+    if (scaler.scale(1) >= 1.3) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [label, CollectSpacing.gap4, field],
+      );
+    }
+    return Row(
+      children: [
+        label,
+        CollectSpacing.gapW12,
+        Expanded(child: field),
+      ],
     );
   }
 }

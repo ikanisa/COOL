@@ -1,17 +1,48 @@
 # Collect Rwanda group-cover bank
 
-This folder contains **44 active generated PNG photographs**, the 44-concept catalogue and a provenance record for every original. Each image is 1086 × 1448 pixels. The active set totals 98,796,942 bytes. Six previous wedding versions are preserved, making 50 source PNGs in total (113,087,135 bytes). Runtime readiness remains false.
+The current `catalog.v1.json` and runtime records contain **42 active concepts**.
+The identifiers are intentionally retained; no concepts are added or renumbered to
+make the historical count of 44 appear correct.
 
-The [production and integration plan](../../../docs/plans/rwanda-group-asset-bank-2026-09-06/README.md) explains the cultural context, picker journey, filtering and durable save work. The [44 standalone prompts](../../../docs/plans/rwanda-group-asset-bank-2026-09-06/production/PROMPTBOOK.md) are exported from catalog.v1.json.
+## Runtime inventory
 
-The originals are in source/ and their provenance records are in production/. Versioned WebP covers in covers/ and thumbnails in thumbs/ are built: 88 derivatives total 4,651,698 bytes, with hashes and dimensions in runtime-manifest.json. pubspec.yaml bundles the cover and thumbnail folders; a generated Dart index supplies runtime metadata. Full-resolution originals, prompts and research are excluded from the bundle.
+There are **42 WebP covers** (768 × 1024 pixels) and **42 WebP thumbnails**
+(192 × 256 pixels), for **84 runtime images totaling 4,488,758 bytes**.
+Covers total 4,077,622 bytes; thumbnails total 411,136 bytes. On 26 September 2026,
+all 84 original Drive files were downloaded, decoded and compared with their
+recorded sizes, dimensions and SHA-256 hashes in the runtime and approval manifests.
+This is integrity evidence, not native UI, crop, cultural or visual acceptance.
+The prior 4,651,698-byte summary was stale; correcting it is not compression or a
+bundle-size reduction. Per-image records and approved hashes were preserved.
 
-Open the [local review gallery](http://collect.localhost:4194/) to browse the saved images by group type, theme, search and explicit context. It previews tall, square, circular and landscape crops without changing source pixels. Start it with python3 scripts/assets/serve_rwanda_group_bank.py --port 4194. This gallery is a review tool, not the member app.
+The originals are in `source/` and their provenance records are in `production/`.
+The catalog lists 42 current source references and six superseded wedding versions;
+these PNG bytes were not checked in this runtime-only verification. Full-resolution
+originals, prompts and research remain separate from the bundled covers and thumbs.
 
-Dedicated Buri munsi and Gikundiro images are kept out of generic suggestions and defaults. The gallery has direct buttons to inspect them. All six wedding concepts use refreshed, vibrant version 2 images.
+The [production and integration plan](../../../docs/plans/rwanda-group-asset-bank-2026-09-06/README.md)
+and [promptbook](../../../docs/plans/rwanda-group-asset-bank-2026-09-06/production/PROMPTBOOK.md)
+provide concept and generation context. Dedicated Buri munsi and Gikundiro images
+remain outside generic suggestions and defaults. Six wedding concepts use version 2.
+The catalog and its review statuses are unchanged; local cultural/language review,
+final crop approval, native acceptance and application distribution are separate gates.
 
-See [generation status and review work](../../../docs/plans/rwanda-group-asset-bank-2026-09-06/production/GENERATION-STATUS.md). All 44 current outputs received an initial scene inspection. Local cultural/language review, final crop approval, full native acceptance and application distribution remain pending. The shared picker is implemented locally and the atomic creation-media RPC is deployed with verified database readback; see [integration status](../../../docs/plans/rwanda-group-asset-bank-2026-09-06/INTEGRATION-STATUS.md).
+## Read-only runtime check
 
-Run python3 scripts/assets/rwanda_group_asset_bank.py validate or export from the repository root. The helper uses no paid API and makes no network calls. Built-in image generation runs once per exported job; save-source stores a returned PNG without overwriting an existing file.
+From a complete checkout containing the catalog, runtime images and approval manifest:
 
-The existing marketing assets remain separate. The installed `revolut-design` skill is the sole design authority. This catalogue creates no group types, financial capabilities, user approvals or production acceptance.
+```bash
+ruby scripts/qa/group_runtime_integrity.rb --root . --json
+```
+
+This command checks catalog/manifest consistency, both runtime directories, sizes
+and hashes. It checks that dimension metadata is positive but does not decode images.
+The separate delivery evidence records the full image decode and actual dimension
+checks performed on 26 September 2026. It does not verify other approved assets.
+
+The review gallery remains a review tool, not the member app; its launcher is
+`python3 scripts/assets/serve_rwanda_group_bank.py --port 4194`. The existing bank
+helper is `python3 scripts/assets/rwanda_group_asset_bank.py validate`.
+
+`revolut-design` is the sole design authority. This catalog and integrity report
+create no group types, financial capabilities, new approvals or release acceptance.

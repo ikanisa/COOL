@@ -1,0 +1,4 @@
+{
+  "scripts/tests/signed_otp_recovery_concurrency_uat.rb": "05729be88918aa10809eeaea09dd0469baddc83c8e7b9b72b2656dbcb3ce915d",
+  "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5"
+}

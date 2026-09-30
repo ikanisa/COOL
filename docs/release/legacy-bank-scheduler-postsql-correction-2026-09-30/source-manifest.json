@@ -1,0 +1,40 @@
+{
+  "source_unchanged_during_checks": true,
+  "files": [
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_snapshot.sql",
+      "bytes": 3085,
+      "sha256": "076a3618bbedd628ba464118a25cc9a7686bd24021698585b1e6b09d20554e07"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_snapshot_source_test.rb",
+      "bytes": 2963,
+      "sha256": "ce4fc64b40cb69137f6cc45e230da5a4cd8a5f57f44a9f316a2fd490961d0a57"
+    },
+    {
+      "path": "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+      "bytes": 7801,
+      "sha256": "a3e29f1314a4a94d1ef2bd19709aa745dca5f0e456bb70dab769d6b42c92ba85"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_retirement_uat.sql",
+      "bytes": 12611,
+      "sha256": "a190bffc1212c410a200e6b99d4db6910bf0cea5d948f535e7bb1640c4d25952"
+    },
+    {
+      "path": "scripts/tests/legacy_bank_scheduler_retirement_source_test.rb",
+      "bytes": 6133,
+      "sha256": "33dcbfd6b3468cd998da01f7a9b5a7745cea9e28ed4e5154cc00bbfe2ee6bb47"
+    },
+    {
+      "path": "scripts/tests/verify_legacy_bank_scheduler_upgrade.py",
+      "bytes": 3486,
+      "sha256": "eaacf4fe9dc1f3efd3e691da92712c269d52572256725037fbfc49c5f6e5d0ab"
+    },
+    {
+      "path": "scripts/tests/verify_legacy_bank_scheduler_upgrade_test.py",
+      "bytes": 3216,
+      "sha256": "3db22aeef7519eda7b432edafb629322630cb90d6b8037af14ff9d8338e09b21"
+    }
+  ]
+}

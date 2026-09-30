@@ -50,19 +50,6 @@ void main() {
     }
   });
 
-  test('bank transfer amount parser stores EUR cents exactly', () {
-    expect(parseEuroMinor('1'), 100);
-    expect(parseEuroMinor('12.34'), 1234);
-    expect(parseEuroMinor('12,30'), 1230);
-  });
-
-  test('bank transfer amount parser rejects invalid or zero values', () {
-    expect(parseEuroMinor('0'), isNull);
-    expect(parseEuroMinor('12.345'), isNull);
-    expect(parseEuroMinor('-1'), isNull);
-    expect(parseEuroMinor('abc'), isNull);
-  });
-
   test('activity labels use compact Collect IDs', () {
     expect(compactCollectIdLabel('Collect ID 038491'), '038491');
     expect(compactCollectIdLabel('Collect member'), 'Collect member');

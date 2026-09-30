@@ -1,0 +1,16 @@
+{
+  "kind": "reviewed_generated_app_production_lock",
+  "sha256": "e75fcc377acd2127fdf6bc8f151cf29288083fc786bfc673c7b2d75606b55957",
+  "entry_count": 184,
+  "runtime_components": 173,
+  "runtime_edges": 995,
+  "runtime_external_artifacts": 141,
+  "compile_components": 64,
+  "compile_edges": 296,
+  "compile_external_artifacts": 47,
+  "native_artifact_hashes_unchanged_from_pre_lock_baseline": true,
+  "additional_metadata_module": "org.jetbrains.kotlin:kotlin-stdlib-common:2.3.20 (already in compile graph)",
+  "lock_enforced_positive_commands": true,
+  "adversarial_evidence": "native-lock-adversarial-attempt10/verification.json",
+  "scope": "App-only production graph; no SDK/plugin cache locks or version upgrades"
+}

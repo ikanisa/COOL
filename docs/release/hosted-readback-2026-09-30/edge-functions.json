@@ -1,0 +1,103 @@
+{
+  "functions": [
+    {
+      "name": "auth-send-whatsapp-otp",
+      "slug": "auth-send-whatsapp-otp",
+      "status": "ACTIVE",
+      "version": 44,
+      "updated_at": 1788293874712,
+      "verify_jwt": false,
+      "ezbr_sha256": "aa8da63ffb94014a5b69327868b6406b0395baf1ea6d9a973a8b5b299cc714c3"
+    },
+    {
+      "name": "send-notification",
+      "slug": "send-notification",
+      "status": "ACTIVE",
+      "version": 20,
+      "updated_at": 1788293892615,
+      "verify_jwt": false,
+      "ezbr_sha256": "7fea052024f5ef54d153feaa657962e3d4d620039f2066a0665641a4d2b73fc9"
+    },
+    {
+      "name": "dispatch-notifications",
+      "slug": "dispatch-notifications",
+      "status": "ACTIVE",
+      "version": 14,
+      "updated_at": 1788293877090,
+      "verify_jwt": false,
+      "ezbr_sha256": "3fea3e2ee473d1f35c591dda71aaa3bd60d2991c30d9280832d43c7d51a7dfe7"
+    },
+    {
+      "name": "ingest-bank-email",
+      "slug": "ingest-bank-email",
+      "status": "ACTIVE",
+      "version": 6,
+      "updated_at": 1788293879544,
+      "verify_jwt": false,
+      "ezbr_sha256": "acd620fb8dd88ba558ebb79a0954e079472096e01f59c4101e355e023b2bae9b"
+    },
+    {
+      "name": "ingest-bank-sms",
+      "slug": "ingest-bank-sms",
+      "status": "ACTIVE",
+      "version": 6,
+      "updated_at": 1788293882265,
+      "verify_jwt": true,
+      "ezbr_sha256": "9b8c1d6a7bf2ed35662e5c0df51ff4686c063181b3cb2c838d0f385372ca6227"
+    },
+    {
+      "name": "ingest-bank-statement",
+      "slug": "ingest-bank-statement",
+      "status": "ACTIVE",
+      "version": 6,
+      "updated_at": 1788293884933,
+      "verify_jwt": true,
+      "ezbr_sha256": "517b7d09494e393e77ef7b3f3f7822359ae53a7b34bd79322f3d94b7acd24454"
+    },
+    {
+      "name": "ingest-payment-sms",
+      "slug": "ingest-payment-sms",
+      "status": "ACTIVE",
+      "version": 5,
+      "updated_at": 1788436877270,
+      "verify_jwt": true,
+      "ezbr_sha256": "b1b90345c76b413dd5d77bddfa4436b052828ab6f9cf17567497bb8eb633f449"
+    },
+    {
+      "name": "parse-payment-sms",
+      "slug": "parse-payment-sms",
+      "status": "ACTIVE",
+      "version": 6,
+      "updated_at": 1788436882806,
+      "verify_jwt": false,
+      "ezbr_sha256": "93974103ef18f5cc27eee63feec7b75ef125626056ae71417286bfb670fc6c1c"
+    },
+    {
+      "name": "verify-play-integrity",
+      "slug": "verify-play-integrity",
+      "status": "ACTIVE",
+      "version": 4,
+      "updated_at": 1788436871740,
+      "verify_jwt": true,
+      "ezbr_sha256": "60838247abebbe0493cd4f3a09c10c6bae9219ca1c42433fe3c45c5008af8de4"
+    },
+    {
+      "name": "prepare-roster-import",
+      "slug": "prepare-roster-import",
+      "status": "ACTIVE",
+      "version": 1,
+      "updated_at": 1788436887839,
+      "verify_jwt": true,
+      "ezbr_sha256": "5b81aaa39c1ea6f74240e08d546e6877d1f2cb1e0dd0b653e1ab951a8be15b77"
+    },
+    {
+      "name": "collect-notification-operator",
+      "slug": "collect-notification-operator",
+      "status": "ACTIVE",
+      "version": 1,
+      "updated_at": 1788436892967,
+      "verify_jwt": true,
+      "ezbr_sha256": "53975863f5442499b225b3f0ab8bf3ef389e8f231e1229d6c24fd11fb3cfc9ba"
+    }
+  ]
+}

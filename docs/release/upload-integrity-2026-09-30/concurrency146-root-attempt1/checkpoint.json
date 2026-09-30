@@ -1,0 +1,32 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/concurrency146-root-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "260bef7a50441d328cc0a706aecaca6c7db7f00d75f6b60e614a49f9ef05d5ae",
+  "command": [
+    "ruby",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/roster_resource_concurrency_uat.rb"
+  ],
+  "controller_sha256": "4abf9b37788a8c4d5939b9b238f94f4337a0be878f895a6d64984543f9bd0c3f",
+  "harness_sha256": "157b532a972b2280d16b2bb0a968dfad73d4fe6b3419c1f4f04c8090e4f9a9da",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 146,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930140000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "migration_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+  "provider_calls": false,
+  "recorder_sha256": "8b9c801f4ae01a0e7fbb7efb6f64427f9fdc26eddd12b1ff3e038def67094065",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "started_at_utc": "2026-09-30T14:11:37.020702+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

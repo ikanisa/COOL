@@ -1,141 +1,107 @@
-import {
-  authErrorStatus,
-  corsHeaders,
-  jsonResponse,
-  requireEnv,
-  safeErrorMessage,
-} from "../_shared/cors.ts";
+import { corsHeaders, jsonResponse, requireEnv } from "../_shared/cors.ts";
 import { requireUser, serviceClient } from "../_shared/supabase.ts";
-import { hashPhone, sha256Hex } from "../_shared/hash.ts";
-import { boundedRawSmsText } from "../_shared/raw_sms_input.ts";
+import { acceptReceipt } from "../_shared/receipt_ingestion.ts";
+import {
+  fetchJson,
+  PublicError,
+  publicFailure,
+} from "../_shared/production_contract.ts";
+import {
+  elapsedReceiptMs,
+  ReceiptMetricCode,
+  recordReceiptMetric,
+} from "../_shared/operational_metrics.ts";
 
-const uuidPattern =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const encoder = new TextEncoder();
-
-function bounded(value: unknown, field: string, maxBytes: number): string {
-  if (typeof value !== "string" || !value.trim()) {
-    throw new Error(`${field} is required`);
-  }
-  const clean = value.trim();
-  if (encoder.encode(clean).byteLength > maxBytes) {
-    throw new Error(`${field} exceeds the accepted limit`);
-  }
-  return clean;
-}
-
-Deno.serve(async (req) => {
+Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
   if (req.method !== "POST") {
-    return jsonResponse({ error: "Method not allowed" }, 405);
+    return jsonResponse({ error: "method_not_allowed" }, 405);
   }
-  try {
-    const { user } = await requireUser(req.headers.get("authorization"));
-    const payload = await req.json() as Record<string, unknown>;
-    const rawSender = boundedRawSmsText(payload.raw_sender, "raw_sender", 96);
-    const rawBody = boundedRawSmsText(payload.raw_body, "raw_body", 4_096);
-    const receiver = bounded(
-      payload.receiver_momo_number,
-      "receiver_momo_number",
-      40,
-    );
-    const nativeCapability = typeof payload.native_capability === "string" &&
-        uuidPattern.test(payload.native_capability)
-      ? payload.native_capability
-      : null;
-    const envelope = typeof payload.client_envelope_id === "string" &&
-        uuidPattern.test(payload.client_envelope_id)
-      ? payload.client_envelope_id
-      : null;
-    const collectionId = typeof payload.collection_id === "string" &&
-        uuidPattern.test(payload.collection_id)
-      ? payload.collection_id
-      : null;
-    const receivedAt = typeof payload.received_at_device === "string" &&
-        !Number.isNaN(Date.parse(payload.received_at_device))
-      ? payload.received_at_device.trim()
-      : null;
-    const receiverHash = await hashPhone(receiver);
-    if (!receiverHash) return jsonResponse({ error: "Invalid receiver" }, 400);
-
-    const supabase = serviceClient();
-    const contract = await supabase.rpc("attested_sms_contract_version");
-    const contractMissing = contract.error?.code === "PGRST202" ||
-      /could not find the function/i.test(contract.error?.message ?? "");
-    if (contract.error && !contractMissing) throw contract.error;
-    const attestationRequired = contract.data === 1;
-    if (attestationRequired && (!nativeCapability || !envelope)) {
-      return jsonResponse({
-        error: "Verified Android SMS envelope is required",
-      }, 400);
-    }
-    const common = {
-      p_receiver_user_id: user.id,
-      p_collection_id: collectionId,
-      p_raw_sender: rawSender,
-      p_raw_body: rawBody,
-      p_body_hash: await sha256Hex(rawBody),
-      p_client_envelope_id: envelope ?? crypto.randomUUID(),
-      p_receiver_momo_number_hash: receiverHash,
-    };
-    const ingestion = attestationRequired
-      ? await supabase.rpc("ingest_attested_raw_payment_sms", {
-        p_native_capability_id: nativeCapability,
-        ...common,
-        p_received_at_device: receivedAt,
-      })
-      : await supabase.rpc("ingest_raw_payment_sms", {
-        ...common,
-        p_received_at_device: receivedAt,
-      });
-    const { data, error } = ingestion;
-    if (error) {
-      if (/not authorized/i.test(error.message)) {
-        return jsonResponse({
-          error: "Receiver or SMS consent is not authorized",
-        }, 403);
-      }
-      if (/rate limit/i.test(error.message)) {
-        return jsonResponse(
-          { error: "SMS ingestion rate limit exceeded" },
-          429,
-        );
-      }
-      throw error;
-    }
-    if (typeof data !== "object" || data == null || !("id" in data)) {
-      throw new Error("SMS ingestion did not return a durable record");
-    }
-    const parseResponse = await fetch(
-      `${requireEnv("SUPABASE_URL")}/functions/v1/parse-payment-sms`,
-      {
-        method: "POST",
-        headers: {
-          apikey: requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
-          "Content-Type": "application/json",
-          "x-collect-signature": requireEnv("INTERNAL_FUNCTION_SECRET"),
-        },
-        body: JSON.stringify({ raw_sms_id: data.id }),
+  const started = performance.now();
+  let authenticated = false, durableAccepted = false;
+  let service: ReturnType<typeof serviceClient> | undefined;
+  const metric = async (code: ReceiptMetricCode, duration: number | null) => {
+    const recorded = await recordReceiptMetric(
+      code,
+      duration,
+      async (event, ms, signal) => {
+        if (!service) return false;
+        const result = await service.rpc("record_operational_metric_v1", {
+          p_event_code: event,
+          p_duration_ms: ms,
+        }).abortSignal(signal);
+        return result.error === null && result.data === true;
       },
     );
-    const parsed = await parseResponse.json().catch(() => ({}));
-    return parseResponse.ok
-      ? jsonResponse({ ok: true, raw_sms_id: data.id, ...parsed })
-      : jsonResponse({
-        error: "SMS was stored but parsing must be retried",
-        raw_sms_id: data.id,
-      }, 502);
+    if (!recorded) console.warn("collect_operational_metric_unavailable");
+  };
+  try {
+    const backend = serviceClient();
+    service = backend;
+    const ack = await acceptReceipt(req, {
+      owner: async (r) => {
+        const owner =
+          (await requireUser(r.headers.get("authorization"))).user.id;
+        authenticated = true;
+        return owner;
+      },
+      version: async () => {
+        const r = await backend.rpc("attested_sms_contract_version");
+        if (r.error) throw new PublicError("receipt_contract_unavailable", 503);
+        return r.data;
+      },
+      accept: async (p) => {
+        const r = await backend.rpc("accept_attested_receipt_v2", p);
+        if (r.error) {
+          throw new PublicError("receipt_acceptance_unavailable", 503);
+        }
+        return r.data;
+      },
+      process: async (id) => {
+        // Entry into process follows the validated durable acceptance receipt.
+        durableAccepted = true;
+        const parseStarted = performance.now();
+        let accepted = false;
+        try {
+          const r = await fetchJson(
+            `${requireEnv("SUPABASE_URL")}/functions/v1/parse-payment-sms`,
+            {
+              method: "POST",
+              headers: {
+                apikey: requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
+                "Content-Type": "application/json",
+                "x-collect-signature": requireEnv("INTERNAL_FUNCTION_SECRET"),
+              },
+              body: JSON.stringify({ raw_sms_id: id }),
+            },
+          );
+          accepted = r.ok && r.data !== null && typeof r.data === "object" &&
+            (r.data as Record<string, unknown>).ok === true;
+          return accepted;
+        } finally {
+          await metric(
+            accepted
+              ? "receipt_processing_accepted"
+              : "receipt_processing_deferred",
+            elapsedReceiptMs(parseStarted),
+          );
+        }
+      },
+    });
+    await metric("receipt_ack_generated", elapsedReceiptMs(started));
+    return jsonResponse({
+      ok: true,
+      receipt: ack,
+      evidence_level: "sms_observed",
+      processing: "accepted",
+    });
   } catch (error) {
-    const authStatus = authErrorStatus(error);
-    if (authStatus) {
-      return jsonResponse({ error: safeErrorMessage(error) }, authStatus);
+    if (authenticated && !durableAccepted) {
+      await metric("receipt_rejected", elapsedReceiptMs(started));
     }
-    const message = safeErrorMessage(error);
-    return jsonResponse(
-      { error: message },
-      /required|invalid|limit/i.test(message) ? 400 : 500,
-    );
+    const f = publicFailure(error);
+    return jsonResponse({ error: f.error }, f.status);
   }
 });

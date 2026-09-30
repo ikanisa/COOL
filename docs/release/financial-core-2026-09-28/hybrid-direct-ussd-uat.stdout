@@ -1,0 +1,410 @@
+SET
+BEGIN
+SET
+DO
+CREATE TABLE
+CREATE TABLE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 2
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+UPDATE 1
+UPDATE 1
+INSERT 0 1
+INSERT 0 1
+DO
+UPDATE 2
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+                                                        set_config                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ {"sub":"97000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"97000000-0000-4000-8000-000000000099"}
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+RESET
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+                                                        set_config                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ {"sub":"97000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"97000000-0000-4000-8000-000000000099"}
+(1 row)
+
+INSERT 0 1
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+DO
+RESET
+INSERT 0 8
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+       confirm_provider_payment       
+--------------------------------------
+ 4f57dabc-fc66-47fe-93f4-61726a2460af
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+INSERT 0 1
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+SET CONSTRAINTS
+ expect_error 
+--------------
+ 
+(1 row)
+
+SET CONSTRAINTS
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+SET
+                                                        set_config                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ {"sub":"97000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"97000000-0000-4000-8000-000000000099"}
+(1 row)
+
+INSERT 0 1
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+SET
+                                                        set_config                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ {"sub":"97000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"97000000-0000-4000-8000-000000000099"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+INSERT 0 1
+INSERT 0 1
+SET
+       set_config        
+-------------------------
+ {"role":"service_role"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+                                       ?column?                                        
+---------------------------------------------------------------------------------------
+ PASS Admin ledger exposes both canonical receipt and compensating reversal
+ PASS ambiguous direct receipt posts no money
+ PASS Auth-created member profile permits the empty Rwanda onboarding state
+ PASS canonical RWF receipt journal has one balanced debit and credit
+ PASS compensating reversal retry is idempotent
+ PASS conflicting public ID cannot auto-allocate through direct assignment
+ PASS conflicting public ID is retained for review without posting money
+ PASS direct candidate is bound to the offline member record
+ PASS direct candidate retry is idempotent while confirmation is pending
+ PASS disagreement records a specific exception and no money
+ PASS independent provider confirmation posts the direct candidate
+ PASS independent provider finality posts the payer intent exactly once
+ PASS intent and direct assignment disagreement is held for review
+ PASS legacy read projection remains exactly one group and one member credit
+ PASS masked direct USSD receipt creates only a provider-confirmation candidate
+ PASS member balance API reads the zero canonical balance after reversal
+ PASS missing provider transaction reference can never auto-allocate
+ PASS missing provider transaction reference creates no payment candidate
+ PASS mixed incomplete country and currency profile is rejected
+ PASS multiple exact identity candidates are held for review
+ PASS new foreign member profile is rejected
+ PASS payer intent provider confirmation updates canonical group balance
+ PASS payer intent receipt creates only a provider-confirmation candidate
+ PASS PII and canonical financial tables have no direct browser or service-role access
+ PASS provider finality gateway retry is idempotent
+ PASS provider-confirmed direct allocation retry is idempotent
+ PASS raw SMS evidence cannot be deleted outside a governed migration
+ PASS receipt and compensating reversal preserve immutable balance history
+ PASS receipt stores immutable member and group after-balances
+ PASS receiving assignment retry is idempotent
+ PASS reversal adds immutable compensating legacy projection rows
+ PASS reversal changes status and restores canonical balances to zero
+ PASS reversed provider transaction replay is ignored
+ PASS reversed transaction replay creates no second payment
+ PASS same member and physical route cannot silently select another group
+ PASS unbalanced canonical journal is rejected
+ PASS unconfirmed payer intent changes no financial ledger
+ PASS unconfirmed SMS candidate changes no ledger or canonical balance
+ PASS zero direct candidates is a review case
+ PASS zero-candidate receipt records an exception and no money
+(40 rows)
+
+                                      ?column?                                      
+------------------------------------------------------------------------------------
+ HYBRID_DIRECT_USSD_FINANCIAL_CORE_UAT_PASS: 40 assertions; synthetic rollback only
+(1 row)
+
+ROLLBACK

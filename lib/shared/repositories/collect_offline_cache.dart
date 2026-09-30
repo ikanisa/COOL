@@ -2,11 +2,24 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/security/protected_snapshot_store.dart';
 import '../models/collect_models.dart';
 import '../models/member_history_page.dart';
 
 class CollectOfflineCache {
-  const CollectOfflineCache({this.preferencesKey = _defaultKey});
+  // Kept for synthetic legacy-cache tests and explicit migration adapters only.
+  // Production repository construction uses protected() below.
+  const CollectOfflineCache({this.preferencesKey = _defaultKey})
+    : _protected = false,
+      _store = const ProtectedSnapshotStore();
+
+  const CollectOfflineCache.protected({
+    this._store = const ProtectedSnapshotStore(),
+  }) : preferencesKey = 'collect.protected_snapshot.v5',
+       _protected = true;
+
+  final bool _protected;
+  final ProtectedSnapshotStore _store;
 
   static const _defaultKey = 'collect.offline_snapshot.v4';
   static const _completeHistoryCacheKey = 'collect.offline_snapshot.v3';
@@ -42,7 +55,8 @@ class CollectOfflineCache {
     return tail;
   }
 
-  Future<CollectOfflineSnapshot?> read() async {
+  Future<CollectOfflineSnapshot?> read({String? ownerUserId}) async {
+    if (_protected) return _readProtected(ownerUserId);
     final epoch = _clearEpochs[preferencesKey];
     final pending = _writes[preferencesKey];
     if (pending != null) await pending;
@@ -61,18 +75,68 @@ class CollectOfflineCache {
     if (raw == null || raw.trim().isEmpty) return null;
     try {
       final payload = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+      bool rwandaRow(Object? row, {bool collection = false}) {
+        if (row is! Map) return false;
+        final currency = row[collection ? 'settlement_currency' : 'currency'];
+        final rail = row[collection ? 'payment_rail' : 'rail'];
+        return (currency == null || currency == 'RWF') &&
+            (rail == null || rail == 'rwanda_momo');
+      }
+
+      final localPayload = Map<String, dynamic>.from(payload);
       final cachedProfile = payload['current_profile'];
-      final containsLegacyNames =
-          cachedProfile is Map &&
-          (cachedProfile.containsKey('display_name') ||
-              cachedProfile.containsKey('revolut_name'));
-      final snapshot = CollectOfflineSnapshot.fromJson(payload);
+      if (cachedProfile is Map &&
+          (cachedProfile['country_code'] != 'RW' ||
+              cachedProfile['currency_code'] != 'RWF')) {
+        localPayload['current_profile'] = null;
+      }
+      localPayload['collections'] = [
+        for (final row in _list(payload['collections']))
+          if (rwandaRow(row, collection: true)) row,
+      ];
+      localPayload['payment_intents'] = [
+        for (final row in _list(payload['payment_intents']))
+          if (rwandaRow(row)) row,
+      ];
+      if (_list(localPayload['payment_intents']).length !=
+          _list(payload['payment_intents']).length) {
+        localPayload['pending_intent_count'] = null;
+      }
+      localPayload['contributions'] = [
+        for (final row in _list(payload['contributions']))
+          if (rwandaRow(row)) row,
+      ];
+      if (_list(localPayload['contributions']).length !=
+          _list(payload['contributions']).length) {
+        localPayload['history_page'] = null;
+      }
+      final cachedHistory = payload['history_page'];
+      if (cachedHistory is Map &&
+          (_map(cachedHistory['totals']).keys.any((key) => key != 'RWF') ||
+              _map(
+                cachedHistory['own_totals'],
+              ).keys.any((key) => key != 'RWF') ||
+              _list(cachedHistory['items']).any((row) => !rwandaRow(row)))) {
+        localPayload['history_page'] = null;
+      }
+      localPayload['collection_summaries'] = {
+        for (final entry in _map(payload['collection_summaries']).entries)
+          if (entry.value is Map &&
+              ((entry.value as Map)['currency'] == null ||
+                  (entry.value as Map)['currency'] == 'RWF') &&
+              (_list((entry.value as Map)['balances']).isEmpty ||
+                  _list(
+                    (entry.value as Map)['balances'],
+                  ).every((row) => row is Map && row['currency'] == 'RWF')))
+            entry.key: entry.value,
+      };
+      final snapshot = CollectOfflineSnapshot.fromJson(localPayload);
       final sanitized = snapshot.withoutCollections(
         _retiredNonProductionCollectionIds,
       );
       if (epoch != _clearEpochs[preferencesKey]) return null;
       if (sourceKey != preferencesKey ||
-          containsLegacyNames ||
+          jsonEncode(payload) != jsonEncode(sanitized.toJson()) ||
           sanitized.collections.length != snapshot.collections.length ||
           sanitized.paymentIntents.length != snapshot.paymentIntents.length ||
           sanitized.contributions.length != snapshot.contributions.length) {
@@ -85,8 +149,62 @@ class CollectOfflineCache {
     }
   }
 
-  Future<void> save(CollectOfflineSnapshot snapshot) =>
-      _serialize(() => _save(snapshot));
+  Future<void> save(CollectOfflineSnapshot snapshot) {
+    final epoch = _clearEpochs[preferencesKey];
+    return _serialize(() async {
+      if (epoch != _clearEpochs[preferencesKey]) return;
+      if (_protected) {
+        await _removeLegacyPlaintext();
+        final owner = snapshot.currentProfile?.id;
+        if (owner == null) return;
+        await _store.write(owner, jsonEncode(snapshot.toJson()));
+      } else {
+        await _save(snapshot);
+      }
+    });
+  }
+
+  Future<CollectOfflineSnapshot?> _readProtected(String? owner) async {
+    if (owner == null) return null;
+    final epoch = _clearEpochs[preferencesKey];
+    final pending = _writes[preferencesKey];
+    if (pending != null) await pending;
+    await _removeLegacyPlaintext();
+    if (epoch != _clearEpochs[preferencesKey]) return null;
+    final encoded = await _store.read(owner);
+    if (encoded == null || epoch != _clearEpochs[preferencesKey]) return null;
+    try {
+      final data = jsonDecode(encoded);
+      if (data is! Map<String, dynamic> || data['version'] != 4) return null;
+      final snapshot = CollectOfflineSnapshot.fromJson(data);
+      if (snapshot.currentProfile?.id.toLowerCase() != owner.toLowerCase() ||
+          snapshot.currentProfile?.countryCode != 'RW' ||
+          snapshot.currentProfile?.currencyCode != 'RWF') {
+        return null;
+      }
+      if (epoch != _clearEpochs[preferencesKey]) return null;
+      return snapshot.withoutCollections(_retiredNonProductionCollectionIds);
+    } on FormatException {
+      // Retain ciphertext for investigation, but never display malformed finance.
+      return null;
+    } on TypeError {
+      return null;
+    }
+  }
+
+  Future<void> _removeLegacyPlaintext() async {
+    final preferences = await SharedPreferences.getInstance();
+    for (final key in [
+      _defaultKey,
+      _completeHistoryCacheKey,
+      _singleCurrencyCacheKey,
+      _legacyPaymentCacheKey,
+    ]) {
+      if (preferences.containsKey(key) && !(await preferences.remove(key))) {
+        throw StateError('Legacy financial cache could not be removed');
+      }
+    }
+  }
 
   Future<void> _save(CollectOfflineSnapshot snapshot) async {
     final preferences = await SharedPreferences.getInstance();
@@ -114,6 +232,11 @@ class CollectOfflineCache {
   }
 
   Future<void> _clear() async {
+    if (_protected) {
+      await _store.clear();
+      await _removeLegacyPlaintext();
+      return;
+    }
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(preferencesKey);
     if (preferencesKey == _defaultKey) {
@@ -212,15 +335,9 @@ class CollectOfflineSnapshot {
               contributions,
             ),
       pendingIntentCount: json['pending_intent_count'] as int?,
-      collectionSummaries: {
-        for (final entry in _map(json['collection_summaries']).entries)
-          if (entry.value is Map &&
-              ((entry.value as Map)['currency'] is String ||
-                  (entry.value as Map)['balances'] is List))
-            entry.key: CollectionSummary.fromJson(
-              Map<String, dynamic>.from(entry.value as Map),
-            ),
-      },
+      collectionSummaries: _cachedCollectionSummaries(
+        json['collection_summaries'],
+      ),
     );
   }
 
@@ -260,6 +377,27 @@ class CollectOfflineSnapshot {
   }
 }
 
+// An invalid aggregate is unavailable, not zero. Recover other cached groups
+// and their valid data rather than letting one summary invalidate the snapshot.
+// The live reader still decodes strictly: it never uses this cache-only policy.
+Map<String, CollectionSummary> _cachedCollectionSummaries(Object? value) {
+  final result = <String, CollectionSummary>{};
+  for (final entry in _map(value).entries) {
+    final row = entry.value;
+    if (row is! Map || row.keys.any((key) => key is! String)) continue;
+    try {
+      result[entry.key] = CollectionSummary.fromJson(
+        Map<String, dynamic>.from(row),
+      );
+    } on FormatException {
+      // Drop only this invalid summary. Do not synthesize from partial history,
+      // swallow other failures, log private payloads, or change savedAt.
+      continue;
+    }
+  }
+  return result;
+}
+
 List<Object?> _list(Object? value) {
   return value is List ? value : const [];
 }
@@ -271,10 +409,13 @@ Map<String, Object?> _map(Object? value) {
 }
 
 DateTime _dateTime(Object? value) {
-  if (value is String) {
-    return DateTime.tryParse(value)?.toUtc() ?? DateTime.now().toUtc();
+  if (value is! String ||
+      !RegExp(r'(Z|[+-][0-9]{2}:[0-9]{2})$').hasMatch(value)) {
+    throw const FormatException('Missing or invalid snapshot timestamp');
   }
-  return DateTime.now().toUtc();
+  final parsed = DateTime.tryParse(value);
+  if (parsed == null) throw const FormatException('Invalid snapshot timestamp');
+  return parsed.toUtc();
 }
 
 Map<String, dynamic> _profileToJson(CollectProfile profile) {
@@ -287,8 +428,6 @@ Map<String, dynamic> _profileToJson(CollectProfile profile) {
     'momo_provider': profile.momoProvider,
     'momo_number': profile.momoNumber,
     'momo_pay_code': profile.momoPayCode,
-    'revolut_link': profile.revolutLink,
-    'revolut_account': profile.revolutAccount,
   };
 }
 
@@ -316,8 +455,6 @@ Map<String, dynamic> _collectionToJson(CollectCollection collection) {
     'recurring_cadence': collection.recurringCadence,
     'visibility_status': collection.visibilityStatus,
     'suggested_amount_rwf': collection.suggestedAmountRwf,
-    'diaspora_enabled': collection.diasporaEnabled,
-    'diaspora_regions': collection.diasporaRegions,
     'moderation_status': collection.moderationStatus,
     'created_at': collection.createdAt.toUtc().toIso8601String(),
   };
@@ -335,30 +472,9 @@ Map<String, dynamic> _paymentIntentToJson(PaymentIntentModel intent) {
     'receiver_label': intent.receiverMomoLabel,
     'network': intent.momoNetwork,
     'sender_phone_hash': intent.senderPhoneHash,
-    'transfer_reference': intent.transferReference,
-    'destination_snapshot': _bankDestinationToJson(intent.destination),
     'status': intent.status,
     'created_at': intent.createdAt.toUtc().toIso8601String(),
     'expires_at': intent.expiresAt.toUtc().toIso8601String(),
-  };
-}
-
-Map<String, dynamic> _bankDestinationToJson(
-  BankTransferDestination destination,
-) {
-  return {
-    'id': destination.id,
-    'beneficiary_name': destination.beneficiaryName,
-    'iban': destination.iban,
-    'iban_masked': destination.ibanMasked,
-    'bic': destination.bic,
-    'bank_name': destination.bankName,
-    'currency': destination.currency,
-    'transfer_scheme': destination.transferScheme,
-    'supports_instant': destination.supportsInstant,
-    'status': destination.status,
-    'is_placeholder': destination.isPlaceholder,
-    'enabled': destination.enabled,
   };
 }
 

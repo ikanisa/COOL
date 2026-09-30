@@ -40,8 +40,6 @@ const collectGroupCovers = <CollectGroupCover>[
   _coverRw36LocalTeamEquipment,
   _coverRw37AwayMatchTravel,
   _coverRw38CulturalTroupeRehearsal,
-  _coverRw39DiasporaFamilyConnection,
-  _coverRw40DiasporaCommunityProject,
   _coverRw41BuriMunsi,
   _coverRw42Gikundiro,
   _coverRw43ChurchCongregation,

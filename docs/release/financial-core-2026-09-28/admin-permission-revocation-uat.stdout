@@ -1,0 +1,126 @@
+BEGIN
+SET
+DO
+CREATE TABLE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+                                                        set_config                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ {"sub":"99100000-0000-4000-8000-000000000003","role":"authenticated","session_id":"99100000-0000-4000-8000-000000000099"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+UPDATE 1
+SET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+RESET
+UPDATE 1
+UPDATE 1
+SET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+RESET
+UPDATE 1
+UPDATE 1
+SET
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_error 
+--------------
+ 
+(1 row)
+
+RESET
+UPDATE 1
+UPDATE 1
+SET
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+UPDATE 1
+UPDATE 1
+SET
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+UPDATE 1
+SET
+                              set_config                               
+-----------------------------------------------------------------------
+ {"sub":"99100000-0000-4000-8000-000000000003","role":"authenticated"}
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+RESET
+ assert_true 
+-------------
+ 
+(1 row)
+
+                                   ?column?                                   
+------------------------------------------------------------------------------
+ ADMIN_PERMISSION_REVOCATION_UAT_PASS: 15 assertions; synthetic rollback only
+(1 row)
+
+ROLLBACK

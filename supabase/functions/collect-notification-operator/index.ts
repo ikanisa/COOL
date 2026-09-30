@@ -3,7 +3,8 @@ import {
   corsHeaders,
   safeErrorMessage,
 } from "../_shared/cors.ts";
-import { notificationOperatorCommand } from "../_shared/notification_operator.ts";
+import { notificationOperatorCommand, OperatorInputError } from "../_shared/notification_operator.ts";
+import { boundedJson, PublicError } from "../_shared/production_contract.ts";
 import { requireUser, serviceClient } from "../_shared/supabase.ts";
 
 function response(body: unknown, status = 200): Response {
@@ -18,6 +19,14 @@ function response(body: unknown, status = 200): Response {
   });
 }
 
+function databaseCode(error: unknown): string | null {
+  if (typeof error !== "object" || error === null || !("code" in error)) {
+    return null;
+  }
+  const code = (error as { code?: unknown }).code;
+  return typeof code === "string" ? code : null;
+}
+
 Deno.serve(async (request) => {
   if (request.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -29,7 +38,7 @@ Deno.serve(async (request) => {
     const { supabase, user } = await requireUser(
       request.headers.get("authorization"),
     );
-    const payload = await request.json() as Record<string, unknown>;
+    const payload = await boundedJson(request);
     const command = notificationOperatorCommand(
       payload.action,
       payload,
@@ -44,20 +53,31 @@ Deno.serve(async (request) => {
       ? (identity as Record<string, unknown>).permissions as unknown[]
       : [];
     if (!permissions.includes(command.permission)) {
-      return response({ error: `${command.permission} is required` }, 403);
+      return response({ error: "forbidden" }, 403);
     }
     const { data, error } = await serviceClient().rpc(
       command.rpc,
       command.params,
     );
-    if (error) throw error;
+    if (error) {
+      const code = databaseCode(error);
+      if (code === "42501") return response({ error: "forbidden" }, 403);
+      if (code !== null && ["P0001", "23505", "23514", "40001"].includes(code)) {
+        return response({ error: "conflict" }, 409);
+      }
+      throw error;
+    }
     return response({ ok: true, action: payload.action, result: data });
   } catch (error) {
-    const message = safeErrorMessage(error);
+    if (error instanceof PublicError) {
+      return response({ error: error.code }, error.status);
+    }
+    if (error instanceof OperatorInputError) {
+      return response({ error: "invalid_request" }, 400);
+    }
     return response(
-      { error: message },
-      authErrorStatus(error) ??
-        (/required|invalid|unsupported|must/i.test(message) ? 400 : 409),
+      { error: safeErrorMessage(error) },
+      authErrorStatus(error) ?? 503,
     );
   }
 });

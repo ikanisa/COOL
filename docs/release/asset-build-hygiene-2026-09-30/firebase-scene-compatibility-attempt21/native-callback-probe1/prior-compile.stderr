@@ -1,0 +1,7 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/prior-callback-dispatch.m:50:1: error: conflicting return type in implementation of 'scene:willConnectToSession:options:': 'BOOL' (aka 'bool') vs 'void' [-Werror,-Wmismatched-return-types]
+   50 | - (void)scene:(UIScene *)scene
+      | ^  ~~~~
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/native-callback-probe1/prior-callback-dispatch.m:30:1: note: previous definition is here
+   30 | - (BOOL)scene:(UIScene*)scene
+      | ^  ~~~~
+1 error generated.

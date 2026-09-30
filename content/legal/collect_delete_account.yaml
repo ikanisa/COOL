@@ -1,8 +1,7 @@
----
 page:
   id: delete-account
   title: Delete Your Collect Account
-  slug: "/account-deletion"
+  slug: /account-deletion
   seo:
     title: Delete Your Collect Account | Collect by IKANISA
     description: Request deletion of your Collect account and eligible personal data.
@@ -10,9 +9,8 @@ page:
     eyebrow: ACCOUNT AND DATA DELETION
     headline: Delete your Collect account.
     supporting_copy: You may request deletion of your Collect account and associated eligible personal data.
-  important_notice: >-
-    Deleting your Collect account does not automatically close any bank account, cancel any loan, cancel any insurance
-    policy, remove a repayment obligation or remove records independently held by a regulated partner.
+  important_notice: Deleting your Collect account does not automatically cancel any loan or insurance policy, remove
+    a repayment obligation or remove records independently held by a regulated partner.
   delete_in_app:
     heading: Delete in the app
     path: Profile → Settings → Privacy and Security → Delete Account
@@ -35,38 +33,37 @@ page:
     - name: full_name
       label: Full name
       type: text
-      required: true
+      required: null
     - name: registered_phone
       label: Registered telephone number
       type: tel
-      required: true
+      required: null
     - name: registered_email
       label: Registered email address
       type: email
-      required: false
+      required: null
     - name: country
       label: Country
       type: select_or_text
-      required: true
+      required: null
     - name: reason
       label: Reason for deletion
       type: textarea
-      required: false
+      required: null
     - name: identity_verification_method
       label: Identity-verification method
       type: select
-      required: true
+      required: null
       options:
       - SMS verification
       - Email verification
       - Identity document verification
       - Support-assisted verification
     - name: acknowledgement
-      label: >-
-        I understand that deleting my Collect account does not cancel any bank account, loan, insurance policy,
-        group obligation or other product provided by a third party.
+      label: I understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation
+        or other product provided by a third party.
       type: checkbox
-      required: true
+      required: null
   what_happens_next:
     heading: What happens next
     steps:
@@ -74,8 +71,7 @@ page:
     - We review pending transactions and group responsibilities.
     - We tell you if any action is required.
     - We delete or anonymise eligible data.
-    - >-
-      We retain only records required by law or necessary for security, fraud prevention, disputes and regulatory
+    - We retain only records required by law or necessary for security, fraud prevention, disputes and regulatory
       compliance.
     - We confirm when the process is complete.
     service_target: We aim to respond within 30 days or within the period required by applicable law.
@@ -98,16 +94,14 @@ page:
     - Records needed to resolve disputes or legal claims
     - Regulatory reports
     - Ledger entries needed to protect the rights of other group members
-    closing: >-
-      Where a ledger entry affects other members, the transaction record may remain while your profile is deleted,
-      restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily
+    closing: Where a ledger entry affects other members, the transaction record may remain while your profile is
+      deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily
       in secured backups until those backups are overwritten.
   partner_products:
     heading: Products provided by partners
-    copy: >-
-      To close a bank account, cancel an insurance policy or discuss a loan, contact the relevant bank, insurer
-      or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf
-      unless the partner has expressly enabled that workflow.
+    copy: To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider.
+      Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner
+      has expressly enabled that workflow.
   contact:
     heading: Need help?
     email: info@ikanisa.com

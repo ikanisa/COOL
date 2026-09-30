@@ -8,6 +8,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_runtime_tokens.dart';
 import '../../app/theme/collect_typography.dart';
+import '../../app/theme/collect_universal_tokens.dart';
 import '../models/collect_models.dart';
 import '../utils/collect_haptics.dart';
 import 'collect_chrome.dart' show CollectBackdropScope;
@@ -309,6 +310,9 @@ class CollectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final brightness = Theme.of(context).brightness;
+    final highContrast =
+        MediaQuery.highContrastOf(context) ||
+        context.collectUniversalTokens.highContrast;
     final tokenEmphasis = emphasis.runtimeToken;
     final radius = CollectRuntimeTokens.cardRadius(tokenEmphasis);
     final background = CollectRuntimeTokens.cardBackground(
@@ -317,7 +321,7 @@ class CollectCard extends StatelessWidget {
       tokenEmphasis,
       accentColor,
       tone: CollectBackdropScope.of(context),
-      highContrast: MediaQuery.highContrastOf(context),
+      highContrast: highContrast,
     );
     final backgroundOpacity = CollectRuntimeTokens.cardOpacity(
       brightness,
@@ -328,6 +332,7 @@ class CollectCard extends StatelessWidget {
       brightness,
       tokenEmphasis,
       accentColor,
+      highContrast: highContrast,
     );
     final shadows = CollectRuntimeTokens.cardShadows(
       colors,
@@ -344,16 +349,19 @@ class CollectCard extends StatelessWidget {
         border: border,
         boxShadow: shadows,
       ),
-      child: Padding(padding: padding, child: child),
+      child: Material(
+        color: colors.transparent,
+        borderRadius: radius,
+        child: onTap == null
+            ? Padding(padding: padding, child: child)
+            : InkWell(
+                borderRadius: radius,
+                onTap: onTap,
+                child: Padding(padding: padding, child: child),
+              ),
+      ),
     );
-    final decorated = ClipRRect(borderRadius: radius, child: container);
-    return Material(
-      color: colors.transparent,
-      borderRadius: radius,
-      child: onTap == null
-          ? decorated
-          : InkWell(borderRadius: radius, onTap: onTap, child: decorated),
-    );
+    return ClipRRect(borderRadius: radius, child: container);
   }
 }
 
@@ -367,6 +375,8 @@ class CollectSliverCardList extends StatelessWidget {
     required this.itemBuilder,
     this.separatorBuilder,
     this.topSpacing = 0,
+    this.padding = CollectSpacing.cardPadding,
+    this.emphasis = CollectCardEmphasis.flat,
     super.key,
   });
 
@@ -374,12 +384,17 @@ class CollectSliverCardList extends StatelessWidget {
   final IndexedWidgetBuilder itemBuilder;
   final IndexedWidgetBuilder? separatorBuilder;
   final double topSpacing;
+  final EdgeInsetsGeometry padding;
+  final CollectCardEmphasis emphasis;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final brightness = Theme.of(context).brightness;
-    const emphasis = CollectRuntimeCardEmphasis.flat;
+    final highContrast =
+        MediaQuery.highContrastOf(context) ||
+        context.collectUniversalTokens.highContrast;
+    final tokenEmphasis = emphasis.runtimeToken;
     return SliverPadding(
       padding: EdgeInsets.only(top: topSpacing),
       sliver: DecoratedSliver(
@@ -388,17 +403,39 @@ class CollectSliverCardList extends StatelessWidget {
               CollectRuntimeTokens.cardBackground(
                 colors,
                 brightness,
-                emphasis,
+                tokenEmphasis,
                 null,
                 tone: CollectBackdropScope.of(context),
-                highContrast: MediaQuery.highContrastOf(context),
+                highContrast: highContrast,
               ).withValues(
-                alpha: CollectRuntimeTokens.cardOpacity(brightness, emphasis),
+                alpha: CollectRuntimeTokens.cardOpacity(
+                  brightness,
+                  tokenEmphasis,
+                ),
               ),
-          borderRadius: CollectRuntimeTokens.cardRadius(emphasis),
+          borderRadius: CollectRuntimeTokens.cardRadius(tokenEmphasis),
+          // Preserve the existing flat-list decoration by default. Group lists
+          // opt into the same normal-card tokens as their prior box panel.
+          border: emphasis == CollectCardEmphasis.flat && !highContrast
+              ? null
+              : CollectRuntimeTokens.cardBorder(
+                  colors,
+                  brightness,
+                  tokenEmphasis,
+                  null,
+                  highContrast: highContrast,
+                ),
+          boxShadow: emphasis == CollectCardEmphasis.flat
+              ? null
+              : CollectRuntimeTokens.cardShadows(
+                  colors,
+                  brightness,
+                  tokenEmphasis,
+                  null,
+                ),
         ),
         sliver: SliverPadding(
-          padding: CollectSpacing.cardPadding,
+          padding: padding,
           sliver: SliverList.builder(
             itemCount: itemCount,
             addAutomaticKeepAlives: false,

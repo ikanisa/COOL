@@ -1,0 +1,184 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: (setUpAll)
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: permission denial is separate from unavailable provider and network retry
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: connection remains pending until server acknowledgement and retries unchanged token
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: a no-op repository result cannot announce a connected device
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/repository_session_fencing_test.dart: late registration cannot replace B bookkeeping
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:00 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +78: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/notification_registration_recovery_test.dart: settings shows network recovery, retries and waits for acknowledgement
+00:01 +79: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +80: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +81: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +82: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +83: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +84: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +85: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +86: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:01 +87: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +88: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +89: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +90: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +91: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +92: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +93: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +94: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +95: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +96: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +97: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +98: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +99: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +100: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +101: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +102: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +103: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +104: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +105: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +106: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:02 +107: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:03 +108: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:03 +109: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:03 +110: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_history_pagination_test.dart: Activity loads older rows on demand and searches beyond its first page
+00:03 +111: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:03 +112: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:03 +113: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +114: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +115: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +116: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync coalesces overlapping resumes and retries after failure
+00:04 +117: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync coalesces overlapping resumes and retries after failure
+00:04 +118: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync coalesces overlapping resumes and retries after failure
+00:04 +119: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync coalesces overlapping resumes and retries after failure
+00:04 +120: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS access sync coalesces overlapping resumes and retries after failure
+00:04 +121: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: brand mark supports inverse text on immersive surfaces
+00:04 +122: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: failed SMS drain retries with capped foreground backoff
+00:04 +123: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: failed SMS drain retries with capped foreground backoff
+00:04 +124: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: failed SMS drain retries with capped foreground backoff
+00:04 +125: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: failed SMS drain retries with capped foreground backoff
+00:04 +126: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: failed SMS drain retries with capped foreground backoff
+00:04 +127: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: amount hero scales large RWF values in narrow cards
+00:04 +128: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry pauses with app and resumes on user return
+00:04 +129: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry pauses with app and resumes on user return
+00:04 +130: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry pauses with app and resumes on user return
+00:04 +131: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry pauses with app and resumes on user return
+00:04 +132: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: loading state panel exposes visible and semantic context
+00:04 +133: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: repeated SMS failures cannot schedule faster than capped backoff
+00:04 +134: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: shape-specific Collect skeletons expose stable semantics
+00:04 +135: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry is canceled when the owner signs out
+00:04 +136: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry is canceled when the owner signs out
+00:04 +137: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: SMS retry is canceled when the owner signs out
+00:04 +138: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: notification denial stays in Collect and retry can recover
+00:04 +139: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: notification denial stays in Collect and retry can recover
+00:05 +140: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: offline and sync routes render recovery states
+00:05 +141: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: offline and sync routes render recovery states
+00:05 +142: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: offline and sync routes render recovery states
+00:05 +143: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: offline and sync routes render recovery states
+00:05 +144: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: offline and sync routes render recovery states
+00:05 +145: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: segmented filter exposes premium horizontal controls
+00:05 +146: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: segmented filter exposes premium horizontal controls
+00:05 +147: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: large-width shell uses consolidated four-destination rail
+00:05 +148: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: premium scaffold pins bottom action surface
+00:05 +149: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: main mobile routes use the shared transition page helper
+00:05 +150: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: form section card standardizes fields errors and actions
+00:05 +151: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: iOS detail screens use native Cupertino navigation
+00:05 +152: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: iOS detail screens use native Cupertino navigation
+00:05 +153: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +154: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +155: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +156: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +157: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +158: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +159: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +160: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +161: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +162: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +163: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +164: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: system mode activates the high-contrast runtime theme
+00:05 +165: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: system mode activates the high-contrast runtime theme
+00:05 +166: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen header keeps compact one-line title with back action
+00:05 +167: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen header keeps compact one-line title with back action
+00:05 +168: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen header keeps compact one-line title with back action
+00:05 +169: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen header keeps compact one-line title with back action
+00:05 +170: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen header keeps compact one-line title with back action
+00:05 +171: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen header keeps compact one-line title with back action
+00:05 +172: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: review-note cleanup removes verbose permission and group filter UI
+00:05 +173: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome exposes avatar title and circular actions
+00:05 +174: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome exposes avatar title and circular actions
+00:05 +175: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome exposes avatar title and circular actions
+00:05 +176: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: all owned modal and route motion uses the reduced-motion policy
+00:05 +177: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/app_shell_test.dart: all owned modal and route motion uses the reduced-motion policy
+00:05 +178: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen top chrome retains the official logo at maximum text
+00:05 +179: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: screen top chrome retains the official logo at maximum text
+00:05 +180: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: primary route smoke list keeps admin out of member app
+00:05 +181: All tests passed!

@@ -1,0 +1,15 @@
+{
+  "captured_at_utc": "2026-09-29T22:58:39.173775+00:00",
+  "exit_code": 0,
+  "harness_sha256": "fe4ec9c41a837cbdadd6238c20a2767e2149ed976da6ef3ee8ff6c317fc8c827",
+  "harness_unchanged_during_run": true,
+  "stdout_sha256": "f954e3fa79f7a781c96970002c39c6959cf2f49475b0fdbc937b66be25821f7e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "backup_sha256": "83262c313dd007e7289d53b7e08b383b63236971a33553753fa4e944a4454a3a",
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "provider_calls": false
+}

@@ -965,49 +965,6 @@ void main() {
     expect(find.text('Statement reconciled'), findsOneWidget);
   });
 
-  testWidgets('bank transfer pipeline exposes semantic progress state', (
-    tester,
-  ) async {
-    final semantics = tester.ensureSemantics();
-    try {
-      await _pumpCollect(
-        tester,
-        const BankTransferPipelineIndicator(status: 'pending'),
-      );
-
-      expect(
-        find.bySemanticsLabel('Bank transfer progress: Pending'),
-        findsOneWidget,
-      );
-      expect(find.bySemanticsLabel('Prepared step complete'), findsOneWidget);
-      expect(find.bySemanticsLabel('Evidence step current'), findsOneWidget);
-    } finally {
-      semantics.dispose();
-    }
-  });
-
-  testWidgets('bank transfer pipeline marks reconciled transfers complete', (
-    tester,
-  ) async {
-    final semantics = tester.ensureSemantics();
-    try {
-      await _pumpCollect(
-        tester,
-        const BankTransferPipelineIndicator(status: 'reconciled'),
-      );
-
-      expect(
-        find.bySemanticsLabel('Bank transfer progress: Reconciled'),
-        findsOneWidget,
-      );
-      expect(find.bySemanticsLabel('Prepared step complete'), findsOneWidget);
-      expect(find.bySemanticsLabel('Evidence step complete'), findsOneWidget);
-      expect(find.bySemanticsLabel('Reconciled step complete'), findsOneWidget);
-    } finally {
-      semantics.dispose();
-    }
-  });
-
   testWidgets('Collect ID card renders identity without hash prefix', (
     tester,
   ) async {
@@ -1062,7 +1019,7 @@ void main() {
               child: CollectEmptyState(
                 icon: CollectIcons.collections,
                 title: 'No groups yet',
-                message: 'Create a group for EUR bank contributions.',
+                message: 'Create a group for Rwanda MoMo contributions.',
               ),
             ),
             Expanded(
@@ -1267,7 +1224,7 @@ void main() {
     );
     expect(service.requestCalls, 2);
     expect(service.registrationCalls, 1);
-    expect(service.notificationCalls, 1);
+    expect(service.notificationCalls, 0);
   });
 
   testWidgets('bento metrics adapt for text scaling without losing content', (
@@ -1413,7 +1370,7 @@ void main() {
     expect(editorialCards, contains('collection.collectionType.label'));
     expect(editorialDetails, contains('collection.title'));
     expect(editorialDetails, isNot(contains('TextOverflow.ellipsis')));
-    expect(groupCards, contains('summary.supporterCountSemantics'));
+    expect(groupCards, contains('Contributor count unavailable'));
     expect(groupCards, isNot(contains("'\${summary.supporterCount} members'")));
     expect(collectionsScreen, contains('_GroupsCardGrid'));
     expect(collectionsScreen, isNot(contains('class _GroupsMetricPill')));
@@ -1802,9 +1759,10 @@ void main() {
         'Create',
         'Scan QR',
       ]) {
-        final node = find.semantics.byLabel(
-          RegExp('^${RegExp.escape(label)}\$'),
-        );
+        final node = find.semantics.byPredicate((node) {
+          final data = node.getSemanticsData();
+          return data.label == label || data.tooltip == label;
+        });
         expect(node, findsOne, reason: label);
         expect(
           find.semantics.descendant(
@@ -1907,6 +1865,20 @@ class _PermissionSequenceNotificationService
     final index = requestCalls;
     requestCalls += 1;
     return _responses[index];
+  }
+
+  @override
+  bool? get permissionGranted =>
+      registrationStatus.value == CollectNotificationStatus.ready;
+
+  @override
+  Future<bool> enableDevice(CollectRepository repository) async {
+    final allowed = await requestPermission();
+    registrationStatus.value = allowed
+        ? CollectNotificationStatus.ready
+        : CollectNotificationStatus.permissionDenied;
+    if (allowed) return registerDevice(repository);
+    return false;
   }
 
   @override

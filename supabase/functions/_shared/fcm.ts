@@ -1,3 +1,10 @@
+import {
+  genericPushBody,
+  genericPushTitle,
+  providerRetryFloor,
+  requirePushRecipient,
+} from "./notification_retry.ts";
+import { boundedBody } from "./production_contract.ts";
 export type FcmCredentials = {
   serviceAccountJson: string;
 };
@@ -6,6 +13,7 @@ export type FcmMessage = {
   token: string;
   title: string;
   body: string;
+  recipientId: string;
   eventId: string;
   eventType: string;
   deepLink?: string | null;
@@ -18,6 +26,7 @@ export type FcmResult = {
   errorCode: string | null;
   status: number;
   latencyMs: number;
+  retryAfterSeconds: number | null;
 };
 
 type ServiceAccount = {
@@ -65,7 +74,7 @@ export async function createFcmAccessToken(
   issuedAt = Math.floor(Date.now() / 1000),
 ): Promise<string> {
   const account = serviceAccount(credentials);
-  const tokenUri = account.token_uri || defaultTokenUri;
+  const tokenUri = defaultTokenUri;
   const header = base64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
   const claim = base64Url(JSON.stringify({
     iss: account.client_email,
@@ -88,19 +97,47 @@ export async function createFcmAccessToken(
   );
   const response = await fetcher(tokenUri, {
     method: "POST",
+    signal: AbortSignal.timeout(8000),
+    redirect: "error",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
       assertion: `${header}.${claim}.${base64Url(signature)}`,
     }),
   });
-  const payload = await response.json().catch(() => ({})) as {
-    access_token?: unknown;
-  };
+  const payload = await responseObject(response);
   if (!response.ok || typeof payload.access_token !== "string") {
     throw new Error("FCM OAuth token exchange failed");
   }
   return payload.access_token;
+}
+
+async function responseObject(
+  response: Response,
+): Promise<Record<string, unknown>> {
+  try {
+    const value: unknown = JSON.parse(await boundedBody(response, 65536));
+    return value !== null && typeof value === "object" && !Array.isArray(value)
+      ? value as Record<string, unknown>
+      : {};
+  } catch {
+    // Headers already establish acceptance/rejection. A failed optional body
+    // read must not turn an accepted send into a duplicate provider request.
+    await response.body?.cancel().catch(() => {});
+    return {};
+  }
+}
+
+function objectValue(value: unknown): Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : {};
+}
+
+function providerCode(value: unknown): string | null {
+  return typeof value === "string" && /^[A-Z_]{1,80}$/.test(value)
+    ? value
+    : null;
 }
 
 function channelForEventType(eventType: string): string {
@@ -117,6 +154,7 @@ export async function sendFcmMessage(
   message: FcmMessage,
   fetcher: typeof fetch = fetch,
 ): Promise<FcmResult> {
+  requirePushRecipient(message.recipientId);
   const account = serviceAccount(credentials);
   const started = performance.now();
   const response = await fetcher(
@@ -125,6 +163,8 @@ export async function sendFcmMessage(
     }/messages:send`,
     {
       method: "POST",
+      signal: AbortSignal.timeout(10000),
+      redirect: "error",
       headers: {
         authorization: `Bearer ${accessToken}`,
         "content-type": "application/json",
@@ -132,9 +172,11 @@ export async function sendFcmMessage(
       body: JSON.stringify({
         message: {
           token: message.token,
-          notification: { title: message.title, body: message.body },
+          notification: { title: genericPushTitle, body: genericPushBody },
           data: {
             collect_event_id: message.eventId,
+            recipient_id: message.recipientId,
+            collect_push_version: "2",
             type: message.eventType,
             ...(message.deepLink ? { deep_link: message.deepLink } : {}),
           },
@@ -151,31 +193,34 @@ export async function sendFcmMessage(
       }),
     },
   );
+  const payload = await responseObject(response);
   const latencyMs = Math.max(0, Math.round(performance.now() - started));
-  const payload = await response.json().catch(() => ({})) as {
-    name?: unknown;
-    error?: {
-      status?: unknown;
-      details?: Array<{ errorCode?: unknown }>;
-    };
-  };
-  const detailCode = payload.error?.details?.find(
-    (detail) => typeof detail.errorCode === "string",
-  )?.errorCode;
+  const error = objectValue(payload.error);
+  const detailCode = Array.isArray(error.details)
+    ? error.details.map((detail) => providerCode(objectValue(detail).errorCode))
+      .find((code) => code !== null)
+    : null;
+  const messageId = typeof payload.name === "string" &&
+      /^projects\/[A-Za-z0-9_-]+\/messages\/[A-Za-z0-9_%:.~+-]+$/.test(
+        payload.name,
+      )
+    ? payload.name
+    : null;
   const errorCode = response.ok
-    ? null
-    : typeof detailCode === "string"
-    ? detailCode
-    : typeof payload.error?.status === "string"
-    ? payload.error.status
-    : `http_${response.status}`;
+    ? (messageId ? null : "accepted_response_unavailable")
+    : detailCode ?? providerCode(error.status) ?? `http_${response.status}`;
   return {
     ok: response.ok,
     retryable: response.status === 408 ||
       response.status === 429 ||
       response.status >= 500,
-    messageId: typeof payload.name === "string" ? payload.name : null,
+    messageId,
     errorCode,
+    retryAfterSeconds: providerRetryFloor(
+      "fcm",
+      response.status,
+      response.headers.get("retry-after"),
+    ),
     status: response.status,
     latencyMs,
   };

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-09-30T15:34:01.542Z" hostname="Jeans-Mac-mini.local" time="0.218">
+  <properties/>
+  <testcase name="envelopeIdIsStableForDuplicateBroadcastsAndChangesWithTimestamp" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.119"/>
+  <testcase name="queueEventBusEmitsMonotonicMetadataOnlySignals" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.01"/>
+  <testcase name="acceptsScopedEnglishMomoCredit" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.011"/>
+  <testcase name="rejectsMarketingAndUnrelatedFinancialSms" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.006"/>
+  <testcase name="rejectsReceiptsWithoutCurrencyOrTransactionIdentity" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.006"/>
+  <testcase name="envelopePreservesExactEvidenceWhitespace" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.024"/>
+  <testcase name="acceptsMtnAndAirtelReceiptSenders" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.004"/>
+  <testcase name="acceptsCompleteMaskedReceiptWithoutProviderReference" classname="app.cool.mobile.receiver_sms.CollectSmsReceiverTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

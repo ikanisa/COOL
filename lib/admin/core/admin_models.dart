@@ -38,7 +38,7 @@ class AdminMetric {
   factory AdminMetric.fromJson(Map<String, dynamic> json) {
     return AdminMetric(
       label: (json['label'] as String?) ?? 'Metric',
-      value: '${json['value'] ?? 0}',
+      value: _nonEmpty(json['value'], 'Not available'),
       status: (json['status'] as String?) ?? 'unknown',
     );
   }
@@ -87,12 +87,69 @@ class AdminListResult {
 
   factory AdminListResult.fromJson(Map<String, dynamic> json) {
     final rows = json['rows'];
-    if (rows is! List) return const AdminListResult(rows: []);
+    if (rows is! List) {
+      throw const FormatException('Admin list response is missing its rows.');
+    }
+    final total = _intOrNull(json['total']);
+    if (json['total'] != null && total == null) {
+      throw const FormatException(
+        'Admin list total must be a non-negative integer.',
+      );
+    }
+    if (total != null && total < rows.length) {
+      throw const FormatException(
+        'Admin list total is smaller than its row count.',
+      );
+    }
+    for (final row in rows) {
+      if (row is! Map ||
+          row['id'] is! String ||
+          (row['id'] as String).trim().isEmpty) {
+        throw const FormatException('Admin list contains an invalid record.');
+      }
+    }
     final parsedRows = [
       for (final row in rows)
         AdminTableRowData.fromJson(Map<String, dynamic>.from(row as Map)),
     ];
-    return AdminListResult(rows: parsedRows, total: _intOrNull(json['total']));
+    return AdminListResult(
+      rows: List<AdminTableRowData>.unmodifiable(parsedRows),
+      total: total,
+    );
+  }
+
+  /// Check the server window before showing any rows or page counters.
+  /// Missing totals and short/truncated responses are not empty queues.
+  AdminListResult validateWindow({required int limit, required int offset}) {
+    if (limit < 1) throw RangeError.range(limit, 1, null, 'limit');
+    if (offset < 0) throw RangeError.range(offset, 0, null, 'offset');
+    final count = total;
+    if (count == null || count < 0) {
+      throw const FormatException(
+        'Admin list is missing a valid server total.',
+      );
+    }
+    final remaining = count - offset;
+    final expected = remaining <= 0
+        ? 0
+        : (remaining < limit ? remaining : limit);
+    if (rows.length != expected) {
+      throw const FormatException(
+        'Admin list rows do not match the server window.',
+      );
+    }
+    final ids = <String>{};
+    for (final row in rows) {
+      if (row.id.trim().isEmpty || !ids.add(row.id)) {
+        throw const FormatException(
+          'Admin list contains missing or duplicate record IDs.',
+        );
+      }
+    }
+    return AdminListResult(
+      rows: List<AdminTableRowData>.unmodifiable(rows),
+      total: count,
+    );
   }
 }
 
@@ -109,10 +166,9 @@ class AdminQueueSla {
 
   factory AdminQueueSla.fromJson(Map<String, dynamic> json) {
     return AdminQueueSla(
-      target: (json['target'] as String?) ?? 'Review Collect queue daily',
-      owner: (json['owner'] as String?) ?? 'Collect operations',
-      escalation:
-          (json['escalation'] as String?) ?? 'Escalate stale exceptions',
+      target: _nonEmpty(json['target'], 'Not available'),
+      owner: _nonEmpty(json['owner'], 'Not available'),
+      escalation: _nonEmpty(json['escalation'], 'Not available'),
     );
   }
 }
@@ -259,10 +315,19 @@ DateTime? _dateTimeOrNull(Object? value) {
 }
 
 int? _intOrNull(Object? value) {
-  if (value is int) return value;
-  if (value is num) return value.toInt();
-  if (value is String) return int.tryParse(value);
-  return null;
+  final int? parsed;
+  if (value is int) {
+    parsed = value;
+  } else if (value is num &&
+      value.isFinite &&
+      value == value.truncateToDouble()) {
+    parsed = value.toInt();
+  } else if (value is String) {
+    parsed = int.tryParse(value.trim());
+  } else {
+    return null;
+  }
+  return parsed != null && parsed >= 0 ? parsed : null;
 }
 
 List<Map<String, dynamic>> _mapList(Object? value) {

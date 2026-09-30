@@ -2,8 +2,8 @@
 
 This folder keeps current product, architecture, operations, release, and
 evidence documentation for Collect. It does not contain design authority. The
-installed `revolut-design` skill is the sole design authority; repository mobile
-files only adapt its `MOBILE-DESIGN-100` rule to Collect evidence and artifacts.
+installed `revolut-design` skill is the sole design authority. Repository
+screenshots, contracts and reports are product evidence only.
 
 ## Current Sources Of Truth
 
@@ -11,7 +11,7 @@ files only adapt its `MOBILE-DESIGN-100` rule to Collect evidence and artifacts.
 | --- | --- |
 | Product scope and workflow | `docs/PRODUCT.md` |
 | Design authority | `revolut-design` skill |
-| Mobile design evidence adapter | `docs/release/mobile-design/mobile-parity-contract.json` |
+| Visual and interaction review | Owner-selected `revolut-design` skill and current route/state evidence |
 | Architecture | `docs/ARCHITECTURE.md` |
 | Database | `docs/DATABASE.md` |
 | SDK and environment | `docs/ENVIRONMENT.md` |

@@ -100,4 +100,4 @@ browser-to-API integration, real Auth/session expiry flows, Edge HTTP
 authentication and abuse tests, hosted-version/configuration drift, broader
 financial concurrency, uninterrupted current replay and restore, installed
 PWA/native execution, and required independent/owner visual acceptance.
-MOBILE-DESIGN-100 remains mandatory and unresolved.
+former mobile visual acceptance rule remains mandatory and unresolved.

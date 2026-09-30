@@ -39,7 +39,7 @@ File.write(
     "ADMIN_APP_URL" => ENV.fetch("ADMIN_APP_URL"),
     "APP_ENVIRONMENT" => "production",
     "ENABLE_ADMIN_PANEL" => "true",
-    "COLLECT_PUBLIC_LANDING_HOME" => "true"
+    "COLLECT_PUBLIC_LANDING_HOME" => "false"
   })
 )
 RUBY
@@ -53,7 +53,10 @@ BUILD_ARGS=(
 
 "$FLUTTER" build web -t lib/main_admin.dart "${BUILD_ARGS[@]}"
 
-touch build/web/main.dart.js
+if [[ ! -s build/web/main.dart.js ]]; then
+  echo "Admin PWA build did not produce a nonempty main.dart.js bundle." >&2
+  exit 1
+fi
 cp web/_headers build/web/_headers
 cp web/robots.txt build/web/robots.txt
 

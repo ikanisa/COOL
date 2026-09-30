@@ -1,0 +1,24 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/concurrency144-root-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "c720a45f68adaf3b39c5d4b272371c926a5851a005283f0b18293314209be899",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 144,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930120000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "1d64e003ce034e33777cbd00cf040dfe48f138c210b4dc4132665933b2078918",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "started_at_utc": "2026-09-30T13:44:42.282466+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

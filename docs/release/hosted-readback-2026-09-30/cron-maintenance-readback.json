@@ -1,0 +1,30 @@
+{
+  "cron_version": "1.6.4",
+  "current_user": "postgres",
+  "session_user": "postgres",
+  "canonical_job": [
+    {
+      "id": 6,
+      "host": "localhost",
+      "port": 5432,
+      "owner": "postgres",
+      "active": true,
+      "database": "postgres",
+      "schedule": "30 21 * * *",
+      "command_sha256": "58ca13bd6915f92b194de581f89815718ac50a5d702055a4df3f07c0486bd597"
+    }
+  ],
+  "postgres_role": {
+    "super": false,
+    "bypassrls": true
+  },
+  "cron_job_owner": "supabase_admin",
+  "observed_at_utc": "2026-09-29T23:30:18.57145+00:00",
+  "pg_net_batch_size": "200",
+  "launch_active_jobs": "on",
+  "postgres_job_select": true,
+  "postgres_job_update": false,
+  "postgres_job_maintain": false,
+  "supabase_admin_job_update": true,
+  "current_role_can_alter_job": true
+}

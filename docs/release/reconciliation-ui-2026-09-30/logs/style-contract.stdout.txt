@@ -1,0 +1,49 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart
+00:00 +0: private group creation is available only on Android
+00:00 +1: Collect routes use a neutral canvas independent of logo colors
+00:00 +2: Collect light and dark modes are visually distinctive
+00:00 +3: Collect brand tokens are runtime implementation, not test authority
+00:00 +4: reference colour swatches keep readable selection marks
+00:00 +5: Collect runtime token layer contains no retired chrome vocabulary
+00:00 +6: customer routes share a scoped reference background system
+00:00 +7: member and admin source rejects retired decorative chrome
+00:00 +8: top chrome profile control is visible and links to profile
+00:00 +9: dark glass cards use deep reference surfaces
+00:00 +10: reduced motion opens and closes Collect sheets immediately
+00:00 +11: Collect uses Inter for product UI and scoped Aeonik for marketing
+00:00 +12: application typography has no raw or defaulted type styles
+00:00 +13: tracked visual assets exclude SVG and unapproved brand artwork
+00:01 +14: mobile visual foundation uses compact clean geometry
+00:01 +15: universal semantic token extension covers mobile and admin roles
+00:01 +16: Android owns the only visible Collect launch screen
+00:01 +17: brand mark renders the official Collect image asset
+00:01 +18: brand mark supports inverse text on immersive surfaces
+00:01 +19: brand mark preserves its wordmark at accessibility text scale
+00:01 +20: secondary color system protects readable semantic roles
+00:01 +21: RWF amount typography uses tabular numerals
+00:01 +22: button, card, and status chip expose labels
+00:01 +23: amount hero scales large RWF values in narrow cards
+00:01 +24: Collect ID card renders identity without hash prefix
+00:01 +25: ledger row renders tabular transaction details
+00:01 +26: empty, error, and loading states render
+00:01 +27: loading state panel exposes visible and semantic context
+00:01 +28: shape-specific Collect skeletons expose stable semantics
+00:02 +29: Collect async state view renders loading error retry and data
+00:02 +30: permission education sheet explains the native prompt
+00:02 +31: notification denial stays in Collect and retry can recover
+00:02 +32: bento metrics adapt for text scaling without losing content
+00:02 +33: bento metrics can render icon-first metadata
+00:02 +34: group metadata copy blockers are enforced by source contract
+00:02 +35: quick action rail exposes stable premium action semantics
+00:02 +36: segmented filter exposes premium horizontal controls
+00:02 +37: premium scaffold pins bottom action surface
+00:02 +38: form section card standardizes fields errors and actions
+00:02 +39: mobile completion components expose reusable semantics
+00:02 +40: group type choices activate through assistive semantics
+00:02 +41: list tile shows bounded helper text and action affordance
+00:02 +42: screen header keeps compact one-line title with back action
+00:02 +43: top chrome exposes avatar title and circular actions
+00:02 +44: TalkBack reaches chrome and hero actions without duplicate group labels
+00:02 +45: screen top chrome retains the official logo at maximum text
+00:03 +46: primary route smoke list keeps admin out of member app
+00:03 +47: All tests passed!

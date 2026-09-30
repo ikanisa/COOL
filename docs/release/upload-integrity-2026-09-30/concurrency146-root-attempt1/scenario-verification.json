@@ -1,0 +1,17 @@
+{
+  "checks": {
+    "all_reviewed_scenarios": true,
+    "charges_exact": true,
+    "financial_rows_unchanged": true,
+    "harness_bound": true,
+    "harness_passed": true,
+    "hosted_auth_requests_zero": true,
+    "migration_bound": true,
+    "provider_calls_zero": true,
+    "synthetic_graph_removed": true,
+    "workers_removed": true
+  },
+  "result_sha256": "e8e20b8c955580cb395ca8b36a0761fd2e0972c7f6caa17acd6b443bcf7cac0c",
+  "scenario_count": 7,
+  "status": "pass"
+}

@@ -23,7 +23,6 @@ class AppPermissionsScreen extends ConsumerStatefulWidget {
 class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     with WidgetsBindingObserver {
   bool _loading = true;
-  bool _notificationsEnabled = false;
   SmsAccessStatus _momoSmsStatus = const SmsAccessStatus.unavailable();
   permissions.PermissionStatus _cameraStatus =
       permissions.PermissionStatus.denied;
@@ -81,20 +80,35 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
                       ? const SmsAccessChannel().openAppSettings
                       : _requestMomoSms,
                 ),
-              _PermissionCard(
-                icon: CollectIcons.pending,
-                title: 'Notifications',
-                status: _loading
-                    ? 'Checking'
-                    : _notificationsEnabled
-                    ? 'Allowed'
-                    : 'Not allowed',
-                actionLabel: _notificationsEnabled ? 'Phone settings' : 'Allow',
-                onAction: _loading
-                    ? null
-                    : _notificationsEnabled
-                    ? permissions.openAppSettings
-                    : _requestNotifications,
+              ValueListenableBuilder<CollectNotificationStatus>(
+                valueListenable: ref
+                    .watch(collectNotificationServiceProvider)
+                    .registrationStatus,
+                builder: (context, status, _) => _PermissionCard(
+                  icon: CollectIcons.pending,
+                  title: 'Notifications',
+                  status: status.message,
+                  actionLabel: switch (status) {
+                    CollectNotificationStatus.checking => 'Connecting',
+                    CollectNotificationStatus.signInRequired => 'Sign in again',
+                    CollectNotificationStatus.ready ||
+                    CollectNotificationStatus.permissionDenied =>
+                      'Phone settings',
+                    CollectNotificationStatus.notRequested => 'Allow',
+                    _ => 'Retry',
+                  },
+                  onAction:
+                      _loading || status == CollectNotificationStatus.checking
+                      ? null
+                      : switch (status) {
+                          CollectNotificationStatus.signInRequired =>
+                            () => signInForNotifications(context, ref),
+                          CollectNotificationStatus.ready ||
+                          CollectNotificationStatus.permissionDenied =>
+                            permissions.openAppSettings,
+                          _ => _requestNotifications,
+                        },
+                ),
               ),
               _PermissionCard(
                 icon: CollectIcons.qr,
@@ -127,31 +141,29 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     final service = ref.read(collectNotificationServiceProvider);
     final receiverMode = ref.read(momoReceiptCaptureAvailableProvider);
     final results = await Future.wait<Object>([
-      service.areNotificationsEnabled(),
       permissions.Permission.camera.status,
       if (receiverMode)
         ref.read(collectRepositoryProvider.notifier).refreshSmsAccessStatus(),
     ]);
     if (!mounted) return;
     setState(() {
-      _notificationsEnabled = results[0] as bool;
-      _cameraStatus = results[1] as permissions.PermissionStatus;
+      _cameraStatus = results[0] as permissions.PermissionStatus;
       _momoSmsStatus = receiverMode
-          ? results[2] as SmsAccessStatus
+          ? results[1] as SmsAccessStatus
           : const SmsAccessStatus.unavailable();
       _loading = false;
     });
-  }
-
-  Future<void> _requestNotifications() async {
-    final service = ref.read(collectNotificationServiceProvider);
-    final granted = await service.requestPermission();
-    if (granted) {
+    if (service.registrationStatus.value !=
+        CollectNotificationStatus.signInRequired) {
       unawaited(
         service.registerDevice(ref.read(collectRepositoryProvider.notifier)),
       );
     }
-    await _refresh();
+  }
+
+  Future<void> _requestNotifications() async {
+    final service = ref.read(collectNotificationServiceProvider);
+    await service.enableDevice(ref.read(collectRepositoryProvider.notifier));
   }
 
   Future<void> _requestCamera() async {
@@ -161,6 +173,11 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   Future<void> _requestMomoSms() async {
     if (!ref.read(momoReceiptCaptureAvailableProvider)) return;
+    final expectedOwner = ref
+        .read(collectRepositoryProvider)
+        .currentProfile
+        ?.id;
+    if (expectedOwner == null) return;
     final confirmed = await showModalBottomSheet<bool>(
       context: context,
       useRootNavigator: true,
@@ -213,11 +230,15 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     );
     if (confirmed != true ||
         !mounted ||
+        ref.read(collectRepositoryProvider).currentProfile?.id !=
+            expectedOwner ||
         !ref.read(momoReceiptCaptureAvailableProvider)) {
       return;
     }
     try {
-      await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .setSmsAccess(true, expectedOwnerUserId: expectedOwner);
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -263,11 +284,14 @@ class _PermissionCard extends StatelessWidget {
             children: [
               Text(title, style: Theme.of(context).textTheme.titleMedium),
               CollectSpacing.gap4,
-              Text(
-                status,
-                key: ValueKey('permission_status_$title'),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: context.collectColors.textSecondary,
+              Semantics(
+                liveRegion: true,
+                child: Text(
+                  status,
+                  key: ValueKey('permission_status_$title'),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.collectColors.textSecondary,
+                  ),
                 ),
               ),
             ],

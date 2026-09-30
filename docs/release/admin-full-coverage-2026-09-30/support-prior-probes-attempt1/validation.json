@@ -1,0 +1,41 @@
+{
+  "phase": "prior-probes",
+  "source_unchanged": true,
+  "source_count": 493,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "seconds": 0.451,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/admin_runtime_control_gap_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "exit_code": 1,
+      "seconds": 5.059,
+      "sha256": "cc5f6897428aa08f388abb65a8faa6d3da663c7096073e7ca5c3d7f73a1cf80d"
+    }
+  ],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "test_gate_passed": false,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "source_before_sha256": "c683fa523254e99031860ce4cc7ffdde098fa2bc8b5cb6cc23aa249cdee472c3",
+  "source_after_sha256": "c683fa523254e99031860ce4cc7ffdde098fa2bc8b5cb6cc23aa249cdee472c3"
+}

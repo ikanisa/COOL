@@ -59,7 +59,7 @@ generation was executed; no image bytes or catalog input records changed.
   `make cover-catalog-test` target passes. A pinned Node 24.19.0 CI job was added;
   hosted execution remains unverified.
 - The exact extracted CI size step passes for applicable Dart and Edge
-  TypeScript sources. Both full mobile design gates still return **blocked**;
+  TypeScript sources. Both full historical mobile reviews still return **blocked**;
   no acceptance file, review, golden baseline or score was changed.
 
 ## Evidence and remaining work

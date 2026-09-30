@@ -1,0 +1,12 @@
+{
+  "lib/shared/widgets/collect_scaffold_chrome.dart": "e24b66b1011ef0df8295fe08e2a18dda8b1f825d14a67304980192f0ff2feb30",
+  "lib/shared/widgets/collect_display_primitives.dart": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+  "lib/shared/widgets/collect_state_illustrations.dart": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+  "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+  "lib/features/settings/settings_subscreens.dart": "aa760a4a340d437b177f930f924f82fb5ee72d1f8a8c9d15910f0c1577006732",
+  "lib/features/status/group_members_screen.dart": "e02d9a2b58b336179b13d2fc479f0d40ead9ef2dbc2d9e3d8e667271bd457d5f",
+  "lib/features/collections/collection_detail_screen.dart": "14e55cbed3ad5e8926de1f5ef50baf56b9cf8e56eb1af4bd6f3dcd861c7ba4de",
+  "lib/core/widgets/collect_shell.dart": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+  "tool/public_app_media_capture.dart": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+  "test/features/shared_chrome_accessibility_test.dart": "07bba806f92b059660c92c2b596f0bc435c4b1cf83877f3c58981e27f1702002"
+}

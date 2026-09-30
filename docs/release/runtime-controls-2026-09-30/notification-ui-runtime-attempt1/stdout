@@ -1,0 +1,340 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart
+00:00 +0: fresh server read explicitly enables editing without any write
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.single (dart:core/iterable.dart:694:25)
+#1      WidgetController.element (package:flutter_test/src/controller.dart:888:30)
+#2      WidgetController.ensureVisible (package:flutter_test/src/controller.dart:2389:32)
+#3      main.tapButton (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart:56:18)
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart:72:13)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  fresh server read explicitly enables editing without any write
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: fresh server read explicitly enables editing without any write [E]
+  Test failed. See exception logs above.
+  The test description was: fresh server read explicitly enables editing without any write
+  
+00:00 +0 -1: conflict retains intent; refresh reviews all differences and never silently retries
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: Tried to use _Repository after `dispose` was called.
+
+Consider checking `mounted`.
+
+When the exception was thrown, this was the stack:
+#0      StateNotifier._debugIsMounted.<anonymous closure> (package:state_notifier/state_notifier.dart:175:9)
+#1      StateNotifier._debugIsMounted (package:state_notifier/state_notifier.dart:182:6)
+#2      StateNotifier.dispose (package:state_notifier/state_notifier.dart:323:12)
+#3      CollectRepository.dispose (package:collect_app/shared/repositories/collect_repository.dart:1558:11)
+#4      runGuarded (package:riverpod/src/run_guarded.dart:9:7)
+#5      StateNotifierProviderElement.runOnDispose (package:riverpod/src/state_notifier_provider/base.dart:198:7)
+#6      ProviderElementBase.dispose (package:riverpod/src/framework/element.dart:861:5)
+#7      ProviderContainer.dispose (package:riverpod/src/framework/container.dart:634:15)
+#8      ProviderScopeState.dispose (package:flutter_riverpod/src/framework.dart:264:15)
+#9      StatefulElement.unmount (package:flutter/src/widgets/framework.dart:6030:11)
+#10     _InactiveElements._unmount (package:flutter/src/widgets/framework.dart:2117:13)
+#11     ListIterable.forEach (dart:_internal/iterable.dart:49:13)
+#12     _InactiveElements._unmountAll (package:flutter/src/widgets/framework.dart:2126:25)
+#13     BuildOwner.lockState (package:flutter/src/widgets/framework.dart:3020:15)
+#14     BuildOwner.finalizeTree (package:flutter/src/widgets/framework.dart:3344:7)
+#15     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2453:19)
+#16     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:509:5)
+#17     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#18     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#19     AutomatedTestWidgetsFlutterBinding.scheduleWarmUpFrame (package:flutter_test/src/binding.dart:2357:5)
+#20     _runWidget (package:flutter/src/widgets/binding.dart:1952:7)
+#21     runApp (package:flutter/src/widgets/binding.dart:1885:3)
+#22     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1940:5)
+#25     TestWidgetsFlutterBinding._runTest (package:flutter_test/src/binding.dart:1926:10)
+#26     AutomatedTestWidgetsFlutterBinding.runTest.<anonymous closure> (package:flutter_test/src/binding.dart:2489:24)
+#27     FakeAsync.run.<anonymous closure>.<anonymous closure> (package:fake_async/fake_async.dart:182:47)
+#32     withClock (package:clock/src/default.dart:52:10)
+#33     FakeAsync.run.<anonymous closure> (package:fake_async/fake_async.dart:182:15)
+#38     FakeAsync.run (package:fake_async/fake_async.dart:181:52)
+#39     AutomatedTestWidgetsFlutterBinding.runTest (package:flutter_test/src/binding.dart:2486:15)
+#40     testWidgets.<anonymous closure> (package:flutter_test/src/widget_tester.dart:184:24)
+#41     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#42     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#43     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+(elided 10 frames from dart:async)
+
+The test description was:
+  conflict retains intent; refresh reviews all differences and never silently retries
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -2: conflict retains intent; refresh reviews all differences and never silently retries [E]
+  Test failed. See exception logs above.
+  The test description was: conflict retains intent; refresh reviews all differences and never silently retries
+  
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test (but after the test had completed):
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.first (dart:core/iterable.dart:663:7)
+#1      _FirstFinderMixin.filter (package:flutter_test/src/finders.dart:1383:28)
+#3      Iterable.single (dart:core/iterable.dart:694:13)
+#4      WidgetController.element (package:flutter_test/src/controller.dart:888:30)
+#5      WidgetController.ensureVisible (package:flutter_test/src/controller.dart:2389:32)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart:90:20)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 2 frames from dart:async-patch and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  Test failed. See exception logs above.
+  The test description was: conflict retains intent; refresh reviews all differences and never silently retries
+  
+00:00 +0 -2: discard after uncertainty never writes or authorizes an unseen revision
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: Tried to use _Repository after `dispose` was called.
+
+Consider checking `mounted`.
+
+When the exception was thrown, this was the stack:
+#0      StateNotifier._debugIsMounted.<anonymous closure> (package:state_notifier/state_notifier.dart:175:9)
+#1      StateNotifier._debugIsMounted (package:state_notifier/state_notifier.dart:182:6)
+#2      StateNotifier.dispose (package:state_notifier/state_notifier.dart:323:12)
+#3      CollectRepository.dispose (package:collect_app/shared/repositories/collect_repository.dart:1558:11)
+#4      runGuarded (package:riverpod/src/run_guarded.dart:9:7)
+#5      StateNotifierProviderElement.runOnDispose (package:riverpod/src/state_notifier_provider/base.dart:198:7)
+#6      ProviderElementBase.dispose (package:riverpod/src/framework/element.dart:861:5)
+#7      ProviderContainer.dispose (package:riverpod/src/framework/container.dart:634:15)
+#8      ProviderScopeState.dispose (package:flutter_riverpod/src/framework.dart:264:15)
+#9      StatefulElement.unmount (package:flutter/src/widgets/framework.dart:6030:11)
+#10     _InactiveElements._unmount (package:flutter/src/widgets/framework.dart:2117:13)
+#11     ListIterable.forEach (dart:_internal/iterable.dart:49:13)
+#12     _InactiveElements._unmountAll (package:flutter/src/widgets/framework.dart:2126:25)
+#13     BuildOwner.lockState (package:flutter/src/widgets/framework.dart:3020:15)
+#14     BuildOwner.finalizeTree (package:flutter/src/widgets/framework.dart:3344:7)
+#15     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2453:19)
+#16     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:509:5)
+#17     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#18     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#19     AutomatedTestWidgetsFlutterBinding.scheduleWarmUpFrame (package:flutter_test/src/binding.dart:2357:5)
+#20     _runWidget (package:flutter/src/widgets/binding.dart:1952:7)
+#21     runApp (package:flutter/src/widgets/binding.dart:1885:3)
+#22     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1940:5)
+#25     TestWidgetsFlutterBinding._runTest (package:flutter_test/src/binding.dart:1926:10)
+#26     AutomatedTestWidgetsFlutterBinding.runTest.<anonymous closure> (package:flutter_test/src/binding.dart:2489:24)
+#27     FakeAsync.run.<anonymous closure>.<anonymous closure> (package:fake_async/fake_async.dart:182:47)
+#32     withClock (package:clock/src/default.dart:52:10)
+#33     FakeAsync.run.<anonymous closure> (package:fake_async/fake_async.dart:182:15)
+#38     FakeAsync.run (package:fake_async/fake_async.dart:181:52)
+#39     AutomatedTestWidgetsFlutterBinding.runTest (package:flutter_test/src/binding.dart:2486:15)
+#40     testWidgets.<anonymous closure> (package:flutter_test/src/widget_tester.dart:184:24)
+#41     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#42     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#43     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+(elided 10 frames from dart:async)
+
+The test description was:
+  discard after uncertainty never writes or authorizes an unseen revision
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -3: discard after uncertainty never writes or authorizes an unseen revision [E]
+  Test failed. See exception logs above.
+  The test description was: discard after uncertainty never writes or authorizes an unseen revision
+  
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test (but after the test had completed):
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.first (dart:core/iterable.dart:663:7)
+#1      _FirstFinderMixin.filter (package:flutter_test/src/finders.dart:1383:28)
+#3      _AncestorFinderMixin.allCandidates (package:flutter_test/src/finders.dart:1857:49)
+#4      FinderBase.evaluate (package:flutter_test/src/finders.dart:1030:76)
+#5      WidgetController.widgetList (package:flutter_test/src/controller.dart:848:19)
+#6      WidgetController._maybeViewOf (package:flutter_test/src/controller.dart:795:34)
+#7      WidgetController.tap (package:flutter_test/src/controller.dart:1078:31)
+#8      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart:139:20)
+<asynchronous suspension>
+#9      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#10     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 2 frames from dart:async-patch and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  Test failed. See exception logs above.
+  The test description was: discard after uncertainty never writes or authorizes an unseen revision
+  
+00:00 +0 -3: an old refresh failure has no toast after account switch
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: Tried to use _Repository after `dispose` was called.
+
+Consider checking `mounted`.
+
+When the exception was thrown, this was the stack:
+#0      StateNotifier._debugIsMounted.<anonymous closure> (package:state_notifier/state_notifier.dart:175:9)
+#1      StateNotifier._debugIsMounted (package:state_notifier/state_notifier.dart:182:6)
+#2      StateNotifier.dispose (package:state_notifier/state_notifier.dart:323:12)
+#3      CollectRepository.dispose (package:collect_app/shared/repositories/collect_repository.dart:1558:11)
+#4      runGuarded (package:riverpod/src/run_guarded.dart:9:7)
+#5      StateNotifierProviderElement.runOnDispose (package:riverpod/src/state_notifier_provider/base.dart:198:7)
+#6      ProviderElementBase.dispose (package:riverpod/src/framework/element.dart:861:5)
+#7      ProviderContainer.dispose (package:riverpod/src/framework/container.dart:634:15)
+#8      ProviderScopeState.dispose (package:flutter_riverpod/src/framework.dart:264:15)
+#9      StatefulElement.unmount (package:flutter/src/widgets/framework.dart:6030:11)
+#10     _InactiveElements._unmount (package:flutter/src/widgets/framework.dart:2117:13)
+#11     ListIterable.forEach (dart:_internal/iterable.dart:49:13)
+#12     _InactiveElements._unmountAll (package:flutter/src/widgets/framework.dart:2126:25)
+#13     BuildOwner.lockState (package:flutter/src/widgets/framework.dart:3020:15)
+#14     BuildOwner.finalizeTree (package:flutter/src/widgets/framework.dart:3344:7)
+#15     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2453:19)
+#16     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:509:5)
+#17     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#18     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#19     AutomatedTestWidgetsFlutterBinding.scheduleWarmUpFrame (package:flutter_test/src/binding.dart:2357:5)
+#20     _runWidget (package:flutter/src/widgets/binding.dart:1952:7)
+#21     runApp (package:flutter/src/widgets/binding.dart:1885:3)
+#22     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1940:5)
+#25     TestWidgetsFlutterBinding._runTest (package:flutter_test/src/binding.dart:1926:10)
+#26     AutomatedTestWidgetsFlutterBinding.runTest.<anonymous closure> (package:flutter_test/src/binding.dart:2489:24)
+#27     FakeAsync.run.<anonymous closure>.<anonymous closure> (package:fake_async/fake_async.dart:182:47)
+#32     withClock (package:clock/src/default.dart:52:10)
+#33     FakeAsync.run.<anonymous closure> (package:fake_async/fake_async.dart:182:15)
+#38     FakeAsync.run (package:fake_async/fake_async.dart:181:52)
+#39     AutomatedTestWidgetsFlutterBinding.runTest (package:flutter_test/src/binding.dart:2486:15)
+#40     testWidgets.<anonymous closure> (package:flutter_test/src/widget_tester.dart:184:24)
+#41     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#42     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#43     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+(elided 10 frames from dart:async)
+
+The test description was:
+  an old refresh failure has no toast after account switch
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -4: an old refresh failure has no toast after account switch [E]
+  Test failed. See exception logs above.
+  The test description was: an old refresh failure has no toast after account switch
+  
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test (but after the test had completed):
+The finder "Found 0 widgets with text "Refresh preferences": []" (used in a call to "tap()") could
+not find any matching widgets.
+
+When the exception was thrown, this was the stack:
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2095:7)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart:168:18)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  Test failed. See exception logs above.
+  The test description was: an old refresh failure has no toast after account switch
+  
+00:00 +0 -4: compact enlarged recovery controls remain scrollable without overflow
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: Tried to use _Repository after `dispose` was called.
+
+Consider checking `mounted`.
+
+When the exception was thrown, this was the stack:
+#0      StateNotifier._debugIsMounted.<anonymous closure> (package:state_notifier/state_notifier.dart:175:9)
+#1      StateNotifier._debugIsMounted (package:state_notifier/state_notifier.dart:182:6)
+#2      StateNotifier.dispose (package:state_notifier/state_notifier.dart:323:12)
+#3      CollectRepository.dispose (package:collect_app/shared/repositories/collect_repository.dart:1558:11)
+#4      runGuarded (package:riverpod/src/run_guarded.dart:9:7)
+#5      StateNotifierProviderElement.runOnDispose (package:riverpod/src/state_notifier_provider/base.dart:198:7)
+#6      ProviderElementBase.dispose (package:riverpod/src/framework/element.dart:861:5)
+#7      ProviderContainer.dispose (package:riverpod/src/framework/container.dart:634:15)
+#8      ProviderScopeState.dispose (package:flutter_riverpod/src/framework.dart:264:15)
+#9      StatefulElement.unmount (package:flutter/src/widgets/framework.dart:6030:11)
+#10     _InactiveElements._unmount (package:flutter/src/widgets/framework.dart:2117:13)
+#11     ListIterable.forEach (dart:_internal/iterable.dart:49:13)
+#12     _InactiveElements._unmountAll (package:flutter/src/widgets/framework.dart:2126:25)
+#13     BuildOwner.lockState (package:flutter/src/widgets/framework.dart:3020:15)
+#14     BuildOwner.finalizeTree (package:flutter/src/widgets/framework.dart:3344:7)
+#15     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2453:19)
+#16     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:509:5)
+#17     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#18     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#19     AutomatedTestWidgetsFlutterBinding.scheduleWarmUpFrame (package:flutter_test/src/binding.dart:2357:5)
+#20     _runWidget (package:flutter/src/widgets/binding.dart:1952:7)
+#21     runApp (package:flutter/src/widgets/binding.dart:1885:3)
+#22     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1940:5)
+#25     TestWidgetsFlutterBinding._runTest (package:flutter_test/src/binding.dart:1926:10)
+#26     AutomatedTestWidgetsFlutterBinding.runTest.<anonymous closure> (package:flutter_test/src/binding.dart:2489:24)
+#27     FakeAsync.run.<anonymous closure>.<anonymous closure> (package:fake_async/fake_async.dart:182:47)
+#32     withClock (package:clock/src/default.dart:52:10)
+#33     FakeAsync.run.<anonymous closure> (package:fake_async/fake_async.dart:182:15)
+#38     FakeAsync.run (package:fake_async/fake_async.dart:181:52)
+#39     AutomatedTestWidgetsFlutterBinding.runTest (package:flutter_test/src/binding.dart:2486:15)
+#40     testWidgets.<anonymous closure> (package:flutter_test/src/widget_tester.dart:184:24)
+#41     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#42     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#43     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+(elided 10 frames from dart:async)
+
+The test description was:
+  compact enlarged recovery controls remain scrollable without overflow
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -5: compact enlarged recovery controls remain scrollable without overflow [E]
+  Test failed. See exception logs above.
+  The test description was: compact enlarged recovery controls remain scrollable without overflow
+  
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test (but after the test had completed):
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.first (dart:core/iterable.dart:663:7)
+#1      _FirstFinderMixin.filter (package:flutter_test/src/finders.dart:1383:28)
+#3      Iterable.single (dart:core/iterable.dart:694:13)
+#4      WidgetController.element (package:flutter_test/src/controller.dart:888:30)
+#5      WidgetController.ensureVisible (package:flutter_test/src/controller.dart:2389:32)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart:187:20)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 2 frames from dart:async-patch and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  Test failed. See exception logs above.
+  The test description was: compact enlarged recovery controls remain scrollable without overflow
+  
+00:00 +0 -5: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart: an old refresh failure has no toast after account switch
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart: compact enlarged recovery controls remain scrollable without overflow
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart: conflict retains intent; refresh reviews all differences and never silently retries
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart: discard after uncertainty never writes or authorizes an unseen revision
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/notification_preferences_recovery_ui_test.dart: fresh server read explicitly enables editing without any write

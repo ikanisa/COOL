@@ -1,0 +1,16 @@
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/android/app/build.gradle.kts' line: 27
+
+* What went wrong:
+collectUnsignedLocalQa must be explicitly true or false
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 17s

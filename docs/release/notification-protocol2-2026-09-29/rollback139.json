@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-09-29T22:14:19.361922+00:00",
+  "fixture": "collect_fin_concurrency_qa_20260929",
+  "migration_count": 139,
+  "script": "scripts/tests/notification_delivery_fencing_uat.sql",
+  "script_sha256": "35f2cde0b6be0f01f45e851055a4e2490d9fff86db4934ec67d70c63a09a80bb",
+  "exit_code": 0,
+  "rolled_back": true,
+  "provider_calls": false
+}

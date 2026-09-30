@@ -29,6 +29,7 @@ class EdgeHTTPLauncherTest(unittest.TestCase):
             file.parent.mkdir(parents=True, exist_ok=True)
             file.write_text('synthetic source\n')
         (self.root / '.dvmrc').write_text('2.5.6\n')
+        (self.root / 'supabase/functions/deno.lock').write_text('{"version":"5"}\n')
         self.binary = self.root / 'fake-deno'
         self.binary.write_text('not executable; no real runtime is launched\n')
         self.output = self.root / '.cache/evidence'
@@ -125,9 +126,28 @@ class EdgeHTTPLauncherTest(unittest.TestCase):
         self.assertIn('--allow-net=127.0.0.1', command)
         self.assertIn('--cached-only', command)
         self.assertIn('--no-prompt', command)
+        self.assertIn('--frozen', command)
+        self.assertIn('--lock=supabase/functions/deno.lock', command)
+        self.assertNotIn('--no-lock', command)
+        self.assertTrue(report['dependency_lock_enforced'])
         self.assertTrue(any(flag.startswith('--deny-net=graph.facebook.com') for flag in command))
         self.assertNotIn('SUPABASE_SERVICE_ROLE_KEY', child.call_args.kwargs['env'])
         self.assertFalse(report['final_acceptance'])
+
+    def test_missing_lock_does_not_execute_handlers(self):
+        (self.root / 'supabase/functions/deno.lock').unlink()
+        code, report, child = self.run_launcher()
+        self.assertEqual(code, 1)
+        self.assertFalse(report['source_inputs_unchanged'])
+        child.assert_not_called()
+
+    def test_lock_change_invalidates_completed_run(self):
+        def change_lock(*_args, **_kwargs):
+            (self.root / 'supabase/functions/deno.lock').write_text('{"version":"changed"}\n')
+            return self.completed()
+        code, report, _ = self.run_launcher(change_lock)
+        self.assertEqual(code, 1)
+        self.assertFalse(report['source_inputs_unchanged'])
 
     def test_existing_or_external_output_is_rejected_before_execution(self):
         self.output.mkdir(parents=True)

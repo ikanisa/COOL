@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "test/admin_runtime_control_gap_test.dart",
+    "--plain-name",
+    "GAP-A15",
+    "--reporter",
+    "expanded"
+  ],
+  "exit_code": 1,
+  "gap_reproduced": true,
+  "source_restored": true,
+  "old_mapping_sha256": "5d3027a2498cd609fcbed8c736662d97be389b064db5d7a454e23c9864bc4303",
+  "current_spec_sha256": "21976cb6647a2327123a6284077d3a36034719dc9600d7ed3712e6f2e96f50ca",
+  "tests_sha256": "6f6bfb22dc5fdf0b7c560a22d3e991de501fbf5e3fc50da7f9c9ec901221b662",
+  "scope": "controlled projection of old owned key mapping; corrected Tooltip/count widget probe",
+  "database_called": false,
+  "provider_called": false
+}

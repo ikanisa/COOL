@@ -1,0 +1,562 @@
+{
+  "status": "observed",
+  "scope": "Actual devDebug lint on exact unsigned source export; post-logout candidate/native release analysis separate",
+  "counts": {
+    "ScopedStorage": 2,
+    "ApplySharedPref": 10,
+    "UnusedAttribute": 1,
+    "GradleDependency": 1,
+    "ObsoleteSdkInt": 2,
+    "UnusedResources": 1,
+    "IconLauncherShape": 5,
+    "IconLocation": 1,
+    "UseKtx": 17
+  },
+  "warnings": [
+    {
+      "id": "ScopedStorage",
+      "severity": "Warning",
+      "message": "READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.",
+      "locations": [
+        {
+          "line": "18",
+          "column": "23",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "source_sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ScopedStorage",
+      "severity": "Warning",
+      "message": "WRITE_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to write to shared storage, use the `MediaStore.createWriteRequest` intent.",
+      "locations": [
+        {
+          "line": "21",
+          "column": "23",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "source_sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "396",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "66",
+          "column": "71",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "117",
+          "column": "76",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "126",
+          "column": "76",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "182",
+          "column": "86",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "188",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "198",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "203",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "221",
+          "column": "79",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning",
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "locations": [
+        {
+          "line": "224",
+          "column": "78",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UnusedAttribute",
+      "severity": "Warning",
+      "message": "Attribute `enableOnBackInvokedCallback` is only used in API level 33 and higher (current min is 24)",
+      "locations": [
+        {
+          "line": "31",
+          "column": "9",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "source_sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "GradleDependency",
+      "severity": "Warning",
+      "message": "A newer version of com.android.tools:desugar_jdk_libs than 2.1.4 is available: 2.1.5",
+      "locations": [
+        {
+          "line": "226",
+          "column": "27",
+          "path": "android/app/build.gradle.kts",
+          "source_sha256": "7beb5b41df2819fb448b77389a1d9cbacbb249bd596bf8b13f3afc3e2e634eaa"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning",
+      "message": "This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable-night`.",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable-night-v21",
+          "source_sha256": null
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning",
+      "message": "This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable`.",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable-v21",
+          "source_sha256": null
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UnusedResources",
+      "severity": "Warning",
+      "message": "The resource `R.drawable.transparent` appears to be unused",
+      "locations": [
+        {
+          "line": "2",
+          "column": "1",
+          "path": "android/app/src/main/res/drawable/transparent.xml",
+          "source_sha256": "3a889e009277a61051ae4243cbc546432dd2dfb91ba90f1f5876b9c19bcca2e5"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+          "source_sha256": "b4b0e16ece8b2956d6d6cec9a50b1a77f03a36e272c07bb07013ce57225454dc"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+          "source_sha256": "a9c2c7aac385f8ee3d90c6ffaaf50c3247bb29f62be4b8ad804f7adf37657480"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+          "source_sha256": "e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+          "source_sha256": "c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "IconLauncherShape",
+      "severity": "Warning",
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+          "source_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "IconLocation",
+      "severity": "Warning",
+      "message": "Found bitmap drawable `res/drawable/collect_launcher_icon.png` in densityless folder",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable/collect_launcher_icon.png",
+          "source_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "395",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `String.toUri` instead?",
+      "locations": [
+        {
+          "line": "437",
+          "column": "23",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "579",
+          "column": "20",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "source_sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "66",
+          "column": "17",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "114",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "123",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "129",
+          "column": "22",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "150",
+          "column": "9",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "160",
+          "column": "9",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "172",
+          "column": "26",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "182",
+          "column": "21",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "188",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "198",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "203",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "210",
+          "column": "16",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "221",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    },
+    {
+      "id": "UseKtx",
+      "severity": "Warning",
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "locations": [
+        {
+          "line": "224",
+          "column": "13",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "source_sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        }
+      ],
+      "disposition": "pending source-specific review"
+    }
+  ],
+  "report_sha256": "36f41cac84f03c4c97a49cdc2b73c20b2db6816935e2e4cbeea7afa6b47e8a91"
+}

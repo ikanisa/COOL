@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-09-30T13:44:12.209933+00:00",
+  "removed": [
+    {
+      "path": "lib/admin/shared/components/admin_metric_card.dart",
+      "sha256": "d9eb9a0b881a4ab9ce98e8c0f583910d9f6dd52384c17fc9a138df23987ebca6",
+      "bytes": 2439,
+      "preserved_at": "docs/release/asset-build-hygiene-2026-09-30/removed-source/lib/admin/shared/components/admin_metric_card.dart",
+      "reason": "Unreachable from every runtime entrypoint; replaced metrics render through current Admin overview components; no tests or callers."
+    },
+    {
+      "path": "lib/core/payments/revolut_launcher.dart",
+      "sha256": "d8d98d332889193247db2e98b5ea3f654c0371a2fccf8151d83f7db5c984e0f9",
+      "bytes": 640,
+      "preserved_at": "docs/release/asset-build-hygiene-2026-09-30/removed-source/lib/core/payments/revolut_launcher.dart",
+      "reason": "Unreachable from every mobile/Admin/public runtime entrypoint; no executable callers. External provider launcher is outside current MoMo-only capabilities."
+    }
+  ],
+  "asset_removals_this_run": [],
+  "dependencies_removed": []
+}

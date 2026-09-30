@@ -1,6 +1,6 @@
 # Group-photo deployment and Android follow-up
 
-6 September 2026. **The database migrations are deployed and independently verified. Application distribution remains blocked by MOBILE-DESIGN-100.** All six scoped Android photo-journey checks pass in the disposable Collect emulator.
+6 September 2026. **The database migrations are deployed and independently verified. Application distribution remains blocked by former mobile visual acceptance rule.** All six scoped Android photo-journey checks pass in the disposable Collect emulator.
 
 ## Database result
 
@@ -36,6 +36,6 @@ See [NATIVE-VERIFICATION.json](NATIVE-VERIFICATION.json) for exact results, file
 
 ## Remaining release boundary
 
-`make mobile-design-gate` remains **BLOCKED** by the existing acceptance, source/build binding, full route/state and open-finding requirements. This scoped photo work does not supply whole-app native acceptance, iOS device evidence, local cultural/language approval or production performance certification. Debug emulator frame/jank messages are not a performance benchmark. No acceptance score, required case, baseline or owner approval was changed.
+Release approval remains **BLOCKED** by the existing acceptance, source/build binding, full route/state and open-finding requirements. This scoped photo work does not supply whole-app native acceptance, iOS device evidence, local cultural/language approval or production performance certification. Debug emulator frame/jank messages are not a performance benchmark. No acceptance score, required case, baseline or owner approval was changed.
 
 The [interactive browser fixture](http://collect.localhost:4195/#/home) continues to use synthetic in-memory groups. Reloading resets those groups. Database readiness and the fixture demonstration are separate evidence layers; the production mobile build has not been distributed.

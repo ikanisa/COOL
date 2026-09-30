@@ -1,0 +1,9 @@
+{
+  "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json": "0ab73e7b7f9ec117fcf7b413bb8aa24ada0e4f8fc5c5194e8c6e6d28fc8c0446",
+  "scripts/tests/local_offline_verification.py": "9cc7e2abe4ae116319e209f027cf5ba96b7d3fe0d235aa1d0d0c9cb4e50f6d3e",
+  "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+  "scripts/tests/run_runtime_control_acceptance.py": "23f27d012f7b570a66dc09bae7386340fcba46f6447e1a30d8bc1ce7887aca72",
+  "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+  "scripts/tests/runtime_control_governance_uat.sql": "6e83bb6c16eb98f509ca12b70374458dbd296f5c8967ed7ac7bd8760ed0d434b",
+  "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f"
+}

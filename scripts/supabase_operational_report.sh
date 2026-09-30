@@ -150,7 +150,7 @@ if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]]; then
   fi
   grep -Ev '^(A new version of Supabase CLI is available|We recommend updating regularly)' "$tmp_err" >&2 || true
 else
-  output="$(psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$tmp_sql")"
+  output="$(collect_psql_url_service "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$tmp_sql")"
 fi
 
 REPORT_OUTPUT="$output" ruby -r json <<'RUBY'

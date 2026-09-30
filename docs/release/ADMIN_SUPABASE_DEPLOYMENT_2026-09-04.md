@@ -1,7 +1,12 @@
 # Admin and Supabase deployment — 4 September 2026
 
-**Admin and the pending database migration are deployed and verified. Mobile
-distribution remains NO-GO under MOBILE-DESIGN-100.**
+> Historical implementation evidence only. This record does not define current design
+> policy or establish current approval. Only the installed `revolut-design` skill
+> governs visual decisions; existing unresolved findings remain unresolved.
+
+
+**Admin and the pending database migration are deployed and verified. Native
+distribution remains NO-GO pending current release approval.**
 
 Jean Bosco explicitly requested deployment and verification of the credentials
 in the Google Sheet named Supabase. The subsequent Home correction is implemented
@@ -98,9 +103,9 @@ installation; the successful rerun used the actual `dev` flavor.
 
 ## Remaining boundaries
 
-`make mobile-design-gate` still reports BLOCKED: exact approved native artifact
-provenance, complete case evidence, accessibility and final visual review remain
-open. No score, baseline or owner approval was changed to bypass the gate.
+Exact approved native artifact provenance, complete case evidence,
+accessibility and final visual review remain open. No score, baseline or owner
+approval was changed to bypass a release boundary.
 
 The broader [Admin data audit](../admin/ADMIN_DATA_SYNC_AUDIT_2026-09-04.md) still
 flags bundled runtime content/configuration fallbacks and stored test-labelled

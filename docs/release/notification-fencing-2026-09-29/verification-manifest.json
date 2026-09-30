@@ -1,0 +1,181 @@
+{
+  "as_of": "2026-09-29",
+  "scope": "Current local source and retained evidence; no frozen-commit or deployed acceptance claim",
+  "files": [
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/CODE_VALIDATION.md",
+      "sha256": "7765520de6301b6a692d465e140fae4352f9388e3590db670374094991f33acc",
+      "bytes": 3646
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/README.md",
+      "sha256": "d58e85d0790f7f2a0df5364526319d94a0ad021aeceac3d177caa9defe0ae04a",
+      "bytes": 5171
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/clean-138-uat.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/clean-138-uat.stdout",
+      "sha256": "01c8108fb6de23d751ed8d43add4422f74c2f5a07f07dc948085efdc793ec619",
+      "bytes": 612
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/code-validation.json",
+      "sha256": "a0b0aa39f18e78ecaba8a7b4ef06a241b4edc5c7085e5f45c2f69ca6cd0742f1",
+      "bytes": 4393
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/concurrency-138-result.json",
+      "sha256": "6b7d2216eee970b26be89e8728514b31332df6661aa4e407d32dca1fdcd0d081",
+      "bytes": 1042
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/concurrency-138.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/concurrency-result.json",
+      "sha256": "393075e320ca8604b787d937ad82f2ab5ec05875fc7049dd550fdc00e8862d31",
+      "bytes": 1042
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/concurrency.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/draft-post-upgrade-snapshot.json",
+      "sha256": "f24ab8a0210fdd0ebe2be1ec4993dfd64bef77737c7895ff4bf3894eb608d8cf",
+      "bytes": 329
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/draft-pre-upgrade-snapshot.json",
+      "sha256": "2d1f65a3826a6ef63a75c17d9765c57acd1d536983b8d306f80872cd37ac2f5d",
+      "bytes": 329
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/draft-uat.stderr",
+      "sha256": "fdafbf0475a784239f63312aa2ca3acdd6ab92884320313bdadce94f5abd644e",
+      "bytes": 903
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/draft-uat.stdout",
+      "sha256": "c6fd91e4aa44f71224a6289314defc404c9c915128aca0cfddd5ba3218e1495d",
+      "bytes": 20
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/draft-upgrade-137.json",
+      "sha256": "fbc4a20e2db68f5118ec0cf1416ea7e465fb63c1901e76ed2b65f6e8ab8b9a59",
+      "bytes": 463
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/logs/notification-typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/logs/notification-typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/logs/notification-unit-tests.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/logs/notification-unit-tests.stdout",
+      "sha256": "0f3549d592ab10880c489edc209d7e33397c4644ea61c91937235d6c105e3652",
+      "bytes": 1862
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/logs/runtime-version.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/logs/runtime-version.stdout",
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0",
+      "bytes": 88
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/post-uat-snapshot.json",
+      "sha256": "90d9ba160a6ab664561f1bfb4d35aa3aa7f3010356e45895c3c56ebbd606ed89",
+      "bytes": 328
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/pre-upgrade-snapshot.json",
+      "sha256": "dd1b6dccb4e34ced6c30506171853f5d3aba79b84a921d3bcd536e378d52d4ab",
+      "bytes": 328
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/uat-138.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/uat-138.stdout",
+      "sha256": "02de1e540d94880f2afd79194dc6df97b394369f9ae8f11e637ae229ae13199e",
+      "bytes": 612
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/uat.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/uat.stdout",
+      "sha256": "8d462cf9bad511ca0a9bc081e3db02f70bcf50e2662983828b1c454b5011745e",
+      "bytes": 69
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/upgrade-137.json",
+      "sha256": "8c651119f6d6e215e0fd88e8c11598fe8fb0915cb3bd77a3c1d7370a16416194",
+      "bytes": 752
+    },
+    {
+      "path": "docs/release/notification-fencing-2026-09-29/upgrade-138.json",
+      "sha256": "9d92deaa5ee121ef909475df48aa59b1d76f158afc209277493a10ffd729788f",
+      "bytes": 753
+    },
+    {
+      "path": "scripts/tests/notification_delivery_concurrency_uat.rb",
+      "sha256": "35cc50dc1bb24c7caf9453be92fb06f3c32e875437a40ebf62f1753c1b73527c",
+      "bytes": 16782
+    },
+    {
+      "path": "scripts/tests/notification_delivery_fencing_uat.sql",
+      "sha256": "e9797be39f45e2ed2acfb8b1586cb777cbc21af0c826a8c19c5e6fdbacfd4442",
+      "bytes": 24826
+    },
+    {
+      "path": "supabase/functions/_shared/fcm.ts",
+      "sha256": "de4b3c13aebc78d6c4a7d52b7c4b9d11d74126f238b969b0d02b258d71790143",
+      "bytes": 6484
+    },
+    {
+      "path": "supabase/functions/dispatch-notifications/dispatcher.ts",
+      "sha256": "77bc451484f5275efc342f55a8a9a8cc0764f3858f7e44563cee8380165b8c76",
+      "bytes": 3291
+    },
+    {
+      "path": "supabase/functions/dispatch-notifications/index.ts",
+      "sha256": "78e86bbfc0d9654aabfa8e5d50f59742f14e9f19017d0ebe8d6c7326830ede37",
+      "bytes": 4803
+    },
+    {
+      "path": "supabase/migrations/20260929140000_notification_delivery_fencing.sql",
+      "sha256": "abbd69486171002e0ce6bcdc7046e0170e6412ec03b022c1127ef31cd6572275",
+      "bytes": 16708
+    },
+    {
+      "path": "supabase/migrations/20260929150000_notification_retry_eligibility.sql",
+      "sha256": "177b3242fc4a3c24ec7db8f2ef668dc125847b821ede8f6de032d75e6028ccfb",
+      "bytes": 2326
+    }
+  ]
+}

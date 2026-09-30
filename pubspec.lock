@@ -50,7 +50,7 @@ packages:
     source: hosted
     version: "1.0.4"
   archive:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: archive
       sha256: cb6a278ef2dbb298455e1a713bda08524a175630ec643a242c399c932a0a1f7d
@@ -339,10 +339,9 @@ packages:
   firebase_messaging:
     dependency: "direct main"
     description:
-      name: firebase_messaging
-      sha256: "55cf1000dd72d229ebff3ce6a399bd35705a7675275478b31308afd90ac85751"
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/firebase_messaging"
+      relative: true
+    source: path
     version: "16.5.0"
   firebase_messaging_platform_interface:
     dependency: transitive
@@ -487,12 +486,11 @@ packages:
     source: hosted
     version: "16.3.0"
   gotrue:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      name: gotrue
-      sha256: f6f42ea035953b2439664c1afb46630460edbb917093843a3a0618bfa45619f6
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/gotrue"
+      relative: true
+    source: path
     version: "2.27.1"
   gtk:
     dependency: transitive
@@ -511,7 +509,7 @@ packages:
     source: hosted
     version: "2.0.2"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
@@ -1233,7 +1231,7 @@ packages:
     source: hosted
     version: "15.2.0"
   web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web
       sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"
@@ -1289,7 +1287,7 @@ packages:
     source: hosted
     version: "1.1.0"
   xml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: xml
       sha256: "971043b3a0d3da28727e40ed3e0b5d18b742fa5a68665cca88e74b7876d5e025"

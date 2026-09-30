@@ -1,0 +1,4 @@
+error: Failed caching npm package '@types/node@24.2.0'
+
+Caused by:
+    npm package not found in cache: "@types/node", --cached-only is specified.

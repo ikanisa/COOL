@@ -16,42 +16,54 @@ class CollectEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final content = Center(
+      child: Padding(
+        padding: CollectSpacing.screenPadding,
+        child: CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CollectToneIcon(
+                icon: icon,
+                tone: CollectStatusTone.info,
+                large: true,
+              ),
+              CollectSpacing.gap16,
+              Semantics(
+                headingLevel: 2,
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                ),
+              ),
+              CollectSpacing.gap8,
+              Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
+              if (action != null) ...[CollectSpacing.gap20, action!],
+            ],
+          ),
+        ),
+      ),
+    );
     return CollectGradientBackground(
       child: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: CollectSpacing.screenPadding,
-            child: CollectCard(
-              emphasis: CollectCardEmphasis.flat,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CollectToneIcon(
-                    icon: icon,
-                    tone: CollectStatusTone.info,
-                    large: true,
-                  ),
-                  CollectSpacing.gap16,
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  CollectSpacing.gap8,
-                  Text(
-                    message,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (action != null) ...[CollectSpacing.gap20, action!],
-                ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (!constraints.hasBoundedHeight) return content;
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: content,
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
@@ -459,15 +471,13 @@ class LoadingStatePanel extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       CollectSpacing.gap4,
                       Text(
                         message,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -520,8 +530,7 @@ class CollectScreenLoadingState extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),

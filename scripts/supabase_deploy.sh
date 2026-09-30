@@ -13,9 +13,6 @@ EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
   collect-notification-operator
   dispatch-notifications
-  ingest-bank-email
-  ingest-bank-sms
-  ingest-bank-statement
   ingest-payment-sms
   parse-payment-sms
   prepare-roster-import
@@ -26,12 +23,14 @@ EXPECTED_FUNCTIONS=(
 NO_VERIFY_JWT_FUNCTIONS=(
   auth-send-whatsapp-otp
   dispatch-notifications
-  ingest-bank-email
   parse-payment-sms
   send-notification
 )
 
 RETIRED_FUNCTIONS=(
+  ingest-bank-email
+  ingest-bank-sms
+  ingest-bank-statement
   stripe-create-customer
   stripe-create-diaspora-contribution
   stripe-create-setup-intent

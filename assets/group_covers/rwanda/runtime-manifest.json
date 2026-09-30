@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "concepts": 44,
-  "total_bytes": 4651698,
+  "concepts": 42,
+  "total_bytes": 4488758,
   "operation": "Sharp resize and WebP encode; original composition and source files preserved",
   "review": "Local QA candidate; native/cultural acceptance remains separate",
   "records": [
@@ -912,54 +912,6 @@
           "path": "assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp",
           "bytes": 7628,
           "sha256": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c",
-          "width": 192,
-          "height": 256
-        }
-      ]
-    },
-    {
-      "id": "rw-39-diaspora-family-connection",
-      "version": 1,
-      "source": "assets/group_covers/rwanda/source/rw-39-diaspora-family-connection-v1.png",
-      "source_sha256": "447862ee61913ca43f713edb0d6e2577a58e01619e47863e761ca4fecba78960",
-      "derivatives": [
-        {
-          "role": "cover",
-          "path": "assets/group_covers/rwanda/covers/rw-39-diaspora-family-connection-v1.webp",
-          "bytes": 60254,
-          "sha256": "89102080c428881f92b673909d29e9d83a89cf9166c9023f51fa0c514b861ef9",
-          "width": 768,
-          "height": 1024
-        },
-        {
-          "role": "thumbnail",
-          "path": "assets/group_covers/rwanda/thumbs/rw-39-diaspora-family-connection-v1.webp",
-          "bytes": 7548,
-          "sha256": "07ff27ded5bf53a0537cade1a8225e2285e7d7808ac69a0647cd9af0b92502b6",
-          "width": 192,
-          "height": 256
-        }
-      ]
-    },
-    {
-      "id": "rw-40-diaspora-community-project",
-      "version": 1,
-      "source": "assets/group_covers/rwanda/source/rw-40-diaspora-community-project-v1.png",
-      "source_sha256": "26d5d4107394c642b2f8d3f6a6a1750dbe76fdb3dc4a436a5d53d0e2cbfa391a",
-      "derivatives": [
-        {
-          "role": "cover",
-          "path": "assets/group_covers/rwanda/covers/rw-40-diaspora-community-project-v1.webp",
-          "bytes": 88106,
-          "sha256": "011678868cfe4ecf55d225c912aa88af17243704b39ff65b06db60b08ff5e5e9",
-          "width": 768,
-          "height": 1024
-        },
-        {
-          "role": "thumbnail",
-          "path": "assets/group_covers/rwanda/thumbs/rw-40-diaspora-community-project-v1.webp",
-          "bytes": 7032,
-          "sha256": "db6dfcf476222ddbf9eb3372ab664a5f1e09da795993133f46666e83f6b59fc4",
           "width": 192,
           "height": 256
         }

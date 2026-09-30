@@ -56,12 +56,7 @@ class _HomeGroupsSection extends StatelessWidget {
               final collection = visibleGroups[index];
               return GroupCard(
                 collection: collection,
-                summary:
-                    summaries[collection.id] ??
-                    const CollectionSummary(
-                      amountRaisedRwf: 0,
-                      supporterCount: 0,
-                    ),
+                summary: summaries[collection.id],
                 variant: GroupCardVariant.publicDiscovery,
                 onTap: () => context.go('/groups/${collection.id}'),
                 primaryAction: _HomeContributeIconButton(

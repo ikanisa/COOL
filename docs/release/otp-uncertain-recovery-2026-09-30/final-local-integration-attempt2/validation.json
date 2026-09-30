@@ -1,0 +1,72 @@
+{
+  "status": "fail",
+  "captured_at_utc": "2026-09-30T14:43:40.367203+00:00",
+  "scope": "Current OTP handler53 simulated-outcome tests and cached-only frozen actualSDK compile with no entrypoint execution; no provider delivery claim",
+  "source_before": {
+    "supabase/functions/auth-send-whatsapp-otp/handler.ts": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30",
+    "supabase/functions/auth-send-whatsapp-otp/handler_test.ts": "69f6ee76b873d01efe683c6d50848885fcc7da4b933828a5a21998a7aad8b93b",
+    "supabase/functions/auth-send-whatsapp-otp/index.ts": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2",
+    "supabase/functions/_shared/signed_sms_hook.ts": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6",
+    "supabase/functions/_shared/supabase.ts": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+    "supabase/functions/_shared/cors.ts": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+    "supabase/functions/_shared/hash.ts": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719",
+    "supabase/functions/_shared/production_contract.ts": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+    "supabase/functions/_shared/test_assert.ts": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+    "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+    "docs/release/otp-uncertain-recovery-2026-09-30/sdk.lock": "5e4adbfa372d068d238968dfdfa822c25e9c15510a387017a8a35327676b09da",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+  },
+  "source_after": {
+    "supabase/functions/auth-send-whatsapp-otp/handler.ts": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30",
+    "supabase/functions/auth-send-whatsapp-otp/handler_test.ts": "69f6ee76b873d01efe683c6d50848885fcc7da4b933828a5a21998a7aad8b93b",
+    "supabase/functions/auth-send-whatsapp-otp/index.ts": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2",
+    "supabase/functions/_shared/signed_sms_hook.ts": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6",
+    "supabase/functions/_shared/supabase.ts": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+    "supabase/functions/_shared/cors.ts": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+    "supabase/functions/_shared/hash.ts": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719",
+    "supabase/functions/_shared/production_contract.ts": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+    "supabase/functions/_shared/test_assert.ts": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+    "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+    "docs/release/otp-uncertain-recovery-2026-09-30/sdk.lock": "5e4adbfa372d068d238968dfdfa822c25e9c15510a387017a8a35327676b09da",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+  },
+  "runs": [
+    {
+      "name": "handler-tests",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--cached-only",
+        "--frozen",
+        "--lock=docs/release/otp-uncertain-recovery-2026-09-30/sdk.lock",
+        "--no-prompt",
+        "supabase/functions/auth-send-whatsapp-otp/handler_test.ts"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "1a1328aefc304f061dce2fa47a5915dd3fd1dfad95f0217adef148b2f2203e7b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sdk-typecheck",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--no-run",
+        "--cached-only",
+        "--frozen",
+        "--lock=docs/release/otp-uncertain-recovery-2026-09-30/sdk.lock",
+        "--no-prompt",
+        "supabase/functions/auth-send-whatsapp-otp/index.ts",
+        "supabase/functions/auth-send-whatsapp-otp/handler_test.ts"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4d048b572e8cb067ecbd0bd9cf88413bf0706d28b00dbcfe0d9f8aea6d8df44e"
+    }
+  ],
+  "deno_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+  "provider_network_permission": false,
+  "inherited_provider_credentials": false,
+  "database_calls": false,
+  "prior_failure": "../final-local-integration/validation.json: unsupported cached-only option on check subcommand;53 tests had passed; failure preserved"
+}

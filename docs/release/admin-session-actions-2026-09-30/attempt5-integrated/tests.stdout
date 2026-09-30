@@ -1,0 +1,282 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_session_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 0 accepts complete receipt: admin_retry_notification
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 0 rejects empty or missing fields: admin_retry_notification
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 0 rejects string and false success
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 1 accepts complete receipt: admin_create_platform_public_group
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 1 rejects empty or missing fields: admin_create_platform_public_group
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 1 rejects string and false success
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 2 accepts complete receipt: admin_set_group_active
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 2 rejects empty or missing fields: admin_set_group_active
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 2 rejects string and false success
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_set_group_active refuses wrong collection_id binding 2
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 3 accepts complete receipt: admin_set_group_active
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 3 rejects empty or missing fields: admin_set_group_active
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 3 rejects string and false success
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_set_group_active refuses wrong collection_id binding 3
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 4 accepts complete receipt: admin_update_platform_public_group_metadata
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 4 rejects empty or missing fields: admin_update_platform_public_group_metadata
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 4 rejects string and false success
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_update_platform_public_group_metadata refuses wrong collection_id binding 4
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 5 accepts complete receipt: admin_update_collection_support_status
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 5 rejects empty or missing fields: admin_update_collection_support_status
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 5 rejects string and false success
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 6 accepts complete receipt: admin_create_collect_payee
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 6 rejects empty or missing fields: admin_create_collect_payee
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 6 rejects string and false success
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 7 accepts complete receipt: admin_update_collect_payee
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 7 rejects empty or missing fields: admin_update_collect_payee
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 7 rejects string and false success
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_update_collect_payee refuses wrong payee_id binding 7
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 8 accepts complete receipt: admin_set_collect_payee_status
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 8 rejects empty or missing fields: admin_set_collect_payee_status
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 8 rejects string and false success
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_set_collect_payee_status refuses wrong payee_id binding 8
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 9 accepts complete receipt: admin_set_feature_flag
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 9 rejects empty or missing fields: admin_set_feature_flag
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 9 rejects string and false success
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 10 accepts complete receipt: admin_record_operator_note
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 10 rejects empty or missing fields: admin_record_operator_note
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 10 rejects string and false success
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 11 accepts complete receipt: admin_reparse_payment_event
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 11 rejects empty or missing fields: admin_reparse_payment_event
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 11 rejects string and false success
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 12 accepts complete receipt: admin_reveal_raw_sms
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 12 rejects empty or missing fields: admin_reveal_raw_sms
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 12 rejects string and false success
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 13 accepts complete receipt: admin_manual_allocate_payment
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 13 rejects empty or missing fields: admin_manual_allocate_payment
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 14 accepts complete receipt: admin_approve_whatsapp
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 14 rejects empty or missing fields: admin_approve_whatsapp
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 14 rejects string and false success
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_approve_whatsapp refuses wrong user_id binding 14
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 15 accepts complete receipt: admin_revoke_whatsapp_approval
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 15 rejects empty or missing fields: admin_revoke_whatsapp_approval
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 15 rejects string and false success
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_revoke_whatsapp_approval refuses wrong user_id binding 15
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 16 accepts complete receipt: admin_set_user_access
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 16 rejects empty or missing fields: admin_set_user_access
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 16 rejects string and false success
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 17 accepts complete receipt: admin_get_whatsapp_approval
+00:00 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: actual SQL contract 17 rejects empty or missing fields: admin_get_whatsapp_approval
+00:00 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: admin_get_whatsapp_approval refuses wrong user_id binding 17
+00:00 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: active group cannot acknowledge archived visibility
+00:00 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_contracts_test.dart: unrecognized action cannot silently imply success
+00:00 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +78: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +79: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +80: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +81: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +82: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +83: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +84: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +85: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +86: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +87: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +88: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +89: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +90: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +91: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +92: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +93: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +94: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +95: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +96: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +97: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:00 +98: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:01 +99: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:01 +100: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: same-user login during reason dialog dispatches no retry
+00:01 +101: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:01 +102: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:01 +103: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:01 +104: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:01 +105: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: actual reconciliation route renders the protected review queue
+00:02 +106: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: actual reconciliation route renders the protected review queue
+00:02 +107: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: actual reconciliation route renders the protected review queue
+00:02 +108: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: actual reconciliation route renders the protected review queue
+00:02 +109: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin stays at login without data
+00:02 +110: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: valid retry receipt refreshes once and acknowledges queue only
+00:02 +111: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: valid retry receipt refreshes once and acknowledges queue only
+00:02 +112: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: valid retry receipt refreshes once and acknowledges queue only
+00:02 +113: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: valid retry receipt refreshes once and acknowledges queue only
+00:02 +114: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_action_ui_session_test.dart: valid retry receipt refreshes once and acknowledges queue only
+00:02 +115: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_platform_access_test.dart: unknown receipt never shows success
+00:02 +116: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin
+00:02 +117: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin
+00:02 +118: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_platform_access_test.dart: changed operator identity aborts before mutation
+00:02 +119: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +120: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +121: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +122: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +123: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +124: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +125: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +126: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +127: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:02 +128: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:03 +129: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:03 +130: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:03 +131: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:03 +132: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:03 +133: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: independent approval requires reason then real step-up callback
+00:03 +134: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +135: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +136: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +137: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +138: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +139: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +140: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +141: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: top chrome profile control is visible and links to profile
+00:03 +142: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +143: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +144: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +145: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +146: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +147: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +148: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +149: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/groups can retry in place
+00:03 +150: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:03 +151: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:03 +152: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:03 +153: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:03 +154: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +155: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +156: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +157: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +158: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +159: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +160: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +161: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +162: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +163: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +164: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +165: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +166: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +167: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +168: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +169: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +170: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +171: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +172: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:04 +173: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: tracked visual assets exclude SVG and unapproved brand artwork
+00:05 +174: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members can retry in place
+00:05 +175: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members can retry in place
+00:05 +176: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members can retry in place
+00:05 +177: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members can retry in place
+00:05 +178: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members can retry in place
+00:05 +179: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +180: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +181: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +182: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +183: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +184: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +185: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: pending step-up cannot act after same-user session change
+00:05 +186: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: button, card, and status chip expose labels
+00:05 +187: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/members/:id
+00:05 +188: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/members/:id
+00:05 +189: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: role revocation hides lineage and a later grant reloads cleanly
+00:05 +190: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: role revocation hides lineage and a later grant reloads cleanly
+00:05 +191: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: role revocation hides lineage and a later grant reloads cleanly
+00:05 +192: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: role revocation hides lineage and a later grant reloads cleanly
+00:05 +193: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members/:id can retry in place
+00:05 +194: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members/:id can retry in place
+00:05 +195: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/members/:id can retry in place
+00:05 +196: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:05 +197: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:05 +198: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:05 +199: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:05 +200: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:05 +201: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: proposal validates evidence and posts only after step-up
+00:05 +202: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: notification denial stays in Collect and retry can recover
+00:05 +203: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/payees can retry in place
+00:05 +204: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: approved reviewer surface has an explicit bounded action
+00:05 +205: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: bento metrics adapt for text scaling without losing content
+00:05 +206: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: bento metrics adapt for text scaling without losing content
+00:05 +207: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:05 +208: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:05 +209: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:05 +210: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:05 +211: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:05 +212: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_reconciliation_ui_test.dart: narrow enlarged-text evidence and MFA forms remain usable
+00:05 +213: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions can retry in place
+00:05 +214: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions can retry in place
+00:05 +215: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions can retry in place
+00:05 +216: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: form section card standardizes fields errors and actions
+00:05 +217: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: form section card standardizes fields errors and actions
+00:05 +218: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: form section card standardizes fields errors and actions
+00:05 +219: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/transactions/:id
+00:05 +220: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/transactions/:id
+00:05 +221: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/runtime_component_contract_test.dart: group type choices activate through assistive semantics
+00:05 +222: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:05 +223: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:05 +224: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:06 +225: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:06 +226: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:06 +227: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:06 +228: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/transactions/:id can retry in place
+00:06 +229: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/reconciliations stays at login without data
+00:06 +230: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/reconciliations denies before reading records
+00:06 +231: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/reconciliations
+00:06 +232: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/reconciliations can retry in place
+00:06 +233: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/ledgers stays at login without data
+00:06 +234: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/ledgers denies before reading records
+00:06 +235: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/ledgers
+00:06 +236: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/ledgers can retry in place
+00:06 +237: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/sms-receipts stays at login without data
+00:06 +238: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/sms-receipts denies before reading records
+00:06 +239: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/sms-receipts
+00:06 +240: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/sms-receipts can retry in place
+00:06 +241: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/sms-receipts/:id stays at login without data
+00:06 +242: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/sms-receipts/:id denies before reading records
+00:06 +243: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/sms-receipts/:id
+00:06 +244: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/sms-receipts/:id can retry in place
+00:06 +245: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/notifications stays at login without data
+00:06 +246: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/notifications denies before reading records
+00:06 +247: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/notifications
+00:06 +248: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/notifications can retry in place
+00:06 +249: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/notifications/:id stays at login without data
+00:06 +250: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/notifications/:id denies before reading records
+00:06 +251: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/notifications/:id
+00:06 +252: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/notifications/:id can retry in place
+00:07 +253: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/audit-logs stays at login without data
+00:07 +254: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/audit-logs denies before reading records
+00:07 +255: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/audit-logs
+00:07 +256: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/audit-logs can retry in place
+00:07 +257: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/settings stays at login without data
+00:07 +258: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/settings denies before reading records
+00:07 +259: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/settings
+00:07 +260: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/settings can retry in place
+00:07 +261: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/feature-flags stays at login without data
+00:07 +262: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/feature-flags denies before reading records
+00:07 +263: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/feature-flags
+00:07 +264: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/feature-flags can retry in place
+00:07 +265: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/system-health stays at login without data
+00:07 +266: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/system-health denies before reading records
+00:07 +267: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/system-health
+00:07 +268: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/system-health can retry in place
+00:07 +269: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/admin-users stays at login without data
+00:07 +270: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/admin-users denies before reading records
+00:07 +271: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/admin-users
+00:07 +272: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/admin-users can retry in place
+00:07 +273: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: signed-out deep link /admin/admin-users/:id stays at login without data
+00:07 +274: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: non-Admin deep link /admin/admin-users/:id denies before reading records
+00:07 +275: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity without capabilities cannot open /admin/admin-users/:id
+00:07 +276: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: record request failure on /admin/admin-users/:id can retry in place
+00:07 +277: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: identity loading keeps a protected deep link free of data
+00:07 +278: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: an identity outage can retry and recover the requested route
+00:07 +279: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_route_access_test.dart: identity retry stays denied when server access was revoked
+00:07 +280: All tests passed!

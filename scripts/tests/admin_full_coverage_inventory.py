@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+"""Source-only declared Admin inventory. Test references are never test results."""
+import argparse
+import hashlib
+import json
+import pathlib
+import re
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+ROUTE_RPCS = {
+    '/admin/login': ['Auth.signInWithOtp', 'Auth.verifyOTP', 'admin_current_user'],
+    '/admin/denied': [], '/admin': ['admin_overview'],
+    '/admin/groups': ['admin_list_collections'],
+    '/admin/groups/:id': ['admin_get_collection'],
+    '/admin/users': ['admin_list_non_member_users'],
+    '/admin/users/:id': ['admin_get_user'],
+    '/admin/members': ['admin_list_members'],
+    '/admin/members/:id': ['admin_get_member_record'],
+    '/admin/payees': ['admin_list_collect_payees'],
+    '/admin/transactions': ['admin_list_collect_transactions'],
+    '/admin/transactions/:id': ['admin_get_collect_transaction'],
+    '/admin/reconciliations': ['admin_list_collect_reconciliations', 'list_payment_reconciliations_v2', 'get_payment_reconciliation_v2'],
+    '/admin/ledgers': ['admin_list_collect_ledgers'],
+    '/admin/sms-receipts': ['admin_list_hybrid_sms_receipts'],
+    '/admin/sms-receipts/:id': ['admin_get_hybrid_sms_receipt'],
+    '/admin/notifications': ['admin_list_notifications'],
+    '/admin/notifications/:id': ['admin_get_notification'],
+    '/admin/audit-logs': ['admin_list_audit_logs'],
+    '/admin/settings': ['admin_list_settings'],
+    '/admin/feature-flags': ['admin_list_feature_flags'],
+    '/admin/system-health': ['admin_system_health'],
+    '/admin/admin-users': ['admin_list_admin_users'],
+    '/admin/admin-users/:id': ['admin_get_admin_user'],
+}
+ACTIVE_ACTIONS = {
+    'admin_create_platform_public_group': ['/admin/groups'],
+    'admin_create_collect_payee': ['/admin/payees'],
+    'admin_update_collect_payee': ['/admin/payees'],
+    'admin_set_collect_payee_status': ['/admin/payees'],
+    'admin_set_group_active': ['/admin/groups/:id'],
+    'admin_update_collection_support_status': ['/admin/groups/:id'],
+    'admin_update_platform_public_group_metadata': ['/admin/groups/:id'],
+    'admin_record_operator_note': ['/admin/groups/:id', '/admin/users/:id'],
+    'admin_retry_notification': ['/admin/notifications/:id'],
+    'admin_reveal_raw_sms': ['/admin/transactions/:id'],
+    'admin_get_whatsapp_approval': ['/admin/users/:id', '/admin/admin-users/:id'],
+    'admin_approve_whatsapp': ['/admin/users/:id', '/admin/admin-users/:id'],
+    'admin_revoke_whatsapp_approval': ['/admin/users/:id', '/admin/admin-users/:id'],
+    'admin_set_user_access': ['/admin/users/:id', '/admin/admin-users/:id'],
+    'admin_set_feature_flag_v2': ['/admin/feature-flags'],
+    'propose_payment_reconciliation_v2': ['/admin/reconciliations'],
+    'approve_payment_reconciliation_v2': ['/admin/reconciliations'],
+    'reconciliation-finalize': ['/admin/reconciliations'],
+    'prepare-roster-import': ['/admin/groups', '/admin/groups/:id'],
+    **{name: ['/admin/groups', '/admin/groups/:id'] for name in [
+        'admin_review_roster_import', 'admin_commit_roster_import', 'admin_get_roster_import',
+        'admin_save_roster_import_draft', 'admin_recover_roster_import',
+        'admin_stage_roster_import_intent', 'admin_execute_roster_import_intent']},
+}
+SUPPORT_RPCS = {'admin_current_user', 'admin_get_queue_sla', 'admin_runtime_config',
+                'admin_list_country_scoped', 'admin_list_platform_payee_candidates'}
+SDK_OPERATIONS = {'signInWithOtp', 'verifyOTP', 'signOut', 'getAuthenticatorAssuranceLevel',
+                  'listFactors', 'challenge', 'verify'}
+
+
+def sha(value):
+    return hashlib.sha256(value).hexdigest()
+
+
+def mask_comments(source):
+    # Preserve character offsets and quoted strings, including raw/triple Dart
+    # strings; comments cannot inflate the endpoint/provider declaration set.
+    pattern = re.compile(r'''r?(?:"""[\s\S]*?"""|\x27\x27\x27[\s\S]*?\x27\x27\x27|"(?:\\.|[^"\\])*"|\x27(?:\\.|[^\x27\\])*\x27)|//[^\n]*|/\*[\s\S]*?\*/''')
+    return pattern.sub(lambda m: re.sub(r'[^\n]', ' ', m.group()) if m.group().startswith(('/',)) else m.group(), source)
+
+
+def line(source, pos):
+    return source.count('\n', 0, pos) + 1
+
+
+def named_declarations(source):
+    # Lexical declaration evidence only; not a Dart reachability/AST proof.
+    pattern = re.compile(r'^\s*(?:(?:static|late|final|const|abstract|external|factory)\s+)*(?:[\w<>?,.(){}:\s]+?\s+)?([A-Za-z_]\w*)(?:<[^()\n]+>)?\s*\(', re.M)
+    output = []
+    for match in pattern.finditer(source):
+        name = match[1]
+        if name in {'if', 'for', 'while', 'switch', 'catch', 'assert', 'return', 'throw', 'super'}:
+            continue
+        start = source.find('(', match.start(), match.end())
+        depth = 0
+        end = start
+        quoted = None
+        escape = False
+        while end < len(source):
+            ch = source[end]
+            if quoted:
+                if escape: escape = False
+                elif ch == '\\': escape = True
+                elif ch == quoted: quoted = None
+            elif ch in ('"', "'"): quoted = ch
+            elif ch == '(': depth += 1
+            elif ch == ')':
+                depth -= 1
+                if depth == 0: break
+            end += 1
+        following = source[end + 1:end + 80].lstrip()
+        if re.match(r'(?:async\*?\s*)?(?:\{|=>)', following):
+            output.append({'name': name, 'line': line(source, match.start(1))})
+    return output
+
+
+def capture(output):
+    admin = sorted(ROOT.glob('lib/admin/**/*.dart'))
+    tests = sorted(ROOT.glob('test/**/*admin*.dart'))
+    migrations = sorted(ROOT.glob('supabase/migrations/*.sql'))
+    files = admin + tests + migrations + [pathlib.Path(__file__).resolve()]
+    raw = {str(p.relative_to(ROOT)): p.read_bytes() for p in files}
+    sources = {name: sha(value) for name, value in raw.items()}
+    symbols, providers, dialogs, callbacks, calls, declarations = {}, [], [], [], [], []
+    quoted = re.compile(r'''[\x27"]([A-Za-z_][a-zA-Z0-9_-]*)[\x27"]''')
+    for path in admin:
+        name = str(path.relative_to(ROOT))
+        text = raw[name].decode()
+        clean = mask_comments(text)
+        fixture_only = path.name in {'admin_evidence_mode.dart', 'admin_review_credentials.dart'}
+        for m in quoted.finditer(clean):
+            if m[1].startswith('admin_') or m[1] in ACTIVE_ACTIONS or m[1].endswith('_payment_reconciliation_v2') or m[1] == 'list_payment_reconciliations_v2':
+                symbols.setdefault(m[1], []).append({'file': name, 'line': line(clean, m.start()), 'fixture_only': fixture_only})
+        if fixture_only: continue
+        for m in re.finditer(r'\bfinal\s+(\w+Provider)\s*=', clean):
+            providers.append({'name': m[1], 'file': name, 'line': line(clean, m.start()), 'expression': clean[m.end():m.end()+180].strip()})
+        for m in re.finditer(r'\b(showDialog|showAdmin\w*Dialog)\s*(?:<[^>]+>)?\s*\(', clean):
+            dialogs.append({'symbol': m[1], 'file': name, 'line': line(clean, m.start())})
+        for m in re.finditer(r'\b(onPressed|onTap|onSelected|onReveal|onRetry|onDone|onChanged|onInvalidate)\s*:', clean):
+            callbacks.append({'event': m[1], 'file': name, 'line': line(clean, m.start()), 'expression': clean[m.end():m.end()+150].strip()})
+        for m in re.finditer(r'\b(action|rpc|rpcMap|recoveryRpc|invoke|detail|list|currentIdentity|overviewMetrics|queueSla|runtimeConfig|prepareRosterImport|proposePaymentReconciliation|approvePaymentReconciliation|finalizePaymentReconciliation|signInWithOtp|verifyOTP|signOut|listFactors|challenge|verify|getAuthenticatorAssuranceLevel)\s*(?:<[^>]+>)?\s*\(', clean):
+            calls.append({'symbol': m[1], 'file': name, 'line': line(clean, m.start()), 'expression': clean[m.end():m.end()+240].strip()})
+        declarations.extend({'file': name, **d} for d in named_declarations(clean))
+    definitions = {}
+    for path in migrations:
+        name = str(path.relative_to(ROOT))
+        text = raw[name].decode()
+        matches = list(re.finditer(r'create\s+(?:or\s+replace\s+)?function\s+(?:(\w+)\.)?(\w+)\s*\(', text, re.I))
+        for index, m in enumerate(matches):
+            tail = text[m.start():matches[index+1].start() if index+1 < len(matches) else len(text)]
+            tag = re.search(r'\$[a-zA-Z0-9_]*\$', tail)
+            if tag:
+                end = tail.find(tag[0], tag.end())
+                body = tail[:end + len(tag[0])] if end >= 0 else tail
+            else: body = tail[:2000]
+            definitions[m[2]] = {'schema': m[1] or 'public', 'file': name, 'line': line(text, m.start()),
+                'definition_sha256': sha(body.encode()),
+                'permission_literals': sorted(set(re.findall(r"assert_admin_permission\('([^']+)'\)", body))),
+                'source_only': True, 'overload_resolution_verified': False}
+    router = mask_comments(raw['lib/admin/admin_router.dart'].decode())
+    route_block = re.search(r'const adminRoutePaths\s*=\s*<String>\[([\s\S]*?)\];', router)[1]
+    routes = re.findall(r"'([^']+)'", route_block)
+    route_gap = sorted(set(routes) ^ set(ROUTE_RPCS))
+    endpoints = []
+    active = set(ACTIVE_ACTIONS) | SUPPORT_RPCS | {rpc for values in ROUTE_RPCS.values() for rpc in values if rpc.startswith('admin_') or rpc.endswith('_v2')}
+    contracts = mask_comments(raw['lib/admin/core/admin_action_contracts.dart'].decode())
+    ack_branches = {}
+    for branch in re.finditer(r"((?:'admin_[a-z0-9_]+'\s*(?:\|\|\s*)?)+)=>\s*([\s\S]*?)(?=\n    '(?:admin_)|\n    _ =>)", contracts):
+        keys = re.search(r"keys\(\s*'([^']+)'\s*,?\s*\)", branch[2])
+        for name in re.findall(r"'(admin_[a-z0-9_]+)'", branch[1]):
+            ack_branches[name] = {'exact_keys': keys[1].split() if keys else None,
+                'validation_excerpt': branch[2].strip(), 'source': 'lib/admin/core/admin_action_contracts.dart',
+                'line': line(contracts, branch.start())}
+    read_contracts = mask_comments(raw['lib/admin/core/admin_read_contracts.dart'].decode())
+    exact_details = set(re.findall(r"^  '(admin_get_[a-z0-9_]+)': \{", read_contracts, re.M))
+    exact_reads = exact_details | {'admin_get_collect_transaction', 'admin_current_user',
+                                 'admin_overview', 'admin_runtime_config'}
+    for rpc in sorted(set(symbols) | active):
+        references = symbols.get(rpc, [])
+        if rpc not in definitions and rpc not in ACTIVE_ACTIONS: continue
+        statuses = ('active_action' if rpc in ACTIVE_ACTIONS else
+                    'active_read_support' if rpc in active else 'declared_legacy_or_unrouted_requires_reachability_review')
+        endpoints.append({'name': rpc, 'classification': statuses, 'references': references,
+            'routes': ACTIVE_ACTIONS.get(rpc, [r for r, values in ROUTE_RPCS.items() if rpc in values]),
+            'generic_action_ack_branch': bool(re.search(r"'" + re.escape(rpc) + r"'", contracts)),
+            'ack_validation': ack_branches.get(rpc, {'mechanism':
+                'typed roster models/recovery receipts' if 'roster_import' in rpc or rpc == 'prepare-roster-import' else
+                'typed reconciliation model/API methods; unknown-key rejection requires separate review' if 'reconciliation' in rpc else
+                'strict typed read/record/actor contract in admin_read_contracts.dart; dated scoped SDK acceptance and actual SQL compatibility tracked separately' if rpc in exact_reads else
+                'generic map/model read; no per-operation exact field contract currently proven'}),
+            'session_fence': {'mechanism': 'SupabaseAdminRosterGateway' if 'roster_import' in rpc or rpc == 'prepare-roster-import' else
+                'AdminRepository._withSession + AdminRequestSession + provider/dialog generation',
+                'pinned_authorization': 'captured dispatch Bearer; request remains bound to original user/session',
+                'A_B_A': 'sticky Auth stream invalidation', 'Auth_error_done': 'sticky invalidation',
+                'expiry': 'constructor claim/SDK expiry + timer + before/after-await; dated GAP-A06 and actual wall-clock SDK probe acceptance; final protocol source binding tracked separately' if 'roster_import' in rpc or rpc == 'prepare-roster-import' else
+                'adminSessionKey exp check + AdminSessionController timer; selected SDK source tests'},
+            'latest_source_definition': definitions.get(rpc),
+            'test_source_references': [str(p.relative_to(ROOT)) for p in tests if rpc in raw[str(p.relative_to(ROOT))].decode()],
+            'audit_runtime_verified': False, 'complete_state_matrix_verified': False})
+    read_evidence = {'allowed': 'declared source; selected dated synthetic tests',
+        'denied': 'admin_route_access_test.dart common signed-out/non-Admin/no-capability loops; dated synthetic execution',
+        'loading': 'source widget state; per-route current acceptance pending',
+        'empty': 'source widget state; per-route current acceptance pending',
+        'failure': 'admin_route_access_test.dart common retry loop; dated synthetic execution',
+        'revoked': 'partial selected tests; complete per-route/action matrix pending',
+        'session': 'shared pinned session/generation/expiry/Auth error+done; selected actual SDK fixtures',
+        'audit': 'source SQL only in this inventory; real audit persistence acceptance pending per active action'}
+    auth_evidence = {'allowed': 'Admin login/denied route source; selected login-recovery synthetic tests',
+        'denied': 'auth route source; protected-route loops do not cover this route',
+        'loading': 'source widget; current per-route evidence pending', 'empty': 'not a record queue',
+        'failure': 'selected login-recovery synthetic tests', 'revoked': 'authorization source only in this inventory',
+        'session': 'Auth SDK plus shared controller; GAP-A05 actual storage-barrier failure and dated fixed acceptance; final web SDK fork binding tracked separately',
+        'audit': 'no UI audit persistence claim'}
+    shell = mask_comments(raw['lib/admin/admin_shell.dart'].decode())
+    nav_permissions = dict(re.findall(r"_AdminNavDestination\(\s*'[^']+'\s*,\s*Icons\.\w+\s*,\s*'([^']+)'\s*,\s*'([^']+)'", shell))
+    def permission(route):
+        matches = [base for base in nav_permissions if route == base or route.startswith(base + '/')]
+        return nav_permissions[max(matches, key=len)] if matches else None
+    inventory = {
+        'source_only': True, 'database_called': False, 'provider_called': False,
+        'method': 'comment-aware lexical source inventory with explicit active router/action dispatch map; internal declaration list is discovery, not AST/reachability proof',
+        'routes': [{'path': r, 'rpcs': ROUTE_RPCS.get(r, []), 'baseline_permission': permission(r),
+                    'state_evidence': auth_evidence if r in {'/admin/login', '/admin/denied'} else read_evidence} for r in routes],
+        'route_mapping_gaps': route_gap, 'endpoints': endpoints, 'sdk_operation_symbols': sorted(SDK_OPERATIONS),
+        'providers': providers, 'dialog_sites': dialogs, 'callbacks': callbacks,
+        'api_call_sites': calls, 'named_declaration_discovery': declarations,
+        'export_flow': {'active_export_control_found': False, 'note': 'Source contains Dart export directives only; no active export/download operation or export RPC call. Availability is not claimed.'},
+        'sources': sources,
+    }
+    after = {name: sha((ROOT / name).read_bytes()) for name in sources}
+    inventory['source_unchanged_during_capture'] = after == sources
+    output.mkdir(parents=True, exist_ok=False)
+    for name, data in raw.items():
+        copy = output / 'sources' / name
+        copy.parent.mkdir(parents=True, exist_ok=True)
+        copy.write_bytes(data)
+    (output / 'inventory.json').write_text(json.dumps(inventory, indent=2) + '\n')
+    summary = {'passed': not route_gap and after == sources, 'routes': len(routes), 'endpoints': len(endpoints),
+        'active_endpoints': sum(e['classification'].startswith('active') for e in endpoints),
+        'providers': len(providers), 'dialogs': len(dialogs), 'callbacks': len(callbacks),
+        'api_call_sites': len(calls), 'declaration_discovery': len(declarations), 'sources': len(sources),
+        'source_unchanged': after == sources, 'inventory_sha256': sha((output / 'inventory.json').read_bytes()),
+        'complete_Admin_acceptance': False}
+    (output / 'validation.json').write_text(json.dumps(summary, indent=2) + '\n')
+    print(json.dumps(summary, indent=2))
+    return 0 if summary['passed'] else 1
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output', required=True, type=pathlib.Path)
+    raise SystemExit(capture(parser.parse_args().output.resolve()))

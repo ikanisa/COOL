@@ -1,0 +1,124 @@
+{
+  "started_at": "2026-09-29T23:30:20.656091+00:00",
+  "source_hashes_before": {
+    "lib/admin/core/admin_roster_import.dart": "b18de605d21947d64330baa2d1227031172668a80e281360a0d9c7e7921779b2",
+    "lib/admin/core/admin_roster_models.dart": "537054cf477ff7c11172b5066e24a6aaabb22c3b92d7194e1c3009a1ad308f3e",
+    "lib/admin/core/admin_roster_dialog.dart": "985c18583b8913a0e1241011ec0e4fb4bc2cc2949856d6fae74b2a273ba19996",
+    "test/admin_roster_import_test.dart": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03",
+    "test/admin_roster_dialog_test.dart": "b9b962d866ef323945f4a7a88b54641be8516d72dbf1bbc8d44b41e8ce06e0f5",
+    "test/admin_roster_sql_receipts_test.dart": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac",
+    "test/support/admin_roster_fixture.dart": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_file_parser_test.dart": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746",
+    "test/admin_roster_xlsx_preflight_test.dart": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+    "docs/release/roster-import-provenance-2026-09-30/receipts142.stdout": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "lib/app/theme/collect_theme.dart": "c821312948d711441b7bc7329763fd0a5d83a3f942a7d90c07760b1d1beb1ee1",
+    "lib/app/theme/collect_typography.dart": "41719a0ec3e80a16e5f0a3e5e7ed09e39ec827d234df8fca458e698712c794bd",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/shared/widgets/collect_state_panels.dart": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6"
+  },
+  "commands": [
+    {
+      "name": "runtime",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recovery-tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "--dart-define=ROSTER_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-import-provenance-2026-09-30/receipts142.stdout",
+        "--dart-define=CAPTURE_ROSTER_RECOVERY_EVIDENCE=true",
+        "--update-goldens",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_roster_sql_receipts_test.dart"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "40c98060e6d61e5073886a3ca1d8c75bdb74fd7c13e2f92e3b470a5f8c9b9078",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "xlsx-regression",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/admin_roster_file_parser_test.dart",
+        "test/admin_roster_xlsx_preflight_test.dart"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "fa81f1976b6a79dab4f6adfbea1d68d046636cdb0870d4fc7f47fbd61a32ca60",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analyze",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_roster_models.dart",
+        "lib/admin/core/admin_roster_dialog.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_roster_sql_receipts_test.dart"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "258eae4eb69b31ac81f3a974096a7cb67ae56200062300ac36cc6390f1245e38",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "database_calls": false,
+  "provider_calls": false,
+  "hosted_calls": false,
+  "sql_input": "Root-executed rollback fixture stdout; read from disk only.",
+  "source_hashes_after": {
+    "lib/admin/core/admin_roster_import.dart": "b18de605d21947d64330baa2d1227031172668a80e281360a0d9c7e7921779b2",
+    "lib/admin/core/admin_roster_models.dart": "537054cf477ff7c11172b5066e24a6aaabb22c3b92d7194e1c3009a1ad308f3e",
+    "lib/admin/core/admin_roster_dialog.dart": "985c18583b8913a0e1241011ec0e4fb4bc2cc2949856d6fae74b2a273ba19996",
+    "test/admin_roster_import_test.dart": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03",
+    "test/admin_roster_dialog_test.dart": "b9b962d866ef323945f4a7a88b54641be8516d72dbf1bbc8d44b41e8ce06e0f5",
+    "test/admin_roster_sql_receipts_test.dart": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac",
+    "test/support/admin_roster_fixture.dart": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "test/admin_roster_file_parser_test.dart": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746",
+    "test/admin_roster_xlsx_preflight_test.dart": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3",
+    "pubspec.yaml": "ff8c5bf43c59f041ed2da44a9a8c2592014e198ff3e7afe18c2c9641f8264523",
+    "pubspec.lock": "2629b66da7a9774d26096a235c2fb98221e27dd35681a66a5f45c0b374a40226",
+    "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e",
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+    "docs/release/roster-import-provenance-2026-09-30/receipts142.stdout": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "lib/app/theme/collect_theme.dart": "c821312948d711441b7bc7329763fd0a5d83a3f942a7d90c07760b1d1beb1ee1",
+    "lib/app/theme/collect_typography.dart": "41719a0ec3e80a16e5f0a3e5e7ed09e39ec827d234df8fca458e698712c794bd",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/shared/widgets/collect_state_panels.dart": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6"
+  },
+  "source_unchanged": true,
+  "completed_at": "2026-09-29T23:30:52.174347+00:00",
+  "passed": true
+}

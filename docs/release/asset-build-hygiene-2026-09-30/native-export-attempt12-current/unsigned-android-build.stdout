@@ -1,0 +1,958 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :gradle
+WARNING: Unsupported Kotlin plugin version.
+The `embedded-kotlin` and `kotlin-dsl` plugins rely on features of Kotlin `2.2.0` that might work differently than in the requested version `2.2.20`.
+
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin UP-TO-DATE
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:pluginDescriptors UP-TO-DATE
+> Task :gradle:processResources UP-TO-DATE
+> Task :gradle:classes UP-TO-DATE
+> Task :gradle:jar UP-TO-DATE
+
+> Configure project :app
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.newDsl=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/android/app/build.gradle.kts:121:1: 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/android/app/build.gradle.kts:281:5: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':app' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :android_file_picker
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':android_file_picker' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :app_links
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':app_links' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :file_saver
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':file_saver' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :firebase_core
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':firebase_core' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :firebase_messaging
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':firebase_messaging' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :flutter_local_notifications
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':flutter_local_notifications' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :flutter_plugin_android_lifecycle
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':flutter_plugin_android_lifecycle' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :image_picker_android
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':image_picker_android' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :integration_test
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':integration_test' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :jni
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':jni' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :jni_flutter
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':jni_flutter' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :mobile_scanner
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':mobile_scanner' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :permission_handler_android
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':permission_handler_android' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :share_plus
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':share_plus' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :shared_preferences_android
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':shared_preferences_android' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Configure project :url_launcher_android
+w: [33m[1m⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage[0m[0m
+The 'org.jetbrains.kotlin.android' plugin in project ':url_launcher_android' is no longer required for Kotlin support since AGP 9.0.
+[32m[1mSolution:[0m[0m
+[32m[3mRemove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-built-in-kotlin[0m[36m for more details.[0m
+
+
+> Task :app:ProductionReleaseMinSdkCheck
+> Task :android_file_picker:preBuild UP-TO-DATE
+> Task :android_file_picker:preReleaseBuild UP-TO-DATE
+> Task :android_file_picker:mergeReleaseJniLibFolders
+> Task :android_file_picker:mergeReleaseNativeLibs NO-SOURCE
+> Task :android_file_picker:copyReleaseJniLibsProjectOnly
+> Task :app:preBuild UP-TO-DATE
+> Task :app:writeCollectUnsignedLocalQaMarker
+> Task :app:preProductionReleaseBuild
+> Task :app:configureCMakeRelease[arm64-v8a]
+> Task :app:buildCMakeRelease[arm64-v8a]
+> Task :app:configureCMakeRelease[armeabi-v7a]
+> Task :app:buildCMakeRelease[armeabi-v7a]
+> Task :app:configureCMakeRelease[x86_64]
+> Task :app:buildCMakeRelease[x86_64]
+> Task :app:compileFlutterBuildProductionRelease
+> Task :app:copyJniLibsflutterBuildProductionRelease
+> Task :app:mergeProductionReleaseJniLibFolders
+> Task :app_links:preBuild UP-TO-DATE
+> Task :app_links:preReleaseBuild UP-TO-DATE
+> Task :app_links:mergeReleaseJniLibFolders
+> Task :app_links:mergeReleaseNativeLibs NO-SOURCE
+> Task :app_links:copyReleaseJniLibsProjectOnly
+> Task :file_saver:preBuild UP-TO-DATE
+> Task :file_saver:preReleaseBuild UP-TO-DATE
+> Task :file_saver:mergeReleaseJniLibFolders
+> Task :file_saver:mergeReleaseNativeLibs NO-SOURCE
+> Task :file_saver:copyReleaseJniLibsProjectOnly
+> Task :firebase_core:preBuild UP-TO-DATE
+> Task :firebase_core:preReleaseBuild UP-TO-DATE
+> Task :firebase_core:mergeReleaseJniLibFolders
+> Task :firebase_core:mergeReleaseNativeLibs NO-SOURCE
+> Task :firebase_core:copyReleaseJniLibsProjectOnly
+> Task :firebase_messaging:preBuild UP-TO-DATE
+> Task :firebase_messaging:preReleaseBuild UP-TO-DATE
+> Task :firebase_messaging:mergeReleaseJniLibFolders
+> Task :firebase_messaging:mergeReleaseNativeLibs NO-SOURCE
+> Task :firebase_messaging:copyReleaseJniLibsProjectOnly
+> Task :flutter_local_notifications:preBuild UP-TO-DATE
+> Task :flutter_local_notifications:preReleaseBuild UP-TO-DATE
+> Task :flutter_local_notifications:mergeReleaseJniLibFolders
+> Task :flutter_local_notifications:mergeReleaseNativeLibs NO-SOURCE
+> Task :flutter_local_notifications:copyReleaseJniLibsProjectOnly
+> Task :flutter_plugin_android_lifecycle:preBuild UP-TO-DATE
+> Task :flutter_plugin_android_lifecycle:preReleaseBuild UP-TO-DATE
+> Task :flutter_plugin_android_lifecycle:mergeReleaseJniLibFolders
+> Task :flutter_plugin_android_lifecycle:mergeReleaseNativeLibs NO-SOURCE
+> Task :flutter_plugin_android_lifecycle:copyReleaseJniLibsProjectOnly
+> Task :image_picker_android:preBuild UP-TO-DATE
+> Task :image_picker_android:preReleaseBuild UP-TO-DATE
+> Task :image_picker_android:mergeReleaseJniLibFolders
+> Task :image_picker_android:mergeReleaseNativeLibs NO-SOURCE
+> Task :image_picker_android:copyReleaseJniLibsProjectOnly
+> Task :jni:preBuild UP-TO-DATE
+> Task :jni:preReleaseBuild UP-TO-DATE
+> Task :jni:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :jni:buildCMakeRelWithDebInfo[arm64-v8a]
+> Task :jni:configureCMakeRelWithDebInfo[armeabi-v7a]
+> Task :jni:buildCMakeRelWithDebInfo[armeabi-v7a]
+> Task :jni:configureCMakeRelWithDebInfo[x86]
+> Task :jni:buildCMakeRelWithDebInfo[x86]
+> Task :jni:configureCMakeRelWithDebInfo[x86_64]
+> Task :jni:buildCMakeRelWithDebInfo[x86_64]
+> Task :jni:mergeReleaseJniLibFolders
+> Task :jni:mergeReleaseNativeLibs
+> Task :jni:copyReleaseJniLibsProjectOnly
+> Task :jni_flutter:preBuild UP-TO-DATE
+> Task :jni_flutter:preReleaseBuild UP-TO-DATE
+> Task :jni_flutter:mergeReleaseJniLibFolders
+> Task :jni_flutter:mergeReleaseNativeLibs NO-SOURCE
+> Task :jni_flutter:copyReleaseJniLibsProjectOnly
+> Task :mobile_scanner:preBuild UP-TO-DATE
+> Task :mobile_scanner:preReleaseBuild UP-TO-DATE
+> Task :mobile_scanner:mergeReleaseJniLibFolders
+> Task :mobile_scanner:mergeReleaseNativeLibs NO-SOURCE
+> Task :mobile_scanner:copyReleaseJniLibsProjectOnly
+> Task :permission_handler_android:preBuild UP-TO-DATE
+> Task :permission_handler_android:preReleaseBuild UP-TO-DATE
+> Task :permission_handler_android:mergeReleaseJniLibFolders
+> Task :permission_handler_android:mergeReleaseNativeLibs NO-SOURCE
+> Task :permission_handler_android:copyReleaseJniLibsProjectOnly
+> Task :share_plus:preBuild UP-TO-DATE
+> Task :share_plus:preReleaseBuild UP-TO-DATE
+> Task :share_plus:mergeReleaseJniLibFolders
+> Task :share_plus:mergeReleaseNativeLibs NO-SOURCE
+> Task :share_plus:copyReleaseJniLibsProjectOnly
+> Task :shared_preferences_android:preBuild UP-TO-DATE
+> Task :shared_preferences_android:preReleaseBuild UP-TO-DATE
+> Task :shared_preferences_android:mergeReleaseJniLibFolders
+> Task :shared_preferences_android:mergeReleaseNativeLibs NO-SOURCE
+> Task :shared_preferences_android:copyReleaseJniLibsProjectOnly
+> Task :url_launcher_android:preBuild UP-TO-DATE
+> Task :url_launcher_android:preReleaseBuild UP-TO-DATE
+> Task :url_launcher_android:mergeReleaseJniLibFolders
+> Task :url_launcher_android:mergeReleaseNativeLibs NO-SOURCE
+> Task :url_launcher_android:copyReleaseJniLibsProjectOnly
+> Task :app:mergeProductionReleaseNativeLibs
+> Task :app:stripProductionReleaseDebugSymbols
+> Task :app:extractProductionReleaseNativeSymbolTables
+> Task :app:mergeProductionReleaseNativeDebugMetadata
+> Task :android_file_picker:prepareReleaseArtProfile
+> Task :app_links:prepareReleaseArtProfile
+> Task :file_saver:prepareReleaseArtProfile
+> Task :firebase_core:prepareReleaseArtProfile
+> Task :firebase_messaging:prepareReleaseArtProfile
+> Task :flutter_local_notifications:prepareReleaseArtProfile
+> Task :flutter_plugin_android_lifecycle:prepareReleaseArtProfile
+> Task :image_picker_android:prepareReleaseArtProfile
+> Task :jni:prepareReleaseArtProfile
+> Task :jni_flutter:prepareReleaseArtProfile
+> Task :mobile_scanner:prepareReleaseArtProfile
+> Task :permission_handler_android:prepareReleaseArtProfile
+> Task :share_plus:prepareReleaseArtProfile
+> Task :shared_preferences_android:prepareReleaseArtProfile
+> Task :url_launcher_android:prepareReleaseArtProfile
+> Task :app:mergeProductionReleaseArtProfile
+> Task :app:expandProductionReleaseL8ArtProfileWildcards
+> Task :android_file_picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :android_file_picker:generateReleaseResources
+> Task :android_file_picker:packageReleaseResources
+> Task :android_file_picker:processReleaseNavigationResources
+> Task :android_file_picker:parseReleaseLocalResources
+> Task :android_file_picker:generateReleaseRFile
+
+> Task :android_file_picker:compileReleaseKotlin
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerDelegate.kt:79:89 Elvis operator (?:) always returns the left operand of non-nullable type 'Uri'.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:151:49 Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:152:38 Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:153:60 Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:164:70 Unchecked cast of 'Any?' to 'ArrayList<String>?'.
+
+> Task :android_file_picker:javaPreCompileRelease
+> Task :android_file_picker:compileReleaseJavaWithJavac NO-SOURCE
+> Task :android_file_picker:mergeReleaseGeneratedProguardFiles
+> Task :android_file_picker:exportReleaseConsumerProguardFiles
+> Task :app_links:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app_links:generateReleaseResources
+> Task :app_links:packageReleaseResources
+> Task :app_links:processReleaseNavigationResources
+> Task :app_links:parseReleaseLocalResources
+> Task :app_links:generateReleaseRFile
+> Task :app_links:compileReleaseKotlin NO-SOURCE
+> Task :app_links:javaPreCompileRelease
+> Task :app_links:compileReleaseJavaWithJavac
+> Task :app_links:mergeReleaseGeneratedProguardFiles
+> Task :app_links:exportReleaseConsumerProguardFiles
+> Task :file_saver:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :file_saver:generateReleaseResources
+> Task :file_saver:packageReleaseResources
+> Task :file_saver:processReleaseNavigationResources
+> Task :file_saver:parseReleaseLocalResources
+> Task :file_saver:generateReleaseRFile
+
+> Task :file_saver:compileReleaseKotlin
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt:204:20 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'String?'.
+
+> Task :file_saver:javaPreCompileRelease
+> Task :file_saver:compileReleaseJavaWithJavac NO-SOURCE
+> Task :file_saver:mergeReleaseGeneratedProguardFiles
+> Task :file_saver:exportReleaseConsumerProguardFiles
+> Task :firebase_core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :firebase_core:generateReleaseBuildConfig
+> Task :firebase_core:generateReleaseResources
+> Task :firebase_core:packageReleaseResources
+> Task :firebase_core:processReleaseNavigationResources
+> Task :firebase_core:parseReleaseLocalResources
+> Task :firebase_core:generateReleaseRFile
+> Task :firebase_core:compileReleaseKotlin NO-SOURCE
+> Task :firebase_core:javaPreCompileRelease
+> Task :firebase_core:compileReleaseJavaWithJavac
+> Task :firebase_core:bundleLibCompileToJarRelease
+> Task :firebase_messaging:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :firebase_messaging:generateReleaseBuildConfig
+> Task :firebase_messaging:generateReleaseResources
+> Task :firebase_messaging:packageReleaseResources
+> Task :firebase_messaging:processReleaseNavigationResources
+> Task :firebase_messaging:parseReleaseLocalResources
+> Task :firebase_messaging:generateReleaseRFile
+> Task :firebase_messaging:compileReleaseKotlin NO-SOURCE
+> Task :firebase_messaging:javaPreCompileRelease
+
+> Task :firebase_messaging:compileReleaseJavaWithJavac
+
+> Task :firebase_messaging:mergeReleaseGeneratedProguardFiles
+> Task :firebase_messaging:exportReleaseConsumerProguardFiles
+> Task :firebase_core:mergeReleaseGeneratedProguardFiles
+> Task :firebase_core:exportReleaseConsumerProguardFiles
+> Task :flutter_local_notifications:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :flutter_local_notifications:generateReleaseResources
+> Task :flutter_local_notifications:packageReleaseResources
+> Task :flutter_local_notifications:processReleaseNavigationResources
+> Task :flutter_local_notifications:parseReleaseLocalResources
+> Task :flutter_local_notifications:generateReleaseRFile
+> Task :flutter_local_notifications:compileReleaseKotlin NO-SOURCE
+> Task :flutter_local_notifications:javaPreCompileRelease
+> Task :flutter_local_notifications:compileReleaseJavaWithJavac
+> Task :flutter_local_notifications:mergeReleaseGeneratedProguardFiles
+> Task :flutter_local_notifications:exportReleaseConsumerProguardFiles
+> Task :flutter_plugin_android_lifecycle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :flutter_plugin_android_lifecycle:generateReleaseResources
+> Task :flutter_plugin_android_lifecycle:packageReleaseResources
+> Task :flutter_plugin_android_lifecycle:processReleaseNavigationResources
+> Task :flutter_plugin_android_lifecycle:parseReleaseLocalResources
+> Task :flutter_plugin_android_lifecycle:generateReleaseRFile
+> Task :flutter_plugin_android_lifecycle:compileReleaseKotlin NO-SOURCE
+> Task :flutter_plugin_android_lifecycle:javaPreCompileRelease
+> Task :flutter_plugin_android_lifecycle:compileReleaseJavaWithJavac
+> Task :flutter_plugin_android_lifecycle:bundleLibCompileToJarRelease
+> Task :image_picker_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :image_picker_android:generateReleaseResources
+> Task :image_picker_android:packageReleaseResources
+> Task :image_picker_android:processReleaseNavigationResources
+> Task :image_picker_android:parseReleaseLocalResources
+> Task :image_picker_android:generateReleaseRFile
+> Task :image_picker_android:compileReleaseKotlin
+> Task :image_picker_android:javaPreCompileRelease
+> Task :image_picker_android:compileReleaseJavaWithJavac
+> Task :image_picker_android:mergeReleaseGeneratedProguardFiles
+> Task :image_picker_android:exportReleaseConsumerProguardFiles
+> Task :flutter_plugin_android_lifecycle:mergeReleaseGeneratedProguardFiles
+> Task :flutter_plugin_android_lifecycle:exportReleaseConsumerProguardFiles
+> Task :jni:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :jni:generateReleaseResources
+> Task :jni:packageReleaseResources
+> Task :jni:processReleaseNavigationResources
+> Task :jni:parseReleaseLocalResources
+> Task :jni:generateReleaseRFile
+> Task :jni:compileReleaseKotlin NO-SOURCE
+> Task :jni:javaPreCompileRelease
+> Task :jni:compileReleaseJavaWithJavac
+> Task :jni:bundleLibCompileToJarRelease
+> Task :jni_flutter:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :jni_flutter:generateReleaseResources
+> Task :jni_flutter:packageReleaseResources
+> Task :jni_flutter:processReleaseNavigationResources
+> Task :jni_flutter:parseReleaseLocalResources
+> Task :jni_flutter:generateReleaseRFile
+> Task :jni_flutter:compileReleaseKotlin NO-SOURCE
+> Task :jni_flutter:javaPreCompileRelease
+> Task :jni_flutter:compileReleaseJavaWithJavac
+> Task :jni_flutter:mergeReleaseGeneratedProguardFiles
+> Task :jni_flutter:exportReleaseConsumerProguardFiles
+> Task :jni:mergeReleaseGeneratedProguardFiles
+> Task :jni:exportReleaseConsumerProguardFiles
+> Task :mobile_scanner:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :mobile_scanner:generateReleaseResources
+> Task :mobile_scanner:packageReleaseResources
+> Task :mobile_scanner:processReleaseNavigationResources
+> Task :mobile_scanner:parseReleaseLocalResources
+> Task :mobile_scanner:generateReleaseRFile
+> Task :mobile_scanner:compileReleaseKotlin
+> Task :mobile_scanner:javaPreCompileRelease
+> Task :mobile_scanner:compileReleaseJavaWithJavac NO-SOURCE
+> Task :mobile_scanner:mergeReleaseGeneratedProguardFiles
+> Task :mobile_scanner:exportReleaseConsumerProguardFiles
+> Task :permission_handler_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :permission_handler_android:generateReleaseResources
+> Task :permission_handler_android:packageReleaseResources
+> Task :permission_handler_android:processReleaseNavigationResources
+> Task :permission_handler_android:parseReleaseLocalResources
+> Task :permission_handler_android:generateReleaseRFile
+> Task :permission_handler_android:compileReleaseKotlin NO-SOURCE
+> Task :permission_handler_android:javaPreCompileRelease
+> Task :permission_handler_android:compileReleaseJavaWithJavac
+> Task :permission_handler_android:mergeReleaseGeneratedProguardFiles
+> Task :permission_handler_android:exportReleaseConsumerProguardFiles
+> Task :share_plus:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :share_plus:generateReleaseResources
+> Task :share_plus:packageReleaseResources
+> Task :share_plus:processReleaseNavigationResources
+> Task :share_plus:parseReleaseLocalResources
+> Task :share_plus:generateReleaseRFile
+> Task :share_plus:compileReleaseKotlin
+> Task :share_plus:javaPreCompileRelease
+> Task :share_plus:compileReleaseJavaWithJavac NO-SOURCE
+> Task :share_plus:mergeReleaseGeneratedProguardFiles
+> Task :share_plus:exportReleaseConsumerProguardFiles
+> Task :shared_preferences_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared_preferences_android:generateReleaseResources
+> Task :shared_preferences_android:packageReleaseResources
+> Task :shared_preferences_android:processReleaseNavigationResources
+> Task :shared_preferences_android:parseReleaseLocalResources
+> Task :shared_preferences_android:generateReleaseRFile
+
+> Task :shared_preferences_android:compileReleaseKotlin
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.kt:450:52 Unnecessary non-null assertion (!!) on a non-null receiver of type 'String'.
+
+> Task :shared_preferences_android:javaPreCompileRelease
+> Task :shared_preferences_android:compileReleaseJavaWithJavac NO-SOURCE
+> Task :shared_preferences_android:mergeReleaseGeneratedProguardFiles
+> Task :shared_preferences_android:exportReleaseConsumerProguardFiles
+> Task :url_launcher_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :url_launcher_android:generateReleaseBuildConfig
+> Task :url_launcher_android:generateReleaseResources
+> Task :url_launcher_android:packageReleaseResources
+> Task :url_launcher_android:processReleaseNavigationResources
+> Task :url_launcher_android:parseReleaseLocalResources
+> Task :url_launcher_android:generateReleaseRFile
+> Task :url_launcher_android:compileReleaseKotlin
+> Task :url_launcher_android:javaPreCompileRelease
+> Task :url_launcher_android:compileReleaseJavaWithJavac
+> Task :url_launcher_android:mergeReleaseGeneratedProguardFiles
+> Task :url_launcher_android:exportReleaseConsumerProguardFiles
+> Task :android_file_picker:bundleLibCompileToJarRelease
+> Task :android_file_picker:bundleLibRuntimeToJarRelease
+> Task :app:buildKotlinToolingMetadata
+> Task :app:checkProductionReleaseDuplicateClasses
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateProductionReleaseBuildConfig
+> Task :app:cleanMergeProductionReleaseAssets UP-TO-DATE
+> Task :android_file_picker:generateReleaseAssets UP-TO-DATE
+> Task :android_file_picker:mergeReleaseAssets
+> Task :app:generateProductionReleaseAssets UP-TO-DATE
+> Task :app_links:generateReleaseAssets UP-TO-DATE
+> Task :app_links:mergeReleaseAssets
+> Task :file_saver:generateReleaseAssets UP-TO-DATE
+> Task :file_saver:mergeReleaseAssets
+> Task :firebase_core:generateReleaseAssets UP-TO-DATE
+> Task :firebase_core:mergeReleaseAssets
+> Task :firebase_messaging:generateReleaseAssets UP-TO-DATE
+> Task :firebase_messaging:mergeReleaseAssets
+> Task :flutter_local_notifications:generateReleaseAssets UP-TO-DATE
+> Task :flutter_local_notifications:mergeReleaseAssets
+> Task :flutter_plugin_android_lifecycle:generateReleaseAssets UP-TO-DATE
+> Task :flutter_plugin_android_lifecycle:mergeReleaseAssets
+> Task :image_picker_android:generateReleaseAssets UP-TO-DATE
+> Task :image_picker_android:mergeReleaseAssets
+> Task :jni:generateReleaseAssets UP-TO-DATE
+> Task :jni:mergeReleaseAssets
+> Task :jni_flutter:generateReleaseAssets UP-TO-DATE
+> Task :jni_flutter:mergeReleaseAssets
+> Task :mobile_scanner:generateReleaseAssets UP-TO-DATE
+> Task :mobile_scanner:mergeReleaseAssets
+> Task :permission_handler_android:generateReleaseAssets UP-TO-DATE
+> Task :permission_handler_android:mergeReleaseAssets
+> Task :share_plus:generateReleaseAssets UP-TO-DATE
+> Task :share_plus:mergeReleaseAssets
+> Task :shared_preferences_android:generateReleaseAssets UP-TO-DATE
+> Task :shared_preferences_android:mergeReleaseAssets
+> Task :url_launcher_android:generateReleaseAssets UP-TO-DATE
+> Task :url_launcher_android:mergeReleaseAssets
+> Task :app:mergeProductionReleaseAssets
+> Task :app:copyFlutterAssetsProductionRelease
+> Task :app:generateProductionReleaseResources
+> Task :app:processProductionReleaseGoogleServices SKIPPED
+> Task :app:packageProductionReleaseResources
+> Task :app:processProductionReleaseNavigationResources
+> Task :app:parseProductionReleaseLocalResources
+> Task :app:generateProductionReleaseRFile
+> Task :app_links:bundleLibCompileToJarRelease
+> Task :file_saver:bundleLibCompileToJarRelease
+> Task :firebase_messaging:bundleLibCompileToJarRelease
+> Task :flutter_local_notifications:bundleLibCompileToJarRelease
+> Task :image_picker_android:bundleLibCompileToJarRelease
+> Task :jni_flutter:bundleLibCompileToJarRelease
+> Task :mobile_scanner:bundleLibCompileToJarRelease
+> Task :permission_handler_android:bundleLibCompileToJarRelease
+> Task :share_plus:bundleLibCompileToJarRelease
+> Task :shared_preferences_android:bundleLibCompileToJarRelease
+> Task :url_launcher_android:bundleLibCompileToJarRelease
+> Task :app:compileProductionReleaseKotlin
+> Task :app:javaPreCompileProductionRelease
+> Task :app:compileProductionReleaseJavaWithJavac
+> Task :android_file_picker:writeReleaseAarMetadata
+> Task :app_links:writeReleaseAarMetadata
+> Task :file_saver:writeReleaseAarMetadata
+> Task :firebase_core:writeReleaseAarMetadata
+> Task :firebase_messaging:writeReleaseAarMetadata
+> Task :flutter_local_notifications:writeReleaseAarMetadata
+> Task :flutter_plugin_android_lifecycle:writeReleaseAarMetadata
+> Task :image_picker_android:writeReleaseAarMetadata
+> Task :jni:writeReleaseAarMetadata
+> Task :jni_flutter:writeReleaseAarMetadata
+> Task :mobile_scanner:writeReleaseAarMetadata
+> Task :permission_handler_android:writeReleaseAarMetadata
+> Task :share_plus:writeReleaseAarMetadata
+> Task :shared_preferences_android:writeReleaseAarMetadata
+> Task :url_launcher_android:writeReleaseAarMetadata
+> Task :app:checkProductionReleaseAarMetadata
+> Task :app:compileProductionReleaseNavigationResources
+> Task :app:mapProductionReleaseSourceSetPaths
+> Task :app:mergeProductionReleaseResources
+> Task :app:createProductionReleaseCompatibleScreenManifests
+> Task :android_file_picker:extractDeepLinksRelease
+
+> Task :android_file_picker:processReleaseManifest
+package="com.mr.flutter.plugin.filepicker" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.mr.flutter.plugin.filepicker" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/android_file_picker-1.1.0/android/src/main/AndroidManifest.xml.
+
+> Task :app:extractDeepLinksProductionRelease
+> Task :app_links:extractDeepLinksRelease
+
+> Task :app_links:processReleaseManifest
+package="com.llfbandit.app_links" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/app_links-7.2.1/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.llfbandit.app_links" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/app_links-7.2.1/android/src/main/AndroidManifest.xml.
+
+> Task :file_saver:extractDeepLinksRelease
+
+> Task :file_saver:processReleaseManifest
+package="com.incrediblezayed.file_saver" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/third_party/file_saver/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.incrediblezayed.file_saver" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/third_party/file_saver/android/src/main/AndroidManifest.xml.
+
+> Task :firebase_core:extractDeepLinksRelease
+
+> Task :firebase_core:processReleaseManifest
+package="io.flutter.plugins.firebase.core" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_core-4.13.0/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.firebase.core" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_core-4.13.0/android/src/main/AndroidManifest.xml.
+
+> Task :firebase_messaging:extractDeepLinksRelease
+
+> Task :firebase_messaging:processReleaseManifest
+package="io.flutter.plugins.firebase.messaging" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_messaging-16.5.0/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.firebase.messaging" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_messaging-16.5.0/android/src/main/AndroidManifest.xml.
+
+> Task :flutter_local_notifications:extractDeepLinksRelease
+
+> Task :flutter_local_notifications:processReleaseManifest
+package="com.dexterous.flutterlocalnotifications" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_local_notifications-22.3.0/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.dexterous.flutterlocalnotifications" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_local_notifications-22.3.0/android/src/main/AndroidManifest.xml.
+
+> Task :flutter_plugin_android_lifecycle:extractDeepLinksRelease
+
+> Task :flutter_plugin_android_lifecycle:processReleaseManifest
+package="io.flutter.plugins.flutter_plugin_android_lifecycle" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.flutter_plugin_android_lifecycle" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35/android/src/main/AndroidManifest.xml.
+
+> Task :image_picker_android:extractDeepLinksRelease
+
+> Task :image_picker_android:processReleaseManifest
+package="io.flutter.plugins.imagepicker" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_android-0.8.13+19/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.imagepicker" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_android-0.8.13+19/android/src/main/AndroidManifest.xml.
+
+> Task :jni:extractDeepLinksRelease
+
+> Task :jni:processReleaseManifest
+package="com.github.dart_lang.jni" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/jni-1.0.3/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.github.dart_lang.jni" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/jni-1.0.3/android/src/main/AndroidManifest.xml.
+
+> Task :jni_flutter:extractDeepLinksRelease
+
+> Task :jni_flutter:processReleaseManifest
+package="com.github.dart_lang.jni_flutter" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/jni_flutter-1.0.2/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.github.dart_lang.jni_flutter" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/jni_flutter-1.0.2/android/src/main/AndroidManifest.xml.
+
+> Task :mobile_scanner:extractDeepLinksRelease
+> Task :mobile_scanner:processReleaseManifest
+> Task :permission_handler_android:extractDeepLinksRelease
+
+> Task :permission_handler_android:processReleaseManifest
+package="com.baseflow.permissionhandler" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_android-13.0.1/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.baseflow.permissionhandler" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_android-13.0.1/android/src/main/AndroidManifest.xml.
+
+> Task :share_plus:extractDeepLinksRelease
+
+> Task :share_plus:processReleaseManifest
+package="dev.fluttercommunity.plus.share" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/share_plus-13.3.0/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="dev.fluttercommunity.plus.share" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/share_plus-13.3.0/android/src/main/AndroidManifest.xml.
+
+> Task :shared_preferences_android:extractDeepLinksRelease
+
+> Task :shared_preferences_android:processReleaseManifest
+package="io.flutter.plugins.sharedpreferences" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.sharedpreferences" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/AndroidManifest.xml.
+
+> Task :url_launcher_android:extractDeepLinksRelease
+
+> Task :url_launcher_android:processReleaseManifest
+package="io.flutter.plugins.urllauncher" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/url_launcher_android-6.3.32/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.urllauncher" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/url_launcher_android-6.3.32/android/src/main/AndroidManifest.xml.
+
+> Task :app:processProductionReleaseMainManifest
+/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/android/app/src/production/AndroidManifest.xml Warning:
+	uses-permission#android.permission.READ_EXTERNAL_STORAGE was tagged at AndroidManifest.xml:0 to remove other declarations but no other declaration present
+
+> Task :app:outputProductionReleaseAppLinkSettings
+> Task :app:processProductionReleaseManifest
+> Task :app:processProductionReleaseManifestForPackage
+> Task :app:processProductionReleaseResources
+> Task :app_links:bundleLibRuntimeToJarRelease
+> Task :file_saver:bundleLibRuntimeToJarRelease
+> Task :firebase_core:bundleLibRuntimeToJarRelease
+> Task :firebase_messaging:bundleLibRuntimeToJarRelease
+> Task :flutter_local_notifications:bundleLibRuntimeToJarRelease
+> Task :flutter_plugin_android_lifecycle:bundleLibRuntimeToJarRelease
+> Task :image_picker_android:bundleLibRuntimeToJarRelease
+> Task :jni:bundleLibRuntimeToJarRelease
+> Task :jni_flutter:bundleLibRuntimeToJarRelease
+> Task :mobile_scanner:bundleLibRuntimeToJarRelease
+> Task :permission_handler_android:bundleLibRuntimeToJarRelease
+> Task :share_plus:bundleLibRuntimeToJarRelease
+> Task :shared_preferences_android:bundleLibRuntimeToJarRelease
+> Task :url_launcher_android:bundleLibRuntimeToJarRelease
+> Task :app:expandProductionReleaseArtProfileWildcards
+> Task :app:extractProguardFiles
+> Task :app:mergeProductionReleaseGeneratedProguardFiles
+> Task :android_file_picker:processReleaseJavaRes
+> Task :app:processProductionReleaseJavaRes
+> Task :app_links:processReleaseJavaRes NO-SOURCE
+> Task :file_saver:processReleaseJavaRes
+> Task :firebase_core:processReleaseJavaRes NO-SOURCE
+> Task :firebase_messaging:processReleaseJavaRes NO-SOURCE
+> Task :flutter_local_notifications:processReleaseJavaRes NO-SOURCE
+> Task :flutter_plugin_android_lifecycle:processReleaseJavaRes NO-SOURCE
+> Task :image_picker_android:processReleaseJavaRes
+> Task :jni:processReleaseJavaRes NO-SOURCE
+> Task :jni_flutter:processReleaseJavaRes NO-SOURCE
+> Task :mobile_scanner:processReleaseJavaRes
+> Task :permission_handler_android:processReleaseJavaRes NO-SOURCE
+> Task :share_plus:processReleaseJavaRes
+> Task :shared_preferences_android:processReleaseJavaRes
+> Task :url_launcher_android:processReleaseJavaRes
+> Task :app:mergeProductionReleaseJavaResource
+> Task :app:mergeProductionReleaseStartupProfile
+> Task :app:minifyProductionReleaseWithR8
+> Task :app:l8DexDesugarLibProductionRelease
+> Task :app:compileProductionReleaseArtProfile
+> Task :app:compressProductionReleaseAssets
+> Task :app:extractProductionReleaseVersionControlInfo
+> Task :android_file_picker:extractProguardFiles
+> Task :android_file_picker:generateReleaseLintVitalModel
+> Task :android_file_picker:lintVitalAnalyzeRelease
+> Task :android_file_picker:prepareLintJarForPublish
+> Task :android_file_picker:createFullJarRelease
+> Task :android_file_picker:generateReleaseLintModel
+> Task :app_links:createFullJarRelease
+> Task :app_links:extractProguardFiles
+> Task :app_links:generateReleaseLintModel
+> Task :app_links:prepareLintJarForPublish
+> Task :file_saver:createFullJarRelease
+> Task :file_saver:extractProguardFiles
+> Task :file_saver:generateReleaseLintModel
+> Task :file_saver:prepareLintJarForPublish
+> Task :firebase_core:createFullJarRelease
+> Task :firebase_core:extractProguardFiles
+> Task :firebase_core:generateReleaseLintModel
+> Task :firebase_core:prepareLintJarForPublish
+> Task :firebase_messaging:createFullJarRelease
+> Task :firebase_messaging:extractProguardFiles
+> Task :firebase_messaging:generateReleaseLintModel
+> Task :firebase_messaging:prepareLintJarForPublish
+> Task :flutter_local_notifications:createFullJarRelease
+> Task :flutter_local_notifications:extractProguardFiles
+> Task :flutter_local_notifications:generateReleaseLintModel
+> Task :flutter_local_notifications:prepareLintJarForPublish
+> Task :flutter_plugin_android_lifecycle:createFullJarRelease
+> Task :flutter_plugin_android_lifecycle:extractProguardFiles
+> Task :flutter_plugin_android_lifecycle:generateReleaseLintModel
+> Task :flutter_plugin_android_lifecycle:prepareLintJarForPublish
+> Task :image_picker_android:createFullJarRelease
+> Task :image_picker_android:extractProguardFiles
+> Task :image_picker_android:generateReleaseLintModel
+> Task :image_picker_android:prepareLintJarForPublish
+> Task :jni:createFullJarRelease
+> Task :jni:extractProguardFiles
+> Task :jni:generateReleaseLintModel
+> Task :jni:prepareLintJarForPublish
+> Task :jni_flutter:createFullJarRelease
+> Task :jni_flutter:extractProguardFiles
+> Task :jni_flutter:generateReleaseLintModel
+> Task :jni_flutter:prepareLintJarForPublish
+> Task :mobile_scanner:createFullJarRelease
+> Task :mobile_scanner:extractProguardFiles
+> Task :mobile_scanner:generateReleaseLintModel
+> Task :mobile_scanner:prepareLintJarForPublish
+> Task :permission_handler_android:createFullJarRelease
+> Task :permission_handler_android:extractProguardFiles
+> Task :permission_handler_android:generateReleaseLintModel
+> Task :permission_handler_android:prepareLintJarForPublish
+> Task :share_plus:createFullJarRelease
+> Task :share_plus:extractProguardFiles
+> Task :share_plus:generateReleaseLintModel
+> Task :share_plus:prepareLintJarForPublish
+> Task :shared_preferences_android:createFullJarRelease
+> Task :shared_preferences_android:extractProguardFiles
+> Task :shared_preferences_android:generateReleaseLintModel
+> Task :shared_preferences_android:prepareLintJarForPublish
+> Task :url_launcher_android:createFullJarRelease
+> Task :url_launcher_android:extractProguardFiles
+> Task :url_launcher_android:generateReleaseLintModel
+> Task :url_launcher_android:prepareLintJarForPublish
+> Task :app:generateProductionReleaseLintVitalReportModel
+> Task :android_file_picker:checkReleaseAarMetadata
+> Task :android_file_picker:stripReleaseDebugSymbols NO-SOURCE
+> Task :android_file_picker:copyReleaseJniLibsProjectAndLocalJars
+> Task :android_file_picker:extractDeepLinksForAarRelease
+> Task :android_file_picker:extractReleaseAnnotations
+> Task :android_file_picker:mergeReleaseConsumerProguardFiles
+> Task :android_file_picker:mergeReleaseJavaResource
+> Task :android_file_picker:syncReleaseLibJars
+> Task :android_file_picker:bundleReleaseLocalLintAar
+> Task :app_links:checkReleaseAarMetadata
+> Task :app_links:stripReleaseDebugSymbols NO-SOURCE
+> Task :app_links:copyReleaseJniLibsProjectAndLocalJars
+> Task :app_links:extractDeepLinksForAarRelease
+> Task :app_links:extractReleaseAnnotations
+> Task :app_links:mergeReleaseConsumerProguardFiles
+> Task :app_links:mergeReleaseJavaResource
+> Task :app_links:syncReleaseLibJars
+> Task :app_links:bundleReleaseLocalLintAar
+> Task :file_saver:checkReleaseAarMetadata
+> Task :file_saver:stripReleaseDebugSymbols NO-SOURCE
+> Task :file_saver:copyReleaseJniLibsProjectAndLocalJars
+> Task :file_saver:extractDeepLinksForAarRelease
+> Task :file_saver:extractReleaseAnnotations
+> Task :file_saver:mergeReleaseConsumerProguardFiles
+> Task :file_saver:mergeReleaseJavaResource
+> Task :file_saver:syncReleaseLibJars
+> Task :file_saver:bundleReleaseLocalLintAar
+> Task :firebase_messaging:checkReleaseAarMetadata
+> Task :firebase_messaging:stripReleaseDebugSymbols NO-SOURCE
+> Task :firebase_messaging:copyReleaseJniLibsProjectAndLocalJars
+> Task :firebase_messaging:extractDeepLinksForAarRelease
+> Task :firebase_messaging:extractReleaseAnnotations
+> Task :firebase_messaging:mergeReleaseConsumerProguardFiles
+> Task :firebase_messaging:mergeReleaseJavaResource
+> Task :firebase_messaging:syncReleaseLibJars
+> Task :firebase_messaging:bundleReleaseLocalLintAar
+> Task :firebase_core:checkReleaseAarMetadata
+> Task :firebase_core:stripReleaseDebugSymbols NO-SOURCE
+> Task :firebase_core:copyReleaseJniLibsProjectAndLocalJars
+> Task :firebase_core:extractDeepLinksForAarRelease
+> Task :firebase_core:extractReleaseAnnotations
+> Task :firebase_core:mergeReleaseConsumerProguardFiles
+> Task :firebase_core:mergeReleaseJavaResource
+> Task :firebase_core:syncReleaseLibJars
+> Task :firebase_core:bundleReleaseLocalLintAar
+> Task :flutter_local_notifications:checkReleaseAarMetadata
+> Task :flutter_local_notifications:stripReleaseDebugSymbols NO-SOURCE
+> Task :flutter_local_notifications:copyReleaseJniLibsProjectAndLocalJars
+> Task :flutter_local_notifications:extractDeepLinksForAarRelease
+> Task :flutter_local_notifications:extractReleaseAnnotations
+> Task :flutter_local_notifications:mergeReleaseConsumerProguardFiles
+> Task :flutter_local_notifications:mergeReleaseJavaResource
+> Task :flutter_local_notifications:syncReleaseLibJars
+> Task :flutter_local_notifications:bundleReleaseLocalLintAar
+> Task :image_picker_android:checkReleaseAarMetadata
+> Task :image_picker_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :image_picker_android:copyReleaseJniLibsProjectAndLocalJars
+> Task :image_picker_android:extractDeepLinksForAarRelease
+> Task :image_picker_android:extractReleaseAnnotations
+> Task :image_picker_android:mergeReleaseConsumerProguardFiles
+> Task :image_picker_android:mergeReleaseJavaResource
+> Task :image_picker_android:syncReleaseLibJars
+> Task :image_picker_android:bundleReleaseLocalLintAar
+> Task :flutter_plugin_android_lifecycle:checkReleaseAarMetadata
+> Task :flutter_plugin_android_lifecycle:stripReleaseDebugSymbols NO-SOURCE
+> Task :flutter_plugin_android_lifecycle:copyReleaseJniLibsProjectAndLocalJars
+> Task :flutter_plugin_android_lifecycle:extractDeepLinksForAarRelease
+> Task :flutter_plugin_android_lifecycle:extractReleaseAnnotations
+> Task :flutter_plugin_android_lifecycle:mergeReleaseConsumerProguardFiles
+> Task :flutter_plugin_android_lifecycle:mergeReleaseJavaResource
+> Task :flutter_plugin_android_lifecycle:syncReleaseLibJars
+> Task :flutter_plugin_android_lifecycle:bundleReleaseLocalLintAar
+> Task :jni_flutter:checkReleaseAarMetadata
+> Task :jni_flutter:stripReleaseDebugSymbols NO-SOURCE
+> Task :jni_flutter:copyReleaseJniLibsProjectAndLocalJars
+> Task :jni_flutter:extractDeepLinksForAarRelease
+> Task :jni_flutter:extractReleaseAnnotations
+> Task :jni_flutter:mergeReleaseConsumerProguardFiles
+> Task :jni_flutter:mergeReleaseJavaResource
+> Task :jni_flutter:syncReleaseLibJars
+> Task :jni_flutter:bundleReleaseLocalLintAar
+> Task :jni:checkReleaseAarMetadata
+> Task :jni:stripReleaseDebugSymbols
+> Task :jni:copyReleaseJniLibsProjectAndLocalJars
+> Task :jni:extractDeepLinksForAarRelease
+> Task :jni:extractReleaseAnnotations
+> Task :jni:mergeReleaseConsumerProguardFiles
+> Task :jni:mergeReleaseJavaResource
+> Task :jni:syncReleaseLibJars
+> Task :jni:bundleReleaseLocalLintAar
+> Task :mobile_scanner:checkReleaseAarMetadata
+> Task :mobile_scanner:stripReleaseDebugSymbols NO-SOURCE
+> Task :mobile_scanner:copyReleaseJniLibsProjectAndLocalJars
+> Task :mobile_scanner:extractDeepLinksForAarRelease
+> Task :mobile_scanner:extractReleaseAnnotations
+> Task :mobile_scanner:mergeReleaseConsumerProguardFiles
+> Task :mobile_scanner:mergeReleaseJavaResource
+> Task :mobile_scanner:syncReleaseLibJars
+> Task :mobile_scanner:bundleReleaseLocalLintAar
+> Task :permission_handler_android:checkReleaseAarMetadata
+> Task :permission_handler_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :permission_handler_android:copyReleaseJniLibsProjectAndLocalJars
+> Task :permission_handler_android:extractDeepLinksForAarRelease
+> Task :permission_handler_android:extractReleaseAnnotations
+> Task :permission_handler_android:mergeReleaseConsumerProguardFiles
+> Task :permission_handler_android:mergeReleaseJavaResource
+> Task :permission_handler_android:syncReleaseLibJars
+> Task :permission_handler_android:bundleReleaseLocalLintAar
+> Task :share_plus:checkReleaseAarMetadata
+> Task :share_plus:stripReleaseDebugSymbols NO-SOURCE
+> Task :share_plus:copyReleaseJniLibsProjectAndLocalJars
+> Task :share_plus:extractDeepLinksForAarRelease
+> Task :share_plus:extractReleaseAnnotations
+> Task :share_plus:mergeReleaseConsumerProguardFiles
+> Task :share_plus:mergeReleaseJavaResource
+> Task :share_plus:syncReleaseLibJars
+> Task :share_plus:bundleReleaseLocalLintAar
+> Task :shared_preferences_android:checkReleaseAarMetadata
+> Task :shared_preferences_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :shared_preferences_android:copyReleaseJniLibsProjectAndLocalJars
+> Task :shared_preferences_android:extractDeepLinksForAarRelease
+> Task :shared_preferences_android:extractReleaseAnnotations
+> Task :shared_preferences_android:mergeReleaseConsumerProguardFiles
+> Task :shared_preferences_android:mergeReleaseJavaResource
+> Task :shared_preferences_android:syncReleaseLibJars
+> Task :shared_preferences_android:bundleReleaseLocalLintAar
+> Task :url_launcher_android:checkReleaseAarMetadata
+> Task :url_launcher_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :url_launcher_android:copyReleaseJniLibsProjectAndLocalJars
+> Task :url_launcher_android:extractDeepLinksForAarRelease
+> Task :url_launcher_android:extractReleaseAnnotations
+> Task :url_launcher_android:mergeReleaseConsumerProguardFiles
+> Task :url_launcher_android:mergeReleaseJavaResource
+> Task :url_launcher_android:syncReleaseLibJars
+> Task :url_launcher_android:bundleReleaseLocalLintAar
+> Task :android_file_picker:writeReleaseLintModelMetadata
+> Task :app_links:lintVitalAnalyzeRelease
+> Task :app_links:writeReleaseLintModelMetadata
+> Task :file_saver:lintVitalAnalyzeRelease
+> Task :file_saver:writeReleaseLintModelMetadata
+> Task :firebase_core:lintVitalAnalyzeRelease
+> Task :firebase_core:writeReleaseLintModelMetadata
+> Task :firebase_messaging:lintVitalAnalyzeRelease
+> Task :firebase_messaging:writeReleaseLintModelMetadata
+> Task :flutter_local_notifications:lintVitalAnalyzeRelease
+> Task :flutter_local_notifications:writeReleaseLintModelMetadata
+> Task :flutter_plugin_android_lifecycle:lintVitalAnalyzeRelease
+> Task :flutter_plugin_android_lifecycle:writeReleaseLintModelMetadata
+> Task :image_picker_android:lintVitalAnalyzeRelease
+> Task :image_picker_android:writeReleaseLintModelMetadata
+> Task :jni:lintVitalAnalyzeRelease
+> Task :jni:writeReleaseLintModelMetadata
+> Task :jni_flutter:lintVitalAnalyzeRelease
+> Task :jni_flutter:writeReleaseLintModelMetadata
+> Task :mobile_scanner:lintVitalAnalyzeRelease
+> Task :mobile_scanner:writeReleaseLintModelMetadata
+> Task :permission_handler_android:lintVitalAnalyzeRelease
+> Task :permission_handler_android:writeReleaseLintModelMetadata
+> Task :share_plus:lintVitalAnalyzeRelease
+> Task :share_plus:writeReleaseLintModelMetadata
+> Task :shared_preferences_android:lintVitalAnalyzeRelease
+> Task :shared_preferences_android:writeReleaseLintModelMetadata
+> Task :url_launcher_android:lintVitalAnalyzeRelease
+> Task :url_launcher_android:writeReleaseLintModelMetadata
+> Task :app:lintVitalAnalyzeProductionRelease
+> Task :app_links:generateReleaseLintVitalModel
+> Task :file_saver:generateReleaseLintVitalModel
+> Task :firebase_core:generateReleaseLintVitalModel
+> Task :firebase_messaging:generateReleaseLintVitalModel
+> Task :flutter_local_notifications:generateReleaseLintVitalModel
+> Task :flutter_plugin_android_lifecycle:generateReleaseLintVitalModel
+> Task :image_picker_android:generateReleaseLintVitalModel
+> Task :jni:generateReleaseLintVitalModel
+> Task :jni_flutter:generateReleaseLintVitalModel
+> Task :mobile_scanner:generateReleaseLintVitalModel
+> Task :permission_handler_android:generateReleaseLintVitalModel
+> Task :share_plus:generateReleaseLintVitalModel
+> Task :shared_preferences_android:generateReleaseLintVitalModel
+> Task :url_launcher_android:generateReleaseLintVitalModel
+> Task :app:lintVitalReportProductionRelease
+> Task :app:lintVitalProductionRelease
+> Task :app:convertShrunkResourcesToBinaryProductionRelease
+> Task :app:optimizeProductionReleaseResources
+> Task :app:collectProductionReleaseDependencies
+> Task :app:sdkProductionReleaseDependencyData
+> Task :app:writeProductionReleaseAppMetadata
+> Task :app:writeProductionReleaseSigningConfigVersions
+> Task :app:packageProductionRelease
+> Task :app:createProductionReleaseApkListingFileRedirect
+> Task :app:assembleProductionRelease
+
+[Incubating] Problems report is available at: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt12-current/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 6m 46s
+587 actionable tasks: 582 executed, 5 up-to-date

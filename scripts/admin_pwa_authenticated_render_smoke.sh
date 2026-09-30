@@ -97,6 +97,7 @@ else
     --no-pub \
     --dart-define=APP_ENVIRONMENT=evidence \
     --dart-define=ENABLE_ADMIN_PANEL=true \
+    --dart-define=COLLECT_PUBLIC_LANDING_HOME=false \
     --dart-define=ADMIN_PWA_EVIDENCE_MODE=true \
     >"$EVIDENCE_DIR/flutter_build.log" 2>&1
 

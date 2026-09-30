@@ -1,0 +1,25 @@
+{
+  "captured_at_utc": "2026-09-29T22:58:34.363649+00:00",
+  "fixture": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "host_port": 55722,
+    "labels_verified": true
+  },
+  "backup_path": ".cache/notification-sessions-20260930/pre141-completion.dump",
+  "backup_sha256": "83262c313dd007e7289d53b7e08b383b63236971a33553753fa4e944a4454a3a",
+  "backup_toc_verified": true,
+  "migration_count": 141,
+  "financial_before": {
+    "evidence_rows": 21,
+    "last_migration": "20260929180000",
+    "payment_status": "reversed",
+    "migration_count": 141,
+    "financial_sha256": "575abcd0b980ba84f28c7922957edbc36ad0450943f46ec9881e14abb25d2527",
+    "receipt_journals": 1,
+    "provider_requests": 2,
+    "reversal_journals": 1,
+    "confirmed_balance_rwf": 0,
+    "provider_confirmations": 1
+  },
+  "provider_calls": false
+}

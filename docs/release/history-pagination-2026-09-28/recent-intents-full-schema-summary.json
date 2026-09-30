@@ -1,0 +1,118 @@
+{
+  "benchmark_sql_sha256": "470708c362ae9b2c98affd5ed3aa1dbb3c8d8da7f1450cab4a1591688de126f8",
+  "database": "collect_financial_restore_empty_20260928",
+  "history_migration_sha256": "2294edc1c32cd3613e7b2654d1854daf27beaeab0a4c56ab16ce1920a8be9ff1",
+  "limitations": [
+    "single actor owns synthetic intent history; not representative user distribution",
+    "receiver table is tiny, so its lookup plan does not prove index scaling",
+    "one local database run per size; timings are not p95 or p99",
+    "no hosted Supabase, provider, notification or signed-app readback"
+  ],
+  "method": "user triggers disabled for performance-only row loading; reenabled before RPC calls; nested auto_explain analyze and buffers",
+  "runs": [
+    {
+      "cases": {
+        "exact-old-id": {
+          "elapsed_ms": 1.147,
+          "expected_pending": 533,
+          "items": 1,
+          "pending_count": 533
+        },
+        "missing-id": {
+          "elapsed_ms": 0.842,
+          "expected_pending": 533,
+          "items": 0,
+          "pending_count": 533
+        },
+        "other-member-exact": {
+          "elapsed_ms": 0.612,
+          "items": 0,
+          "pending_count": 0
+        },
+        "other-member-recent": {
+          "elapsed_ms": 0.59,
+          "items": 0,
+          "pending_count": 0
+        },
+        "recent-50": {
+          "elapsed_ms": 3.253,
+          "expected_pending": 533,
+          "expired_visible": true,
+          "includes_50": true,
+          "includes_51": false,
+          "items": 50,
+          "pending_count": 533,
+          "receiver_resolved": true
+        }
+      },
+      "expected_active_pending": 533,
+      "nested_function_plans": {
+        "count": 5,
+        "exact_id_pkey_scan_lines": 2,
+        "max_ms": 2.549,
+        "median_ms": 0.574,
+        "pending_index_scan_lines": 2,
+        "pending_seq_scan_lines": 3,
+        "recent_index_scan_lines": 3
+      },
+      "private_log_sha256": {
+        "stderr": "a0c75b0d4712b85f65102cd1affaeb7e46e7b713f4e787912b055e870ee22d6d",
+        "stdout": "0df39efe8b7e39dc06b4d86cb4abe05a1e08d59c2795e524a30b0cf67c8c23d5"
+      },
+      "synthetic_intents_inserted": 1000
+    },
+    {
+      "cases": {
+        "exact-old-id": {
+          "elapsed_ms": 1.297,
+          "expected_pending": 5333,
+          "items": 1,
+          "pending_count": 5333
+        },
+        "missing-id": {
+          "elapsed_ms": 0.871,
+          "expected_pending": 5333,
+          "items": 0,
+          "pending_count": 5333
+        },
+        "other-member-exact": {
+          "elapsed_ms": 0.262,
+          "items": 0,
+          "pending_count": 0
+        },
+        "other-member-recent": {
+          "elapsed_ms": 0.646,
+          "items": 0,
+          "pending_count": 0
+        },
+        "recent-50": {
+          "elapsed_ms": 2.107,
+          "expected_pending": 5333,
+          "expired_visible": true,
+          "includes_50": true,
+          "includes_51": false,
+          "items": 50,
+          "pending_count": 5333,
+          "receiver_resolved": true
+        }
+      },
+      "expected_active_pending": 5333,
+      "nested_function_plans": {
+        "count": 5,
+        "exact_id_pkey_scan_lines": 2,
+        "max_ms": 1.712,
+        "median_ms": 0.748,
+        "pending_index_scan_lines": 2,
+        "pending_seq_scan_lines": 0,
+        "recent_index_scan_lines": 3
+      },
+      "private_log_sha256": {
+        "stderr": "f30eb779db5b889c8a71a4d84b3fd32bf19168291859d02911e3e4d868a9b249",
+        "stdout": "eb277b749934d946def634664232c229ec9ff9ab435e01d515b3847d5035e7b5"
+      },
+      "synthetic_intents_inserted": 10000
+    }
+  ],
+  "scope": "PostgreSQL 17.6 full restored local schema; synthetic intent reads; rollback only",
+  "status": "pass_synthetic_plan_rehearsal_not_production_slo"
+}

@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../profile/member_profile_gate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
 
-import '../../shared/repositories/collect_repository.dart';
+import '../../app/env/app_env.dart';
 import '../../shared/providers/collect_app_state.dart';
+import '../../shared/utils/collect_share_links.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../status/native_permission_sheets.dart';
 import 'group_link_screen.dart';
@@ -262,7 +262,10 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
   }
 
   Future<void> _openValue(String value) async {
-    final slug = collectGroupSlugFromInput(value);
+    final slug = collectGroupSlugFromInput(
+      value,
+      trustedPublicOrigin: collectPublicOrigin(ref.read(appEnvProvider)),
+    );
     if (slug.isEmpty) {
       setState(() => _error = 'Use a Collect group QR code.');
       return;
@@ -274,13 +277,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen>
     await _scanner.stop();
     if (!mounted) return;
     try {
-      await requireMemberProfileReady(context, ref);
-      if (!mounted) return;
-      final collection = await ref
-          .read(collectRepositoryProvider.notifier)
-          .joinGroupBySlug(slug);
-      if (!mounted) return;
-      context.go('/groups/${collection.id}');
+      context.go('/c/${Uri.encodeComponent(slug)}');
     } catch (error) {
       if (!mounted) return;
       setState(() {

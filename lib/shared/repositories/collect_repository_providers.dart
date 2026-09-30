@@ -112,16 +112,9 @@ final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
   ref,
 ) {
   final state = ref.watch(collectRepositoryProvider);
-  if (state.collectionSummaries.isNotEmpty) {
-    return Map<String, CollectionSummary>.unmodifiable(
-      state.collectionSummaries,
-    );
-  }
-  final repo = ref.read(collectRepositoryProvider.notifier);
-  return {
-    for (final collection in state.collections)
-      collection.id: repo.summaryFor(collection.id),
-  };
+  // Missing server summaries stay missing; callers render an unavailable state.
+  // Never derive apparent complete balances from a bounded transaction window.
+  return Map<String, CollectionSummary>.unmodifiable(state.collectionSummaries);
 });
 
 final activeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
@@ -233,11 +226,6 @@ bool _contributionBelongsToProfile(
   Contribution contribution,
   CollectProfile profile,
 ) {
-  if (contribution.isCurrentUserContribution) return true;
-  final publicId = profile.publicId.trim();
-  if (publicId.isEmpty) return false;
-  if (contribution.supporterLabel.contains(publicId)) return true;
-  final labelDigits = contribution.supporterLabel.replaceAll(RegExp(r'\D'), '');
-  final publicIdDigits = publicId.replaceAll(RegExp(r'\D'), '');
-  return publicIdDigits.isNotEmpty && labelDigits.endsWith(publicIdDigits);
+  // A display label is never an authorization or ownership identifier.
+  return contribution.isCurrentUserContribution;
 }

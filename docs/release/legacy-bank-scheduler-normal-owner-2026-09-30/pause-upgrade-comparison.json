@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "phase": "paused",
+  "preserved_business_tables": 104,
+  "preserved_cron_history_rows": 0,
+  "preserved_cron_jobs": 2,
+  "retired_jobs": 1
+}

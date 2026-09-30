@@ -1,0 +1,1394 @@
+{
+  "status": "fail",
+  "kind": "actual_Chromium_explicit_synthetic_Flutter_fixture",
+  "started_at": "2026-09-30T16:15:45.686Z",
+  "provider_calls": 0,
+  "hosted_calls": 0,
+  "database_calls": 0,
+  "source_files": 540,
+  "artifact_files": 154,
+  "artifact_manifest_sha256": "d5e010e13ff20c7bb2c286ba8c91366d856b90178522658a0444e5540faee933",
+  "source_manifest_sha256": "38584c89ba227e2a9260504aeafde9d87f9a761d90891211632c8d2e0321d5f0",
+  "cases": [
+    {
+      "id": "terms-320-1x",
+      "route": "/settings/legal/terms",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 54,
+        "right": 304,
+        "bottom": 74,
+        "width": 228,
+        "height": 20
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Terms & Conditions\" [level=1]\n  - group \"Collect helps groups organize contributions, open Rwanda MoMo USSD, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information. Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or OTPs. Every member-created group is private and can be created only in the Android app. Group owners manage profile details and membership. Public groups are platform-sponsored and approved by Collect. If a contribution is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use request status, MoMo receipt facts, and audit logs to investigate. Do not create misleading groups, impersonate another person, abuse QR links, submit false contribution claims, or use Collect to request illegal or unauthorized transfers.\":\n    - heading \"Using Collect\" [level=2]\n    - heading \"Contribution rails\" [level=2]\n    - heading \"Group ownership\" [level=2]\n    - heading \"Disputes and corrections\" [level=2]",
+      "screenshot": {
+        "path": "terms-320-1x.png",
+        "sha256": "803d63d59e86d96c389e6f35c1188e93eb1e34477e56f04d8a2fd5b116fc7003"
+      }
+    },
+    {
+      "id": "privacy-320-1x",
+      "route": "/settings/legal/privacy",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 54,
+        "right": 304,
+        "bottom": 74,
+        "width": 228,
+        "height": 20
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Privacy Policy\" [level=1]\n  - group:\n    - heading \"Data we collect\" [level=2]\n    - heading \"How we use data\" [level=2]\n    - heading \"What stays private\" [level=2]",
+      "screenshot": {
+        "path": "privacy-320-1x.png",
+        "sha256": "88b7f1762ac4d721a836f3e6d7ba08ea8ce3f3b64b7aa964cf88ab7181618398"
+      }
+    },
+    {
+      "id": "security-320-1x",
+      "route": "/settings/security",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 26,
+        "right": 304,
+        "bottom": 54,
+        "width": 228,
+        "height": 28
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Security\" [level=1]\n  - text: Approve payments in MoMo Never share your MoMo PIN. Enter it only in your provider’s payment prompt.\n  - button \"Session and profile\"\n  - button \"Contribution verification\"\n  - button \"Payment privacy\"\n  - button \"Delete data\"",
+      "screenshot": {
+        "path": "security-320-1x.png",
+        "sha256": "59da1e190dcf6151ab6146014584981f6bfb16395bd9928ede1b68e28b4d52d4"
+      }
+    },
+    {
+      "id": "group-320-1x",
+      "route": "/groups/qa-private-group",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 28.5,
+        "right": 135.375,
+        "bottom": 51.5,
+        "width": 59.375,
+        "height": 23
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Group\" [level=1]\n  - heading \"QA private group, RWF 35,000 raised, 1 contributor\" [level=2]\n  - button \"Contribute\"\n  - button \"Members\"\n  - button \"Share\"\n  - button \"Manage\"\n  - text: Your confirmed balance RWF 35,000\n  - heading \"Activity\" [level=2]\n  - text: Contribution 038491, RWF 10,000, 2 Sep 2026, 10:00 Contribution 038491, RWF 25,000, 2 Sep 2026, 07:00\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "screenshot": {
+        "path": "group-320-1x.png",
+        "sha256": "95911fdb11c4332267df9586b2f2ba3917a41ac21a61839461cf7660bb510280"
+      },
+      "action_bounds": [
+        {
+          "x": 16,
+          "y": 313.8636474609375,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 164,
+          "y": 313.8636474609375,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 16,
+          "y": 403.8636779785156,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 164,
+          "y": 403.8636779785156,
+          "width": 140,
+          "height": 78
+        }
+      ],
+      "tabs": [
+        "Contribute",
+        "Members",
+        "Share",
+        "Manage",
+        "Home"
+      ]
+    },
+    {
+      "id": "home-320-1x",
+      "route": "/home",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "accessibility_before": "- group:\n  - button \"Profile\"\n  - button \"Search groups\"\n  - heading \"RWF 35,000, Contributed to 1 group\" [level=2]\n  - button \"Contribute\"\n  - button \"Explore Groups\"\n  - button \"Share\"\n  - heading \"Activity\" [level=2]\n  - button \"038491 2 Sep 2026, 10:00 RWF 10,000\"\n  - button \"038491 2 Sep 2026, 07:00 RWF 25,000\"\n  - group \"Church QA private group Total collected RWF 35,000 1 contributor\":\n    - heading \"My groups\" [level=2]\n    - button \"View all\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "screenshot": {
+        "path": "home-320-1x.png",
+        "sha256": "741bf4978cf911f5da2e2715c0d02bbbb4b62296454d444a894415a92728cf09"
+      }
+    },
+    {
+      "id": "members-320-1x",
+      "route": "/groups/qa-private-group/members",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 54,
+        "right": 304,
+        "bottom": 74,
+        "width": 228,
+        "height": 20
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Members\" [level=1]\n  - textbox \"Search Collect ID\"\n  - button \"Members All MEMBERS All\"\n  - button \"Sort Collect ID SORT Collect ID\"\n  - heading \"Roster\" [level=2]\n  - button \"1\" [disabled]\n  - text: 038491 Owner · Active 30 Aug 2026, 12:00 Your contributions RWF 35,000\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "screenshot": {
+        "path": "members-320-1x.png",
+        "sha256": "4988fe415f95f017e79d902afb4e456a42194570e6a3533664d7c4422a9a0a9f"
+      }
+    },
+    {
+      "id": "notifications-320-1x",
+      "route": "/settings/notifications",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 26,
+        "right": 304,
+        "bottom": 54,
+        "width": 228,
+        "height": 28
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Notifications\" [level=1]\n  - switch \"Contribution confirmations. Confirmed contributions and ledger updates.\" [checked]\n  - switch \"Contribution reminders. Pending contribution reminders before expiry.\" [checked]\n  - switch \"Group updates. Membership and group-management changes.\" [checked]\n  - switch \"Security notices. Important account and privacy alerts.\" [checked]\n  - button \"Review phone permission\"",
+      "screenshot": {
+        "path": "notifications-320-1x.png",
+        "sha256": "6a10946396b75ff733da6ea4b06e466201cf0c3bd69eb41967ec99560d9abb27"
+      }
+    },
+    {
+      "id": "appearance-320-1x",
+      "route": "/settings/appearance",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 26,
+        "right": 304,
+        "bottom": 54,
+        "width": 228,
+        "height": 28
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Appearance\" [level=1]\n  - img \"Dark Collect home preview\"\n  - heading \"Mode\" [level=2]\n  - button \"Dark mode Dark\"\n  - button \"Light mode Light\"\n  - button \"System mode System\"",
+      "screenshot": {
+        "path": "appearance-320-1x.png",
+        "sha256": "853825511676527c48d2c852ef79e11e70ac8bc01ecc50854ad117eda2c0818a"
+      }
+    },
+    {
+      "id": "help-320-1x",
+      "route": "/settings/help",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 26,
+        "right": 304,
+        "bottom": 54,
+        "width": 228,
+        "height": 28
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Help\" [level=1]\n  - heading \"Common problems\" [level=2]\n  - button \"Sign-in or code problem\"\n  - button \"Contribution issue\"\n  - button \"QR, sharing, or joining\"\n  - button \"Membership or owner issue\"\n  - button \"Privacy or deletion request\"\n  - heading \"Contact and policies\" [level=2]\n  - button \"WhatsApp support\"\n  - button \"Privacy policy\"\n  - button \"Terms\"",
+      "screenshot": {
+        "path": "help-320-1x.png",
+        "sha256": "a377533535e3914b8ba9bbb3bb71b632c3572ec197ec7a986c901d98c7bca1f8"
+      }
+    },
+    {
+      "id": "offline-success-320-1x",
+      "route": "/offline",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": "success",
+      "heading_bounds": {
+        "left": 76,
+        "top": 84.5,
+        "right": 187.5625,
+        "bottom": 107.5,
+        "width": 111.5625,
+        "height": 23
+      },
+      "accessibility_before": "- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Connection\" [level=1]\n  - heading \"Updates unavailable\" [level=2]\n  - text: Previously loaded data may be out of date.\n  - button \"Refresh data\"\n  - button \"View groups\"\n  - text: \"Last data refresh: Wed, Sep 2, 12:00 PM Refreshing does not resend payments or SMS updates.\"\n  - button \"Privacy\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "screenshot": {
+        "path": "offline-success-320-1x.png",
+        "sha256": "4654ed16aa5372b1f12c4d912dc47e7051b309be7ff3fa124edd383a5f8f9a7a"
+      },
+      "accessibility_recovery": "- group:\n  - button \"Back\"\n  - heading \"Connection\" [level=1]\n  - heading \"Data refreshed\" [level=2]\n  - text: The latest data refresh completed. This does not confirm a payment.\n  - button \"Refresh data\"\n  - button \"View groups\"\n  - text: \"Last data refresh: Wed, Sep 2, 12:01 PM Refreshing does not resend payments or SMS updates.\"\n  - button \"Privacy\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "accessibility_after": "- group:\n  - button \"Back\"\n  - heading \"Privacy Policy\" [level=1]\n  - group:\n    - heading \"Data we collect\" [level=2]\n    - heading \"How we use data\" [level=2]\n    - heading \"What stays private\" [level=2]"
+    },
+    {
+      "id": "offline-failure-320-1x",
+      "route": "/offline",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": "failure",
+      "heading_bounds": {
+        "left": 76,
+        "top": 84.5,
+        "right": 187.5625,
+        "bottom": 107.5,
+        "width": 111.5625,
+        "height": 23
+      },
+      "accessibility_before": "- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Connection\" [level=1]\n  - heading \"Updates unavailable\" [level=2]\n  - text: Previously loaded data may be out of date.\n  - button \"Refresh data\"\n  - button \"View groups\"\n  - text: \"Last data refresh: Wed, Sep 2, 12:00 PM Refreshing does not resend payments or SMS updates.\"\n  - button \"Privacy\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "screenshot": {
+        "path": "offline-failure-320-1x.png",
+        "sha256": "4654ed16aa5372b1f12c4d912dc47e7051b309be7ff3fa124edd383a5f8f9a7a"
+      },
+      "accessibility_recovery": "- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Connection\" [level=1]\n  - heading \"Updates unavailable\" [level=2]\n  - text: Could not refresh data. Check your connection and try again.\n  - button \"Refresh data\"\n  - button \"View groups\"\n  - text: \"Last data refresh: Wed, Sep 2, 12:00 PM Refreshing does not resend payments or SMS updates.\"\n  - button \"Privacy\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "accessibility_after": "- text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Privacy Policy\" [level=1]\n  - group:\n    - heading \"Data we collect\" [level=2]\n    - heading \"How we use data\" [level=2]\n    - heading \"What stays private\" [level=2]"
+    },
+    {
+      "id": "sync-stale-320-1x",
+      "route": "/sync",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 1,
+      "recovery": "stale",
+      "heading_bounds": {
+        "left": 76,
+        "top": 84.5,
+        "right": 172.25,
+        "bottom": 107.5,
+        "width": 96.25,
+        "height": 23
+      },
+      "accessibility_before": "- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Data sync\" [level=1]\n  - heading \"Updates unavailable\" [level=2]\n  - text: Previously loaded data may be out of date.\n  - button \"Refresh data\"\n  - button \"View groups\"\n  - text: \"Last data refresh: Wed, Sep 2, 12:00 PM Refreshing does not resend payments or SMS updates.\"\n  - button \"Privacy\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "screenshot": {
+        "path": "sync-stale-320-1x.png",
+        "sha256": "526b768113b1ac46a2f1260d7776d54bfb600c8a5d62b069908872a065a850c1"
+      },
+      "accessibility_recovery": "- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Data sync\" [level=1]\n  - heading \"Updates unavailable\" [level=2]\n  - text: Could not refresh data. Check your connection and try again.\n  - button \"Refresh data\"\n  - button \"View groups\"\n  - text: \"Last data refresh: Wed, Sep 2, 12:00 PM Refreshing does not resend payments or SMS updates.\"\n  - button \"Privacy\"\n- group \"Primary navigation\":\n  - button \"Home\"\n  - button \"Groups\"\n  - button \"Activity\"\n  - button \"Profile\"",
+      "accessibility_after": "- text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n- group:\n  - text: \"Offline saved data, updated 12:00 Status: Offline saved data, updated 12:00\"\n  - button \"Back\"\n  - heading \"Privacy Policy\" [level=1]\n  - group:\n    - heading \"Data we collect\" [level=2]\n    - heading \"How we use data\" [level=2]\n    - heading \"What stays private\" [level=2]"
+    },
+    {
+      "id": "terms-320-2x",
+      "route": "/settings/legal/terms",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 2,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 40,
+        "right": 304,
+        "bottom": 120,
+        "width": 228,
+        "height": 80
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Terms & Conditions\" [level=1]\n  - group \"Collect helps groups organize contributions, open Rwanda MoMo USSD, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information. Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or OTPs. Every member-created group is private and can be created only in the Android app. Group owners manage profile details and membership. Public groups are platform-sponsored and approved by Collect. If a contribution is missing, duplicated, returned, incorrect, or needs review, contact support. Collect may use request status, MoMo receipt facts, and audit logs to investigate. Do not create misleading groups, impersonate another person, abuse QR links, submit false contribution claims, or use Collect to request illegal or unauthorized transfers.\":\n    - heading \"Using Collect\" [level=2]",
+      "screenshot": {
+        "path": "terms-320-2x.png",
+        "sha256": "e9d4b04927883445c1fe8a84db0689e572288f99c4a216bbdb79c4d1f5c58533"
+      }
+    },
+    {
+      "id": "privacy-320-2x",
+      "route": "/settings/legal/privacy",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 2,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 40,
+        "right": 304,
+        "bottom": 120,
+        "width": 228,
+        "height": 80
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Privacy Policy\" [level=1]\n  - group:\n    - heading \"Data we collect\" [level=2]",
+      "screenshot": {
+        "path": "privacy-320-2x.png",
+        "sha256": "ad63a63a963f6829522222368abc118475fc7d6b74ada822de38541a4d3f8afa"
+      }
+    },
+    {
+      "id": "security-320-2x",
+      "route": "/settings/security",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "text_scale": 2,
+      "recovery": null,
+      "heading_bounds": {
+        "left": 76,
+        "top": 16,
+        "right": 304,
+        "bottom": 72,
+        "width": 228,
+        "height": 56
+      },
+      "accessibility_before": "- group:\n  - button \"Back\"\n  - heading \"Security\" [level=1]\n  - text: Approve payments in MoMo Never share your MoMo PIN. Enter it only in your provider’s payment prompt.\n  - button \"Session and profile\"\n  - button \"Contribution verification\"\n  - button \"Payment privacy\"",
+      "screenshot": {
+        "path": "security-320-2x.png",
+        "sha256": "fb934da263eb5298f01e95661b82683b13623ec99f8b56d4c23f0cf858bd85b1"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "terms-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 54,
+          "right": 304,
+          "bottom": 74,
+          "width": 228,
+          "height": 20
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "terms-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-section-heading",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 54,
+          "right": 304,
+          "bottom": 74,
+          "width": 228,
+          "height": 20
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "privacy-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-section-heading",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 26,
+          "right": 304,
+          "bottom": 54,
+          "width": 228,
+          "height": 28
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "security-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 28.5,
+          "right": 135.375,
+          "bottom": 51.5,
+          "width": 59.375,
+          "height": 23
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "group-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-whole-word-labels-equal-height",
+      "status": "pass",
+      "observed": [
+        {
+          "x": 16,
+          "y": 313.8636474609375,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 164,
+          "y": 313.8636474609375,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 16,
+          "y": 403.8636779785156,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 164,
+          "y": 403.8636779785156,
+          "width": 140,
+          "height": 78
+        }
+      ]
+    },
+    {
+      "id": "group-320-1x-responsive-action-columns",
+      "status": "pass",
+      "observed": [
+        {
+          "x": 16,
+          "y": 313.8636474609375,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 164,
+          "y": 313.8636474609375,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 16,
+          "y": 403.8636779785156,
+          "width": 140,
+          "height": 78
+        },
+        {
+          "x": 164,
+          "y": 403.8636779785156,
+          "width": 140,
+          "height": 78
+        }
+      ]
+    },
+    {
+      "id": "group-320-1x-confirmed-summary",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-nav-Home",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-nav-Groups",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-nav-Activity",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-nav-Profile",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-tab-Contribute",
+      "status": "pass",
+      "observed": "Contribute"
+    },
+    {
+      "id": "group-320-1x-tab-Members",
+      "status": "pass",
+      "observed": "Members"
+    },
+    {
+      "id": "group-320-1x-tab-Share",
+      "status": "pass",
+      "observed": "Share"
+    },
+    {
+      "id": "group-320-1x-tab-Manage",
+      "status": "pass",
+      "observed": "Manage"
+    },
+    {
+      "id": "group-320-1x-tab-Home",
+      "status": "pass",
+      "observed": "Home"
+    },
+    {
+      "id": "group-320-1x-reverse-tab-Manage",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-1x-nav-home-keyboard",
+      "status": "pass"
+    },
+    {
+      "id": "home-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "home-320-1x-search-keyboard-route",
+      "status": "pass"
+    },
+    {
+      "id": "home-320-1x-group-search-keyboard-opens-field",
+      "status": "pass"
+    },
+    {
+      "id": "members-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "members-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "members-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 54,
+          "right": 304,
+          "bottom": 74,
+          "width": 228,
+          "height": 20
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "members-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "members-320-1x-search-entry",
+      "status": "pass"
+    },
+    {
+      "id": "notifications-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "notifications-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "notifications-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 26,
+          "right": 304,
+          "bottom": 54,
+          "width": 228,
+          "height": 28
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "notifications-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "notifications-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "notifications-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "appearance-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "appearance-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "appearance-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 26,
+          "right": 304,
+          "bottom": 54,
+          "width": 228,
+          "height": 28
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "appearance-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "appearance-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "appearance-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "help-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "help-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "help-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 26,
+          "right": 304,
+          "bottom": 54,
+          "width": 228,
+          "height": 28
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "help-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "help-320-1x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "help-320-1x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 84.5,
+          "right": 187.5625,
+          "bottom": 107.5,
+          "width": 111.5625,
+          "height": 23
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-success-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-truthful-stale",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-refresh-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 32,
+          "top": 324,
+          "right": 288,
+          "bottom": 372,
+          "width": 256,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-success-320-1x-refresh-is-not-payment",
+      "status": "pass"
+    },
+    {
+      "id": "offline-success-320-1x-privacy-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 16,
+          "top": 320,
+          "right": 304,
+          "bottom": 368,
+          "width": 288,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-success-320-1x-privacy-keyboard-navigation",
+      "status": "pass"
+    },
+    {
+      "id": "offline-failure-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "offline-failure-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "offline-failure-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 84.5,
+          "right": 187.5625,
+          "bottom": 107.5,
+          "width": 111.5625,
+          "height": 23
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-failure-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "offline-failure-320-1x-truthful-stale",
+      "status": "pass"
+    },
+    {
+      "id": "offline-failure-320-1x-refresh-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 32,
+          "top": 324,
+          "right": 288,
+          "bottom": 372,
+          "width": 256,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-failure-320-1x-failure-not-success",
+      "status": "pass"
+    },
+    {
+      "id": "offline-failure-320-1x-privacy-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 16,
+          "top": 320,
+          "right": 304,
+          "bottom": 368,
+          "width": 288,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "offline-failure-320-1x-privacy-keyboard-navigation",
+      "status": "pass"
+    },
+    {
+      "id": "sync-stale-320-1x-route",
+      "status": "pass"
+    },
+    {
+      "id": "sync-stale-320-1x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "sync-stale-320-1x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 84.5,
+          "right": 172.25,
+          "bottom": 107.5,
+          "width": 96.25,
+          "height": 23
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "sync-stale-320-1x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "sync-stale-320-1x-truthful-stale",
+      "status": "pass"
+    },
+    {
+      "id": "sync-stale-320-1x-refresh-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 32,
+          "top": 324,
+          "right": 288,
+          "bottom": 372,
+          "width": 256,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "sync-stale-320-1x-failure-not-success",
+      "status": "pass"
+    },
+    {
+      "id": "sync-stale-320-1x-privacy-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 16,
+          "top": 320,
+          "right": 304,
+          "bottom": 368,
+          "width": 288,
+          "height": 48
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 496
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "sync-stale-320-1x-privacy-keyboard-navigation",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-2x-route",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-2x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-2x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 40,
+          "right": 304,
+          "bottom": 120,
+          "width": 228,
+          "height": 80
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "terms-320-2x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-2x-section-heading",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-2x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "terms-320-2x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-2x-route",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-2x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-2x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 40,
+          "right": 304,
+          "bottom": 120,
+          "width": 228,
+          "height": 80
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "privacy-320-2x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-2x-section-heading",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-2x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "privacy-320-2x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-2x-route",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-2x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-2x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 16,
+          "right": 304,
+          "bottom": 72,
+          "width": 228,
+          "height": 56
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 568
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "security-320-2x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-2x-back-focus",
+      "status": "pass"
+    },
+    {
+      "id": "security-320-2x-keyboard-back",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-2x-route",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-2x-page-heading",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-2x-heading-not-clipped",
+      "status": "pass",
+      "observed": {
+        "rect": {
+          "left": 76,
+          "top": 17,
+          "right": 194.765625,
+          "bottom": 63,
+          "width": 118.765625,
+          "height": 46
+        },
+        "bound": {
+          "left": 0,
+          "top": 0,
+          "right": 320,
+          "bottom": 504
+        },
+        "contained": true
+      }
+    },
+    {
+      "id": "group-320-2x-back-separate",
+      "status": "pass"
+    },
+    {
+      "id": "group-320-2x-whole-word-labels-equal-height",
+      "status": "fail",
+      "observed": [
+        {
+          "x": 16,
+          "y": 369.8636779785156,
+          "width": 140,
+          "height": 99
+        },
+        {
+          "x": 164,
+          "y": 369.8636779785156,
+          "width": 140,
+          "height": 99
+        },
+        {
+          "x": 16,
+          "y": 480.8636779785156,
+          "width": 140,
+          "height": 23.125
+        },
+        {
+          "x": 164,
+          "y": 480.8636779785156,
+          "width": 140,
+          "height": 23.125
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "blocked_requests": [
+    {
+      "id": "terms-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "privacy-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "security-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "group-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "home-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "members-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "notifications-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "appearance-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "help-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "offline-success-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "offline-failure-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "sync-stale-320-1x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "terms-320-2x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "privacy-320-2x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "security-320-2x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "id": "group-320-2x",
+      "url": "https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    }
+  ],
+  "served_resources": {
+    "index.html": "f415c50929191456b1c65c766d6abc32cf5abb6997bbce02534ad6708b0cc6de",
+    "flutter_bootstrap.js": "1306462e0c27cbdf79b3da0e01d1c4bd72fe78c1e314542465b6fa4ceefaff6c",
+    "canvaskit/chromium/canvaskit.js": "d2aceb0e24ead163ab289a165ca0e26a36fa26d7118f5a295b8854d59d892896",
+    "canvaskit/chromium/canvaskit.wasm": "c2fc2864763540922c71d464e983bebf97b3a5312fd01c6a8988969747d13314",
+    "main.dart.js": "a42f43cd59bd8568f7c89fe374f180d799960a0452af172e90913aebe6ed47f8",
+    "assets/assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/FontManifest.json": "6ceffb39cf0c64923dd000d962bfa4664f39a51f0712604ad6e2e67bf424aafd",
+    "assets/fonts/MaterialIcons-Regular.otf": "5087f3cbda9b6fb18935c6e87d47a21bcc2ab4c61137534606c919ef1fa12122",
+    "assets/assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf": "0df29d6561467c7a3c263aaca7d95bfd17d74e6fd2d7a9e8ab7149cd787fce10",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf": "c6265ca5839938625a3c8c37a00cdcb2633d1ad6ab2c096c97b590a27162b67a",
+    "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "3d90c370aa4cf00dc57ee2b902f6652147c0f81e03e483df584a9c08b1687c9d",
+    "assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf": "c1091147299a846195bbca8b26528de6c9af842f236e7db44a1c2e8c9df52372",
+    "icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "assets/AssetManifest.bin.json": "5a1c817badc8fc4587f2692c78099073f77384695dd8da7fe3b3b82a3169eeef",
+    "assets/assets/brand/collect_runtime/app_icons/app-icon-rule.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "assets/assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393",
+    "assets/assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d",
+    "assets/assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799"
+  },
+  "bound_runtime": "Flutter3.44.4/ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "native_acceptance": false,
+  "screen_reader_speech_verified": false,
+  "design_fidelity_percentage": null,
+  "origin": "http://127.0.0.1:62472",
+  "browser": "151.0.7922.34",
+  "resource_body_errors": [],
+  "failure": "Assertion failed:group-320-2x-whole-word-labels-equal-height",
+  "finished_at": "2026-09-30T16:16:21.255Z"
+}

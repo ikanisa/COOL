@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "timestamp_utc": "2026-09-29T22:22:38.735205+00:00",
+  "scope": "worker local code validation and Ruby syntax only; SQL fixtures authored but not executed by this worker",
+  "runtime": {
+    "path": ".cache/roster-deno-2.5.6-20260929/deno",
+    "sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0"
+  },
+  "source_hashes_before": {
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+    "supabase/migrations/20260929160000_notification_retry_schedule.sql": "f19370b10ce41cce353ad0cd70c603482e0eeea301dcca18a4ca38565c6d6f19",
+    "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+    "deploy/hardening/reconciliation_approval_v2.sql": "0371a10c99d28fa7cd24fbc03421a83c84914b55ae2e621f61ddec0e25a1e552",
+    "scripts/tests/notification_delivery_sessions_uat.sql": "4736ae29086d02c8e827dec35f7e182c7027706356ad030611717e70e74f6f22",
+    "scripts/tests/notification_registration_sessions_uat.sql": "29414fab6bb67fc26d72818961dfb620cd299ac3278de68e2605945c52f52df3",
+    "scripts/tests/notification_delivery_session_concurrency_uat.rb": "3f02ef3e3aa313761119d5cf66a78070c4d97f1f5b94f1257d6772a03ee5af05",
+    "scripts/tests/notification_session_upgrade_verify.sql": "b77ffc4352aa20beae6fec905c901cc206198d870180e86ade8b6894e454bca3",
+    "scripts/tests/notification_session_upgrade_seed.sql": "27def8a7bf8d4df90531d06a50e3b08b3baea4f5f68b1f9310833c1bd0c79552",
+    "scripts/tests/notification_delivery_concurrency_uat.rb": "3a08df77796556d141fa1ef23166786dd1b841c35c3ca58b8f3f2d3adcde4a44",
+    "scripts/tests/notification_protocol_upgrade_seed.sql": "e682f2ebd2528c369dc1a50a764a5fdd4cab5c9954ab3301e198c1eeb720a757",
+    "scripts/tests/notification_protocol_upgrade_verify.sql": "0efaf58fd152f0b78fcedd4972c59c551ed9b93a9ea46300ea41899e300afd0e",
+    "supabase/functions/dispatch-notifications/dispatcher_test.ts": "9796a6726faa92e6bcfb4752f128a744842d3218875d7d6acc16fb030534630d",
+    "supabase/functions/send-notification/handler_test.ts": "1b0fc69d8729192ce2d5fd3bb77d09c5292af124ede4caeec05db87f63b3c458",
+    "supabase/functions/_shared/fcm_test.ts": "6f4ec8c1eabfcc99161f1ea99eaa53f395f798c1e044462d187204747bbbffbb",
+    "supabase/functions/_shared/apns_test.ts": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+    "supabase/functions/_shared/notification_retry_test.ts": "48216fa3b103ecc38f2d9bfa92a6930ffb9367694e4d60da2f8e94516fbed520",
+    "supabase/functions/dispatch-notifications/index.ts": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472",
+    "supabase/functions/dispatch-notifications/dispatcher.ts": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8",
+    "supabase/functions/send-notification/index.ts": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6",
+    "supabase/functions/send-notification/handler.ts": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c",
+    "supabase/functions/_shared/fcm.ts": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6",
+    "supabase/functions/_shared/apns.ts": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+    "supabase/functions/_shared/notification_retry.ts": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f"
+  },
+  "source_hashes_after": {
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+    "supabase/migrations/20260929160000_notification_retry_schedule.sql": "f19370b10ce41cce353ad0cd70c603482e0eeea301dcca18a4ca38565c6d6f19",
+    "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+    "deploy/hardening/reconciliation_approval_v2.sql": "0371a10c99d28fa7cd24fbc03421a83c84914b55ae2e621f61ddec0e25a1e552",
+    "scripts/tests/notification_delivery_sessions_uat.sql": "4736ae29086d02c8e827dec35f7e182c7027706356ad030611717e70e74f6f22",
+    "scripts/tests/notification_registration_sessions_uat.sql": "29414fab6bb67fc26d72818961dfb620cd299ac3278de68e2605945c52f52df3",
+    "scripts/tests/notification_delivery_session_concurrency_uat.rb": "3f02ef3e3aa313761119d5cf66a78070c4d97f1f5b94f1257d6772a03ee5af05",
+    "scripts/tests/notification_session_upgrade_verify.sql": "b77ffc4352aa20beae6fec905c901cc206198d870180e86ade8b6894e454bca3",
+    "scripts/tests/notification_session_upgrade_seed.sql": "27def8a7bf8d4df90531d06a50e3b08b3baea4f5f68b1f9310833c1bd0c79552",
+    "scripts/tests/notification_delivery_concurrency_uat.rb": "3a08df77796556d141fa1ef23166786dd1b841c35c3ca58b8f3f2d3adcde4a44",
+    "scripts/tests/notification_protocol_upgrade_seed.sql": "e682f2ebd2528c369dc1a50a764a5fdd4cab5c9954ab3301e198c1eeb720a757",
+    "scripts/tests/notification_protocol_upgrade_verify.sql": "0efaf58fd152f0b78fcedd4972c59c551ed9b93a9ea46300ea41899e300afd0e",
+    "supabase/functions/dispatch-notifications/dispatcher_test.ts": "9796a6726faa92e6bcfb4752f128a744842d3218875d7d6acc16fb030534630d",
+    "supabase/functions/send-notification/handler_test.ts": "1b0fc69d8729192ce2d5fd3bb77d09c5292af124ede4caeec05db87f63b3c458",
+    "supabase/functions/_shared/fcm_test.ts": "6f4ec8c1eabfcc99161f1ea99eaa53f395f798c1e044462d187204747bbbffbb",
+    "supabase/functions/_shared/apns_test.ts": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+    "supabase/functions/_shared/notification_retry_test.ts": "48216fa3b103ecc38f2d9bfa92a6930ffb9367694e4d60da2f8e94516fbed520",
+    "supabase/functions/dispatch-notifications/index.ts": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472",
+    "supabase/functions/dispatch-notifications/dispatcher.ts": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8",
+    "supabase/functions/send-notification/index.ts": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6",
+    "supabase/functions/send-notification/handler.ts": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c",
+    "supabase/functions/_shared/fcm.ts": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6",
+    "supabase/functions/_shared/apns.ts": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+    "supabase/functions/_shared/notification_retry.ts": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f"
+  },
+  "source_unchanged": true,
+  "runs": [
+    {
+      "label": "runtime-version",
+      "command": [
+        ".cache/roster-deno-2.5.6-20260929/deno",
+        "--version"
+      ],
+      "started_utc": "2026-09-29T22:22:37.764908+00:00",
+      "exit_code": 0,
+      "stdout": "logs/runtime-version.stdout.txt",
+      "stderr": "logs/runtime-version.stderr.txt"
+    },
+    {
+      "label": "notification-tests",
+      "command": [
+        ".cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--allow-env",
+        "--allow-net",
+        "supabase/functions/dispatch-notifications/dispatcher_test.ts",
+        "supabase/functions/send-notification/handler_test.ts",
+        "supabase/functions/_shared/fcm_test.ts",
+        "supabase/functions/_shared/apns_test.ts",
+        "supabase/functions/_shared/notification_retry_test.ts"
+      ],
+      "started_utc": "2026-09-29T22:22:37.798498+00:00",
+      "exit_code": 0,
+      "stdout": "logs/notification-tests.stdout.txt",
+      "stderr": "logs/notification-tests.stderr.txt"
+    },
+    {
+      "label": "notification-typecheck",
+      "command": [
+        ".cache/roster-deno-2.5.6-20260929/deno",
+        "check",
+        "supabase/functions/send-notification/index.ts",
+        "supabase/functions/dispatch-notifications/index.ts",
+        "supabase/functions/_shared/fcm.ts",
+        "supabase/functions/_shared/apns.ts"
+      ],
+      "started_utc": "2026-09-29T22:22:38.406448+00:00",
+      "exit_code": 0,
+      "stdout": "logs/notification-typecheck.stdout.txt",
+      "stderr": "logs/notification-typecheck.stderr.txt"
+    },
+    {
+      "label": "ruby-139-syntax",
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/notification_delivery_concurrency_uat.rb"
+      ],
+      "started_utc": "2026-09-29T22:22:38.642530+00:00",
+      "exit_code": 0,
+      "stdout": "logs/ruby-139-syntax.stdout.txt",
+      "stderr": "logs/ruby-139-syntax.stderr.txt"
+    },
+    {
+      "label": "ruby-141-syntax",
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/tests/notification_delivery_session_concurrency_uat.rb"
+      ],
+      "started_utc": "2026-09-29T22:22:38.691043+00:00",
+      "exit_code": 0,
+      "stdout": "logs/ruby-141-syntax.stdout.txt",
+      "stderr": "logs/ruby-141-syntax.stderr.txt"
+    }
+  ],
+  "database_calls": 0,
+  "provider_calls": 0,
+  "hosted_mutations": 0,
+  "sql_status": "not_executed_by_notification_worker; root controls isolated SQL execution",
+  "documentation_sha256": {
+    "CODE_VALIDATION.md": "70a24383e8fdd57b1ae5844d15d52010973e842de78bf4569b7976d6ccf20d55"
+  }
+}

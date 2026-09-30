@@ -1,0 +1,66 @@
+{
+  "status": "pass",
+  "source_sha256": {
+    "scripts/supply_chain/inventory.py": "d01f6824950e50261ecec19f9a5d6bcc18026d69c3431f0372a288df5563a088",
+    "scripts/supply_chain/source_sbom.py": "d06af3f33811b3f27449a9c5214c030894c51da2231924486db1af9950536e87",
+    "scripts/qa/dart_format.rb": "42f2431b33abeb1803ecf257745a92c47ca061708f5aa2cddb6374fd421aba1e",
+    "scripts/qa/native_source_export.py": "6e60bf5236c25e2df498cc3c05b57db3e5c4ee7bb889a2eacb91c6ceb1e6650b",
+    "scripts/supply_chain/gradle_observed_sbom.py": "cb717aa82600a5ffe3b01e7c0721f5b3f13e8c215f8f22dd16817973e473ac9d",
+    "scripts/tests/supply_chain_source_test.py": "79067d30a0328425e13dc60c235f89aa3a30a55d0ec068794024b9e8e49e0c23",
+    "scripts/tests/dart_format_test.rb": "fd4c6851850517eb0ab489c2c926a50e490412afc0b7a22024e2ed6dd75c37e8",
+    "scripts/tests/native_source_export_test.py": "0f9ad8bb343fb5e0e2d8c2871a4efded708e8fd4a70a7b58472e835340d0d257",
+    "scripts/tests/gradle_observed_sbom_test.py": "cd0afb675e830c401cfd6ec3a85e938dd4e3ce3c2cc960ed567bea67e81ac887"
+  },
+  "sources_unchanged": true,
+  "commands": [
+    {
+      "name": "source-sbom-tests",
+      "command": [
+        "python3",
+        "scripts/tests/supply_chain_source_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c46d0b4828ed0a4991dcc028edaa3f90892fa4f6e4000662a7f0d6ca37c2a200"
+    },
+    {
+      "name": "formatter-scope-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/dart_format_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "157c0ec6f744a470bd0bdb2cad7614141f86f3d1f640e592398be8a0064151f4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "native-export-tests",
+      "command": [
+        "python3",
+        "scripts/tests/native_source_export_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ee8976fea622cf66cbd7d48d1a5bcba1bb9d0b9b3741765174f6a99a3e1f85e9"
+    },
+    {
+      "name": "native-sbom-tests",
+      "command": [
+        "python3",
+        "scripts/tests/gradle_observed_sbom_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da"
+    }
+  ],
+  "scope": "Current source supply-chain strictness, narrow archive formatting coverage, source-only native export and observed Android graph checks",
+  "actual_tests": 21,
+  "suite_tests": {
+    "source-sbom-tests": 14,
+    "formatter-scope-tests": 3,
+    "native-export-tests": 2,
+    "native-sbom-tests": 2
+  },
+  "formatter_scope_assertions": 45
+}

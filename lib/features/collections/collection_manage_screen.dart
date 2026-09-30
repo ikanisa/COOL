@@ -117,10 +117,12 @@ class _CollectionManageScreenState
             _ManageTile(
               icon: CollectIcons.ledger,
               title: 'Ledger',
-              subtitle: formatCurrencyTotals(
-                summary.totalsByCurrency,
-                separator: '\n',
-              ),
+              subtitle: summary == null
+                  ? 'Not available'
+                  : formatCurrencyTotals(
+                      summary.totalsByCurrency,
+                      separator: '\n',
+                    ),
               onTap: () => context.go('/groups/${widget.collectionId}/ledger'),
             ),
           ],
